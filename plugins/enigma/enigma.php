@@ -75,6 +75,7 @@ class enigma extends rcube_plugin
             $this->add_hook('preferences_sections_list', array($this, 'preferences_sections_list'));
             $this->add_hook('preferences_list', array($this, 'preferences_list'));
             $this->add_hook('preferences_save', array($this, 'preferences_save'));
+            $this->add_hook('identity_form', array($this, 'identity_form'));
 
             // register handler for keys/certs management
             $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
@@ -421,6 +422,66 @@ class enigma extends rcube_plugin
         $this->load_ui();
 
         $this->ui->init();
+    }
+
+    /**
+     * Handler for 'identity_form' plugin hook.
+     *
+     * This will list private keys matching this identity
+     * and add a link to enigma key management action.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function identity_form($p)
+    {
+        if (isset($p['form']['encryption']) && !empty($p['record']['identity_id'])) {
+            $content = '';
+
+            // find private keys for this identity
+            if ($p['record']['email']) {
+                $listing = array();
+                $engine = $this->load_engine();
+                $keys = (array)$engine->list_keys($p['record']['email']);
+
+                foreach ($keys as $key) {
+                    if ($key->get_type() === enigma_key::TYPE_KEYPAIR) {
+                        $listing[] = html::tag('li', null,
+                            html::tag('span', 'identity', html::quote($key->name)) .
+                            ' ' .
+                            html::tag('strong', 'uid', html::quote($key->id))
+                        );
+                    }
+                }
+
+                if (count($listing)) {
+                    $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
+                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
+                } else {
+                    $content .= html::p(null, $this->gettext('identitynoprivkeys'));
+                }
+            }
+
+            // add button linking to enigma key management
+            $content .= html::p(
+                null,
+                html::a(
+                    array(
+                        'class' => 'button',
+                        'href' => $this->rc->url(array('action' => 'plugin.enigmakeys')),
+                        'target' => '_parent',
+                    ),
+                    $this->gettext('managekeys'))
+            );
+
+            // rename class to avoid Mailvelope key management to kick in
+            $p['form']['encryption']['attrs'] = array('class' => 'enigma-identity-encryption');
+            // fill fieldset content with our stuff
+            $p['form']['encryption']['content'] = html::div('identity-encryption-block', $content);
+        }
+
+        return $p;
     }
 
     /**
