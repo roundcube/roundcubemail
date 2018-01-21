@@ -4066,6 +4066,7 @@ function rcube_webmail()
           .on('click', function() { ref.mailvelope_keyring.openSettings(); });
 
         container.show();
+        ref.triggerEvent('identity-encryption-show', { container: container });
       })
       .catch(function(err) {
         console.error('Mailvelope keyring error', err);

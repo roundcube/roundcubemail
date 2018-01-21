@@ -53,15 +53,18 @@ function rcube_init_tabs(id, current)
 
   current = current ? current : 0;
 
-  // first hide not selected tabs
-  fs.each(function(idx) { if (idx != current) $(this).hide(); });
-
-  // create tabs container
-  var tabs = $('<div>').addClass('tabsbar').appendTo(content);
+  // create tabs container (if not exists)
+  var tabs = content.find('.tabsbar');
+  if (!tabs.length)
+    tabs = $('<div>').addClass('tabsbar').appendTo(content);
 
   // convert fildsets into tabs
   fs.each(function(idx) {
     var tab, a, elm = $(this), legend = elm.children('legend');
+
+    // skip invisible or already initialized fieldsets
+    if (!elm.is(':visible') || elm.hasClass('tabbed'))
+      return;
 
     // create a tab
     a   = $('<a>').text(legend.text()).attr('href', '#');
@@ -79,6 +82,9 @@ function rcube_init_tabs(id, current)
     // add the tab to container
     tab.append(a).appendTo(tabs);
   });
+
+  // hide not selected tabs
+  fs.each(function(idx) { if (idx != current) $(this).hide(); });
 }
 
 function rcube_show_tab(id, index)
