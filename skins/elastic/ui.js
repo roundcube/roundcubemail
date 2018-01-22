@@ -1663,11 +1663,13 @@ function rcube_elastic_ui()
                 return value && value != 'ALL';
             },
             hide_func = function(event, focus) {
+                bar[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+
                 if (button.is(':visible')) {
                     return;
                 }
 
-                bar.removeClass('open')[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+                bar.removeClass('open');
 
                 if (focus && rcube_event.is_keyboard(event)) {
                     button.focus();
@@ -1681,13 +1683,7 @@ function rcube_elastic_ui()
         }
 
         select.removeClass('hidden searchfilterbar').addClass('form-control')
-            .on('change', function(e) {
-                hide_func(e, true);
-                // It may be called when the form is hidden... update status
-                if (is_filter_enabled()) {
-                    bar.removeClass('active');
-                }
-            });
+            .on('change', function(e) { hide_func(e, true); });
 
         // Display filter selection (with animation effect)
         button.on('click', function() {
