@@ -695,7 +695,7 @@ class rcmail_sendmail
             else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
                 $address = $matches[0];
                 $name    = trim(str_replace($address, '', $item));
-                if ($name[0] == '"' && $name[count($name)-1] == '"') {
+                if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
                     $name = substr($name, 1, -1);
                 }
                 $name     = stripcslashes($name);
@@ -880,7 +880,7 @@ class rcmail_sendmail
             }
         }
 
-        if (count($this->options['message']->identities)) {
+        if (!empty($this->options['message']->identities)) {
             $a_signatures = array();
             $identities   = array();
             $top_posting  = intval($this->rcmail->config->get('reply_mode')) > 0
@@ -1046,7 +1046,7 @@ class rcmail_sendmail
                     $to      = rcube_mime::decode_address_list($to, null, false, $charset, true);
                     $replyto = rcube_mime::decode_address_list($replyto, null, false, $charset, true);
 
-                    if (count($replyto) && !count(array_diff($to, $replyto)) && count(array_diff($from, $to))) {
+                    if (!empty($replyto) && !count(array_diff($to, $replyto)) && count(array_diff($from, $to))) {
                         $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
                     }
                 }
@@ -1388,7 +1388,7 @@ class rcmail_sendmail
         else if (!empty($this->data['param']['from'])) {
             $message->compose['from'] = $this->data['param']['from'];
         }
-        else if (count($message->identities)) {
+        else if (!empty($message->identities)) {
             $ident = self::identity_select($message, $message->identities, $this->data['mode']);
 
             $message->compose['from']  = $ident['identity_id'];
