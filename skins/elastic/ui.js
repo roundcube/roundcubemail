@@ -295,6 +295,10 @@ function rcube_elastic_ui()
         if (ios = $('html').is('.ipad,.iphone')) {
             $('.iframe-wrapper, .scroller').addClass('ios-scroll');
         }
+
+        if ($('html').filter('.ipad,.iphone,.webkit.mobile,.webkit.tablet').addClass('webkit-scroller').length) {
+            $(layout.menu).addClass('webkit-scroller');
+        }
     };
 
     /**
@@ -1858,7 +1862,8 @@ function rcube_elastic_ui()
                 }
             })
             .on('shown.bs.popover', function(event) {
-                var mobile = is_mobile();
+                var mobile = is_mobile(),
+                    popover = $('#' + $(item).attr('aria-describedby'));
 
                 level = $(item).data('level') || 1;
 
@@ -1868,7 +1873,7 @@ function rcube_elastic_ui()
                         title = rcmail.gettext(label),
                         class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
 
-                    $('#' + $(item).attr('aria-describedby') + ' > .popover-header').empty()
+                    $('.popover-header', popover).empty()
                         .append($('<a>').attr('class', class_name).text(title))
                         .off('click').on('click', function(e) {
                             $(item).popover('hide');
@@ -1895,6 +1900,8 @@ function rcube_elastic_ui()
                         .appendTo('body')
                         .click(function() { $(this).remove(); });
                 }
+
+                $('.popover-body', popover).addClass('webkit-scroller');
             })
             .on('hide.bs.popover', function() {
                 if (level == 1) {
