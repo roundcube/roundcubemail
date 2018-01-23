@@ -319,8 +319,9 @@ class acl extends rcube_plugin
         $textfield = new html_inputfield($attrib);
 
         $fields['user'] = html::div('input-group',
-            html::label(array('for' => $attrib['id'], 'class' => 'input-group-addon'), $this->gettext('username'))
-                . ' ' . $textfield->show());
+            html::span('input-group-prepend',
+                html::label(array('for' => $attrib['id'], 'class' => 'input-group-text'), $this->gettext('username')))
+            . ' ' . $textfield->show());
 
         // Add special entries
         if (!empty($this->specials)) {

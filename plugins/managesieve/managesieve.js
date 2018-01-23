@@ -645,11 +645,11 @@ function rule_header_select(id)
 
   if (h == 'size') {
     if (msg) set.push(msg);
-    $.each(set, function() { this.style.display = 'none'; });
+    $.each(set, function() { if (this != window) this.style.display = 'none'; });
     size.style.display = '';
   }
   else if (h == 'message' && msg) {
-    $.each(set, function() { this.style.display = 'none'; });
+    $.each(set, function() { if (this != window)  this.style.display = 'none'; });
     msg.style.display = '';
   }
   else {
