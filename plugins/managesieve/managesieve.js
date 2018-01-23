@@ -791,7 +791,8 @@ function action_type_select(id)
   }
 
   for (var x in elems) {
-    elems[x].style.display = !enabled[x] ? 'none' : 'inline';
+    if (elems[x])
+      elems[x].style.display = !enabled[x] ? 'none' : 'inline';
   }
 };
 
