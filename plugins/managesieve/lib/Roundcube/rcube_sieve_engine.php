@@ -1792,11 +1792,11 @@ class rcube_sieve_engine
             $rule['test'] != 'size' && $rule['test'] != 'exists' && $rule['test'] != 'duplicate',
             $this->error_class($id, 'test', 'target', 'rule_target')) . "\n";
 
-        $select_size_op = new html_select(array('name' => "_rule_size_op[]", 'id' => 'rule_size_op'.$id, 'class' => 'input-group-addon'));
+        $select_size_op = new html_select(array('name' => "_rule_size_op[]", 'id' => 'rule_size_op'.$id, 'class' => 'input-group-prepend'));
         $select_size_op->add(rcube::Q($this->plugin->gettext('filterover')), 'over');
         $select_size_op->add(rcube::Q($this->plugin->gettext('filterunder')), 'under');
 
-        $select_size_item = new html_select(array('name' => "_rule_size_item[]", 'id' => 'rule_size_item'.$id, 'class' => 'input-group-addon'));
+        $select_size_item = new html_select(array('name' => "_rule_size_item[]", 'id' => 'rule_size_item'.$id, 'class' => 'input-group-append'));
         foreach (array('', 'K', 'M', 'G') as $unit) {
             $select_size_item->add($this->plugin->gettext($unit . 'B'), $unit);
         }
@@ -1835,12 +1835,12 @@ class rcube_sieve_engine
 
         $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'duplicate', 'string'));
         $mout = '<div id="rule_mod' .$id. '" class="adv input-group"' . (!$need_mod ? ' style="display:none"' : '') . '>';
-        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('modifier')) . ' </span>';
+        $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
         $mout .= $select_mod->show($rule['test']);
         $mout .= '</div>';
         $mout .= '<div id="rule_mod_type' . $id . '" class="adv input-group"';
         $mout .= (!in_array($rule['test'], array('address', 'envelope')) ? ' style="display:none' : '') . '">';
-        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('modtype')) . ' </span>';
+        $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modtype'))));
         $mout .= $select_type->show($rule['part']);
         $mout .= '</div>';
 
@@ -1855,7 +1855,7 @@ class rcube_sieve_engine
 
         $need_comp = $rule['test'] != 'size' && $rule['test'] != 'duplicate';
         $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
-        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('comparator')) . '</span>';
+        $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('comparator'))));
         $mout .= $select_comp->show($rule['comparator']);
         $mout .= '</div>';
 
@@ -1880,11 +1880,11 @@ class rcube_sieve_engine
             $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-anychild')), 'anychild');
 
             $mout .= '<div id="rule_mime_part' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
-            $mout .= ' <span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('mimepart')) . ' </span>';
+            $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('mimepart'))));
             $mout .= $select_mime_part->show(!empty($rule['mime-anychild']) ? 'anychild' : '');
             $mout .= '</div>';
             $mout .= '<div id="rule_mime' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
-            $mout .= ' <span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('mime')) . ' </span>';
+            $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('mime'))));
             $mout .= $select_mime->show($mime_type);
             $mout .= $this->list_input($id, 'rule_mime_param', $rule['mime-param'], true,
                     $this->error_class($id, 'test', 'mime_param', 'rule_mime_param'), 30, $mime_type != 'param');
@@ -1899,7 +1899,7 @@ class rcube_sieve_engine
         $select_mod->add(rcube::Q($this->plugin->gettext('contenttype')), 'content');
 
         $mout .= '<div id="rule_trans' .$id. '" class="adv input-group"' . ($rule['test'] != 'body' ? ' style="display:none"' : '') . '>';
-        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('modifier')) . '</span>';
+        $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
         $mout .= $select_mod->show($rule['part']);
         $mout .= html::tag('input', array(
                 'type'  => 'text',
@@ -1915,7 +1915,7 @@ class rcube_sieve_engine
         // Date header
         if (in_array('date', $this->exts)) {
             $mout .= '<div id="rule_date_header_div' .$id. '" class="adv input-group"'. ($rule['test'] != 'date' ? ' style="display:none"' : '') .'>';
-            $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('dateheader')) . '</span>';
+            $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('dateheader'))));
             $mout .= html::tag('input', array(
                     'type'  => 'text',
                     'name'  => '_rule_date_header[]',
@@ -1931,7 +1931,7 @@ class rcube_sieve_engine
         if (in_array('index', $this->exts)) {
             $need_index = in_array($rule['test'], array('header', ', address', 'date'));
             $mout .= '<div id="rule_index_div' .$id. '" class="adv input-group"'. (!$need_index ? ' style="display:none"' : '') .'>';
-            $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('index')) . '</span>';
+            $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('index'))));
             $mout .= html::tag('input', array(
                     'type'  => 'text',
                     'name'  => '_rule_index[]',
@@ -1940,7 +1940,7 @@ class rcube_sieve_engine
                     'size'  => 3,
                     'class' => $this->error_class($id, 'test', 'index', 'rule_index'),
                 ));
-            $mout .= html::label(array('class' => 'input-group-addon'),
+            $mout .= html::label('input-group-append',
                     html::tag('input', array(
                         'type'    => 'checkbox',
                         'name'    => '_rule_index_last[]',
@@ -1958,7 +1958,7 @@ class rcube_sieve_engine
 
             foreach (array('handle', 'header', 'uniqueid') as $unit) {
                 $mout .= '<div class="input-group">';
-                $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('duplicate.' . $unit)) . '</span>';
+                $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('duplicate.' . $unit))));
                 $mout .= html::tag('input', array(
                         'type'  => 'text',
                         'name'  => '_rule_duplicate_' . $unit . '[]',
@@ -1971,7 +1971,7 @@ class rcube_sieve_engine
             }
 
             $mout .= '<div class="input-group">';
-            $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('duplicate.seconds')) . '</span>';
+            $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('duplicate.seconds'))));
             $mout .= html::tag('input', array(
                     'type'  => 'text',
                     'name'  => '_rule_duplicate_seconds[]',
@@ -1980,7 +1980,7 @@ class rcube_sieve_engine
                     'size'  => 6,
                     'class' => $this->error_class($id, 'test', 'duplicate_seconds', 'rule_duplicate_seconds'),
                 ));
-            $mout .= html::label(array('class' => 'input-group-addon'),
+            $mout .= html::label('input-group-append',
                 html::tag('input', array(
                     'type'    => 'checkbox',
                     'name'    => '_rule_duplicate_last[' . $id . ']',
@@ -2223,13 +2223,13 @@ class rcube_sieve_engine
                 'class' => $this->error_class($id, 'action', 'interval', 'action_interval'),
             ));
         if ($vsec) {
-            $interval_select = new html_select(array('name' => '_action_interval_type[' . $id . ']', 'class' => 'input-group-addon'));
+            $interval_select = new html_select(array('name' => '_action_interval_type[' . $id . ']', 'class' => 'input-group-append'));
             $interval_select->add($this->plugin->gettext('days'), 'days');
             $interval_select->add($this->plugin->gettext('seconds'), 'seconds');
             $out .= $interval_select->show(isset($action['seconds']) ? 'seconds' : 'days');
         }
         else {
-            $out .= "\n" . html::span('input-group-addon', $this->plugin->gettext('days'));
+            $out .= "\n" . html::span('input-group-append', html::span('input-group-text', $this->plugin->gettext('days')));
         }
         $out .= '</div></div>';
 
@@ -2328,7 +2328,7 @@ class rcube_sieve_engine
         $select_method = new html_select(array(
             'name'  => "_action_notifymethod[$id]",
             'id'    => "_action_notifymethod$id",
-            'class' => 'input-group-addon ' . $this->error_class($id, 'action', 'method', 'action_notifymethod'),
+            'class' => 'input-group-prepend ' . $this->error_class($id, 'action', 'method', 'action_notifymethod'),
         ));
         foreach ($notify_methods as $m_n) {
             $select_method->add(rcube::Q($this->rc->text_exists('managesieve.notifymethod'.$m_n) ? $this->plugin->gettext('managesieve.notifymethod'.$m_n) : $m_n), $m_n);

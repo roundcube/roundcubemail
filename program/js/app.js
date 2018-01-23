@@ -6713,10 +6713,15 @@ function rcube_webmail()
           if (!compact)
             label = $('<div>').addClass('contactfieldlabel label').append(label);
           else
-            label.addClass('input-group-addon');
+            label.addClass('input-group-prepend');
         }
-        else
-          label = $('<label>').addClass('contactfieldlabel label input-group-addon').attr('for', input_id).text(colprop.label);
+        else {
+          label = $('<label>').addClass('contactfieldlabel label input-group-text')
+            .attr('for', input_id).text(colprop.label);
+
+          if (compact)
+            label = $('<span class="input-group-prepend">').append(label);
+        }
 
         // Field input
         if (colprop.type == 'text' || colprop.type == 'date') {
@@ -6740,7 +6745,7 @@ function rcube_webmail()
           var i, childcol, cp, first, templ, cols = [], suffices = [], content = cell;
 
           if (compact)
-            content = $('<div class="content input-group-addon">');
+            content = $('<div class="content input-group-text">');
 
           // read template for composite field order
           if (templ = this.env[col + '_template']) {
@@ -6787,7 +6792,7 @@ function rcube_webmail()
 
         if (input) {
           var delbutton = $('<a href="#del"></a>')
-            .addClass('contactfieldbutton deletebutton input-group-addon icon delete')
+            .addClass('contactfieldbutton deletebutton input-group-text icon delete')
             .attr({title: this.get_label('delete'), rel: col})
             .html(this.env.delbutton)
             .click(function() { ref.delete_edit_field(this); return false; });
@@ -6799,8 +6804,10 @@ function rcube_webmail()
               cell.append(input);
             row.append(cell.append(delbutton));
           }
-          else
+          else {
             row.append(input).append(delbutton);
+            delbutton.wrap('<span class="input-group-append">');
+          }
 
           row.appendTo(appendcontainer.show());
 
@@ -6824,14 +6831,15 @@ function rcube_webmail()
   {
     var col = $(elem).attr('rel'),
       colprop = this.env.coltypes[col],
+      input_group = $(elem).parents('div.row'),
       fieldset = $(elem).parents('fieldset.contactfieldgroup'),
       addmenu = fieldset.parent().find('select.addfieldmenu');
 
     // just clear input but don't hide the last field
     if (--colprop.count <= 0 && colprop.visible)
-      $(elem).parent().find('input').val('').blur();
+      input_group.find('input').val('').blur();
     else {
-      $(elem).parents('div.row').remove();
+      input_group.remove();
       // hide entire fieldset if no more rows
       if (!fieldset.children('div.row').length)
         fieldset.hide();

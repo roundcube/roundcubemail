@@ -343,6 +343,7 @@ form #contacthead {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #666;
+	line-height: 18px;
 }
 
 .contactfieldgroup .contactfieldlabel select {
@@ -353,7 +354,7 @@ form #contacthead {
 .contactfieldgroup .contactfieldcontent {
 	padding-left: 120px;
 	min-height: 1em;
-	line-height: 1.3em;
+	line-height: 18px;
 }
 
 .contactfieldgroup .contactfield {
