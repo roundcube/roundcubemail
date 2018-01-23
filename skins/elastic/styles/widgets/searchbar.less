@@ -32,11 +32,16 @@
         margin-top: calc(@layout-header-height/2 - 2.25rem/2);
         display: none;
         padding: 0 .5rem;
-    }
 
-    .input-group-addon {
-        padding: .5rem;
-        font-size: 80%;
+        .icon:before {
+            font-size: 1em;
+            line-height: 1.1;
+        }
+
+        .icon.filter,
+        .icon.search {
+            color: #888;
+        }
     }
 
     form {

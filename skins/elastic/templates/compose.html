@@ -151,7 +151,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="from" id="_from" form="form" tabindex="1" class="form-control" />
-							<a href="#identities" onclick="return rcmail.command('identities')" class="input-group-addon icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
+							<span class="input-group-append">
+								<a href="#identities" onclick="return rcmail.command('identities')" class="input-group-text icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -160,7 +162,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="to" id="_to" form="form" tabindex="1" aria-required="true" data-recipient-input="true" />
-							<a href="#add-header" data-popup="headers-menu" class="input-group-addon icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
+							<span class="input-group-append">
+								<a href="#add-header" data-popup="headers-menu" class="input-group-text icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -169,7 +173,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
-							<a href="#delete" onclick="$('#_cc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<span class="input-group-append">
+								<a href="#delete" onclick="$('#_cc').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -178,7 +184,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
-							<a href="#delete" onclick="$('#_bcc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<span class="input-group-append">
+								<a href="#delete" onclick="$('#_bcc').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -187,7 +195,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="replyto" id="_replyto" form="form" tabindex="1" data-recipient-input="true" />
-							<a href="#delete" onclick="$('#_replyto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<span class="input-group-append">
+								<a href="#delete" onclick="$('#_replyto').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -196,7 +206,9 @@
 					<div class="col-10">
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="followupto" id="_followupto" form="form" tabindex="1" data-recipient-input="true" />
-							<a href="#delete" onclick="$('#_followupto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<span class="input-group-append">
+								<a href="#delete" onclick="$('#_followupto').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							</span>
 						</div>
 					</div>
 				</div>

@@ -717,7 +717,7 @@ function rcube_elastic_ui()
 
         // Special input + anything entry
         $('td.input-group', context).each(function() {
-            $(this).children(':not(:first)').addClass('input-group-addon');
+            $(this).children(':not(:first)').addClass('input-group-append');
         });
 
         // Other forms, e.g. Contact advanced search
@@ -732,21 +732,28 @@ function rcube_elastic_ui()
         // Contact info/edit form
         $('fieldset.propform.groupped fieldset', context).each(function() {
             $('.row', this).each(function() {
-                var label, has_input = $('input,select,textarea', this).addClass('form-control').length > 0,
+                var label, first,
+                    has_input = $('input,select,textarea', this).addClass('form-control').length > 0,
                     items = $(this).children();
 
                 if (items.length < 2) {
                     return;
                 }
 
-                items.first().addClass('input-group-addon').not('select').addClass('col-form-label');
+                first = items.first();
+                if (first.is('select')) {
+                    first.addClass('input-group-prepend');
+                }
+                else {
+                    first.wrap('<span class="input-group-prepend">').addClass('input-group-text');
+                }
 
                 if (!has_input) {
                     items.last().addClass('form-control-plaintext');
                 }
 
-                $('.content', this).addClass('input-group-addon');
-                $('a.deletebutton', this).addClass('input-group-addon icon delete');
+                $('.content', this).addClass('input-group-prepend input-group-append input-group-text');
+                $('a.deletebutton', this).addClass('input-group-text icon delete').wrap('<span class="input-group-append">');
                 $(this).addClass('input-group');
             });
         });
@@ -844,7 +851,7 @@ function rcube_elastic_ui()
                 var input = $('input,select', this),
                     label = $('label', this),
                     icon_name = input.data('icon'),
-                    icon = $('<i>').attr('class', 'input-group-addon icon ' + input.attr('name').replace('_', ''));
+                    icon = $('<i>').attr('class', 'input-group-text icon ' + input.attr('name').replace('_', ''));
 
                 if (icon_name) {
                     icon.addClass(icon_name);
@@ -854,7 +861,7 @@ function rcube_elastic_ui()
                 label.parent().css('display', 'none');
                 input.addClass('form-control')
                     .attr('placeholder', label.text())
-                    .before(icon)
+                    .before($('<span class="input-group-prepend">').append(icon))
                     .parent().addClass('input-group');
             });
         }
@@ -1601,10 +1608,11 @@ function rcube_elastic_ui()
 
         // make the input pretty
         form.addClass('input-group')
-            .prepend($('<i class="input-group-addon icon search">'))
-            .append($('a.options', bar).detach().removeClass('button').addClass('icon input-group-addon'))
-            .append($('a.reset', bar).detach().removeClass('button').addClass('icon input-group-addon'))
-            .append($('<a class="icon cancel input-group-addon" href="#">'));
+            .prepend($('<span class="input-group-prepend">').append('<i class="input-group-text icon search">'))
+            .append($('<span class="input-group-append">')
+                .append($('a.options', bar).detach().removeClass('button').addClass('icon input-group-text'))
+                .append($('a.reset', bar).detach().removeClass('button').addClass('icon input-group-text'))
+                .append($('<a class="icon cancel input-group-text" href="#">')));
 
         // Display search form
         button.on('click', function() {
@@ -1651,9 +1659,9 @@ function rcube_elastic_ui()
             .append($('<a class="button icon filter">').attr({title: rcmail.gettext('filter'), tabindex: 0}));
 
         $('select', bar).wrap($('<div class="input-group">'))
-            .parent().prepend($('<i class="input-group-addon icon filter">'))
-                .append($('<a class="icon cancel input-group-addon">')
-                    .attr({title: rcmail.gettext('close'), href: '#'}));
+            .parent().prepend($('<span class="input-group-prepend">').append('<i class="input-group-text icon filter">'))
+                .append($('<span class="input-group-append">').append($('<a class="icon cancel input-group-text">')
+                    .attr({title: rcmail.gettext('close'), href: '#'})));
 
         var select = $('select', bar),
             button = $('a.button.filter', bar),
@@ -2913,7 +2921,7 @@ function rcube_elastic_ui()
         // build row element content
         var input, elem = $('<div class="input-group">'
                 + '<input type="text" class="form-control">'
-                + '<a class="icon reset input-group-addon" href="#"></a>'
+                + '<span class="input-group-append"><a class="icon reset input-group-text" href="#"></a></span>'
                 + '</div>'),
             attrs = {value: value, name: name + '[]'};
 
@@ -2954,9 +2962,10 @@ function rcube_elastic_ui()
 
         // element deletion event
         $('a.reset', elem).click(function() {
-            var record = $(this.parentNode);
+            var record = $(this.parentNode.parentNode);
 
             if (area.children().length > 1) {
+                $('input', record.next().length ? record.next() : record.prev()).focus();
                 record.remove();
             }
             else {
@@ -2964,7 +2973,7 @@ function rcube_elastic_ui()
             }
         });
 
-        $(elem).children()
+        $(elem).find('input,a')
             .on('focus', function() { area.addClass('focused'); })
             .on('blur', function() { area.removeClass('focused'); });
 

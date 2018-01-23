@@ -101,9 +101,13 @@ input.smart-upload {
         .input-group {
             margin-bottom: .25rem;
 
-            *:first-child.input-group-addon {
+            *:first-child.input-group-prepend {
                 text-align: left;
                 min-width: 7.5em;
+
+                & > * {
+                    width: 100%;
+                }
             }
         }
 
@@ -137,7 +141,7 @@ input.smart-upload {
 
             label {
                 min-width: 7rem;
-                // Overwrite Bootstrap .input-group-addon style to make the label transparent
+                // Overwrite Bootstrap .input-group-* style to make the label transparent
                 background-color: transparent;
                 border: 0;
                 border-radius: 0;
@@ -152,13 +156,19 @@ input.smart-upload {
                 .overflow-ellipsis;
                 min-width: 8rem;
                 height: auto;
-                padding-right: .375rem;
-                padding-left: .375rem;
+
+                &:not(select) {
+                    padding: 0;
+                }
 
                 @media screen and (max-width: @screen-width-xs) {
                     min-width: 6rem;
                     width: 6rem;
                     flex-grow: unset;
+                }
+
+                label {
+                    width: 100%;
                 }
             }
 
@@ -179,6 +189,7 @@ input.smart-upload {
                 padding: 0;
                 display: flex;
                 flex-wrap: wrap;
+                border-radius: 0;
 
                 input {
                     border-radius: 0;
@@ -205,6 +216,7 @@ input.smart-upload {
 
         .form-control-plaintext {
             flex-grow: 1;
+            border: 0;
         }
     }
 
@@ -414,6 +426,7 @@ html.ms .propform {
 
         .form-control-plaintext {
             padding-bottom: 0;
+            border: 0;
         }
 
         @media screen and (max-width: @screen-width-bs-phone) {
@@ -426,7 +439,7 @@ html.ms .propform {
     }
 
     .row.form-check {
-        padding-right: 0; // without these e.g. inputs in compose screen are not aligned properly
+        padding: 0; // without these e.g. inputs in compose screen are not aligned properly
         display: flex; // https://github.com/twbs/bootstrap/issues/22348
         flex-wrap: nowrap;
 
@@ -462,6 +475,10 @@ html.ms .propform {
                 display: inline;
             }
         }
+
+        td > label {
+            padding-bottom: 0;
+        }
     }
 
     .nav-tabs {
@@ -493,13 +510,15 @@ html.ms .propform {
 
 
 /* Some common icons for "iconized inputs" */
-.input-group-addon.icon {
+.input-group .icon {
     text-decoration: none;
+    padding: .375rem .5rem;
 
     &:before {
         &:extend(.font-icon-class);
         margin: 0 !important;
         line-height: 1;
+        font-size: 1.1em;
     }
     &.user:before {
         content: @fa-var-user;
@@ -587,6 +606,10 @@ ul.proplist {
         margin-right: .25rem;
         line-height: 1;
     }
+
+    & > label {
+        display: inline-block !important;
+    }
 }
 
 
@@ -656,44 +679,39 @@ html.touch .popupmenu.form {
 
         &.focused {
             border: 1px solid @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
         }
 
         // TODO: style button focus
     }
 
-    .input-group {
-        margin: 0 !important;
-    }
-
-    a.input-group-addon {
-        padding: .375rem .5rem;
-
+    a.icon {
         &.reset:before {
             &:extend(.font-icon-class);
             content: @fa-var-trash-alt;
-            margin: 0;
         }
     }
 
-    .input-group-addon,
-    .form-control {
-        height: 2.25rem; // to be the same height as select.form-control element
-    }
-
     input.form-control {
-        padding-left: .5rem;
+        padding-left: .75rem;
     }
 
     input,
     input:focus,
-    .input-group-addon {
+    .input-group-text {
         border-radius: 0;
         border: 0;
         border-bottom: 1px solid @color-input-border;
+        box-shadow: none;
     }
 
-    .input-group:last-child * {
-        border: 0;
+    .input-group {
+        margin: 0 !important;
+        flex-wrap: nowrap; // Bootstrap makes them wrappable (imho)
+
+        &:last-child * {
+            border: 0;
+        }
     }
 
     & + .btn {
@@ -1026,6 +1044,15 @@ input.icon-checkbox {
             padding-left: .5rem;
             white-space: nowrap;
         }
+
+        .input-group & {
+            padding: 0 .25rem 0 0;
+
+            &:before {
+                line-height: 1;
+                height: auto;
+            }
+        }
     }
 
     &:disabled + label {
@@ -1054,17 +1081,6 @@ input.icon-checkbox {
 
 html.touch input.icon-checkbox + label {
     font-size: 1.5rem;
-}
-
-.input-group-addon {
-    input.icon-checkbox + label {
-        padding: 0 .25rem 0 0;
-
-        &:before {
-            line-height: 1;
-            height: auto;
-        }
-    }
 }
 
 
@@ -1194,6 +1210,14 @@ html.touch input.icon-checkbox + label {
 
 /*** Bootstrap style overrides ***/
 
+// Fixes height of some text inputs
+// FIXME: Really? See managesieve's vacation form for all of these
+td.input-group .input-group-append,
+td.datetime input,
+td.input-group input {
+    height: ~"calc(2.25rem + 2px)";
+}
+
 .form-control, .form-control:focus {
     color: @color-font;
 }
@@ -1208,4 +1232,9 @@ html.touch input.icon-checkbox + label {
 
 .form-group {
     margin-bottom: .5rem;
+}
+
+.input-group-text {
+    color: @color-input;
+    background-color: @color-input-addon-background;
 }
