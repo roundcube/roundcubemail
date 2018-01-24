@@ -65,6 +65,7 @@ CHANGELOG Roundcube Webmail
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
+- Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
 
 RELEASE 1.3.4
 -------------

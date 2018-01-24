@@ -3,6 +3,7 @@
 - Support filter action with custom IMAP flags (#6011)
 - Support 'mime' extension tests - RFC5703 (#5832)
 - Support Elastic skin
+- Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
 
 * version 9.0 [2017-10-02]
 -----------------------------------------------------------
