@@ -1100,7 +1100,7 @@ class rcube_sieve_script
         }
 
         // multi-line string
-        if (preg_match('/[\r\n\0]/', $str) || strlen($str) > 1024) {
+        if (preg_match('/[\r\n\0]/', $str)) {
             return sprintf("text:\n%s\n.\n", self::escape_multiline_string($str));
         }
         // quoted-string

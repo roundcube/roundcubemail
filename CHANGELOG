@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
+
 RELEASE 1.3.4
 -------------
 - Fix bug where contacts search could skip some records (#6130)
