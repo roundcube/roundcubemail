@@ -454,22 +454,25 @@
         content: @fa-var-eraser;
     }
     a.source:before {
-        content: @fa-var-flask;
+        content: @fa-var-file-code;
     }
     a.download:before {
         content: @fa-var-download;
     }
     a.extwin:before {
-        content: @fa-var-external-link-alt;
+        content: @fa-var-external-link-square-alt;
     }
     a.create:before {
         content: @fa-var-plus-square;
     }
     a.edit:before {
-        content: @fa-var-edit; // TODO: edit.asnew
+        content: @fa-var-edit;
+    }
+    a.edit.asnew:before {
+        content: @fa-var-pencil-alt;
     }
     a.rename:before {
-        content: @fa-var-pencil-alt; // TODO: better icon?
+        content: @fa-var-pencil-alt;
     }
     a.read:before {
         .font-icon-regular(@fa-var-star);
