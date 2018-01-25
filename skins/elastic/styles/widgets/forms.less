@@ -560,7 +560,7 @@ td.editfield { width: 99%;  /* TODO */ }
 
 
 ul.proplist {
-    padding-left: 15px;
+    padding-left: 0;
     margin-bottom: 0;
 
     li {
@@ -705,12 +705,20 @@ html.touch .popupmenu.form {
         box-shadow: none;
     }
 
+    .input-group-text {
+        border-left: 1px solid @color-input-border;
+    }
+
+    .input-group-append {
+        margin-left: 0;
+    }
+
     .input-group {
         margin: 0 !important;
         flex-wrap: nowrap; // Bootstrap makes them wrappable (imho)
 
         &:last-child * {
-            border: 0;
+            border-bottom: 0;
         }
     }
 

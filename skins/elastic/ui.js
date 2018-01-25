@@ -810,7 +810,9 @@ function rcube_elastic_ui()
             })
             .each(function() {
                 // TODO: Consider implementing automatic setting of table-responsive on window resize
-                $(this).addClass('table table-responsive-sm').find('thead').addClass('thead-default');
+                var table = $(this).addClass('table');
+                table.parent().addClass('table-responsive-sm');
+                table.find('thead').addClass('thead-default');
             });
 
         $('.toolbarmenu select', context).addClass('form-control');
