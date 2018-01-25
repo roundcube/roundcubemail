@@ -678,8 +678,7 @@ html.touch .popupmenu.form {
         border: 1px solid @color-input-border;
 
         &.focused {
-            border: 1px solid @color-input-border-focus;
-            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+            .style-input-focus;
         }
 
         // TODO: style button focus
@@ -808,8 +807,7 @@ html.touch .popupmenu.form {
     list-style-type: none;
 
     &.focus {
-        border-color: @color-input-border-focus;
-        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        .style-input-focus;
     }
 
     .recipient {
@@ -887,6 +885,10 @@ html.touch .popupmenu.form {
 
     & + .placeholder {
         display: none;
+    }
+
+    &[tabindex="-1"] {
+        .style-input-focus;
     }
 
     li.tagedit-listelement-new {
