@@ -26,6 +26,20 @@
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 400px;
+    border-radius: .3rem;
+
+   .ui-state-active {
+        border: 0 !important;
+        background-color: @color-toolbarmenu-hover-background !important;
+    }
+
+    .ui-menu-item {
+        white-space: nowrap;
+    }
+
+    .ui-menu-item-wrapper {
+        margin: 0 !important;
+    }
 }
 
 .ui-dialog {
@@ -311,6 +325,13 @@ html.touch {
     .ui-widget-content {
         border-radius: 0;
         left: 0 !important;
+    }
+
+    .ui-menu {
+        border-radius: .3rem;
+        left: 15px !important;
+        right: 15px;
+        width: auto;
     }
 
     .ui-dialog {
