@@ -1427,7 +1427,7 @@ function rcube_webmail()
 
     if (!aborted && this.triggerEvent('after'+command, props) === false)
       ret = false;
-    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret });
+    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret, originalEvent:event});
 
     return ret === false ? false : obj ? false : true;
   };
