@@ -3074,18 +3074,27 @@ function rcube_webmail()
   };
 
   // copy selected messages to the specified mailbox
-  this.copy_messages = function(mbox, event)
+  this.copy_messages = function(mbox, event, uid)
   {
-    if (mbox && typeof mbox === 'object')
+    if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
-    else if (!mbox)
-      return this.folder_selector(event, function(folder) { ref.command('copy', folder); });
+    }
+    else if (!mbox) {
+      uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      return this.folder_selector(event, function(folder) {
+        ref.copy_messages(folder, null, uid);
+      });
+    }
 
     // exit if current or no mailbox specified
     if (!mbox || mbox == this.env.mailbox)
       return;
 
-    var post_data = this.selection_post_data({_target_mbox: mbox});
+    // if uids were provided convert to string for POSTing
+    if (uid)
+      uid = this.uids_to_list(uid);
+
+    var post_data = this.selection_post_data({_target_mbox: mbox, _uid: uid});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3096,18 +3105,27 @@ function rcube_webmail()
   };
 
   // move selected messages to the specified mailbox
-  this.move_messages = function(mbox, event)
+  this.move_messages = function(mbox, event, uid)
   {
-    if (mbox && typeof mbox === 'object')
+    if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
-    else if (!mbox)
-      return this.folder_selector(event, function(folder) { ref.command('move', folder); });
+    }
+    else if (!mbox) {
+      uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      return this.folder_selector(event, function(folder) {
+        ref.move_messages(folder, null, uid);
+      });
+    }
 
     // exit if current or no mailbox specified
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
-    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
+    // if uids were provided convert to string for POSTing
+    if (uid)
+      uid = this.uids_to_list(uid);
+
+    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uid});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3178,7 +3196,10 @@ function rcube_webmail()
     // update the list (remove rows, clear selection)
     if (this.message_list) {
       var n, len, id, root, roots = [],
-        selection = this.message_list.get_selection();
+        selection = post_data._uid;
+
+      if (typeof selection == 'string')
+        selection = selection.split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
         id = selection[n];
@@ -6273,19 +6294,21 @@ function rcube_webmail()
   };
 
   // copy contact(s) to the specified target (group or directory)
-  this.copy_contacts = function(to, event)
+  this.copy_contacts = function(to, event, cid)
   {
     if (!to) {
+      cid = this.contact_list.get_selection();
       return this.addressbook_selector(event, function(to, obj) {
           var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
-          ref.command('copy', to);
+          ref.copy_contacts(to, null, cid);
         });
     }
 
     var dest = to.type == 'group' ? to.source : to.id,
       source = this.env.source,
-      group = this.env.group ? this.env.group : '',
-      cid = this.contact_list.get_selection().join(',');
+      group = this.env.group ? this.env.group : '';
+
+    cid = cid ? cid.join(',') : this.contact_list.get_selection().join(',');
 
     if (!cid || !this.env.address_sources[dest] || this.env.address_sources[dest].readonly)
       return;
@@ -6314,12 +6337,13 @@ function rcube_webmail()
   };
 
   // move contact(s) to the specified target (group or directory)
-  this.move_contacts = function(to, event)
+  this.move_contacts = function(to, event, cid)
   {
     if (!to) {
+      cid = this.contact_list.get_selection();
       return this.addressbook_selector(event, function(to, obj) {
           var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
-          ref.command('move', to);
+          ref.move_contacts(to, null, cid);
         });
     }
 
@@ -6338,11 +6362,11 @@ function rcube_webmail()
       if (dest == source)
         return;
 
-      this._with_selected_contacts('move', {_to: dest, _togid: to.id});
+      this._with_selected_contacts('move', {_to: dest, _togid: to.id, _cid: cid});
     }
     // target is an addressbook
     else if (to.id != source)
-      this._with_selected_contacts('move', {_to: to.id});
+      this._with_selected_contacts('move', {_to: to.id, _cid: cid});
   };
 
   // delete contact(s)
@@ -6351,15 +6375,16 @@ function rcube_webmail()
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
     if (!undelete) {
+      cid = this.contact_list.get_selection();
       this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function() {
-          ref._with_selected_contacts('delete');
+          ref._with_selected_contacts('delete', {_cid: cid});
         });
     }
   };
 
   this._with_selected_contacts = function(action, post_data)
   {
-    var selection = this.contact_list ? this.contact_list.get_selection() : [];
+    var selection = post_data._cid;
 
     // exit if no contact specified or if selection is empty
     if (!selection.length && !this.env.cid)
