@@ -3564,7 +3564,11 @@ function rcube_webmail()
         ref.mailvelope_init(action, kr);
       };
 
-    mailvelope.getKeyring(keyring).then(fn, function(err) {
+    mailvelope.getVersion().then(function(v) {
+      mailvelope.VERSION = v;
+      mailvelope.VERSION_MAJOR = Math.floor(parseFloat(v));
+      return mailvelope.getKeyring(keyring);
+    }).then(fn, function(err) {
       // attempt to create a new keyring for this app/user
       mailvelope.createKeyring(keyring).then(fn, function(err) {
         console.error(err);
@@ -3604,7 +3608,11 @@ function rcube_webmail()
     else if (action == 'compose') {
       this.env.compose_commands.push('compose-encrypted');
 
+      var sign_supported = mailvelope.VERSION_MAJOR >= 2;
       var is_html = $('[name="_is_html"]').val() > 0;
+
+      if (sign_supported)
+        this.env.compose_commands.push('compose-encrypted-signed');
 
       if (this.env.pgp_mime_message) {
         // fetch PGP/Mime part and open load into Mailvelope editor
@@ -3616,6 +3624,8 @@ function rcube_webmail()
           error: function(o, status, err) {
             ref.http_error(o, status, err, lock);
             ref.enable_command('compose-encrypted', !is_html);
+            if (sign_supported)
+              ref.enable_command('compose-encrypted-signed', !is_html);
           },
           success: function(data) {
             ref.set_busy(false, null, lock);
@@ -3627,22 +3637,36 @@ function rcube_webmail()
 
             ref.compose_encrypted({ quotedMail: data });
             ref.enable_command('compose-encrypted', true);
+            ref.enable_command('compose-encrypted-signed', false);
           }
         });
       }
       else {
         // enable encrypted compose toggle
         this.enable_command('compose-encrypted', !is_html);
+        if (sign_supported)
+          this.enable_command('compose-encrypted-signed', !is_html);
       }
 
       // make sure to disable encryption button after toggling editor into HTML mode
       this.addEventListener('actionafter', function(args) {
-        if (args.ret && args.action == 'toggle-editor')
+        if (args.ret && args.action == 'toggle-editor') {
           ref.enable_command('compose-encrypted', !args.props.html);
+        if (sign_supported)
+          ref.enable_command('compose-encrypted-signed', !args.props.html);
+        }
       });
     } else if (action == 'edit-identity') {
       ref.mailvelope_identity_keygen();
     }
+  };
+
+    // handler for the 'compose-encrypted-signed' command
+  this.compose_encrypted_signed = function(props)
+  {
+    props = props || {};
+    props.signMsg = true;
+    this.compose_encrypted(props);
   };
 
   // handler for the 'compose-encrypted' command
@@ -3675,6 +3699,10 @@ function rcube_webmail()
       }
       else {
         options = { predefinedText: $('#' + this.env.composebody).val() };
+      }
+
+      if (props.signMsg) {
+        options.signMsg = props.signMsg;
       }
 
       if (this.env.compose_mode == 'reply') {

@@ -281,6 +281,7 @@ $labels['encryptmessage'] = 'Encrypt message';
 $labels['encryptmessagemailvelope'] = 'Encrypt message with Mailvelope';
 $labels['importpubkeys']  = 'Import public keys';
 $labels['encryptedsendialog'] = 'Sending encrypted message';
+$labels['encryptandsign'] = 'Encrypt and sign';
 $labels['keyid']          = 'Key ID';
 $labels['keylength']      = 'Bits';
 $labels['keyexpired']     = 'Expired';
