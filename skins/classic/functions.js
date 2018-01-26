@@ -665,7 +665,11 @@ enable_command: function(p)
   }
   else if (p.command == 'compose-encrypted') {
     // show the toolbar button for Mailvelope
-    $('#messagetoolbar > a.encrypt').show();
+    $('#messagetoolbar a.encrypt').parent().show();
+  }
+  else if (p.command == 'compose-encrypted-signed') {
+    // enable selector for encrypt and sign
+    $('#encryptionmenulink').show();
   }
 },
 

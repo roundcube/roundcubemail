@@ -2063,6 +2063,7 @@ ul.proplist.simplelist li {
 }
 
 .toolbar a.button.encrypt {
+	min-width: 66px;
 	background-position: center -2025px;
 }
 
