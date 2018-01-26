@@ -6590,7 +6590,9 @@ function rcube_webmail()
   //assign selected contacts to a group
   this.group_assign_selected = function(props, obj, event)
   {
-    this.contactgroup_selector(event, function(to) { ref.group_member_change('add', ref.contact_list.get_selection(), ref.env.source, to); });
+    var cid = ref.contact_list.get_selection();
+    var source = ref.env.source;
+    this.contactgroup_selector(event, function(to) { ref.group_member_change('add', cid, source, to); });
   };
 
   //remove selected contacts from current active group
