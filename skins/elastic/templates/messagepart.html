@@ -102,10 +102,6 @@
 <roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
 	<div id="image-tools" class="image-tools" data-hidden="big">
 		<h3 id="aria-label-imagetools" class="voice"><roundcube:label name="arialabelimagetools" /></h3>
-		<a href="#" class="button icon tools" onclick="$(this).attr('title', $(this).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')))"
-			data-label-show="<roundcube:label name="showtools" />" data-label-hide="<roundcube:label name="hidetools" />" title="<roundcube:label name="showtools" />">
-			<span class="inner"><roundcube:label name="showtools" /></span>
-		</a>
 		<div class="toolbar" role="menu" aria-labelledby="aria-label-imagetools">
 			<roundcube:button command="image-scale" type="link" prop="+"
 				class="button zoomin disabled" classAct="button zoomin"
@@ -117,6 +113,10 @@
 				class="button rotate disabled" classAct="button rotate"
 				label="rotate" title="rotateimage" innerclass="inner" />
 		</div>
+		<a href="#" class="button icon tools" onclick="$(this).attr('title', $(this).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')))"
+			data-label-show="<roundcube:label name="showtools" />" data-label-hide="<roundcube:label name="hidetools" />" title="<roundcube:label name="showtools" />">
+			<span class="inner"><roundcube:label name="showtools" /></span>
+		</a>
 	</div>
 <roundcube:endif />
 

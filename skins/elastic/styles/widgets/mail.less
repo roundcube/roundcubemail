@@ -223,18 +223,17 @@
 .image-tools {
     position: absolute;
     top: 5rem;
-    right: 0;
+    left: 0;
     height: @layout-header-height;
     overflow: hidden;
-    transform: translateX(87%);
+    transform: translateX(-87%);
     transition: transform 0.3s ease-in-out;
     background-color: @color-image-tools-background;
-    border-radius: .3rem 0 0 .3rem;
+    border-radius: 0 .3rem .3rem 0;
 
     .toolbar {
-        display: inline-block;
-        white-space: nowrap;
-        margin-right: 1rem;
+        float: left;
+        height: @layout-header-height;
 
         a.button:before {
             width: auto;
@@ -263,7 +262,7 @@
         transform: translateX(0);
 
         a.button.icon.tools:before {
-            content: @fa-var-chevron-right;
+            content: @fa-var-chevron-left;
         }
     }
 
