@@ -50,6 +50,17 @@
 					class="button more" label="more" title="moreactions" data-popup="message-menu"
 					innerclass="inner" data-hidden="small" />
 			<roundcube:endif />
+			<roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
+				<roundcube:button command="image-scale" type="link" prop="+" data-hidden="small"
+					class="button zoomin disabled" classAct="button zoomin"
+					label="zoomin" title="increaseimage" innerclass="inner" />
+				<roundcube:button command="image-scale" type="link" prop="-" data-hidden="small"
+					class="button zoomout disabled" classAct="button zoomout"
+					label="zoomout" title="decreaseimage" innerclass="inner" />
+				<roundcube:button command="image-rotate" type="link"
+					class="button rotate disabled" classAct="button rotate" data-hidden="small"
+					label="rotate" title="rotateimage" innerclass="inner" />
+			<roundcube:endif />
 		</div>
 	</div>
 	<h2 id="aria-label-messagepart" class="voice"><roundcube:label name="arialabelattachmentpreview" /></h2>
@@ -85,6 +96,27 @@
 			<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="source" classAct="source active" />
 			<roundcube:container name="messagemenu" id="message-menu" />
 		</ul>
+	</div>
+<roundcube:endif />
+
+<roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
+	<div id="image-tools" class="image-tools" data-hidden="big">
+		<h3 id="aria-label-imagetools" class="voice"><roundcube:label name="arialabelimagetools" /></h3>
+		<a href="#" class="button icon tools" onclick="$(this).attr('title', $(this).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')))"
+			data-label-show="<roundcube:label name="showtools" />" data-label-hide="<roundcube:label name="hidetools" />" title="<roundcube:label name="showtools" />">
+			<span class="inner"><roundcube:label name="showtools" /></span>
+		</a>
+		<div class="toolbar" role="menu" aria-labelledby="aria-label-imagetools">
+			<roundcube:button command="image-scale" type="link" prop="+"
+				class="button zoomin disabled" classAct="button zoomin"
+				label="zoomin" title="increaseimage" innerclass="inner" />
+			<roundcube:button command="image-scale" type="link" prop="-"
+				class="button zoomout disabled" classAct="button zoomout"
+				label="zoomout" title="decreaseimage" innerclass="inner" />
+			<roundcube:button command="image-rotate" type="link"
+				class="button rotate disabled" classAct="button rotate"
+				label="rotate" title="rotateimage" innerclass="inner" />
+		</div>
 	</div>
 <roundcube:endif />
 
