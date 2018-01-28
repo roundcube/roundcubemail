@@ -48,6 +48,7 @@ function rcube_webmail()
   this.http_request_jobs = {};
   this.menu_stack = [];
   this.entity_selectors = [];
+  this.image_style = {};
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -347,6 +348,7 @@ function rcube_webmail()
         }
         else if (this.env.action == 'get') {
           this.enable_command('download', true);
+          this.enable_command('image-scale', 'image-rotate', !!/^image\//.test(this.env.mimetype));
 
           // Mozilla's PDF.js viewer does not allow printing from host page (#5125)
           // to minimize user confusion we disable the Print button
@@ -5656,6 +5658,38 @@ function rcube_webmail()
       this.env.is_sent = true;
   };
 
+  this.image_rotate = function()
+  {
+    var curr = this.image_style ? (this.image_style.rotate || 0) : 0;
+
+    this.image_style.rotate = curr > 180 ? 0 : curr + 90;
+    this.apply_image_style();
+  };
+
+  this.image_scale = function(prop)
+  {
+    var curr = this.image_style ? (this.image_style.scale || 1) : 1;
+
+    this.image_style.scale = Math.max(0.1, curr + 0.1 * (prop == '-' ? -1 : 1));
+    this.apply_image_style();
+  };
+
+  this.apply_image_style = function()
+  {
+    var style = [],
+      head = $(this.gui_objects.messagepartframe).contents().find('head');
+
+    $('#image-style', head).remove();
+
+    $.each({scale: '', rotate: 'deg'}, function(i, v) {
+      var val = ref.image_style[i];
+      if (val)
+        style.push(i + '(' + val + v + ')');
+    });
+
+    if (style)
+      head.append($('<style id="image-style">').text('img { transform: ' + style.join(' ') + '}'));
+  };
 
   /*********************************************************/
   /*********     keyboard live-search methods      *********/
