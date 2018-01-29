@@ -2209,7 +2209,7 @@ function rcube_elastic_ui()
      */
     function headers_dialog()
     {
-        var props = {_uid: rcmail.env.uid, _mbox: rcmail.env.mailbox},
+        var props = {_uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _framed: 1},
             dialog = $('<iframe>').attr({id: 'headersframe', src: rcmail.url('headers', props)});
 
         rcmail.simple_dialog(dialog, rcmail.gettext('arialabelmessageheaders'), null, {

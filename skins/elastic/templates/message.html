@@ -33,7 +33,7 @@
 						<a href="#headers" class="envelope" onclick="return UI.headers_show(this)"><roundcube:label name="envelope" /></a>
 						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="headers" /></a>
 						<roundcube:add_label name="arialabelmessageheaders" />
-						<roundcube:if condition="!env:message_context">
+						<roundcube:if condition="!env:message_context && !env:extwin">
 							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
 								label="openinextwin" data-hidden="small" />
 						<roundcube:endif />
