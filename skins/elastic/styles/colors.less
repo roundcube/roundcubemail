@@ -131,9 +131,10 @@
 // Forms
 @color-input:                       @color-font;
 @color-input-border:                rgba(22, 27, 29, 0.15);
-@color-input-border-focus:          #80bdff;                // from Bootstrap's .form-control:focus
-@color-input-border-focus-shadow:   rgba(0,123,255,.25);    // from Bootstrap's .form-control:focus
+@color-input-border-focus:          @color-main;
+@color-input-border-focus-shadow:   fadeout(@color-main, 75);
 @color-input-border-invalid:        @color-error;
+@color-input-border-invalid-shadow: fadeout(@color-error, 75);
 @color-input-addon-background:      @color-black-shade-bg;
 @color-recipient-input-border:      @color-input-border;
 @color-recipient-input-background:  @color-black-shade-bg;

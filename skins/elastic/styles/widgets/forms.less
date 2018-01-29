@@ -728,6 +728,10 @@ html.touch .popupmenu.form {
     &.is-invalid {
         & > .content {
             border: 1px solid @color-input-border-invalid;
+            &.focused {
+                border-color: @color-input-border-invalid;
+                box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+            }
         }
 
         & > .invalid-feedback {
@@ -1231,16 +1235,27 @@ td.input-group input {
     height: ~"calc(2.25rem + 2px)";
 }
 
-.form-control, .form-control:focus {
+.form-control {
     color: @color-font;
+
+    &:focus {
+        color: @color-font;
+        border-color: @color-input-border-focus;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+    }
+
+    &.is-invalid {
+        border-color: @color-input-border-invalid;
+
+        &:focus {
+            border-color: @color-input-border-invalid;
+            box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+        }
+    }
 }
 
 .invalid-feedback {
     color: @color-error;
-}
-
-.form-control.is-invalid {
-    border-color: @color-input-border-invalid;
 }
 
 .form-group {
