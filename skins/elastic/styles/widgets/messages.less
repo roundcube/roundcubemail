@@ -43,7 +43,7 @@
 
     & > i.icon {
         line-height: 1;
-        color: @color-message-information;
+        color: lighten(@color-black, 25%);
         margin: auto 0;
     }
 
@@ -59,7 +59,6 @@
         & > i.icon:before {
             content: @fa-var-circle-notch;
             .animated-icon-class;
-            color: @color-message-loading;
             width: 1em;
         }
     }
@@ -129,7 +128,7 @@
     }
 
     &.boxinformation {
-        background-color: @color-message-information-background;
+        background-color: @color-message-background;
     }
 
     &.boxwarning {
@@ -172,7 +171,7 @@
         color: @color-main;
 
         & > i.icon:before {
-            color: inherit;
+            color: @color-main;
         }
     }
 
