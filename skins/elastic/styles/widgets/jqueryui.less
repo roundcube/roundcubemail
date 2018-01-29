@@ -173,8 +173,8 @@
                 button {
                     margin: 0 !important;
                     border: 0 !important;
-                    box-shadow: none;
                     height: @layout-header-height;
+                    box-shadow: none;
 
                     &:before {
                         display: block !important;
@@ -183,11 +183,11 @@
                         margin: 0;
                     }
 
-                    &.btn-primary {
-                        color: @color-btn-primary-background;
-                        background: transparent;
+                    &:active {
+                        box-shadow: none;
                     }
 
+                    &.btn-primary,
                     &.btn-secondary {
                         color: @color-toolbar-button;
                         background: transparent;
@@ -196,6 +196,11 @@
                     &.btn-danger {
                         color: @color-btn-danger-background;
                         background: transparent;
+                    }
+
+                    &.disabled,
+                    &:disabled {
+                        opacity: .5;
                     }
                 }
             }
