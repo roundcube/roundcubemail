@@ -56,6 +56,11 @@ class rcube_db_pgsql extends rcube_db
     {
         $dbh->query("SET NAMES 'utf8'");
         $dbh->query("SET DATESTYLE TO ISO");
+
+        // if ?schema= is set in dsn, set the search_path
+        if ($dsn['schema']) {
+            $dbh->query("SET search_path TO " . $this->quote($dsn['schema']));
+        }
     }
 
     /**
