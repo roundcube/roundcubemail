@@ -1020,6 +1020,10 @@ function rcube_webmail()
 
         break;
 
+      case 'add-contact':
+        this.add_contact(props);
+        break;
+
       case 'load-remote':
         if (this.env.uid) {
           if (props && this.env.sender) {
@@ -5452,8 +5456,6 @@ function rcube_webmail()
   {
     if (value)
       this.http_post('addcontact', {_address: value, _reload: reload});
-
-    return true;
   };
 
   // send remote request to search mail or contacts
@@ -6412,11 +6414,12 @@ function rcube_webmail()
   {
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
-    if (!undelete) {
+    if (undelete)
+      this._with_selected_contacts('delete');
+    else
       this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function() {
-          ref._with_selected_contacts('delete');
-        });
-    }
+        ref._with_selected_contacts('delete');
+      });
   };
 
   this._with_selected_contacts = function(action, post_data)
