@@ -1310,6 +1310,7 @@ class rcube
             $log_dir = self::$instance->get_user_log_dir();
             if (empty($log_dir) && !in_array($name, array('errors', 'userlogins', 'sendmail'))) {
                 return false;
+            }
         }
         else if (!empty($log['dir'])) {
             $log_dir = $log['dir'];
