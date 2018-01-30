@@ -33,7 +33,10 @@
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="rcmail.upload_input('uploadform')" aria-haspopup="true" aria-expanded="false" tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
 	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
-	<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled" classAct="button encrypt" classSel="button encrypt selected" label="encrypt" title="encryptmessagemailvelope" tabindex="2" style="display:none" />
+	<span class="dropbutton" style="display:none">
+		<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled" classAct="button encrypt" classSel="button encrypt selected" label="encrypt" title="encryptmessagemailvelope" tabindex="2" />
+		<a href="#compose-encrypted" class="dropbuttontip" id="encryptionmenulink" onclick="UI.toggle_popup('encryptionmenu',event);return false" aria-haspopup="true" aria-expanded="false" tabindex="2" style="display:none"></a>
+	</span>
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 
@@ -220,6 +223,13 @@
 		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="icon" classAct="icon active" innerclass="icon download" />
 		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="icon" classAct="icon active" innerclass="icon rename" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
+	</ul>
+</div>
+
+<div id="encryptionmenu" class="popupmenu" aria-hidden="true">
+	<ul class="toolbarmenu" role="menu">
+		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" classAct="active" />
+		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" classAct="active" />
 	</ul>
 </div>
 

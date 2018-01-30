@@ -281,6 +281,7 @@ $labels['encryptmessage'] = 'Encrypt message';
 $labels['encryptmessagemailvelope'] = 'Encrypt message with Mailvelope';
 $labels['importpubkeys']  = 'Import public keys';
 $labels['encryptedsendialog'] = 'Sending encrypted message';
+$labels['encryptandsign'] = 'Encrypt and sign';
 $labels['keyid']          = 'Key ID';
 $labels['keylength']      = 'Bits';
 $labels['keyexpired']     = 'Expired';
@@ -351,6 +352,15 @@ $labels['mdnrequest'] = 'The sender of this message has asked to be notified whe
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
+
+$labels['zoomin'] = 'Zoom In';
+$labels['zoomout'] = 'Zoom Out';
+$labels['rotate'] = 'Rotate';
+$labels['increaseimage'] = 'Increase image size';
+$labels['decreaseimage'] = 'Decrease image size';
+$labels['rotateimage'] = 'Rotate image';
+$labels['showtools'] = 'Show image tools';
+$labels['hidetools'] = 'Hide image tools';
 
 // address boook
 $labels['name']         = 'Display Name';
@@ -718,6 +728,7 @@ $labels['arialabelresonseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
 $labels['arialabelheadersmenu'] = 'Recipient (header) adding menu';
+$labels['arialabelimagetools'] = 'Image tools';
 
 $labels['helplistnavigation'] = 'List keyboard navigation';
 $labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.

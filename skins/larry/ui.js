@@ -685,7 +685,11 @@ function rcube_mail_ui()
     }
     else if (p.command == 'compose-encrypted') {
       // show the toolbar button for Mailvelope
-      $('a.button.encrypt').show();
+      $('a.button.encrypt').parent().show();
+    }
+    else if (p.command == 'compose-encrypted-signed') {
+      // enable selector for encrypt and sign
+      $('#encryptionmenulink').show();
     }
   }
 
