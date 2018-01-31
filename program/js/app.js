@@ -1141,7 +1141,7 @@ function rcube_webmail()
               this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
               break;
             }
-            else if (this.env.group) {
+            else if (this.env.group && this.env.pagecount) {
               this.http_post('mailto', { _gid: this.env.group, _source: this.env.source }, true);
               break;
             }
@@ -3667,7 +3667,7 @@ function rcube_webmail()
     }
   };
 
-    // handler for the 'compose-encrypted-signed' command
+  // handler for the 'compose-encrypted-signed' command
   this.compose_encrypted_signed = function(props)
   {
     props = props || {};
