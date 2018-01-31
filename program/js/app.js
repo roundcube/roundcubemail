@@ -5423,8 +5423,7 @@ function rcube_webmail()
           ref.set_busy(true, 'loading'));
           return true;
         }
-      },
-      {open: function() { input.select(); }}
+      }
     );
   };
 
@@ -6562,8 +6561,7 @@ function rcube_webmail()
       content = $('<label>').text(this.get_label('namex')).append(input),
       source = this.env.source;
 
-    this.simple_dialog(content, 'newgroup',
-      function() {
+    this.simple_dialog(content, 'newgroup', function() {
         var name;
         if (name = input.val()) {
           ref.http_post('group-create', {_source: source, _name: name},
@@ -6585,17 +6583,14 @@ function rcube_webmail()
       source = this.env.source,
       group = this.env.group;
 
-    this.simple_dialog(content, 'grouprename',
-      function() {
+    this.simple_dialog(content, 'grouprename', function() {
         var name;
         if ((name = input.val()) && name != group_name) {
           ref.http_post('group-rename', {_source: source, _gid: group, _name: name},
-            ref.set_busy(true, 'loading'));
+          ref.set_busy(true, 'loading'));
           return true;
         }
-      },
-      {open: function() { input.select(); }}
-    );
+      });
   };
 
   this.group_delete = function()
