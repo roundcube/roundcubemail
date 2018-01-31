@@ -66,6 +66,13 @@ class rcube
      */
     public $memcache;
 
+    /**
+     * Instance of Redis class.
+     *
+     * @var Redis
+     */
+    public $redis;
+
    /**
      * Instance of rcube_session class.
      *
@@ -269,10 +276,148 @@ class rcube
     }
 
     /**
+     * Get global handle for redis access
+     *
+     * @return object Redis
+     */
+    public function get_redis()
+    {
+        if (!isset($this->redis)) {
+            if (!class_exists('Redis')) {
+                $this->redis = false;
+                rcube::raise_error(
+                    array(
+                        'code' => 604,
+                        'type' => 'redis',
+                        'line' => __LINE__,
+                        'file' => __FILE__,
+                        'message' => "Failed to find Redis. Make sure php-redis is included"
+                    ),
+                    true,
+                    true
+                );
+            }
+
+            $this->redis = new Redis;
+            $this->redis_init();
+
+            if (!$this->redis_available) {
+                $this->redis = false;
+            }
+        }
+
+        return $this->redis;
+    }
+
+    /**
+     * Get global handle for redis access
+     */
+    protected function redis_init()
+    {
+        $this->redis_available = false;
+
+        $hosts = $this->config->get('redis_hosts');
+
+        // host config is wrong
+        if (!is_array($hosts) || empty($hosts)) {
+            rcube::raise_error(
+                array(
+                    'code' => 604,
+                    'type' => 'redis',
+                    'line' => __LINE__,
+                    'file' => __FILE__,
+                    'message' => "Redis host not configured"
+                ),
+                true,
+                true
+            );
+        }
+
+        // only allow 1 host for now until we support clustering
+        if (count($hosts) > 1) {
+            rcube::raise_error(
+                array(
+                    'code' => 604,
+                    'type' => 'redis',
+                    'line' => __LINE__,
+                    'file' => __FILE__,
+                    'message' => "Redis cluster not yet supported"
+                ),
+                true,
+                true
+            );
+        }
+
+        foreach ($hosts as $redis_host) {
+            // explode individual fields
+            list($host, $port, $database, $password) = array_pad(explode(':', $redis_host, 4), 4, null);
+
+            $params = parse_url($redis_host);
+            if ($params['scheme'] == 'redis') {
+                $host = (isset($params['host'])) ? $params['host'] : null;
+                $port = (isset($params['port'])) ? $params['port'] : null;
+                $database = (isset($params['database'])) ? $params['database'] : null;
+                $password = (isset($params['password'])) ? $params['password'] : null;
+            }
+
+            // set default values if not set
+            $host = ($host !== null) ? $host : '127.0.0.1';
+            $port = ($port !== null) ? $port : 6379;
+            $database = ($database !== null) ? $database : 0;
+
+            if ($this->redis->connect($host, $port) === false) {
+                rcube::raise_error(
+                    array(
+                        'code' => 604,
+                        'type' => 'session',
+                        'line' => __LINE__,
+                        'file' => __FILE__,
+                        'message' => "Could not connect to Redis server. Please check host and port"
+                    ),
+                    true,
+                    true
+                );
+            }
+
+            if ($password != null && $this->redis->auth($password) === false) {
+                rcube::raise_error(
+                    array(
+                        'code' => 604,
+                        'type' => 'session',
+                        'line' => __LINE__,
+                        'file' => __FILE__,
+                        'message' => "Could not authenticate with Redis server. Please check password."
+                    ),
+                    true,
+                    true
+                );
+            }
+
+            if ($database != 0 && $this->redis->select($database) === false) {
+                rcube::raise_error(
+                    array(
+                        'code' => 604,
+                        'type' => 'session',
+                        'line' => __LINE__,
+                        'file' => __FILE__,
+                        'message' => "Could not select Redis database. Please check database setting."
+                    ),
+                    true,
+                    true
+                );
+            }
+        }
+
+        if ($this->redis->ping() == "+PONG") {
+            $this->redis_available = true;
+        }
+    }
+
+    /**
      * Initialize and get cache object
      *
      * @param string $name   Cache identifier
-     * @param string $type   Cache type ('db', 'apc' or 'memcache')
+     * @param string $type   Cache type ('db', 'apc', 'memcache', 'redis')
      * @param string $ttl    Expiration time for cache items
      * @param bool   $packed Enables/disables data serialization
      *
@@ -1044,7 +1189,7 @@ class rcube
 
     /**
      * When you're going to sleep the script execution for a longer time
-     * it is good to close all external connections (sql, memcache, SMTP, IMAP).
+     * it is good to close all external connections (sql, memcache, redis, SMTP, IMAP).
      *
      * No action is required on wake up, all connections will be
      * re-established automatically.
@@ -1073,6 +1218,10 @@ class rcube
 
         if ($this->smtp) {
             $this->smtp->disconnect();
+        }
+
+        if ($this->redis) {
+            $this->redis->close();
         }
     }
 
@@ -1396,7 +1545,7 @@ class rcube
     /**
      * Write debug info to the log
      *
-     * @param string $engine Engine type - file name (memcache, apc)
+     * @param string $engine Engine type - file name (memcache, apc, redis)
      * @param string $data   Data string to log
      * @param bool   $result Operation result
      */
