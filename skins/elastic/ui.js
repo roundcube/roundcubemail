@@ -1836,6 +1836,7 @@ function rcube_elastic_ui()
                 trigger: $(item).data('popup-trigger') || 'click',
                 placement: $(item).data('popup-pos') || 'bottom',
                 animation: true,
+                boundary: 'window', // fix for https://github.com/twbs/bootstrap/issues/25428
                 html: true
             })
             .on('show.bs.popover', function(event) {
