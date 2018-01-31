@@ -2164,9 +2164,6 @@ function rcube_elastic_ui()
 
         dialog = rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
             closeOnEscape: true,
-            open: function(e) {
-                setTimeout(function() { dialog.find('select').first().focus(); }, 100);
-            },
             minWidth: 400,
             width: width
         });
@@ -2515,9 +2512,10 @@ function rcube_elastic_ui()
                 // move cursor to the end of input text, use setTimeout for Firefox
                 setTimeout(function() { rcmail.set_caret_pos(input.get(0), input.val().length); }, 1);
             },
-            insert_recipient = function(name, email) {
+            insert_recipient = function(name, email, replace) {
                 var recipient = $('<li class="recipient">'),
-                    name_element = $('<span class="name">').html(recipient_input_name(name || email)),
+                    name_element = $('<span class="name">').html(recipient_input_name(name || email))
+                        .on('dblclick', function(e) { recipient_input_edit_dialog(e, insert_recipient); }),
                     email_element = $('<span class="email">'),
                     // TODO: should the 'close' link have tabindex?
                     link = $('<a>').attr({'class': 'button icon remove'})
@@ -2535,7 +2533,11 @@ function rcube_elastic_ui()
                 email_element.text((name ? email : '') + ',');
                 recipient.attr('title', name ? (name + email) : null)
                     .append([name_element, email_element, link])
-                    .insertBefore(input.parent());
+
+                if (replace)
+                    replace.replaceWith(recipient);
+                else
+                    recipient.insertBefore(input.parent());
             },
             update_func = function() {
                 var text = input.val().replace(/[,;\s]+$/, ''),
@@ -2703,6 +2705,34 @@ function rcube_elastic_ui()
         }
 
         return result;
+    };
+
+    /**
+     * Displays dialog to edit a recipient entry
+     */
+    function recipient_input_edit_dialog(e, callback)
+    {
+        var element = $(e.target).parents('.recipient'),
+            recipient = element.text().replace(/,+$/, ''),
+            input = $('<input>').attr({type: 'text', size: 50}).val(recipient),
+            content = $('<label>').text(rcmail.gettext('recipient')).append(input);
+
+        rcmail.simple_dialog(content, 'recipientedit', function() {
+                var result, value = input.val();
+                if (value) {
+                    if (value != recipient) {
+                        result = recipient_input_parser(value);
+
+                        if (result.recipients.length != 1) {
+                            return false;
+                        }
+
+                        callback(result.recipients[0].name, result.recipients[0].email, element);
+                    }
+
+                    return true;
+                }
+            });
     };
 
     /**
