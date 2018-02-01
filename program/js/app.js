@@ -6439,7 +6439,7 @@ function rcube_webmail()
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
     if (undelete) {
-      this._with_selected_contacts('delete');
+      this._with_selected_contacts('delete', {_cid: this.contact_list.get_selection()});
     }
     else {
       var cid = this.contact_list.get_selection();
