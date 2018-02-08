@@ -54,6 +54,10 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
      */
     function check($text)
     {
+        
+        // get rid of quoted reply text
+        $text = $this->remove_quoted_reply($text);
+        
         $this->content = $text;
 
         if (empty($text)) {

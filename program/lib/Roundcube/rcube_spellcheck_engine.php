@@ -31,7 +31,7 @@ abstract class rcube_spellcheck_engine
     protected $lang;
     protected $error;
     protected $dictionary;
-    protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
+    protected $separator = '/\w+:\/\/\S*|[\s\r\n\t\(\)\/\[\]{}<>\\"`]+|[:;?!,\.](?=\W|$)/';
 
     /**
      * Default constructor
@@ -40,6 +40,15 @@ abstract class rcube_spellcheck_engine
     {
         $this->dictionary = $dict;
         $this->lang = $lang;
+    }
+    
+    /**
+     * Somewhat sloppy method of removing quoted reply text from checking
+     * @param   string  $text   Text content for sanitization/spellchecking
+     * @return  string  The sanitized $text
+     */
+    public function remove_quoted_reply($text){
+        return preg_replace('/(^\w.+:\n)?(^>.*(\n|$))+/', "", $text);
     }
 
     /**

@@ -83,7 +83,10 @@ class rcube_spellcheck_enchant extends rcube_spellcheck_engine
         if (!$this->enchant_dictionary) {
             return array();
         }
-
+        
+        // get rid of quoted reply text
+        $text = $this->remove_quoted_reply($text);
+        
         // tokenize
         $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
