@@ -676,7 +676,6 @@ table.fixedcopy {
         font-size: 1.1em;
         width: 1.1em;
         line-height: 1.75;
-        color: @color-warning;
     }
     td.subject span.msgicon.status.replied:before {
         content: @fa-var-reply;
@@ -685,7 +684,7 @@ table.fixedcopy {
         width: 1.1em;
     }
     td.subject span.msgicon.status.forwarded:before {
-        content: @fa-var-share;
+        .font-icon-solid(@fa-var-share);
         font-size: 1.1em;
         line-height: 1.75;
         width: 1.1em;
