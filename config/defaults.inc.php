@@ -957,9 +957,9 @@ $config['ldap_public']['Verisign'] = array(
                                     // Used where addressbook contains aliases to objects elsewhere in the LDAP tree.
 
   // definition for contact groups (uncomment if no groups are supported)
-  // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)
+  // for the groups base_dn, the user replacements %fu, %u, %d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
-  // -> in this case, assure that groups and contacts are separated due to the concernig filters! 
+  // -> in this case, assure that groups and contacts are separated due to the concernig filters!
   'groups'  => array(
     'base_dn'           => '',
     'scope'             => 'sub',       // Search mode: sub|base|list
