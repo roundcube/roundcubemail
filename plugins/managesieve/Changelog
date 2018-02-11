@@ -1,4 +1,5 @@
 - Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
+- Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
 - Fix parsing dot-staffed lines in multiline text (#5838)
 - Fix AM/PM suffix in vacation time selectors
 - Fix bug where 'exists' operator was reset to 'contains' (#5899)
