@@ -268,11 +268,11 @@ if ($pass == '%p') {
     <td><?php echo $RCI->getprop('smtp_port'); ?></td>
   </tr>
   <tr>
-    <td><label for="smtp_user">Sender</label></td>
+    <td><label for="smtp_user">Username</label></td>
     <td><?php echo $user; ?></td>
   </tr>
   <tr>
-    <td><label for="smtp_pass">Recipient</label></td>
+    <td><label for="smtp_pass">Password</label></td>
     <td><?php echo $pass; ?></td>
   </tr>
 </tbody>
