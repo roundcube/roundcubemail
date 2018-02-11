@@ -1489,8 +1489,9 @@ class rcube_sieve_engine
                 'class' => ($this->errors['name'] ? ' error' : '')
         ));
 
-        if ($this->errors['name'])
+        if ($this->errors['name']) {
             $this->add_tip('_name', $this->errors['name'], true);
+        }
 
         $input_name = $input_name->show(isset($scr) ? $scr['name'] : '');
 
@@ -1606,7 +1607,13 @@ class rcube_sieve_engine
         $attrib['action'] = './';
         $attrib['method'] = 'post';
 
-        return html::tag('form', $attrib, $out, array('name', 'action', 'method', 'class'));
+        $out = html::tag('form', $attrib, $out, array('name', 'action', 'method', 'class'));
+
+        if (!$compact) {
+            $out = str_replace('</form>', '', $out);
+        }
+
+        return $out;
     }
 
     function rule_div($fid, $id, $div = true, $compact = false)
