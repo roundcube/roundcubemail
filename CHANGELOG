@@ -69,6 +69,7 @@ CHANGELOG Roundcube Webmail
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
 - Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
+- Managesieve: Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
 
 RELEASE 1.3.4
 -------------
