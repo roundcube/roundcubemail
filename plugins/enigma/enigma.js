@@ -229,6 +229,7 @@ rcube_webmail.prototype.enigma_export = function(selected)
             this.get_label('enigma.keyexportprompt'),
             this.get_label('enigma.exportkeys'),
             [{
+                'class': 'export mainaction',
                 text: this.get_label('enigma.onlypubkeys'),
                 click: function(e) {
                     rcmail.enigma_export_submit(args);
@@ -236,6 +237,7 @@ rcube_webmail.prototype.enigma_export = function(selected)
                 }
             },
             {
+                'class': 'export',
                 text: this.get_label('enigma.withprivkeys'),
                 click: function(e) {
                     args._priv = 1;
