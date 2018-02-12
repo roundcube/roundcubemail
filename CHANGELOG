@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
 - Managesieve: Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
 - Fix duplicated labels in Test SMTP Config section (#6166)
+- Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
 
 RELEASE 1.3.4
 -------------
