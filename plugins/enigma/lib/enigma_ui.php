@@ -754,7 +754,8 @@ class enigma_ui
         $checkbox   = new html_checkbox(array('name' => 'identity[]'));
         foreach ((array) $identities as $idx => $ident) {
             $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
-            $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($name, array('value' => $name)) . rcube::Q($name)));
+            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email']);
+            $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name)));
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
