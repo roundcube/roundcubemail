@@ -1329,8 +1329,6 @@ class rcube_sieve_engine
         $script      = $this->sieve->get_script($script_name);
         $script_post = $_POST['rawsetcontent'];
 
-        $out = '<form name="filtersetrawform" action="./" method="post" enctype="multipart/form-data">'."\n";
-
         $hiddenfields = new html_hiddenfield();
         $hiddenfields->add(array('name' => '_task',   'value' => $this->rc->task));
         $hiddenfields->add(array('name' => '_action', 'value' => 'plugin.managesieve-saveraw'));
@@ -1338,7 +1336,7 @@ class rcube_sieve_engine
         $hiddenfields->add(array('name' => '_seteditraw', 'value' => 1));
         $hiddenfields->add(array('name' => '_framed', 'value' => ($_POST['_framed'] || $_GET['_framed'] ? 1 : 0)));
 
-        $out .= $hiddenfields->show();
+        $out = $hiddenfields->show();
 
         $txtarea = new html_textarea(array(
                 'id'   => 'rawfiltersettxt',
@@ -1358,7 +1356,15 @@ class rcube_sieve_engine
             $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
         }
 
-        return $out;
+        $out = html::tag('form', $attrib + array(
+                'id'      => 'filtersetrawform',
+                'name'    => 'filtersetrawform',
+                'action'  => './',
+                'method'  => 'post',
+                'enctype' => 'multipart/form-data',
+            ), $out);
+
+        return $attrib['close-form'] ? $out : str_replace('/</form>', '', $out);
     }
 
     function filterset_form($attrib)
