@@ -1339,9 +1339,10 @@ class rcube_sieve_engine
         $out = $hiddenfields->show();
 
         $txtarea = new html_textarea(array(
-                'id'   => 'rawfiltersettxt',
-                'name' => 'rawsetcontent',
-                'rows' => '15'
+                'id'    => 'rawfiltersettxt',
+                'name'  => 'rawsetcontent',
+                'class' => 'form-control',
+                'rows'  => '15'
         ));
 
         $out .= $txtarea->show($script_post !== null ? $script_post : ($script !== false ? rtrim($script) : ''));
@@ -1364,7 +1365,7 @@ class rcube_sieve_engine
                 'enctype' => 'multipart/form-data',
             ), $out);
 
-        return $attrib['close-form'] ? $out : str_replace('/</form>', '', $out);
+        return str_replace('</form>', '', $out);
     }
 
     function filterset_form($attrib)
