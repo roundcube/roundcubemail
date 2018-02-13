@@ -493,6 +493,41 @@ html.ms .propform {
         margin-bottom: 1em;
         font-style: italic;
     }
+
+    // RAW (CodeMirror) editor
+    &.raweditor {
+        height: 100%;
+
+        form {
+            height: 100%;
+        }
+
+        textarea {
+            font-family: monospace;
+            height: 100%;
+        }
+
+        .CodeMirror {
+            border: 1px solid @color-input-border;
+            border-radius: .3rem;
+            height: 100%;
+            color: @color-font;
+        }
+
+        .CodeMirror-focused {
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+
+        .CodeMirror-linebackground.line-error {
+            background-color: @color-error;
+            opacity: 0.4;
+        }
+
+        .errorGutter {
+            width: .8em;
+        }
+    }
 }
 
 @media screen and (max-width: @screen-width-mini) {
