@@ -953,7 +953,7 @@ class enigma_ui
                 $msg = rcube::Q($this->enigma->gettext('decryptpartial'));
             }
             else {
-                $attrib['class'] = 'boxinformation enigmanotice encrypted';
+                $attrib['class'] = 'boxconfirmation enigmanotice encrypted';
                 $msg = rcube::Q($this->enigma->gettext('decryptok'));
             }
 
@@ -986,7 +986,7 @@ class enigma_ui
                     $msg = rcube::Q($msg);
                 }
                 else if ($sig->valid) {
-                    $attrib['class'] = ($sig->partial ? 'boxwarning enigmawarning' : 'boxinformation enigmanotice') . ' signed';
+                    $attrib['class'] = ($sig->partial ? 'boxwarning enigmawarning' : 'boxconfirmation enigmanotice') . ' signed';
                     $label = 'sigvalid' . ($sig->partial ? 'partial' : '');
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext($label)));
                 }
