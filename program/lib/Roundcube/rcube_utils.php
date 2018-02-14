@@ -514,11 +514,11 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
-        $callback = function($matches) { return chr(hexdec($matches[1])); };
+        $callback = function($matches) { return chr(hexdec(trim($matches[1]))); };
 
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
-        $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', $callback, $out);
+        $out = preg_replace_callback('/\\\([0-9a-f]{2,4})\s*/i', $callback, $out);
         $out = preg_replace('#/\*.*\*/#Ums', '', $out);
         $out = strip_tags($out);
 
