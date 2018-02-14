@@ -629,7 +629,7 @@ function rcube_elastic_ui()
         $('input.button.mainaction,button.primary,button.mainaction', context).addClass('btn-primary');
         $('button.btn.delete,button.btn.discard', context).addClass('btn-danger');
 
-        $.each(['warning', 'error', 'information'], function() {
+        $.each(['warning', 'error', 'information', 'confirmation'], function() {
             var type = this;
             $('.box' + type, context).each(function() {
                 alert_style(this, type, true);

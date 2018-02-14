@@ -116,6 +116,7 @@
     }
 
     &.boxerror,
+    &.boxconfirmation,
     &.boxinformation,
     &.boxwarning {
         float: none;
@@ -139,6 +140,10 @@
 
     &.boxinformation {
         background-color: @color-message-background;
+    }
+
+    &.boxconfirmation {
+        background-color: @color-message-success-background;
     }
 
     &.boxwarning {
