@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Don't ignore (global) userlogins/sendmail logs in per_user_logging mode
+- Fix security issue in remote content blocking on HTML image and style tags (#6178)
 
 RELEASE 1.1.10
 --------------
