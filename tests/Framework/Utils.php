@@ -205,6 +205,9 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
 
+        $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");

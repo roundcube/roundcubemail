@@ -386,7 +386,7 @@ class rcube_washtml
         return $attr == 'background'
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
-            || ($attr == 'src' && preg_match('/^(img|source|input|video|audio)$/i', $tag))
+            || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
             || ($tag == 'image' && $attr == 'href'); // SVG
     }
 

@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix security issue in remote content blocking on HTML image and style tags (#6178)
+
 RELEASE 1.2.7
 -------------
 - Fix rewind(): stream does not support seeking (#5950)
