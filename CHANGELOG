@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix duplicated labels in Test SMTP Config section (#6166)
 - Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
 - Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
+- Fix bug in remote content blocking on HTML image and style tags (#6178)
 
 RELEASE 1.3.4
 -------------
