@@ -931,7 +931,7 @@ class enigma_ui
             $attrib['id'] = 'enigma-message';
 
             if ($status instanceof enigma_error) {
-                $attrib['class'] = 'enigmaerror';
+                $attrib['class'] = 'boxerror enigmaerror encrypted';
                 $code            = $status->getCode();
 
                 if ($code == enigma_error::KEYNOTFOUND) {
@@ -949,11 +949,11 @@ class enigma_ui
                 }
             }
             else if ($status === enigma_engine::ENCRYPTED_PARTIALLY) {
-                $attrib['class'] = 'enigmawarning';
+                $attrib['class'] = 'boxwarning enigmawarning encrypted';
                 $msg = rcube::Q($this->enigma->gettext('decryptpartial'));
             }
             else {
-                $attrib['class'] = 'enigmanotice';
+                $attrib['class'] = 'boxinformation enigmanotice encrypted';
                 $msg = rcube::Q($this->enigma->gettext('decryptok'));
             }
 
@@ -980,18 +980,18 @@ class enigma_ui
                 }
 
                 if ($sig->valid === enigma_error::UNVERIFIED) {
-                    $attrib['class'] = 'enigmawarning';
+                    $attrib['class'] = 'boxwarning enigmawarning signed';
                     $msg = str_replace('$sender', $sender, $this->enigma->gettext('sigunverified'));
                     $msg = str_replace('$keyid', $sig->id, $msg);
                     $msg = rcube::Q($msg);
                 }
                 else if ($sig->valid) {
-                    $attrib['class'] = $sig->partial ? 'enigmawarning' : 'enigmanotice';
+                    $attrib['class'] = ($sig->partial ? 'boxwarning enigmawarning' : 'boxinformation enigmanotice') . ' signed';
                     $label = 'sigvalid' . ($sig->partial ? 'partial' : '');
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext($label)));
                 }
                 else {
-                    $attrib['class'] = 'enigmawarning';
+                    $attrib['class'] = 'boxwarning enigmawarning signed';
                     if ($sender) {
                         $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext('siginvalid')));
                     }
@@ -1002,12 +1002,12 @@ class enigma_ui
                 }
             }
             else if ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
-                $attrib['class'] = 'enigmawarning';
+                $attrib['class'] = 'boxwarning enigmawarning signed';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->enigma->gettext('signokey')));
             }
             else {
-                $attrib['class'] = 'enigmaerror';
+                $attrib['class'] = 'boxwarning enigmaerror signed';
                 $msg = rcube::Q($this->enigma->gettext('sigerror'));
             }
 /*
@@ -1087,13 +1087,15 @@ class enigma_ui
                 $p['content'] = '';
             }
 
-            // add box below message body
-            $p['content'] .= html::p(array('class' => 'enigmaattachment'),
-                html::a(array(
-                    'href'    => "#",
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
-                    'title'   => $this->enigma->gettext('keyattimport')),
-                    html::span(null, $this->enigma->gettext('keyattfound'))));
+            // add box above the message body
+            $p['content'] = html::p(array('class' => 'enigmaattachment boxinformation aligned-buttons'),
+                html::span(null, rcube::Q($this->enigma->gettext('keyattfound'))) .
+                html::tag('button', array(
+                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
+                        'title'   => $this->enigma->gettext('keyattimport'),
+                        'class'   => 'import',
+                    ), rcube::Q($this->rc->gettext('import')))
+            ) . $p['content'];
 
             $attach_scripts = true;
         }

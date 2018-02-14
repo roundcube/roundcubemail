@@ -58,9 +58,9 @@ p.enigmaattachment
   width: auto;
 }
 
-p.enigmaattachment a
+p.enigmaattachment span
 {
-  display: block;
+  display: inline-block;
   background: url(key_add.png) 10px center no-repeat;
   padding: 1em 0.5em 1em 50px;
 }
