@@ -54,8 +54,8 @@ p.enigmaattachment {
   border-radius: 4px;
 }
 
-p.enigmaattachment a {
-  display: block;
+p.enigmaattachment span {
+  display: inline-block;
   background: url(enigma_icons.png) 8px -78px no-repeat;
   padding: 1em 0.5em 1em 46px;
 }
