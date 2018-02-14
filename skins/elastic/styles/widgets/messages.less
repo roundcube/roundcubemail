@@ -82,16 +82,22 @@
         content: @fa-var-address-card; // vcard_attachments plugin
     }
 
+    &.enigmaattachment > i.icon:before {
+        content: @fa-var-key; // enigma plugin
+    }
+
+    &.signed > i.icon:before,
+    &.encrypted > i.icon:before {
+        content: @fa-var-lock; // enigma plugin
+    }
+
     // This works with following structure: <i> <span> [button].
     // <span> here is a one-line text, and button can be anything but <span>.
     &.aligned-buttons {
         display: flex;
 
         span {
-            .overflow-ellipsis;
             flex: 1;
-            white-space: nowrap;
-            line-height: 2.6;
         }
     }
 
@@ -121,6 +127,10 @@
         i.icon {
             font-size: 1.5em !important;
         }
+
+        &:not(:last-child) {
+            margin-bottom: .2rem;
+        }
     }
 
     &.boxerror {
@@ -133,6 +143,10 @@
 
     &.boxwarning {
         background-color: @color-message-warning-background;
+    }
+
+    & + table {
+        margin-top: 1em;
     }
 }
 
