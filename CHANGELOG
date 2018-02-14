@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix security issue in remote content blocking on HTML image and style tags (#6178)
+
 RELEASE 1.0.12
 --------------
 - Fix file disclosure vulnerability caused by insufficient input validation [CVE-2017-16651] (#6026)
