@@ -7840,6 +7840,9 @@ function rcube_webmail()
   // display a system message, list of types in common.css (below #message definition)
   this.display_message = function(msg, type, timeout, key)
   {
+    if (msg && msg.length && /^[a-z.]+$/.test(msg))
+      msg = this.get_label(msg);
+
     // pass command to parent window
     if (this.is_framed())
       return parent.rcmail.display_message(msg, type, timeout);
@@ -7853,9 +7856,6 @@ function rcube_webmail()
 
     if (!type)
       type = 'notice';
-
-    if (msg && msg.length && /^[a-z.]+$/.test(msg))
-      msg = this.get_label(msg);
 
     if (!key)
       key = this.html_identifier(msg);
