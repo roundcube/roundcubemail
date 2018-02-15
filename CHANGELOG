@@ -1,7 +1,18 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix XSS issue in handling of a style tag inside of an svg element
+RELEASE 1.0.12
+--------------
+- Fix file disclosure vulnerability caused by insufficient input validation [CVE-2017-16651] (#6026)
+
+RELEASE 1.0.11
+--------------
+- Password: Fix security issue in virtualmin and sasl drivers [CVE-2017-8114]
+
+RELEASE 1.0.10
+--------------
+- Strip HTML tags inside CSS style definitions
+- Fix vulnerability in handling of mail()'s 5th argument
 - Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Fix XSS issue in href attribute on area tag (#5240)
 - Wash position:fixed style in HTML mail for better security (#5264)
