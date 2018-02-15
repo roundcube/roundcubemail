@@ -514,7 +514,7 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
-        $callback = function($matches) { return chr(hexdec(trim($matches[1]))); };
+        $callback = function($matches) { return chr(hexdec($matches[1])); };
 
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
