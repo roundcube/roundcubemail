@@ -6628,9 +6628,10 @@ function rcube_webmail()
   this.group_delete = function()
   {
     if (this.env.group) {
+      var group = this.env.group;
       this.confirm_dialog(this.get_label('deletegroupconfirm'), 'delete', function() {
           var lock = ref.set_busy(true, 'groupdeleting');
-          ref.http_post('group-delete', {_source: ref.env.source, _gid: ref.env.group}, lock);
+          ref.http_post('group-delete', {_source: ref.env.source, _gid: group}, lock);
         });
     }
   };
