@@ -120,9 +120,9 @@ rcube_webmail.prototype.managesieve_add = function()
 
 rcube_webmail.prototype.managesieve_del = function()
 {
+  var id = this.filters_list.get_single_selection();
   this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function(e, ref) {
-      var id = ref.filters_list.get_single_selection(),
-        post = '_act=delete&_fid=' + ref.filters_list.rows[id].uid,
+      var post = '_act=delete&_fid=' + ref.filters_list.rows[id].uid,
         lock = ref.set_busy(true, 'loading');
 
       ref.http_post('plugin.managesieve-action', post, lock);
@@ -219,9 +219,9 @@ rcube_webmail.prototype.managesieve_setact = function()
 // Set delete request
 rcube_webmail.prototype.managesieve_setdel = function()
 {
+  var id = this.filtersets_list.get_single_selection();
   this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function(e, ref) {
-      var id = ref.filtersets_list.get_single_selection(),
-        script = ref.env.filtersets[id],
+      var script = ref.env.filtersets[id],
         lock = ref.set_busy(true, 'loading');
 
       ref.http_post('plugin.managesieve-action', '_act=setdel&_set=' + urlencode(script), lock);
