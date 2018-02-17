@@ -196,6 +196,7 @@ class rcube_sieve_engine
             'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
             'auth_pw'   => $this->rc->config->get('managesieve_auth_pw'),
             'socket_options' => $this->rc->config->get('managesieve_conn_options'),
+            'service_principal' => $this->rc->config->get('krb_authentication_context')
         ));
 
         // Handle per-host socket options
@@ -213,7 +214,8 @@ class rcube_sieve_engine
             $plugin['debug'],
             $plugin['auth_cid'],
             $plugin['auth_pw'],
-            $plugin['socket_options']
+            $plugin['socket_options'],
+            $plugin['service_principal']
         );
 
         $error = $this->sieve->error();
