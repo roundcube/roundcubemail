@@ -20,7 +20,6 @@ RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && docker-p
 RUN a2enmod rewrite
 
 # expose these volumes
-VOLUME /var/www/html
 VOLUME /var/roundcube/config
 VOLUME /tmp/roundcube-temp
 
