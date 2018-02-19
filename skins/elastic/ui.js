@@ -299,6 +299,16 @@ function rcube_elastic_ui()
         if ($('html').filter('.ipad,.iphone,.webkit.mobile,.webkit.tablet').addClass('webkit-scroller').length) {
             $(layout.menu).addClass('webkit-scroller');
         }
+
+        // Set .notree class on treelist widget update
+        $('.treelist').each(function() {
+            var list = this, callback = function() {
+                    $(list)[$('.treetoggle', list).length > 0 ? 'removeClass' : 'addClass']('notree');
+                };
+
+            (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+            callback();
+        });
     };
 
     /**

@@ -360,77 +360,82 @@ html.ie11 .listing.iconized li a:before {
     }
 }
 
-ul.treelist li {
-    div.treetoggle {
-        position: absolute;
-        top: (@listing-line-height * 0.5);
-        left: 1.4em;
-        width: .8em;
-        height: .8em;
-        line-height: .8em;
-        cursor: pointer;
+@treelist-treetoggle-width: 1.5em;
+ul.treelist {
+    li {
+        div.treetoggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: @treelist-treetoggle-width;
+            cursor: pointer;
 
-        html.touch & {
-            top: (@listing-touch-line-height * 0.5);
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-right;
+                width: (@treelist-treetoggle-width - .3em);
+            }
+
+            &.expanded:before {
+                content: @fa-var-angle-down;
+            }
         }
 
-        &:before {
-            &:extend(.font-icon-class);
-            .font-icon-regular(@fa-var-plus-square);
-            font-size: .8em;
-            width: .8em;
-            height: .8em;
-            background-color: white;
-        }
-
-        &.expanded:before {
-            .font-icon-regular(@fa-var-minus-square);
-        }
-    }
-
-    & > a {
-        .overflow-ellipsis;
-    }
-
-    &.selected {
-        // reset .listing selection style
-        color: inherit;
-        background-color: transparent;
-
-        & > div > a, // this is used e.g. by kolab_addressbook
         & > a {
-            color: @color-list-selected;
-            background-color: @color-list-selected-background;
+            .overflow-ellipsis;
+            padding-left: @treelist-treetoggle-width;
         }
-    }
 
-    ul {
-        padding: 0;
+        &.selected {
+            // reset .listing selection style
+            color: inherit;
+            background-color: transparent;
 
-        li {
-            padding-left: 0;
-            a { padding-left: 1.5em; }
-            div.treetoggle { left: (1.5em + .9em); }
+            & > div > a, // this is used e.g. by kolab_addressbook
+            & > a {
+                color: @color-list-selected;
+                background-color: @color-list-selected-background;
+            }
+        }
+
+        ul {
+            padding: 0;
 
             li {
-                a { padding-left: (2 * 1.5em); }
-                div.treetoggle { left: (2 * 1.5em + .9em); }
+                padding-left: 0;
+                a { padding-left: (2 * @treelist-treetoggle-width); }
+                div.treetoggle { left: @treelist-treetoggle-width; }
 
                 li {
-                    a { padding-left: (3 * 1.5em); }
-                    div.treetoggle { left: (3 * 1.5em + .9em); }
+                    a { padding-left: (3 * @treelist-treetoggle-width); }
+                    div.treetoggle { left: (2 * @treelist-treetoggle-width); }
 
                     li {
-                        a { padding-left: (4 * 1.5em); }
-                        div.treetoggle { left: (4 * 1.5em + .9em); }
+                        a { padding-left: (4 * @treelist-treetoggle-width); }
+                        div.treetoggle { left: (3 * @treelist-treetoggle-width); }
 
                         li {
-                            a { padding-left: (5 * 1.5em); }
-                            div.treetoggle { left: (5 * 1.5em + .9em); }
+                            a { padding-left: (5 * @treelist-treetoggle-width); }
+                            div.treetoggle { left: (4 * @treelist-treetoggle-width); }
+
+                            li {
+                                a { padding-left: (6 * @treelist-treetoggle-width); }
+                                div.treetoggle { left: (5 * @treelist-treetoggle-width); }
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+
+    &.notree {
+        div.treetoggle {
+            display: none;
+        }
+
+        li > a {
+            padding-left: .5em;
         }
     }
 }
@@ -742,10 +747,6 @@ html.touch {
         }
         td.subject {
             padding-right: .5em;
-        }
-        td.threads {
-            padding: 0;
-            width: 2em;
         }
     }
 }
