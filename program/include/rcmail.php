@@ -1201,8 +1201,11 @@ class rcmail extends rcube
      */
     public function format_date($date, $format = null, $convert = true)
     {
+        $stz = date_default_timezone_get();
+
         if (is_object($date) && is_a($date, 'DateTime')) {
             $timestamp = $date->format('U');
+            date_default_timezone_set($date->getTimeZone()->getName());
         }
         else {
             if (!empty($date)) {
@@ -1223,8 +1226,6 @@ class rcmail extends rcube
 
         if ($convert) {
             try {
-                // convert to the right timezone
-                $stz = date_default_timezone_get();
                 $tz = new DateTimeZone($this->config->get('timezone'));
                 $date->setTimezone($tz);
                 date_default_timezone_set($tz->getName());
@@ -1258,9 +1259,7 @@ class rcmail extends rcube
         // strftime() format
         if (preg_match('/%[a-z]+/i', $format)) {
             $format = strftime($format, $timestamp);
-            if ($stz) {
-                date_default_timezone_set($stz);
-            }
+            date_default_timezone_set($stz);
             return $today ? ($this->gettext('today') . ' ' . $format) : $format;
         }
 
@@ -1311,13 +1310,10 @@ class rcmail extends rcube
             }
         }
 
-        if ($stz) {
-            date_default_timezone_set($stz);
-        }
+        date_default_timezone_set($stz);
 
         return $out;
     }
-
     /**
      * Return folders list in HTML
      *
