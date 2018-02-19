@@ -106,15 +106,14 @@ input {
 
 a {
     color: @color-link;
-}
 
-a:hover {
-    color: @color-link-hover;
-}
+    &:hover {
+        color: @color-link-hover;
+    }
 
-a.disabled:not(.btn) {
-    // do the same Bootstrap does for disabled buttons
-    opacity: .65;
+    &.disabled:not(.btn) {
+        opacity: .5;
+    }
 }
 
 @import "layout";
