@@ -3080,15 +3080,15 @@ function rcube_webmail()
   };
 
   // copy selected messages to the specified mailbox
-  this.copy_messages = function(mbox, event, uid)
+  this.copy_messages = function(mbox, event, uids)
   {
     if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
     }
     else if (!mbox) {
-      uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
       return this.folder_selector(event, function(folder) {
-        ref.copy_messages(folder, null, uid);
+        ref.copy_messages(folder, null, uids);
       });
     }
 
@@ -3096,11 +3096,7 @@ function rcube_webmail()
     if (!mbox || mbox == this.env.mailbox)
       return;
 
-    // if uids were provided convert to string for POSTing
-    if (uid)
-      uid = this.uids_to_list(uid);
-
-    var post_data = this.selection_post_data({_target_mbox: mbox, _uid: uid});
+    var post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3111,15 +3107,15 @@ function rcube_webmail()
   };
 
   // move selected messages to the specified mailbox
-  this.move_messages = function(mbox, event, uid)
+  this.move_messages = function(mbox, event, uids)
   {
     if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
     }
     else if (!mbox) {
-      uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
       return this.folder_selector(event, function(folder) {
-        ref.move_messages(folder, null, uid);
+        ref.move_messages(folder, null, uids);
       });
     }
 
@@ -3127,11 +3123,7 @@ function rcube_webmail()
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
-    // if uids were provided convert to string for POSTing
-    if (uid)
-      uid = this.uids_to_list(uid);
-
-    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uid});
+    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3253,12 +3245,11 @@ function rcube_webmail()
     if (typeof(data) != 'object')
       data = {};
 
-    data._mbox = this.env.mailbox;
+    if (!data._uid)
+      data._uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
 
-    if (!data._uid) {
-      var uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
-      data._uid = this.uids_to_list(uids);
-    }
+    data._mbox = this.env.mailbox;
+    data._uid = this.uids_to_list(data._uid);
 
     if (this.env.action)
       data._from = this.env.action;
