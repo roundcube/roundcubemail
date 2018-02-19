@@ -1194,7 +1194,6 @@ function rcube_elastic_ui()
         mode = size;
         screen_resize();
         screen_resize_html();
-//        display_screen_size(); // debug info
 
         // disable ext-windows and other features
         if (mobile = is_mobile()) {
@@ -1208,26 +1207,6 @@ function rcube_elastic_ui()
 
         // Hide content frame buttons on small devices (with frame toolbar in parent window)
         $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
-    };
-
-    // for development only (to be removed)
-    function display_screen_size()
-    {
-        if (is_framed) {
-            return;
-        }
-
-        var div = $('#screen-size'), win = $(window);
-        if (!div.length) {
-            div = $('<div>').attr({
-                id: 'screen-size',
-                style: 'position:absolute;display:block;right:0;z-index:100;'
-                    + (is_framed ? 'top:0;' : 'bottom:0;')
-                    + 'opacity:0.5;color:white;background-color:black;white-space:nowrap'
-            }).appendTo(document.body);
-        }
-
-        div.text(win.width() + ' x ' + win.height() + ' (' + mode + ')');
     };
 
     function screen_resize()
