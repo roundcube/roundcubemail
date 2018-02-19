@@ -93,6 +93,9 @@ function rcube_elastic_ui()
     // Setup various UI elements
     setup();
 
+    // Update layout after initialization
+    resize();
+
 
     /**
      * Setup procedure
@@ -607,7 +610,7 @@ function rcube_elastic_ui()
 
         rcmail.env.thread_padding = '1.5rem';
 
-        // Update layout after initialization
+        // Update layout after initialization (again)
         // In devel mode we have to wait until all styles are applied by less
         if (rcmail.env.devel_mode && window.less) {
             less.pageLoadFinished.then(function() {
