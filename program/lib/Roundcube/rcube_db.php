@@ -135,7 +135,6 @@ class rcube_db
 
         // connect to database
         if ($dbh = $this->conn_create($dsn)) {
-            $this->dbh          = $dbh;
             $this->dbhs[$mode]  = $dbh;
             $this->db_mode      = $mode;
             $this->db_connected = true;
@@ -160,12 +159,12 @@ class rcube_db
 
             $this->conn_prepare($dsn);
 
-            $dbh = new PDO($dsn_string, $dsn['username'], $dsn['password'], $dsn_options);
+            $this->dbh = new PDO($dsn_string, $dsn['username'], $dsn['password'], $dsn_options);
 
             // don't throw exceptions or warnings
-            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+            $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 
-            $this->conn_configure($dsn, $dbh);
+            $this->conn_configure($dsn, $this->dbh);
         }
         catch (Exception $e) {
             $this->db_error     = true;
@@ -178,7 +177,7 @@ class rcube_db
             return null;
         }
 
-        return $dbh;
+        return $this->dbh;
     }
 
     /**
