@@ -7,6 +7,7 @@ RUN apt-get -qq update \
     libicu-dev \
     libjpeg62-turbo-dev \
     libldap2-dev \
+    libmcrypt-dev \
     libpng-dev \
     libpq-dev \
     libsqlite3-dev \
@@ -15,6 +16,7 @@ RUN apt-get -qq update \
 RUN docker-php-ext-install -j$(nproc) exif intl pdo pdo_mysql pdo_pgsql pdo_sqlite zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && docker-php-ext-install -j$(nproc) ldap
+RUN docker-php-ext-configure mcrypt --with-mcrypt && docker-php-ext-install -j$(nproc) mcrypt
 
 # enable mod_rewrite
 RUN a2enmod rewrite
@@ -46,4 +48,3 @@ COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
-
