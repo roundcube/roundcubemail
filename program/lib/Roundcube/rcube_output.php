@@ -327,7 +327,13 @@ abstract class rcube_output
     public static function json_serialize($input, $pretty = false)
     {
         $input   = rcube_charset::clean($input);
-        $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+        $options = JSON_UNESCAPED_SLASHES;
+
+        // JSON_UNESCAPED_UNICODE in PHP < 7.1.0 does not escape U+2028 and U+2029
+        // which causes issues (#6187)
+        if (PHP_VERSION_ID >= 70100) {
+            $options |= JSON_UNESCAPED_UNICODE;
+        }
 
         if ($pretty) {
             $options |= JSON_PRETTY_PRINT;
