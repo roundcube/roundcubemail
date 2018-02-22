@@ -139,6 +139,8 @@ init: function()
     this.list.parentNode.onclick = function(e) { me.focus(); };
   }
 
+  rcmail.triggerEvent('initlist', { obj: this.list });
+
   return this;
 },
 
@@ -1311,8 +1313,10 @@ get_selection: function(deep)
  */
 get_single_selection: function()
 {
-  if (this.selection.length == 1)
-    return this.selection[0];
+  var selection = this.get_selection(false);
+
+  if (selection.length == 1)
+    return selection[0];
   else
     return null;
 },
