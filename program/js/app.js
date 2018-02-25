@@ -6071,7 +6071,7 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var n, id, sid, contact, writable = false,
+    var id, targets, groupcount = 0, writable = false, copy_writable = false,
       selected = list.get_selection().length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
@@ -6094,14 +6094,13 @@ function rcube_webmail()
         this.env.selection_sources.push(this.env.source);
       }
 
-      var selection = list.get_selection()
-      for (n in selection) {
-        contact = list.data[selection[n]];
+      $.each(list.get_selection(), function(i, v) {
+        var sid, contact = list.data[v];
         if (!source) {
-          sid = String(selection[n]).replace(/^[^-]+-/, '');
-          if (sid && this.env.address_sources[sid]) {
-            writable = writable || (!this.env.address_sources[sid].readonly && !contact.readonly);
-            this.env.selection_sources.push(sid);
+          sid = String(v).replace(/^[^-]+-/, '');
+          if (sid && ref.env.address_sources[sid]) {
+            writable = writable || (!ref.env.address_sources[sid].readonly && !contact.readonly);
+            ref.env.selection_sources.push(sid);
           }
         }
         else {
@@ -6110,24 +6109,26 @@ function rcube_webmail()
 
         if (contact._type != 'group')
           list.draggable = true;
-      }
+      });
 
       this.env.selection_sources = $.unique(this.env.selection_sources);
 
-      var groupcount = 0;
-      if (source.groups)
-        $.each(this.env.contactgroups, function(){ if (this.source === ref.env.source) groupcount++ });
+      if (source && source.groups)
+        $.each(this.env.contactgroups, function() { if (this.source === ref.env.source) groupcount++; });
+
+      targets = $.map(this.env.address_sources, function(v, i) { return v.readonly ? null : i; });
+      copy_writable = $.grep(targets, function(v) { return jQuery.inArray(v, ref.env.selection_sources) < 0; }).length > 0;
     }
 
     // if a group is currently selected, and there is at least one contact selected
-    // thend we can enable the group-remove-selected command
-    this.enable_command('group-assign-selected', groupcount > 0 && selected && writable);
-    this.enable_command('group-remove-selected', this.env.group && selected && writable);
-    this.enable_command('print', selected == 1);
-    this.enable_command('export-selected', 'copy', selected > 0);
+    // we can enable the group-remove-selected command
+    this.enable_command('group-assign-selected', groupcount > 0 && writable);
+    this.enable_command('group-remove-selected', this.env.group && writable);
+    this.enable_command('print', 'qrcode', selected == 1);
+    this.enable_command('export-selected', selected > 0);
     this.enable_command('edit', id && writable);
-    this.enable_command('delete', 'move', selected && writable);
-    this.enable_command('qrcode', selected == 1);
+    this.enable_command('delete', 'move', writable);
+    this.enable_command('copy', copy_writable);
 
     return false;
   };
