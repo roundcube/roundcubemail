@@ -268,9 +268,10 @@ function rcube_elastic_ui()
         // buttons that should be hidden on small screen devices
         $('[data-hidden]').each(function() {
             var parent = $(this).parent('li'),
-                sizes = $(this).data('hidden').split(',');
+                re = /(large|big|small|phone)/g, m;
 
-            $(parent.length ? parent : this).addClass('hidden-' + sizes.join(' hidden-'));
+                while (m = re.exec($(this).data('hidden')))
+                    $(parent.length ? parent : this).addClass('hidden-' + m[1]);
         });
 
         // Modify normal checkboxes on lists so they are different
