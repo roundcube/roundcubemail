@@ -360,14 +360,13 @@ html.ie11 .listing.iconized li a:before {
     }
 }
 
-@treelist-treetoggle-width: 1.5em;
 ul.treelist {
     li {
         div.treetoggle {
             position: absolute;
             top: 0;
             left: 0;
-            width: @treelist-treetoggle-width;
+            width: @listing-treetoggle-width;
             cursor: pointer;
 
             &:before {
@@ -383,7 +382,7 @@ ul.treelist {
 
         & > a {
             .overflow-ellipsis;
-            padding-left: @treelist-treetoggle-width;
+            padding-left: @listing-treetoggle-width;
         }
 
         &.selected {
@@ -403,24 +402,24 @@ ul.treelist {
 
             li {
                 padding-left: 0;
-                a { padding-left: (2 * @treelist-treetoggle-width); }
-                div.treetoggle { left: @treelist-treetoggle-width; }
+                a { padding-left: (2 * @listing-treetoggle-width); }
+                div.treetoggle { left: @listing-treetoggle-width; }
 
                 li {
-                    a { padding-left: (3 * @treelist-treetoggle-width); }
-                    div.treetoggle { left: (2 * @treelist-treetoggle-width); }
+                    a { padding-left: (3 * @listing-treetoggle-width); }
+                    div.treetoggle { left: (2 * @listing-treetoggle-width); }
 
                     li {
-                        a { padding-left: (4 * @treelist-treetoggle-width); }
-                        div.treetoggle { left: (3 * @treelist-treetoggle-width); }
+                        a { padding-left: (4 * @listing-treetoggle-width); }
+                        div.treetoggle { left: (3 * @listing-treetoggle-width); }
 
                         li {
-                            a { padding-left: (5 * @treelist-treetoggle-width); }
-                            div.treetoggle { left: (4 * @treelist-treetoggle-width); }
+                            a { padding-left: (5 * @listing-treetoggle-width); }
+                            div.treetoggle { left: (4 * @listing-treetoggle-width); }
 
                             li {
-                                a { padding-left: (6 * @treelist-treetoggle-width); }
-                                div.treetoggle { left: (5 * @treelist-treetoggle-width); }
+                                a { padding-left: (6 * @listing-treetoggle-width); }
+                                div.treetoggle { left: (5 * @listing-treetoggle-width); }
                             }
                         }
                     }
