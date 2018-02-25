@@ -136,9 +136,14 @@
 				</a>
 			</span>
 			<roundcube:endif />
-			<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled"
-				classAct="button encrypt" classSel="button encrypt selected" innerclass="inner"
-				label="encrypt" title="encryptmessagemailvelope" tabindex="2" style="display:none" />
+			<span class="dropbutton" style="display:none">
+				<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled"
+					classAct="button encrypt" classSel="button encrypt selected" innerclass="inner"
+					label="encrypt" title="encryptmessagemailvelope" tabindex="2" />
+				<a href="#encryption" id="encryption-menu-button" class="button dropdown" tabindex="2" data-popup="encryption-menu">
+					<span class="inner"><roundcube:label name="encryptmessagemailvelope" /></span>
+				</a>
+			</span>
 			<roundcube:container name="toolbar" id="compose-toolbar" />
 		</div>
 	</div>
@@ -266,6 +271,13 @@
 		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
 		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename" classAct="rename active" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
+	</ul>
+</div>
+
+<div id="encryption-menu" class="popupmenu">
+	<ul class="toolbarmenu listing" role="menu">
+		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" class="encrypt" classAct="encrypt active" />
+		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" class="encrypt sign" classAct="encrypt sign active" />
 	</ul>
 </div>
 
