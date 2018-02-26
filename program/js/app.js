@@ -3080,18 +3080,23 @@ function rcube_webmail()
   };
 
   // copy selected messages to the specified mailbox
-  this.copy_messages = function(mbox, event)
+  this.copy_messages = function(mbox, event, uids)
   {
-    if (mbox && typeof mbox === 'object')
+    if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
-    else if (!mbox)
-      return this.folder_selector(event, function(folder) { ref.command('copy', folder); });
+    }
+    else if (!mbox) {
+      uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      return this.folder_selector(event, function(folder) {
+        ref.copy_messages(folder, null, uids);
+      });
+    }
 
     // exit if current or no mailbox specified
     if (!mbox || mbox == this.env.mailbox)
       return;
 
-    var post_data = this.selection_post_data({_target_mbox: mbox});
+    var post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3102,18 +3107,23 @@ function rcube_webmail()
   };
 
   // move selected messages to the specified mailbox
-  this.move_messages = function(mbox, event)
+  this.move_messages = function(mbox, event, uids)
   {
-    if (mbox && typeof mbox === 'object')
+    if (mbox && typeof mbox === 'object') {
       mbox = mbox.id;
-    else if (!mbox)
-      return this.folder_selector(event, function(folder) { ref.command('move', folder); });
+    }
+    else if (!mbox) {
+      uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+      return this.folder_selector(event, function(folder) {
+        ref.move_messages(folder, null, uids);
+      });
+    }
 
     // exit if current or no mailbox specified
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
-    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
+    var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3184,7 +3194,10 @@ function rcube_webmail()
     // update the list (remove rows, clear selection)
     if (this.message_list) {
       var n, len, id, root, roots = [],
-        selection = this.message_list.get_selection();
+        selection = post_data._uid;
+
+      if (typeof selection == 'string')
+        selection = selection.split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
         id = selection[n];
@@ -3232,12 +3245,11 @@ function rcube_webmail()
     if (typeof(data) != 'object')
       data = {};
 
-    data._mbox = this.env.mailbox;
+    if (!data._uid)
+      data._uid = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
 
-    if (!data._uid) {
-      var uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
-      data._uid = this.uids_to_list(uids);
-    }
+    data._mbox = this.env.mailbox;
+    data._uid = this.uids_to_list(data._uid);
 
     if (this.env.action)
       data._from = this.env.action;
@@ -6059,7 +6071,7 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var n, id, sid, contact, writable = false,
+    var id, targets, groupcount = 0, writable = false, copy_writable = false,
       selected = list.get_selection().length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
@@ -6082,14 +6094,13 @@ function rcube_webmail()
         this.env.selection_sources.push(this.env.source);
       }
 
-      var selection = list.get_selection()
-      for (n in selection) {
-        contact = list.data[selection[n]];
+      $.each(list.get_selection(), function(i, v) {
+        var sid, contact = list.data[v];
         if (!source) {
-          sid = String(selection[n]).replace(/^[^-]+-/, '');
-          if (sid && this.env.address_sources[sid]) {
-            writable = writable || (!this.env.address_sources[sid].readonly && !contact.readonly);
-            this.env.selection_sources.push(sid);
+          sid = String(v).replace(/^[^-]+-/, '');
+          if (sid && ref.env.address_sources[sid]) {
+            writable = writable || (!ref.env.address_sources[sid].readonly && !contact.readonly);
+            ref.env.selection_sources.push(sid);
           }
         }
         else {
@@ -6098,24 +6109,26 @@ function rcube_webmail()
 
         if (contact._type != 'group')
           list.draggable = true;
-      }
+      });
 
       this.env.selection_sources = $.unique(this.env.selection_sources);
 
-      var groupcount = 0;
-      if (source.groups)
-        $.each(this.env.contactgroups, function(){ if (this.source === ref.env.source) groupcount++ });
+      if (source && source.groups)
+        $.each(this.env.contactgroups, function() { if (this.source === ref.env.source) groupcount++; });
+
+      targets = $.map(this.env.address_sources, function(v, i) { return v.readonly ? null : i; });
+      copy_writable = $.grep(targets, function(v) { return jQuery.inArray(v, ref.env.selection_sources) < 0; }).length > 0;
     }
 
     // if a group is currently selected, and there is at least one contact selected
-    // thend we can enable the group-remove-selected command
-    this.enable_command('group-assign-selected', groupcount > 0 && selected && writable);
-    this.enable_command('group-remove-selected', this.env.group && selected && writable);
-    this.enable_command('print', selected == 1);
-    this.enable_command('export-selected', 'copy', selected > 0);
+    // we can enable the group-remove-selected command
+    this.enable_command('group-assign-selected', groupcount > 0 && writable);
+    this.enable_command('group-remove-selected', this.env.group && writable);
+    this.enable_command('print', 'qrcode', selected == 1);
+    this.enable_command('export-selected', selected > 0);
     this.enable_command('edit', id && writable);
-    this.enable_command('delete', 'move', selected && writable);
-    this.enable_command('qrcode', selected == 1);
+    this.enable_command('delete', 'move', writable);
+    this.enable_command('copy', copy_writable);
 
     return false;
   };
@@ -6336,19 +6349,21 @@ function rcube_webmail()
   };
 
   // copy contact(s) to the specified target (group or directory)
-  this.copy_contacts = function(to, event)
+  this.copy_contacts = function(to, event, cid)
   {
     if (!to) {
+      cid = this.contact_list.get_selection();
       return this.addressbook_selector(event, function(to, obj) {
           var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
-          ref.command('copy', to);
+          ref.copy_contacts(to, null, cid);
         });
     }
 
     var dest = to.type == 'group' ? to.source : to.id,
       source = this.env.source,
-      group = this.env.group ? this.env.group : '',
-      cid = this.contact_list.get_selection().join(',');
+      group = this.env.group ? this.env.group : '';
+
+    cid = cid ? cid.join(',') : this.contact_list.get_selection().join(',');
 
     if (!cid || !this.env.address_sources[dest] || this.env.address_sources[dest].readonly)
       return;
@@ -6377,12 +6392,13 @@ function rcube_webmail()
   };
 
   // move contact(s) to the specified target (group or directory)
-  this.move_contacts = function(to, event)
+  this.move_contacts = function(to, event, cid)
   {
     if (!to) {
+      cid = this.contact_list.get_selection();
       return this.addressbook_selector(event, function(to, obj) {
           var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
-          ref.command('move', to);
+          ref.move_contacts(to, null, cid);
         });
     }
 
@@ -6401,11 +6417,11 @@ function rcube_webmail()
       if (dest == source)
         return;
 
-      this._with_selected_contacts('move', {_to: dest, _togid: to.id});
+      this._with_selected_contacts('move', {_to: dest, _togid: to.id, _cid: cid});
     }
     // target is an addressbook
     else if (to.id != source)
-      this._with_selected_contacts('move', {_to: to.id});
+      this._with_selected_contacts('move', {_to: to.id, _cid: cid});
   };
 
   // delete contact(s)
@@ -6413,17 +6429,20 @@ function rcube_webmail()
   {
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
-    if (undelete)
-      this._with_selected_contacts('delete');
-    else
+    if (undelete) {
+      this._with_selected_contacts('delete', {_cid: this.contact_list.get_selection()});
+    }
+    else {
+      var cid = this.contact_list.get_selection();
       this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function() {
-        ref._with_selected_contacts('delete');
+        ref._with_selected_contacts('delete', {_cid: cid});
       });
+    }
   };
 
   this._with_selected_contacts = function(action, post_data)
   {
-    var selection = this.contact_list ? this.contact_list.get_selection() : [];
+    var selection = post_data._cid;
 
     // exit if no contact specified or if selection is empty
     if (!selection.length && !this.env.cid)
@@ -6596,9 +6615,10 @@ function rcube_webmail()
   this.group_delete = function()
   {
     if (this.env.group) {
+      var group = this.env.group;
       this.confirm_dialog(this.get_label('deletegroupconfirm'), 'delete', function() {
           var lock = ref.set_busy(true, 'groupdeleting');
-          ref.http_post('group-delete', {_source: ref.env.source, _gid: ref.env.group}, lock);
+          ref.http_post('group-delete', {_source: ref.env.source, _gid: group}, lock);
         });
     }
   };
@@ -6625,7 +6645,9 @@ function rcube_webmail()
   //assign selected contacts to a group
   this.group_assign_selected = function(props, obj, event)
   {
-    this.contactgroup_selector(event, function(to) { ref.group_member_change('add', ref.contact_list.get_selection(), ref.env.source, to); });
+    var cid = ref.contact_list.get_selection();
+    var source = ref.env.source;
+    this.contactgroup_selector(event, function(to) { ref.group_member_change('add', cid, source, to); });
   };
 
   //remove selected contacts from current active group
