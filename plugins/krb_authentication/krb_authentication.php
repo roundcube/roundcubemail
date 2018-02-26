@@ -24,6 +24,7 @@ class krb_authentication extends rcube_plugin
         $this->add_hook('authenticate', array($this, 'authenticate'));
         $this->add_hook('login_after', array($this, 'login'));
         $this->add_hook('storage_connect', array($this, 'storage_connect'));
+	$this->add_hook('managesieve_connect', array($this, 'managesieve_connect'));
     }
 
     /**
@@ -105,5 +106,21 @@ class krb_authentication extends rcube_plugin
         }
 
         return $args;
+    }
+
+
+    /**
+     * managesieve_connect hook handler
+     */
+    function managesieve_connect($args)
+    {
+	if ((!isset($args['auth_type']) || $args['auth_type'] == 'GSSAPI') && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
+            $rcmail  = rcmail::get_instance();
+            $context = $rcmail->config->get('krb_authentication_context');
+	    $args['gssapi_context'] = $context ?: 'imap/kolab.example.org@EXAMPLE.ORG';
+	    $args['gssapi_cn'] = $_SERVER['KRB5CCNAME'];
+	    $args['auth_type'] = 'GSSAPI';
+	}
+	return $args;
     }
 }
