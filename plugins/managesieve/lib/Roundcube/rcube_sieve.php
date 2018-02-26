@@ -59,11 +59,11 @@ class rcube_sieve
      * @param string  Proxy authentication identifier
      * @param string  Proxy authentication password
      * @param array   List of options to pass to stream_context_create().
-     * @param string  Kerberos service principal to use with GSSAPI authentication method
      */
     public function __construct($username, $password='', $host='localhost', $port=2000,
         $auth_type=null, $usetls=true, $disabled=array(), $debug=false,
-        $auth_cid=null, $auth_pw=null, $options=array(), $servicePrincipal=null)
+        $auth_cid=null, $auth_pw=null, $options=array(), $gssapi_principal=null,
+	$gssapi_cname=null)
     {
         $this->sieve = new Net_Sieve();
 
@@ -71,8 +71,12 @@ class rcube_sieve
             $this->sieve->setDebug(true, array($this, 'debug_handler'));
         }
 
-        if (isset($servicePrincipal)) {
-	    $this->sieve->setServicePrincipal($servicePrincipal);
+	if (isset($gssapi_principal)) {
+	    $this->sieve->setServicePrincipal($gssapi_principal);
+	}
+
+	if (isset($gssapi_cname)) {
+	    $this->sieve->setServiceCN($gssapi_cname);
 	}
 
         $result = $this->sieve->connect($host, $port, $options, $usetls);
