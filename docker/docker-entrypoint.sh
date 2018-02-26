@@ -54,12 +54,10 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
   : "${ROUNDCUBEMAIL_SMTP_PORT:=587}"
   : "${ROUNDCUBEMAIL_PLUGINS:=archive,zipdownload}"
   : "${ROUNDCUBEMAIL_TEMP_DIR:=/tmp/roundcube-temp}"
-  : "${ROUNDCUBEMAIL_LOG_DIR:=/var/log/roundcubemail}"
 
   if [ ! -e config/config.inc.php ]; then
     ROUNDCUBEMAIL_PLUGINS_PHP=`echo "${ROUNDCUBEMAIL_PLUGINS}" | sed -E "s/[, ]+/', '/g"`
     mkdir -p ${ROUNDCUBEMAIL_TEMP_DIR} && chown www-data ${ROUNDCUBEMAIL_TEMP_DIR}
-    mkdir -p ${ROUNDCUBEMAIL_LOG_DIR} && chown www-data ${ROUNDCUBEMAIL_LOG_DIR}
     touch config/config.inc.php
 
     echo "Write config to $PWD/config/config.inc.php"
@@ -74,6 +72,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     \$config['temp_dir'] = '${ROUNDCUBEMAIL_TEMP_DIR}';
     \$config['plugins'] = ['${ROUNDCUBEMAIL_PLUGINS_PHP}'];
     \$config['zipdownload_selection'] = true;
+    \$config['log_driver'] = 'stdout';
     " > config/config.inc.php
 
     for fn in `ls /var/roundcube/config/*.php`; do

@@ -1855,7 +1855,7 @@ class rcube_sieve_engine
         $mout .= $select_mod->show($rule['test']);
         $mout .= '</div>';
         $mout .= '<div id="rule_mod_type' . $id . '" class="adv input-group"';
-        $mout .= (!in_array($rule['test'], array('address', 'envelope')) ? ' style="display:none' : '') . '">';
+        $mout .= (!in_array($rule['test'], array('address', 'envelope')) ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modtype'))));
         $mout .= $select_type->show($rule['part']);
         $mout .= '</div>';
