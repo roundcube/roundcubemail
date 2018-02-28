@@ -198,6 +198,19 @@ CREATE TABLE `searches` (
  UNIQUE `uniqueness` (`user_id`, `type`, `name`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
+-- Table structure for table `filestore`
+
+CREATE TABLE `filestore` (
+ `file_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) NOT NULL,
+ `filename` varchar(128) NOT NULL,
+ `mtime` int(10) NOT NULL,
+ `data` longtext NOT NULL,
+ PRIMARY KEY (`file_id`),
+ CONSTRAINT `user_id_fk_filestore` FOREIGN KEY (`user_id`)
+   REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ UNIQUE `uniqueness` (`user_id`, `filename`)
+);
 
 -- Table structure for table `system`
 
@@ -209,4 +222,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2016112200');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2018021600');
