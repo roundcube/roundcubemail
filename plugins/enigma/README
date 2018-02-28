@@ -8,6 +8,8 @@ The plugin uses gpg binary on the server and stores all keys
 Encryption/decryption is done server-side. So, this plugin
 is for users that trust the server.
 
+For multi-host environments see enigma_multihost setting description.
+
 
 Implemented features:
 ---------------------
@@ -36,7 +38,6 @@ TODO:
 - Search filter to see invalid/expired keys
 - Key server(s) support (upload, refresh)
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
-- Support for multi-server installations (store keys in sql database? probably impossible with GnuPG 2.1)
 - Performance improvements:
    - cache decrypted message key id so we can skip decryption if we have no password in session
    - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)

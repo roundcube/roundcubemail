@@ -277,6 +277,31 @@ CREATE TABLE searches (
     CONSTRAINT searches_user_id_key UNIQUE (user_id, "type", name)
 );
 
+--
+-- Sequence "filestore_seq"
+-- Name: filestore_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "filestore_seq"
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+--
+-- Table "filestore"
+-- Name: filestore; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "filestore" (
+    file_id integer DEFAULT nextval('filestore_seq'::text) PRIMARY KEY,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    filename varchar(128) NOT NULL,
+    mtime integer NOT NULL,
+    data text NOT NULL,
+    CONSTRAINT filestore_user_id_filename UNIQUE (user_id, filename)
+);
 
 --
 -- Table "system"
@@ -288,4 +313,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2016112200');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2018021600');

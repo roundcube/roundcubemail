@@ -36,6 +36,13 @@ $config['enigma_pgp_cipher_algo'] = null;
 // Run gpg --version to see the list of supported algorithms
 $config['enigma_pgp_digest_algo'] = null;
 
+// Enables multi-host environments support.
+// Enable it if you have more than one HTTP server.
+// Make sure all servers run the same GnuPG version and have time in sync.
+// Keys will be stored in SQL database (make sure max_allowed_packet
+// is big enough).
+$config['enigma_multihost'] = false;
+
 // Enables signatures verification feature.
 $config['enigma_signatures'] = true;
 

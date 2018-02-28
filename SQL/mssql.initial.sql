@@ -123,6 +123,15 @@ CREATE TABLE [dbo].[searches] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[filestore] (
+	[file_id] [int] IDENTITY (1, 1) NOT NULL ,
+	[user_id] [int] NOT NULL ,
+	[filename] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[mtime] [int] NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NULL ,
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
 CREATE TABLE [dbo].[system] (
 	[name] [varchar] (64) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[value] [text] COLLATE Latin1_General_CI_AI NOT NULL 
@@ -210,6 +219,13 @@ ALTER TABLE [dbo].[searches] WITH NOCHECK ADD
 	CONSTRAINT [PK_searches_search_id] PRIMARY KEY CLUSTERED 
 	(
 		[search_id]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[filestore] WITH NOCHECK ADD 
+	CONSTRAINT [PK_filestore_file_id] PRIMARY KEY  CLUSTERED 
+	(
+		[file_id]
 	) ON [PRIMARY] 
 GO
 
@@ -321,6 +337,9 @@ GO
 CREATE INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
 GO
 
+CREATE INDEX [IX_filestore_user_id] ON [dbo].[filestore]([user_id]) ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[users] ADD 
 	CONSTRAINT [DF_users_username] DEFAULT ('') FOR [username],
 	CONSTRAINT [DF_users_mail_host] DEFAULT ('') FOR [mail_host],
@@ -386,6 +405,11 @@ ALTER TABLE [dbo].[searches] ADD CONSTRAINT [FK_searches_user_id]
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
 
+ALTER TABLE [dbo].[filestore] ADD CONSTRAINT [FK_filestore_user_id]
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
 -- Use trigger instead of foreign key (#1487112)
 -- "Introducing FOREIGN KEY constraint ... may cause cycles or multiple cascade paths."
 CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
@@ -394,6 +418,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2016112200')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2018021600')
 GO
 

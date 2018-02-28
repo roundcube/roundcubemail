@@ -24,6 +24,8 @@ class enigma_driver_gnupg extends enigma_driver
     protected $homedir;
     protected $user;
     protected $last_sig_algorithm;
+    protected $debug    = false;
+    protected $db_files = array('pubring.gpg', 'secring.gpg');
 
 
     function __construct($user)
@@ -77,6 +79,7 @@ class enigma_driver_gnupg extends enigma_driver
                 "Unable to write to keys directory: $homedir");
         }
 
+        $this->debug   = $debug;
         $this->homedir = $homedir;
 
         $options = array('homedir' => $this->homedir);
@@ -104,6 +107,8 @@ class enigma_driver_gnupg extends enigma_driver
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
+
+        $this->db_sync();
     }
 
     /**
@@ -231,10 +236,16 @@ class enigma_driver_gnupg extends enigma_driver
                 $this->gpg->addPassphrase($keyid, $pass);
             }
 
-            if ($isfile)
-                return $this->gpg->importKeyFile($content);
-            else
-                return $this->gpg->importKey($content);
+            if ($isfile) {
+                $result = $this->gpg->importKeyFile($content);
+            }
+            else {
+                $result = $this->gpg->importKey($content);
+            }
+
+            $this->db_save();
+
+            return $result;
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -372,11 +383,13 @@ class enigma_driver_gnupg extends enigma_driver
                     $type = ($key->subkeys[$i]->usage & enigma_key::CAN_ENCRYPT) ? 'priv' : 'pub';
                     $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
                     if ($result !== true) {
-                        return $result;
+                        break;
                     }
                 }
             }
         }
+
+        $this->db_save();
 
         return $result;
     }
@@ -527,6 +540,147 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->id = $ekey->subkeys[0]->id;
 
         return $ekey;
+    }
+
+    /**
+     * Syncronize keys database on multi-host setups
+     */
+    protected function db_sync()
+    {
+        if (!$this->rc->config->get('enigma_multihost')) {
+            return;
+        }
+
+        $db    = $this->rc->get_dbh();
+        $table = $db->table_name('filestore', true);
+
+        $result = $db->query(
+            "SELECT `file_id`, `filename`, `mtime` FROM $table"
+            . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
+            $this->rc->user->ID
+        );
+
+        while ($record = $db->fetch_assoc($result)) {
+            $file  = $this->homedir . '/' . $record['filename'];
+            $mtime = @filemtime($file);
+
+            if ($mtime < $record['mtime']) {
+                $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
+                    . " WHERE `file_id` = ?", $record['file_id']);
+
+                $data = $db->fetch_assoc($data_result);
+                $data = $data ? base64_decode($data['data']) : null;
+
+                if ($data === null || $data === false) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error."
+                        ), true, false);
+
+                    continue;
+                }
+
+                $tmpfile = $file . '.tmp';
+
+                if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
+                    rename($tmpfile, $file);
+                    touch($file, $data_record['mtime']);
+
+                    if ($this->debug) {
+                        $this->debug("SYNC: Fetched file: $file");
+                    }
+                }
+                else {
+                    // error
+                    @unlink($tmpfile);
+
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to sync $file."
+                        ), true, false);
+                }
+            }
+        }
+
+        // No records found, do initial sync if already have the keyring
+        if (!$db->is_error($result) && empty($file)) {
+            $this->db_save(true);
+        }
+    }
+
+    /**
+     * Save keys database for multi-host setups
+     */
+    protected function db_save($is_empty = false)
+    {
+        if (!$this->rc->config->get('enigma_multihost')) {
+            return true;
+        }
+
+        $db      = $this->rc->get_dbh();
+        $table   = $db->table_name('filestore', true);
+        $records = array();
+
+        if (!$is_empty) {
+            $result = $db->query(
+                "SELECT `file_id`, `filename`, `mtime` FROM $table"
+                . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
+                $this->rc->user->ID
+            );
+
+            while ($record = $db->fetch_assoc($result)) {
+                $records[$record['filename']] = $record;
+            }
+        }
+
+        foreach ($this->db_files as $filename) {
+            $file  = $this->homedir . '/' . $filename;
+            $mtime = @filemtime($file);
+
+            if ($mtime && (empty($records[$filename]) || $mtime > $records[$filename]['mtime'])) {
+                $data     = file_get_contents($file);
+                $data     = base64_encode($data);
+                $datasize = strlen($data);
+
+                if (empty($maxsize)) {
+                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
+                }
+
+                if ($datasize > $maxsize) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
+                        ), true, false);
+
+                    continue;
+                }
+
+                if (empty($records[$filename])) {
+                    $result = $db->query(
+                        "INSERT INTO $table (`user_id`, `filename`, `mtime`, `data`)"
+                        . " VALUES(?, ?, ?, ?)",
+                        $this->rc->user->ID, $filename, $mtime, $data);
+                }
+                else {
+                    $result = $db->query(
+                        "UPDATE $table SET `mtime` = ?, `data` = ? WHERE `file_id` = ?",
+                        $mtime, $data, $records[$filename]['file_id']);
+                }
+
+                if ($db->is_error($result)) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to save $file into database."
+                        ), true, false);
+
+                    break;
+                }
+
+                if ($this->debug) {
+                    $this->debug("SYNC: Pushed file: $file");
+                }
+            }
+        }
     }
 
     /**
