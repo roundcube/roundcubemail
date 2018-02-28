@@ -1304,7 +1304,11 @@ class rcube
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
         // send error to external error tracking tool
-        self::$instance->plugins->exec_hook('send_to_external_error_tracking', $arg);
+        $arg = self::$instance->plugins->exec_hook('raise_error', $arg);
+
+        if ($arg['abort']) {
+          return;
+        }
 
         // handle PHP exceptions
         if ($arg instanceof Exception) {
