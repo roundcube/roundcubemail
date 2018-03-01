@@ -394,7 +394,7 @@ function rcube_text_editor(config, id)
     }
   };
 
-  // get selected (spellcheker) language
+  // get selected (spellchecker) language
   this.get_language = function()
   {
     if (this.editor) {
