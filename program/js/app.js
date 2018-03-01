@@ -3835,7 +3835,7 @@ function rcube_webmail()
           // all checks passed, send message
           var form = ref.gui_objects.messageform,
             hidden = $("[name='_pgpmime']", form),
-            msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
+            msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage');
 
           form.target = ref.get_save_target();
           form._draft.value = draft ? '1' : '';
@@ -4609,12 +4609,12 @@ function rcube_webmail()
     form.target = this.get_save_target();
     form._draft.value = draft ? '1' : '';
     form.action = this.add_url(form.action, '_unlock', msgid);
-    form.action = this.add_url(form.action, '_lang', lang);
     form.action = this.add_url(form.action, '_framed', 1);
 
-    if (saveonly) {
+    if (lang)
+        form.action = this.add_url(form.action, '_lang', lang);
+    if (saveonly)
       form.action = this.add_url(form.action, '_saveonly', 1);
-    }
 
     // register timer to notify about connection timeout
     this.submit_timer = setTimeout(function(){
