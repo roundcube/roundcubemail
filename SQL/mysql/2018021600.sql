@@ -1,6 +1,6 @@
 CREATE TABLE `filestore` (
     `file_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `user_id` int(10) NOT NULL,
+    `user_id` int(10) UNSIGNED NOT NULL,
     `filename` varchar(128) NOT NULL,
     `mtime` int(10) NOT NULL,
     `data` longtext NOT NULL,
