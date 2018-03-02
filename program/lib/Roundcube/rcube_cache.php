@@ -31,7 +31,7 @@ class rcube_cache
     /**
      * Instance of database handler
      *
-     * @var rcube_db|Memcache|bool
+     * @var rcube_db|Memcache|Redis|bool
      */
     private $db;
     private $type;
@@ -52,7 +52,7 @@ class rcube_cache
     /**
      * Object constructor.
      *
-     * @param string $type   Engine type ('db' or 'memcache' or 'apc')
+     * @param string $type   Engine type ('db', 'memcache', 'apc', 'redis')
      * @param int    $userid User identifier
      * @param string $prefix Key name prefix
      * @param string $ttl    Expiration time of memcache/apc items
@@ -69,6 +69,11 @@ class rcube_cache
             $this->type  = 'memcache';
             $this->db    = $rcube->get_memcache();
             $this->debug = $rcube->config->get('memcache_debug');
+        }
+        else if ($type == 'redis') {
+            $this->type  = 'redis';
+            $this->db    = $rcube->get_redis();
+            $this->debug = $rcube->config->get('redis_debug');
         }
         else if ($type == 'apc') {
             $this->type  = 'apc';
@@ -271,6 +276,9 @@ class rcube_cache
                 if ($this->type == 'memcache') {
                     $data = $this->db->get($ckey);
                 }
+                else if ($this->type == 'redis') {
+                    $data = $this->db->get($ckey);
+                }
                 else if ($this->type == 'apc') {
                     $data = apc_fetch($ckey);
                 }
@@ -344,7 +352,7 @@ class rcube_cache
             return false;
         }
 
-        if ($this->type == 'memcache' || $this->type == 'apc') {
+        if (in_array($this->type, array("memcache", "apc", "redis"))) {
             $result = $this->add_record($this->ckey($key), $data);
 
             // make sure index will be updated
@@ -468,7 +476,7 @@ class rcube_cache
     }
 
     /**
-     * Adds entry into memcache/apc DB.
+     * Adds entry into memcache/apc/redis DB.
      *
      * @param string $key  Cache key name
      * @param mixed  $data Serialized cache data
@@ -483,6 +491,9 @@ class rcube_cache
             if (!$result) {
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
             }
+        }
+        else if ($this->type == 'redis') {
+            $result = $this->db->setEx($key, $this->ttl, $data);
         }
         else if ($this->type == 'apc') {
             if (apc_exists($key)) {
@@ -500,7 +511,7 @@ class rcube_cache
     }
 
     /**
-     * Deletes entry from memcache/apc DB.
+     * Deletes entry from memcache/apc/redis DB.
      *
      * @param string $key Cache key name
      *
@@ -511,6 +522,9 @@ class rcube_cache
         if ($this->type == 'memcache') {
             // #1488592: use 2nd argument
             $result = $this->db->delete($key, 0);
+        }
+        else if ($this->type == 'redis') {
+            $result = $this->db->delete($key);
         }
         else {
             $result = apc_delete($key);
@@ -524,7 +538,7 @@ class rcube_cache
     }
 
     /**
-     * Writes the index entry into memcache/apc DB.
+     * Writes the index entry into memcache/apc/redis DB.
      */
     private function write_index()
     {
@@ -553,7 +567,7 @@ class rcube_cache
     }
 
     /**
-     * Gets the index entry from memcache/apc DB.
+     * Gets the index entry from memcache/apc/redis DB.
      */
     private function load_index()
     {
@@ -570,6 +584,9 @@ class rcube_cache
         if ($this->type == 'memcache') {
             $data = $this->db->get($index_key);
         }
+        else if ($this->type == 'redis') {
+            $data = $this->db->get($index_key);
+        }
         else if ($this->type == 'apc') {
             $data = apc_fetch($index_key);
         }
@@ -582,7 +599,7 @@ class rcube_cache
     }
 
     /**
-     * Creates per-user cache key name (for memcache and apc)
+     * Creates per-user cache key name (for memcache, apc, redis)
      *
      * @param string $key Cache key name
      *
@@ -594,7 +611,7 @@ class rcube_cache
     }
 
     /**
-     * Creates per-user index cache key name (for memcache and apc)
+     * Creates per-user index cache key name (for memcache, apc, redis)
      *
      * @return string Cache key
      */
@@ -652,7 +669,7 @@ class rcube_cache
     }
 
     /**
-     * Write memcache/apc debug info to the log
+     * Write memcache/apc/redis debug info to the log
      */
     private function debug($type, $key, $data = null, $result = null)
     {
