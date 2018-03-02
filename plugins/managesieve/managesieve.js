@@ -422,9 +422,9 @@ rcube_webmail.prototype.load_managesieveframe = function(add_url, reset)
     this.reset_filters_list();
 
   if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading');
+    var lock = this.set_busy(true, 'loading'),
+      target = window.frames[this.env.contentframe];
 
-    target = window.frames[this.env.contentframe];
     target.location.href = this.env.comm_path
       + '&_action=plugin.managesieve-action&_framed=1&_unlock=' + lock
       + (add_url ? ('&' + add_url) : '');
