@@ -502,7 +502,7 @@ function rcube_webmail()
         break;
 
       case 'settings':
-        this.enable_command('preferences', 'identities', 'responses', 'save', 'folders', true);
+        this.enable_command('show', 'save', true);
 
         if (this.env.action == 'identities') {
           this.enable_command('add', this.env.identities_level < 2);
@@ -907,6 +907,9 @@ function rcube_webmail()
           cid = props ? props : this.get_single_cid();
           if (cid && !(this.env.action == 'show' && cid == this.env.cid))
             this.load_contact(cid, 'show');
+        }
+        else if (this.task == 'settings') {
+          this.goto_url('settings/' + props, {_framed: 0});
         }
         break;
 
@@ -1408,14 +1411,6 @@ function rcube_webmail()
 
       case 'delete-photo':
         this.replace_contact_photo('-del-');
-        break;
-
-      // user settings commands
-      case 'preferences':
-      case 'identities':
-      case 'responses':
-      case 'folders':
-        this.goto_url('settings/' + command, {_framed: 0});
         break;
 
       case 'undo':
