@@ -209,70 +209,10 @@ class rcube
     public function get_memcache()
     {
         if (!isset($this->memcache)) {
-            // no memcache support in PHP
-            if (!class_exists('Memcache')) {
-                $this->memcache = false;
-                return false;
-            }
-
-            $this->memcache     = new Memcache;
-            $this->memcache_init();
-
-            // test connection and failover (will result in $this->mc_available == 0 on complete failure)
-            $this->memcache->increment('__CONNECTIONTEST__', 1);  // NOP if key doesn't exist
-
-            if (!$this->mc_available) {
-                $this->memcache = false;
-            }
+            $this->memcache = rcube_cache_memcache::engine();
         }
 
         return $this->memcache;
-    }
-
-    /**
-     * Get global handle for memcache access
-     *
-     * @return object Memcache
-     */
-    protected function memcache_init()
-    {
-        $this->mc_available = 0;
-
-        // add all configured hosts to pool
-        $pconnect       = $this->config->get('memcache_pconnect', true);
-        $timeout        = $this->config->get('memcache_timeout', 1);
-        $retry_interval = $this->config->get('memcache_retry_interval', 15);
-
-        foreach ($this->config->get('memcache_hosts', array()) as $host) {
-            if (substr($host, 0, 7) != 'unix://') {
-                list($host, $port) = explode(':', $host);
-                if (!$port) $port = 11211;
-            }
-            else {
-                $port = 0;
-            }
-
-            $this->mc_available += intval($this->memcache->addServer(
-                $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
-        }
-    }
-
-    /**
-     * Callback for memcache failure
-     */
-    public function memcache_failure($host, $port)
-    {
-        static $seen = array();
-
-        // only report once
-        if (!$seen["$host:$port"]++) {
-            $this->mc_available--;
-            self::raise_error(array(
-                'code' => 604, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => "Memcache failure on host $host:$port"),
-                true, false);
-        }
     }
 
     /**
@@ -283,150 +223,26 @@ class rcube
     public function get_redis()
     {
         if (!isset($this->redis)) {
-            if (!class_exists('Redis')) {
-                $this->redis = false;
-                rcube::raise_error(
-                    array(
-                        'code' => 604,
-                        'type' => 'redis',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Failed to find Redis. Make sure php-redis is included"
-                    ),
-                    true,
-                    true
-                );
-            }
-
-            $this->redis = new Redis;
-            $this->redis_init();
-
-            if (!$this->redis_available) {
-                $this->redis = false;
-            }
+            $this->redis = rcube_cache_redis::engine();
         }
 
         return $this->redis;
     }
 
     /**
-     * Get global handle for redis access
-     */
-    protected function redis_init()
-    {
-        $this->redis_available = false;
-
-        $hosts = $this->config->get('redis_hosts');
-
-        // host config is wrong
-        if (!is_array($hosts) || empty($hosts)) {
-            rcube::raise_error(
-                array(
-                    'code' => 604,
-                    'type' => 'redis',
-                    'line' => __LINE__,
-                    'file' => __FILE__,
-                    'message' => "Redis host not configured"
-                ),
-                true,
-                true
-            );
-        }
-
-        // only allow 1 host for now until we support clustering
-        if (count($hosts) > 1) {
-            rcube::raise_error(
-                array(
-                    'code' => 604,
-                    'type' => 'redis',
-                    'line' => __LINE__,
-                    'file' => __FILE__,
-                    'message' => "Redis cluster not yet supported"
-                ),
-                true,
-                true
-            );
-        }
-
-        foreach ($hosts as $redis_host) {
-            // explode individual fields
-            list($host, $port, $database, $password) = array_pad(explode(':', $redis_host, 4), 4, null);
-
-            $params = parse_url($redis_host);
-            if ($params['scheme'] == 'redis') {
-                $host = (isset($params['host'])) ? $params['host'] : null;
-                $port = (isset($params['port'])) ? $params['port'] : null;
-                $database = (isset($params['database'])) ? $params['database'] : null;
-                $password = (isset($params['password'])) ? $params['password'] : null;
-            }
-
-            // set default values if not set
-            $host = ($host !== null) ? $host : '127.0.0.1';
-            $port = ($port !== null) ? $port : 6379;
-            $database = ($database !== null) ? $database : 0;
-
-            if ($this->redis->connect($host, $port) === false) {
-                rcube::raise_error(
-                    array(
-                        'code' => 604,
-                        'type' => 'session',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not connect to Redis server. Please check host and port"
-                    ),
-                    true,
-                    true
-                );
-            }
-
-            if ($password != null && $this->redis->auth($password) === false) {
-                rcube::raise_error(
-                    array(
-                        'code' => 604,
-                        'type' => 'session',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not authenticate with Redis server. Please check password."
-                    ),
-                    true,
-                    true
-                );
-            }
-
-            if ($database != 0 && $this->redis->select($database) === false) {
-                rcube::raise_error(
-                    array(
-                        'code' => 604,
-                        'type' => 'session',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not select Redis database. Please check database setting."
-                    ),
-                    true,
-                    true
-                );
-            }
-        }
-
-        if ($this->redis->ping() == "+PONG") {
-            $this->redis_available = true;
-        }
-    }
-
-    /**
-     * Initialize and get cache object
+     * Initialize and get user cache object
      *
      * @param string $name   Cache identifier
      * @param string $type   Cache type ('db', 'apc', 'memcache', 'redis')
      * @param string $ttl    Expiration time for cache items
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache Cache object
+     * @return rcube_cache User cache object
      */
     public function get_cache($name, $type='db', $ttl=0, $packed=true)
     {
         if (!isset($this->caches[$name]) && ($userid = $this->get_user_id())) {
-            $this->caches[$name] = new rcube_cache($type, $userid, $name, $ttl, $packed);
+            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed);
         }
 
         return $this->caches[$name];
@@ -438,9 +254,9 @@ class rcube
      * @param string $name   Cache identifier
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache_shared Cache object
+     * @return rcube_cache Shared cache object
      */
-    public function get_cache_shared($name, $packed=true)
+    public function get_cache_shared($name, $packed = true)
     {
         $shared_name = "shared_$name";
 
@@ -458,7 +274,7 @@ class rcube
                 $ttl = $this->config->get('shared_cache_ttl', '10d');
             }
 
-            $this->caches[$shared_name] = new rcube_cache_shared($type, $name, $ttl, $packed);
+            $this->caches[$shared_name] = rcube_cache::factory($type, null, $name, $ttl, $packed);
         }
 
         return $this->caches[$shared_name];
@@ -684,9 +500,7 @@ class rcube
     public function gc()
     {
         rcube_cache::gc();
-        rcube_cache_shared::gc();
         $this->get_storage()->cache_gc();
-
         $this->gc_temp();
     }
 

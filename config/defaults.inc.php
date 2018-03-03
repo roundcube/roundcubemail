@@ -118,6 +118,9 @@ $config['memcache_debug'] = false;
 // Log APC conversation to <log_dir>/apc or to syslog
 $config['apc_debug'] = false;
 
+// Log Redis conversation to <log_dir>/redis or to syslog
+$config['redis_debug'] = false;
+
 
 // ----------------------------------
 // IMAP
@@ -349,6 +352,9 @@ $config['memcache_max_allowed_packet'] = '2M';
 
 // Maximum size of an object in APC cache (in bytes). Default: 2MB
 $config['apc_max_allowed_packet'] = '2M';
+
+// Maximum size of an object in Redis cache (in bytes). Default: 2MB
+$config['redis_max_allowed_packet'] = '2M';
 
 
 // ----------------------------------
