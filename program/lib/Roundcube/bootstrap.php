@@ -425,6 +425,7 @@ if (!function_exists('idn_to_ascii'))
 function rcube_autoload($classname)
 {
     if (strpos($classname, 'rcube') === 0) {
+        $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
         $classname = 'Roundcube/' . $classname;
     }
     else if (strpos($classname, 'html_') === 0 || $classname === 'html') {
