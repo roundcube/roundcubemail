@@ -24,7 +24,7 @@
  * @package    Framework
  * @subpackage Utils
  */
-class rcube_spellcheck_pspell extends rcube_spellcheck_engine
+class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 {
     private $plink;
     private $matches = array();
@@ -32,7 +32,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
     /**
      * Return a list of languages supported by this backend
      *
-     * @see rcube_spellcheck_engine::languages()
+     * @see rcube_spellchecker_engine::languages()
      */
     function languages()
     {
@@ -80,7 +80,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
     /**
      * Set content and check spelling
      *
-     * @see rcube_spellcheck_engine::check()
+     * @see rcube_spellchecker_engine::check()
      */
     function check($text)
     {
@@ -124,7 +124,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
     /**
      * Returns suggestions for the specified word
      *
-     * @see rcube_spellcheck_engine::get_words()
+     * @see rcube_spellchecker_engine::get_words()
      */
     function get_suggestions($word)
     {
@@ -145,7 +145,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
     /**
      * Returns misspelled words
      *
-     * @see rcube_spellcheck_engine::get_suggestions()
+     * @see rcube_spellchecker_engine::get_suggestions()
      */
     function get_words($text = null)
     {

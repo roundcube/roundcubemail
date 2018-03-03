@@ -55,7 +55,7 @@ class rcube_spellchecker
             'dictionary'  => $this->rc->config->get('spellcheck_dictionary'),
         );
 
-        $cls = 'rcube_spellcheck_' . $this->engine;
+        $cls = 'rcube_spellchecker_' . $this->engine;
         if (class_exists($cls)) {
             $this->backend = new $cls($this, $this->lang);
             $this->backend->options = $this->options;

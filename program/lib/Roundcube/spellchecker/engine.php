@@ -24,7 +24,7 @@
  * @package    Framework
  * @subpackage Utils
  */
-abstract class rcube_spellcheck_engine
+abstract class rcube_spellchecker_engine
 {
     const MAX_SUGGESTIONS = 10;
 
