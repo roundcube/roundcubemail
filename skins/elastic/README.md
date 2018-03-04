@@ -23,23 +23,8 @@ This folder also contains code licensed separately:
 - Roboto font from https://google-webfonts-helper.herokuapp.com/fonts/roboto?subsets=cyrillic,latin-ext,cyrillic-ext,latin,greek,greek-ext
 
 
-PROJECT GOALS
--------------
-Create a user interface that is clean and usable with any screen size.
-Use new technologies like e.g. flexbox, @media, font-icons or less.
-Cleanup css/html and unify as much as possible.
-
-
-INSTALLATION (development):
----------------------------
-1. git clone https://github.com/roundcube/roundcubemail.git
-2. cd roundcubemail/skins
-3. git clone https://github.com/roundcube/elastic.git
-4. Disable all external plugins and set devel_mode=true.
-
-
-INSTALLATION (production):
---------------------------
+INSTALLATION:
+------------
 All styles are written using LESS syntax. Thus it needs to be compiled
 using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
@@ -53,9 +38,8 @@ RPM package which depends on nodejs.
 References to image files from the included CSS files can be appended
 with cache-buster marks to avoid browser caching issues after updating.
 
-Run `bin/updatecss.sh --dir skins/elastic` from the Roundcube
-package before packaging the skin or after installing it on the
-destination system.
+Run `bin/updatecss.sh --dir skins/elastic` before packaging the skin
+or after installing it on the destination system.
 
 
 RULES:
