@@ -1,0 +1,26 @@
+<div class="menu">
+	<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
+	<div class="popover-header">
+		<a class="button icon cancel"><roundcube:label name="close" /></a>
+	</div>
+	<div id="taskmenu" role="navigation" aria-labelledby="aria-label-tasknav">
+		<span class="action-buttons">
+			<roundcube:button command="compose" type="link" class="button compose"
+				label="compose" title="writenewmessage" innerclass="inner"
+				data-fab="true" data-fab-task="mail" data-fab-action="none" />
+		</span>
+		<roundcube:button command="mail" label="mail" type="link" innerClass="inner"
+			class="button mail" classAct="button mail" classSel="button mail selected" />
+		<roundcube:button command="addressbook" label="contacts" type="link" innerClass="inner"
+			class="button addressbook" classAct="button addressbook" classSel="button addressbook selected" />
+		<roundcube:container name="taskbar" id="taskmenu" />
+		<roundcube:button command="settings" label="settings" type="link" innerClass="inner"
+			class="button settings" classAct="button settings" classSel="button settings selected" />
+		<span class="special-buttons">
+			<roundcube:button name="about" label="about" type="link"
+				class="button about" innerClass="inner" onclick="UI.about_dialog(this)" />
+			<roundcube:button command="logout" label="logout" type="link"
+				class="button logout" innerClass="inner" />
+		</span>
+	</div>
+</div>

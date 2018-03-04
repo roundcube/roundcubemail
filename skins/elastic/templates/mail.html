@@ -1,0 +1,189 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+
+<h1 class="voice"><roundcube:label name="mail" /></h1>
+
+<!-- folders list -->
+<div class="sidebar listbox" role="navigation" aria-labelledby="aria-label-folderlist">
+	<div class="header">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title username"><roundcube:object name="username" /></span>
+	</div>
+	<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
+	<div id="folderlist-content" class="scroller">
+		<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing folderlist" folder_filter="mail" unreadwrap="%s" />
+	</div>
+	<div id="folderlist-footer" class="footer toolbar">
+		<roundcube:button name="folderactions" type="link" title="folderactions" label="actions"
+			class="button actions" innerclass="inner" data-popup="mailboxoptions-menu" />
+		<roundcube:if condition="env:quota" />
+			<div id="quotadisplay" class="quota-widget">
+				<span class="voice"><roundcube:label name="quota"></span>
+				<roundcube:object name="quotaDisplay" class="count" display="text" />
+			</div>
+		<roundcube:endif />
+	</div>
+</div>
+
+<!-- messages list -->
+<div class="list listbox selected">
+	<div id="messagelist-header" class="header">
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon back-sidebar-button folders" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
+		<span class="header-title"></span>
+		<roundcube:object name="searchfilter" id="mailsearchfilter" class="searchfilterbar hidden" aria-controls="messagelist" />
+		<roundcube:add_label name="filter" />
+		<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar toolbar"
+			label="mailquicksearchbox" buttontitle="findmail" options="search-menu" ariatag="h2" />
+		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+	</div>
+	<roundcube:include file="includes/pagenav.html" />
+	<div id="messagelist-content" class="scroller" tabindex="-1">
+		<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
+		<roundcube:object name="messages" id="messagelist" optionsmenuIcon="true"
+			class="listing messagelist sortheader fixedheader"
+			aria-labelledby="aria-label-messagelist"
+			data-list="message_list" data-label-msg="listempty"
+		/>
+	</div>
+	<div id="messagelist-footer" class="footer toolbar" role="toolbar">
+		<div id="listcontrols" class="listselectors">
+			<a href="#select" class="button select" data-popup="listselect-menu" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
+			<roundcube:if condition="env:threads" />
+				<a href="#threads" class="button threads" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
+			<roundcube:endif />
+			<roundcube:object name="listmenulink" class="button settings" label="options" innerclass="inner" />
+			<roundcube:button command="checkmail" type="link" class="button refresh" label="refresh" title="checkmail" innerclass="inner" />
+			<roundcube:container name="listcontrols" id="listcontrols" />
+		</div>
+	</div>
+</div>
+
+<!-- message preview -->
+<div class="content">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+		<roundcube:include file="includes/mail-menu.html" />
+	</div>
+	<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
+	<div class="iframe-wrapper">
+		<roundcube:object name="messagecontentframe"
+			id="messagecontframe"
+			aria-labelledby="aria-label-mailpreviewframe"
+			src="/watermark.html"
+			title="arialabelmailpreviewframe"
+		/>
+	</div>
+</div>
+
+<!-- popup menus -->
+<div id="search-menu" class="popupmenu form" data-editable="true" data-popup-init="searchmenu">
+	<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
+	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-search-menu">
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" /><roundcube:label name="subject" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="from" id="s_mod_from" /><roundcube:label name="from" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="to" id="s_mod_to" /><roundcube:label name="to" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="cc" id="s_mod_cc" /><roundcube:label name="cc" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" /><roundcube:label name="bcc" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" /><roundcube:label name="body" /></label></li>
+		<li role="menuitem" class="checkbox"><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" /><roundcube:label name="msgtext" /></label></li>
+		<li role="separator" class="separator"><label><roundcube:label name="date" /></label></li>
+		<li role="menuitem"><roundcube:object name="searchinterval" id="s_interval" onchange="rcmail.set_searchinterval($(this).val())" /></li>
+		<li role="separator" class="separator"><label><roundcube:label name="searchscope" /></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="base" id="s_scope_base" /> <span><roundcube:label name="currentfolder" /></span></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" /> <span><roundcube:label name="subfolders" /></span></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="all" id="s_scope_all" /> <span><roundcube:label name="allfolders" /></span></label></li>
+	</ul>
+	<div class="buttons"><button class="btn btn-primary icon search" href="#" onclick="if (rcmail.command('search')) UI.menu_hide('search-menu')"><roundcube:label name="search" /></button></div>
+</div>
+
+<div id="dragmessage-menu" class="popupmenu">
+	<h3 id="aria-label-dragmessage-menu" class="voice"><roundcube:label name="arialabeldropactionmenu" /></h3>
+	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-dragmessage-menu">
+		<roundcube:button command="move" type="link-menuitem" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
+		<roundcube:button command="copy" type="link-menuitem" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
+	</ul>
+</div>
+
+<div id="mailboxoptions-menu" class="popupmenu">
+	<h3 id="aria-label-mailboxoptions-menu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxoptions-menu">
+		<roundcube:button command="expunge" type="link-menuitem" label="compact" class="expunge" classAct="expunge active" />
+		<roundcube:button command="purge" type="link-menuitem" label="empty" class="purge" classAct="purge active" />
+		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" class="read" classAct="read active" />
+		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" class="settings" classAct="settings active" />
+		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+	</ul>
+</div>
+
+<div id="listselect-menu" class="popupmenu">
+	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
+		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all" classAct="select all active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page" classAct="select page active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread" classAct="select unread active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="flagged" label="flagged" class="select flagged" classAct="select flagged active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="select invert" classAct="select invert active" />
+		<roundcube:button command="select-none" type="link-menuitem" label="none" class="select none" classAct="select none active" />
+	</ul>
+</div>
+
+<div id="threadselect-menu" class="popupmenu">
+	<h3 id="aria-label-threadselectmenu" class="voice"><roundcube:label name="arialabelthreadselectmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-threadselectmenu">
+		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="expand all" classAct="expand all active" />
+		<roundcube:button command="expand-unread" type="link-menuitem" label="expand-unread" class="expand unread" classAct="expand unread active" />
+		<roundcube:button command="collapse-all" type="link-menuitem" label="collapse-all" class="expand none" classAct="expand none active" />
+	</ul>
+</div>
+
+<div id="listoptions-menu" class="popupmenu propform" role="dialog" aria-labelledby="aria-label-listoptions">
+	<h3 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h3>
+	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
+	<div class="form-group row">
+		<label for="listoptions-sortcol" class="col-form-label col-sm-4"><roundcube:label name="listsorting" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-sortcol" name="sort_col" class="form-control">
+				<option value=""><roundcube:label name="nonesort" /></option>
+				<option value="arrival"><roundcube:label name="arrival" /></option>
+				<option value="date"><roundcube:label name="sentdate" /></option>
+				<option value="subject"><roundcube:label name="subject" /></option>
+				<option value="fromto"><roundcube:label name="fromto" /></option>
+				<option value="from"><roundcube:label name="from" /></option>
+				<option value="to"><roundcube:label name="to" /></option>
+				<option value="cc"><roundcube:label name="cc" /></option>
+				<option value="size"><roundcube:label name="size" /></option>
+			</select>
+		</div>
+	</div>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
+	<div class="form-group row">
+		<label for="listoptions-sortord" class="col-form-label col-sm-4"><roundcube:label name="listorder" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-sortord" name="sort_ord" class="form-control">
+				<option value="ASC"><roundcube:label name="asc" /></option>
+				<option value="DESC"><roundcube:label name="desc" /></option>
+			</select>
+		</div>
+	</div>
+	<roundcube:endif />
+	<roundcube:if condition="env:threads" />
+	<div class="form-group row">
+		<label for="listoptions-threads" class="col-form-label col-sm-4"><roundcube:label name="lmode" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-threads" name="mode" class="form-control">
+				<option value="list"><roundcube:label name="list" /></option>
+				<option value="threads"><roundcube:label name="threads" /></option>
+			</select>
+		</div>
+	</div>
+	<roundcube:endif />
+	<roundcube:add_label name="listoptionstitle" />
+</div>
+
+<roundcube:object name="messageimportform" id="uploadform" mode="smart" />
+
+<roundcube:include file="includes/footer.html" />

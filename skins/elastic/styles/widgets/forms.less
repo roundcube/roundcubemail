@@ -1,0 +1,1304 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Common form elements ***/
+
+#uploadform {
+    display: none;
+}
+
+form.smart-upload,
+input.smart-upload {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+
+.propform {
+    // TODO: do we need this?
+    &:not(.popupmenu) {
+        width: 100%;
+    }
+
+    // This is the way we can have multiple checkboxes in a single form field
+    .form-check td:not(.title) > label {
+        display: block;
+        margin: 0;
+        line-height: 2rem;
+
+        label {
+            margin-right: .5rem;
+        }
+    }
+
+    td.datetime {
+        display: flex;
+
+        input:first-child {
+            margin-right: .5rem;
+        }
+        input:last-child {
+            width: 75%;
+        }
+    }
+
+    td.rowbuttons {
+        width: 1%;
+        white-space: nowrap;
+
+        span {
+            display: none;
+        }
+
+        a {
+            padding: 0;
+            line-height: 2.3rem;
+            height: 2.3rem;
+            font-size: 1rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-plus;
+
+                @media screen and (min-width: (@screen-width-bs-phone + 1px)) {
+                    margin: 0;
+                }
+            }
+
+            &.delete:before {
+                content: @fa-var-trash-alt;
+            }
+
+            &.advanced:before {
+                content: @fa-var-cog;
+            }
+
+            &:not(:last-child) {
+                margin-right: .25rem;
+            }
+        }
+    }
+
+    td.rowactions {
+        width: 1%;
+
+        .form-control {
+            width: auto;
+        }
+    }
+
+    td.rowtargets {
+        .input-group {
+            margin-bottom: .25rem;
+
+            *:first-child.input-group-prepend {
+                text-align: left;
+                min-width: 7.5em;
+
+                & > * {
+                    width: 100%;
+                }
+            }
+        }
+
+        & > .advanced {
+            margin-top: .25rem;
+        }
+    }
+
+    td > .flexbox {
+        display: flex;
+
+        & > .multi-input {
+            width: 100%;
+            margin-left: .25rem;
+        }
+    }
+
+    .rulerow {
+        margin-bottom: .5rem;
+    }
+
+    &.groupped {
+        &.readonly {
+            legend {
+                margin: 0;
+            }
+
+            .row.input-group {
+                margin-bottom: 0 !important;
+            }
+
+            label {
+                min-width: 7rem;
+                // Overwrite Bootstrap .input-group-* style to make the label transparent
+                background-color: transparent;
+                border: 0;
+                border-radius: 0;
+            }
+        }
+
+        .row.input-group {
+            margin-bottom: .5rem;
+            flex-wrap: nowrap;
+
+            & > *:first-child {
+                .overflow-ellipsis;
+                min-width: 8rem;
+                height: auto;
+
+                &:not(select) {
+                    padding: 0;
+                }
+
+                @media screen and (max-width: @screen-width-xs) {
+                    min-width: 6rem;
+                    width: 6rem;
+                    flex-grow: unset;
+                }
+
+                label {
+                    width: 100%;
+                }
+            }
+
+            & > *:nth-child(2) {
+                flex-grow: 30;
+            }
+
+            &:last-child {
+                margin-bottom: 1rem;
+            }
+
+            select {
+                text-align: left;
+                height: auto;
+            }
+
+            .content {
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+                border-radius: 0;
+
+                input {
+                    border-radius: 0;
+                    border-color: transparent;
+                }
+
+                .ff_street {
+                    width: 100%;
+                }
+
+                .ff_locality {
+                    width: 75%;
+                }
+
+                .ff_zipcode {
+                    width: 25%;
+                }
+
+                .ff_country, .ff_region {
+                    width: 50%;
+                }
+            }
+        }
+
+        .form-control-plaintext {
+            flex-grow: 1;
+            border: 0;
+        }
+    }
+
+    .addfield {
+        margin: 0;
+
+        select {
+            width: 8rem;
+            margin-top: .5rem;
+        }
+    }
+
+    .form-text {
+        font-size: 90%;
+        color: @color-form-hint;
+    }
+
+    // Some dialogs may use simple one-row forms like this
+    &.row.form-group {
+        margin-left: 0;
+        margin-right: 0;
+
+        label, div {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    // Some forms may use multiple elements that are not part of .input-group
+    // add proper spacing
+    select + select,
+    select + .input-group {
+        padding-top: .5rem;
+    }
+
+    &.text-only {
+        margin-bottom: .25rem;
+
+        tr {
+            margin: 0;
+        }
+
+        label {
+            padding-bottom: 0 !important;
+        }
+
+        @media screen and (max-width: @screen-width-bs-phone) {
+            tr {
+                display: table-row;
+            }
+
+            td {
+                width: auto;
+
+                &:first-child {
+                    width: 33%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-bs-phone) {
+    .propform {
+        table.compact-table {
+            overflow-x: initial;
+
+            tbody {
+                display: block;
+            }
+
+            .rowactions > select,
+            .flexbox > select {
+                width: 100%;
+            }
+
+            tr {
+                display: flex;
+                flex-direction: column;
+
+                td {
+                    width: 100%;
+                    padding-right: 0;
+                    padding-left: 0;
+
+                    &.rowbuttons {
+                        text-align: right;
+
+                        a {
+                            margin-right: .5rem;
+
+                            & > span {
+                                display: inline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.propform,
+.formcontent {
+    legend {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    label {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: @screen-width-bs-phone) {
+    .formcontent .text-only {
+        .form-group:not(tr) {
+            margin-bottom: .25rem;
+
+            .col-form-label {
+                width: 33%;
+
+                & + span {
+                    width: 67%;
+                }
+            }
+        }
+    }
+}
+
+// Forms fixes for IE and Edge
+html.ms .propform {
+    .row:not(.form-check) > td {
+        display: flex;
+    }
+    @media screen and (min-width: @screen-width-bs-phone) {
+        .row.form-check > td {
+            display: flex;
+        }
+    }
+    @media screen and (max-width: (@screen-width-bs-phone - 1px)) {
+        .row {
+            display: block;
+        }
+    }
+}
+
+
+.formcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    overflow-y: hidden !important;
+
+    .formcontent {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .formbuttons {
+        padding: 0.5rem 1rem;
+
+        button {
+            margin-right: .5rem;
+        }
+    }
+
+    // Prevent button truncation on tablets
+    html.iframe.ipad &,
+    html.iframe.webkit.tablet & {
+        .formbuttons {
+            min-height: 4rem;
+        }
+    }
+
+    // We don't need buttons element on small devices
+    html.layout-small &,
+    html.layout-phone & {
+        .formbuttons {
+            display: none;
+        }
+    }
+}
+
+
+.formcontent {
+    padding: 1rem;
+
+    .row {
+        margin-right: 0; // without these the form is too wide causing horizontal scrollbar appearence
+        margin-left: 0;
+
+        // Note: We never use odd numbers here
+        .col, .col-2, .col-4, .col-6, .col-8, .col-10, .col-12,
+        .col-sm, .col-sm-2, .col-sm-4, .col-sm-6, .col-sm-8, .col-sm-10, .col-sm-12 {
+            // overwrite Bootstrap's redundant padding
+            padding: 0;
+        }
+
+        .form-control-plaintext,
+        label.col-form-label {
+            padding: .375rem .375rem .375rem 0;
+        }
+
+        .form-control-plaintext {
+            padding-bottom: 0;
+            border: 0;
+        }
+
+        @media screen and (max-width: @screen-width-bs-phone) {
+            &.form-group {
+                & > td label {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .row.form-check {
+        padding: 0; // without these e.g. inputs in compose screen are not aligned properly
+        display: flex; // https://github.com/twbs/bootstrap/issues/22348
+        flex-wrap: nowrap;
+
+        // fixed checkbox vertical alignment
+        td:not(.col-form-label) {
+            padding: 0;
+        }
+
+        // alignment fixes needed because we do not stick precissely to Bootstrap's form structure
+        @media screen and (max-width: @screen-width-bs-phone) {
+            .col-6 {
+                max-width: 100%;
+                flex: auto;
+            }
+
+            & > *:last-child {
+                width: 1%;
+                min-width: 2.2em; // for icon-checkbox
+                padding-right: 15px;
+            }
+
+            &.with-link > *:last-child {
+                min-width: 8rem;
+            }
+        }
+
+        .form-check-input {
+            margin: 0; // fixes checkbox alignment with other inputs in a form
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+
+            & + label {
+                display: inline;
+            }
+        }
+
+        td > label {
+            padding-bottom: 0;
+        }
+    }
+
+    .nav-tabs {
+        margin-bottom: 1rem;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .hint {
+        margin-bottom: 1em;
+        font-style: italic;
+    }
+
+    // RAW (CodeMirror) editor
+    &.raweditor {
+        height: 100%;
+
+        form {
+            height: 100%;
+        }
+
+        textarea {
+            font-family: monospace;
+            height: 100%;
+        }
+
+        .CodeMirror {
+            border: 1px solid @color-input-border;
+            border-radius: .3rem;
+            height: 100%;
+            color: @color-font;
+        }
+
+        .CodeMirror-focused {
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+
+        .CodeMirror-linebackground.line-error {
+            background-color: @color-error;
+            opacity: 0.4;
+        }
+
+        .errorGutter {
+            width: .8em;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-mini) {
+    .formcontent {
+        .col-form-label {
+            flex: auto;
+            max-width: 100%;
+        }
+        .col-6, .col-8, .col-10 {
+            flex: auto;
+            max-width: 100%;
+        }
+    }
+}
+
+
+/* Some common icons for "iconized inputs" */
+.input-group .icon {
+    text-decoration: none;
+    padding: .375rem .5rem;
+
+    &:before {
+        &:extend(.font-icon-class);
+        margin: 0 !important;
+        line-height: 1;
+        font-size: 1.1em;
+    }
+    &.user:before {
+        content: @fa-var-user;
+    }
+    &.pass:before {
+        content: @fa-var-lock;
+    }
+    &.host:before {
+        content: @fa-var-home;
+    }
+    &.cancel:before {
+        content: @fa-var-times;
+    }
+    &.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.edit:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.add:before {
+        content: @fa-var-plus;
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &.filter:before {
+        content: @fa-var-filter;
+    }
+    &.key:before {
+        content: @fa-var-key;
+    }
+
+    .inner {
+        display: none;
+    }
+}
+
+td.editfield { width: 99%;  /* TODO */ }
+
+
+ul.proplist {
+    padding-left: 0;
+    margin-bottom: 0;
+
+    li {
+        list-style-type: none;
+        line-height: 2.4rem;
+        margin-bottom: .25rem;
+        display: flex;
+
+        input[type=radio] {
+            vertical-align: middle;
+            margin-right: .5em;
+
+            & + .input-group {
+                flex-grow: 1;
+            }
+        }
+
+        label {
+            margin: 0;
+        }
+
+        .icon-checkbox {
+            height: 2.4rem !important;
+            margin-left: -1.2em;
+
+            & + label {
+                height: 1.8rem;
+                margin-right: .5rem;
+                padding: 0;
+            }
+        }
+
+        select {
+            width: auto;
+            display: inline;
+        }
+    }
+}
+
+
+.checklist {
+    .form-check-input + label {
+        margin-right: .25rem;
+        line-height: 1;
+    }
+
+    & > label {
+        display: inline-block !important;
+    }
+}
+
+
+/*** Forms in popups ***/
+
+.popup form.propform {
+    padding: .5rem;
+    overflow-x: hidden;
+}
+
+.popupmenu.form {
+    &.nolist {
+        padding: 0 .5rem;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li:not(.separator) {
+        padding: 0 1rem;
+
+        label {
+            margin: 0;
+            line-height: @listing-line-height;
+
+            input {
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    input {
+        vertical-align: middle;
+    }
+
+    select {
+        margin: .5rem 0;
+    }
+
+    .buttons {
+        text-align: center;
+        padding: .5rem;
+    }
+}
+
+html.touch .popupmenu.form {
+    li {
+        input.icon-checkbox + label:before {
+            line-height: 1.4;
+        }
+    }
+}
+
+
+/*** Smart list (multiple input) field ***/
+
+.multi-input {
+    & > .content {
+        max-height: 11.65em;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: .25rem;
+        border: 1px solid @color-input-border;
+
+        &.focused {
+            .style-input-focus;
+        }
+
+        // TODO: style button focus
+    }
+
+    a.icon {
+        &.reset:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-trash-alt;
+        }
+    }
+
+    input.form-control {
+        padding-left: .75rem;
+    }
+
+    input,
+    input:focus,
+    .input-group-text {
+        border-radius: 0;
+        border: 0;
+        border-bottom: 1px solid @color-input-border;
+        box-shadow: none;
+    }
+
+    .input-group-text {
+        border-left: 1px solid @color-input-border;
+    }
+
+    .input-group-append {
+        margin-left: 0;
+    }
+
+    .input-group {
+        margin: 0 !important;
+        flex-wrap: nowrap; // Bootstrap makes them wrappable (imho)
+
+        &:last-child * {
+            border-bottom: 0;
+        }
+    }
+
+    & + .btn {
+        margin-top: .5rem;
+    }
+
+    &.is-invalid {
+        & > .content {
+            border: 1px solid @color-input-border-invalid;
+            &.focused {
+                border-color: @color-input-border-invalid;
+                box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+            }
+        }
+
+        & > .invalid-feedback {
+            display: inline-block;
+        }
+    }
+}
+
+
+/*** Files upload widget with list of files, upload form and drop area ***/
+
+.file-upload {
+    padding: 1rem 1rem 12rem;
+    margin: 0 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: .2rem dashed @color-table-border;
+
+    // TODO background image
+
+    .upload-form {
+        text-align: center;
+        padding-bottom: 1em;
+    }
+
+   .hint {
+        margin-bottom: .5rem;
+        color: @color-form-hint;
+    }
+
+    .attachmentslist {
+        li {
+            position: relative;
+            display: flex;
+            padding-right: 1.5em;
+
+            a.filename {
+                flex: 1;
+            }
+
+            a.delete,
+            a.cancelupload {
+                position: absolute;
+                right: 0;
+
+                &:before {
+                    margin: 0;
+                }
+            }
+
+            .inner {
+                display: none;
+            }
+        }
+    }
+
+    &.droptarget {
+        &.active {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+        }
+
+        &.hover {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+            background-color: @color-toolbar-button-background-hover;
+        }
+    }
+}
+
+
+/*** Smart recipient input field ***/
+
+@recipient-input-margin-fix: .25rem;
+
+.recipient-input {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    list-style-type: none;
+    cursor: text;
+
+    &.focus {
+        .style-input-focus;
+    }
+
+    .recipient {
+        display: flex;
+        position: relative;
+        max-width: 50%;
+        border: 1px solid @color-recipient-input-border;
+        background-color: @color-recipient-input-background;
+        border-radius: .25em;
+        padding: 0 .25em;
+        margin-top: @recipient-input-margin-fix;
+        margin-right: .2em;
+        white-space: nowrap;
+        cursor: default;
+
+        @media screen and (max-width: 450px) {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    .name {
+        .overflow-ellipsis;
+        flex-grow: 1;
+        display: inline-block;
+        line-height: 1.1;
+        padding: .25rem;
+        vertical-align: middle;
+    }
+
+    .email {
+        text-indent: -5000rem;
+        display: inline-block;
+        width: 0;
+    }
+
+    .quotes {
+        position: absolute;
+        width: 0;
+        opacity: 0;
+    }
+
+    a.button.icon {
+        font-size: .8em;
+        cursor: pointer;
+        padding: 0 0 0 .25em;
+
+        &:before {
+            float: none;
+            display: inline-block;
+            width: 1em;
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+
+    input {
+        width: 15px;
+        background: transparent !important;
+        border: 0 !important;
+        margin-top: @recipient-input-margin-fix;
+        outline: 0;
+        line-height: 1.5;
+    }
+}
+
+/*** Tagedit widget (from jqueryui plugin) ***/
+
+.tagedit-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    margin: 0;
+    list-style-type: none;
+    min-height: 2.3rem;
+
+    & + .placeholder {
+        display: none;
+    }
+
+    &[tabindex="-1"] {
+        .style-input-focus;
+    }
+
+    li.tagedit-listelement-new {
+        margin-top: @recipient-input-margin-fix;
+
+        input {
+            width: 15px;
+            background: transparent !important;
+            border: 0;
+            outline: 0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+
+            &.tagedit-input-disabled {
+                visibility: hidden;
+            }
+        }
+    }
+
+    li.tagedit-listelement-old {
+        max-width: 50%;
+        border: 1px solid @color-recipient-input-border;
+        background-color: @color-recipient-input-background;
+        border-radius: .25em;
+        margin-top: @recipient-input-margin-fix;
+        margin-right: .2em;
+        white-space: nowrap;
+
+        a /* TODO: .tagedit-close, .tagedit-break, .tagedit-delete, .tagedit-save */ {
+            font-size: .8em;
+            cursor: pointer;
+            display: inline-block;
+            width: 1.1em;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-right: .2rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-times;
+                width: 1em;
+                line-height: 1.2;
+            }
+        }
+
+        span {
+            .overflow-ellipsis;
+            flex-grow: 1;
+            display: inline-block;
+            line-height: 1.4;
+            padding: 0 .25rem;
+            vertical-align: middle;
+        }
+    }
+
+    li.tagedit-listelement-focus {
+        // TODO
+    }
+}
+
+
+/*** Skin selection widget ***/
+
+.skinselection {
+    white-space: nowrap;
+    display: table-row;
+
+    & > span {
+        display: table-cell;
+        vertical-align: middle;
+        padding: .1em .5em;
+        white-space: normal;
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    .skinitem input {
+        width: auto;
+    }
+
+    .skinname {
+        font-weight: bold;
+    }
+
+    .skinlicense,
+    .skinlicense a {
+        font-style: italic;
+        text-decoration: none;
+    }
+
+    .skinlicense a:hover {
+        text-decoration: underline;
+    }
+
+    .skinlicense,
+    .skinauthor {
+        font-size: 90%;
+    }
+
+    .skinthumbnail {
+        width: 64px;
+        height: 64px;
+        border: 1px solid @color-input-border;
+        background: #fff;
+        border-radius: 4px;
+    }
+}
+
+/*** Image upload widget ***/
+
+.image-upload {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: @color-image-upload-background;
+
+    a.button {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgba(255, 255, 255, .85);
+        border-radius: 5px;
+        width: 2.5em;
+        padding: .5em;
+        margin: .5em;
+        line-height: 1;
+    }
+
+    &.changed a.button {
+        display: inline;
+    }
+}
+
+
+/*** Pretty icon checkbox ***/
+
+input.icon-checkbox {
+    opacity: 0;
+    margin-left: -1.5em;
+    cursor: pointer;
+
+    & + label {
+        margin: 0;
+        display: inline;
+        font-size: 1.2rem;
+        cursor: pointer;
+        width: 1.5em;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-toggle-off;
+            margin: 0;
+            color: @color-checkbox;
+            height: 2rem;
+        }
+
+        // A link after checkbox in a form, used in e.g. newmail_notifier plugin
+        & + a {
+            display: inline-block;
+            line-height: 2rem;
+            padding-left: .5rem;
+            white-space: nowrap;
+        }
+
+        .input-group & {
+            padding: 0 .25rem 0 0;
+
+            &:before {
+                line-height: 1;
+                height: auto;
+            }
+        }
+    }
+
+    &:disabled + label {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &:checked + label:before {
+        content: @fa-var-toggle-on;
+        color: @color-checkbox-checked;
+    }
+
+    &:focus + label:before {
+        color: @color-checkbox-focus;
+    }
+
+    &:checked:focus + label:before {
+        color: @color-checkbox-checked-focus;
+    }
+
+    &.form-check-input + label {
+        font-size: 1.25rem;
+        padding-top: .25rem;
+    }
+}
+
+html.touch input.icon-checkbox + label {
+    font-size: 1.5rem;
+}
+
+
+/*** HTML editor widget (and TinyMCE editor) ***/
+
+.mce-tinymce {
+    &.mce-container.mce-panel {
+        border-radius: .25rem;
+        border-color: @color-input-border;
+        overflow: hidden;
+    }
+
+    .mce-btn,
+    .mce-panel {
+        background-color: @color-input-addon-background;
+    }
+}
+
+.html-editor {
+    position: relative;
+    display: flex;
+    margin-bottom: .25rem;
+
+    & > .nav {
+        border-color: transparent;
+        z-index: 1;
+        position: absolute;
+        top: 1px;
+        right: 1rem;
+
+        a.active {
+            border-color: @color-input-border !important;
+
+            &.mode-html {
+                background-color: @color-input-addon-background;
+                border-bottom-color: @color-input-addon-background !important;
+            }
+
+            &.mode-plain {
+                border-bottom-color: #fff !important;
+            }
+        }
+
+        a:hover {
+            border-bottom-color: transparent;
+        }
+    }
+
+    & > iframe, // e.g. mailvelope frame
+    & > .googie_edit_layer,
+    & > .mce-tinymce,
+    & > textarea {
+        margin-top: 2.55rem;
+        font-family: monospace;
+        width: 100% !important;
+    }
+
+    & > iframe { // e.g. mailvelope frame
+        border-radius: .3rem;
+        border: 1px solid @color-input-border;
+        min-height: 35em;
+    }
+}
+
+
+/*** GoogieSpell widget ***/
+
+.googie_window {
+    width: 16rem;
+}
+
+.googie_edit_layer {
+    font-family: monospace;
+
+    // from Bootstrap's textarea
+    padding: .5rem .75rem;
+    border: 1px solid @color-input-border;
+    border-radius: .3rem;
+    line-height: 1.25;
+}
+
+.googie_link {
+    color: @color-spellcheck-link;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.googie_list {
+    td {
+        min-width: 8rem;
+        width: auto;
+
+        &.googie_list_onhover {
+            color: @color-toolbarmenu-hover;
+            background-color: @color-toolbarmenu-hover-background;
+        }
+
+        .googie_list_revert:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+
+        .googie_add_to_dict:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+    }
+
+    input {
+        display: inline-block;
+        margin: .5rem .5rem .5rem 0 !important;
+        padding: .5rem .75rem !important;
+    }
+}
+
+
+/*** General browser hacks ***/
+
+// Remove outline on selects in Firefox
+@-moz-document url-prefix() {
+    select:-moz-focusring {
+       color: transparent !important;
+       text-shadow: 0 0 0 @color-font !important;
+    }
+}
+
+
+/*** Bootstrap style overrides ***/
+
+// Fixes height of some text inputs
+// FIXME: Really? See managesieve's vacation form for all of these
+td.input-group .input-group-append,
+td.datetime input,
+td.input-group input {
+    height: ~"calc(2.25rem + 2px)";
+}
+
+.form-control {
+    color: @color-font;
+
+    &:focus {
+        color: @color-font;
+        border-color: @color-input-border-focus;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+    }
+
+    &.is-invalid {
+        border-color: @color-input-border-invalid;
+
+        &:focus {
+            border-color: @color-input-border-invalid;
+            box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+        }
+    }
+}
+
+.invalid-feedback {
+    color: @color-error;
+}
+
+.form-group {
+    margin-bottom: .5rem;
+}
+
+.input-group-text {
+    color: @color-input;
+    background-color: @color-input-addon-background;
+}
