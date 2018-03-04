@@ -42,7 +42,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     function init()
     {
-        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
+        $homedir = $this->rc->config->get('enigma_pgp_homedir');
         $debug   = $this->rc->config->get('enigma_debug');
         $binary  = $this->rc->config->get('enigma_pgp_binary');
         $agent   = $this->rc->config->get('enigma_pgp_agent');

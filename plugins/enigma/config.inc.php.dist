@@ -12,8 +12,8 @@ $config['enigma_smime_driver'] = 'phpssl';
 // Enables logging of enigma operations (including Crypt_GPG debug info)
 $config['enigma_debug'] = false;
 
-// Keys directory for all users. Default 'enigma/home'.
-// Must be writeable by PHP process
+// REQUIRED! Keys directory for all users.
+// Must be writeable by PHP process, and not in the web server document root
 $config['enigma_pgp_homedir'] = null;
 
 // Location of gpg binary. By default it will be auto-detected.

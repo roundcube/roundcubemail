@@ -10,9 +10,7 @@ is for users that trust the server.
 
 For multi-host environments see enigma_multihost setting description.
 
-
 Implemented features:
----------------------
 + PGP: signatures verification
 + PGP: messages decryption
 + PGP: Sending of encrypted/signed messages
@@ -24,8 +22,19 @@ Implemented features:
 + Key server(s) support (search, import)
 
 
-TODO:
------
+INSTALLATION
+------------
+
+1. Rename config.inc.php.dist to config.inc.php.
+2. Create a directory for keys storage that is writeable for the PHP process.
+   This directory should be out of the document root, so it is not accessible
+   from the web browser. Set it's location in $config['enigma_pgp_homedir'].
+3. Make sure GnuPG is installed.
+
+
+TODO
+----
+
 - Handling of big messages with temp files (? - security)
 - Key info in contact details page (optional)
 - Extended key management:
@@ -50,8 +59,9 @@ TODO:
 - S/MIME: Certificate info in Contacts details page (optional)
 
 
-KNOWN ISSUES:
--------------
+KNOWN ISSUES
+------------
+
 There are some known issues with accepting key passphrases on various
 system configurations. This is caused by issues in PinEntry handling.
 Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
