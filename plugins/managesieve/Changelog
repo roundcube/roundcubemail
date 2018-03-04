@@ -1,4 +1,4 @@
-- Added GSSAPI support(#5779) - requires updated Net_Sieve class
+- Added GSSAPI support (#5779)
 - Added option managesieve_default_headers
 - Added option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 - Support filter action with custom IMAP flags (#6011)

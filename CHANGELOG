@@ -23,6 +23,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Add option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 - Managesieve: Support filter action with custom IMAP flags (#6011)
 - Managesieve: Support 'mime' extension tests - RFC5703 (#5832)
+- Managesieve: Support GSSAPI authentication with krb_authentication plugin (#5779)
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
 - Enigma: Add button to send mail unencrypted if no key was found (#5913)
