@@ -23,7 +23,7 @@ REQUIREMENTS
    - Net_Socket 1.0.12 or newer
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
-   - Net_Sieve 1.3.2 or newer (for managesieve plugin)
+   - Net_Sieve 1.4.3 or newer (for managesieve plugin)
    - Crypt_GPG 1.6.2 or newer (for enigma plugin)
    - Endroid/QrCode 1.6.0 or newer (https://github.com/endroid/QrCode)
 * php.ini options (see .htaccess file):
