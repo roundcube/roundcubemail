@@ -195,7 +195,7 @@ class rcube_sieve_engine
             'debug'     => $this->rc->config->get('managesieve_debug', false),
             'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
             'auth_pw'   => $this->rc->config->get('managesieve_auth_pw'),
-            'socket_options' => $this->rc->config->get('managesieve_conn_options'),
+            'socket_options' => $this->rc->config->get('managesieve_conn_options')
         ));
 
         // Handle per-host socket options
@@ -213,7 +213,9 @@ class rcube_sieve_engine
             $plugin['debug'],
             $plugin['auth_cid'],
             $plugin['auth_pw'],
-            $plugin['socket_options']
+            $plugin['socket_options'],
+            $plugin['gssapi_context'],
+            $plugin['gssapi_cn']
         );
 
         $error = $this->sieve->error();
