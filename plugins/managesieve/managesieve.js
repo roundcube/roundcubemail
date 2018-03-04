@@ -157,12 +157,16 @@ rcube_webmail.prototype.managesieve_select = function(list)
 // Set selection
 rcube_webmail.prototype.managesieve_setselect = function(list)
 {
-  this.show_contentframe(false);
-  this.filters_list.clear(true);
   this.enable_command('plugin.managesieve-setdel', list.rowcount > 1 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
   this.enable_command('plugin.managesieve-setact', list.rowcount > 0 && $.inArray('enable_disable_set', rcmail.env.managesieve_disabled_actions) == -1);
   this.enable_command('plugin.managesieve-setget', list.rowcount > 0 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
   this.enable_command('plugin.managesieve-seteditraw', list.rowcount > 0 && this.env.raw_sieve_editor);
+
+ if (rcmail.env.contextmenu_opening)
+   return;
+
+  this.show_contentframe(false);
+  this.filters_list.clear(true);
 
   var id = list.get_single_selection();
   if (id != null) {
