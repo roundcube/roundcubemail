@@ -82,6 +82,30 @@
         "addon/selection": "addon/selection",
         "mode/sieve": "mode/sieve"
       }
+    },
+    {
+      "lib": "bootstrap",
+      "name": "Bootstrap",
+      "version": "4.0.0",
+      "url": "https://github.com/twbs/bootstrap/releases/download/v4.0.0/bootstrap-4.0.0-dist.zip",
+      "dest": "skins/elastic/deps",
+      "sha1": "108a534a0934b3b24e7366f59c74d2b8d3dd9004",
+      "license": "MIT",
+      "flat": true,
+      "map": {
+        "bootstrap.bundle.min.js": "bootstrap.bundle.min.js",
+        "bootstrap.min.css": "bootstrap.min.css"
+      }
+    },
+    {
+      "lib": "less",
+      "name": "LessJS",
+      "version": "2.7.3",
+      "url": "https://raw.githubusercontent.com/less/less.js/v2.7.3/dist/less.min.js",
+      "dest": "skins/elastic/deps/less.min.js",
+      "sha1": "45ea4f9fed6c0568ec11faba048c3e3cb7612e9e",
+      "license": "Apache-2.0",
+      "source": "https://raw.githubusercontent.com/less/less.js/v2.7.3/dist/less.js"
     }
   ]
 }

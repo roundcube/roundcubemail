@@ -122,7 +122,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
     echo "Fetching {$package['url']}\n";
 
     if ($CURL)
-        exec(sprintf('%s -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
+        exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
     else
         exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($package['url']), $cache_file), $out, $retval);
 
@@ -232,20 +232,22 @@ function extract_zipfile($package, $srcfile)
     if (!is_dir($extract)) {
       mkdir($extract, 0774, true);
     }
-    exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
+
+    $zip_command = '%s -' . ($package['flat'] ? 'j' : 'o') . ' %s -d %s';
+    exec(sprintf($zip_command, $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
 
     // get the root folder of the extracted package
     $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
-    $sourcedir    = $extract_tree[0];
+    $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
 
     foreach ($package['map'] as $src => $dest) {
-      echo "Installing files $sourcedir/$src into $destdir/$dest\n";
+      echo "Installing $sourcedir/$src into $destdir/$dest\n";
 
       // make sure the destination's parent directory exists
       if (strpos($dest, '/') !== false) {
         $parentdir = dirname($destdir . '/' . $dest);
         if (!is_dir($parentdir)) {
-          mkdir($parentdir, 0774, true);
+          mkdir($parentdir, 0775, true);
         }
       }
 
