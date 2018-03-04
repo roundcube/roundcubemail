@@ -1,0 +1,79 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Additional styles for printouts ***/
+
+body {
+    overflow: auto;
+    height: auto;
+}
+
+#print-layout {
+    margin: 1rem;
+
+    // Overwrites for mail message printouts
+
+    .image-attachment {
+        .image-link {
+            margin-bottom: .5rem;
+        }
+
+        .attachment-links {
+            display: none;
+        }
+    }
+
+    .header-content {
+        .message-partheaders {
+            padding: 0 !important;
+            border: 0;
+            font-size: 1rem;
+            color: inherit;
+        }
+    }
+
+    #message-header {
+        margin-bottom: .5rem;
+    }
+
+    .attachment-size {
+        padding-left: .1rem;
+    }
+
+    // Overwrites for contact printouts
+
+    .formcontent {
+        padding: 0;
+
+        legend {
+            margin-top: .5rem;
+        }
+
+        .row .form-control-plaintext {
+            padding: .1rem;
+        }
+
+        .contactfield {
+            padding: .2rem 0;
+        }
+    }
+
+    .propform.groupped .row.input-group .input-group-text {
+        padding: 0;
+        min-width: 12rem;
+        background: #fff;
+        border: 0;
+    }
+
+    .contact-header {
+        margin-bottom: 0;
+    }
+}
