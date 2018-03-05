@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added new skin with mobile support - the Elastic
 - Support Redis cache
 - Improved Mailvelope integration
   - Added private key listing and generating to identity settings
