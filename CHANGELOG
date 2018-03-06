@@ -78,6 +78,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP Warning: exif_read_data(...): Illegal IFD size (#6169)
 - Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
 - Fix security issue in remote content blocking on HTML image and style tags (#6178)
+- Added 9pt and 11pt to the list of font sizes in HTML editor
 
 RELEASE 1.3.4
 -------------
