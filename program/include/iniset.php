@@ -28,12 +28,8 @@ if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 }
 
-if (getenv('ROUNDCUBE_CONFIG_DIR')) {
-    define('RCMAIL_CONFIG_DIR', getenv('ROUNDCUBE_CONFIG_DIR'));
-}
-
 if (!defined('RCMAIL_CONFIG_DIR')) {
-    define('RCMAIL_CONFIG_DIR', INSTALL_PATH . 'config');
+    define('RCMAIL_CONFIG_DIR', getenv('ROUNDCUBE_CONFIG_DIR') ?: (INSTALL_PATH . 'config'));
 }
 
 if (!defined('RCUBE_LOCALIZATION_DIR')) {
