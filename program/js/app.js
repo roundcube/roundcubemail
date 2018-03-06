@@ -1480,7 +1480,6 @@ function rcube_webmail()
     }
 
     this.busy = a;
-    //document.body.style.cursor = a ? 'wait' : 'default';
 
     if (this.gui_objects.editform)
       this.lock_form(this.gui_objects.editform, a);
@@ -8550,7 +8549,7 @@ function rcube_webmail()
 
       // temporarily show element to calculate its size
       container.css({left: '-1000px', top: '-1000px'})
-        .appendTo($('body')).show();
+        .appendTo(document.body).show();
 
       // set max-height if the list is long
       if (rows.length > 10)
@@ -9405,7 +9404,7 @@ function rcube_webmail()
         style: 'width:0;height:0;visibility:hidden',
         'aria-hidden': 'true'
       })
-      .appendTo('body');
+      .appendTo(document.body);
   };
 
   // html5 file-drop API
@@ -9894,7 +9893,7 @@ function rcube_webmail()
           ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;
           $(this).remove();
         })
-        .appendTo($('body'));
+        .appendTo(document.body);
       }, 10);
 
     return 0;
@@ -10010,9 +10009,9 @@ rcube_webmail.long_subject_title_ex = function(elem)
     var $elem = $(elem),
       txt = $.trim($elem.text()),
       tmp = $('<span>').text(txt)
-        .css({'position': 'absolute', 'float': 'left', 'visibility': 'hidden',
+        .css({position: 'absolute', 'float': 'left', visibility: 'hidden',
           'font-size': $elem.css('font-size'), 'font-weight': $elem.css('font-weight')})
-        .appendTo($('body')),
+        .appendTo(document.body),
       w = tmp.width();
 
     tmp.remove();
