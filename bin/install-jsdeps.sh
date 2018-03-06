@@ -195,7 +195,7 @@ function extract_zipfile($package, $srcfile)
 
   $destdir = INSTALL_PATH . $package['dest'];
   if (!is_dir($destdir)) {
-    mkdir($destdir, 0774, true);
+    mkdir($destdir, 0775, true);
   }
 
   if (!is_writeable($destdir)) {
