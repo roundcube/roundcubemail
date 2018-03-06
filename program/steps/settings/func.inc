@@ -919,7 +919,7 @@ function rcmail_user_prefs($current = null)
                 $field_id = 'rcmfd_default_font_size';
                 $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
 
-                $fontsizes = array('', '8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt');
+                $fontsizes = array('', '8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt');
                 foreach ($fontsizes as $size) {
                     $select_default_font_size->add($size, $size);
                 }
