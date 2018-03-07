@@ -961,7 +961,7 @@ function rcube_elastic_ui()
                 var name = $.type(e) == 'string' ? e : rcmail.env.mailbox,
                     folder = rcmail.env.mailboxes[name];
 
-                args.title = folder.name;
+                args.title = folder ? folder.name : '';
             }
 
             common_list_handler(args);
