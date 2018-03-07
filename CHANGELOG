@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix key generation in Safari by upgrade to OpenPGP 2.6.2 (#6149)
 - Fix security issue in remote content blocking on HTML image and style tags (#6178)
 - Added 9pt and 11pt to the list of font sizes in HTML editor
+- Fix handling encoding of HTML tags in "inline" JSON output (#6207)
 
 RELEASE 1.3.4
 -------------
