@@ -321,13 +321,21 @@ abstract class rcube_output
      *
      * @param mixed   $input  Input value
      * @param boolean $pretty Enable JSON formatting
+     * @param boolean $inline Enable inline mode (generates output safe for use inside HTML)
      *
      * @return string Serialized JSON string
      */
-    public static function json_serialize($input, $pretty = false)
+    public static function json_serialize($input, $pretty = false, $inline = true)
     {
+        // The input need to be valid UTF-8 to use with json_encode()
         $input   = rcube_charset::clean($input);
         $options = JSON_UNESCAPED_SLASHES;
+
+        // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
+        // if input contains a html tag it will cause issues (#6207)
+        if ($inline) {
+            $options |= JSON_HEX_TAG;
+        }
 
         // JSON_UNESCAPED_UNICODE in PHP < 7.1.0 does not escape U+2028 and U+2029
         // which causes issues (#6187)
