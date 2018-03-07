@@ -232,7 +232,7 @@ class rcmail_output_json extends rcmail_output
         $response = $hook['response'];
         unset($hook['response']);
 
-        echo self::json_serialize($response, $this->devel_mode);
+        echo self::json_serialize($response, $this->devel_mode, false);
     }
 
     /**
@@ -245,7 +245,7 @@ class rcmail_output_json extends rcmail_output
         foreach ($this->commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg, $this->devel_mode);
+                $args[$i] = self::json_serialize($arg, $this->devel_mode, false);
             }
 
             $out .= sprintf(
