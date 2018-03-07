@@ -405,7 +405,7 @@ class rcube_cache
             }
         }
 
-        $data = serialize($this->index);
+        $data = serialize(array_values($this->index));
 
         $this->add_item($this->ikey(), $data);
     }
