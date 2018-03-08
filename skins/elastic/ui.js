@@ -834,7 +834,7 @@ function rcube_elastic_ui()
 
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
-            $('select,textarea,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
+            $('select,textarea,input:not([type=checkbox],[type=radio],[type=file])', context).addClass('form-control');
         }
 
         // The same for some other checkboxes
