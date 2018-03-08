@@ -46,6 +46,7 @@ class rcmail_output_html extends rcmail_output
     protected $body   = '';
     protected $base_path = '';
     protected $assets_path;
+    protected $assets_sri = false;
     protected $assets_dir = RCUBE_INSTALL_PATH;
     protected $devel_mode = false;
 
@@ -87,6 +88,7 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('skin', $skin);
 
         $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
+        $this->assets_sri = $this->config->get('assets_sri') && in_array('sha384', hash_algos(), true);
 
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
@@ -771,6 +773,29 @@ EOF;
     }
 
     /**
+     * Get the sha384 hash for local assets
+     */
+    public function asset_sri($path)
+    {
+        // iframe content can't be in a different domain
+        // @TODO: check if assests are on a different domain
+
+        if (!$this->assets_sri || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
+            return false;
+        }
+
+        list($file) = explode('?', $path, 2);
+        if (!empty($file) && is_readable($this->assets_dir . $file)) {
+	    $content = @file_get_contents($this->assets_dir . $file);
+	    if ($content !== false) {
+	        return 'sha384-'.base64_encode(hash('sha384', $content, true));
+	    }
+	}
+
+        return false;
+    }
+
+    /**
      * Modify path by adding URL prefix if configured
      */
     public function asset_url($path)
@@ -817,7 +842,7 @@ EOF;
     protected function fix_paths($output)
     {
         return preg_replace_callback(
-            '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
+            '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)\2([\s>]?)!i',
             array($this, 'file_callback'), $output);
     }
 
@@ -841,7 +866,34 @@ EOF;
             $file = $this->file_mod($file);
         }
 
-        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+        return $matches[1] . '=' . $matches[2] . $file . $matches[2] . $matches[4];
+    }
+
+    /**
+     * Add SRI tags to assets
+     */
+    protected function include_assets_sri($output)
+    {
+        return preg_replace_callback(
+            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)\2([\s>])?!i',
+            array($this, 'sri_callback'), $output);
+    }
+
+    /**
+     * Callback function for preg_replace_callback in include_assets_sri()
+     *
+     * @return string Parsed string
+     */
+    protected function sri_callback($matches)
+    {
+        $attrs = '';
+        $sri = $this->asset_sri($matches[3]);
+
+	if (!empty($sri)) {
+	    $attrs = ' integrity="' . $sri . '" crossorigin="anonymous"';
+	}
+
+        return $matches[1] . '=' . $matches[2] . $matches[3] . $matches[2] . $attrs . $matches[4];
     }
 
     /**
@@ -850,7 +902,7 @@ EOF;
     protected function fix_assets_paths($output)
     {
         return preg_replace_callback(
-            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i',
+            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)\2([\s>])?!i',
             array($this, 'assets_callback'), $output);
     }
 
@@ -863,7 +915,7 @@ EOF;
     {
         $file = $this->asset_url($matches[3]);
 
-        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+        return $matches[1] . '=' . $matches[2] . $file . $matches[2] . $matches[4];
     }
 
     /**
@@ -1751,6 +1803,10 @@ EOF;
         }
 
         $output = $this->parse_with_globals($this->fix_paths($output));
+
+        if ($this->assets_sri) {
+            $output = $this->include_assets_sri($output);
+        }
 
         if ($this->assets_path) {
             $output = $this->fix_assets_paths($output);

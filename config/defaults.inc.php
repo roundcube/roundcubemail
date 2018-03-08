@@ -668,6 +668,16 @@ $config['assets_path'] = '';
 // PHP code about the location of asset files in filesystem
 $config['assets_dir'] = '';
 
+// Add SRI (Subresource Integrity) tags to assets
+// This currently works by reading the files in asset_dir
+// during page serve time and appending a corresponding
+// SHA-384 hash tag.
+// Warning: Because the hash is calculated every time a
+// page is served, enabling this option may result in
+// decreased performance.
+// See https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
+// for more information on SRI
+$config['assets_sri'] = false;
 
 // ----------------------------------
 // PLUGINS

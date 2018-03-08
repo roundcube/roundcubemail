@@ -86,7 +86,7 @@ class html
             return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
         else {
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $suffix;
+            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '/>' . $suffix;
         }
     }
 
@@ -99,6 +99,7 @@ class html
     {
         $doctypes = array(
             'html5'        => '<!DOCTYPE html>',
+            'xhtml-html5'  => '<!DOCTYPE html>',
             'xhtml'        => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
             'xhtml-trans'  => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
             'xhtml-strict' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
