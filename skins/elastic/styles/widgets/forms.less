@@ -406,7 +406,9 @@ html.ms .propform {
 
 
 .formcontent {
-    padding: 1rem;
+    &:not(.popupmenu) {
+        padding: 1rem;
+    }
 
     .row {
         margin-right: 0; // without these the form is too wide causing horizontal scrollbar appearence
