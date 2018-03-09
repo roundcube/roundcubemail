@@ -806,7 +806,8 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
+                $_date = preg_match('/^[0-9]+$/', $date) ? "@$date" : $date;
+                $dt    = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
             }
             catch (Exception $e) {
                 // ignore
