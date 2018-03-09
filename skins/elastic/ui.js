@@ -3178,6 +3178,7 @@ else {
     // we fake the engine a little
     var rcmail = parent.rcmail;
     var rcube_webmail = parent.rcube_webmail;
+    var bw = {};
 }
 
 var UI = new rcube_elastic_ui();
