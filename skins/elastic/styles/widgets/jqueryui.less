@@ -208,6 +208,26 @@
     }
 }
 
+/* Slider widget */
+
+.ui-slider {
+    box-shadow: none;
+
+    .ui-slider-range {
+        border-radius: .3rem;
+        background: lighten(@color-main, 30%);
+    }
+
+    .ui-slider-handle {
+        border-radius: .3rem;
+
+        &.ui-state-active {
+            background: @color-main;
+            border-color: @color-main-dark;
+        }
+    }
+}
+
 /* Datepicker widget */
 
 .ui-datepicker {

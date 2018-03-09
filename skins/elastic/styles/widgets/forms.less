@@ -331,6 +331,7 @@ input.smart-upload {
         -ms-hyphens: auto;
         hyphens: auto;
         overflow: hidden;
+        margin-bottom: 0;
     }
 }
 
@@ -1040,6 +1041,29 @@ html.touch .popupmenu.form {
         border: 1px solid @color-input-border;
         background: #fff;
         border-radius: 4px;
+    }
+}
+
+/*** Percent input with jQuery-UI slider ***/
+
+
+// Structure: <input><span.label><div.ui-slider>
+.input-percent-slider {
+    display: flex;
+    align-items: center;
+
+    input {
+        max-width: 4em;
+    }
+
+    span.label {
+        line-height: 2.4;
+        padding: 0 .5rem 0 .25rem;
+    }
+
+    div.ui-slider {
+        flex: 1;
+        margin: 0 .5em;
     }
 }
 
