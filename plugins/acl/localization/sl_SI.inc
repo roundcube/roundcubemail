@@ -19,6 +19,7 @@ $labels['sharing'] = 'Skupna raba';
 $labels['myrights'] = 'Pravice dostopa';
 $labels['username'] = 'Uporabnik:';
 $labels['advanced'] = 'Napredni način';
+$labels['add'] = 'Dodaj';
 $labels['newuser'] = 'Dodaj vnos';
 $labels['editperms'] = 'Uredi pravice';
 $labels['actions'] = 'Nastavitve pravic dostopa';

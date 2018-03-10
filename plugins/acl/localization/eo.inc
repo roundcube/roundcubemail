@@ -18,6 +18,7 @@
 $labels['sharing'] = 'Kunhavigado';
 $labels['myrights'] = 'Atingrajtoj';
 $labels['username'] = 'Uzanto:';
+$labels['add'] = 'Aldoni';
 $labels['newuser'] = 'Aldoni eron';
 $labels['actions'] = 'Agoj de atingrajtoj...';
 $labels['anyone'] = 'Ĉiuj uzantoj (iu ajn)';

@@ -19,6 +19,7 @@ $labels['sharing'] = 'Utdelning';
 $labels['myrights'] = 'Åtkomsträttigheter';
 $labels['username'] = 'Användare:';
 $labels['advanced'] = 'Avancerat läge';
+$labels['add'] = 'Lägg till';
 $labels['newuser'] = 'Lägg till';
 $labels['editperms'] = 'Ändra rättigheter';
 $labels['actions'] = 'Hantera åtkomsträttigheter...';

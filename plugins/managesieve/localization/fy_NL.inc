@@ -15,11 +15,18 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+$labels['scope'] = 'Berik';
 $labels['messagedelete'] = 'Berjocht fuortsmite';
+$labels['add'] = 'Tafoegje';
 $labels['del'] = 'Fuortsmite';
+$labels['sender'] = 'Stjoerder';
 $labels['none'] = 'gjin';
+$labels['flagread'] = 'Lêze';
+$labels['flagdeleted'] = 'Ferwidere';
+$labels['flagflagged'] = 'Flagge';
 $labels['notifyimportance'] = 'Prioriteit:';
 $labels['notifymethodmailto'] = 'E-mail';
+$labels['notifymethodtel'] = 'Telefoannûmer';
 $labels['notifymethodsms'] = 'SMS';
 $labels['...'] = '...';
 $labels['datetest'] = 'Date';
@@ -33,9 +40,14 @@ $labels['time'] = 'tiid (oo:mm:ss)';
 $labels['iso8601'] = 'datum (ISO8601)';
 $labels['std11'] = 'datum (RFC2822)';
 $labels['zone'] = 'tiidsône';
+$labels['advancedopts'] = 'Avansearre opsjes';
+$labels['body'] = 'Ynhâld';
 $labels['text'] = 'tekst';
 $labels['modtype'] = 'type:';
 $labels['domain'] = 'domein';
 $labels['user'] = 'brûker';
+$labels['vacation.subject'] = 'Ûnderwerp';
+$labels['vacation.body'] = 'Ynhâld';
 $labels['vacation.status'] = 'Status';
+$labels['vacation.keep'] = 'Hâlde';
 ?>

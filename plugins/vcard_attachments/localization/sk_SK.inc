@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Pridať vizitku vCard do adresára';
 $labels['vcardsavefailed'] = 'Vizitku vCard nemožno uložiť';
 $labels['attachvcard'] = 'Pripojiť vizitku vCard';
+$labels['vcardattached'] = 'Súbor vCard bol pripojený.';
 $labels['vcard'] = 'Vizitka vCard';
+$labels['forwardvcard'] = 'Preposlať vCard';
 ?>

@@ -16,3 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'تنزيل كل المرفقات';
+$labels['download'] = 'التنزيل جار …';
+$labels['downloadmbox'] = 'نسق Mbox (.zip)';
+$labels['downloadmaildir'] = 'نسق Maildir (.zip)';
+$labels['downloademl'] = 'المصدر (.eml)';

@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Allegato mancante?";
 $messages['forgotattachment'] = "Sembra che tu abbia dimenticato di allegare un file!\nPremere Annulla per inviare lo stesso.\nOK per tornare al messaggio senza inviare.";
 $messages['reminderoption'] = "Ricorda per gli allegati dimenticati";
 $messages['keywords'] = "allegato,allegati,allegata,allegate,allega,allego,alleghi,attaccato,file,attachment,attach";

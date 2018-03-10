@@ -19,6 +19,7 @@ $labels['sharing'] = 'Сподели';
 $labels['myrights'] = 'Право на пристап';
 $labels['username'] = 'Корисник';
 $labels['advanced'] = 'Напредно ниво';
+$labels['add'] = 'Додај';
 $labels['newuser'] = 'Додади запис';
 $labels['editperms'] = 'Уреди одобрение';
 $labels['actions'] = 'Правото на пристапување';

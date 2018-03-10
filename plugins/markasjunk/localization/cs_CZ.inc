@@ -17,5 +17,5 @@
 */
 $labels['buttontext'] = 'Spam';
 $labels['buttontitle'] = 'Označit jako Spam';
-$labels['reportedasjunk'] = 'Úspěšně nahlášeno jako Spam';
+$labels['reportedasjunk'] = 'Nahlášeno jako Spam';
 ?>

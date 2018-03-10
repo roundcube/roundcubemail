@@ -19,5 +19,4 @@ $labels['addvcardmsg'] = 'Add vCard to addressbook';
 $labels['vcardsavefailed'] = 'Unable to save vCard';
 $labels['attachvcard'] = 'Attach vCard';
 $labels['vcard'] = 'vCard';
-$labels['forwardvcard'] = 'Forward vCard';
 ?>

@@ -19,6 +19,7 @@ $labels['sharing'] = 'Uso in commun';
 $labels['myrights'] = 'Derectos de accesso';
 $labels['username'] = 'Usator:';
 $labels['advanced'] = 'Modo avantiate';
+$labels['add'] = 'Adder';
 $labels['newuser'] = 'Adder entrata';
 $labels['editperms'] = 'Modificar permissiones';
 $labels['actions'] = 'Actiones de derecto de accesso...';

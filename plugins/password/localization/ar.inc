@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'تغيير كلمة المرور';
 $labels['curpasswd']  = 'كلمة المرور الحالية:';
 $labels['newpasswd']  = 'كلمة المرور الجديدة:';
 $labels['confpasswd']  = 'تأكيد كلمة المرور الجديدة:';
@@ -28,3 +29,8 @@ $messages['internalerror'] = 'تعذر حفظ كلمة المرور الجديد
 $messages['passwordshort'] = 'كلمة المرور يجب على الأقل $length أحرف';
 $messages['passwordweak'] = ' كلمة المرور يجب أن تتضمن رقم واحد على الأقل وحرف ترقيم واحد.';
 $messages['passwordforbidden'] = 'كلمة المرور تحتوى على أحرف ممنوعة';
+$messages['firstloginchange'] = 'لقد تم تسجيل دخولك لأول مرة، يُرجى تغيير كلمتك السرية.';
+$messages['passwinhistory'] = 'لقد قُمت باستخدام هذه الكلمة السرية مِن قبل.';
+$messages['samepasswd'] = 'يجب أن تكون كلمة السر الجديدة لا تُشابِه الكلمة القديمة.';
+$messages['passwdexpirewarning'] = 'تنبيه ! إنّ مدة صلاحية كلمتك السرية سوف تنقضي قريبا، يُرجى تغييرها قبل $expirationdatetime.';
+$messages['passwdexpired'] = 'لقد إنتهت مدة صلاحية كلمتك السرية، يجب عليك تغييرها الآن !';

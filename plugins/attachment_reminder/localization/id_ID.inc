@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Kehilangan lampiran?";
 $messages['forgotattachment'] = "Apakah anda lupa melampirkan sebuah file?";
 $messages['reminderoption'] = "Ingatkan tentang lampiran yang terlupakan";
-$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter";
+$messages['keywords'] = "lampiran, file, terlampir, dilampirkan, melampirkan, lampiran tertutup, CV, sampul surat";

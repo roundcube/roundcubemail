@@ -19,6 +19,7 @@ $labels['sharing'] = 'Partajare';
 $labels['myrights'] = 'Drepturi de acces';
 $labels['username'] = 'Utilizator:';
 $labels['advanced'] = 'Modul avansat';
+$labels['add'] = 'Adauga';
 $labels['newuser'] = 'Adăugare intrare';
 $labels['editperms'] = 'Editare permisiuni';
 $labels['actions'] = 'Acțiunea drepturilor de acces...';

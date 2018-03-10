@@ -19,6 +19,7 @@ $labels['sharing'] = 'שיתוף';
 $labels['myrights'] = 'זכויות גישה';
 $labels['username'] = 'משתמש:';
 $labels['advanced'] = 'מצב מתקדם';
+$labels['add'] = 'הוספה';
 $labels['newuser'] = 'הוסף ערך';
 $labels['editperms'] = 'עריכת הרשאות';
 $labels['actions'] = 'פעולות על זכויות גישה...';

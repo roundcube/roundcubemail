@@ -15,25 +15,25 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-$labels['welcome']   = ' $product میں خوش آمدید';
-$labels['username']  = 'صارف';
-$labels['password']  = 'پاسورڈ';
-$labels['server']    = 'سَروَر';
-$labels['logout']   = 'لاگ آؤٹ';
-$labels['mail']     = 'میل';
+$labels['welcome'] = ' $product میں خوش آمدید';
+$labels['username'] = 'صارف';
+$labels['password'] = 'پاسورڈ';
+$labels['server'] = 'سَروَر';
+$labels['logout'] = 'لاگ آؤٹ';
+$labels['mail'] = 'میل';
 $labels['settings'] = 'ترتیبات';
 $labels['addressbook'] = 'ایڈریس بک';
-$labels['inbox']  = 'ان باکس';
+$labels['inbox'] = 'ان باکس';
 $labels['drafts'] = 'ڈرافٹ';
 $labels['subject'] = 'مضمون';
-$labels['from']    = 'از';
-$labels['sender']  = 'بھیجنے والا';
+$labels['from'] = 'از';
+$labels['sender'] = 'بھیجنے والا';
 $labels['download'] = 'ڈاؤن لوڈ';
 $labels['showanyway'] = 'جیسا بھی ہے ظاہر کر دیں';
-$labels['markread']         = 'جیسے پڑھ لیا ہو';
-$labels['markunread']       = 'جیسے ابھی نہ پڑھا ہو';
-$labels['more']             = 'مزید';
-$labels['back']             = 'واپس';
+$labels['markread'] = 'جیسے پڑھ لیا ہو';
+$labels['markunread'] = 'جیسے ابھی نہ پڑھا ہو';
+$labels['more'] = 'مزید';
+$labels['back'] = 'واپس';
 $labels['select'] = 'مۃنتخب کریں';
 $labels['all'] = 'تمام';
 $labels['none'] = 'کوئی نہیں';
@@ -46,4 +46,5 @@ $labels['list'] = 'لِسٹ';
 $labels['expand-all'] = 'تمام کھولیں';
 $labels['attachment'] = 'مُنسلَک شُدہ';
 $labels['nonesort'] = 'کوئی نہیں';
+$labels['layoutlist'] = 'لِسٹ';
 ?>

@@ -99,7 +99,6 @@ $messages['nosubjecttitle']  = '無主旨';
 $messages['nobodywarning'] = '要傳送沒有內文的郵件嗎？';
 $messages['notsentwarning'] = '郵件尚未寄出，並且有未儲存的改動。是否捨棄該改動？';
 $messages['restoresavedcomposedata'] = '發現一封上次編寫但尚未寄出的郵件。\n\n主旨: $subject\n日期: $date\n\n要回復這封郵件嗎？';
-$messages['noldapserver'] = '請選擇 LDAP 伺服器進行搜尋';
 $messages['nosearchname'] = '請輸入聯絡人姓名或電子郵件位址';
 $messages['notuploadedwarning'] = '尚有附件檔案未上傳完畢；請稍候，或取消上傳';
 $messages['searchsuccessful'] = '共找到 $nr 封郵件';
@@ -193,8 +192,6 @@ $messages['invalidimageformat'] = '圖片格式錯誤';
 $messages['mispellingsfound'] = '郵件中偵測到拼字錯誤';
 $messages['parentnotwritable'] = '無法建立/移動資料夾至指定的上層目錄，因為無存取權限';
 $messages['messagetoobig'] = '郵件太大，無法處理';
-$messages['attachmentvalidationerror'] = '警告！這個附件是可疑的，因為其檔案類型與宣稱的不同。如果寄件者不可靠，請不要開啟附件，因為其可能含有惡意的內容。<br /><br />
-<em>預期要收到的是：$expected；實際發現的是：$detected</em>';
 $messages['noscriptwarning'] = '警告：使用 Webmail 要有 Javascript 支援！請確定您瀏覽器已啟用 Javascript';
 $messages['messageissent'] = '此郵件已經寄出，但尚未儲存。是否立即儲存？';
 $messages['errnotfound'] = '找不到檔案';

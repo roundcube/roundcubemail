@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Trūksta priedo?";
 $messages['forgotattachment'] = "Ar nepamiršote prisegti priedo?";
 $messages['reminderoption'] = "Priminti apie neprisegtus priedus";
 $messages['keywords'] = "priedas, byla, prisegti, prisegta, prisegama, uždaras, CV, laiškas";

@@ -19,4 +19,6 @@ $labels['buttontext'] = 'जतन केलेला';
 $labels['buttontitle'] = 'हा संदेश जतन करा';
 $labels['archived'] = 'यशस्वीरीत्या जतन केला';
 $labels['archivefolder'] = 'जतन केलेला';
+$labels['settingstitle'] = 'जतन केलेला';
+$labels['unkownsender'] = 'माहित नसलेला';
 ?>

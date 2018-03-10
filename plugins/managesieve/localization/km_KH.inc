@@ -79,6 +79,8 @@ $labels['notifyimportance'] = 'សំខាន់៖';
 $labels['notifyimportancelow'] = 'ទាប';
 $labels['notifyimportancenormal'] = 'ធម្មតា';
 $labels['notifyimportancehigh'] = 'ខ្ពស់';
+$labels['notifymethodmailto'] = 'អ៊ីមែល';
+$labels['notifymethodtel'] = 'ទូរស័ព្ទ';
 $labels['filtercreate'] = 'បង្កើត​តម្រង';
 $labels['usedata'] = 'ប្រើ​ទិន្នន័យ​ទាំង​នេះ​ក្នុង​តម្រង៖';
 $labels['nextstep'] = 'ជំហាន​បន្ទាប់';
@@ -113,4 +115,8 @@ $labels['user'] = 'អ្នកប្រើ';
 $labels['detail'] = 'លម្អិត';
 $labels['index'] = 'លិបិក្រម៖';
 $labels['indexlast'] = 'បកក្រោយ';
+$labels['vacation.subject'] = 'ចំណងជើង';
+$labels['vacation.body'] = 'តួ';
+$labels['vacation.keep'] = 'រក្សា';
+$labels['duplicate.header'] = 'ក្បាល៖';
 ?>
