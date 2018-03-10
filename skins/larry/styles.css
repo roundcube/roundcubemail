@@ -2071,6 +2071,18 @@ ul.proplist.simplelist li {
 	background-position: center -2065px;
 }
 
+.toolbar a.button.rotate {
+	background-position: center -2148px;
+}
+
+.toolbar a.button.zoomin {
+	background-position: center -2190px;
+}
+
+.toolbar a.button.zoomout {
+	background-position: center -2230px;
+}
+
 a.menuselector {
 	display: inline-block;
 	border: 1px solid #ababab;
