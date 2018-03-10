@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2018, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,19 +22,22 @@
  * @package    Framework
  * @subpackage Core
  * @author     Cor Bosman <cor@roundcu.be>
+ * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_session_redis extends rcube_session {
 
     private $redis;
+    private $debug;
 
     /**
-     * @param Object $config
+     * @param rcube_config $config
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
         $this->redis = rcube::get_instance()->get_redis();
+        $this->debug = $config->get('redis_debug');
 
         // register sessions handler
         $this->register_session_handler();
@@ -67,7 +70,11 @@ class rcube_session_redis extends rcube_session {
     public function destroy($key)
     {
         if ($key) {
-            $this->redis->del($key);
+            $result = $this->redis->del($key);
+
+            if ($this->debug) {
+                $this->debug('delete', $key, null, $result);
+            }
         }
 
         return true;
@@ -77,7 +84,7 @@ class rcube_session_redis extends rcube_session {
      * read data from redis store
      *
      * @param $key
-     * @return null
+     * @return string
      */
     public function read($key)
     {
@@ -87,11 +94,13 @@ class rcube_session_redis extends rcube_session {
             $this->ip      = $arr['ip'];
             $this->vars    = $arr['vars'];
             $this->key     = $key;
-
-            return !empty($this->vars) ? (string) $this->vars : '';
         }
 
-        return '';
+        if ($this->debug) {
+            $this->debug('get', $key, $value);
+        }
+
+        return $this->vars ?: '';
     }
 
     /**
@@ -107,8 +116,14 @@ class rcube_session_redis extends rcube_session {
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
-            $this->redis->setex($key, $this->lifetime + 60, $data);
+            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $result = $this->redis->setex($key, $this->lifetime + 60, $data);
+
+            if ($this->debug) {
+                $this->debug('set', $key, $data, $result);
+            }
+
+            return $result;
         }
 
         return true;
@@ -127,8 +142,27 @@ class rcube_session_redis extends rcube_session {
             return true;
         }
 
-        $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
+        $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
+        $result = $this->redis->setex($key, $this->lifetime + 60, $data);
 
-        return $this->redis->setex($key, $this->lifetime + 60, $data);
+        if ($this->debug) {
+            $this->debug('set', $key, $data, $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Write memcache debug info to the log
+     */
+    protected function debug($type, $key, $data = null, $result = null)
+    {
+        $line = strtoupper($type) . ' ' . $key;
+
+        if ($data !== null) {
+            $line .= ' ' . $data;
+        }
+
+        rcube::debug('redis', $line, $result);
     }
 }
