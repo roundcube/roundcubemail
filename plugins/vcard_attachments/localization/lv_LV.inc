@@ -18,5 +18,6 @@
 $labels['addvcardmsg'] = 'Pievienot vizītkarti adrešu grāmatai';
 $labels['vcardsavefailed'] = 'Nevarēja saglabāt vizītkarti';
 $labels['attachvcard'] = 'Pievienot vCard';
+$labels['vcardattached'] = 'vCard fails pievienots.';
 $labels['vcard'] = 'vCard';
 ?>

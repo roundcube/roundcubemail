@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Aggiungi vCard alla rubrica';
 $labels['vcardsavefailed'] = 'Impossibile salvare vCard';
 $labels['attachvcard'] = 'Allega vCard';
+$labels['vcardattached'] = 'File vCard allegato.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Inoltra vCard';
 ?>

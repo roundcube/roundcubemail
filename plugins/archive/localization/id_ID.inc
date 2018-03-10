@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Arsip';
 $labels['archivetype'] = 'Pisah arsip berdasarkan';
 $labels['archivetypeyear'] = 'Tahun (contoh: Arsip/2012)';
 $labels['archivetypemonth'] = 'Bulan (contoh: Arsip/2012/06)';
+$labels['archivetypetbmonth'] = 'Bulan - Kecocokan Thunderbird ( contoh: Arsip/2012/2012-06 )';
 $labels['archivetypefolder'] = 'Folder asli';
 $labels['archivetypesender'] = 'Email pengirim';
 $labels['unkownsender'] = 'Tidak dikenal';

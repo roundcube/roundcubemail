@@ -55,7 +55,6 @@ $messages['nopagesizewarning'] = 'Bonvolu enmeti paĝ-grando';
 $messages['norecipientwarning'] = 'Bonvolu enmeti minumume unu ricevonto';
 $messages['nosubjectwarning']  = 'La temkampo estas malplena. Ĉu vi volas skribi temon nun?';
 $messages['nobodywarning'] = 'Ĉu sendi ĉi tiun mesaĝon sen teksto?';
-$messages['noldapserver'] = 'Bonvolu elekti ldap-servilon por serĉado';
 $messages['nosearchname'] = 'Bonvolu enmeti kontakt-nomon aŭ retpoŝt-adreson.';
 $messages['searchsuccessful'] = 'trovis $nr mesaĝojn';
 $messages['searchnomatch'] = 'Serĉo donis nenion';

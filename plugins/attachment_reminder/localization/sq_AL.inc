@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Mungon bashkëngjitje?";
 $messages['forgotattachment'] = "Mos harruat të bashkëngjitni një kartelë?";
 $messages['reminderoption'] = "Kujtoji për bashkëngjitje të harruara";
-$messages['keywords'] = "bashkëngjitje,skedar,kartelë,bashkëngjite,bashkëngjitur,përfshirë,CV,letër shoqëruese";
+$messages['keywords'] = "bashkëngjitje,kartelë,bashkëngjite,bashkëngjitur,përfshirë,CV,letër shoqëruese";

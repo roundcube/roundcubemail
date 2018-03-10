@@ -17,4 +17,5 @@
 */
 $labels['buttontext'] = 'غير المرغوب';
 $labels['buttontitle'] = 'حدد كغير مرغوب';
+$labels['reportedasjunk'] = 'تم الإبلاغ عنه كبريد غير مرغوب فيه بنجاح';
 ?>

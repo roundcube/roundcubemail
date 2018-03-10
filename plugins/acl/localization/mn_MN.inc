@@ -46,4 +46,14 @@ $labels['aclwrite'] = 'Бичих';
 $labels['acldelete'] = 'Устгах';
 $labels['shortacll'] = 'Хайх';
 $labels['shortaclr'] = 'Унших';
+$labels['shortaclw'] = 'Бичих';
+$labels['shortaclp'] = 'Бичлэг';
+$labels['shortacld'] = 'Устгах';
+$labels['shortaclt'] = 'Устгах';
+$labels['shortacle'] = 'Устгах';
+$labels['shortacla'] = 'Зохицуулагч';
+$labels['shortaclother'] = 'Бусад';
+$labels['shortaclread'] = 'Унших';
+$labels['shortaclwrite'] = 'Бичих';
+$labels['shortacldelete'] = 'Устгах';
 ?>

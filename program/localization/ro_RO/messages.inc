@@ -99,7 +99,6 @@ $messages['nosubjecttitle']  = 'Fără subiect';
 $messages['nobodywarning'] = 'Trimiteţi acest mesaj fără text?';
 $messages['notsentwarning'] = 'Mesajul nu a fost trimis și are modificări nesalvate. Doriți să renunțați la modificările dvs.?';
 $messages['restoresavedcomposedata'] = 'Un mesaj compus anterior a fost găsit.\n\nSubiect:$subject\nSalvat: $date\n\nDoriţi restaurarea acestuia ?';
-$messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
 $messages['nosearchname'] = 'Vă rugăm să introduceţi un nume de contact sau adresă de e-mail';
 $messages['notuploadedwarning'] = 'Nu toate fişierele au fost ataşate. Vă rugăm să aşteptaţi sau să anulaţi încărcarea acestora.';
 $messages['searchsuccessful'] = '$nr mesaje găsite';
@@ -193,7 +192,6 @@ $messages['invalidimageformat'] = 'Tip invalid de imagine.';
 $messages['mispellingsfound'] = 'Au fost găsite greşeli de ortografie în mesaj.';
 $messages['parentnotwritable'] = 'Nu pot crea/muta dosarul în dosarul părinte selectat. Fără drepturi de acces.';
 $messages['messagetoobig'] = 'Partea de mesaj este prea mare pentru a o procesa.';
-$messages['attachmentvalidationerror'] = 'ATENȚIE! Acest atașament este suspect, fiindcă tipul lui nu coincide cu tipul declarat în mesaj. Dacă nu aveți încredere în expeditor, nu vă recomandăm să deschideți fișierul, fiindcă poate avea conținut malițios. <br/><br/><em>Așteptat: $expected; găsit: $detected</em>';
 $messages['noscriptwarning'] = 'Atenție: Serviciul de webmail necesită Javascript! Pentru a-l utiliza vă rugăm activați Javascript în setările browserului.';
 $messages['messageissent'] = 'Mesajul a fost deja trimis, dar încă nu a fost salvat.
 Vreți să îl salvați acum?';

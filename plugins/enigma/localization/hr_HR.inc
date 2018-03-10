@@ -15,5 +15,10 @@
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+$labels['keyname'] = 'Naziv';
+$labels['subkeycreated'] = 'Stvoreno';
+$labels['expiresnever'] = 'nikad';
+$labels['unknown'] = 'nepoznato';
 $labels['keychpass'] = 'Promjena zaporke';
+$labels['newkeypass'] = 'Lozinka';
 ?>

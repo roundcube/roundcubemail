@@ -19,6 +19,7 @@ $labels['sharing'] = 'Udostępnianie';
 $labels['myrights'] = 'Prawa dostępu';
 $labels['username'] = 'Użytkownik:';
 $labels['advanced'] = 'Tryb zaawansowany';
+$labels['add'] = 'Dodaj';
 $labels['newuser'] = 'Dodaj rekord';
 $labels['editperms'] = 'Edytuj zezwolenia';
 $labels['actions'] = 'Akcje na prawach...';

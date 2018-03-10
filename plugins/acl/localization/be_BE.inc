@@ -19,6 +19,7 @@ $labels['sharing'] = 'Сумесны доступ';
 $labels['myrights'] = 'Правы доступу';
 $labels['username'] = 'Карыстальнік:';
 $labels['advanced'] = 'Пашыраны рэжым';
+$labels['add'] = 'Дадаць';
 $labels['newuser'] = 'Дадаць запіс';
 $labels['editperms'] = 'Рэдагаваць правы доступу';
 $labels['actions'] = 'Дзеянні з правамі доступу...';

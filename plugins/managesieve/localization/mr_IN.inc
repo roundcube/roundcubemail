@@ -31,4 +31,11 @@ $labels['messagesactions'] = 'खालील कृती आमलात आ�
 $labels['add'] = 'समावेश करा';
 $labels['del'] = 'नष्ट करा';
 $labels['sender'] = 'प्रेषक';
+$labels['flagdeleted'] = 'काढून टाकलेला(ले)';
+$labels['flagflagged'] = 'खूण लावलेले';
+$labels['notifymethodmailto'] = 'इ-मेल्';
+$labels['notifymethodtel'] = 'दूरध्वनी';
+$labels['datetest'] = 'दिनांक';
+$labels['advancedopts'] = 'अधिक पर्याय';
+$labels['vacation.subject'] = 'विषय';
 ?>

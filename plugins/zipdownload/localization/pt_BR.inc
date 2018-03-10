@@ -19,4 +19,4 @@ $labels['downloadall'] = 'Baixar todos os anexos';
 $labels['download'] = 'Baixar...';
 $labels['downloadmbox'] = 'Formato mbox (.zip)';
 $labels['downloadmaildir'] = 'Formato maildir (.zip)';
-$labels['downloademl'] = 'Original (.eml)';
+$labels['downloademl'] = 'Fonte (.eml)';

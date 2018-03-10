@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archivio';
 $labels['archivetype'] = 'Dividi archivio per';
 $labels['archivetypeyear'] = 'Anno (es. Archivio/2012)';
 $labels['archivetypemonth'] = 'Mese (es. Archivio/2012/06)';
+$labels['archivetypetbmonth'] = 'Mese - compatibile con Thunderbird (es Archivio/2012/2012-06)';
 $labels['archivetypefolder'] = 'Cartella di origine';
 $labels['archivetypesender'] = 'Mittente email';
 $labels['unkownsender'] = 'sconosciuto';

@@ -19,6 +19,7 @@ $labels['sharing'] = 'Paylaşma';
 $labels['myrights'] = 'Giriş hüququ';
 $labels['username'] = 'İstifadəçi:';
 $labels['advanced'] = 'Ekspert rejimi';
+$labels['add'] = 'Əlavə et';
 $labels['newuser'] = 'Sahə əlavə et';
 $labels['editperms'] = 'Cavabları redaktə et';
 $labels['actions'] = 'Giriş hüququ ilə hərəkət...';

@@ -19,6 +19,7 @@ $labels['sharing'] = 'اشتراک‌گذاری';
 $labels['myrights'] = 'حقوق دسترسی';
 $labels['username'] = 'کاربر:';
 $labels['advanced'] = 'حالت پیشرفته';
+$labels['add'] = 'افزودن';
 $labels['newuser'] = 'افزودن ورودی';
 $labels['editperms'] = 'ویرایش مجوزها';
 $labels['actions'] = 'فعالیت‌های حق دسترسی...';

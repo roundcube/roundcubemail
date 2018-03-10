@@ -17,9 +17,11 @@
 */
 $labels['filters'] = 'Síur';
 $labels['filtername'] = 'Heiti síu';
+$labels['scope'] = 'Umfang';
 $labels['moveup'] = 'Færa upp';
 $labels['movedown'] = 'Færa niður';
 $labels['filterany'] = 'öll skeyti';
+$labels['messagedelete'] = 'Eyða skeyti';
 $labels['add'] = 'Bæta við';
 $labels['del'] = 'Eyða';
 $labels['sender'] = 'Sendandi';
@@ -29,6 +31,7 @@ $labels['days'] = 'dagar';
 $labels['seconds'] = 'sekúndur';
 $labels['flagread'] = 'Lesið';
 $labels['flagdeleted'] = 'Eytt';
+$labels['flagflagged'] = 'Flaggað';
 $labels['flagdraft'] = 'Drög';
 $labels['notifymethodmailto'] = 'Tölvupóstfang';
 $labels['notifymethodtel'] = 'Sími';
@@ -75,6 +78,11 @@ $labels['vacation.keep'] = 'Halda';
 $labels['vacation.discard'] = 'Henda';
 $labels['vacation.redirect'] = 'Endurbeina til';
 $labels['vacation.copy'] = 'Senda afrit á';
+$labels['forward.redirect'] = 'Endurbeina til';
+$labels['forward.copy'] = 'Senda afrit á';
+$labels['forward.on'] = 'Kveikt';
+$labels['forward.off'] = 'Slökkt';
+$labels['forward.saving'] = 'Vista gögn...';
 $labels['message'] = 'Skilaboð';
 $messages['namereserved'] = 'Nafn er frátekið.';
 ?>

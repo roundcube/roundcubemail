@@ -99,7 +99,6 @@ $messages['nosubjecttitle']  = 'Mavzusiz';
 $messages['nobodywarning'] = 'Xatni matnsiz jo‘natmoqchimisiz?';
 $messages['notsentwarning'] = 'Xat jo‘natilmadi va saqlanmagan o‘zgartirishlarga ega. Siz bu o‘zgarishlarni bekor qilishni istaysizmi?';
 $messages['restoresavedcomposedata'] = 'Avval $date da yaratilgan biroq, jo‘natilmagan $subject\n mavzudagi xat mavjud.Bu xatni qayta tiklashni istaysizmi?';
-$messages['noldapserver'] = 'Iltimos, qidirish uchun LDAP serverni tanlang.';
 $messages['nosearchname'] = 'Iltimos, Ism yoki elektron pochta manzilini kiriting.';
 $messages['notuploadedwarning'] = 'Barcha ilovalar hali yuklanmadi, Iltimos kuting yoki yuklashni bekor qiling.';
 $messages['searchsuccessful'] = '$nr ta xat topildi.';
@@ -193,8 +192,6 @@ $messages['invalidimageformat'] = 'Rasm formati noto‘g‘ri';
 $messages['mispellingsfound'] = 'Xatda imlo xatolar mavjud.';
 $messages['parentnotwritable'] = 'Tanlangan asos papkada boshqa papka yaratish/ko‘chirishni imkoni yo‘q. Ruxsat berilmaganl';
 $messages['messagetoobig'] = 'Xat qismi qayta ishlash uchun juda katta.';
-$messages['attachmentvalidationerror'] = 'DIQQAT! Mazkur ilova shubhali. 
-Chunki uning turi xatda e’lon qilingani bilan mos emas. Agar jo‘natuvchiga ishonmasangiz, uni brauzerda ochmang, zeroki u zararli axborotlarga ega bo‘lishi mumkin. kutilgan edi: $expected; aniqlandi: $detected</em>';
 $messages['noscriptwarning'] = 'DIQQAT: Veb pochtaning mazkur xizmati javascriptni talab etadi. Uni ishlatish uchun brauzeringizda javascriptni qo‘llalb-quvvatlashni faollashtirishingiz lozim.';
 $messages['messageissent'] = 'Xat jo‘natildi, biroq hali saqlanmadi. Uni hozir saqlashni istaysizmi?';
 $messages['errnotfound'] = 'Fayl topilmadi';

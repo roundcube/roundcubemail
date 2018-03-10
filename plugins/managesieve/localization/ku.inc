@@ -85,4 +85,6 @@ $labels['vacation.advanced'] = 'Mihengên pêşketî';
 $labels['vacation.subject'] = 'Mijar';
 $labels['vacation.status'] = 'Rewş';
 $labels['vacation.on'] = 'Vekirî';
+$labels['vacation.keep'] = 'Bihêle';
+$labels['forward.on'] = 'Vekirî';
 ?>

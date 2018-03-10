@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Добавить в контакты';
 $labels['vcardsavefailed'] = 'Не удалось сохранить vCard';
 $labels['attachvcard'] = 'Вложить vCard';
+$labels['vcardattached'] = 'Вложенный vCard';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Переслать vCard';
 ?>

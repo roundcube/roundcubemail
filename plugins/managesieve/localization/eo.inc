@@ -48,4 +48,12 @@ $labels['add'] = 'Aldoni';
 $labels['del'] = 'Forigi';
 $labels['sender'] = 'Sendanto';
 $labels['recipient'] = 'Ricevanto';
+$labels['flagread'] = 'Legi';
+$labels['flagdeleted'] = 'Forigita';
+$labels['flagflagged'] = 'Markita';
+$labels['notifymethodmailto'] = 'Retpoŝto';
+$labels['notifymethodtel'] = 'Telefono';
+$labels['datetest'] = 'Dato';
+$labels['vacation.subject'] = 'Temo';
+$labels['vacation.keep'] = 'Manteni';
 ?>

@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Arkivoje';
 $labels['archivetype'] = 'Ndaje arkivin sipas';
 $labels['archivetypeyear'] = 'Vit (p.sh. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Muaj (p.sh. Arkiv/2012/06)';
+$labels['archivetypetbmonth'] = 'Muaj - i përputhshëm me Thunderbird-in (p.sh. Arkiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Dosje origjinale';
 $labels['archivetypesender'] = 'Email dërguesi';
 $labels['unkownsender'] = 'e panjohur';

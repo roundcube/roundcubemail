@@ -19,6 +19,7 @@ $labels['sharing'] = 'Совместный доступ';
 $labels['myrights'] = 'Права доступа';
 $labels['username'] = 'Пользователь:';
 $labels['advanced'] = 'Экспертный режим';
+$labels['add'] = 'Добавить';
 $labels['newuser'] = 'Добавить поле';
 $labels['editperms'] = 'Редактировать права';
 $labels['actions'] = 'Действия с правами доступа...';

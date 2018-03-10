@@ -19,6 +19,7 @@ $labels['sharing'] = '공유';
 $labels['myrights'] = '접근 권한';
 $labels['username'] = '사용자:';
 $labels['advanced'] = '고급 모드';
+$labels['add'] = '추가';
 $labels['newuser'] = '입력내용 추가';
 $labels['editperms'] = '권한 수정';
 $labels['actions'] = '접근 권한 동작...';
