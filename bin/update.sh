@@ -181,6 +181,7 @@ if ($RCI->configured) {
         'pear-pear.php.net/net_sieve',
         'pear/mail_mime-decode',
         'roundcube/net_sieve',
+        'endroid/qrcode',
       );
       foreach ($old_packages as $pkg) {
         if (array_key_exists($pkg, $composer_data['require'])) {
