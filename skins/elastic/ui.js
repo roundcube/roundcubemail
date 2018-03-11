@@ -2391,7 +2391,7 @@ function rcube_elastic_ui()
     {
         item = $(item);
 
-        if (!item.children('.drop').length) {
+        if (!item.is('.no-menu') && !item.children('.drop').length) {
             var label = rcmail.gettext('options');
             var button = $('<a>')
                 .attr({
