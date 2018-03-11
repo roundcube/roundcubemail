@@ -792,7 +792,7 @@ function rcube_elastic_ui()
             var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
 
             $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
-                var tab, id = 'tab' + idx + '-' + i;
+                var tab, id = fieldset.id || ('tab' + idx + '-' + i);
 
                 $(fieldset).addClass('tab-pane').attr({id: id, role: 'tabpanel'});
 

@@ -787,11 +787,20 @@ html.touch .popupmenu.form {
     border-radius: .5rem;
     border: .2rem dashed @color-table-border;
 
+    fieldset & {
+        margin: 0;
+    }
+
     // TODO background image
 
     .upload-form {
         text-align: center;
         padding-bottom: 1em;
+
+        a.btn,
+        button {
+            margin-bottom: .25rem;
+        }
     }
 
    .hint {
