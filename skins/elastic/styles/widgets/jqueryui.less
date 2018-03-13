@@ -115,6 +115,11 @@
             a.btn-link {
                 padding-right: 0;
                 padding-left: 0;
+                text-decoration: none;
+
+                &:focus {
+                    background-color: @color-input-border-focus-shadow;
+                }
 
                 &.options:before {
                     // this icon is for mobile version
@@ -232,7 +237,6 @@
                 a.btn-link {
                     color: @color-toolbar-button;
                     margin: 0;
-                    text-decoration: none;
 
                     &.options:before {
                         display: block !important;
@@ -270,7 +274,6 @@
 /* Datepicker widget */
 
 .ui-datepicker {
-    z-index: 3 !important; // above Bootstrap form controls that use z-index: 3
     // Always display datepicker centered, overwriting widgets position
     position: fixed !important;
     top: 50% !important;
