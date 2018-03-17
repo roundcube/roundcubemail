@@ -2,7 +2,7 @@
 
 // By default this plugin stores attachments in filesystem
 // and copies them into sql database.
-// You can change it to use 'memcache' or 'apc'.
+// You can change it to use 'memcache', 'redis' or 'apc'.
 // -----------------------------------------------------------
 // WARNING: Remember to set max_allowed_packet in database or
 //          config to match with expected max attachment size.

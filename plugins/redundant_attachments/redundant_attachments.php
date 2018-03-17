@@ -7,7 +7,7 @@
  * attachment files. They are stored in both the database backend
  * as well as on the local file system.
  *
- * It provides also memcache store as a fallback (see config file).
+ * It provides also memcache/redis store as a fallback (see config file).
  *
  * This plugin relies on the core filesystem_attachments plugin
  * and combines it with the functionality of the database_attachments plugin.
@@ -15,8 +15,8 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
- * Copyright (C) 2011, The Roundcube Dev Team
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) 2011-2018, The Roundcube Dev Team
+ * Copyright (C) 2011-2018, Kolab Systems AG
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -46,7 +46,7 @@ class redundant_attachments extends filesystem_attachments
     // rcube_cache instance for SQL DB
     private $cache;
 
-    // rcube_cache instance for memcache
+    // rcube_cache instance for memcache/redis
     private $mem_cache;
 
     private $loaded;
@@ -66,20 +66,25 @@ class redundant_attachments extends filesystem_attachments
         // load configuration
         $this->load_config();
 
-        $ttl    = 12 * 60 * 60; // 12 hours
-        $ttl    = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
-        $prefix = self::PREFIX;
+        $ttl      = 12 * 60 * 60; // 12 hours
+        $ttl      = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+        $fallback = $rcmail->config->get('redundant_attachments_fallback');
+        $prefix   = self::PREFIX;
 
         if ($id = session_id()) {
             $prefix .= $id;
         }
 
+        if ($fallback === null) {
+            $fallback = $rcmail->config->get('redundant_attachments_memcache') ? 'memcache' : null; // BC
+        }
+
         // Init SQL cache (disable cache data serialization)
         $this->cache = $rcmail->get_cache($prefix, 'db', $ttl, false);
 
-        // Init memcache (fallback) cache
-        if ($rcmail->config->get('redundant_attachments_memcache')) {
-            $this->mem_cache = $rcmail->get_cache($prefix, 'memcache', $ttl, false);
+        // Init memcache/redis (fallback) cache
+        if ($fallback) {
+            $this->mem_cache = $rcmail->get_cache($prefix, $fallback, $ttl, false);
         }
 
         $this->loaded = true;

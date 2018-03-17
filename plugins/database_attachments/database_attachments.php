@@ -13,6 +13,8 @@
  * @author Ziba Scott <ziba@umich.edu>
  * @author Aleksander Machniak <alec@alec.pl>
  *
+ * Copyright (C) 2011-2018, The Roundcube Dev Team
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
  * as published by the Free Software Foundation.
