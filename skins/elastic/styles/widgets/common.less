@@ -332,6 +332,20 @@ fieldset.image-attachment {
     }
 }
 
+// Make Bootstrap tabs non-wrappable
+.nav-tabs {
+    flex-wrap: nowrap;
+
+    .nav-item {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .nav-link {
+        .overflow-ellipsis;
+    }
+}
+
 .table-widget {
     display: flex;
     flex-direction: column;
