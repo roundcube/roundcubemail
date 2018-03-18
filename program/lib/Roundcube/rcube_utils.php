@@ -795,11 +795,13 @@ class rcube_utils
         // Clean malformed data
         $date = preg_replace(
             array(
+                '/\(.*\)/',                                 // remove RFC comments
                 '/GMT\s*([+-][0-9]+)/',                     // support non-standard "GMTXXXX" literal
-                '/[^a-z0-9\x20\x09:+-\/]/i',                // remove any invalid characters
+                '/[^a-z0-9\x20\x09:\/\.+-]/i',              // remove any invalid characters
                 '/\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*/i',   // remove weekday names
             ),
             array(
+                '',
                 '\\1',
                 '',
                 '',
