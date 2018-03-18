@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013-2014, The Roundcube Dev Team
+ * Copyright (c) 2013-2018, The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -62,8 +62,16 @@ function rcmail_zipdownload(mode)
 
     // multi-message download, use hidden form to POST selection
     if (rcmail.message_list && rcmail.message_list.get_selection().length > 1) {
-        var inputs = [], form = $('#zipdownload-form'),
-            post = rcmail.selection_post_data();
+        var inputs = [],
+            post = rcmail.selection_post_data(),
+            id = 'zipdownload-' + new Date().getTime(),
+            iframe = $('<iframe>').attr({name: id, style: 'display:none'}),
+            form = $('<form>').attr({
+                    target: id,
+                    style: 'display: none',
+                    method: 'post',
+                    action: '?_task=mail&_action=plugin.zipdownload.messages'
+                });
 
         post._mode = mode;
         post._token = rcmail.env.request_token;
@@ -78,15 +86,8 @@ function rcmail_zipdownload(mode)
             }
         });
 
-        if (!form.length)
-            form = $('<form>').attr({
-                    style: 'display: none',
-                    method: 'POST',
-                    action: '?_task=mail&_action=plugin.zipdownload.messages'
-                })
-                .appendTo('body');
-
-        form.html('').append(inputs).submit();
+        iframe.appendTo(document.body);
+        form.append(inputs).appendTo(document.body).submit();
     }
 }
 
