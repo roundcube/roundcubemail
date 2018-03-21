@@ -469,10 +469,10 @@ class rcube_config
      */
     public function all()
     {
-        $props = $this->prop;
+        $props = array();
 
-        foreach ($props as $prop_name => $prop_value) {
-            $props[$prop_name] = $this->getenv_default('ROUNDCUBE_' . strtoupper($prop_name), $prop_value);
+        foreach ($this->prop as $prop_name => $prop_value) {
+            $props[$prop_name] = $this->get($prop_name, $prop_value);
         }
 
         $rcube  = rcube::get_instance();
