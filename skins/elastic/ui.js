@@ -3079,10 +3079,12 @@ function rcube_elastic_ui()
 
             navlist.animate({height: (Math.min(5, records.length) * height + 1) + 'px'}, speed);
             button.addClass('collapse').removeClass('expand');
+            $(obj).addClass('expanded');
         }
         else {
             navlist.animate({height: '0'}, speed);
             button.addClass('expand').removeClass('collapse');
+            $(obj).removeClass('expanded');
         }
     };
 
