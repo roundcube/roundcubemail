@@ -64,8 +64,6 @@ font.bold {
         flex: initial !important;
 
         .listing {
-            border-bottom: 1px solid @color-layout-border;
-
             tr:last-child td,
             li:last-child {
                 border-bottom: 0;
@@ -74,6 +72,9 @@ font.bold {
     }
 }
 
+.pagenav.expanded + .navlist {
+    border-bottom: 1px solid @color-layout-border;
+}
 
 .contact-header {
     display: flex;
