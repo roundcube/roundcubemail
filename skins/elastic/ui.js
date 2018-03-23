@@ -648,7 +648,7 @@ function rcube_elastic_ui()
 
         $.each(['warning', 'error', 'information', 'confirmation'], function() {
             var type = this;
-            $('.box' + type, context).each(function() {
+            $('.box' + type + ':not(.ui.alert)', context).each(function() {
                 alert_style(this, type, true);
             });
         });
@@ -680,7 +680,8 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        $('input:not(.button,[type=file],[type=radio],[type=checkbox]),select,textarea', $('.propform', context)).addClass('form-control');
+        var supported_controls = 'input:not(.button,[type=button],[type=file],[type=radio],[type=checkbox]),select,textarea';
+        $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
         $('table.propform', context).each(function() {
             var text_rows = 0, form_rows = 0;
@@ -739,7 +740,11 @@ function rcube_elastic_ui()
 
         // Other forms, e.g. Contact advanced search
         $('fieldset.propform:not(.groupped) div.row', context).each(function() {
-            var has_input = $('input:not([type=hidden]),select,textarea', this).addClass('form-control').length > 0;
+            var has_input = $('input:not([type=hidden]),select,textarea', this).length > 0;
+
+            if (has_input) {
+                $(supported_controls, this).addClass('form-control');
+            }
 
             $(this).children().last().addClass('col-sm-8' + (!has_input ? ' form-control-plaintext' : ''));
             $(this).children().first().addClass('col-sm-4 col-form-label');
@@ -750,8 +755,12 @@ function rcube_elastic_ui()
         $('fieldset.propform.groupped fieldset', context).each(function() {
             $('.row', this).each(function() {
                 var label, first,
-                    has_input = $('input,select,textarea', this).addClass('form-control').length > 0,
+                    has_input = $('input,select,textarea', this).length > 0,
                     items = $(this).children();
+
+                if (has_input) {
+                    $(supported_controls, this).addClass('form-control');
+                }
 
                 if (items.length < 2) {
                     return;
@@ -779,7 +788,8 @@ function rcube_elastic_ui()
         $('.propform > .prop.block:not(.row)', context).each(function() {
             $(this).addClass('form-group row').each(function() {
               $('label', this).addClass('col-form-label').wrap($('<div class="col-sm-4 col-form-label">'));
-              $('input,select,textarea', this).addClass('form-control').wrap($('<div class="col-sm-8">'));
+              $('input,select,textarea', this).wrap($('<div class="col-sm-8">'));
+              $(supported_controls, this).addClass('form-control');
             });
         });
 
@@ -834,7 +844,7 @@ function rcube_elastic_ui()
 
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
-            $('select,textarea,input:not([type=checkbox],[type=radio],[type=file])', context).addClass('form-control');
+            $(supported_controls, context).addClass('form-control');
         }
 
         // The same for some other checkboxes
