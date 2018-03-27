@@ -359,6 +359,10 @@ input.smart-upload {
             }
         }
     }
+
+    html.iframe .formcontent > .propform {
+        padding: .25rem;
+    }
 }
 
 // Forms fixes for IE and Edge
@@ -608,8 +612,11 @@ td.editfield { width: 99%;  /* TODO */ }
 
 
 ul.proplist {
-    padding-left: 0;
     margin-bottom: 0;
+
+    @media screen and (min-width: (@screen-width-bs-phone + 1px)) {
+        padding-left: 0;
+    }
 
     li {
         list-style-type: none;
@@ -635,7 +642,7 @@ ul.proplist {
             margin-left: -1.2em;
 
             & + label {
-                height: 1.8rem;
+                height: 2rem;
                 margin-right: .5rem;
                 padding: 0;
             }
