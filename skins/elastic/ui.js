@@ -482,7 +482,7 @@ function rcube_elastic_ui()
 
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
-            $('[data-label-msg]').filter('li,table').each(function() {
+            $('[data-label-msg]').filter('ul,table').each(function() {
                 var fn, observer, callback,
                     info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
