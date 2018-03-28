@@ -23,7 +23,7 @@
 
 class acl extends rcube_plugin
 {
-    public $task = 'settings|addressbook|calendar';
+    public $task = 'settings';
 
     private $rc;
     private $supported = null;
@@ -40,9 +40,7 @@ class acl extends rcube_plugin
 
         // Register hooks
         $this->add_hook('folder_form', array($this, 'folder_form'));
-        // kolab_addressbook plugin
-        $this->add_hook('addressbook_form', array($this, 'folder_form'));
-        $this->add_hook('calendar_form_kolab', array($this, 'folder_form'));
+
         // Plugin actions
         $this->register_action('plugin.acl', array($this, 'acl_actions'));
         $this->register_action('plugin.acl-autocomplete', array($this, 'acl_autocomplete'));
