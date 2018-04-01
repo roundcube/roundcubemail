@@ -507,7 +507,6 @@ html.ms .propform {
     }
 
     .hint {
-        margin-bottom: 1em;
         font-style: italic;
     }
 
@@ -1127,6 +1126,10 @@ input.icon-checkbox {
     opacity: 0;
     margin-left: -1.5em;
     cursor: pointer;
+
+    .form-check > * > & {
+        margin-left: -1.5em !important;
+    }
 
     & + label {
         margin: 0;
