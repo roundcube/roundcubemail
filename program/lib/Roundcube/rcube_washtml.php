@@ -256,7 +256,7 @@ class rcube_washtml
                     if (preg_match('/^url\(/i', $val)) {
                         if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
                             if ($url = $this->wash_uri($match[1])) {
-                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES) . ')';
+                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')';
                             }
                         }
                     }
@@ -329,8 +329,9 @@ class rcube_washtml
                     if (preg_match('/^[a-z:]*url\(/i', $val)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
-                                $result .= ' ' . $attr->nodeName . '="' . $match[1] . '(' . htmlspecialchars($url, ENT_QUOTES) . ')'
-                                     . substr($val, strlen($match[0])) . '"';
+                                $result .= ' ' . $attr->nodeName . '="' . $match[1]
+                                    . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
+                                    . substr($val, strlen($match[0])) . '"';
                                 continue;
                             }
                         }
@@ -350,14 +351,14 @@ class rcube_washtml
                 }
 
                 if ($out !== null && $out !== '') {
-                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES) . '"';
+                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']) . '"';
                 }
                 else if ($value) {
-                    $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
+                    $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);
                 }
             }
             else {
-                $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
+                $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);
             }
         }
 
@@ -490,7 +491,7 @@ class rcube_washtml
                         }
                     }
                     else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
-                        $content = htmlspecialchars($content, ENT_QUOTES);
+                        $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
                     }
 
                     $dump .= $this->wash_attribs($node);
@@ -503,10 +504,10 @@ class rcube_washtml
                     }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' not allowed -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
                 }
                 else {
-                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' ignored -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' ignored -->';
                     $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
@@ -516,7 +517,7 @@ class rcube_washtml
                 break;
 
             case XML_TEXT_NODE:
-                $dump .= htmlspecialchars($node->nodeValue);
+                $dump .= htmlspecialchars($node->nodeValue, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->config['charset']);
                 break;
 
             case XML_HTML_DOCUMENT_NODE:

@@ -375,16 +375,7 @@ class html
      */
     public static function quote($str)
     {
-        static $flags;
-
-        if (!$flags) {
-            $flags = ENT_COMPAT;
-            if (defined('ENT_SUBSTITUTE')) {
-                $flags |= ENT_SUBSTITUTE;
-            }
-        }
-
-        return @htmlspecialchars($str, $flags, RCUBE_CHARSET);
+        return @htmlspecialchars($str, ENT_COMPAT | ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
 

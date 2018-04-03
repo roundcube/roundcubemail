@@ -636,7 +636,7 @@ class rcube_html2text
 
                     // Add citation markers and create <pre> block
                     $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', array($this, 'blockquote_citation_callback'), trim($body));
-                    $body = '<pre>' . htmlspecialchars($body) . '</pre>';
+                    $body = '<pre>' . htmlspecialchars($body, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->charset) . '</pre>';
 
                     $text = substr_replace($text, $body . "\n", $start, $end + 13 - $start);
                     $offset = 0;

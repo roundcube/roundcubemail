@@ -1280,7 +1280,7 @@ EOF;
                         $value = $_SESSION[$name];
                         break;
                     case 'cookie':
-                        $value = htmlspecialchars($_COOKIE[$name]);
+                        $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCMAIL_CHARSET);
                         break;
                     case 'browser':
                         $value = $this->browser->{$name};
