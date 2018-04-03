@@ -245,8 +245,15 @@ rcube_webmail.prototype.enigma_export = function(selected)
                     rcmail.enigma_export_submit(args);
                     $(this).remove();
                 }
+            },
+            {
+                'class': 'cancel',
+                text: this.get_label('close'),
+                click: function(e) {
+                    $(this).remove();
+                }
             }],
-            {width: 400}
+            {width: 500}
         );
 
     this.enigma_export_submit(args);
