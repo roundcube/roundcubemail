@@ -101,7 +101,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
             else if (!enchant_dict_check($this->enchant_dictionary, $word)) {
                 $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
-                if (count($suggestions) > self::MAX_SUGGESTIONS) {
+                if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {
                     $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
                 }
 
@@ -130,7 +130,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 
         $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
-        if (count($suggestions) > self::MAX_SUGGESTIONS)
+        if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS)
             $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
 
         return is_array($suggestions) ? $suggestions : array();
