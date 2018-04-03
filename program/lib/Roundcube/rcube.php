@@ -916,7 +916,7 @@ class rcube
         $sess_tok = $this->get_request_token();
 
         // ajax requests
-        if (rcube_utils::request_header('X-Roundcube-Request') == $sess_tok) {
+        if (rcube_utils::request_header('X-Roundcube-Request') === $sess_tok) {
             return true;
         }
 
@@ -931,7 +931,7 @@ class rcube
         $token   = rcube_utils::get_input_value('_token', $mode);
         $sess_id = $_COOKIE[ini_get('session.name')];
 
-        if (empty($sess_id) || $token != $sess_tok) {
+        if (empty($sess_id) || $token !== $sess_tok) {
             $this->request_status = self::REQUEST_ERROR_TOKEN;
             return false;
         }
