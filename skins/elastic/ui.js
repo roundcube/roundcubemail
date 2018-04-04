@@ -1736,14 +1736,10 @@ function rcube_elastic_ui()
 
         env.got_smart_toolbar = true;
 
-        // TODO: a way to inject buttons to the menu from content iframe
-        //       or automatically add all buttons except Save and Cancel
-        //       (example QR Code button in contact frame)
-
         var items = [];
 
         // convert toolbar to a popup list
-        $('.header > .toolbar', layout.content).each(function() {
+        $('.header > .toolbar:not(.searchbar)', layout.content).each(function() {
             var toolbar = $(this);
 
             toolbar.children().each(function() {
