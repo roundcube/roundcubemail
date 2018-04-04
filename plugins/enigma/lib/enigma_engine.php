@@ -29,6 +29,7 @@ class enigma_engine
     private $pgp_driver;
     private $smime_driver;
     private $password_time;
+    private $cache = array();
 
     public $decryptions     = array();
     public $signatures      = array();
@@ -348,7 +349,7 @@ class enigma_engine
         $from    = $from[1];
 
         // find my key
-        if ($from && ($key = $this->find_key($from))) {
+        if ($from && ($key = $this->find_key($from, true))) {
             $pubkey_armor = $this->export_key($key->id);
 
             if (!$pubkey_armor instanceof enigma_error) {
@@ -979,6 +980,10 @@ class enigma_engine
      */
     function find_key($email, $can_sign = false)
     {
+        if ($can_sign && array_key_exists($email, $this->cache)) {
+            return $this->cache[$email];
+        }
+
         $this->load_pgp_driver();
         $result = $this->pgp_driver->list_keys($email);
 
@@ -988,13 +993,25 @@ class enigma_engine
         }
 
         $mode = $can_sign ? enigma_key::CAN_SIGN : enigma_key::CAN_ENCRYPT;
+        $ret  = null;
 
         // check key validity and type
         foreach ($result as $key) {
-            if ($subkey = $key->find_subkey($email, $mode)) {
-                return $key;
+            if (($subkey = $key->find_subkey($email, $mode))
+                && (!$can_sign || $key->get_type() == enigma_key::TYPE_KEYPAIR)
+            ) {
+                $ret = $key;
+                break;
             }
         }
+
+        // cache private key info for better performance
+        // we can skip one list_keys() call when signing and attaching a key
+        if ($can_sign) {
+            $this->cache[$email] = $ret;
+        }
+
+        return $ret;
     }
 
     /**
