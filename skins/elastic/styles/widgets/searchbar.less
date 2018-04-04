@@ -26,6 +26,10 @@
         &:before {
             line-height: @layout-header-height;
         }
+
+        span.inner {
+            display: none;
+        }
     }
 
     .input-group {
@@ -57,6 +61,7 @@
         &.reset:before {
             content: @fa-var-trash-alt;
         }
+
         &.options:before {
             content: @fa-var-angle-down;
         }
@@ -83,6 +88,10 @@
         a.button.search {
             display: none;
         }
+    }
+
+    a.button.search {
+        padding: 0 .5rem;
     }
 }
 
