@@ -166,6 +166,11 @@ p.enigmaattachment span {
   display: block;
 }
 
+#keycreateform ul.proplist li {
+  border: 0;
+  padding: 2px 0;
+}
+
 #keystoolbar
 {
   position: absolute;
