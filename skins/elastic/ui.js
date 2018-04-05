@@ -2795,6 +2795,10 @@ function rcube_elastic_ui()
         var checkbox = $(checkbox),
             id = checkbox.attr('id');
 
+        if (checkbox.is('.icon-checkbox')) {
+            return;
+        }
+
         if (!id) {
             if (!env.icon_checkbox) env.icon_checkbox = 0;
             id = 'icochk' + (++env.icon_checkbox);
