@@ -3878,16 +3878,15 @@ class rcube_imap_generic
     {
         // given a comma delimited list of independent mid's,
         // compresses by grouping sequences together
-
         if (!is_array($messages)) {
             // if less than 255 bytes long, let's not bother
             if (!$force && strlen($messages) < 255) {
-                return preg_match('/[^0-9:,]/', $messages) ? 'INVALID' : $messages;
+                return preg_match('/[^0-9:,*]/', $messages) ? 'INVALID' : $messages;
             }
 
             // see if it's already been compressed
             if (strpos($messages, ':') !== false) {
-                return preg_match('/[^0-9:,]/', $messages) ? 'INVALID' : $messages;
+                return preg_match('/[^0-9:,*]/', $messages) ? 'INVALID' : $messages;
             }
 
             // separate, then sort
@@ -3924,7 +3923,7 @@ class rcube_imap_generic
         // return as comma separated string
         $result = implode(',', $result);
 
-        return preg_match('/[^0-9:,]/', $result) ? 'INVALID' : $result;
+        return preg_match('/[^0-9:,*]/', $result) ? 'INVALID' : $result;
     }
 
     /**
