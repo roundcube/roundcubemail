@@ -4262,7 +4262,7 @@ function rcube_webmail()
 
         this.simple_dialog(content, this.get_label('markallread'),
           function() {
-            ref.mark_all_read(folder, $('input:checked', this).val());
+            ref.mark_all_read(folder, $('input:checked', content).val());
             return true;
           },
           {button: 'mark'}
