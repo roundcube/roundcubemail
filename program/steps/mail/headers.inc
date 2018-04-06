@@ -34,7 +34,7 @@ if ($uid) {
 
     if ($source !== false) {
         $source = trim(rcube_charset::clean($source));
-        $source = htmlspecialchars($source, ENT_COMPAT | ENT_HTML401, RCMAIL_CHARSET);
+        $source = htmlspecialchars($source, ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
         $source = preg_replace(
             array(
                 '/\n[\t\s]+/',
