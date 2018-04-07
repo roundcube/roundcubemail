@@ -1888,13 +1888,18 @@ function rcube_elastic_ui()
                         class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
 
                     $('.popover-header', popover).empty()
-                        .append($('<a>').attr('class', class_name).text(title))
-                        .off('click').on('click', function(e) {
-                            $(item).popover('hide');
-                            if (level > 1) {
+                        .append($('<a>').attr('class', class_name).text(title)
+                            .on('click', function(e) {
+                                $(item).popover('hide');
+                                if (level > 1) {
+                                    e.stopPropagation();
+                                }
+                            })
+                            .on('mousedown', function(e) {
+                                // stop propagation to i.e. do not close jQuery-UI dialogs below
                                 e.stopPropagation();
-                            }
-                        });
+                            })
+                        );
                 }
 
                 // Hide other menus on the same level

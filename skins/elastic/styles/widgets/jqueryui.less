@@ -167,6 +167,7 @@
         height: 100% !important;
         display: flex;
         flex-direction: column;
+        border: 0;
 
         .ui-resizable-handle,
         .ui-dialog-titlebar-close {
@@ -202,14 +203,17 @@
 
                 button {
                     margin: 0 !important;
+                    padding: .45rem;
                     border: 0 !important;
                     height: @layout-header-height;
                     box-shadow: none;
+                    font-size: 90%;
 
                     &:before {
                         display: block !important;
                         width: auto;
-                        height: 1.25em;
+                        height: 1.75rem;
+                        line-height: 1.75;
                         margin: 0;
                     }
 
@@ -237,9 +241,13 @@
                 a.btn-link {
                     color: @color-toolbar-button;
                     margin: 0;
+                    padding: .45rem;
+                    font-size: 90%;
 
                     &.options:before {
                         display: block !important;
+                        height: 1.75rem;
+                        line-height: 1.75;
                     }
 
                     &.options:after {

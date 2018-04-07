@@ -119,6 +119,10 @@ html.layout-phone {
         color: @color-popover-mobile-header;
         background-color: @color-popover-mobile-header-background;
 
+        &:before {
+            display: none; // hide the Bootstrap's popover arrow element
+        }
+
         a {
             display: inline-block;
             width: 100%;
