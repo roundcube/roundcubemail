@@ -255,6 +255,6 @@ class squirrelmail_usercopy extends rcube_plugin
             return utf8_encode($sig);
         }
 
-        return rcube_charset::convert($str, $charset, RCMAIL_CHARSET);
+        return rcube_charset::convert($str, $charset, RCUBE_CHARSET);
     }
 }
