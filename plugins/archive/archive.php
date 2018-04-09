@@ -131,9 +131,7 @@ class archive extends rcube_plugin
         $archive_type   = $rcmail->config->get('archive_type', '');
         $archive_folder = $rcmail->config->get('archive_mbox');
         $archive_prefix = $archive_folder . $delimiter;
-        $current_mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
-        $uids           = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 
         // count messages before changing anything
         if ($_POST['_from'] != 'show') {
@@ -153,8 +151,8 @@ class archive extends rcube_plugin
             'destinations' => array(),
         );
 
-        foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
-            if (!$archive_folder  || strpos($mbox, $archive_prefix) === 0) {
+        foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+            if (!$archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
                 continue;
             }

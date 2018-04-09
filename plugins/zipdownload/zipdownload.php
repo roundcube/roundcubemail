@@ -178,8 +178,8 @@ class zipdownload extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($rcmail->config->get('zipdownload_selection', $this->default_limit) && !empty($_POST['_uid'])) {
-            $messageset = rcmail::get_uids();
+        if ($rcmail->config->get('zipdownload_selection', $this->default_limit)) {
+            $messageset = rcmail::get_uids(null, null, $multi, rcube_utils::INPUT_POST);
             if (count($messageset)) {
                 $this->_download_messages($messageset);
             }

@@ -39,7 +39,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
     $target  = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
     $success = true;
 
-    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+    foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
         if ($mbox === $target) {
             $count += is_array($uids) ? count($uids) : 1;
         }
@@ -75,7 +75,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 }
 // delete messages
 else if ($RCMAIL->action == 'delete' && !empty($_POST['_uid'])) {
-    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+    foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
         $del      += (int)$RCMAIL->storage->delete_message($uids, $mbox);
         $count    += is_array($uids) ? count($uids) : 1;
         $sources[] = $mbox;
