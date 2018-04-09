@@ -152,7 +152,7 @@ class archive extends rcube_plugin
         );
 
         foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
-            if (!$archive_folder || strpos($mbox, $archive_prefix) === 0) {
+            if (!$archive_folder || $mbox === $archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
                 continue;
             }
