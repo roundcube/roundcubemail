@@ -24,6 +24,8 @@
 define('RCMAIL_VERSION', '1.4-git');
 define('RCMAIL_START', microtime(true));
 
+define('RCMAIL_CHARSET','utf-8');
+
 if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 }
