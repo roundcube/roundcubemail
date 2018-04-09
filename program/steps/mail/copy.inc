@@ -29,7 +29,7 @@ if (!empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $target  = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
     $sources = array();
 
-    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+    foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
         if ($mbox === $target) {
             $copied++;
         }

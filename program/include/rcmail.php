@@ -2393,16 +2393,17 @@ class rcmail extends rcube
      * @param string $uids           UID value to decode
      * @param string $mbox           Default mailbox value (if not encoded in UIDs)
      * @param bool   $is_multifolder Will be set to True if multi-folder request
+     * @param int    $mode           Request mode. Default: rcube_utils::INPUT_GPC.
      *
      * @return array  List of message UIDs per folder
      */
-    public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false)
+    public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false, $mode = null)
     {
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC);
-        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC);
+        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC);
+        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC);
 
         // already a hash array
         if (is_array($_uid) && !isset($_uid[0])) {
@@ -2421,8 +2422,9 @@ class rcmail extends rcube
             }
         }
         else {
-            if (is_string($_uid))
+            if (is_string($_uid)) {
                 $_uid = explode(',', $_uid);
+            }
 
             // create a per-folder UIDs array
             foreach ((array)$_uid as $uid) {
@@ -2437,7 +2439,7 @@ class rcmail extends rcube
                 if ($uid == '*') {
                     $result[$mbox] = $uid;
                 }
-                else {
+                else if (preg_match('/^[0-9:.]+$/', $uid)) {
                     $result[$mbox][] = $uid;
                 }
             }

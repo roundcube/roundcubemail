@@ -65,7 +65,7 @@ if ($_uids && $flag) {
         $input = array($mbox => '*');
     }
     else {
-        $input = rcmail::get_uids();
+        $input = rcmail::get_uids(null, null, $dummy, rcube_utils::INPUT_POST);
     }
 
     foreach ($input as $mbox => $uids) {
@@ -88,9 +88,10 @@ if ($_uids && $flag) {
     }
 
     if ($flag == 'DELETED' && $read_deleted && !empty($_POST['_ruid'])) {
-        $ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST);
-        foreach (rcmail::get_uids($ruids) as $mbox => $uids) {
-            $read += (int)$RCMAIL->storage->set_flag($uids, 'SEEN', $mbox);
+        if ($ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST)) {
+            foreach (rcmail::get_uids($ruids) as $mbox => $uids) {
+                $read += (int)$RCMAIL->storage->set_flag($uids, 'SEEN', $mbox);
+            }
         }
 
         if ($read && !$skip_deleted) {
