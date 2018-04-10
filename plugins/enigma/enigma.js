@@ -547,7 +547,7 @@ rcube_webmail.prototype.enigma_password_request = function(data)
 
     this.show_popup_dialog(myprompt, this.get_label('enigma.enterkeypasstitle'),
         [{
-            text: this.get_label('save'),
+            text: this.get_label('ok'),
             'class': 'mainaction save unlock',
             click: function(e) {
                 e.stopPropagation();
