@@ -34,6 +34,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
 
             rcmail.addEventListener('responseafterplugin.enigmakeys', function() {
                 rcmail.enable_command('plugin.enigma-key-export', rcmail.env.rowcount > 0);
+                rcmail.triggerEvent('listupdate', {list: rcmail.keys_list, rowcount: rcmail.env.rowcount});
             });
 
             if (rcmail.gui_objects.importform) {
@@ -439,6 +440,7 @@ rcube_webmail.prototype.enigma_clear_list = function(reset_frame)
         this.keys_list.clear(true);
 
     this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-delete-selected', false);
+    this.triggerEvent('listupdate', {list: this.keys_list, rowcount: this.keys_list.rowcount});
 };
 
 // Adds a row to the list
