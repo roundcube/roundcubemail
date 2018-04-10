@@ -526,7 +526,7 @@ rcube_webmail.prototype.enigma_password_request = function(data)
     var ref = this,
         msg = this.get_label('enigma.enterkeypass'),
         myprompt = $('<div class="prompt">'),
-        myprompt_content = $('<div class="message">')
+        myprompt_content = $('<p class="message">')
             .appendTo(myprompt),
         myprompt_input = $('<input>').attr({type: 'password', size: 30})
             .keypress(function(e) {
