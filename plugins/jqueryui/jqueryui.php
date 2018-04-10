@@ -25,7 +25,7 @@ class jqueryui extends rcube_plugin
 
         // the plugin might have been force-loaded so do some sanity check first
         if ($rcmail->output->type != 'html' || self::$ui_theme) {
-          return;
+            return;
         }
 
         $this->load_config();
@@ -40,7 +40,7 @@ class jqueryui extends rcube_plugin
 
         self::$ui_theme = $ui_theme;
 
-        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui.css")) {
+        if ($this->asset_exists("themes/$ui_theme/jquery-ui.css")) {
             $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
         }
         else {
@@ -54,10 +54,10 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_l.js")) {
+                if ($this->asset_exists("js/i18n/jquery.ui.$package-$lang_l.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
                 }
-                else if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_s.js")) {
+                else if ($this->asset_exists("js/i18n/jquery.ui.$package-$lang_s.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
@@ -99,17 +99,17 @@ class jqueryui extends rcube_plugin
         $ui_theme = self::$ui_theme;
         $rcube    = rcube::get_instance();
         $script   = 'plugins/jqueryui/js/jquery.minicolors.min.js';
-        $css      = "plugins/jqueryui/themes/$ui_theme/jquery.minicolors.css";
+        $css      = "themes/$ui_theme/jquery.minicolors.css";
 
-        if (!file_exists(INSTALL_PATH . $css)) {
-            $css = "plugins/jqueryui/themes/larry/jquery.minicolors.css";
+        if (!$this->asset_exists($css)) {
+            $css = "themes/larry/jquery.minicolors.css";
         }
 
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
         $config       = array('theme' => $colors_theme);
         $config_str   = rcube_output::json_serialize($config);
 
-        $rcube->output->include_css($css);
+        $rcube->output->include_css('plugins/jqueryui/' . $css);
         $rcube->output->add_header(html::tag('script', array('type' => 'text/javascript', 'src' => $script)));
         $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $config_str . ')', 'docready');
         $rcube->output->set_env('minicolors_config', $config);
@@ -126,16 +126,28 @@ class jqueryui extends rcube_plugin
         $script   = 'plugins/jqueryui/js/jquery.tagedit.js';
         $rcube    = rcube::get_instance();
         $ui_theme = self::$ui_theme;
-        $css      = "plugins/jqueryui/themes/$ui_theme/tagedit.css";
+        $css      = "themes/$ui_theme/tagedit.css";
 
         if ($ui_theme != 'elastic') {
-            if (!file_exists(INSTALL_PATH . $css)) {
-                $css = "plugins/jqueryui/themes/larry/tagedit.css";
+            if (!$this->asset_exists($css)) {
+                $css = "themes/larry/tagedit.css";
             }
 
-            $rcube->output->include_css($css);
+            $rcube->output->include_css('plugins/jqueryui/' . $css);
         }
 
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
+    }
+
+    /**
+     * Checks if an asset file exists in specified location (with assets_dir support)
+     */
+    protected function asset_exists($path)
+    {
+        $rcube      = rcube::get_instance();
+        $assets_dir = $rcube->config->get('assets_dir');
+        $full_path  = unslashify($assets_dir ?: INSTALL_PATH) . '/plugins/jqueryui/' . $path;
+
+        return file_exists($full_path);
     }
 }
