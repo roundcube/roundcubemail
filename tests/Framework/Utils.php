@@ -620,4 +620,12 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
     }
 
+    /**
+     * Test idn_to_ascii with non-domain input (#6224)
+     */
+    function test_idn_to_ascii_special()
+    {
+        $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
+        $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
+    }
 }

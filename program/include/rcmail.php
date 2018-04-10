@@ -606,8 +606,10 @@ class rcmail extends rcube
 
         // Here we need IDNA ASCII
         // Only rcube_contacts class is using domain names in Unicode
-        $host     = rcube_utils::idn_to_ascii($host);
-        $username = rcube_utils::idn_to_ascii($username);
+        $host = rcube_utils::idn_to_ascii($host);
+        if (strpos($username, '@')) {
+            $username = rcube_utils::idn_to_ascii($username);
+        }
 
         // user already registered -> overwrite username
         if ($user = rcube_user::query($username, $host)) {
