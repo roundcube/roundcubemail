@@ -77,6 +77,7 @@ CHANGELOG Roundcube Webmail
 - Fix parsing date strings (e.g. from a Date: mail header) with comments (#6216)
 - Fix possible IMAP command injection and type juggling vulnerabilities (#6229)
 - Enigma: Fix key selection for signing
+- Enigma: Enable keypair generation on Internet Explorer 11
 - Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (#6238)
 - Fix bug where usernames without domain part could be malformed or converted to lower-case on logon (#6224)
 
