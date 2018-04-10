@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP 7.2: count(): Parameter must be an array in enchant-based spellchecker (#6234)
 - Fix possible IMAP command injection and type juggling vulnerabilities (#6229)
 - Enigma: Fix key selection for signing
+- Enigma: Enable keypair generation on Internet Explorer 11
 - Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (#6238)
 - Fix bug where usernames without domain part could be malformed or converted to lower-case on logon (#6224)
 
