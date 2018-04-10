@@ -856,24 +856,41 @@ class rcube_utils
         return $date;
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_ascii with support for e-mail address.
+     *
+     * Warning: Domain names may be lowercase'd.
+     * Warning: An empty string may be returned on invalid domain.
+     *
+     * @param string $str Decoded e-mail address
+     *
+     * @return string Encoded e-mail address
      */
     public static function idn_to_ascii($str)
     {
         return self::idn_convert($str, true);
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_utf8 with support for e-mail address
+     *
+     * @param string $str Decoded e-mail address
+     *
+     * @return string Encoded e-mail address
      */
     public static function idn_to_utf8($str)
     {
         return self::idn_convert($str, false);
     }
 
+    /**
+     * Convert a string to ascii or utf8 (using IDNA standard)
+     *
+     * @param string  $input  Decoded e-mail address
+     * @param boolean $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
+     *
+     * @return string Encoded e-mail address
+     */
     public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
@@ -881,18 +898,25 @@ class rcube_utils
             $domain = substr($input, $at + 1);
         }
         else {
+            $user   = '';
             $domain = $input;
         }
 
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitely (#6075)
         $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
-        $options = 0;
+        $options = IDNA_DEFAULT;
+
+        // Because php-intl extension lowercases domains and return false
+        // on invalid input (#6224), we skip conversion when not needed
+        // for compatibility with our Net_IDNA2 wrappers in bootstrap.php
 
         if ($is_utf) {
-            $domain = idn_to_ascii($domain, $options, $variant);
+            if (preg_match('/[^\x20-\x7E]/', $domain)) {
+                $domain = idn_to_ascii($domain, $options, $variant);
+            }
         }
-        else {
+        else if (preg_match('/(^|\.)xn--/i', $domain)) {
             $domain = idn_to_utf8($domain, $options, $variant);
         }
 
