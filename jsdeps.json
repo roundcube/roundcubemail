@@ -86,10 +86,10 @@
     {
       "lib": "bootstrap",
       "name": "Bootstrap",
-      "version": "4.0.0",
-      "url": "https://github.com/twbs/bootstrap/releases/download/v4.0.0/bootstrap-4.0.0-dist.zip",
+      "version": "4.1.0",
+      "url": "https://github.com/twbs/bootstrap/releases/download/v4.1.0/bootstrap-4.1.0-dist.zip",
       "dest": "skins/elastic/deps",
-      "sha1": "108a534a0934b3b24e7366f59c74d2b8d3dd9004",
+      "sha1": "90abd51cf27a3dc4823eed6c1de620725f068b6c",
       "license": "MIT",
       "flat": true,
       "map": {
