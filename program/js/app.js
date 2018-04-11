@@ -4859,9 +4859,9 @@ function rcube_webmail()
     // show dialog to enter a name and to modify the text to be saved
     var buttons = {}, text = this.editor.get_content({selection: true, format: 'text', nosig: true}),
       html = '<form class="propform">' +
-      '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
+      '<div class="prop block"><label for="ffresponsename">' + this.get_label('responsename') + '</label>' +
       '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
-      '<div class="prop block"><label>' + this.get_label('responsetext') + '</label>' +
+      '<div class="prop block"><label for="ffresponsetext">' + this.get_label('responsetext') + '</label>' +
       '<textarea name="text" id="ffresponsetext" cols="40" rows="8"></textarea></div>' +
       '</form>';
 

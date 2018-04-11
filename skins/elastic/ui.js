@@ -787,9 +787,9 @@ function rcube_elastic_ui()
         // Other forms, e.g. Insert response
         $('.propform > .prop.block:not(.row)', context).each(function() {
             $(this).addClass('form-group row').each(function() {
-              $('label', this).addClass('col-form-label').wrap($('<div class="col-sm-4 col-form-label">'));
-              $('input,select,textarea', this).wrap($('<div class="col-sm-8">'));
-              $(supported_controls, this).addClass('form-control');
+                $('label', this).addClass('col-form-label').wrap($('<div class="col-sm-4">'));
+                $('input,select,textarea', this).wrap($('<div class="col-sm-8">'));
+                $(supported_controls, this).addClass('form-control');
             });
         });
 
