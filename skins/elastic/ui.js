@@ -833,7 +833,7 @@ function rcube_elastic_ui()
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
-                    && !$(this).parents('.message-htmlpart,.message-partheaders,.boxinformation').length;
+                    && !$(this).parents('.message-htmlpart,.message-partheaders,.boxinformation,.raw-tables').length;
             })
             .each(function() {
                 // TODO: Consider implementing automatic setting of table-responsive on window resize
