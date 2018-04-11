@@ -2035,7 +2035,7 @@ EOF;
      *
      * @return string HTML code for the gui object
      */
-    protected function search_form($attrib)
+    public function search_form($attrib)
     {
         // add some labels to client
         $this->add_label('searching');
@@ -2056,14 +2056,16 @@ EOF;
         $input_q = new html_inputfield($attrib);
         $out     = $label . $input_q->show();
 
-        // @TODO: At some point we'll need support for multiple searchforms on the same page
-        $this->add_gui_object('qsearchbox', $attrib['id']);
+        // Support for multiple searchforms on the same page
+        if ($attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
+            $this->add_gui_object($attrib['gui-object'] ?: 'qsearchbox', $attrib['id']);
+        }
 
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag(array(
-                    'name'     => "rcmqsearchform",
-                    'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
+                    'name'     => $attrib['form-name'] ?: 'rcmqsearchform',
+                    'onsubmit' => sprintf("%s.command('%s'); return false", self::JS_OBJECT_NAME, $attrib['command'] ?: 'search'),
                     // 'style'    => "display:inline"
                 ), $out);
         }
@@ -2099,7 +2101,7 @@ EOF;
 
             $reset_button = $this->button(array(
                     'type'       => 'link',
-                    'command'    => 'reset-search',
+                    'command'    => $attrib['reset-command'] ?: 'reset-search',
                     'class'      => 'button reset',
                     'label'      => 'resetsearch',
                     'title'      => 'resetsearch',
