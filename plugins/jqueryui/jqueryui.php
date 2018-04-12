@@ -40,7 +40,7 @@ class jqueryui extends rcube_plugin
 
         self::$ui_theme = $ui_theme;
 
-        if ($this->asset_exists("themes/$ui_theme/jquery-ui.css")) {
+        if (self::asset_exists("themes/$ui_theme/jquery-ui.css")) {
             $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
         }
         else {
@@ -54,10 +54,10 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if ($this->asset_exists("js/i18n/jquery.ui.$package-$lang_l.js")) {
+                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
                 }
-                else if ($this->asset_exists("js/i18n/jquery.ui.$package-$lang_s.js")) {
+                else if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
@@ -101,7 +101,7 @@ class jqueryui extends rcube_plugin
         $script   = 'plugins/jqueryui/js/jquery.minicolors.min.js';
         $css      = "themes/$ui_theme/jquery.minicolors.css";
 
-        if (!$this->asset_exists($css)) {
+        if (!self::asset_exists($css)) {
             $css = "themes/larry/jquery.minicolors.css";
         }
 
@@ -129,7 +129,7 @@ class jqueryui extends rcube_plugin
         $css      = "themes/$ui_theme/tagedit.css";
 
         if ($ui_theme != 'elastic') {
-            if (!$this->asset_exists($css)) {
+            if (!self::asset_exists($css)) {
                 $css = "themes/larry/tagedit.css";
             }
 
@@ -142,7 +142,7 @@ class jqueryui extends rcube_plugin
     /**
      * Checks if an asset file exists in specified location (with assets_dir support)
      */
-    protected function asset_exists($path)
+    protected static function asset_exists($path)
     {
         $rcube      = rcube::get_instance();
         $assets_dir = $rcube->config->get('assets_dir');
