@@ -802,12 +802,13 @@ function rcube_elastic_ui()
             var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
 
             $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
-                var tab, id = fieldset.id || ('tab' + idx + '-' + i);
+                var tab, id = fieldset.id || ('tab' + idx + '-' + i),
+                    tab_class = $(fieldset).data('navlink-class');
 
                 $(fieldset).addClass('tab-pane').attr({id: id, role: 'tabpanel'});
 
                 tab = $('<li>').addClass('nav-item').append(
-                    $('<a>').addClass('nav-link')
+                    $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
                         .attr({role: 'tab', 'href': '#' + id})
                         .text($('legend:first', fieldset).text())
                         .click(function() {
