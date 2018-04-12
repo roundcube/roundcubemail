@@ -116,6 +116,11 @@ input.smart-upload {
         }
     }
 
+    td.title {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
     td > .flexbox {
         display: flex;
 
@@ -331,6 +336,10 @@ input.smart-upload {
 
 .propform,
 .formcontent {
+    fieldset:nth-of-type(n+2) {
+        margin-top: 1em;
+    }
+
     legend {
         font-weight: bold;
         font-size: 1.2em;
@@ -508,6 +517,7 @@ html.ms .propform {
 
     .hint {
         font-style: italic;
+        color: @color-form-hint;
     }
 
     // RAW (CodeMirror) editor
