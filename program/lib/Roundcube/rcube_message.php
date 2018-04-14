@@ -981,7 +981,7 @@ class rcube_message
 
         unset($body);
 
-        foreach ($tnef_arr as $pid => $winatt) {
+        foreach ($tnef_arr['attachments'] as $pid => $winatt) {
             $tpart = new rcube_message_part;
 
             $tpart->filename        = $this->fix_attachment_name(trim($winatt['name']), $part);
