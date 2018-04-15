@@ -143,11 +143,6 @@ class rcube_tnef_decoder
             $this->_geti($data, 32);    // idTnefVersion
             $this->_getx($data, $this->_geti($data, 32));
             $this->_geti($data, 16);    // checksum
-            // Codepage
-            $this->_geti($data, 8);
-            $this->_geti($data, 32);    // idCodepage
-            $this->_getx($data, $this->_geti($data, 32));
-            $this->_geti($data, 16);    // checksum
 
             while (strlen($data) > 0) {
                 switch ($this->_geti($data, 8)) {
