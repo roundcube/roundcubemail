@@ -67,6 +67,7 @@ CHANGELOG Roundcube Webmail
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
 - Handle inline images also inside multipart/mixed messages (#5905)
 - Allow style tags in HTML editor on composed/reply messages (#5751)
+- Use Github API as a fallback to fetch js dependencies to workaround throttling issues (#6248)
 - Fix handling of forwarded messages inside of a TNEF message (#5632)
 - Fix bug where attachment size wasn't visible when the filename was too long (#6033)
 - Fix checking table columns when there's more schemas/databases in postgres/mysql (#6047)
