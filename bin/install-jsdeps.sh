@@ -119,15 +119,30 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
       die("ERROR: Required program 'wget' or 'curl' not found\n");
     }
 
-    echo "Fetching {$package['url']}\n";
+    $url = str_replace('$v', $package['version'], $package['url']);
+
+    echo "Fetching $url\n";
 
     if ($CURL)
-        exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
+        exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($url), $cache_file), $out, $retval);
     else
-        exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($package['url']), $cache_file), $out, $retval);
+        exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($url), $cache_file), $out, $retval);
+
+    // Try Github API as a fallback (#6248)
+    if ($retval !== 0 && $package['api_url']) {
+      $url    = str_replace('$v', $package['version'], $package['api_url']);
+      $header = 'Accept:application/vnd.github.v3.raw';
+
+      echo "Fetching failed. Using Github API on $url\n";
+
+      if ($CURL)
+        exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
+      else
+        exec(sprintf('%s --header %s -q %s -O %s', $WGET, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
+    }
 
     if ($retval !== 0) {
-      die("ERROR: Failed to download source file from " . $package['url'] . "\n");
+      die("ERROR: Failed to download source file from " . $url . "\n");
     }
   }
 
@@ -167,7 +182,7 @@ function compose_destfile($package, $srcfile)
   $header = sprintf("/**\n * %s - v%s\n *\n", $package['name'], $package['version']);
 
   if (!empty($package['source'])) {
-    $header .= " * @source " . $package['source'] . "\n";
+    $header .= " * @source " . str_replace('$v', $package['version'], $package['source']) . "\n";
     $header .= " *\n";
   }
 
