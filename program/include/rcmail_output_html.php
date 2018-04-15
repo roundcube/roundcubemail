@@ -349,16 +349,12 @@ EOF;
         }
 
         foreach ($skin_paths as $skin_path) {
-            $path = realpath(RCUBE_INSTALL_PATH . $skin_path . $file);
-
-            if ($path && is_file($path)) {
+            if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
                 return $skin_path . $file;
             }
 
             if ($this->assets_dir != RCUBE_INSTALL_PATH) {
-                $path = realpath($this->assets_dir . $skin_path . $file);
-
-                if ($path && is_file($path)) {
+                if (realpath($this->assets_dir . $skin_path . $file)) {
                     return $skin_path . $file;
                 }
             }
@@ -833,7 +829,8 @@ EOF;
 
         // correct absolute paths
         if ($file[0] == '/') {
-            $file = $this->base_path . $file;
+            $this->get_skin_file($file, $skin_path);
+            $file = $skin_path . $file;
         }
 
         // add file modification timestamp
