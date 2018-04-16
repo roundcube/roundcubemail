@@ -162,10 +162,10 @@ class archive extends rcube_plugin
                 if ($archive_type == 'folder') {
                     // compose full folder path
                     $folder .= $delimiter . $mbox;
-
-                    // create archive subfolder if it doesn't yet exist
-                    $this->subfolder_worker($folder);
                 }
+
+                // create archive subfolder if it doesn't yet exist
+                $this->subfolder_worker($folder);
 
                 $count += $this->move_messages_worker($uids, $mbox, $folder, $read_on_move);
             }
