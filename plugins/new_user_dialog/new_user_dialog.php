@@ -20,12 +20,8 @@ class new_user_dialog extends rcube_plugin
     function init()
     {
         $this->add_hook('identity_create', array($this, 'create_identity'));
+        $this->add_hook('render_page', array($this, 'render_page'));
         $this->register_action('plugin.newusersave', array($this, 'save_data'));
-
-        // register additional hooks if session flag is set
-        if ($_SESSION['plugin.newuserdialog']) {
-            $this->add_hook('render_page', array($this, 'render_page'));
-        }
     }
 
     /**
@@ -35,7 +31,8 @@ class new_user_dialog extends rcube_plugin
     {
         // set session flag when a new user was created and the default identity seems to be incomplete
         if ($p['login'] && !$p['complete']) {
-            $_SESSION['plugin.newuserdialog'] = true;
+            $rcmail = rcmail::get_instance();
+            $rcmail->user->save_prefs(array('newuserdialog' => true));
         }
     }
 
@@ -45,10 +42,10 @@ class new_user_dialog extends rcube_plugin
      */
     function render_page($p)
     {
-        if ($_SESSION['plugin.newuserdialog']) {
+        $rcmail = rcmail::get_instance();
+        if ($p['template'] != 'login' && $rcmail->config->get('newuserdialog')) {
             $this->add_texts('localization');
 
-            $rcmail           = rcmail::get_instance();
             $identity         = $rcmail->user->get_identity();
             $identities_level = intval($rcmail->config->get('identities_level', 0));
 
@@ -172,7 +169,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
         else {
             // save data
             $rcmail->user->update_identity($identity['identity_id'], $save_data);
-            $rcmail->session->remove('plugin.newuserdialog');
+            $rcmail->user->save_prefs(array('newuserdialog' => null));
             // hide dialog
             $rcmail->output->command('new_user_dialog_close');
             $rcmail->output->show_message('successfullysaved', 'confirmation');
