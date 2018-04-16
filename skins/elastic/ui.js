@@ -1590,7 +1590,7 @@ function rcube_elastic_ui()
     function searchbar_init(bar)
     {
         var parent_class = 'with-search',
-            input = $('input', bar).addClass('form-control'),
+            input = $('input:not([type=hidden])', bar).addClass('form-control'),
             button = $('a.button.search', bar),
             form = $('form', bar),
             is_search_pending = function() {
