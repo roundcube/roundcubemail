@@ -1724,6 +1724,15 @@ EOF;
 
         // add page footer
         if (($fpos = strripos($output, '</body>')) || ($fpos = strripos($output, '</html>'))) {
+            // for Elastic: put footer content before "footer scripts"
+            while (($npos = strripos($output, "\n", -strlen($output) + $fpos - 1))
+                && $npos != $fpos
+                && ($chunk = substr($output, $npos, $fpos - $npos)) !== ''
+                && (trim($chunk) === '' || preg_match('/\s*<script[^>]+><\/script>\s*/', $chunk))
+            ) {
+                $fpos = $npos;
+            }
+
             $output = substr_replace($output, $page_footer."\n", $fpos, 0);
         }
         else {
