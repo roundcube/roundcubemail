@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (#6238)
 - Fix possible IMAP command injection vulnerability [CVE-2018-9846] (#6229)
 - Fix security issue in remote content blocking on HTML image and style tags (#6178)
 

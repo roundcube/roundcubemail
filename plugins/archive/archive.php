@@ -123,7 +123,7 @@ class archive extends rcube_plugin
       $messageset = array($current_mbox => $index->get());
     }
     else {
-      $messageset = rcmail::get_uids();
+      $messageset = rcmail::get_uids($uids, $current_mbox);
     }
 
     foreach ($messageset as $mbox => $uids) {

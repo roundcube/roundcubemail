@@ -190,8 +190,8 @@ class managesieve extends rcube_plugin
     function managesieve_actions()
     {
         // handle fetching email headers for the new filter form
-        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) {
-            $uids    = rcmail::get_uids();
+        if ($_uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) {
+            $uids    = rcmail::get_uids($_uid);
             $mailbox = key($uids);
             $message = new rcube_message($uids[$mailbox][0], $mailbox);
             $headers = $this->parse_headers($message->headers);
