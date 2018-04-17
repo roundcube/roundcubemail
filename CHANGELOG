@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix possible IMAP command injection vulnerability [CVE-2018-9846] (#6229)
 - Fix security issue in remote content blocking on HTML image and style tags (#6178)
 
 RELEASE 1.2.7
