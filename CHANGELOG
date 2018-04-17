@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Don't ignore (global) userlogins/sendmail logs in per_user_logging mode
 - Fix security issue in remote content blocking on HTML image and style tags (#6178)
+- Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (#6238)
 - Fix possible IMAP command injection vulnerability [CVE-2018-9846] (#6229)
 
 RELEASE 1.1.10

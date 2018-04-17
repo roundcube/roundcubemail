@@ -58,10 +58,13 @@ class markasjunk extends rcube_plugin
 
     $rcmail  = rcmail::get_instance();
     $storage = $rcmail->get_storage();
+    $uids    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 
-    foreach (rcmail::get_uids() as $mbox => $uids) {
-      $storage->unset_flag($uids, 'NONJUNK', $mbox);
-      $storage->set_flag($uids, 'JUNK', $mbox);
+    if (!empty($uids)) {
+      foreach (rcmail::get_uids($uids) as $mbox => $uids) {
+        $storage->unset_flag($uids, 'NONJUNK', $mbox);
+        $storage->set_flag($uids, 'JUNK', $mbox);
+      }
     }
 
     if (($junk_mbox = $rcmail->config->get('junk_mbox'))) {

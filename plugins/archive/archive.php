@@ -122,8 +122,10 @@ class archive extends rcube_plugin
       $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
       $messageset = array($current_mbox => $index->get());
     }
-    else {
-      $messageset = rcmail::get_uids();
+    else if (!empty($uids)) {
+      $messageset = rcmail::get_uids($uids, $current_mbox);
+    } else {
+      $messageset = array();
     }
 
     foreach ($messageset as $mbox => $uids) {
