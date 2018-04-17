@@ -3837,12 +3837,12 @@ class rcube_imap_generic
         if (!is_array($messages)) {
             // if less than 255 bytes long, let's not bother
             if (!$force && strlen($messages) < 255) {
-                return preg_match('/[^0-9:,]/', $messages) ? 'INVALID' : $messages;
+                return preg_match('/[^0-9:,*]/', $messages) ? 'INVALID' : $messages;
             }
 
             // see if it's already been compressed
             if (strpos($messages, ':') !== false) {
-                return preg_match('/[^0-9:,]/', $messages) ? 'INVALID' : $messages;
+                return preg_match('/[^0-9:,*]/', $messages) ? 'INVALID' : $messages;
             }
 
             // separate, then sort
