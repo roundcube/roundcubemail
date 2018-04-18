@@ -40,14 +40,15 @@ class rcmail_output_html extends rcmail_output
     protected $script_files = array();
     protected $css_files    = array();
     protected $scripts      = array();
-    protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
-    protected $header = '';
-    protected $footer = '';
-    protected $body   = '';
-    protected $base_path = '';
+    protected $header       = '';
+    protected $footer       = '';
+    protected $body         = '';
+    protected $base_path    = '';
+    protected $root_context;
     protected $assets_path;
-    protected $assets_dir = RCUBE_INSTALL_PATH;
-    protected $devel_mode = false;
+    protected $assets_dir   = RCUBE_INSTALL_PATH;
+    protected $devel_mode   = false;
+    protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
 
     // deprecated names of templates used before 0.5
     protected $deprecated_templates = array(
@@ -349,6 +350,10 @@ EOF;
         }
 
         foreach ($skin_paths as $skin_path) {
+            if ($this->root_context && strpos($skin_path, 'plugins/') === 0) {
+                continue;
+            }
+
             if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
                 return $skin_path . $file;
             }
@@ -1114,28 +1119,34 @@ EOF;
                     $attrib['file'] = '/templates/' . $attrib['file'];
                 }
 
-                $old_base_path = $this->base_path;
-                if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
+                $old_base_path    = $this->base_path;
+                $old_root_context = $this->root_context;
+                $include          = '';
+
+                if (!empty($attrib['skin_path'])) {
+                    $attrib['skinpath'] = $attrib['skin_path'];
+                }
+
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     // set base_path to core skin directory (not plugin's skin)
-                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
+                    $this->base_path    = preg_replace('!plugins/\w+/!', '', $skin_path);
+                    $this->root_context = strpos($skin_path, 'plugins/') !== 0;
+
                     $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
                 if (is_readable($path)) {
-                    if ($this->config->get('skin_include_php')) {
-                        $incl = $this->include_php($path);
-                    }
-                    else {
-                      $incl = file_get_contents($path);
-                    }
-                    $incl = $this->parse_conditions($incl);
-                    $incl = $this->parse_xml($incl);
-                    $incl = $this->fix_paths($incl);
-                    $this->base_path = $old_base_path;
-                    return $incl;
+                    $allow_php = $this->config->get('skin_include_php');
+                    $include   = $allow_php ? $this->include_php($path) : file_get_contents($path);
+                    $include   = $this->parse_conditions($include);
+                    $include   = $this->parse_xml($include);
+                    $include   = $this->fix_paths($include);
                 }
-                break;
+
+                $this->base_path    = $old_base_path;
+                $this->root_context = $old_root_context;
+
+                return $include;
 
             case 'plugin.include':
                 $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib);
