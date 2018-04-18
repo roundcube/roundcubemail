@@ -529,7 +529,7 @@ function rcube_elastic_ui()
         }
 
         // Create floating action button(s)
-        if (layout.list.length && is_mobile()) {
+        if ((layout.list.length || layout.content.length) && is_mobile()) {
             var fabuttons = [];
 
             $('[data-fab]').each(function() {
@@ -545,7 +545,8 @@ function rcube_elastic_ui()
             });
 
             if (fabuttons.length) {
-                $('<div class="floating-action-buttons">').append(fabuttons).appendTo(layout.list);
+                $('<div class="floating-action-buttons">').append(fabuttons)
+                    .appendTo(layout.list.length ? layout.list : layout.content);
             }
         }
 
