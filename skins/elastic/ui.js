@@ -453,7 +453,7 @@ function rcube_elastic_ui()
                 button = $('<a>').attr({'class': 'button icon toggleselect disabled', role: 'button'})
                     .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                     .append($('<span class="inner">').text(rcmail.gettext('select')))
-                    .insertBefore(table.parents('.sidebar,.list').find('.header-title'));
+                    .insertBefore(table.parents('.sidebar,.list,.content').find('.header-title'));
 
                 // Update Select button state on list update
                 rcmail.addEventListener('listupdate', function(prop) {
