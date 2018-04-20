@@ -360,7 +360,10 @@ removeEventListener: function(evt, func, obj)
  */
 triggerEvent: function(evt, e)
 {
-  var ret, h;
+  var ret, h,
+    reset_fn = function(o) {
+      try { if (o && o.event) delete o.event; } catch(err) { };
+    };
 
   if (e === undefined)
     e = this;
@@ -384,26 +387,11 @@ triggerEvent: function(evt, e)
           break;
       }
     }
-    if (ret && ret.event) {
-      try {
-        delete ret.event;
-      } catch (err) {
-        // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
-        $(ret).removeAttr('event');
-      }
-    }
+    reset_fn(ret);
   }
 
   delete this._event_exec[evt];
-
-  if (e.event) {
-    try {
-      delete e.event;
-    } catch (err) {
-      // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
-      $(e).removeAttr('event');
-    }
-  }
+  reset_fn(e);
 
   return ret;
 }
