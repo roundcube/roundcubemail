@@ -7,18 +7,18 @@
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title" id="aria-label-contentinfo"><roundcube:label name="properties" /></span>
 	</div>
-	<roundcube:object name="messagePartControls" class="listing" role="contentinfo"
+	<roundcube:object name="messagePartControls" class="listing props-table" role="contentinfo"
 		aria-labelledby="aria-label-contentinfo" />
 </div>
 
 <div class="content selected">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<a class="button icon properties" id="properties-button" href="#properties" onclick="UI.show_sidebar()" data-hidden="big">
+			<span class="inner"><roundcube:label name="properties"></span>
+		</a>
 		<span class="header-title constant"><roundcube:var name="env:filename" /></span>
 		<div id="messagetoolbar" class="toolbar">
-			<a class="button properties" id="properties-button" href="#properties" onclick="UI.show_sidebar()" data-hidden="big">
-				<span class="inner"><roundcube:label name="properties"></span>
-			</a>
 			<roundcube:button command="download" type="link" label="download" title="download"
 				class="button download disabled" classAct="button download" innerclass="inner" />
 			<roundcube:button command="print" type="link" label="print" title="print"
