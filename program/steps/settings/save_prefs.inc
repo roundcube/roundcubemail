@@ -158,10 +158,12 @@ case 'general':
     }
 
     // switch skin (if valid, otherwise unset the pref and fall back to default)
-    if (!$OUTPUT->set_skin($a_user_prefs['skin']))
+    if (!$OUTPUT->check_skin($a_user_prefs['skin'])) {
         unset($a_user_prefs['skin']);
-    else if ($RCMAIL->config->get('skin') != $a_user_prefs['skin'])
+    }
+    else if ($RCMAIL->config->get('skin') != $a_user_prefs['skin']) {
         $OUTPUT->command('reload', 500);
+    }
 
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 

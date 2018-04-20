@@ -82,11 +82,8 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('cookie_path', ini_get('session.cookie_path'));
         $this->set_env('cookie_secure', filter_var(ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN));
 
-        // load the correct skin (in case user-defined)
-        $skin = $this->config->get('skin');
-        $this->set_skin($skin);
-        $this->set_env('skin', $skin);
-
+        // load and setup the skin
+        $this->set_skin($this->config->get('skin'));
         $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
 
         if (!empty($_REQUEST['_extwin']))
@@ -231,10 +228,33 @@ EOF;
      * Set skin
      *
      * @param string $skin Skin name
+     */
+    public function set_skin($skin)
+    {
+        if (!$this->check_skin($skin)) {
+            $skin = rcube_config::DEFAULT_SKIN;
+        }
+
+        $skin_path = 'skins/' . $skin;
+
+        $this->config->set('skin_path', $skin_path);
+        $this->base_path = $skin_path;
+
+        // register skin path(s)
+        $this->skin_paths = array();
+        $this->load_skin($skin_path);
+
+        $this->set_env('skin', $skin);
+    }
+
+    /**
+     * Check skin validity/existence
+     *
+     * @param string $skin Skin name
      *
      * @return bool True if the skin exist and is readable, False otherwise
      */
-    public function set_skin($skin)
+    public function check_skin($skin)
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         if (strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
@@ -247,31 +267,9 @@ EOF;
             return false;
         }
 
-        $valid = false;
-        $path  = RCUBE_INSTALL_PATH . 'skins/';
+        $path = RCUBE_INSTALL_PATH . 'skins/';
 
-        if (!empty($skin) && is_dir($path . $skin) && is_readable($path . $skin)) {
-            $skin_path = 'skins/' . $skin;
-            $valid     = true;
-        }
-        else {
-            $skin_path = $this->config->get('skin_path');
-            if (!$skin_path) {
-                $skin_path = 'skins/' . rcube_config::DEFAULT_SKIN;
-            }
-            $valid = !$skin;
-        }
-
-        $skin_path = rtrim($skin_path, '/');
-
-        $this->config->set('skin_path', $skin_path);
-        $this->base_path = $skin_path;
-
-        // register skin path(s)
-        $this->skin_paths = array();
-        $this->load_skin($skin_path);
-
-        return $valid;
+        return !empty($skin) && is_dir($path . $skin) && is_readable($path . $skin);
     }
 
     /**
