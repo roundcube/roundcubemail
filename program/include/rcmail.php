@@ -100,6 +100,9 @@ class rcmail extends rcube
         $required_plugins = array('filesystem_attachments', 'jqueryui');
         $this->plugins->load_plugins($plugins, $required_plugins);
 
+        // Remember default skin, before it's replaced by user prefs
+        $this->default_skin = $this->config->get('skin');
+
         // start session
         $this->session_init();
 
@@ -455,7 +458,8 @@ class rcmail extends rcube
 
         // add some basic labels to client
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
-            'refreshing', 'windowopenerror', 'uploadingmany', 'close', 'save', 'cancel', 'alerttitle', 'confirmationtitle', 'delete', 'continue', 'ok');
+            'refreshing', 'windowopenerror', 'uploadingmany', 'close', 'save', 'cancel',
+            'alerttitle', 'confirmationtitle', 'delete', 'continue', 'ok');
 
         return $this->output;
     }
@@ -484,11 +488,6 @@ class rcmail extends rcube
         // set initial session vars
         if (!$_SESSION['user_id']) {
             $_SESSION['temp'] = true;
-        }
-
-        // restore skin selection after logout
-        if ($_SESSION['temp'] && !empty($_SESSION['skin'])) {
-            $this->config->set('skin', $_SESSION['skin']);
         }
     }
 
@@ -774,8 +773,12 @@ class rcmail extends rcube
         $this->plugins->exec_hook('session_destroy');
 
         $this->session->kill();
-        $_SESSION = array('language' => $this->user->language, 'temp' => true, 'skin' => $this->config->get('skin'));
+        $_SESSION = array('language' => $this->user->language, 'temp' => true);
         $this->user->reset();
+
+        if ($this->config->get('skin') != $this->default_skin && method_exists($this->output, 'set_skin')) {
+            $this->output->set_skin($this->default_skin);
+        }
     }
 
     /**
