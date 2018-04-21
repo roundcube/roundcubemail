@@ -536,8 +536,6 @@ class rcube_washtml
      */
     public function wash($html)
     {
-        // Charset seems to be ignored (probably if defined in the HTML document)
-        $node = new DOMDocument('1.0', $this->config['charset']);
         $this->extlinks = false;
 
         $html = $this->cleanup($html);
@@ -556,15 +554,22 @@ class rcube_washtml
         // SVG need to be parsed as XML
         $this->is_xml = stripos($html, '<html') === false && stripos($html, '<svg') !== false;
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
-        $options      = 0;
 
-        // Use optimizations if supported
-        if (PHP_VERSION_ID >= 50400) {
-            $options = LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET;
-            @$node->{$method}($html, $options);
+        // DOMDocument does not support HTML5, try Masterminds parser if available
+        if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
+            try {
+                $html5 = new Masterminds\HTML5();
+                $node  = $html5->loadHTML($html);
+            }
+            catch (Exception $e) {
+                // ignore, fallback to DOMDocument
+            }
         }
-        else {
-            @$node->{$method}($html);
+
+        if (empty($node)) {
+            // Charset seems to be ignored (probably if defined in the HTML document)
+            $node = new DOMDocument('1.0', $this->config['charset']);
+            @$node->{$method}($html, LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET);
         }
 
         return $this->dumpHtml($node);

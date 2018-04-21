@@ -7,6 +7,14 @@
  */
 class Framework_Washtml extends PHPUnit_Framework_TestCase
 {
+    /**
+     * A helper method to remove comments added by rcube_washtml
+     */
+    function cleanupResult($html)
+    {
+        return preg_replace('/<!-- [a-z]+ (ignored|not allowed) -->/', '', $html);
+    }
+
 
     /**
      * Test the elimination of some XSS vulnerabilities
@@ -67,24 +75,24 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washer = new rcube_washtml;
 
         $html   = "<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>p2</p>', $washed, "HTML conditional comments (#1489004)");
+        $this->assertEquals('<p>p2</p>', $washed, "HTML conditional comments (#1489004)");
 
         $html   = "<!--TestCommentInvalid><p>test</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>test</p>', $washed, "HTML invalid comments (#1487759)");
+        $this->assertEquals('<p>test</p>', $washed, "HTML invalid comments (#1487759)");
 
         $html   = "<p>para1</p><!-- comment --><p>para2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
+        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
 
         $html   = "<p>para1</p><!-- <hr> comment --><p>para2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
+        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
     }
 
     /**
@@ -295,7 +303,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     function test_wash_mathml()
     {
         $mathml = '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>
-            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+            <math><semantics>
                 <mrow>
                     <msub><mi>I</mi><mi>D</mi></msub>
                     <mo>=</mo>
@@ -312,7 +320,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
             </body></html>';
 
         $exp = '<!-- html ignored --><!-- head ignored --><!-- meta ignored --><!-- body ignored -->
-            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+            <math><semantics>
                 <mrow>
                     <msub><mi>I</mi><mi>D</mi></msub>
                     <mo>=</mo>

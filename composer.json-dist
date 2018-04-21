@@ -19,6 +19,7 @@
         "pear/crypt_gpg": "~1.6.2",
         "pear/net_sieve": "~1.4.3",
         "roundcube/plugin-installer": "~0.1.6",
+        "masterminds/html5": "~2.3.0",
         "endroid/qr-code": "~1.6.5"
     },
     "require-dev": {
