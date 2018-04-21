@@ -25,11 +25,13 @@
  */
 
 $config = array(
-    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'display_errors'  => false,
+    'log_errors'      => true,
     // Some users are not using Installer, so we'll check some
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
-    'mbstring.func_overload'  => 0,
+    'mbstring.func_overload' => 0,
 );
 
 // check these additional ini settings if not called via CLI
@@ -37,6 +39,8 @@ if (php_sapi_name() != 'cli') {
     $config += array(
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,
+        'session.auto_start'      => false,
+        'zlib.output_compression' => false,
     );
 }
 

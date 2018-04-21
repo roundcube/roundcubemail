@@ -71,12 +71,11 @@ it on a unix system, you need to do the following operations by hand:
 
 Post-Upgrade Activities
 -----------------------
-1. Check .htaccess settings (some php settings could become required)
-2. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
-3. When upgrading from version older than 0.6-beta you should make sure
+1. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
+2. When upgrading from version older than 0.6-beta you should make sure
    your folder settings contain namespace prefix. For example Courier users
    should add INBOX. prefix to folder names in main configuration file.
-4. Check system requirements in INSTALL file.
+3. Check system requirements in INSTALL file.
 
 SQLite database upgrade
 -----------------------
