@@ -87,7 +87,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 <?php
 
 $dirs[] = $RCI->config['temp_dir'] ? $RCI->config['temp_dir'] : 'temp';
-if ($RCI->config['log_driver'] != 'syslog')
+if ($RCI->config['log_driver'] != 'syslog' && $RCI->config['log_driver'] != 'php')
     $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
 
 foreach ($dirs as $dir) {
