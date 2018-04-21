@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
   - Added private key listing and generating to identity settings
   - Enable encrypt & sign option if Mailvelope supports it
 - Update to jQuery-3.3.1
+- Use Masterminds/HTML5 parser for HTML5 support (#5761)
 - vcard_attachments: Add possibility to send contact vCard from Contacts toolbar (#6080)
 - Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
 - Display an error when clicking disabled link to register protocol handler (#6079)
