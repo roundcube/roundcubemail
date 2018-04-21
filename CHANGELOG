@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression where IMAP commands with '*' uidset argument wasn't working
+
 RELEASE 1.1.11
 --------------
 - Don't ignore (global) userlogins/sendmail logs in per_user_logging mode
