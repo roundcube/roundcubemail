@@ -1282,12 +1282,11 @@ clear_selection: function(id, no_event)
  */
 get_selection: function(deep)
 {
-  var res;
+  var res = $.merge([], this.selection);
 
-  if (res = this.triggerEvent('getselection', deep))
-    return res;
-
-  res = $.merge([], this.selection);
+  var props = {deep: deep, res: res};
+  if (this.triggerEvent('getselection', props) === false)
+    return props.res;
 
   // return children of selected threads even if only root is selected
   if (deep !== false && res.length) {
