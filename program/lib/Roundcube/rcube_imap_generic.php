@@ -3879,7 +3879,7 @@ class rcube_imap_generic
         // return as comma separated string
         $result = implode(',', $result);
 
-        return preg_match('/[^0-9:,]/', $result) ? 'INVALID' : $result;
+        return preg_match('/[^0-9:,*]/', $result) ? 'INVALID' : $result;
     }
 
     /**

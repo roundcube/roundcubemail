@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression where IMAP commands with '*' uidset argument wasn't working
+
 RELEASE 1.2.8
 -------------
 - Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (#6238)
