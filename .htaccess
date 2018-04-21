@@ -1,23 +1,4 @@
-# WARNING: For PHP 7 the module name in the line below need to be modified!
-<IfModule mod_php5.c>
-php_flag    display_errors  Off
-php_flag    log_errors      On
-# php_value    error_log    logs/errors.log
-
-php_value   upload_max_filesize   5M
-php_value   post_max_size         6M
-php_value   memory_limit          64M
-
-php_flag    zlib.output_compression     Off
-php_flag    suhosin.session.encrypt     Off
-
-#php_value   session.cookie_path     /
-#php_value   session.hash_function   sha256
-php_flag    session.auto_start       Off
-php_value   session.gc_maxlifetime   21600
-php_value   session.gc_divisor       500
-php_value   session.gc_probability   1
-</IfModule>
+# This is a sample with suggested security and performance options
 
 <IfModule mod_rewrite.c>
 Options +SymLinksIfOwnerMatch

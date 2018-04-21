@@ -26,10 +26,10 @@ REQUIREMENTS
    - Net_Sieve 1.4.3 or newer (for managesieve plugin)
    - Crypt_GPG 1.6.2 or newer (for enigma plugin)
    - Endroid/QrCode 1.6.0 or newer (https://github.com/endroid/QrCode)
-* php.ini options (see .htaccess file):
+* php.ini options:
    - error_reporting E_ALL & ~E_NOTICE & ~E_STRICT
-   - memory_limit > 16MB (increase as suitable to support large attachments)
-   - file_uploads enabled (for attachment upload features)
+   - memory_limit > 16MB
+   - file_uploads enabled (for uploading attachments and import files)
    - session.auto_start disabled
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
@@ -76,13 +76,13 @@ and configure your installation to be not surprised by default behaviour.
 
 Roundcube writes internal errors to the 'errors' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
-PHP errors to be logged there as well, enable the 'php_value error_log' line
-in the .htaccess file and set the path to the log file accordingly.
+PHP errors to be logged there as well, set error_log php.ini or .htaccess file.
 
-By default the session_path settings of PHP are not modified by Roundcube.
+By default the session cookie settings of PHP are not modified by Roundcube.
 However if you want to limit the session cookies to the directory where
-Roundcube resides you can uncomment and configure the according line
-in the .htaccess file.
+Roundcube resides you can set session.cookie_path in the php.ini or .htaccess file.
+
+More about PHP settings: https://github.com/roundcube/roundcubemail/wiki/Installation#php-configuration
 
 
 DATABASE SETUP
@@ -156,13 +156,9 @@ Read the comments above the individual configuration options to find out what
 they do or read https://github.com/roundcube/roundcubemail/wiki/Installation
 for even more guidance.
 
-You can also modify the default .htaccess file. This is necessary to
-increase the allowed size of file attachments, for example:
-
-  php_value   upload_max_filesize     5M
-  php_value   post_max_size           6M
-
-Note that some PHP environments (php-fpm) may use .user.ini instead of .htaccess.
+The allowed size of email attachments and other file uploads is controlled by
+PHP settings: upload_max_filesize an  post_max_size. Read more about PHP
+settings at https://github.com/roundcube/roundcubemail/wiki/Installation#php-configuration.
 
 
 SECURE YOUR INSTALLATION
