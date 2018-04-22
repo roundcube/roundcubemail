@@ -906,7 +906,7 @@ function rcube_elastic_ui()
         $('[data-popup]').each(function() { popup_init(this); });
 
         $(document).on('click', popups_close);
-        rcube_webmail.set_iframe_events({mousedown: popups_close});
+        rcube_webmail.set_iframe_events({mousedown: popups_close, touchstart: popups_close});
     };
 
     /**
