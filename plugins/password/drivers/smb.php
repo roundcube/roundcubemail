@@ -41,9 +41,18 @@ class rcube_smb_password
 
     public function save($currpass, $newpass)
     {
-        $host     = rcmail::get_instance()->config->get('password_smb_host','localhost');
-        $bin      = rcmail::get_instance()->config->get('password_smb_cmd','/usr/bin/smbpasswd');
-        $username = $_SESSION['username'];
+        $rcmail   = rcmail::get_instance();
+        $host     = $rcmail->config->get('password_smb_host','localhost');
+        $bin      = $rcmail->config->get('password_smb_cmd','/usr/bin/smbpasswd');
+        $user     = $rcmail->config->get('password_smb_user', '%u');
+
+        $local_part  = $rcmail->user->get_username('local');
+        $domain_part = $rcmail->user->get_username('domain');
+
+        $user     = str_replace('%l', $local_part, $user);
+        $user     = str_replace('%d', $domain_part, $user);
+        $user     = str_replace('%u', $_SESSION['username'], $user);
+        $username = $user;
 
         $host     = rcube_utils::parse_host($host);
         $tmpfile  = tempnam(sys_get_temp_dir(),'smb');

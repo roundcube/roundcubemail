@@ -440,8 +440,19 @@ $config['password_expect_params'] = '';
 // %t - hostname without the first part
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $config['password_smb_host'] = 'localhost';
+
 // Location of smbpasswd binary (default: /usr/bin/smbpasswd)
 $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
+
+// Samba username to use to change the password.
+// The following macros will be expanded as follows:
+//      %u is replaced with the username (from the session info)
+//      %l is replaced with the local part of the username
+//         (in case the username is an email address)
+//      %d is replaced with the domain part of the username
+//         (in case the username is an email address)
+// Default: "%u"
+$config['password_smb_user'] = '%u';
 
 // gearman driver options
 // ---------------------
