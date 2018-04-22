@@ -3,17 +3,20 @@ CHANGELOG Roundcube Webmail
 
 - Added new skin with mobile support - the Elastic
 - Support Redis cache
+- Email Resent (Bounce) feature (#4985)
 - Improved Mailvelope integration
   - Added private key listing and generating to identity settings
   - Enable encrypt & sign option if Mailvelope supports it
+- Allow contacts without an email address (#5079)
+- Support SMTPUTF8 and relax email address validation to support unicode in local part (#5120)
+- Support for IMAP folders that cannot contain both folders and messages (#5057)
 - Update to jQuery-3.3.1
+- Update to jQuery-minicolors 2.2.6
 - Remove sample PHP configuration from .htaccess and .user.ini files (#5850)
-- Use Masterminds/HTML5 parser for HTML5 support (#5761)
-- vcard_attachments: Add possibility to send contact vCard from Contacts toolbar (#6080)
+- Use Masterminds/HTML5 parser for better HTML5 support (#5761)
 - Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
 - Display an error when clicking disabled link to register protocol handler (#6079)
 - Add option trusted_host_patterns (#6009, #5752)
-- Support SMTPUTF8 and relax email address validation to support unicode in local part (#5120)
 - Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
@@ -22,23 +25,27 @@ CHANGELOG Roundcube Webmail
 - Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
 - Add Message-ID to the sendmail log (#5871)
+- Archive: Fix archiving by sender address on cyrus-imap
+- Archive: Style Archive folder also on folder selector and folder manager lists
+- Archive: Add Thunderbird compatible Month option (#5623)
+- Archive: Create archive folder automatically if it's configured, but does not exist (#6076)
+- Enigma: Add button to send mail unencrypted if no key was found (#5913)
+- Enigma: Add options to set PGP cipher/digest algorithms (#5645)
+- Enigma: Multi-host support
 - Managesieve: Add ability to disable filter sets and other actions (#5496, #5898)
 - Managesieve: Add option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 - Managesieve: Support filter action with custom IMAP flags (#6011)
 - Managesieve: Support 'mime' extension tests - RFC5703 (#5832)
 - Managesieve: Support GSSAPI authentication with krb_authentication plugin (#5779)
+- Password: Support host variables in password_db_dsn option (#5955)
+- Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
+- subscriptions_option: show \\Noselect folders greyed out (#5621)
 - zipdownload: Added option to define size limit for multiple messages download (#5696)
+- vcard_attachments: Add possibility to send contact vCard from Contacts toolbar (#6080)
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
-- Enigma: Add button to send mail unencrypted if no key was found (#5913)
-- Enigma: Add options to set PGP cipher/digest algorithms (#5645)
-- Enigma: Multi-host support
 - Add --get and --extract arguments and CACHEDIR env-variable support to install-jsdeps.sh (#5882)
-- Update to jquery-minicolors 2.2.6
 - Support _filter and _scope as GET arguments for opening mail UI (#5825)
-- Support for IMAP folders that cannot contain both folders and messages (#5057)
-- Added .user.ini file for php-fpm (#5846)
-- Email Resent (Bounce) feature (#4985)
 - Various improvements for templating engine and skin behaviours
   - Support conditional include
   - Support for 'link' objects
@@ -51,21 +58,13 @@ CHANGELOG Roundcube Webmail
 - Added optional checkbox selection for the list widget
 - Make 'compose' command always enabled
 - Add .log suffix to all log file names, add option log_file_ext to control this (#313)
-- Archive: Fix archiving by sender address on cyrus-imap
-- Archive: Style Archive folder also on folder selector and folder manager lists
-- Archive: Add Thunderbird compatible Month option (#5623)
-- Archive: Create archive folder automatically if it's configured, but does not exist (#6076)
 - Return "401 Unauthorized" status when login fails (#5663)
 - Support both comma and semicolon as recipient separator, drop recipients_separator option (#5092)
 - Plugin API: Added 'show_bytes' hook (#5001)
-- subscriptions_option: show \\Noselect folders greyed out (#5621)
 - Add option to not indent quoted text on top-posting reply (#5105)
 - Removed global $CONFIG variable
-- Password: Support host variables in password_db_dsn option (#5955)
-- Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
-- Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
 - Handle inline images also inside multipart/mixed messages (#5905)
