@@ -39,6 +39,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Support GSSAPI authentication with krb_authentication plugin (#5779)
 - Password: Support host variables in password_db_dsn option (#5955)
 - Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
+- Password: Added password_username_format option (#5766)
 - subscriptions_option: show \\Noselect folders greyed out (#5621)
 - zipdownload: Added option to define size limit for multiple messages download (#5696)
 - vcard_attachments: Add possibility to send contact vCard from Contacts toolbar (#6080)

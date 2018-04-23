@@ -372,6 +372,7 @@
  Extended result (as a hash-array with 'message' and 'code' items) can be returned
  too. See existing drivers in drivers/ directory for examples.
 
+
  4. Sudo setup
  -------------
 

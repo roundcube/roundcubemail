@@ -31,10 +31,9 @@
 
 class rcube_virtualmin_password
 {
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
         $rcmail   = rcmail::get_instance();
-        $username = $_SESSION['username'];
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
 
@@ -54,21 +53,20 @@ class rcube_virtualmin_password
             return PASSWORD_ERROR;
         }
 
-        $domain   = escapeshellarg($domain);
-        $newpass  = escapeshellarg($newpass);
+        $domain  = escapeshellarg($domain);
+        $newpass = escapeshellarg($newpass);
 
         exec("$curdir/chgvirtualminpasswd modify-user --domain $domain --user $username --pass $newpass", $output, $returnvalue);
 
         if ($returnvalue == 0) {
             return PASSWORD_SUCCESS;
         }
-        else {
-            rcube::raise_error(array(
+
+        rcube::raise_error(array(
                 'code' => 600,
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd"
-                ), true, false);
-        }
+            ), true, false);
 
         return PASSWORD_ERROR;
     }

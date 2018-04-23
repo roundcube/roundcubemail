@@ -39,16 +39,13 @@ class rcube_cpanel_webmail_password
      */
     public function save($curpas, $newpass)
     {
-        $user    = $_SESSION['username'];
+        $url     = self::url();
         $userpwd = "$user:$curpas";
-        list($login) = explode('@', $user);
-
-        $data = array(
-            'email'    => $login,
+        $data    = array(
+            'email'    => password::username('%l'),
             'password' => $newpass
         );
 
-        $url      = self::url();
         $response = $this->curl_auth_post($userpwd, $url, $data);
 
         return self::decode_response($response);

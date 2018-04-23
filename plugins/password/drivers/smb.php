@@ -39,15 +39,13 @@
 class rcube_smb_password
 {
 
-    public function save($currpass, $newpass)
+    public function save($currpass, $newpass, $username)
     {
         $host     = rcmail::get_instance()->config->get('password_smb_host','localhost');
         $bin      = rcmail::get_instance()->config->get('password_smb_cmd','/usr/bin/smbpasswd');
-        $username = $_SESSION['username'];
-
         $host     = rcube_utils::parse_host($host);
         $tmpfile  = tempnam(sys_get_temp_dir(),'smb');
-        $cmd      = $bin . ' -r ' . $host . ' -s -U "' . $username . '" > ' . $tmpfile . ' 2>&1';
+        $cmd      = $bin . ' -r ' . escapeshellarg($host) . ' -s -U "' . escapeshellarg($username) . '" > ' . $tmpfile . ' 2>&1';
         $handle   = @popen($cmd, 'w');
 
         fputs($handle, $currpass."\n");
@@ -60,14 +58,13 @@ class rcube_smb_password
         if (strstr($res[count($res) - 1], 'Password changed for user') !== false) {
             return PASSWORD_SUCCESS;
         }
-        else {
-            rcube::raise_error(array(
+
+        rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $cmd"
-                ), true, false);
-        }
+            ), true, false);
 
         return PASSWORD_ERROR;
     }

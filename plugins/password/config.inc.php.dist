@@ -78,6 +78,15 @@ $config['password_blowfish_cost'] = 12;
 // which will replace the default.
 $config['password_disabled'] = false;
 
+// Various drivers/setups use different format of the username.
+// This option allows you to force specified format use. Default: '%u'.
+// Supported variables:
+//     %u - full username,
+//     %l - the local part of the username (in case the username is an email address)
+//     %d - the domain part of the username (in case the username is an email address)
+// Note: This may no apply to some drivers implementing their own rules, e.g. sql.
+$config['password_username_format'] = '%u';
+
 
 // SQL Driver options
 // ------------------

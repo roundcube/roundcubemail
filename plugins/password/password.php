@@ -5,7 +5,7 @@
  *
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2005-2015, The Roundcube Dev Team
+ * Copyright (C) 2005-2018, The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ class password extends rcube_plugin
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
 
-        if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
+        if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
         }
         else {
@@ -330,8 +330,8 @@ class password extends rcube_plugin
             return $this->gettext('internalerror');
         }
 
-        $object = new $class;
-        $result = $object->save($curpass, $passwd);
+        $object  = new $class;
+        $result  = $object->save($curpass, $passwd, self::username());
         $message = '';
 
         if (is_array($result)) {
@@ -672,5 +672,31 @@ class password extends rcube_plugin
         }
 
         return $crypted;
+    }
+
+    /**
+     * Returns username in a configured form appropriate for the driver
+     *
+     * @param string $format Username format
+     *
+     * @return string Username
+     */
+    static function username($format = null)
+    {
+        $rcmail = rcmail::get_instance();
+
+        if (!$format) {
+            $format = $rcmail->config->get('password_username_format');
+        }
+
+        if (!$format) {
+            return $_SESSION['username'];
+        }
+
+        return strtr($format, array(
+                '%l' => $rcmail->user->get_username('local'),
+                '%d' => $rcmail->user->get_username('domain'),
+                '%u' => $_SESSION['username'],
+        ));
     }
 }

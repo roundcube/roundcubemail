@@ -90,9 +90,10 @@ class rcube_cpanel_password
         // Get the cPanel user
         $query = $this->xmlapi->listaccts('domain', $data['domain']);
         $query = json_decode($query, true);
-        if ( $query['status'] != 1) {
+        if ($query['status'] != 1) {
             return false;
         }
+
         $cpanel_user = $query['acct'][0]['user'];
 
         $query  = $this->xmlapi->api2_query($cpanel_user, 'Email', 'passwdpop', $data);
