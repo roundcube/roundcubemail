@@ -44,7 +44,6 @@ class rcmail_output_html extends rcmail_output
     protected $footer       = '';
     protected $body         = '';
     protected $base_path    = '';
-    protected $root_context;
     protected $assets_path;
     protected $assets_dir   = RCUBE_INSTALL_PATH;
     protected $devel_mode   = false;
@@ -348,10 +347,6 @@ EOF;
         }
 
         foreach ($skin_paths as $skin_path) {
-            if ($this->root_context && strpos($skin_path, 'plugins/') === 0) {
-                continue;
-            }
-
             if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
                 return $skin_path . $file;
             }
@@ -832,8 +827,7 @@ EOF;
 
         // correct absolute paths
         if ($file[0] == '/') {
-            $this->get_skin_file($file, $skin_path);
-            $file = $skin_path . $file;
+            $file = $this->base_path . $file;
         }
 
         // add file modification timestamp
@@ -1118,7 +1112,6 @@ EOF;
                 }
 
                 $old_base_path    = $this->base_path;
-                $old_root_context = $this->root_context;
                 $include          = '';
 
                 if (!empty($attrib['skin_path'])) {
@@ -1127,9 +1120,7 @@ EOF;
 
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     // set base_path to core skin directory (not plugin's skin)
-                    $this->base_path    = preg_replace('!plugins/\w+/!', '', $skin_path);
-                    $this->root_context = strpos($skin_path, 'plugins/') !== 0;
-
+                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                     $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
@@ -1141,8 +1132,7 @@ EOF;
                     $include   = $this->fix_paths($include);
                 }
 
-                $this->base_path    = $old_base_path;
-                $this->root_context = $old_root_context;
+                $this->base_path = $old_base_path;
 
                 return $include;
 
