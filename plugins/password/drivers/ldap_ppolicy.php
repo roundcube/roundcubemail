@@ -13,7 +13,7 @@
 
 class rcube_ldap_ppolicy_password
 {
-    public function save($currpass, $newpass)
+    public function save($currpass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
         $this->debug = $rcmail->config->get('ldap_debug');
@@ -56,7 +56,7 @@ class rcube_ldap_ppolicy_password
             fwrite($pipes[0], $filter."\n");
             fwrite($pipes[0], $bindDN."\n");
             fwrite($pipes[0], $bindPW."\n");
-            fwrite($pipes[0], $_SESSION['username']."\n");
+            fwrite($pipes[0], $username."\n");
             fwrite($pipes[0], $currpass."\n");
             fwrite($pipes[0], $newpass."\n");
             fwrite($pipes[0], $cafile);

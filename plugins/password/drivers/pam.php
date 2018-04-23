@@ -24,14 +24,13 @@
 
 class rcube_pam_password
 {
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
-        $user  = $_SESSION['username'];
         $error = '';
 
         if (extension_loaded('pam') || extension_loaded('pam_auth')) {
-            if (pam_auth($user, $currpass, $error, false)) {
-                if (pam_chpass($user, $currpass, $newpass)) {
+            if (pam_auth($username, $currpass, $error, false)) {
+                if (pam_chpass($username, $currpass, $newpass)) {
                     return PASSWORD_SUCCESS;
                 }
             }
@@ -40,7 +39,7 @@ class rcube_pam_password
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: PAM authentication failed for user $user: $error"
+                    'message' => "Password plugin: PAM authentication failed for user $username: $error"
                     ), true, false);
             }
         }
