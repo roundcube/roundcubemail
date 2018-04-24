@@ -342,23 +342,35 @@ EOF;
     public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
+
         if ($add_path) {
             array_unshift($skin_paths, $add_path);
+            $skin_paths = array_unique($skin_paths);
         }
 
-        foreach ($skin_paths as $skin_path) {
-            if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
-                return $skin_path . $file;
-            }
-
-            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
-                if (realpath($this->assets_dir . $skin_path . $file)) {
-                    return $skin_path . $file;
-                }
-            }
+        if ($skin_path = $this->find_file_path($file, $skin_paths)) {
+            return $skin_path . $file;
         }
 
         return false;
+    }
+
+    /**
+     * Find path of the asset file
+     */
+    protected function find_file_path($file, $skin_paths)
+    {
+        foreach ($skin_paths as $skin_path) {
+            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
+                if (realpath($this->assets_dir . $skin_path . $file)) {
+                    return $skin_path;
+                }
+            }
+
+            if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
+                return $skin_path;
+            }
+        }
     }
 
     /**
@@ -827,7 +839,8 @@ EOF;
 
         // correct absolute paths
         if ($file[0] == '/') {
-            $file = $this->base_path . $file;
+            $this->get_skin_file($file, $skin_path, $this->base_path);
+            $file = ($skin_path ?: $this->base_path) . $file;
         }
 
         // add file modification timestamp
