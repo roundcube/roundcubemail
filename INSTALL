@@ -156,8 +156,8 @@ Read the comments above the individual configuration options to find out what
 they do or read https://github.com/roundcube/roundcubemail/wiki/Installation
 for even more guidance.
 
-The allowed size of email attachments and other file uploads is controlled by
-PHP settings: upload_max_filesize an  post_max_size. Read more about PHP
+The maximum size of email attachments and other file uploads is controlled by
+PHP settings: upload_max_filesize and post_max_size. Read more about PHP
 settings at https://github.com/roundcube/roundcubemail/wiki/Installation#php-configuration.
 
 
