@@ -8540,9 +8540,9 @@ function rcube_webmail()
       link.className = 'icon';
 
       // loop over entity list
-      $.each(entity_list, function() {
+      $.each(entity_list, function(i) {
         var a = $(link.cloneNode(false)).attr('rel', this.id);
-        rows.push(list_callback(this, a));
+        rows.push(list_callback(this, a, i));
       });
 
       ul.append(rows).appendTo(container);
