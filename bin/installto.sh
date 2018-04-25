@@ -88,6 +88,9 @@ if (strtolower($input) == 'y') {
       if (file_get_contents("$target_dir/$file.new") != file_get_contents("$target_dir/$file")) {
         echo "\n!! New $file file saved as $file.new !!";
       }
+      else {
+        @unlink("$target_dir/$file.new");
+      }
     }
   }
 
