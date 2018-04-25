@@ -2119,9 +2119,7 @@ function rcube_elastic_ui()
      */
     function menu_destroy(name)
     {
-        var target = menu_target(name);
-
-        $(target || '[aria-owns=' + name + ']').popover('dispose');
+        $('[aria-owns=' + name + ']').popover('dispose').data('popup', null);
     };
 
     /**
