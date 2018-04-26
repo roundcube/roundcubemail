@@ -48,13 +48,16 @@ $input = trim(fgets(STDIN));
 if (strtolower($input) == 'y') {
   echo "Copying files to target location...";
 
+  $adds = array();
   $dirs = array('program','bin','SQL','plugins','skins');
+
   if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
     $dirs[] = 'vendor';
   }
   if (file_exists("$target_dir/installer")) {
     $dirs[] = 'installer';
   }
+
   foreach ($dirs as $dir) {
     // @FIXME: should we use --delete for all directories?
     $delete  = in_array($dir, array('program', 'vendor', 'installer')) ? '--delete ' : '';
@@ -63,38 +66,29 @@ if (strtolower($input) == 'y') {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
+
   foreach (array('index.php','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
     $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
     if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
+
+  // Copy .htaccess or .user.ini if needed
   foreach (array('.htaccess','.user.ini') as $file) {
     if (file_exists(INSTALL_PATH . $file)) {
-      $copied[$file] = copy(INSTALL_PATH . $file, "$target_dir/$file.new");
-      if ($copied[$file]) {
-        echo "$file\n";
+      if (!file_exists("$target_dir/$file") || file_get_contents(INSTALL_PATH . $file) != file_get_contents("$target_dir/$file")) {
+        if (copy(INSTALL_PATH . $file, "$target_dir/$file.new")) {
+          echo "$file.new\n";
+          $adds[] = "NOTICE: New $file file saved as $file.new.";
+        }
       }
     }
   }
 
   // remove old (<1.0) .htaccess file
   @unlink("$target_dir/program/.htaccess");
-  echo "done.";
-
-  // Inform the user about .htaccess or .user.ini change
-  foreach (array('.htaccess','.user.ini') as $file) {
-    if (!empty($copied[$file])) {
-      if (file_get_contents("$target_dir/$file.new") != file_get_contents("$target_dir/$file")) {
-        echo "\n!! New $file file saved as $file.new !!";
-      }
-      else {
-        @unlink("$target_dir/$file.new");
-      }
-    }
-  }
-
-  echo "\n\n";
+  echo "done.\n\n";
 
   if (is_dir("$target_dir/skins/default")) {
       echo "Removing old default skin...";
@@ -119,16 +113,20 @@ if (strtolower($input) == 'y') {
     }
   }
   else {
-    echo "JavaScript dependencies installation skipped...\n";
+    $adds[] = "NOTICE: JavaScript dependencies installation skipped...";
+  }
+
+  if (file_exists("$target_dir/installer")) {
+    $adds[] = "NOTICE: The 'installer' directory still exists. You should remove it after the upgrade.";
+  }
+
+  if (!empty($adds)) {
+    echo implode($adds, "\n") . "\n\n";
   }
 
   echo "Running update script at target...\n";
   system("cd $target_dir && php bin/update.sh --version=$oldversion");
   echo "All done.\n";
-
-  if (file_exists("$target_dir/installer")) {
-    echo "\n!! The directory 'installer' still exists. You should remove it after the upgrade !!\n";
-  }
 }
 else {
   echo "Update cancelled. See ya!\n";
