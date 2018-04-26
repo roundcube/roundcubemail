@@ -74,8 +74,8 @@ function rcube_list_widget(list, p)
   this.dblclick_time = 500; // default value on MS Windows is 500
   this.row_init = function(){};  // @deprecated; use list.addEventListener('initrow') instead
 
-  this.pointer_touch_start = 0; // start time of the touch event
-  this.pointer_touch_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
+  this.touch_start_time = 0; // start time of the touch event
+  this.touch_event_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
 
   // overwrite default paramaters
   if (p && typeof p === 'object')
@@ -171,14 +171,14 @@ init_row: function(row)
     if ((bw.ie || bw.edge) && bw.pointer) {
       $(row).on('pointerdown', function(e) {
           if (e.pointerType == 'touch') {
-            self.pointer_touch_start = new Date().getTime();
+            self.touch_start_time = new Date().getTime();
             return false;
           }
         })
         .on('pointerup', function(e) {
           if (e.pointerType == 'touch') {
-            var duration = (new Date().getTime() - self.pointer_touch_start);
-            if (duration <= self.pointer_touch_time) {
+            var duration = (new Date().getTime() - self.touch_start_time);
+            if (duration <= self.touch_event_time) {
               self.drag_row(e, this.uid);
               return self.click_row(e, this.uid);
             }
@@ -189,12 +189,14 @@ init_row: function(row)
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           self.touchmoved = false;
-          self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid)
+          self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid);
+          self.touch_start_time = new Date().getTime();
         }
       }, false);
       row.addEventListener('touchend', function(e) {
         if (e.changedTouches.length == 1) {
-          if (!self.touchmoved && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
+          var duration = (new Date().getTime() - self.touch_start_time);
+          if (!self.touchmoved && duration <= self.touch_event_time && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
             e.preventDefault();
         }
       }, false);
