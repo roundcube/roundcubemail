@@ -36,15 +36,16 @@ class jqueryui extends rcube_plugin
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
         $ui_map   = $rcmail->config->get('jquery_ui_skin_map', array());
-        $ui_theme = $ui_map[$skin] ?: $skin;
+        $skins    = array_keys($rcmail->output->skins);
+        $skins[]  = 'larry';
 
-        self::$ui_theme = $ui_theme;
+        foreach ($skins as $skin) {
+            self::$ui_theme = $ui_theme = $ui_map[$skin] ?: $skin;
 
-        if (self::asset_exists("themes/$ui_theme/jquery-ui.css")) {
-            $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
-        }
-        else {
-            $this->include_stylesheet("themes/larry/jquery-ui.css");
+            if (self::asset_exists("themes/$ui_theme/jquery-ui.css")) {
+                $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
+                break;
+            }
         }
 
         // jquery UI localization
@@ -128,7 +129,7 @@ class jqueryui extends rcube_plugin
         $ui_theme = self::$ui_theme;
         $css      = "themes/$ui_theme/tagedit.css";
 
-        if ($ui_theme != 'elastic') {
+        if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
             if (!self::asset_exists($css)) {
                 $css = "themes/larry/tagedit.css";
             }
