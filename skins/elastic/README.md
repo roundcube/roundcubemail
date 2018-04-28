@@ -11,6 +11,7 @@ https://github.com/roundcube/roundcubemail/wiki/Skins
 
 LICENSE
 -------
+
 The contents of this folder are subject to the Creative Commons
 Attribution-ShareAlike License. It is allowed to copy, distribute,
 transmit and to adapt the work by keeping credits to the original
@@ -23,8 +24,9 @@ This folder also contains code licensed separately:
 - Roboto font from https://google-webfonts-helper.herokuapp.com/fonts/roboto?subsets=cyrillic,latin-ext,cyrillic-ext,latin,greek,greek-ext
 
 
-INSTALLATION:
+INSTALLATION
 ------------
+
 All styles are written using LESS syntax. Thus it needs to be compiled
 using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
@@ -42,10 +44,15 @@ Run `bin/updatecss.sh --dir skins/elastic` before packaging the skin
 or after installing it on the destination system.
 
 
-RULES:
-------
+FOR DEVELOPERS
+--------------
+
 - Supported browsers: IE11+, Edge, Last 2 versions for Chrome/Firefox/Safari,
   Android Browser 5+, iOS Safari 9+.
+
+- Skin color palette changes and other css modifications can be done
+  via _styles.less and _variables.less files. Where you can overwrite all
+  variables and add custom styles.
 
 - Minimum supported screen width is 240px (note that even if the device screen
   resolution is e.g.320x372 changing the text size in device settings will reduce
