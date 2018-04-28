@@ -27,7 +27,7 @@
             content: @fa-var-envelope;
         }
         &.addressbook:before {
-            content: @fa-var-user;
+            content: @fa-var-users;
         }
         &.settings:before {
             content: @fa-var-sliders-h;
@@ -61,10 +61,6 @@
         }
     }
 
-    a.logout {
-        color: @color-taskmenu-button-logout-hover !important;
-    }
-
     @media screen and (max-width: @screen-width-xs) {
         z-index: 30001; // because autocompletion popup uses z-index:30000
         overflow-x: hidden;
@@ -92,6 +88,7 @@
             padding: .45rem 0;
             width: @layout-menu-width/2;
             font-size: 1.2rem;
+            margin-bottom: 1px;
 
             &:before {
                 display: block;
@@ -101,14 +98,14 @@
                 margin: 0;
             }
 
-            &:hover {
-                color: @color-taskmenu-button;
-                background: @color-taskmenu-button-background-hover;
-            }
-
             &.selected {
                 color: @color-taskmenu-button-selected;
                 background: @color-taskmenu-button-selected-background;
+            }
+
+            &:hover {
+                color: @color-taskmenu-button-hover;
+                background: @color-taskmenu-button-background-hover;
             }
         }
 
@@ -121,18 +118,26 @@
 
         .action-buttons {
             a {
-                color: @color-taskmenu-button-action-background;
-                background: @color-taskmenu-background;
+                color: @color-taskmenu-button-action;
+                background: @color-taskmenu-button-action-background;
 
                 &:hover {
                     color: @color-taskmenu-button-action-hover;
                     background: @color-taskmenu-button-action-background-hover;
+                }
+
+                &.selected {
+                    background: @color-taskmenu-button-selected-background;
                 }
             }
         }
 
         span.inner {
             display: none;
+        }
+
+        a.logout {
+            color: @color-taskmenu-button-logout-hover !important;
         }
     }
 
@@ -149,13 +154,6 @@
             }
         }
 
-        .action-buttons {
-            a {
-                color: @color-taskmenu-button-action;
-                background: @color-taskmenu-button-action-background;
-            }
-        }
-
         span.inner {
             display: inline;
             font-size: 85%;
@@ -166,8 +164,57 @@
 
 .menu {
     .popover-header {
+        height: @layout-header-height;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 0;
+
+        img {
+            max-height: @layout-header-height;
+        }
+
         @media screen and (min-width: (@screen-width-xs + 1px)) {
-            display: none !important;
+            padding: 0 !important;
+            background-color: @color-taskmenu-background !important;
+
+            a {
+                display: none !important;
+            }
+
+            img {
+                max-width: @layout-menu-width/2;
+            }
+        }
+
+        @media screen and (min-width: (@screen-width-medium + 1px)) {
+            img {
+                max-width: @layout-menu-width;
+            }
+        }
+
+        html.layout-phone & {
+            padding: 0 .5rem;
+
+            img {
+                max-height: @layout-touch-header-height;
+                max-width: @layout-menu-width;
+            }
+
+            a {
+                width: auto;
+                flex: 1;
+
+                &:before {
+                    height: @layout-touch-header-height;
+                    float: right;
+                }
+
+                .inner {
+                    display: none;
+                }
+            }
         }
     }
 }
