@@ -2247,12 +2247,13 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string $template Name of the template to get the logo for
-     *                         default is current template
+     * @param string  $template Name of the template to get the logo for
+     *                          default is current template
+     * @param boolean $strict   True if logo should only be returned for specific template
      *
      * @return string image URL
      */
-    protected function get_template_logo($template = '')
+    protected function get_template_logo($template = '', $strict = false)
     {
         $template_logo = null;
 
@@ -2267,6 +2268,11 @@ EOF;
             $template,
             '*',
         );
+
+        // If strict matching then remove wildcard options
+        if ($strict) {
+            $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+        }
 
         if ($logo = $this->config->get('skin_logo')) {
             if (is_array($logo)) {
