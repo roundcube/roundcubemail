@@ -36,6 +36,7 @@ class rcmail_output_html extends rcmail_output
     protected $js_labels    = array();
     protected $js_commands  = array();
     protected $skin_paths   = array();
+    protected $skin_name    = '';
     protected $scripts_path = '';
     protected $script_files = array();
     protected $css_files    = array();
@@ -243,6 +244,7 @@ EOF;
         $this->skin_paths = array();
         $this->load_skin($skin_path);
 
+        $this->skin_name = $skin;
         $this->set_env('skin', $skin);
     }
 
@@ -1191,18 +1193,8 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if ($logo = $this->config->get('skin_logo')) {
-                        if (is_array($logo)) {
-                            if ($template_logo = $logo[$this->template_name]) {
-                                $attrib['src'] = $template_logo;
-                            }
-                            elseif ($template_logo = $logo['*']) {
-                                $attrib['src'] = $template_logo;
-                            }
-                        }
-                        else {
-                            $attrib['src'] = $logo;
-                        }
+                    if ($template_logo = $this->get_template_logo()) {
+                        $attrib['src'] = $template_logo;
                     }
 
                     $content = html::img($attrib);
@@ -2250,5 +2242,46 @@ EOF;
         }
 
         return $content;
+    }
+
+    /**
+     * Get logo URL for current template based on skin_logo config option
+     *
+     * @param string $template Name of the template to get the logo for
+     *                         default is current template
+     *
+     * @return string image URL
+     */
+    protected function get_template_logo($template = '')
+    {
+        $template_logo = null;
+
+        // Use current template if none provided
+        if (!$template) {
+            $template = $this->template_name;
+        }
+
+        $template_names = array(
+            $this->skin_name . ':' . $template,
+            $this->skin_name . ':*',
+            $template,
+            '*',
+        );
+
+        if ($logo = $this->config->get('skin_logo')) {
+            if (is_array($logo)) {
+                foreach ($template_names as $key) {
+                    if (!empty($logo[$key])) {
+                        $template_logo = $logo[$key];
+                        break;
+                    }
+                }
+            }
+            else {
+                $template_logo = $logo;
+            }
+        }
+
+        return $template_logo;
     }
 }
