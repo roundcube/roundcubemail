@@ -2253,7 +2253,7 @@ EOF;
      *
      * @return string image URL
      */
-    protected function get_template_logo($template = '', $strict = false)
+    protected function get_template_logo($template = null, $strict = false)
     {
         $template_logo = null;
 
