@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.2.9
+-------------
 - Fix regression where IMAP commands with '*' uidset argument wasn't working
 
 RELEASE 1.2.8
