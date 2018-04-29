@@ -3138,3 +3138,13 @@ button.mce-close,
 .pgpkeyimport div.key button[disabled] {
 	display: none;
 }
+
+/** Watermark screen **/
+html.watermark, html.watermark > body {
+	height: 95%;
+}
+
+#watermark {
+	height: 100%;
+	background: url(images/watermark.jpg) center no-repeat #fff;
+}
