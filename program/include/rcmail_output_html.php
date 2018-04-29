@@ -2269,6 +2269,11 @@ EOF;
             $content = html::img($attrib);
         }
         else {
+            if (!empty($attrib['background-image'])) {
+                $attrib['style'] = 'background-image: url('. $this->abs_url($attrib['background-image']) .');';
+                unset($attrib['background-image']);
+            }
+
             $content = html::div($attrib, '');
         }
 
