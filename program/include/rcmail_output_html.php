@@ -1239,6 +1239,9 @@ EOF;
                     $title .= $this->get_pagetitle();
                     $content = html::quote($title);
                 }
+                else if ($object == 'favicon' && $file = $this->config->get('favicon', null)) {
+                    $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
+                }
 
                 // exec plugin hooks for this template object
                 $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + array('content' => $content));
