@@ -1239,8 +1239,16 @@ EOF;
                     $title .= $this->get_pagetitle();
                     $content = html::quote($title);
                 }
-                else if ($object == 'favicon' && $file = $this->config->get('favicon', null)) {
-                    $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
+                else if ($object == 'favicon') {
+                    $fn = RCUBE_CONFIG_DIR . 'favicon.html';
+                    if (is_readable($fn)) {
+                        $content = file_get_contents($fn);
+                        $content = $this->parse_conditions($content);
+                        $content = $this->parse_xml($content);
+                    }
+                    else if ($file = $this->config->get('favicon', null)) {
+                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
+                    }
                 }
 
                 // exec plugin hooks for this template object
