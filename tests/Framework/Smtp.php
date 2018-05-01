@@ -7,11 +7,10 @@
  */
 class Framework_Smtp extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_smtp;
 
