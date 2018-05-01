@@ -7,11 +7,10 @@
  */
 class Framework_ImapGeneric extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_imap_generic;
 
@@ -21,7 +20,7 @@ class Framework_ImapGeneric extends PHPUnit_Framework_TestCase
     /**
      * Test for uncompressMessageSet
      */
-    function test_uncompressMessageSet()
+    public function test_uncompressMessageSet()
     {
         $result = rcube_imap_generic::uncompressMessageSet(null);
         $this->assertSame(array(), $result);
@@ -39,7 +38,7 @@ class Framework_ImapGeneric extends PHPUnit_Framework_TestCase
     /**
      * Test for tokenizeResponse
      */
-    function test_tokenizeResponse()
+    public function test_tokenizeResponse()
     {
         $response = "test brack[et] {1}\r\na {0}\r\n (item1 item2)";
 
