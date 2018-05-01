@@ -7,11 +7,10 @@
  */
 class Framework_Text2Html extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Data for test_text2html()
      */
-    function data_text2html()
+    public function data_text2html()
     {
         $options = array(
             'begin'  => '',
@@ -112,7 +111,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
      *
      * @dataProvider data_text2html
      */
-    function test_text2html($input, $output, $options)
+    public function test_text2html($input, $output, $options)
     {
         $t2h = new rcube_text2html($input, false, $options);
 
