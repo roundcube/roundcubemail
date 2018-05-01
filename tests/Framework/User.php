@@ -7,11 +7,10 @@
  */
 class Framework_User extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $user = new rcube_user;
 
