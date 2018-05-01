@@ -7,11 +7,10 @@
  */
 class Framework_Bootstrap extends PHPUnit_Framework_TestCase
 {
-
     /**
      * bootstrap.php: in_array_nocase()
      */
-    function test_in_array_nocase()
+    public function test_in_array_nocase()
     {
         $haystack = array('Test');
         $needle = 'test';
@@ -27,21 +26,21 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
     /**
      * bootstrap.php: parse_bytes()
      */
-    function test_parse_bytes()
+    public function test_parse_bytes()
     {
         $data = array(
             '1'      => 1,
             '1024'   => 1024,
             '2k'     => 2 * 1024,
-            '2 k'     => 2 * 1024,
+            '2 k'    => 2 * 1024,
             '2kb'    => 2 * 1024,
             '2kB'    => 2 * 1024,
             '2m'     => 2 * 1048576,
-            '2 m'     => 2 * 1048576,
+            '2 m'    => 2 * 1048576,
             '2mb'    => 2 * 1048576,
             '2mB'    => 2 * 1048576,
             '2g'     => 2 * 1024 * 1048576,
-            '2 g'     => 2 * 1024 * 1048576,
+            '2 g'    => 2 * 1024 * 1048576,
             '2gb'    => 2 * 1024 * 1048576,
             '2gB'    => 2 * 1024 * 1048576,
         );
@@ -55,7 +54,7 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
     /**
      * bootstrap.php: slashify()
      */
-    function test_slashify()
+    public function test_slashify()
     {
         $data = array(
             'test'    => 'test/',
@@ -68,13 +67,12 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             $result = slashify($value);
             $this->assertEquals($expected, $result, "Invalid slashify() result for $value");
         }
-
     }
 
     /**
      * bootstrap.php: unslashify()
      */
-    function test_unslashify()
+    public function test_unslashify()
     {
         $data = array(
             'test'      => 'test',
@@ -89,13 +87,12 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             $result = unslashify($value);
             $this->assertEquals($expected, $result, "Invalid unslashify() result for $value");
         }
-
     }
 
     /**
      * bootstrap.php: get_offset_sec()
      */
-    function test_get_offset_sec()
+    public function test_get_offset_sec()
     {
         $data = array(
             '1s'    => 1,
@@ -112,19 +109,18 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             $result = get_offset_sec($value);
             $this->assertEquals($expected, $result, "Invalid get_offset_sec() result for $value");
         }
-
     }
 
     /**
      * bootstrap.php: array_keys_recursive()
      */
-    function test_array_keys_recursive()
+    public function test_array_keys_recursive()
     {
         $input = array(
             'one' => array(
                 'two' => array(
                     'three' => array(),
-                    'four' => 'something',
+                    'four'  => 'something',
                 ),
             ),
             'five' => 'test',
@@ -140,7 +136,7 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
     /**
      * bootstrap.php: format_email()
      */
-    function test_format_email()
+    public function test_format_email()
     {
         $data = array(
             ''                 => '',
@@ -154,13 +150,12 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             $result = format_email($value);
             $this->assertEquals($expected, $result, "Invalid format_email() result for $value");
         }
-
     }
 
     /**
      * bootstrap.php: format_email_recipient()
      */
-    function test_format_email_recipient()
+    public function test_format_email_recipient()
     {
         $data = array(
             ''                          => array(''),
@@ -176,13 +171,12 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             $result = format_email_recipient($value[0], $value[1]);
             $this->assertEquals($expected, $result, "Invalid format_email_recipient()");
         }
-
     }
 
     /**
      * bootstrap.php: is_ascii()
      */
-    function test_is_ascii()
+    public function test_is_ascii()
     {
         $result = is_ascii("0123456789");
         $this->assertTrue($result, "Valid ASCII (numbers)");
@@ -210,7 +204,7 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
     /**
      * bootstrap.php: version_parse()
      */
-    function test_version_parse()
+    public function test_version_parse()
     {
         $this->assertEquals('0.9.0', version_parse('0.9-stable'));
         $this->assertEquals('0.9.99', version_parse('0.9-git'));
