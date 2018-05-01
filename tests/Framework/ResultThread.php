@@ -7,11 +7,10 @@
  */
 class Framework_ResultThread extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_result_thread;
 
@@ -21,7 +20,7 @@ class Framework_ResultThread extends PHPUnit_Framework_TestCase
     /**
      * thread parser test
      */
-    function test_parse_thread()
+    public function test_parse_thread()
     {
         $text   = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
         $object = new rcube_result_thread('INBOX', $text);
