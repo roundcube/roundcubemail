@@ -7,11 +7,10 @@
  */
 class Framework_Browser extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_browser();
 
@@ -21,9 +20,8 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider browsers
      */
-    function test_browser($useragent, $opera, $chrome, $ie, $ns, $safari, $mz)
+    public function test_browser($useragent, $opera, $chrome, $ie, $ns, $safari, $mz)
     {
-
         $object = $this->getBrowser($useragent);
 
         $this->assertEquals($opera, $object->opera, 'Check for Opera failed');
@@ -37,7 +35,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider os
      */
-    function test_os($useragent, $windows, $linux, $unix, $mac)
+    public function test_os($useragent, $windows, $linux, $unix, $mac)
     {
         $object = $this->getBrowser($useragent);
 
@@ -45,57 +43,59 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
         $this->assertEquals($linux, $object->linux, 'Check Result of Linux');
         $this->assertEquals($mac, $object->mac, 'Check Result of Mac');
         $this->assertEquals($unix, $object->unix, 'Check Result of Unix');
-
     }
 
     /**
      * @dataProvider versions
      */
-    function test_version($useragent, $version)
+    public function test_version($useragent, $version)
     {
         $object = $this->getBrowser($useragent);
+
         $this->assertEquals($version, $object->ver);
     }
 
     /**
      * @dataProvider dom
      */
-    function test_dom($useragent, $dom)
+    public function test_dom($useragent, $dom)
     {
         $object = $this->getBrowser($useragent);
-        $this->assertEquals($dom, $object->dom);
 
+        $this->assertEquals($dom, $object->dom);
     }
 
     /**
      * @dataProvider pngalpha
      */
-    function test_pngalpha($useragent, $pngalpha)
+    public function test_pngalpha($useragent, $pngalpha)
     {
         $object = $this->getBrowser($useragent);
+
         $this->assertEquals($pngalpha, $object->pngalpha);
     }
 
     /**
      * @dataProvider imgdata
      */
-    function test_imgdata($useragent, $imgdata)
+    public function test_imgdata($useragent, $imgdata)
     {
         $object = $this->getBrowser($useragent);
+
         $this->assertEquals($imgdata, $object->imgdata);
     }
 
-    function versions()
+    public function versions()
     {
         return $this->extractDataSet(array('version'));
     }
 
-    function pngalpha()
+    public function pngalpha()
     {
         return $this->extractDataSet(array('canPNGALPHA'));
     }
 
-    function imgdata()
+    public function imgdata()
     {
         return $this->extractDataSet(array('canIMGDATA'));
     }
@@ -112,28 +112,27 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
             foreach($keys as $key) {
                 $extracted[$data['useragent']][] = $data[$key];
             }
-
         }
 
         return $extracted;
     }
 
-    function lang()
+    public function lang()
     {
         return $this->extractDataSet(array('lang'));
     }
 
-    function dom()
+    public function dom()
     {
         return $this->extractDataSet(array('hasDOM'));
     }
 
-    function browsers()
+    public function browsers()
     {
-        return $this->extractDataSet(array('isOpera','isChrome','isIE','isNS','isSafari','isMZ'));
+        return $this->extractDataSet(array('isOpera', 'isChrome', 'isIE', 'isNS', 'isSafari', 'isMZ'));
     }
 
-    function useragents()
+    public function useragents()
     {
         return array(
              'WIN: Mozilla Firefox ' => array(
@@ -154,6 +153,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'canPNGALPHA'  => true,                                                                                            //canPNGALPHA
                  'canIMGDATA'   => true,                                                                                            //canIMGDATA
              ),
+
             'LINUX: Bon Echo ' => array(
                  'useragent'    => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.1) Gecko/20070222 BonEcho/2.0.0.1',
                  'version'      => '1.8',                                                                                      //Version
@@ -232,9 +232,9 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
         );
     }
 
-    function os()
+    public function os()
     {
-        return $this->extractDataSet(array('isWin','isLinux','isUnix','isMac'));
+        return $this->extractDataSet(array('isWin', 'isLinux', 'isUnix', 'isMac'));
     }
 
     /**
