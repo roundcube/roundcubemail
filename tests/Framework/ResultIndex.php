@@ -7,11 +7,10 @@
  */
 class Framework_ResultIndex extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_result_index;
 
@@ -21,7 +20,7 @@ class Framework_ResultIndex extends PHPUnit_Framework_TestCase
     /**
      * thread parser test
      */
-    function test_parse()
+    public function test_parse()
     {
         $text = "* SORT 2001 2002 2035 2036 2037 2038 2044 2046 2043 2045 2226 2225 2224 2223";
         $object = new rcube_result_index('INBOX', $text);
@@ -63,5 +62,4 @@ class Framework_ResultIndex extends PHPUnit_Framework_TestCase
         $this->assertSame(2035, $clone->get_element('FIRST'), "Get first element (sliced)");
         $this->assertSame(2037, $clone->get_element('LAST'), "Get last element (sliced)");
     }
-
 }
