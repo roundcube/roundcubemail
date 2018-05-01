@@ -7,8 +7,7 @@
  */
 class rc_html2text extends PHPUnit_Framework_TestCase
 {
-
-    function data_html2text()
+    public function data_html2text()
     {
         return array(
             0 => array(
@@ -62,7 +61,7 @@ class rc_html2text extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_html2text
      */
-    function test_html2text($title, $in, $out)
+    public function test_html2text($title, $in, $out)
     {
         $ht = new rcube_html2text(null, false, false);
 
@@ -75,7 +74,7 @@ class rc_html2text extends PHPUnit_Framework_TestCase
     /**
      *
      */
-    function test_multiple_blockquotes()
+    public function test_multiple_blockquotes()
     {
         $html = <<<EOF
 <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
@@ -91,7 +90,7 @@ EOF;
         $this->assertContains('> OUTER END', $res, 'Quote outer');
     }
 
-    function test_broken_blockquotes()
+    public function test_broken_blockquotes()
     {
         // no end tag
         $html = <<<EOF
@@ -119,7 +118,7 @@ EOF;
         $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
     }
 
-    function test_links()
+    public function test_links()
     {
         $html     = '<a href="http://test.com">content</a>';
         $expected = 'content [1]
@@ -149,7 +148,7 @@ Links:
      *
      * @dataProvider data_links_no_list
      */
-    function test_links_no_list($input, $output)
+    public function test_links_no_list($input, $output)
     {
         $h2t = new rcube_html2text($input, false, false);
         $res = $h2t->get_text();
@@ -157,7 +156,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    function data_links_no_list()
+    public function data_links_no_list()
     {
         return array(
             array(
