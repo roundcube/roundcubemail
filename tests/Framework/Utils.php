@@ -7,11 +7,10 @@
  */
 class Framework_Utils extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Valid email addresses for test_valid_email()
      */
-    function data_valid_email()
+    public function data_valid_email()
     {
         return array(
             array('email@domain.com', 'Valid email'),
@@ -37,7 +36,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    function data_invalid_email()
+    public function data_invalid_email()
     {
         return array(
             array('plainaddress', 'Missing @ sign and domain'),
@@ -52,7 +51,6 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('email@domain.com (Joe Smith)', 'Text followed email is not allowed'),
             array('email@domain', 'Missing top level domain (.com/.net/.org/etc)'),
             array('email@-domain.com', 'Leading dash in front of domain is invalid'),
-//            array('email@domain.web', '.web is not a valid top level domain'),
             array('email@123.123.123.123', 'IP address without brackets'),
             array('email@2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets'),
             array('email@IPv6:2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets (2)'),
@@ -70,7 +68,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_valid_email
      */
-    function test_valid_email($email, $title)
+    public function test_valid_email($email, $title)
     {
         $this->assertTrue(rcube_utils::check_email($email, false), $title);
     }
@@ -78,7 +76,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_invalid_email
      */
-    function test_invalid_email($email, $title)
+    public function test_invalid_email($email, $title)
     {
         $this->assertFalse(rcube_utils::check_email($email, false), $title);
     }
@@ -86,7 +84,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    function data_valid_ip()
+    public function data_valid_ip()
     {
         return array(
             array('0.0.0.0'),
@@ -103,7 +101,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Valid IP addresses for test_invalid_ip()
      */
-    function data_invalid_ip()
+    public function data_invalid_ip()
     {
         return array(
             array(''),
@@ -122,7 +120,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_valid_ip
      */
-    function test_valid_ip($ip)
+    public function test_valid_ip($ip)
     {
         $this->assertTrue(rcube_utils::check_ip($ip));
     }
@@ -130,7 +128,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_invalid_ip
      */
-    function test_invalid_ip($ip)
+    public function test_invalid_ip($ip)
     {
         $this->assertFalse(rcube_utils::check_ip($ip));
     }
@@ -138,7 +136,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    function data_rep_specialchars_output()
+    public function data_rep_specialchars_output()
     {
         return array(
             array('', '', 'abc', 'abc'),
@@ -157,7 +155,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
      * Test for rep_specialchars_output
      * @dataProvider data_rep_specialchars_output
      */
-    function test_rep_specialchars_output($type, $mode, $str, $res)
+    public function test_rep_specialchars_output($type, $mode, $str, $res)
     {
         $result = rcube_utils::rep_specialchars_output(
             $str, $type ? $type : 'html', $mode ? $mode : 'strict');
@@ -168,7 +166,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube_utils::mod_css_styles()
      */
-    function test_mod_css_styles()
+    public function test_mod_css_styles()
     {
         $css = file_get_contents(TESTS_DIR . 'src/valid.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
@@ -189,7 +187,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube_utils::mod_css_styles()
      */
-    function test_mod_css_styles_xss()
+    public function test_mod_css_styles_xss()
     {
         $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "No url() values allowed");
@@ -229,7 +227,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube_utils::mod_css_styles()'s prefix argument handling
      */
-    function test_mod_css_styles_prefix()
+    public function test_mod_css_styles_prefix()
     {
         $css = '
             .one { font-size: 10pt; }
@@ -244,6 +242,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
                 li a.button { padding-left: 30px; }
             }
         ';
+
         $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
 
         $this->assertContains('#rc .testone', $mod);
@@ -257,7 +256,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertContains('#rc li a.testbutton', $mod);
     }
 
-    function test_xss_entity_decode()
+    public function test_xss_entity_decode()
     {
         $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
         $this->assertNotContains('<img', $mod, "Strip (encoded) tags from style node");
@@ -273,7 +272,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Check rcube_utils::explode_quoted_string()
      */
-    function test_explode_quoted_string()
+    public function test_explode_quoted_string()
     {
         $data = array(
             '"a,b"' => array('"a,b"'),
@@ -290,7 +289,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Check rcube_utils::explode_quoted_string() compat. with explode()
      */
-    function test_explode_quoted_string_compat()
+    public function test_explode_quoted_string_compat()
     {
         $data = array('', 'a,b,c', 'a', ',', ',a');
 
@@ -303,7 +302,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube_utils::get_boolean()
      */
-    function test_get_boolean()
+    public function test_get_boolean()
     {
         $input = array(
             false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
@@ -325,7 +324,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::file2class()
      */
-    function test_file2class()
+    public function test_file2class()
     {
         $test = array(
             array('', '', 'unknown'),
@@ -342,7 +341,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::strtotime()
      */
-    function test_strtotime()
+    public function test_strtotime()
     {
         // this test depends on system timezone if not set
         date_default_timezone_set('UTC');
@@ -372,7 +371,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::anytodatetime()
      */
-    function test_anytodatetime()
+    public function test_anytodatetime()
     {
         $test = array(
             '2013-04-22' => '2013-04-22',
@@ -418,9 +417,10 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::anytodatetime()
      */
-    function test_anytodatetime_timezone()
+    public function test_anytodatetime_timezone()
     {
         $tz = new DateTimeZone('Europe/Helsinki');
+
         $test = array(
             'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
             'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
@@ -431,7 +431,11 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime, $tz);
-            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+
+            if ($result) {
+                $result->setTimezone($tz);  // move to target timezone for comparison
+            }
+
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
         }
     }
@@ -439,7 +443,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::format_datestr()
      */
-    function test_format_datestr()
+    public function test_format_datestr()
     {
         $test = array(
             array('abc-555', 'abc', 'abc-555'),
@@ -457,7 +461,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::tokenize_string()
      */
-    function test_tokenize_string()
+    public function test_tokenize_string()
     {
         $test = array(
             ''        => array(),
@@ -476,7 +480,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::normalize_string()
      */
-    function test_normalize_string()
+    public function test_normalize_string()
     {
         $test = array(
             ''        => '',
@@ -505,7 +509,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::words_match()
      */
-    function test_words_match()
+    public function test_words_match()
     {
         $test = array(
             array('', 'test', false),
@@ -528,7 +532,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::is_absolute_path()
      */
-    function test_is_absolute_path()
+    public function test_is_absolute_path()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $test = array(
@@ -536,8 +540,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
                 "C:\\" => true,
                 'some/path' => false,
             );
-        }
-        else {
+        } else {
             $test = array(
                 '' => false,
                 '/path' => true,
@@ -554,7 +557,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * rcube:utils::random_bytes()
      */
-    function test_random_bytes()
+    public function test_random_bytes()
     {
         $this->assertRegexp('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
         $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
@@ -566,14 +569,12 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    function data_idn_convert()
+    public function data_idn_convert()
     {
-
         /*
          * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
          * and https://github.com/true/php-punycode/blob/master/tests/PunycodeTest.php for more Test-Data
          */
-
         return array(
             array('test@vermögensberater', 'test@xn--vermgensberater-ctb'),
             array('test@vermögensberatung', 'test@xn--vermgensberatung-pwb'),
@@ -593,7 +594,6 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('δοκιμή.gr', 'xn--jxalpdlp.gr'),
             array('gwóźdź.pl', 'xn--gwd-hna98db.pl'),
         );
-
     }
 
     /**
@@ -603,7 +603,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
      * @param string $encoded Encoded email address
      * @dataProvider data_idn_convert
      */
-    function test_idn_to_ascii($decoded, $encoded)
+    public function test_idn_to_ascii($decoded, $encoded)
     {
         $this->assertEquals(rcube_utils::idn_to_ascii($decoded), $encoded);
     }
@@ -615,7 +615,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
      * @param string $encoded Encoded email address
      * @dataProvider data_idn_convert
      */
-    function test_idn_to_utf8($decoded, $encoded)
+    public function test_idn_to_utf8($decoded, $encoded)
     {
         $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
     }
@@ -623,7 +623,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     /**
      * Test idn_to_ascii with non-domain input (#6224)
      */
-    function test_idn_to_ascii_special()
+    public function test_idn_to_ascii_special()
     {
         $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
         $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
