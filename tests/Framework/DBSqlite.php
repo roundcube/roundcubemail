@@ -9,11 +9,10 @@
  */
 class Framework_DBSqlite extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_db_sqlite('test');
 

@@ -7,11 +7,10 @@
  */
 class Framework_LdapGeneric extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         // skip test if Net_LDAP3 does not exist
         if (!@class_exists('Net_LDAP3')) {

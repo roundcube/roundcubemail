@@ -7,11 +7,10 @@
  */
 class Framework_StringReplacer extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $sr = new rcube_string_replacer;
 
@@ -21,7 +20,7 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
     /**
      * Data for test_replace()
      */
-    function data_replace()
+    public function data_replace()
     {
         return array(
             array('http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2">http://domain.tld/path*path2</a>'),
@@ -53,7 +52,7 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_replace
      */
-    function test_replace($input, $output)
+    public function test_replace($input, $output)
     {
         $replacer = new rcube_string_replacer;
         $result = $replacer->replace($input);
@@ -62,7 +61,7 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
         $this->assertEquals($output, $result);
     }
 
-    function test_linkrefs()
+    public function test_linkrefs()
     {
         $input = "This is a sample message [1] to test the new linkref [ref0] replacement feature of [Roundcube].\n";
         $input.= "\n";

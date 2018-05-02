@@ -7,11 +7,10 @@
  */
 class Framework_Ldap extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         // skip this test as we don't want to connect to ldap here
         $this->markTestSkipped('We do not connect to LDAP');

@@ -7,11 +7,10 @@
  */
 class Framework_Html extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new html;
 
@@ -21,7 +20,7 @@ class Framework_Html extends PHPUnit_Framework_TestCase
     /**
      * Data for test_attrib_string()
      */
-    function data_attrib_string()
+    public function data_attrib_string()
     {
         return array(
             array(
@@ -61,7 +60,7 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for attrib_string()
      * @dataProvider data_attrib_string
      */
-    function test_attrib_string($arg1, $arg2, $expected)
+    public function test_attrib_string($arg1, $arg2, $expected)
     {
         $this->assertEquals($expected, html::attrib_string($arg1, $arg2));
     }
@@ -69,15 +68,15 @@ class Framework_Html extends PHPUnit_Framework_TestCase
     /**
      * Data for test_quote()
      */
-    function data_quote()
+    public function data_quote()
     {
         return array(
-            array('abc', 'abc'),
-            array('?', '?'),
-            array('"', '&quot;'),
-            array('<', '&lt;'),
-            array('>', '&gt;'),
-            array('&', '&amp;'),
+            array('abc',   'abc'),
+            array('?',     '?'),
+            array('"',     '&quot;'),
+            array('<',     '&lt;'),
+            array('>',     '&gt;'),
+            array('&',     '&amp;'),
             array('&amp;', '&amp;amp;'),
         );
     }
@@ -86,7 +85,7 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for quote()
      * @dataProvider data_quote
      */
-    function test_quote($str, $expected)
+    public function test_quote($str, $expected)
     {
         $this->assertEquals($expected, html::quote($str));
     }
@@ -94,7 +93,7 @@ class Framework_Html extends PHPUnit_Framework_TestCase
     /**
      * Data for test_parse_attrib_string()
      */
-    function data_parse_attrib_string()
+    public function data_parse_attrib_string()
     {
         return array(
             array(
@@ -128,7 +127,7 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for parse_attrib_string()
      * @dataProvider data_parse_attrib_string
      */
-    function test_parse_attrib_string($arg1, $expected)
+    public function test_parse_attrib_string($arg1, $expected)
     {
         $this->assertEquals($expected, html::parse_attrib_string($arg1));
     }
