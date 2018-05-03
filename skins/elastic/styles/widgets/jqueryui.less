@@ -121,23 +121,17 @@
                     background-color: @color-input-border-focus-shadow;
                 }
 
-                &.options:before {
-                    // this icon is for mobile version
-                    &:extend(.font-icon-class);
-                    content: @fa-var-cog;
-                    margin: 0;
-                    width: 100%;
-                    height: 1.25em;
-                    display: none !important;
-                }
+                &.options {
+                    order: -1;
+                    padding: .375rem .25rem;
 
-                &.options:after {
-                    // this icon is for non-mobile version
-                    &:extend(.font-icon-class);
-                    content: @fa-var-caret-down;
-                    display: inline;
-                    float: none;
-                    margin-left: .25rem;
+                    &:before {
+                        // this icon is for mobile version
+                        &:extend(.font-icon-class);
+                        content: @fa-var-cog;
+                        width: 100%;
+                        height: 1.25em;
+                    }
                 }
             }
         }
@@ -252,10 +246,7 @@
                         display: block !important;
                         height: 1.75rem;
                         line-height: 1.75;
-                    }
-
-                    &.options:after {
-                        display: none;
+                        margin: 0;
                     }
                 }
             }
