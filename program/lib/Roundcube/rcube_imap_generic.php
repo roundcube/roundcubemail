@@ -3125,8 +3125,9 @@ class rcube_imap_generic
                 if (preg_match('/^\* QUOTA /', $line)) {
                     list(, , $quota_root) = $this->tokenizeResponse($line, 3);
 
-                    while ($line) {
-                        list($type, $used, $total) = $this->tokenizeResponse($line, 1);
+                    $quotas = $this->tokenizeResponse($line, 1);
+                    foreach (array_chunk($quotas, 3) as $quota) {
+                        list($type, $used, $total) = $quota;
                         $type = strtolower($type);
 
                         if ($type && $total) {
