@@ -1193,7 +1193,10 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if ($template_logo = $this->get_template_logo()) {
+                    if (!empty($attrib['type']) && $template_logo = $this->get_template_logo(':' . $attrib['type'], true)) {
+                        $attrib['src'] = $template_logo;
+                    }
+                    else if ($template_logo = $this->get_template_logo()) {
                         $attrib['src'] = $template_logo;
                     }
 
@@ -2247,25 +2250,25 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string  $template Name of the template to get the logo for
+     * @param string  $name     Name of the logo to check for
      *                          default is current template
      * @param boolean $strict   True if logo should only be returned for specific template
      *
      * @return string image URL
      */
-    protected function get_template_logo($template = null, $strict = false)
+    protected function get_template_logo($name = null, $strict = false)
     {
         $template_logo = null;
 
         // Use current template if none provided
-        if (!$template) {
-            $template = $this->template_name;
+        if (!$name) {
+            $name = $this->template_name;
         }
 
         $template_names = array(
-            $this->skin_name . ':' . $template,
+            $this->skin_name . ':' . $name,
             $this->skin_name . ':*',
-            $template,
+            $name,
             '*',
         );
 

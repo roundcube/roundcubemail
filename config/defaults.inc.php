@@ -381,7 +381,9 @@ $config['support_url'] = '';
 
 // replace Roundcube logo with this image
 // specify an URL relative to the document root of this Roundcube installation
-// an array can be used to specify different logos for specific template files, '*' for default logo
+// an array can be used to specify different logos for specific template files
+// '*' for default logo
+// ':print' for logo on all print templates (e.g. messageprint, contactprint)
 // different logos can be specified for different skins by prefixing the skin name to the array key
 // config applied in order: <skin>:<template>, <skin>:*, <template>, *
 // for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png", "elastic:*" => "/images/logo.png")
