@@ -242,8 +242,11 @@ class rcube_washtml
         // Remove unwanted white-space characters so regular expressions below work better
         $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
 
+        // Decode insecure character sequences
+        $style = rcube_utils::xss_entity_decode($style);
+
         foreach (explode(';', $style) as $declaration) {
-            if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
+            if (preg_match('/^\s*([a-z\\\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
                 $cssid = $match[1];
                 $str   = $match[2];
                 $value = '';

@@ -203,11 +203,14 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
 
-        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
+        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
 
         $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+
+        $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (4)");
 
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
@@ -233,6 +236,9 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
         $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+
+        $mod = rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
+        $this->assertContains("url(", $mod, "Escape sequences resolving");
 
         // #5747
         $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');

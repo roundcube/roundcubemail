@@ -500,7 +500,8 @@ class rcube_utils
 
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
-        $out = preg_replace_callback('/\\\([0-9a-f]{2,4})\s*/i', $callback, $out);
+        $out = preg_replace_callback('/\\\([0-9a-f]{2,6})\s*/i', $callback, $out);
+        $out = preg_replace('/\\\([^0-9a-f])/i', '\\1', $out);
         $out = preg_replace('#/\*.*\*/#Ums', '', $out);
         $out = strip_tags($out);
 
