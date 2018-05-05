@@ -1211,7 +1211,9 @@ EOF;
                         }
                     }
 
-                    $content = html::img($attrib);
+                    if ($attrib['src']) {
+                        $content = html::img($attrib);
+                    }
                 }
                 else if ($object == 'productname') {
                     $name = $this->config->get('product_name', 'Roundcube Webmail');
@@ -2291,7 +2293,7 @@ EOF;
         if ($logo = $this->config->get('skin_logo')) {
             if (is_array($logo)) {
                 foreach ($template_names as $key) {
-                    if (!empty($logo[$key])) {
+                    if (isset($logo[$key])) {
                         $template_logo = $logo[$key];
                         break;
                     }
