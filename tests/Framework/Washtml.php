@@ -377,6 +377,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
             array("<link href=\"src:abc\">", false),
             array("<img src=\"http://TRACKING_URL/\">", true),
             array("<img src=\"data:image\">", false),
+            array('<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true),
         );
 
         foreach ($html as $item) {

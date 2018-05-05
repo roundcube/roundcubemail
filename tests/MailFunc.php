@@ -216,7 +216,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
       $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));
 
       $this->assertNotContains('onerror=alert(1)//">test', $body);
-      $this->assertContains('<a style="x: &gt;&lt;img src=x onerror=alert(1)//"', $body);
+      $this->assertContains('<a style="x: &gt;"', $body);
     }
 
     /**
