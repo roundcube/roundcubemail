@@ -1200,6 +1200,17 @@ EOF;
                         $attrib['src'] = $template_logo;
                     }
 
+                    // process alternative logos (eg for Elastic small screen)
+                    foreach ($attrib as $key => $value) {
+                        if (preg_match('/data-src-(.*)/', $key, $matches)) {
+                            if ($template_logo = $this->get_template_logo(':' . $matches[1], true)) {
+                                $attrib[$key] = $template_logo;
+                            }
+
+                            $attrib[$key] = $this->abs_url($attrib[$key]);
+                        }
+                    }
+
                     $content = html::img($attrib);
                 }
                 else if ($object == 'productname') {
