@@ -6,6 +6,7 @@
 	"config": {
 		"layout": "widescreen",
 		"jquery_ui_colors_theme": "bootstrap",
-		"embed_css_location": "/styles/embed.css"
+		"embed_css_location": "/styles/embed.css",
+		"favicon": "/images/favicon.ico"
 	}
 }
