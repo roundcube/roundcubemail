@@ -1193,18 +1193,18 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && $template_logo = $this->get_template_logo(':' . $attrib['type'], true)) {
+                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(':' . $attrib['type'], true)) !== null) {
                         $attrib['src'] = $template_logo;
                     }
-                    else if ($template_logo = $this->get_template_logo()) {
+                    else if (($template_logo = $this->get_template_logo()) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
                     // process alternative logos (eg for Elastic small screen)
                     foreach ($attrib as $key => $value) {
                         if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if ($template_logo = $this->get_template_logo(':' . $matches[1], true)) {
-                                $attrib[$key] = $template_logo;
+                            if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
+                                $attrib[$key] = $template_logo ?: null;
                             }
 
                             $attrib[$key] = $this->abs_url($attrib[$key]);

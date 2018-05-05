@@ -1293,7 +1293,12 @@ function rcube_elastic_ui()
 
     function screen_resize_logo(mode)
     {
-        $('#logo').attr('src', $('#logo').data(mode == 'phone' ? 'src-small' : 'src-default'));
+        if (mode == 'phone' && $('#logo').data('src-small')) {
+            $('#logo').attr('src', $('#logo').data('src-small'));
+        }
+        else {
+            $('#logo').attr('src', $('#logo').data('src-default'));
+        }
     }
 
     /**
