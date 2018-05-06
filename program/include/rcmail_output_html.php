@@ -131,6 +131,7 @@ EOF;
             'message'         => array($this, 'message_container'),
             'charsetselector' => array($this, 'charset_selector'),
             'aboutcontent'    => array($this, 'about_content'),
+            'watermark'       => array($this, 'watermark_container'),
         ));
     }
 
@@ -750,6 +751,11 @@ EOF;
      */
     public function abs_url($str, $search_path = false)
     {
+        // Special handling to build Watermark URL
+        if ($str == 'roundcube:watermark') {
+            $str = $this->app->url(array('action' => 'watermark', 'framed' => 1));
+        }
+
         if ($str[0] == '/') {
             if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
                 return $file_url;
@@ -2305,5 +2311,27 @@ EOF;
         }
 
         return $template_logo;
+    }
+
+    /**
+     * Builder for GUI object 'watermark'
+     */
+    protected function watermark_container($attrib)
+    {
+        $content = '';
+
+        if (!empty($attrib['type']) && $attrib['type'] == 'img') {
+            $content = html::img($attrib);
+        }
+        else {
+            if (!empty($attrib['background-image'])) {
+                $attrib['style'] = 'background-image: url('. $this->abs_url($attrib['background-image']) .');';
+                unset($attrib['background-image']);
+            }
+
+            $content = html::div($attrib, '');
+        }
+
+        return $content;
     }
 }

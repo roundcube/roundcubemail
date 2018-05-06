@@ -315,6 +315,9 @@ while ($redirects < 5) {
 if ($RCMAIL->action == 'refresh') {
     $RCMAIL->plugins->exec_hook('refresh', array('last' => intval(rcube_utils::get_input_value('_last', rcube_utils::INPUT_GPC))));
 }
+else if ($RCMAIL->action == 'watermark') {
+    $OUTPUT->send('watermark');
+}
 
 // parse main template (default)
 $OUTPUT->send($RCMAIL->task);
