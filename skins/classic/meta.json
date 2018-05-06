@@ -2,5 +2,8 @@
 	"name": "Classic",
 	"author": "The Roundcube Dev Team",
 	"license": "Creative Commons Attribution-ShareAlike",
-	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/"
+	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/",
+	"config": {
+		"favicon": "/images/favicon.ico"
+	}
 }
