@@ -2315,21 +2315,50 @@ EOF;
 
     /**
      * Builder for GUI object 'watermark'
+     * Include content from config/watermark.<SKIN>.html if available
      */
     protected function watermark_container($attrib)
     {
         $content = '';
-
-        if (!empty($attrib['type']) && $attrib['type'] == 'img') {
-            $content = html::img($attrib);
-        }
-        else {
-            if (!empty($attrib['background-image'])) {
-                $attrib['style'] = 'background-image: url('. $this->abs_url($attrib['background-image']) .');';
-                unset($attrib['background-image']);
+        $filenames = array(
+            'watermark.' . $this->skin_name . '.html',
+            'watermark.html',
+        );
+        foreach ($filenames as $file) {
+            $fn = RCUBE_CONFIG_DIR . $file;
+            if (is_readable($fn)) {
+                $content = file_get_contents($fn);
+                $content = $this->parse_conditions($content);
+                $content = $this->parse_xml($content);
+                break;
             }
+        }
 
-            $content = html::div($attrib, '');
+        // Default content
+        if (empty($content)) {
+            $template_logo = $this->get_template_logo(null, true);
+
+            if (!empty($attrib['type']) && $attrib['type'] == 'img') {
+                if ($template_logo !== null) {
+                    $attrib['src'] = $template_logo ?: null;
+                }
+
+                if ($attrib['src']) {
+                    $content = html::img($attrib);
+                }
+            }
+            else {
+                if (!empty($attrib['background-image']) || $template_logo !== null) {
+                    $attrib['background-image'] = $template_logo ?: $attrib['background-image'];
+
+                    if ($attrib['background-image']) {
+                        $attrib['style'] = 'background-image: url('. $this->abs_url($attrib['background-image']) .');';
+                        unset($attrib['background-image']);
+                    }
+                }
+
+                $content = html::div($attrib, '');
+            }
         }
 
         return $content;
