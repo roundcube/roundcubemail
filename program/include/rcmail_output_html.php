@@ -1260,6 +1260,9 @@ EOF;
                         $content = $this->parse_conditions($content);
                         $content = $this->parse_xml($content);
                     }
+                    else if ($template_logo = $this->get_template_logo(':favicon', true)) {
+                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $template_logo));
+                    }
                     else if ($file = $this->config->get('favicon', null)) {
                         $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
                     }
