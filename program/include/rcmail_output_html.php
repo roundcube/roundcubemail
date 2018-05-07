@@ -1257,7 +1257,7 @@ EOF;
                     else if ($template_logo = $this->get_template_logo(':favicon', true)) {
                         $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $template_logo));
                     }
-                    else if ($file = $this->config->get('favicon', null)) {
+                    else if ($file = $this->config->get('favicon', '/images/favicon.ico')) {
                         $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
                     }
                 }
