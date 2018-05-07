@@ -117,7 +117,6 @@ $OUTPUT->add_handlers(array(
     'savedsearchlist'     => 'rcmail_savedsearch_list',
     'addresslist'         => 'rcmail_contacts_list',
     'addresslisttitle'    => 'rcmail_contacts_list_title',
-    'addressframe'        => 'rcmail_contact_frame',
     'recordscountdisplay' => 'rcmail_rowcount_display',
     'searchform'          => array($OUTPUT, 'search_form')
 ));
@@ -452,18 +451,6 @@ function rcmail_contacts_list_title($attrib)
     $OUTPUT->add_label('contacts','uponelevel');
 
     return html::tag($attrib['tag'], $attrib, $RCMAIL->gettext($attrib['label']), html::$common_attrib);
-}
-
-
-// similar function as /steps/settings/identities.inc::rcmail_identity_frame()
-function rcmail_contact_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id'])
-        $attrib['id'] = 'rcmcontactframe';
-
-    return $OUTPUT->frame($attrib, true);
 }
 
 

@@ -58,6 +58,16 @@ class rcmail_output_html extends rcmail_output
         'messageprint' => 'printmessage',
     );
 
+    // deprecated names of template objects used before 1.4
+    protected $deprecated_template_objects = array(
+        'addressframe'        => 'contentframe',
+        'messagecontentframe' => 'contentframe',
+        'prefsframe'          => 'contentframe',
+        'folderframe'         => 'contentframe',
+        'identityframe'       => 'contentframe',
+        'responseframe'       => 'contentframe',
+    );
+
     /**
      * Constructor
      */
@@ -1168,6 +1178,11 @@ EOF;
                 $object  = strtolower($attrib['name']);
                 $content = '';
 
+                // correct deprecated object names
+                if ($this->deprecated_template_objects[$object]) {
+                    $object = $this->deprecated_template_objects[$object];
+                }
+
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
                     if (is_callable($handler)) {
@@ -1238,6 +1253,17 @@ EOF;
                         $title = '';
                     $title .= $this->get_pagetitle();
                     $content = html::quote($title);
+                }
+                else if ($object == 'contentframe') {
+                    if (empty($attrib['id'])) {
+                        $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
+                    }
+
+                    if ($attrib['src'] == 'roundcube:watermark') {
+                        $attrib['src'] = $this->config->get('watermark_url', '/watermark.html');
+                    }
+
+                    $content = $this->frame($attrib, true);
                 }
 
                 // exec plugin hooks for this template object

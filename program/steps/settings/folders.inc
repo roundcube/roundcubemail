@@ -188,7 +188,6 @@ $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting'
 // register UI objects
 $OUTPUT->add_handlers(array(
     'foldersubscription' => 'rcmail_folder_subscriptions',
-    'folderframe'        => 'rcmail_folder_frame',
     'folderfilter'       => 'rcmail_folder_filter',
     'quotadisplay'       => array($RCMAIL, 'quota_display'),
     'searchform'         => array($OUTPUT, 'search_form'),
@@ -416,17 +415,6 @@ function rcmail_folder_tree_element($folders, &$key, &$js_folders)
     }
 
     return html::tag('li', $attribs, $content);
-}
-
-function rcmail_folder_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id']) {
-        $attrib['id'] = 'rcmfolderframe';
-    }
-
-    return $OUTPUT->frame($attrib, true);
 }
 
 function rcmail_folder_filter($attrib)

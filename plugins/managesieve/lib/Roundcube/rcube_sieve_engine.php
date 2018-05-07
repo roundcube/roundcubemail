@@ -84,7 +84,6 @@ class rcube_sieve_engine
         $this->rc->output->add_handlers(array(
             'filterslist'      => array($this, 'filters_list'),
             'filtersetslist'   => array($this, 'filtersets_list'),
-            'filterframe'      => array($this, 'filter_frame'),
             'filterform'       => array($this, 'filter_form'),
             'filtersetform'    => array($this, 'filterset_form'),
             'filterseteditraw' => array($this, 'filterset_editraw'),
@@ -1318,11 +1317,6 @@ class rcube_sieve_engine
         }
 
         return $out;
-    }
-
-    function filter_frame($attrib)
-    {
-        return $this->rc->output->frame($attrib, true);
     }
 
     function filterset_editraw($attrib)
