@@ -1204,10 +1204,10 @@ EOF;
                     foreach ($attrib as $key => $value) {
                         if (preg_match('/data-src-(.*)/', $key, $matches)) {
                             if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
-                                $attrib[$key] = $template_logo ?: null;
+                                $attrib[$key] = $template_logo;
                             }
 
-                            $attrib[$key] = $this->abs_url($attrib[$key]);
+                            $attrib[$key] = !empty($attrib[$key]) ? $this->abs_url($attrib[$key]) : null;
                         }
                     }
 
