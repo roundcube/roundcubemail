@@ -131,7 +131,6 @@ EOF;
             'message'         => array($this, 'message_container'),
             'charsetselector' => array($this, 'charset_selector'),
             'aboutcontent'    => array($this, 'about_content'),
-            'watermark'       => array($this, 'watermark_container'),
         ));
     }
 
@@ -751,11 +750,6 @@ EOF;
      */
     public function abs_url($str, $search_path = false)
     {
-        // Special handling to build Watermark URL
-        if ($str == 'roundcube:watermark') {
-            $str = $this->app->url(array('action' => 'watermark', 'framed' => 1));
-        }
-
         if ($str[0] == '/') {
             if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
                 return $file_url;
@@ -2325,56 +2319,5 @@ EOF;
         }
 
         return $template_logo;
-    }
-
-    /**
-     * Builder for GUI object 'watermark'
-     * Include content from config/watermark.<SKIN>.html if available
-     */
-    protected function watermark_container($attrib)
-    {
-        $content = '';
-        $filenames = array(
-            'watermark.' . $this->skin_name . '.html',
-            'watermark.html',
-        );
-        foreach ($filenames as $file) {
-            $fn = RCUBE_CONFIG_DIR . $file;
-            if (is_readable($fn)) {
-                $content = file_get_contents($fn);
-                $content = $this->parse_conditions($content);
-                $content = $this->parse_xml($content);
-                break;
-            }
-        }
-
-        // Default content
-        if (empty($content)) {
-            $template_logo = $this->get_template_logo(null, true);
-
-            if (!empty($attrib['type']) && $attrib['type'] == 'img') {
-                if ($template_logo !== null) {
-                    $attrib['src'] = $template_logo ?: null;
-                }
-
-                if ($attrib['src']) {
-                    $content = html::img($attrib);
-                }
-            }
-            else {
-                if (!empty($attrib['background-image']) || $template_logo !== null) {
-                    $attrib['background-image'] = $template_logo ?: $attrib['background-image'];
-
-                    if ($attrib['background-image']) {
-                        $attrib['style'] = 'background-image: url('. $this->abs_url($attrib['background-image']) .');';
-                        unset($attrib['background-image']);
-                    }
-                }
-
-                $content = html::div($attrib, '');
-            }
-        }
-
-        return $content;
     }
 }
