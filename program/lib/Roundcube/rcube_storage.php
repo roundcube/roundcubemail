@@ -803,6 +803,26 @@ abstract class rcube_storage
     abstract function mod_folder($folder, $mode = 'out');
 
     /**
+     * Check if the folder name is valid
+     *
+     * @param string $folder Folder name (UTF-8)
+     * @param string &$char  First forbidden character found
+     *
+     * @return bool True if the name is valid, False otherwise
+     */
+    public function folder_validate($folder, &$char = null)
+    {
+        $delim = $this->get_hierarchy_delimiter();
+
+        if (strpos($folder, $delim) !== false) {
+            $char = $delim;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Create all folders specified as default
      */
     public function create_default_folders()
