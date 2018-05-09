@@ -71,6 +71,7 @@ CHANGELOG Roundcube Webmail
 - Handle inline images also inside multipart/mixed messages (#5905)
 - Allow style tags in HTML editor on composed/reply messages (#5751)
 - Use Github API as a fallback to fetch js dependencies to workaround throttling issues (#6248)
+- Show confirm dialog when moving folders using drag and drop (#6119)
 - Fix bug where new_user_dialog email check could have been circumvented by deleting / abandoning session (#5929)
 - Fix skin extending for assets (#5115)
 - Fix handling of forwarded messages inside of a TNEF message (#5632)
