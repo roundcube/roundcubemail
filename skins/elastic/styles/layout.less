@@ -55,13 +55,6 @@ body > #layout {
             flex-direction: column;
             max-width: 30%;
             border-right: 1px solid @color-layout-border;
-
-            & > .header {
-                a.button {
-                    margin: 0;
-                    padding: 0 .5rem;
-                }
-            }
         }
 
         &.content {
@@ -105,6 +98,7 @@ body > #layout {
             min-width: 300px;
             background-color: @color-layout-list-background;
         }
+
         & > .scroller {
             flex: 1;
             position: relative; // for .listing-info positioning
@@ -131,6 +125,19 @@ body > #layout {
             justify-content: center;
         }
 
+        &.list > .footer,
+        &.sidebar > .footer {
+            height: @layout-footer-height;
+            min-height: @layout-footer-height;
+            line-height: @layout-footer-height;
+
+            &.small {
+                height: @layout-footer-small-height;
+                min-height: @layout-footer-small-height;
+                line-height: @layout-footer-small-height;
+            }
+        }
+
         & > .header {
             border-bottom: 1px solid @color-layout-border;
             color: @color-layout-header;
@@ -140,6 +147,10 @@ body > #layout {
                 flex: 1;
                 text-align: center;
                 margin: 0 -20rem;
+            }
+
+            a.toolbar-menu-button {
+                order: 99; // always the last button
             }
         }
 
@@ -170,6 +181,11 @@ html.iframe {
     body > #layout > div.list {
         min-width: 260px;
         flex: 3;
+    }
+
+    body > #layout > div.list > .header > a.button {
+        padding: 0 .25rem;
+        margin: 0 .25rem;
     }
 }
 
@@ -204,18 +220,6 @@ html.iframe {
             }
         }
     }
-
-    body > #layout > div > .header {
-        &.with-search:not(.no-toolbar) {
-            .searchbar {
-                right: @layout-touch-icon-width;
-            }
-
-            .searchfilterbar {
-                right: (@layout-touch-icon-width * 2);
-            }
-        }
-    }
 }
 
 @media screen and (max-width: @screen-width-xs) {
@@ -229,7 +233,7 @@ html.iframe {
 }
 
 @media screen and (min-width: (@screen-width-xs + 1px)) {
-    body > #layout > div > .header > a.menu-button {
+    a.menu-button {
         display: none;
     }
 
@@ -244,7 +248,7 @@ html.iframe {
     .floating-action-buttons,
     body > #layout > .content > .header > .header-title,
     body > #layout > div > .header > .buttons,
-    body > #layout > div > .header > a.toolbar-menu-button {
+    a.toolbar-menu-button {
         display: none;
     }
 
@@ -260,8 +264,10 @@ html.iframe {
 }
 
 @media screen and (min-width: (@screen-width-large + 1px)) {
-    body > #layout > div > .header > a.back-list-button,
-    body > #layout > div > .header > a.back-sidebar-button {
+    body > #layout > .list > .header > .header-title:not(.all-sizes),
+    a.toolbar-list-button,
+    a.back-list-button,
+    a.back-sidebar-button {
         display: none;
     }
 }

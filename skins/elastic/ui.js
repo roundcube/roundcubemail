@@ -104,10 +104,6 @@ function rcube_elastic_ui()
     {
         var title, form, content_buttons = [];
 
-        // Initialize search forms (in list headers)
-        $('.header > .searchbar').each(function() { searchbar_init(this); });
-        $('.header > .searchfilterbar').each(function() { searchfilterbar_init(this); });
-
         // Intercept jQuery-UI dialogs to re-style them
         if ($.ui) {
             $.widget('ui.dialog', $.ui.dialog, {
@@ -124,6 +120,9 @@ function rcube_elastic_ui()
         buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
         buttons.back_list.on('click', function() { show_list(); return false; });
         buttons.back_content.on('click', function() { show_content(true); return false; });
+
+        // Initialize search forms
+        $('.searchbar').each(function() { searchbar_init(this); });
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
@@ -446,6 +445,13 @@ function rcube_elastic_ui()
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
+                var parent = table.parents('.sidebar,.list,.content'),
+                    toolbar = parent.find('.pagenav');
+
+                if (!toolbar) {
+                    toolbar = $('<div class="pagenav toolbar footer small">').appendTo(parent);
+                }
+
                 // Enable checkbox selection on list widgets
                 rcmail[list].checkbox_selection = true;
 
@@ -453,7 +459,7 @@ function rcube_elastic_ui()
                 button = $('<a>').attr({'class': 'button icon toggleselect disabled', role: 'button'})
                     .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                     .append($('<span class="inner">').text(rcmail.gettext('select')))
-                    .insertBefore(table.parents('.sidebar,.list,.content').find('.header-title'));
+                    .prependTo(toolbar);
 
                 // Update Select button state on list update
                 rcmail.addEventListener('listupdate', function(prop) {
@@ -1301,12 +1307,7 @@ function rcube_elastic_ui()
                     return;
                 }
 
-                if ($(this).is('.searchbar')) {
-                    padding += this.offsetWidth;
-                }
-                else {
-                    sizes[title ? 'right' : 'left'] += this.offsetWidth;
-                }
+                sizes[title ? 'right' : 'left'] += this.offsetWidth;
             });
 
             if (padding + sizes.right >= sizes.left) {
@@ -1354,6 +1355,7 @@ function rcube_elastic_ui()
         layout.content.removeClass('hidden');
         app_menu(true);
         screen_resize_small_none();
+        $('.header > ul.toolbar', layout.list).addClass('popupmenu');
     };
 
     function screen_resize_large()
@@ -1387,6 +1389,7 @@ function rcube_elastic_ui()
         }
 
         $('.header > ul.toolbar', layout.content).addClass('popupmenu');
+        $('.header > ul.toolbar', layout.list).addClass('popupmenu');
     };
 
     function screen_resize_small_none()
@@ -1590,139 +1593,81 @@ function rcube_elastic_ui()
      */
     function searchbar_init(bar)
     {
-        var parent_class = 'with-search',
-            input = $('input:not([type=hidden])', bar).addClass('form-control'),
-            button = $('a.button.search', bar),
+        var options_button = $('a.button.options', bar),
+            input = $('input:not([type=hidden])', bar),
             form = $('form', bar),
             is_search_pending = function() {
-                // TODO: This have to be improved to detect real searching state
-                //       There are cases when search is active but the input is empty
-                return input.val();
+                if (input.val()) {
+                    return true;
+                }
+
+                if (rcmail.gui_objects.search_filter && $(rcmail.gui_objects.search_filter).val() != 'ALL') {
+                    return true;
+                }
+
+                if (rcmail.gui_objects.foldersfilter && $(rcmail.gui_objects.foldersfilter).val() != '---') {
+                    return true;
+                }
             },
-            hide_func = function(event, focus) {
-                if (button.is(':visible')) {
-                    return;
-                }
-
-                $(bar).removeClass('open')[is_search_pending() ? 'addClass' : 'removeClass']('active');
-
-                if (focus && rcube_event.is_keyboard(event)) {
-                    button.focus();
-                }
+            update_func = function() {
+                $(bar)[is_search_pending() ? 'addClass' : 'removeClass']('active');
             };
 
-        if (!$(bar).next().length) {
-            parent_class += ' no-toolbar';
-        }
+        options_button.on('click', function(e) {
+            var id = $(this).data('target'),
+                options = $('#' + id),
+                open = options.is(':visible');
 
-        $(bar).parent().addClass(parent_class);
+            if (options.length) {
+                if (!open) {
+                    if (ref[id]) {
+                        ref[id](options.get(0), this, e);
+                    }
+                    else if (typeof window[id] == 'function') {
+                        window[id](options.get(0), this, e);
+                    }
+                }
 
-        if (is_search_pending()) {
-            $(bar).addClass('active');
-        }
+                options.next()[open ? 'show' : 'hide']();
+                options.toggleClass('hidden');
+                $('.floating-action-buttons').toggleClass('hidden');
+                $(bar).toggleClass('open');
 
-        // make the input pretty
-        form.addClass('input-group')
-            .prepend($('<span class="input-group-prepend">').append('<i class="input-group-text icon search">'))
-            .append($('<span class="input-group-append">')
-                .append($('a.options', bar).detach().removeClass('button').addClass('icon input-group-text'))
-                .append($('a.reset', bar).detach().removeClass('button').addClass('icon input-group-text'))
-                .append($('<a class="icon cancel input-group-text" href="#">')));
-
-        // Display search form
-        button.on('click', function() {
-            $(bar).addClass('open');
-            input.focus();
+                $('button.search', options).off('click.search').on('click.search', function() {
+                    options_button.trigger('click');
+                });
+            }
         });
+
+        input.on('input change', update_func);
 
         // Search reset action
         $('a.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
-            // TODO: This calls for some generalization, what about two searchboxes on a page?
             input.val('').change().trigger('keyup.treelist', {keyCode: 27});
 
-            // we have to de-activate filter
-            // TODO: Probably that should not reset filter, but that's current Roundcube bahavior
-            $(bar).prev('.searchfilterbar').removeClass('active');
-
-            hide_func(e, true);
-        });
-
-        $('a.cancel', bar).attr('title', rcmail.gettext('close')).on('click', function(e) { hide_func(e, true); });
-
-        // These will hide the form, but not reset it
-        rcube_webmail.set_iframe_events({mousedown: hide_func});
-        $('body').on('mousedown', function(e) {
-            // close searchbar on mousedown anywhere, but not inside the searchbar or dialogs
-            if (!$(e.target).parents('.popover,.searchbar').length) {
-                hide_func(e);
+            // Reset filter
+            if (rcmail.gui_objects.search_filter) {
+                $(rcmail.gui_objects.search_filter).val('ALL');
             }
+
+            if (rcmail.gui_objects.foldersfilter) {
+                $(rcmail.gui_objects.foldersfilter).val('---');
+            }
+
+            update_func();
         });
 
-        rcmail.addEventListener('init', function() { if (input.val()) $(bar).addClass('active'); });
-    };
+        rcmail.addEventListener('init', function() {
+            update_func();
 
-    /**
-     * Initializes searchfilterbar widget
-     */
-    function searchfilterbar_init(bar)
-    {
-        bar = $('<div class="searchfilterbar searchbar toolbar">')
-            .insertAfter(bar)
-            .append($(bar).detach())
-            .append($('<a class="button icon filter">').attr({title: rcmail.gettext('filter'), tabindex: 0}));
+            if (rcmail.gui_objects.search_filter) {
+                $(rcmail.gui_objects.search_filter).on('change', update_func);
+            }
 
-        $('select', bar).wrap($('<div class="input-group">'))
-            .parent().prepend($('<span class="input-group-prepend">').append('<i class="input-group-text icon filter">'))
-                .append($('<span class="input-group-append">').append($('<a class="icon cancel input-group-text">')
-                    .attr({title: rcmail.gettext('close'), href: '#'})));
-
-        var select = $('select', bar),
-            button = $('a.button.filter', bar),
-            form = $('.input-group', bar),
-            is_filter_enabled = function() {
-                var value = select.val();
-                return value && value != 'ALL';
-            },
-            hide_func = function(event, focus) {
-                bar[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
-
-                if (button.is(':visible')) {
-                    return;
-                }
-
-                bar.removeClass('open');
-
-                if (focus && rcube_event.is_keyboard(event)) {
-                    button.focus();
-                }
-            };
-
-        bar.parent().addClass('with-filter');
-
-        if (is_filter_enabled()) {
-            bar.addClass('active');
-        }
-
-        select.removeClass('hidden searchfilterbar').addClass('form-control')
-            .on('change', function(e) { hide_func(e, true); });
-
-        // Display filter selection (with animation effect)
-        button.on('click', function() {
-            bar.addClass('open');
-            select.focus();
-        });
-
-        // Filter close button
-        $('a.cancel', bar).on('click', function(e) { hide_func(e, true); });
-
-        // These will hide the form, but not reset it
-        rcube_webmail.set_iframe_events({mousedown: hide_func});
-        $('body').on('mousedown', function(e) {
-            // close searchbar on mousedown anywhere, but not inside the searchbar or dialogs
-            if (!$(e.target).parents('.searchfilterbar').length) {
-                hide_func(e);
+            if (rcmail.gui_objects.foldersfilter) {
+                $(rcmail.gui_objects.foldersfilter).on('change', update_func);
             }
         });
     };
@@ -1738,15 +1683,11 @@ function rcube_elastic_ui()
 
         env.got_smart_toolbar = true;
 
-        var items = [];
-
-        // convert toolbar to a popup list
-        $('.header > .toolbar:not(.searchbar)', layout.content).each(function() {
-            var toolbar = $(this);
-
-            toolbar.children().each(function() {
+        var items = [],
+            list_items = [],
+            button_func = function(button, items) {
                 var item = $('<li role="menuitem">'),
-                    button = $(this).detach();
+                    button = $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
                 button.contents().filter(function() { if (this.nodeType == 3 && !$.trim(this.nodeValue).length) $(this).remove(); });
@@ -1759,10 +1700,27 @@ function rcube_elastic_ui()
                 }
 
                 items.push(item);
-            });
+            };
 
-            toolbar.remove();
-        });
+        // convert toolbar to a popup list
+        if (layout.list) {
+            $('.header > .toolbar', layout.list).each(function() {
+                var toolbar = $(this);
+
+                toolbar.children().each(function() { button_func(this, list_items); });
+                toolbar.remove();
+            });
+        }
+
+        // convert toolbar to a popup list
+        if (layout.content) {
+            $('.header > .toolbar', layout.content).each(function() {
+                var toolbar = $(this);
+
+                toolbar.children().each(function() { button_func(this, items); });
+                toolbar.remove();
+            });
+        }
 
         // special elements to clone and add to the toolbar (mobile only)
         $('ul[data-menu="toolbar-small"] > li > a').each(function() {
@@ -1774,6 +1732,19 @@ function rcube_elastic_ui()
 
             items.push($('<li role="menuitem">').addClass('hidden-big').append(button));
         });
+
+        // append the new list toolbar and menu button
+        if (list_items.length) {
+            var container = layout.list.children('.header'),
+                menu_attrs = {'class': 'toolbar popupmenu listing iconized', id: 'toolbar-list-menu'},
+                menu_button = $('<a class="button icon toolbar-list-button" href="#list-menu">')
+                    .attr({'data-popup': 'toolbar-list-menu'});
+
+            container
+                // TODO: copy original toolbar attributes (class, role, aria-*)
+                .append($('<ul>').attr(menu_attrs).data('popup-parent', container).append(list_items))
+                .append(menu_button);
+        }
 
         // append the new toolbar and menu button
         if (items.length) {
@@ -2241,14 +2212,14 @@ function rcube_elastic_ui()
     {
         var n, all,
             list = $('input[name="s_mods[]"]', obj),
-            scope_list = $('input[name="s_scope"]', obj),
+            scope_select = $('select[name=s_scope]', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
 
         if (!$(obj).data('initialized')) {
             list.on('click', function() { set_searchmod(this, obj); });
-            scope_list.on('click', function() { rcmail.set_searchscope(this.value); });
+            scope_select.on('click', function() { rcmail.set_searchscope($(this).val()); });
             $(obj).data('initialized', true);
         }
 
@@ -2260,7 +2231,7 @@ function rcube_elastic_ui()
 
                 mods = mods[mbox] ? mods[mbox] : mods['*'];
                 all = 'text';
-                scope_list.prop('checked', false).filter('#s_scope_' + scope).prop('checked', true);
+                scope_select.val(scope);
             }
             else {
                 all = '*';
@@ -2275,7 +2246,7 @@ function rcube_elastic_ui()
             else {
                 list.prop('disabled', false).prop('checked', false);
                 for (n in mods) {
-                    $('#s_mod_' + n, obj).prop('checked', true);
+                    list.filter('[value="' + n + '"]').prop('checked', true);
                 }
             }
         }
@@ -2286,7 +2257,7 @@ function rcube_elastic_ui()
         var all, m, task = rcmail.env.task,
             mods = rcmail.env.search_mods,
             mbox = rcmail.env.mailbox,
-            scope = $('input[name="s_scope"]:checked', menu).val();
+            scope = $('select[name=s_scope]', menu).val();
 
         if (scope == 'all') {
             mbox = '*';

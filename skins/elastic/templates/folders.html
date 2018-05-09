@@ -9,16 +9,25 @@
 	<div class="header">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-folderslist" class="header-title"><roundcube:label name="folders" /></span>
-		<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar toolbar"
-			label="foldersearchform" buttontitle="findfolders" options="search-filter" ariatag="h2" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+	</div>
+	<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar toolbar" ariatag="h2"
+		label="foldersearchform" buttontitle="findfolders" options="foldersearchmenu" />
+	<div id="foldersearchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="subscription-table">
+		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
+		<div class="formcontent">
+			<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" />
+		</div>
+		<div class="formbuttons">
+			<button class="btn btn-primary icon search" href="#" onclick="return rcmail.command('search')"><roundcube:label name="search" /></button>
+		</div>
 	</div>
 	<div class="scroller" tabindex="-1">
 		<roundcube:object name="foldersubscription" id="subscription-table"
 			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list"
 			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="folder-create" />
 	</div>
-	<div class="footer">
+	<div class="footer small">
 		<roundcube:if condition="env:quota" />
 			<div id="quotadisplay" class="quota-widget">
 				<span class="voice"><roundcube:label name="quota"></span>
@@ -50,10 +59,6 @@
 	<div class="iframe-wrapper">
 		<roundcube:object name="folderframe" id="preferences-frame" src="/watermark.html" />
 	</div>
-</div>
-
-<div id="search-filter" class="popupmenu form nolist toolbarmenu" data-editable="true">
-	<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" />
 </div>
 
 <roundcube:include file="includes/footer.html" />
