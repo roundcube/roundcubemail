@@ -7272,10 +7272,10 @@ function rcube_webmail()
         // on the list when dragging starts (and stops), this is slow, but
         // I didn't find a method to check droptarget on over event
         accept: function(node) {
-          if (!$(node).is('.mailbox'))
+          if (!node.is('.mailbox'))
             return false;
 
-          var source_folder = ref.folder_id2name($(node).attr('id')),
+          var source_folder = ref.folder_id2name(node.attr('id')),
             dest_folder = ref.folder_id2name(this.id),
             source = ref.env.subscriptionrows[source_folder],
             dest = ref.env.subscriptionrows[dest_folder];
@@ -7322,8 +7322,10 @@ function rcube_webmail()
         newname = to === '' || to === '*' ? basename : to + this.env.delimiter + basename;
 
       if (newname != from) {
-        this.http_post('rename-folder', {_folder_oldname: from, _folder_newname: newname},
-          this.set_busy(true, 'foldermoving'));
+        this.confirm_dialog(this.get_label('movefolderconfirm'), 'move', function() {
+          ref.http_post('rename-folder', {_folder_oldname: from, _folder_newname: newname},
+            ref.set_busy(true, 'foldermoving'));
+        }, {button_class: 'save move'});
       }
     }
   };
