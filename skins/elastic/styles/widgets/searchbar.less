@@ -9,105 +9,127 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-/*** Searchbar and searchfilterbar widgets ***/
+/*** Searchbar and searchoptions widgets ***/
 
 .searchbar {
-    position: absolute;
+    height: @layout-searchbar-height;
+    line-height: @layout-searchbar-height;
     background-color: @color-layout-header-background;
-    right: .25rem;
-    height: @layout-header-height;
+    border-bottom: 1px solid @color-list-border;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 .5rem;
+    overflow: hidden;
+    position: relative;
 
-    a.button {
-        min-width: auto;
-        padding: 0;
-        display: block;
+    form {
+        flex: 1;
+        display: flex;
 
         &:before {
-            line-height: @layout-header-height;
+            &:extend(.font-icon-class);
+            content: @fa-var-search;
+            height: @layout-searchbar-height;
+        }
+    }
+
+    input {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: .5rem;
+    }
+
+    a.button {
+        height: @layout-searchbar-height;
+        min-width: auto;
+
+        &:before {
+            &:extend(.font-icon-class);
         }
 
-        span.inner {
+
+        &.options {
+            &:before {
+                content: @fa-var-filter;
+                font-size: 1em;
+            }
+        }
+
+        &.reset {
             display: none;
+            position: absolute;
+            right: .5rem;
+
+            &:before {
+                content: @fa-var-times;
+                font-size: 1em;
+            }
+        }
+
+        &.options + .reset {
+            right: 2.5rem;
+        }
+
+        &.search {
+            display: none;
+        }
+    }
+
+    span.inner {
+        display: none;
+    }
+
+    &.active {
+        form:before {
+            color: @color-searchbar-icon-active;
+        }
+
+        a.button.reset {
+            display: inline;
+        }
+    }
+
+    &.open a.button.options:before {
+        content: @fa-var-angle-up;
+        font-size: 1.25em;
+        line-height: 1.25;
+    }
+}
+
+.searchoptions {
+    button.search {
+        width: 100%;
+    }
+
+    ul.proplist {
+        li {
+            margin: 0;
+        }
+
+        & + div {
+            margin-top: 1rem;
         }
     }
 
     .input-group {
-        margin-top: calc(@layout-header-height/2 - 2.25rem/2);
-        display: none;
-        padding: 0 .5rem;
-
-        .icon:before {
-            font-size: 1em;
-            line-height: 1.1;
+        &:not(:last-child) {
+            margin-bottom: .5rem;
         }
 
-        .icon.filter,
-        .icon.search {
-            color: #888;
+        .input-group-prepend {
+            width: 30%;
+        }
+
+        label {
+            width: 100%;
         }
     }
 
-    form {
-        display: none;
-    }
-
-    a.icon {
-        &:before {
-            &:extend(.font-icon-class);
-            margin: 0;
-        }
-
-        &.reset:before {
-            content: @fa-var-trash-alt;
-        }
-
-        &.options:before {
-            content: @fa-var-angle-down;
-        }
-    }
-
-    &.active a.button.search {
-        color: @color-searchbar-icon-active;
-    }
-
-    &.open {
-        z-index: 10;
-        left: 0 !important;
-        right: 0 !important;
-
-        .input-group {
-            display: flex;
-        }
-
-        form {
-            display: flex;
-        }
-
-        a.button.filter,
-        a.button.search {
-            display: none;
-        }
-    }
-
-    a.button.search {
-        padding: 0 .5rem;
-    }
-}
-
-.searchfilterbar {
-    right: @layout-touch-icon-width + .25rem;
-
-    &.active a.button.filter {
-        color: @color-searchbar-icon-active;
-    }
-}
-
-html.ie11 {
-    .searchbar {
-        a.button.filter:before,
-        a.button.search:before {
-            line-height: 3.2;
-            font-size: 1.25rem;
-        }
+    .formbuttons {
+        // this is needed because we hide .formbuttons on small devices
+        // we don't want it for search options form
+        display: block !important;
     }
 }

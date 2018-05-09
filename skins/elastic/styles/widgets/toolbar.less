@@ -14,6 +14,7 @@
 .toolbar {
     margin: 0;
     font-size: 1rem;
+    text-align: center;
 
     &.listing a,
     a {
@@ -235,39 +236,29 @@
     &.pagenav {
         text-align: center;
         display: flex;
-        border-bottom: 1px solid @color-layout-border;
-        height: @layout-pagenav-height;
-        overflow: hidden;
 
         a.button {
             flex-grow: 1;
             font-size: 80%;
             min-width: 2rem !important;
-            height: @layout-pagenav-height !important;
-            color: @color-list-pagenav;
-            overflow: hidden;
+            height: @layout-footer-small-height;
 
             &:before {
-                line-height: 1 !important;
+                line-height: 1.5 !important;
             }
         }
 
         .pagenav-text {
             .overflow-ellipsis;
             flex-grow: 4;
-            line-height: @layout-pagenav-height;
             font-size: 80%;
-            color: @color-list-pagenav;
             white-space: nowrap;
         }
 
         input {
             width: 3rem;
             font-size: 90%;
-            line-height: 1;
-            padding: .25rem;
-            margin: .15rem;
-            display: inline;
+            margin: .35rem;
             text-align: center;
         }
 
@@ -619,17 +610,6 @@
     }
 }
 
-#layout > .sidebar > .header,
-#layout > .list > .header {
-    span.inner {
-        display: none;
-    }
-}
-
-#layout > .content > * > .toolbar {
-    text-align: center;
-}
-
 html.touch {
     .toolbarmenu.listing td,
     .toolbarmenu.listing li,
@@ -741,5 +721,130 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
 
     .toolbar.listing a {
         color: @color-font;
+    }
+}
+
+/*** Searchbar and searchoptions widgets ***/
+
+.searchbar {
+    height: @layout-searchbar-height;
+    line-height: @layout-searchbar-height;
+    background-color: @color-searchbar-background;
+    border-bottom: 1px solid @color-list-border;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 .5rem;
+    overflow: hidden;
+    position: relative;
+
+    form {
+        flex: 1;
+        display: flex;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-search;
+            height: @layout-searchbar-height;
+        }
+    }
+
+    input {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: .5rem;
+    }
+
+    a.button {
+        height: @layout-searchbar-height;
+        min-width: auto;
+
+        &:before {
+            &:extend(.font-icon-class);
+        }
+
+
+        &.options {
+            &:before {
+                content: @fa-var-filter;
+                font-size: 1em;
+            }
+        }
+
+        &.reset {
+            display: none;
+            position: absolute;
+            right: .5rem;
+
+            &:before {
+                content: @fa-var-times;
+                font-size: 1em;
+            }
+        }
+
+        &.options + .reset {
+            right: 2.5rem;
+        }
+
+        &.search {
+            display: none;
+        }
+    }
+
+    span.inner {
+        display: none;
+    }
+
+    &.active {
+        form:before {
+            color: @color-searchbar-icon-active;
+        }
+
+        a.button.reset {
+            display: inline;
+        }
+    }
+
+    &.open a.button.options:before {
+        content: @fa-var-angle-up;
+        font-size: 1.25em;
+        line-height: 1.25;
+    }
+}
+
+.searchoptions {
+    button.search {
+        width: 100%;
+    }
+
+    ul.proplist {
+        li {
+            margin: 0;
+        }
+
+        & + div {
+            margin-top: 1rem;
+        }
+    }
+
+    .input-group {
+        &:not(:last-child) {
+            margin-bottom: .5rem;
+        }
+
+        .input-group-prepend {
+            width: 30%;
+        }
+
+        label {
+            width: 100%;
+        }
+    }
+
+    .formbuttons {
+        // this is needed because we hide .formbuttons on small devices
+        // we don't want it for search options form
+        display: block !important;
     }
 }

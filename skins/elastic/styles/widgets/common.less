@@ -271,26 +271,27 @@ fieldset.image-attachment {
 }
 
 .quota-widget {
-    width: 5rem;
-    max-width: 8rem;
-    padding: .5rem;
-    text-align: center;
-    position: relative;
+    width: 100%;
+    padding: .5rem 1rem;
+    display: flex;
+    align-items: center;
+
+    &:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-hdd;
+        line-height: 1;
+    }
 
     .count {
-        display: block;
         color: @color-quota-text;
-        font-size: 1.1rem;
-        line-height: 2;
+        font-size: 80%;
+        order: 2;
     }
 
     .bar {
-        display: block;
+        flex: 1;
         height: .5rem;
-        position: absolute;
-        bottom: .85rem;
-        left: .5rem;
-        right: .5rem;
+        margin: 0 1rem;
         background-color: @color-quota-background;
         border-radius: .25rem;
     }

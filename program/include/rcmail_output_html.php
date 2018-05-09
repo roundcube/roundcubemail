@@ -2103,7 +2103,7 @@ EOF;
                         'title'      => 'options',
                         'tabindex'   => '0',
                         'innerclass' => 'inner',
-                        'data-popup' => $attrib['options']
+                        'data-target' => $attrib['options']
                 ));
             }
 

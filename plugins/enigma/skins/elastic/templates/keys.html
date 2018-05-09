@@ -10,11 +10,14 @@
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-enigmakeyslist" class="header-title"><roundcube:label name="enigma.enigmakeys" /></span>
-		<roundcube:object name="searchform" id="keysearch" wrapper="searchbar toolbar"
-			label="keysearchform" buttontitle="findkeys" ariatag="h2" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<div class="pagenav toolbar" role="toolbar">
+	<roundcube:object name="searchform" id="keysearch" wrapper="searchbar toolbar"
+		label="keysearchform" buttontitle="findkeys" ariatag="h2" />
+	<div class="scroller">
+		<roundcube:object name="keyslist" id="keys-table" class="listing" role="listbox" noheader="true" data-list="keys_list" />
+	</div>
+	<div class="pagenav footer toolbar small" role="toolbar">
 		<roundcube:button command="firstpage" type="link"
 			class="button firstpage disabled" classAct="button firstpage"
 			title="firstpage" label="first" innerclass="inner" />
@@ -31,9 +34,6 @@
 		<roundcube:button command="lastpage" type="link"
 			class="button lastpage disabled" classAct="button lastpage"
 			title="lastpage" label="last" innerclass="inner" />
-	</div>
-	<div class="scroller">
-		<roundcube:object name="keyslist" id="keys-table" class="listing" role="listbox" noheader="true" data-list="keys_list" />
 	</div>
 </div>
 

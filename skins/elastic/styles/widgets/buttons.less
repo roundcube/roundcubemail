@@ -39,6 +39,9 @@ button.btn {
     &.toolbar-menu-button:before {
         content: @fa-var-ellipsis-v;
     }
+    &.toolbar-list-button:before {
+        content: @fa-var-cog;
+    }
     &.menu-button:before {
         content: @fa-var-bars;
     }
@@ -164,7 +167,7 @@ html.touch {
     bottom: 0;
 
     .footer:not(:empty) + & {
-        bottom: @layout-touch-header-height;
+        bottom: @layout-footer-small-height;
     }
 
     a.button {
