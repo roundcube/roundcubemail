@@ -7510,7 +7510,7 @@ function rcube_webmail()
 
     row = row.show().get(0);
     if (row.scrollIntoView)
-      row.scrollIntoView();
+      row.scrollIntoView(false);
 
     return row;
   };
