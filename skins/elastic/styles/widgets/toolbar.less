@@ -234,8 +234,8 @@
     }
 
     &.pagenav {
-        text-align: center;
         display: flex;
+        justify-content: normal !important;
 
         a.button {
             flex-grow: 1;
@@ -245,6 +245,10 @@
 
             &:before {
                 line-height: 1.5 !important;
+            }
+
+            &.toggleselect {
+                flex-grow: unset !important;
             }
         }
 
@@ -270,7 +274,7 @@
             cursor: pointer;
 
             a.button {
-                flex-grow: initial;
+                flex-grow: unset;
             }
 
             .pagenav-text {

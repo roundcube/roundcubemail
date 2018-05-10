@@ -161,7 +161,7 @@ function rcube_elastic_ui()
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
-        $('.formbuttons').children().each(function() {
+        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).children().each(function() {
             var target = $(this);
 
             // skip non-content buttons
@@ -445,7 +445,7 @@ function rcube_elastic_ui()
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
-                var parent = table.parents('.sidebar,.list,.content'),
+                var parent = table.parents('.sidebar,.list,.content').last(),
                     toolbar = parent.find('.pagenav');
 
                 if (!toolbar.length) {
