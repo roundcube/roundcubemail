@@ -448,12 +448,12 @@ function rcube_elastic_ui()
                 var parent = table.parents('.sidebar,.list,.content'),
                     toolbar = parent.find('.pagenav');
 
-                if (!toolbar) {
+                if (!toolbar.length) {
                     toolbar = $('<div class="pagenav toolbar footer small">').appendTo(parent);
                 }
 
                 // Enable checkbox selection on list widgets
-                rcmail[list].checkbox_selection = true;
+                rcmail[list].enable_checkbox_selection();
 
                 // Add Select button to the list navigation bar
                 button = $('<a>').attr({'class': 'button icon toggleselect disabled', role: 'button'})
