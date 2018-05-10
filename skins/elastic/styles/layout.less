@@ -125,19 +125,6 @@ body > #layout {
             justify-content: center;
         }
 
-        &.list > .footer,
-        &.sidebar > .footer {
-            height: @layout-footer-height;
-            min-height: @layout-footer-height;
-            line-height: @layout-footer-height;
-
-            &.small {
-                height: @layout-footer-small-height;
-                min-height: @layout-footer-small-height;
-                line-height: @layout-footer-small-height;
-            }
-        }
-
         & > .header {
             border-bottom: 1px solid @color-layout-border;
             color: @color-layout-header;
@@ -157,6 +144,15 @@ body > #layout {
         & > .footer {
             border-top: 1px solid @color-layout-border;
             background-color: @color-layout-footer-background;
+            height: @layout-footer-height;
+            min-height: @layout-footer-height;
+            line-height: @layout-footer-height;
+
+            &.small {
+                height: @layout-footer-small-height;
+                min-height: @layout-footer-small-height;
+                line-height: @layout-footer-small-height;
+            }
 
             &:empty {
                 display: none;
