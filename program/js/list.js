@@ -407,34 +407,7 @@ insert_row: function(row, before)
   }
 
   if (this.checkbox_selection) {
-    var key, cell = document.createElement(this.col_tagname()),
-      chbox = document.createElement('input');
-
-    chbox.type = 'checkbox';
-    chbox.tabIndex = -1;
-    chbox.onchange = function(e) {
-      self.select_row(row.uid, key || CONTROL_KEY, true);
-      e.stopPropagation();
-      key = null;
-    };
-    chbox.onmousedown = function(e) {
-      key = rcube_event.get_modifier(e);
-    };
-
-    cell.className = 'selection';
-    // make the whole cell "touchable" for touch devices
-    cell.onclick = function(e) {
-      if (!$(e.target).is('input')) {
-        key = rcube_event.get_modifier(e);
-        $(chbox).prop('checked', !chbox.checked).change();
-      }
-
-      e.stopPropagation();
-    };
-
-    cell.appendChild(chbox);
-
-    row.insertBefore(cell, row.firstChild);
+    this.insert_checkbox(row);
   }
 
   if (before && tbody.childNodes.length)
@@ -451,7 +424,7 @@ insert_row: function(row, before)
 },
 
 /**
- * 
+ * Update existing record
  */
 update_row: function(id, cols, newid, select)
 {
@@ -477,6 +450,60 @@ update_row: function(id, cols, newid, select)
   }
 },
 
+/**
+ * Add selection checkbox to the list record
+ */
+insert_checkbox: function(row)
+{
+  var key, self = this,
+    cell = document.createElement(this.col_tagname()),
+    chbox = document.createElement('input');
+
+  chbox.type = 'checkbox';
+  chbox.tabIndex = -1;
+  chbox.onchange = function(e) {
+    self.select_row(row.uid, key || CONTROL_KEY, true);
+    e.stopPropagation();
+    key = null;
+  };
+  chbox.onmousedown = function(e) {
+    key = rcube_event.get_modifier(e);
+  };
+
+  cell.className = 'selection';
+  // make the whole cell "touchable" for touch devices
+  cell.onclick = function(e) {
+    if (!$(e.target).is('input')) {
+      key = rcube_event.get_modifier(e);
+      $(chbox).prop('checked', !chbox.checked).change();
+    }
+    e.stopPropagation();
+  };
+
+  cell.appendChild(chbox);
+
+  row.insertBefore(cell, row.firstChild);
+},
+
+/**
+ * Enable checkbox selection
+ */
+enable_checkbox_selection: function()
+{
+  this.checkbox_selection = true;
+
+  // Add checkbox to existing records if any
+  var r, len, cell, row_tag = this.row_tagname().toUpperCase(),
+    rows = this.tbody.childNodes;
+
+  for (r=0, len=rows.length; r<len; r++) {
+    if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
+      if (cell.className == 'selection')
+        break;
+      this.insert_checkbox(rows[r]);
+    }
+  }
+},
 
 /**
  * Set focus to the list
