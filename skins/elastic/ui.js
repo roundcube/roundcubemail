@@ -681,9 +681,15 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,[type=button],[type=file],[type=radio],[type=checkbox]),select,textarea';
+        var supported_controls = 'input:not(.button,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
+        $('select', context).addClass('custom-select');
+
+        if (context != document) {
+            $(supported_controls, context).addClass('form-control');
+        }
+
         $('table.propform', context).each(function() {
             var text_rows = 0, form_rows = 0;
 
@@ -844,11 +850,6 @@ function rcube_elastic_ui()
                 table.find('thead').addClass('thead-default');
             });
 
-        $('.toolbarmenu select', context).addClass('form-control');
-        if (context != document) {
-            $(supported_controls, context).addClass('form-control');
-        }
-
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
         $('input.pretty-checkbox, .propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
@@ -890,7 +891,7 @@ function rcube_elastic_ui()
 
                 $(this).addClass('form-group row');
                 label.parent().css('display', 'none');
-                input.addClass('form-control')
+                input.addClass(input.is('select') ? 'custom-select' : 'form-control')
                     .attr('placeholder', label.text())
                     .before($('<span class="input-group-prepend">').append(icon))
                     .parent().addClass('input-group');

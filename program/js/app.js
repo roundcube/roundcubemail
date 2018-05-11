@@ -6857,7 +6857,7 @@ function rcube_webmail()
         }
         else if (colprop.type == 'select') {
           input = $('<select>')
-            .addClass('form-control ff_' + col)
+            .addClass('custom-select ff_' + col)
             .attr({ name: '_' + col + name_suffix, id: input_id });
 
           var options = input.attr('options');
