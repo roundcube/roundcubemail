@@ -3139,23 +3139,19 @@ class rcube_imap_generic
                             $all[$quota_root][$type]['used']  = intval($used);
                             $all[$quota_root][$type]['total'] = intval($total);
                         }
-                    }
 
-                    if (empty($all[$quota_root]['storage'])) {
-                        continue;
-                    }
-
-                    $used  = $all[$quota_root]['storage']['used'];
-                    $total = $all[$quota_root]['storage']['total'];
-                    $free  = $total - $used;
-
-                    // calculate lowest available space from all storage quotas
-                    if ($free < $min_free) {
-                        $min_free          = $free;
-                        $result['used']    = $used;
-                        $result['total']   = $total;
-                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                        $result['free']    = 100 - $result['percent'];
+                        $used  = $all[$quota_root][$type]['used'];
+                        $total = $all[$quota_root][$type]['total'];
+                        $percent = min(100, round(($used/max(1,$total))*100));
+                        $free  = $total - $used;
+    
+                        if ((!$result || $percent >= $result['percent']) && $free < $min_free) {
+                            $min_free          = $free;
+                            $result['used']    = $used;
+                            $result['total']   = $total;
+                            $result['percent'] = $percent;
+                            $result['free']    = 100 - $result['percent'];
+                        }
                     }
                 }
             }
