@@ -63,6 +63,7 @@ function rcube_elastic_ui()
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
+    this.header_reset = header_reset;
     this.attachmentmenu = attachmentmenu;
     this.mailtomenu = mailtomenu;
     this.show_list = show_list;
@@ -2480,9 +2481,19 @@ function rcube_elastic_ui()
 
             $(this)[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
                 .off().on('click', function() {
-                    $(target).removeClass('hidden').find('.recipient-input > input').focus();
+                    $(target).removeClass('hidden').find('.recipient-input input').focus();
                 });
         });
+    };
+
+    /**
+     * Reset/hide compose message recipient input
+     */
+    function header_reset(id)
+    {
+        $('#' + id).val('').change()
+            // jump to the next input
+            .closest('.form-group').nextAll(':not(.hidden)').first().find('input').focus();
     };
 
     /**
