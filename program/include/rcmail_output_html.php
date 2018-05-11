@@ -307,6 +307,13 @@ EOF;
             $value = array_merge((array) $this->config->get('dont_override'), array_keys($meta['config']));
             $this->config->set('dont_override', $value, true);
         }
+
+        if (!empty($meta['localization'])) {
+            $locdir = $meta['localization'] === true ? 'localization' : $meta['localization'];
+            if ($texts = $this->app->read_localization(RCUBE_INSTALL_PATH . $skin_path . '/' . $locdir)) {
+                $this->app->load_language($_SESSION['language'], $texts);
+            }
+        }
     }
 
     /**
