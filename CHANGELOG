@@ -52,6 +52,7 @@ CHANGELOG Roundcube Webmail
   - Support for 'link' objects
   - Support including files with path relative to templates directory
   - Use <button> instead of <input> for submit button on logon screen
+- Support skin localization (#5853)
 - Reset onerror on images if placeholder does not exist to prevent from requests storm
 - Unified and simplified code for loading content frame for responses and identities
 - Display contact import and advanced search in popup dialogs
