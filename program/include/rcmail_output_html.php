@@ -66,6 +66,8 @@ class rcmail_output_html extends rcmail_output
         'folderframe'         => 'contentframe',
         'identityframe'       => 'contentframe',
         'responseframe'       => 'contentframe',
+        'keyframe'            => 'contentframe',
+        'filterframe'         => 'contentframe',
     );
 
     /**
@@ -141,6 +143,11 @@ EOF;
             'charsetselector' => array($this, 'charset_selector'),
             'aboutcontent'    => array($this, 'about_content'),
         ));
+
+        // set blankpage (watermark) url
+        $blankpage = $this->config->get('blankpage_url', '/watermark.html');
+        $blankpage = $this->abs_url($blankpage);
+        $this->set_env('blankpage', $blankpage);
     }
 
     /**
@@ -1032,6 +1039,45 @@ EOF;
     }
 
     /**
+     * Parse variable strings
+     *
+     * @param string $type Variable type (env, config etc)
+     * @param string $name Variable name
+     *
+     * @return mixed Variable value
+     */
+    protected function parse_variable($type, $name)
+    {
+        $value = '';
+
+        switch ($type) {
+            case 'env':
+                $value = $this->env[$name];
+                break;
+            case 'config':
+                $value = $this->config->get($name);
+                if (is_array($value) && $value[$_SESSION['storage_host']]) {
+                    $value = $value[$_SESSION['storage_host']];
+                }
+                break;
+            case 'request':
+                $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
+                break;
+            case 'session':
+                $value = $_SESSION[$name];
+                break;
+            case 'cookie':
+                $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
+                break;
+            case 'browser':
+                $value = $this->browser->{$name};
+                break;
+        }
+
+        return $value;
+    }
+
+    /**
      * Search for special tags in input and replace them
      * with the appropriate content
      *
@@ -1259,8 +1305,10 @@ EOF;
                         $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
                     }
 
-                    if ($attrib['src'] == 'roundcube:watermark') {
-                        $attrib['src'] = $this->config->get('watermark_url', '/watermark.html');
+                    // parse variables
+                    if (strpos($attrib['src'], ':') !== false) {
+                        $var = explode(':', $attrib['src']);
+                        $attrib['src'] = $this->parse_variable($var[0], $var[1]);
                     }
 
                     $content = $this->frame($attrib, true);
@@ -1295,32 +1343,7 @@ EOF;
             // return variable
             case 'var':
                 $var = explode(':', $attrib['name']);
-                $name = $var[1];
-                $value = '';
-
-                switch ($var[0]) {
-                    case 'env':
-                        $value = $this->env[$name];
-                        break;
-                    case 'config':
-                        $value = $this->config->get($name);
-                        if (is_array($value) && $value[$_SESSION['storage_host']]) {
-                            $value = $value[$_SESSION['storage_host']];
-                        }
-                        break;
-                    case 'request':
-                        $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
-                        break;
-                    case 'session':
-                        $value = $_SESSION[$name];
-                        break;
-                    case 'cookie':
-                        $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
-                        break;
-                    case 'browser':
-                        $value = $this->browser->{$name};
-                        break;
-                }
+                $value = $this->parse_variable($var[0], $var[1]);
 
                 if (is_array($value)) {
                     $value = implode(', ', $value);
@@ -1836,7 +1859,6 @@ EOF;
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {
             $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
-            $this->set_env('blankpage', $this->asset_url($attrib['src']));
         }
 
         return html::iframe($attrib);
