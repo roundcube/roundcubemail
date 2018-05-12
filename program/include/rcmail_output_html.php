@@ -1306,9 +1306,8 @@ EOF;
                     }
 
                     // parse variables
-                    if (strpos($attrib['src'], ':') !== false) {
-                        $var = explode(':', $attrib['src']);
-                        $attrib['src'] = $this->parse_variable($var[0], $var[1]);
+                    if (preg_match('/^(config|env):([a-z0-9_]+)$/i', $attrib['src'], $matches)) {
+                        $attrib['src'] = $this->parse_variable($matches[1], $matches[2]);
                     }
 
                     $content = $this->frame($attrib, true);
