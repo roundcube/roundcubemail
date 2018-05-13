@@ -74,6 +74,7 @@ function rcube_elastic_ui()
     this.switch_nav_list = switch_nav_list;
     this.searchbar_init = searchbar_init;
     this.pretty_checkbox = pretty_checkbox;
+    this.pretty_select = pretty_select;
 
 
     // Initialize layout
@@ -109,16 +110,21 @@ function rcube_elastic_ui()
         $('.header > .searchbar').each(function() { searchbar_init(this); });
         $('.header > .searchfilterbar').each(function() { searchfilterbar_init(this); });
 
-        // Intercept jQuery-UI dialogs to re-style them
-        if ($.ui) {
-            $.widget('ui.dialog', $.ui.dialog, {
-                open: function() {
-                    this._super();
-                    dialog_open(this);
-                    return this;
-                }
-            });
-        }
+        // Intercept jQuery-UI dialogs...
+        $.ui && $.widget('ui.dialog', $.ui.dialog, {
+            open: function() {
+                this._super();
+                // ... to re-style them on dialog open
+                dialog_open(this);
+                return this;
+            },
+            close: function() {
+                this._super();
+                // ... to close custom select dropdowns on dialog close
+                $('.select-menu:visible').remove();
+                return this;
+            }
+        });
 
         // menu/sidebar/list button
         buttons.menu.on('click', function() { app_menu(true); return false; });
@@ -644,6 +650,7 @@ function rcube_elastic_ui()
             context = document;
         }
 
+        // Buttons
         $('input.button,button', context).not('.btn').addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
         $('input.button.mainaction,button.primary,button.mainaction', context).addClass('btn-primary');
         $('button.btn.delete,button.btn.discard', context).addClass('btn-danger');
@@ -898,6 +905,8 @@ function rcube_elastic_ui()
                     .parent().addClass('input-group');
             });
         }
+
+        $('select:not([multiple])', context).each(function() { pretty_select(this); });
     };
 
     /**
@@ -1513,15 +1522,8 @@ function rcube_elastic_ui()
 
         alert_style(p.object, p.type, true);
         $(p.object).attr('role', 'alert');
-/*
-        $('a', p.object).addClass('alert-link');
 
-        // show a popup dialog on errors
-        if (p.type == 'error' && rcmail.env.task != 'login') {
-            // hide original message object, we don't want both
-            rcmail.hide_message(p.object);
-        }
-*/
+        // $('a', p.object).addClass('alert-link');
     };
 
     /**
@@ -2831,6 +2833,147 @@ function rcube_elastic_ui()
             $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
                 .on('click', function(e) { e.stopPropagation(); })
         );
+    };
+
+    /**
+     * Make select dropdowns pretty
+     * TODO: searching, optgroup, [multiple], iPhone/iPad
+     */
+    function pretty_select(select)
+    {
+        // iPhone is not supported yet (problem with browser dropdown on focus)
+        if (bw.iphone || bw.ipad) {
+            return;
+        }
+
+        select = $(select);
+
+        var close_func = function() {
+            var open = $('.select-menu').length;
+            select.popover('dispose').focus();
+            return !open;
+        };
+
+        var open_func = function(e) {
+            var items = [],
+                dialog = select.parents('.ui-dialog')[0],
+                min_width = select.outerWidth(),
+                max_height = $(document.body).height() - 75,
+                max_width = $(document.body).width() - 20,
+                value = select.val();
+
+            if (!is_mobile()) {
+                max_height *= 0.5;
+            }
+
+            $('option', select).each(function() {
+                var link = $('<a href="#">').text($(this).text())
+                    .data('value', this.value)
+                    .addClass(this.disabled ? 'disabled' : 'active' + (this.value == value ? ' selected' : ''));
+
+                items.push($('<li>').append(link));
+            });
+
+            var list = $('<ul class="toolbarmenu listing selectable iconized">')
+                .append(items)
+                .data('button', select[0]) // needed for dropdown closing code
+                .on('click', 'a.active', function() {
+                    select.val($(this).data('value')).change();
+                    return close_func();
+                })
+                .on('keydown', 'a.active', function(e) {
+                    var item, node, mode = 'next';
+                    // Close popup on ESC key
+                    switch (e.which) {
+                        case 27: // ESC
+                        case 9:  // TAB
+                            return close_func();
+
+                        case 13: // ENTER
+                        case 32: // SPACE
+                            $(this).click();
+                            return false; // for IE
+
+                        case 38: // ARROW-UP
+                        case 63232:
+                            mode = 'previous';
+                        case 40: // ARROW-DOWN
+                        case 63233:
+                            item = e.target.parentNode;
+                            while (item = item[mode + 'Sibling']) {
+                                if (node = $(item).children('.active')[0]) {
+                                    node.focus();
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+                });
+
+            select.popover('dispose')
+                .popover({
+                    // because of focus issues we can't always use body,
+                    // if select is in a dialog, popover has to be a child of this dialog
+                    container: dialog || 'body',
+                    content: list[0],
+                    placement: 'bottom',
+                    trigger: 'manual',
+                    boundary: 'viewport',
+                    html: true,
+                    offset: '0,2',
+                    template: '<div class="popover select-menu" style="min-width: ' + min_width + 'px; max-width: ' + max_width + 'px">'
+                        + '<div class="popover-header"></div>'
+                        + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
+                })
+                .on('shown.bs.popover', function() {
+                    // Set popup Close title
+                    $('#' + select.attr('aria-describedby') + ' > .popover-header')
+                        .empty()
+                        .append($('<a class="button icon cancel">').text(rcmail.gettext('close'))
+                            .on('click', function(e) {
+                                e.stopPropagation();
+                                return close_func();
+                            })
+                        );
+
+                    // focus first active element on the list
+                    if (rcube_event.is_keyboard(e)) {
+                        list.find('a.active:first').focus();
+                    }
+                })
+                .popover('show');
+        };
+
+        select.on('mousedown keydown', function(e) {
+            // Do nothing on disabled select or on TAB key
+            if (select.prop('disabled') || e.which == 9) {
+                return;
+            }
+
+            // Close popup on ESC key
+            if (e.which == 27) {
+                return close_func();
+            }
+
+            // Close popup on click if already open
+            if (e.type == 'mousedown' && $('.select-menu:visible .listing').data('button') == select[0]) {
+                return close_func();
+            }
+
+            select.focus();
+
+            // prevent displaying browser-default select dropdown
+            select.prop('disabled', true);
+            setTimeout(function() { select.prop('disabled', false); }, 0);
+            e.stopPropagation();
+
+            // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
+            if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
+                open_func(e);
+            }
+
+            return false;
+        });
     };
 
     /**
