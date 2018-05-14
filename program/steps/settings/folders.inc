@@ -182,8 +182,9 @@ $OUTPUT->set_env('quota', (bool) $STORAGE->get_capability('QUOTA'));
 $OUTPUT->include_script('treelist.js');
 
 // add some labels to client
-$OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting',
-    'foldermoving', 'foldersubscribing', 'folderunsubscribing', 'quota');
+$OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'movefolderconfirm',
+    'folderdeleting', 'foldermoving', 'foldersubscribing', 'folderunsubscribing',
+    'move', 'quota');
 
 // register UI objects
 $OUTPUT->add_handlers(array(

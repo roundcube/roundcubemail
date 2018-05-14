@@ -62,14 +62,14 @@
 			<div class="form-group row">
 				<label for="compose-priority" class="col-form-label col-6"><roundcube:label name="priority" /></label>
 				<div class="col-6">
-					<roundcube:object name="prioritySelector" id="compose-priority" noform="true" tabindex="2" class="form-control" />
+					<roundcube:object name="prioritySelector" id="compose-priority" noform="true" tabindex="2" />
 				</div>
 			</div>
 			<roundcube:if condition="!config:no_save_sent_messages" />
 			<div class="form-group row">
 				<label for="compose-store-target" class="col-form-label col-6"><roundcube:label name="savesentmessagein" /></label>
 				<div class="col-6">
-					<roundcube:object name="storetarget" id="compose-store-target" noform="true" tabindex="2" class="form-control" />
+					<roundcube:object name="storetarget" id="compose-store-target" noform="true" tabindex="2" />
 				</div>
 			</div>
 			<roundcube:endif />
@@ -78,7 +78,7 @@
 				<div class="form-group row hidden">
 					<label for="editor-selector" class="col-form-label col-6"><roundcube:label name="editortype" /></label>
 					<div class="col-6">
-						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" tabindex="2" class="form-control" />
+						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" tabindex="2" />
 					</div>
 				</div>
 			<roundcube:endif />
@@ -181,7 +181,7 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="$('#_cc').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -192,7 +192,7 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="$('#_bcc').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -203,7 +203,7 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="replyto" id="_replyto" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="$('#_replyto').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#delete" onclick="UI.header_reset('_replyto')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -214,7 +214,7 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="followupto" id="_followupto" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="$('#_followupto').val('').change()" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#delete" onclick="UI.header_reset('_followupto')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
