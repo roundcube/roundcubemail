@@ -648,9 +648,9 @@ class rcube
             }
         }
         // specified domain
-        else if ($domain) {
+        else if ($domain && isset($this->texts[$domain.'.'.$name])) {
             $ref_domain = $domain;
-            return isset($this->texts[$domain.'.'.$name]);
+            return true;
         }
 
         return false;
@@ -708,6 +708,65 @@ class rcube
         if (is_array($merge) && !empty($merge)) {
             $this->texts = array_merge($this->texts, $merge);
         }
+    }
+
+    /**
+     * Read localized texts from an additional location (plugins, skins).
+     * Then you can use the result as 2nd arg to load_language().
+     *
+     * @param string $dir Directory to search in
+     *
+     * @return array Localization texts
+     */
+    public function read_localization($dir)
+    {
+        $lang   = $_SESSION['language'];
+        $langs  = array_unique(array('en_US', $lang));
+        $locdir = slashify($dir);
+        $texts  = array();
+
+        // Language aliases used to find localization in similar lang, see below
+        $aliases = array(
+            'de_CH' => 'de_DE',
+            'es_AR' => 'es_ES',
+            'fa_AF' => 'fa_IR',
+            'nl_BE' => 'nl_NL',
+            'pt_BR' => 'pt_PT',
+            'zh_CN' => 'zh_TW',
+        );
+
+        // use buffering to handle empty lines/spaces after closing PHP tag
+        ob_start();
+
+        foreach ($langs as $lng) {
+            $fpath = $locdir . $lng . '.inc';
+            if (is_file($fpath) && is_readable($fpath)) {
+                include $fpath;
+                $texts = (array) $labels + (array) $messages + (array) $texts;
+            }
+            else if ($lng != 'en_US') {
+                // Find localization in similar language (#1488401)
+                $alias = null;
+                if (!empty($aliases[$lng])) {
+                    $alias = $aliases[$lng];
+                }
+                else if ($key = array_search($lng, $aliases)) {
+                    $alias = $key;
+                }
+
+                if (!empty($alias)) {
+                    $fpath = $locdir . $alias . '.inc';
+                    if (is_file($fpath) && is_readable($fpath)) {
+                        include $fpath;
+                        $texts = (array) $labels + (array) $messages + (array) $texts;
+                    }
+                }
+            }
+        }
+
+        ob_end_clean();
+
+        return $texts;
     }
 
     /**
