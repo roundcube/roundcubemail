@@ -8,17 +8,13 @@
 	<div class="header">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span id="directorylist-header" class="header-title"><roundcube:label name="groups" /></span>
+		<roundcube:button name="groupoptions" type="link" title="arialabelabookgroupoptions" label="actions"
+			class="button icon sidebar-menu" innerClass="inner" data-popup="groupoptions-menu" />
 	</div>
 	<div class="scroller">
 		<roundcube:object name="directorylist" id="directorylist" class="treelist listing iconized" />
 		<h3 class="voice"><roundcube:label name="savedsearches" /></h3>
 		<roundcube:object name="savedsearchlist" id="savedsearchlist" class="treelist listing iconized" />
-	</div>
-	<div class="footer toolbar" role="toolbar">
-		<roundcube:button command="group-create" type="link" title="newgroup" label="addgroup"
-			class="button create disabled" classAct="button create" innerClass="inner" />
-		<roundcube:button name="groupoptions" type="link" title="arialabelabookgroupoptions" label="actions"
-			class="button actions" innerClass="inner" data-popup="groupoptions-menu" />
 	</div>
 </div>
 
@@ -113,6 +109,7 @@
 <div id="groupoptions-menu" class="popupmenu">
 	<h3 id="aria-label-groupoptions-menu" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-groupoptions-menu">
+		<roundcube:button type="link-menuitem" command="group-create" title="newgroup" label="addgroup" class="create" classAct="create active" />
 		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" class="group rename" classAct="group rename active" />
 		<roundcube:button type="link-menuitem" command="group-delete" label="groupdelete" class="group delete" classAct="group delete active" />
 		<roundcube:button type="link-menuitem" command="search-create" label="searchsave" class="search" classAct="search active" />
