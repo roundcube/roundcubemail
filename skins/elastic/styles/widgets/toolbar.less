@@ -113,23 +113,23 @@
         &.encrypt:before {
             content: @fa-var-lock;
         }
-        &.firstpage:before {
-            content: @fa-var-fast-backward;
-        }
         &.prev:before {
             content: @fa-var-arrow-left;
         }
         &.next:before {
             content: @fa-var-arrow-right;
         }
+        &.firstpage:before {
+            content: @fa-var-angle-double-left;
+        }
         &.prevpage:before {
-            content: @fa-var-backward;
+            content: @fa-var-angle-left;
         }
         &.nextpage:before {
-            content: @fa-var-forward;
+            content: @fa-var-angle-right;
         }
         &.lastpage:before {
-            content: @fa-var-fast-forward;
+            content: @fa-var-angle-double-right;
         }
         &.send:before {
             content: @fa-var-paper-plane;
@@ -157,7 +157,7 @@
             content: @fa-var-comment;
         }
         &.select:before {
-            .font-icon-regular(@fa-var-check-square);
+            .font-icon-regular(@fa-var-check-circle);
         }
         &.threads:before {
             content: @fa-var-comments;
@@ -239,16 +239,11 @@
 
         a.button {
             flex-grow: 1;
-            font-size: 80%;
             min-width: 2rem !important;
             height: @layout-footer-small-height;
 
             &:before {
-                line-height: 1.5 !important;
-            }
-
-            &.toggleselect {
-                flex-grow: unset !important;
+                line-height: 1.25;
             }
         }
 
@@ -517,6 +512,15 @@
     a.export.all:before {
         content: @fa-var-download;
     }
+    a.select:before {
+        content: @fa-var-check-circle;
+    }
+    a.threads:before {
+        content: @fa-var-comments;
+    }
+    a.selection:before {
+        content: @fa-var-mouse-pointer;
+    }
     a.select.all:before {
         .font-icon-regular(@fa-var-check-square);
     }
@@ -639,10 +643,6 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
-    ul.toolbar {
-        flex: 1;
-    }
-
     .toolbar {
         a.button {
             &:not(.disabled):focus,
@@ -727,6 +727,30 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
         color: @color-font;
     }
 }
+
+a.button.icon.toolbar-button {
+    order: 8;
+
+    @media screen and (min-width: (@screen-width-large + 1px)) {
+        height: @layout-header-height;
+        line-height: 1.5;
+        padding: .5rem;
+
+        &:before {
+            float: none;
+            height: 1.75rem;
+            line-height: 1.75;
+            width: auto;
+        }
+
+        span.inner {
+            display: inline;
+            font-weight: normal;
+            font-size: 90%;
+        }
+    }
+}
+
 
 /*** Searchbar and searchoptions widgets ***/
 

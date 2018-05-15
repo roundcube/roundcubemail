@@ -77,6 +77,9 @@ function rcube_elastic_ui()
     this.pretty_select = pretty_select;
 
 
+    // Detect screen size/mode
+    screen_mode();
+
     // Initialize layout
     layout_init();
 
@@ -354,21 +357,23 @@ function rcube_elastic_ui()
     /**
      * Create a button clone for use in toolbar
      */
-    function create_cloned_button(target)
+    function create_cloned_button(target, menu_button, add_class)
     {
         var button = $('<a>'),
             target_id = target.attr('id'),
             button_id = target_id + '-clone',
-            btn_class = target[0].className;
+            btn_class = target[0].className + (add_class ? ' ' + add_class : '');
 
-        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
-        btn_class += ' button disabled';
+        if (!menu_button) {
+            btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
+            btn_class += ' button disabled';
+        }
 
         button.attr({'onclick': '', id: button_id, href: '#', 'class': btn_class})
             .append($('<span class="inner">').text(target.text()))
             .on('click', function(e) { target.click(); });
 
-        if (is_framed) {
+        if (is_framed && !menu_button) {
             button.data('target', target);
             frame_buttons.push($.extend({button_id: button_id}, find_button(target[0].id)));
         }
@@ -452,21 +457,33 @@ function rcube_elastic_ui()
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
-                var parent = table.parents('.sidebar,.list,.content').last(),
-                    toolbar = parent.find('.pagenav');
+                var button, parent = table.parents('.sidebar,.list,.content').last(),
+                    header = parent.find('.header'),
+                    toolbar = header.find('ul');
 
                 if (!toolbar.length) {
-                    toolbar = $('<div class="pagenav toolbar footer small">').appendTo(parent);
+                    toolbar = header;
+                }
+                else if (button = toolbar.find('a.button.select').data('toggle-button')) {
+                    button = $('#' + button);
                 }
 
                 // Enable checkbox selection on list widgets
                 rcmail[list].enable_checkbox_selection();
 
                 // Add Select button to the list navigation bar
-                button = $('<a>').attr({'class': 'button icon toggleselect disabled', role: 'button'})
-                    .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
-                    .append($('<span class="inner">').text(rcmail.gettext('select')))
-                    .prependTo(toolbar);
+                if (!button) {
+                    button = $('<a>').attr({'class': 'button select disabled', role: 'button', title: rcmail.gettext('select')})
+                        .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
+                        .append($('<span class="inner">').text(rcmail.gettext('select')));
+
+                    if (toolbar.is('.toolbar')) {
+                        button.prependTo(toolbar).wrap('<li role="menuitem">');
+                    }
+                    else {
+                        button.appendTo(toolbar).addClass('icon toolbar-button');
+                    }
+                }
 
                 // Update Select button state on list update
                 rcmail.addEventListener('listupdate', function(prop) {
@@ -1211,12 +1228,11 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Window resize handler
-     * Does layout reflows e.g. on screen orientation change
+     *  screen mode
      */
-    function resize()
+    function screen_mode()
     {
-        var size, mobile, width = $(window).width();
+        var size, width = $(window).width();
 
         if (width <= 480)
             size = 'phone';
@@ -1229,6 +1245,17 @@ function rcube_elastic_ui()
 
         touch = width <= 1024;
         mode = size;
+    };
+
+    /**
+     * Window resize handler
+     * Does layout reflows e.g. on screen orientation change
+     */
+    function resize()
+    {
+        var mobile;
+
+        screen_mode();
         screen_resize();
         screen_resize_html();
 
@@ -1366,7 +1393,10 @@ function rcube_elastic_ui()
         layout.content.removeClass('hidden');
         app_menu(true);
         screen_resize_small_none();
-        $('.header > ul.toolbar', layout.list).addClass('popupmenu');
+
+        if (layout.list) {
+            $('.header > ul.toolbar', layout.list).addClass('popupmenu toolbarmenu').removeClass('toolbar');
+        }
     };
 
     function screen_resize_large()
@@ -1374,6 +1404,10 @@ function rcube_elastic_ui()
         $.each(layout, function(name, item) { item.removeClass('hidden'); });
 
         screen_resize_small_none();
+
+        if (layout.list) {
+            $('.header > ul.toolbarmenu.popupmenu', layout.list).removeClass('popupmenu toolbarmenu').addClass('toolbar');
+        }
     };
 
     function screen_resize_small_all()
@@ -1383,11 +1417,13 @@ function rcube_elastic_ui()
         if (layout.content.length) {
             show = got_content = layout.content.is(env.last_selected);
             layout.content[show ? 'removeClass' : 'addClass']('hidden');
+            $('.header > ul.toolbar', layout.content).addClass('popupmenu');
         }
 
         if (layout.list.length) {
             show = !got_content && layout.list.is(env.last_selected);
             layout.list[show ? 'removeClass' : 'addClass']('hidden');
+            $('.header > ul.toolbar', layout.list).addClass('popupmenu');
         }
 
         if (layout.sidebar.length) {
@@ -1398,9 +1434,6 @@ function rcube_elastic_ui()
         if (got_content) {
             buttons.back_list.show();
         }
-
-        $('.header > ul.toolbar', layout.content).addClass('popupmenu');
-        $('.header > ul.toolbar', layout.list).addClass('popupmenu');
     };
 
     function screen_resize_small_none()
@@ -1585,6 +1618,9 @@ function rcube_elastic_ui()
             }
         }
 
+        // Close all popovers
+        $(document).click();
+
         // Display loader when the dialog has an iframe
         iframe_loader($('div.popup > iframe', me));
 
@@ -1599,6 +1635,7 @@ function rcube_elastic_ui()
     {
         var options_button = $('a.button.options', bar),
             input = $('input:not([type=hidden])', bar),
+            placeholder = input.attr('placeholder'),
             form = $('form', bar),
             is_search_pending = function() {
                 if (input.val()) {
@@ -1643,7 +1680,9 @@ function rcube_elastic_ui()
             }
         });
 
-        input.on('input change', update_func);
+        input.on('input change', update_func)
+            .on('focus', function() { input.attr('placeholder', ''); })
+            .on('blur', function() { input.attr('placeholder', placeholder); });
 
         // Search reset action
         $('a.reset', bar).on('click', function(e) {
@@ -1687,11 +1726,12 @@ function rcube_elastic_ui()
 
         env.got_smart_toolbar = true;
 
-        var items = [],
+        var list_mark, items = [],
             list_items = [],
-            button_func = function(button, items) {
+            meta = layout_metadata(),
+            button_func = function(button, items, cloned) {
                 var item = $('<li role="menuitem">'),
-                    button = $(button).detach();
+                    button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
                 button.contents().filter(function() { if (this.nodeType == 3 && !$.trim(this.nodeValue).length) $(this).remove(); });
@@ -1706,22 +1746,35 @@ function rcube_elastic_ui()
                 items.push(item);
             };
 
-        // convert toolbar to a popup list
-        if (layout.list) {
-            $('.header > .toolbar', layout.list).each(function() {
-                var toolbar = $(this);
-
-                toolbar.children().each(function() { button_func(this, list_items); });
-                toolbar.remove();
-            });
-        }
-
-        // convert toolbar to a popup list
+        // convert content toolbar to a popup list
         if (layout.content) {
             $('.header > .toolbar', layout.content).each(function() {
                 var toolbar = $(this);
 
                 toolbar.children().each(function() { button_func(this, items); });
+                toolbar.remove();
+            });
+        }
+
+        // convert list toolbar to a popup list
+        if (layout.list) {
+            $('.header > .toolbar', layout.list).each(function() {
+                var toolbar = $(this);
+
+                list_mark = toolbar.next();
+
+                toolbar.children().each(function() {
+                    if (meta.mode != 'large') {
+                        // TODO: Would be better to set this automatically on submenu display
+                        //       i.e. in show/shown event (see popup_init()), if possible
+                        $(this).data('popup-pos', 'right');
+                    }
+
+                    // add items to the content menu too
+                    button_func(this, items, true);
+                    button_func(this, list_items);
+                });
+
                 toolbar.remove();
             });
         }
@@ -1742,12 +1795,17 @@ function rcube_elastic_ui()
             var container = layout.list.children('.header'),
                 menu_attrs = {'class': 'toolbar popupmenu listing iconized', id: 'toolbar-list-menu'},
                 menu_button = $('<a class="button icon toolbar-list-button" href="#list-menu">')
-                    .attr({'data-popup': 'toolbar-list-menu'});
-
-            container
+                    .attr({'data-popup': 'toolbar-list-menu'}),
                 // TODO: copy original toolbar attributes (class, role, aria-*)
-                .append($('<ul>').attr(menu_attrs).data('popup-parent', container).append(list_items))
-                .append(menu_button);
+                toolbar = $('<ul>').attr(menu_attrs).data('popup-parent', container).append(list_items);
+
+            if (list_mark.length) {
+                toolbar.insertBefore(list_mark);
+            }
+            else {
+                container.append(toolbar);
+            }
+            container.append(menu_button);
         }
 
         // append the new toolbar and menu button
@@ -1783,7 +1841,6 @@ function rcube_elastic_ui()
         }
 
         if (!win) win = window;
-
         var level,
             popup_id = $(item).data('popup'),
             popup = $(win.$('#' + popup_id).get(0)), // a "hack" to support elements in frames

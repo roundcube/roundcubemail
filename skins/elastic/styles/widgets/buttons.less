@@ -36,11 +36,11 @@ button.btn {
     &:before {
         &:extend(.font-icon-class);
     }
-    &.toolbar-menu-button:before {
-        content: @fa-var-ellipsis-v;
-    }
+    &.sidebar-menu:before,
+    &.toolbar-menu-button:before,
     &.toolbar-list-button:before {
-        content: @fa-var-cog;
+        content: @fa-var-ellipsis-v;
+        width: 1em;
     }
     &.menu-button:before {
         content: @fa-var-bars;
@@ -49,6 +49,9 @@ button.btn {
     &.back-content-button:before,
     &.back-list-button:before {
         content: @fa-var-chevron-left;
+    }
+    &.refresh:before {
+        content: @fa-var-sync;
     }
     &.generate:before,
     &.yes:before,
@@ -116,9 +119,6 @@ button.btn {
     &.help:before {
         .font-icon-regular(@fa-var-life-ring);
     }
-    &.toggleselect:before {
-        .font-icon-regular(@fa-var-check-square);
-    }
     &.folders:before {
         content: @fa-var-folder-open;
     }
@@ -126,9 +126,11 @@ button.btn {
     &.settings:before {
         content: @fa-var-wrench;
     }
-
     &.properties:before {
         content: @fa-var-info-circle;
+    }
+    &.select:before {
+        .font-icon-regular(@fa-var-check-circle);
     }
 }
 
