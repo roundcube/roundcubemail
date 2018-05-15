@@ -2867,9 +2867,17 @@ function rcube_elastic_ui()
             }
 
             $('option', select).each(function() {
-                var link = $('<a href="#">').text($(this).text())
-                    .data('value', this.value)
-                    .addClass(this.disabled ? 'disabled' : 'active' + (this.value == value ? ' selected' : ''));
+                var label = $(this).text(),
+                    link = $('<a href="#">')
+                        .data('value', this.value)
+                        .addClass(this.disabled ? 'disabled' : 'active' + (this.value == value ? ' selected' : ''));
+
+                if (label.length) {
+                    link.text(label);
+                }
+                else {
+                    link.html('&nbsp;'); // link can't be empty
+                }
 
                 items.push($('<li>').append(link));
             });
