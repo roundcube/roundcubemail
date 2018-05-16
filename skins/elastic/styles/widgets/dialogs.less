@@ -72,6 +72,7 @@ html.layout-phone {
         margin: 0 !important;
         padding: 0;
         right: 0;
+        left: initial !important;
         bottom: 0;
         top: 0;
         width: @layout-mobile-menu-width;
@@ -80,6 +81,7 @@ html.layout-phone {
         border: 0;
         display: flex;
         flex-direction: column;
+        box-shadow: none;
 
         div.arrow {
             display: none;
@@ -90,8 +92,8 @@ html.layout-phone {
         }
     }
 
-    .popover:not(#rcmKSearchpane) {
-        left: initial !important;
+    .popover.menu {
+        left: 0 !important;
     }
 
     .popover-overlay {
@@ -106,7 +108,6 @@ html.layout-phone {
     #rcmKSearchpane {
         bottom: auto;
         border: 1px solid @color-input-border;
-        box-shadow: none;
     }
 
     .popover-header {
