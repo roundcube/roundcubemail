@@ -1527,7 +1527,9 @@ function rcube_elastic_ui()
     {
         if (show) {
             if (mode == 'phone') {
-                $('<div id="menu-overlay" class="popover-overlay">').appendTo('body');
+                $('<div id="menu-overlay" class="popover-overlay">')
+                    .on('click', function() { app_menu(false); })
+                    .appendTo('body');
 
                 if (!env.menu_initialized) {
                     env.menu_initialized = true;
