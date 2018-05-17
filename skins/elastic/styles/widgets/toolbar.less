@@ -47,7 +47,6 @@
 
         &:before {
             &:extend(.font-icon-class);
-            display: inline;
             float: none;
             margin: 0;
             line-height: 1.75;
@@ -288,6 +287,12 @@
             float: none;
             display: block;
             width: auto;
+        }
+    }
+
+    &.footer.small {
+        a.button:before {
+            height: auto; // for Chrome
         }
     }
 
