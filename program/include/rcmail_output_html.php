@@ -496,13 +496,21 @@ EOF;
 
     /**
      * Send the request output to the client.
-     * This will either parse a skin tempalte or send an AJAX response
+     * This will either parse a skin template.
      *
      * @param string  $templ Template name
      * @param boolean $exit  True if script should terminate (default)
      */
     public function send($templ = null, $exit = true)
     {
+        // Easy way to change skin via GET argument, for developers
+        if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
+            if ($this->check_skin($_GET['skin'])) {
+                $this->set_skin($_GET['skin']);
+                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
+            }
+        }
+
         if ($templ != 'iframe') {
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
