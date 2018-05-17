@@ -761,6 +761,7 @@ a.button.icon.toolbar-button {
 
 .searchbar {
     height: @layout-searchbar-height;
+    min-height: @layout-searchbar-height; // because of Flexbox
     line-height: @layout-searchbar-height;
     background-color: @color-searchbar-background;
     border-bottom: 1px solid @color-list-border;
@@ -779,6 +780,7 @@ a.button.icon.toolbar-button {
             &:extend(.font-icon-class);
             content: @fa-var-search;
             height: @layout-searchbar-height;
+            color: @color-toolbar-button;
         }
     }
 
@@ -792,11 +794,11 @@ a.button.icon.toolbar-button {
     a.button {
         height: @layout-searchbar-height;
         min-width: auto;
+        color: @color-toolbar-button;
 
         &:before {
             &:extend(.font-icon-class);
         }
-
 
         &.options {
             &:before {
@@ -807,17 +809,11 @@ a.button.icon.toolbar-button {
 
         &.reset {
             display: none;
-            position: absolute;
-            right: .5rem;
 
             &:before {
                 content: @fa-var-times;
                 font-size: 1em;
             }
-        }
-
-        &.options + .reset {
-            right: 2.5rem;
         }
 
         &.search {
@@ -830,10 +826,6 @@ a.button.icon.toolbar-button {
     }
 
     &.active {
-        form:before {
-            color: @color-searchbar-icon-active;
-        }
-
         a.button.reset {
             display: inline;
         }

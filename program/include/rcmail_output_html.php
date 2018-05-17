@@ -81,6 +81,14 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('cookie_path', ini_get('session.cookie_path'));
         $this->set_env('cookie_secure', filter_var(ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN));
 
+        // Easy way to change skin via GET argument, for developers
+        if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
+            if ($this->check_skin($_GET['skin'])) {
+                $this->set_skin($_GET['skin']);
+                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
+            }
+        }
+
         // load and setup the skin
         $this->set_skin($this->config->get('skin'));
         $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
@@ -503,14 +511,6 @@ EOF;
      */
     public function send($templ = null, $exit = true)
     {
-        // Easy way to change skin via GET argument, for developers
-        if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
-            if ($this->check_skin($_GET['skin'])) {
-                $this->set_skin($_GET['skin']);
-                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
-            }
-        }
-
         if ($templ != 'iframe') {
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
@@ -2143,10 +2143,10 @@ EOF;
             ));
 
             $out = html::div(array(
-                'role'            => 'search',
-                'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
-                'class'           => $attrib['wrapper'],
-            ), "$header$out\n$options_button\n$reset_button\n$search_button");
+                    'role'            => 'search',
+                    'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
+                    'class'           => $attrib['wrapper'],
+                ), "$header$out\n$reset_button\n$options_button\n$search_button");
         }
 
         return $out;
