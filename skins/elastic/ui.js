@@ -1945,6 +1945,40 @@ function rcube_elastic_ui()
                     }
                 });
 
+                // On keyboard event focus the first (active) entry and enable keyboard navigation
+                if ($(item).data('event') == 'key') {
+                    popover.off('keydown.popup').on('keydown.popup', 'a.active', function(e) {
+                        var entry, node, mode = 'next';
+
+                        switch (e.which) {
+                            case 27: // ESC
+                            case 9:  // TAB
+                                $(item).popover('toggle').focus();
+                                return false;
+
+                            case 13: // ENTER
+                            case 32: // SPACE
+                                $(this).trigger('click').data('event', 'key');
+                                return false; // for IE
+
+                            case 38: // ARROW-UP
+                            case 63232:
+                                mode = 'previous';
+                            case 40: // ARROW-DOWN
+                            case 63233:
+                                entry = e.target.parentNode;
+                                while (entry = entry[mode + 'Sibling']) {
+                                    if (node = $(entry).children('.active')[0]) {
+                                        node.focus();
+                                        break;
+                                    }
+                                }
+                        }
+                    });
+
+                    popover.find('a.active:first').focus();
+                }
+
                 if (popup_id && menus[popup_id]) {
                     menus[popup_id].transitioning = false;
                 }
@@ -1989,10 +2023,23 @@ function rcube_elastic_ui()
                     delete menus[popup_id];
                 }
             })
-            .on('keypress', function(event) {
-                // Close the popup on ESC key
-                if (event.originalEvent.keyCode == 27) {
-                    $(item).popover('hide');
+            // Because Bootstrap does not provide originalEvent in show/shown events
+            // we have to handle that by our own using click and keydown handlers
+            .on('click', function() {
+                $(this).data('event', 'mouse');
+            })
+            .on('keydown', function(e) {
+                switch (e.originalEvent.which) {
+                    case 13:
+                    case 32:
+                        // Open the popup on ENTER or SPACE
+                        e.preventDefault();
+                        $(this).data('event', 'key').popover('toggle');
+                        break;
+                    case 27:
+                        // Close the popup on ESC key
+                        $(this).popover('hide');
+                        break;
                 }
             });
 
@@ -2897,9 +2944,17 @@ function rcube_elastic_ui()
             }
 
             $('option', select).each(function() {
-                var link = $('<a href="#">').text($(this).text())
-                    .data('value', this.value)
-                    .addClass(this.disabled ? 'disabled' : 'active' + (this.value == value ? ' selected' : ''));
+                var label = $(this).text(),
+                    link = $('<a href="#">')
+                        .data('value', this.value)
+                        .addClass(this.disabled ? 'disabled' : 'active' + (this.value == value ? ' selected' : ''));
+
+                if (label.length) {
+                    link.text(label);
+                }
+                else {
+                    link.html('&nbsp;'); // link can't be empty
+                }
 
                 items.push($('<li>').append(link));
             });
@@ -2913,7 +2968,7 @@ function rcube_elastic_ui()
                 })
                 .on('keydown', 'a.active', function(e) {
                     var item, node, mode = 'next';
-                    // Close popup on ESC key
+
                     switch (e.which) {
                         case 27: // ESC
                         case 9:  // TAB
@@ -2936,7 +2991,6 @@ function rcube_elastic_ui()
                                     break;
                                 }
                             }
-                            break;
                     }
                 });
 
