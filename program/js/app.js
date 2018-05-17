@@ -1499,10 +1499,20 @@ function rcube_webmail()
   // switch to another application task
   this.switch_task = function(task)
   {
+    var action, path;
+
+    if ((path = task.split('/')).length == 2) {
+      task = path[0];
+      action = path[1];
+    }
+
     if (this.task === task && task != 'mail')
       return;
 
     var url = this.get_task_url(task);
+
+    if (action)
+      url += '&_action=' + action;
 
     if (task == 'mail')
       url += '&_mbox=INBOX';

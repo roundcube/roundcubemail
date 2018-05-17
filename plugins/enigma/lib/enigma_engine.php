@@ -373,6 +373,9 @@ class enigma_engine
      */
     function part_structure($p, $body = null)
     {
+        // Don't be tempted to support encryption in text/html parts
+        // Because of EFAIL vulnerability we should never support this (#6289)
+
         if ($p['mimetype'] == 'text/plain' || $p['mimetype'] == 'application/pgp') {
             $this->parse_plain($p, $body);
         }
