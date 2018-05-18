@@ -359,8 +359,9 @@ function rcube_elastic_ui()
      */
     function create_cloned_button(target, menu_button, add_class)
     {
-        var button = $('<a>'),
-            target_id = target.attr('id'),
+        var popup, click = true,
+            button = $('<a>'),
+            target_id = target.attr('id') || new Date().getTime(),
             button_id = target_id + '-clone',
             btn_class = target[0].className + (add_class ? ' ' + add_class : '');
 
@@ -368,10 +369,18 @@ function rcube_elastic_ui()
             btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
             btn_class += ' button disabled';
         }
+        else if (popup = target.data('popup')) {
+            button.data('popup', popup).data('toggle-button', target.data('toggle-button'));
+            popup_init(button[0]);
+            click = false;
+        }
 
-        button.attr({'onclick': '', id: button_id, href: '#', 'class': btn_class})
-            .append($('<span class="inner">').text(target.text()))
-            .on('click', function(e) { target.click(); });
+        button.attr({id: button_id, href: '#', 'class': btn_class})
+            .append($('<span class="inner">').text(target.text()));
+
+        if (click) {
+            button.on('click', function(e) { target.click(); });
+        }
 
         if (is_framed && !menu_button) {
             button.data('target', target);

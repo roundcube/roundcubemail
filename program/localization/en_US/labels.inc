@@ -173,6 +173,7 @@ $labels['last'] = 'Last';
 $labels['previous'] = 'Previous';
 $labels['next'] = 'Next';
 $labels['select'] = 'Select';
+$labels['selection'] = 'Selection';
 $labels['all'] = 'All';
 $labels['none'] = 'None';
 $labels['currpage'] = 'Current page';
