@@ -367,6 +367,12 @@ html.touch {
     }
 }
 
+// Fixes datepicker z-index issue on input-group inputs in dialogs
+// With non-relative position the input's z-index is ignored
+.input-group > .form-control.hasDatepicker {
+    position: initial;
+}
+
 .minicolors-panel {
     border: 1px solid @color-datepicker-border;
     box-shadow: 3px 3px 5px @color-popover-shadow;
