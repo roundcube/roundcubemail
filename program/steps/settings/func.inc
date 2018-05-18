@@ -26,7 +26,6 @@ if (!$OUTPUT->ajax_call) {
 // register UI objects
 $OUTPUT->add_handlers(array(
     'settingstabs'   => 'rcmail_settings_tabs',
-    'prefsframe'     => 'rcmail_preferences_frame',
     'sectionslist'   => 'rcmail_sections_list',
     'identitieslist' => 'rcmail_identities_list',
 ));
@@ -48,19 +47,6 @@ $RCMAIL->register_action_map(array(
     'delete-identity' => 'identities.inc',
     'upload-display'  => 'upload.inc',
 ));
-
-
-// similar function as /steps/settings/identities.inc::rcmail_identity_frame()
-function rcmail_preferences_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id']) {
-        $attrib['id'] = 'rcmprefsframe';
-    }
-
-    return $OUTPUT->frame($attrib, true);
-}
 
 
 function rcmail_sections_list($attrib)

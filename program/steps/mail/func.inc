@@ -125,7 +125,6 @@ $OUTPUT->add_handlers(array(
     'messagecountdisplay' => 'rcmail_messagecount_display',
     'listmenulink'        => 'rcmail_options_menu_link',
     'mailboxname'         => 'rcmail_mailbox_name_display',
-    'messagecontentframe' => 'rcmail_messagecontent_frame',
     'messageimportform'   => 'rcmail_message_import_form',
     'searchfilter'        => 'rcmail_search_filter',
     'searchinterval'      => 'rcmail_search_interval',
@@ -681,20 +680,6 @@ function rcmail_options_menu_link($attrib = array())
             'title'    => $title,
             'tabindex' => '0',
     ), $inner);
-}
-
-/**
- * Return an HTML iframe for loading mail content
- */
-function rcmail_messagecontent_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (empty($attrib['id'])) {
-        $attrib['id'] = 'rcmailcontentwindow';
-    }
-
-    return $OUTPUT->frame($attrib, true);
 }
 
 function rcmail_messagecount_display($attrib)

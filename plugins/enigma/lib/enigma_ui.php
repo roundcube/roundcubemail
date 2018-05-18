@@ -87,7 +87,6 @@ class enigma_ui
 
             $this->rc->output->add_handlers(array(
                     'keyslist'     => array($this, 'tpl_keys_list'),
-                    'keyframe'     => array($this, 'tpl_key_frame'),
                     'countdisplay' => array($this, 'tpl_keys_rowcount'),
                     'searchform'   => array($this->rc->output, 'search_form'),
             ));
@@ -189,18 +188,6 @@ class enigma_ui
 
         $this->add_css();
         $this->add_js();
-    }
-
-    /**
-     * Template object for key info/edit frame.
-     *
-     * @param array Object attributes
-     *
-     * @return string HTML output
-     */
-    function tpl_key_frame($attrib)
-    {
-        return $this->rc->output->frame($attrib, true);
     }
 
     /**
