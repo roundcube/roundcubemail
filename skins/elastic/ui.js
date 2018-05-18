@@ -490,7 +490,10 @@ function rcube_elastic_ui()
                         button.prependTo(toolbar).wrap('<li role="menuitem">');
                     }
                     else {
-                        button.appendTo(toolbar).addClass('icon toolbar-button');
+                        button.appendTo(toolbar).addClass('icon');
+                        if (!parent.is('.sidebar')) {
+                            button.addClass('toolbar-button');
+                        }
                     }
                 }
 
