@@ -2975,8 +2975,11 @@ function rcube_elastic_ui()
                 .append(items)
                 .data('button', select[0]) // needed for dropdown closing code
                 .on('click', 'a.active', function() {
-                    select.val($(this).data('value')).change();
-                    return close_func();
+                    // first close the list, then update the select, the order is important
+                    //for cases when the select might be removed in change event (datepicker)
+                    var val = $(this).data('value'), ret = close_func();
+                    select.val(val).change();
+                    return ret;
                 })
                 .on('keydown', 'a.active', function(e) {
                     var item, node, mode = 'next';
