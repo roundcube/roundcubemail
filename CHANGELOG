@@ -37,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Support filter action with custom IMAP flags (#6011)
 - Managesieve: Support 'mime' extension tests - RFC5703 (#5832)
 - Managesieve: Support GSSAPI authentication with krb_authentication plugin (#5779)
+- Managesieve: Support enabling the plugin for specified hosts only (#6292)
 - Password: Support host variables in password_db_dsn option (#5955)
 - Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
 - Password: Added password_username_format option (#5766)
