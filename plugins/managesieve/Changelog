@@ -1,8 +1,11 @@
+* version 9.1 [2018-05-19]
+-----------------------------------------------------------
 - Added GSSAPI support (#5779)
 - Added option managesieve_default_headers
 - Added option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 - Support filter action with custom IMAP flags (#6011)
 - Support 'mime' extension tests - RFC5703 (#5832)
+- Support enabling the plugin for specified hosts only (#6292)
 - Support Elastic skin
 - Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
 - Fix missing Save button in Edit Filter Set page of Classic skin (#6154)

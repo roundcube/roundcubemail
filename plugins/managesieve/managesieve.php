@@ -101,15 +101,14 @@ class managesieve extends rcube_plugin
     function settings_actions($args)
     {
         $this->load_config();
-        
-        if( $this->rc->config->get('managesieve_allowed_hosts') !== null  &&
-           ! in_array( $this->rc->user->data['mail_host'],
-                      $this->rc->config->get('managesieve_allowed_hosts') ) ){
-                return;
-        }
-        
+
+        $allowed_hosts = $this->rc->config->get('managesieve_allowed_hosts');
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
-        $forward_mode = (int) $this->rc->config->get('managesieve_forward');
+        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+
+        if (!empty($allowed_hosts) && !in_array($_SESSION['storage_host'], (array) $allowed_hosts)) {
+            return;
+        }
 
         // register Filters action
         if ($vacation_mode != 2 && $forward_mode != 2) {
