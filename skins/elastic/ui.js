@@ -994,6 +994,10 @@ function rcube_elastic_ui()
         };
 
         var common_list_handler = function(e) {
+            if (mode != 'large' && !env.content_lock && e.force) {
+                show_list();
+            }
+
             // display current folder name in list header
             if (e.title) {
                 $('.header > .header-title', layout.list).text(e.title);
