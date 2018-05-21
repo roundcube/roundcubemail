@@ -619,19 +619,24 @@ html.ms .propform {
 
 td.editfield { width: 99%;  /* TODO */ }
 
-
-ul.proplist {
+@proplist-record-height: 2rem;
+.proplist {
     margin-bottom: 0;
 
-    @media screen and (min-width: (@screen-width-bs-phone + 1px)) {
+    .formcontent > &,
+    fieldset > & {
         padding-left: 0;
     }
 
     li {
         list-style-type: none;
-        line-height: 2.4rem;
+        line-height: @proplist-record-height;
         margin-bottom: .25rem;
         display: flex;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         input[type=radio] {
             vertical-align: middle;
@@ -644,16 +649,22 @@ ul.proplist {
 
         label {
             margin: 0;
+            line-height: @proplist-record-height;
         }
 
         .icon-checkbox {
-            height: 2.4rem !important;
+            height: @proplist-record-height;
             margin-left: -1.2em;
 
             & + label {
-                height: 2rem;
+                height: @proplist-record-height;
                 margin-right: .5rem;
-                padding: 0;
+                padding: 0 !important;
+                line-height: 1.25;
+
+                html.touch &:before {
+                    line-height: 1.1;
+                }
             }
         }
 
@@ -663,7 +674,6 @@ ul.proplist {
         }
     }
 }
-
 
 .checklist {
     .form-check-input + label {
