@@ -993,14 +993,7 @@ function rcube_elastic_ui()
             env.content_lock = false;
         };
 
-        // display the list widget after 'list' and 'listgroup' commands
         var common_list_handler = function(e) {
-            if (mode != 'large' && !env.content_lock && e.list) {
-                show_list();
-            }
-
-            env.content_lock = false;
-
             // display current folder name in list header
             if (e.title) {
                 $('.header > .header-title', layout.list).text(e.title);
@@ -1009,10 +1002,6 @@ function rcube_elastic_ui()
 
         var list_handler = function(e) {
             var args = {};
-
-            if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
-                args.list = true;
-            }
 
             // display current folder name in list header
             if (rcmail.env.task == 'mail' && !rcmail.env.action) {
@@ -1049,7 +1038,6 @@ function rcube_elastic_ui()
             .addEventListener('afterlistsearch', list_handler)
             // plugins
             .addEventListener('show-list', function(e) {
-                e.list = true;
                 common_list_handler(e);
             })
             .addEventListener('show-content', function(e) {
