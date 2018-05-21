@@ -248,6 +248,7 @@
 
         .pagenav-text {
             .overflow-ellipsis;
+            color: @color-list-pagenav;
             flex-grow: 4;
             font-size: 80%;
             white-space: nowrap;
@@ -768,9 +769,9 @@ a.button.icon.toolbar-button {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    padding: 0 .5rem;
     overflow: hidden;
     position: relative;
+    padding-right: .5rem;
 
     form {
         flex: 1;
@@ -780,7 +781,8 @@ a.button.icon.toolbar-button {
             &:extend(.font-icon-class);
             content: @fa-var-search;
             height: @layout-searchbar-height;
-            color: @color-toolbar-button;
+            color: @color-list-pagenav;
+            margin: 0 0 0 .75rem;
         }
     }
 
@@ -802,8 +804,9 @@ a.button.icon.toolbar-button {
 
         &.options {
             &:before {
-                content: @fa-var-filter;
-                font-size: 1em;
+                content: @fa-var-angle-down;
+                line-height: 1.25;
+                width: 1em;
             }
         }
 
@@ -833,8 +836,6 @@ a.button.icon.toolbar-button {
 
     &.open a.button.options:before {
         content: @fa-var-angle-up;
-        font-size: 1.25em;
-        line-height: 1.25;
     }
 }
 
