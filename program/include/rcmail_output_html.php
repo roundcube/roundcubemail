@@ -58,6 +58,18 @@ class rcmail_output_html extends rcmail_output
         'messageprint' => 'printmessage',
     );
 
+    // deprecated names of template objects used before 1.4
+    protected $deprecated_template_objects = array(
+        'addressframe'        => 'contentframe',
+        'messagecontentframe' => 'contentframe',
+        'prefsframe'          => 'contentframe',
+        'folderframe'         => 'contentframe',
+        'identityframe'       => 'contentframe',
+        'responseframe'       => 'contentframe',
+        'keyframe'            => 'contentframe',
+        'filterframe'         => 'contentframe',
+    );
+
     /**
      * Constructor
      */
@@ -139,6 +151,11 @@ EOF;
             'charsetselector' => array($this, 'charset_selector'),
             'aboutcontent'    => array($this, 'about_content'),
         ));
+
+        // set blankpage (watermark) url
+        $blankpage = $this->config->get('blankpage_url', '/watermark.html');
+        $blankpage = $this->abs_url($blankpage);
+        $this->set_env('blankpage', $blankpage);
     }
 
     /**
@@ -1037,6 +1054,45 @@ EOF;
     }
 
     /**
+     * Parse variable strings
+     *
+     * @param string $type Variable type (env, config etc)
+     * @param string $name Variable name
+     *
+     * @return mixed Variable value
+     */
+    protected function parse_variable($type, $name)
+    {
+        $value = '';
+
+        switch ($type) {
+            case 'env':
+                $value = $this->env[$name];
+                break;
+            case 'config':
+                $value = $this->config->get($name);
+                if (is_array($value) && $value[$_SESSION['storage_host']]) {
+                    $value = $value[$_SESSION['storage_host']];
+                }
+                break;
+            case 'request':
+                $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
+                break;
+            case 'session':
+                $value = $_SESSION[$name];
+                break;
+            case 'cookie':
+                $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
+                break;
+            case 'browser':
+                $value = $this->browser->{$name};
+                break;
+        }
+
+        return $value;
+    }
+
+    /**
      * Search for special tags in input and replace them
      * with the appropriate content
      *
@@ -1183,6 +1239,11 @@ EOF;
                 $object  = strtolower($attrib['name']);
                 $content = '';
 
+                // correct deprecated object names
+                if ($this->deprecated_template_objects[$object]) {
+                    $object = $this->deprecated_template_objects[$object];
+                }
+
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
                     if (is_callable($handler)) {
@@ -1254,6 +1315,18 @@ EOF;
                     $title .= $this->get_pagetitle();
                     $content = html::quote($title);
                 }
+                else if ($object == 'contentframe') {
+                    if (empty($attrib['id'])) {
+                        $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
+                    }
+
+                    // parse variables
+                    if (preg_match('/^(config|env):([a-z0-9_]+)$/i', $attrib['src'], $matches)) {
+                        $attrib['src'] = $this->parse_variable($matches[1], $matches[2]);
+                    }
+
+                    $content = $this->frame($attrib, true);
+                }
 
                 // exec plugin hooks for this template object
                 $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + array('content' => $content));
@@ -1284,32 +1357,7 @@ EOF;
             // return variable
             case 'var':
                 $var = explode(':', $attrib['name']);
-                $name = $var[1];
-                $value = '';
-
-                switch ($var[0]) {
-                    case 'env':
-                        $value = $this->env[$name];
-                        break;
-                    case 'config':
-                        $value = $this->config->get($name);
-                        if (is_array($value) && $value[$_SESSION['storage_host']]) {
-                            $value = $value[$_SESSION['storage_host']];
-                        }
-                        break;
-                    case 'request':
-                        $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
-                        break;
-                    case 'session':
-                        $value = $_SESSION[$name];
-                        break;
-                    case 'cookie':
-                        $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
-                        break;
-                    case 'browser':
-                        $value = $this->browser->{$name};
-                        break;
-                }
+                $value = $this->parse_variable($var[0], $var[1]);
 
                 if (is_array($value)) {
                     $value = implode(', ', $value);
@@ -1825,7 +1873,6 @@ EOF;
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {
             $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
-            $this->set_env('blankpage', $this->asset_url($attrib['src']));
         }
 
         return html::iframe($attrib);
