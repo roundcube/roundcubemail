@@ -854,17 +854,16 @@ class rcube_message
                     ) {
                         $this->add_part($mail_part, 'inline');
                     }
-                    // regular attachment with valid content type
-                    // (content-type name regexp according to RFC4288.4.2)
-                    else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
-                        $this->add_part($mail_part, 'attachment');
-                    }
-                    // attachment with invalid content type
-                    // replace malformed content type with application/octet-stream (#1487767)
-                    else if ($mail_part->filename) {
-                        $mail_part->ctype_primary   = 'application';
-                        $mail_part->ctype_secondary = 'octet-stream';
-                        $mail_part->mimetype        = 'application/octet-stream';
+
+                    // Any non-inline attachment
+                    if (!preg_match('/^inline/i', $mail_part->disposition)) {
+                        // Content-Type name regexp according to RFC4288.4.2
+                        if (!preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
+                            // replace malformed content type with application/octet-stream (#1487767)
+                            $mail_part->ctype_primary   = 'application';
+                            $mail_part->ctype_secondary = 'octet-stream';
+                            $mail_part->mimetype        = 'application/octet-stream';
+                        }
 
                         $this->add_part($mail_part, 'attachment');
                     }
