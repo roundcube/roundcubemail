@@ -313,6 +313,8 @@ class acl extends rcube_plugin
     {
         // Create username input
         $attrib['name'] = 'acluser';
+        $class = $attrib['class'];
+        unset($attrib['class']);
 
         $textfield = new html_inputfield($attrib);
 
@@ -340,11 +342,11 @@ class acl extends rcube_plugin
                     . $val);
             }
 
-            $out = html::tag('ul', array('id' => 'usertype', 'class' => $attrib['class']), $ul, html::$common_attrib);
+            $out = html::tag('ul', array('id' => 'usertype', 'class' => $class), $ul, html::$common_attrib);
         }
         // Display text input alone
         else {
-            $out = $fields['user'];
+            $out = html::div($class, $fields['user']);
         }
 
         return $out;
