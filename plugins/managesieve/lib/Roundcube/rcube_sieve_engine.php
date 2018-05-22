@@ -2398,9 +2398,10 @@ class rcube_sieve_engine
 
         // mailbox select
         if ($action['type'] == 'fileinto') {
-            $mailbox = $this->mod_mailbox($action['target'], 'out');
             // make sure non-existing (or unsubscribed) mailbox is listed (#1489956)
-            $additional = array($mailbox);
+            if ($mailbox = $this->mod_mailbox($action['target'], 'out')) {
+                $additional = array($mailbox);
+            }
         }
         else {
             $mailbox = '';
