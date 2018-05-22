@@ -18,7 +18,7 @@ class zipdownload extends rcube_plugin
 
     private $charset = 'ASCII';
 
-    private $names = [];
+    private $names = array();
 
     // RFC4155: mbox date format
     const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
