@@ -22,8 +22,8 @@ $labels['server'] = 'Server';
 $labels['login'] = 'Accedi';
 $labels['menu'] = 'Menu';
 $labels['logout'] = 'Esci';
-$labels['mail'] = 'E-Mail';
-$labels['settings'] = 'Impostazioni';
+$labels['mail'] = 'Posta';
+$labels['settings'] = 'Configura';
 $labels['addressbook'] = 'Rubrica';
 $labels['inbox'] = 'Posta in arrivo';
 $labels['drafts'] = 'Bozze';
@@ -80,7 +80,7 @@ $labels['jan'] = 'Gen';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
 $labels['apr'] = 'Apr';
-$labels['may'] = 'Maggio';
+$labels['may'] = 'Mag';
 $labels['jun'] = 'Giu';
 $labels['jul'] = 'Lug';
 $labels['aug'] = 'Ago';
@@ -186,7 +186,7 @@ $labels['layoutwidescreen'] = 'Widescreen';
 $labels['layoutdesktop'] = 'Desktop';
 $labels['layoutlist'] = 'Elenco';
 $labels['layoutwidescreendesc'] = 'Schermo largo (vista a 3 colonne)';
-$labels['layoutdesktopdesc'] = 'Desktop (elenco ampio e anteprima del messaggio di sotto)';
+$labels['layoutdesktopdesc'] = 'Desktop (elenco ampio e anteprima del messaggio sotto)';
 $labels['layoutlistdesc'] = 'Elenco (senza anteprima del messaggio)';
 $labels['folderactions'] = 'Azioni cartella...';
 $labels['compact'] = 'Compatta';
@@ -604,7 +604,7 @@ $labels['japanese'] = 'Giapponese';
 $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Cinese';
 $labels['arialabeltopnav'] = 'Controllo finestra';
-$labels['arialabeltasknav'] = 'Attavità dell\'applicazione';
+$labels['arialabeltasknav'] = 'Attività dell\'applicazione';
 $labels['arialabeltoolbar'] = 'Barra delle applicazioni';
 $labels['arialabelactivetask'] = 'Attività attive';
 $labels['arialabelmessagessearchfilter'] = 'Filtro lista delle email';
@@ -621,13 +621,13 @@ $labels['arialabelmailboxmenu'] = 'Menu azione cartella';
 $labels['arialabellistselectmenu'] = 'Menu lista selezione';
 $labels['arialabelthreadselectmenu'] = 'Finestra elenco menu';
 $labels['arialabelmessagelistoptions'] = 'Visualizzazione della lista dei messaggi e opzioni di ordinamento';
-$labels['arialabelmailimportdialog'] = 'Dialogo importazione messaggio';
+$labels['arialabelmailimportdialog'] = 'Finestra importazione messaggio';
 $labels['arialabelmessagenav'] = 'Navigazione messaggio';
 $labels['arialabelmessagebody'] = 'Corpo messaggio';
 $labels['arialabelmessageactions'] = 'Azione messaggi';
 $labels['arialabelcontactquicksearch'] = 'Modulo ricerca contatti';
 $labels['arialabelcontactsearchbox'] = 'Immissione ricerca contatti';
-$labels['arialabelmessageheaders'] = 'Messaggio testata';
+$labels['arialabelmessageheaders'] = 'Intestazioni messaggio';
 $labels['arialabelforwardingoptions'] = 'Opzioni di inoltro';
 $labels['arialabelreplyalloptions'] = 'Opzione rispondi a tutti';
 $labels['arialabelmoremessageactions'] = 'Altre azioni del messaggio';
@@ -650,11 +650,11 @@ $labels['arialabeldropactionmenu'] = 'Menu azione con trascinamento';
 $labels['arialabelimagetools'] = 'Strumenti immagine';
 $labels['helplistnavigation'] = 'Lista navigazione da tastiera';
 $labels['helplistkeyboardnavigation'] = "Frecce su/giù: Sposta le righe selezionate.
-Spazio: Seleziona fila mirata.
-Shift + su/giù: Seleziona ulteriore fila da sotto e sopra.
-Ctrl + Spazio: Aggiungi fila mirata da selezionato/rimosso a selezionato.";
+Spazio: Seleziona fila evidenziata.
+Shift + su/giù: Seleziona fila aggiuntiva sotto/sopra.
+Ctrl + Spazio: Aggiungi fila evidenziata dala selezione/rimuovi dalla selezione.";
 $labels['helplistkeyboardnavmessages'] = "Frecce destra/sinistra: espande/comprime l'argomento del messaggio (solo in modalità argomenti).
 Invio: apre il contatto selezionato.
 Canc: sposta il messaggio selezionato nel cestino.";
-$labels['helplistkeyboardnavcontacts'] = "Invio: Aprire il contatto selezionato";
+$labels['helplistkeyboardnavcontacts'] = "Invio: Apre il contatto selezionato/evidenziato";
 ?>
