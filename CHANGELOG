@@ -89,6 +89,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some parts of quota information could have been ignored (#6280)
 - Fix bug where some escape sequences in html styles could bypass security checks
 - Fix bug where some forbidden characters on Cyrus-IMAP were not prevented from use in folder names
+- Fix bug where only attachments with the same name would be ignored on zip download (#6301)
 
 RELEASE 1.3.6
 -------------
