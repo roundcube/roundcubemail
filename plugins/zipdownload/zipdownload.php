@@ -17,7 +17,7 @@ class zipdownload extends rcube_plugin
     public $task = 'mail';
 
     private $charset       = 'ASCII';
-    private $names         = [];
+    private $names         = array();
     private $default_limit = '50MB';
 
     // RFC4155: mbox date format
