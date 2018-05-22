@@ -1947,6 +1947,7 @@ function rcube_elastic_ui()
                                         break;
                                     }
                                 }
+                                return false; // prevents from scrolling the whole page
                         }
                     });
 
@@ -2965,6 +2966,7 @@ function rcube_elastic_ui()
                                     break;
                                 }
                             }
+                            return false; // prevents from scrolling the whole page
                     }
                 });
 
