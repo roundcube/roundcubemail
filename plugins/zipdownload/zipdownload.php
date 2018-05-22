@@ -213,7 +213,7 @@ class zipdownload extends rcube_plugin
          * Adding a number before dot of extension on a name of file with same name on zip
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
-        if (isset($this->name[$displayname])) {
+        if (isset($this->names[$displayname])) {
             list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
