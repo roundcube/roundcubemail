@@ -1352,7 +1352,7 @@ class rcube
     }
 
     /**
-     * Report error according to configured debug_level
+     * Log an error
      *
      * @param array $arg_arr Named parameters
      * @see self::raise_error()
@@ -1360,58 +1360,31 @@ class rcube
     public static function log_bug($arg_arr)
     {
         $program = strtoupper($arg_arr['type'] ?: 'php');
-        $level   = self::get_instance()->config->get('debug_level');
-
-        // disable errors for ajax requests, write to log instead (#1487831)
-        if (($level & 4) && !empty($_REQUEST['_remote'])) {
-            $level = ($level ^ 4) | 1;
-        }
 
         // write error to local log file
-        if (($level & 1) || !empty($arg_arr['fatal'])) {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                foreach (array('_task', '_action') as $arg) {
-                    if ($_POST[$arg] && !$_GET[$arg]) {
-                        $post_query[$arg] = $_POST[$arg];
-                    }
-                }
-
-                if (!empty($post_query)) {
-                    $post_query = (strpos($_SERVER['REQUEST_URI'], '?') != false ? '&' : '?')
-                        . http_build_query($post_query, '', '&');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            foreach (array('_task', '_action') as $arg) {
+                if ($_POST[$arg] && !$_GET[$arg]) {
+                    $post_query[$arg] = $_POST[$arg];
                 }
             }
 
-            $log_entry = sprintf("%s Error: %s%s (%s %s)",
-                $program,
-                $arg_arr['message'],
-                $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
-                $_SERVER['REQUEST_METHOD'],
-                $_SERVER['REQUEST_URI'] . $post_query);
-
-            if (!self::write_log('errors', $log_entry)) {
-                // send error to PHPs error handler if write_log didn't succeed
-                trigger_error($arg_arr['message'], E_USER_WARNING);
+            if (!empty($post_query)) {
+                $post_query = (strpos($_SERVER['REQUEST_URI'], '?') != false ? '&' : '?')
+                    . http_build_query($post_query, '', '&');
             }
         }
 
-        // report the bug to the global bug reporting system
-        if ($level & 2) {
-            // TODO: Send error via HTTP
-        }
+        $log_entry = sprintf("%s Error: %s%s (%s %s)",
+            $program,
+            $arg_arr['message'],
+            $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
+            $_SERVER['REQUEST_METHOD'],
+            $_SERVER['REQUEST_URI'] . $post_query);
 
-        // show error if debug_mode is on
-        if ($level & 4) {
-            print "<b>$program Error";
-
-            if (!empty($arg_arr['file']) && !empty($arg_arr['line'])) {
-                print " in $arg_arr[file] ($arg_arr[line])";
-            }
-
-            print ':</b>&nbsp;';
-            print nl2br($arg_arr['message']);
-            print '<br />';
-            flush();
+        if (!self::write_log('errors', $log_entry)) {
+            // send error to PHPs error handler if write_log didn't succeed
+            trigger_error($arg_arr['message'], E_USER_WARNING);
         }
     }
 
