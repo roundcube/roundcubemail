@@ -76,7 +76,9 @@ and configure your installation to be not surprised by default behaviour.
 
 Roundcube writes internal errors to the 'errors' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
-PHP errors to be logged there as well, set error_log php.ini or .htaccess file.
+PHP errors to be logged there as well, set error_log in php.ini or .htaccess file.
+
+Roundcube forces display_errors=Off and log_errors=On.
 
 By default the session cookie settings of PHP are not modified by Roundcube.
 However if you want to limit the session cookies to the directory where

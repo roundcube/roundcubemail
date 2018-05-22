@@ -66,6 +66,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added 'show_bytes' hook (#5001)
 - Add option to not indent quoted text on top-posting reply (#5105)
 - Removed global $CONFIG variable
+- Removed debug_level setting
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
 - Localized timezone selector (#4983)

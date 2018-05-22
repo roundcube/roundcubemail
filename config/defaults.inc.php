@@ -63,9 +63,6 @@ $config['db_max_allowed_packet'] = null;
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting, sum of: 1 = log; 4 = show
-$config['debug_level'] = 1;
-
 // log driver:  'syslog', 'stdout' or 'file'.
 $config['log_driver'] = 'file';
 
