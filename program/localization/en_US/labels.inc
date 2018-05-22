@@ -334,8 +334,9 @@ $labels['alwaysshow'] = 'Always show images from $sender';
 $labels['alwaysallow'] = 'Always allow from $sender';
 $labels['isdraft'] = 'This is a draft message.';
 $labels['andnmore'] = '$nr more...';
+$labels['details'] = 'Details';
 $labels['headers'] = 'Headers';
-$labels['envelope'] = 'Envelope';
+$labels['allheaders'] = 'All headers...';
 $labels['togglemoreheaders'] = 'Show more message headers';
 $labels['togglefullheaders'] = 'Toggle raw message headers';
 
