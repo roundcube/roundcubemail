@@ -113,6 +113,10 @@ function rcube_elastic_ui()
         // Intercept jQuery-UI dialogs...
         $.ui && $.widget('ui.dialog', $.ui.dialog, {
             open: function() {
+                // .. to unify min width for iframe'd dialogs
+                if ($(this.element).is('.iframe')) {
+                    this.options.width = Math.max(576, this.options.width);
+                }
                 this._super();
                 // ... to re-style them on dialog open
                 dialog_open(this);
