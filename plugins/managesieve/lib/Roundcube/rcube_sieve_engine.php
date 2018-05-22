@@ -1508,8 +1508,10 @@ class rcube_sieve_engine
             $out .= sprintf("\n" . '<div class="form-group row">'
                 . '<label for="%s" class="col-sm-4 col-form-label">%s</label>'
                 . '<div class="col-sm-8">%s</div></div>',
-                $field_id, rcube::Q($this->plugin->gettext('filterset')),
-                $this->filtersets_list(array('id' => 'sievescriptname'), true));
+                'sievescriptname',
+                rcube::Q($this->plugin->gettext('filterset')),
+                $this->filtersets_list(array('id' => 'sievescriptname'), true)
+            );
         }
         else if ($compact) {
             $out .= sprintf("\n" . '<div class="form-group row form-check">'
