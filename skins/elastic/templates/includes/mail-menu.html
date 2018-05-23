@@ -61,7 +61,8 @@
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-message-menu">
 		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print" classAct="print active" data-hidden="small"/>
 		<roundcube:if condition="template:name != 'message'" />
-			<roundcube:button type="link-menuitem" command="import-messages" label="import" class="import" classAct="import active" name="messageimport" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
+			<roundcube:button type="link-menuitem" command="import-messages" label="import" class="import" classAct="import active"
+				name="messageimport" onclick="UI.import_dialog()" />
 		<roundcube:endif />
 		<roundcube:button type="link-menuitem" command="download" label="export" class="download" classAct="download active" />
 		<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew" classAct="edit asnew active" />
@@ -83,3 +84,7 @@
 		<roundcube:container name="markmenu" id="markmessage-menu" />
 	</ul>
 </div>
+
+<roundcube:if condition="template:name != 'message'" />
+	<roundcube:object name="messageimportform" id="uploadform" class="popupmenu formcontent" buttons="no" />
+<roundcube:endif />

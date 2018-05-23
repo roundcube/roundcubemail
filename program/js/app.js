@@ -1430,7 +1430,13 @@ function rcube_webmail()
       ret = false;
     this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret, originalEvent:event});
 
-    return ret === false ? false : obj ? false : true;
+    if (ret === false)
+      return false;
+
+    if (obj || aborted === true)
+      return false;
+
+    return true;
   };
 
   // set command(s) enabled or disabled
