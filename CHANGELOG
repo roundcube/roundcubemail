@@ -57,6 +57,7 @@ CHANGELOG Roundcube Webmail
 - Reset onerror on images if placeholder does not exist to prevent from requests storm
 - Unified and simplified code for loading content frame for responses and identities
 - Display contact import and advanced search in popup dialogs
+- Display a dialog for mail import with supported format description and upload size hint
 - Make possible to set (some) config options from a skin
 - Added optional checkbox selection for the list widget
 - Make 'compose' command always enabled
