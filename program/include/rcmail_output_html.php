@@ -154,7 +154,6 @@ EOF;
 
         // set blankpage (watermark) url
         $blankpage = $this->config->get('blankpage_url', '/watermark.html');
-        $blankpage = $this->abs_url($blankpage);
         $this->set_env('blankpage', $blankpage);
     }
 
@@ -561,6 +560,11 @@ EOF;
     {
         if (!empty($this->script_files)) {
             $this->set_env('request_token', $this->app->get_request_token());
+        }
+
+        // Fix assets path on blankpage
+        if ($this->js_env['blankpage']) {
+            $this->js_env['blankpage'] = $this->asset_url($this->abs_url($this->js_env['blankpage'], true));
         }
 
         $commands = $this->get_js_commands($framed);
