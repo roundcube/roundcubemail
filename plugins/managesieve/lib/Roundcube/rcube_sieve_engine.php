@@ -1508,8 +1508,10 @@ class rcube_sieve_engine
             $out .= sprintf("\n" . '<div class="form-group row">'
                 . '<label for="%s" class="col-sm-4 col-form-label">%s</label>'
                 . '<div class="col-sm-8">%s</div></div>',
-                $field_id, rcube::Q($this->plugin->gettext('filterset')),
-                $this->filtersets_list(array('id' => 'sievescriptname'), true));
+                'sievescriptname',
+                rcube::Q($this->plugin->gettext('filterset')),
+                $this->filtersets_list(array('id' => 'sievescriptname'), true)
+            );
         }
         else if ($compact) {
             $out .= sprintf("\n" . '<div class="form-group row form-check">'
@@ -2396,9 +2398,10 @@ class rcube_sieve_engine
 
         // mailbox select
         if ($action['type'] == 'fileinto') {
-            $mailbox = $this->mod_mailbox($action['target'], 'out');
             // make sure non-existing (or unsubscribed) mailbox is listed (#1489956)
-            $additional = array($mailbox);
+            if ($mailbox = $this->mod_mailbox($action['target'], 'out')) {
+                $additional = array($mailbox);
+            }
         }
         else {
             $mailbox = '';

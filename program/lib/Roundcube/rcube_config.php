@@ -245,19 +245,13 @@ class rcube_config
         }
 
         // set PHP error logging according to config
-        if ($this->prop['debug_level'] & 1) {
-            $error_log = $this->prop['log_driver'];
-            if ($error_log != 'syslog') {
-                $error_log  = $this->prop['log_dir'] . '/errors';
-                $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
-            }
+        $error_log = $this->prop['log_driver'];
+        if ($error_log != 'syslog') {
+            $error_log  = $this->prop['log_dir'] . '/errors';
+            $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
 
             ini_set('error_log', $error_log);
-            ini_set('log_errors', 1);
         }
-
-        // enable display_errors in 'show' level, but not for ajax requests
-        ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
 
         // remove deprecated properties
         unset($this->prop['dst_active']);

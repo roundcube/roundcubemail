@@ -171,7 +171,7 @@
 		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
 		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
 		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" classAct="active" />
-		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
+		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="UI.import_dialog()" />
 		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" classAct="active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
@@ -262,7 +262,7 @@
 	</div>
 </div>
 
-<roundcube:object name="messageimportform" id="uploadform" mode="smart" />
+<roundcube:object name="messageimportform" id="uploadform" buttons="no" class="popupdialog" />
 
 <roundcube:include file="/includes/footer.html" />
 
