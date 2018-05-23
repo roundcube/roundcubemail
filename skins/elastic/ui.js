@@ -59,6 +59,7 @@ function rcube_elastic_ui()
     this.popup_init = popup_init;
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
+    this.import_dialog = import_dialog;
     this.headers_show = headers_show;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
@@ -112,6 +113,10 @@ function rcube_elastic_ui()
         // Intercept jQuery-UI dialogs...
         $.ui && $.widget('ui.dialog', $.ui.dialog, {
             open: function() {
+                // .. to unify min width for iframe'd dialogs
+                if ($(this.element).is('.iframe')) {
+                    this.options.width = Math.max(576, this.options.width);
+                }
                 this._super();
                 // ... to re-style them on dialog open
                 dialog_open(this);
@@ -1977,6 +1982,7 @@ function rcube_elastic_ui()
                                         break;
                                     }
                                 }
+                                return false; // prevents from scrolling the whole page
                         }
                     });
 
@@ -2267,8 +2273,7 @@ function rcube_elastic_ui()
 
         dialog = rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
             closeOnEscape: true,
-            minWidth: 400,
-            width: width
+            minWidth: 400
         });
     };
 
@@ -2290,7 +2295,6 @@ function rcube_elastic_ui()
             button: support_button,
             button_class: 'help',
             cancel_button: 'close',
-            width: 600,
             height: 400
         });
     };
@@ -2314,8 +2318,25 @@ function rcube_elastic_ui()
 
         rcmail.simple_dialog(dialog, rcmail.gettext('arialabelmessageheaders'), null, {
             cancel_button: 'close',
-            width: 600,
             height: 400
+        });
+    };
+
+    /**
+     * Mail import dialog
+     */
+    function import_dialog()
+    {
+        var content = $('#uploadform'),
+            dialog = content.clone();
+
+        var save_func = function(e) {
+            return rcmail.command('import-messages', $(dialog.find('form')[0]));
+        };
+
+        rcmail.simple_dialog(dialog, rcmail.gettext('importmessages'), save_func, {
+            closeOnEscape: true,
+            minWidth: 400
         });
     };
 
@@ -2998,6 +3019,7 @@ function rcube_elastic_ui()
                                     break;
                                 }
                             }
+                            return false; // prevents from scrolling the whole page
                     }
                 });
 

@@ -1687,16 +1687,23 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    $RCMAIL->output->add_label('selectimportfile','importwait');
+    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages');
 
-    $input_attr = array(
+    $description = $RCMAIL->gettext('mailimportdesc');
+    $input_attr  = array(
         'multiple' => true,
         'name'     => '_file[]',
-        'accept'   => ".eml, .mbox, message/rfc822, text/*",
+        'accept'   => '.eml, .mbox, .msg, message/rfc822, text/*',
     );
 
+    if (class_exists('ZipArchive', false)) {
+        $input_attr['accept'] .= '.zip, application/zip, application/x-zip';
+        $description          .= ' ' . $RCMAIL->gettext('mailimportzip');
+    }
+
     $attrib['prefix'] = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
-        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'));
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
+        . html::p(null, $description);
 
     return $RCMAIL->upload_form($attrib, 'importform', 'import-messages', $input_attr);
 }

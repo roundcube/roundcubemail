@@ -17,7 +17,7 @@ class zipdownload extends rcube_plugin
     public $task = 'mail';
 
     private $charset       = 'ASCII';
-    private $names         = [];
+    private $names         = array();
     private $default_limit = '50MB';
 
     // RFC4155: mbox date format
@@ -213,7 +213,7 @@ class zipdownload extends rcube_plugin
          * Adding a number before dot of extension on a name of file with same name on zip
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
-        if (isset($this->name[$displayname])) {
+        if (isset($this->names[$displayname])) {
             list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;

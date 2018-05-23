@@ -57,6 +57,7 @@ CHANGELOG Roundcube Webmail
 - Reset onerror on images if placeholder does not exist to prevent from requests storm
 - Unified and simplified code for loading content frame for responses and identities
 - Display contact import and advanced search in popup dialogs
+- Display a dialog for mail import with supported format description and upload size hint
 - Make possible to set (some) config options from a skin
 - Added optional checkbox selection for the list widget
 - Make 'compose' command always enabled
@@ -66,6 +67,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added 'show_bytes' hook (#5001)
 - Add option to not indent quoted text on top-posting reply (#5105)
 - Removed global $CONFIG variable
+- Removed debug_level setting
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
 - Localized timezone selector (#4983)
@@ -88,6 +90,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some parts of quota information could have been ignored (#6280)
 - Fix bug where some escape sequences in html styles could bypass security checks
 - Fix bug where some forbidden characters on Cyrus-IMAP were not prevented from use in folder names
+- Fix bug where only attachments with the same name would be ignored on zip download (#6301)
 
 RELEASE 1.3.6
 -------------
