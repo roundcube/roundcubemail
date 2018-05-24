@@ -15,12 +15,15 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
 $labels['newfilter'] = 'Neuer Filter';
 $labels['filteradd'] = 'Filter hinzufügen';
 $labels['filterdel'] = 'Filter löschen';
+$labels['rules'] = 'Regeln';
 $labels['actions'] = 'Aktionen';
 $labels['scope'] = 'Suchbereich';
 $labels['moveup'] = 'Nach oben';
@@ -40,6 +43,14 @@ $labels['filterregex'] = 'trifft regulären Ausdruck';
 $labels['filternotregex'] = 'entspricht regulärem Ausdruck';
 $labels['filterunder'] = 'unter';
 $labels['filterover'] = 'über';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME-Teil:';
+$labels['mime-message'] = 'Nachricht';
+$labels['mime-anychild'] = 'weiteres';
+$labels['mime-type'] = 'Typ';
+$labels['mime-subtype'] = 'Untertyp';
+$labels['mime-contenttype'] = 'Inhaltstyp';
+$labels['mime-param'] = 'Parameter';
 $labels['addrule'] = 'Regel hinzufügen';
 $labels['delrule'] = 'Regel löschen';
 $labels['messagemoveto'] = 'Verschiebe Nachricht nach';
@@ -69,9 +80,11 @@ $labels['enable'] = 'Aktivieren/Deaktivieren';
 $labels['filterset'] = 'Filtersätze';
 $labels['filtersets'] = 'Filtersätze';
 $labels['filtersetadd'] = 'Filtersatz anlegen';
+$labels['filtersetdel'] = 'Filtersatz löschen';
 $labels['filtersetact'] = 'Aktuellen Filtersatz aktivieren';
 $labels['filtersetdeact'] = 'Aktuellen Filtersatz deaktivieren';
 $labels['filterseteditraw'] = 'Filtersatz bearbeiten';
+$labels['filtersetswitch'] = 'Filtersatz aktivieren/deaktivieren';
 $labels['filterdef'] = 'Filterdefinition';
 $labels['filtersetname'] = 'Filtersatzname';
 $labels['newfilterset'] = 'Neuer Filtersatz';
@@ -184,10 +197,13 @@ $labels['vacation.keep'] = 'Behalten';
 $labels['vacation.discard'] = 'Verwerfen';
 $labels['vacation.redirect'] = 'Weiterleiten an';
 $labels['vacation.copy'] = 'Kopie an';
+$labels['forward'] = 'Weiterleitung';
 $labels['forward.redirect'] = 'Weiterleiten an';
 $labels['forward.copy'] = 'Kopie an';
 $labels['forward.on'] = 'Ein';
 $labels['forward.off'] = 'Aus';
+$labels['forward.status'] = 'Status:';
+$labels['forward.action'] = 'Für eingehende Mails die folgende Aktion ausführen:';
 $labels['forward.saving'] = 'Speichere Daten...';
 $labels['filladdresses'] = 'Mit allen meiner Adressen ausfüllen';
 $labels['arialabelfiltersetactions'] = 'Filtersatz-Aktionen';
@@ -197,6 +213,7 @@ $labels['ariasummaryfilterslist'] = 'Filterliste';
 $labels['ariasummaryfiltersetslist'] = 'Filtersatzliste';
 $labels['filterstitle'] = 'Eingehende Nachrichtenfilter bearbeiten';
 $labels['vacationtitle'] = 'Abwesenheitsregel bearbeiten';
+$labels['forwardtitle'] = 'Mail-Weiterleitungsregel bearbeiten';
 $labels['message'] = 'Nachricht';
 $labels['duplicate'] = 'ist doppelt';
 $labels['notduplicate'] = 'ist nicht doppelt';
@@ -205,6 +222,8 @@ $labels['duplicate.header'] = 'Kopfzeile:';
 $labels['duplicate.uniqueid'] = 'Bezeichner:';
 $labels['duplicate.seconds'] = 'Zeitüberschreitung (Sekunden):';
 $labels['duplicate.last'] = 'relativ zur letzten Ausführung';
+
+$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
 $messages['filterdeleteerror'] = 'Serverfehler beim Löschen des Filters.';
@@ -241,6 +260,9 @@ $messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 $messages['invaliddateformat'] = 'Ungültiges Datumsformat';
 $messages['saveerror'] = 'Fehler beim Speichern (Serverfehler)';
 $messages['vacationsaved'] = 'Abwesenheitsnotiz erfolgreich gespeichert.';
+$messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Mitteilungstext ist erforderlich!';
 $messages['duplicate.conflict.err'] = 'Kopfzeile und eindeutiger Bezeichner sind nicht zusammen erlaubt.';
+$messages['disabledaction'] = 'Aktion nicht erlaubt.';
+
 ?>
