@@ -19,6 +19,7 @@ $labels['sharing'] = 'Dalīšanās';
 $labels['myrights'] = 'Piekļuves tiesības';
 $labels['username'] = 'Lietotājs:';
 $labels['advanced'] = 'Paplašinātais režīms';
+$labels['add'] = 'Pievienot';
 $labels['newuser'] = 'Pievienot ierakstu';
 $labels['editperms'] = 'Rediģēt piejas';
 $labels['actions'] = 'Darbības ar piekļuves tiesībām...';

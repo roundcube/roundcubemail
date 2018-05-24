@@ -17,5 +17,5 @@
 */
 $labels['hide'] = '隱藏';
 $labels['show'] = '顯示';
-$labels['quotelimit'] = '隱藏引文當行數大於';
+$labels['quotelimit'] = '當行數大於此數目，就隱藏引文：';
 ?>

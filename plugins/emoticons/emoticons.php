@@ -6,7 +6,6 @@
  * Plugin to replace emoticons in plain text message body with real icons.
  * Also it enables emoticons in HTML compose editor. Both features are optional.
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
@@ -91,7 +90,7 @@ class emoticons extends rcube_plugin
      * editor with plain text emoticons.
      *
      * This is executed on html2text action, i.e. when switching from HTML to text
-     * in compose window (or similiar place). Also when generating alternative
+     * in compose window (or similar place). Also when generating alternative
      * text/plain part.
      */
     function html2text($args)
@@ -146,7 +145,7 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => 1));
 
             $args['blocks']['main']['options']['emoticons_display'] = array(
-                    'title'   => $this->gettext('emoticonsdisplay'),
+                    'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false)))
             );
         }
@@ -158,7 +157,7 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => 1));
 
             $args['blocks']['main']['options']['emoticons_compose'] = array(
-                    'title'   => $this->gettext('emoticonscompose'),
+                    'title'   => html::label($field_id, $this->gettext('emoticonscompose')),
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true)))
             );
         }

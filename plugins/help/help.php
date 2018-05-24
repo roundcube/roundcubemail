@@ -17,8 +17,6 @@ class help extends rcube_plugin
     public $task = '?(?!login|logout).*';
     // we've got no ajax handlers
     public $noajax = true;
-    // skip frames
-    public $noframe = true;
 
     function init()
     {
@@ -41,43 +39,62 @@ class help extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        // add taskbar button
-        $this->add_button(array(
-            'command'    => 'help',
-            'class'      => 'button-help',
-            'classsel'   => 'button-help button-selected',
-            'innerclass' => 'button-inner',
-            'label'      => 'help.help',
-        ), 'taskbar');
+        if (!$rcmail->output->framed) {
+            // add taskbar button
+            $this->add_button(array(
+                'command'    => 'help',
+                'class'      => 'button-help',
+                'classsel'   => 'button-help button-selected',
+                'innerclass' => 'button-inner',
+                'label'      => 'help.help',
+                'type'       => 'link',
+            ), 'taskbar');
 
-        $this->include_script('help.js');
-        $rcmail->output->set_env('help_open_extwin', $rcmail->config->get('help_open_extwin', false), true);
+            $this->include_script('help.js');
+            $rcmail->output->set_env('help_open_extwin', $rcmail->config->get('help_open_extwin', false), true);
+        }
 
         // add style for taskbar button (must be here) and Help UI
-        $skin_path = $this->local_skin_path();
-        if (is_file($this->home . "/$skin_path/help.css")) {
-            $this->include_stylesheet("$skin_path/help.css");
-        }
+        $this->include_stylesheet($this->local_skin_path() . '/help.css');
     }
 
     function action()
     {
         $rcmail = rcmail::get_instance();
 
+        if ($rcmail->action == 'about') {
+            $rcmail->output->set_pagetitle($this->gettext('about'));
+        }
+        else if ($rcmail->action == 'license') {
+            $rcmail->output->set_pagetitle($this->gettext('license'));
+        }
+        else {
+            $rcmail->output->set_pagetitle($this->gettext('help'));
+        }
+
         // register UI objects
         $rcmail->output->add_handlers(array(
-            'helpcontent' => array($this, 'content'),
-            'tablink' => array($this, 'tablink'),
+            'helpcontent'  => array($this, 'help_content'),
+            'tablink'      => array($this, 'tablink'),
         ));
 
-        if ($rcmail->action == 'about')
-            $rcmail->output->set_pagetitle($this->gettext('about'));
-        else if ($rcmail->action == 'license')
-            $rcmail->output->set_pagetitle($this->gettext('license'));
-        else
-            $rcmail->output->set_pagetitle($this->gettext('help'));
+        $rcmail->output->set_env('help_links', $this->help_metadata());
+        $rcmail->output->send(!empty($_GET['_content']) ? 'help.content' : 'help.help');
+    }
 
-        $rcmail->output->send('help.help');
+    function help_content($attrib)
+    {
+        $rcmail = rcmail::get_instance();
+//        $rcmail->output->set_env('content', $content);
+
+        if (!empty($_GET['_content'])) {
+            if ($rcmail->action == 'about') {
+                return file_get_contents($this->home . '/content/about.html');
+            }
+            else if ($rcmail->action == 'license') {
+                return file_get_contents($this->home . '/content/license.html');
+            }
+        }
     }
 
     function tablink($attrib)
@@ -86,59 +103,58 @@ class help extends rcube_plugin
 
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+        $attrib['rel']  = $attrib['action'];
 
         // title might be already translated here, so revert to it's initial value
         // so button() will translate it correctly
         $attrib['title'] = $attrib['label'];
 
+        $attrib['onclick'] = sprintf("return show_help_content('%s', event)", $attrib['action']);
+
         return $rcmail->output->button($attrib);
     }
 
-    function content($attrib)
+    function help_metadata()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail  = rcmail::get_instance();
+        $content = array();
 
-        switch ($rcmail->action) {
-            case 'about':
-                if (is_readable($this->home . '/content/about.html')) {
-                    return @file_get_contents($this->home . '/content/about.html');
-                }
-                $default = $rcmail->url(array('_task' => 'settings', '_action' => 'about', '_framed' => 1));
-                $src     = $rcmail->config->get('help_about_url', $default);
-                break;
-
-            case 'license':
-                if (is_readable($this->home . '/content/license.html')) {
-                    return @file_get_contents($this->home . '/content/license.html');
-                }
-                $src = $rcmail->config->get('help_license_url', 'http://www.gnu.org/licenses/gpl-3.0-standalone.html');
-                break;
-
-            default:
-                $src = $rcmail->config->get('help_source');
-
-                // resolve task/action for depp linking
-                $index_map = $rcmail->config->get('help_index_map', array());
-                $rel = $_REQUEST['_rel'];
-                list($task,$action) = explode('/', $rel);
-                if ($add = $index_map[$rel])
-                    $src .= $add;
-                else if ($add = $index_map[$task])
-                    $src .= $add;
-                break;
+        // About
+        if (is_readable($this->home . '/content/about.html')) {
+            $content['about'] = 'self';
+        }
+        else {
+            $default = $rcmail->url(array('_task' => 'settings', '_action' => 'about', '_framed' => 1));
+            $content['about'] = $rcmail->config->get('help_about_url', $default);
+            $content['about'] = $this->resolve_language($content['about']);
         }
 
-        // default content: iframe
-        if (!empty($src)) {
-            $attrib['src'] = $this->resolve_language($src);
+        // License
+        if (is_readable($this->home . '/content/license.html')) {
+            $content['license'] = 'self';
+        }
+        else {
+            $content['license'] = $rcmail->config->get('help_license_url', 'http://www.gnu.org/licenses/gpl-3.0-standalone.html');
+            $content['license'] = $this->resolve_language($content['license']);
         }
 
-        if (empty($attrib['id']))
-            $attrib['id'] = 'rcmailhelpcontent';
+        // Help Index
+        $src       = $rcmail->config->get('help_source', 'http://docs.roundcube.net/doc/help/1.1/%l/');
+        $index_map = $rcmail->config->get('help_index_map', array());
 
-        $attrib['name'] = $attrib['id'];
+        // resolve task/action for deep linking
+        $rel = $_REQUEST['_rel'];
+        list($task, $action) = explode('/', $rel);
+        if ($add = $index_map[$rel]) {
+            $src .= $add;
+        }
+        else if ($add = $index_map[$task]) {
+            $src .= $add;
+        }
 
-        return $rcmail->output->frame($attrib);
+        $content['index'] = $this->resolve_language($src);
+
+        return $content;
     }
 
     function error_page($args)

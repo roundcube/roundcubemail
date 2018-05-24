@@ -17,7 +17,7 @@
  * Class to control the installation process of the Roundcube Webmail package
  *
  * @category Install
- * @package  Roundcube
+ * @package  Webmail
  * @author   Thomas Bruederli
  */
 class rcmail_install
@@ -33,7 +33,7 @@ class rcmail_install
     public $bool_config_props = array();
 
     public $local_config    = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth');
+    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane');
     public $replaced_config = array(
         'skin_path'            => 'skin',
         'locale_string'        => 'language',
@@ -206,16 +206,7 @@ class rcmail_install
             }
 
             // convert some form data
-            if ($prop == 'debug_level' && !$is_default) {
-                if (is_array($value)) {
-                    $val = 0;
-                    foreach ($value as $dbgval) {
-                        $val += intval($dbgval);
-                    }
-                    $value = $val;
-                }
-            }
-            else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+            if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
                 if ($_POST['_dbtype'] == 'sqlite') {
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
                         $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
@@ -448,7 +439,8 @@ class rcmail_install
         }
 
         // read reference schema from mysql.initial.sql
-        $db_schema = $this->db_read_schema(INSTALL_PATH . 'SQL/mysql.initial.sql');
+        $engine    = $db->db_provider;
+        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql");
         $errors    = array();
 
         // check list of tables
@@ -484,13 +476,26 @@ class rcmail_install
         $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
-            if (preg_match('/^\s*create table `?([a-z0-9_]+)`?/i', $line, $m)) {
-                $table_block = $m[1];
+            if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
+                $table_name = explode('.', $m[1]);
+                $table_name = end($table_name);
+                $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
             }
-            else if ($table_block && preg_match('/^\s*`?([a-z0-9_-]+)`?\s+([a-z]+)/', $line, $m)) {
-                $col = $m[1];
-                if (!in_array(strtoupper($col), $keywords)) {
-                    $schema[$table_block][$col] = $m[2];
+            else if ($table_name && ($line = trim($line))) {
+                if ($line == 'GO' || $line[0] == ')' || $line[strlen($line)-1] == ';') {
+                    $table_name = null;
+                }
+                else {
+                    $items = explode(' ', $line);
+                    $col   = $items[0];
+                    $col   = preg_replace('/[`"\[\]]/', '', $col);
+
+                    if (!in_array(strtoupper($col), $keywords)) {
+                        $type = strtolower($items[1]);
+                        $type = preg_replace('/[^a-zA-Z0-9()]/', '', $type);
+
+                        $schema[$table_name][$col] = $type;
+                    }
                 }
             }
         }
@@ -506,7 +511,7 @@ class rcmail_install
         $errors = array();
         $files  = array(
             'skins/larry/images/roundcube_logo.png' => 'image/png',
-            'program/resources/blank.tif'           => 'image/tiff',
+            'program/resources/blank.tiff'          => 'image/tiff',
             'program/resources/blocked.gif'         => 'image/gif',
             'skins/larry/README'                    => 'text/plain',
         );

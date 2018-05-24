@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Arsip';
 $labels['archivetype'] = 'Pisah arsip berdasarkan';
 $labels['archivetypeyear'] = 'Tahun (contoh: Arsip/2012)';
 $labels['archivetypemonth'] = 'Bulan (contoh: Arsip/2012/06)';
+$labels['archivetypetbmonth'] = 'Bulan - Kecocokan Thunderbird ( contoh: Arsip/2012/2012-06 )';
 $labels['archivetypefolder'] = 'Folder asli';
 $labels['archivetypesender'] = 'Email pengirim';
 $labels['unkownsender'] = 'Tidak dikenal';
+$labels['readonarchive'] = 'Tandai pesan telah dibaca di arsip';
 ?>

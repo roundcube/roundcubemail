@@ -122,11 +122,11 @@ class enigma_driver_phpssl extends enigma_driver
         return $sig;
     }
 
-    public function import($content, $isfile=false)
+    public function import($content, $isfile = false, $passwords = array())
     {
     }
 
-    public function export($key, $with_private = false)
+    public function export($key, $with_private = false, $passwords = array())
     {
     }
 
@@ -143,6 +143,16 @@ class enigma_driver_phpssl extends enigma_driver
     }
 
     public function delete_key($keyid)
+    {
+    }
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    public function signature_algorithm()
     {
     }
 

@@ -1,0 +1,202 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+@color-main:                #37beff;
+@color-main-dark:           darken(@color-main, 35%);
+@color-black:               #161b1d;
+@color-font:                lighten(@color-black, 10%);
+@color-link:                #00acff;
+@color-link-hover:          darken(@color-link, 10%);
+@color-border:              #ddd;
+@color-error:               #ff5552;
+@color-success:             #41b849;
+@color-warning:             #ffd452;
+
+@color-link-secondary:      lighten(@color-font, 60%);
+@color-black-shade-text:    lighten(@color-black, 35%);
+@color-black-shade-border:  lighten(@color-black, 75%);
+@color-black-shade-bg:      lighten(@color-black, 85%);
+
+
+// Layout elements
+@color-layout-border:               @color-black-shade-border;
+@color-layout-header:               @color-font;
+@color-layout-sidebar-background:   #fff;
+@color-layout-list-background:      #fff;
+@color-layout-content-background:   #fff;
+@color-layout-header-background:    #fff;
+@color-layout-footer-background:    #fff;
+
+
+// Task menu
+@color-taskmenu-background:                     #414e54;
+@color-taskmenu-button:                         #fff;
+@color-taskmenu-button-selected:                @color-taskmenu-button;
+@color-taskmenu-button-action:                  @color-main;
+@color-taskmenu-button-special:                 @color-taskmenu-button;
+
+@color-taskmenu-button-selected-background:     lighten(@color-taskmenu-background, 10%);
+@color-taskmenu-button-action-background:       transparent;
+@color-taskmenu-button-special-background:      @color-taskmenu-background;
+
+@color-taskmenu-button-hover:                   #fff;
+@color-taskmenu-button-selected-hover:          #fff;
+@color-taskmenu-button-action-hover:            @color-main;
+@color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
+
+@color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
+@color-taskmenu-button-action-background-hover: @color-taskmenu-button-background-hover;
+@color-taskmenu-button-special-background-hover:lighten(@color-taskmenu-button-special-background, 10%);
+@color-taskmenu-button-logout-hover:            @color-error;
+
+
+// Toolbar
+@color-toolbar-button:                  @color-font;
+@color-toolbar-button-background-hover: tint(@color-main, 96%);
+
+@color-searchbar-icon-active:           green;
+
+
+// Toolbar menu
+@color-toolbarmenu-hover:               #fff;
+@color-toolbarmenu-hover-background:    @color-main;
+
+
+// Listings
+@color-list:                        @color-font;
+@color-list-selected:               inherit;
+@color-list-selected-background:    tint(@color-main, 90%);
+@color-list-flagged:                @color-error;
+@color-list-deleted:                lighten(@color-black, 50%);
+@color-list-secondary:              @color-black-shade-text;
+@color-list-droptarget-background:  #ffffcc;
+@color-list-focus-indicator:        lighten(@color-main, 20%);
+
+@color-list-border:                 @color-black-shade-bg;
+@color-list-badge:                  #fff;
+@color-list-badge-background:       @color-main;
+@color-list-recent:                 blue;
+@color-list-recent-badge:           #fff;
+@color-list-recent-badge-background: @color-list-recent;
+
+@color-list-pagenav:                @color-black-shade-text;
+@color-list-icon:                   fadeout(@color-list-secondary, 25%);
+
+
+
+// Drag-n-drop layer
+@color-drag-layer:                  #fff;
+@color-drag-layer-background:       @color-taskmenu-background;
+@color-drag-layer-shadow:           @color-black-shade-bg;
+
+
+// Messages
+@color-message:                     @color-font;
+@color-message-border:              rgba(0, 0, 0, 0.15);
+@color-message-background:          fadeout(@color-main, 95%);
+@color-message-link:                @color-main;
+@color-message-information:         @color-main;
+@color-message-success:             @color-success;
+@color-message-warning:             @color-warning;
+@color-message-error:               @color-error;
+@color-message-loading:             #333;
+@color-message-shadow:              @color-black-shade-bg;
+@color-message-error-background:    fadeout(@color-message-error, 85%);
+@color-message-information-background: fadeout(@color-message-information, 85%);
+@color-message-success-background:  fadeout(@color-message-success, 85%);
+@color-message-warning-background:  fadeout(#ffff66, 75%);
+
+
+// Popovers (menus)
+@color-popover-header:              @color-black-shade-text;
+@color-popover-header-background:   transparent;
+@color-popover-shadow:              @color-black-shade-bg;
+@color-popover-separator:           @color-black-shade-text;
+@color-popover-separator-background: @color-black-shade-bg;
+@color-popover-mobile-header:               #fff;
+@color-popover-mobile-header-background:    @color-main-dark;
+
+
+// Dialogs
+@color-dialog-overlay-background:   fade(@color-font, 50%);
+@color-dialog-header:               @color-layout-header;
+@color-dialog-header-border:        @color-border;
+
+
+@color-spinner-circle:              @color-black-shade-bg;
+@color-spinner-item:                @color-black-shade-text;
+
+
+// Forms
+@color-input:                       @color-font;
+@color-input-border:                rgba(22, 27, 29, 0.15);
+@color-input-border-focus:          @color-main;
+@color-input-border-focus-shadow:   fadeout(@color-main, 75);
+@color-input-border-invalid:        @color-error;
+@color-input-border-invalid-shadow: fadeout(@color-error, 75);
+@color-input-addon-background:      @color-black-shade-bg;
+@color-recipient-input-border:      @color-input-border;
+@color-recipient-input-background:  @color-black-shade-bg;
+@color-input-placeholder:           #bbb;
+
+@color-checkbox:                    @color-main;
+@color-checkbox-checked:            @color-main;
+@color-checkbox-focus:              darken(@color-checkbox, 30%);
+@color-checkbox-checked-focus:      darken(@color-checkbox-checked, 30%);
+
+@color-form-hint:                   @color-black-shade-text;
+
+@color-image-upload-background:     @color-black-shade-bg;
+
+@color-btn-secondary:               #fff;
+@color-btn-secondary-background:    lighten(@color-black, 50%);
+@color-btn-primary:                 #fff;
+@color-btn-primary-background:      @color-main;
+@color-btn-danger:                  #fff;
+@color-btn-danger-background:       @color-error;
+
+@color-quota-background:            @color-black-shade-bg;
+@color-quota-text:                  @color-black-shade-text;
+@color-quota-value:                 @color-main;
+@color-quota-value-warning:         @color-error;
+
+@color-blockquote-background:       fadeout(@color-black-shade-bg, 50%);
+@color-blockquote-0:                darken(@color-main, 30%);
+@color-blockquote-1:                darken(@color-success, 25%);
+@color-blockquote-2:                darken(@color-error, 20%);
+@color-blockquote-0-border:         @color-blockquote-0;
+@color-blockquote-1-border:         @color-blockquote-1;
+@color-blockquote-2-border:         @color-blockquote-2;
+
+@color-mail-signature:              @color-black-shade-text;
+@color-mail-headers:                @color-black-shade-text;
+
+@color-spellcheck-link:             @color-error;
+
+@color-table-border:                @color-layout-border;
+@color-table-selected:              @color-list-selected;
+@color-table-selected-background:   @color-list-selected-background;
+
+
+// Datepicker
+@color-datepicker-border:               @color-layout-border;
+@color-datepicker-font:                 @color-font;
+@color-datepicker-highlight:            !default;
+@color-datepicker-highlight-background: lighten(@color-main, 30%);
+@color-datepicker-active:               #fff;
+@color-datepicker-active-background:    @color-main;
+
+
+// Image tools
+@color-image-tools:                     #fff;
+@color-image-tools-background:          fadeout(@color-main, 60%);
+@color-image-tools-hover:               fadeout(@color-main, 50%);
+

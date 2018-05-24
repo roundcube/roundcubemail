@@ -17,4 +17,8 @@
 */
 $labels['addvcardmsg'] = 'Lägg till vCard i adressbok';
 $labels['vcardsavefailed'] = 'Kunde inte spara vCard';
+$labels['attachvcard'] = 'Bifoga vCard';
+$labels['vcardattached'] = 'vCard-fil bifogad.';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Skicka vidare vCard';
 ?>

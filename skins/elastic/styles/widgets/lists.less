@@ -1,0 +1,954 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** List and treelist widgets ***/
+
+.listing {
+    tbody td,
+    li {
+        border-bottom: 1px solid @color-list-border;
+        cursor: default;
+        font-weight: normal;
+        line-height: @listing-line-height;
+    }
+
+    tbody td,
+    li a {
+        padding: 0 .5rem;
+        white-space: nowrap;
+        vertical-align: middle;
+        color: @color-list;
+    }
+
+    tbody td {
+        .overflow-ellipsis;
+        outline: none;
+
+        a {
+            color: @color-list;
+        }
+    }
+
+    li a {
+        display: block;
+        text-decoration: none;
+        cursor: default;
+        width: 100%;
+    }
+
+    li.selected,
+    tr.selected td {
+        color: @color-list-selected;
+        background-color: @color-list-selected-background;
+    }
+
+    td.selection {
+        padding: 0 0 0 .5em;
+        width: 2em;
+        text-align: center;
+
+        & > input {
+            vertical-align: middle;
+        }
+    }
+
+    &:not(.withselection) td.selection {
+        display: none;
+    }
+
+    td.name {
+        .overflow-ellipsis;
+    }
+
+    td.action {
+        padding: 0 .5em;
+        width: 2em;
+        text-align: center;
+
+        &:empty {
+            width: 0;
+        }
+
+        a {
+            display: block;
+            overflow: hidden;
+            text-decoration: none;
+
+            &:before {
+                &:extend(.font-icon-class);
+                margin: 0;
+                font-size: 1rem;
+            }
+        }
+
+        a.pushgroup:before {
+            content: @fa-var-chevron-right;
+        }
+    }
+
+    li.droptarget > a,
+    tr.droptarget > td {
+        background-color: @color-list-droptarget-background;
+    }
+
+    li.disabled,
+    tr.disabled td {
+        color: @color-list-deleted;
+    }
+
+    li > a.virtual,
+    li.virtual > a {
+        opacity: .4;
+    }
+
+    span.secondary {
+        color: @color-list-secondary;
+    }
+}
+
+// Focus indicator
+html:not(.touch) {
+    .listing {
+        li > a,
+        tbody tr > td:first-child,
+        &:not(.withselection) tbody tr > td.selection + td {
+            border-left: 2px solid transparent;
+        }
+
+        li > a:focus,
+        &.focus tbody tr.focused > td:first-child,
+        &.focus:not(.withselection) tbody tr.focused > td.selection + td {
+            border-left: 2px solid @color-list-focus-indicator;
+            outline: 0;
+        }
+    }
+}
+
+table.listing {
+    width: 100%;
+    table-layout: fixed;
+    // border-spacing/border-collapse here fix problem with our focus indicator
+    // when the table cells use overflow: hidden. I.e. we use border-spacing:0
+    // instead of Bootstrap's border-collapse:collapse. Is this cross-browser?
+    border-spacing: 0;
+    border-collapse: unset;
+}
+
+ul.listing {
+    margin: 0;
+    padding: 0;
+
+    & > ul {
+        padding: 0;
+    }
+
+    li {
+        .overflow-ellipsis;
+        white-space: nowrap;
+        position: relative;
+        list-style: none;
+
+        ul {
+            border-top: 1px solid @color-list-border;
+            padding-left: 1.5em;
+
+            li:last-child {
+                border-bottom: none;
+            }
+        }
+
+        input.icon-checkbox + label,
+        input[type=checkbox] {
+            position: absolute;
+            padding: 0;
+            top: 0;
+            right: .5rem;
+            height: @listing-line-height;
+            vertical-align: middle;
+        }
+    }
+
+    &.simplelist {
+        li {
+            padding: 0 .5rem;
+        }
+    }
+}
+
+.listing-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    text-align: center;
+    font-weight: bold;
+    color: @color-list-secondary;
+}
+
+html.touch {
+    .listing:not(.toolbar) li,
+    .listing tbody td {
+        line-height: @listing-touch-line-height;
+        font-size: 1.2rem;
+    }
+
+    li input[type=checkbox] {
+        height: @listing-touch-line-height;
+    }
+
+    td.selection {
+        padding: 0;
+        width: 3em;
+    }
+}
+
+@media screen and (max-width: @screen-width-large) {
+    .listing.selection-large-only {
+        li.selected {
+            color: @color-list;
+            background-color: transparent;
+        }
+    }
+}
+
+
+/* icons */
+
+.listing.iconized li {
+    a:before {
+        &:extend(.font-icon-class);
+        height: 2em; // TODO: ?
+        margin-right: .5rem;
+    }
+    &.preferences > a:before {
+        content: @fa-var-sliders-h;
+    }
+    &.folders > a:before {
+        content: @fa-var-folder;
+    }
+    &.responses > a:before {
+        content: @fa-var-comment;
+    }
+    &.identities > a:before {
+        content: @fa-var-id-card;
+    }
+    &.password > a:before {
+        content: @fa-var-lock;
+    }
+    &.addressbook a:before {
+        .font-icon-regular(@fa-var-address-book);
+    }
+    &.contactgroup a:before {
+        .font-icon-solid(@fa-var-users);
+    }
+    &.contactsearch a:before {
+        content: @fa-var-search;
+    }
+    &.filter > a:before {
+        content: @fa-var-filter;
+    }
+    &.vacation > a:before {
+        .font-icon-regular(@fa-var-clock);
+    }
+    &.forward > a:before {
+        content: @fa-var-share-square;
+    }
+    &.enigma.keys > a:before {
+        content: @fa-var-key;
+    }
+    &.userinfo > a:before {
+        content: @fa-var-info-circle;
+    }
+    &.twofactorauth > a:before {
+        content: @fa-var-sign-in-alt;
+    }
+
+    a.help:before {
+        content: @fa-var-life-ring;
+    }
+    a.about:before {
+        .font-icon-regular(@fa-var-question-circle);
+    }
+    a.license:before {
+        content: @fa-var-shield-alt;
+    }
+
+    // autocomplete popup
+    & > i:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-user;
+        margin-left: .5rem;
+    }
+    &.group > i:before {
+        content: @fa-var-users;
+    }
+}
+
+html.ie11 .listing.iconized li a:before {
+    font-size: 1.25rem;
+}
+
+.listing.iconized tr {
+    td:before {
+        &:extend(.font-icon-class);
+        margin-right: .5rem;
+    }
+    &.contact.person td.name:before {
+        content: @fa-var-user;
+    }
+    &.contact.group td.name:before {
+        content: @fa-var-users;
+    }
+    &.general > td.section:before {
+        content: @fa-var-desktop;
+    }
+    &.mailbox > td.section:before {
+        .font-icon-regular(@fa-var-envelope);
+    }
+    &.mailview > td.section:before {
+        content: @fa-var-inbox;
+    }
+    &.compose > td.section:before {
+        content: @fa-var-paper-plane;
+    }
+    &.addressbook > td.section:before {
+        content: @fa-var-users;
+    }
+    &.folders > td.section:before {
+        .font-icon-regular(@fa-var-folder);
+    }
+    &.server > td.section:before {
+        content: @fa-var-server;
+    }
+    &.enigma > td.section:before {
+        content: @fa-var-lock;
+    }
+    &.calendar > td.section:before {
+        content: @fa-var-calendar;
+    }
+}
+
+/* selecatable list: e.g. spellcheck language selection */
+.listing.iconized.selectable li {
+    a:before {
+        &:extend(.font-icon-class);
+        content: "";
+    }
+    a.selected:before {
+        content: @fa-var-check;
+    }
+}
+
+.popupmenu .listing {
+    li > a {
+        border-left: 0;
+    }
+
+    li.selected {
+        color: @color-toolbarmenu-hover;
+        background-color: @color-toolbarmenu-hover-background;
+    }
+
+    td {
+        .overflow-ellipsis;
+    }
+}
+
+ul.treelist {
+    li {
+        div.treetoggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: @listing-treetoggle-width;
+            cursor: pointer;
+            background-color: transparent;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-right;
+                margin-left: .25em;
+                font-size: 1em;
+            }
+
+            &.expanded:before {
+                content: @fa-var-angle-down;
+            }
+        }
+
+        & > a {
+            .overflow-ellipsis;
+            padding-left: @listing-treetoggle-width;
+        }
+
+        &.selected {
+            // reset .listing selection style
+            color: inherit;
+            background-color: transparent;
+
+            & > div > a, // this is used e.g. by kolab_addressbook
+            & > a {
+                color: @color-list-selected;
+                background-color: @color-list-selected-background;
+            }
+        }
+
+        ul {
+            padding: 0;
+
+            li {
+                padding-left: 0;
+                a { padding-left: (2 * @listing-treetoggle-width); }
+                div.treetoggle { left: @listing-treetoggle-width; }
+
+                li {
+                    a { padding-left: (3 * @listing-treetoggle-width); }
+                    div.treetoggle { left: (2 * @listing-treetoggle-width); }
+
+                    li {
+                        a { padding-left: (4 * @listing-treetoggle-width); }
+                        div.treetoggle { left: (3 * @listing-treetoggle-width); }
+
+                        li {
+                            a { padding-left: (5 * @listing-treetoggle-width); }
+                            div.treetoggle { left: (4 * @listing-treetoggle-width); }
+
+                            li {
+                                a { padding-left: (6 * @listing-treetoggle-width); }
+                                div.treetoggle { left: (5 * @listing-treetoggle-width); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.notree {
+        div.treetoggle {
+            display: none;
+        }
+
+        li > a {
+            padding-left: .5em;
+        }
+    }
+}
+
+/*** Folders list widget ***/
+
+.folderlist {
+    li {
+        &.mailbox {
+            &.unread {
+                // TODO
+                & > a {
+                    padding-right: 2.8em;
+                }
+            }
+
+            &.recent {
+                color: @color-list-recent;
+            }
+
+            .unreadcount {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 2em;
+                line-height: 1.4rem;
+                margin: (@listing-line-height - 1.4rem)/2;
+                padding: 0 .3em;
+                border-radius: .4em;
+                background: @color-list-badge-background;
+                color: @color-list-badge;
+                text-align: center;
+                font-weight: bold;
+
+                html.touch & {
+                    line-height: 2rem;
+                    margin: (@listing-touch-line-height - 2rem)/2;
+                }
+            }
+
+            &.selected .unreadcount {
+                // todo
+            }
+
+            &.recent > .unreadcount {
+                background: @color-list-recent-badge-background;
+                color: @color-list-recent-badge;
+            }
+
+            &.root {
+                display: none !important;
+                // FIXME: This element is confusing, I propose to not use it
+            }
+        }
+
+        a:before {
+            &:extend(.font-icon-class);
+            .font-icon-regular(@fa-var-folder);
+            margin-right: .5rem;
+        }
+
+        &.inbox > a:before {
+            .font-icon-solid(@fa-var-inbox);
+        }
+        &.trash a:before {
+            .font-icon-solid(@fa-var-trash-alt);
+        }
+        &.trash.empty > a:before {
+            .font-icon-regular(@fa-var-trash-alt);
+        }
+        &.drafts a:before {
+            .font-icon-solid(@fa-var-pencil-alt);
+        }
+        &.sent a:before {
+            .font-icon-solid(@fa-var-paper-plane);
+        }
+        &.junk a:before {
+            .font-icon-solid(@fa-var-fire);
+        }
+        &.archive > a:before {
+            .font-icon-solid(@fa-var-archive);
+        }
+    }
+
+    // folder-selector fix for left padding
+    &.toolbarmenu a:before {
+        margin-left: .5em;
+    }
+
+    &.toolbarmenu {
+        li {
+            a:before {
+                margin-right: .25em;
+            }
+        }
+    }
+}
+
+
+/*** Messages list widget ***/
+
+.messagelist > thead,
+.messagelist .branch,
+table.fixedcopy {
+    display: none;
+}
+
+.messagelist {
+    td {
+        border-left: 0;
+        width: 2em;
+        vertical-align: top;
+        font-size: 1rem !important;
+    }
+
+    td.subject {
+        width: 100%;
+        padding-right: 0;
+        display: flex;
+        flex-wrap: wrap;
+
+        a {
+            text-decoration: none;
+            cursor: default;
+        }
+
+        span {
+            line-height: 2em;
+
+            &.date {
+                font-size: 90%;
+                color: @color-list-secondary;
+            }
+
+            &.fromto {
+                .overflow-ellipsis;
+                flex: 1;
+                font-size: 90%;
+                color: @color-list-secondary;
+                padding-left: 1.5em;
+                padding-right: .5rem;
+            }
+
+            &.subject {
+                .overflow-ellipsis;
+                width: 100%;
+            }
+        }
+    }
+
+    td.threads {
+        padding: 0 0 0 .25rem;
+        width: 1.5em;
+    }
+
+    td.flags {
+        width: 2.5em;
+
+        & > span {
+            height: 1.7em;
+            line-height: 1.7em;
+            display: block;
+
+            &.flag {
+                cursor: pointer;
+            }
+        }
+    }
+
+    tr.flagged td,
+    tr.flagged td.subject span.subject a,
+    tr.flagged td.subject span.date,
+    tr.flagged td.subject span.fromto {
+        color: @color-list-flagged;
+    }
+
+    tr.deleted td,
+    tr.deleted td.subject span.subject a,
+    tr.deleted td.subject span.date,
+    tr.deleted td.subject span.fromto {
+        color: @color-list-deleted;
+    }
+
+    tr.unread td.subject span.subject {
+        font-weight: bold;
+    }
+
+    // thread parent message with unread children
+    tr.unroot td.subject a {
+        text-decoration: underline;
+    }
+
+    tr.thread td.threads div:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-angle-right;
+        cursor: pointer;
+        width: 1em;
+    }
+    tr.thread.expanded td.threads div:before {
+        content: @fa-var-angle-down;
+    }
+    td.subject span.msgicon.status:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-circle;
+        cursor: pointer;
+        font-size: .4em;
+        width: 3em;
+        height: 2rem;
+    }
+    td.subject span.msgicon.status.unread:before {
+        content: @fa-var-star;
+        font-size: 1.1em;
+        width: 1.1em;
+        line-height: 1.75;
+        color: @color-warning;
+    }
+    td.subject span.msgicon.status.unreadchildren:before {
+        .font-icon-regular(@fa-var-star);
+        font-size: 1.1em;
+        width: 1.1em;
+        line-height: 1.75;
+    }
+    td.subject span.msgicon.status.replied:before {
+        content: @fa-var-reply;
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
+    }
+    td.subject span.msgicon.status.forwarded:before {
+        .font-icon-solid(@fa-var-share);
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
+    }
+    td.subject span.msgicon.status.replied.forwarded:before {
+        content: @fa-var-reply; // TODO
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
+    }
+    tr.deleted td.subject span.msgicon.status:before {
+        content: @fa-var-ban;
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
+    }
+
+    span.attachment span {
+        &:extend(.font-icon-class);
+        color: @color-list-icon;
+
+        &:before {
+            margin: 0;
+            content: @fa-var-paperclip;
+        }
+        &.report:before {
+            .font-icon-regular(@fa-var-file-alt);
+        }
+        &.encrypted:before {
+            content: @fa-var-lock;
+        }
+        &.vcard:before {
+            .font-icon-regular(@fa-var-user); // vcard_attachments plugin
+        }
+    }
+
+    span.flagged:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-flag;
+    }
+
+    tr:hover span.unflagged:before {
+        &:extend(.font-icon-class);
+        .font-icon-regular(@fa-var-flag);
+    }
+
+}
+
+html.layout-phone,
+html.touch {
+    .messagelist {
+        td.flags {
+            display: none;
+        }
+        td.subject {
+            padding-right: .5em;
+        }
+    }
+}
+
+
+/* Contacts list */
+
+.contactlist {
+    .contact.readonly td {
+        font-style: italic;
+    }
+
+    td.action {
+        // TODO
+        a {
+            // TODO
+        }
+    }
+
+    // for contacts list in mail compose
+    td.contact:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-user;
+    }
+
+    // for contacts list in mail compose
+    td.contactgroup:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-users;
+    }
+
+    span.email {
+        display: inline;
+        color: @color-list-secondary;
+        font-style: italic;
+        margin-left: .5em;
+    }
+
+    li {
+        a:before {
+            &:extend(.font-icon-class);
+            margin-right: .5rem;
+        }
+
+        a.addressbook::before {
+            .font-icon-regular(@fa-var-address-book);
+        }
+
+        a.contactgroup::before {
+            .font-icon-solid(@fa-var-users);
+        }
+    }
+}
+
+
+/* Attachments list */
+
+@attachmentslist-item-height:   2rem;
+
+.attachmentslist {
+    padding: 0;
+    margin: 0;
+
+    li {
+        list-style: none;
+        display: inline-flex;
+        white-space: nowrap;
+        line-height: @attachmentslist-item-height;
+        max-width: 100%;
+
+        &:before {
+            &:extend(.font-icon-class);
+            .font-icon-regular(@fa-var-file);
+            height: @attachmentslist-item-height;
+        }
+
+        &.txt:before,
+        &.text:before {
+            .font-icon-regular(@fa-var-file-alt);
+        }
+
+        &.pdf:before {
+            .font-icon-regular(@fa-var-file-pdf);
+        }
+
+        &.odt:before,
+        &.doc:before,
+        &.docx:before,
+        &.msword:before {
+            .font-icon-regular(@fa-var-file-word);
+        }
+
+        &.ods:before,
+        &.xls:before,
+        &.xlsx:before,
+        &.msexcel:before {
+            .font-icon-regular(@fa-var-file-excel);
+        }
+
+        &.rar:before,
+        &.zip:before,
+        &.gz:before {
+            .font-icon-regular(@fa-var-file-archive);
+        }
+
+        &.image:before,
+        &.jpg:before,
+        &.jpeg:before,
+        &.png:before {
+            .font-icon-regular(@fa-var-file-image);
+        }
+
+        &.mp3:before,
+        &.audio:before {
+            .font-icon-regular(@fa-var-file-audio);
+        }
+
+        &.m4p:before,
+        &.video:before {
+            .font-icon-regular(@fa-var-file-video);
+        }
+
+        &.ics:before,
+        &.calendar:before {
+            // TODO
+        }
+
+        &.vcard:before {
+            .font-icon-regular(@fa-var-address-card);
+        }
+
+        &.html:before {
+            .font-icon-regular(@fa-var-file-code);
+        }
+
+        &.eml:before,
+        &.rfc822:before {
+            // TODO
+        }
+
+        &.odp:before,
+        &.otp:before,
+        &.ppt:before,
+        &.pptx:before,
+        &.ppsx:before,
+        &.vnd.mspowerpoint:before {
+            .font-icon-regular(@fa-var-file-powerpoint);
+        }
+
+        &.sig:before,
+        &.pgp-signature:before,
+        &.pkcs7-signature:before {
+            // TODO
+        }
+
+        &.application.asc:before {
+            // TODO
+        }
+
+        &.application.pgp-keys:before {
+            // TODO
+        }
+
+        a {
+            text-decoration: none;
+            line-height: @attachmentslist-item-height;
+            height: @attachmentslist-item-height;
+        }
+
+        a.cancelupload:before,
+        a.delete:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-trash-alt;
+            line-height: @attachmentslist-item-height;
+            height: @attachmentslist-item-height;
+        }
+
+        &.uploading:before {
+            .animated-icon-class;
+            .font-icon-solid(@fa-var-circle-notch);
+        }
+
+        a.filename {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .attachment-name {
+            .overflow-ellipsis;
+            color: @color-font;
+        }
+
+        .attachment-size {
+            color: @color-list-secondary;
+            padding: 0 .25em;
+        }
+    }
+}
+
+#identities-table {
+    td.mail:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-id-card;
+    }
+}
+
+#responses-table {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-comment;
+    }
+}
+
+#filterslist {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-filter;
+    }
+}
+
+#filtersetslist {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-file-alt;
+    }
+}

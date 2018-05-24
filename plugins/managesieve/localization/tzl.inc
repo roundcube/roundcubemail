@@ -16,10 +16,12 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 $labels['filters'] = 'Strecureirs';
+$labels['messagedelete'] = 'Zeletarh el mensatx';
 $labels['del'] = 'Zeletarh';
 $labels['days'] = 'ziuas';
 $labels['seconds'] = 'secunds';
 $labels['active'] = 'actíu';
+$labels['flagread'] = 'Lirarh';
 $labels['notifymethodmailto'] = 'Telepost';
 $labels['...'] = '...';
 $labels['datetest'] = 'Däts';

@@ -15,19 +15,24 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Parolayı değiştir';
-$labels['curpasswd']  = 'Şimdiki Parola:';
+$labels['changepasswd']  = 'Parola Değiştirme';
+$labels['curpasswd']  = 'Geçerli Parola:';
 $labels['newpasswd']  = 'Yeni Parola:';
-$labels['confpasswd']  = 'Yeni Parolayı Onaylayın:';
-$messages['nopassword'] = 'Yeni parolayı giriniz.';
-$messages['nocurpassword'] = 'Şimdiki parolayı giriniz.';
-$messages['passwordincorrect'] = 'Şimdiki parolayı yanlış girdiniz.';
-$messages['passwordinconsistency'] = 'Girdiğiniz parolalar uyuşmuyor.Tekrar deneyiniz.';
-$messages['crypterror'] = 'Yeni parola kaydedilemedi. Şifreleme fonksiyonu mevcut değil.';
-$messages['connecterror'] = 'Yeni parola kaydedilemedi. Bağlantı hatası!...';
+$labels['confpasswd']  = 'Yeni Parola Onayı:';
+$messages['nopassword'] = 'Yeni parolayı yazın.';
+$messages['nocurpassword'] = 'Geçerli parolayı yazın.';
+$messages['passwordincorrect'] = 'Geçerli parolayı yanlış yazdınız.';
+$messages['passwordinconsistency'] = 'Parola ile onayı aynı değil, lütfen yeniden deneyin.';
+$messages['crypterror'] = 'Yeni parola kaydedilemedi. Şifreleme işlevi bulunamadı.';
+$messages['connecterror'] = 'Yeni parola kaydedilemedi. Bağlantı sorunu.';
 $messages['internalerror'] = 'Yeni parola kaydedilemedi.';
 $messages['passwordshort'] = 'Parola en az $length karakterden oluşmalı.';
 $messages['passwordweak'] = 'Parola en az bir sayı ve bir noktalama işareti içermeli.';
-$messages['passwordforbidden'] = 'Parola uygunsuz karakter(ler) içeriyor.';
-$messages['firstloginchange'] = 'Bu ilk girişiniz. Parolanızı değiştiriniz.';
-$messages['disablednotice'] = 'Sistem bakımda olduğundan parolayı değiştiremezsiniz. Lüten daha sonra tekrar deneyiniz. Verdiğimiz rahatsızlıktan dolayı özür dileriz.';
+$messages['passwordforbidden'] = 'Parolada izin verilmeyen karakterler var.';
+$messages['firstloginchange'] = 'İlk kez oturum açıyorsunuz. Parolanızı değiştirin.';
+$messages['disablednotice'] = 'Sistem bakımda olduğundan parola değiştirilemez. Lütfen daha sonra yeniden deneyin. Verdiğimiz rahatsızlıktan dolayı özür dileriz.';
+$messages['passwinhistory'] = 'Bu parola daha önce kullanılmış.';
+$messages['samepasswd'] = 'Yeni parola eski paroladan farklı olmalıdır.';
+$messages['passwdexpirewarning'] = 'Uyarı! Parolanızın kullanma süresi yakında dolacak. $expirationdatetime tarihinden önce değiştirin.';
+$messages['passwdexpired'] = 'Parolanızın kullanma süresi dolmuş. Şimdi değiştirmelisiniz!';
+$messages['passwdconstraintviolation'] = 'Parola istenilen karmaşıklıkta değil. Büyük olasılıkla oldukça kolay.';

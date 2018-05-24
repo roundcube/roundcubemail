@@ -32,7 +32,7 @@
 
 /**
  * Roundcube Treelist widget class
- * @contructor
+ * @constructor
  */
 function rcube_treelist_widget(node, p)
 {
@@ -89,12 +89,16 @@ function rcube_treelist_widget(node, p)
   this.intersects = intersects;
   this.droppable = droppable;
   this.draggable = draggable;
+  this.is_draggable = is_draggable;
   this.update = update_node;
   this.insert = insert;
   this.remove = remove;
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.get_next = get_next;
+  this.get_prev = get_prev;
+  this.get_single_selection = get_selection;
   this.is_search = is_search;
   this.reset_search = reset_search;
 
@@ -191,6 +195,10 @@ function rcube_treelist_widget(node, p)
   // catch focus when clicking the list container area
   if (p.parent_focus) {
     container.parent(':not(body)').click(function(e) {
+      // click on a checkbox does not catch the focus
+      if ($(e.target).is('input'))
+        return true;
+
       if (!has_focus && selection) {
         $(get_item(selection)).find(':focusable').first().focus();
       }
@@ -460,10 +468,11 @@ function rcube_treelist_widget(node, p)
    */
   function remove(id)
   {
-    var node, li;
+    var node, li, parent;
 
     if (node = indexbyid[id]) {
       li = id2dom(id, true);
+      parent = li.parent();
       li.remove();
 
       node.deleted = true;
@@ -471,6 +480,12 @@ function rcube_treelist_widget(node, p)
 
       if (search_active) {
         id2dom(id, false).remove();
+      }
+
+      // remove tree-toggle button and children list
+      if (!parent.children().length) {
+        parent.parent().find('div.treetoggle').remove();
+        parent.remove();
       }
 
       return true;
@@ -917,6 +932,51 @@ function rcube_treelist_widget(node, p)
   }
 
 
+  function get_next()
+  {
+    var node, child;
+    if (selection && (node = id2dom(selection))) {
+      child = node.children('ul').children('li:first');
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      child = node.next();
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      while ((node = node.parent('ul').parent('li')) && node.length) {
+        child = node.next();
+        if (child.length) {
+          return dom2id(child);
+        }
+      }
+    }
+  }
+
+  function get_prev()
+  {
+    var node, prev, child;
+    if (selection && (node = id2dom(selection))) {
+      prev = node.prev();
+      child = prev.find('li:last');
+
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      if (prev.length) {
+        return dom2id(prev);
+      }
+
+      node = node.parent().parent();
+      if (node.length && node.is('li')) {
+        return dom2id(node);
+      }
+    }
+  }
+
   ///// drag & drop support
 
   /**
@@ -1185,6 +1245,11 @@ function rcube_treelist_widget(node, p)
     $('li:not(.virtual)', container).draggable(my_opts);
 
     return this;
+  }
+
+  function is_draggable()
+  {
+    return !!ui_draggable;
   }
 }
 

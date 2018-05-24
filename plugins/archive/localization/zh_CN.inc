@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,9 @@ $labels['settingstitle'] = '存档';
 $labels['archivetype'] = '分类存档按';
 $labels['archivetypeyear'] = '年(例如 存档/2012)';
 $labels['archivetypemonth'] = '月(例如 存档/2012/06)';
+$labels['archivetypetbmonth'] = '月份 - Thunderbird 兼容格式 (比如 Archive/2012/2012-06)';
 $labels['archivetypefolder'] = '原始文件夹';
 $labels['archivetypesender'] = '发件人邮件';
 $labels['unkownsender'] = '未知';
+$labels['readonarchive'] = '在归档中标记信息为已读';
 ?>

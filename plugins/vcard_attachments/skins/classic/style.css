@@ -2,16 +2,45 @@
 p.vcardattachment {
 	margin: 0.5em 1em;
 	border: 1px solid #999;
-	border-radius:4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	width: auto;
+	position: relative;
 }
 
-p.vcardattachment a {
+p.vcardattachment span {
 	display: block;
 	background: url(vcard_add_contact.png) 4px 0px no-repeat;
-	padding: 0.7em 0.5em 0.3em 42px;
+	line-height: 32px;
+	padding: 0 60px 0 46px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+p.vcardattachment button {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 6px;
+}
+
+#abookactions a.vcard span {
+	text-indent: -5000px;
+	display: inline-block;
 	height: 22px;
+	width: 15px;
+	background: url(../../../../skins/classic/images/messageicons.png) 0 -168px no-repeat;
+}
+
+#abookactions a.vcard.disabled span {
+	opacity: 0.5;
+}
+
+.messagelist tr .attachment span.attachment.vcard {
+	background: url(vcard.png) 0 center no-repeat;
+}
+
+#contactmenu li a.vcard {
+	background: url(../../../../skins/classic/images/messageicons.png) no-repeat 7px 0;
+	background-position: 6px -168px;
 }

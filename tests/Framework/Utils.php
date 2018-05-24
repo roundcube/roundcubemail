@@ -30,6 +30,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('email@domain.co.jp', 'Dot in Top Level Domain name also considered valid (use co.jp as example here)'),
             array('firstname-lastname@domain.com', 'Dash in address field is valid'),
             array('test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'),
+            array('あいうえお@domain.com', 'Unicode char as address'),
         );
     }
 
@@ -48,7 +49,6 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('.email@domain.com', 'Leading dot in address is not allowed'),
             array('email.@domain.com', 'Trailing dot in address is not allowed'),
             array('email..email@domain.com', 'Multiple dots'),
-            array('あいうえお@domain.com', 'Unicode char as address'),
             array('email@domain.com (Joe Smith)', 'Text followed email is not allowed'),
             array('email@domain', 'Missing top level domain (.com/.net/.org/etc)'),
             array('email@-domain.com', 'Leading dash in front of domain is invalid'),
@@ -183,6 +183,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
         $this->assertContains('#rcmbody {width:600px', $mod, 'Replace body selector nested in @media block');
+        $this->assertContains('#rcmbody {min-width:474px', $mod, 'Replace body selector nested in @media block (#5811)');
     }
 
     /**
@@ -202,8 +203,14 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
 
-        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
+        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+
+        $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+
+        $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
+        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (4)");
 
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
@@ -214,6 +221,59 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+
+        // allow data URIs with images (#5580)
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
+        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
+        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
+    }
+
+    /**
+     * rcube_utils::mod_css_styles()'s prefix argument handling
+     */
+    function test_mod_css_styles_prefix()
+    {
+        $css = '
+            .one { font-size: 10pt; }
+            .three.four { font-weight: bold; }
+            #id1 { color: red; }
+            #id2.class:focus { color: white; }
+            .five:not(.test), { background: transparent; }
+            div .six { position: absolute; }
+            p > i { font-size: 120%; }
+            div#some { color: yellow; }
+            @media screen and (max-width: 699px) and (min-width: 520px) {
+                li a.button { padding-left: 30px; }
+            }
+        ';
+        $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
+
+        $this->assertContains('#rc .testone', $mod);
+        $this->assertContains('#rc .testthree.testfour', $mod);
+        $this->assertContains('#rc #testid1', $mod);
+        $this->assertContains('#rc #testid2.testclass:focus', $mod);
+        $this->assertContains('#rc .testfive:not(.testtest)', $mod);
+        $this->assertContains('#rc div .testsix', $mod);
+        $this->assertContains('#rc p > i ', $mod);
+        $this->assertContains('#rc div#testsome', $mod);
+        $this->assertContains('#rc li a.testbutton', $mod);
+    }
+
+    function test_xss_entity_decode()
+    {
+        $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from style node");
+
+        $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+
+        $mod = rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
+        $this->assertContains("url(", $mod, "Escape sequences resolving");
+
+        // #5747
+        $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
+        $this->assertContains('#foo', $mod, "Strip HTML comments from content, but not the content");
     }
 
     /**
@@ -350,6 +410,15 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
         }
+
+        $test = array(
+            'Sun, 4 Mar 2018 03:32:08 +0300 (MSK)' => '2018-03-04 03:32:08 +0300',
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime);
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s O') : false, "Error parsing date: $datetime");
+        }
     }
 
     /**
@@ -362,6 +431,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
             'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
             'Jan 1st 2014 UK'    => '2014-01-01 00:00',
+            '1520587800'         => '2018-03-09 11:30',  // unix timestamp conversion
             'Invalid date'       => false,
         );
 
@@ -497,5 +567,71 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));
+    }
+
+    /**
+     * Test-Cases for IDN to ASCII and IDN to UTF-8
+     */
+    function data_idn_convert()
+    {
+
+        /*
+         * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
+         * and https://github.com/true/php-punycode/blob/master/tests/PunycodeTest.php for more Test-Data
+         */
+
+        return array(
+            array('test@vermögensberater', 'test@xn--vermgensberater-ctb'),
+            array('test@vermögensberatung', 'test@xn--vermgensberatung-pwb'),
+            array('test@グーグル', 'test@xn--qcka1pmc'),
+            array('test@谷歌', 'test@xn--flw351e'),
+            array('test@中信', 'test@xn--fiq64b'),
+            array('test@рф.ru', 'test@xn--p1ai.ru'),
+            array('test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'),
+            array('test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'),
+            array('рф.ru@рф.ru', 'рф.ru@xn--p1ai.ru'),
+            array('vermögensberater', 'xn--vermgensberater-ctb'),
+            array('vermögensberatung', 'xn--vermgensberatung-pwb'),
+            array('グーグル', 'xn--qcka1pmc'),
+            array('谷歌', 'xn--flw351e'),
+            array('中信', 'xn--fiq64b'),
+            array('рф.ru', 'xn--p1ai.ru'),
+            array('δοκιμή.gr', 'xn--jxalpdlp.gr'),
+            array('gwóźdź.pl', 'xn--gwd-hna98db.pl'),
+        );
+
+    }
+
+    /**
+     * Test idn_to_ascii
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     * @dataProvider data_idn_convert
+     */
+    function test_idn_to_ascii($decoded, $encoded)
+    {
+        $this->assertEquals(rcube_utils::idn_to_ascii($decoded), $encoded);
+    }
+
+    /**
+     * Test idn_to_utf8
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     * @dataProvider data_idn_convert
+     */
+    function test_idn_to_utf8($decoded, $encoded)
+    {
+        $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
+    }
+
+    /**
+     * Test idn_to_ascii with non-domain input (#6224)
+     */
+    function test_idn_to_ascii_special()
+    {
+        $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
+        $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
     }
 }

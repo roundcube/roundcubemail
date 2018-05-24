@@ -17,8 +17,11 @@
 */
 $labels['username'] = 'Uçeir:';
 $labels['anonymous'] = 'Gästs (anonimös)';
+$labels['aclread'] = 'Lirarh';
 $labels['acldelete'] = 'Zeletarh';
+$labels['shortaclr'] = 'Lirarh';
 $labels['shortacld'] = 'Zeletarh';
 $labels['shortaclt'] = 'Zeletarh';
+$labels['shortaclread'] = 'Lirarh';
 $labels['shortacldelete'] = 'Zeletarh';
 ?>

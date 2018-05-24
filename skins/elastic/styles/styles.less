@@ -1,0 +1,217 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+@import (reference) "variables";
+@import (reference) "mixins";
+
+/*** Fonts ***/
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/fa-solid-900.woff2") format('woff2'),
+       url("../fonts/fa-solid-900.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/fa-regular-400.woff2") format('woff2'),
+       url("../fonts/fa-regular-400.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Roboto Italic'), local('Roboto-Italic'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-italic.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-italic.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-700.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-700.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-700italic.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-700italic.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+/* E.g. for animated 'loading' icon */
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+
+/* Reset some Bootstrap style */
+
+body, button, input, optgroup, select, textarea, .popover {
+    .font-family;
+}
+
+button, input, select, textarea {
+    line-height: initial;
+}
+
+input {
+    vertical-align: middle;
+}
+
+a {
+    color: @color-link;
+
+    &:hover {
+        color: @color-link-hover;
+    }
+
+    &.disabled:not(.btn) {
+        opacity: .5;
+    }
+}
+
+@import "layout";
+@import "widgets/common";
+@import "widgets/buttons";
+@import "widgets/jqueryui";
+@import "widgets/dialogs";
+@import "widgets/taskmenu";
+@import "widgets/messages";
+@import "widgets/toolbar";
+@import "widgets/searchbar";
+@import "widgets/lists";
+@import "widgets/forms";
+@import "widgets/mail";
+
+
+/*** Login form ***/
+
+.task-login #layout > .content {
+    text-align: center;
+    width: 100%;
+    background: url(../images/watermark.jpg) center -20px no-repeat;
+    background-size: auto 40%;
+}
+
+#login-form {
+    margin: 0 auto;
+    top: 35vh;
+    width: 95%;
+    max-width: 280px;
+    position: relative;
+
+    // Fixes input width and position in IE11
+    .row {
+        max-width: 280px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+#login-footer {
+    flex: 1;
+    color: @color-black-shade-text;
+}
+
+#login-addon {
+    position: absolute;
+    bottom: 0;
+    max-height: 30%;
+    margin: 1rem !important;
+    width: auto !important;
+    overflow: auto;
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        max-width: @screen-width-small;
+        margin: auto !important;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+    }
+}
+
+
+/*** Addressbook UI ***/
+
+#contactpic {
+    min-width: @layout-contact-icon-width;
+    min-height: @layout-contact-icon-width;
+    border-radius: .5rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        max-width: @layout-contact-icon-width;
+        max-height: @layout-contact-icon-height;
+    }
+}
+
+#contacthead {
+    .names {
+        margin-bottom: .5rem;
+
+        span.namefield {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+    }
+
+    &.readonly {
+        .source.row {
+            color: @color-form-hint;
+            font-size: 90%;
+            margin-bottom: .25rem;
+        }
+    }
+}
+
+@import "_styles";

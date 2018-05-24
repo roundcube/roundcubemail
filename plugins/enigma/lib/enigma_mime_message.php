@@ -25,6 +25,7 @@ class enigma_mime_message extends Mail_mime
     protected $body;
     protected $signature;
     protected $encrypted;
+    protected $micalg;
 
 
     /**
@@ -119,10 +120,12 @@ class enigma_mime_message extends Mail_mime
      * Register signature attachment
      *
      * @param string Signature body
+     * @param string Hash algorithm name
      */
-    public function addPGPSignature($body)
+    public function addPGPSignature($body, $algorithm = null)
     {
         $this->signature = $body;
+        $this->micalg    = $algorithm;
 
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
@@ -157,8 +160,8 @@ class enigma_mime_message extends Mail_mime
      */
     public function get($params = null, $filename = null, $skip_head = false)
     {
-        if (isset($params)) {
-            while (list($key, $value) = each($params)) {
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
                 $this->build_params[$key] = $value;
             }
         }
@@ -168,9 +171,13 @@ class enigma_mime_message extends Mail_mime
         if ($this->type == self::PGP_SIGNED) {
             $params = array(
                 'preamble'     => "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)",
-                'content_type' => "multipart/signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\"",
+                'content_type' => "multipart/signed; protocol=\"application/pgp-signature\"",
                 'eol'          => $this->build_params['eol'],
             );
+
+            if ($this->micalg) {
+                $params['content_type'] .= "; micalg=pgp-" . $this->micalg;
+            }
 
             $message = new Mail_mimePart('', $params);
 
@@ -279,9 +286,13 @@ class enigma_mime_message extends Mail_mime
         $this->build_params['boundary'] = $boundary;
 
         if ($this->type == self::PGP_SIGNED) {
-            $headers['Content-Type'] = "multipart/signed; micalg=pgp-sha1;$eol"
+            $headers['Content-Type'] = "multipart/signed;$eol"
                 ." protocol=\"application/pgp-signature\";$eol"
                 ." boundary=\"$boundary\"";
+
+            if ($this->micalg) {
+                $headers['Content-Type'] .= ";{$eol} micalg=pgp-" . $this->micalg;
+            }
         }
         else if ($this->type == self::PGP_ENCRYPTED) {
             $headers['Content-Type'] = "multipart/encrypted;$eol"

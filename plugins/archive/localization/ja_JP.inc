@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,8 +24,10 @@ $labels['archivefolder'] = 'アーカイブ';
 $labels['settingstitle'] = 'アーカイブ';
 $labels['archivetype'] = 'アーカイブを分割: ';
 $labels['archivetypeyear'] = '年 (例: アーカイブ/2012)';
-$labels['archivetypemonth'] = '月 (e.g. アーカイブ/2012/06)';
+$labels['archivetypemonth'] = '月 (例: アーカイブ/2012/06)';
+$labels['archivetypetbmonth'] = '月 - Thunderbird互換 (例: アーカイブ/2012/2012-06)';
 $labels['archivetypefolder'] = '元のフォルダー';
 $labels['archivetypesender'] = '電子メールの送信者';
 $labels['unkownsender'] = '不明';
+$labels['readonarchive'] = 'アーカイブでメッセージを既読に設定';
 ?>

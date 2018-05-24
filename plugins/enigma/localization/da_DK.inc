@@ -16,6 +16,18 @@
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['keyname'] = 'Navn';
+$labels['keyid'] = 'NøgleID';
 $labels['fingerprint'] = 'Fingeravtryk';
 $labels['typeencrypt'] = 'Krypter';
+$labels['subkeyid'] = 'ID';
+$labels['subkeycreated'] = 'Oprettet';
+$labels['subkeyexpires'] = 'Udløber';
+$labels['expiresnever'] = 'aldrig';
+$labels['unknown'] = 'ukendt';
+$labels['userid'] = 'ID';
+$labels['valid'] = 'valid';
+$labels['keyremove'] = 'Fjern';
+$labels['keychpass'] = 'Skift kodeord:';
+$labels['newkeypass'] = 'Adgangskode';
+$labels['keyimportlabel'] = 'Importer fra fil';
 ?>

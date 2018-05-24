@@ -19,6 +19,7 @@ $labels['sharing'] = 'Compartiendo';
 $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
 $labels['advanced'] = 'Modo avanzado';
+$labels['add'] = 'Agregar';
 $labels['newuser'] = 'Agregar entrada';
 $labels['editperms'] = 'Editar permisos';
 $labels['actions'] = 'Acciones para los permisos de acceso...';

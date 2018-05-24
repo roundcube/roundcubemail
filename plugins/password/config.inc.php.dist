@@ -25,9 +25,10 @@ $config['password_log'] = false;
 // will be not available (no Password tab in Settings)
 $config['password_login_exceptions'] = null;
 
-// Array of hosts that support password changing. Default is NULL.
+// Array of hosts that support password changing.
 // Listed hosts will feature a Password option in Settings; others will not.
 // Example: array('mail.example.com', 'mail2.example.org');
+// Default is NULL (all hosts supported).
 $config['password_hosts'] = null;
 
 // Enables saving the new password even if it matches the old password. Useful
@@ -77,11 +78,26 @@ $config['password_blowfish_cost'] = 12;
 // which will replace the default.
 $config['password_disabled'] = false;
 
+// Various drivers/setups use different format of the username.
+// This option allows you to force specified format use. Default: '%u'.
+// Supported variables:
+//     %u - full username,
+//     %l - the local part of the username (in case the username is an email address)
+//     %d - the domain part of the username (in case the username is an email address)
+// Note: This may no apply to some drivers implementing their own rules, e.g. sql.
+$config['password_username_format'] = '%u';
+
 
 // SQL Driver options
 // ------------------
 // PEAR database DSN for performing the query. By default
 // Roundcube DB settings are used.
+// Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
 $config['password_db_dsn'] = '';
 
 // The SQL query used to change the password.
@@ -131,10 +147,17 @@ $config['password_hash_base64'] = false;
 
 // Poppassd Driver options
 // -----------------------
-// The host which changes the password
+// The host which changes the password (default: localhost)
+// Supported replacement variables:
+//   %n - hostname ($_SERVER['SERVER_NAME'])
+//   %t - hostname without the first part
+//   %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+//   %h - IMAP host
+//   %z - IMAP domain without first part
+//   %s - domain name after the '@' from e-mail address provided at login screen
 $config['password_pop_host'] = 'localhost';
 
-// TCP port used for poppassd connections
+// TCP port used for poppassd connections (default: 106)
 $config['password_pop_port'] = 106;
 
 
@@ -170,7 +193,7 @@ $config['password_ldap_version'] = '3';
 $config['password_ldap_basedn'] = 'dc=exemple,dc=com';
 
 // LDAP connection method
-// There is two connection method for changing a user's LDAP password.
+// There are two connection methods for changing a user's LDAP password.
 // 'user': use user credential (recommended, require password_confirm_current=true)
 // 'admin': use admin credential (this mode require password_ldap_adminDN and password_ldap_adminPW)
 // Default: 'user'
@@ -270,6 +293,34 @@ $config['password_ldap_samba_pwattr'] = '';
 // Whenever the password is changed, the attribute will be updated if set
 $config['password_ldap_samba_lchattr'] = '';
 
+// LDAP PPolicy Driver options
+// -----------------------------------
+
+// LDAP Change password command - filename of the perl script
+// Example: 'change_ldap_pass.pl'
+$config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
+
+// LDAP URI
+// Example: 'ldap://ldap.example.com/ ldaps://ldap2.example.com:636/'
+$config['password_ldap_ppolicy_uri'] = 'ldap://localhost/';
+
+// LDAP base name (root directory)
+// Exemple: 'dc=exemple,dc=com'
+$config['password_ldap_ppolicy_basedn'] = 'dc=example,dc=com';
+
+$config['password_ldap_ppolicy_searchDN'] = 'cn=someuser,dc=example,dc=com';
+
+$config['password_ldap_ppolicy_searchPW'] = 'secret';
+
+// LDAP search filter
+// Example: '(uid=%login)'
+// Example: '(&(objectClass=posixAccount)(uid=%login))'
+$config['password_ldap_ppolicy_search_filter'] = '(uid=%login)';
+
+// CA Certificate file if in URI is LDAPS connection
+$config['password_ldap_ppolicy_cafile'] = '/etc/ssl/cacert.crt';
+
+
 
 // DirectAdmin Driver options
 // --------------------------
@@ -292,7 +343,7 @@ $config['password_vpopmaild_host'] = 'localhost';
 // TCP port used for vpopmaild connections
 $config['password_vpopmaild_port'] = 89;
 
-// Timout used for the connection to vpopmaild (in seconds)
+// Timeout used for the connection to vpopmaild (in seconds)
 $config['password_vpopmaild_timeout'] = 10;
 
 
@@ -307,8 +358,23 @@ $config['password_cpanel_username'] = 'username';
 // The cPanel admin password
 $config['password_cpanel_password'] = 'password';
 
+// The cPanel admin hash
+// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
+// Hash takes precedence over password auth.
+// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
+$config['password_cpanel_hash'] = '';
+
 // The cPanel port to use
 $config['password_cpanel_port'] = 2087;
+
+
+// cPanel Webmail Driver options
+// -----------------------------
+// The cPanel Host name
+$config['password_cpanel_webmail_host'] = 'host.domain.com';
+
+// The cPanel port to use
+$config['password_cpanel_webmail_port'] = 2096;
 
 
 // XIMSS (Communigate server) Driver options
@@ -348,20 +414,6 @@ $config['hmailserver_server'] = array(
 );
 
 
-// Virtualmin Driver options
-// -------------------------
-// Username format:
-// 0: username@domain
-// 1: username%domain
-// 2: username.domain
-// 3: domain.username
-// 4: username-domain
-// 5: domain-username
-// 6: username_domain
-// 7: domain_username
-$config['password_virtualmin_format'] = 0;
-
-
 // pw_usermod Driver options
 // --------------------------
 // Use comma delimited exlist to disable password change for users.
@@ -397,7 +449,7 @@ $config['password_expect_params'] = '';
 // %t - hostname without the first part
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $config['password_smb_host'] = 'localhost';
-// Location of smbpasswd binary
+// Location of smbpasswd binary (default: /usr/bin/smbpasswd)
 $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 
 // gearman driver options

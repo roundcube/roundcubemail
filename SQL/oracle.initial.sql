@@ -126,23 +126,21 @@ CREATE TABLE "cache" (
     "user_id" integer NOT NULL
         REFERENCES "users" ("user_id") ON DELETE CASCADE,
     "cache_key" varchar(128) NOT NULL,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "expires" timestamp with time zone DEFAULT NULL,
-    "data" long NOT NULL
+    "data" long NOT NULL,
+    PRIMARY KEY ("user_id", "cache_key")
 );
 
-CREATE INDEX "cache_user_id_idx" ON "cache" ("user_id", "cache_key");
 CREATE INDEX "cache_expires_idx" ON "cache" ("expires");
 
 
 CREATE TABLE "cache_shared" (
     "cache_key" varchar(255) NOT NULL,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "expires" timestamp with time zone DEFAULT NULL,
-    "data" long NOT NULL
+    "data" long NOT NULL,
+    PRIMARY KEY ("cache_key")
 );
 
-CREATE INDEX "cache_shared_cache_key_idx" ON "cache_shared" ("cache_key");
 CREATE INDEX "cache_shared_expires_idx" ON "cache_shared" ("expires");
 
 
@@ -214,9 +212,29 @@ BEGIN
 END;
 /
 
+CREATE TABLE "filestore" (
+    "file_id" integer PRIMARY KEY,
+    "user_id" integer NOT NULL
+        REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "filename" varchar(128) NOT NULL,
+    "mtime" integer NOT NULL,
+    "data" long,
+    CONSTRAINT "filestore_user_id_key" UNIQUE ("user_id", "filename")
+);
+
+CREATE SEQUENCE "filestore_seq"
+    START WITH 1 INCREMENT BY 1 NOMAXVALUE;
+
+CREATE TRIGGER "filestore_seq_trig"
+BEFORE INSERT ON "filestore" FOR EACH ROW
+BEGIN
+    :NEW."user_id" := "filestore_seq".nextval;
+END;
+/
+
 CREATE TABLE "system" (
     "name" varchar(64) NOT NULL PRIMARY KEY,
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2016081200');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2018021600');

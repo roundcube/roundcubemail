@@ -51,7 +51,7 @@ if ($RCMAIL->action == 'group-addmembers') {
         }
 
         if ($result)
-            $OUTPUT->show_message('contactaddedtogroup');
+            $OUTPUT->show_message('contactaddedtogroup', 'confirmation');
         else if ($plugin['abort'] || $CONTACTS->get_error())
             $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error');
         else
@@ -72,7 +72,7 @@ else if ($RCMAIL->action == 'group-delmembers') {
             $result = $plugin['result'];
 
         if ($result) {
-            $OUTPUT->show_message('contactremovedfromgroup');
+            $OUTPUT->show_message('contactremovedfromgroup', 'confirmation');
             $OUTPUT->command('remove_group_contacts',array('source' => $source, 'gid' => $gid));
         }
         else {

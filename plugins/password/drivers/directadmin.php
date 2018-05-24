@@ -59,12 +59,15 @@ class rcube_directadmin_password
         //DEBUG
         //rcube::console("Password Plugin: [USER: $da_user] [HOST: $da_host] - Response: [SOCKET: ".$Socket->result_status_code."] [DA ERROR: ".strip_tags($response['error'])."] [TEXT: ".$response[text]."]");
 
-        if($Socket->result_status_code != 200)
+        if ($Socket->result_status_code != 200) {
             return array('code' => PASSWORD_CONNECT_ERROR, 'message' => $Socket->error[0]);
-        elseif($response['error'] == 1)
+        }
+
+        if ($response['error'] == 1) {
             return array('code' => PASSWORD_ERROR, 'message' => strip_tags($response['text']));
-        else
-            return PASSWORD_SUCCESS;
+        }
+
+        return PASSWORD_SUCCESS;
     }
 }
 
@@ -152,8 +155,8 @@ class HTTPSocket {
     /**
      * Specify a username and password.
      *
-     * @param string|null username. defualt is null
-     * @param string|null password. defualt is null
+     * @param string|null username. default is null
+     * @param string|null password. default is null
      */
     function set_login( $uname = '', $passwd = '' )
     {

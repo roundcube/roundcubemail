@@ -58,21 +58,22 @@ function roundcube_browser()
   this.dom = document.getElementById ? true : false;
   this.dom2 = document.addEventListener && document.removeEventListener;
 
-  this.webkit = this.agent_lc.indexOf('applewebkit') > 0;
+  this.edge = this.agent_lc.indexOf(' edge/') > 0;
+  this.webkit = !this.edge && this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
   if (window.opera) {
     this.opera = true; // Opera < 15
     this.vendver = opera.version();
   }
-  else if (!this.ie) {
+  else if (!this.ie && !this.edge) {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
     this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
     this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
     this.konq = this.agent_lc.indexOf('konqueror') > 0;
     this.mz = this.dom && !this.chrome && !this.safari && !this.konq && !this.opera && this.agent.indexOf('Mozilla') >= 0;
-    this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
-    this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
+    this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0 || this.platform == 'ipod' || this.platform == 'iphone');
+    this.ipad = this.safari && (this.agent_lc.indexOf('ipad') > 0 || this.platform == 'ipad');
   }
 
   if (!this.vendver) {
@@ -88,9 +89,10 @@ function roundcube_browser()
   if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
     this.lang = RegExp.$1;
 
-  this.tablet = /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
   this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
+  this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
   this.touch = this.mobile || this.tablet;
+  this.pointer = typeof window.PointerEvent == "function";
   this.cookies = n.cookieEnabled;
 
   // test for XMLHTTP support
@@ -108,7 +110,9 @@ function roundcube_browser()
     var classname = ' js';
 
     if (this.ie)
-      classname += ' ie ie'+parseInt(this.vendver);
+      classname += ' ms ie ie'+parseInt(this.vendver);
+    else if (this.edge)
+      classname += ' ms edge';
     else if (this.opera)
       classname += ' opera';
     else if (this.konq)
@@ -147,7 +151,7 @@ var rcube_event = {
 get_target: function(e)
 {
   e = e || window.event;
-  return e && e.target ? e.target : e.srcElement;
+  return e && e.target ? e.target : e.srcElement || document;
 },
 
 /**
@@ -279,10 +283,13 @@ cancel: function(evt)
  */
 is_keyboard: function(e)
 {
-  return e && (
-      (e.type && String(e.type).match(/^key/)) // DOM3-compatible
-      || (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) // others
-    );
+  if (!e)
+    return false;
+
+  if (e.type)
+    return !!e.type.match(/^key/); // DOM3-compatible
+
+  return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
 },
 
 /**
@@ -353,7 +360,10 @@ removeEventListener: function(evt, func, obj)
  */
 triggerEvent: function(evt, e)
 {
-  var ret, h;
+  var ret, h,
+    reset_fn = function(o) {
+      try { if (o && o.event) delete o.event; } catch(err) { };
+    };
 
   if (e === undefined)
     e = this;
@@ -377,26 +387,11 @@ triggerEvent: function(evt, e)
           break;
       }
     }
-    if (ret && ret.event) {
-      try {
-        delete ret.event;
-      } catch (err) {
-        // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
-        $(ret).removeAttr('event');
-      }
-    }
+    reset_fn(ret);
   }
 
   delete this._event_exec[evt];
-
-  if (e.event) {
-    try {
-      delete e.event;
-    } catch (err) {
-      // IE6-7 doesn't support deleting HTMLFormElement attributes (#1488017)
-      $(e).removeAttr('event');
-    }
-  }
+  reset_fn(e);
 
   return ret;
 }
@@ -407,10 +402,14 @@ triggerEvent: function(evt, e)
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline)
+function rcube_check_email(input, inline, count)
 {
-  if (input && window.RegExp) {
-    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
+  if (!input)
+    return count ? 0 : false;
+
+  if (count) inline = true;
+
+  var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
       dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
       atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
       quoted_pair = '\\x5c[\\x00-\\x7f]',
@@ -443,12 +442,13 @@ function rcube_check_email(input, inline)
       delim = '[,;\\s\\n]',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
-      reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+      rx_flag = count ? 'ig' : 'i',
+      rx = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', rx_flag) : new RegExp('^'+addr_spec+'$', 'i');
 
-    return reg1.test(input) ? true : false;
-  }
+  if (count)
+    return input.match(rx).length;
 
-  return false;
+  return rx.test(input);
 };
 
 // recursively copy an object
@@ -602,6 +602,18 @@ if (!String.prototype.startsWith) {
   String.prototype.startsWith = function(search, position) {
     position = position || 0;
     return this.slice(position, search.length) === search;
+  };
+}
+
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+    var subjectString = this.toString();
+    if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+      position = subjectString.length;
+    }
+    position -= searchString.length;
+    var lastIndex = subjectString.lastIndexOf(searchString, position);
+    return lastIndex !== -1 && lastIndex === position;
   };
 }
 

@@ -32,7 +32,7 @@
 
 class rcube_ximss_password
 {
-    function save($pass, $newpass)
+    function save($pass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
 
@@ -45,9 +45,9 @@ class rcube_ximss_password
         }
 
         // send all requests at once(pipelined)
-        fwrite( $sock, '<login id="A001" authData="'.$_SESSION['username'].'" password="'.$pass.'" />'."\0");
-        fwrite( $sock, '<passwordModify id="A002" oldPassword="'.$pass.'" newPassword="'.$newpass.'"  />'."\0");
-        fwrite( $sock, '<bye id="A003" />'."\0");
+        fwrite($sock, '<login id="A001" authData="'.$username.'" password="'.$pass.'" />'."\0");
+        fwrite($sock, '<passwordModify id="A002" oldPassword="'.$pass.'" newPassword="'.$newpass.'"  />'."\0");
+        fwrite($sock, '<bye id="A003" />'."\0");
 
   //example responses
   //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
@@ -64,25 +64,25 @@ class rcube_ximss_password
 
         fclose($sock);
 
-        foreach( explode( "\0",$responseblob) as $response ) {
+        foreach (explode( "\0",$responseblob) as $response) {
             $resp = simplexml_load_string("<xml>".$response."</xml>");
 
-            if( $resp->response[0]['id'] == 'A001' ) {
-                if( isset( $resp->response[0]['errorNum'] ) ) {
+            if ($resp->response[0]['id'] == 'A001') {
+                if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_CONNECT_ERROR;
                 }
             }
-            else if( $resp->response[0]['id'] == 'A002' ) {
-                if( isset( $resp->response[0]['errorNum'] )) {
+            else if ($resp->response[0]['id'] == 'A002') {
+                if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_ERROR;
                 }
             }
-            else if( $resp->response[0]['id'] == 'A003' ) {
-                if( isset($resp->response[0]['errorNum'] )) {
-                    //There was a problem during logout(This is probably harmless)
+            else if ($resp->response[0]['id'] == 'A003') {
+                if (isset($resp->response[0]['errorNum'])) {
+                    // There was a problem during logout (This is probably harmless)
                 }
             }
-        } //foreach
+        }
 
         return PASSWORD_SUCCESS;
     }

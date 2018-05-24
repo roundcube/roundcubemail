@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Adder le vCard al adressario';
 $labels['vcardsavefailed'] = 'Impossibile salveguardar le vCard';
+$labels['attachvcard'] = 'Attachar vCard';
+$labels['vcard'] = 'vCard';
 ?>

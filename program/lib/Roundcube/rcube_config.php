@@ -31,6 +31,7 @@ class rcube_config
     private $prop      = array();
     private $errors    = array();
     private $userprefs = array();
+    private $immutable = array();
 
 
     /**
@@ -46,6 +47,7 @@ class rcube_config
         'refresh_interval'     => 'keep_alive',
         'min_refresh_interval' => 'min_keep_alive',
         'messages_cache_ttl'   => 'message_cache_lifetime',
+        'mail_read_time'       => 'preview_pane_mark_read',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
     );
 
@@ -108,13 +110,13 @@ class rcube_config
 
         // array requires hint to be passed.
 
-        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== false) {
+        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value)) {
             $type = 'double';
         }
-        else if (preg_match('/^\d+$/', $value) !== false) {
+        else if (preg_match('/^\d+$/', $value)) {
             $type = 'integer';
         }
-        else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== false) {
+        else if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
             $type = 'boolean';
         }
 
@@ -190,8 +192,6 @@ class rcube_config
 
     /**
      * Load config from local config file
-     *
-     * @todo Remove global $CONFIG
      */
     private function load()
     {
@@ -245,25 +245,16 @@ class rcube_config
         }
 
         // set PHP error logging according to config
-        if ($this->prop['debug_level'] & 1) {
-            ini_set('log_errors', 1);
+        $error_log = $this->prop['log_driver'];
+        if ($error_log != 'syslog') {
+            $error_log  = $this->prop['log_dir'] . '/errors';
+            $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
 
-            if ($this->prop['log_driver'] == 'syslog') {
-                ini_set('error_log', 'syslog');
-            }
-            else {
-                ini_set('error_log', $this->prop['log_dir'].'/errors');
-            }
+            ini_set('error_log', $error_log);
         }
-
-        // enable display_errors in 'show' level, but not for ajax requests
-        ini_set('display_errors', intval(empty($_REQUEST['_remote']) && ($this->prop['debug_level'] & 4)));
 
         // remove deprecated properties
         unset($this->prop['dst_active']);
-
-        // export config data
-        $GLOBALS['CONFIG'] = &$this->prop;
     }
 
     /**
@@ -414,12 +405,17 @@ class rcube_config
     /**
      * Setter for a config parameter
      *
-     * @param string $name  Parameter name
-     * @param mixed  $value Parameter value
+     * @param string $name      Parameter name
+     * @param mixed  $value     Parameter value
+     * @param bool   $immutable Make the value immutable
      */
-    public function set($name, $value)
+    public function set($name, $value, $immutable = false)
     {
         $this->prop[$name] = $value;
+
+        if ($immutable) {
+            $this->immutable[$name] = $value;
+        }
     }
 
     /**
@@ -430,7 +426,7 @@ class rcube_config
     public function merge($prefs)
     {
         $prefs = $this->fix_legacy_props($prefs);
-        $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
+        $this->prop = array_merge($this->prop, $prefs, $this->userprefs, $this->immutable);
     }
 
     /**
@@ -649,6 +645,18 @@ class rcube_config
             else {
                 unset($props['timezone']);
             }
+        }
+
+        // translate old `preview_pane` settings to `layout`
+        if (isset($props['preview_pane']) && !isset($props['layout'])) {
+            $props['layout'] = $props['preview_pane'] ? 'desktop' : 'list';
+            unset($props['preview_pane']);
+        }
+
+        // translate old `display_version` settings to `display_product_info`
+        if (isset($props['display_version']) && !isset($props['display_product_info'])) {
+            $props['display_product_info'] = $props['display_version'] ? 2 : 1;
+            unset($props['display_version']);
         }
 
         return $props;

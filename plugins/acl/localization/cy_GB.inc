@@ -19,6 +19,7 @@ $labels['sharing'] = 'Rhannu';
 $labels['myrights'] = 'Hawliau Mynediad';
 $labels['username'] = 'Defnyddiwr:';
 $labels['advanced'] = 'Modd uwch';
+$labels['add'] = 'Ychwanegu';
 $labels['newuser'] = 'Ychwanegu cofnod';
 $labels['editperms'] = 'Golygu hawliau';
 $labels['actions'] = 'Gweithredoedd hawl mynediad...';

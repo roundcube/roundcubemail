@@ -1,0 +1,59 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+
+<h1 class="voice"><roundcube:label name="folders" /></h1>
+
+<!-- folders list -->
+<div class="list listbox selected" aria-labelledby="aria-label-folderslist">
+	<div class="header">
+		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
+		<span id="aria-label-folderslist" class="header-title"><roundcube:label name="folders" /></span>
+		<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar toolbar"
+			label="foldersearchform" buttontitle="findfolders" options="search-filter" ariatag="h2" />
+		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+	</div>
+	<div class="scroller" tabindex="-1">
+		<roundcube:object name="foldersubscription" id="subscription-table"
+			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list"
+			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="folder-create" />
+	</div>
+	<div class="footer">
+		<roundcube:if condition="env:quota" />
+			<div id="quotadisplay" class="quota-widget">
+				<span class="voice"><roundcube:label name="quota"></span>
+				<roundcube:object name="quotaDisplay" class="count" display="text" />
+			</div>
+		<roundcube:endif />
+	</div>
+</div>
+
+<!-- folder info frame -->
+<div class="content" role="main">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+		<!-- toolbar -->
+		<div id="folderstoolbar" class="toolbar">
+			<roundcube:button command="create-folder" type="link"
+				class="button create disabled" classAct="button create"
+				label="create" title="createfolder" innerClass="inner" data-fab="true" />
+			<roundcube:button command="delete-folder" type="link"
+				class="button delete disabled" classAct="button delete"
+				label="delete" title="delete" innerclass="inner" />
+			<roundcube:button command="purge" type="link"
+				class="button purge disabled" classAct="button purge"
+				label="empty" title="empty" innerclass="inner" />
+		</div>
+	</div>
+	<div class="iframe-wrapper">
+		<roundcube:object name="contentframe" id="preferences-frame" src="env:blankpage" />
+	</div>
+</div>
+
+<div id="search-filter" class="popupmenu form nolist toolbarmenu" data-editable="true">
+	<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" />
+</div>
+
+<roundcube:include file="includes/footer.html" />

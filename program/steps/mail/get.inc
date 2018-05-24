@@ -82,33 +82,30 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $cache_file     = $cache_basename . '.thumb';
 
     // render thumbnail image if not done yet
-    if (!is_file($cache_file)) {
-        if ($fp = fopen(($orig_name = $cache_basename . '.tmp'), 'w')) {
-            $attachment->body(0, $fp);
-            fclose($fp);
+    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_basename . '.tmp')) {
+        $image = new rcube_image($orig_name);
 
-            $image = new rcube_image($orig_name);
-            if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
-                $mimetype = 'image/' . $imgtype;
-                unlink($orig_name);
-            }
-            else if (stripos($mimetype, 'image/svg') === 0) {
-                $content = $attachment->svg_filter(file_get_contents($orig_name));
-                file_put_contents($cache_file, $content);
-                unlink($orig_name);
-            }
-            else {
-                rename($orig_name, $cache_file);
-            }
+        if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
+            $mimetype = 'image/' . $imgtype;
+        }
+        else {
+            // Resize failed, we need to check the file mimetype
+            // So, we do not exit here, but goto generic file body handler below
+            $_GET['_thumb']     = 0;
+            $_REQUEST['_embed'] = 1;
         }
     }
 
-    if (is_file($cache_file)) {
-        header('Content-Type: ' . $mimetype);
-        readfile($cache_file);
-    }
+    if (!empty($_GET['_thumb'])) {
+        if (is_file($cache_file)) {
+            $RCMAIL->output->future_expire_header(3600);
+            header('Content-Type: ' . $mimetype);
+            header('Content-Length: ' . filesize($cache_file));
+            readfile($cache_file);
+        }
 
-    exit;
+        exit;
+    }
 }
 
 // Handle attachment body (display or download)
@@ -158,6 +155,10 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension) {
                 $mimetype = $real_mimetype;
             }
+            // fix mimetype for images with wrong mimetype
+            else if (strpos($real_mimetype, 'image/') === 0 && strpos($mimetype, 'image/') === 0) {
+                $mimetype = $real_mimetype;
+            }
 
             // "fix" real mimetype the same way the original is before comparison
             $real_mimetype = rcmail_fix_mimetype($real_mimetype);
@@ -180,24 +181,23 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
                 header("Content-Length: " . strlen($content));
                 echo $content;
             }
-            else {  // html warning with a button to load the file anyway
+            // html warning with a button to load the file anyway
+            else {
                 $OUTPUT = new rcmail_html_page();
-                $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
-                    html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
+                $OUTPUT->register_inline_warning(
                         $RCMAIL->gettext(array(
-                            'name' => 'attachmentvalidationerror',
-                            'vars' => array(
-                                'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
-                                'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
+                                'name' => 'attachmentvalidationerror',
+                                'vars' => array(
+                                    'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
+                                    'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
+                                )
                             )
-                        ))
-                        . html::p(array('class' => 'rcmail-inline-buttons'),
-                            html::tag('button', array(
-                                'onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"
-                            ),
-                            $RCMAIL->gettext('showanyway'))
-                        )
-                    ))));
+                        ),
+                        $RCMAIL->gettext('showanyway'),
+                        $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1)))
+                );
+
+                $OUTPUT->write();
             }
 
             exit;
@@ -217,26 +217,18 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
         }
     }
 
-    $browser = $RCMAIL->output->browser;
-    list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
-
-    if (!empty($_GET['_download']) && $ctype_primary == 'text') {
-        header("Content-Type: text/$ctype_secondary; charset=" . $attachment->charset);
-    }
-    else {
-        header("Content-Type: $mimetype");
-        header("Content-Transfer-Encoding: binary");
-    }
-
     // deliver part content
     if ($mimetype == 'text/html' && empty($_GET['_download'])) {
+        $OUTPUT = new rcmail_html_page();
+
         // Check if we have enough memory to handle the message in it
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check($attachment->size * 10)) {
-            $out = '<html><body>'
-                . $RCMAIL->gettext('messagetoobig'). ' '
-                . html::a($RCMAIL->url(array_merge($_GET, array('download' => 1))), $RCMAIL->gettext('download'))
-                . '</body></html>';
+            $OUTPUT->register_inline_warning(
+                $RCMAIL->gettext('messagetoobig'),
+                $RCMAIL->gettext('download'),
+                $RCMAIL->url(array_merge($_GET, array('_download' => 1)))
+            );
         }
         else {
             // render HTML body
@@ -244,63 +236,41 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
 
             // insert remote objects warning into HTML body
             if ($REMOTE_OBJECTS) {
-                $body_start = 0;
-                if ($body_pos = strpos($out, '<body')) {
-                    $body_start = strpos($out, '>', $body_pos) + 1;
-                }
-
-                $out = substr($out, 0, $body_start)
-                    . html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
-                        rcube::Q($RCMAIL->gettext('blockedimages')) . '&nbsp;' .
-                        html::tag('button',
-                            array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_safe' => 1))) . "'"),
-                            rcube::Q($RCMAIL->gettext('showimages')))
-                    )
-                    . substr($out, $body_start);
+                $OUTPUT->register_inline_warning(
+                    $RCMAIL->gettext('blockedresources'),
+                    $RCMAIL->gettext('allow'),
+                    $RCMAIL->url(array_merge($_GET, array('_safe' => 1)))
+                );
             }
         }
 
-        $OUTPUT = new rcmail_html_page();
         $OUTPUT->write($out);
         exit;
     }
-
-    // don't kill the connection if download takes some more time
-    @set_time_limit(3600);
-
-    $filename    = $browser->ie ? rawurlencode($filename) : addcslashes($filename, '"');
-    $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
 
     // add filename extension if missing
     if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
         $filename .= '.' . $extensions[0];
     }
 
-    header("Content-Disposition: $disposition; filename=\"$filename\"");
+    $OUTPUT->download_headers($filename, array(
+            'type'         => $mimetype,
+            'type_charset' => $attachment->charset,
+            'disposition'  => !empty($_GET['_download']) ? 'attachment' : 'inline',
+    ));
 
     // handle tiff to jpeg conversion
     if (!empty($convert2jpeg)) {
         $temp_dir  = unslashify($RCMAIL->config->get('temp_dir'));
         $file_path = tempnam($temp_dir, 'rcmAttmnt');
 
-        // write content to temp file
-        if ($body) {
-            $saved = file_put_contents($file_path, $body);
-        }
-        else if ($attachment->size) {
-            $fd    = fopen($file_path, 'w');
-            $saved = $attachment->body(0, $fd);
-            fclose($fd);
-        }
-
         // convert image to jpeg and send it to the browser
-        if ($saved) {
+        if ($attachment->body_to_file($file_path)) {
             $image = new rcube_image($file_path);
             if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
                 header("Content-Length: " . filesize($file_path));
                 readfile($file_path);
             }
-            unlink($file_path);
         }
     }
     else {
@@ -384,6 +354,7 @@ class rcmail_attachment_handler
     private $part;
     private $upload;
     private $body;
+    private $body_file;
     private $download = false;
 
     /**
@@ -464,6 +435,16 @@ class rcmail_attachment_handler
     }
 
     /**
+     * Remove temp files, etc.
+     */
+    public function __destruct()
+    {
+        if ($this->body_file) {
+            @unlink($this->body_file);
+        }
+    }
+
+    /**
      * Check if the object is a message part not uploaded file
      *
      * @return bool True if the object is a meesage part
@@ -515,7 +496,7 @@ class rcmail_attachment_handler
      */
     public function body($size = null, $fp = null)
     {
-        // we have the body in memory already
+        // we may have the body in memory or file already
         if ($this->body !== null) {
             if ($fp == -1) {
                 echo $size ? substr($this->body, 0, $size) : $this->body;
@@ -525,6 +506,21 @@ class rcmail_attachment_handler
             }
             else {
                 $result = $size ? substr($this->body, 0, $size) : $this->body;
+            }
+        }
+        else if ($this->body_file) {
+            if ($size) {
+                $result = file_get_contents($this->body_file, false, null, 0, $size);
+            }
+            else {
+                $result = file_get_contents($this->body_file);
+            }
+
+            if ($fp == -1) {
+                echo $result;
+            }
+            else if ($fp) {
+                $result = fwrite($fp, $result) !== false;
             }
         }
         else if ($this->message) {
@@ -565,6 +561,27 @@ class rcmail_attachment_handler
         }
 
         return $result;
+    }
+
+    /**
+     * Save the body to a file
+     *
+     * @param string $filename File name with path
+     *
+     * @return bool True on success, False on failure
+     */
+    public function body_to_file($filename)
+    {
+        if ($filename && $this->size && ($fp = fopen($filename, 'w'))) {
+            $this->body(0, $fp);
+            $this->body_file = $filename;
+            fclose($fp);
+            @chmod(filename, 0600);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -658,7 +675,7 @@ class rcmail_attachment_handler
         if ($error == rcube_imap_generic::ERROR_BAD) {
             ob_end_clean();
 
-            // Get action is often executed simultanously.
+            // Get action is often executed simultaneously.
             // Some servers have MAXPERIP or other limits.
             // To workaround this we'll wait for some time
             // and try again (once).

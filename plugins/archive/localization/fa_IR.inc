@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,7 +19,7 @@ $labels['buttontext'] = 'بایگانی';
 $labels['buttontitle'] = 'بایگانی این پیغام';
 $labels['archived'] = 'با موفقیت بایگانی شد';
 $labels['archivedreload'] = 'با کام‌یابی بایگانی شد. برای دیدن پوشه‌های بایگانی جدید صفحه را مجددا بارگذاری نمایید.';
-$labels['archiveerror'] = 'برخی از پیغام‌ها بایگانی نشدند.';
+$labels['archiveerror'] = 'برخی از پیام‌ها بایگانی نشدند.';
 $labels['archivefolder'] = 'بایگانی';
 $labels['settingstitle'] = 'بایگانی';
 $labels['archivetype'] = 'تقسیم بایگانی با';

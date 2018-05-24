@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Archiválás';
 $labels['archivetype'] = 'Arhívum tovább bontása a következő szerint';
 $labels['archivetypeyear'] = 'Év ( pl Arhívum/2012)';
 $labels['archivetypemonth'] = 'Honap ( pl Arhívum/2012/06)';
+$labels['archivetypetbmonth'] = 'Honap - Thunderbird kompatibilis ( pl Arhívum/2012/2012-06)';
 $labels['archivetypefolder'] = 'Eredeti mappa';
 $labels['archivetypesender'] = 'Feladó';
 $labels['unkownsender'] = 'ismeretlen';
+$labels['readonarchive'] = 'Üzenet olvasottként jelölése arhiváláskor';
 ?>

@@ -1,0 +1,46 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe fullheight">
+
+<h1 class="voice"><roundcube:object name="pagetitle" /></h1>
+
+<div class="boxcontent" id="bounceheaders" role="region" aria-labelledby="aria-label-composeheaders">
+<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
+<roundcube:object name="composeFormHead" role="main" />
+<table class="headers-table compose-headers"><tbody>
+	<tr>
+		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
+		<td class="editfield">
+			<roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
+			<a href="#identities" onclick="return rcmail.command('identities')" class="iconlink edit" tabindex="1"><roundcube:label name="editidents" /></a>
+		</td>
+	</tr>
+	<tr>
+		<td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
+		<td class="editfield"><roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" /></td>
+	</tr>
+	<tr>
+		<td class="title top"><label for="_cc"><roundcube:label name="cc" /></label></td>
+		<td class="editfield"><roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" /></td>
+	</tr>
+	<tr>
+		<td class="title top"><label for="_bcc"><roundcube:label name="bcc" /></label></td>
+		<td class="editfield"><roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" /></td>
+	</tr>
+	<roundcube:if condition="!config:no_save_sent_messages" />
+	<tr><td colspan="2" class="bounceopts">
+		<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" tabindex="1" /></label>
+	</td></tr>
+	<roundcube:endif />
+</tbody></table>
+</form>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

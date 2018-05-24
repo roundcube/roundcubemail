@@ -2,9 +2,9 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.3-git                                                         |
+ | Version 1.4-git                                                         |
  |                                                                         |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                         |
+ | Copyright (C) 2005-2018, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -72,11 +72,23 @@ if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
 
 // check if https is required (for login) and redirect if necessary
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
-    $https_port = is_bool($force_https) ? 443 : $force_https;
+    // force_https can be true, <hostname>, <hostname>:<port>, <port>
+    if (!is_bool($force_https)) {
+        list($host, $port) = explode(':', $force_https);
 
-    if (!rcube_utils::https_check($https_port)) {
-        $host  = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
-        $host .= ($https_port != 443 ? ':' . $https_port : '');
+        if (is_numeric($host) && empty($port)) {
+            $port = $host;
+            $host = '';
+        }
+    }
+
+    if (!rcube_utils::https_check($port ?: 443)) {
+        if (empty($host)) {
+            $host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
+        }
+        if ($port && $port != 443) {
+            $host .= ':' . $port;
+        }
 
         header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
         exit;
@@ -220,7 +232,7 @@ if (empty($RCMAIL->user->ID)) {
 
     // check if installer is still active
     if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
-        $OUTPUT->add_footer(html::div(array('style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
+        $OUTPUT->add_footer(html::div(array('id' => 'login-addon', 'style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
             html::tag('h2', array('style' => "margin-top:0.2em"), "Installer script is still accessible") .
             html::p(null, "The install script of your Roundcube installation is still stored in its default location!") .
             html::p(null, "Please <b>remove</b> the whole <tt>installer</tt> folder from the Roundcube directory because
@@ -232,6 +244,10 @@ if (empty($RCMAIL->user->ID)) {
     $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array('task' => 'login', 'error' => $session_error));
 
     $RCMAIL->set_task($plugin['task']);
+
+    if (!$session_error) {
+        header('HTTP/1.0 401 Unauthorized');
+    }
 
     $OUTPUT->send($plugin['task']);
 }
@@ -270,7 +286,7 @@ if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc'
 }
 
 // allow 5 "redirects" to another action
-$redirects = 0; $incstep = null;
+$redirects = 0;
 while ($redirects < 5) {
     // execute a plugin action
     if (preg_match('/^plugin\./', $RCMAIL->action)) {

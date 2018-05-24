@@ -12,7 +12,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Search contacts from the adress book widget                         |
+ |   Search contacts from the address book widget                        |
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
@@ -84,7 +84,7 @@ if (!empty($result) && $result->count > 0) {
         // (same as in list_contacts.inc)
         $emails = $source->get_col_values('email', $row, true);
         foreach ($emails as $i => $email) {
-            $row_id = $row['ID'].'-'.$i;
+            $row_id = $row['sourceid'].'-'.$row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
             $title = rcube_addressbook::compose_search_name($row, $email, $name);
 

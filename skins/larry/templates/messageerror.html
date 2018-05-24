@@ -10,7 +10,7 @@
 <div id="mainscreen" class="watermark" style="top:0"></div>
 
 <roundcube:else />
-<body>
+<body class="<roundcube:exp expression="env:extwin ? 'extwin' : ''" />">
 
 <roundcube:include file="/includes/header.html" />
 
@@ -40,7 +40,7 @@
 
 <div id="mailview-right" class="uibox">
 
-<div id="messagecontent" class="watermark"></div>
+<div id="messagecontent" class="watermark" style="top:0"></div>
 
 </div><!-- end mailview-right -->
 

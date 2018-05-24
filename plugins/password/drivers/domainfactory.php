@@ -28,13 +28,9 @@
 
 class rcube_domainfactory_password
 {
-    function save($curpass, $passwd)
+    function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
-
-        if (is_null($curpass)) {
-            $curpass = $rcmail->decrypt($_SESSION['password']);
-        }
 
         if ($ch = curl_init()) {
             // initial login
@@ -43,7 +39,7 @@ class rcube_domainfactory_password
                 CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
                 CURLOPT_POST       => true,
                 CURLOPT_POSTFIELDS => http_build_query(array(
-                    'login'  => $rcmail->user->get_username(),
+                    'login'  => $username,
                     'pwd'    => $curpass,
                     'action' => 'change'
                 ))

@@ -38,7 +38,3 @@
 .toolbar a.button.license {
 	background: url(help.png) center -130px no-repeat;
 }
-
-.iframebox.help_license {
-	overflow: auto;
-}

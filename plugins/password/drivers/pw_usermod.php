@@ -30,26 +30,24 @@
 
 class rcube_pw_usermod_password
 {
-    public function save($currpass, $newpass)
+    public function save($currpass, $newpass, $username)
     {
-        $username = $_SESSION['username'];
         $cmd = rcmail::get_instance()->config->get('password_pw_usermod_cmd');
-        $cmd .= " $username > /dev/null";
+        $cmd .= ' ' . escapeshellarg($username) . ' > /dev/null';
 
-        $handle = popen($cmd, "w");
+        $handle = popen($cmd, 'w');
         fwrite($handle, "$newpass\n");
 
         if (pclose($handle) == 0) {
             return PASSWORD_SUCCESS;
         }
-        else {
-            rcube::raise_error(array(
+
+        rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $cmd"
-                ), true, false);
-        }
+            ), true, false);
 
         return PASSWORD_ERROR;
     }

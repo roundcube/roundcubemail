@@ -26,10 +26,6 @@ select, input, textarea, button
   font-family: inherit;
 }
 
-html.mozilla select {
-  padding: 2px 1px;
-}
-
 th
 {
   font-weight: normal;
@@ -76,6 +72,7 @@ hr
 input[type="text"],
 input[type="button"],
 input[type="password"],
+button,
 textarea
 {
   border: 1px solid #666;
@@ -83,7 +80,7 @@ textarea
   background-color: #FFF;
 }
 
-input, textarea
+button, input, textarea
 {
   color: black;
   padding: 1px 3px;
@@ -97,6 +94,7 @@ textarea:-moz-placeholder
   color: #aaa;
 }
 
+button,
 input.button
 {
   height: 20px;
@@ -108,11 +106,14 @@ input.button
   border: 1px solid #a4a4a4;
 }
 
+button:hover,
 input.button:hover
 {
   color: black;
 }
 
+button[disabled],
+button[disabled]:hover,
 input.button[disabled],
 input.button[disabled]:hover
 {
@@ -120,6 +121,7 @@ input.button[disabled]:hover
   border-color: #ccc;
 }
 
+button.mainaction,
 input.mainaction
 {
   font-weight: bold;
@@ -161,11 +163,27 @@ img
   display: none;
 }
 
+.noselect
+{
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
 /* fixes vertical alignment of checkboxes and labels */
 label input,
 label span
 {
   vertical-align: middle;
+}
+
+ul.proplist
+{
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 
@@ -453,7 +471,6 @@ body.iframe .boxtitle
   height: 11px;
   padding: 0;
   margin: 1px;
-  margin-top: 2px;
   overflow: hidden;
   background: url(images/pagenav.gif) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
@@ -667,6 +684,18 @@ img.uploading
   margin-left: 10px;
 }
 
+.ui-dialog iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.ui-dialog-content.iframe {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+
 /***** common table settings ******/
 
 table.records-table thead tr th,
@@ -704,6 +733,11 @@ table.records-table tr.selected td
 {
   color: #FFFFFF;
   background-color: #CC3333;
+}
+
+table.records-table tr.selected td a
+{
+  color: #FFFFFF;
 }
 
 table.records-table tr.focused td
@@ -1057,6 +1091,20 @@ div.searchbox > input
   width: 97%;
 }
 
+.formcontainer
+{
+  background-color: #f2f2f2;
+}
+
+.formcontent table {
+  width: 100%;
+}
+
+.formcontent input,
+.formcontent textarea {
+  width: 95%;
+}
+
 .listsearchbox
 {
   border-bottom: solid 1px #ddd;
@@ -1220,7 +1268,7 @@ font.bold
   font-weight: bold;
 }
 
-.formbuttons
+#login-form .formbuttons
 {
   text-align: center;
 }
@@ -1346,7 +1394,7 @@ ul.toolbarmenu li.separator_above
   padding: 0;
 }
 
-#folder-selector li a span
+#folder-selector li span
 {
   background: url(images/icons/folders.png) no-repeat 6px 0;
   display: block;
@@ -1368,23 +1416,23 @@ ul.toolbarmenu li.separator_above
   color: white;
 }
 
-#folder-selector li a.inbox span
+#folder-selector li.inbox span
 {
   background-position: 6px -18px;
 }
-#folder-selector li a.drafts span
+#folder-selector li.drafts span
 {
   background-position: 6px -37px;
 }
-#folder-selector li a.sent span
+#folder-selector li.sent span
 {
   background-position: 6px -54px;
 }
-#folder-selector li a.trash span
+#folder-selector li.trash span
 {
   background-position: 6px -91px;
 }
-#folder-selector li a.junk span
+#folder-selector li.junk span
 {
   background-position: 6px -73px;
 }
@@ -1600,13 +1648,13 @@ table.quota-info td.root {
   padding: 2px;
 }
 
-.pgpkeyimport div.key input.button.importkey {
+.pgpkeyimport div.key button.importkey {
   position: absolute;
   top: 0.8em;
   right: 0.8em;
   padding: 2px 6px;
 }
 
-.pgpkeyimport div.key input.button[disabled] {
+.pgpkeyimport div.key button[disabled] {
   display: none;
 }

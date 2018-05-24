@@ -17,4 +17,8 @@
 */
 $labels['addvcardmsg'] = 'Ychwanegu vCard i\'r llyfr cyfeiriadau';
 $labels['vcardsavefailed'] = 'Methwyd cadw\'r vCard';
+$labels['attachvcard'] = 'Atodi vCard';
+$labels['vcardattached'] = 'Atodwyd ffeil vCard';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Danfon vCard ymlaen';
 ?>

@@ -158,7 +158,7 @@ if (!empty($cid)) {
         }
 
         // LDAP DN change
-        if (is_string($result) && strlen($result)>1) {
+        if (is_string($result) && strlen($result) > 1) {
             $newcid = $result;
             // change cid in POST for 'show' action
             $_POST['_cid'] = $newcid;
@@ -166,6 +166,13 @@ if (!empty($cid)) {
 
         // refresh contact data for list update and 'show' action
         $CONTACT_RECORD = $CONTACTS->get_record($newcid ?: $cid, true);
+
+        // Plugins can decide to remove the contact on edit, e.g. automatic_addressbook
+        // Best we can do is to refresh the list (#5522)
+        if (empty($CONTACT_RECORD)) {
+            $OUTPUT->command('parent.command', 'list');
+            $OUTPUT->send('iframe');
+        }
 
         // Update contacts list
         $a_js_cols = array();

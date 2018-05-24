@@ -1,0 +1,15 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" condition="env:task == 'settings'" />
+
+<div class="content selected" role="main">
+	<div class="header">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+	</div>
+	<roundcube:object name="plugin.body" />
+</div>
+
+<roundcube:object name="plugin.footer" />
+
+<roundcube:include file="includes/footer.html" />

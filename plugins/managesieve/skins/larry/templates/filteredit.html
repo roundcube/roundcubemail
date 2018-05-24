@@ -15,7 +15,7 @@
 
 <roundcube:if condition="env:task != 'mail'" />
 <div id="footer">
-<div class="footerleft formbuttons floating">
+<div class="footerleft formbuttons">
 <roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
 <label for="disabled">
 <input type="checkbox" id="disabled" name="_disabled" value="1" />
@@ -27,6 +27,8 @@
 
 </form>
 </div>
+
+<roundcube:include file="/includes/footer.html" />
 
 </body>
 </html>

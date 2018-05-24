@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Address Book section
  *
- * Copyright (c) 2012, The Roundcube Dev Team
+ * Copyright (c) 2012-2017, The Roundcube Dev Team
  * Screendesign by FLINT / B�ro f�r Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -100,31 +100,31 @@
 }
 
 #directorylist li.contactgroup a {
-	background-position: 6px -1555px;
+	background-position: 6px -1554px;
 }
 
 #directorylist ul li.contactgroup a {
-	background-position: 32px -1555px;
+	background-position: 32px -1554px;
 }
 
 #directorylist ul ul li.contactgroup a {
-	background-position: 58px -1555px;
+	background-position: 58px -1554px;
 }
 
 #directorylist ul ul ul li.contactgroup a {
-	background-position: 84px -1555px;
+	background-position: 84px -1554px;
 }
 
 #directorylist li.contactgroup.selected a {
-	background-position: 32px -1579px;
+	background-position: 32px -1578px;
 }
 
 #directorylist ul ul li.contactgroup.selected a {
-	background-position: 58px -1579px;
+	background-position: 58px -1578px;
 }
 
 #directorylist ul ul ul li.contactgroup.selected a {
-	background-position: 84px -1579px;
+	background-position: 84px -1578px;
 }
 
 .treelist li.contactsearch a {
@@ -163,11 +163,11 @@
 }
 
 #contacts-table .contact td.name {
-	background-position: 4px -1603px;
+	background-position: 4px -1601px;
 }
 
 #contacts-table .contact.selected td.name {
-	background-position: 4px -1627px;
+	background-position: 4px -1625px;
 	font-weight: bold;
 }
 
@@ -176,12 +176,12 @@
 }
 
 #contacts-table .group.selected td.name {
-	background-position: 4px -1579px;
+	background-position: 4px -1578px;
 	font-weight: bold;
 }
 
 #contacts-table.focus .group.selected.focused td.name {
-	background-position: 4px -1579px;
+	background-position: 4px -1578px;
 }
 
 #addresslist .boxtitle {
@@ -312,12 +312,8 @@ form #contacthead {
 
 .contactfieldgroup {
 	border: 0;
-	border-radius: 5px;
+	border-radius: 0;
 	background: #f7f7f7;
-	background: -moz-linear-gradient(top, #f7f7f7 0%, #eee 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#eee));
-	background: -ms-linear-gradient(top, #f7f7f7 0%, #eee 100%);
-	background: linear-gradient(to bottom, #f7f7f7 0%, #eee 100%);
 	margin: 0 0 12px 0;
 	padding: 8px;
 }
@@ -327,15 +323,10 @@ form #contacthead {
 	margin: 0 -8px;
 	width: 100%;
 	font-weight: bold;
-	text-shadow: 0px 1px 1px #fff;
-	padding: 6px 8px 3px 8px;
-	background: #f0f0f0;
-	background: -moz-linear-gradient(top, #f0f0f0 0%, #d6d6d6 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#d6d6d6));
-	background: -ms-linear-gradient(top, #f0f0f0 0%, #d6d6d6 100%);
-	background: linear-gradient(to bottom, #f0f0f0 0%, #d6d6d6 100%);
-	border-bottom: 1px solid #cfcfcf;
-	border-radius: 5px 5px 0 0;
+	padding: 8px 8px 6px 8px;
+	background: #e9e9e9;
+	border-bottom: 1px solid #dfdfdf;
+	border-radius: 0;
 }
 
 .contactfieldgroup .row {
@@ -352,6 +343,7 @@ form #contacthead {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #666;
+	line-height: 18px;
 }
 
 .contactfieldgroup .contactfieldlabel select {
@@ -362,7 +354,7 @@ form #contacthead {
 .contactfieldgroup .contactfieldcontent {
 	padding-left: 120px;
 	min-height: 1em;
-	line-height: 1.3em;
+	line-height: 18px;
 }
 
 .contactfieldgroup .contactfield {
@@ -411,4 +403,42 @@ a.deletebutton {
 #import-box p,
 #import-box .propform {
   max-width: 50em;
+}
+
+ul.toolbarmenu li span.qrcode {
+	background-position: 0 -2408px;
+}
+
+ul.toolbarmenu li span.assigngroup {
+	background-position: 0 -2358px;
+}
+
+ul.toolbarmenu li span.removegroup {
+	background-position: 0 -2384px;
+}
+
+#addressbook-selector li a,
+#contactgroup-selector li a {
+	padding-left: 2px;
+}
+
+#addressbook-selector li a span,
+#contactgroup-selector li a span {
+	background: url(images/listicons.png) 4px 20px no-repeat;
+	display: block;
+	height: 17px;
+	min-height: 14px;
+	padding: 4px 4px 1px 28px;
+	overflow: hidden;
+	max-width: 120px;
+	text-overflow: ellipsis;
+}
+
+#addressbook-selector li a.addressbook span {
+	background-position: 4px -2222px;
+}
+
+#addressbook-selector li a.contactgroup span,
+#contactgroup-selector li a.contactgroup span {
+	background-position: 4px -2245px;
 }

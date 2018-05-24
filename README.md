@@ -1,7 +1,8 @@
 Roundcube Webmail 
 =================
-[roundcube.net](http://roundcube.net)
+[roundcube.net](https://roundcube.net)
 
+[![Build Status](https://api.travis-ci.org/roundcube/roundcubemail.svg?branch=master)](https://travis-ci.org/roundcube/roundcubemail)
 
 ATTENTION
 ---------
@@ -95,7 +96,7 @@ hello(at)roundcube(dot)net
 [washtml]:      http://www.ubixis.com/washtml/
 [kmgerich]:     http://kmgerich.com/
 [gpl]:          http://www.gnu.org/licenses/
-[license]:      http://roundcube.net/license
-[contrib]:      http://roundcube.net/contribute
-[support]:      http://roundcube.net/support
+[license]:      https://roundcube.net/license
+[contrib]:      https://roundcube.net/contribute
+[support]:      https://roundcube.net/support
 [githubissues]: https://github.com/roundcube/roundcubemail/issues

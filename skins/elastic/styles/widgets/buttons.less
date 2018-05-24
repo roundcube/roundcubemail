@@ -1,0 +1,295 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Buttons ***/
+
+
+a.rcmaddcontact {
+    display: none;
+}
+
+.button.disabled {
+    opacity: .5;
+}
+
+a.button {
+    text-decoration: none;
+
+    &.active {
+        cursor: pointer;
+    }
+}
+
+
+/* font-icons */
+
+a.button.icon,
+button.btn {
+    &:before {
+        &:extend(.font-icon-class);
+    }
+    &.toolbar-menu-button:before {
+        content: @fa-var-ellipsis-v;
+    }
+    &.menu-button:before {
+        content: @fa-var-bars;
+    }
+    &.back-sidebar-button:before,
+    &.back-content-button:before,
+    &.back-list-button:before {
+        content: @fa-var-chevron-left;
+    }
+    &.generate:before,
+    &.yes:before,
+    &.submit:before,
+    &.continue:before,
+    &.save:before {
+        content: @fa-var-check;
+    }
+    &.create:before {
+        content: @fa-var-plus-square;
+    }
+    &.edit:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.qrcode:before {
+        content: @fa-var-qrcode;
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &.filter:before {
+        content: @fa-var-filter;
+        font-size: 1.2em; // this icon is too-big in FA5
+    }
+    &.import:before {
+        content: @fa-var-upload;
+    }
+    &.export:before {
+        content: @fa-var-download;
+    }
+    &.discard:before,
+    &.delete:before {
+        .font-icon-regular(@fa-var-trash-alt);
+    }
+    &.next:before {
+        content: @fa-var-arrow-right;
+    }
+    &.restore:before {
+        content: @fa-var-undo;
+    }
+    &.send:before,
+    &.bounce:before {
+        content: @fa-var-paper-plane;
+    }
+    &.attach:before {
+        content: @fa-var-paperclip;
+    }
+    &.no:before,
+    &.close:before,
+    &.cancel:before {
+        content: @fa-var-times;
+    }
+    &.mark:before {
+        .font-icon-regular(@fa-var-star);
+    }
+    &.back:before {
+        content: @fa-var-chevron-left;
+    }
+    &.remove:before {
+        content: @fa-var-times;
+    }
+    &.unlock:before {
+        content: @fa-var-unlock;
+    }
+    &.help:before {
+        .font-icon-regular(@fa-var-life-ring);
+    }
+    &.toggleselect:before {
+        .font-icon-regular(@fa-var-check-square);
+    }
+    &.folders:before {
+        content: @fa-var-folder-open;
+    }
+    &.tools:before,
+    &.settings:before {
+        content: @fa-var-wrench;
+    }
+
+    &.properties:before {
+        content: @fa-var-info-circle;
+    }
+}
+
+a.btn,
+button.btn {
+    // FIXME: Maybe button text (and icon) alignment requires some rework
+    padding-bottom: .5rem;
+
+    &:before {
+        display: inline !important;
+        float: none !important;
+    }
+}
+
+a.button.icon {
+    &.dropdown:before {
+        content: @fa-var-caret-down;
+        font-size: 1em;
+    }
+    & > span.inner {
+        display: none;
+    }
+}
+
+html.touch {
+    .btn:focus {
+        box-shadow: none;
+    }
+}
+
+@floating-action-button-size: 4rem;
+
+.floating-action-buttons {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    .footer:not(:empty) + & {
+        bottom: @layout-touch-header-height;
+    }
+
+    a.button {
+        display: block;
+        float: left;
+        width: @floating-action-button-size;
+        height: @floating-action-button-size;
+        border-radius: 50%;
+        background: @color-main;
+        color: white;
+        opacity: .95;
+        box-shadow: 0 0 5px 5px lighten(@color-main, 35%);
+        margin: 0 1rem 1rem 0;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus;
+            width: @floating-action-button-size;
+            height: @floating-action-button-size;
+            line-height: @floating-action-button-size;
+        }
+
+        .inner {
+            display: none;
+        }
+    }
+}
+
+/*** Bootstrap button style overrides ***/
+
+.btn-secondary {
+    color: @color-btn-secondary;
+    background: @color-btn-secondary-background;
+    border-color: @color-btn-secondary-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-secondary-background, 8%);
+        border-color: darken(@color-btn-secondary-background, 10%);
+    }
+
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-secondary-background, 20%);
+        border-color: lighten(@color-btn-secondary-background, 20%);
+        opacity: 1;
+    }
+
+    &:not(:disabled):not(.disabled):active {
+        background: darken(@color-btn-secondary-background, 11%);
+        border-color: darken(@color-btn-secondary-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%);
+    }
+
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-secondary-background, 20%);
+        border-color: darken(@color-btn-secondary-background, 22%);
+    }
+}
+
+.btn-primary {
+    color: @color-btn-primary;
+    background: @color-btn-primary-background;
+    border-color: @color-btn-primary-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-primary-background, 8%);
+        border-color: darken(@color-btn-primary-background, 10%);
+    }
+
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-primary-background, 20%);
+        border-color: lighten(@color-btn-primary-background, 20%);
+        opacity: 1;
+    }
+
+    &:not(:disabled):not(.disabled):active {
+        background: darken(@color-btn-primary-background, 11%);
+        border-color: darken(@color-btn-primary-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+    }
+
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-primary-background, 20%);
+        border-color: darken(@color-btn-primary-background, 22%);
+    }
+}
+
+.btn-danger {
+    color: @color-btn-danger;
+    background: @color-btn-danger-background;
+    border-color: @color-btn-danger-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-danger-background, 8%);
+        border-color: darken(@color-btn-danger-background, 10%);
+    }
+
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-danger-background, 20%);
+        border-color: lighten(@color-btn-danger-background, 20%);
+        opacity: 1;
+    }
+
+    &:not(:disabled):not(.disabled):active {
+        background: darken(@color-btn-danger-background, 11%);
+        border-color: darken(@color-btn-danger-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%);
+    }
+
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-danger-background, 20%);
+        border-color: darken(@color-btn-danger-background, 22%);
+    }
+}

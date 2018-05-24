@@ -1,0 +1,106 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/* Style for embedded inline warning */
+
+@import (reference) "variables";
+@import (reference) "mixins";
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/fa-solid-900.woff2") format('woff2'),
+       url("../fonts/fa-solid-900.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/fa-regular-400.woff2") format('woff2'),
+       url("../fonts/fa-regular-400.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+.rcmail-inline-message {
+    .font-family;
+    font-size: @page-font-size;
+    padding: .5em;
+    margin: 0 0 .5em 0;
+    opacity: .95;
+    color: @color-message;
+    background-color: @color-message-background;
+    display: flex;
+    align-items: center;
+
+    &:before {
+        .font-icon-class;
+        font-size: 1.5em;
+        line-height: 1;
+        width: 1em;
+        margin-right: .3em;
+        content: @fa-var-exclamation-triangle;
+        color: @color-message-warning;
+    }
+
+    span {
+        line-height: 1.5;
+    }
+
+    a {
+        color: @color-link;
+    }
+
+    a:hover {
+        color: @color-link-hover;
+    }
+
+    button {
+        vertical-align: middle;
+        white-space: nowrap;
+        padding: .375em .75em;
+        margin-left: .5em;
+        font-size: 1em;
+        line-height: 1.5;
+        border-radius: .25em;
+        border: 1px solid transparent;
+        color: @color-btn-primary;
+        background: @color-btn-primary-background;
+
+        &:focus {
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
+        }
+
+        &:hover {
+            background: darken(@color-btn-primary-background, 8%);
+            border-color: darken(@color-btn-primary-background, 10%);
+        }
+
+        &:not([disabled]):not(.disabled):active {
+            background: darken(@color-btn-primary-background, 11%);
+            border-color: darken(@color-btn-primary-background, 13%);
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+        }
+    }
+}
+
+.rcmail-inline-buttons {
+    margin: 0;
+}

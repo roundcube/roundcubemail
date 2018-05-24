@@ -77,7 +77,7 @@ if (is_array($_FILES['_file'])) {
     // no vcards detected
     if (!count($vcards)) {
         if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-            $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+            $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
             $OUTPUT->show_message('filesizeerror', 'error', array('size' => $size));
         }
         else if ($upload_error) {
@@ -180,12 +180,15 @@ $OUTPUT->set_pagetitle($RCMAIL->gettext('importcontacts'));
 
 $OUTPUT->add_handlers(array(
     'importstep' => $importstep,
-    'importnav'  => 'rcmail_import_buttons',
 ));
 
 // render page
-$OUTPUT->send('importcontacts');
-
+if ($OUTPUT->template_exists('contactimport')) {
+    $OUTPUT->send('contactimport');
+}
+else {
+    $OUTPUT->send('importcontacts'); // deprecated
+}
 
 
 /**
@@ -200,16 +203,23 @@ function rcmail_import_form($attrib)
     $attrib += array('id' => "rcmImportForm");
 
     $writable_books = $RCMAIL->get_address_sources(true, true);
+    $max_filesize   = $RCMAIL->upload_init();
 
+    $form   = '';
+    $table  = new html_table(array('cols' => 2));
     $upload = new html_inputfield(array(
         'type'     => 'file',
         'name'     => '_file[]',
         'id'       => 'rcmimportfile',
         'size'     => 40,
         'multiple' => 'multiple',
+        'class'    => 'form-control-file',
     ));
-    $form  = html::p(null, html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')) . $upload->show());
-    $table = new html_table(array('cols' => 2));
+
+    $table->add('title', html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')));
+    $table->add(null, $upload->show()
+        . html::div('hint', $RCMAIL->gettext(array('id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
+    );
 
     // addressbook selector
     if (count($writable_books) > 1) {
@@ -226,6 +236,8 @@ function rcmail_import_form($attrib)
         $abook = new html_hiddenfield(array('name' => '_target', 'value' => key($writable_books)));
         $form .= $abook->show();
     }
+
+    $form .= html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''));
 
     // selector for group import options
     if (count($writable_books) >= 1 || $writable_books[0]->groups) {
@@ -289,33 +301,6 @@ function rcmail_import_confirm($attrib)
     }
 
     return html::div($attrib, $content);
-}
-
-/**
- * Create navigation buttons for the current import step
- */
-function rcmail_import_buttons($attrib)
-{
-    global $IMPORT_STATS, $OUTPUT;
-
-    $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
-
-    $attrib += array('type' => 'input');
-    unset($attrib['name']);
-
-    if (is_object($IMPORT_STATS)) {
-        $attrib['class'] = trim($attrib['class'] . ' mainaction');
-        $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
-    }
-    else {
-        $cancel = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
-        $attrib['class'] = trim($attrib['class'] . ' mainaction');
-        $out  = $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
-        $out .= '&nbsp;';
-        $out .= $cancel;
-    }
-
-    return $out;
 }
 
 /**

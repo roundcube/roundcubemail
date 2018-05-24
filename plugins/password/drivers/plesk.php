@@ -49,7 +49,7 @@ class rcube_plesk_password
      * @param string $newpass New password
      * @returns int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
         // get config
         $rcmail = rcmail::get_instance();
@@ -64,7 +64,7 @@ class rcube_plesk_password
         $plesk->init($host, $port, $path, $user, $pass);
 
         // try to change password and return the status
-        $result = $plesk->change_mailbox_password($_SESSION['username'], $newpass);
+        $result = $plesk->change_mailbox_password($username, $newpass);
         //$plesk->destroy();
 
         if ($result) {
@@ -120,7 +120,7 @@ class plesk_rpc
      * send a request to the plesk
      *
      * @param string $packet XML-Packet to send to Plesk
-     * @returns bool request was successfull or not
+     * @returns bool request was successful or not
      */
     function send_request($packet)
     {
@@ -152,7 +152,7 @@ class plesk_rpc
     }
 
     /**
-     * Get all hosting-informations of a domain
+     * Get all hosting-information of a domain
      *
      * @param string $domain domain-name
      * @returns object SimpleXML object
@@ -199,7 +199,7 @@ class plesk_rpc
     /**
      * Change Password of a mailbox
      *
-     * @param string $mailbox full email-adress (user@domain.tld)
+     * @param string $mailbox full email-address (user@domain.tld)
      * @param string $newpass new password of mailbox
      *
      * @returns bool

@@ -15,11 +15,13 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
-$labels['sharing'] = 'Sharing';
+$labels['sharing'] = 'Deelen';
 $labels['myrights'] = 'Zougrëffsrechter';
 $labels['username'] = 'Benotzer:';
 $labels['advanced'] = 'Avancéierte Modus';
+$labels['add'] = 'Dobäisetzen';
 $labels['newuser'] = 'Element dobäisetzen';
+$labels['editperms'] = 'Zougrëffsrechter beaarbechten';
 $labels['actions'] = 'Optioune fir d\'Zougrëffsrechter';
 $labels['anyone'] = 'All d\'Benotzer (jiddwereen)';
 $labels['anonymous'] = 'Gaascht (anonym)';
@@ -27,6 +29,9 @@ $labels['identifier'] = 'Identifiant';
 $labels['acll'] = 'Noschloen';
 $labels['aclr'] = 'Messagë liesen';
 $labels['acls'] = 'Lies-Status behalen';
+$labels['aclp'] = 'Schécken';
+$labels['aclc'] = 'Ënnerdossieren erstellen';
+$labels['aclk'] = 'Ënnerdossieren erstellen';
 $labels['acld'] = 'Messagë läschen';
 $labels['aclt'] = 'Messagë läschen';
 $labels['acle'] = 'Ausläschen';
@@ -50,11 +55,14 @@ $labels['shortaclt'] = 'Läschen';
 $labels['shortacle'] = 'Ausläschen';
 $labels['shortaclx'] = 'Dossier läschen';
 $labels['shortacla'] = 'Administréieren';
+$labels['shortacln'] = 'Kommentéieren';
 $labels['shortaclother'] = 'Aner';
 $labels['shortaclread'] = 'Liesen';
 $labels['shortaclwrite'] = 'Schreiwen';
 $labels['shortacldelete'] = 'Läschen';
 $labels['longacldelete'] = 'Messagë kënne geläscht ginn';
+$labels['longaclother'] = 'Aner Zougrëffsrechter';
+$labels['ariasummaryacltable'] = 'Lëscht vun Zougrëffsrechter';
 $messages['deleting'] = 'Zougrëffsrechter gi geläscht...';
 $messages['saving'] = 'Zougrëffsrechter gi gespäichert...';
 $messages['updatesuccess'] = 'Rechter erfollegräich geännert';

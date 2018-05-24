@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = 'Bitte vervollständigen Sie Ihre Absender-Informationen';
-$labels['identitydialoghint'] = 'Dieser Dialog erscheint nur einmal beim ersten Login.';
+$labels['identitydialogtitle'] = 'Bitte vervollständigen Sie Ihre Absenderkennung';
+$labels['identitydialoghint'] = 'Dieser Dialog erscheint nur einmal beim ersten Anmelden.';
 ?>

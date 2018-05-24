@@ -39,7 +39,10 @@
     </span>
 <roundcube:endif />
     <a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('responsesmenu');return false">&nbsp;</a>
-    <roundcube:button command="compose-encrypted" type="link" class="buttonPas encrypt disabled" classAct="button encrypt" classSel="button encrypt" title="encryptmessagemailvelope" content=" " style="display:none" />
+    <span class="dropbutton" style="display:none">
+        <roundcube:button command="compose-encrypted" type="link" class="buttonPas encrypt disabled" classAct="button encrypt" classSel="button encrypt" title="encryptmessagemailvelope" content=" " />
+        <span id="encryptionmenulink" onclick="rcmail_ui.show_popup('encryptionmenu');return false" style="display:none"></span>
+    </span>
     <roundcube:container name="toolbar" id="compose-toolbar" />
     <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
@@ -49,7 +52,16 @@
 <div id="mainscreen">
 
 <div id="compose-contacts">
-<div class="boxtitle"><roundcube:label name="contacts" /></div>
+<div class="boxtitle">
+    <roundcube:label name="contacts" />
+    <div id="abookcountbar" class="pagenav">
+        <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
+        <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
+        <span style="float:left">&nbsp;</span>
+        <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
+        <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
+    </div>
+</div>
 <div class="boxlistcontent">
     <div class="searchbox">
         <img id="searchmenulink" src="/images/icons/glass.png" width="16" height="16" />
@@ -60,17 +72,11 @@
     <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" noheader="true" />
 </div>
 <div class="boxfooter">
-    <div id="abookactions" class="pagenav">
+    <div id="abookactions">
         <roundcube:button command="add-recipient" prop="to" type="link" title="to" class="button disabled" classAct="button" content="To &amp;raquo;" />
         <roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="button disabled" classAct="button" content="Cc &amp;raquo;" />
         <roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="button disabled" classAct="button" content="Bcc &amp;raquo;" />
-    </div>
-    <div id="abookcountbar" class="pagenav">
-        <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
-        <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
-        <span style="float:left">&nbsp;</span>
-        <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
-        <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
+        <roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
     </div>
 </div>
 </div>
@@ -87,7 +93,7 @@
             <td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
             <td class="editfield formlinks">
                 <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-                <a href="#identities" onclick="return rcmail.command('identities')"><roundcube:label name="editidents" /></a>
+                <a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')"><roundcube:label name="editidents" /></a>
                 <roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" condition="!env:extwin" />
             </td>
         </tr><tr>
@@ -222,6 +228,13 @@
     <li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="downloadlink" classAct="downloadlink active" innerclass="downloadlink" /></li>
     <li><roundcube:button command="rename-attachment" id="attachmenurename" type="link" label="rename" class="renamelink" classAct="renamelink active" innerclass="renamelink" /></li>
     <roundcube:container name="attachmentmenu" id="attachmentmenu" />
+  </ul>
+</div>
+
+<div id="encryptionmenu" class="popupmenu">
+  <ul>
+    <roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" classAct="active" />
+    <roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" classAct="active" />
   </ul>
 </div>
 

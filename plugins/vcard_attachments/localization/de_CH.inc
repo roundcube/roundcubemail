@@ -17,4 +17,8 @@
 */
 $labels['addvcardmsg'] = 'Kontakt im Adressbuch speichern';
 $labels['vcardsavefailed'] = 'Der Kontakt konnte nicht gespeichert werden';
+$labels['attachvcard'] = 'Als vCard anhängen';
+$labels['vcardattached'] = 'vCard-Datei angehängt.';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Kontakt weiterleiten';
 ?>

@@ -172,11 +172,16 @@ if ($RCI->configured) {
 
       // remove obsolete packages
       $old_packages = array(
-        'pear/mail_mime',
-        'pear/mail_mime-decode',
-        'pear/net_smtp',
-        'pear/net_sieve',
+        'pear-pear.php.net/net_socket',
+        'pear-pear.php.net/auth_sasl',
+        'pear-pear.php.net/net_idna2',
+        'pear-pear.php.net/mail_mime',
+        'pear-pear.php.net/net_smtp',
+        'pear-pear.php.net/crypt_gpg',
         'pear-pear.php.net/net_sieve',
+        'pear/mail_mime-decode',
+        'roundcube/net_sieve',
+        'endroid/qrcode',
       );
       foreach ($old_packages as $pkg) {
         if (array_key_exists($pkg, $composer_data['require'])) {

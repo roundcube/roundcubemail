@@ -19,6 +19,7 @@ $labels['sharing'] = 'Κοινή χρήση';
 $labels['myrights'] = 'Δικαιώματα Πρόσβασης ';
 $labels['username'] = 'Χρήστης:';
 $labels['advanced'] = 'Προηγμένη λειτουργία';
+$labels['add'] = 'Προσθήκη';
 $labels['newuser'] = 'Προσθήκη καταχώρησης ';
 $labels['editperms'] = 'Μεταβολή δικαιωμάτων';
 $labels['actions'] = 'Ενέργειες δικαιωμάτων πρόσβασης...';

@@ -381,9 +381,9 @@ class rcube_vcard
             }
 
             if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
-                $index = count($this->raw[$tag]);
-                $this->raw[$tag][$index] = (array)$value;
+                $this->raw[$tag][] = (array) $value;
                 if ($type) {
+                    $index   = count($this->raw[$tag]) - 1;
                     $typemap = array_flip($this->typemap);
                     $this->raw[$tag][$index]['type'] = explode(',', $typemap[$type_uc] ?: $type);
                 }
@@ -405,7 +405,7 @@ class rcube_vcard
      */
     public function set_raw($tag, $value, $append = false)
     {
-        $index = $append ? count($this->raw[$tag]) : 0;
+        $index = $append && isset($this->raw[$tag]) ? count($this->raw[$tag]) : 0;
         $this->raw[$tag][$index] = (array)$value;
     }
 
@@ -626,7 +626,7 @@ class rcube_vcard
                 $field = strtoupper($regs2[1][0]);
                 $enc   = null;
 
-                foreach($regs2[1] as $attrid => $attr) {
+                foreach ($regs2[1] as $attrid => $attr) {
                     $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
                     if ((list($key, $value) = explode('=', $attr)) && $value) {
                         if ($key == 'ENCODING') {
@@ -752,7 +752,7 @@ class rcube_vcard
                             }
                         }
                         else {
-                            foreach((array)$attrvalues as $attrvalue) {
+                            foreach ((array)$attrvalues as $attrvalue) {
                                 $attr .= strtoupper(";$attrname=") . self::vcard_quote($attrvalue, ',');
                             }
                         }
@@ -785,7 +785,7 @@ class rcube_vcard
     public static function vcard_quote($s, $sep = ';')
     {
         if (is_array($s)) {
-            foreach($s as $part) {
+            foreach ($s as $part) {
                 $r[] = self::vcard_quote($part, $sep);
             }
             return(implode($sep, (array)$r));

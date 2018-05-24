@@ -1,0 +1,84 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+
+<h1 class="voice"><roundcube:label name="settings" /> : <roundcube:label name="enigma.enigmakeys" /></h1>
+
+<!-- keys list -->
+<div class="list listbox selected" aria-labelledby="aria-label-enigmakeyslist">
+	<div class="header">
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
+		<span id="aria-label-enigmakeyslist" class="header-title"><roundcube:label name="enigma.enigmakeys" /></span>
+		<roundcube:object name="searchform" id="keysearch" wrapper="searchbar toolbar"
+			label="keysearchform" buttontitle="findkeys" ariatag="h2" />
+		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+	</div>
+	<div class="pagenav toolbar" role="toolbar">
+		<roundcube:button command="firstpage" type="link"
+			class="button firstpage disabled" classAct="button firstpage"
+			title="firstpage" label="first" innerclass="inner" />
+		<roundcube:button command="previouspage" type="link"
+			class="button prevpage disabled" classAct="button prevpage"
+			title="previouspage" label="previous" innerclass="inner" />
+		<span class="pagenav-text" aria-live="polite" aria-relevant="text">
+			<roundcube:object name="countdisplay" />
+		</span>
+		<roundcube:endif />
+		<roundcube:button command="nextpage" type="link"
+			class="button nextpage disabled" classAct="button nextpage"
+			title="nextpage" label="next" innerclass="inner" />
+		<roundcube:button command="lastpage" type="link"
+			class="button lastpage disabled" classAct="button lastpage"
+			title="lastpage" label="last" innerclass="inner" />
+	</div>
+	<div class="scroller">
+		<roundcube:object name="keyslist" id="keys-table" class="listing" role="listbox" noheader="true" data-list="keys_list" />
+	</div>
+</div>
+
+<!-- key info frame -->
+<div class="content" role="main">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+		<!-- toolbar -->
+		<div id="folderstoolbar" class="toolbar">
+			<roundcube:button command="plugin.enigma-key-create" type="link"
+				class="button create disabled" classAct="button create"
+				label="create" title="enigma.createkeys" innerClass="inner" />
+			<roundcube:button command="plugin.enigma-key-delete" type="link"
+				class="button delete disabled" classAct="button delete"
+				label="delete" title="enigma.keyremove" innerClass="inner" />
+			<span class="spacer"></span>
+			<roundcube:button command="plugin.enigma-key-import-search" type="link"
+				class="button search disabled" classAct="button search"
+				label="search" title="enigma.keyimportsearchlabel" innerClass="inner" />
+			<roundcube:button command="plugin.enigma-key-import" type="link"
+				class="button import disabled" classAct="button import"
+				label="import" title="enigma.importkeys" innerClass="inner" />
+			<span class="dropbutton">
+				<roundcube:button command="plugin.enigma-key-export" type="link"
+					class="button export disabled" classAct="button export"
+					label="export" title="enigma.exportkeys" innerclass="inner" />
+				<a href="#export" class="button dropdown" data-popup="export-menu">
+					<span class="inner"><roundcube:label name="enigma.arialabelkeyexportoptions" /></span>
+				</a>
+			</span>
+		</div>
+	</div>
+	<div class="iframe-wrapper">
+		<roundcube:object name="contentframe" id="keyframe" src="env:blankpage" />
+	</div>
+</div>
+
+<div id="export-menu" class="popupmenu">
+	<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="enigma.arialabelkeyexportoptions" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-export-menu">
+		<roundcube:button type="link-menuitem" command="plugin.enigma-key-export" label="exportall" prop="sub" class="export all" classAct="export all active" />
+		<roundcube:button type="link-menuitem" command="plugin.enigma-key-export-selected" label="exportsel" prop="sub" class="export selection" classAct="export selection active" />
+	</ul>
+</div>
+
+<roundcube:include file="includes/footer.html" />

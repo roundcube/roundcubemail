@@ -69,7 +69,7 @@ else if ($ERROR_CODE == 404) {
     $__error_text  = nl2br($rcmail->gettext('errnotfoundexplain') . "\n" .
                         $rcmail->gettext('errcontactserveradmin'));
 
-    $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ":</i><br />\n<tt>//$request_url</tt></p>";
+    $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
 }
 
 // invalid compose ID
@@ -96,14 +96,7 @@ else if ($ERROR_CODE == 603) {
 // system error
 else {
     $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
-    $__error_text  = "Please contact your server-administrator.";
-
-    if (($rcmail->config->get('debug_level') & 4) && $ERROR_MESSAGE) {
-        $__error_text = $ERROR_MESSAGE;
-    }
-    else {
-        $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
-    }
+    $__error_text  = sprintf('Error No. [%s]', $ERROR_CODE);
 }
 
 // inform plugins
@@ -130,7 +123,7 @@ if ($rcmail->output && $rcmail->output->type == 'js') {
 
 // compose page content
 $__page_content = <<<EOF
-<div>
+<div class="boxerror">
 <h3 class="error-title">$__error_title</h3>
 <div class="error-text">$__error_text</div>
 </div>

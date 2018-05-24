@@ -31,63 +31,42 @@
 
 class rcube_virtualmin_password
 {
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
         $rcmail   = rcmail::get_instance();
-        $format   = $rcmail->config->get('password_virtualmin_format', 0);
-        $username = $_SESSION['username'];
-
-        switch ($format) {
-        case 1: // username%domain
-            $domain = substr(strrchr($username, "%"), 1);
-            break;
-        case 2: // username.domain (could be bogus)
-            $pieces = explode(".", $username);
-            $domain = $pieces[count($pieces)-2]. "." . end($pieces);
-            break;
-        case 3: // domain.username (could be bogus)
-            $pieces = explode(".", $username);
-            $domain = $pieces[0]. "." . $pieces[1];
-            break;
-        case 4: // username-domain
-            $domain = substr(strrchr($username, "-"), 1);
-            break;
-        case 5: // domain-username
-            $domain = str_replace(strrchr($username, "-"), "", $username);
-            break;
-        case 6: // username_domain
-            $domain = substr(strrchr($username, "_"), 1);
-            break;
-        case 7: // domain_username
-            $pieces = explode("_", $username);
-            $domain = $pieces[0];
-            break;
-        default: // username@domain
-            $domain = substr(strrchr($username, "@"), 1);
-        }
-
-        if (!$domain) {
-            $domain = $rcmail->user->get_username('domain');
-        }
-
-        $username = escapeshellcmd($username);
-        $domain   = escapeshellcmd($domain);
-        $newpass  = escapeshellcmd($newpass);
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
+        $username = escapeshellarg($username);
+
+        // Get the domain using virtualmin CLI:
+        exec("$curdir/chgvirtualminpasswd list-domains --mail-user $username --name-only", $output_domain, $returnvalue);
+
+        if ($returnvalue == 0 && count($output_domain) == 1) {
+            $domain = trim($output_domain[0]);
+        }
+        else {
+            rcube::raise_error(array(
+                'code' => 600,
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd or domain for mail-user '$username' not known to Virtualmin"
+                ), true, false);
+
+            return PASSWORD_ERROR;
+        }
+
+        $domain  = escapeshellarg($domain);
+        $newpass = escapeshellarg($newpass);
 
         exec("$curdir/chgvirtualminpasswd modify-user --domain $domain --user $username --pass $newpass", $output, $returnvalue);
 
         if ($returnvalue == 0) {
             return PASSWORD_SUCCESS;
         }
-        else {
-            rcube::raise_error(array(
+
+        rcube::raise_error(array(
                 'code' => 600,
-                'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd"
-                ), true, false);
-        }
+            ), true, false);
 
         return PASSWORD_ERROR;
     }

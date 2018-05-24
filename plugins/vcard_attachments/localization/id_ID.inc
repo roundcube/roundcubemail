@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Tambahkan vCard ke buku alamat';
 $labels['vcardsavefailed'] = 'Tidak dapat menyimpan vCard';
+$labels['attachvcard'] = 'Lampirkan vCard';
+$labels['vcard'] = 'vCard';
 ?>

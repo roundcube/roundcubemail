@@ -19,6 +19,11 @@
   left: 205px;
 }
 
+#filtersscreen.nosetlist
+{
+  left: 0;
+}
+
 #filterslistbox
 {
   position: absolute;
@@ -112,6 +117,20 @@ body.iframe
   color: #666666;
 }
 
+filter-form .col-form-label {
+  display: inline-block;
+  min-width: 75px;
+  line-height: 2.5;
+}
+
+#filter-form .col-form-label + div {
+  display: inline;
+}
+
+#filter-form div.flexbox {
+  margin: 0;
+}
+
 #rules, #actions
 {
   margin-top: 5px;
@@ -156,19 +175,23 @@ td.advbutton a
 {
   display: block;
   padding-top: 14px;
-  height: 6px;
+  height: 14px;
   width: 12px;
   text-decoration: none;
 }
 
+td.advbutton a span {
+  display: none;
+}
+
 td.advbutton a.show
 {
-  background: url(images/down_small.gif?v=8629.106) center no-repeat;
+  background: url(images/down_small.gif) center no-repeat;
 }
 
 td.advbutton a.hide
 {
-  background: url(images/up_small.gif?v=c56c.106) center no-repeat;
+  background: url(images/up_small.gif) center no-repeat;
 }
 
 td.rowbuttons
@@ -300,9 +323,13 @@ span.sieve.error
   color: red;
 }
 
+#filter-form a.button span {
+  display: none;
+}
+
 a.button.add
 {
-  background: url(images/add.png?v=a165.280) no-repeat;
+  background: url(images/add.png) no-repeat;
   width: 30px;
   height: 20px;
   margin-right: 4px;
@@ -311,7 +338,7 @@ a.button.add
 
 a.button.del
 {
-  background: url(images/del.png?v=3c27.247) no-repeat;
+  background: url(images/del.png) no-repeat;
   width: 30px;
   height: 20px;
   display: inline-block;
@@ -365,7 +392,7 @@ td.rowtargets > span.listarea
 
 .listarea.error .listelement
 {
-  background-color: #FFFFC4;
+  background-color: #FFFF88;
 }
 
 .listelement:first-child
@@ -397,7 +424,7 @@ td.rowtargets > span.listarea
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: url(images/erase.png?v=3052.453) -1px 0 no-repeat #eee;
+  background: url(images/erase.png) -1px 0 no-repeat #eee;
   cursor: pointer;
 }
 
@@ -435,4 +462,47 @@ body.iframe.mail #filter-form
 
 #vacationform input.button {
   margin-left: 10px;
+}
+
+/* RAW editor and CodeMirror overrides */
+
+.raweditor textarea {
+  border: none;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  font-family: monospace;
+  width: 99%;
+  min-height: 300px;
+}
+
+.raweditor textarea,
+.raweditor .CodeMirror {
+  position: absolute;
+  top: 34px;
+  bottom: 45px;
+  right: 0;
+  left: 0;
+  height: auto;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #eee;
+}
+
+.raweditor .CodeMirror-linebackground.line-error {
+  background-color: #f00;
+  opacity: 0.4;
+}
+
+.raweditor .errorGutter {
+  width: 0.8em;
+}
+
+.raweditor #footer {
+  position: absolute;
+  bottom: 5px;
+}
+
+body.iframe.raweditor {
+  min-width: 100px;
+  overflow: hidden;
 }

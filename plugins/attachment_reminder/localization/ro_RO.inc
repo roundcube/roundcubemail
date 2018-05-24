@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Lipsă atașament?";
 $messages['forgotattachment'] = "Ați uitat să atașati ?";
 $messages['reminderoption'] = "Adu-mi aminte de atașamente";
 $messages['keywords'] = "atașament,atasament,atas,atasat,ataș,attach,fisier,fișier,attach,atach,attache";

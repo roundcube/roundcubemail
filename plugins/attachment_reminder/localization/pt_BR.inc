@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Faltando anexo?";
 $messages['forgotattachment'] = "Você esqueceu-se de anexar um arquivo?";
 $messages['reminderoption'] = "Alertar sobre o possível esquecimento de anexos";
 $messages['keywords'] = "anexo,arquivo,anexar,anexado,anexando,incluso,CV,currículo";

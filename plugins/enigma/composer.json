@@ -1,9 +1,9 @@
 {
     "name": "roundcube/enigma",
     "type": "roundcube-plugin",
-    "description": "PGP Encryption for Roundcube",
+    "description": "Server-side PGP Encryption for Roundcube",
     "license": "GPLv3+",
-    "version": "0.6",
+    "version": "0.7",
     "authors": [
         {
             "name": "Aleksander Machniak",
@@ -13,10 +13,6 @@
     ],
     "repositories": [
         {
-            "type": "pear",
-            "url": "http://pear.php.net/"
-        },
-        {
             "type": "composer",
             "url": "http://plugins.roundcube.net"
         }
@@ -24,6 +20,6 @@
     "require": {
         "php": ">=5.3.0",
         "roundcube/plugin-installer": "~0.1.6",
-        "pear-pear.php.net/crypt_gpg": "~1.4.2"
+        "pear/crypt_gpg": "~1.6.2"
     }
 }

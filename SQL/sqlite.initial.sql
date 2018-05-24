@@ -126,12 +126,11 @@ CREATE UNIQUE INDEX ix_searches_user_type_name ON searches (user_id, type, name)
 CREATE TABLE cache (
   user_id integer NOT NULL default 0,
   cache_key varchar(128) NOT NULL default '',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   expires datetime DEFAULT NULL,
-  data text NOT NULL
+  data text NOT NULL,
+  PRIMARY KEY (user_id, cache_key)
 );
 
-CREATE INDEX ix_cache_user_cache_key ON cache(user_id, cache_key);
 CREATE INDEX ix_cache_expires ON cache(expires);
 
 -- 
@@ -140,12 +139,11 @@ CREATE INDEX ix_cache_expires ON cache(expires);
 
 CREATE TABLE cache_shared (
   cache_key varchar(255) NOT NULL,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   expires datetime DEFAULT NULL,
-  data text NOT NULL
+  data text NOT NULL,
+  PRIMARY KEY (cache_key)
 );
 
-CREATE INDEX ix_cache_shared_cache_key ON cache_shared(cache_key);
 CREATE INDEX ix_cache_shared_expires ON cache_shared(expires);
 
 --
@@ -194,6 +192,20 @@ CREATE TABLE cache_messages (
 CREATE INDEX ix_cache_messages_expires ON cache_messages (expires);
 
 --
+-- Table structure for table filestore
+--
+
+CREATE TABLE filestore (
+    file_id integer PRIMARY KEY,
+    user_id integer NOT NULL,
+    filename varchar(128) NOT NULL,
+    mtime integer NOT NULL,
+    data text NOT NULL
+);
+
+CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, filename);
+
+--
 -- Table structure for table system
 --
 
@@ -202,4 +214,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2016081200');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2018021600');

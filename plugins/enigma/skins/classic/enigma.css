@@ -58,9 +58,9 @@ p.enigmaattachment
   width: auto;
 }
 
-p.enigmaattachment a
+p.enigmaattachment span
 {
-  display: block;
+  display: inline-block;
   background: url(key_add.png) 10px center no-repeat;
   padding: 1em 0.5em 1em 50px;
 }
@@ -71,6 +71,26 @@ p.enigmaattachment a
 #messagetoolbar a.button.enigma {
   text-indent: -5000px;
   background: url(enigma.png) 0 0 no-repeat;
+}
+
+#enigmamenu div.row {
+  display: table-row;
+}
+
+#enigmamenu div.row > label {
+  display: table-cell;
+  width: 99%;
+  padding: 3px;
+}
+
+#enigmamenu div.row > div {
+  display: table-cell;
+  width: 1%;
+  padding: 3px;
+}
+
+#enigmamenu input {
+  vertical-align: middle;
 }
 
 /***** Keys/Certs Management *****/
@@ -223,4 +243,12 @@ div.enigmascreen
 #keystoolbar span.separator {
   width: 5px;
   background-position: -166px 0;
+}
+
+#keystoolbar a.search {
+  background: url(../../../../skins/classic/images/abook_toolbar.png) -170px 0 no-repeat transparent;
+}
+
+#keystoolbar a.searchSel {
+  background: url(../../../../skins/classic/images/abook_toolbar.png) -170px -32px no-repeat transparent;
 }

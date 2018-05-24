@@ -9,7 +9,6 @@
  * Enable the plugin in config.inc.php and add your desired headers:
  *   $config['show_additional_headers'] = array('User-Agent');
  *
- * @version @package_version@
  * @author Thomas Bruederli
  * @license GNU GPLv3+
  */

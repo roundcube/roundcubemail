@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,11 +25,13 @@
  */
 
 $config = array(
-    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'display_errors'  => false,
+    'log_errors'      => true,
     // Some users are not using Installer, so we'll check some
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
-    'mbstring.func_overload'  => 0,
+    'mbstring.func_overload' => 0,
 );
 
 // check these additional ini settings if not called via CLI
@@ -37,6 +39,8 @@ if (php_sapi_name() != 'cli') {
     $config += array(
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,
+        'session.auto_start'      => false,
+        'zlib.output_compression' => false,
     );
 }
 
@@ -53,7 +57,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.3-git');
+define('RCUBE_VERSION', '1.4-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
@@ -425,6 +429,7 @@ if (!function_exists('idn_to_ascii'))
 function rcube_autoload($classname)
 {
     if (strpos($classname, 'rcube') === 0) {
+        $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
         $classname = 'Roundcube/' . $classname;
     }
     else if (strpos($classname, 'html_') === 0 || $classname === 'html') {

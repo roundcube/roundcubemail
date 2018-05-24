@@ -12,7 +12,8 @@
  *
  * @author Ziba Scott <ziba@umich.edu>
  * @author Aleksander Machniak <alec@alec.pl>
- * @version @package_version@
+ *
+ * Copyright (C) 2011-2018, The Roundcube Dev Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -85,6 +86,8 @@ class database_attachments extends filesystem_attachments
             if ($args['data'] === false) {
                 return $args;
             }
+
+            $args['path'] = null;
         }
 
         $data   = base64_encode($args['data']);
@@ -131,9 +134,12 @@ class database_attachments extends filesystem_attachments
         $cache = $this->get_cache();
         $data  = $cache->read($args['id']);
 
-        if ($data) {
+        if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
             $args['status'] = true;
+        }
+        else {
+            $args['status'] = false;
         }
 
         return $args;

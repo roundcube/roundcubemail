@@ -171,12 +171,14 @@ class rcube_ldap extends rcube_addressbook
             $this->coltypes['address'] = array(
                'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
                'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], (array)$this->coltypes['locality']['subtypes']),
-               'childs' => array(),
+               'childs'   => array(),
+               'attributes' => array(),
                ) + (array)$this->coltypes['address'];
 
             foreach (array('street','locality','zipcode','region','country') as $childcol) {
                 if ($this->coltypes[$childcol]) {
                     $this->coltypes['address']['childs'][$childcol] = array('type' => 'text');
+                    $this->coltypes['address']['attributes'] = array_merge($this->coltypes['address']['attributes'], $this->coltypes[$childcol]['attributes']);
                     unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
                 }
             }
@@ -228,7 +230,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->sort_col    = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
         $this->debug       = $debug;
-        $this->mail_domain = $mail_domain;
+        $this->mail_domain = $this->prop['mail_domain'] = $mail_domain;
 
         // initialize cache
         $rcube = rcube::get_instance();
@@ -260,11 +262,13 @@ class rcube_ldap extends rcube_addressbook
     {
         $rcube = rcube::get_instance();
 
-        if ($this->ready)
+        if ($this->ready) {
             return true;
+        }
 
-        if (!is_array($this->prop['hosts']))
+        if (!is_array($this->prop['hosts'])) {
             $this->prop['hosts'] = array($this->prop['hosts']);
+        }
 
         // try to connect + bind for every host configured
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
@@ -280,9 +284,10 @@ class rcube_ldap extends rcube_addressbook
                 $this->readonly = false;
             }
 
-            $bind_pass = $this->prop['bind_pass'];
-            $bind_user = $this->prop['bind_user'];
-            $bind_dn   = $this->prop['bind_dn'];
+            $bind_pass   = $this->prop['bind_pass'];
+            $bind_user   = $this->prop['bind_user'];
+            $bind_dn     = $this->prop['bind_dn'];
+            $auth_method = $this->prop['auth_method'];
 
             $this->base_dn        = $this->prop['base_dn'];
             $this->groups_base_dn = $this->prop['groups']['base_dn'] ?: $this->base_dn;
@@ -418,7 +423,7 @@ class rcube_ldap extends rcube_addressbook
                 }
             }
 
-            if (empty($bind_pass)) {
+            if (empty($bind_pass) && strcasecmp($auth_method, 'GSSAPI') != 0) {
                 $this->ready = true;
             }
             else {
@@ -838,7 +843,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // compose a full-text-like search filter
-            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode);
+            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode & ~rcube_addressbook::SEARCH_GROUPS);
         }
 
         // add required (non empty) fields filter
@@ -910,7 +915,7 @@ class rcube_ldap extends rcube_addressbook
     protected function extended_search($count = false)
     {
         $prop    = $this->group_id ? $this->group_data : $this->prop;
-        $base_dn = $this->group_id ? $this->groups_base_dn : $this->base_dn;
+        $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? array('dn') : $this->prop['attributes'];
         $entries = array();
 
@@ -1470,16 +1475,23 @@ class rcube_ldap extends rcube_addressbook
                 if (strpos($templ, '(') !== false) {
                     // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
                     $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
-                    $fn   = create_function('', "return ($code);");
-                    if (!$fn) {
+                    $res  = false;
+
+                    try {
+                        $res = eval("return ($code);");
+                    }
+                    catch (ParseError $e) {
+                        // ignore
+                    }
+
+                    if ($res === false) {
                         rcube::raise_error(array(
-                            'code' => 505, 'type' => 'php',
-                            'file' => __FILE__, 'line' => __LINE__,
+                            'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => "Expression parse error on: ($code)"), true, false);
                         continue;
                     }
 
-                    $attrs[$lf] = $fn();
+                    $attrs[$lf] = $res;
                 }
                 else {
                     // replace {attr} placeholders with concrete attribute values

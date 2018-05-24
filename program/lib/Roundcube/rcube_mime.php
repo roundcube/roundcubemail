@@ -42,7 +42,7 @@ class rcube_mime
     /**
      * Returns message/object character set name
      *
-     * @return string Characted set name
+     * @return string Character set name
      */
     public static function get_charset()
     {
@@ -84,16 +84,21 @@ class rcube_mime
     /**
      * Split an address list into a structured array list
      *
-     * @param string  $input    Input string
-     * @param int     $max      List only this number of addresses
-     * @param boolean $decode   Decode address strings
-     * @param string  $fallback Fallback charset if none specified
-     * @param boolean $addronly Return flat array with e-mail addresses only
+     * @param string|array $input    Input string (or list of strings)
+     * @param int          $max      List only this number of addresses
+     * @param boolean      $decode   Decode address strings
+     * @param string       $fallback Fallback charset if none specified
+     * @param boolean      $addronly Return flat array with e-mail addresses only
      *
      * @return array Indexed list of addresses
      */
     static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
+        // A common case when the same header is used many times in a mail message
+        if (is_array($input)) {
+            $input = implode(', ', $input);
+        }
+
         $a   = self::parse_address_list($input, $decode, $fallback);
         $out = array();
         $j   = 0;
@@ -212,9 +217,21 @@ class rcube_mime
 
                 // Decode and join encoded-word's chunks
                 if ($encoding == 'B' || $encoding == 'b') {
-                    // base64 must be decoded a segment at a time
-                    for ($i=0; $i<$count; $i++)
-                        $text .= base64_decode($tmp[$i]);
+                    $rest  = '';
+                    // base64 must be decoded a segment at a time.
+                    // However, there are broken implementations that continue
+                    // in the following word, we'll handle that (#6048)
+                    for ($i=0; $i<$count; $i++) {
+                        $chunk  = $rest . $tmp[$i];
+                        $length = strlen($chunk);
+                        if ($length % 4) {
+                            $length = floor($length / 4) * 4;
+                            $rest   = substr($chunk, $length);
+                            $chunk  = substr($chunk, 0, $length);
+                        }
+
+                        $text .= base64_decode($chunk);
+                    }
                 }
                 else { //if ($encoding == 'Q' || $encoding == 'q') {
                     // quoted printable can be combined and processed at once
@@ -437,12 +454,13 @@ class rcube_mime
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
-     * @param string $text Raw body formatted as flowed text
-     * @param string $mark Mark each flowed line with specified character
+     * @param string  $text  Raw body formatted as flowed text
+     * @param string  $mark  Mark each flowed line with specified character
+     * @param boolean $delsp Remove the trailing space of each flowed line
      *
      * @return string Interpreted text with unwrapped lines and stuffed space removed
      */
-    public static function unfold_flowed($text, $mark = null)
+    public static function unfold_flowed($text, $mark = null, $delsp = false)
     {
         $text    = preg_split('/\r?\n/', $text);
         $last    = -1;
@@ -464,6 +482,9 @@ class rcube_mime
                     && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
                     && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
+                    if ($delsp) {
+                        $text[$last] = substr($text[$last], 0, -1);
+                    }
                     $text[$last] .= $line;
                     unset($text[$idx]);
 
@@ -487,6 +508,9 @@ class rcube_mime
                         && $text[$last] != '-- '
                         && $text[$last][strlen($text[$last])-1] == ' '
                     ) {
+                        if ($delsp) {
+                            $text[$last] = substr($text[$last], 0, -1);
+                        }
                         $text[$last] .= $line;
                         unset($text[$idx]);
 
@@ -779,6 +803,7 @@ class rcube_mime
             $file_paths[] = '/etc/nginx/mime.types';
             $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
             $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+            $file_paths[] = '/usr/local/etc/apache24/mime.types';
         }
 
         foreach ($file_paths as $fp) {
@@ -790,7 +815,7 @@ class rcube_mime
 
         $mime_types = $mime_extensions = array();
         $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
-        foreach((array)$lines as $line) {
+        foreach ((array)$lines as $line) {
              // skip comments or mime types w/o any extensions
             if ($line[0] == '#' || !preg_match($regex, $line, $matches))
                 continue;

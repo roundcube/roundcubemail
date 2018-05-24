@@ -19,6 +19,7 @@ $labels['sharing'] = 'Compartición';
 $labels['myrights'] = 'Drechos d\'accesu';
 $labels['username'] = 'Usuariu:';
 $labels['advanced'] = 'Mou avanzáu';
+$labels['add'] = 'Amestar';
 $labels['newuser'] = 'Amestar entrada';
 $labels['editperms'] = 'Editar permisos';
 $labels['actions'] = 'Aición de drechos d\'accesu...';

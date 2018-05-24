@@ -3,9 +3,9 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 1.3-git                                                         |
+ | Version 1.4-git                                                         |
  |                                                                         |
- | Copyright (C) 2009-2015, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2017, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -36,27 +36,11 @@
  +-------------------------------------------------------------------------+
 */
 
-ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
-define('RCUBE_INSTALL_PATH', INSTALL_PATH);
-define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config/');
 
-$include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
-$include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
-$include_path .= ini_get('include_path');
-
-set_include_path($include_path);
-
-// include composer autoloader (if available)
-if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
-    require INSTALL_PATH . 'vendor/autoload.php';
-}
-
-require_once 'Roundcube/bootstrap.php';
-// deprecated aliases (to be removed)
-require_once 'bc.php';
+require INSTALL_PATH . 'program/include/iniset.php';
 
 if (function_exists('session_start'))
   session_start();
@@ -122,7 +106,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 </div>
 
 <div id="topnav">
-  <a href="http://trac.roundcube.net/wiki/Howto_Install">How-to Wiki</a>
+  <a href="https://github.com/roundcube/roundcubemail/wiki/Installation">How-to Wiki</a>
 </div>
 
 <div id="content">

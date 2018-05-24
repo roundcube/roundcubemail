@@ -1,0 +1,34 @@
+<roundcube:add_label name="back" />
+<roundcube:add_label name="errortitle" />
+<roundcube:add_label name="options" />
+<roundcube:add_label name="plaintoggle" />
+<roundcube:add_label name="htmltoggle" />
+<roundcube:add_label name="previous" />
+<roundcube:add_label name="next" />
+<roundcube:object name="doctype" value="html5" />
+<roundcube:if condition="!env:framed || env:extwin" />
+<html>
+<roundcube:else />
+<html class="iframe">
+<roundcube:endif />
+<head>
+	<title><roundcube:object name="pagetitle" /></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0" id="viewport">
+	<link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/deps/bootstrap.min.css">
+	<roundcube:if condition="config:devel_mode" />
+		<link rel="stylesheet/less" href="/styles/styles.less">
+		<roundcube:link rel="stylesheet/less" href="/styles/print.less" condition="env:action == 'print'" />
+		<script src="/deps/less.min.js" data-env="development"></script>
+	<roundcube:else />
+		<link rel="stylesheet" href="/styles/styles.css">
+		<roundcube:link rel="stylesheet" href="/styles/print.css" condition="env:action == 'print'" />
+	<roundcube:endif />
+	<roundcube:if condition="template:name == 'error'" />
+		<script src="program/js/jquery.min.js"></script>
+	<roundcube:endif />
+</head>
+<body class="task-<roundcube:exp expression="env:task ?: 'error'">">
+	<roundcube:if condition="!env:framed || env:extwin" />
+		<div id="<roundcube:exp expression="env:action == 'print' ? 'print-' : ''">layout">
+	<roundcube:endif />

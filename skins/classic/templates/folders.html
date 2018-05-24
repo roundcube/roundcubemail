@@ -28,11 +28,11 @@
     <div class="searchbox" role="search">
         <input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
         <a class="iconbutton searchicon"></a>
-        <roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" width="13" height="13" />
+        <roundcube:button command="reset-foldersearch" type="link" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" width="13" height="13" />
     </div>
 </div>
 <div id="folderlist-content" class="boxlistcontent">
-    <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
+    <roundcube:object name="foldersubscription" id="subscription-table"
         summary="Folder subscription table" class="treelist folderlist" />
 </div>
 <div id="folderlist-footer" class="boxfooter">
@@ -54,15 +54,15 @@
 </script>
 
 <div id="folder-box">
-    <roundcube:object name="folderframe" id="folder-frame" width="100%" height="100%" frameborder="0" src="/watermark.html" />
+    <roundcube:object name="contentframe" id="folder-frame" width="100%" height="100%" frameborder="0" src="env:blankpage" />
 </div>
 
 </div>
 
 <div id="mailboxoptionsmenu" class="popupmenu">
   <ul>
-    <li><roundcube:button command="delete-folder" label="delete" classAct="active" /></li>
-    <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li><roundcube:button type="link" command="delete-folder" label="delete" classAct="active" /></li>
+    <li><roundcube:button type="link" command="purge" label="empty" classAct="active" /></li>
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
 </div>

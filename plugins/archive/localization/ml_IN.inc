@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,4 +19,6 @@ $labels['buttontext'] = 'ശേഖരം';
 $labels['buttontitle'] = 'ഈ മെസ്സേജ് ശേഖരിക്കുക';
 $labels['archived'] = 'വിജയകരമായി ശേഖരിച്ചു';
 $labels['archivefolder'] = 'ശേഖരം';
+$labels['settingstitle'] = 'ശേഖരം';
+$labels['unkownsender'] = 'അറിയാത്ത';
 ?>

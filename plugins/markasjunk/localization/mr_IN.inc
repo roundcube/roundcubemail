@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
+$labels['buttontext'] = 'नको असलेले कचरा संदेश';
 $labels['buttontitle'] = 'नको असलेला अशी खूण करा';
 $labels['reportedasjunk'] = 'नको आहे असे यशस्वीरीत्या नक्की केले';
 ?>

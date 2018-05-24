@@ -5,12 +5,36 @@ p.vcardattachment {
 	background: #f9f9f9;
 	border: 1px solid #d3d3d3;
 	border-radius: 4px;
-	box-shadow: 0 0 2px #ccc;
-	-webkit-box-shadow: 0 0 2px #ccc;
+	position: relative;
 }
 
-p.vcardattachment a {
+p.vcardattachment span {
 	display: block;
 	background: url(vcard_add_contact.png) 6px 2px no-repeat;
-	padding: 1.2em 0.5em 0.7em 46px;
+	line-height: 32px;
+	padding: 0 60px 0 46px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+p.vcardattachment button {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 5px;
+}
+
+a.listbutton.vcard .inner
+{
+	background-position: center -2107px;
+}
+
+.messagelist tbody tr .attachment span.attachment.vcard {
+	background: url(vcard.png) 0 center no-repeat;
+}
+
+ul.toolbarmenu li span.vcard {
+	background: url(listicons.png) no-repeat 7px 0;
+	background-position: 0 -3px;
 }

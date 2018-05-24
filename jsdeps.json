@@ -1,0 +1,114 @@
+{
+  "dependencies": [
+    {
+      "lib": "jquery",
+      "name": "jQuery",
+      "version": "3.3.1",
+      "url": "https://code.jquery.com/jquery-$v.min.js",
+      "dest": "program/js/jquery.min.js",
+      "sha1": "0dc32db4aa9c5f03f3b38c47d883dbd4fed13aae",
+      "license": "MIT",
+      "copyright": "Copyright JS Foundation and other contributors",
+      "source": "https://github.com/jquery/jquery/tree/$v"
+    },
+    {
+      "lib": "jstz",
+      "name": "jsTimezoneDetect",
+      "version": "1.0.6",
+      "url": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.min.js",
+      "dest": "program/js/jstz.min.js",
+      "sha1": "4291cd3b259d2060460c2a6ab99f428d3c0c9537",
+      "license": "MIT",
+      "copyright": "Copyright (c) Jon Nylander",
+      "source": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.js"
+    },
+    {
+      "lib": "publickey",
+      "name": "PublicKey.js",
+      "version": "0e011cb1",
+      "url": "https://raw.githubusercontent.com/diafygi/publickeyjs/$v/publickey.js",
+      "api_url": "https://api.github.com/repos/diafygi/publickeyjs/contents/publickey.js?ref=$v",
+      "dest": "program/js/publickey.js",
+      "sha1": "d0920e190754e024c4be76ad5bbc7e76b2e37a4d",
+      "license": "GPLv3",
+      "copyright": "Copyright (c) 2015 Daniel Roesler",
+      "source": "https://github.com/diafygi/publickeyjs/blob/master/publickey.js"
+    },
+    {
+      "lib": "tinymce",
+      "version": "4.5.8",
+      "url": "http://download.ephox.com/tinymce/community/tinymce_$v.zip",
+      "dest": "program/js",
+      "sha1": "08b0757264adb86066940bbafb7aa9ec0c7c6685",
+      "license": "LGPL",
+      "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
+      "rm": "program/js/tinymce",
+      "map": {
+        "js/tinymce": "tinymce"
+      },
+      "omit": [
+        "tinymce/license.txt",
+        "tinymce/jquery.tinymce.min.js"
+      ],
+      "addlicense": [
+        "tinymce/tinymce.min.js"
+      ]
+    },
+    {
+      "lib": "tinymce-langs",
+      "version": "4.5.8",
+      "url": "https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy",
+      "dest": "program/js/tinymce"
+    },
+    {
+      "lib": "openpgp",
+      "name": "OpenPGP.js",
+      "version": "2.6.2",
+      "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v$v/dist/openpgp.min.js",
+      "api_url": "https://api.github.com/repos/openpgpjs/openpgpjs/contents/dist/openpgp.min.js?ref=v$v",
+      "dest": "plugins/enigma/openpgp.min.js",
+      "sha1": "cce0087eb20328453b9378a2b01cc6339cef97b2",
+      "license": "LGPL",
+      "copyright": "Copyright (c) OpenPGP Development Team",
+      "source": "https://github.com/openpgpjs/openpgpjs/blob/v$v/dist/openpgp.js"
+    },
+    {
+      "lib": "codemirror",
+      "version": "5.34.0",
+      "url": "https://codemirror.net/codemirror-$v.zip",
+      "dest": "plugins/managesieve/codemirror",
+      "sha1": "24d0834c6a5c4b89c4c82ca2ea31e574b0751b32",
+      "license": "MIT",
+      "map": {
+        "lib": "lib",
+        "addon/selection": "addon/selection",
+        "mode/sieve": "mode/sieve"
+      }
+    },
+    {
+      "lib": "bootstrap",
+      "name": "Bootstrap",
+      "version": "4.1.0",
+      "url": "https://github.com/twbs/bootstrap/releases/download/v$v/bootstrap-$v-dist.zip",
+      "dest": "skins/elastic/deps",
+      "sha1": "90abd51cf27a3dc4823eed6c1de620725f068b6c",
+      "license": "MIT",
+      "flat": true,
+      "map": {
+        "bootstrap.bundle.min.js": "bootstrap.bundle.min.js",
+        "bootstrap.min.css": "bootstrap.min.css"
+      }
+    },
+    {
+      "lib": "less",
+      "name": "LessJS",
+      "version": "2.7.3",
+      "url": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.min.js",
+      "api_url": "https://api.github.com/repos/less/less.js/contents/dist/less.min.js?ref=v$v",
+      "dest": "skins/elastic/deps/less.min.js",
+      "sha1": "45ea4f9fed6c0568ec11faba048c3e3cb7612e9e",
+      "license": "Apache-2.0",
+      "source": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.js"
+    }
+  ]
+}

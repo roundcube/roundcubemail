@@ -27,6 +27,7 @@
 }
 
 #identities-table,
+#responses-table,
 #sections-table
 {
   width: 100%;
@@ -34,6 +35,7 @@
 }
 
 #identities-table tbody tr td,
+#responses-table tbody tr td,
 #sections-table tbody tr td
 {
   cursor: default;
@@ -66,7 +68,8 @@
 
 #folder-box,
 #prefs-box,
-#identity-box
+#identity-box,
+#response-box
 {
   position: absolute;
   top: 0;
@@ -105,6 +108,7 @@
 }
 
 #identities-list,
+#responses-list,
 #folder-manager,
 #sectionslist
 {
@@ -120,7 +124,8 @@
 body.iframe,
 #prefs-frame,
 #folder-frame,
-#identity-frame
+#identity-frame,
+#response-frame
 {
   background-color: #F2F2F2;
   border: none;
@@ -129,7 +134,8 @@ body.iframe,
 
 #prefs-title,
 #folder-title,
-#identity-title
+#identity-title,
+#response-title
 {
   /* fixes issue where tabs were overlapping box title when scrolling */
   z-index: 10;
@@ -138,6 +144,11 @@ body.iframe,
 #formfooter
 {
   width: 100%;
+}
+
+.footerleft
+{
+  padding-left: 10px;
 }
 
 #formfooter .footerleft

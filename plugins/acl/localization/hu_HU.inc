@@ -19,6 +19,7 @@ $labels['sharing'] = 'Megosztás';
 $labels['myrights'] = 'Hozzáférési jogok';
 $labels['username'] = 'Felhasználó:';
 $labels['advanced'] = 'Haladó mód';
+$labels['add'] = 'Hozzáadás';
 $labels['newuser'] = 'Elem hozzáadása';
 $labels['editperms'] = 'Jogosultságok szerkesztése';
 $labels['actions'] = 'Hozzáférési jogok müveletei..';

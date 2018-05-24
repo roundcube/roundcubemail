@@ -3,10 +3,9 @@
 /**
  * Password Plugin for Roundcube
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2005-2015, The Roundcube Dev Team
+ * Copyright (C) 2005-2018, The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +24,8 @@
 define('PASSWORD_CRYPT_ERROR', 1);
 define('PASSWORD_ERROR', 2);
 define('PASSWORD_CONNECT_ERROR', 3);
+define('PASSWORD_IN_HISTORY', 4);
+define('PASSWORD_CONSTRAINT_VIOLATION', 5);
 define('PASSWORD_SUCCESS', 0);
 
 /**
@@ -94,6 +95,17 @@ class password extends rcube_plugin
         if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
             $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
         }
+        else if (!empty($_SESSION['password_expires'])) {
+            if ($_SESSION['password_expires'] == 1) {
+                $rcmail->output->command('display_message', $this->gettext('passwdexpired'), 'error');
+            }
+            else {
+                $rcmail->output->command('display_message', $this->gettext(array(
+                        'name' => 'passwdexpirewarning',
+                        'vars' => array('expirationdatetime' => $_SESSION['password_expires'])
+                    )), 'warning');
+            }
+        }
 
         $rcmail->output->send('plugin');
     }
@@ -110,7 +122,7 @@ class password extends rcube_plugin
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
 
-        if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
+        if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
         }
         else {
@@ -152,9 +164,9 @@ class password extends rcube_plugin
             else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
             }
-            // password is the same as the old one, do nothing, return success
+            // password is the same as the old one, warn user, return error
             else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
-                $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+                $rcmail->output->command('display_message', $this->gettext('samepasswd'), 'error');
             }
             // try to save the password
             else if (!($res = $this->_save($curpwd, $newpwd))) {
@@ -172,6 +184,9 @@ class password extends rcube_plugin
                     rcube::write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
                         $rcmail->get_user_name(), $rcmail->user->ID, rcube_utils::remote_ip()));
                 }
+
+                // Remove expiration date/time
+                $rcmail->session->remove('password_expires');
             }
             else {
                 $rcmail->output->command('display_message', $res, 'error');
@@ -198,7 +213,7 @@ class password extends rcube_plugin
         $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
         $rcmail->output->set_env('password_disabled', !empty($form_disabled));
 
-        $table = new html_table(array('cols' => 2));
+        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         if ($rcmail->config->get('password_confirm_current')) {
             // show current password selection
@@ -264,26 +279,26 @@ class password extends rcube_plugin
 
         $submit_button = $rcmail->output->button(array(
                 'command' => 'plugin.password-save',
-                'type'    => 'input',
-                'class'   => 'button mainaction',
+                'class'   => 'button mainaction submit',
                 'label'   => 'save',
         ));
-
-        $out = html::div(array('class' => 'box'),
-            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
-            . html::div(array('class' => 'boxcontent'),
-                $disabled_msg . $table->show() . $rules . html::p(null, $submit_button)));
+        $form_buttons = html::p(array('class' => 'formbuttons footerleft'), $submit_button);
 
         $rcmail->output->add_gui_object('passform', 'password-form');
 
         $this->include_script('password.js');
 
-        return $rcmail->output->form_tag(array(
+        $form = $rcmail->output->form_tag(array(
             'id'     => 'password-form',
             'name'   => 'password-form',
             'method' => 'post',
             'action' => './?_task=settings&_action=plugin.password-save',
-        ), $out);
+        ), $disabled_msg . $table->show() . $rules);
+
+        return html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
+            . html::div(array('class' => 'box formcontainer scroller'),
+                html::div(array('class' => 'boxcontent formcontent'), $form)
+                . $form_buttons);
     }
 
     private function _save($curpass, $passwd)
@@ -315,8 +330,8 @@ class password extends rcube_plugin
             return $this->gettext('internalerror');
         }
 
-        $object = new $class;
-        $result = $object->save($curpass, $passwd);
+        $object  = new $class;
+        $result  = $object->save($curpass, $passwd, self::username());
         $message = '';
 
         if (is_array($result)) {
@@ -332,6 +347,12 @@ class password extends rcube_plugin
                 break;
             case PASSWORD_CONNECT_ERROR:
                 $reason = $this->gettext('connecterror');
+                break;
+            case PASSWORD_IN_HISTORY:
+                $reason = $this->gettext('passwdinhistory');
+                break;
+            case PASSWORD_CONSTRAINT_VIOLATION:
+                $reason = $this->gettext('passwdconstraintviolation');
                 break;
             case PASSWORD_ERROR:
             default:
@@ -427,19 +448,19 @@ class password extends rcube_plugin
         switch ($method) {
         case 'des':
         case 'des-crypt':
-            $crypted = crypt($password, self::random_salt(2));
+            $crypted = crypt($password, rcube_utils::random_bytes(2));
             $prefix  = '{CRYPT}';
             break;
 
         case 'ext_des': // for BC
         case 'ext-des-crypt':
-            $crypted = crypt($password, '_' . self::random_salt(8));
+            $crypted = crypt($password, '_' . rcube_utils::random_bytes(8));
             $prefix  = '{CRYPT}';
             break;
 
         case 'md5crypt': // for BC
         case 'md5-crypt':
-            $crypted = crypt($password, '$1$' . self::random_salt(9));
+            $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
             $prefix  = '{CRYPT}';
             break;
 
@@ -451,7 +472,7 @@ class password extends rcube_plugin
                 $prefix .= 'rounds=' . $rounds . '$';
             }
 
-            $crypted = crypt($password, $prefix . self::random_salt(16));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
             $prefix  = '{CRYPT}';
             break;
 
@@ -463,7 +484,7 @@ class password extends rcube_plugin
                 $prefix .= 'rounds=' . $rounds . '$';
             }
 
-            $crypted = crypt($password, $prefix . self::random_salt(16));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
             $prefix  = '{CRYPT}';
             break;
 
@@ -473,7 +494,7 @@ class password extends rcube_plugin
             $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
             $prefix = sprintf('$2a$%02d$', $cost);
 
-            $crypted = crypt($password, $prefix . self::random_salt(22));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
             $prefix  = '{CRYPT}';
             break;
 
@@ -504,7 +525,7 @@ class password extends rcube_plugin
             break;
 
         case 'ssha':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = rcube_utils::random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_SHA1, $password, $salt, 4);
@@ -530,7 +551,7 @@ class password extends rcube_plugin
             break;
 
         case 'smd5':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = rcube_utils::random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
@@ -580,37 +601,36 @@ class password extends rcube_plugin
                 $method = 'CRAM-MD5';
             }
 
-            // use common temp dir
-            $tmp_dir = $rcmail->config->get('temp_dir');
-            $tmpfile = tempnam($tmp_dir, 'roundcube-');
+            $spec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a'));
+            $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
 
-            $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
-            if (!$pipe) {
-                unlink($tmpfile);
+            if (!is_resource($pipe)) {
                 return false;
             }
-            else {
-                fwrite($pipe, $password . "\n", 1+strlen($password)); usleep(1000);
-                fwrite($pipe, $password . "\n", 1+strlen($password));
-                pclose($pipe);
 
-                $crypted = trim(file_get_contents($tmpfile), "\n");
-                unlink($tmpfile);
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
+            usleep(1000);
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
 
-                if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
-                    return false;
-                }
+            $crypted = trim(stream_get_contents($pipes[1]), "\n");
 
-                if (!$default) {
-                    $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
-                }
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            proc_close($pipe);
 
-                if (!$prefixed) {
-                    $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
-                }
-
-                $prefixed = false;
+            if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
+                return false;
             }
+
+            if (!$default) {
+                $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
+            }
+
+            if (!$prefixed) {
+                $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
+            }
+
+            $prefixed = false;
 
             break;
 
@@ -655,20 +675,28 @@ class password extends rcube_plugin
     }
 
     /**
-     * Used to generate a random salt for crypt-style passwords
+     * Returns username in a configured form appropriate for the driver
      *
-     * Code originaly from the phpLDAPadmin development team
-     * http://phpldapadmin.sourceforge.net/
+     * @param string $format Username format
+     *
+     * @return string Username
      */
-    static function random_salt($length)
+    static function username($format = null)
     {
-        $possible = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./';
-        $str      = '';
+        $rcmail = rcmail::get_instance();
 
-        while (strlen($str) < $length) {
-            $str .= substr($possible, (rand() % strlen($possible)), 1);
+        if (!$format) {
+            $format = $rcmail->config->get('password_username_format');
         }
 
-        return $str;
+        if (!$format) {
+            return $_SESSION['username'];
+        }
+
+        return strtr($format, array(
+                '%l' => $rcmail->user->get_username('local'),
+                '%d' => $rcmail->user->get_username('domain'),
+                '%u' => $_SESSION['username'],
+        ));
     }
 }

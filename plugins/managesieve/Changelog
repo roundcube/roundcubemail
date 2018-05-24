@@ -1,6 +1,36 @@
+* version 9.1 [2018-05-19]
+-----------------------------------------------------------
+- Added GSSAPI support (#5779)
+- Added option managesieve_default_headers
+- Added option managesieve_forward to enable settings dialog for simple forwarding (#6021)
+- Support filter action with custom IMAP flags (#6011)
+- Support 'mime' extension tests - RFC5703 (#5832)
+- Support enabling the plugin for specified hosts only (#6292)
+- Support Elastic skin
+- Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
+- Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
+- Rename "Vacation" to "Out of Office"
+
+* version 9.0 [2017-10-02]
+-----------------------------------------------------------
+- Fix parsing dot-staffed lines in multiline text (#5838)
+- Fix AM/PM suffix in vacation time selectors
+- Fix bug where 'exists' operator was reset to 'contains' (#5899)
+- Add ability to disable filter sets and other actions (#5496, #5898)
+
+* version 8.9 [2017-05-22]
+-----------------------------------------------------------
+- Fix handling of scripts with nested rules (#5540)
+- Fix possible defect in handling \r\n in scripts (#5685)
+- Performance: Skip redundant LISTSCRIPTS command
+
+* version 8.8 [2016-11-27]
+-----------------------------------------------------------
 - Fix parsing of vacation date-time with non-default date_format (#5372)
 - Fix regression where js error is thrown if server does not support 'duplicate' extension
 - Add option to automatically set vacation :from address (#5428)
+- Support per-host managesieve_conn_options (#5136)
+- Added (optional) RAW script editor (#5414)
 
 * version 8.7 [2016-07-19]
 -----------------------------------------------------------
@@ -21,7 +51,7 @@
 -----------------------------------------------------------
 - Add option to prepopulate vacation addresses on form init (#1490030)
 - Add option to define default vacation interval
-- Fix missing position idicator in Larry skin when dragging a filter
+- Fix missing position indicator in Larry skin when dragging a filter
 - Fix incorrect filter data after filter delete (#1490356)
 
 * version 8.3 [2015-03-12]

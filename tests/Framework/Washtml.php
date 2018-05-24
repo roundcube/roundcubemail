@@ -7,6 +7,14 @@
  */
 class Framework_Washtml extends PHPUnit_Framework_TestCase
 {
+    /**
+     * A helper method to remove comments added by rcube_washtml
+     */
+    function cleanupResult($html)
+    {
+        return preg_replace('/<!-- [a-z]+ (ignored|not allowed) -->/', '', $html);
+    }
+
 
     /**
      * Test the elimination of some XSS vulnerabilities
@@ -67,24 +75,24 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washer = new rcube_washtml;
 
         $html   = "<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>p2</p>', $washed, "HTML conditional comments (#1489004)");
+        $this->assertEquals('<p>p2</p>', $washed, "HTML conditional comments (#1489004)");
 
         $html   = "<!--TestCommentInvalid><p>test</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>test</p>', $washed, "HTML invalid comments (#1487759)");
+        $this->assertEquals('<p>test</p>', $washed, "HTML invalid comments (#1487759)");
 
         $html   = "<p>para1</p><!-- comment --><p>para2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
+        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
 
         $html   = "<p>para1</p><!-- <hr> comment --><p>para2</p>";
-        $washed = $washer->wash($html);
+        $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
+        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
     }
 
     /**
@@ -295,7 +303,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     function test_wash_mathml()
     {
         $mathml = '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>
-            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+            <math><semantics>
                 <mrow>
                     <msub><mi>I</mi><mi>D</mi></msub>
                     <mo>=</mo>
@@ -312,7 +320,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
             </body></html>';
 
         $exp = '<!-- html ignored --><!-- head ignored --><!-- meta ignored --><!-- body ignored -->
-            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+            <math><semantics>
                 <mrow>
                     <msub><mi>I</mi><mi>D</mi></msub>
                     <mo>=</mo>
@@ -335,5 +343,81 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $exp    = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
 
         $this->assertSame(trim($washed), trim($exp), "MathML content");
+    }
+
+    /**
+     * Test external links in src of input/video elements (#5583)
+     */
+    function test_src_wash()
+    {
+        $html = "<input type=\"image\" src=\"http://TRACKING_URL/\">";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue($washer->extlinks);
+        $this->assertNotContains('TRACKING', $washed, "Src attribute of <input> tag (#5583)");
+
+        $html = "<video src=\"http://TRACKING_URL/\">";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue($washer->extlinks);
+        $this->assertNotContains('TRACKING', $washed, "Src attribute of <video> tag (#5583)");
+    }
+
+    /**
+     * Test external links
+     */
+    function test_extlinks()
+    {
+        $html = array(
+            array("<link href=\"http://TRACKING_URL/\">", true),
+            array("<link href=\"src:abc\">", false),
+            array("<img src=\"http://TRACKING_URL/\">", true),
+            array("<img src=\"data:image\">", false),
+            array('<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true),
+        );
+
+        foreach ($html as $item) {
+            $washer = new rcube_washtml;
+            $washed = $washer->wash($item[0]);
+
+            $this->assertSame($item[1], $washer->extlinks);
+        }
+
+        foreach ($html as $item) {
+            $washer = new rcube_washtml(array('allow_remote' => true));
+            $washed = $washer->wash($item[0]);
+
+            $this->assertFalse($washer->extlinks);
+        }
+    }
+
+    function test_textarea_content_escaping()
+    {
+        $html = '<textarea><p style="x:</textarea><img src=x onerror=alert(1)>">';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertNotContains('onerror=alert(1)>', $washed);
+        $this->assertContains('&lt;p style=&quot;x:', $washed);
+    }
+
+    /**
+     * Test css_prefix feature
+     */
+    function test_css_prefix()
+    {
+        $washer = new rcube_washtml(array('css_prefix' => 'test'));
+
+        $html   = '<p id="my-id"><label for="my-other-id" class="my-class1 my-class2">test</label></p>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('id="testmy-id"', $washed);
+        $this->assertContains('for="testmy-other-id"', $washed);
+        $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
     }
 }

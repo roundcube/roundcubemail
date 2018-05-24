@@ -8,7 +8,6 @@
  * 2. Sound   - play wav file
  * 3. Desktop - display desktop notification (using window.Notification API)
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) 2011-2016, Kolab Systems AG
@@ -67,7 +66,7 @@ class newmail_notifier extends rcube_plugin
 
                 if (!empty($this->opt)) {
                     // Get folders to skip checking for
-                    $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox');
+                    $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox', 'junk_mbox');
                     foreach ($exceptions as $folder) {
                         $folder = $this->rc->config->get($folder);
                         if (strlen($folder) && $folder != 'INBOX') {

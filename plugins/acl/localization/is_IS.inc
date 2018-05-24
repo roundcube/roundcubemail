@@ -15,7 +15,40 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+$labels['sharing'] = 'Deiling';
+$labels['myrights'] = 'Aðgangsheimildir';
+$labels['username'] = 'Notandi:';
+$labels['advanced'] = 'Flóknari hamur';
+$labels['add'] = 'Bæta við';
+$labels['newuser'] = 'Bæta við færslu';
+$labels['editperms'] = 'Breyta heimildum';
+$labels['anyone'] = 'Allir notendur (hver sem er)';
+$labels['anonymous'] = 'Gestir (nafnlausir)';
+$labels['acll'] = 'Uppfletting';
+$labels['aclr'] = 'Lesa skeyti';
+$labels['aclc'] = 'Búa til undirmöppur';
+$labels['aclk'] = 'Búa til undirmöppur';
+$labels['acld'] = 'Eyða skeytum';
+$labels['aclt'] = 'Eyða skeytum';
+$labels['aclx'] = 'Eyða möppu';
+$labels['acla'] = 'Stjórna';
+$labels['aclother'] = 'Annað';
 $labels['aclread'] = 'Lesið';
+$labels['aclwrite'] = 'Skrifa';
+$labels['acldelete'] = 'Eyða';
+$labels['shortacll'] = 'Uppfletting';
 $labels['shortaclr'] = 'Lesið';
+$labels['shortacls'] = 'Halda';
+$labels['shortaclw'] = 'Skrifa';
+$labels['shortacli'] = 'Setja inn';
+$labels['shortaclc'] = 'Búa til';
+$labels['shortaclk'] = 'Búa til';
+$labels['shortacld'] = 'Eyða';
+$labels['shortaclt'] = 'Eyða';
+$labels['shortaclx'] = 'Eyða möppu';
+$labels['shortacla'] = 'Stjórna';
+$labels['shortaclother'] = 'Annað';
 $labels['shortaclread'] = 'Lesið';
+$labels['shortaclwrite'] = 'Skrifa';
+$labels['shortacldelete'] = 'Eyða';
 ?>

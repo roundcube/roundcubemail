@@ -20,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// langage codes according to ISO 639-1
+// language codes according to ISO 639-1
 // country codes according to ISO 3166-1 (Alpha-2)
 // original names from http://www.mediaglyphs.org/mg/?p=langnames
 
@@ -68,6 +68,7 @@ $rcube_languages = array(
   'ga_IE' => 'Irish (Gaedhilge)',
   'it_IT' => 'Italian (Italiano)',
   'ja_JP' => 'Japanese (日本語)',
+  'kab'   => 'Kabyle (Taqbaylit)',
   'km_KH' => 'Khmer (ភាសាខ្មែរ)',
   'kn_IN' => 'Konkani (कोंकणी)',
   'ko_KR' => 'Korean (한국어)',
@@ -104,6 +105,7 @@ $rcube_languages = array(
   'tzl'   => 'Talossan',
   'uk_UA' => 'Ukrainian (Українська)',
   'ur_PK' => 'Urdu (اُردو)',
+  'uz'    => 'Uzbek (Oʻzbekcha)',
   'vi_VN' => 'Vietnamese (Tiếng Việt)',
   'cy_GB' => 'Welsh (Cymraeg)',
   'fy_NL' => 'West Frisian (Frysk)',

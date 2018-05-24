@@ -1,0 +1,287 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Mail message body elements ***/
+
+
+@mail-header-photo-height:      4rem;
+
+
+#message-header {
+    margin-bottom: 1rem;
+
+    .subject {
+        .overflow-ellipsis;
+        font-size: 1.5rem;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .short-header {
+        display: flex;
+
+        img.contactphoto {
+            margin: 0 1rem 0 0;
+            border-radius: 50%;
+            width: @mail-header-photo-height;
+            height: @mail-header-photo-height;
+        }
+
+        div.header-content {
+            min-height: @mail-header-photo-height;
+            flex: 1;
+        }
+
+        div.header-subject {
+            line-height: @mail-header-photo-height/2;
+
+            & > span {
+                line-height: 1.5;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+
+        div.header-links {
+            a {
+                font-size: 90%;
+                margin-right: .5rem;
+                text-decoration: none;
+                white-space: nowrap;
+                line-height: 1.5;
+                display: inline-block;
+
+                &:before {
+                    &:extend(.font-icon-class);
+                    display: inline-block;
+                    float: none;
+                }
+
+                &.extwin:before {
+                    content: @fa-var-external-link-square-alt;
+                }
+
+                &.headers:before {
+                    content: @fa-var-wrench;
+                }
+
+                &.envelope:before {
+                    .font-icon-regular(@fa-var-envelope);
+                }
+
+                &.html:before {
+                    content: @fa-var-image;
+                }
+
+                &.plain:before {
+                    content: @fa-var-align-justify;
+                }
+
+                &.zipdownload:before {
+                    content: @fa-var-download;
+                }
+            }
+        }
+
+        .message-partheaders {
+            margin: 0 !important;
+            padding: .25rem 0 !important;
+        }
+    }
+}
+
+#message-content {
+    .attachmentslist:not(:empty) {
+        margin-bottom: 1rem;
+    }
+}
+
+#message-objects + .ui.alert {
+    float: left;
+}
+
+#messagebody {
+    // TODO
+
+    &.mailvelope {
+        margin: 0;
+    }
+}
+
+.message-part,
+.message-htmlpart {
+    padding-top: .5rem;
+
+    &:not(:first-child) {
+        border-top: 1px solid lighten(@color-mail-headers, 50%);
+        margin-top: .5rem;
+    }
+
+    div.rcmBody {
+        // Remove margins that can be set by the mail message styles
+        margin: 0 !important;
+    }
+
+    blockquote {
+        .overflow-ellipsis;
+        color: @color-blockquote-0;
+        border-left: 2px solid @color-blockquote-0-border;
+        border-right: 2px solid @color-blockquote-0-border;
+        background-color: @color-blockquote-background;
+        margin: 2px 0;
+        padding: 0 .4em;
+
+        blockquote {
+            color: @color-blockquote-1;
+            border-left: 2px solid @color-blockquote-1-border;
+            border-right: 2px solid @color-blockquote-1-border;
+
+            blockquote {
+                color: @color-blockquote-2;
+                border-left: 2px solid @color-blockquote-2-border;
+                border-right: 2px solid @color-blockquote-2-border;
+            }
+        }
+
+        span.blockquote-link {
+            top: 0;
+            cursor: pointer;
+            right: .5rem;
+            min-width: 4rem;
+            padding: .2rem .25rem .2rem .5rem;
+            font-size: 90%;
+            text-align: center;
+            color: @color-black-shade-text;
+            background: @color-black-shade-bg;
+            border: 1px solid @color-black-shade-border;
+            border-radius: .3rem;
+            line-height: 1;
+            .font-family; // don't inherit monospace font
+
+            &:after {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-down;
+                display: inline-block;
+                float: none;
+                margin: 0;
+                font-size: 90%;
+            }
+
+            &.collapsed:after {
+                content: @fa-var-angle-up;
+            }
+        }
+
+        &.blockquote-header {
+            text-overflow: ellipsis !important;
+            padding-right: 5rem !important;
+        }
+    }
+}
+
+.message-part {
+    span.sig {
+        color: @color-mail-signature;
+    }
+
+    div.pre {
+        font-family: monospace;
+    }
+
+    &.mailvelope iframe {
+        min-height: 35em;
+    }
+}
+
+.message-partheaders {
+    padding: .5rem 0;
+    margin: .5rem 0 0 0;
+    font-size: 90%;
+    border-top: 1px solid @color-list-border;
+    border-bottom: 1px solid @color-list-border;
+    color: @color-mail-headers;
+
+    .header-title {
+        .overflow-ellipsis;
+        white-space: nowrap;
+        max-width: 7em;
+        font-weight: bold;
+        padding-right: 1rem;
+        vertical-align: top;
+    }
+
+    .subject {
+        font-weight: bold;
+    }
+
+    & + .message-part,
+    & + .message-htmlpart {
+        border-top: 0;
+        margin: 0;
+    }
+}
+
+.image-tools {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    height: @layout-header-height;
+    overflow: hidden;
+    transform: translateX(-87%);
+    transition: transform 0.3s ease-in-out;
+    background-color: @color-image-tools-background;
+    border-radius: 0 .3rem .3rem 0;
+
+    .toolbar {
+        float: left;
+        height: @layout-header-height;
+
+        a.button:before {
+            width: auto;
+            height: 1.75rem;
+            display: block;
+            float: none;
+        }
+    }
+
+    a.button.icon.tools {
+        padding: 0 .25rem;
+        display: inline-block;
+        height: @layout-header-height;
+
+        span.inner {
+            display: none;
+        }
+
+        &:before {
+            line-height: @layout-header-height;
+            margin: 0;
+        }
+    }
+
+    &.open {
+        transform: translateX(0);
+
+        a.button.icon.tools:before {
+            content: @fa-var-chevron-left;
+        }
+    }
+
+    a {
+        color: @color-image-tools;
+
+        &:focus,
+        &:hover {
+            background-color: @color-image-tools-hover !important;
+            outline: 0;
+        }
+    }
+}

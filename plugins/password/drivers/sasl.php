@@ -33,27 +33,27 @@
 
 class rcube_sasl_password
 {
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
-        $username = escapeshellcmd($_SESSION['username']);
+        $username = escapeshellarg($username);
         $args     = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
         if ($fh = popen("$curdir/chgsaslpasswd -p $args $username", 'w')) {
             fwrite($fh, $newpass."\n");
             $code = pclose($fh);
 
-            if ($code == 0)
+            if ($code == 0) {
                 return PASSWORD_SUCCESS;
+            }
         }
-        else {
-            rcube::raise_error(array(
+
+        rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd"
-                ), true, false);
-        }
+            ), true, false);
 
         return PASSWORD_ERROR;
     }

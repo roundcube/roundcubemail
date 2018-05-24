@@ -45,6 +45,7 @@ abstract class rcube_session
     protected $cookiename   = 'roundcube_sessauth';
     protected $ip_check     = false;
     protected $logging      = false;
+    protected $ignore_write = false;
 
 
     /**
@@ -180,6 +181,24 @@ abstract class rcube_session
     }
 
     /**
+     * Creates a new (separate) session
+     *
+     * @param array Session data
+     *
+     * @return string Session identifier (on success)
+     */
+    public function create($data)
+    {
+        $length = strlen(session_id());
+        $key    = rcube_utils::random_bytes($length);
+
+        // create new session
+        if ($this->write($key, $this->serialize($data))) {
+            return $key;
+        }
+    }
+
+    /**
      * Merge vars with old vars and apply unsets
      */
     protected function _fixvars($vars, $oldvars)
@@ -256,11 +275,16 @@ abstract class rcube_session
      * Generate and set new session id
      *
      * @param boolean $destroy If enabled the current session will be destroyed
+     *
      * @return bool
      */
-    public function regenerate_id($destroy=true)
+    public function regenerate_id($destroy = true)
     {
+        // Since PHP 7.0 session_regenerate_id() will cause the old
+        // session data update, we don't need this
+        $this->ignore_write = true;
         session_regenerate_id($destroy);
+        $this->ignore_write = false;
 
         $this->vars = null;
         $this->key  = session_id();

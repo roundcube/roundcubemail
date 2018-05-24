@@ -27,19 +27,18 @@
 
 class rcube_gearman_password
 {
-    function save($currpass, $newpass)
+    function save($currpass, $newpass, $username)
     {
         if (extension_loaded('gearman')) {
             $rcmail  = rcmail::get_instance();
-            $user    = $_SESSION['username'];
             $payload = array(
-                'username'    => $user,
+                'username'    => $username,
                 'oldPassword' => $currpass,
                 'newPassword' => $newpass,
             );
 
             $gmc = new GearmanClient();
-            $gmc->addServer($rcmail->config->get('password_gearman_host'));
+            $gmc->addServer($rcmail->config->get('password_gearman_host', 'localhost'));
 
             $result  = $gmc->doNormal('setPassword', json_encode($payload));
             $success = json_decode($result);
@@ -52,7 +51,7 @@ class rcube_gearman_password
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Gearman authentication failed for user $user: $error"
+                    'message' => "Password plugin: Gearman authentication failed for user $username: $error"
                 ), true, false);
             }
         }

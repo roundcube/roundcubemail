@@ -1,0 +1,22 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="about" /></h1>
+
+<roundcube:object name="aboutcontent" />
+
+<div class="content frame-content">
+	<h2 class="sysname">Roundcube Webmail <roundcube:object name="version" /></h2>
+	<p class="copyright">Copyright &copy; 2005-2018, The Roundcube Dev Team</p>
+	<p class="license">This program is free software;
+		you can redistribute it and/or modify it under the terms of the 
+		<a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>
+		as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br/>
+		Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> for skins &amp; plugins apply.
+	</p>
+	<div class="readtext">
+		<h3><roundcube:label name="installedplugins" /></h3>
+		<roundcube:object name="pluginlist" id="pluginlist" class="records-table" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

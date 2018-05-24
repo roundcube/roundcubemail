@@ -1,0 +1,246 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** UI Messages ***/
+
+// .boxwarning/.boxerror/.boxinformation classes are converted to .ui.alert in bootstrap_init()
+
+.ui.alert {
+    margin: 0;
+    opacity: .95;
+    float: left;
+    width: 100%;
+    padding: .75em;
+    color: @color-message;
+    border: 1px solid @color-message-border;
+    background-color: @color-message-background;
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: @screen-width-xs) {
+        border: 0;
+        border-radius: 0;
+        min-height: 4.2rem;
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+        &:not(:last-child) {
+            margin-bottom: .2rem;
+        }
+    }
+
+    span {
+        margin: auto 0;
+    }
+
+    & > i.icon {
+        line-height: 1;
+        color: lighten(@color-black, 25%);
+        margin: auto 0;
+    }
+
+    & > i.icon:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-info-circle;
+        margin-right: .6rem;
+    }
+
+    &.loading {
+        color: @color-message-loading;
+
+        & > i.icon:before {
+            content: @fa-var-circle-notch;
+            .animated-icon-class;
+            width: 1em;
+        }
+    }
+
+    &.alert-success > i.icon:before {
+        content: @fa-var-check-circle;
+        color: @color-message-success;
+    }
+
+    &.alert-warning > i.icon:before {
+        content: @fa-var-exclamation-triangle;
+        color: @color-message-warning;
+    }
+
+    &.alert-danger > i.icon:before {
+        content: @fa-var-exclamation-circle;
+        color: @color-message-error;
+    }
+
+    &.vcardattachment > i.icon:before {
+        content: @fa-var-address-card; // vcard_attachments plugin
+    }
+
+    &.enigmaattachment > i.icon:before {
+        content: @fa-var-key; // enigma plugin
+    }
+
+    &.signed > i.icon:before,
+    &.encrypted > i.icon:before {
+        content: @fa-var-lock; // enigma plugin
+    }
+
+    // This works with following structure: <i> <span> [button].
+    // <span> here is a one-line text, and button can be anything but <span>.
+    &.aligned-buttons {
+        display: flex;
+
+        span {
+            flex: 1;
+        }
+    }
+
+    a:not(.btn) {
+        color: @color-message-link;
+        font-weight: normal;
+    }
+
+    h3 {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    p {
+        margin: 1rem 0;
+    }
+
+    &.boxerror,
+    &.boxconfirmation,
+    &.boxinformation,
+    &.boxwarning {
+        float: none;
+        border-radius: 0;
+        border: none;
+        padding: .5em;
+        margin-top: 0; // this can be a <p> element, reset default margin
+
+        i.icon {
+            font-size: 1.5em !important;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: .2rem;
+        }
+    }
+
+    &.boxerror {
+        background-color: @color-message-error-background;
+    }
+
+    &.boxinformation {
+        background-color: @color-message-information-background;
+    }
+
+    &.boxconfirmation {
+        background-color: @color-message-success-background;
+    }
+
+    &.boxwarning {
+        background-color: @color-message-warning-background;
+    }
+
+    & + table {
+        margin-top: 1em;
+    }
+}
+
+#messagestack {
+    position: absolute;
+    bottom: .5em;
+    right: .7em;
+    z-index: 105; // needs to be above .ui-widget-overlay
+    width: 320px;
+    height: auto;
+    max-height: 85%;
+
+    @media screen and (max-width: @screen-width-xs) {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+    }
+
+    div {
+        border-color: transparent;
+
+        &.voice {
+            position: absolute;
+            top: -1000px;
+        }
+
+        i.icon {
+            font-size: 1.5em !important;
+        }
+    }
+
+    .loading {
+        background-color: @color-list-selected-background;
+        border-color: @color-main;
+        color: @color-main;
+
+        & > i.icon:before {
+            color: @color-main;
+        }
+    }
+
+    .alert-info.information {
+        color: #fff;
+        background-color: @color-message-information;
+
+        & > i.icon:before {
+            color: #fff;
+        }
+    }
+
+    .alert-info.notice {
+        color: #fff;
+        background-color: @color-taskmenu-background;
+
+        & > i.icon:before {
+            color: #fff;
+        }
+    }
+
+    .alert-success {
+        color: #fff;
+        background-color: @color-message-success;
+
+        & > i.icon:before {
+            color: #fff;
+        }
+    }
+
+    .alert-warning {
+        background-color: @color-message-warning;
+
+        & > i.icon:before {
+            color: #fff;
+        }
+    }
+
+    .alert-danger {
+        color: #fff;
+        background-color: @color-message-error;
+
+        & > i.icon:before {
+            color: #fff;
+        }
+    }
+
+    a {
+        color: inherit !important;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

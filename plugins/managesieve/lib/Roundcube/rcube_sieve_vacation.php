@@ -287,7 +287,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if (empty($vacation_tests)) {
-            $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
+            $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
         if (!$error) {
@@ -378,7 +378,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $action->add($this->plugin->gettext('vacation.copy'), 'copy');
         }
 
-        if ($this->rc->config->get('managesieve_vacation') != 2 && count($this->vacation['list'])) {
+        if ($this->rc->config->get('managesieve_vacation') != 2 && !empty($this->vacation['list'])) {
             $after = new html_select(array('name' => 'vacation_after', 'id' => 'vacation_after'));
 
             $after->add('', '');
@@ -392,10 +392,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $interval_select = new html_select(array('name' => 'vacation_interval_type'));
             $interval_select->add($this->plugin->gettext('days'), 'days');
             $interval_select->add($this->plugin->gettext('seconds'), 'seconds');
-            $interval_txt .= '&nbsp;' . $interval_select->show(isset($this->vacation['seconds']) ? 'seconds' : 'days');
+            $interval_txt .= $interval_select->show(isset($this->vacation['seconds']) ? 'seconds' : 'days');
         }
         else {
-            $interval_txt .= '&nbsp;' . $this->plugin->gettext('days');
+            $interval_txt .= "\n" . html::span('input-group-append',
+                html::span('input-group-text', $this->plugin->gettext('days')));
         }
 
         if ($date_extension || $regex_extension) {
@@ -405,8 +406,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
-            $time_from   = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 6));
-            $time_to     = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 6));
+            $time_from   = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7));
+            $time_to     = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7));
             $time_format = $this->rc->config->get('time_format', 'H:i');
             $date_value  = array();
 
@@ -460,11 +461,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // redirect target
-        $action_target = ' <span id="action_target_span" style="display:' . ($redirect ? 'inline' : 'none') . '">'
+        $action_target = ' <span id="action_target_span" class="input-group" style="display:' . ($redirect ? 'inline' : 'none') . '">'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
             . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
-            . (!empty($domains) ? ' @ ' . $domain_select->show($this->vacation['domain']) : '')
+            . (!empty($domains) ? ' <span class="input-group-append input-group-prepend"><span class="input-group-text">@</span></span>'
+                . $domain_select->show($this->vacation['domain']) : '')
             . '</span>';
 
         // Message tab
@@ -495,7 +497,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_addresses', $this->plugin->gettext('vacation.addresses')));
         $table->add(null, $addresses . $addresses_link->show($this->plugin->gettext('filladdresses')));
         $table->add('title', html::label('vacation_interval', $this->plugin->gettext('vacation.interval')));
-        $table->add(null, $interval_txt);
+        $table->add('input-group', $interval_txt);
 
         if ($after) {
             $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));
@@ -887,7 +889,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if (empty($vacation_tests)) {
-            $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
+            $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
         $rule             = $this->vacation;
@@ -914,9 +916,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
      */
     public function connect($username, $password)
     {
-        if (!parent::connect($username, $password)) {
-            return $this->load_script();
+        $error = parent::connect($username, $password);
+
+        if ($error) {
+            return $error;
         }
+
+        return $this->load_script();
     }
 
     /**

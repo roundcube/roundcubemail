@@ -18,9 +18,11 @@
 $labels['sharing'] = 'هاوبەشکردن';
 $labels['username'] = 'بەکارهێنەر:';
 $labels['advanced'] = 'شێوازی پێشکەوتوو';
+$labels['acldelete'] = 'سڕینەوە';
 $labels['shortaclc'] = 'دروستکردن';
 $labels['shortaclk'] = 'دروستکردن';
 $labels['shortacld'] = 'سڕینەوە';
 $labels['shortaclt'] = 'سڕینەوە';
 $labels['shortaclx'] = 'سڕینەوەی بوخچە';
+$labels['shortacldelete'] = 'سڕینەوە';
 ?>

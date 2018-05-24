@@ -44,7 +44,8 @@ function rcmail_folder_form($attrib)
     $parent = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
 
     $threading_supported = $storage->get_capability('THREAD');
-    $delimiter = $storage->get_hierarchy_delimiter();
+    $dual_use_supported  = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
+    $delimiter           = $storage->get_hierarchy_delimiter();
 
     // Get mailbox parameters
     if (strlen($mbox)) {
@@ -86,20 +87,21 @@ function rcmail_folder_form($attrib)
 
     // Location (name)
     if ($options['protected']) {
-        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox)));
+        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_foldername($mbox, false, true)));
     }
     else if ($options['norename']) {
         $foldername = rcube::Q($folder);
     }
     else {
-        if (isset($_POST['_name']))
+        if (isset($_POST['_name'])) {
             $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+        }
 
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
         $foldername = $foldername->show($folder);
 
-        if ($options['special']) {
-            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox)) .')';
+        if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {
+            $foldername .= '&nbsp;(' . rcube::Q($sname) .')';
         }
     }
 
@@ -140,7 +142,7 @@ function rcmail_folder_form($attrib)
             'additional'  => strlen($selected) ? array($selected) : null,
         ));
 
-        $form['props']['fieldsets']['location']['content']['path'] = array(
+        $form['props']['fieldsets']['location']['content']['parent'] = array(
             'label' => $RCMAIL->gettext('parentfolder'),
             'value' => $select->show($selected),
         );
@@ -150,6 +152,27 @@ function rcmail_folder_form($attrib)
     $form['props']['fieldsets']['settings'] = array(
         'name'  => $RCMAIL->gettext('settings'),
     );
+
+    // For servers that do not support both sub-folders and messages in a folder
+    if (!$dual_use_supported) {
+        if (!strlen($mbox)) {
+            $select = new html_select(array('name' => '_type', 'id' => '_type'));
+            $select->add($RCMAIL->gettext('dualusemail'), 'mail');
+            $select->add($RCMAIL->gettext('dualusefolder'), 'folder');
+
+            $value  = rcube_utils::get_input_value('_type', rcube_utils::INPUT_POST);
+            $value = $select->show($value ?: 'mail');
+        }
+        else {
+            $value = $options['noselect'] ? 'folder' : 'mail';
+            $value = $RCMAIL->gettext('dualuse' . $value);
+        }
+
+        $form['props']['fieldsets']['settings']['content']['type'] = array(
+            'label' => $RCMAIL->gettext('dualuselabel'),
+            'value' => $value,
+        );
+    }
 
     // Settings: threading
     if ($threading_supported && ($mbox == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {

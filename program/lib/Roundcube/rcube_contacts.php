@@ -364,7 +364,7 @@ class rcube_contacts extends rcube_addressbook
             // count result pages
             $cnt   = $this->count()->count;
             $pages = ceil($cnt / $this->page_size);
-            $scnt  = count($post_search);
+            $scnt  = !empty($post_search) ? count($post_search) : 0;
 
             // get (paged) result
             for ($i=0; $i<$pages; $i++) {
@@ -487,7 +487,7 @@ class rcube_contacts extends rcube_addressbook
 
         // count contacts for this user
         $sql_result = $this->db->query(
-            "SELECT COUNT(c.`contact_id`) AS rows".
+            "SELECT COUNT(c.`contact_id`) AS cnt".
             " FROM " . $this->db->table_name($this->db_name, true) . " AS c".
                 $join.
             " WHERE c.`del` <> 1".
@@ -500,7 +500,7 @@ class rcube_contacts extends rcube_addressbook
 
         $sql_arr = $this->db->fetch_assoc($sql_result);
 
-        $this->cache['count'] = (int) $sql_arr['rows'];
+        $this->cache['count'] = (int) $sql_arr['cnt'];
 
         return $this->cache['count'];
     }
@@ -595,9 +595,12 @@ class rcube_contacts extends rcube_addressbook
         // validate e-mail addresses
         $valid = parent::validate($save_data, $autofix);
 
-        // require at least one email address or a name
-        if ($valid && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name']) && !array_filter($this->get_col_values('email', $save_data, true))) {
-            $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
+        // require at least some name or email
+        if ($valid
+            && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name'])
+            && !count(array_filter($this->get_col_values('email', $save_data, true)))
+        ) {
+            $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
             $valid = false;
         }
 

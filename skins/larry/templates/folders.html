@@ -28,11 +28,11 @@
 		<label for="foldersearch" class="voice"><roundcube:label name="arialabelsearchterms" /></label>
 		<input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
 		<a class="iconbutton searchicon"></a>
-		<roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+		<roundcube:button command="reset-foldersearch" type="link" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 	</div>
 </div>
 <div id="folderslist-content" class="scroller withfooter">
-	<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="treelist listing folderlist" />
+	<roundcube:object name="foldersubscription" id="subscription-table" class="treelist listing folderlist" />
 </div>
 <div id="folderslist-footer" class="boxfooter">
 	<roundcube:button command="create-folder" type="link" title="createfolder" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="createfolder" /><roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="return UI.toggle_popup('mailboxmenu',event)" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false" aria-owns="mailboxoptionsmenu" />
@@ -55,7 +55,7 @@
 
 <div id="folder-details" class="uibox contentbox">
 	<div class="iframebox">
-		<roundcube:object name="folderframe" id="preferences-frame" style="width:100%; height:100%" frameborder="0" src="/watermark.html" />
+		<roundcube:object name="contentframe" id="preferences-frame" style="width:100%; height:100%" frameborder="0" src="env:blankpage" />
 	</div>
 </div>
 

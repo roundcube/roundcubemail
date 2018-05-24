@@ -1,10 +1,9 @@
 <?php
 /**
- * Attachement Reminder
+ * Attachment Reminder
  *
  * A plugin that reminds a user to attach the files
  *
- * @version @package_version@
  * @author Thomas Yu - Sian, Liu
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
@@ -38,7 +37,7 @@ class attachment_reminder extends rcube_plugin
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {
                 $this->include_script('attachment_reminder.js');
-                $this->add_texts('localization/', array('keywords', 'forgotattachment'));
+                $this->add_texts('localization/', array('keywords', 'forgotattachment', 'missingattachment'));
                 $rcmail->output->add_label('addattachment', 'send');
             }
         }

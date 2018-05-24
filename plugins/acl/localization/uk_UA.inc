@@ -19,6 +19,7 @@ $labels['sharing'] = 'Поширення';
 $labels['myrights'] = 'Права доступу';
 $labels['username'] = 'Користувач:';
 $labels['advanced'] = 'Розширений режим';
+$labels['add'] = 'Додати';
 $labels['newuser'] = 'Додати запис';
 $labels['editperms'] = 'Редагувати дозволи';
 $labels['actions'] = 'Дії з правами доступу…';

@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <style type="text/css">
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout != 'list'" />
 	#mailview-top { height: 270px; }
 	#mailview-bottom { top: 284px; height: auto; display: block; }
 	#mailpreviewframe { display: block; }
@@ -38,9 +38,9 @@
 <div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
 <h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelmailsearchform" /></h2>
 <label for="quicksearchbox" class="voice"><roundcube:label name="arialabelmailquicksearchbox" /></label>
-<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
+<roundcube:button command="menu-open" prop="searchmenu" type="link" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+<roundcube:button command="reset-search" id="searchreset" type="link" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 
 <div id="searchmenu" class="popupmenu" data-editable="true">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -66,7 +66,7 @@
 
 </div>
 
-<div id="mainscreencontent">
+<div id="mainscreencontent" class="<roundcube:var name="env:layout" />">
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -88,14 +88,15 @@
 
 <div id="mailview-right" role="main">
 
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout == 'desktop'" />
 <div id="mailview-top" class="uibox">
 <roundcube:else />
 <div id="mailview-top" class="uibox fullheight">
 <roundcube:endif />
 
 <!-- messagelist -->
-<div id="messagelistcontainer" class="boxlistcontent">
+<div id="messagelistheader"><roundcube:object name="listmenulink" optionsmenuIcon="true" /></div>
+<div id="messagelistcontainer" class="boxlistcontent" tabindex="-1">
 <h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 <roundcube:object name="messages"
 	id="messagelist"
@@ -115,8 +116,8 @@
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
-		<roundcube:button href="#list" command="set-listmode" prop="list" class="iconbutton listmode disabled" classAct="iconbutton listmode" id="maillistmode" title="list" content="List" />
-		<roundcube:button href="#threads" command="set-listmode" prop="threads" class="iconbutton threadmode disabled" classAct="iconbutton threadmode" id="mailthreadmode" title="threads" content="Threads" />
+		<roundcube:button href="#list" command="set-listmode" prop="list" type="link" class="iconbutton listmode disabled" classAct="iconbutton listmode" id="maillistmode" title="list" content="List" />
+		<roundcube:button href="#threads" command="set-listmode" prop="threads"type="link" class="iconbutton threadmode disabled" classAct="iconbutton threadmode" id="mailthreadmode" title="threads" content="Threads" />
 	</div>
 	
 	<div id="listselectors">
@@ -138,8 +139,6 @@
 	</div>
 
 	<roundcube:container name="listcontrols" id="listcontrols" />
-
-	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"><roundcube:label name="previewpane" /></a>
 </div>
 
 </div><!-- end mailview-top -->
@@ -148,7 +147,7 @@
 
 <div id="mailpreviewframe" class="iframebox" role="complementary" aria-labelledby="aria-label-mailpreviewframe">
 <h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
-<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" title="arialabelmailpreviewframe" />
+<roundcube:object name="contentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="env:blankpage" title="arialabelmailpreviewframe" />
 </div>
 
 </div><!-- end mailview-bottom -->
@@ -171,7 +170,8 @@
 	<ul class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
 		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
-		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
+		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" classAct="active" />
+		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="UI.import_dialog()" />
 		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" classAct="active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
@@ -200,8 +200,18 @@
 
 <div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions" aria-hidden="true">
 <h2 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h2>
-<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
+	<fieldset id="listoptions-layout" class="floating">
+		<legend><roundcube:label name="layout" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="layout" value="widescreen" /> <span><roundcube:label name="layoutwidescreen" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="desktop" /> <span><roundcube:label name="layoutdesktop" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="list" /> <span><roundcube:label name="layoutlist" /></span></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<fieldset id="listoptions-columns" class="floating">
 		<legend><roundcube:label name="listcolumns" /></legend>
 		<ul class="proplist">
 			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" checked disabled /> <span><roundcube:label name="threads" /></span></label></li>
@@ -221,7 +231,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortcol" class="floating">
 		<legend><roundcube:label name="listsorting" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_col" value="" /> <span><roundcube:label name="nonesort" /></span></label></li>
@@ -237,7 +247,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortord" class="floating">
 		<legend><roundcube:label name="listorder" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_ord" value="ASC" /> <span><roundcube:label name="asc" /></span></label></li>
@@ -252,7 +262,7 @@
 	</div>
 </div>
 
-<roundcube:object name="messageimportform" id="uploadform" mode="smart" />
+<roundcube:object name="messageimportform" id="uploadform" buttons="no" class="popupdialog" />
 
 <roundcube:include file="/includes/footer.html" />
 

@@ -1,0 +1,220 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Taskmenu ***/
+
+#taskmenu {
+    height: 100%;
+
+    a {
+        .overflow-ellipsis;
+        text-decoration: none;
+        display: block;
+
+        &:before {
+            &:extend(.font-icon-class);
+        }
+
+        &.mail:before {
+            content: @fa-var-envelope;
+        }
+        &.addressbook:before {
+            content: @fa-var-users;
+        }
+        &.settings:before {
+            content: @fa-var-sliders-h;
+        }
+        &.help:before {
+            content: @fa-var-life-ring;
+        }
+        &.logout:before {
+            content: @fa-var-power-off;
+        }
+        &.about:before {
+            content: @fa-var-question;
+        }
+        &.refresh:before {
+            content: @fa-var-sync;
+        }
+        &.compose:before {
+            content: @fa-var-edit;
+        }
+        &.calendar:before {
+            content: @fa-var-calendar-alt;
+        }
+        &.tasklist:before {
+            content: @fa-var-tasks;
+        }
+        &.files:before {
+            content: @fa-var-folder;
+        }
+        &.notes:before {
+            content: @fa-var-sticky-note;
+        }
+    }
+
+    @media screen and (max-width: @screen-width-xs) {
+        z-index: 30001; // because autocompletion popup uses z-index:30000
+        overflow-x: hidden;
+
+        a {
+            width: 100%;
+            padding: 0 .5em;
+            text-align: left;
+            line-height: @layout-touch-menu-record-height;
+            height: @layout-touch-menu-record-height;
+            border-bottom: 1px solid @color-list-border;
+            color: @color-list;
+            font-size: 1.2rem;
+
+            &:before {
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+        a {
+            text-align: center;
+            color: @color-taskmenu-button;
+            padding: .45rem 0;
+            width: @layout-menu-width/2;
+            font-size: 1.2rem;
+            margin-bottom: 1px;
+
+            &:before {
+                display: block;
+                height: 2.1rem;
+                line-height: 1.5;
+                width: @layout-menu-width/2;
+                margin: 0;
+            }
+
+            &.selected {
+                color: @color-taskmenu-button-selected;
+                background: @color-taskmenu-button-selected-background;
+            }
+
+            &:hover {
+                color: @color-taskmenu-button-hover;
+                background: @color-taskmenu-button-background-hover;
+            }
+        }
+
+        .special-buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: @layout-menu-width;
+        }
+
+        .action-buttons {
+            a {
+                color: @color-taskmenu-button-action;
+                background: @color-taskmenu-button-action-background;
+
+                &:hover {
+                    color: @color-taskmenu-button-action-hover;
+                    background: @color-taskmenu-button-action-background-hover;
+                }
+
+                &.selected {
+                    background: @color-taskmenu-button-selected-background;
+                }
+            }
+        }
+
+        span.inner {
+            display: none;
+        }
+
+        a.logout {
+            color: @color-taskmenu-button-logout-hover !important;
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-medium + 1px)) {
+        a {
+            width: @layout-menu-width;
+            height: (@layout-header-height - .05rem);
+            font-size: 1rem;
+
+            &:before {
+                width: @layout-menu-width;
+                height: 1.75rem;
+                line-height: 1.5;
+            }
+        }
+
+        span.inner {
+            display: inline;
+            font-size: 85%;
+            padding: 0 .1em;
+        }
+    }
+}
+
+.menu {
+    .popover-header {
+        height: @layout-header-height;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 0;
+
+        img {
+            max-height: @layout-header-height;
+        }
+
+        @media screen and (min-width: (@screen-width-xs + 1px)) {
+            padding: 0 !important;
+            background-color: @color-taskmenu-background !important;
+
+            a {
+                display: none !important;
+            }
+
+            img {
+                max-width: @layout-menu-width/2;
+            }
+        }
+
+        @media screen and (min-width: (@screen-width-medium + 1px)) {
+            img {
+                max-width: @layout-menu-width;
+            }
+        }
+
+        html.layout-phone & {
+            padding: 0 .5rem;
+
+            img {
+                max-height: @layout-touch-header-height;
+                max-width: @layout-menu-width;
+            }
+
+            a {
+                width: auto;
+                flex: 1;
+
+                &:before {
+                    height: @layout-touch-header-height;
+                    float: right;
+                }
+
+                .inner {
+                    display: none;
+                }
+            }
+        }
+    }
+}

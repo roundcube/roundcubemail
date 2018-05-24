@@ -26,9 +26,15 @@ function hide_blockquote()
     return;
 
   $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
-    var div, link, q = $(this),
-      text = $.trim(q.text()),
-      res = text.split(/\n/);
+    var res, text, div, link, q = $(this);
+
+    // Add new-line character before each blockquote
+    // This fixes counting lines of text, it also prevents
+    // from merging lines from different quoting level
+    $('blockquote').before(document.createTextNode("\n"));
+
+    text = $.trim(q.text());
+    res = text.split(/\n/);
 
     if (res.length <= limit) {
       // there can be also a block with very long wrapped line
@@ -49,7 +55,7 @@ function hide_blockquote()
         var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
         t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
-          .detach().appendTo(visible ? q : parent);
+          .detach().appendTo(visible ? q : parent).toggleClass('collapsed');
 
         parent[visible ? 'hide' : 'show']();
         q[visible ? 'show' : 'hide']();

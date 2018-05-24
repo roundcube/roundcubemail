@@ -46,21 +46,7 @@ define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 $OUTPUT->set_pagetitle($RCMAIL->gettext('identities'));
 $OUTPUT->include_script('list.js');
 
-$OUTPUT->add_handler('identityframe', 'rcmail_identity_frame');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
 $OUTPUT->add_label('deleteidentityconfirm');
 
 $OUTPUT->send('identities');
-
-
-// similar function as /steps/addressbook/func.inc::rcmail_contact_frame()
-function rcmail_identity_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id']) {
-        $attrib['id'] = 'rcmIdentityFrame';
-    }
-
-    return $OUTPUT->frame($attrib, true);
-}

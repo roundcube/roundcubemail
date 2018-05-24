@@ -7,7 +7,6 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
@@ -39,11 +38,20 @@ class managesieve extends rcube_plugin
     {
         $this->rc = rcube::get_instance();
 
+        $this->load_config();
+
+        $allowed_hosts = $this->rc->config->get('managesieve_allowed_hosts');
+        if (!empty($allowed_hosts) && !in_array($_SESSION['storage_host'], (array) $allowed_hosts)) {
+            return;
+        }
+
         // register actions
         $this->register_action('plugin.managesieve', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-action', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-vacation', array($this, 'managesieve_actions'));
+        $this->register_action('plugin.managesieve-forward', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-save', array($this, 'managesieve_save'));
+        $this->register_action('plugin.managesieve-saveraw', array($this, 'managesieve_saveraw'));
 
         if ($this->rc->task == 'settings') {
             $this->add_hook('settings_actions', array($this, 'settings_actions'));
@@ -99,12 +107,11 @@ class managesieve extends rcube_plugin
      */
     function settings_actions($args)
     {
-        $this->load_config();
-
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
+        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
 
         // register Filters action
-        if ($vacation_mode != 2) {
+        if ($vacation_mode != 2 && $forward_mode != 2) {
             $args['actions'][] = array(
                 'action' => 'plugin.managesieve',
                 'class'  => 'filter',
@@ -122,6 +129,17 @@ class managesieve extends rcube_plugin
                 'label'  => 'vacation',
                 'domain' => 'managesieve',
                 'title'  => 'vacationtitle',
+            );
+        }
+
+        // register Forward action
+        if ($forward_mode > 0) {
+            $args['actions'][] = array(
+                'action' => 'plugin.managesieve-forward',
+                'class'  => 'forward',
+                'label'  => 'forward',
+                'domain' => 'managesieve',
+                'title'  => 'forwardtitle',
             );
         }
 
@@ -189,9 +207,10 @@ class managesieve extends rcube_plugin
      */
     function managesieve_actions()
     {
+        $uids = rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
+
         // handle fetching email headers for the new filter form
-        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) {
-            $uids    = rcmail::get_uids();
+        if (!empty($uids)) {
             $mailbox = key($uids);
             $message = new rcube_message($uids[$mailbox][0], $mailbox);
             $headers = $this->parse_headers($message->headers);
@@ -203,8 +222,9 @@ class managesieve extends rcube_plugin
 
         // handle other actions
         $engine_type = $this->rc->action == 'plugin.managesieve-vacation' ? 'vacation' : '';
-        $engine      = $this->get_engine($engine_type);
+        $engine_type = $this->rc->action == 'plugin.managesieve-forward' ? 'forward' : $engine_type;
 
+        $engine      = $this->get_engine($engine_type);
         $this->init_ui();
         $engine->actions();
     }
@@ -227,19 +247,34 @@ class managesieve extends rcube_plugin
     }
 
     /**
+     * Raw form save action handler
+     */
+    function managesieve_saveraw()
+    {
+        $engine = $this->get_engine();
+
+        if (!$this->rc->config->get('managesieve_raw_editor', true)) {
+            return;
+        }
+
+        // load localization
+        $this->add_texts('localization/', array('filters','managefilters'));
+
+        $engine->saveraw();
+    }
+
+    /**
      * Initializes engine object
      */
     public function get_engine($type = null)
     {
         if (!$this->engine) {
-            $this->load_config();
-
             // Add include path for internal classes
             $include_path = $this->home . '/lib' . PATH_SEPARATOR;
             $include_path .= ini_get('include_path');
             set_include_path($include_path);
 
-            $class_name = 'rcube_sieve_' . ($type ?: 'engine');
+            $class_name   = 'rcube_sieve_' . ($type ?: 'engine');
             $this->engine = new $class_name($this);
         }
 

@@ -19,6 +19,7 @@ $labels['sharing'] = 'Կիսվել';
 $labels['myrights'] = 'Մուտքի իրավունքներ';
 $labels['username'] = 'Օգտատեր`';
 $labels['advanced'] = 'Առաջադեմ ռեժիմ';
+$labels['add'] = 'Ավելացնել';
 $labels['newuser'] = 'Ավելացնել գրառում';
 $labels['editperms'] = 'Խմբագրել թույլտվությունները';
 $labels['actions'] = 'Մուտքի իրավունքների գործողություններ…';

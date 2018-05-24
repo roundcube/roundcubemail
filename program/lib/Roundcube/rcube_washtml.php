@@ -55,7 +55,7 @@
  * It return a sanityzed string of the $html parameter without html and head tags.
  * $html is a string containing the html code to wash.
  * $config is an array containing options:
- *   $config['allow_remote'] is a boolean to allow link to remote images.
+ *   $config['allow_remote'] is a boolean to allow link to remote resources (images/css).
  *   $config['blocked_src'] string with image-src to be used for blocked remote images
  *   $config['show_washed'] is a boolean to include washed out attributes as x-washed
  *   $config['cid_map'] is an array where cid urls index urls to replace them.
@@ -132,9 +132,9 @@ class rcube_washtml
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
         'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
         'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
-        'background', 'src', 'poster', 'href',
+        'background', 'src', 'poster', 'href', 'headers',
         // attributes of form elements
-        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value',
+        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value', 'for',
         // SVG
         'accent-height', 'accumulate', 'additive', 'alignment-baseline', 'alphabetic',
         'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseprofile',
@@ -203,6 +203,9 @@ class rcube_washtml
     /* Allowed HTML attributes */
     private $_html_attribs = array();
 
+    /* A prefix to be added to id/class/for attribute values */
+    private $_css_prefix;
+
     /* Max nesting level */
     private $max_nesting_level;
 
@@ -218,6 +221,7 @@ class rcube_washtml
         $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
         $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
         $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
+        $this->_css_prefix      = is_string($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
 
@@ -242,8 +246,11 @@ class rcube_washtml
         // Remove unwanted white-space characters so regular expressions below work better
         $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
 
+        // Decode insecure character sequences
+        $style = rcube_utils::xss_entity_decode($style);
+
         foreach (explode(';', $style) as $declaration) {
-            if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
+            if (preg_match('/^\s*([a-z\\\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
                 $cssid = $match[1];
                 $str   = $match[2];
                 $value = '';
@@ -252,7 +259,7 @@ class rcube_washtml
                     if (preg_match('/^url\(/i', $val)) {
                         if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
                             if ($url = $this->wash_uri($match[1])) {
-                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES) . ')';
+                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')';
                             }
                         }
                     }
@@ -311,22 +318,23 @@ class rcube_washtml
                     }
                 }
 
-                if ($this->is_image_attribute($node->tagName, $key)) {
+                if ($this->is_image_attribute($node->nodeName, $key)) {
                     $out = $this->wash_uri($value, true);
                 }
-                else if ($this->is_link_attribute($node->tagName, $key)) {
+                else if ($this->is_link_attribute($node->nodeName, $key)) {
                     if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
                         $out = $value;
                     }
                 }
-                else if ($this->is_funciri_attribute($node->tagName, $key)) {
+                else if ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $val)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
-                                $result .= ' ' . $attr->nodeName . '="' . $match[1] . '(' . htmlspecialchars($url, ENT_QUOTES) . ')'
-                                     . substr($val, strlen($match[0])) . '"';
+                                $result .= ' ' . $attr->nodeName . '="' . $match[1]
+                                    . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
+                                    . substr($val, strlen($match[0])) . '"';
                                 continue;
                             }
                         }
@@ -338,19 +346,22 @@ class rcube_washtml
                         $out = $value;
                     }
                 }
+                else if ($this->_css_prefix !== null && in_array($key, array('id', 'class', 'for'))) {
+                    $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
+                }
                 else if ($key) {
                    $out = $value;
                 }
 
                 if ($out !== null && $out !== '') {
-                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES) . '"';
+                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']) . '"';
                 }
                 else if ($value) {
-                    $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
+                    $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);
                 }
             }
             else {
-                $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
+                $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);
             }
         }
 
@@ -364,7 +375,7 @@ class rcube_washtml
     /**
      * Wash URI value
      */
-    private function wash_uri($uri, $blocked_source = false)
+    private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
         if (($src = $this->config['cid_map'][$uri])
             || ($src = $this->config['cid_map'][$this->config['base_url'].$uri])
@@ -383,11 +394,11 @@ class rcube_washtml
             }
 
             $this->extlinks = true;
-            if ($blocked_source && $this->config['blocked_src']) {
+            if ($is_image && $blocked_source && $this->config['blocked_src']) {
                 return $this->config['blocked_src'];
             }
         }
-        else if (preg_match('/^data:image.+/i', $uri)) { // RFC2397
+        else if ($is_image && preg_match('/^data:image.+/i', $uri)) { // RFC2397
             return $uri;
         }
     }
@@ -408,7 +419,7 @@ class rcube_washtml
         return $attr == 'background'
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
-            || ($attr == 'src' && preg_match('/^(img|source)$/i', $tag))
+            || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
             || ($tag == 'image' && $attr == 'href'); // SVG
     }
 
@@ -454,14 +465,25 @@ class rcube_washtml
         do {
             switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
-                $tagName = strtolower($node->tagName);
+                $tagName = strtolower($node->nodeName);
+
+                if ($tagName == 'link') {
+                    $uri = $this->wash_uri($node->getAttribute('href'), false, false);
+                    if (!$uri) {
+                        $dump .= '<!-- link ignored -->';
+                        break;
+                    }
+
+                    $node->setAttribute('href', (string) $uri);
+                }
+
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                 }
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $node->tagName;
+                    $dump .= '<' . $node->nodeName;
 
                     if ($tagName == 'svg') {
                         $xpath = new DOMXPath($node->ownerDocument);
@@ -471,6 +493,9 @@ class rcube_washtml
                             }
                         }
                     }
+                    else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                        $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
+                    }
 
                     $dump .= $this->wash_attribs($node);
 
@@ -478,14 +503,14 @@ class rcube_washtml
                         $dump .= ' />';
                     }
                     else {
-                        $dump .= '>' . $content . '</' . $node->tagName . '>';
+                        $dump .= '>' . $content . '</' . $node->nodeName . '>';
                     }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' not allowed -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
                 }
                 else {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' ignored -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' ignored -->';
                     $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
@@ -495,7 +520,7 @@ class rcube_washtml
                 break;
 
             case XML_TEXT_NODE:
-                $dump .= htmlspecialchars($node->nodeValue);
+                $dump .= htmlspecialchars($node->nodeValue, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->config['charset']);
                 break;
 
             case XML_HTML_DOCUMENT_NODE:
@@ -514,8 +539,6 @@ class rcube_washtml
      */
     public function wash($html)
     {
-        // Charset seems to be ignored (probably if defined in the HTML document)
-        $node = new DOMDocument('1.0', $this->config['charset']);
         $this->extlinks = false;
 
         $html = $this->cleanup($html);
@@ -534,15 +557,22 @@ class rcube_washtml
         // SVG need to be parsed as XML
         $this->is_xml = stripos($html, '<html') === false && stripos($html, '<svg') !== false;
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
-        $options      = 0;
 
-        // Use optimizations if supported
-        if (PHP_VERSION_ID >= 50400) {
-            $options = LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET;
-            @$node->{$method}($html, $options);
+        // DOMDocument does not support HTML5, try Masterminds parser if available
+        if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
+            try {
+                $html5 = new Masterminds\HTML5();
+                $node  = $html5->loadHTML($html);
+            }
+            catch (Exception $e) {
+                // ignore, fallback to DOMDocument
+            }
         }
-        else {
-            @$node->{$method}($html);
+
+        if (empty($node)) {
+            // Charset seems to be ignored (probably if defined in the HTML document)
+            $node = new DOMDocument('1.0', $this->config['charset']);
+            @$node->{$method}($html, LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET);
         }
 
         return $this->dumpHtml($node);

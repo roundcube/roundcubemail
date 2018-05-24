@@ -16,7 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
 $labels['userinfo'] = 'Kullanıcı bilgisi';
-$labels['created'] = 'Oluşturuldu';
-$labels['lastlogin'] = 'Son Giriş';
-$labels['defaultidentity'] = 'Öntanımlı kimlik';
+$labels['created'] = 'Eklendi';
+$labels['lastlogin'] = 'Son Oturum Açma';
+$labels['defaultidentity'] = 'Varsayılan Kimlik';
 ?>

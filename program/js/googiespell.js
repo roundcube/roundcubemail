@@ -59,7 +59,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
-    this.show_change_lang_pic = true;
+    this.show_change_lang_pic = false; // roundcube mod.
     this.change_lang_pic_placement = 'right';
     this.report_state_change = true;
 
@@ -74,6 +74,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.lang_no_suggestions = "No suggestions";
     this.lang_learn_word = "Add to dictionary";
 
+    this.use_ok_pic = false; // added by roundcube
     this.show_spell_img = false; // roundcube mod.
     this.decoration = true;
     this.use_close_btn = false;
@@ -138,8 +139,9 @@ this.decorateTextarea = function(id)
 
         this.checkSpellingState();
     }
-    else if (this.report_ta_not_found)
-        alert('Text area not found');
+    else if (this.report_ta_not_found) {
+        rcmail.alert_dialog('Text area not found');
+    }
 };
 
 //////
@@ -251,10 +253,12 @@ this.spellCheck = function(ignore)
 
     $.ajax({ type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
         error: function(o) {
-            if (ref.custom_ajax_error)
+            if (ref.custom_ajax_error) {
                 ref.custom_ajax_error(ref);
-            else
-                alert('An error was encountered on the server. Please try again later.');
+            }
+            else {
+                rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
+            }
             if (ref.main_controller) {
                 $(ref.spell_span).remove();
                 ref.removeIndicator();
@@ -283,10 +287,12 @@ this.learnWord = function(word, id)
 
     $.ajax({ type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
         error: function(o) {
-            if (ref.custom_ajax_error)
+            if (ref.custom_ajax_error) {
                 ref.custom_ajax_error(ref);
-            else
-                alert('An error was encountered on the server. Please try again later.');
+            }
+            else {
+                rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
+            }
         },
         success: function(data) {
         }
@@ -505,7 +511,7 @@ this.showErrorWindow = function(elm, id)
             item = document.createElement('td'),
             dummy = document.createElement('span');
 
-            $(dummy).text(this.lang_learn_word);
+            $(dummy).text(this.lang_learn_word).addClass('googie_add_to_dict');
             $(item).attr('googie_action_btn', '1').css('cursor', 'default')
                 .mouseover(ref.item_onmouseover)
                 .mouseout(ref.item_onmouseout)
@@ -572,7 +578,7 @@ this.showErrorWindow = function(elm, id)
         var edit_row = document.createElement('tr'),
             edit = document.createElement('td'),
             edit_input = document.createElement('input'),
-            ok_pic = document.createElement('img'),
+            ok_pic = document.createElement('button'), // roundcube mod.
             edit_form = document.createElement('form');
 
         var onsub = function () {
@@ -592,10 +598,18 @@ this.showErrorWindow = function(elm, id)
           .val($(elm).text()).attr('googie_action_btn', '1');
         $(edit).css('cursor', 'default').attr('googie_action_btn', '1');
 
-        $(ok_pic).attr('src', this.img_dir + 'ok.gif')
-            .width(32).height(16)
-            .css({'cursor': 'pointer', 'margin-left': '2px', 'margin-right': '2px'})
-            .click(onsub);
+        // roundcube modified image use
+        if (this.use_ok_pic) {
+            $('<img>').attr('src', this.img_dir + 'ok.gif')
+                .width(32).height(16)
+                .css({cursor: 'pointer', 'margin-left': '2px', 'margin-right': '2px'})
+                .appendTo(ok_pic);
+        }
+        else {
+            $(ok_pic).text('OK');
+        }
+
+        $(ok_pic).addClass('mainaction save googie_ok_button').click(onsub);
 
         $(edit_form).attr('googie_action_btn', '1')
             .css({'margin': 0, 'padding': 0, 'cursor': 'default', 'white-space': 'nowrap'})
@@ -643,6 +657,9 @@ this.showErrorWindow = function(elm, id)
     table.appendChild(list);
     this.error_window.appendChild(table);
 
+    // roundcube plugin api hook
+    rcmail.triggerEvent('googiespell_create', {obj: this.error_window});
+
     // calculate and set position
     var height = $(this.error_window).height(),
         width = $(this.error_window).width(),
@@ -651,7 +668,10 @@ this.showErrorWindow = function(elm, id)
         top = pos.top + height + 20 < pageheight ? pos.top + 20 : pos.top - height,
         left = pos.left + width < pagewidth ? pos.left : pos.left - width;
 
-    $(this.error_window).css({'top': top+'px', 'left': left+'px'}).show();
+    if (left < 0) left = 0;
+    if (top < 0) top = 0;
+
+    $(this.error_window).css({'top': top+'px', 'left': left+'px', position: 'absolute'}).show();
 
     // Dummy for IE - dropdown bug fix
     if (document.all && !window.opera) {

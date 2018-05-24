@@ -102,13 +102,18 @@ if ($uri) {
             && $RCMAIL->get_user_name() == rawurldecode($url['user'])
         ) {
             $message = new rcube_message($params['_uid'], $params['_mbox']);
+
+            if ($message && !empty($message->headers)) {
+                $attachment = rcmail_save_attachment($message, $params['_part'], $COMPOSE_ID);
+            }
         }
     }
 
-    if ($message && !empty($message->headers)
-        && ($attachment = rcmail_save_attachment($message, $params['_part'], $COMPOSE_ID))
-    ) {
-        rcmail_attachment_success($attachment, $uploadid);
+    $plugin = $RCMAIL->plugins->exec_hook('attachment_from_uri', array(
+        'attachment' => $attachment, 'uri' => $uri, 'compose_id' => $COMPOSE_ID));
+
+    if ($plugin['attachment']) {
+        rcmail_attachment_success($plugin['attachment'], $uploadid);
     }
     else {
         $OUTPUT->command('display_message', $RCMAIL->gettext('filelinkerror'), 'error');
@@ -160,7 +165,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
         }
         else {  // upload failed
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+                $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
                 $msg  = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
             }
             else if ($attachment['error']) {
@@ -221,7 +226,7 @@ function rcmail_attachment_success($attachment, $uploadid)
         $button = '';
     }
 
-    $link_content = sprintf('%s <span class="attachment-size"> (%s)</span>',
+    $link_content = sprintf('<span class="attachment-name">%s</span><span class="attachment-size">(%s)</span>',
         rcube::Q($attachment['name']), $RCMAIL->show_bytes($attachment['size']));
 
     $content_link = html::a(array(

@@ -37,7 +37,7 @@ if [ ! -r "$JAR_DIR/compiler.jar" ]; then
 		echo "Please download $CLOSURE_COMPILER_URL and extract compiler.jar to $JAR_DIR/."
 		exit 1
 	fi
-	(cd $JAR_DIR && unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar")
+	unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar"
 	rm -f "/tmp/$$.zip"
 fi
 
@@ -56,7 +56,7 @@ if [ $# -gt 0 ]; then
 	exit
 fi
 
-DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
+DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/* $PWD/../plugins/managesieve/codemirror/lib"
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.js; do

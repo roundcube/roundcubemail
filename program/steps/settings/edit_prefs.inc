@@ -42,7 +42,7 @@ function rcmail_user_prefs_form($attrib)
     global $RCMAIL, $CURR_SECTION, $SECTIONS;
 
     // add some labels to client
-    $RCMAIL->output->add_label('nopagesizewarning');
+    $RCMAIL->output->add_label('nopagesizewarning', 'nosupporterror');
 
     unset($attrib['form']);
 

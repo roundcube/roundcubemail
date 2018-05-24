@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Arhīvs';
 $labels['archivetype'] = 'Sadalīt arhīvu pa';
 $labels['archivetypeyear'] = 'Gadiem (piem. Arhīvs/2012)';
 $labels['archivetypemonth'] = 'Mēnešiem (piem. Arhīvs/2012/06)';
+$labels['archivetypetbmonth'] = 'Mēnesis - Savietojams ar Thunderbird (piem. Arhīvs/2012/2012-06)';
 $labels['archivetypefolder'] = 'Sākotnējā mape';
 $labels['archivetypesender'] = 'Sūtītāja e-pasts';
 $labels['unkownsender'] = 'nezināms';
+$labels['readonarchive'] = 'Arhivējot, atzīmēt vēstuli kā izlasītu';
 ?>

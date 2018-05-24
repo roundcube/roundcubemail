@@ -77,22 +77,24 @@ abstract class enigma_driver
     /**
      * Key/Cert file import.
      *
-     * @param string  File name or file content
-     * @param bollean True if first argument is a filename
+     * @param string File name or file content
+     * @param bolean True if first argument is a filename
+     * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile = false);
+    abstract function import($content, $isfile = false, $passwords = array());
 
     /**
      * Key/Cert export.
      *
      * @param string Key ID
      * @param bool   Include private key
+     * @param array  Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key, $with_private = false);
+    abstract function export($key, $with_private = false, $passwords = array());
 
     /**
      * Keys listing.
@@ -129,4 +131,12 @@ abstract class enigma_driver
      * @return mixed True on success or enigma_error
      */
     abstract function delete_key($keyid);
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    abstract function signature_algorithm();
 }

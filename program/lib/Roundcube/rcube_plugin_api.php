@@ -435,14 +435,16 @@ class rcube_plugin_api
         array_push($this->exec_stack, $hook);
 
         // Use for loop here, so handlers added in the hook will be executed too
-        for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
-            $ret = call_user_func($this->handlers[$hook][$i], $args);
-            if ($ret && is_array($ret)) {
-                $args = $ret + $args;
-            }
+        if (!empty($this->handlers[$hook])) {
+            for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
+                $ret = call_user_func($this->handlers[$hook][$i], $args);
+                if ($ret && is_array($ret)) {
+                    $args = $ret + $args;
+                }
 
-            if ($args['break']) {
-                break;
+                if ($args['break']) {
+                    break;
+                }
             }
         }
 
@@ -607,6 +609,31 @@ class rcube_plugin_api
     public function include_stylesheet($fn)
     {
         if (is_object($this->output) && $this->output->type == 'html') {
+            if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
+                $rcube      = rcube::get_instance();
+                $devel_mode = $rcube->config->get('devel_mode');
+                $assets_dir = $rcube->config->get('assets_dir');
+                $path       = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
+
+                // Prefer .less files in devel_mode (assume less.js is loaded)
+                if ($devel_mode) {
+                    $less = preg_replace('/\.css$/i', '.less', $fn);
+                    if ($less != $fn && is_file("$path/plugins/$less")) {
+                        $fn = $less;
+                    }
+                }
+                else if (!preg_match('/\.min\.css$/', $fn)) {
+                    $min = preg_replace('/\.css$/i', '.min.css', $fn);
+                    if (is_file("$path/plugins/$min")) {
+                        $fn = $min;
+                    }
+                }
+
+                if (!is_file("$path/plugins/$fn")) {
+                    return;
+                }
+            }
+
             $src = $this->resource_url($fn);
             $this->output->include_css($src);
         }

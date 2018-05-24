@@ -19,6 +19,7 @@ $labels['sharing'] = 'مشاركة';
 $labels['myrights'] = 'حقوق الوصول';
 $labels['username'] = 'مستخدم:';
 $labels['advanced'] = 'وضع متقدم';
+$labels['add'] = 'إضافة';
 $labels['newuser'] = 'اضافة مدخل';
 $labels['editperms'] = 'تعديل الصلاحيات';
 $labels['actions'] = 'اجراءات حقوق الوصول...';

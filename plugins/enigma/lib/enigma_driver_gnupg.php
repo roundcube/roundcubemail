@@ -23,6 +23,9 @@ class enigma_driver_gnupg extends enigma_driver
     protected $gpg;
     protected $homedir;
     protected $user;
+    protected $last_sig_algorithm;
+    protected $debug    = false;
+    protected $db_files = array('pubring.gpg', 'secring.gpg');
 
 
     function __construct($user)
@@ -39,10 +42,11 @@ class enigma_driver_gnupg extends enigma_driver
      */
     function init()
     {
-        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
+        $homedir = $this->rc->config->get('enigma_pgp_homedir');
         $debug   = $this->rc->config->get('enigma_debug');
         $binary  = $this->rc->config->get('enigma_pgp_binary');
         $agent   = $this->rc->config->get('enigma_pgp_agent');
+        $gpgconf = $this->rc->config->get('enigma_pgp_gpgconf');
 
         if (!$homedir) {
             return new enigma_error(enigma_error::INTERNAL,
@@ -75,6 +79,7 @@ class enigma_driver_gnupg extends enigma_driver
                 "Unable to write to keys directory: $homedir");
         }
 
+        $this->debug   = $debug;
         $this->homedir = $homedir;
 
         $options = array('homedir' => $this->homedir);
@@ -88,6 +93,12 @@ class enigma_driver_gnupg extends enigma_driver
         if ($agent) {
             $options['agent'] = $agent;
         }
+        if ($gpgconf) {
+            $options['gpgconf'] = $gpgconf;
+        }
+
+        $options['cipher-algo'] = $this->rc->config->get('enigma_pgp_cipher_algo');
+        $options['digest-algo'] = $this->rc->config->get('enigma_pgp_digest_algo');
 
         // Create Crypt_GPG object
         try {
@@ -96,6 +107,8 @@ class enigma_driver_gnupg extends enigma_driver
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
+
+        $this->db_sync();
     }
 
     /**
@@ -116,7 +129,13 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($sign_key) {
                 $this->gpg->addSignKey($sign_key->reference, $sign_key->password);
-                return $this->gpg->encryptAndSign($text, true);
+
+                $res     = $this->gpg->encryptAndSign($text, true);
+                $sigInfo = $this->gpg->getLastSignatureInfo();
+
+                $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
+
+                return $res;
             }
 
             return $this->gpg->encrypt($text, true);
@@ -142,7 +161,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $this->gpg->addDecryptKey($key, $password);
             }
 
-            $result = $this->gpg->decryptAndVerify($text);
+            $result = $this->gpg->decryptAndVerify($text, true);
 
             if (!empty($result['signatures'])) {
                 $signature = $this->parse_signature($result['signatures'][0]);
@@ -168,7 +187,13 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
-            return $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+
+            $res     = $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+            $sigInfo = $this->gpg->getLastSignatureInfo();
+
+            $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
+
+            return $res;
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -197,18 +222,30 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key file import.
      *
-     * @param string  File name or file content
-     * @param bollean True if first argument is a filename
+     * @param string File name or file content
+     * @param bolean True if first argument is a filename
+     * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    public function import($content, $isfile=false)
+    public function import($content, $isfile = false, $passwords = array())
     {
         try {
-            if ($isfile)
-                return $this->gpg->importKeyFile($content);
-            else
-                return $this->gpg->importKey($content);
+            // GnuPG 2.1 requires secret key passphrases on import
+            foreach ($passwords as $keyid => $pass) {
+                $this->gpg->addPassphrase($keyid, $pass);
+            }
+
+            if ($isfile) {
+                $result = $this->gpg->importKeyFile($content);
+            }
+            else {
+                $result = $this->gpg->importKey($content);
+            }
+
+            $this->db_save();
+
+            return $result;
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -220,15 +257,21 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @param string Key ID
      * @param bool   Include private key
+     * @param array  Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
-    public function export($keyid, $with_private = false)
+    public function export($keyid, $with_private = false, $passwords = array())
     {
         try {
             $key = $this->gpg->exportPublicKey($keyid, true);
 
             if ($with_private) {
+                // GnuPG 2.1 requires secret key passphrases on export
+                foreach ($passwords as $_keyid => $pass) {
+                    $this->gpg->addPassphrase($_keyid, $pass);
+                }
+
                 $priv = $this->gpg->exportPrivateKey($keyid, true);
                 $key .= $priv;
             }
@@ -247,7 +290,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
-    public function list_keys($pattern='')
+    public function list_keys($pattern = '')
     {
         try {
             $keys = $this->gpg->getKeys($pattern);
@@ -340,13 +383,26 @@ class enigma_driver_gnupg extends enigma_driver
                     $type = ($key->subkeys[$i]->usage & enigma_key::CAN_ENCRYPT) ? 'priv' : 'pub';
                     $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
                     if ($result !== true) {
-                        return $result;
+                        break;
                     }
                 }
             }
         }
 
+        $this->db_save();
+
         return $result;
+    }
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    public function signature_algorithm()
+    {
+        return $this->last_sig_algorithm;
     }
 
     /**
@@ -421,17 +477,20 @@ class enigma_driver_gnupg extends enigma_driver
      */
     protected function parse_signature($sig)
     {
-        $user = $sig->getUserId();
-
         $data = new enigma_signature();
-        $data->id          = $sig->getId();
+
+        $data->id          = $sig->getId() ?: $sig->getKeyId();
         $data->valid       = $sig->isValid();
         $data->fingerprint = $sig->getKeyFingerprint();
         $data->created     = $sig->getCreationDate();
         $data->expires     = $sig->getExpirationDate();
-        $data->name        = $user->getName();
-        $data->comment     = $user->getComment();
-        $data->email       = $user->getEmail();
+
+        // In case of ERRSIG user may not be set
+        if ($user = $sig->getUserId()) {
+            $data->name    = $user->getName();
+            $data->comment = $user->getComment();
+            $data->email   = $user->getEmail();
+        }
 
         return $data;
     }
@@ -481,6 +540,147 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->id = $ekey->subkeys[0]->id;
 
         return $ekey;
+    }
+
+    /**
+     * Syncronize keys database on multi-host setups
+     */
+    protected function db_sync()
+    {
+        if (!$this->rc->config->get('enigma_multihost')) {
+            return;
+        }
+
+        $db    = $this->rc->get_dbh();
+        $table = $db->table_name('filestore', true);
+
+        $result = $db->query(
+            "SELECT `file_id`, `filename`, `mtime` FROM $table"
+            . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
+            $this->rc->user->ID
+        );
+
+        while ($record = $db->fetch_assoc($result)) {
+            $file  = $this->homedir . '/' . $record['filename'];
+            $mtime = @filemtime($file);
+
+            if ($mtime < $record['mtime']) {
+                $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
+                    . " WHERE `file_id` = ?", $record['file_id']);
+
+                $data = $db->fetch_assoc($data_result);
+                $data = $data ? base64_decode($data['data']) : null;
+
+                if ($data === null || $data === false) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error."
+                        ), true, false);
+
+                    continue;
+                }
+
+                $tmpfile = $file . '.tmp';
+
+                if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
+                    rename($tmpfile, $file);
+                    touch($file, $data_record['mtime']);
+
+                    if ($this->debug) {
+                        $this->debug("SYNC: Fetched file: $file");
+                    }
+                }
+                else {
+                    // error
+                    @unlink($tmpfile);
+
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to sync $file."
+                        ), true, false);
+                }
+            }
+        }
+
+        // No records found, do initial sync if already have the keyring
+        if (!$db->is_error($result) && empty($file)) {
+            $this->db_save(true);
+        }
+    }
+
+    /**
+     * Save keys database for multi-host setups
+     */
+    protected function db_save($is_empty = false)
+    {
+        if (!$this->rc->config->get('enigma_multihost')) {
+            return true;
+        }
+
+        $db      = $this->rc->get_dbh();
+        $table   = $db->table_name('filestore', true);
+        $records = array();
+
+        if (!$is_empty) {
+            $result = $db->query(
+                "SELECT `file_id`, `filename`, `mtime` FROM $table"
+                . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
+                $this->rc->user->ID
+            );
+
+            while ($record = $db->fetch_assoc($result)) {
+                $records[$record['filename']] = $record;
+            }
+        }
+
+        foreach ($this->db_files as $filename) {
+            $file  = $this->homedir . '/' . $filename;
+            $mtime = @filemtime($file);
+
+            if ($mtime && (empty($records[$filename]) || $mtime > $records[$filename]['mtime'])) {
+                $data     = file_get_contents($file);
+                $data     = base64_encode($data);
+                $datasize = strlen($data);
+
+                if (empty($maxsize)) {
+                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
+                }
+
+                if ($datasize > $maxsize) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
+                        ), true, false);
+
+                    continue;
+                }
+
+                if (empty($records[$filename])) {
+                    $result = $db->query(
+                        "INSERT INTO $table (`user_id`, `filename`, `mtime`, `data`)"
+                        . " VALUES(?, ?, ?, ?)",
+                        $this->rc->user->ID, $filename, $mtime, $data);
+                }
+                else {
+                    $result = $db->query(
+                        "UPDATE $table SET `mtime` = ?, `data` = ? WHERE `file_id` = ?",
+                        $mtime, $data, $records[$filename]['file_id']);
+                }
+
+                if ($db->is_error($result)) {
+                    rcube::raise_error(array(
+                            'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                            'message' => "Enigma: Failed to save $file into database."
+                        ), true, false);
+
+                    break;
+                }
+
+                if ($this->debug) {
+                    $this->debug("SYNC: Pushed file: $file");
+                }
+            }
+        }
     }
 
     /**

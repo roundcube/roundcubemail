@@ -1,0 +1,31 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+
+<div id="sidebar" class="sidebar listbox" role="navigation" aria-labelledby="aria-label-helpnav">
+	<div class="header">
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<span id="aria-label-helpnav" class="header-title"><roundcube:label name="help.help" /></span>
+	</div>
+	<div class="scroller">
+		<ul class="listing iconized" data-menu="toolbar-small">
+			<roundcube:object name="tablink" action="index" type="link-menuitem" label="help.help" class="help" />
+			<roundcube:object name="tablink" action="about" type="link-menuitem" label="help.about" class="about" />
+			<roundcube:object name="tablink" action="license" type="link-menuitem" label="help.license" class="license" />
+			<roundcube:container name="helptabs" id="helptabsbar" />
+		</ul>
+	</div>
+</div>
+
+<h1 class="voice"><roundcube:label name="help.help" /></h1>
+
+<div id="content" class="content selected" role="main">
+	<div class="header">
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<span class="header-title"><roundcube:label name="help.help" /></span>
+	</div>
+	<div class="iframe-wrapper">
+		<roundcube:object name="contentframe" id="helpcontentframe" src="env:blankpage" title="arialabelhelpcontent" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />
