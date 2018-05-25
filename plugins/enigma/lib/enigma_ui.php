@@ -606,14 +606,15 @@ class enigma_ui
             $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
                 'id' => 'rcmimportfile', 'size' => 30));
 
+            $max_filesize  = $this->rc->upload_init();
             $upload_button = new html_button(array(
                     'class'   => 'button import',
                     'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
             ));
 
-            $form = html::div(null,
-                rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
-                . html::br() . html::br() . $upload->show()
+            $form = html::div(null, html::p(null, rcube::Q($this->enigma->gettext('keyimporttext'), 'show'))
+                . $upload->show()
+                . html::div('hint', $this->rc->gettext(array('id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
                 . (empty($attrib['part']) ? html::br() . html::br() . $upload_button->show($this->rc->gettext('import')) : '')
             );
 
