@@ -3728,6 +3728,35 @@ class rcube_imap extends rcube_storage
     }
 
     /**
+     * Check if the folder name is valid
+     *
+     * @param string $folder Folder name (UTF-8)
+     * @param string &$char  First forbidden character found
+     *
+     * @return bool True if the name is valid, False otherwise
+     */
+    public function folder_validate($folder, &$char = null)
+    {
+        if (parent::folder_validate($folder, $char)) {
+            $vendor = $this->get_vendor();
+            $regexp = '\\x00-\\x1F\\x7F%*';
+
+            if ($vendor == 'cyrus') {
+                // List based on testing Kolab's Cyrus-IMAP 2.5
+                $regexp .= '!`@(){}|\\?<;"';
+            }
+
+            if (!preg_match("/[$regexp]/", $folder, $m)) {
+                return true;
+            }
+
+            $char = $m[0];
+        }
+
+        return false;
+    }
+
+    /**
      * Get message header names for rcube_imap_generic::fetchHeader(s)
      *
      * @return string Space-separated list of header names
