@@ -509,7 +509,7 @@ abstract class rcube_addressbook
         // default display name composition according to vcard standard
         if (!$fn) {
             $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
-            $fn = trim(preg_replace('/\s+/', ' ', $fn));
+            $fn = trim(preg_replace('/\s+/u', ' ', $fn));
         }
 
         // use email address part for name
@@ -560,7 +560,7 @@ abstract class rcube_addressbook
         }
 
         $fn = trim($fn, ', ');
-        $fn = preg_replace('/\s+/', ' ', $fn);
+        $fn = preg_replace('/\s+/u', ' ', $fn);
 
         // fallbacks...
         if ($fn === '') {
@@ -637,8 +637,8 @@ abstract class rcube_addressbook
             }
         }
 
-        $result = preg_replace('/\s+/', ' ', $result);
-        $result = preg_replace('/\s*(<>|\(\)|\[\])/', '', $result);
+        $result = preg_replace('/\s+/u', ' ', $result);
+        $result = preg_replace('/\s*(<>|\(\)|\[\])/u', '', $result);
         $result = trim($result, '/ ');
 
         return $result;
