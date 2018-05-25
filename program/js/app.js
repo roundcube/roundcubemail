@@ -3470,7 +3470,7 @@ function rcube_webmail()
   // with select_all mode checking
   this.uids_to_list = function(uids)
   {
-    return this.select_all_mode ? '*' : (uids.length <= 1 ? uids.join(',') : uids);
+    return this.select_all_mode ? '*' : ($.isArray(uids) ? uids.join(',') : uids);
   };
 
   // Sets title of the delete button
