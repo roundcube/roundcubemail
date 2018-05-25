@@ -276,6 +276,10 @@ function rcube_webmail()
             parent.rcmail.show_contentframe(true);
           }
 
+          if ($.inArray('flagged', this.env.message_flags) >= 0) {
+            $(document.body).addClass('status-flagged');
+          }
+
           // initialize drag-n-drop on attachments, so they can e.g.
           // be dropped into mail compose attachments in another window
           if (this.gui_objects.attachments)
@@ -3343,12 +3347,15 @@ function rcube_webmail()
   this.toggle_flagged_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
+      win = this.env.contentframe ? this.get_frame_window(this.env.contentframe) : window,
       post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as flagged/unflagged
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
+
+    $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
 
     this.http_post('mark', post_data, lock);
   };

@@ -23,6 +23,15 @@
         font-size: 1.5rem;
         font-weight: bold;
         white-space: nowrap;
+
+        body.status-flagged &:before {
+            &:extend(.font-icon-class);
+            display: inline;
+            float: none;
+            content: @fa-var-flag;
+            font-size: 1em;
+            color: @color-error;
+        }
     }
 
     .short-header {
