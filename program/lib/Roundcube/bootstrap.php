@@ -81,12 +81,8 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 // set internal encoding for mbstring extension
-if (function_exists('mb_internal_encoding')) {
-    mb_internal_encoding(RCUBE_CHARSET);
-}
-if (function_exists('mb_regex_encoding')) {
-    mb_regex_encoding(RCUBE_CHARSET);
-}
+mb_internal_encoding(RCUBE_CHARSET);
+mb_regex_encoding(RCUBE_CHARSET);
 
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
