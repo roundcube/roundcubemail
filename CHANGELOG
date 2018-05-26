@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some forbidden characters on Cyrus-IMAP were not prevented from use in folder names
 - Fix bug where only attachments with the same name would be ignored on zip download (#6301)
 - Fix bug where unicode contact names could have been broken/emptied or caused DB errors (#6299)
+- Fix bug where after "mark all folders as read" action message counters were not reset (#6307)
 
 RELEASE 1.3.6
 -------------
