@@ -2463,7 +2463,7 @@ class rcube_imap extends rcube_storage
      * @param string  $folder     Folder name
      * @param boolean $skip_cache True to skip message cache clean up
      *
-     * @return boolean  Operation status
+     * @return boolean Operation status
      */
     public function set_flag($uids, $flag, $folder=null, $skip_cache=false)
     {
