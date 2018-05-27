@@ -987,6 +987,12 @@ class enigma_ui
                     $msg = str_replace('$keyid', $sig->id, $msg);
                     $msg = rcube::Q($msg);
                 }
+                else if ($sig->valid === enigma_error::SERVER_VERIFIED) {
+                    $attrib['class'] = 'enigmawarning';
+                    $msg = str_replace('$sender', $sender, $this->enigma->gettext('sigserververified'));
+                    $msg = str_replace('$keyid', $sig->id, $msg);
+                    $msg = rcube::Q($msg);
+                }
                 else if ($sig->valid) {
                     $attrib['class'] = ($sig->partial ? 'boxwarning enigmawarning' : 'boxconfirmation enigmanotice') . ' signed';
                     $label = 'sigvalid' . ($sig->partial ? 'partial' : '');

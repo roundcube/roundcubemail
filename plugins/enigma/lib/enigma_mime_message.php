@@ -19,6 +19,8 @@ class enigma_mime_message extends Mail_mime
 {
     const PGP_SIGNED    = 1;
     const PGP_ENCRYPTED = 2;
+    const SMIME_SIGNED  = 3;
+    const SMIME_ENCRYPTED = 4;
 
     protected $type;
     protected $message;

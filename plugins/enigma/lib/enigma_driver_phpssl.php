@@ -20,6 +20,7 @@ class enigma_driver_phpssl extends enigma_driver
     private $rc;
     private $homedir;
     private $user;
+    private $cainfo;
 
     function __construct($user)
     {
@@ -37,6 +38,7 @@ class enigma_driver_phpssl extends enigma_driver
     function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
+        $this->cainfo = $this->rc->config->get('enigma_smime_ca', array());
 
         if (!$homedir)
             return new enigma_error(enigma_error::INTERNAL,
@@ -64,6 +66,15 @@ class enigma_driver_phpssl extends enigma_driver
                 "Unable to write to keys directory: $homedir");
 
         $this->homedir = $homedir;
+
+        #XXX: Workaround for https://bugs.php.net/bug.php?id=75494
+        if (count($this->cainfo) > 0) {
+            $dummy_cert_dir = $this->homedir . '/' . 'cert_dummy';
+            if (!file_exists($dummy_cert_dir)) {
+                mkdir($dummy_cert_dir, 0700);
+            }
+            $this->cainfo[] = $dummy_cert_dir;
+        }
 
     }
 
@@ -96,10 +107,15 @@ class enigma_driver_phpssl extends enigma_driver
         fclose($fh);
 
         // @TODO: use stored certificates
-
-        // try with certificate verification
-        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+        // try with global config'd certificates
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, $this->cainfo);
         $validity = true;
+
+        if ($sig !== true) {
+            // try with server trusted certificate verification
+            $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+            $validity = enigma_error::SERVER_VERIFIED;
+        }
 
         if ($sig !== true) {
             // try without certificate verification
@@ -228,6 +244,8 @@ class enigma_driver_phpssl extends enigma_driver
         $data->name        = $cert['subject']['CN'];
 //        $data->comment     = '';
         $data->email       = $cert['subject']['emailAddress'];
+
+        rcube::write_log('errors', 'Decrypted sig: ' . $data->name);
 
         return $data;
     }
