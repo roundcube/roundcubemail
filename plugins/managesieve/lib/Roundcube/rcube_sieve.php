@@ -329,7 +329,6 @@ class rcube_sieve
     public function get_scripts()
     {
         if (!$this->list) {
-
             if (!$this->sieve) {
                 return $this->_set_error(self::ERROR_INTERNAL);
             }
