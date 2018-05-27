@@ -83,6 +83,7 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
             "\\/"       => "\\",
             'test/test' => 'test/test',
             'test//'    => 'test',
+            '/test//'   => '/test',
         );
 
         foreach ($data as $value => $expected) {
