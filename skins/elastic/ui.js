@@ -2629,6 +2629,9 @@ function rcube_elastic_ui()
                     rcmail.simple_dialog(p.table, 'quota', null, {cancel_button: 'close'});
                 });
         }
+        else {
+            element.tooltip('dispose').tooltip({trigger: 'hover click'}); // click for mobile
+        }
     };
 
     /**
