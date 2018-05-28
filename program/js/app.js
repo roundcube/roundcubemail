@@ -3210,7 +3210,9 @@ function rcube_webmail()
       var n, len, id, root, roots = [],
         selection = post_data._uid;
 
-      if (typeof selection == 'string')
+      if (selection === '*')
+        selection = this.message_list.get_selection();
+      else if (typeof selection == 'string')
         selection = selection.split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
