@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
@@ -222,8 +220,6 @@ $labels['duplicate.header'] = 'Kopfzeile:';
 $labels['duplicate.uniqueid'] = 'Bezeichner:';
 $labels['duplicate.seconds'] = 'Zeitüberschreitung (Sekunden):';
 $labels['duplicate.last'] = 'relativ zur letzten Ausführung';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann nicht zum Sieve-Server verbinden';
 $messages['filterdeleteerror'] = 'Serverfehler beim Löschen des Filters.';
@@ -264,5 +260,4 @@ $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Mitteilungstext ist erforderlich!';
 $messages['duplicate.conflict.err'] = 'Kopfzeile und eindeutiger Bezeichner sind nicht zusammen erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
-
 ?>

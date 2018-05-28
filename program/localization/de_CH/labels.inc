@@ -425,7 +425,6 @@ $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
 $labels['importgroups'] = 'Gruppenzuweisungen importieren';
 $labels['importgroupsall'] = 'Alle (nicht vorhandene Gruppen erstellen)';
 $labels['importgroupsexisting'] = 'Für existierende Gruppen';
-$labels['importdesc'] = 'Sie können Kontakte aus einem bestehenden Adressbuch hochladen.rnEs können Adressbücher im <a href="http://de.wikipedia.org/wiki/VCard">vCard</a>- oder CSV-Format importiert werden.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';
 $labels['about'] = 'Über';

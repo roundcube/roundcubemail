@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Filter für eingehende Nachrichten verwalten';
 $labels['filtername'] = 'Filtername';
@@ -222,8 +220,6 @@ $labels['duplicate.header'] = 'Kopfzeile:';
 $labels['duplicate.uniqueid'] = 'Bezeichner:';
 $labels['duplicate.seconds'] = 'Zeitüberschreitung (Sekunden):';
 $labels['duplicate.last'] = 'relativ zur letzten Ausführung';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann keine Verbindung mit Managesieve-Server herstellen';
 $messages['filterdeleteerror'] = 'Filter kann nicht gelöscht werden. Ein Serverfehler ist aufgetreten.';
@@ -264,5 +260,4 @@ $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird benötigt!';
 $messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
-
 ?>
