@@ -946,6 +946,9 @@ class enigma_ui
                     $msg     = rcube::Q($this->enigma->gettext($label));
                     $this->password_prompt($status);
                 }
+                else if ($code == enigma_error::NOMDC) {
+                    $msg = rcube::Q($this->enigma->gettext('decryptnomdc'));
+                }
                 else {
                     $msg = rcube::Q($this->enigma->gettext('decrypterror'));
                 }
