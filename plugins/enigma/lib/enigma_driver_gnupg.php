@@ -159,6 +159,16 @@ class enigma_driver_gnupg extends enigma_driver
                 $signature = $this->parse_signature($result['signatures'][0]);
             }
 
+            // EFAIL vulnerability mitigation (#6289)
+            // Handle MDC warning as an exception, this is the default for gpg 2.3.
+            if (method_exists($this->gpg, 'getWarnings')) {
+                foreach ($this->gpg->getWarnings() as $warning_msg) {
+                    if (strpos($warning_msg, 'not integrity protected') !== false) {
+                        return new enigma_error(enigma_error::NOMDC, ucfirst($warning_msg));
+                    }
+                }
+            }
+
             return $result['data'];
         }
         catch (Exception $e) {
