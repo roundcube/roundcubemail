@@ -2301,6 +2301,7 @@ function rcube_elastic_ui()
         };
 
         rcmail.simple_dialog(dialog, rcmail.gettext('importmessages'), save_func, {
+            button: 'import',
             closeOnEscape: true,
             minWidth: 400
         });

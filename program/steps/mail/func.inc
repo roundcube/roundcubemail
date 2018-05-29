@@ -1687,7 +1687,7 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages');
+    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages', 'import');
 
     $description = $RCMAIL->gettext('mailimportdesc');
     $input_attr  = array(
