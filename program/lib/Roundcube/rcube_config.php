@@ -245,11 +245,13 @@ class rcube_config
         }
 
         // set PHP error logging according to config
-        $error_log = $this->prop['log_driver'];
-        if ($error_log != 'syslog') {
+        $error_log = $this->prop['log_driver'] ?: 'file';
+        if ($error_log == 'file') {
             $error_log  = $this->prop['log_dir'] . '/errors';
             $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
+        }
 
+        if ($error_log && $error_log != 'stdout') {
             ini_set('error_log', $error_log);
         }
 
