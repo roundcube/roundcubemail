@@ -856,7 +856,7 @@ class rcube_message
                     }
 
                     // Any non-inline attachment
-                    if (!preg_match('/^inline/i', $mail_part->disposition)) {
+                    if (!preg_match('/^inline/i', $mail_part->disposition) || empty($mail_part->headers['content-id'])) {
                         // Content-Type name regexp according to RFC4288.4.2
                         if (!preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
                             // replace malformed content type with application/octet-stream (#1487767)
