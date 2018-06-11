@@ -179,9 +179,10 @@ $config['imap_vendor'] = null;
 // If IMAP server doesn't support NAMESPACE extension, but you're
 // using shared folders or personal root folder is non-empty, you'll need to
 // set these options. All can be strings or arrays of strings.
-// Folders need to be ended with directory separator, e.g. "INBOX."
-// (special directory "~" is an exception to this rule)
-// These can be used also to overwrite server's namespaces
+// Note: Folders need to be ended with directory separator, e.g. "INBOX."
+//       (special directory "~" is an exception to this rule)
+// Note: These can be used also to overwrite server's namespaces
+// Note: Set these to FALSE to disable access to specified namespace
 $config['imap_ns_personal'] = null;
 $config['imap_ns_other']    = null;
 $config['imap_ns_shared']   = null;
