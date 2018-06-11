@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
 - Add Message-ID to the sendmail log (#5871)
+- Add option to hide folders in share/other-user namespace or outside of the personal namespace root (#5073)
 - Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Style Archive folder also on folder selector and folder manager lists
 - Archive: Add Thunderbird compatible Month option (#5623)
