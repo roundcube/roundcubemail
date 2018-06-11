@@ -59,19 +59,21 @@ class rcube_imap extends rcube_storage
     protected $plugins;
     protected $delimiter;
     protected $namespace;
-    protected $sort_field = '';
-    protected $sort_order = 'DESC';
     protected $struct_charset;
     protected $search_set;
-    protected $search_string = '';
-    protected $search_charset = '';
+    protected $search_string     = '';
+    protected $search_charset    = '';
     protected $search_sort_field = '';
-    protected $search_threads = false;
-    protected $search_sorted = false;
-    protected $options = array('auth_type' => 'check');
-    protected $caching = false;
-    protected $messages_caching = false;
-    protected $threading = false;
+    protected $search_threads    = false;
+    protected $search_sorted     = false;
+    protected $sort_field        = '';
+    protected $sort_order        = 'DESC';
+    protected $options           = array('auth_type' => 'check');
+    protected $caching           = false;
+    protected $messages_caching  = false;
+    protected $threading         = false;
+    protected $list_excludes     = array();
+    protected $list_root;
 
 
     /**
@@ -89,6 +91,9 @@ class rcube_imap extends rcube_storage
         }
         if (isset($_SESSION['imap_delimiter'])) {
             $this->delimiter = $_SESSION['imap_delimiter'];
+        }
+        if (!empty($_SESSION['imap_list_conf'])) {
+            list($this->list_root, $this->list_excludes) = $_SESSION['imap_list_conf'];
         }
     }
 
@@ -501,9 +506,9 @@ class rcube_imap extends rcube_storage
         }
         else {
             $this->namespace = array(
-                'personal' => NULL,
-                'other'    => NULL,
-                'shared'   => NULL,
+                'personal' => null,
+                'other'    => null,
+                'shared'   => null,
             );
         }
 
@@ -520,28 +525,63 @@ class rcube_imap extends rcube_storage
             $this->delimiter = '/';
         }
 
+        $this->list_root     = null;
+        $this->list_excludes = array();
+
         // Overwrite namespaces
         if ($imap_personal !== null) {
-            $this->namespace['personal'] = NULL;
+            $this->namespace['personal'] = null;
             foreach ((array)$imap_personal as $dir) {
                 $this->namespace['personal'][] = array($dir, $this->delimiter);
             }
         }
-        if ($imap_other !== null) {
-            $this->namespace['other'] = NULL;
+
+        if ($imap_other === false) {
+            foreach ((array) $this->namespace['other'] as $dir) {
+                if (is_array($dir) && $dir[0]) {
+                    $this->list_excludes[] = $dir[0];
+                }
+            }
+
+            $this->namespace['other'] = null;
+        }
+        else if ($imap_other !== null) {
+            $this->namespace['other'] = null;
             foreach ((array)$imap_other as $dir) {
                 if ($dir) {
                     $this->namespace['other'][] = array($dir, $this->delimiter);
                 }
             }
         }
-        if ($imap_shared !== null) {
-            $this->namespace['shared'] = NULL;
+
+        if ($imap_shared === false) {
+            foreach ((array) $this->namespace['shared'] as $dir) {
+                if (is_array($dir) && $dir[0]) {
+                    $this->list_excludes[] = $dir[0];
+                }
+            }
+
+            $this->namespace['shared'] = null;
+        }
+        else if ($imap_shared !== null) {
+            $this->namespace['shared'] = null;
             foreach ((array)$imap_shared as $dir) {
                 if ($dir) {
                     $this->namespace['shared'][] = array($dir, $this->delimiter);
                 }
             }
+        }
+
+        // Performance optimization for case where we have no shared/other namespace
+        // and personal namespace has one prefix (#5073)
+        // In such a case we can tell the server to return only content of the
+        // specified folder in LIST/LSUB, no post-filtering
+        if (empty($this->namespace['other']) && empty($this->nmespace['shared'])
+            && !empty($this->namespace['personal']) && count($this->namespace['personal']) === 1
+            && strlen($this->namespace['personal'][0][0]) > 1
+        ) {
+            $this->list_root     = $this->namespace['personal'][0][0];
+            $this->list_excludes = array();
         }
 
         // Find personal namespace prefix(es) for self::mod_folder()
@@ -566,6 +606,7 @@ class rcube_imap extends rcube_storage
 
         $_SESSION['imap_namespace'] = $this->namespace;
         $_SESSION['imap_delimiter'] = $this->delimiter;
+        $_SESSION['imap_list_conf'] = array($this->list_root, $this->list_excludes);
     }
 
     /**
@@ -2880,40 +2921,35 @@ class rcube_imap extends rcube_storage
      * @return array List of subscribed folders
      * @see rcube_imap::list_folders_subscribed()
      */
-    public function list_folders_subscribed_direct($root='', $name='*')
+    public function list_folders_subscribed_direct($root = '', $name = '*')
     {
         if (!$this->check_connection()) {
            return null;
         }
 
-        $config = rcube::get_instance()->config;
+        $config    = rcube::get_instance()->config;
+        $list_root = $root === '' && $this->list_root ? $this->list_root : $root;
 
         // Server supports LIST-EXTENDED, we can use selection options
-        // #1486225: Some dovecot versions returns wrong result using LIST-EXTENDED
+        // #1486225: Some dovecot versions return wrong result using LIST-EXTENDED
         $list_extended = !$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED');
+
         if ($list_extended) {
             // This will also set folder options, LSUB doesn't do that
-            $result = $this->conn->listMailboxes($root, $name,
+            $result = $this->conn->listMailboxes($list_root, $name,
                 NULL, array('SUBSCRIBED'));
         }
         else {
             // retrieve list of folders from IMAP server using LSUB
-            $result = $this->conn->listSubscribed($root, $name);
+            $result = $this->conn->listSubscribed($list_root, $name);
         }
 
         if (!is_array($result)) {
             return array();
         }
 
-        // #1486796: some server configurations doesn't return folders in all namespaces
-        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
-            $this->list_folders_update($result, ($list_extended ? 'ext-' : '') . 'subscribed');
-        }
-
-        // Remove hidden folders
-        if ($config->get('imap_skip_hidden_folders')) {
-            $result = array_filter($result, function($v) { return $v[0] != '.'; });
-        }
+        // Add/Remove folders according to some configuration options
+        $this->list_folders_filter($result, $root . $name, ($list_extended ? 'ext-' : '') . 'subscribed');
 
         if ($list_extended) {
             // unsubscribe non-existent folders, remove from the list
@@ -3028,23 +3064,36 @@ class rcube_imap extends rcube_storage
      * @return array List of folders
      * @see rcube_imap::list_folders()
      */
-    public function list_folders_direct($root='', $name='*')
+    public function list_folders_direct($root = '', $name = '*')
     {
         if (!$this->check_connection()) {
             return null;
         }
 
-        $result = $this->conn->listMailboxes($root, $name);
+        $list_root = $root === '' && $this->list_root ? $this->list_root : $root;
+
+        $result = $this->conn->listMailboxes($list_root, $name);
 
         if (!is_array($result)) {
             return array();
         }
 
+        // Add/Remove folders according to some configuration options
+        $this->list_folders_filter($result, $root . $name);
+
+        return $result;
+    }
+
+    /**
+     * Apply configured filters on folders list
+     */
+    protected function list_folders_filter(&$result, $root, $update_type = null)
+    {
         $config = rcube::get_instance()->config;
 
         // #1486796: some server configurations doesn't return folders in all namespaces
-        if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
-            $this->list_folders_update($result);
+        if ($root === '*' && $config->get('imap_force_ns')) {
+            $this->list_folders_update($result, $update_type);
         }
 
         // Remove hidden folders
@@ -3052,7 +3101,18 @@ class rcube_imap extends rcube_storage
             $result = array_filter($result, function($v) { return $v[0] != '.'; });
         }
 
-        return $result;
+        // Remove folders in shared namespaces (if configured, see self::set_env())
+        if ($root === '*' && !empty($this->list_excludes)) {
+            $result = array_filter($result, function($v) {
+                foreach ($this->list_excludes as $prefix) {
+                    if (strpos($v, $prefix) === 0) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
     }
 
     /**
