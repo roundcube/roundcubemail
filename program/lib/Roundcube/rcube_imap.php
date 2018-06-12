@@ -3707,7 +3707,7 @@ class rcube_imap extends rcube_storage
 
         // get cached metadata
         $cache_key = 'mailboxes.folder-info.' . $folder;
-        $cached = $this->get_cache($cache_key);
+        $cached    = $this->get_cache($cache_key);
 
         if (is_array($cached)) {
             return $cached;
@@ -3770,7 +3770,9 @@ class rcube_imap extends rcube_storage
 
         // Set 'norename' flag
         if (!empty($options['rights'])) {
-            $options['norename'] = !in_array('x', $options['rights']) && !in_array('d', $options['rights']);
+            $rfc_4314 = is_array($this->get_capability('RIGHTS'));
+            $options['norename'] = ($rfc_4314 && !in_array('x', $options['rights']))
+                                || (!$rfc_4314 && !in_array('d', $options['rights']));
 
             if (!$options['noselect']) {
                 $options['noselect'] = !in_array('r', $options['rights']);
