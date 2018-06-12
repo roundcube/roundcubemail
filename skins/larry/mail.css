@@ -966,6 +966,7 @@ div.message-partheaders .headers-table td.header {
 
 #messagebody p.image-attachment .image-filesize {
 	padding-right: 1em;
+	white-space: nowrap;
 }
 
 #messagebody p.image-attachment .attachment-links a {
