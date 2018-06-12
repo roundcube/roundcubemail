@@ -1303,13 +1303,19 @@ class rcube
      */
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
-        // handle PHP exceptions
-        if (is_object($arg) && is_a($arg, 'Exception')) {
+        if ($arg instanceof Exception) {
             $arg = array(
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
+            );
+        }
+        else if ($arg instanceof PEAR_Error) {
+            $info = $arg->getUserInfo();
+            $arg  = array(
+                'code'    => $arg->getCode(),
+                'message' => $arg->getMessage() . ($info ? ': ' . $info : ''),
             );
         }
         else if (is_string($arg)) {

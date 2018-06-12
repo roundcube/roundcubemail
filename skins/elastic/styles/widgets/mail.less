@@ -24,6 +24,15 @@
         font-weight: bold;
         white-space: nowrap;
 
+        body.status-flagged &:before {
+            &:extend(.font-icon-class);
+            display: inline;
+            float: none;
+            content: @fa-var-flag;
+            font-size: 1em;
+            color: @color-error;
+        }
+
         a.extwin {
             margin-left: .25rem;
 

@@ -16,7 +16,7 @@
         "pear/net_idna2": "~0.2.0",
         "pear/mail_mime": "~1.10.0",
         "pear/net_smtp": "~1.7.1",
-        "pear/crypt_gpg": "~1.6.2",
+        "pear/crypt_gpg": "~1.6.3",
         "pear/net_sieve": "~1.4.3",
         "roundcube/plugin-installer": "~0.1.6",
         "masterminds/html5": "~2.3.0",

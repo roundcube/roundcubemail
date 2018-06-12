@@ -1812,7 +1812,7 @@ class rcmail extends rcube
                 $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
             }
 
-            $title = sprintf('%s / %s (%.0f%%)',
+            $title = $this->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
                 $this->show_bytes($quota['used'] * 1024),
                 $this->show_bytes($quota['total'] * 1024),
                 $quota_result['percent']

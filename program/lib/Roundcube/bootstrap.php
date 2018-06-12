@@ -81,12 +81,8 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 // set internal encoding for mbstring extension
-if (function_exists('mb_internal_encoding')) {
-    mb_internal_encoding(RCUBE_CHARSET);
-}
-if (function_exists('mb_regex_encoding')) {
-    mb_regex_encoding(RCUBE_CHARSET);
-}
+mb_internal_encoding(RCUBE_CHARSET);
+mb_regex_encoding(RCUBE_CHARSET);
 
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
@@ -102,7 +98,7 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error($err, true); });
 
 
 /**
@@ -174,7 +170,7 @@ function parse_bytes($str)
  */
 function slashify($str)
 {
-  return unslashify($str).'/';
+    return unslashify($str) . '/';
 }
 
 /**
@@ -182,7 +178,7 @@ function slashify($str)
  */
 function unslashify($str)
 {
-  return preg_replace('/\/+$/', '', $str);
+    return rtrim($str, '/');
 }
 
 /**
@@ -457,18 +453,4 @@ function rcube_autoload($classname)
     }
 
     return false;
-}
-
-/**
- * Local callback function for PEAR errors
- */
-function rcube_pear_error($err)
-{
-    $msg = sprintf("ERROR: %s (%s)", $err->getMessage(), $err->getCode());
-
-    if ($info = $err->getUserinfo()) {
-        $msg .= ': ' . $info;
-    }
-
-    error_log($msg, 0);
 }

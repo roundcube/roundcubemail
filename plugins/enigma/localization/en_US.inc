@@ -108,6 +108,7 @@ $messages['sigerror'] = 'Unverified signature. Internal error.';
 $messages['decryptok'] = 'Message decrypted.';
 $messages['decrypterror'] = 'Decryption failed.';
 $messages['decryptnokey'] = 'Decryption failed. Private key not found. Key ID: $keyid.';
+$messages['decryptnomdc'] = 'Decryption skipped. Message is not integrity protected.';
 $messages['decryptbadpass'] = 'Decryption failed. Invalid password.';
 $messages['decryptnopass'] = 'Decryption failed. Key password required.';
 $messages['decryptpartial'] = 'Message decrypted, but part of the body was not encrypted.';
