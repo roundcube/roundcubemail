@@ -20,11 +20,13 @@ CHANGELOG Roundcube Webmail
 - Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
+- Show message flagged status in message view (#5080)
 - Skip redundant INSERT query on successful logon when using PHP7
 - Replace display_version with display_product_version (#5904)
 - Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
 - Add Message-ID to the sendmail log (#5871)
+- Add option to hide folders in share/other-user namespace or outside of the personal namespace root (#5073)
 - Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Style Archive folder also on folder selector and folder manager lists
 - Archive: Add Thunderbird compatible Month option (#5623)
@@ -91,6 +93,9 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some escape sequences in html styles could bypass security checks
 - Fix bug where some forbidden characters on Cyrus-IMAP were not prevented from use in folder names
 - Fix bug where only attachments with the same name would be ignored on zip download (#6301)
+- Fix bug where unicode contact names could have been broken/emptied or caused DB errors (#6299)
+- Fix bug where after "mark all folders as read" action message counters were not reset (#6307)
+- Enigma: [EFAIL] Don't decrypt PGP messages with no MDC protection (#6289)
 
 RELEASE 1.3.6
 -------------

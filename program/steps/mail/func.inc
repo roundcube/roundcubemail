@@ -756,7 +756,7 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='
         $unseen = $RCMAIL->storage->count($mbox_name, 'UNSEEN', $force);
     }
 
-    if ($unseen != $old_unseen || ($mbox_name == 'INBOX')) {
+    if ($unseen !== $old_unseen || ($mbox_name == 'INBOX')) {
         $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen,
             ($mbox_name == 'INBOX'), $unseen && $mark ? $mark : '');
     }
@@ -1687,7 +1687,7 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages');
+    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages', 'import');
 
     $description = $RCMAIL->gettext('mailimportdesc');
     $input_attr  = array(

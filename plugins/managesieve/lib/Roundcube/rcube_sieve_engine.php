@@ -177,10 +177,7 @@ class rcube_sieve_engine
         }
 
         if (empty($port)) {
-            $port = getservbyname('sieve', 'tcp');
-            if (empty($port)) {
-                $port = self::PORT;
-            }
+            $port = getservbyname('sieve', 'tcp') ?: self::PORT;
         }
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
