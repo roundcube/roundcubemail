@@ -1710,7 +1710,7 @@ function rcube_elastic_ui()
             }
 
             if (rcmail.gui_objects.foldersfilter) {
-                $(rcmail.gui_objects.foldersfilter).val('---');
+                $(rcmail.gui_objects.foldersfilter).val('---').change();
             }
 
             update_func();
