@@ -1305,6 +1305,7 @@ body.status-flagged .flag-icon {
 	overflow: auto;
 }
 
+#image-selector.droptarget,
 #compose-attachments.droptarget {
 	background-image: url(images/filedrop.png);
 	background-position: center bottom;
@@ -1345,7 +1346,7 @@ body.status-flagged .flag-icon {
 }
 
 #composebodycontainer .mce-panel {
-	border-color: #ccc !important;
+	border-color: #ddd !important;
 	background: #f0f0f0;
 }
 
