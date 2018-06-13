@@ -321,7 +321,9 @@ function rcube_elastic_ui()
                     $(list)[$('.treetoggle', list).length > 0 ? 'removeClass' : 'addClass']('notree');
                 };
 
-            (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+            if (window.MutationObserver) {
+                (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+            }
             callback();
         });
     };
@@ -444,6 +446,20 @@ function rcube_elastic_ui()
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
             .addEventListener('init', init);
+
+        // Add styling for TinyMCE editor popups
+        // We need to use MutationObserver, as TinyMCE does not provide any events for this
+        if (window.MutationObserver && window.tinymce) {
+            var callback = function(list) {
+                $.each(list, function() {
+                    $.each(this.addedNodes, function() {
+                        tinymce_style(this);
+                    });
+                });
+            };
+
+            (new MutationObserver(callback)).observe(document.body, {childList: true});
+        }
     };
 
     /**
@@ -912,6 +928,32 @@ function rcube_elastic_ui()
         }
 
         $('select:not([multiple])', context).each(function() { pretty_select(this); });
+    };
+
+    /**
+     * Detects if the element is TinyMCE dialog window
+     * and adds Elastic styling to it
+     */
+    function tinymce_style(elem)
+    {
+        if ($(elem).is('.mce-window')) {
+            var body = $(elem).find('.mce-window-body'),
+                foot = $(elem).find('.mce-foot > .mce-container-body');
+
+            // Apply basic forms style
+            if (body.length) {
+                bootstrap_style(body[0]);
+            }
+
+            body.find('button').filter(function() { return $(this).parent('.mce-btn').length > 0; }).removeClass('btn btn-secondary');
+
+            // Fix icons in Find and Replace dialog footer
+            if (foot.children('.mce-widget').length === 5) {
+                foot.addClass('mce-search-foot');
+            }
+
+            $(elem).find('.mce-charmap').parent().parent().addClass('mce-charmap-dialog');
+        }
     };
 
     /**
