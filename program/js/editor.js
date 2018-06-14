@@ -700,12 +700,16 @@ function rcube_text_editor(config, id)
       });
 
     button.keydown(function(e) {
-      if (e.which == 9) {
+      if (e.which == 9) { // Tab
         if (rcube_event.get_modifier(e) == SHIFT_KEY || !list.find('li:first').focus().length) {
           cancel.focus();
         }
 
         return false;
+      }
+
+      if (e.which == 13) { // Enter
+        this.click();
       }
     });
 
