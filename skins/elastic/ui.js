@@ -952,7 +952,34 @@ function rcube_elastic_ui()
                 foot.addClass('mce-search-foot');
             }
 
+            // Apply some form structure fixes and helper classes
             $(elem).find('.mce-charmap').parent().parent().addClass('mce-charmap-dialog');
+            $(elem).find('.mce-combobox').each(function() {
+                if (!$(this).children('.mce-btn').length) {
+                    $(this).addClass('mce-combobox-fake');
+                }
+            });
+            $(elem).find('.mce-form > .mce-container-body').each(function() {
+                if ($(this).children('.mce-formitem').length > 4) {
+                    $(this).addClass('mce-form-split');
+                }
+            });
+            $(elem).find('.mce-form').next(':not(.mce-formitem)').addClass('mce-form');
+
+            // Fix dialog height (e.g. Table properties dialog)
+            if (!is_mobile()) {
+                var offset, max_height = 0, height = body.height();
+                $(elem).find('.mce-form').each(function() {
+                    max_height = Math.max(max_height, $(this).height());
+                });
+
+                if (height < max_height) {
+                    max_height += (body.find('.mce-tabs').height() || 0) + 25;
+                    body.height(max_height);
+                    $(elem).height($(elem).height() + (max_height - height));
+                    $(elem).css('top', ($(window).height() - $(elem).height())/2 + 'px');
+                }
+            }
         }
     };
 
