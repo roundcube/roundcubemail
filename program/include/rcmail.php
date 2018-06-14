@@ -1998,7 +1998,13 @@ class rcmail extends rcube
 
         $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
         $this->output->set_env('editor_config', $config);
-        $this->output->include_css('program/resources/tinymce/browser.css');
+
+        if ($path = $this->config->get('media_browser_css_location', 'program/resources/tinymce/browser.css')) {
+            if ($path != 'none') {
+                $this->output->include_css($path);
+            }
+        }
+
         $this->output->include_script('tinymce/tinymce.min.js');
         $this->output->include_script('editor.js');
     }

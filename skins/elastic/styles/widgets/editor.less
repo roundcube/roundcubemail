@@ -1,0 +1,833 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017-2018, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+
+/*** Text Editor widget (and TinyMCE editor) ***/
+
+.mce-tinymce {
+    &.mce-container.mce-panel {
+        border-radius: .25rem;
+        border-color: @color-input-border;
+        overflow: hidden;
+    }
+
+    .mce-btn,
+    .mce-panel {
+        background-color: @color-input-addon-background;
+    }
+
+    .mce-panel {
+        border-color: @color-input-border;
+    }
+}
+
+.mce-top-part::before,
+.mce-tinymce,
+.mce-window {
+    box-shadow: none !important;
+}
+
+.mce-window {
+    &.mce-container {
+        border: 0;
+
+        & :not(.mce-ico) {
+            .font-family;
+        }
+    }
+
+    .mce-reset {
+        background: #fff;
+    }
+
+    .mce-container-body {
+        &.mce-abs-layout {
+            overflow: unset;
+        }
+
+        .mce-abs-end {
+            display: none;
+        }
+    }
+
+    .mce-window-head {
+        height: @layout-header-height;
+        border-bottom: 1px solid @color-dialog-header-border;
+        padding: 0;
+
+        .mce-title {
+            line-height: @layout-header-height;
+            font-size: 1.25rem;
+            padding: 0 3rem 0 1rem;
+            color: @color-dialog-header;
+        }
+
+        .mce-close {
+            border: 0;
+            color: @color-dialog-header;
+            background: transparent;
+            right: 0;
+            top: 0;
+            position: absolute;
+            height: (@layout-header-height - .7rem);
+            width: 1.25em;
+            margin: .25rem;
+            padding: .1rem .75rem;
+            cursor: pointer;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-times;
+                margin: 0;
+            }
+
+            i {
+                display: none;
+            }
+        }
+    }
+
+    .mce-foot {
+        border: 0;
+        height: @layout-header-height !important;
+        position: relative;
+
+        @media screen and (max-width: @screen-width-xs) {
+            border-top: 1px solid @color-dialog-header-border;
+        }
+
+        .mce-container-body {
+            height: 100% !important;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; // just 'end' does not work in Chrome
+
+            .mce-btn {
+                position: initial;
+                margin-right: .5rem;
+                line-height: 1;
+                width: auto !important;
+                height: auto !important;
+
+                &:last-child {
+                    margin-right: 1rem;
+                }
+
+                .mce-txt {
+                    line-height: 1.5;
+                    vertical-align: unset;
+                }
+
+                button:before {
+                    &:extend(.font-icon-class);
+                    display: inline;
+                    float: none;
+                }
+            }
+
+            .mce-abs-end {
+                position: initial;
+                width: 1rem;
+                order: 9;
+            }
+        }
+
+        .mce-btn:last-child button:before {
+            content: @fa-var-times;
+        }
+
+        .mce-btn.mce-primary button:before {
+            content: @fa-var-check;
+        }
+
+        .mce-search-foot {
+            div:nth-of-type(2) button:before {
+                content: @fa-var-search;
+            }
+            div:nth-of-type(3) button:before,
+            div:nth-of-type(4) button:before {
+                content: @fa-var-pencil-alt;
+            }
+            div:nth-of-type(6) button:before {
+                content: @fa-var-chevron-left;
+            }
+            div:nth-of-type(7) button:before {
+                content: @fa-var-chevron-right;
+            }
+            div:nth-of-type(7) button:after {
+                &:extend(.font-icon-class);
+                display: inline;
+                float: none;
+                margin: 0 0 0 .2rem;
+                content: @fa-var-chevron-right;
+            }
+
+            @media screen and (min-width: (@screen-width-xs + 1px)) {
+                div:nth-of-type(6) {
+                    margin-left: .5rem;
+                }
+                div:nth-of-type(7) button {
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    // Form elements, let's keep'em in .mce-window to make overwriting simpler
+
+    .mce-formitem {
+        min-width: 450px;
+        position: unset !important;
+
+        & > .mce-container-body {
+            margin-bottom: .5rem;
+
+            & > * {
+                width: 75% !important;
+                position: unset !important;
+            }
+
+            & > label {
+                max-width: 25%;
+                min-width: 25%;
+                line-height: 2.5 !important;
+            }
+        }
+
+        .mce-widget {
+            border-radius: .25rem;
+        }
+    }
+
+    .mce-form {
+        padding: 1rem;
+        box-sizing: border-box;
+
+        .mce-form {
+            padding: 0;
+            position: unset !important;
+            width: 100% !important;
+
+            & > .mce-container-body {
+                flex-wrap: wrap;
+                height: auto !important;
+            }
+
+            .mce-formitem {
+                min-width: 100%;
+                width: 100% !important;
+            }
+        }
+
+        .mce-container {
+            height: auto !important;
+
+            .mce-container-body {
+                display: flex;
+                height: auto !important;
+
+                & > input:not([size="5"]) {
+                    position: relative;
+                    left: 0 !important;
+                    flex: 1;
+                }
+
+            }
+        }
+
+        & > .mce-container-body {
+            box-sizing: border-box;
+            width: 100% !important;
+        }
+
+        .mce-form-split {
+            .mce-formitem {
+                min-width: auto;
+
+                & > .mce-container-body {
+                    width: 100% !important;
+                }
+            }
+        }
+
+        label {
+            position: unset;
+            line-height: 2.5 !important;
+            height: auto !important;
+        }
+    }
+
+    .mce-colorpicker {
+        & + .mce-form {
+            width: 150px !important;
+            padding: 0;
+
+            .mce-formitem {
+                min-width: unset;
+
+                & + :not(.mce-formitem) {
+                    height: 50px !important;
+                }
+            }
+        }
+    }
+
+    .mce-textbox {
+        padding: .375rem .75rem !important;
+        line-height: 1.5;
+        color: @color-font;
+
+        &:not(textarea) {
+            height: auto !important;
+        }
+
+        &:focus {
+            color: @color-font;
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+
+        &[size="5"] {
+            width: auto !important;
+        }
+
+        &.mce-multiline {
+            line-height: 1.25;
+            width: 100% !important;
+            position: unset;
+            box-sizing: border-box;
+            display: block;
+        }
+    }
+
+    .mce-listbox {
+        button {
+            line-height: 1.5;
+            padding: .375rem .75rem;
+        }
+
+        &:focus {
+            border-color: @color-input-border-focus !important;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
+        }
+    }
+
+    .mce-checkbox {
+        line-height: 2.5;
+
+        i.mce-i-checkbox {
+            border: 0;
+            width: auto;
+            color: @color-checkbox;
+            text-indent: 0;
+
+            &:before {
+                &:extend(.font-icon-class);
+                margin: 0;
+                content: @fa-var-toggle-off;
+            }
+        }
+
+        &.mce-checked i.mce-i-checkbox:before {
+            content: @fa-var-toggle-on;
+        }
+
+        &:focus {
+            i.mce-i-checkbox {
+                border: 0;
+                color: @color-checkbox-focus;
+            }
+        }
+    }
+
+    .mce-combobox {
+        display: flex;
+
+        input {
+            border-radius: .3rem 0 0 .3rem;
+            flex: 1;
+
+            &:focus {
+                z-index: 1;
+            }
+        }
+
+        &.mce-combobox-fake {
+            input {
+                border-radius: .3rem;
+            }
+        }
+
+        button {
+            padding: .4rem .6rem;
+        }
+
+        .mce-btn {
+            border-radius: 0 .3rem .3rem 0;
+            background: @color-input-addon-background;
+
+            &:focus {
+                border-color: @color-input-border-focus;
+                box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+            }
+        }
+    }
+
+    .mce-tabs {
+        padding-top: 1rem;
+        margin: 0 1rem;
+        border-color: @color-layout-border;
+
+        .mce-tab {
+            border-radius: .25rem .25rem 0 0;
+            padding: .5rem 1rem;
+            height: auto !important;
+            border: 1px solid transparent;
+            color: @color-link;
+            background: transparent;
+            margin-bottom: -1px;
+
+            &.mce-active {
+                border: 1px solid @color-layout-border;
+                border-bottom-color: #fff;
+                color: @color-font !important;
+            }
+
+            &:not(.mce-active):hover {
+                border: 1px solid @color-list-border;
+                border-bottom-color: transparent;
+                border-bottom: 0;
+            }
+        }
+    }
+
+    .mce-label {
+        text-shadow: none;
+        color: @color-font;
+    }
+}
+
+.mce-btn {
+    &.mce-active {
+        background: @color-btn-secondary-background !important;
+    }
+
+    .mce-window .mce-foot & {
+        .btn-secondary;
+        border-radius: .3rem;
+        border-color: transparent;
+
+        &:focus {
+            border-color: transparent !important;
+            color: @color-btn-secondary;
+            background: @color-btn-secondary-background;
+        }
+
+        &.mce-primary {
+            .btn-primary;
+        }
+
+        button:hover,
+        button {
+            color: @color-btn-secondary;
+            padding: .5rem .75rem;
+        }
+    }
+}
+
+// Menus and popovers, e.g. color selector, emoticons selector, font selector
+.mce-menu,
+.mce-floatpanel.mce-popover {
+    box-shadow: 3px 3px 5px @color-popover-shadow !important;
+    border-color: @color-layout-border !important;
+    border-radius: .3rem;
+}
+
+.mce-menu {
+    .mce-menu-item.mce-active {
+        color: @color-toolbarmenu-hover;
+        background-color: @color-toolbarmenu-hover-background;
+    }
+}
+
+#mce-modal-block.mce-in {
+    background-color: @color-dialog-overlay-background;
+    opacity: 1 !important;
+}
+
+@media screen and (max-width: @screen-width-xs) {
+    .mce-window {
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+        border-width: 0 !important;
+
+        & > .mce-reset {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .mce-window-body {
+            flex: 1;
+            overflow-y: auto !important;
+        }
+
+        & > .mce-reset > div,
+        .mce-container-body {
+            width: 100% !important;
+        }
+
+        .mce-foot {
+            .mce-container-body {
+                justify-content: space-evenly;
+
+                .mce-btn {
+                    position: initial;
+                    height: 100% !important;
+                    margin: 0;
+                    background: transparent;
+                    border-width: 0;
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+
+                    &:hover {
+                        background: transparent;
+                    }
+
+                    button {
+                        color: @color-font;
+                        padding: .45rem;
+                        font-size: .9rem;
+
+                        &:before {
+                            display: block;
+                            float: none;
+                            width: 100%;
+                            margin: 0;
+                            line-height: 1.75;
+                            height: 1.75rem;
+                        }
+                    }
+                }
+
+                .mce-abs-end {
+                    display: none;
+                }
+            }
+
+            .mce-search-foot {
+                div:nth-of-type(7) button:after {
+                    display: none;
+                }
+            }
+        }
+
+        .mce-form,
+        .mce-form + .mce-container, // for Embed tab in Media dialog
+        .mce-formitem,
+        .mce-combobox,
+        .mce-panel:not(.mce-popover) {
+            width: 100% !important;
+        }
+
+        .mce-formitem {
+            min-width: unset;
+        }
+
+        .mce-form {
+            & > .mce-container-body {
+                display: flex;
+                flex-direction: column;
+                left: 0;
+                right: 0;
+                box-sizing: border-box;
+            }
+
+            .mce-container-body {
+                height: auto !important;
+                flex-direction: column;
+
+                & > label {
+                    position: unset !important;
+                    width: 100% !important;
+                    max-width: 100%;
+                }
+
+                & > label + * {
+                    position: unset !important;
+                    width: auto !important;
+                }
+
+                & > .mce-checkbox {
+                    position: absolute;
+                    left: 0 !important;
+                    top: 3rem !important;
+                }
+            }
+        }
+
+        // FIXME: How to fix the input width in less hacky way?
+        .mce-combobox input {
+            max-width: ~"calc(100% - 4rem)";
+        }
+        .mce-combobox-fake input {
+            max-width: ~"calc(100% - 1.7rem)";
+        }
+    }
+
+    .mce-menu {
+        width: auto !important;
+        right: 0;
+        left: 0 !important;
+        margin: 0 1rem !important;
+
+        .mce-container-body {
+            width: 100% !important;
+        }
+    }
+
+    div.mce-menubtn.mce-opened {
+        z-index: 65530 !important;
+    }
+
+    .mce-menu-item-sep,
+    .mce-menu-shortcut {
+        display: none !important;
+    }
+
+    .mce-charmap-dialog {
+        position: unset !important;
+
+        + .mce-container {
+            display: none;
+        }
+    }
+
+    .mce-charmap {
+        display: block;
+
+        tbody {
+            display: block;
+        }
+
+        tr {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        td {
+            flex: 1;
+            height: auto !important;
+            min-width: 17%;
+            padding: 0 !important;
+            border: 0 !important;
+            border-bottom: 1px solid @color-list-border !important;
+
+            div {
+                font-size: 3rem;
+                line-height: 2;
+            }
+        }
+    }
+}
+
+html.touch .mce-grid td {
+    padding: .5rem;
+}
+
+
+/*** Media file selector for TinyMCE ***/
+
+.image-selector {
+    margin: 1rem 1rem 1rem 1rem !important;
+    padding: 1rem .5rem 10rem .5rem !important;
+
+    &.droptarget {
+        border: .2rem dashed @color-table-border;
+    }
+
+    button {
+        .btn-secondary;
+        padding: .5rem .75rem;
+        line-height: 1.5;
+        position: relative;
+
+        &:before {
+            line-height: 1;
+        }
+    }
+
+    form {
+        position: absolute;
+        top: 0;
+    }
+
+    .attachmentslist {
+        margin-left: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 19.1em;
+
+        li {
+            padding: .25rem;
+            cursor: pointer;
+
+            &:before {
+                display: none;
+            }
+
+            &:hover,
+            &:focus {
+                background: @color-list-selected-background;
+            }
+
+            span.name {
+                flex: 1;
+                margin: auto;
+                padding-left: 1rem;
+                .overflow-ellipsis;
+            }
+
+            span.img {
+                height: 80px;
+                width: 80px;
+                display: flex;
+                border: 1px solid @color-list-border;
+                background: white;
+                border-radius: .75rem;
+                overflow: hidden;
+            }
+
+            img {
+                margin: auto;
+            }
+        }
+
+        html.layout-phone & {
+            height: auto;
+        }
+    }
+}
+
+
+/*** HTML editor widget ***/
+
+.html-editor {
+    position: relative;
+    display: flex;
+    margin-bottom: .25rem;
+
+    & > .nav {
+        border-color: transparent;
+        z-index: 1;
+        position: absolute;
+        top: 1px;
+        right: 1rem;
+
+        a.active {
+            border-color: @color-input-border !important;
+
+            &.mode-html {
+                background-color: @color-input-addon-background;
+                border-bottom-color: @color-input-addon-background !important;
+            }
+
+            &.mode-plain {
+                border-bottom-color: #fff !important;
+            }
+        }
+
+        a:hover {
+            border-bottom-color: transparent;
+        }
+    }
+
+    & > iframe, // e.g. mailvelope frame
+    & > .googie_edit_layer,
+    & > .mce-tinymce,
+    & > textarea {
+        margin-top: 2.55rem;
+        font-family: monospace;
+        width: 100% !important;
+    }
+
+    & > iframe { // e.g. mailvelope frame
+        border-radius: .3rem;
+        border: 1px solid @color-input-border;
+        min-height: 30em;
+    }
+
+    #composebody_ifr {
+        min-height: 30em;
+    }
+
+    & > .mce-tinymce.focused {
+        border-color: @color-input-border-focus;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
+    }
+}
+
+
+/*** GoogieSpell widget ***/
+
+.googie_window {
+    width: 16rem;
+}
+
+.googie_edit_layer {
+    font-family: monospace;
+
+    // from Bootstrap's textarea
+    padding: .5rem .75rem;
+    border: 1px solid @color-input-border;
+    border-radius: .3rem;
+    line-height: 1.25;
+}
+
+.googie_link {
+    color: @color-spellcheck-link;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.googie_list {
+    td {
+        min-width: 8rem;
+        width: auto;
+
+        &.googie_list_onhover {
+            color: @color-toolbarmenu-hover;
+            background-color: @color-toolbarmenu-hover-background;
+        }
+
+        .googie_list_revert:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+
+        .googie_add_to_dict:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+    }
+
+    input {
+        display: inline-block;
+        margin: .5rem .5rem .5rem 0 !important;
+        padding: .5rem .75rem !important;
+    }
+}
