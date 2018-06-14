@@ -1416,6 +1416,11 @@ div.hide-headers
 
 #compose-body-div .mce-tinymce {
   border: 0 !important;
+  width: 100% !important;
+}
+
+.mce-top-part::before {
+  box-shadow: none !important;
 }
 
 #compose-div .boxlistcontent
@@ -1757,6 +1762,10 @@ input.from_address
 {
   top: 45px;
   position: absolute;
+}
+
+#image-selector {
+  padding-bottom: 0 !important;
 }
 
 /**** Styles for widescreen (3-column) view ****/

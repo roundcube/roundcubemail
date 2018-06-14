@@ -3060,6 +3060,14 @@ ul.toolbarmenu li span.copy {
 }
 
 /** Common TinyMCE fixes **/
+.mce-btn:not(.mce-active) {
+	background: transparent !important;
+}
+
+.mce-btn:not(.mce-active):hover {
+	background: white !important;
+}
+
 .mce-btn-small .mce-ico {
 	display: inline; /* for old Firefox */
 }
@@ -3071,6 +3079,10 @@ ul.toolbarmenu li span.copy {
 
 _:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
 	line-height: 20px !important;
+}
+
+.mce-top-part::before {
+	box-shadow: none !important;
 }
 
 .mce-textbox {

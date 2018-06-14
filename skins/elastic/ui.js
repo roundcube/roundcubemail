@@ -323,7 +323,9 @@ function rcube_elastic_ui()
                     $(list)[$('.treetoggle', list).length > 0 ? 'removeClass' : 'addClass']('notree');
                 };
 
-            (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+            if (window.MutationObserver) {
+                (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+            }
             callback();
         });
     };
@@ -457,6 +459,20 @@ function rcube_elastic_ui()
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
             .addEventListener('init', init);
+
+        // Add styling for TinyMCE editor popups
+        // We need to use MutationObserver, as TinyMCE does not provide any events for this
+        if (window.MutationObserver && window.tinymce) {
+            var callback = function(list) {
+                $.each(list, function() {
+                    $.each(this.addedNodes, function() {
+                        tinymce_style(this);
+                    });
+                });
+            };
+
+            (new MutationObserver(callback)).observe(document.body, {childList: true});
+        }
     };
 
     /**
@@ -950,6 +966,59 @@ function rcube_elastic_ui()
         }
 
         $('select:not([multiple])', context).each(function() { pretty_select(this); });
+    };
+
+    /**
+     * Detects if the element is TinyMCE dialog window
+     * and adds Elastic styling to it
+     */
+    function tinymce_style(elem)
+    {
+        if ($(elem).is('.mce-window')) {
+            var body = $(elem).find('.mce-window-body'),
+                foot = $(elem).find('.mce-foot > .mce-container-body');
+
+            // Apply basic forms style
+            if (body.length) {
+                bootstrap_style(body[0]);
+            }
+
+            body.find('button').filter(function() { return $(this).parent('.mce-btn').length > 0; }).removeClass('btn btn-secondary');
+
+            // Fix icons in Find and Replace dialog footer
+            if (foot.children('.mce-widget').length === 5) {
+                foot.addClass('mce-search-foot');
+            }
+
+            // Apply some form structure fixes and helper classes
+            $(elem).find('.mce-charmap').parent().parent().addClass('mce-charmap-dialog');
+            $(elem).find('.mce-combobox').each(function() {
+                if (!$(this).children('.mce-btn').length) {
+                    $(this).addClass('mce-combobox-fake');
+                }
+            });
+            $(elem).find('.mce-form > .mce-container-body').each(function() {
+                if ($(this).children('.mce-formitem').length > 4) {
+                    $(this).addClass('mce-form-split');
+                }
+            });
+            $(elem).find('.mce-form').next(':not(.mce-formitem)').addClass('mce-form');
+
+            // Fix dialog height (e.g. Table properties dialog)
+            if (!is_mobile()) {
+                var offset, max_height = 0, height = body.height();
+                $(elem).find('.mce-form').each(function() {
+                    max_height = Math.max(max_height, $(this).height());
+                });
+
+                if (height < max_height) {
+                    max_height += (body.find('.mce-tabs').height() || 0) + 25;
+                    body.height(max_height);
+                    $(elem).height($(elem).height() + (max_height - height));
+                    $(elem).css('top', ($(window).height() - $(elem).height())/2 + 'px');
+                }
+            }
+        }
     };
 
     /**
