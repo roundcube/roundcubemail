@@ -35,6 +35,16 @@
 	font-size: 11px;
 }
 
+#image-selector .upload-form {
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+#image-selector .upload-form button {
+	padding: 4px 8px;
+	border: 1px solid #c0c0c0;
+}
+
 #image-selector-list {
 	overflow-x: hidden;
 	overflow-y: auto;
