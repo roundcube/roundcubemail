@@ -108,7 +108,7 @@
             height: 100% !important;
             display: flex;
             align-items: center;
-            justify-content: end;
+            justify-content: flex-end; // just 'end' does not work in Chrome
 
             .mce-btn {
                 position: initial;
@@ -680,7 +680,7 @@ html.touch .mce-grid td {
         margin-left: 0;
         overflow-x: hidden;
         overflow-y: auto;
-        height: 18em;
+        height: 19.1em;
 
         li {
             padding: .25rem;
@@ -716,10 +716,8 @@ html.touch .mce-grid td {
                 margin: auto;
             }
         }
-    }
 
-    @media screen and (max-width: @screen-width-small) {
-        .attachmentslist {
+        html.layout-phone & {
             height: auto;
         }
     }

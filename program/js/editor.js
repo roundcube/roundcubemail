@@ -669,10 +669,12 @@ function rcube_text_editor(config, id)
 
     dialog = $('#image-selector');
 
-    if (form.length)
-      button = dialog.prepend(form).find('button,a.button')
-        .text(rcmail.get_label('add' + type))
-        .focus();
+    if (!form.length)
+      form = this.file_upload_form(rcmail.gui_objects.uploadform);
+
+    button = dialog.prepend(form).find('button,a.button')
+      .text(rcmail.get_label('add' + type))
+      .focus();
 
     // fill images list with available images
     for (i in rcmail.env.attachments) {
@@ -817,5 +819,28 @@ function rcube_text_editor(config, id)
           }
         });
     }
+  };
+
+  this.file_upload_form = function(clone_form)
+  {
+    var hint = clone_form ? $(clone_form).find('.hint').text() : '',
+      form = $('<form id="imageuploadform">').attr({method: 'post', enctype: 'multipart/form-data'});
+      file = $('<input>').attr({name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px'})
+        .change(function() { rcmail.upload_file(form, 'upload'); }),
+      wrapper = $('<div class="upload-form">')
+        .append($('<button>').attr({'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')"}));
+
+    if (hint)
+      wrapper.prepend($('<div class="hint">').text(hint));
+
+    // clone existing upload form
+    if (clone_form) {
+      file.attr('name', $('input[type="file"]', clone_form).attr('name'));
+      form.attr('action', $(clone_form).attr('action'));
+    }
+
+    form.append(file).append($('<input>').attr({type: 'hidden', name: '_token', value: rcmail.env.request_token}));
+
+    return wrapper.append(form);
   };
 }
