@@ -180,10 +180,10 @@
             content: @fa-var-user;
         }
         &.expand:before {
-            content: @fa-var-caret-down;
+            content: @fa-var-angle-right;
         }
         &.collapse:before {
-            content: @fa-var-caret-up;
+            content: @fa-var-angle-down;
         }
         &.submit:before {
             content: @fa-var-check;
@@ -235,6 +235,7 @@
     &.pagenav {
         display: flex;
         justify-content: normal !important;
+        align-items: center;
 
         a.button {
             flex-grow: 1;
@@ -267,6 +268,8 @@
 
         &.pagenav-list {
             cursor: pointer;
+            background-color: @color-searchbar-background;
+            border-bottom: 1px solid @color-list-border;
 
             a.button {
                 flex-grow: unset;
@@ -274,10 +277,15 @@
 
             .pagenav-text {
                 text-align: left;
+                font-size: 100%;
             }
 
             & + .navlist {
                 background-color: #fbfbfb;
+            }
+
+            &.expanded + .navlist {
+                border-bottom: 1px solid @color-layout-border;
             }
         }
     }
