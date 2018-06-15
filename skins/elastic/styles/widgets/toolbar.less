@@ -258,8 +258,12 @@
         input {
             width: 3rem;
             font-size: 90%;
-            margin: .35rem;
             text-align: center;
+            max-height: 1.6rem;
+
+            html.layout-phone & {
+                display: none;
+            }
         }
 
         span.inner {
