@@ -46,14 +46,8 @@ else if (mb_strlen($name) > 128) {
 else if ($name[0] == '.' && $RCMAIL->config->get('imap_skip_hidden_folders')) {
     $error = $RCMAIL->gettext('namedotforbidden');
 }
-else {
-    // these characters are problematic e.g. when used in LIST/LSUB
-    foreach (array($delimiter, '%', '*') as $char) {
-        if (strpos($name, $char) !== false) {
-            $error = $RCMAIL->gettext('forbiddencharacter') . " ($char)";
-            break;
-        }
-    }
+else if (!$STORAGE->folder_validate($name, $char)) {
+    $error = $RCMAIL->gettext('forbiddencharacter') . " ($char)";
 }
 
 if ($error) {

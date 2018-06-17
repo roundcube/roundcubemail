@@ -26,7 +26,6 @@ if (!$OUTPUT->ajax_call) {
 // register UI objects
 $OUTPUT->add_handlers(array(
     'settingstabs'   => 'rcmail_settings_tabs',
-    'prefsframe'     => 'rcmail_preferences_frame',
     'sectionslist'   => 'rcmail_sections_list',
     'identitieslist' => 'rcmail_identities_list',
 ));
@@ -48,19 +47,6 @@ $RCMAIL->register_action_map(array(
     'delete-identity' => 'identities.inc',
     'upload-display'  => 'upload.inc',
 ));
-
-
-// similar function as /steps/settings/identities.inc::rcmail_identity_frame()
-function rcmail_preferences_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id']) {
-        $attrib['id'] = 'rcmprefsframe';
-    }
-
-    return $OUTPUT->frame($attrib, true);
-}
 
 
 function rcmail_sections_list($attrib)
@@ -1390,10 +1376,10 @@ function rcmail_settings_tabs($attrib)
     $attrib += array('tagname' => 'span', 'idprefix' => 'settingstab', 'selclass' => 'selected');
 
     $default_actions = array(
-        array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
-        array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
-        array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
-        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
+        array('action' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
+        array('action' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
+        array('action' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
+        array('action' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
     );
 
     $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
@@ -1410,20 +1396,29 @@ function rcmail_settings_tabs($attrib)
     $tabs     = array();
 
     foreach ($plugin['actions'] as $action) {
-        $task_action = $action['command'] ? $action['command'] : $action['action'];
-        if (in_array('settings.' . $task_action, $disabled_actions)) {
+        if (!$action['command'] && $action['action']) {
+            $action['prop'] = $action['action'];
+            $action['command'] = 'show';
+        }
+        else if ($action['command'] != 'show') {
+            // Backwards compatibility, show command added in 1.4
+            $action['prop'] = $action['command'];
+            $action['command'] = 'show';
+        }
+
+        $cmd = $action['prop'] ?: $action['action'];
+        $id  = $action['id'] ?: $cmd;
+
+        if (in_array('settings.' . $cmd, $disabled_actions)) {
             continue;
         }
 
-        if (!$action['command'] && !$action['href'] && $action['action']) {
-            $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
+        if (!$action['href']) {
+            $action['href'] = $RCMAIL->url(array('_action' => $cmd));
         }
 
         $button = $OUTPUT->button($action + array('type' => 'link'));
         $attr   = $attrib;
-
-        $cmd = $action['action'] ?: $action['command'];
-        $id  = $action['id'] ?: $cmd;
 
         if (!empty($id)) {
             $attr['id'] = preg_replace('/[^a-z0-9]/i', '', $attrib['idprefix'] . $id);

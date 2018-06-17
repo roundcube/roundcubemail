@@ -78,7 +78,6 @@ $OUTPUT->set_pagetitle($RCMAIL->gettext('responses'));
 $OUTPUT->include_script('list.js');
 
 $OUTPUT->add_handlers(array(
-    'responseframe' => 'rcmail_response_frame',
     'responseslist' => 'rcmail_responses_list',
 ));
 $OUTPUT->add_label('deleteresponseconfirm');
@@ -114,18 +113,4 @@ function rcmail_responses_list($attrib)
     $OUTPUT->set_env('readonly_responses', $readonly_responses);
 
     return $out;
-}
-
-// similar function as /steps/addressbook/func.inc::rcmail_contact_frame()
-function rcmail_response_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (!$attrib['id']) {
-        $attrib['id'] = 'rcmResponseFrame';
-    }
-
-    $OUTPUT->set_env('contentframe', $attrib['id']);
-
-    return $OUTPUT->frame($attrib, true);
 }

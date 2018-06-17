@@ -47,6 +47,7 @@
 
 .popover {
     box-shadow: 3px 3px 5px @color-popover-shadow;
+    border-color: @color-layout-border;
     padding: 0;
 
     .popover-header {
@@ -67,7 +68,7 @@
 
 html.layout-small,
 html.layout-phone {
-    .popover {
+    .popover:not(.select-menu) {
         margin: 0 !important;
         padding: 0;
         right: 0;
@@ -145,6 +146,20 @@ html.touch .popover {
                 float: left; // overwrite icon float to have unified element height
             }
         }
+    }
+}
+
+.select-menu {
+    max-width: initial;
+    margin: 0;
+
+    .listing li a {
+        padding-left: .25rem;
+        outline: 0; // for Android browser
+    }
+
+    .popover-header {
+        border-radius: .25rem .25rem 0 0 !important;
     }
 }
 

@@ -74,11 +74,11 @@ class help extends rcube_plugin
 
         // register UI objects
         $rcmail->output->add_handlers(array(
-            'contentframe' => array($this, 'content_frame'),
             'helpcontent'  => array($this, 'help_content'),
             'tablink'      => array($this, 'tablink'),
         ));
 
+        $rcmail->output->set_env('help_links', $this->help_metadata());
         $rcmail->output->send(!empty($_GET['_content']) ? 'help.content' : 'help.help');
     }
 
@@ -112,17 +112,6 @@ class help extends rcube_plugin
         $attrib['onclick'] = sprintf("return show_help_content('%s', event)", $attrib['action']);
 
         return $rcmail->output->button($attrib);
-    }
-
-    function content_frame($attrib)
-    {
-        $rcmail  = rcmail::get_instance();
-        $content = $this->help_metadata();
-        $src     = $content[$rcmail->action] ?: $content['index'];
-
-        $rcmail->output->set_env('help_links', $content);
-
-        return $rcmail->output->frame($attrib, true);
     }
 
     function help_metadata()

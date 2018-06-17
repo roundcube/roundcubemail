@@ -966,6 +966,7 @@ div.message-partheaders .headers-table td.header {
 
 #messagebody p.image-attachment .image-filesize {
 	padding-right: 1em;
+	white-space: nowrap;
 }
 
 #messagebody p.image-attachment .attachment-links a {
@@ -1007,6 +1008,18 @@ div.message-partheaders .headers-table td.header {
 #messagepartheader table td.title {
 	width: 60px;
 	padding-right: 0;
+}
+
+.subject .flag-icon {
+	display: none;
+}
+
+body.status-flagged .flag-icon {
+	display: inline-block;
+	background: url(images/listicons.png) 0 -1038px no-repeat;
+	width: 20px;
+	height: 16px;
+	vertical-align: text-top;
 }
 
 
@@ -1292,6 +1305,7 @@ div.message-partheaders .headers-table td.header {
 	overflow: auto;
 }
 
+#image-selector.droptarget,
 #compose-attachments.droptarget {
 	background-image: url(images/filedrop.png);
 	background-position: center bottom;
@@ -1332,7 +1346,7 @@ div.message-partheaders .headers-table td.header {
 }
 
 #composebodycontainer .mce-panel {
-	border-color: #ccc !important;
+	border-color: #ddd !important;
 	background: #f0f0f0;
 }
 

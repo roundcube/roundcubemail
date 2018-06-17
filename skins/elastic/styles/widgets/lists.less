@@ -112,9 +112,11 @@
     span.secondary {
         color: @color-list-secondary;
     }
+}
 
-    // Focus indicator
-    @media screen and (min-width: @screen-width-large) {
+// Focus indicator
+html:not(.touch) {
+    .listing {
         li > a,
         tbody tr > td:first-child,
         &:not(.withselection) tbody tr > td.selection + td {

@@ -87,7 +87,6 @@ class enigma_ui
 
             $this->rc->output->add_handlers(array(
                     'keyslist'     => array($this, 'tpl_keys_list'),
-                    'keyframe'     => array($this, 'tpl_key_frame'),
                     'countdisplay' => array($this, 'tpl_keys_rowcount'),
                     'searchform'   => array($this->rc->output, 'search_form'),
             ));
@@ -189,18 +188,6 @@ class enigma_ui
 
         $this->add_css();
         $this->add_js();
-    }
-
-    /**
-     * Template object for key info/edit frame.
-     *
-     * @param array Object attributes
-     *
-     * @return string HTML output
-     */
-    function tpl_key_frame($attrib)
-    {
-        return $this->rc->output->frame($attrib, true);
     }
 
     /**
@@ -619,14 +606,15 @@ class enigma_ui
             $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
                 'id' => 'rcmimportfile', 'size' => 30));
 
+            $max_filesize  = $this->rc->upload_init();
             $upload_button = new html_button(array(
                     'class'   => 'button import',
                     'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
             ));
 
-            $form = html::div(null,
-                rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
-                . html::br() . html::br() . $upload->show()
+            $form = html::div(null, html::p(null, rcube::Q($this->enigma->gettext('keyimporttext'), 'show'))
+                . $upload->show()
+                . html::div('hint', $this->rc->gettext(array('id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
                 . (empty($attrib['part']) ? html::br() . html::br() . $upload_button->show($this->rc->gettext('import')) : '')
             );
 
@@ -957,6 +945,9 @@ class enigma_ui
                     $label   = 'decrypt' . (!empty($missing) ? 'no' : 'bad') . 'pass';
                     $msg     = rcube::Q($this->enigma->gettext($label));
                     $this->password_prompt($status);
+                }
+                else if ($code == enigma_error::NOMDC) {
+                    $msg = rcube::Q($this->enigma->gettext('decryptnomdc'));
                 }
                 else {
                     $msg = rcube::Q($this->enigma->gettext('decrypterror'));

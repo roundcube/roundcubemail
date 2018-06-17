@@ -119,5 +119,11 @@ $config['managesieve_raw_editor'] = true;
 // Disabled actions
 // Prevent user from performing specific actions:
 // list_sets, enable_disable_set, delete_set, new_set, download_set, new_rule, delete_rule
-// Note: disabling list_sets removes the Filter sets widget from the UI and means the set defined in managesieve_script_name will always be used (and activated)
+// Note: disabling list_sets removes the Filter sets widget from the UI and means
+//       the set defined in managesieve_script_name will always be used (and activated)
 $config['managesieve_disabled_actions'] = array();
+
+// List of hosts that support managesieve.
+// Activate managesieve for selected hosts only. If this is not set all hosts are allowed.
+// Example: $config['managesieve_allowed_hosts'] = array('host1.mydomain.com','host2.mydomain.com');
+$config['managesieve_allowed_hosts'] = null;

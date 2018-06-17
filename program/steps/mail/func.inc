@@ -125,7 +125,6 @@ $OUTPUT->add_handlers(array(
     'messagecountdisplay' => 'rcmail_messagecount_display',
     'listmenulink'        => 'rcmail_options_menu_link',
     'mailboxname'         => 'rcmail_mailbox_name_display',
-    'messagecontentframe' => 'rcmail_messagecontent_frame',
     'messageimportform'   => 'rcmail_message_import_form',
     'searchfilter'        => 'rcmail_search_filter',
     'searchinterval'      => 'rcmail_search_interval',
@@ -683,20 +682,6 @@ function rcmail_options_menu_link($attrib = array())
     ), $inner);
 }
 
-/**
- * Return an HTML iframe for loading mail content
- */
-function rcmail_messagecontent_frame($attrib)
-{
-    global $OUTPUT;
-
-    if (empty($attrib['id'])) {
-        $attrib['id'] = 'rcmailcontentwindow';
-    }
-
-    return $OUTPUT->frame($attrib, true);
-}
-
 function rcmail_messagecount_display($attrib)
 {
     global $RCMAIL;
@@ -771,7 +756,7 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='
         $unseen = $RCMAIL->storage->count($mbox_name, 'UNSEEN', $force);
     }
 
-    if ($unseen != $old_unseen || ($mbox_name == 'INBOX')) {
+    if ($unseen !== $old_unseen || ($mbox_name == 'INBOX')) {
         $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen,
             ($mbox_name == 'INBOX'), $unseen && $mark ? $mark : '');
     }
@@ -1702,16 +1687,23 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    $RCMAIL->output->add_label('selectimportfile','importwait');
+    $RCMAIL->output->add_label('selectimportfile', 'importwait', 'importmessages', 'import');
 
-    $input_attr = array(
+    $description = $RCMAIL->gettext('mailimportdesc');
+    $input_attr  = array(
         'multiple' => true,
         'name'     => '_file[]',
-        'accept'   => ".eml, .mbox, message/rfc822, text/*",
+        'accept'   => '.eml, .mbox, .msg, message/rfc822, text/*',
     );
 
+    if (class_exists('ZipArchive', false)) {
+        $input_attr['accept'] .= '.zip, application/zip, application/x-zip';
+        $description          .= ' ' . $RCMAIL->gettext('mailimportzip');
+    }
+
     $attrib['prefix'] = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
-        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'));
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
+        . html::p(null, $description);
 
     return $RCMAIL->upload_form($attrib, 'importform', 'import-messages', $input_attr);
 }

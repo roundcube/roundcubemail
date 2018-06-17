@@ -23,6 +23,15 @@
         font-size: 1.5rem;
         font-weight: bold;
         white-space: nowrap;
+
+        body.status-flagged &:before {
+            &:extend(.font-icon-class);
+            display: inline;
+            float: none;
+            content: @fa-var-flag;
+            font-size: 1em;
+            color: @color-error;
+        }
     }
 
     .short-header {
@@ -205,8 +214,8 @@
     padding: .5rem 0;
     margin: .5rem 0 0 0;
     font-size: 90%;
-    border-top: 1px solid lighten(@color-mail-headers, 50%);
-    border-bottom: 1px solid lighten(@color-mail-headers, 50%);
+    border-top: 1px solid @color-list-border;
+    border-bottom: 1px solid @color-list-border;
     color: @color-mail-headers;
 
     .header-title {

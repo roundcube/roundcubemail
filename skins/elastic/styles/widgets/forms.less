@@ -92,6 +92,7 @@ input.smart-upload {
     td.rowactions {
         width: 1%;
 
+        .custom-select,
         .form-control {
             width: auto;
         }
@@ -336,7 +337,7 @@ input.smart-upload {
 
 .propform,
 .formcontent {
-    fieldset:nth-of-type(n+2) {
+    fieldset:not(.tab-pane):nth-of-type(n+2) {
         margin-top: 1em;
     }
 
@@ -832,6 +833,7 @@ html.touch .popupmenu.form {
    .hint {
         margin-bottom: .5rem;
         color: @color-form-hint;
+        text-align: center;
     }
 
     .attachmentslist {
@@ -1082,7 +1084,6 @@ html.touch .popupmenu.form {
 
 /*** Percent input with jQuery-UI slider ***/
 
-
 // Structure: <input><span.label><div.ui-slider>
 .input-percent-slider {
     display: flex;
@@ -1102,6 +1103,7 @@ html.touch .popupmenu.form {
         margin: 0 .5em;
     }
 }
+
 
 /*** Image upload widget ***/
 
@@ -1200,119 +1202,6 @@ input.icon-checkbox {
 
 html.touch input.icon-checkbox + label {
     font-size: 1.5rem;
-}
-
-
-/*** HTML editor widget (and TinyMCE editor) ***/
-
-.mce-tinymce {
-    &.mce-container.mce-panel {
-        border-radius: .25rem;
-        border-color: @color-input-border;
-        overflow: hidden;
-    }
-
-    .mce-btn,
-    .mce-panel {
-        background-color: @color-input-addon-background;
-    }
-}
-
-.html-editor {
-    position: relative;
-    display: flex;
-    margin-bottom: .25rem;
-
-    & > .nav {
-        border-color: transparent;
-        z-index: 1;
-        position: absolute;
-        top: 1px;
-        right: 1rem;
-
-        a.active {
-            border-color: @color-input-border !important;
-
-            &.mode-html {
-                background-color: @color-input-addon-background;
-                border-bottom-color: @color-input-addon-background !important;
-            }
-
-            &.mode-plain {
-                border-bottom-color: #fff !important;
-            }
-        }
-
-        a:hover {
-            border-bottom-color: transparent;
-        }
-    }
-
-    & > iframe, // e.g. mailvelope frame
-    & > .googie_edit_layer,
-    & > .mce-tinymce,
-    & > textarea {
-        margin-top: 2.55rem;
-        font-family: monospace;
-        width: 100% !important;
-    }
-
-    & > iframe { // e.g. mailvelope frame
-        border-radius: .3rem;
-        border: 1px solid @color-input-border;
-        min-height: 35em;
-    }
-}
-
-
-/*** GoogieSpell widget ***/
-
-.googie_window {
-    width: 16rem;
-}
-
-.googie_edit_layer {
-    font-family: monospace;
-
-    // from Bootstrap's textarea
-    padding: .5rem .75rem;
-    border: 1px solid @color-input-border;
-    border-radius: .3rem;
-    line-height: 1.25;
-}
-
-.googie_link {
-    color: @color-spellcheck-link;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.googie_list {
-    td {
-        min-width: 8rem;
-        width: auto;
-
-        &.googie_list_onhover {
-            color: @color-toolbarmenu-hover;
-            background-color: @color-toolbarmenu-hover-background;
-        }
-
-        .googie_list_revert:before {
-            &:extend(.font-icon-class);
-            content: @fa-var-plus-square;
-        }
-
-        .googie_add_to_dict:before {
-            &:extend(.font-icon-class);
-            content: @fa-var-plus-square;
-        }
-    }
-
-    input {
-        display: inline-block;
-        margin: .5rem .5rem .5rem 0 !important;
-        padding: .5rem .75rem !important;
-    }
 }
 
 

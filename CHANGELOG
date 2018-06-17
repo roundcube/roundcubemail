@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Support for IMAP folders that cannot contain both folders and messages (#5057)
 - Update to jQuery-3.3.1
 - Update to jQuery-minicolors 2.2.6
+- Update to TinyMCE 4.7.13
 - Remove sample PHP configuration from .htaccess and .user.ini files (#5850)
 - Use Masterminds/HTML5 parser for better HTML5 support (#5761)
 - Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
@@ -20,11 +21,13 @@ CHANGELOG Roundcube Webmail
 - Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
+- Show message flagged status in message view (#5080)
 - Skip redundant INSERT query on successful logon when using PHP7
 - Replace display_version with display_product_version (#5904)
 - Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
 - Add Message-ID to the sendmail log (#5871)
+- Add option to hide folders in share/other-user namespace or outside of the personal namespace root (#5073)
 - Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Style Archive folder also on folder selector and folder manager lists
 - Archive: Add Thunderbird compatible Month option (#5623)
@@ -37,6 +40,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Support filter action with custom IMAP flags (#6011)
 - Managesieve: Support 'mime' extension tests - RFC5703 (#5832)
 - Managesieve: Support GSSAPI authentication with krb_authentication plugin (#5779)
+- Managesieve: Support enabling the plugin for specified hosts only (#6292)
 - Password: Support host variables in password_db_dsn option (#5955)
 - Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
 - Password: Added password_username_format option (#5766)
@@ -52,9 +56,11 @@ CHANGELOG Roundcube Webmail
   - Support for 'link' objects
   - Support including files with path relative to templates directory
   - Use <button> instead of <input> for submit button on logon screen
+- Support skin localization (#5853)
 - Reset onerror on images if placeholder does not exist to prevent from requests storm
 - Unified and simplified code for loading content frame for responses and identities
 - Display contact import and advanced search in popup dialogs
+- Display a dialog for mail import with supported format description and upload size hint
 - Make possible to set (some) config options from a skin
 - Added optional checkbox selection for the list widget
 - Make 'compose' command always enabled
@@ -64,6 +70,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added 'show_bytes' hook (#5001)
 - Add option to not indent quoted text on top-posting reply (#5105)
 - Removed global $CONFIG variable
+- Removed debug_level setting
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
 - Localized timezone selector (#4983)
@@ -71,6 +78,7 @@ CHANGELOG Roundcube Webmail
 - Handle inline images also inside multipart/mixed messages (#5905)
 - Allow style tags in HTML editor on composed/reply messages (#5751)
 - Use Github API as a fallback to fetch js dependencies to workaround throttling issues (#6248)
+- Show confirm dialog when moving folders using drag and drop (#6119)
 - Fix bug where new_user_dialog email check could have been circumvented by deleting / abandoning session (#5929)
 - Fix skin extending for assets (#5115)
 - Fix handling of forwarded messages inside of a TNEF message (#5632)
@@ -82,6 +90,13 @@ CHANGELOG Roundcube Webmail
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
 - Fix PHP Warning: Use of undefined constant IDNA_DEFAULT on systems without php-intl (#6244)
+- Fix bug where some parts of quota information could have been ignored (#6280)
+- Fix bug where some escape sequences in html styles could bypass security checks
+- Fix bug where some forbidden characters on Cyrus-IMAP were not prevented from use in folder names
+- Fix bug where only attachments with the same name would be ignored on zip download (#6301)
+- Fix bug where unicode contact names could have been broken/emptied or caused DB errors (#6299)
+- Fix bug where after "mark all folders as read" action message counters were not reset (#6307)
+- Enigma: [EFAIL] Don't decrypt PGP messages with no MDC protection (#6289)
 
 RELEASE 1.3.6
 -------------

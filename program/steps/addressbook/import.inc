@@ -203,6 +203,7 @@ function rcmail_import_form($attrib)
     $attrib += array('id' => "rcmImportForm");
 
     $writable_books = $RCMAIL->get_address_sources(true, true);
+    $max_filesize   = $RCMAIL->upload_init();
 
     $form   = '';
     $table  = new html_table(array('cols' => 2));
@@ -216,7 +217,9 @@ function rcmail_import_form($attrib)
     ));
 
     $table->add('title', html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')));
-    $table->add(null, $upload->show());
+    $table->add(null, $upload->show()
+        . html::div('hint', $RCMAIL->gettext(array('id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
+    );
 
     // addressbook selector
     if (count($writable_books) > 1) {

@@ -15,6 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Filter für eingehende Nachrichten verwalten';
 $labels['filtername'] = 'Filtername';
@@ -42,7 +44,9 @@ $labels['filternotregex'] = 'trifft nicht auf regulären Ausdruck zu';
 $labels['filterunder'] = 'unter';
 $labels['filterover'] = 'über';
 $labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME-Teil:';
 $labels['mime-message'] = 'Nachricht';
+$labels['mime-anychild'] = 'weiteres';
 $labels['mime-type'] = 'Typ';
 $labels['mime-subtype'] = 'Untertyp';
 $labels['mime-contenttype'] = 'Inhaltstyp';
@@ -173,22 +177,22 @@ $labels['asciicasemap'] = 'Groß-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'rückwärts';
-$labels['vacation'] = 'Urlaub';
+$labels['vacation'] = 'Abwesenheit ';
 $labels['vacation.reply'] = 'Antwort';
 $labels['vacation.advanced'] = 'Erweiterte Einstellungen';
 $labels['vacation.from'] = 'Antwort E-Mail-Adresse:';
 $labels['vacation.subject'] = 'Betreff';
-$labels['vacation.body'] = 'Hauptteil';
-$labels['vacation.start'] = 'Beginn des Urlaubs';
-$labels['vacation.end'] = 'Ende des Urlaubs';
+$labels['vacation.body'] = 'Nachricht';
+$labels['vacation.start'] = 'Beginn des Abwesenheit';
+$labels['vacation.end'] = 'Ende des Abwesenheit';
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'An';
 $labels['vacation.off'] = 'Aus';
 $labels['vacation.addresses'] = 'Meine E-Mail-Adressen';
 $labels['vacation.interval'] = 'Antwort Intervall';
-$labels['vacation.after'] = 'Setze Urlaubsregel nach';
+$labels['vacation.after'] = 'Setze Filterregel nach';
 $labels['vacation.saving'] = 'Speichere Daten...';
-$labels['vacation.action'] = 'Eingehende Nachrichtaktion';
+$labels['vacation.action'] = 'Aktion bei eingehende Nachrichten';
 $labels['vacation.keep'] = 'Behalten';
 $labels['vacation.discard'] = 'Verwerfen';
 $labels['vacation.redirect'] = 'Weiterleiten an';
@@ -218,6 +222,8 @@ $labels['duplicate.header'] = 'Kopfzeile:';
 $labels['duplicate.uniqueid'] = 'Bezeichner:';
 $labels['duplicate.seconds'] = 'Zeitüberschreitung (Sekunden):';
 $labels['duplicate.last'] = 'relativ zur letzten Ausführung';
+
+$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann keine Verbindung mit Managesieve-Server herstellen';
 $messages['filterdeleteerror'] = 'Filter kann nicht gelöscht werden. Ein Serverfehler ist aufgetreten.';
@@ -253,9 +259,10 @@ $messages['setexist'] = 'Filtersatz existiert bereits.';
 $messages['nodata'] = 'Mindestens eine Position muss ausgewählt werden!';
 $messages['invaliddateformat'] = 'Ungültiges Datum oder Teil-Format';
 $messages['saveerror'] = 'Ein Serverfehler ist aufgetreten, Speicherung war nicht möglich.';
-$messages['vacationsaved'] = 'Urlaubsdaten erfolgreich gespeichert.';
+$messages['vacationsaved'] = 'Abwesenheitdaten erfolgreich gespeichert.';
 $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird benötigt!';
 $messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
+
 ?>

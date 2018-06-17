@@ -28,6 +28,7 @@
 
 // Layout elements
 @color-layout-border:               @color-black-shade-border;
+@color-layout-header:               @color-font;
 @color-layout-sidebar-background:   #fff;
 @color-layout-list-background:      #fff;
 @color-layout-content-background:   #fff;
@@ -108,9 +109,9 @@
 @color-message-error:               @color-error;
 @color-message-loading:             #333;
 @color-message-shadow:              @color-black-shade-bg;
-@color-message-error-background:    fadeout(@color-message-error, 95%);
-@color-message-information-background: fadeout(@color-message-information, 95%);
-@color-message-success-background:  fadeout(@color-message-success, 95%);
+@color-message-error-background:    fadeout(@color-message-error, 85%);
+@color-message-information-background: fadeout(@color-message-information, 85%);
+@color-message-success-background:  fadeout(@color-message-success, 85%);
 @color-message-warning-background:  fadeout(#ffff66, 75%);
 
 
@@ -126,7 +127,7 @@
 
 // Dialogs
 @color-dialog-overlay-background:   fade(@color-font, 50%);
-@color-dialog-header:               @color-font;
+@color-dialog-header:               @color-layout-header;
 @color-dialog-header-border:        @color-border;
 
 
@@ -162,7 +163,7 @@
 @color-btn-danger:                  #fff;
 @color-btn-danger-background:       @color-error;
 
-@color-quota-background:            @color-black-shade-border;
+@color-quota-background:            @color-black-shade-bg;
 @color-quota-text:                  @color-black-shade-text;
 @color-quota-value:                 @color-main;
 @color-quota-value-warning:         @color-error;

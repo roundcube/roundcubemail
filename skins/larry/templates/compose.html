@@ -89,7 +89,7 @@
 		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
 		<td class="editfield">
 			<roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-			<a href="#identities" onclick="return rcmail.command('identities')" class="iconlink edit" tabindex="0"><roundcube:label name="editidents" /></a>
+			<a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')" class="iconlink edit" tabindex="0"><roundcube:label name="editidents" /></a>
 		</td>
 	</tr><tr>
 		<td class="title top"><label for="_to"><roundcube:label name="to" /></label></td>
@@ -178,7 +178,7 @@
 	</div>
 	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
-		<div style="text-align:center; margin-bottom:10px">
+		<div class="upload-form" style="text-align:center; margin-bottom:10px">
             <roundcube:object name="composeAttachmentForm" mode="hint" />
 			<a class="button" tabindex="1" href="#" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></a>
 		</div>

@@ -466,6 +466,7 @@ class archive extends rcube_plugin
     {
         static $delim;
         static $vendor;
+        static $skip_hidden;
 
         preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m);
 
@@ -474,17 +475,29 @@ class archive extends rcube_plugin
         }
 
         if ($delim === null) {
-            $storage = rcmail::get_instance()->get_storage();
-            $delim   = $storage->get_hierarchy_delimiter();
-            $vendor  = $storage->get_vendor();
+            $rcmail      = rcmail::get_instance();
+            $storage     = $rcmail->get_storage();
+            $delim       = $storage->get_hierarchy_delimiter();
+            $vendor      = $storage->get_vendor();
+            $skip_hidden = $rcmail->config->get('imap_skip_hidden_folders');
+        }
+
+        // Remove some forbidden characters
+        $regexp = '\\x00-\\x1F\\x7F%*';
+
+        if ($vendor == 'cyrus') {
+            // List based on testing Kolab's Cyrus-IMAP 2.5
+            $regexp .= '!`(){}|\\?<;"';
+        }
+
+        $folder_name = preg_replace("/[$regexp]/", '', $m[1]);
+
+        if ($skip_hidden && $folder_name[0] == '.') {
+            $folder_name = substr($folder_name, 1);
         }
 
         $replace = $delim == '-' ? '_' : '-';
         $replacements[$delim] = $replace;
-
-        // some IMAP servers do not allow . characters
-        // @FIXME: really? which ones?
-        $replacements['.'] = $replace;
 
         // Cyrus-IMAP does not allow @ character in folder name
         if ($vendor == 'cyrus') {
@@ -492,6 +505,6 @@ class archive extends rcube_plugin
         }
 
         // replace reserved characters in folder name
-        return strtr($m[1], $replacements);
+        return strtr($folder_name, $replacements);
     }
 }

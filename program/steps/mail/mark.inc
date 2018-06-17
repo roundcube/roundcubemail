@@ -70,7 +70,7 @@ if ($_uids && $flag) {
 
     foreach ($input as $mbox => $uids) {
         $marked += (int)$RCMAIL->storage->set_flag($uids, $flag, $mbox);
-        $count += count($uids);
+        $count  += is_array($uids) ? count($uids) : 1;
     }
 
     if (!$marked) {

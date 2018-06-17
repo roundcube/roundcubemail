@@ -60,7 +60,7 @@ class rcube_sieve_engine
     );
     private $disabled_actions;
 
-    const VERSION  = '9.0';
+    const VERSION  = '9.1';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -84,7 +84,6 @@ class rcube_sieve_engine
         $this->rc->output->add_handlers(array(
             'filterslist'      => array($this, 'filters_list'),
             'filtersetslist'   => array($this, 'filtersets_list'),
-            'filterframe'      => array($this, 'filter_frame'),
             'filterform'       => array($this, 'filter_form'),
             'filtersetform'    => array($this, 'filterset_form'),
             'filterseteditraw' => array($this, 'filterset_editraw'),
@@ -178,10 +177,7 @@ class rcube_sieve_engine
         }
 
         if (empty($port)) {
-            $port = getservbyname('sieve', 'tcp');
-            if (empty($port)) {
-                $port = self::PORT;
-            }
+            $port = getservbyname('sieve', 'tcp') ?: self::PORT;
         }
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
@@ -1320,11 +1316,6 @@ class rcube_sieve_engine
         return $out;
     }
 
-    function filter_frame($attrib)
-    {
-        return $this->rc->output->frame($attrib, true);
-    }
-
     function filterset_editraw($attrib)
     {
         $script_name = isset($_GET['_set']) ? $_GET['_set'] : $_POST['_set'];
@@ -1514,8 +1505,10 @@ class rcube_sieve_engine
             $out .= sprintf("\n" . '<div class="form-group row">'
                 . '<label for="%s" class="col-sm-4 col-form-label">%s</label>'
                 . '<div class="col-sm-8">%s</div></div>',
-                $field_id, rcube::Q($this->plugin->gettext('filterset')),
-                $this->filtersets_list(array('id' => 'sievescriptname'), true));
+                'sievescriptname',
+                rcube::Q($this->plugin->gettext('filterset')),
+                $this->filtersets_list(array('id' => 'sievescriptname'), true)
+            );
         }
         else if ($compact) {
             $out .= sprintf("\n" . '<div class="form-group row form-check">'
@@ -2402,9 +2395,10 @@ class rcube_sieve_engine
 
         // mailbox select
         if ($action['type'] == 'fileinto') {
-            $mailbox = $this->mod_mailbox($action['target'], 'out');
             // make sure non-existing (or unsubscribed) mailbox is listed (#1489956)
-            $additional = array($mailbox);
+            if ($mailbox = $this->mod_mailbox($action['target'], 'out')) {
+                $additional = array($mailbox);
+            }
         }
         else {
             $mailbox = '';

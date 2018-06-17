@@ -206,16 +206,7 @@ class rcmail_install
             }
 
             // convert some form data
-            if ($prop == 'debug_level' && !$is_default) {
-                if (is_array($value)) {
-                    $val = 0;
-                    foreach ($value as $dbgval) {
-                        $val += intval($dbgval);
-                    }
-                    $value = $val;
-                }
-            }
-            else if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
+            if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
                 if ($_POST['_dbtype'] == 'sqlite') {
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
                         $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);

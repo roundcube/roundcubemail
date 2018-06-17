@@ -93,7 +93,7 @@
             <td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
             <td class="editfield formlinks">
                 <roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-                <a href="#identities" onclick="return rcmail.command('identities')"><roundcube:label name="editidents" /></a>
+                <a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')"><roundcube:label name="editidents" /></a>
                 <roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" condition="!env:extwin" />
             </td>
         </tr><tr>

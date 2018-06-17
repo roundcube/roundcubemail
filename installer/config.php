@@ -11,7 +11,6 @@ $RCI->bool_config_props = array(
   'auto_create_user' => 1,
   'smtp_log' => 1,
   'prefer_html' => 1,
-  'debug_level' => 1,
 );
 
 // allow the current user to get to the next step
@@ -195,21 +194,6 @@ echo $input_ilevel->show($RCI->getprop('identities_level'), 0);
 <fieldset>
 <legend>Logging & Debugging</legend>
 <dl class="loggingblock">
-
-<dt class="propname">debug_level</dt>
-<dd>
-<?php
-
-$value = $RCI->getprop('debug_level');
-$check_debug = new html_checkbox(array('name' => '_debug_level[]'));
-echo $check_debug->show(($value & 1) ? 1 : 0 , array('value' => 1, 'id' => 'cfgdebug1'));
-echo '<label for="cfgdebug1">Log errors</label><br />';
-
-echo $check_debug->show(($value & 4) ? 4 : 0, array('value' => 4, 'id' => 'cfgdebug4'));
-echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
-
-?>
-</dd>
 
 <dt class="propname">log_driver</dt>
 <dd>

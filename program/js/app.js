@@ -276,6 +276,10 @@ function rcube_webmail()
             parent.rcmail.show_contentframe(true);
           }
 
+          if ($.inArray('flagged', this.env.message_flags) >= 0) {
+            $(document.body).addClass('status-flagged');
+          }
+
           // initialize drag-n-drop on attachments, so they can e.g.
           // be dropped into mail compose attachments in another window
           if (this.gui_objects.attachments)
@@ -502,7 +506,7 @@ function rcube_webmail()
         break;
 
       case 'settings':
-        this.enable_command('preferences', 'identities', 'responses', 'save', 'folders', true);
+        this.enable_command('show', 'save', true);
 
         if (this.env.action == 'identities') {
           this.enable_command('add', this.env.identities_level < 2);
@@ -907,6 +911,9 @@ function rcube_webmail()
           cid = props ? props : this.get_single_cid();
           if (cid && !(this.env.action == 'show' && cid == this.env.cid))
             this.load_contact(cid, 'show');
+        }
+        else if (this.task == 'settings') {
+          this.goto_url('settings/' + props, {_framed: 0});
         }
         break;
 
@@ -1410,14 +1417,6 @@ function rcube_webmail()
         this.replace_contact_photo('-del-');
         break;
 
-      // user settings commands
-      case 'preferences':
-      case 'identities':
-      case 'responses':
-      case 'folders':
-        this.goto_url('settings/' + command, {_framed: 0});
-        break;
-
       case 'undo':
         this.http_request('undo', '', this.display_message('', 'loading'));
         break;
@@ -1435,7 +1434,13 @@ function rcube_webmail()
       ret = false;
     this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret, originalEvent:event});
 
-    return ret === false ? false : obj ? false : true;
+    if (ret === false)
+      return false;
+
+    if (obj || aborted === true)
+      return false;
+
+    return true;
   };
 
   // set command(s) enabled or disabled
@@ -1504,10 +1509,20 @@ function rcube_webmail()
   // switch to another application task
   this.switch_task = function(task)
   {
+    var action, path;
+
+    if ((path = task.split('/')).length == 2) {
+      task = path[0];
+      action = path[1];
+    }
+
     if (this.task === task && task != 'mail')
       return;
 
     var url = this.get_task_url(task);
+
+    if (action)
+      url += '&_action=' + action;
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
@@ -3195,7 +3210,9 @@ function rcube_webmail()
       var n, len, id, root, roots = [],
         selection = post_data._uid;
 
-      if (typeof selection == 'string')
+      if (selection === '*')
+        selection = this.message_list.get_selection();
+      else if (typeof selection == 'string')
         selection = selection.split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
@@ -3332,12 +3349,15 @@ function rcube_webmail()
   this.toggle_flagged_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
+      win = this.env.contentframe ? this.get_frame_window(this.env.contentframe) : window,
       post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as flagged/unflagged
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
+
+    $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
 
     this.http_post('mark', post_data, lock);
   };
@@ -3452,7 +3472,7 @@ function rcube_webmail()
   // with select_all mode checking
   this.uids_to_list = function(uids)
   {
-    return this.select_all_mode ? '*' : (uids.length <= 1 ? uids.join(',') : uids);
+    return this.select_all_mode ? '*' : ($.isArray(uids) ? uids.join(',') : uids);
   };
 
   // Sets title of the delete button
@@ -6862,7 +6882,7 @@ function rcube_webmail()
         }
         else if (colprop.type == 'select') {
           input = $('<select>')
-            .addClass('form-control ff_' + col)
+            .addClass('custom-select ff_' + col)
             .attr({ name: '_' + col + name_suffix, id: input_id });
 
           var options = input.attr('options');
@@ -7277,10 +7297,10 @@ function rcube_webmail()
         // on the list when dragging starts (and stops), this is slow, but
         // I didn't find a method to check droptarget on over event
         accept: function(node) {
-          if (!$(node).is('.mailbox'))
+          if (!node.is('.mailbox'))
             return false;
 
-          var source_folder = ref.folder_id2name($(node).attr('id')),
+          var source_folder = ref.folder_id2name(node.attr('id')),
             dest_folder = ref.folder_id2name(this.id),
             source = ref.env.subscriptionrows[source_folder],
             dest = ref.env.subscriptionrows[dest_folder];
@@ -7327,8 +7347,10 @@ function rcube_webmail()
         newname = to === '' || to === '*' ? basename : to + this.env.delimiter + basename;
 
       if (newname != from) {
-        this.http_post('rename-folder', {_folder_oldname: from, _folder_newname: newname},
-          this.set_busy(true, 'foldermoving'));
+        this.confirm_dialog(this.get_label('movefolderconfirm'), 'move', function() {
+          ref.http_post('rename-folder', {_folder_oldname: from, _folder_newname: newname},
+            ref.set_busy(true, 'foldermoving'));
+        }, {button_class: 'save move'});
       }
     }
   };
@@ -7515,7 +7537,7 @@ function rcube_webmail()
 
     row = row.show().get(0);
     if (row.scrollIntoView)
-      row.scrollIntoView();
+      row.scrollIntoView(false);
 
     return row;
   };
