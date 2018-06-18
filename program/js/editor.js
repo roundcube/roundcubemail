@@ -671,6 +671,8 @@ function rcube_text_editor(config, id)
 
     if (!form.length)
       form = this.file_upload_form(rcmail.gui_objects.uploadform);
+    else
+      form.find('button,a.button').slice(1).remove(); // need only the first button
 
     button = dialog.prepend(form).find('button,a.button')
       .text(rcmail.get_label('add' + type))
@@ -745,8 +747,8 @@ function rcube_text_editor(config, id)
     }
 
     // register handler for successful file upload
-    if (!rcmail.env.file_dialog_event) {
-      rcmail.env.file_dialog_event = true;
+    if (!rcmail.env['file_dialog_event_' + type]) {
+      rcmail.env['file_dialog_event+' + type] = true;
       rcmail.addEventListener('fileuploaded', function(attr) {
         var elem;
         if (elem = ref.file_browser_entry(attr.name, attr.attachment)) {
