@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Update to jQuery-minicolors 2.2.6
 - Update to TinyMCE 4.7.13
 - Remove sample PHP configuration from .htaccess and .user.ini files (#5850)
+- Extend skin_logo setting to allow per skin logos (#6272)
 - Use Masterminds/HTML5 parser for better HTML5 support (#5761)
 - Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
 - Display an error when clicking disabled link to register protocol handler (#6079)
