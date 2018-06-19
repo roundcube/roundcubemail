@@ -326,6 +326,11 @@ function rcube_elastic_ui()
             }
             callback();
         });
+
+        // Store default logo path if not already set
+        if (!$('#logo').data('src-default')) {
+            $('#logo').data('src-default', $('#logo').attr('src'));
+        }
     };
 
     /**
@@ -1327,6 +1332,7 @@ function rcube_elastic_ui()
             case 'large': screen_resize_large(); break;
         }
 
+        screen_resize_logo(mode);
         screen_resize_headers();
 
         // On iOS and Android the content frame height is never correct, fix it
@@ -1369,6 +1375,16 @@ function rcube_elastic_ui()
             html.removeClass('touch');
         }
     };
+
+    function screen_resize_logo(mode)
+    {
+        if (mode == 'phone' && $('#logo').data('src-small')) {
+            $('#logo').attr('src', $('#logo').data('src-small'));
+        }
+        else {
+            $('#logo').attr('src', $('#logo').data('src-default'));
+        }
+    }
 
     /**
      * Sets left and right margin to the header title element to make it

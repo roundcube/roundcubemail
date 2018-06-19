@@ -36,6 +36,7 @@ class rcmail_output_html extends rcmail_output
     protected $js_labels    = array();
     protected $js_commands  = array();
     protected $skin_paths   = array();
+    protected $skin_name    = '';
     protected $scripts_path = '';
     protected $script_files = array();
     protected $css_files    = array();
@@ -259,6 +260,7 @@ EOF;
         $this->skin_paths = array();
         $this->load_skin($skin_path);
 
+        $this->skin_name = $skin;
         $this->set_env('skin', $skin);
     }
 
@@ -1263,21 +1265,27 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if ($logo = $this->config->get('skin_logo')) {
-                        if (is_array($logo)) {
-                            if ($template_logo = $logo[$this->template_name]) {
-                                $attrib['src'] = $template_logo;
+                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(':' . $attrib['type'], true)) !== null) {
+                        $attrib['src'] = $template_logo;
+                    }
+                    else if (($template_logo = $this->get_template_logo()) !== null) {
+                        $attrib['src'] = $template_logo;
+                    }
+
+                    // process alternative logos (eg for Elastic small screen)
+                    foreach ($attrib as $key => $value) {
+                        if (preg_match('/data-src-(.*)/', $key, $matches)) {
+                            if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
+                                $attrib[$key] = $template_logo;
                             }
-                            elseif ($template_logo = $logo['*']) {
-                                $attrib['src'] = $template_logo;
-                            }
-                        }
-                        else {
-                            $attrib['src'] = $logo;
+
+                            $attrib[$key] = !empty($attrib[$key]) ? $this->abs_url($attrib[$key]) : null;
                         }
                     }
 
-                    $content = html::img($attrib);
+                    if ($attrib['src']) {
+                        $content = html::img($attrib);
+                    }
                 }
                 else if ($object == 'productname') {
                     $name = $this->config->get('product_name', 'Roundcube Webmail');
@@ -1322,6 +1330,14 @@ EOF;
                     }
 
                     $content = $this->frame($attrib, true);
+                }
+                else if ($object == 'favicon') {
+                    if ($template_logo = $this->get_template_logo(':favicon', true)) {
+                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $template_logo));
+                    }
+                    else if ($file = $this->config->get('favicon', '/images/favicon.ico')) {
+                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
+                    }
                 }
 
                 // exec plugin hooks for this template object
@@ -2308,5 +2324,52 @@ EOF;
         }
 
         return $content;
+    }
+
+    /**
+     * Get logo URL for current template based on skin_logo config option
+     *
+     * @param string  $name     Name of the logo to check for
+     *                          default is current template
+     * @param boolean $strict   True if logo should only be returned for specific template
+     *
+     * @return string image URL
+     */
+    protected function get_template_logo($name = null, $strict = false)
+    {
+        $template_logo = null;
+
+        // Use current template if none provided
+        if (!$name) {
+            $name = $this->template_name;
+        }
+
+        $template_names = array(
+            $this->skin_name . ':' . $name,
+            $this->skin_name . ':*',
+            $name,
+            '*',
+        );
+
+        // If strict matching then remove wildcard options
+        if ($strict) {
+            $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+        }
+
+        if ($logo = $this->config->get('skin_logo')) {
+            if (is_array($logo)) {
+                foreach ($template_names as $key) {
+                    if (isset($logo[$key])) {
+                        $template_logo = $logo[$key];
+                        break;
+                    }
+                }
+            }
+            else {
+                $template_logo = $logo;
+            }
+        }
+
+        return $template_logo;
     }
 }
