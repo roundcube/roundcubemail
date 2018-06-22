@@ -827,8 +827,6 @@ html.touch .popupmenu.form {
         margin: 0;
     }
 
-    // TODO background image
-
     .upload-form {
         text-align: center;
         padding-bottom: 1em;
@@ -873,6 +871,15 @@ html.touch .popupmenu.form {
     }
 
     &.droptarget {
+        padding-bottom: .5rem !important;
+
+        &:after {
+            content: @icon-file-drop;
+            width: 10rem;
+            margin: 5rem auto 0 auto;
+            display: block;
+        }
+
         &.active {
             border-color: darken(@color-toolbar-button-background-hover, 20%);
         }
@@ -1269,4 +1276,9 @@ td.input-group input {
 .input-group-text {
     color: @color-input;
     background-color: @color-input-addon-background;
+
+    input:focus {
+        z-index: 1;
+        border-color: @color-input-border-focus !important;
+    }
 }
