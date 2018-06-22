@@ -288,17 +288,18 @@ fieldset.image-attachment {
 
     .bar {
         flex: 1;
-        height: .5rem;
+        height: .75rem;
         margin: 0 1rem;
         background-color: @color-quota-background;
+        border: 1px solid @color-layout-border;
         border-radius: .25rem;
+        overflow: hidden;
     }
 
     .value {
         display: block;
         background-color: @color-quota-value;
-        border-radius: .25rem;
-        height: .5rem;
+        height: 1rem;
         opacity: .75;
 
         &.warning {

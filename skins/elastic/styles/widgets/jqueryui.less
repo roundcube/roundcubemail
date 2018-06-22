@@ -79,6 +79,7 @@
         position: absolute;
         height: (@layout-header-height - .7rem);
         margin: .25rem;
+        padding-bottom: .375rem;
         cursor: pointer;
 
         &:before {
@@ -171,6 +172,7 @@
         .ui-dialog-titlebar {
             height: @layout-touch-header-height;
             text-align: center;
+            background-color: @color-layout-mobile-header-background;
         }
 
         .ui-dialog-title {
@@ -191,6 +193,7 @@
             text-align: center !important;
             border-top: 1px solid @color-dialog-header-border;
             height: @layout-header-height !important;
+            background-color: @color-layout-mobile-footer-background;
 
             .ui-dialog-buttonset {
                 justify-content: space-around;
@@ -283,6 +286,7 @@
     left: 50% !important;
     transform: translate(-50%, -50%);
     box-shadow: 10px 10px 10px 1000px @color-dialog-overlay-background;
+    z-index: 3 !important; // fixes datepicker over input-group
 
     .ui-datepicker-header,
     .ui-datepicker-title {

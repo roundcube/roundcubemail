@@ -495,6 +495,8 @@
         }
 
         .mce-window-head {
+            background-color: @color-layout-mobile-header-background;
+
             .mce-title {
                 font-size: 1rem;
                 text-align: center;
@@ -507,6 +509,8 @@
         }
 
         .mce-foot {
+            background-color: @color-layout-mobile-footer-background;
+
             .mce-container-body {
                 justify-content: space-evenly;
 
@@ -679,6 +683,10 @@ html.touch .mce-grid td {
 
     &.droptarget {
         border: .2rem dashed @color-table-border;
+
+        &:after {
+            margin-top: 2rem;
+        }
     }
 
     button {
