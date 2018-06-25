@@ -169,47 +169,46 @@ function rcube_text_editor(config, id)
 
     rcmail.triggerEvent('editor-load', {config: conf, ref: ref});
 
-    if (rcmail.env.action != 'compose') {
-      return;
-    }
+    if (rcmail.env.action == 'compose') {
+      var area = $('#' + this.id),
+        height = $('div.mce-toolbar-grp:first', area.parent()).height();
 
-    var area = $('#' + this.id),
-      height = $('div.mce-toolbar-grp:first', area.parent()).height();
+      // the editor might be still not fully loaded, making the editing area
+      // inaccessible, wait and try again (#1490310)
+      if (height > 200 || height > area.height()) {
+        return setTimeout(function () { ref.init_callback(event); }, 300);
+      }
 
-    // the editor might be still not fully loaded, making the editing area
-    // inaccessible, wait and try again (#1490310)
-    if (height > 200 || height > area.height()) {
-      return setTimeout(function () { ref.init_callback(event); }, 300);
-    }
+      var css = {},
+        elem = rcube_find_object('_from'),
+        fe = rcmail.env.compose_focus_elem;
 
-    var css = {},
-      elem = rcube_find_object('_from'),
-      fe = rcmail.env.compose_focus_elem;
+      if (rcmail.env.default_font)
+        css['font-family'] = rcmail.env.default_font;
 
-    if (rcmail.env.default_font)
-      css['font-family'] = rcmail.env.default_font;
+      if (rcmail.env.default_font_size)
+        css['font-size'] = rcmail.env.default_font_size;
 
-    if (rcmail.env.default_font_size)
-      css['font-size'] = rcmail.env.default_font_size;
+      if (css['font-family'] || css['font-size'])
+        $(this.editor.getBody()).css(css);
 
-    if (css['font-family'] || css['font-size'])
-      $(this.editor.getBody()).css(css);
+      if (elem && elem.type == 'select-one') {
+        // insert signature (only for the first time)
+        if (!rcmail.env.identities_initialized)
+          rcmail.change_identity(elem);
 
-    if (elem && elem.type == 'select-one') {
-      // insert signature (only for the first time)
-      if (!rcmail.env.identities_initialized)
-        rcmail.change_identity(elem);
-
-      // Focus previously focused element
-      if (fe && fe.id != this.id && fe.nodeName != 'BODY') {
-        window.focus(); // for WebKit (#1486674)
-        fe.focus();
-        rcmail.env.compose_focus_elem = null;
+        // Focus previously focused element
+        if (fe && fe.id != this.id && fe.nodeName != 'BODY') {
+          window.focus(); // for WebKit (#1486674)
+          fe.focus();
+          rcmail.env.compose_focus_elem = null;
+        }
       }
     }
 
     // set tabIndex and set focus to element that was focused before
-    ref.tabindex(fe && fe.id == ref.id);
+    ref.tabindex(ref.force_focus || (fe && fe.id == ref.id));
+
     // Trigger resize (needed for proper editor resizing in some browsers)
     $(window).resize();
   };
@@ -219,7 +218,6 @@ function rcube_text_editor(config, id)
   {
     if (rcmail.env.task == 'mail' && this.editor) {
       var textarea = this.editor.getElement(),
-        body = this.editor.getBody(),
         node = this.editor.getContentAreaContainer().childNodes[0];
 
       if (textarea && node)
@@ -245,11 +243,18 @@ function rcube_text_editor(config, id)
 
       // ContentEditable reset fixes invisible cursor issue in Firefox < 25
       if (bw.mz && bw.vendver < 25)
-        $(body).prop('contenteditable', false).prop('contenteditable', true);
-
-      if (focus)
-        body.focus();
+        $(this.editor.getBody()).prop('contenteditable', false).prop('contenteditable', true);
     }
+
+    if (focus)
+      this.focus();
+  };
+
+  // focus the editor
+  this.focus = function()
+  {
+    $(this.editor || ('#' + this.id)).focus();
+    this.force_focus = false;
   };
 
   // switch html/plain mode
@@ -280,16 +285,9 @@ function rcube_text_editor(config, id)
         if (is_sig)
           data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
 
+        ref.force_focus = true;
         input.val(data);
         tinymce.execCommand('mceAddEditor', false, ref.id);
-
-        if (ref.editor) {
-          var body = $(ref.editor.getBody());
-          // #1486593
-          ref.tabindex(true);
-          // put cursor on start of the compose body
-          ref.editor.selection.setCursorLocation(body.children().first().get(0));
-        }
       };
 
       // convert to html
@@ -671,6 +669,8 @@ function rcube_text_editor(config, id)
 
     if (!form.length)
       form = this.file_upload_form(rcmail.gui_objects.uploadform);
+    else
+      form.find('button,a.button').slice(1).remove(); // need only the first button
 
     button = dialog.prepend(form).find('button,a.button')
       .text(rcmail.get_label('add' + type))
@@ -745,8 +745,8 @@ function rcube_text_editor(config, id)
     }
 
     // register handler for successful file upload
-    if (!rcmail.env.file_dialog_event) {
-      rcmail.env.file_dialog_event = true;
+    if (!rcmail.env['file_dialog_event_' + type]) {
+      rcmail.env['file_dialog_event+' + type] = true;
       rcmail.addEventListener('fileuploaded', function(attr) {
         var elem;
         if (elem = ref.file_browser_entry(attr.name, attr.attachment)) {

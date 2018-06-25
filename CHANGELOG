@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Update to jQuery-minicolors 2.2.6
 - Update to TinyMCE 4.7.13
 - Remove sample PHP configuration from .htaccess and .user.ini files (#5850)
+- Extend skin_logo setting to allow per skin logos (#6272)
 - Use Masterminds/HTML5 parser for better HTML5 support (#5761)
 - Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
 - Display an error when clicking disabled link to register protocol handler (#6079)
@@ -97,6 +98,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where unicode contact names could have been broken/emptied or caused DB errors (#6299)
 - Fix bug where after "mark all folders as read" action message counters were not reset (#6307)
 - Enigma: [EFAIL] Don't decrypt PGP messages with no MDC protection (#6289)
+- Fix bug where some HTML comments could have been malformed by HTML parser (#6333)
 
 RELEASE 1.3.6
 -------------
