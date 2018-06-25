@@ -2716,7 +2716,7 @@ function rcube_elastic_ui()
                 });
         }
         else {
-            element.tooltip('dispose').tooltip({trigger: 'hover click'}); // click for mobile
+            element.tooltip('dispose').tooltip({trigger: is_mobile() ? 'click' : 'hover'});
         }
     };
 
