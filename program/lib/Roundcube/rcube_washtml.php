@@ -660,9 +660,9 @@ class rcube_washtml
         $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', array($this, 'html_tag_callback'), $html);
 
         // Remove invalid HTML comments (#1487759)
-        // Don't remove valid conditional comments
-        // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
-        $html = preg_replace('/<!--[^-<>\[\n]+>/', '', $html);
+        // Note: We don't want to remove valid comments, conditional comments
+        // and MSOutlook comments (<!-->)
+        $html = preg_replace('/<!--[a-zA-Z0-9]+>/', '', $html);
 
         // fix broken nested lists
         self::fix_broken_lists($html);

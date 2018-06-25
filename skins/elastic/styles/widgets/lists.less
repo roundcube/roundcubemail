@@ -925,6 +925,21 @@ html.touch {
     }
 }
 
+.keylist {
+    padding: 0;
+    list-style: none;
+
+    li {
+        line-height: 2;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-key;
+            line-height: 1.5;
+        }
+    }
+}
+
 #identities-table {
     td.mail:before {
         &:extend(.font-icon-class);
