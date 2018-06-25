@@ -3042,15 +3042,27 @@ function rcube_elastic_ui()
 
         select = $(select);
 
+        var select_ident = 'select' + select.attr('id') + select.attr('name');
+        var is_menu_open = function() {
+            // Use proper window in cases when the select element intialized
+            // inside an iframe is then used in a dialog inside a parent's window
+            // For some reason we can't access data-button property in cross-window
+            // case, we use data-ident attribute instead
+            var win = select[0].ownerDocument.defaultView;
+            if (win.$('.select-menu .listing').data('ident') == select_ident) {
+                return true;
+            }
+        };
+
         var close_func = function() {
-            var open = $('.select-menu').length;
+            var open = is_menu_open();
             select.popover('dispose').focus();
             return !open;
         };
 
         var open_func = function(e) {
             var items = [],
-                dialog = select.parents('.ui-dialog')[0],
+                dialog = select.closest('.ui-dialog')[0],
                 min_width = select.outerWidth(),
                 max_height = $(document.body).height() - 75,
                 max_width = $(document.body).width() - 20,
@@ -3077,8 +3089,8 @@ function rcube_elastic_ui()
             });
 
             var list = $('<ul class="toolbarmenu listing selectable iconized">')
+                .attr('data-ident', select_ident)
                 .append(items)
-                .data('button', select[0]) // needed for dropdown closing code
                 .on('click', 'a.active', function() {
                     // first close the list, then update the select, the order is important
                     //for cases when the select might be removed in change event (datepicker)
@@ -3132,7 +3144,7 @@ function rcube_elastic_ui()
                 })
                 .on('shown.bs.popover', function() {
                     // Set popup Close title
-                    $('#' + select.attr('aria-describedby') + ' > .popover-header')
+                    list.parent().prev()
                         .empty()
                         .append($('<a class="button icon cancel">').text(rcmail.gettext('close'))
                             .on('click', function(e) {
@@ -3151,17 +3163,17 @@ function rcube_elastic_ui()
 
         select.on('mousedown keydown', function(e) {
             // Do nothing on disabled select or on TAB key
-            if (select.prop('disabled') || e.which == 9) {
+            if (select.prop('disabled')) {
                 return;
             }
 
-            // Close popup on ESC key
-            if (e.which == 27) {
-                return close_func();
+            if (e.which == 9) {
+                close_func();
+                return true;
             }
 
-            // Close popup on click if already open
-            if (e.type == 'mousedown' && $('.select-menu:visible .listing').data('button') == select[0]) {
+            // Close popup on ESC key or on click if already open
+            if (e.which == 27 || (e.type == 'mousedown' && is_menu_open())) {
                 return close_func();
             }
 
@@ -3175,8 +3187,12 @@ function rcube_elastic_ui()
             // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
             if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
                 open_func(e);
+                return false;
             }
-
+        }).on('click', function(e) {
+            // Stop propagation of click event to prevent from
+            // disposing the menu by general popover closing handler (popups_close())
+            e.stopPropagation();
             return false;
         });
     };
