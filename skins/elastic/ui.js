@@ -3042,6 +3042,10 @@ function rcube_elastic_ui()
 
         select = $(select);
 
+        if (select.is('.pretty-select')) {
+            return;
+        }
+
         var select_ident = 'select' + select.attr('id') + select.attr('name');
         var is_menu_open = function() {
             // Use proper window in cases when the select element intialized
@@ -3161,40 +3165,44 @@ function rcube_elastic_ui()
                 .popover('show');
         };
 
-        select.on('mousedown keydown', function(e) {
-            // Do nothing on disabled select or on TAB key
-            if (select.prop('disabled')) {
-                return;
-            }
+        select.addClass('pretty-select')
+            .on('mousedown keydown', function(e) {
+                select = $(e.target); // so it works after clone
 
-            if (e.which == 9) {
-                close_func();
-                return true;
-            }
+                // Do nothing on disabled select or on TAB key
+                if (select.prop('disabled')) {
+                    return;
+                }
 
-            // Close popup on ESC key or on click if already open
-            if (e.which == 27 || (e.type == 'mousedown' && is_menu_open())) {
-                return close_func();
-            }
+                if (e.which == 9) {
+                    close_func();
+                    return true;
+                }
 
-            select.focus();
+                // Close popup on ESC key or on click if already open
+                if (e.which == 27 || (e.type == 'mousedown' && is_menu_open())) {
+                    return close_func();
+                }
 
-            // prevent displaying browser-default select dropdown
-            select.prop('disabled', true);
-            setTimeout(function() { select.prop('disabled', false); }, 0);
-            e.stopPropagation();
+                select.focus();
 
-            // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
-            if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
-                open_func(e);
+                // prevent displaying browser-default select dropdown
+                select.prop('disabled', true);
+                setTimeout(function() { select.prop('disabled', false); }, 0);
+                e.stopPropagation();
+
+                // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
+                if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
+                    open_func(e);
+                    return false;
+                }
+            })
+            .on('click', function(e) {
+                // Stop propagation of click event to prevent from
+                // disposing the menu by general popover closing handler (popups_close())
+                e.stopPropagation();
                 return false;
-            }
-        }).on('click', function(e) {
-            // Stop propagation of click event to prevent from
-            // disposing the menu by general popover closing handler (popups_close())
-            e.stopPropagation();
-            return false;
-        });
+            });
     };
 
     /**
