@@ -286,7 +286,10 @@
     left: 50% !important;
     transform: translate(-50%, -50%);
     box-shadow: 10px 10px 10px 1000px @color-dialog-overlay-background;
-    z-index: 3 !important; // fixes datepicker over input-group
+
+    &:not(.ui-datepicker-inline) {
+        z-index: 120 !important; // fixes datepicker over input-group and dialogs
+    }
 
     .ui-datepicker-header,
     .ui-datepicker-title {
