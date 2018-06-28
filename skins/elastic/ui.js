@@ -283,7 +283,7 @@ function rcube_elastic_ui()
         $('[data-hidden]').each(function() {
             var m, v = $(this).data('hidden'),
                 parent = $(this).parent('li'),
-                re = /(large|big|small|phone)/g;
+                re = /(large|big|small|phone|lbs)/g;
 
                 while (m = re.exec(v)) {
                     $(parent.length ? parent : this).addClass('hidden-' + m[1]);
