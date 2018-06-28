@@ -3488,7 +3488,8 @@ function rcube_elastic_ui()
      */
     function window_open(url)
     {
-        if (!is_mobile()) {
+        // Use 4th argument to bypass the dialog-mode e.g. for external windows
+        if (!is_mobile() || arguments[3] === true) {
             return env.open_window.apply(rcmail, arguments);
         }
 
