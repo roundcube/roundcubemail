@@ -641,53 +641,52 @@ table.fixedcopy {
         cursor: pointer;
         width: 1em;
     }
+
     tr.thread.expanded td.threads div:before {
         content: @fa-var-angle-down;
     }
-    td.subject span.msgicon.status:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-circle;
-        cursor: pointer;
-        font-size: .4em;
-        width: 3em;
-        height: 2rem;
-    }
-    td.subject span.msgicon.status.unread:before {
-        content: @fa-var-star;
-        font-size: 1.1em;
-        width: 1.1em;
-        line-height: 1.75;
-        color: @color-warning;
-    }
-    td.subject span.msgicon.status.unreadchildren:before {
-        .font-icon-regular(@fa-var-star);
-        font-size: 1.1em;
-        width: 1.1em;
-        line-height: 1.75;
-    }
-    td.subject span.msgicon.status.replied:before {
-        content: @fa-var-reply;
-        font-size: 1.1em;
-        line-height: 1.75;
-        width: 1.1em;
-    }
-    td.subject span.msgicon.status.forwarded:before {
-        .font-icon-solid(@fa-var-share);
-        font-size: 1.1em;
-        line-height: 1.75;
-        width: 1.1em;
-    }
-    td.subject span.msgicon.status.replied.forwarded:before {
-        content: @fa-var-reply; // TODO
-        font-size: 1.1em;
-        line-height: 1.75;
-        width: 1.1em;
-    }
-    tr.deleted td.subject span.msgicon.status:before {
-        content: @fa-var-ban;
-        font-size: 1.1em;
-        line-height: 1.75;
-        width: 1.1em;
+
+    td.subject span.msgicon.status {
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-circle;
+            cursor: pointer;
+            font-size: .4em;
+            width: 1.1rem;
+            height: 2rem;
+            line-height: 2rem;
+        }
+
+        &.unread:before {
+            content: @fa-var-circle;
+            color: @color-warning;
+            font-size: .5em;
+        }
+
+        &.unreadchildren:before {
+            .font-icon-regular(@fa-var-circle);
+            font-size: .5em;
+        }
+
+        &.replied:before {
+            .font-icon-solid(@fa-var-reply);
+            font-size: 1.1em;
+        }
+
+        &.forwarded:before {
+            .font-icon-solid(@fa-var-share);
+            font-size: 1.1em;
+        }
+
+        &.replied.forwarded:before {
+            .font-icon-solid(@fa-var-reply); // TODO
+            font-size: 1.1em;
+        }
+
+        tr.deleted &:before {
+            .font-icon-solid(@fa-var-ban);
+            font-size: 1.1em;
+        }
     }
 
     span.attachment span {
