@@ -37,11 +37,12 @@ class rcube_utils
     /**
      * Helper method to set a cookie with the current path and host settings
      *
-     * @param string Cookie name
-     * @param string Cookie value
-     * @param string Expiration time
+     * @param string $name      Cookie name
+     * @param string $value     Cookie value
+     * @param int    $exp       Expiration time
+     * @param bool   $http_only HTTP Only
      */
-    public static function setcookie($name, $value, $exp = 0)
+    public static function setcookie($name, $value, $exp = 0, $http_only = true)
     {
         if (headers_sent()) {
             return;
@@ -50,13 +51,13 @@ class rcube_utils
         $cookie = session_get_cookie_params();
         $secure = $cookie['secure'] || self::https_check();
 
-        setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'], $secure, true);
+        setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'], $secure, $http_only);
     }
 
     /**
      * E-mail address validation.
      *
-     * @param string $email Email address
+     * @param string  $email     Email address
      * @param boolean $dns_check True to check dns
      *
      * @return boolean True on success, False if address is invalid
