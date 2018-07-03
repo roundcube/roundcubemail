@@ -14,6 +14,7 @@
 .toolbar {
     margin: 0;
     font-size: 1rem;
+    text-align: center;
 
     &.listing a,
     a {
@@ -46,7 +47,6 @@
 
         &:before {
             &:extend(.font-icon-class);
-            display: inline;
             float: none;
             margin: 0;
             line-height: 1.75;
@@ -112,23 +112,23 @@
         &.encrypt:before {
             content: @fa-var-lock;
         }
-        &.firstpage:before {
-            content: @fa-var-fast-backward;
-        }
         &.prev:before {
             content: @fa-var-arrow-left;
         }
         &.next:before {
             content: @fa-var-arrow-right;
         }
+        &.firstpage:before {
+            content: @fa-var-angle-double-left;
+        }
         &.prevpage:before {
-            content: @fa-var-backward;
+            content: @fa-var-angle-left;
         }
         &.nextpage:before {
-            content: @fa-var-forward;
+            content: @fa-var-angle-right;
         }
         &.lastpage:before {
-            content: @fa-var-fast-forward;
+            content: @fa-var-angle-double-right;
         }
         &.send:before {
             content: @fa-var-paper-plane;
@@ -156,7 +156,7 @@
             content: @fa-var-comment;
         }
         &.select:before {
-            .font-icon-regular(@fa-var-check-square);
+            .font-icon-regular(@fa-var-check-circle);
         }
         &.threads:before {
             content: @fa-var-comments;
@@ -180,10 +180,10 @@
             content: @fa-var-user;
         }
         &.expand:before {
-            content: @fa-var-caret-down;
+            content: @fa-var-angle-right;
         }
         &.collapse:before {
-            content: @fa-var-caret-up;
+            content: @fa-var-angle-down;
         }
         &.submit:before {
             content: @fa-var-check;
@@ -233,42 +233,38 @@
     }
 
     &.pagenav {
-        text-align: center;
         display: flex;
-        border-bottom: 1px solid @color-layout-border;
-        height: @layout-pagenav-height;
-        overflow: hidden;
+        justify-content: normal !important;
+        align-items: center;
 
         a.button {
             flex-grow: 1;
-            font-size: 80%;
             min-width: 2rem !important;
-            height: @layout-pagenav-height !important;
-            color: @color-list-pagenav;
-            overflow: hidden;
+            height: @layout-footer-small-height;
 
             &:before {
-                line-height: 1 !important;
+                line-height: 1.25;
             }
         }
 
         .pagenav-text {
             .overflow-ellipsis;
-            flex-grow: 4;
-            line-height: @layout-pagenav-height;
-            font-size: 80%;
             color: @color-list-pagenav;
+            flex-grow: 4;
+            font-size: 80%;
             white-space: nowrap;
         }
 
         input {
             width: 3rem;
+            max-width: 5rem;
             font-size: 90%;
-            line-height: 1;
-            padding: .25rem;
-            margin: .15rem;
-            display: inline;
             text-align: center;
+            max-height: 1.6rem;
+
+            html.layout-phone & {
+                display: none;
+            }
         }
 
         span.inner {
@@ -277,17 +273,24 @@
 
         &.pagenav-list {
             cursor: pointer;
+            background-color: @color-searchbar-background;
+            border-bottom: 1px solid @color-list-border;
 
             a.button {
-                flex-grow: initial;
+                flex-grow: unset;
             }
 
             .pagenav-text {
                 text-align: left;
+                font-size: 100%;
             }
 
             & + .navlist {
                 background-color: #fbfbfb;
+            }
+
+            &.expanded + .navlist {
+                border-bottom: 1px solid @color-layout-border;
             }
         }
     }
@@ -298,6 +301,12 @@
             float: none;
             display: block;
             width: auto;
+        }
+    }
+
+    &.footer.small {
+        a.button:before {
+            height: auto; // for Chrome
         }
     }
 
@@ -489,10 +498,10 @@
         content: @fa-var-pencil-alt;
     }
     a.read:before {
-        .font-icon-regular(@fa-var-star);
+        .font-icon-regular(@fa-var-circle);
     }
     a.unread:before {
-        content: @fa-var-star;
+        content: @fa-var-circle;
     }
     a.flag:before {
         content: @fa-var-flag;
@@ -521,6 +530,15 @@
     a.export.selection:before,
     a.export.all:before {
         content: @fa-var-download;
+    }
+    a.select:before {
+        content: @fa-var-check-circle;
+    }
+    a.threads:before {
+        content: @fa-var-comments;
+    }
+    a.selection:before {
+        content: @fa-var-mouse-pointer;
     }
     a.select.all:before {
         .font-icon-regular(@fa-var-check-square);
@@ -619,17 +637,6 @@
     }
 }
 
-#layout > .sidebar > .header,
-#layout > .list > .header {
-    span.inner {
-        display: none;
-    }
-}
-
-#layout > .content > * > .toolbar {
-    text-align: center;
-}
-
 html.touch {
     .toolbarmenu.listing td,
     .toolbarmenu.listing li,
@@ -655,11 +662,11 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
-    ul.toolbar {
-        flex: 1;
-    }
-
     .toolbar {
+        .header > & {
+            display: flex; // for Safari on desktop
+        }
+
         a.button {
             &:not(.disabled):focus,
             &:not(.disabled):hover {
@@ -741,5 +748,142 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
 
     .toolbar.listing a {
         color: @color-font;
+    }
+}
+
+a.button.icon.toolbar-button {
+    order: 8;
+
+    @media screen and (min-width: (@screen-width-large + 1px)) {
+        height: @layout-header-height;
+        line-height: 1.5;
+        padding: .45rem;
+
+        &:before {
+            float: none;
+            height: 1.75rem;
+            line-height: 1.75;
+            width: auto;
+        }
+
+        span.inner {
+            display: inline;
+            font-weight: normal;
+            font-size: 90%;
+        }
+    }
+}
+
+
+/*** Searchbar and searchoptions widgets ***/
+
+.searchbar {
+    height: @layout-searchbar-height;
+    min-height: @layout-searchbar-height; // because of Flexbox
+    line-height: @layout-searchbar-height;
+    background-color: @color-searchbar-background;
+    border-bottom: 1px solid @color-list-border;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    padding-right: .5rem;
+
+    form {
+        flex: 1;
+        display: flex;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-search;
+            height: @layout-searchbar-height;
+            color: @color-list-pagenav;
+            margin: 0 0 0 .75rem;
+        }
+    }
+
+    input {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: .5rem;
+    }
+
+    a.button {
+        height: @layout-searchbar-height;
+        min-width: auto;
+        color: @color-toolbar-button;
+
+        &:before {
+            &:extend(.font-icon-class);
+        }
+
+        &.options {
+            &:before {
+                content: @fa-var-angle-down;
+                line-height: 1.25;
+                width: 1em;
+            }
+        }
+
+        &.reset {
+            display: none;
+
+            &:before {
+                content: @fa-var-times;
+                font-size: 1em;
+            }
+        }
+
+        &.search {
+            display: none;
+        }
+    }
+
+    span.inner {
+        display: none;
+    }
+
+    &.active {
+        a.button.reset {
+            display: inline;
+        }
+    }
+
+    &.open a.button.options:before {
+        content: @fa-var-angle-up;
+    }
+}
+
+.searchoptions {
+    button.search {
+        width: 100%;
+    }
+
+    ul.proplist {
+        & + div {
+            margin-top: 1rem;
+        }
+    }
+
+    .input-group {
+        &:not(:last-child) {
+            margin-bottom: .5rem;
+        }
+
+        .input-group-prepend {
+            width: 30%;
+        }
+
+        label {
+            width: 100%;
+        }
+    }
+
+    .formbuttons {
+        // this is needed because we hide .formbuttons on small devices
+        // we don't want it for search options form
+        display: block !important;
     }
 }

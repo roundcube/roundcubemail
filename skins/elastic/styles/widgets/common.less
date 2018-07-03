@@ -72,10 +72,6 @@ font.bold {
     }
 }
 
-.pagenav.expanded + .navlist {
-    border-bottom: 1px solid @color-layout-border;
-}
-
 .contact-header {
     display: flex;
     margin-bottom: 1rem;
@@ -271,35 +267,39 @@ fieldset.image-attachment {
 }
 
 .quota-widget {
-    width: 5rem;
-    max-width: 8rem;
-    padding: .5rem;
-    text-align: center;
-    position: relative;
+    width: 100%;
+    max-width: 15em;
+    padding: .5rem 1rem;
+    display: flex;
+    align-items: center;
+    color: @color-quota-text;
+
+    &:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-hdd;
+        line-height: 1;
+    }
 
     .count {
-        display: block;
         color: @color-quota-text;
-        font-size: 1.1rem;
-        line-height: 2;
+        font-size: 80%;
+        order: 2;
     }
 
     .bar {
-        display: block;
+        flex: 1;
         height: .5rem;
-        position: absolute;
-        bottom: .85rem;
-        left: .5rem;
-        right: .5rem;
+        margin: 0 1rem;
         background-color: @color-quota-background;
+        border: 1px solid @color-layout-border;
         border-radius: .25rem;
+        overflow: hidden;
     }
 
     .value {
         display: block;
         background-color: @color-quota-value;
-        border-radius: .25rem;
-        height: .5rem;
+        height: 1rem;
         opacity: .75;
 
         &.warning {
@@ -373,6 +373,7 @@ fieldset.image-attachment {
     & > .footer {
         height: 3.5rem;
         border-top: 1px solid @color-table-border;
+        text-align: left;
 
         a.button {
             padding: 0;

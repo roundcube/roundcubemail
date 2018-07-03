@@ -38,7 +38,7 @@ for file in $PWD/../plugins/*/localization/*.inc; do
 done
 
 # remove empty localization files
-for file in $PWD/../program/localization/*/{labels,timezones}.inc; do grep -q -E '\$labels' $file || rm $file; done
+for file in $PWD/../program/localization/*/labels.inc; do grep -q -E '\$labels' $file || rm $file; done
+for file in $PWD/../program/localization/*/timezones.inc; do grep -q -E '\$labels' $file || rm $file; done
 for file in $PWD/../program/localization/*/messages.inc; do grep -q -E '\$messages' $file || rm $file; done
 for file in $PWD/../plugins/*/localization/*.inc; do grep -q -E '\$(labels|messages)' $file || rm $file; done
-

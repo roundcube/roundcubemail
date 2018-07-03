@@ -35,6 +35,12 @@
     box-shadow: none !important;
 }
 
+.mce-btn {
+    &.mce-active {
+        background: @color-btn-secondary-background !important;
+    }
+}
+
 .mce-window {
     &.mce-container {
         border: 0;
@@ -137,6 +143,28 @@
                 position: initial;
                 width: 1rem;
                 order: 9;
+            }
+        }
+
+        .mce-btn {
+            .btn-secondary;
+            border-radius: .3rem;
+            border-color: transparent;
+
+            &:focus {
+                border-color: transparent !important;
+                color: @color-btn-secondary;
+                background: @color-btn-secondary-background;
+            }
+
+            &.mce-primary {
+                .btn-primary;
+            }
+
+            button:hover,
+            button {
+                color: @color-btn-secondary;
+                padding: .5rem .75rem;
             }
         }
 
@@ -408,6 +436,10 @@
                 border-bottom-color: transparent;
                 border-bottom: 0;
             }
+
+            &:focus {
+                outline: unset !important;
+            }
         }
     }
 
@@ -417,33 +449,6 @@
     }
 }
 
-.mce-btn {
-    &.mce-active {
-        background: @color-btn-secondary-background !important;
-    }
-
-    .mce-window .mce-foot & {
-        .btn-secondary;
-        border-radius: .3rem;
-        border-color: transparent;
-
-        &:focus {
-            border-color: transparent !important;
-            color: @color-btn-secondary;
-            background: @color-btn-secondary-background;
-        }
-
-        &.mce-primary {
-            .btn-primary;
-        }
-
-        button:hover,
-        button {
-            color: @color-btn-secondary;
-            padding: .5rem .75rem;
-        }
-    }
-}
 
 // Menus and popovers, e.g. color selector, emoticons selector, font selector
 .mce-menu,
@@ -489,7 +494,23 @@
             width: 100% !important;
         }
 
+        .mce-window-head {
+            background-color: @color-layout-mobile-header-background;
+
+            .mce-title {
+                font-size: 1rem;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .mce-close {
+                display: none;
+            }
+        }
+
         .mce-foot {
+            background-color: @color-layout-mobile-footer-background;
+
             .mce-container-body {
                 justify-content: space-evenly;
 
@@ -506,6 +527,10 @@
 
                     &:hover {
                         background: transparent;
+                    }
+
+                    &:last-child {
+                        margin: 0;
                     }
 
                     button {
@@ -658,6 +683,10 @@ html.touch .mce-grid td {
 
     &.droptarget {
         border: .2rem dashed @color-table-border;
+
+        &:after {
+            margin-top: 2rem;
+        }
     }
 
     button {

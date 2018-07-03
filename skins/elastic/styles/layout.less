@@ -55,13 +55,6 @@ body > #layout {
             flex-direction: column;
             max-width: 30%;
             border-right: 1px solid @color-layout-border;
-
-            & > .header {
-                a.button {
-                    margin: 0;
-                    padding: 0 .5rem;
-                }
-            }
         }
 
         &.content {
@@ -105,6 +98,7 @@ body > #layout {
             min-width: 300px;
             background-color: @color-layout-list-background;
         }
+
         & > .scroller {
             flex: 1;
             position: relative; // for .listing-info positioning
@@ -141,11 +135,25 @@ body > #layout {
                 text-align: center;
                 margin: 0 -20rem;
             }
+
+            a.toolbar-list-button,
+            a.toolbar-menu-button {
+                order: 99; // always the last button
+            }
         }
 
         & > .footer {
             border-top: 1px solid @color-layout-border;
             background-color: @color-layout-footer-background;
+            height: @layout-footer-height;
+            min-height: @layout-footer-height;
+            line-height: @layout-footer-height;
+
+            &.small {
+                height: @layout-footer-small-height;
+                min-height: @layout-footer-small-height;
+                line-height: @layout-footer-small-height;
+            }
 
             &:empty {
                 display: none;
@@ -171,6 +179,11 @@ html.iframe {
         min-width: 260px;
         flex: 3;
     }
+
+    body > #layout > div.list > .header > a.button {
+        padding: 0 .25rem;
+        margin: 0 .25rem;
+    }
 }
 
 @media screen and (max-width: @screen-width-medium) {
@@ -184,6 +197,8 @@ html.iframe {
     }
 
     body > #layout > div > .header {
+        background-color: @color-layout-mobile-header-background;
+
         a.button {
             // make the button active area smaller on touch devices
             margin: 0 .3rem !important;
@@ -205,16 +220,12 @@ html.iframe {
         }
     }
 
-    body > #layout > div > .header {
-        &.with-search:not(.no-toolbar) {
-            .searchbar {
-                right: @layout-touch-icon-width;
-            }
+    body > #layout > div > .footer {
+        background-color: @color-layout-mobile-footer-background;
+    }
 
-            .searchfilterbar {
-                right: (@layout-touch-icon-width * 2);
-            }
-        }
+    a.toolbar-list-button {
+        display: none;
     }
 }
 
@@ -229,7 +240,7 @@ html.iframe {
 }
 
 @media screen and (min-width: (@screen-width-xs + 1px)) {
-    body > #layout > div > .header > a.menu-button {
+    a.menu-button {
         display: none;
     }
 
@@ -244,7 +255,7 @@ html.iframe {
     .floating-action-buttons,
     body > #layout > .content > .header > .header-title,
     body > #layout > div > .header > .buttons,
-    body > #layout > div > .header > a.toolbar-menu-button {
+    a.toolbar-menu-button {
         display: none;
     }
 
@@ -260,8 +271,10 @@ html.iframe {
 }
 
 @media screen and (min-width: (@screen-width-large + 1px)) {
-    body > #layout > div > .header > a.back-list-button,
-    body > #layout > div > .header > a.back-sidebar-button {
+    body > #layout > .list > .header > .header-title:not(.all-sizes),
+    a.toolbar-list-button,
+    a.back-list-button,
+    a.back-sidebar-button {
         display: none;
     }
 }
@@ -279,8 +292,15 @@ html.layout-small {
     }
 }
 
+html.layout-small {
+    .hidden-lbs {
+        display: none !important;
+    }
+}
+
 html.layout-large,
 html.layout-normal {
+    .hidden-lbs,
     .hidden-big {
         display: none !important;
     }

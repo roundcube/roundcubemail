@@ -21,6 +21,10 @@
 					<span class="voice"><roundcube:label name="subject" />: </span>
 					<roundcube:object name="messageHeaders" valueOf="subject" />
 				</span>
+				<roundcube:if condition="!env:message_context && !env:extwin">
+					<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
+						label="openinextwin" data-hidden="small" />
+				<roundcube:endif />
 			</h2>
 			<div class="short-header">
 				<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.png" />
@@ -28,15 +32,11 @@
 					<roundcube:object name="messageSummary" addicon="virtual" class="header-subject" />
 					<div class="message-partheaders hidden">
 						<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
+						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="allheaders" /></a>
 					</div>
 					<div class="header-links">
-						<a href="#headers" class="envelope" onclick="return UI.headers_show(this)"><roundcube:label name="envelope" /></a>
-						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="headers" /></a>
+						<a href="#headers" class="envelope" onclick="return UI.headers_show(this)"><roundcube:label name="details" /></a>
 						<roundcube:add_label name="arialabelmessageheaders" />
-						<roundcube:if condition="!env:message_context && !env:extwin">
-							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
-								label="openinextwin" data-hidden="small" />
-						<roundcube:endif />
 						<roundcube:if condition="env:optional_format=='text'" />
 							<roundcube:button command="change-format" prop="text" type="link" class="plain" innerClass="inner"
 								title="changeformattext" label="plaintoggle" />

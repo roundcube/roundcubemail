@@ -12,10 +12,9 @@
 	<div class="header no-toolbar">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span id="aria-label-composecontacts" class="header-title"><roundcube:label name="contacts" /></span>
-		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
-			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" />
 	</div>
-	<roundcube:include file="includes/pagenav.html" />
+	<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
+		label="contactsearchform" buttontitle="findcontacts" ariatag="h2" />
 	<div class="scroller" tabindex="-1">
 		<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"
 			summary="ariasummarycomposecontacts" />
@@ -31,13 +30,14 @@
 			class="button addbcc disabled" classAct="button addbcc" innerClass="inner" content="Bcc+" />
 		<roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
 	</div>
+	<roundcube:include file="includes/pagenav.html" />
 </div>
 
 <!-- compose options and attachments list -->
 <div class="list listbox">
 	<div class="header">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
-		<span class="header-title"><roundcube:label name="optionsandattachments" /></span>
+		<span class="header-title all-sizes"><roundcube:label name="optionsandattachments" /></span>
 	</div>
 	<div class="scroller">
 		<!-- compose options -->
