@@ -15,8 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
-
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Filter für eingehende Nachrichten verwalten';
 $labels['filtername'] = 'Filtername';
@@ -183,8 +181,8 @@ $labels['vacation.advanced'] = 'Erweiterte Einstellungen';
 $labels['vacation.from'] = 'Antwort E-Mail-Adresse:';
 $labels['vacation.subject'] = 'Betreff';
 $labels['vacation.body'] = 'Nachricht';
-$labels['vacation.start'] = 'Beginn des Abwesenheit';
-$labels['vacation.end'] = 'Ende des Abwesenheit';
+$labels['vacation.start'] = 'Beginn der Abwesenheit';
+$labels['vacation.end'] = 'Ende der Abwesenheit';
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'An';
 $labels['vacation.off'] = 'Aus';
@@ -222,8 +220,6 @@ $labels['duplicate.header'] = 'Kopfzeile:';
 $labels['duplicate.uniqueid'] = 'Bezeichner:';
 $labels['duplicate.seconds'] = 'Zeitüberschreitung (Sekunden):';
 $labels['duplicate.last'] = 'relativ zur letzten Ausführung';
-
-$messages = array();
 $messages['filterunknownerror'] = 'Unbekannter Serverfehler';
 $messages['filterconnerror'] = 'Kann keine Verbindung mit Managesieve-Server herstellen';
 $messages['filterdeleteerror'] = 'Filter kann nicht gelöscht werden. Ein Serverfehler ist aufgetreten.';
@@ -264,5 +260,4 @@ $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird benötigt!';
 $messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
-
 ?>

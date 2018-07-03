@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Kein freier Speicherplatz. Drücken Sie SHI
 $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeichert.';
 $messages['invalidhost'] = 'Ungültiger Servername';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner';
-$messages['loggedout'] = 'Sie haben Ihre Session erfolgreich beendet. Auf Wiedersehen!';
 $messages['mailboxempty'] = 'Ordner ist leer';
 $messages['nomessages'] = 'Keine Nachrichten';
 $messages['refreshing'] = 'Aktualisiere...';

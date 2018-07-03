@@ -32,9 +32,11 @@
 @color-layout-sidebar-background:   #fff;
 @color-layout-list-background:      #fff;
 @color-layout-content-background:   #fff;
-@color-layout-header-background:    #fff;
+@color-layout-header-background:    #f4f4f4;
 @color-layout-footer-background:    #fff;
 
+@color-layout-mobile-header-background: @color-layout-header-background;
+@color-layout-mobile-footer-background: @color-layout-header-background;
 
 // Task menu
 @color-taskmenu-background:                     #414e54;
@@ -60,10 +62,10 @@
 
 // Toolbar
 @color-toolbar-button:                  @color-font;
-@color-toolbar-button-background-hover: tint(@color-main, 96%);
+@color-toolbar-button-background-hover: darken(@color-layout-header-background, 3%);
 
 @color-searchbar-icon-active:           green;
-
+@color-searchbar-background:            #fbfbfb;
 
 // Toolbar menu
 @color-toolbarmenu-hover:               #fff;
@@ -89,7 +91,6 @@
 
 @color-list-pagenav:                @color-black-shade-text;
 @color-list-icon:                   fadeout(@color-list-secondary, 25%);
-
 
 
 // Drag-n-drop layer
@@ -163,7 +164,7 @@
 @color-btn-danger:                  #fff;
 @color-btn-danger-background:       @color-error;
 
-@color-quota-background:            @color-black-shade-bg;
+@color-quota-background:            #fff;
 @color-quota-text:                  @color-black-shade-text;
 @color-quota-value:                 @color-main;
 @color-quota-value-warning:         @color-error;
