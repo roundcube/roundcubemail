@@ -657,7 +657,7 @@ function rcube_elastic_ui()
                     $('a.button.attach, a.button.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
-                $('.sidebar > .footer > a.button').click(function() {
+                $('.sidebar > .footer:not(.pagenav) > a.button').click(function() {
                     if ($(this).is('.disabled')) {
                         rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
                     }
