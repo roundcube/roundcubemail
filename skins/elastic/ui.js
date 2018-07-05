@@ -2445,8 +2445,8 @@ function rcube_elastic_ui()
             scope = rcmail.env.search_scope || 'base';
 
         if (!$(obj).data('initialized')) {
-            list.on('click', function() { set_searchmod(this, obj); });
-            scope_select.on('click', function() { rcmail.set_searchscope($(this).val()); });
+            list.on('change', function() { set_searchmod(this, obj); });
+            scope_select.on('change', function() { rcmail.set_searchscope($(this).val()); });
             $(obj).data('initialized', true);
         }
 
