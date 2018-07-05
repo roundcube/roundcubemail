@@ -1678,6 +1678,9 @@ function rcube_elastic_ui()
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
+        // Type can be e.g. 'notice chat'
+        type = type.split(' ')[0];
+
         if (wrap && addicon && !$(object).is('.aligned-buttons')) {
             // we need the content to be non-text node for best alignment
             tmp = $(object).html();
