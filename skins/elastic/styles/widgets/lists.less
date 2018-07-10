@@ -453,9 +453,9 @@ ul.treelist {
     li {
         &.mailbox {
             &.unread {
-                // TODO
                 & > a {
                     padding-right: 2.8em;
+                    font-weight: bold;
                 }
             }
 
@@ -481,10 +481,6 @@ ul.treelist {
                     line-height: 2rem;
                     margin: (@listing-touch-line-height - 2rem)/2;
                 }
-            }
-
-            &.selected .unreadcount {
-                // todo
             }
 
             &.recent > .unreadcount {
