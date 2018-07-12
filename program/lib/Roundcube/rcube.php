@@ -1590,14 +1590,15 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param object $message   Reference to Mail_MIME object
-     * @param string $from      Sender address string
-     * @param array  $mailto    Array of recipient address strings
-     * @param array  $error     SMTP error array (reference)
-     * @param string $body_file Location of file with saved message body (reference),
-     *                          used when delay_file_io is enabled
-     * @param array  $options   SMTP options (e.g. DSN request)
-     * @param bool   $disconnect Close SMTP connection ASAP
+     * @param object       $message    Reference to Mail_MIME object
+     * @param string       $from       Sender address string
+     * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
+     *                                 or an array of recipients, each RFC822 valid
+     * @param array        $error      SMTP error array (reference)
+     * @param string       $body_file  Location of file with saved message body (reference),
+     *                                 used when delay_file_io is enabled
+     * @param array        $options    SMTP options (e.g. DSN request)
+     * @param bool         $disconnect Close SMTP connection ASAP
      *
      * @return boolean Send status.
      */
