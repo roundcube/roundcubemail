@@ -1166,6 +1166,10 @@ input.icon-checkbox {
         cursor: pointer;
         width: 1.5em;
 
+        html.touch & {
+            font-size: 1.5rem;
+        }
+
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-toggle-off;
@@ -1214,10 +1218,6 @@ input.icon-checkbox {
         font-size: 1.25rem;
         padding-top: .25rem;
     }
-}
-
-html.touch input.icon-checkbox + label {
-    font-size: 1.5rem;
 }
 
 
