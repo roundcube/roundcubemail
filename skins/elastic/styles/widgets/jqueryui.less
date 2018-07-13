@@ -117,14 +117,16 @@
                 padding-right: 0;
                 padding-left: 0;
                 text-decoration: none;
+                color: @color-font;
 
                 &:focus {
-                    background-color: @color-input-border-focus-shadow;
+                    background-color: fade(@color-btn-primary-background, 50%);
                 }
 
                 &.options {
                     order: -1;
                     padding: .375rem .25rem;
+                    margin-right: .3rem;
 
                     &:before {
                         // this icon is for mobile version
