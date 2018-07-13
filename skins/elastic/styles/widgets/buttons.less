@@ -210,8 +210,8 @@ html.touch {
     }
 
     &:hover {
-        background: darken(@color-btn-secondary-background, 8%);
-        border-color: darken(@color-btn-secondary-background, 10%);
+        background: darken(@color-btn-secondary-background, 5%);
+        border-color: darken(@color-btn-secondary-background, 7%);
     }
 
     &.disabled,
@@ -221,15 +221,14 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active {
-        background: darken(@color-btn-secondary-background, 11%);
-        border-color: darken(@color-btn-secondary-background, 13%);
-        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%);
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-secondary-background, 10%);
+        border-color: darken(@color-btn-secondary-background, 12%);
     }
 
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-secondary-background, 20%);
-        border-color: darken(@color-btn-secondary-background, 22%);
+    &:not(:disabled):not(.disabled):focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%) !important;
     }
 }
 
@@ -243,8 +242,8 @@ html.touch {
     }
 
     &:hover {
-        background: darken(@color-btn-primary-background, 8%);
-        border-color: darken(@color-btn-primary-background, 10%);
+        background: darken(@color-btn-primary-background, 5%);
+        border-color: darken(@color-btn-primary-background, 7%);
     }
 
     &.disabled,
@@ -254,15 +253,14 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active {
-        background: darken(@color-btn-primary-background, 11%);
-        border-color: darken(@color-btn-primary-background, 13%);
-        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-primary-background, 10%);
+        border-color: darken(@color-btn-primary-background, 12%);
     }
 
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-primary-background, 20%);
-        border-color: darken(@color-btn-primary-background, 22%);
+    &:not(:disabled):not(.disabled):focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%) !important;
     }
 }
 
@@ -276,8 +274,8 @@ html.touch {
     }
 
     &:hover {
-        background: darken(@color-btn-danger-background, 8%);
-        border-color: darken(@color-btn-danger-background, 10%);
+        background: darken(@color-btn-danger-background, 5%);
+        border-color: darken(@color-btn-danger-background, 7%);
     }
 
     &.disabled,
@@ -287,14 +285,13 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active {
-        background: darken(@color-btn-danger-background, 11%);
-        border-color: darken(@color-btn-danger-background, 13%);
-        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%);
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background: darken(@color-btn-danger-background, 10%);
+        border-color: darken(@color-btn-danger-background, 12%);
     }
 
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-danger-background, 20%);
-        border-color: darken(@color-btn-danger-background, 22%);
+    &:not(:disabled):not(.disabled):focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%) !important;
     }
 }
