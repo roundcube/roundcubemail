@@ -9680,7 +9680,7 @@ function rcube_webmail()
 
     // catch Error: Permission denied to access property rcmail
     try {
-      if (win && !win.closed) {
+      if (win && !win.closed && win !== window) {
         // try parent of the opener window, e.g. preview frame
         if (deep && (!win.rcmail || win.rcmail.env.framed) && win.parent && win.parent.rcmail)
           win = win.parent;
