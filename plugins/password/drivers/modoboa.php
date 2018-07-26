@@ -7,7 +7,7 @@
  * Return value is a json string saying result: true if success.
  *
  * @version 1.0.1
- * @author stephane @actionweb
+ * @author stephane @actionweb.fr
  *
  * Copyright (C) 2018, The Roundcube Dev Team
  *
@@ -26,7 +26,7 @@
  *
  * The driver need modoboa core 1.10.6 or later 
  *
- * You need to define in plugin/password/config.inc.php theses variables:
+ * You need to define theses variables in plugin/password/config.inc.php
  *
  * $config['password_driver'] = 'modoboa'; // use modoboa as driver
  * $config['token_api_modoboa'] = ''; // put token number from Modoboa server
@@ -45,16 +45,11 @@ class rcube_modoboa_password
         $RoudCubeUsername = $_SESSION['username'];
         $IMAPhost = $_SESSION['imap_host'];
 
-        // Write variables in log
-        rcube::write_log('errors', "ModoboaToken: " . $ModoboaToken);
-        rcube::write_log('errors', "IMAP host: " . $IMAPhost);
-        rcube::write_log('errors', "RoudCubeUsername: " . $RoudCubeUsername);
-
         // Call GET to fetch values from modoboa server
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . $RoudCubeUsername,
+          CURLOPT_URL => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
@@ -75,11 +70,14 @@ class rcube_modoboa_password
 
         if ($err) {
           return PASSWORD_CONNECT_ERROR;
-          rcube::write_log('errors', "Modoboa cURL Error #: " . $err);
         }
 
         // Decode json string
         $decoded = json_decode($response);
+        
+        if (!is_array($decoded)) {
+          return PASSWORD_CONNECT_ERROR;
+        }
 
         // Get user ID (pk)
         $userid = $decoded[0]->pk;
@@ -116,7 +114,6 @@ class rcube_modoboa_password
 
         if ($err) {
           return PASSWORD_CONNECT_ERROR;
-          rcube::write_log('errors', "Modoboa cURL Error #: " . $err);
         }
 
         return PASSWORD_SUCCESS;
