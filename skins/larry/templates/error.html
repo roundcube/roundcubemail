@@ -5,7 +5,7 @@
 <roundcube:include file="/includes/links.html" />
 </head>
 <roundcube:if condition="!env:framed" />
-<roundcube:if condition="env:extwin" /><body class="error extwin"><roundcube:else /><body class="error"><roundcube:endif />
+<body class="error<roundcube:exp expression="env:extwin ? ' extwin' : ''" />">
 <roundcube:include file="/includes/header.html" />
 <roundcube:else />
 <body class="error iframe">
