@@ -187,13 +187,13 @@
             }
 
             img {
-                max-width: @layout-menu-width/2;
+                max-width: @layout-menu-width / 3;
             }
         }
 
         @media screen and (min-width: (@screen-width-medium + 1px)) {
             img {
-                max-width: @layout-menu-width;
+                max-width: @layout-menu-width * 0.65;
             }
         }
 
@@ -201,7 +201,7 @@
             padding: 0 .5rem;
 
             img {
-                max-height: @layout-touch-header-height;
+                max-height: @layout-touch-header-height * 0.65;
                 max-width: @layout-mobile-menu-width - 50px;
             }
 
