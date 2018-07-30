@@ -1220,6 +1220,29 @@ input.icon-checkbox {
     }
 }
 
+.input-group-combo {
+    select {
+        &.alone {
+            border-radius: .25rem !important;
+        }
+
+        &:not(.alone) {
+            flex: unset;
+            width: auto;
+        }
+    }
+
+    .input-group {
+        padding: 0 !important;
+        flex: 2;
+
+        :first-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
 
 /*** General browser hacks ***/
 

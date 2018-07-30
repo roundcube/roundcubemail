@@ -932,6 +932,19 @@ function rcube_elastic_ui()
             $('input[type=checkbox]', context).each(function() { pretty_checkbox(this); });
         }
 
+        // Input-group combo is an element with a select field on the left
+        // and input(s) on right, and where the whole right side can be hidden
+        // depending on the select position. This code fixes border radius on select
+        $('.input-group-combo > select', context).on('change', function() {
+            var select = $(this),
+                fn = function() {
+                    select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
+                };
+
+            setTimeout(fn, 50);
+            setTimeout(fn, 2000); // for devel mode
+        }).trigger('change');
+
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children(':not(.ui.alert)').each(function() {
             // message objects with notice class are really warnings
