@@ -1669,18 +1669,22 @@ function rcmail_message_error()
 {
     global $RCMAIL;
 
-    // Set env variables for messageerror.html template
-    if ($RCMAIL->action == 'show') {
-        $mbox_name = $RCMAIL->storage->get_folder();
-
-        $RCMAIL->output->set_env('mailbox', $mbox_name);
-        $RCMAIL->output->set_env('uid', null);
-    }
-
-    // display error message
-    $RCMAIL->output->show_message('messageopenerror', 'error');
     // ... display message error page
-    $RCMAIL->output->send('messageerror');
+    if ($RCMAIL->output->template_exists('messageerror')) {
+        // Set env variables for messageerror.html template
+        if ($RCMAIL->action == 'show') {
+            $mbox_name = $RCMAIL->storage->get_folder();
+
+            $RCMAIL->output->set_env('mailbox', $mbox_name);
+            $RCMAIL->output->set_env('uid', null);
+        }
+
+        $RCMAIL->output->show_message('messageopenerror', 'error');
+        $RCMAIL->output->send('messageerror');
+    }
+    else {
+        $RCMAIL->raise_error(array('code' => 410), false, true);
+    }
 }
 
 function rcmail_message_import_form($attrib = array())
