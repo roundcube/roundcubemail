@@ -221,14 +221,16 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-secondary-background, 10%);
-        border-color: darken(@color-btn-secondary-background, 12%);
-    }
+    &:not(:disabled):not(.disabled) {
+        &:active,
+        &.active {
+            background: darken(@color-btn-secondary-background, 10%);
+            border-color: darken(@color-btn-secondary-background, 12%);
 
-    &:not(:disabled):not(.disabled):focus {
-        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%) !important;
+            &:focus {
+                box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%);
+            }
+        }
     }
 }
 
@@ -253,14 +255,16 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-primary-background, 10%);
-        border-color: darken(@color-btn-primary-background, 12%);
-    }
+    &:not(:disabled):not(.disabled) {
+        &:active,
+        &.active {
+            background: darken(@color-btn-primary-background, 10%);
+            border-color: darken(@color-btn-primary-background, 12%);
 
-    &:not(:disabled):not(.disabled):focus {
-        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%) !important;
+            &:focus {
+                box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+            }
+        }
     }
 }
 
@@ -285,13 +289,15 @@ html.touch {
         opacity: 1;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        background: darken(@color-btn-danger-background, 10%);
-        border-color: darken(@color-btn-danger-background, 12%);
-    }
+    &:not(:disabled):not(.disabled) {
+        &:active,
+        &.active {
+            background: darken(@color-btn-danger-background, 10%);
+            border-color: darken(@color-btn-danger-background, 12%);
 
-    &:not(:disabled):not(.disabled):focus {
-        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%) !important;
+            &:focus {
+                box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%);
+            }
+        }
     }
 }
