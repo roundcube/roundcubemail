@@ -1263,7 +1263,7 @@ EOF;
                     }
                 }
                 // execute object handler function
-                else if (function_exists($handler)) {
+                else if (is_callable($handler)) {
                     $this->prepare_object_attribs($attrib);
                     $content = call_user_func($handler, $attrib);
                 }
