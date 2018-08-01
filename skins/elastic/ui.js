@@ -1828,6 +1828,11 @@ function rcube_elastic_ui()
                 $(rcmail.gui_objects.foldersfilter).on('change', update_func);
             }
         });
+        rcmail.addEventListener('beforelist', function() {
+            if ($(bar).is('.open')) {
+                options_button.click(); // close options form on 'list' request
+            }
+        });
     };
 
     /**
