@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 73 73">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="9.14 141.8 573.65 573.65">
 <style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#404F54;}
-	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#37BEFF;}
-	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#CCCCCC;}
-	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:#E5E5E5;}
+.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#404F54;}
+.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#E5E5E5;}
+.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#CCCCCC;}
+.st3{fill-rule:evenodd;clip-rule:evenodd;fill:#37BEFF;}
 </style>
-<polygon class="st0" points="36.6,23.3 0.6,37 0.6,59.2 36.6,45.4 "/>
-<polygon class="st1" points="72.5,59.2 36.6,45.4 36.6,23.3 72.5,37 "/>
-<path class="st2" d="M36.6,1.1c13.7,0,24.9,11.1,24.9,24.9c0,13.7-11.1,24.9-24.9,24.9S11.7,39.7,11.7,26 C11.7,12.2,22.9,1.1,36.6,1.1"/>
-<path class="st3" d="M36.6,1.1c13.7,0,24.9,11.1,24.9,24.9S50.3,50.8,36.6,50.8c-7.9-5.3-11.1-16-11.1-24.8 C25.4,17.1,28.7,6.4,36.6,1.1"/>
-<polygon class="st1" points="72.5,37 36.6,50.8 36.6,73 72.5,59.2 "/>
-<polygon class="st0" points="0.6,37 36.6,50.8 36.6,73 0.6,59.2 "/>
+<polygon class="st3" points="582.79,549.77 295.96,384.1 295.96,207.27 582.79,372.95 "/>
+<polygon class="st0" points="9.14,549.77 295.96,384.1 295.96,207.27 9.14,372.95 "/>
+<path class="st2" d="M295.96,141.8c109.56,0,198.41,88.85,198.41,198.41c0,109.56-88.85,198.41-198.41,198.41 c-109.56,0-198.41-88.85-198.41-198.41C97.55,230.65,186.4,141.8,295.96,141.8"/>
+<path class="st1" d="M295.96,141.8c109.6,0,198.48,88.85,198.48,198.41c0,109.56-88.88,198.41-198.48,198.41	c-62.91-42.34-88.94-127.64-88.94-198.3S233.05,184.22,295.96,141.8"/>
+<polygon class="st3" points="582.79,372.95 295.96,538.62 295.96,715.45 582.79,549.77 "/>
+<polygon class="st0" points="9.14,372.95 295.96,538.62 295.96,715.45 9.14,549.77 "/>
 </svg>
