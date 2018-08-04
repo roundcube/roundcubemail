@@ -351,6 +351,9 @@ EOF;
      */
     public function template_exists($name)
     {
+        // add plugin skin path to list
+        $this->add_plugin_skin_path($name);
+
         foreach ($this->skin_paths as $skin_path) {
             $filename = RCUBE_INSTALL_PATH . $skin_path . '/templates/' . $name . '.html';
             if ((is_file($filename) && is_readable($filename))
@@ -614,26 +617,8 @@ EOF;
 
         $this->template_name = $realname;
 
-        $temp = explode('.', $name, 2);
-        if (count($temp) > 1) {
-            $plugin   = $temp[0];
-            $name     = $temp[1];
-            $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
-
-            // apply skin search escalation list to plugin directory
-            foreach ($this->skin_paths as $skin_path) {
-                $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
-            }
-
-            // add fallback to default skin
-            if (is_dir($this->app->plugins->dir . $plugin . '/skins/default')) {
-                $skin_dir = $plugin . '/skins/default';
-                $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
-            }
-
-            // prepend plugin skin paths to search list
-            $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
-        }
+        // add plugin skin path to list
+        $this->add_plugin_skin_path($name);
 
         // find skin template
         $path = false;
@@ -2379,5 +2364,34 @@ EOF;
         }
 
         return $template_logo;
+    }
+
+    /**
+     * When using a plugin template add the plugin skin path to the global list
+     *
+     * @param string &$name Reference to the template name
+     */
+    protected function add_plugin_skin_path(&$name)
+    {
+        $temp = explode('.', $name, 2);
+        if (count($temp) > 1) {
+            $plugin   = $temp[0];
+            $name     = $temp[1];
+            $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
+
+            // apply skin search escalation list to plugin directory
+            foreach ($this->skin_paths as $skin_path) {
+                $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
+            }
+
+            // add fallback to default skin
+            if (is_dir($this->app->plugins->dir . $plugin . '/skins/default')) {
+                $skin_dir = $plugin . '/skins/default';
+                $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
+            }
+
+            // prepend plugin skin paths to search list
+            $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
+        }
     }
 }
