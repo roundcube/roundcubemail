@@ -78,6 +78,8 @@ class rcube_result_thread
         $data = trim($data);
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);
+        // Set the first uid as parent if parent doesn't exists
+        $data = preg_replace('/\(\(([0-9]+)\)/', '(\\1 ', $data);
 
         $this->raw_data = $this->parse_thread($data);
     }
@@ -572,7 +574,7 @@ class rcube_result_thread
             $end = strlen($str);
         }
 
-        // Let's try to store data in max. compacted stracture as a string,
+        // Let's try to store data in max. compacted structure as a string,
         // arrays handling is much more expensive
         // For the following structure: THREAD (2)(3 6 (4 23)(44 7 96))
         // -- 2
@@ -585,7 +587,7 @@ class rcube_result_thread
         //               \-- 7
         //                    \-- 96
         //
-        // The output will be: 2,3^1:6^2:4^3:23^2:44^3:7^4:96
+        // The output will be: 2 3~1:6~2:4~3:2~^2:44~3:7~4:96
 
         if ($str[$begin] != '(') {
             // find next bracket
