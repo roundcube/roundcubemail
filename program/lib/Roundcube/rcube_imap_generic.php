@@ -3131,6 +3131,11 @@ class rcube_imap_generic
                     list(, , $quota_root) = $this->tokenizeResponse($line, 3);
 
                     $quotas = $this->tokenizeResponse($line, 1);
+
+                    if (empty($quotas)) {
+                        continue;
+                    }
+
                     foreach (array_chunk($quotas, 3) as $quota) {
                         list($type, $used, $total) = $quota;
                         $type = strtolower($type);
