@@ -2822,7 +2822,7 @@ class rcube_imap_generic
             }
 
             // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
-            if ($binary && !$found && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
+            if ($binary && !$found && preg_match('/^' . $key . ' NO \[(UNKNOWN-CTE|PARSE)\]/i', $line)) {
                 $binary = $initiated = false;
                 continue;
             }
