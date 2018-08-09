@@ -55,7 +55,7 @@ class markasjunk extends rcube_plugin
     {
         $this->add_texts('localization');
 
-        $read_on_junk   = (bool) $rcmail->config->get('read_on_junk');
+        $read_on_junk = (bool) $rcmail->config->get('read_on_junk');
 
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
