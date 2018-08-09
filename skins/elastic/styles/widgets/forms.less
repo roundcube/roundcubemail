@@ -1221,7 +1221,7 @@ input.icon-checkbox {
 }
 
 .input-group-combo {
-    select {
+    select:first-of-type {
         &.alone {
             border-radius: .25rem !important;
         }
@@ -1235,11 +1235,12 @@ input.icon-checkbox {
     .input-group {
         padding: 0 !important;
         flex: 2;
+    }
 
-        :first-child {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
+    select + select,
+    .input-group :first-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 }
 
