@@ -935,7 +935,7 @@ function rcube_elastic_ui()
         // Input-group combo is an element with a select field on the left
         // and input(s) on right, and where the whole right side can be hidden
         // depending on the select position. This code fixes border radius on select
-        $('.input-group-combo > select', context).on('change', function() {
+        $('.input-group-combo > select:first', context).on('change', function() {
             var select = $(this),
                 fn = function() {
                     select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
