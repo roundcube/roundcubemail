@@ -25,8 +25,8 @@ which are pure XHTML and CSS 2.
 The code is mainly written in PHP and is designed to run on a webserver.
 It includes other open-source classes/libraries from [PEAR][pear],
 an IMAP library derived from [IlohaMail][iloha] the [TinyMCE][tinymce] rich
-text editor, [Googiespell][googiespell] library for spell checking or
-the [WASHTML][washtml] sanitizer by Frederic Motte.
+text editor, [Googiespell][googiespell] (archive) library for spell checking or
+the [WASHTML][washtml] (archive) sanitizer by Frederic Motte.
 
 The current default skin 'Larry' was kindly created by FLINT / Büro für
 Gestaltung, Berne, Switzerland.
@@ -92,8 +92,8 @@ hello(at)roundcube(dot)net
 [pear]:         http://pear.php.net
 [iloha]:        http://sourceforge.net/projects/ilohamail/
 [tinymce]:      http://www.tinymce.com/
-[googiespell]:  http://orangoo.com/labs/GoogieSpell/
-[washtml]:      http://www.ubixis.com/washtml/
+[googiespell]:  https://web.archive.org/web/20170314162746/orangoo.com/labs/GoogieSpell/
+[washtml]:      https://web.archive.org/web/20170814135033/http://www.ubixis.com:80/washtml
 [kmgerich]:     http://kmgerich.com/
 [gpl]:          http://www.gnu.org/licenses/
 [license]:      https://roundcube.net/license
