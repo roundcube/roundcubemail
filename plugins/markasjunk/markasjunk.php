@@ -54,7 +54,7 @@ class markasjunk extends rcube_plugin
     function request_action()
     {
         $this->add_texts('localization');
-
+        
         $read_on_junk = (bool) $rcmail->config->get('read_on_junk');
 
         $rcmail  = rcmail::get_instance();
@@ -64,6 +64,7 @@ class markasjunk extends rcube_plugin
             $storage->unset_flag($uids, 'NONJUNK', $mbox);
             $storage->set_flag($uids, 'JUNK', $mbox);
             
+            // flag email as seen if configured
             if ($read_on_junk) {
                 $storage->set_flag($uids, 'SEEN', $mbox);
             }
