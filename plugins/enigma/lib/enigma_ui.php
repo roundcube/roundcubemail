@@ -1119,6 +1119,11 @@ class enigma_ui
      */
     function message_ready($p)
     {
+        // The message might have been already encrypted by Mailvelope
+        if (strpos($p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
+            return $p;
+        }
+
         $savedraft      = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
         $sign_enable    = (bool) rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST);
         $encrypt_enable = (bool) rcube_utils::get_input_value('_enigma_encrypt', rcube_utils::INPUT_POST);
