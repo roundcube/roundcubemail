@@ -512,8 +512,15 @@ function rcube_elastic_ui()
                         .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
-                    if (toolbar.is('.toolbar')) {
+                    if (toolbar.is('.toolbar') || toolbar.is('.toolbarmenu')) {
                         button.prependTo(toolbar).wrap('<li role="menuitem">');
+
+                        // Add a button to the content toolbar menu too
+                        if (layout.content) {
+                            var button2 = create_cloned_button(button, true, 'hidden-big hidden-large');
+                            $('<li role="menuitem">').append(button2).appendTo('#toolbar-menu');
+                            button = button.add(button2);
+                        }
                     }
                     else {
                         button.appendTo(toolbar).addClass('icon');
