@@ -388,13 +388,10 @@ class enigma_driver_gnupg extends enigma_driver
             }
             // need to delete private key first
             else if ($code == enigma_error::DELKEY) {
-                $key = $this->get_key($keyid);
-                for ($i = count($key->subkeys) - 1; $i >= 0; $i--) {
-                    $type = ($key->subkeys[$i]->usage & enigma_key::CAN_ENCRYPT) ? 'priv' : 'pub';
-                    $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
-                    if ($result !== true) {
-                        break;
-                    }
+                $result = $this->delete_privkey($keyid);
+
+                if ($result === true) {
+                    $result = $this->delete_pubkey($keyid);
                 }
             }
         }

@@ -89,13 +89,13 @@ You're always welcome to send a message to the project admin:
 hello(at)roundcube(dot)net
 
 
-[pear]:         http://pear.php.net
-[iloha]:        http://sourceforge.net/projects/ilohamail/
-[tinymce]:      http://www.tinymce.com/
+[pear]:         https://pear.php.net/
+[iloha]:        https://sourceforge.net/projects/ilohamail/
+[tinymce]:      https://www.tiny.cloud/
 [googiespell]:  https://web.archive.org/web/20170314162746/orangoo.com/labs/GoogieSpell/
 [washtml]:      https://web.archive.org/web/20170814135033/http://www.ubixis.com:80/washtml
 [kmgerich]:     http://kmgerich.com/
-[gpl]:          http://www.gnu.org/licenses/
+[gpl]:          https://www.gnu.org/licenses/
 [license]:      https://roundcube.net/license
 [contrib]:      https://roundcube.net/contribute
 [support]:      https://roundcube.net/support
