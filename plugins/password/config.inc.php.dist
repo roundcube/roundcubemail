@@ -121,6 +121,9 @@ $config['password_db_dsn'] = '';
 //      %D is replaced with the dovecotpw-crypted version of the new password
 //      %n is replaced with the hashed version of the new password
 //      %q is replaced with the hashed password before the change
+// If you are using password expiration, you can use the following SQL query:
+//$config['password_query'] = 'UPDATE mailbox SET password=%c, modified=now(),pw_expires_on=now() + interval 90 day, thirty=0,fourteen=0,seven=0 where username=%u';
+//
 // Escaping of macros is handled by this module.
 // Default: "SELECT update_passwd(%c, %u)"
 $config['password_query'] = 'SELECT update_passwd(%c, %u)';
