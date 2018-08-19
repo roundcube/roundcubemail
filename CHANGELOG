@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP warnings on dummy QUOTA responses in Courier-IMAP 4.17.1 (#6374)
 - Fix so fallback from BINARY to BODY FETCH is used also on [PARSE] errors in dovecot 2.3 (#6383)
 - Enigma: Fix deleting keys with authentication subkeys (#6381)
+- Fix invalid regular expressions that throw warnings on PHP 7.3 (#6398)
 
 RELEASE 1.3.7
 -------------
