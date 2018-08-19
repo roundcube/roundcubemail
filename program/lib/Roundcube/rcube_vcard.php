@@ -525,14 +525,14 @@ class rcube_vcard
     {
         // convert Apple X-ABRELATEDNAMES into X-* fields for better compatibility
         $vcard = preg_replace_callback(
-            '/item(\d+)\.(X-ABRELATEDNAMES)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
+            '/item(\d+)\.(X-ABRELATEDNAMES)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./s',
             array('self', 'x_abrelatednames_callback'),
             $vcard);
 
         // Cleanup
         $vcard = preg_replace(array(
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
-                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./si',
+                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
                 '/^item\d*\./mi',         // remove item1.ADR instead of ADR
                 '/\n+/',                 // remove empty lines
