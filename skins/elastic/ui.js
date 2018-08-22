@@ -1695,6 +1695,7 @@ function rcube_elastic_ui()
                 warning: 'alert-warning',
                 error: 'alert-danger',
                 loading: 'alert-info loading',
+                uploading: 'alert-info loading',
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
