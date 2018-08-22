@@ -52,7 +52,7 @@ else {
 $OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
-$OUTPUT->add_label('deleteidentityconfirm', 'uploading', 'generate',
+$OUTPUT->add_label('deleteidentityconfirm', 'generate',
     'encryptioncreatekey', 'openmailvelopesettings', 'encryptionprivkeysinmailvelope',
     'encryptionnoprivkeysinmailvelope', 'keypaircreatesuccess');
 
