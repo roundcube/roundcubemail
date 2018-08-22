@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4-beta
+----------------
 - Added new skin with mobile support - the Elastic
 - Support Redis cache
 - Email Resent (Bounce) feature (#4985)
