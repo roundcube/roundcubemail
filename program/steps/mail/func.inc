@@ -1003,7 +1003,8 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
         }
 
         // decode all escaped entities and reduce to ascii strings
-        $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcube_utils::xss_entity_decode($content));
+        $decoded  = rcube_utils::xss_entity_decode($content);
+        $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', $decoded);
 
         // now check for evil strings like expression, behavior or url()
         if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
@@ -1011,7 +1012,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
                 $washtml->extlinks = true;
             }
             else {
-                $out = html::tag('style', array('type' => 'text/css'), $content);
+                $out = html::tag('style', array('type' => 'text/css'), $decoded);
             }
             break;
         }
