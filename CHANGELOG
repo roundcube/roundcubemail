@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix deleting keys with authentication subkeys (#6381)
 - Fix invalid regular expressions that throw warnings on PHP 7.3 (#6398)
 - Fix so Classic skin splitter does not escape out of window (#6397)
+- Fix CSS issue in handling invalid style tag content (#6410)
 
 RELEASE 1.3.7
 -------------
