@@ -75,6 +75,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
 
         $this->assertNotRegExp('/src="skins/', $washed, "Remove local references");
         $this->assertNotRegExp('/\son[a-z]+/', $washed, "Remove on* attributes");
+        $this->assertNotContains('onload', $washed, "Handle invalid style");
 
         $html = rcmail_html4inline($washed, 'foo');
         $this->assertNotRegExp('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
