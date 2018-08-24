@@ -5,7 +5,7 @@
  | rcmail_install.php                                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2016, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2018, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,7 +33,7 @@ class rcmail_install
     public $bool_config_props = array();
 
     public $local_config    = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane');
+    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level');
     public $replaced_config = array(
         'skin_path'            => 'skin',
         'locale_string'        => 'language',
