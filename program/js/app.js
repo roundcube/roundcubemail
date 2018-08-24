@@ -4109,8 +4109,8 @@ function rcube_webmail()
           var ul = $('<ul>').addClass('keylist').appendTo(content);
           $.each(private_keys, function(i, key) {
             $('<li>').appendTo(ul)
-              .append($('<span>').addClass('identity').text('<' + identity_email + '> '))
-              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()));
+              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()))
+              .append($('<span>').addClass('identity').text('<' + identity_email + '> '));
           });
         } else {
           $('<p>').text(ref.get_label('encryptionnoprivkeysinmailvelope')).appendTo(content);
