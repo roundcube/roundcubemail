@@ -994,11 +994,12 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Detects if the element is TinyMCE dialog window
+     * Detects if the element is TinyMCE dialog/menu
      * and adds Elastic styling to it
      */
     function tinymce_style(elem)
     {
+        // TinyMCE dialog widnows
         if ($(elem).is('.mce-window')) {
             var body = $(elem).find('.mce-window-body'),
                 foot = $(elem).find('.mce-foot > .mce-container-body');
@@ -1042,6 +1043,32 @@ function rcube_elastic_ui()
                     $(elem).height($(elem).height() + (max_height - height));
                     $(elem).css('top', ($(window).height() - $(elem).height())/2 + 'px');
                 }
+            }
+        }
+        // TinyMCE menus on mobile
+        else if ($(elem).is('.mce-menu')) {
+            $(elem).prepend(
+                $('<h3 class="popover-header">').append(
+                    $('<a class="button icon "' + 'cancel' + '">')
+                        .text(rcmail.gettext('close'))
+                        .on('click', function() { $(document.body).click(); })));
+
+            if (window.MutationObserver) {
+                var callback = function() {
+                        if (mode != 'phone') {
+                            return;
+                        }
+                        if (!$('.mce-menu:visible').length) {
+                            $('div.mce-overlay').click();
+                        }
+                        else if (!$('div.mce-overlay').length) {
+                            $('<div>').attr('class', 'popover-overlay mce-overlay')
+                                .appendTo('body')
+                                .click(function() { $(this).remove(); });
+                        }
+                    };
+
+                (new MutationObserver(callback)).observe(elem, {attributes: true});
             }
         }
     };
