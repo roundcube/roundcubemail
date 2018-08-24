@@ -442,15 +442,14 @@ class enigma extends rcube_plugin
             // find private keys for this identity
             if ($p['record']['email']) {
                 $listing = array();
-                $engine = $this->load_engine();
-                $keys = (array)$engine->list_keys($p['record']['email']);
+                $engine  = $this->load_engine();
+                $keys    = (array)$engine->list_keys($p['record']['email']);
 
                 foreach ($keys as $key) {
                     if ($key->get_type() === enigma_key::TYPE_KEYPAIR) {
                         $listing[] = html::tag('li', null,
-                            html::tag('span', 'identity', html::quote($key->name)) .
-                            ' ' .
                             html::tag('strong', 'uid', html::quote($key->id))
+                            . ' ' . html::tag('span', 'identity', html::quote($key->name))
                         );
                     }
                 }
@@ -464,16 +463,12 @@ class enigma extends rcube_plugin
             }
 
             // add button linking to enigma key management
-            $content .= html::p(
-                null,
-                html::a(
-                    array(
-                        'class' => 'button',
-                        'href' => $this->rc->url(array('action' => 'plugin.enigmakeys')),
-                        'target' => '_parent',
-                    ),
-                    $this->gettext('managekeys'))
+            $button_attr = array(
+                'class'  => 'button',
+                'href'   => $this->rc->url(array('action' => 'plugin.enigmakeys')),
+                'target' => '_parent',
             );
+            $content .= html::p(null, html::a($button_attr, $this->gettext('managekeys')));
 
             // rename class to avoid Mailvelope key management to kick in
             $p['form']['encryption']['attrs'] = array('class' => 'enigma-identity-encryption');
