@@ -28,7 +28,7 @@ FileETag MTime Size
 
 <IfModule mod_autoindex.c>
 Options -Indexes
-</ifModule>
+</IfModule>
 
 <IfModule mod_headers.c>
 # Disable page indexing
