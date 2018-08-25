@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix compatibility with MySQL 8 - error on 'system' table use
+
 RELEASE 1.4-beta
 ----------------
 - Added new skin with mobile support - the Elastic
