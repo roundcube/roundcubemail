@@ -114,6 +114,9 @@ class krb_authentication extends rcube_plugin
     function managesieve_connect($args)
     {
         if ((!isset($args['auth_type']) || $args['auth_type'] == 'GSSAPI') && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
+            // Load plugin's config file
+            $this->load_config();
+
             $rcmail  = rcmail::get_instance();
             $context = $rcmail->config->get('krb_authentication_context');
 
