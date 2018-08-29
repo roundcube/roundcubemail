@@ -111,7 +111,8 @@ class rcube_smtp
         // IDNA Support
         $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
 
-        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options']);
+        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
+            $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));
@@ -157,7 +158,7 @@ class rcube_smtp
         }
 
         // attempt to authenticate to the SMTP server
-        if ($smtp_user && $smtp_pass) {
+        if (($smtp_user && $smtp_pass) || ($smtp_auth_type == 'GSSAPI')) {
             // IDNA Support
             if (strpos($smtp_user, '@')) {
                 $smtp_user = rcube_utils::idn_to_ascii($smtp_user);
