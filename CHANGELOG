@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix listing the same attachment multiple times on forwarded messages
 - Fix compatibility with MySQL 8 - error on 'system' table use
 
 RELEASE 1.4-beta
