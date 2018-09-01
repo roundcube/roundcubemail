@@ -2257,7 +2257,6 @@ class rcube_sieve_engine
         }
 
         $select = $this->rc->folder_selector(array(
-            'realnames'  => false,
             'maxlength'  => 100,
             'id'         => 'action_mailbox' . $id,
             'name'       => "_action_mailbox[$id]",
