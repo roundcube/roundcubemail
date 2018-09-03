@@ -46,6 +46,7 @@
  2.19. Vpopmail daemon (vpopmaild)
  2.20. Plesk (Plesk RPC-API)
  2.21. Kpasswd
+ 2.22. Modoboa
  3. Driver API
  4. Sudo setup
 
@@ -355,10 +356,17 @@
  Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php.
 
 
- 2.21.  Kpasswd
+ 2.21. Kpasswd
  -----------------------------------
 
  Driver to change the password in Kerberos environments via the 'kpasswd' command.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.22. Modoboa
+ -----------------------------------
+
+ Driver to change the password in Modoboa servers.
  See config.inc.php.dist file for configuration description.
 
 
