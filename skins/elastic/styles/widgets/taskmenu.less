@@ -177,6 +177,10 @@
         img {
             max-height: @layout-header-height;
             padding: .25rem;
+
+            @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
+                max-width: @layout-menu-width/2;
+            }
         }
 
         @media screen and (min-width: (@screen-width-xs + 1px)) {
