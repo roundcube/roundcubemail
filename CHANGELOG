@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix custom logo size in Elastic (#6424)
 - Fix listing the same attachment multiple times on forwarded messages
 - Fix compatibility with MySQL 8 - error on 'system' table use
 - Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
