@@ -1303,6 +1303,7 @@ class rcube
      */
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
+        // handle PHP exceptions
         if ($arg instanceof Exception) {
             $arg = array(
                 'code' => $arg->getCode(),
@@ -1327,6 +1328,13 @@ class rcube
         }
 
         $cli = php_sapi_name() == 'cli';
+
+        $arg['cli'] = $cli;
+        $arg['log'] = $log;
+        $arg['terminate'] = $terminate;
+
+        // send error to external error tracking tool
+        $arg = self::$instance->plugins->exec_hook('raise_error', $arg);
 
         // installer
         if (!$cli && class_exists('rcmail_install', false)) {
