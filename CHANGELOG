@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
 - Password: Added 'modoboa' driver (#6361)
 - Plugin API: Added 'raise_error' hook (#6199)
 - Fix so invalid smtp_helo_host is never used, fallback to localhost (#6408)
