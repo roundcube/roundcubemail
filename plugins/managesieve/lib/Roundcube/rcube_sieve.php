@@ -313,14 +313,10 @@ class rcube_sieve
 
         if ($this->script) {
             $supported = $this->script->get_extensions();
-            foreach ($ext as $idx => $ext_name) {
-                if (!in_array($ext_name, $supported)) {
-                    unset($ext[$idx]);
-                }
-            }
+            $ext       = array_values(array_intersect($ext, $supported));
         }
 
-        return array_values($ext);
+        return $ext;
     }
 
     /**
