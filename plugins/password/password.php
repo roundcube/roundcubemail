@@ -428,12 +428,10 @@ class password extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $prefix = '';
         $crypted = '';
-        $default = false;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
             $prefixed = $rcmail->config->get('password_algorithm_prefix');
-            $default  = true;
         }
         else if ($method == 'crypt') { // deprecated
             if (!($method = $rcmail->config->get('password_crypt_hash'))) {
@@ -622,7 +620,7 @@ class password extends rcube_plugin
                 return false;
             }
 
-            if (!$default) {
+            if (!$prefixed) {
                 $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
             }
 
