@@ -1122,9 +1122,9 @@ class rcube_sieve_engine
 
                         $this->form['actions'][$i]['match-type'] = $delheader_op[$idx];
                         $this->form['actions'][$i]['comparator'] = $delheader_comp[$idx];
-                        $this->form['actions'][$i]['index'] = $delheader_index[$idx];
+                        $this->form['actions'][$i]['index']      = $delheader_index[$idx];
 
-                        if (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
+                        if (!empty($this->form['actions'][$i]['index']) && !preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
                             $this->errors['actions'][$i]['index'] = $this->plugin->gettext('forbiddenchars');
                         }
                     }
@@ -2477,7 +2477,7 @@ class rcube_sieve_engine
                     'size'  => 5,
                     'class' => $this->error_class($id, 'action', 'index', 'action_delheader_index'),
                 ));
-            $out .= $pos2_selector->show($action['pos']);
+            $out .= ' ' . $pos2_selector->show($action['pos']);
             $out .= '</div></div>';
         }
 
