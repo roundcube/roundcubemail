@@ -1124,7 +1124,12 @@ class rcube_sieve_engine
                         $this->form['actions'][$i]['comparator'] = $delheader_comp[$idx];
                         $this->form['actions'][$i]['index']      = $delheader_index[$idx];
 
-                        if (!empty($this->form['actions'][$i]['index']) && !preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
+                        if (empty($this->form['actions'][$i]['index'])) {
+                            if (!empty($this->form['actions'][$i]['last'])) {
+                                $this->errors['actions'][$i]['index'] = $this->plugin->gettext('lastindexempty');
+                            }
+                        }
+                        else if (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
                             $this->errors['actions'][$i]['index'] = $this->plugin->gettext('forbiddenchars');
                         }
                     }
