@@ -1607,7 +1607,9 @@ function rcmail_search_filter($attrib)
         $attrib['id'] = 'rcmlistfilter';
     }
 
-    $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+    if (!rcube_utils::get_boolean($attrib['noevent'])) {
+        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+    }
 
     // Content-Type values of messages with attachments
     // the same as in app.js:add_message_row()

@@ -433,7 +433,9 @@ function rcmail_folder_filter($attrib)
         $attrib['id'] = 'rcmfolderfilter';
     }
 
-    $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+    if (!rcube_utils::get_boolean($attrib['noevent'])) {
+        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+    }
 
     $roots  = array();
     $select = new html_select($attrib);
