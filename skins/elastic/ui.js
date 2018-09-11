@@ -1792,6 +1792,10 @@ function rcube_elastic_ui()
                     return true;
                 }
 
+                if (rcmail.task == 'mail' && $('#s_interval').val()) {
+                    return true;
+                }
+
                 if (rcmail.gui_objects.search_filter && $(rcmail.gui_objects.search_filter).val() != 'ALL') {
                     return true;
                 }
@@ -1826,19 +1830,22 @@ function rcube_elastic_ui()
 
                 $('button.search', options).off('click.search').on('click.search', function() {
                     options_button.trigger('click');
+                    update_func();
                 });
             }
         });
 
         input.on('input change', update_func)
-            .on('focus', function() { input.attr('placeholder', ''); })
-            .on('blur', function() { input.attr('placeholder', placeholder); });
+            .on('focus blur', function(e) { input.attr('placeholder', e.type == 'blur' ? placeholder : ''); });
 
         // Search reset action
         $('a.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
             input.val('').change().trigger('keyup.treelist', {keyCode: 27});
+            if ($(bar).is('.open')) {
+                options_button.click();
+            }
 
             // Reset filter
             if (rcmail.gui_objects.search_filter) {
@@ -1847,27 +1854,21 @@ function rcube_elastic_ui()
 
             if (rcmail.gui_objects.foldersfilter) {
                 $(rcmail.gui_objects.foldersfilter).val('---').change();
+                rcmail.folder_filter('---');
             }
 
             update_func();
         });
 
-        rcmail.addEventListener('init', function() {
-            update_func();
-
-            if (rcmail.gui_objects.search_filter) {
-                $(rcmail.gui_objects.search_filter).on('change', update_func);
-            }
-
-            if (rcmail.gui_objects.foldersfilter) {
-                $(rcmail.gui_objects.foldersfilter).on('change', update_func);
-            }
-        });
-        rcmail.addEventListener('beforelist', function() {
-            if ($(bar).is('.open')) {
-                options_button.click(); // close options form on 'list' request
-            }
-        });
+        rcmail.addEventListener('init', function() { update_func(); })
+            .addEventListener('beforelist', function() {
+                if ($(bar).is('.open')) {
+                    options_button.click(); // close options form on 'list' request
+                }
+            })
+            .addEventListener('responsebeforesearch', function() {
+                update_func();
+            });
     };
 
     /**
@@ -2492,15 +2493,17 @@ function rcube_elastic_ui()
     {
         var n, all,
             list = $('input[name="s_mods[]"]', obj),
-            scope_select = $('select[name=s_scope]', obj),
+            scope_select = $('#s_scope', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
 
         if (!$(obj).data('initialized')) {
-            list.on('change', function() { set_searchmod(this, obj); });
-            scope_select.on('change', function() { rcmail.set_searchscope($(this).val()); });
             $(obj).data('initialized', true);
+            if (list.length) {
+                list.on('change', function() { set_searchmod(obj, this); });
+                rcmail.addEventListener('beforesearch', function() { set_searchmod(obj); });
+            }
         }
 
         if (rcmail.env.search_mods) {
@@ -2532,12 +2535,13 @@ function rcube_elastic_ui()
         }
     };
 
-    function set_searchmod(elem, menu)
+    function set_searchmod(menu, elem)
     {
         var all, m, task = rcmail.env.task,
             mods = rcmail.env.search_mods,
             mbox = rcmail.env.mailbox,
-            scope = $('select[name=s_scope]', menu).val();
+            scope = $('#s_scope', menu).val(),
+            interval = $('#s_interval', menu).val();
 
         if (scope == 'all') {
             mbox = '*';
@@ -2553,10 +2557,17 @@ function rcube_elastic_ui()
             }
             m = mods[mbox];
             all = 'text';
+
+            rcmail.env.search_scope = scope;
+            rcmail.env.search_interval = interval;
         }
         else { //addressbook
             m = mods;
             all = '*';
+        }
+
+        if (!elem) {
+            return;
         }
 
         if (!elem.checked) {
