@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to TinyMCE 4.8.2
 - Plugin API: Added 'raise_error' hook (#6199)
 - Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
 - Password: Added 'modoboa' driver (#6361)
