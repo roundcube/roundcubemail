@@ -585,7 +585,10 @@ html.ms .propform {
 .input-group .icon {
     text-decoration: none;
     padding: .375rem .5rem;
-    min-width: 2.4rem;
+
+    &.input-group-text {
+        min-width: 2.4rem;
+    }
 
     &:before {
         &:extend(.font-icon-class);
@@ -629,7 +632,6 @@ html.ms .propform {
     }
 }
 
-td.editfield { width: 99%;  /* TODO */ }
 
 @proplist-record-height: 2rem;
 .proplist {
