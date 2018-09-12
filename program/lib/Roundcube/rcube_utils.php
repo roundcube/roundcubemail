@@ -153,19 +153,6 @@ class rcube_utils
     }
 
     /**
-     * Check whether the HTTP referer matches the current request
-     *
-     * @return boolean True if referer is the same host+path, false if not
-     */
-    public static function check_referer()
-    {
-        $uri     = parse_url($_SERVER['REQUEST_URI']);
-        $referer = parse_url(self::request_header('Referer'));
-
-        return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
-    }
-
-    /**
      * Replacing specials characters to a specific encoding type
      *
      * @param string  Input string
