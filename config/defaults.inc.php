@@ -497,9 +497,6 @@ $config['trusted_host_patterns'] = array();
 // check client IP in session authorization
 $config['ip_check'] = false;
 
-// check referer of incoming requests
-$config['referer_check'] = false;
-
 // X-Frame-Options HTTP header value sent to prevent from Clickjacking.
 // Possible values: sameorigin|deny|allow-from <uri>.
 // Set to false in order to disable sending the header.

@@ -926,12 +926,6 @@ class rcmail extends rcube
             $error = array('code' => 403, 'message' => "Request security check failed");
             self::raise_error($error, false, true);
         }
-
-        // check referer if configured
-        if ($this->config->get('referer_check') && !rcube_utils::check_referer()) {
-            $error = array('code' => 403, 'message' => "Referer check failed");
-            self::raise_error($error, true, true);
-        }
     }
 
     /**
