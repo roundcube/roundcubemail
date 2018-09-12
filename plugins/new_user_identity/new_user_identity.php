@@ -26,7 +26,7 @@ class new_user_identity extends rcube_plugin
 
     function lookup_user_name($args)
     {
-        if ($this->init_ldap($args['host'])) {
+        if ($this->init_ldap($args['host'], $args['user'])) {
             $results = $this->ldap->search('*', $args['user'], true);
 
             if (count($results->records) == 1) {
@@ -96,7 +96,7 @@ class new_user_identity extends rcube_plugin
         return $args;
     }
 
-    private function init_ldap($host)
+    private function init_ldap($host, $user)
     {
         if ($this->ldap) {
             return $this->ldap->ready;
@@ -112,11 +112,17 @@ class new_user_identity extends rcube_plugin
             return false;
         }
 
-        $this->ldap = new new_user_identity_ldap_backend(
-            $ldap_config[$addressbook],
-            $this->rc->config->get('ldap_debug'),
-            $this->rc->config->mail_domain($host),
-            $match);
+        $debug  = $this->rc->config->get('ldap_debug');
+        $domain = $this->rc->config->mail_domain($host);
+        $props  = $ldap_config[$addressbook];
+
+        // Set 'username' prop for correct variables substitution (#6419)
+        $props['username'] = $user;
+        if (!strpos($user, '@')) {
+            $props['username'] .= '@' . $domain;
+        }
+
+        $this->ldap = new new_user_identity_ldap_backend($props, $debug, $domain, $match);
 
         return $this->ldap->ready;
     }
