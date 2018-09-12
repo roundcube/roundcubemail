@@ -1032,7 +1032,7 @@ class rcmail_sendmail
                 if ($v = $message->headers->get('Sender', false)) {
                     // Skip common mailing lists addresses: *-bounces@ and *-request@ (#1490452)
                     if (empty($message->headers->others['list-post'])
-                        || !preg_match('/-(bounces|request)@/', $v)
+                        || !preg_match('/(-(bounces|request)|\+[^@=]+=[A-Za-z0-9.\-]+)@/', $v)
                     ) {
                         $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
                     }
