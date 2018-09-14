@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
 - Elastic: Improved UX of search dialogs (#6416)
+- Elastic: Fix unwanted thread expanding when selecting a collapsed thread in non-mobile mode (#6445)
 - Fix so invalid smtp_helo_host is never used, fallback to localhost (#6408)
 - Fix custom logo size in Elastic (#6424)
 - Fix listing the same attachment multiple times on forwarded messages

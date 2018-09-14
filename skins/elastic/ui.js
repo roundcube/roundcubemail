@@ -1101,7 +1101,9 @@ function rcube_elastic_ui()
         // display or reset the content frame
         var common_content_handler = function(e, href, show, title)
         {
-            content_frame_navigation(href, e);
+            if (is_mobile()) {
+                content_frame_navigation(href, e);
+            }
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
