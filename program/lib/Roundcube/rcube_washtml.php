@@ -617,6 +617,11 @@ class rcube_washtml
 
         $html = preg_replace($html_search, $html_replace, trim($html));
 
+        $err = array('line' => __LINE__, 'file' => __FILE__, 'message' => "Could not clean up HTML!");
+        if ($html === null && rcube_utils::preg_error($err)) {
+            return '';
+        }
+
         // Replace all of those weird MS Word quotes and other high characters
         $badwordchars = array(
             "\xe2\x80\x98", // left single quote
@@ -637,24 +642,6 @@ class rcube_washtml
         );
 
         $html = str_replace($badwordchars, $fixedwordchars, $html);
-
-        // PCRE errors handling (#1486856), should we use something like for every preg_* use?
-        if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
-            $errstr = "Could not clean up HTML message! PCRE Error: $preg_error.";
-
-            if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR) {
-                $errstr .= " Consider raising pcre.backtrack_limit!";
-            }
-            if ($preg_error == PREG_RECURSION_LIMIT_ERROR) {
-                $errstr .= " Consider raising pcre.recursion_limit!";
-            }
-
-            rcube::raise_error(array('code' => 620, 'type' => 'php',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $errstr), true, false);
-
-            return '';
-        }
 
         // fix (unknown/malformed) HTML tags before "wash"
         $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', array($this, 'html_tag_callback'), $html);
