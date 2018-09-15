@@ -10016,12 +10016,12 @@ function rcube_webmail()
 
 
 // some static methods
-rcube_webmail.long_subject_title = function(elem, indent)
+rcube_webmail.long_subject_title = function(elem, indent, text_elem)
 {
   if (!elem.title) {
-    var $elem = $(elem);
+    var $elem = $(text_elem || elem);
     if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
-      elem.title = rcube_webmail.subject_text(elem);
+      elem.title = rcube_webmail.subject_text($elem[0]);
   }
 };
 
