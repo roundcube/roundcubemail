@@ -260,6 +260,8 @@ function rcube_elastic_ui()
                 $(this).addClass('button ' + name);
                 $('.button-inner', this).addClass('inner');
             }
+
+            $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
         // Some plugins use 'listbubtton' class, we'll replace it with 'button'
