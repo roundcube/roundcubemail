@@ -98,11 +98,13 @@ function rcmail_folder_form($attrib)
         }
 
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
-        $foldername = $foldername->show($folder);
+        $foldername = '<span class="input-group">' . $foldername->show($folder);
 
         if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {
-            $foldername .= '&nbsp;(' . rcube::Q($sname) .')';
+            $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) .')</span></span>';
         }
+
+        $foldername .= '</span>';
     }
 
     $form['props']['fieldsets']['location'] = array(
