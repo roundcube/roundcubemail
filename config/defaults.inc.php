@@ -1177,6 +1177,10 @@ $config['autoexpand_threads'] = 0;
 // 2  - place cursor above original message (top posting), but do not indent the quote
 $config['reply_mode'] = 0;
 
+// When replying, add header fields from the original message,
+// just like when forwarding mails.
+$config['reply_with_header'] = false;
+
 // When replying strip original signature from message
 $config['strip_existing_sig'] = true;
 

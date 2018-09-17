@@ -720,8 +720,46 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     }
 
     if (!$bodyIsHtml) {
+        if ($RCMAIL->config->get('reply_with_header')) {
+            $date  = $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
+            $intro = $RCMAIL->gettext('subject') . ': ' . $MESSAGE->subject . "\n" .
+                     $RCMAIL->gettext('from')    . ': ' . $MESSAGE->get_header('from') . "\n" .
+                     $RCMAIL->gettext('to')      . ': ' . $MESSAGE->get_header('to') . "\n";
+
+            if ($cc = $MESSAGE->headers->get('cc')) {
+                $intro .= $RCMAIL->gettext('cc') . ': ' . $cc . "\n";
+            }
+
+            if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from')) {
+                $intro .= $RCMAIL->gettext('replyto') . ': ' . $replyto . "\n";
+            }
+
+            $body = $intro . "\n" . $body;
+        }
         // soft-wrap and quote message text
         $body = rcmail_wrap_and_quote($body, $LINE_LENGTH, $reply_indent);
+
+        if ($RCMAIL->config->get('reply_with_header')) {
+            $date = $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
+            $prefix .= sprintf(
+                "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
+                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
+                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
+                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                $RCMAIL->gettext('subject'), rcube::Q($MESSAGE->subject),
+                $RCMAIL->gettext('from'), rcube::Q($MESSAGE->get_header('from'), 'replace'),
+                $RCMAIL->gettext('to'), rcube::Q($MESSAGE->get_header('to'), 'replace'));
+
+            if ($cc = $MESSAGE->headers->get('cc'))
+                $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                    $RCMAIL->gettext('cc'), rcube::Q($cc, 'replace'));
+
+            if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from'))
+                $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                    $RCMAIL->gettext('replyto'), rcube::Q($replyto, 'replace'));
+
+            $prefix .= "</tbody></table><br>";
+        }
 
         if ($reply_mode > 0) { // top-posting
             $prefix = "\n\n\n" . $prefix;
