@@ -68,6 +68,23 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test removing of object tag, but keeping innocent children
+     */
+    function test_object()
+    {
+        $html = "<div>\n<object data=\"move.swf\" type=\"application/x-shockwave-flash\">\n"
+               ."<param name=\"foo\" value=\"bar\">\n"
+               ."<p>This alternative text should survive</p>"
+               ."</object>\n</div>";
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertNotRegExp('/<\/?object/', $washed, "Remove object tag");
+        $this->assertNotRegExp('/<param/', $washed, "Remove param tag");
+        $this->assertRegExp('/<p>/', $washed, "Keep embedded tags");
+    }
+
+    /**
      * Test handling HTML comments
      */
     function test_comments()

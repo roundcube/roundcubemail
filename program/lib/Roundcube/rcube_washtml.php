@@ -123,7 +123,7 @@ class rcube_washtml
     );
 
     /* Ignore these HTML tags and their content */
-    static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
+    static $ignore_elements = array('script', 'applet', 'embed', 'style');
 
     /* Allowed HTML attributes */
     static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height',
