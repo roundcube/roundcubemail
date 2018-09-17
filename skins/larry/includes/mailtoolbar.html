@@ -12,8 +12,8 @@
 <roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="delete" title="deletemessage" />
 <roundcube:if condition="template:name == 'message'" />
 <roundcube:button command="move" type="link" class="button move disabled" classAct="button move" classSel="button move pressed" label="move" title="moveto" data-menu-pos="bottom" />
-<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printmessage" />
 <roundcube:endif />
+<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printmessage" />
 <roundcube:container name="toolbar" id="mailtoolbar" />
 <roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="mark" title="markmessages" onclick="UI.toggle_popup('markmessagemenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="markmessagemenu-menu" />
 <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="more" title="moreactions" onclick="UI.toggle_popup('messagemenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="messagemenu-menu" />
@@ -40,7 +40,6 @@
 <div id="messagemenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-messagemenu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
 	<ul id="messagemenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-messagemenu">
-		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="icon" classAct="icon active" innerclass="icon print" />
 		<roundcube:button type="link-menuitem" command="download" label="emlsave" class="icon" classAct="icon active" innerclass="icon download" />
 		<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="icon" classAct="icon active" innerclass="icon edit" />
 		<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="icon" classAct="icon active" innerclass="icon viewsource" />
