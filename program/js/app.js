@@ -1526,7 +1526,7 @@ function rcube_webmail()
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error) {
+    else if (task == 'logout') {
       url = this.secure_url(url);
       this.clear_compose_data();
     }

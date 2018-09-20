@@ -483,7 +483,25 @@ EOF;
     public function reset($all = false)
     {
         $framed = $this->framed;
+        $task   = $this->env['task'];
         $env    = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+
+        // keep jQuery-UI files
+        $css_files = $script_files = array();
+
+        foreach ($this->css_files as $file) {
+            if (strpos($file, 'plugins/jqueryui') === 0) {
+                $css_files[] = $file;
+            }
+        }
+
+        foreach ($this->script_files as $position => $files) {
+            foreach ($files as $file) {
+                if (strpos($file, 'plugins/jqueryui') === 0) {
+                    $script_files[$position][] = $file;
+                }
+            }
+        }
 
         parent::reset();
 
@@ -492,16 +510,23 @@ EOF;
         $this->framed       = $framed || $this->env['framed'];
         $this->js_labels    = array();
         $this->js_commands  = array();
-        $this->script_files = array();
         $this->scripts      = array();
         $this->header       = '';
         $this->footer       = '';
         $this->body         = '';
+        $this->css_files    = array();
+        $this->script_files = array();
 
         // load defaults
         if (!$all) {
             $this->__construct();
         }
+
+        // Note: we merge jQuery-UI scripts after jQuery...
+        $this->css_files    = array_merge($this->css_files, $css_files);
+        $this->script_files = array_merge_recursive($this->script_files, $script_files);
+
+        $this->set_env('orig_task', $task);
     }
 
     /**
@@ -573,7 +598,8 @@ EOF;
 
         // if all js commands go to parent window we can ignore all
         // script files and skip rcube_webmail initialization (#1489792)
-        if ($framed) {
+        // but not on error pages where skins may need jQuery, etc.
+        if ($framed && empty($this->js_env['server_error'])) {
             $this->scripts      = array();
             $this->script_files = array();
             $this->header       = '';
@@ -1651,9 +1677,9 @@ EOF;
      * @param string $file     File URL
      * @param string $position Target position [head|foot]
      */
-    public function include_script($file, $position='head')
+    public function include_script($file, $position = 'head', $add_path = true)
     {
-        if (!preg_match('|^https?://|i', $file) && $file[0] != '/') {
+        if ($add_path && !preg_match('|^https?://|i', $file) && $file[0] != '/') {
             $file = $this->file_mod($this->scripts_path . $file);
         }
 
