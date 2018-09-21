@@ -1675,7 +1675,7 @@ EOF;
      * Link an external script file
      *
      * @param string $file     File URL
-     * @param string $position Target position [head|foot]
+     * @param string $position Target position [head|head_bottom|foot]
      */
     public function include_script($file, $position = 'head', $add_path = true)
     {
@@ -1768,6 +1768,19 @@ EOF;
             }
         }
 
+        $merge_script_files = function($output, $script) {
+            return $output . html::script($script);
+        };
+
+        $merge_scripts = function($output, $script) {
+            return $output . html::script(array(), $script);
+        };
+
+        // put docready commands into page footer
+        if (!empty($this->scripts['docready'])) {
+            $this->add_script('$(document).ready(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
+        }
+
         // replace specialchars in content
         $page_title  = html::quote($this->pagetitle);
         $page_header = '';
@@ -1783,40 +1796,15 @@ EOF;
             $page_header.= $this->charset . '" />'."\n";
         }
 
-        // definition of the code to be placed in the document header and footer
-        if (is_array($this->script_files['head'])) {
-            foreach ($this->script_files['head'] as $file) {
-                $page_header .= html::script($file);
-            }
-        }
+        // include scripts into header/footer
+        $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
+        $page_header .= array_reduce(array($this->scripts['head_top'] . $this->scripts['head']), $merge_scripts);
+        $page_header .= $this->header . "\n";
+        $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
 
-        $head_script = $this->scripts['head_top'] . $this->scripts['head'];
-        if (!empty($head_script)) {
-            $page_header .= html::script(array(), $head_script);
-        }
-
-        if (!empty($this->header)) {
-            $page_header .= $this->header;
-        }
-
-        // put docready commands into page footer
-        if (!empty($this->scripts['docready'])) {
-            $this->add_script('$(document).ready(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
-        }
-
-        if (is_array($this->script_files['foot'])) {
-            foreach ($this->script_files['foot'] as $file) {
-                $page_footer .= html::script($file);
-            }
-        }
-
-        if (!empty($this->footer)) {
-            $page_footer .= $this->footer . "\n";
-        }
-
-        if (!empty($this->scripts['foot'])) {
-            $page_footer .= html::script(array(), $this->scripts['foot']);
-        }
+        $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
+        $page_footer .= $this->footer . "\n";
+        $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
 
         // find page header
         if ($hpos = stripos($output, '</head>')) {

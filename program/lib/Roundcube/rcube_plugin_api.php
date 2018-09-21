@@ -596,7 +596,7 @@ class rcube_plugin_api
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->include_script($src, 'head', false);
+            $this->output->include_script($src, 'head_bottom', false);
         }
     }
 
