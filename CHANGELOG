@@ -1,6 +1,27 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Removed referer_check option (#6440)
+- Update to TinyMCE 4.8.2
+- Plugin API: Added 'raise_error' hook (#6199)
+- Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
+- Password: Added 'modoboa' driver (#6361)
+- Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
+- Password: Fix bug where new users could skip forced password change (#6434)
+- Elastic: Improved UX of search dialogs (#6416)
+- Elastic: Fix unwanted thread expanding when selecting a collapsed thread in non-mobile mode (#6445)
+- Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
+- Fix style/navigation on error page depending on authentication state (#6362)
+- Fix so invalid smtp_helo_host is never used, fallback to localhost (#6408)
+- Fix custom logo size in Elastic (#6424)
+- Fix listing the same attachment multiple times on forwarded messages
+- Fix compatibility with MySQL 8 - error on 'system' table use
+- Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
+- New_user_identity: Fix %fu/%u vars substitution in user specific LDAP params (#6419)
+- Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
+
+RELEASE 1.4-beta
+----------------
 - Added new skin with mobile support - the Elastic
 - Support Redis cache
 - Email Resent (Bounce) feature (#4985)
@@ -90,6 +111,15 @@ CHANGELOG Roundcube Webmail
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
+- Fix PHP warnings on dummy QUOTA responses in Courier-IMAP 4.17.1 (#6374)
+- Fix so fallback from BINARY to BODY FETCH is used also on [PARSE] errors in dovecot 2.3 (#6383)
+- Enigma: Fix deleting keys with authentication subkeys (#6381)
+- Fix invalid regular expressions that throw warnings on PHP 7.3 (#6398)
+- Fix so Classic skin splitter does not escape out of window (#6397)
+- Fix XSS issue in handling invalid style tag content (#6410)
+
+RELEASE 1.3.7
+-------------
 - Fix PHP Warning: Use of undefined constant IDNA_DEFAULT on systems without php-intl (#6244)
 - Fix bug where some parts of quota information could have been ignored (#6280)
 - Fix bug where some escape sequences in html styles could bypass security checks

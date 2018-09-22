@@ -463,6 +463,14 @@
         color: @color-toolbarmenu-hover;
         background-color: @color-toolbarmenu-hover-background;
     }
+
+    .popover-header {
+        display: none !important;
+    }
+}
+
+div.mce-menubtn.mce-opened {
+    z-index: 65530 !important; // BUG: https://github.com/tinymce/tinymce/issues/4542
 }
 
 #mce-modal-block.mce-in {
@@ -615,18 +623,88 @@
     }
 
     .mce-menu {
-        width: auto !important;
+        width: @layout-mobile-menu-width !important;
         right: 0;
-        left: 0 !important;
-        margin: 0 1rem !important;
+        top: 0 !important;
+        left: auto !important;
+        height: 100% !important;
+        max-height: unset !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0;
+        border: 0 !important;
+
+        .popover-header {
+            display: block !important;
+
+            a {
+                font-size: 1.2rem;
+                line-height: @layout-touch-header-height;
+
+                &:before {
+                    content: @fa-var-times;
+                }
+            }
+        }
 
         .mce-container-body {
             width: 100% !important;
         }
-    }
 
-    div.mce-menubtn.mce-opened {
-        z-index: 65530 !important;
+        .mce-menu-item {
+            height: @layout-touch-menu-record-height;
+            line-height: @layout-touch-menu-record-height;
+            padding: 0 .5rem;
+            border-left: 0;
+            border-bottom: 1px solid @color-list-border;
+            margin: 0;
+
+            .mce-ico {
+                font-size: 150%;
+                padding: 0 .7rem 0 .25rem;
+                margin-top: -.2rem;
+            }
+
+            .mce-text {
+                font-size: 1.2rem;
+                .font-family;
+                line-height: @layout-touch-menu-record-height;
+                color: @color-font;
+            }
+
+            .mce-caret {
+                display: none;
+            }
+
+            &.mce-menu-item-preview {
+                &.mce-active {
+                    border-left: none;
+                    position: relative;
+
+                    &:after {
+                        .font-icon-class; // :extend() does not work here
+                        content: @fa-var-check;
+                        position: absolute;
+                        right: .5rem;
+                        top: 0;
+                        color: @color-font;
+                    }
+                }
+            }
+
+            &.mce-menu-item-expand {
+                position: relative;
+
+                &:after {
+                    .font-icon-class; // :extend() does not work here
+                    content: @fa-var-angle-right;
+                    position: absolute;
+                    right: .5rem;
+                    top: 0;
+                    color: @color-font;
+                }
+            }
+        }
     }
 
     .mce-menu-item-sep,

@@ -154,19 +154,6 @@ class rcube_utils
     }
 
     /**
-     * Check whether the HTTP referer matches the current request
-     *
-     * @return boolean True if referer is the same host+path, false if not
-     */
-    public static function check_referer()
-    {
-        $uri     = parse_url($_SERVER['REQUEST_URI']);
-        $referer = parse_url(self::request_header('Referer'));
-
-        return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
-    }
-
-    /**
      * Replacing specials characters to a specific encoding type
      *
      * @param string  Input string
@@ -1363,5 +1350,42 @@ class rcube_utils
         }
 
         return $max_filesize;
+    }
+
+    /**
+     * Detect and log last PREG operation error
+     *
+     * @param array $error     Error data (line, file, code, message)
+     * @param bool  $terminate Stop script execution
+     *
+     * @return bool True on error, False otherwise
+     */
+    public static function preg_error($error = array(), $terminate = false)
+    {
+        if (($preg_error = preg_last_error()) != PREG_NO_ERROR) {
+            $errstr = "PCRE Error: $preg_error.";
+
+            if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR) {
+                $errstr .= " Consider raising pcre.backtrack_limit!";
+            }
+            if ($preg_error == PREG_RECURSION_LIMIT_ERROR) {
+                $errstr .= " Consider raising pcre.recursion_limit!";
+            }
+
+            $error = array_merge(array('code' => 620, 'line' => __LINE__, 'file' => __FILE__), $error);
+
+            if (!empty($error['message'])) {
+                $error['message'] .= ' ' . $errstr;
+            }
+            else {
+                $error['message'] = $errstr;
+            }
+
+            rcube::raise_error($error, true, $terminate);
+
+            return true;
+        }
+
+        return false;
     }
 }

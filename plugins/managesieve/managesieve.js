@@ -766,7 +766,9 @@ function action_type_select(id)
       vacation: document.getElementById('action_vacation' + id),
       forward: document.getElementById('action_forward' + id),
       set: document.getElementById('action_set' + id),
-      notify: document.getElementById('action_notify' + id)
+      notify: document.getElementById('action_notify' + id),
+      addheader: document.getElementById('action_addheader' + id),
+      deleteheader: document.getElementById('action_deleteheader' + id)
     };
 
   if (v == 'fileinto' || v == 'fileinto_copy') {
@@ -781,17 +783,8 @@ function action_type_select(id)
   else if (v.match(/^(add|set|remove)flag$/)) {
     enabled.flags = 1;
   }
-  else if (v == 'vacation') {
-    enabled.vacation = 1;
-  }
-  else if (v == 'forward') {
-    enabled.forward = 1;
-  }
-  else if (v == 'set') {
-    enabled.set = 1;
-  }
-  else if (v == 'notify') {
-    enabled.notify = 1;
+  else if (v.match(/^(vacation|forward|set|notify|addheader|deleteheader)$/)) {
+    enabled[v] = 1;
   }
 
   for (var x in elems) {

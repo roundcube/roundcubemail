@@ -18,5 +18,7 @@ Have a nice Christmas time.<br />
 Thomas
 </p>
 
+<html><svg><style><//><body onload=alert(1)>
+
 </body>
 </html>

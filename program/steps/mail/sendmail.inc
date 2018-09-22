@@ -115,6 +115,12 @@ if (!$savedraft) {
                 '<p><br /></p>',
             ),
             $message_body);
+
+        rcube_utils::preg_error(array(
+                'line'    => __LINE__,
+                'file'    => __FILE__,
+                'message' => "Could not format HTML!"
+            ), true);
     }
 
     // Check spelling before send
@@ -198,6 +204,12 @@ if (is_array($COMPOSE['attachments'])) {
             }
 
             $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
+
+            rcube_utils::preg_error(array(
+                    'line'    => __LINE__,
+                    'file'    => __FILE__,
+                    'message' => "Could not replace an image reference!"
+                ), true);
 
             $MAIL_MIME->setHTMLBody($message_body);
 

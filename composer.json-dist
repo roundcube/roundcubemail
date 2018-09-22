@@ -15,7 +15,7 @@
         "pear/auth_sasl": "~1.1.0",
         "pear/net_idna2": "~0.2.0",
         "pear/mail_mime": "~1.10.0",
-        "pear/net_smtp": "~1.7.1",
+        "pear/net_smtp": "~1.8.0",
         "pear/crypt_gpg": "~1.6.3",
         "pear/net_sieve": "~1.4.3",
         "roundcube/plugin-installer": "~0.1.6",

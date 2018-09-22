@@ -1526,7 +1526,7 @@ function rcube_webmail()
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error) {
+    else if (task == 'logout') {
       url = this.secure_url(url);
       this.clear_compose_data();
     }
@@ -4109,8 +4109,8 @@ function rcube_webmail()
           var ul = $('<ul>').addClass('keylist').appendTo(content);
           $.each(private_keys, function(i, key) {
             $('<li>').appendTo(ul)
-              .append($('<span>').addClass('identity').text('<' + identity_email + '> '))
-              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()));
+              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()))
+              .append($('<span>').addClass('identity').text('<' + identity_email + '> '));
           });
         } else {
           $('<p>').text(ref.get_label('encryptionnoprivkeysinmailvelope')).appendTo(content);
@@ -9680,7 +9680,7 @@ function rcube_webmail()
 
     // catch Error: Permission denied to access property rcmail
     try {
-      if (win && !win.closed) {
+      if (win && !win.closed && win !== window) {
         // try parent of the opener window, e.g. preview frame
         if (deep && (!win.rcmail || win.rcmail.env.framed) && win.parent && win.parent.rcmail)
           win = win.parent;
@@ -10016,12 +10016,12 @@ function rcube_webmail()
 
 
 // some static methods
-rcube_webmail.long_subject_title = function(elem, indent)
+rcube_webmail.long_subject_title = function(elem, indent, text_elem)
 {
   if (!elem.title) {
-    var $elem = $(elem);
+    var $elem = $(text_elem || elem);
     if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
-      elem.title = rcube_webmail.subject_text(elem);
+      elem.title = rcube_webmail.subject_text($elem[0]);
   }
 };
 

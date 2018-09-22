@@ -312,7 +312,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('forward_action', $this->plugin->gettext('forward.action')));
-        $table->add('forward', $action->show($this->forward['action']) . ' ' . $action_target);
+        $table->add('forward input-group input-group-combo', $action->show($this->forward['action']) . ' ' . $action_target);
 
         $table->add('title', html::label('forward_status', $this->plugin->gettext('forward.status')));
         $table->add(null, $status->show(!isset($this->forward['disabled']) || $this->forward['disabled'] ? 'off' : 'on'));

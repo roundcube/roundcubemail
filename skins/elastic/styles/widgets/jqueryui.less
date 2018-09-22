@@ -27,6 +27,8 @@
     overflow-x: hidden;
     max-height: 400px;
     border-radius: .3rem;
+    z-index: 240;
+    position: absolute;
 
    .ui-state-active {
         border: 0 !important;
@@ -35,6 +37,7 @@
 
     .ui-menu-item {
         white-space: nowrap;
+        cursor: default;
     }
 
     .ui-menu-item-wrapper {
@@ -117,14 +120,16 @@
                 padding-right: 0;
                 padding-left: 0;
                 text-decoration: none;
+                color: @color-font;
 
                 &:focus {
-                    background-color: @color-input-border-focus-shadow;
+                    background-color: fade(@color-btn-primary-background, 50%);
                 }
 
                 &.options {
                     order: -1;
                     padding: .375rem .25rem;
+                    margin-right: .3rem;
 
                     &:before {
                         // this icon is for mobile version

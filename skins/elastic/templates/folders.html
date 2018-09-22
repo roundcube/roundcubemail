@@ -16,10 +16,10 @@
 	<div id="foldersearchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="subscription-table">
 		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
 		<div class="formcontent">
-			<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" />
+			<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" noevent="true" />
 		</div>
 		<div class="formbuttons">
-			<button class="btn btn-primary icon search" href="#" onclick="return rcmail.command('search')"><roundcube:label name="search" /></button>
+			<button class="btn btn-primary icon search" href="#" onclick="rcmail.folder_filter($('#folderlist-filter').val())"><roundcube:label name="search" /></button>
 		</div>
 	</div>
 	<div class="scroller" tabindex="-1">

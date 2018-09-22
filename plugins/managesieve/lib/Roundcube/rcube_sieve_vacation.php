@@ -381,7 +381,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if ($this->rc->config->get('managesieve_vacation') != 2 && !empty($this->vacation['list'])) {
             $after = new html_select(array('name' => 'vacation_after', 'id' => 'vacation_after'));
 
-            $after->add('', '');
+            $after->add('---', '');
             foreach ($this->vacation['list'] as $idx => $rule) {
                 $after->add($rule, $idx);
             }
@@ -461,7 +461,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // redirect target
-        $action_target = ' <span id="action_target_span" class="input-group" style="display:' . ($redirect ? 'inline' : 'none') . '">'
+        $action_target = ' <span id="action_target_span" class="input-group"' . (!$redirect ? ' style="display:none"' : '') . '>'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
             . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
@@ -505,7 +505,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         $table->add('title', html::label('vacation_action', $this->plugin->gettext('vacation.action')));
-        $table->add('vacation', $action->show($this->vacation['action']) . $action_target);
+        $table->add('vacation input-group input-group-combo', $action->show($this->vacation['action']) . $action_target);
 
         $out .= html::tag('fieldset', $class, html::tag('legend', null, $this->plugin->gettext('vacation.advanced')) . $table->show($attrib));
 
