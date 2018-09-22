@@ -36,10 +36,10 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.7.13",
+      "version": "4.8.2",
       "url": "http://download.ephox.com/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "7f988f3899aebee6d49bd55e981331da07eee6c5",
+      "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
       "license": "LGPL",
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
@@ -56,7 +56,7 @@
     },
     {
       "lib": "tinymce-langs",
-      "version": "4.7.13",
+      "version": "4.8.2",
       "url": "https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy&extension=.zip",
       "dest": "program/js/tinymce"
     },
@@ -88,10 +88,10 @@
     {
       "lib": "bootstrap",
       "name": "Bootstrap",
-      "version": "4.1.0",
+      "version": "4.1.2",
       "url": "https://github.com/twbs/bootstrap/releases/download/v$v/bootstrap-$v-dist.zip",
       "dest": "skins/elastic/deps",
-      "sha1": "90abd51cf27a3dc4823eed6c1de620725f068b6c",
+      "sha1": "d43982739f8f2bb05ef2a2fa55c358ce7e30a72b",
       "license": "MIT",
       "flat": true,
       "map": {

@@ -948,9 +948,11 @@ class rcube_message
     private function add_part($part, $type = null)
     {
         if ($this->check_context($part)) {
+            // It may happen that we add the same part to the array many times
+            // use part ID index to prevent from duplicates
             switch ($type) {
-                case 'inline': $this->inline_parts[] = $part; break;
-                case 'attachment': $this->attachments[] = $part; break;
+                case 'inline': $this->inline_parts[(string) $part->mime_id] = $part; break;
+                case 'attachment': $this->attachments[(string) $part->mime_id] = $part; break;
                 default: $this->parts[] = $part; break;
             }
         }

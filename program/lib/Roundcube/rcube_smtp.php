@@ -98,13 +98,10 @@ class rcube_smtp
         // Handle per-host socket options
         rcube_utils::parse_socket_options($CONFIG['smtp_conn_options'], $smtp_host);
 
-        if (!empty($CONFIG['smtp_helo_host'])) {
-            $helo_host = $CONFIG['smtp_helo_host'];
-        }
-        else if (!empty($_SERVER['SERVER_NAME'])) {
-            $helo_host = rcube_utils::server_name();
-        }
-        else {
+        // Use valid EHLO/HELO host (#6408)
+        $helo_host = $CONFIG['smtp_helo_host'] ?: rcube_utils::server_name();
+        $helo_host = rcube_utils::idn_to_ascii($helo_host);
+        if (!preg_match('/^[a-zA-Z0-9.:-]+$/', $helo_host)) {
             $helo_host = 'localhost';
         }
 

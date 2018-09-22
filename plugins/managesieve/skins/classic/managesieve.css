@@ -244,12 +244,6 @@ td.rowtargets div.adv input
   margin-bottom: 1px;
 }
 
-html.mozilla #filter-form select
-{
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
 input.disabled, input.disabled:hover
 {
   color: #999999;

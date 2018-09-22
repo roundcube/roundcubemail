@@ -116,7 +116,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: @layout-menu-width;
+            background-color: @color-taskmenu-background;
         }
 
         .action-buttons {
@@ -154,6 +154,7 @@
                 width: @layout-menu-width;
                 height: 1.75rem;
                 line-height: 1.5;
+                float: none; // fixed overflowing text in Edge
             }
         }
 
@@ -168,14 +169,19 @@
 .menu {
     .popover-header {
         height: @layout-header-height;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
+        line-height: @layout-header-height;
         border: 0;
         border-radius: 0;
+        text-align: center;
 
         img {
             max-height: @layout-header-height;
+            max-width: @layout-menu-width;
+            padding: .25rem;
+
+            @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
+                max-width: @layout-menu-width/2;
+            }
         }
 
         @media screen and (min-width: (@screen-width-xs + 1px)) {
@@ -185,23 +191,15 @@
             a {
                 display: none !important;
             }
-
-            img {
-                max-width: @layout-menu-width/2;
-            }
-        }
-
-        @media screen and (min-width: (@screen-width-medium + 1px)) {
-            img {
-                max-width: @layout-menu-width;
-            }
         }
 
         html.layout-phone & {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
             padding: 0 .5rem;
 
             img {
-                max-height: @layout-touch-header-height;
                 max-width: @layout-mobile-menu-width - 50px;
             }
 

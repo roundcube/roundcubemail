@@ -2822,7 +2822,7 @@ class rcube_imap_generic
             }
 
             // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
-            if ($binary && !$found && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
+            if ($binary && !$found && preg_match('/^' . $key . ' NO \[(UNKNOWN-CTE|PARSE)\]/i', $line)) {
                 $binary = $initiated = false;
                 continue;
             }
@@ -3131,6 +3131,11 @@ class rcube_imap_generic
                     list(, , $quota_root) = $this->tokenizeResponse($line, 3);
 
                     $quotas = $this->tokenizeResponse($line, 1);
+
+                    if (empty($quotas)) {
+                        continue;
+                    }
+
                     foreach (array_chunk($quotas, 3) as $quota) {
                         list($type, $used, $total) = $quota;
                         $type = strtolower($type);

@@ -596,8 +596,7 @@ class rcube_plugin_api
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->add_header(html::tag('script',
-                array('type' => "text/javascript", 'src' => $src)));
+            $this->output->include_script($src, 'head_bottom', false);
         }
     }
 

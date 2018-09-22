@@ -98,6 +98,22 @@ input.smart-upload {
     }
 
     td.rowtargets {
+        .composite {
+            input, textarea, select, .multi-input, .input-group {
+                margin-bottom: .5rem;
+            }
+
+            .input-group {
+                input, textarea, select, .multi-input {
+                    margin-bottom: 0;
+                }
+            }
+
+            br {
+                display: block;
+            }
+        }
+
         .input-group {
             margin-bottom: .25rem;
 
@@ -384,11 +400,6 @@ html.ms .propform {
             display: flex;
         }
     }
-    @media screen and (max-width: (@screen-width-bs-phone - 1px)) {
-        .row {
-            display: block;
-        }
-    }
 }
 
 
@@ -575,6 +586,10 @@ html.ms .propform {
     text-decoration: none;
     padding: .375rem .5rem;
 
+    &.input-group-text {
+        min-width: 2.4rem;
+    }
+
     &:before {
         &:extend(.font-icon-class);
         margin: 0 !important;
@@ -617,16 +632,11 @@ html.ms .propform {
     }
 }
 
-td.editfield { width: 99%;  /* TODO */ }
 
 @proplist-record-height: 2rem;
 .proplist {
     margin-bottom: 0;
-
-    .formcontent > &,
-    fieldset > & {
-        padding-left: 0;
-    }
+    padding: 0;
 
     li {
         list-style-type: none;
@@ -647,7 +657,7 @@ td.editfield { width: 99%;  /* TODO */ }
             }
         }
 
-        label {
+        label:not(.input-group-text) {
             margin: 0;
             line-height: @proplist-record-height;
         }
@@ -1166,6 +1176,10 @@ input.icon-checkbox {
         cursor: pointer;
         width: 1.5em;
 
+        html.touch & {
+            font-size: 1.5rem;
+        }
+
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-toggle-off;
@@ -1216,8 +1230,28 @@ input.icon-checkbox {
     }
 }
 
-html.touch input.icon-checkbox + label {
-    font-size: 1.5rem;
+.input-group-combo {
+    select:first-of-type {
+        &.alone {
+            border-radius: .25rem !important;
+        }
+
+        &:not(.alone) {
+            flex: unset;
+            width: auto;
+        }
+    }
+
+    .input-group {
+        padding: 0 !important;
+        flex: 2;
+    }
+
+    select + select,
+    .input-group :first-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 
 

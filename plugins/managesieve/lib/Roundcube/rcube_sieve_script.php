@@ -31,6 +31,7 @@ class rcube_sieve_script
         'copy',                     // RFC3894
         'date',                     // RFC5260
         'duplicate',                // RFC7352
+        'editheader',               // RFC5293
         'enotify',                  // RFC5435
         'envelope',                 // RFC5228
         'ereject',                  // RFC5429
@@ -420,6 +421,26 @@ class rcube_sieve_script
                         array_push($exts, $imapflags);
                         $action_script .= $action['type'].' '
                             . self::escape_string($action['target']);
+                        break;
+
+                    case 'addheader':
+                    case 'deleteheader':
+                        array_push($exts, 'editheader');
+                        $action_script .= $action['type'];
+                        if (!empty($action['index'])) {
+                            $action_script .= " :index " . intval($action['index']);
+                        }
+                        if (!empty($action['last']) && (!empty($action['index']) || $action['type'] == 'addheader')) {
+                            $action_script .= " :last";
+                        }
+                        if ($action['type'] == 'deleteheader') {
+                            $action['type'] = $action['match-type'];
+                            $this->add_operator($action, $action_script, $exts);
+                        }
+                        $action_script .= " " . self::escape_string($action['name']);
+                        if ((is_string($action['value']) && strlen($action['value']) > 0) || (is_array($action['value']) && !empty($action['value']))) {
+                            $action_script .= " " . self::escape_string($action['value']);
+                        }
                         break;
 
                     case 'keep':
@@ -906,6 +927,21 @@ class rcube_sieve_script
                 $action += $this->action_arguments($tokens, $args, $vargs);
 
                 $result[] = $action;
+                break;
+
+            case 'addheader':
+            case 'deleteheader':
+                $args = $this->test_tokens($tokens);
+                if ($token == 'deleteheader') {
+                    $args['match-type'] = $args['type'];
+                }
+                if (($index = array_search(':last', $tokens)) !== false) {
+                    $args['last'] = true;
+                    unset($tokens[$index]);
+                }
+                $action = array('type' => $token, 'name' => array_shift($tokens), 'value' => array_shift($tokens));
+
+                $result[] = $action + $args;
                 break;
 
             case 'reject':

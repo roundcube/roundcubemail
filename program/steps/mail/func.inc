@@ -1003,7 +1003,8 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
         }
 
         // decode all escaped entities and reduce to ascii strings
-        $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcube_utils::xss_entity_decode($content));
+        $decoded  = rcube_utils::xss_entity_decode($content);
+        $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', $decoded);
 
         // now check for evil strings like expression, behavior or url()
         if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
@@ -1011,7 +1012,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
                 $washtml->extlinks = true;
             }
             else {
-                $out = html::tag('style', array('type' => 'text/css'), $content);
+                $out = html::tag('style', array('type' => 'text/css'), $decoded);
             }
             break;
         }
@@ -1606,7 +1607,9 @@ function rcmail_search_filter($attrib)
         $attrib['id'] = 'rcmlistfilter';
     }
 
-    $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+    if (!rcube_utils::get_boolean($attrib['noevent'])) {
+        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+    }
 
     // Content-Type values of messages with attachments
     // the same as in app.js:add_message_row()
@@ -1669,18 +1672,22 @@ function rcmail_message_error()
 {
     global $RCMAIL;
 
-    // Set env variables for messageerror.html template
-    if ($RCMAIL->action == 'show') {
-        $mbox_name = $RCMAIL->storage->get_folder();
-
-        $RCMAIL->output->set_env('mailbox', $mbox_name);
-        $RCMAIL->output->set_env('uid', null);
-    }
-
-    // display error message
-    $RCMAIL->output->show_message('messageopenerror', 'error');
     // ... display message error page
-    $RCMAIL->output->send('messageerror');
+    if ($RCMAIL->output->template_exists('messageerror')) {
+        // Set env variables for messageerror.html template
+        if ($RCMAIL->action == 'show') {
+            $mbox_name = $RCMAIL->storage->get_folder();
+
+            $RCMAIL->output->set_env('mailbox', $mbox_name);
+            $RCMAIL->output->set_env('uid', null);
+        }
+
+        $RCMAIL->output->show_message('messageopenerror', 'error');
+        $RCMAIL->output->send('messageerror');
+    }
+    else {
+        $RCMAIL->raise_error(array('code' => 410), false, true);
+    }
 }
 
 function rcmail_message_import_form($attrib = array())

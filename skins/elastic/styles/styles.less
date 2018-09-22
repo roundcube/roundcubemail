@@ -135,13 +135,19 @@ a {
 .task-login #layout > .content {
     text-align: center;
     width: 100%;
-    background: url(../images/watermark.jpg) center -20px no-repeat;
-    background-size: auto 40%;
+    display: block;
+}
+
+.task-login #layout .content #logo {
+    display: inline-block;
+    position: relative;
+    top: 18vh;
+    max-height: 90px;
 }
 
 #login-form {
     margin: 0 auto;
-    top: 35vh;
+    top: 22vh;
     width: 95%;
     max-width: 280px;
     position: relative;
@@ -176,6 +182,12 @@ a {
     }
 }
 
+body.task-error-login #layout {
+    & > .menu,
+    & > .content > .header {
+        display: none;
+    }
+}
 
 /*** Addressbook UI ***/
 

@@ -41,7 +41,7 @@ define('PASSWORD_SUCCESS', 0);
  */
 class password extends rcube_plugin
 {
-    public $task    = 'settings|login';
+    public $task    = '?(?!logout).*';
     public $noframe = true;
     public $noajax  = true;
 
@@ -65,7 +65,14 @@ class password extends rcube_plugin
             $this->register_action('plugin.password', array($this, 'password_init'));
             $this->register_action('plugin.password-save', array($this, 'password_save'));
         }
-        else if ($rcmail->config->get('password_force_new_user')) {
+
+        if ($rcmail->config->get('password_force_new_user')) {
+            if ($rcmail->config->get('newuserpassword') && $this->check_host_login_exceptions()) {
+                if (!($rcmail->task == 'settings' && strpos($rcmail->action, 'plugin.password') === 0)) {
+                    $rcmail->output->command('redirect', '?_task=settings&_action=plugin.password&_first=1', false);
+                }
+            }
+
             $this->add_hook('user_create', array($this, 'user_create'));
             $this->add_hook('login_after', array($this, 'login_after'));
         }
@@ -178,6 +185,10 @@ class password extends rcube_plugin
 
                 // Reset session password
                 $_SESSION['password'] = $rcmail->encrypt($plugin['new_pass']);
+
+                if ($rcmail->config->get('newuserpassword')) {
+                    $rcmail->user->save_prefs(array('newuserpassword' => false));
+                }
 
                 // Log password change
                 if ($rcmail->config->get('password_log')) {
@@ -375,6 +386,9 @@ class password extends rcube_plugin
     function login_after($args)
     {
         if ($this->newuser && $this->check_host_login_exceptions()) {
+            $rcmail = rcmail::get_instance();
+            $rcmail->user->save_prefs(array('newuserpassword' => true));
+
             $args['_task']   = 'settings';
             $args['_action'] = 'plugin.password';
             $args['_first']  = 'true';
@@ -428,12 +442,10 @@ class password extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $prefix = '';
         $crypted = '';
-        $default = false;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
             $prefixed = $rcmail->config->get('password_algorithm_prefix');
-            $default  = true;
         }
         else if ($method == 'crypt') { // deprecated
             if (!($method = $rcmail->config->get('password_crypt_hash'))) {
@@ -622,7 +634,7 @@ class password extends rcube_plugin
                 return false;
             }
 
-            if (!$default) {
+            if (!$prefixed) {
                 $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
             }
 

@@ -260,6 +260,8 @@ function rcube_elastic_ui()
                 $(this).addClass('button ' + name);
                 $('.button-inner', this).addClass('inner');
             }
+
+            $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
         // Some plugins use 'listbubtton' class, we'll replace it with 'button'
@@ -512,8 +514,15 @@ function rcube_elastic_ui()
                         .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
-                    if (toolbar.is('.toolbar')) {
+                    if (toolbar.is('.toolbar') || toolbar.is('.toolbarmenu')) {
                         button.prependTo(toolbar).wrap('<li role="menuitem">');
+
+                        // Add a button to the content toolbar menu too
+                        if (layout.content) {
+                            var button2 = create_cloned_button(button, true, 'hidden-big hidden-large');
+                            $('<li role="menuitem">').append(button2).appendTo('#toolbar-menu');
+                            button = button.add(button2);
+                        }
                     }
                     else {
                         button.appendTo(toolbar).addClass('icon');
@@ -657,7 +666,7 @@ function rcube_elastic_ui()
                     $('a.button.attach, a.button.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
-                $('.sidebar > .footer > a.button').click(function() {
+                $('.sidebar > .footer:not(.pagenav) > a.button').click(function() {
                     if ($(this).is('.disabled')) {
                         rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
                     }
@@ -932,6 +941,19 @@ function rcube_elastic_ui()
             $('input[type=checkbox]', context).each(function() { pretty_checkbox(this); });
         }
 
+        // Input-group combo is an element with a select field on the left
+        // and input(s) on right, and where the whole right side can be hidden
+        // depending on the select position. This code fixes border radius on select
+        $('.input-group-combo > select:first', context).on('change', function() {
+            var select = $(this),
+                fn = function() {
+                    select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
+                };
+
+            setTimeout(fn, 50);
+            setTimeout(fn, 2000); // for devel mode
+        }).trigger('change');
+
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children(':not(.ui.alert)').each(function() {
             // message objects with notice class are really warnings
@@ -974,11 +996,12 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Detects if the element is TinyMCE dialog window
+     * Detects if the element is TinyMCE dialog/menu
      * and adds Elastic styling to it
      */
     function tinymce_style(elem)
     {
+        // TinyMCE dialog widnows
         if ($(elem).is('.mce-window')) {
             var body = $(elem).find('.mce-window-body'),
                 foot = $(elem).find('.mce-foot > .mce-container-body');
@@ -1024,6 +1047,32 @@ function rcube_elastic_ui()
                 }
             }
         }
+        // TinyMCE menus on mobile
+        else if ($(elem).is('.mce-menu')) {
+            $(elem).prepend(
+                $('<h3 class="popover-header">').append(
+                    $('<a class="button icon "' + 'cancel' + '">')
+                        .text(rcmail.gettext('close'))
+                        .on('click', function() { $(document.body).click(); })));
+
+            if (window.MutationObserver) {
+                var callback = function() {
+                        if (mode != 'phone') {
+                            return;
+                        }
+                        if (!$('.mce-menu:visible').length) {
+                            $('div.mce-overlay').click();
+                        }
+                        else if (!$('div.mce-overlay').length) {
+                            $('<div>').attr('class', 'popover-overlay mce-overlay')
+                                .appendTo('body')
+                                .click(function() { $(this).remove(); });
+                        }
+                    };
+
+                (new MutationObserver(callback)).observe(elem, {attributes: true});
+            }
+        }
     };
 
     /**
@@ -1054,7 +1103,9 @@ function rcube_elastic_ui()
         // display or reset the content frame
         var common_content_handler = function(e, href, show, title)
         {
-            content_frame_navigation(href, e);
+            if (is_mobile()) {
+                content_frame_navigation(href, e);
+            }
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
@@ -1675,8 +1726,12 @@ function rcube_elastic_ui()
                 warning: 'alert-warning',
                 error: 'alert-danger',
                 loading: 'alert-info loading',
+                uploading: 'alert-info loading',
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
+
+        // Type can be e.g. 'notice chat'
+        type = type.split(' ')[0];
 
         if (wrap && addicon && !$(object).is('.aligned-buttons')) {
             // we need the content to be non-text node for best alignment
@@ -1741,6 +1796,10 @@ function rcube_elastic_ui()
                     return true;
                 }
 
+                if (rcmail.task == 'mail' && $('#s_interval').val()) {
+                    return true;
+                }
+
                 if (rcmail.gui_objects.search_filter && $(rcmail.gui_objects.search_filter).val() != 'ALL') {
                     return true;
                 }
@@ -1775,19 +1834,22 @@ function rcube_elastic_ui()
 
                 $('button.search', options).off('click.search').on('click.search', function() {
                     options_button.trigger('click');
+                    update_func();
                 });
             }
         });
 
         input.on('input change', update_func)
-            .on('focus', function() { input.attr('placeholder', ''); })
-            .on('blur', function() { input.attr('placeholder', placeholder); });
+            .on('focus blur', function(e) { input.attr('placeholder', e.type == 'blur' ? placeholder : ''); });
 
         // Search reset action
         $('a.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
             input.val('').change().trigger('keyup.treelist', {keyCode: 27});
+            if ($(bar).is('.open')) {
+                options_button.click();
+            }
 
             // Reset filter
             if (rcmail.gui_objects.search_filter) {
@@ -1796,22 +1858,21 @@ function rcube_elastic_ui()
 
             if (rcmail.gui_objects.foldersfilter) {
                 $(rcmail.gui_objects.foldersfilter).val('---').change();
+                rcmail.folder_filter('---');
             }
 
             update_func();
         });
 
-        rcmail.addEventListener('init', function() {
-            update_func();
-
-            if (rcmail.gui_objects.search_filter) {
-                $(rcmail.gui_objects.search_filter).on('change', update_func);
-            }
-
-            if (rcmail.gui_objects.foldersfilter) {
-                $(rcmail.gui_objects.foldersfilter).on('change', update_func);
-            }
-        });
+        rcmail.addEventListener('init', function() { update_func(); })
+            .addEventListener('beforelist', function() {
+                if ($(bar).is('.open')) {
+                    options_button.click(); // close options form on 'list' request
+                }
+            })
+            .addEventListener('responsebeforesearch', function() {
+                update_func();
+            });
     };
 
     /**
@@ -2335,7 +2396,7 @@ function rcube_elastic_ui()
     {
         var content = $('#listoptions-menu'),
             width = content.width() + 25,
-            dialog = content.clone();
+            dialog = content.clone(true);
 
         // set form values
         $('select[name="sort_col"]', dialog).val(rcmail.env.sort_col || '');
@@ -2436,15 +2497,17 @@ function rcube_elastic_ui()
     {
         var n, all,
             list = $('input[name="s_mods[]"]', obj),
-            scope_select = $('select[name=s_scope]', obj),
+            scope_select = $('#s_scope', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
 
         if (!$(obj).data('initialized')) {
-            list.on('click', function() { set_searchmod(this, obj); });
-            scope_select.on('click', function() { rcmail.set_searchscope($(this).val()); });
             $(obj).data('initialized', true);
+            if (list.length) {
+                list.on('change', function() { set_searchmod(obj, this); });
+                rcmail.addEventListener('beforesearch', function() { set_searchmod(obj); });
+            }
         }
 
         if (rcmail.env.search_mods) {
@@ -2476,12 +2539,13 @@ function rcube_elastic_ui()
         }
     };
 
-    function set_searchmod(elem, menu)
+    function set_searchmod(menu, elem)
     {
         var all, m, task = rcmail.env.task,
             mods = rcmail.env.search_mods,
             mbox = rcmail.env.mailbox,
-            scope = $('select[name=s_scope]', menu).val();
+            scope = $('#s_scope', menu).val(),
+            interval = $('#s_interval', menu).val();
 
         if (scope == 'all') {
             mbox = '*';
@@ -2497,10 +2561,17 @@ function rcube_elastic_ui()
             }
             m = mods[mbox];
             all = 'text';
+
+            rcmail.env.search_scope = scope;
+            rcmail.env.search_interval = interval;
         }
         else { //addressbook
             m = mods;
             all = '*';
+        }
+
+        if (!elem) {
+            return;
         }
 
         if (!elem.checked) {

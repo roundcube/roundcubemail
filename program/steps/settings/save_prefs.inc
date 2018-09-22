@@ -242,7 +242,6 @@ function rcmail_prefs_input($name, $regex)
     }
 
     if ($value !== null && strlen($value) && !preg_match($regex, $value)) {
-rcube::console($name);
         $value = $RCMAIL->config->get($name);
     }
 
