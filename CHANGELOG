@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
 - Password: Fix bug where new users could skip forced password change (#6434)
+- Elastic: Support new-line char as a separator for pasted recipients (#6460)
 - Elastic: Improved UX of search dialogs (#6416)
 - Elastic: Fix unwanted thread expanding when selecting a collapsed thread in non-mobile mode (#6445)
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)

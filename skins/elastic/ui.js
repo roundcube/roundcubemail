@@ -2836,24 +2836,34 @@ function rcube_elastic_ui()
                 else
                     recipient.insertBefore(input.parent());
             },
-            update_func = function() {
-                var text = input.val().replace(/[,;\s]+$/, ''),
-                    result = recipient_input_parser(text);
+            update_func = function(text) {
+                var result;
+
+                text = (text || input.val()).replace(/[,;\s]+$/, '');
+                result = recipient_input_parser(text);
 
                 $.each(result.recipients, function() {
                     insert_recipient(this.name, this.email);
                 });
 
-                input.val(result.text);
-                apply_func();
-                input_len_update();
+                // setTimeout() here is needed for proper input reset on paste event
+                setTimeout(function() {
+                        input.val(result.text);
+                        apply_func();
+                        input_len_update();
+                    }, 1);
 
-                if (result.recipients.length) {
-                    return true;
-                }
+                return result.recipients.length > 0;
             },
             parse_func = function(e) {
-                // Note it can be also executed when autocomplete inserts a recipient
+                // On paste the text is not yet in the input we have to use clipboard.
+                // Also because on paste new-line characters are replaced by spaces (#6460)
+                if (e.type == 'paste') {
+                    update_func((e.originalEvent.clipboardData || window.clipboardData).getData('text'));
+                    return;
+                }
+
+                // Note: it can be also executed when autocomplete inserts a recipient
                 update_func();
 
                 if (e.type == 'blur') {
@@ -2867,8 +2877,8 @@ function rcube_elastic_ui()
                     apply_func();
                     return false;
                 }
-                // Here we add a recipient box when the separator character (,;) was pressed
-                else if (e.key == ',' || e.key == ';') {
+                // Here we add a recipient box when the separator (,;) or Enter was pressed
+                else if (e.key == ',' || e.key == ';' || e.key == 'Enter') {
                     if (update_func()) {
                         return false;
                     }
@@ -2877,7 +2887,7 @@ function rcube_elastic_ui()
                 input_len_update();
             };
 
-        // Create the input elemennt and "editable" area
+        // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change blur', parse_func)
             .on('keydown', keydown_func)
@@ -2925,6 +2935,9 @@ function rcube_elastic_ui()
      */
     function recipient_input_parser(text)
     {
+        // support new-line as a separator, for paste action (#6460)
+        text = $.trim(text.replace(/[,;\s]*[\r\n]+/g, ','));
+
         var recipients = [],
             address_rx_part = '(\\S+|("[^"]+"))@\\S+',
             recipient_rx1 = new RegExp('(<' + address_rx_part + '>)'),
