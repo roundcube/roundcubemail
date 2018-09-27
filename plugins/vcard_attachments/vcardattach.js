@@ -72,8 +72,28 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
     rcmail.addEventListener('insertrow', function(data, evt) { plugin_vcard_insertrow(data); });
 
   if ((rcmail.env.action == 'compose' || (rcmail.env.task == 'addressbook' && rcmail.env.action == '')) && rcmail.gui_objects.contactslist) {
-    if (rcmail.env.action == 'compose')
+    if (rcmail.env.action == 'compose') {
       rcmail.env.compose_commands.push('attach-vcard');
+
+      // Elastic: add "Attach vCard" button to the attachments widget
+      if (window.UI && UI.recipient_selector) {
+        var button, form = $('#compose-attachments > div');
+        button = $('<button class="btn btn-secondary attach vcard">')
+          .attr('tabindex', $('button,input', form).first().attr('tabindex') || 0)
+          .text(rcmail.gettext('vcard_attachments.attachvcard'))
+          .appendTo(form)
+          .click(function() {
+            UI.recipient_selector('', {
+              title: 'vcard_attachments.attachvcard',
+              button: 'vcard_attachments.attachvcard',
+              button_class: 'attach',
+              focus: button,
+              multiselect: false,
+              action: function() { rcmail.command('attach-vcard'); }
+            });
+          });
+      }
+    }
 
     rcmail.register_command('attach-vcard', function() { plugin_vcard_attach(); });
     rcmail.contact_list.addEventListener('select', function(list) {

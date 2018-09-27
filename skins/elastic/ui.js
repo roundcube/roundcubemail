@@ -67,6 +67,7 @@ function rcube_elastic_ui()
     this.header_reset = header_reset;
     this.attachmentmenu = attachmentmenu;
     this.mailtomenu = mailtomenu;
+    this.recipient_selector = recipient_selector;
     this.show_list = show_list;
     this.show_sidebar = show_sidebar;
     this.smart_field_init = smart_field_init;
@@ -494,7 +495,8 @@ function rcube_elastic_ui()
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
-                var button, parent = table.parents('.sidebar,.list,.content').last(),
+                var repl, button,
+                    parent = table.parents('.sidebar,.list,.content').last(),
                     header = parent.find('.header'),
                     toolbar = header.find('ul');
 
@@ -525,9 +527,14 @@ function rcube_elastic_ui()
                         }
                     }
                     else {
-                        button.appendTo(toolbar).addClass('icon');
-                        if (!parent.is('.sidebar')) {
-                            button.addClass('toolbar-button');
+                        if (repl = table.data('list-select-replace')) {
+                            $(repl).replaceWith(button);
+                        }
+                        else {
+                            button.appendTo(toolbar).addClass('icon');
+                            if (!parent.is('.sidebar')) {
+                                button.addClass('toolbar-button');
+                            }
                         }
                     }
                 }
@@ -759,7 +766,7 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
+        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
 
@@ -2758,6 +2765,62 @@ function rcube_elastic_ui()
         $('#' + id).val('').change()
             // jump to the next input
             .closest('.form-group').nextAll(':not(.hidden)').first().find('input').focus();
+    };
+
+    /**
+     * Recipient (contact) selector
+     */
+    function recipient_selector(field, opts)
+    {
+        if (!opts) opts = {};
+
+        var title = rcmail.gettext(opts.title || 'insertcontact'),
+            dialog = $('#recipient-dialog'),
+            parent = dialog.parent(),
+            close_func = function() {
+                if (dialog.is(':visible')) {
+                    rcmail.env.recipient_dialog.dialog('close');
+                }
+            },
+            insert_func = function() {
+                if (opts.action) {
+                    opts.action();
+                    close_func();
+                    return;
+                }
+
+                rcmail.command('add-recipient');
+            };
+
+        if (!rcmail.env.recipient_selector_initialized) {
+            rcmail.addEventListener('add-recipient', close_func);
+            rcmail.env.recipient_selector_initialized = true;
+        }
+
+        if (field) {
+            rcmail.env.focused_field = '#_' + field;
+        }
+
+        rcmail.contact_list.clear_selection();
+        rcmail.contact_list.multiselect = 'multiselect' in opts ? opts.multiselect : true;
+
+        rcmail.env.recipient_dialog = rcmail.simple_dialog(dialog, title, insert_func, {
+            button: rcmail.gettext(opts.button || 'insert'),
+            button_class: opts.button_class || 'insert recipient',
+            height: 600,
+            classes: {
+              'ui-dialog-content': 'p-0' // remove padding on dialog content
+            },
+            open: function() {
+                // Don't want focus in the search field, we focus first contacts source record instead
+                $('#directorylist a:first').focus();
+            },
+            close: function() {
+                dialog.appendTo(parent);
+                $(this).remove();
+                $(opts.focus || rcmail.env.focused_field).focus();
+            }
+        });
     };
 
     /**
