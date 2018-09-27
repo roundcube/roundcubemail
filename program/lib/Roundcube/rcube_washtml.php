@@ -643,6 +643,9 @@ class rcube_washtml
 
         $html = str_replace($badwordchars, $fixedwordchars, $html);
 
+        // FIXME: HTML comments handling could be better. The code below can break comments (#6464),
+        //        we should probably do not modify content inside comments at all.
+
         // fix (unknown/malformed) HTML tags before "wash"
         $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', array($this, 'html_tag_callback'), $html);
 
@@ -665,9 +668,15 @@ class rcube_washtml
      */
     public static function html_tag_callback($matches)
     {
+        // It might be an ending of a comment, ignore (#6464)
+        if (substr($matches[3], -2) == '--') {
+            $matches[0] = '';
+            return implode('', $matches);
+        }
+
         $tagname = $matches[2];
         $tagname = preg_replace(array(
-            '/:.*$/',               // Microsoft's Smart Tags <st1:xxxx>
+            '/:.*$/',                // Microsoft's Smart Tags <st1:xxxx>
             '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
         ), '', $tagname);
 
