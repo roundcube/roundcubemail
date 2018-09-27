@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
 - New_user_identity: Fix %fu/%u vars substitution in user specific LDAP params (#6419)
 - Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
+- Fix bug where valid content between HTML comments could have been skipped in some cases (#6464)
 
 RELEASE 1.3.7
 -------------
