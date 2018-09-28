@@ -146,6 +146,6 @@ class krb_authentication extends rcube_plugin
              $context = $context[$protocol];
         }
 
-        return $context ?: 'host.fqdn@REALM.NAME';
+        return $context;
     }
 }
