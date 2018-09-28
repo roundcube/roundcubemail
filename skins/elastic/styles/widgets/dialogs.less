@@ -58,11 +58,19 @@
 
 #rcmKSearchpane {
     width: auto;
-    max-width: none;
-    overflow: hidden;
 
     li {
         padding-right: .5rem;
+    }
+
+    html.layout-small &,
+    html.layout-phone & {
+        bottom: auto;
+        border: 1px solid @color-input-border;
+    }
+
+    html.layout-phone & {
+        max-width: 100% !important;
     }
 }
 
@@ -103,11 +111,6 @@ html.layout-phone {
         top: 0;
         bottom: 0;
         width: 100%;
-    }
-
-    #rcmKSearchpane {
-        bottom: auto;
-        border: 1px solid @color-input-border;
     }
 
     .popover-header {
