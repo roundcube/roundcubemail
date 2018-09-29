@@ -1285,6 +1285,21 @@ function rcube_elastic_ui()
                 o.config.toolbar += ' emoticons';
             }
         }
+
+        // Shift+Tab on mail compose editor scrolls the page to the top
+        if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
+            var keypress = function(e) {
+                    if (e.key == 'Tab' && e.shiftKey) {
+                        $('#compose-content > form').scrollTop(0);
+                    }
+                };
+
+            o.config.setup_callback = function(ed) {
+                ed.on('keypress', keypress);
+            };
+
+            $('#composebody').on('keypress', keypress);
+        }
     };
 
     /**
