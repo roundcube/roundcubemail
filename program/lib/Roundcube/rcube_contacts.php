@@ -380,7 +380,7 @@ class rcube_contacts extends rcube_addressbook
                             foreach ((array)$row[$col] as $value) {
                                 if ($this->compare_search_value($colname, $value, $search, $mode)) {
                                     $found[$colname] = true;
-                                    break 2;
+                                    break;
                                 }
                             }
                         }
