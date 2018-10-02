@@ -1286,19 +1286,37 @@ function rcube_elastic_ui()
             }
         }
 
-        // Shift+Tab on mail compose editor scrolls the page to the top
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
-            var keypress = function(e) {
+            var form = $('#compose-content > form'),
+                keypress = function(e) {
                     if (e.key == 'Tab' && e.shiftKey) {
                         $('#compose-content > form').scrollTop(0);
                     }
                 };
 
+            // Shift+Tab on mail compose editor scrolls the page to the top
             o.config.setup_callback = function(ed) {
                 ed.on('keypress', keypress);
             };
 
             $('#composebody').on('keypress', keypress);
+
+            // Keep the editor toolbar on top of the screen on scroll
+            form.on('scroll', function() {
+                var container = $('.mce-container-body', form),
+                    toolbar = $('.mce-top-part', container),
+                    editor_offset = container.offset(),
+                    header_top = form.offset().top;
+
+                if (editor_offset && (editor_offset.top - header_top < 0)) {
+                    toolbar.css({position: 'fixed', top: header_top + 'px', width: container.width() + 'px'});
+                }
+                else {
+                    toolbar.css({position: 'relative', top: 0, width: 'auto'})
+                }
+            });
+
+            $(window).resize(function() { form.trigger('scroll'); });
         }
     };
 
