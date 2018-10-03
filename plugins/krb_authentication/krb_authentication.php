@@ -146,6 +146,10 @@ class krb_authentication extends rcube_plugin
              $context = $context[$protocol];
         }
 
-        return $context ?: 'host.fqdn@REALM.NAME';
+        if (empty($context)) {
+            rcube::raise_error("Empty GSSAPI context.", true);
+        }
+
+        return $context;
     }
 }

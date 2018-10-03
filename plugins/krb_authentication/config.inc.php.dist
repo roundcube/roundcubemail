@@ -9,7 +9,7 @@
 // Unlike $config['default_host'] this must be a string!
 $config['krb_authentication_host'] = '';
 
-// GSS API security context.
+// GSSAPI security context.
 // Single value or an array with per-protocol values. Example:
 //
 //   $config['krb_authentication_context'] = array(
@@ -17,4 +17,4 @@ $config['krb_authentication_host'] = '';
 //       'smtp'  => 'smtp/host.fqdn@REALM.NAME',
 //       'sieve' => 'sieve/host.fqdn@REALM.NAME',
 //   );
-$config['krb_authentication_context'] = 'host.fqdn@REALM.NAME';
+$config['krb_authentication_context'] = 'principal@REALM.NAME';
