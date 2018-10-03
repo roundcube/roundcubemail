@@ -2651,6 +2651,11 @@ class rcube_imap extends rcube_storage
         }
 
         // move messages
+        $this->plugins->exec_hook('move_message', array(
+            'uids'  => $uids,
+            'from_mbox' => $from_mbox,
+            'to_mbox' => $to_mbox
+        ));
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
         // when moving to Trash we make sure the folder exists
