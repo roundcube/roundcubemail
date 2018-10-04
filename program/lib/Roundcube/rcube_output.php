@@ -195,6 +195,10 @@ abstract class rcube_output
         if ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')) {
             header('X-Frame-Options: ' . $xframe);
         }
+        
+        // Request browser to disable referrer sending mechanism
+        // Improves privacy and avoids information leaking to external resources
+        header('Referrer-Policy: no-referrer');
     }
 
     /**
