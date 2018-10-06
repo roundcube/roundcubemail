@@ -569,7 +569,7 @@ $config['max_group_members'] = 0;
 $config['product_name'] = 'Roundcube Webmail';
 
 // Add this user-agent to message headers when sending
-$config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
+$config['useragent'] = 'Roundcube Webmail/'.RCUBE_VERSION;
 
 // try to load host-specific configuration
 // see https://github.com/roundcube/roundcubemail/wiki/Configuration:-Multi-Domain-Setup

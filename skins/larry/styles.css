@@ -2426,6 +2426,8 @@ ul.toolbarmenu li span.copy {
 	border: 0;
 	cursor: default;
 	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #rcmKSearchpane ul li i.icon {

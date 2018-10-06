@@ -5941,9 +5941,20 @@ function rcube_webmail()
       // reset content
       ul.innerHTML = '';
       this.env.contacts = [];
+
       // move the results pane right under the input box
-      var pos = $(this.ksearch_input).offset();
-      this.ksearch_pane.css({ left:pos.left+'px', top:(pos.top + this.ksearch_input.offsetHeight)+'px', display: 'none'});
+      var pos = $(this.ksearch_input).offset(),
+        w = $(window).width(),
+        left = w - pos.left > 200 ? pos.left : w - 200,
+        width = Math.min(400, w - left);
+
+      this.ksearch_pane.css({
+        left: left + 'px',
+        top: (pos.top + this.ksearch_input.offsetHeight + 1) + 'px',
+        maxWidth: width + 'px',
+        minWidth: '200px',
+        display: 'none'
+      });
     }
 
     // add each result line to list
