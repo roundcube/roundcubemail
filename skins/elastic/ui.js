@@ -3400,6 +3400,7 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
+            tabindex = editor.attr('tabindex'),
             mode = function() {
                 if (is_table) {
                     return sw.is(':checked') ? 'html' : 'plain';
@@ -3431,20 +3432,21 @@ function rcube_elastic_ui()
         parent.addClass('html-editor');
         editor.before(tabs);
 
-        $('a', tabs).attr('tabindex', editor.attr('tabindex'))
+        $('a', tabs).attr('tabindex', tabindex)
             .on('click', function(e) {
                 var id = editor.attr('id'), is_html = $(this).is('.mode-html');
 
                 e.preventDefault();
                 if (rcmail.command('toggle-editor', {id: id, html: is_html}, '', e.originalEvent)) {
-                    $(this).tab('show');
+                    $(this).tab('show').prop('tabindex', -1);
+                    $('.mode-' + (is_html ? 'plain' : 'html'), tabs).prop('tabindex', tabindex);
 
                     if (is_table) {
                         sw.prop('checked', is_html);
                     }
                 }
             })
-            .filter('.mode-' + mode()).tab('show');
+            .filter('.mode-' + mode()).tab('show').prop('tabindex', -1);
 
         if (is_table) {
             // Hide unwanted table cells
