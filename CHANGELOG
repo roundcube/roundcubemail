@@ -24,6 +24,7 @@ CHANGELOG Roundcube Webmail
 - Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
 - Fix bug where valid content between HTML comments could have been skipped in some cases (#6464)
 - Fix multiple VCard field search (#6466)
+- Fix session issue on long running requests (#6470)
 
 RELEASE 1.4-beta
 ----------------
