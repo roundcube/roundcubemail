@@ -488,7 +488,14 @@ $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 
+
 // Modoboa Driver options
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
+
+
+// Zxcvbn Strength Driver options
+// ------------------------------
+// minimum Zxcvbn score required for new passwords (0 = weak, 4 = very strong, 3 = default)
+$config['password_zxcvbn_min_score'] = 3;
