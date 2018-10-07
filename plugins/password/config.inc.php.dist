@@ -6,6 +6,11 @@
 // See README file for list of supported driver names.
 $config['password_driver'] = 'sql';
 
+// A driver to use for checking password strength. Default: null.
+// Set password_check_strength to true to enable
+// See README file for list of supported driver names.
+$config['password_strength_driver'] = null;
+
 // Determine whether current password is required to change password.
 // Default: false.
 $config['password_confirm_current'] = true;
@@ -16,7 +21,7 @@ $config['password_minimum_length'] = 0;
 
 // Require the new password to contain a letter and punctuation character
 // Change to false to remove this check.
-$config['password_require_nonalpha'] = false;
+$config['password_check_strength'] = false;
 
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
@@ -169,7 +174,7 @@ $config['password_saslpasswd_args'] = '';
 
 // LDAP and LDAP_SIMPLE Driver options
 // -----------------------------------
-// LDAP server name to connect to. 
+// LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
 // Exemple: array('ldap1.exemple.com', 'ldap2.exemple.com');
 // Default: 'localhost'
@@ -286,7 +291,7 @@ $config['password_ldap_lchattr'] = '';
 // LDAP Samba password attribute, e.g. sambaNTPassword
 // Name of the LDAP's Samba attribute used for storing user password
 $config['password_ldap_samba_pwattr'] = '';
- 
+
 // LDAP Samba Password Last Change Date attribute, e.g. sambaPwdLastSet
 // Some places use an attribute to store the date of the last password change
 // The date is meassured in "seconds since epoch" (an integer value)
@@ -460,7 +465,7 @@ $config['password_gearman_host'] = 'localhost';
 
 // Plesk/PPA Driver options
 // --------------------
-// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel 
+// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel
 
 // Plesk RCP Host
 $config['password_plesk_host'] = '10.0.0.5';
