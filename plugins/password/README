@@ -380,6 +380,14 @@
  handled by included drivers. Just pass driver name in 'password_strength_driver' option.
 
 
+ 2.2.1. Zxcvbn
+ -------------
+
+ Driver to use the Zxcvbn library to check password strength. Requires zxcvbn-php library.
+
+ Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
+
+
  3. Driver API
  -------------
 
