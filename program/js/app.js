@@ -8953,6 +8953,9 @@ function rcube_webmail()
         this.set_busy(false, null, data._unlock);
       return false;
     }
+    else if (result && result.getResponseHeader) {
+      return result;
+    }
     else if (result !== undefined) {
       data = result;
       if (data._action) {
