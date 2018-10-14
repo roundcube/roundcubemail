@@ -2983,7 +2983,7 @@ function rcube_elastic_ui()
                     return false;
                 }
                 // Here we add a recipient box when the separator (,;) or Enter was pressed
-                else if (e.key == ',' || e.key == ';' || e.key == 'Enter') {
+                else if (e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
                     if (update_func()) {
                         return false;
                     }
