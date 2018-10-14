@@ -2901,7 +2901,7 @@ function rcube_elastic_ui()
     {
         var list, input, ac_props, update_lock,
             input_len_update = function() {
-                input.css('width', input.val().length * 10 + 15);
+                input.css('width', Math.max(40, input.val().length * 15 + 25));
             },
             apply_func = function() {
                 // update the original input
@@ -2967,6 +2967,13 @@ function rcube_elastic_ui()
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
+                // FIXME: This is a workaround for a bug where on a touch device
+                // selecting a recipient from autocomplete list do not work because
+                // of some events race condition (?)
+                if (this.value.indexOf('@') < 0) {
+                    return;
+                }
+
                 if (e.type == 'blur') {
                     list.removeClass('focus');
                 }
@@ -3002,7 +3009,7 @@ function rcube_elastic_ui()
             .append($('<li>').append(input))
             .on('click', function() { input.focus(); });
 
-        // "Replace" the original input/textarea with the content-editable div
+        // Hide the original input/textarea
         // Note: we do not remove the original element, and we do not use
         // display: none, because we want to handle onfocus event
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
