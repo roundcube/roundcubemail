@@ -3065,7 +3065,7 @@ function rcube_elastic_ui()
             }
         });
 
-        text = text.replace(/[,;]+/, ',').replace(/^[,;]/, '');
+        text = text.replace(/[,;]+/, ',').replace(/^[,;\s]+/, '');
 
         return {recipients: recipients, text: text};
     };
