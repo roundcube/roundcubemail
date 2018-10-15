@@ -241,11 +241,15 @@ if (empty($RCMAIL->user->ID)) {
         ));
     }
 
-    $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array('task' => 'login', 'error' => $session_error));
+    $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array(
+            'task'      => 'login',
+            'error'     => $session_error,
+            'http_code' => !$session_error ? 401 : 200
+    ));
 
     $RCMAIL->set_task($plugin['task']);
 
-    if (!$session_error) {
+    if ($plugin['http_code'] == 401) {
         header('HTTP/1.0 401 Unauthorized');
     }
 
