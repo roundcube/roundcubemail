@@ -405,8 +405,8 @@
             background: @color-input-addon-background;
 
             &:focus {
-                border-color: @color-input-border-focus;
-                box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+                background-color: @color-input-border-focus-shadow;
+                border-color: #c5c5c5;
             }
         }
     }
@@ -842,7 +842,6 @@ html.touch .mce-grid td {
         border-color: transparent;
         z-index: 1;
         position: absolute;
-        top: 1px;
         right: 1rem;
 
         a.active {
@@ -858,8 +857,10 @@ html.touch .mce-grid td {
             }
         }
 
-        a:hover {
+        a:hover,
+        a:focus {
             border-bottom-color: transparent;
+            outline: 0;
         }
     }
 

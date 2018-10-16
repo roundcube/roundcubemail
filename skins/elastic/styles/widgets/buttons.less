@@ -99,6 +99,9 @@ button.btn {
     &.attach:before {
         content: @fa-var-paperclip;
     }
+    &.attach.vcard:before {
+        content: @fa-var-user;
+    }
     &.no:before,
     &.close:before,
     &.cancel:before {
@@ -131,6 +134,9 @@ button.btn {
     }
     &.select:before {
         .font-icon-regular(@fa-var-check-circle);
+    }
+    &.insert.recipient:before {
+        content: @fa-var-user-plus;
     }
 }
 

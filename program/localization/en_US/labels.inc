@@ -291,6 +291,8 @@ $labels['keyexpired'] = 'Expired';
 $labels['keyrevoked'] = 'Revoked';
 $labels['bccinstead'] = 'Use Bcc';
 $labels['addheader'] = 'Add recipient (header)';
+$labels['insert'] = 'Insert';
+$labels['insertcontact'] = 'Insert contact(s)';
 $labels['recipient'] = 'Recipient';
 $labels['recipientedit'] = 'Recipient edit';
 

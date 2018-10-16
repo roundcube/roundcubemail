@@ -151,6 +151,9 @@ function rcube_text_editor(config, id)
     ed.on('focus blur', function(e) {
       $(ed.getContainer()).toggleClass('focused');
     });
+
+    if (conf.setup_callback)
+      conf.setup_callback(ed);
   };
 
   rcmail.triggerEvent('editor-init', {config: conf, ref: ref});

@@ -617,6 +617,9 @@ html.ms .propform {
     &.add:before {
         content: @fa-var-plus;
     }
+    &.add.recipient:before {
+        content: @fa-var-users;
+    }
     &.search:before {
         content: @fa-var-search;
     }
@@ -632,6 +635,12 @@ html.ms .propform {
     }
 }
 
+.input-group a {
+    &:focus {
+        background-color: @color-input-border-focus-shadow;
+        outline: 0;
+    }
+}
 
 @proplist-record-height: 2rem;
 .proplist {
@@ -971,8 +980,13 @@ html.touch .popupmenu.form {
         }
     }
 
+    li {
+        max-width: 100%;
+    }
+
     input {
-        width: 15px;
+        width: 40px;
+        max-width: 100%;
         background: transparent !important;
         border: 0 !important;
         margin-top: @recipient-input-margin-fix;
