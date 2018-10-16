@@ -67,6 +67,7 @@ function rcube_elastic_ui()
     this.header_reset = header_reset;
     this.attachmentmenu = attachmentmenu;
     this.mailtomenu = mailtomenu;
+    this.recipient_selector = recipient_selector;
     this.show_list = show_list;
     this.show_sidebar = show_sidebar;
     this.smart_field_init = smart_field_init;
@@ -494,7 +495,8 @@ function rcube_elastic_ui()
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
-                var button, parent = table.parents('.sidebar,.list,.content').last(),
+                var repl, button,
+                    parent = table.parents('.sidebar,.list,.content').last(),
                     header = parent.find('.header'),
                     toolbar = header.find('ul');
 
@@ -525,9 +527,14 @@ function rcube_elastic_ui()
                         }
                     }
                     else {
-                        button.appendTo(toolbar).addClass('icon');
-                        if (!parent.is('.sidebar')) {
-                            button.addClass('toolbar-button');
+                        if (repl = table.data('list-select-replace')) {
+                            $(repl).replaceWith(button);
+                        }
+                        else {
+                            button.appendTo(toolbar).addClass('icon');
+                            if (!parent.is('.sidebar')) {
+                                button.addClass('toolbar-button');
+                            }
                         }
                     }
                 }
@@ -759,7 +766,7 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
+        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
 
@@ -1131,6 +1138,8 @@ function rcube_elastic_ui()
                 show_list();
             }
 
+            env.content_lock = false;
+
             // display current folder name in list header
             if (e.title) {
                 $('.header > .header-title', layout.list).text(e.title);
@@ -1139,6 +1148,10 @@ function rcube_elastic_ui()
 
         var list_handler = function(e) {
             var args = {};
+
+            if (rcmail.env.task == 'addressbook' || rcmail.env.task == 'mail') {
+                args.force = true;
+            }
 
             // display current folder name in list header
             if (rcmail.env.task == 'mail' && !rcmail.env.action) {
@@ -1175,6 +1188,7 @@ function rcube_elastic_ui()
             .addEventListener('afterlistsearch', list_handler)
             // plugins
             .addEventListener('show-list', function(e) {
+                e.force = true;
                 common_list_handler(e);
             })
             .addEventListener('show-content', function(e) {
@@ -1277,6 +1291,39 @@ function rcube_elastic_ui()
             if (o.config.plugins.match(/emoticons/)) {
                 o.config.toolbar += ' emoticons';
             }
+        }
+
+        if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
+            var form = $('#compose-content > form'),
+                keypress = function(e) {
+                    if (e.key == 'Tab' && e.shiftKey) {
+                        $('#compose-content > form').scrollTop(0);
+                    }
+                };
+
+            // Shift+Tab on mail compose editor scrolls the page to the top
+            o.config.setup_callback = function(ed) {
+                ed.on('keypress', keypress);
+            };
+
+            $('#composebody').on('keypress', keypress);
+
+            // Keep the editor toolbar on top of the screen on scroll
+            form.on('scroll', function() {
+                var container = $('.mce-container-body', form),
+                    toolbar = $('.mce-top-part', container),
+                    editor_offset = container.offset(),
+                    header_top = form.offset().top;
+
+                if (editor_offset && (editor_offset.top - header_top < 0)) {
+                    toolbar.css({position: 'fixed', top: header_top + 'px', width: container.width() + 'px'});
+                }
+                else {
+                    toolbar.css({position: 'relative', top: 0, width: 'auto'})
+                }
+            });
+
+            $(window).resize(function() { form.trigger('scroll'); });
         }
     };
 
@@ -2761,6 +2808,62 @@ function rcube_elastic_ui()
     };
 
     /**
+     * Recipient (contact) selector
+     */
+    function recipient_selector(field, opts)
+    {
+        if (!opts) opts = {};
+
+        var title = rcmail.gettext(opts.title || 'insertcontact'),
+            dialog = $('#recipient-dialog'),
+            parent = dialog.parent(),
+            close_func = function() {
+                if (dialog.is(':visible')) {
+                    rcmail.env.recipient_dialog.dialog('close');
+                }
+            },
+            insert_func = function() {
+                if (opts.action) {
+                    opts.action();
+                    close_func();
+                    return;
+                }
+
+                rcmail.command('add-recipient');
+            };
+
+        if (!rcmail.env.recipient_selector_initialized) {
+            rcmail.addEventListener('add-recipient', close_func);
+            rcmail.env.recipient_selector_initialized = true;
+        }
+
+        if (field) {
+            rcmail.env.focused_field = '#_' + field;
+        }
+
+        rcmail.contact_list.clear_selection();
+        rcmail.contact_list.multiselect = 'multiselect' in opts ? opts.multiselect : true;
+
+        rcmail.env.recipient_dialog = rcmail.simple_dialog(dialog, title, insert_func, {
+            button: rcmail.gettext(opts.button || 'insert'),
+            button_class: opts.button_class || 'insert recipient',
+            height: 600,
+            classes: {
+              'ui-dialog-content': 'p-0' // remove padding on dialog content
+            },
+            open: function() {
+                // Don't want focus in the search field, we focus first contacts source record instead
+                $('#directorylist a:first').focus();
+            },
+            close: function() {
+                dialog.appendTo(parent);
+                $(this).remove();
+                $(opts.focus || rcmail.env.focused_field).focus();
+            }
+        });
+    };
+
+    /**
      * Create/Update quota widget (setquota event handler)
      */
     function update_quota(p)
@@ -2798,7 +2901,7 @@ function rcube_elastic_ui()
     {
         var list, input, ac_props, update_lock,
             input_len_update = function() {
-                input.css('width', input.val().length * 10 + 15);
+                input.css('width', Math.max(40, input.val().length * 15 + 25));
             },
             apply_func = function() {
                 // update the original input
@@ -2864,6 +2967,13 @@ function rcube_elastic_ui()
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
+                // FIXME: This is a workaround for a bug where on a touch device
+                // selecting a recipient from autocomplete list do not work because
+                // of some events race condition (?)
+                if (this.value.indexOf('@') < 0) {
+                    return;
+                }
+
                 if (e.type == 'blur') {
                     list.removeClass('focus');
                 }
@@ -2880,7 +2990,7 @@ function rcube_elastic_ui()
                     return false;
                 }
                 // Here we add a recipient box when the separator (,;) or Enter was pressed
-                else if (e.key == ',' || e.key == ';' || e.key == 'Enter') {
+                else if (e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
                     if (update_func()) {
                         return false;
                     }
@@ -2899,7 +3009,7 @@ function rcube_elastic_ui()
             .append($('<li>').append(input))
             .on('click', function() { input.focus(); });
 
-        // "Replace" the original input/textarea with the content-editable div
+        // Hide the original input/textarea
         // Note: we do not remove the original element, and we do not use
         // display: none, because we want to handle onfocus event
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
@@ -2962,7 +3072,7 @@ function rcube_elastic_ui()
             }
         });
 
-        text = text.replace(/[,;]+/, ',').replace(/^[,;]/, '');
+        text = text.replace(/[,;]+/, ',').replace(/^[,;\s]+/, '');
 
         return {recipients: recipients, text: text};
     };
@@ -3304,6 +3414,7 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
+            tabindex = editor.attr('tabindex'),
             mode = function() {
                 if (is_table) {
                     return sw.is(':checked') ? 'html' : 'plain';
@@ -3335,20 +3446,21 @@ function rcube_elastic_ui()
         parent.addClass('html-editor');
         editor.before(tabs);
 
-        $('a', tabs).attr('tabindex', editor.attr('tabindex'))
+        $('a', tabs).attr('tabindex', tabindex)
             .on('click', function(e) {
                 var id = editor.attr('id'), is_html = $(this).is('.mode-html');
 
                 e.preventDefault();
                 if (rcmail.command('toggle-editor', {id: id, html: is_html}, '', e.originalEvent)) {
-                    $(this).tab('show');
+                    $(this).tab('show').prop('tabindex', -1);
+                    $('.mode-' + (is_html ? 'plain' : 'html'), tabs).prop('tabindex', tabindex);
 
                     if (is_table) {
                         sw.prop('checked', is_html);
                     }
                 }
             })
-            .filter('.mode-' + mode()).tab('show');
+            .filter('.mode-' + mode()).tab('show').prop('tabindex', -1);
 
         if (is_table) {
             // Hide unwanted table cells
