@@ -696,7 +696,12 @@ function rcube_elastic_ui()
             });
         }
 
-        rcmail.env.thread_padding = '1.5rem';
+        rcmail.set_env({
+            thread_padding: '1.5rem',
+            // increase popup windows, so they do not switch to tablet mode
+            popup_width_small: 1025,
+            popup_width: 1200
+        });
 
         // Update layout after initialization (again)
         // In devel mode we have to wait until all styles are applied by less
