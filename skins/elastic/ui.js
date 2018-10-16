@@ -3251,7 +3251,7 @@ function rcube_elastic_ui()
                 .popover('show');
         };
 
-        select.addClass('pretty-select')
+        select.addClass('pretty-select custom-select form-control')
             .on('mousedown keydown', function(e) {
                 select = $(e.target); // so it works after clone
 
