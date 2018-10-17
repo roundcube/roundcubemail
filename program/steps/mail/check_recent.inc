@@ -54,6 +54,8 @@ else {
 $plugin      = $RCMAIL->plugins->exec_hook('check_recent', array('folders' => $a_mailboxes, 'all' => $check_all));
 $a_mailboxes = $plugin['folders'];
 
+$RCMAIL->storage_fatal_error();
+
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
     $is_current = $mbox_name == $current || ($search_request && is_object($_SESSION['search'][1]) && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX')));
@@ -64,6 +66,10 @@ foreach ($a_mailboxes as $mbox_name) {
 
     // Get mailbox status
     $status = $RCMAIL->storage->folder_status($mbox_name, $diff);
+
+    if ($is_current) {
+        $RCMAIL->storage_fatal_error();
+    }
 
     if ($status & 1) {
         // trigger plugin hook
