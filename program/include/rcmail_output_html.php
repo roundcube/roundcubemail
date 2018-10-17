@@ -1590,12 +1590,14 @@ EOF;
         }
 
         // overwrite attributes
-        if (!$attrib['href']) {
+        if (!$attrib['href'] && !$menuitem) {
             $attrib['href'] = '#';
         }
+
         if ($attrib['task']) {
-            if ($attrib['classact'])
+            if ($attrib['classact']) {
                 $attrib['class'] = $attrib['classact'];
+            }
         }
         else if ($command && !$attrib['onclick']) {
             $attrib['onclick'] = sprintf(
