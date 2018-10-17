@@ -1931,6 +1931,22 @@ class rcmail extends rcube
     }
 
     /**
+     * Displays an error message on storage fatal errors
+     */
+    public function storage_fatal_error()
+    {
+        $err_code = $this->storage->get_error_code();
+        switch ($err_code) {
+        // Not all are really fatal, but these should catch
+        // connection/authentication errors the best we can
+        case rcube_imap_generic::ERROR_NO:
+        case rcube_imap_generic::ERROR_BAD:
+        case rcube_imap_generic::ERROR_BYE:
+            $this->display_server_error();
+        }
+    }
+
+    /**
      * Output HTML editor scripts
      *
      * @param string $mode Editor mode
