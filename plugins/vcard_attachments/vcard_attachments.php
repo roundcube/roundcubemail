@@ -21,7 +21,7 @@ class vcard_attachments extends rcube_plugin
 
         if ($rcmail->task == 'addressbook') {
             $skin_path = $this->local_skin_path();
-            $this->add_texts('localization', true);
+            $this->add_texts('localization', !$rcmail->output->ajax_call);
             $this->include_stylesheet($skin_path . '/style.css');
             $this->include_script('vcardattach.js');
             $this->add_button(
@@ -184,7 +184,7 @@ class vcard_attachments extends rcube_plugin
      */
     function save_vcard()
     {
-        $this->add_texts('localization', true);
+        $this->add_texts('localization');
 
         $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
