@@ -322,6 +322,15 @@ class rcube_html2text
     protected $_do_links = true;
 
     /**
+     * Boolean flag, false if a table of link URLs should be listed after the text, true if the link should be displayed to the original point in the text they
+     * appeared.
+     *
+     * @var boolean $_keep_links_inline
+     * @see __construct()
+     */
+    protected $_keep_links_inline = true;
+
+    /**
      * Constructor.
      *
      * If the HTML source string (or file) is supplied, the class
@@ -332,8 +341,9 @@ class rcube_html2text
      * @param boolean $from_file Indicates $source is a file to pull content from
      * @param boolean $do_links  Indicate whether a table of link URLs is desired
      * @param integer $width     Maximum width of the formatted text, 0 for no limit
+     * @param boolean $keep_links_inline  Indicate whether a table of link URLs is desired or a display next to the linktext
      */
-    function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8')
+    function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8', $keep_links_inline = false)
     {
         if (!empty($source)) {
             $this->set_html($source, $from_file);
@@ -344,6 +354,7 @@ class rcube_html2text
         $this->_do_links = $do_links;
         $this->width     = $width;
         $this->charset   = $charset;
+        $this->_keep_links_inline = $keep_links_inline;
     }
 
     /**
@@ -508,14 +519,14 @@ class rcube_html2text
      * Helper function called by preg_replace() on link replacement.
      *
      * Maintains an internal list of links to be displayed at the end of the
-     * text, with numeric indices to the original point in the text they
+     * text, with numeric indices or simply the link to the original point in the text they
      * appeared. Also makes an effort at identifying and handling absolute
      * and relative links.
      *
      * @param string $link    URL of the link
      * @param string $display Part of the text to associate number with
      */
-    protected function _build_link_list($link, $display)
+    protected function _handle_link($link, $display)
     {
         if (empty($link)) {
             return $display;
@@ -555,6 +566,39 @@ class rcube_html2text
             return $display;
         }
 
+        if ($this->_keep_links_inline) {
+            return $this->_build_link_inline($url, $display);
+        }
+
+        return $this->_build_link_list($url, $display);
+    }
+
+    /**
+     * Helper function called by _handle_link() on link replacement.
+     *
+     * Displays the link next to the original point in the text they
+     * appeared.
+     *
+     * @param string $url     URL of the link
+     * @param string $display linktext
+     */
+    protected function _build_link_inline($url, $display)
+    {
+        return $display . ' &lt;' . $url . '&gt;';
+    }
+
+    /**
+     * Helper function called by _handle_link() on link replacement.
+     *
+     * Maintains an internal list of links to be displayed at the end of the
+     * text, with numeric indices to the original point in the text they
+     * appeared.
+     *
+     * @param string $url    URL of the link
+     * @param string $display Part of the text to associate number with
+     */
+    protected function _build_link_list($url, $display)
+    {
         if (($index = array_search($url, $this->_link_list)) === false) {
             $index = count($this->_link_list);
             $this->_link_list[] = $url;
@@ -682,7 +726,7 @@ class rcube_html2text
         case 'a':
             // Remove spaces in URL (#1487805)
             $url = str_replace(' ', '', $matches[3]);
-            return $this->_build_link_list($url, $matches[4]);
+            return $this->_handle_link($url, $matches[4]);
         }
     }
 
