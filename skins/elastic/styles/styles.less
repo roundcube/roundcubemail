@@ -152,6 +152,31 @@ a {
     max-width: 280px;
     position: relative;
 
+    .form-control {
+      padding: 20px 15px;
+    }
+
+    .input-group-prepend {
+      background: #fff;
+      border-right: 0 none;
+
+      .input-group-text {
+        background: #fff;
+        color: #777;
+      }
+    }
+
+    .btn-primary {
+      width: 100%;
+      text-transform: uppercase;
+      font-size: 15px;
+      font-weight: 500;
+
+      &:before {
+        content: '';
+      }
+    }
+
     // Fixes input width and position in IE11
     .row {
         max-width: 280px;
