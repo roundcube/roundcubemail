@@ -2,9 +2,11 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - SMTP GSSAPI support via krb_authentication plugin (#6417)
+- Avoid Referer leaking by using Referrer-Policy:same-origin header (#6385)
 - Removed referer_check option (#6440)
 - Update to TinyMCE 4.8.2
 - Plugin API: Added 'raise_error' hook (#6199)
+- Plugin API: Added 'common_headers' hook (#6385)
 - Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
