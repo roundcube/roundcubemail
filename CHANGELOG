@@ -22,13 +22,6 @@ CHANGELOG Roundcube Webmail
 - Fix so invalid smtp_helo_host is never used, fallback to localhost (#6408)
 - Fix custom logo size in Elastic (#6424)
 - Fix listing the same attachment multiple times on forwarded messages
-- Fix compatibility with MySQL 8 - error on 'system' table use
-- Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
-- New_user_identity: Fix %fu/%u vars substitution in user specific LDAP params (#6419)
-- Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
-- Fix bug where valid content between HTML comments could have been skipped in some cases (#6464)
-- Fix multiple VCard field search (#6466)
-- Fix session issue on long running requests (#6470)
 
 RELEASE 1.4-beta
 ----------------
@@ -121,12 +114,22 @@ RELEASE 1.4-beta
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
+
+RELEASE 1.3.8
+-------------
 - Fix PHP warnings on dummy QUOTA responses in Courier-IMAP 4.17.1 (#6374)
 - Fix so fallback from BINARY to BODY FETCH is used also on [PARSE] errors in dovecot 2.3 (#6383)
 - Enigma: Fix deleting keys with authentication subkeys (#6381)
 - Fix invalid regular expressions that throw warnings on PHP 7.3 (#6398)
 - Fix so Classic skin splitter does not escape out of window (#6397)
 - Fix XSS issue in handling invalid style tag content (#6410)
+- Fix compatibility with MySQL 8 - error on 'system' table use
+- Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
+- New_user_identity: Fix %fu/%u vars substitution in user specific LDAP params (#6419)
+- Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
+- Fix bug where valid content between HTML comments could have been skipped in some cases (#6464)
+- Fix multiple VCard field search (#6466)
+- Fix session issue on long running requests (#6470)
 
 RELEASE 1.3.7
 -------------
