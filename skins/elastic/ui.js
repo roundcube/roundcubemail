@@ -2240,7 +2240,8 @@ function rcube_elastic_ui()
                 $(this).data('event', 'mouse');
             })
             .on('keydown', function(e) {
-                switch (e.originalEvent.which) {
+                if (e.originalEvent) {
+                    switch (e.originalEvent.which) {
                     case 13:
                     case 32:
                         // Open the popup on ENTER or SPACE
@@ -2251,6 +2252,7 @@ function rcube_elastic_ui()
                         // Close the popup on ESC key
                         $(this).popover('hide');
                         break;
+                    }
                 }
             });
 
