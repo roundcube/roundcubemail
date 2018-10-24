@@ -405,6 +405,8 @@ class rcube_imap_generic
     {
         $this->errornum = $code;
         $this->error    = $msg;
+
+        return $code;
     }
 
     /**
@@ -522,9 +524,8 @@ class rcube_imap_generic
     {
         if ($type == 'CRAM-MD5' || $type == 'DIGEST-MD5') {
             if ($type == 'DIGEST-MD5' && !class_exists('Auth_SASL')) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The Auth_SASL package is required for DIGEST-MD5 authentication");
-                return self::ERROR_BAD;
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE $type");
@@ -596,9 +597,8 @@ class rcube_imap_generic
                 $challenge = substr($line, 2);
                 $challenge = base64_decode($challenge);
                 if (strpos($challenge, 'rspauth=') === false) {
-                    $this->setError(self::ERROR_BAD,
+                    return $this->setError(self::ERROR_BAD,
                         "Unexpected response from server to DIGEST-MD5 response");
-                    return self::ERROR_BAD;
                 }
 
                 $this->putLine('');
@@ -609,21 +609,18 @@ class rcube_imap_generic
         }
         else if ($type == 'GSSAPI') {
             if (!extension_loaded('krb5')) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The krb5 extension is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             if (empty($this->prefs['gssapi_cn'])) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The gssapi_cn parameter is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             if (empty($this->prefs['gssapi_context'])) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The gssapi_context parameter is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             putenv('KRB5CCNAME=' . $this->prefs['gssapi_cn']);
@@ -640,8 +637,7 @@ class rcube_imap_generic
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
-                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
-                return self::ERROR_BAD;
+                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE GSSAPI " . $token);
@@ -658,8 +654,7 @@ class rcube_imap_generic
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
-                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
-                return self::ERROR_BAD;
+                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
             $this->putLine(base64_encode($challenge));
@@ -726,13 +721,11 @@ class rcube_imap_generic
             if ($line && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
                 $this->parseCapability($matches[1], true);
             }
+
             return $this->fp;
         }
-        else {
-            $this->setError($result, "AUTHENTICATE $type: $line");
-        }
 
-        return $result;
+        return $this->setError($result, "AUTHENTICATE $type: $line");
     }
 
     /**
@@ -747,8 +740,7 @@ class rcube_imap_generic
     {
         // Prevent from sending credentials in plain text when connection is not secure
         if ($this->getCapability('LOGINDISABLED')) {
-            $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
-            return false;
+            return $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
         }
 
         list($code, $response) = $this->execute('LOGIN', array(
