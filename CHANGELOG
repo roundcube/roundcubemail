@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Improved UX of search dialogs (#6416)
 - Elastic: Fix unwanted thread expanding when selecting a collapsed thread in non-mobile mode (#6445)
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
+- Fix incorrect IMAP SASL GSSAPI negotiation (#6308)
 - Fix so unicode in local part of the email address is also supported in recipient inputs (#6490)
 - Fix bug where autocomplete list could be displayed out of screen (#6469)
 - Fix style/navigation on error page depending on authentication state (#6362)
