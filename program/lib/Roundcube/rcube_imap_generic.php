@@ -648,16 +648,37 @@ class rcube_imap_generic
             }
 
             try {
-                $challenge = base64_decode(substr($line, 2));
-                $gssapicontext->unwrap($challenge, $challenge);
-                $gssapicontext->wrap($challenge, $challenge, true);
+                $itoken = base64_decode(substr($line, 2));
+
+                if (!$gssapicontext->unwrap($itoken, $itoken)) {
+                    throw new Exception("GSSAPI SASL input token unwrap failed");
+                }
+
+                if (strlen($itoken) < 4) {
+                    throw new Exception("GSSAPI SASL input token invalid");
+                }
+
+                // Integrity/encryption layers are not supported. The first bit
+                // indicates that the server supports "no security layers".
+                // 0x00 should not occur, but support broken implementations.
+                $server_layers = ord($itoken[0]);
+                if ($server_layers && ($server_layers & 0x1) != 0x1) {
+                    throw new Exception("Server requires GSSAPI SASL integrity/encryption");
+                }
+
+                // Construct output token. 0x01 in the first octet = SASL layer "none",
+                // zero in the following three octets = no data follows.
+                // See https://github.com/cyrusimap/cyrus-sasl/blob/e41cfb986c1b1935770de554872247453fdbb079/plugins/gssapi.c#L1284
+                if (!$gssapicontext->wrap(pack("CCCC", 0x1, 0, 0, 0), $otoken, true)) {
+                    throw new Exception("GSSAPI SASL output token wrap failed");
+                }
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
                 return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
-            $this->putLine(base64_encode($challenge));
+            $this->putLine(base64_encode($otoken));
 
             $line   = $this->readReply();
             $result = $this->parseResult($line);
