@@ -2925,8 +2925,6 @@ function rcube_elastic_ui()
             },
             focus_func = function() {
                 list.addClass('focus');
-                // move cursor to the end of input text, use setTimeout for Firefox
-                setTimeout(function() { rcmail.set_caret_pos(input.get(0), input.val().length); }, 1);
             },
             insert_recipient = function(name, email, replace) {
                 var recipient = $('<li class="recipient">'),
@@ -2983,15 +2981,15 @@ function rcube_elastic_ui()
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
+                if (e.type == 'blur') {
+                    list.removeClass('focus');
+                }
+
                 // FIXME: This is a workaround for a bug where on a touch device
                 // selecting a recipient from autocomplete list do not work because
                 // of some events race condition (?)
                 if (this.value.indexOf('@') < 0) {
                     return;
-                }
-
-                if (e.type == 'blur') {
-                    list.removeClass('focus');
                 }
 
                 // On paste the text is not yet in the input we have to use clipboard.
