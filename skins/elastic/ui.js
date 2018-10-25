@@ -2530,6 +2530,10 @@ function rcube_elastic_ui()
      */
     function import_dialog()
     {
+        if (!rcmail.commands['import-messages']) {
+            return;
+        }
+
         var content = $('#uploadform'),
             dialog = content.clone();
 
@@ -2795,11 +2799,13 @@ function rcube_elastic_ui()
     function headersmenu(obj, button, event)
     {
         $('li > a', obj).each(function() {
-            var target = '#compose_' + $(this).data('target');
+            var link = $(this), target = '#compose_' + link.data('target');
 
-            $(this)[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
+            link[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
                 .off().on('click', function() {
                     $(target).removeClass('hidden').find('.recipient-input input').focus();
+                    link.removeClass('active');
+                    rcmail.set_menu_buttons();
                 });
         });
     };
@@ -2812,6 +2818,9 @@ function rcube_elastic_ui()
         $('#' + id).val('').change()
             // jump to the next input
             .closest('.form-group').nextAll(':not(.hidden)').first().find('input').focus();
+
+        $('a[data-target=' + id.replace(/^_/, '') + ']').addClass('active');
+        rcmail.set_menu_buttons();
     };
 
     /**

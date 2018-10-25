@@ -47,6 +47,7 @@ function rcube_webmail()
   this.group2expand = {};
   this.http_request_jobs = {};
   this.menu_stack = [];
+  this.menu_buttons = [];
   this.entity_selectors = [];
   this.image_style = {};
 
@@ -119,6 +120,47 @@ function rcube_webmail()
 
     if (this.loaded)
       this.init_button(command, button_prop);
+  };
+
+  // register a button with popup menu, to set its state according to the state of all commands in the menu
+  this.register_menu_button = function(button, menu_id)
+  {
+    var commands = [];
+
+    $('#' + menu_id).find('a').each(function() {
+      var command, link = $(this), onclick = link.attr('onclick');
+
+      if (onclick && String(onclick).match(/rcmail\.command\(\'([^']+)/))
+        command = RegExp.$1;
+      else
+        command = function() { return link.is('.active'); };
+
+      commands.push(command);
+    });
+
+    if (commands.length)
+      this.menu_buttons.push([button, commands]);
+
+    this.set_menu_buttons();
+  };
+
+  // set state of a menu button according to state of all menu actions
+  this.set_menu_buttons = function()
+  {
+    // Use timeouts to not block and set menu button states only once
+    clearTimeout(this.menu_buttons_timeout);
+    this.menu_buttons_timeout = setTimeout(function() {
+      $.each(ref.menu_buttons, function() {
+        var disabled = true;
+        $.each(this[1], function() {
+          var is_func = typeof(this) == 'function';
+          if ((is_func && this()) || (!is_func && ref.commands[this])) {
+            return disabled = false;
+          }
+        });
+        $(this[0]).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
+      });
+    }, 50);
   };
 
   // register a specific gui object
@@ -665,6 +707,9 @@ function rcube_webmail()
       else if (typeof this.onloads[n] === 'function')
         this.onloads[n]();
     }
+
+    // register menu buttons
+    $('[data-popup]').each(function() { ref.register_menu_button(this, $(this).data('popup')); });
 
     // start keep-alive and refresh intervals
     this.start_refresh();
@@ -1463,6 +1508,8 @@ function rcube_webmail()
           args.push(cmd[i]);
       }
     }
+
+    this.set_menu_buttons();
   };
 
   this.command_enabled = function(cmd)

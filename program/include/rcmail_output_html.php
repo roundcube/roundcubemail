@@ -1628,8 +1628,9 @@ EOF;
         else if ($attrib['type'] == 'link') {
             $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target', 'rel'));
-            if ($attrib['innerclass'])
+            if ($attrib['innerclass']) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
+            }
         }
         else if ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
