@@ -1467,8 +1467,6 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
         ),
         $body);
 
-    $attributes = array();
-
     // Handle body attributes that doesn't play nicely with div elements
     $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
