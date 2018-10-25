@@ -402,7 +402,7 @@ triggerEvent: function(evt, e)
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline, count)
+function rcube_check_email(input, inline, count, strict)
 {
   if (!input)
     return count ? 0 : false;
@@ -438,7 +438,7 @@ function rcube_check_email(input, inline, count)
         '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
       ],
       icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
-      word = '('+atom+'|'+quoted_string+')',
+      word = strict ? '('+atom+'|'+quoted_string+')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
       delim = '[,;\\s\\n]',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
