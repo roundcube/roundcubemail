@@ -19,7 +19,7 @@
 		<roundcube:button command="acl-edit" label="edit" type="link-menuitem" class="edit" classAct="edit active" />
 		<roundcube:button command="acl-delete" label="delete" type="link-menuitem" class="delete" classAct="delete active" />
 		<roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-			<li role="menuitem" class="checkbox"><label id="acl-switch"><input type="checkbox" onchange="rcmail.command('acl-mode-switch')" /><roundcube:label name="acl.advanced" /></label></li>
+			<li role="menuitem" class="checkbox"><label id="acl-switch"><input type="checkbox" onchange="rcmail.command('acl-mode-switch')" /><a class="active"><roundcube:label name="acl.advanced" /></a></label></li>
 		<roundcube:endif />
 	</ul>
 </div>
