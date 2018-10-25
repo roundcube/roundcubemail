@@ -32,9 +32,9 @@
 		<a class="button icon back-sidebar-button folders" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
 		<span class="header-title"></span>
 		<div class="toolbar" role="toolbar">
-			<a href="#select" class="button select active" data-popup="listselect-menu" data-toggle-button="list-toggle-button" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
+			<a href="#select" class="button select disabled" data-popup="listselect-menu" data-toggle-button="list-toggle-button" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
-				<a href="#threads" class="button threads active" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
+				<a href="#threads" class="button threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
 			<roundcube:object name="listmenulink" class="button settings active" label="options" innerclass="inner" />
 			<roundcube:container name="listcontrols" id="listcontrols" />
