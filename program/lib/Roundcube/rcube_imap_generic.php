@@ -405,6 +405,8 @@ class rcube_imap_generic
     {
         $this->errornum = $code;
         $this->error    = $msg;
+
+        return $code;
     }
 
     /**
@@ -522,9 +524,8 @@ class rcube_imap_generic
     {
         if ($type == 'CRAM-MD5' || $type == 'DIGEST-MD5') {
             if ($type == 'DIGEST-MD5' && !class_exists('Auth_SASL')) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The Auth_SASL package is required for DIGEST-MD5 authentication");
-                return self::ERROR_BAD;
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE $type");
@@ -596,9 +597,8 @@ class rcube_imap_generic
                 $challenge = substr($line, 2);
                 $challenge = base64_decode($challenge);
                 if (strpos($challenge, 'rspauth=') === false) {
-                    $this->setError(self::ERROR_BAD,
+                    return $this->setError(self::ERROR_BAD,
                         "Unexpected response from server to DIGEST-MD5 response");
-                    return self::ERROR_BAD;
                 }
 
                 $this->putLine('');
@@ -609,21 +609,18 @@ class rcube_imap_generic
         }
         else if ($type == 'GSSAPI') {
             if (!extension_loaded('krb5')) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The krb5 extension is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             if (empty($this->prefs['gssapi_cn'])) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The gssapi_cn parameter is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             if (empty($this->prefs['gssapi_context'])) {
-                $this->setError(self::ERROR_BYE,
+                return $this->setError(self::ERROR_BYE,
                     "The gssapi_context parameter is required for GSSAPI authentication");
-                return self::ERROR_BAD;
             }
 
             putenv('KRB5CCNAME=' . $this->prefs['gssapi_cn']);
@@ -640,8 +637,7 @@ class rcube_imap_generic
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
-                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
-                return self::ERROR_BAD;
+                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE GSSAPI " . $token);
@@ -652,17 +648,37 @@ class rcube_imap_generic
             }
 
             try {
-                $challenge = base64_decode(substr($line, 2));
-                $gssapicontext->unwrap($challenge, $challenge);
-                $gssapicontext->wrap($challenge, $challenge, true);
+                $itoken = base64_decode(substr($line, 2));
+
+                if (!$gssapicontext->unwrap($itoken, $itoken)) {
+                    throw new Exception("GSSAPI SASL input token unwrap failed");
+                }
+
+                if (strlen($itoken) < 4) {
+                    throw new Exception("GSSAPI SASL input token invalid");
+                }
+
+                // Integrity/encryption layers are not supported. The first bit
+                // indicates that the server supports "no security layers".
+                // 0x00 should not occur, but support broken implementations.
+                $server_layers = ord($itoken[0]);
+                if ($server_layers && ($server_layers & 0x1) != 0x1) {
+                    throw new Exception("Server requires GSSAPI SASL integrity/encryption");
+                }
+
+                // Construct output token. 0x01 in the first octet = SASL layer "none",
+                // zero in the following three octets = no data follows.
+                // See https://github.com/cyrusimap/cyrus-sasl/blob/e41cfb986c1b1935770de554872247453fdbb079/plugins/gssapi.c#L1284
+                if (!$gssapicontext->wrap(pack("CCCC", 0x1, 0, 0, 0), $otoken, true)) {
+                    throw new Exception("GSSAPI SASL output token wrap failed");
+                }
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
-                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
-                return self::ERROR_BAD;
+                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
-            $this->putLine(base64_encode($challenge));
+            $this->putLine(base64_encode($otoken));
 
             $line   = $this->readReply();
             $result = $this->parseResult($line);
@@ -726,13 +742,11 @@ class rcube_imap_generic
             if ($line && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
                 $this->parseCapability($matches[1], true);
             }
+
             return $this->fp;
         }
-        else {
-            $this->setError($result, "AUTHENTICATE $type: $line");
-        }
 
-        return $result;
+        return $this->setError($result, "AUTHENTICATE $type: $line");
     }
 
     /**
@@ -747,8 +761,7 @@ class rcube_imap_generic
     {
         // Prevent from sending credentials in plain text when connection is not secure
         if ($this->getCapability('LOGINDISABLED')) {
-            $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
-            return false;
+            return $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
         }
 
         list($code, $response) = $this->execute('LOGIN', array(
