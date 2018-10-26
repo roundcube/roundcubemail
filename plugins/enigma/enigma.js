@@ -60,12 +60,20 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             });
 
             $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a:first').prop('tabindex'));
-        }
 
-        $.each(['encrypt', 'sign'], function() {
-            if (rcmail.env['enigma_force_' + this])
-                $('[name="_enigma_' + this + '"]').prop('checked', true);
-        });
+            $.each(['encrypt', 'sign'], function() {
+                var opt = this, input = $('#enigma' + opt + 'opt');
+
+                if (rcmail.env['enigma_force_' + opt]) {
+                    input.prop('checked', true);
+                }
+
+                // Compose status bar in Elastic
+                if (window.UI && UI.compose_status) {
+                    input.on('change', function() { UI.compose_status(opt, this.checked); }).trigger('change');
+                }
+            });
+        }
 
         if (rcmail.env.enigma_password_request) {
             rcmail.enigma_password_request(rcmail.env.enigma_password_request);
