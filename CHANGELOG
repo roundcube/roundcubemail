@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Fix so invalid smtp_helo_host is never used, fallback to localhost (#6408)
 - Fix custom logo size in Elastic (#6424)
 - Fix listing the same attachment multiple times on forwarded messages
+- Fix bug where a message/rfc822 part without a filename wasn't listed on the attachments list (#6494)
 
 RELEASE 1.4-beta
 ----------------
