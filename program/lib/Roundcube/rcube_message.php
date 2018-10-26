@@ -769,12 +769,12 @@ class rcube_message
 
                 // multipart/alternative or message/rfc822
                 if ($primary_type == 'multipart' || $part_mimetype == 'message/rfc822') {
-                    $this->parse_structure($mail_part, true);
-
-                    // list message/rfc822 as attachment as well (mostly .eml)
-                    if ($primary_type == 'message' && !empty($mail_part->filename)) {
+                    // list message/rfc822 as attachment as well
+                    if ($part_mimetype == 'message/rfc822') {
                         $this->add_part($mail_part, 'attachment');
                     }
+
+                    $this->parse_structure($mail_part, true);
                 }
                 // part text/[plain|html] or delivery status
                 else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
