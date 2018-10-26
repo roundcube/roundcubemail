@@ -65,6 +65,7 @@ function rcube_elastic_ui()
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
     this.header_reset = header_reset;
+    this.compose_status = compose_status;
     this.attachmentmenu = attachmentmenu;
     this.mailtomenu = mailtomenu;
     this.recipient_selector = recipient_selector;
@@ -685,6 +686,16 @@ function rcube_elastic_ui()
                 $('a').filter('[href^="mailto:"]').each(function() {
                     mailtomenu_append(this);
                 });
+            }
+
+            // Update compose status bar on attachments list update
+            if (window.MutationObserver) {
+                var observer, list = $('#attachment-list'),
+                    status_callback = function() { compose_status('attach', list.children().length > 0); };
+
+                observer = new MutationObserver(status_callback);
+                observer.observe(list[0], {childList: true});
+                status_callback();
             }
         }
         else if (rcmail.task == 'settings') {
@@ -2704,6 +2715,23 @@ function rcube_elastic_ui()
                 el.removeClass('selected').removeAttr('aria-selected');
             }
         });
+    };
+
+    /**
+     * Add/remove item to/from compose options status bar
+     */
+    function compose_status(id, status)
+    {
+        var bar = $('#composestatusbar'), ico = bar.find('a.button.icon.' + id);
+
+        if (!status) {
+            ico.remove();
+        }
+        else if (!ico.length) {
+            $('<a>').attr('class', 'button icon ' + id)
+                .on('click', function() { show_sidebar(); })
+                .appendTo(bar);
+        }
     };
 
     /**
