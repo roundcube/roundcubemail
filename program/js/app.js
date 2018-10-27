@@ -127,8 +127,6 @@ function rcube_webmail()
   {
     if (!this.menu_buttons[menu_id]) {
       this.menu_buttons[menu_id] = [[], []];
-      var commands = [];
-
       $('#' + menu_id).find('a').each(function() {
         var command, link = $(this), onclick = link.attr('onclick');
 
