@@ -679,6 +679,16 @@ function rcube_elastic_ui()
                         rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
                     }
                 });
+
+                // Update compose status bar on attachments list update
+                if (window.MutationObserver) {
+                    var observer, list = $('#attachment-list'),
+                        status_callback = function() { compose_status('attach', list.children().length > 0); };
+
+                    observer = new MutationObserver(status_callback);
+                    observer.observe(list[0], {childList: true});
+                    status_callback();
+                }
             }
 
             // Append contact menu to all mailto: links
@@ -686,16 +696,6 @@ function rcube_elastic_ui()
                 $('a').filter('[href^="mailto:"]').each(function() {
                     mailtomenu_append(this);
                 });
-            }
-
-            // Update compose status bar on attachments list update
-            if (window.MutationObserver) {
-                var observer, list = $('#attachment-list'),
-                    status_callback = function() { compose_status('attach', list.children().length > 0); };
-
-                observer = new MutationObserver(status_callback);
-                observer.observe(list[0], {childList: true});
-                status_callback();
             }
         }
         else if (rcmail.task == 'settings') {
