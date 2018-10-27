@@ -1716,7 +1716,10 @@ class rcube
             $this->smtp->disconnect();
         }
 
-        $message->headers($headers, true);
+        // Add Bcc header back
+        if (!empty($headers['Bcc'])) {
+            $message->headers(array('Bcc' => $headers['Bcc']), true);
+        }
 
         return $sent;
     }
