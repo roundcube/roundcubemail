@@ -47,7 +47,7 @@ function rcube_webmail()
   this.group2expand = {};
   this.http_request_jobs = {};
   this.menu_stack = [];
-  this.menu_buttons = [];
+  this.menu_buttons = {};
   this.entity_selectors = [];
   this.image_style = {};
 
@@ -139,7 +139,7 @@ function rcube_webmail()
     });
 
     if (commands.length)
-      this.menu_buttons.push([button, commands]);
+      this.menu_buttons[menu_id] = [button, commands];
 
     this.set_menu_buttons();
   };
