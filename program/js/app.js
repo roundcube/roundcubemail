@@ -125,8 +125,11 @@ function rcube_webmail()
   // register a button with popup menu, to set its state according to the state of all commands in the menu
   this.register_menu_button = function(button, menu_id)
   {
-    if (!this.menu_buttons[menu_id]) {
-      this.menu_buttons[menu_id] = [[], []];
+    if (this.menu_buttons[menu_id]) {
+      this.menu_buttons[menu_id][0].push(button);
+    }
+    else {
+      var commands = [];
       $('#' + menu_id).find('a').each(function() {
         var command, link = $(this), onclick = link.attr('onclick');
 
@@ -135,12 +138,12 @@ function rcube_webmail()
         else
           command = function() { return link.is('.active'); };
 
-        ref.menu_buttons[menu_id][1].push(command);
+        commands.push(command);
       });
-    }
 
-    if (ref.menu_buttons[menu_id][1].length)
-      this.menu_buttons[menu_id][0].push(button);
+      if (commands.length)
+        this.menu_buttons[menu_id] = [[button], commands];
+    }
 
     this.set_menu_buttons();
   };
