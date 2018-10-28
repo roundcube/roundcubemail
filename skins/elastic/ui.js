@@ -1410,18 +1410,13 @@ function rcube_elastic_ui()
             case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
                 if (args.status) {
-                    $('a.button.encrypt').parent().show();
+                    $('a.button.encrypt:not(.icon)').parent().show();
                 }
                 break;
 
             case 'compose-encrypted-signed':
                 // enable selector for encrypt and sign
                 $('#encryption-menu-button').show();
-                break;
-
-            case 'mark':
-                // show the toolbar button for Mailvelope
-                $('a.button.markmessage')[args.status ? 'removeClass' : 'addClass']('disabled');
                 break;
             }
         }
