@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
 - Password: Fix bug where new users could skip forced password change (#6434)
+- Elastic: On touch devices display attachment icons on messages list (#6296)
 - Elastic: Make menu button inactive if all subactions are inactive (#6444)
 - Elastic: On mobile/tablet jump to the list on folder selection (#6415)
 - Elastic: Various improvements on mail compose screen (#6413)

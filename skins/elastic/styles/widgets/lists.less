@@ -713,17 +713,32 @@ table.fixedcopy {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
     }
-
 }
 
+// On touch devices hide flag icon, but do it in a way
+// that saves as much room as possible, keeping the attachment icon
 html.layout-phone,
 html.touch {
     .messagelist {
+        tr {
+            position: relative;
+        }
         td.flags {
-            display: none;
+            position: absolute;
+            top: .25rem;
+            right: 0;
+            bottom: 0;
+
+            .flag {
+                visibility: hidden;
+            }
         }
         td.subject {
             padding-right: .5em;
+
+            .subject {
+                padding-right: 1.5rem;
+            }
         }
     }
 }
