@@ -4639,10 +4639,13 @@ function rcube_webmail()
   this.init_address_input_events = function(obj, props)
   {
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
-      .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
+      .attr({autocomplete: 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', role: 'combobox'});
 
     // hide the popup on any click
-    $(document).on('click', function() { ref.ksearch_hide(); });
+    var callback = function() { ref.ksearch_hide(); };
+    $(document).on('click', callback);
+    // and on scroll (that cannot be jQuery.on())
+    document.addEventListener('scroll', callback, true);
   };
 
   this.submit_messageform = function(draft, saveonly)
