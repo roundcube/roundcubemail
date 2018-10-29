@@ -103,3 +103,11 @@ FOR DEVELOPERS
     frame. We do this e.g. for mail preview or contact preview. Plugins should use
     _action=add* or _action=create* or _nav=hide in the frame URL if the navigation
     should be hidden, which is the case when you create a content object.
+
+
+KNOWN ISSUES
+------------
+
+1. There are known issues with running less in Roundcube devel_mode:
+    - Dialogs executed on page load are displayed out of screen.
+    - CodeMirror editor (in managesieve raw script editing mode) is broken.
