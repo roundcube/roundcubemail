@@ -1301,9 +1301,12 @@ function rcmail_user_prefs($current = null)
 
 function rcmail_get_skins()
 {
+    global $RCMAIL;
+
     $path  = RCUBE_INSTALL_PATH . 'skins';
     $skins = array();
     $dir   = opendir($path);
+    $limit = $RCMAIL->config->get('skins_allowed');
 
     if (!$dir) {
         return false;
@@ -1311,7 +1314,8 @@ function rcmail_get_skins()
 
     while (($file = readdir($dir)) !== false) {
         $filename = $path.'/'.$file;
-        if (!preg_match('/^\./', $file) && is_dir($filename) && is_readable($filename)) {
+        if (!preg_match('/^\./', $file) && is_dir($filename) && is_readable($filename)
+            && (!is_array($limit) || !count($limit) || in_array($file, $limit))) {
             $skins[] = $file;
         }
     }
