@@ -5796,7 +5796,7 @@ function rcube_webmail()
           return;
 
         var dir = key == 38 ? 1 : 0,
-          highlight = document.getElementById('rcmkSearchItem' + this.ksearch_selected);
+          highlight = this.ksearch_pane.find('li.selected')[0];
 
         if (!highlight)
           highlight = this.ksearch_pane.__ul.firstChild;
@@ -5967,6 +5967,7 @@ function rcube_webmail()
 
     // display search results
     var i, id, len, ul, text, type, init,
+      is_framed = this.is_framed(),
       value = this.ksearch_value,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
@@ -5977,7 +5978,7 @@ function rcube_webmail()
         .attr({id: 'rcmKSearchpane', role: 'listbox'})
         .css({position: 'absolute', 'z-index': 30000})
         .append(ul)
-        .appendTo(document.body);
+        .appendTo(is_framed ? parent.document.body : document.body);
 
       this.ksearch_pane.__ul = ul[0];
       this.triggerEvent('autocomplete_create', {obj: this.ksearch_pane});
@@ -5996,9 +5997,28 @@ function rcube_webmail()
       ul.innerHTML = '';
       this.env.contacts = [];
 
-      // move the results pane right under the input box
-      var pos = $(this.ksearch_input).offset(),
-        w = $(window).width(),
+      // Calculate the results pane position and size
+      var pos = $(this.ksearch_input).offset();
+
+      // ... consider scroll position
+      pos.left -= $(document.documentElement).scrollLeft();
+      pos.top -= $(document.documentElement).scrollTop();
+
+      // ... consider iframe position
+      if (is_framed) {
+        try {
+          parent.$('iframe').each(function() {
+            if (this.contentWindow == window) {
+              var offset = $(this).offset();
+              pos.left += offset.left;
+              pos.top += offset.top;
+            }
+          });
+        }
+        catch(e) {}
+      }
+
+      var w = $(is_framed ? parent : window).width(),
         left = w - pos.left > 200 ? pos.left : w - 200,
         width = Math.min(400, w - left);
 
