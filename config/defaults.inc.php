@@ -1057,7 +1057,7 @@ $config['default_charset'] = 'ISO-8859-1';
 $config['skin'] = 'larry';
 
 // limit skins available/shown in the settings section
-$config['skins_allowed'] = [];
+$config['skins_allowed'] = array();
 
 // Enables using standard browser windows (that can be handled as tabs)
 // instead of popup windows
