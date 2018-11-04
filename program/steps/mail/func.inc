@@ -1796,8 +1796,7 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
     if (!isset($data)) {
         // don't load too big attachments into memory
         if (!rcube_utils::mem_check($size)) {
-            $temp_dir = unslashify($rcmail->config->get('temp_dir'));
-            $path     = tempnam($temp_dir, 'rcmAttmnt');
+            $path = rcube_utils::temp_filename('attmnt');
 
             if ($fp = fopen($path, 'w')) {
                 if ($pid) {

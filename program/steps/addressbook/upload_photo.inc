@@ -35,7 +35,7 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
         && $imageprop['width'] && $imageprop['height']
     ) {
         $maxsize   = intval($RCMAIL->config->get('contact_photo_size', 160));
-        $tmpfname  = tempnam($RCMAIL->config->get('temp_dir'), 'rcmImgConvert');
+        $tmpfname  = rcube_utils::temp_filename('imgconvert');
         $save_hook = 'attachment_upload';
 
         // scale image to a maximum size

@@ -469,8 +469,7 @@ class rcmail_sendmail
                         $msg = $message->mailbody_file;
                     }
                     else {
-                        $temp_dir      = $this->rcmail->config->get('temp_dir');
-                        $mailbody_file = tempnam($temp_dir, 'rcmMsg');
+                        $mailbody_file = rcube_utils::temp_filename('msg');
                         $msg           = $message->saveMessageBody($mailbody_file);
 
                         if (!is_a($msg, 'PEAR_Error')) {

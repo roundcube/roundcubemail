@@ -128,14 +128,13 @@ function rcmail_zip_extract($path)
     }
 
     $rcmail   = rcmail::get_instance();
-    $temp_dir = $rcmail->config->get('temp_dir');
     $zip      = new ZipArchive;
     $files    = array();
 
     if ($zip->open($path)) {
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $entry    = $zip->getNameIndex($i);
-            $tmpfname = tempnam($temp_dir, 'zipimport');
+            $tmpfname = rcube_utils::temp_filename('zipimport');
 
             if (copy("zip://$path#$entry", $tmpfname)) {
                 $ctype = rcube_mime::file_content_type($tmpfname, $entry);
