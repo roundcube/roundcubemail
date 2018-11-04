@@ -42,10 +42,10 @@ rcube_webmail.prototype.rcmail_markasjunk_move = function(mbox, uids) {
 }
 
 rcube_webmail.prototype.markasjunk_toggle_button = function() {
-    var spamobj = $('a.button.junk');
-    var hamobj = $('a.button.notjunk');
+    var spamobj = $('a.junk'),
+        hamobj = $('a.notjunk'),
+        disp = {spam: true, ham: true};
 
-    var disp = {'spam': true, 'ham': true};
     if (this.env.markasjunk_spam_only) {
         disp.ham = false;
     }
@@ -60,15 +60,15 @@ rcube_webmail.prototype.markasjunk_toggle_button = function() {
     // allow for multiple instances of the buttons, eg toolbar and contextmenu
     $.each(spamobj, function(i) {
         var cur_spamobj = spamobj.eq(i),
-          cur_hamobj = hamobj.eq(i),
-          cur_index = spamobj.eq(i).index();
+            cur_hamobj = hamobj.eq(i),
+            cur_index = spamobj.eq(i).index();
 
         if (cur_spamobj.parent('li').length > 0) {
             cur_spamobj = cur_spamobj.parent();
             cur_hamobj = cur_hamobj.parent();
         }
 
-        var evt_rtn = rcmail.triggerEvent('markasjunk-update', {'objs': {'spamobj': cur_spamobj, 'hamobj': cur_hamobj}, 'disp': disp});
+        var evt_rtn = rcmail.triggerEvent('markasjunk-update', {objs: {spamobj: cur_spamobj, hamobj: cur_hamobj}, disp: disp});
         if (evt_rtn && evt_rtn.abort)
             return;
 
@@ -92,42 +92,41 @@ rcube_webmail.prototype.markasjunk_is_spam_mbox = function() {
     return !this.is_multifolder_listing() && this.env.mailbox == this.env.markasjunk_spam_mailbox;
 }
 
-$(document).ready(function() {
-    if (window.rcmail) {
-        rcmail.addEventListener('init', function() {
-            // register command (directly enable in message view mode)
-            rcmail.register_command('plugin.markasjunk.junk', function() { rcmail.markasjunk_mark(true); }, !rcmail.markasjunk_is_spam_mbox() && rcmail.env.uid);
-            rcmail.register_command('plugin.markasjunk.not_junk', function() { rcmail.markasjunk_mark(false); }, rcmail.env.uid);
+if (window.rcmail) {
+    rcmail.addEventListener('init', function() {
+        // register command (directly enable in message view mode)
+        rcmail.register_command('plugin.markasjunk.junk', function() { rcmail.markasjunk_mark(true); }, !rcmail.markasjunk_is_spam_mbox() && rcmail.env.uid);
+        rcmail.register_command('plugin.markasjunk.not_junk', function() { rcmail.markasjunk_mark(false); }, rcmail.env.uid);
 
-            if (rcmail.message_list) {
-                rcmail.message_list.addEventListener('select', function(list) {
-                    rcmail.enable_command('plugin.markasjunk.junk', !rcmail.markasjunk_is_spam_mbox() && list.get_selection(false).length > 0);
-                    rcmail.enable_command('plugin.markasjunk.not_junk', list.get_selection(false).length > 0);
-                });
-            }
+        if (rcmail.message_list) {
+            rcmail.message_list.addEventListener('select', function(list) {
+                rcmail.enable_command('plugin.markasjunk.junk', !rcmail.markasjunk_is_spam_mbox() && list.get_selection(false).length > 0);
+                rcmail.enable_command('plugin.markasjunk.not_junk', list.get_selection(false).length > 0);
+            });
+        }
 
-            // make sure the correct icon is displayed even when there is no listupdate event
-            rcmail.markasjunk_toggle_button();
-        });
+        // make sure the correct icon is displayed even when there is no listupdate event
+        rcmail.markasjunk_toggle_button();
+    });
 
-        rcmail.addEventListener('listupdate', function() { rcmail.markasjunk_toggle_button(); });
+    rcmail.addEventListener('listupdate', function() { rcmail.markasjunk_toggle_button(); });
 
-        rcmail.addEventListener('beforemoveto', function(mbox) {
-            if (mbox && typeof mbox === 'object')
-                mbox = mbox.id;
+    rcmail.addEventListener('beforemoveto', function(mbox) {
+        if (mbox && typeof mbox === 'object')
+            mbox = mbox.id;
 
-            var is_spam = null;
-            // check if destination mbox equals junk box (and we're not already in the junk box)
-            if (rcmail.env.markasjunk_move_spam && mbox && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
-                is_spam = true;
-            // or if destination mbox equals ham box and we are in the junk box
-            else if (rcmail.env.markasjunk_move_ham && mbox && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
-                is_spam = false;
+        var is_spam = null;
 
-            if (is_spam !== null) {
-                rcmail.markasjunk_mark(is_spam);
-                return false;
-            }
-        });
-    }
-});
+        // check if destination mbox equals junk box (and we're not already in the junk box)
+        if (rcmail.env.markasjunk_move_spam && mbox && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
+            is_spam = true;
+        // or if destination mbox equals ham box and we are in the junk box
+        else if (rcmail.env.markasjunk_move_ham && mbox && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
+            is_spam = false;
+
+        if (is_spam !== null) {
+            rcmail.markasjunk_mark(is_spam);
+            return false;
+        }
+    });
+}
