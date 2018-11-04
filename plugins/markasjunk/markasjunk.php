@@ -38,7 +38,6 @@ class markasjunk extends rcube_plugin
     private $rcube;
     private $spam_mbox;
     private $ham_mbox;
-    private $toolbar = true;
     private $flags   = array(
         'JUNK'    => 'Junk',
         'NONJUNK' => 'NonJunk'
@@ -61,8 +60,8 @@ class markasjunk extends rcube_plugin
         }
 
         $this->ham_mbox  = $this->rcube->config->get('markasjunk_ham_mbox', 'INBOX');
-        $this->spam_mbox = $this->rcube->config->get('markasjunk_spam_mbox', $this->rcube->config->get('junk_mbox', null));
-        $this->toolbar   = $this->_set_toolbar_display($this->rcube->config->get('markasjunk_toolbar', -1), $this->rcube->action);
+        $this->spam_mbox = $this->rcube->config->get('markasjunk_spam_mbox', $this->rcube->config->get('junk_mbox'));
+        $toolbar         = $this->rcube->config->get('markasjunk_toolbar', true);
         $this->_init_flags();
 
         if ($this->rcube->action == '' || $this->rcube->action == 'show') {
@@ -70,7 +69,7 @@ class markasjunk extends rcube_plugin
             $this->add_texts('localization', true);
             $this->include_stylesheet($this->local_skin_path() . '/markasjunk.css');
 
-            if ($this->toolbar) {
+            if ($toolbar) {
                 // add the buttons to the main toolbar
                 $this->add_button(array(
                         'command'    => 'plugin.markasjunk.junk',
@@ -120,16 +119,13 @@ class markasjunk extends rcube_plugin
             // add markasjunk folder settings to the env for JS
             $this->rcube->output->set_env('markasjunk_ham_mailbox', $this->ham_mbox);
             $this->rcube->output->set_env('markasjunk_spam_mailbox', $this->spam_mbox);
-
             $this->rcube->output->set_env('markasjunk_move_spam', $this->rcube->config->get('markasjunk_move_spam', false));
             $this->rcube->output->set_env('markasjunk_move_ham', $this->rcube->config->get('markasjunk_move_ham', false));
             $this->rcube->output->set_env('markasjunk_permanently_remove', $this->rcube->config->get('markasjunk_permanently_remove', false));
             $this->rcube->output->set_env('markasjunk_spam_only', $this->rcube->config->get('markasjunk_spam_only', false));
 
             // check for init method from driver
-            if ($this->rcube->config->get('markasjunk_learning_driver', false)) {
-                $this->_call_driver('init');
-            }
+            $this->_call_driver('init');
         }
     }
 
@@ -164,46 +160,6 @@ class markasjunk extends rcube_plugin
         return $p;
     }
 
-    private function _set_toolbar_display($display, $action)
-    {
-        $ret = true;
-
-        if ($display < 0) {
-            $mb = $this->rcube->config->get('markasjunk_mb_toolbar', true);
-            $cp = $this->rcube->config->get('markasjunk_cp_toolbar', true);
-
-            if ($mb && $cp) {
-                $display = 1;
-            }
-            elseif ($mb && !$cp) {
-                $display = 2;
-            }
-            elseif (!$mb && $cp) {
-                $display = 3;
-            }
-            else {
-                $display = 0;
-            }
-        }
-
-        switch ($display) {
-            case 0: // always show in mark message menu
-                $ret = false;
-                break;
-            case 1: // always show on toolbar
-                $ret = true;
-                break;
-            case 2: // show in toolbar on mailbox screen, show in mark message menu message on screen
-                $ret = ($action != 'show');
-                break;
-            case 3: // show in mark message menu on mailbox screen, show in toolbar message on screen
-                $ret = ($action == 'show');
-                break;
-        }
-
-        return $ret;
-    }
-
     private function _spam(&$messageset, $dest_mbox = null)
     {
         $storage = $this->rcube->get_storage();
@@ -212,13 +168,11 @@ class markasjunk extends rcube_plugin
         foreach ($messageset as $source_mbox => &$uids) {
             $storage->set_folder($source_mbox);
 
-            if ($this->rcube->config->get('markasjunk_learning_driver', false)) {
-                $result = $this->_call_driver('spam', $uids, $source_mbox, $dest_mbox);
+            $result = $this->_call_driver('spam', $uids, $source_mbox, $dest_mbox);
 
-                // abort function of the driver says so
-                if (!$result) {
-                    break;
-                }
+            // abort function of the driver says so
+            if (!$result) {
+                break;
             }
 
             if ($this->rcube->config->get('markasjunk_read_spam', false)) {
@@ -245,13 +199,11 @@ class markasjunk extends rcube_plugin
         foreach ($messageset as $source_mbox => &$uids) {
             $storage->set_folder($source_mbox);
 
-            if ($this->rcube->config->get('markasjunk_learning_driver', false)) {
-                $result = $this->_call_driver('ham', $uids, $source_mbox, $dest_mbox);
+            $result = $this->_call_driver('ham', $uids, $source_mbox, $dest_mbox);
 
-                // abort function of the driver says so
-                if (!$result) {
-                    break;
-                }
+            // abort function of the driver says so
+            if (!$result) {
+                break;
             }
 
             if ($this->rcube->config->get('markasjunk_unread_ham', false)) {
@@ -272,8 +224,14 @@ class markasjunk extends rcube_plugin
 
     private function _call_driver($action, &$uids = null, $source_mbox = null, $dest_mbox = null)
     {
-        $driver = $this->home . '/drivers/' . $this->rcube->config->get('markasjunk_learning_driver', 'cmd_learn') . '.php';
-        $class  = 'markasjunk_' . $this->rcube->config->get('markasjunk_learning_driver', 'cmd_learn');
+        $driver_name = $this->rcube->config->get('markasjunk_learning_driver');
+
+        if (empty($driver_name)) {
+            return true;
+        }
+
+        $driver = $this->home . "/drivers/$driver_name.php";
+        $class  = "markasjunk_$driver_name";
 
         if (!is_readable($driver)) {
             rcube::raise_error(array(
@@ -305,7 +263,7 @@ class markasjunk extends rcube_plugin
         elseif ($action == 'ham') {
             $object->ham($uids, $source_mbox, $dest_mbox);
         }
-        elseif ($action == 'init' && method_exists($object, 'init')) { // method_exists check here for backwards compatibility, init method added 20161127
+        elseif ($action == 'init' && method_exists($object, 'init')) { // method_exists check here for backwards compatibility
             $object->init();
         }
 
@@ -340,21 +298,6 @@ class markasjunk extends rcube_plugin
     {
         $spam_flag = $this->rcube->config->get('markasjunk_spam_flag');
         $ham_flag  = $this->rcube->config->get('markasjunk_ham_flag');
-
-        // backwards compatibility
-        // defaults for markasjunk_spam_flag and markasjunk_ham_flag changed in 1.12
-        // from now on use false to disable rather than null
-        if ($spam_flag === null || $ham_flag === null) {
-            $all_configs = $this->rcube->config->all();
-
-            if ($spam_flag === null && array_key_exists('markasjunk_spam_flag', $all_configs)) {
-                $spam_flag = false;
-            }
-
-            if ($ham_flag === null && array_key_exists('markasjunk_ham_flag', $all_configs)) {
-                $ham_flag = false;
-            }
-        }
 
         if ($spam_flag === false) {
             unset($this->flags['JUNK']);

@@ -33,13 +33,9 @@ $config['markasjunk_ham_flag'] = 'NonJunk';
 // Write output from spam/ham commands to the log for debug
 $config['markasjunk_debug'] = false;
 
-// Show icon on toolbar
-// The mark as spam/ham icon can either be displayed on the toolbar or as part of the mark messages menu
-// 0 - always show in mark message menu
-// 1 - always show on toolbar
-// 2 - show in toolbar on mailbox screen, show in mark message menu message on screen
-// 3 - show in mark message menu on mailbox screen, show in toolbar message on screen
-$config['markasjunk_toolbar'] = 1;
+// The mark as spam/ham icon can either be displayed on the toolbar or as part of the mark messages menu.
+// Set to False to use Mark menu instead of the toolbar. Default: true.
+$config['markasjunk_toolbar'] = true;
 
 // Learn any message moved to the spam mailbox as spam (not just when the button is pressed)
 $config['markasjunk_move_spam'] = false;
