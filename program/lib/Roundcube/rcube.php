@@ -523,7 +523,7 @@ class rcube
 
         if ($tmp && ($dir = opendir($tmp))) {
             while (($fname = readdir($dir)) !== false) {
-                if ($fname[0] == '.') {
+                if (strpos($fname, RCUBE_TEMP_FILE_PREFIX) !== 0) {
                     continue;
                 }
 
@@ -1652,8 +1652,7 @@ class rcube
 
         if ($message->getParam('delay_file_io')) {
             // use common temp dir
-            $temp_dir    = $this->config->get('temp_dir');
-            $body_file   = tempnam($temp_dir, 'rcmMsg');
+            $body_file   = rcube_utils::temp_filename('msg');
             $mime_result = $message->saveMessageBody($body_file);
 
             if (is_a($mime_result, 'PEAR_Error')) {
