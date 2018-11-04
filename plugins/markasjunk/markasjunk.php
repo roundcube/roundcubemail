@@ -3,7 +3,7 @@
 /**
  * MarkAsJunk
  *
- * Sample plugin that adds a new button to the mailbox toolbar
+ * A plugin that adds a new button to the mailbox toolbar
  * to mark the selected messages as Junk and move them to the Junk folder
  * or to move messages in the Junk folder to the inbox - moving only the
  * attachment if it is a Spamassassin spam report email
@@ -11,6 +11,7 @@
  * @author Philip Weir
  * @author Thomas Bruederli
  *
+ * Copyright (C) 2009-2018 The Roundcube Dev Team
  * Copyright (C) 2009-2018 Philip Weir
  *
  * This program is a Roundcube (https://roundcube.net) plugin.

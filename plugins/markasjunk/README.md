@@ -26,7 +26,7 @@ Configuration
 -------------
 
 The default config file is plugins/markasjunk/config.inc.php.dist
-Rename this to plugins/markasjunk2/config.inc.php
+Rename this to plugins/markasjunk/config.inc.php
 
 All config parameters are optional.
 

@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013, The Roundcube Dev Team
+ * Copyright (c) 2013-2018 The Roundcube Dev Team
  * Copyright (C) 2009-2018 Philip Weir
  *
  * The JavaScript code in this page is free software: you can redistribute it
@@ -42,8 +42,8 @@ rcube_webmail.prototype.rcmail_markasjunk_move = function(mbox, uids) {
 }
 
 rcube_webmail.prototype.markasjunk_toggle_button = function() {
-    var spamobj = $('a.markasjunk');
-    var hamobj = $('a.markasnotjunk2');
+    var spamobj = $('a.button.junk');
+    var hamobj = $('a.button.notjunk');
 
     var disp = {'spam': true, 'ham': true};
     if (this.env.markasjunk_spam_only) {
