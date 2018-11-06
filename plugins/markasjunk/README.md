@@ -45,8 +45,8 @@ being marked as spam, the name of the mailbox containing those messages
 being marked as ham, the name of the mailbox containing those messages
 
 **init:** Optional, this function should take 0 arguments. eg: allows drivers
-to add JS to the page to control which of the spam/ham options are displayed
-An [example driver][jsevents] is available to show how to use the JS events
+to add JS to the page to control which of the spam/ham options are displayed.
+The `jsevents` driver is available to show how to use the JS events.
 
 Several drivers are provided by default they are:
 
@@ -131,4 +131,3 @@ $config['markasjunk_ham_patterns'] = array(
 
 [gpl]: https://www.gnu.org/licenses/gpl.html
 [multidriver]: https://gist.github.com/johndoh/8173505
-[jsevents]: https://gist.github.com/johndoh/37ab8610f9fa63052197c89e5ef89266
