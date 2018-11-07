@@ -1414,7 +1414,7 @@ class rcube_utils
 
         // Sanity check for unique file name
         if ($unique && file_exists($temp_path)) {
-            return self::temp_filename($file_name);
+            return self::temp_filename($file_name, $unique, $create);
         }
 
         // Create the file to prevent possible race condition like tempnam() does

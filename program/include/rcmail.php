@@ -2239,13 +2239,12 @@ class rcmail extends rcube
                 $mimetype       = $file['mimetype'];
                 $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
                 $thumb_name     = md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size) . '.thumb';
-                $cache_basename = rcube_utils::temp_filename($thumb_name, false, false);
-                $cache_file     = $cache_basename . '.thumb';
+                $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
 
                 // render thumbnail image if not done yet
                 if (!is_file($cache_file)) {
                     if (!$file['path']) {
-                        $orig_name = $filename = $cache_basename . '.tmp';
+                        $orig_name = $filename = $cache_file . '.tmp';
                         file_put_contents($orig_name, $file['data']);
                     }
                     else {
