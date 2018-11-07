@@ -1388,4 +1388,40 @@ class rcube_utils
 
         return false;
     }
+
+    /**
+     * Generate a temporary file path in the Roundcube temp directory
+     *
+     * @param string $file_name String identifier for the type of temp file
+     * @param bool   $unique    Generate unique file names based on $file_name
+     * @param bool   $create    Create the temp file or not
+     *
+     * @return string temporary file path
+     */
+    public static function temp_filename($file_name, $unique = true, $create = true)
+    {
+        $temp_dir = rcube::get_instance()->config->get('temp_dir');
+
+        // Fall back to system temp dir if configured dir is not writable
+        if (!is_writable($temp_dir)) {
+            $temp_dir = sys_get_temp_dir();
+        }
+
+        // On Windows tempnam() uses only the first three characters of prefix so use uniqid() and manually add the prefix
+        // Full prefix is required for garbage collection to recognise the file
+        $temp_file = $unique ? str_replace('.', '', uniqid($file_name, true)) : $file_name;
+        $temp_path = unslashify($temp_dir) . '/' . RCUBE_TEMP_FILE_PREFIX . $temp_file;
+
+        // Sanity check for unique file name
+        if ($unique && file_exists($temp_path)) {
+            return self::temp_filename($file_name);
+        }
+
+        // Create the file to prevent possible race condition like tempnam() does
+        if ($create) {
+            touch($temp_path);
+        }
+
+        return $temp_path;
+    }
 }
