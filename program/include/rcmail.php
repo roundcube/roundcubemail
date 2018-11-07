@@ -2238,7 +2238,7 @@ class rcmail extends rcube
                 $thumbnail_size = 80;
                 $mimetype       = $file['mimetype'];
                 $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
-                $thumb_name     = md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size) . '.thumb';
+                $thumb_name     = 'thumb' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
                 $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
 
                 // render thumbnail image if not done yet
