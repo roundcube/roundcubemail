@@ -77,7 +77,7 @@ if (!empty($_GET['_frame'])) {
 if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
     $file_ident     = $attachment->ident;
-    $thumb_name     = md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size) . '.thumb';
+    $thumb_name     = 'thumb' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
     $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
 
     // render thumbnail image if not done yet
