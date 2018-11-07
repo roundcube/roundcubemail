@@ -2235,11 +2235,11 @@ class rcmail extends rcube
 
             // generate image thumbnail for file browser in HTML editor
             if (!empty($_GET['_thumbnail'])) {
-                $temp_dir       = $this->config->get('temp_dir');
                 $thumbnail_size = 80;
                 $mimetype       = $file['mimetype'];
                 $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
-                $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
+                $thumb_name     = md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size) . '.thumb';
+                $cache_basename = rcube_utils::temp_filename($thumb_name, false, false);
                 $cache_file     = $cache_basename . '.thumb';
 
                 // render thumbnail image if not done yet

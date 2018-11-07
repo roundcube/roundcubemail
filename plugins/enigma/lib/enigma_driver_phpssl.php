@@ -82,9 +82,8 @@ class enigma_driver_phpssl extends enigma_driver
     function verify($struct, $message)
     {
         // use common temp dir
-        $temp_dir  = $this->rc->config->get('temp_dir');
-        $msg_file  = tempnam($temp_dir, 'rcmMsg');
-        $cert_file = tempnam($temp_dir, 'rcmCert');
+        $msg_file  = rcube_utils::temp_filename('enigmsg');
+        $cert_file = rcube_utils::temp_filename('enigcrt');
 
         $fh = fopen($msg_file, "w");
         if ($struct->mime_id) {

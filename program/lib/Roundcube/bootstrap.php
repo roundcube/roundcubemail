@@ -59,6 +59,7 @@ foreach ($config as $optname => $optval) {
 // framework constants
 define('RCUBE_VERSION', '1.4-git');
 define('RCUBE_CHARSET', 'UTF-8');
+define('RCUBE_TEMP_FILE_PREFIX', 'RCMTEMP');
 
 if (!defined('RCUBE_LIB_DIR')) {
     define('RCUBE_LIB_DIR', __DIR__ . '/');
