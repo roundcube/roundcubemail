@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - SMTP GSSAPI support via krb_authentication plugin (#6417)
 - Avoid Referer leaking by using Referrer-Policy:same-origin header (#6385)
 - Removed referer_check option (#6440)
+- Use constant prefix for temp file names, don't remove temp files from other apps (#6511)
 - Update to TinyMCE 4.8.2
 - Plugin API: Added 'raise_error' hook (#6199)
 - Plugin API: Added 'common_headers' hook (#6385)

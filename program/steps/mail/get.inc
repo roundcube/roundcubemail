@@ -78,11 +78,10 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
     $file_ident     = $attachment->ident;
     $thumb_name     = md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size) . '.thumb';
-    $cache_basename = rcube_utils::temp_filename($thumb_name, false, false);
-    $cache_file     = $cache_basename . '.thumb';
+    $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
 
     // render thumbnail image if not done yet
-    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_basename . '.tmp')) {
+    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_file . '.tmp')) {
         $image = new rcube_image($orig_name);
 
         if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
