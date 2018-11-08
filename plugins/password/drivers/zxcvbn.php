@@ -24,8 +24,6 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-use ZxcvbnPhp\Zxcvbn;
-
 class rcube_zxcvbn_password
 {
     function strength_rules()
@@ -42,8 +40,17 @@ class rcube_zxcvbn_password
 
     function check_strength($passwd)
     {
+        if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
+            rcube::raise_error(array(
+                'code' => 600,
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Zxcvbn library not found."
+                ), true, false);
+            return;
+        }
+
         $rcmail   = rcmail::get_instance();
-        $zxcvbn   = new Zxcvbn();
+        $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
         $result   = null;
 

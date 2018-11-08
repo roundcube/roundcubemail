@@ -289,7 +289,7 @@ class password extends rcube_plugin
         }
 
         if (!empty($rules)) {
-            $rules = html::tag('ul', array('id' => 'ruleslist'), $rules);
+            $rules = html::tag('ul', array('id' => 'ruleslist', 'class' => 'hint proplist'), $rules);
         }
 
         $disabled_msg = '';
@@ -324,24 +324,24 @@ class password extends rcube_plugin
 
     private function _compare($curpwd, $newpwd, $type)
     {
-        $result = null;
+        $driver = $this->_load_driver();
 
-        if (!($driver = $this->_load_driver()))
-            return $this->gettext('internalerror');
-
-        if (method_exists($driver, 'compare')) {
+        if (!$driver) {
+            $result = $this->gettext('internalerror');
+        }
+        else if (method_exists($driver, 'compare')) {
             $result = $driver->compare($curpwd, $newpwd, $type);
         }
         else {
             switch ($type) {
-                case PASSWORD_COMPARE_CURRENT:
-                    $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
-                    break;
-                case PASSWORD_COMPARE_NEW:
-                    $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
-                    break;
-                default:
-                    $result = $this->gettext('internalerror');
+            case PASSWORD_COMPARE_CURRENT:
+                $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
+                break;
+            case PASSWORD_COMPARE_NEW:
+                $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
+                break;
+            default:
+                $result = $this->gettext('internalerror');
             }
         }
 
@@ -350,12 +350,12 @@ class password extends rcube_plugin
 
     private function _strength_rules()
     {
-        $result = null;
+        $driver = $this->_load_driver('strength');
 
-        if (!($driver = $this->_load_driver('strength')))
-            return $this->gettext('internalerror');
-
-        if (method_exists($driver, 'strength_rules')) {
+        if (!$driver) {
+            $result = null;
+        }
+        else if (method_exists($driver, 'strength_rules')) {
             $result = $driver->strength_rules();
         }
         else {
@@ -371,25 +371,24 @@ class password extends rcube_plugin
 
     private function _check_strength($passwd)
     {
-        $result = null;
+        $driver = $this->_load_driver('strength');
 
-        if (!($driver = $this->_load_driver('strength')))
+        if (!$driver) {
             return $this->gettext('internalerror');
+        }
 
         if (method_exists($driver, 'check_strength')) {
-            $result = $driver->check_strength($passwd);
-        }
-        else {
-            $result = (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? $this->gettext('passwordweak') : null;
+            return $driver->check_strength($passwd);
         }
 
-        return $result;
+        return (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? $this->gettext('passwordweak') : null;
     }
 
     private function _save($curpass, $passwd)
     {
-        if (!($driver = $this->_load_driver()))
+        if (!($driver = $this->_load_driver())) {
             return $this->gettext('internalerror');
+        }
 
         $result  = $driver->save($curpass, $passwd, self::username());
         $message = '';
@@ -441,7 +440,7 @@ class password extends rcube_plugin
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Unable to open driver file ($file)"
+                    'message' => "Password plugin: Driver file does not exist ($file)"
                 ), true, false);
                 return false;
             }
@@ -459,11 +458,9 @@ class password extends rcube_plugin
             }
 
             $this->drivers[$type] = new $class;
-            return $this->drivers[$type];
         }
-        else {
-            return $this->drivers[$type];
-        }
+
+        return $this->drivers[$type];
     }
 
     function user_create($args)
