@@ -26,6 +26,8 @@ define('PASSWORD_ERROR', 2);
 define('PASSWORD_CONNECT_ERROR', 3);
 define('PASSWORD_IN_HISTORY', 4);
 define('PASSWORD_CONSTRAINT_VIOLATION', 5);
+define('PASSWORD_COMPARE_CURRENT', 6);
+define('PASSWORD_COMPARE_NEW', 7);
 define('PASSWORD_SUCCESS', 0);
 
 /**
@@ -46,12 +48,17 @@ class password extends rcube_plugin
     public $noajax  = true;
 
     private $newuser = false;
+    private $drivers = array();
 
     function init()
     {
         $rcmail = rcmail::get_instance();
 
         $this->load_config();
+        // update deprecated password_require_nonalpha option removed 20181007
+        if ($rcmail->config->get('password_check_strength') === null) {
+            $rcmail->config->set('password_check_strength', $rcmail->config->get('password_require_nonalpha'));
+        }
 
         if ($rcmail->task == 'settings') {
             if (!$this->check_host_login_exceptions()) {
@@ -127,7 +134,8 @@ class password extends rcube_plugin
         $form_disabled   = $rcmail->config->get('password_disabled');
         $confirm         = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
-        $check_strength  = $rcmail->config->get('password_require_nonalpha');
+        $check_strength  = $rcmail->config->get('password_check_strength');
+        $force_save      = $rcmail->config->get('password_force_save');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -161,19 +169,19 @@ class password extends rcube_plugin
             else if ($conpwd != $newpwd) {
                 $rcmail->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
             }
-            else if ($confirm && $sespwd != $curpwd) {
-                $rcmail->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
+            else if ($confirm && ($res = $this->_compare($sespwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+                $rcmail->output->command('display_message', $res, 'error');
             }
             else if ($required_length && strlen($newpwd) < $required_length) {
                 $rcmail->output->command('display_message', $this->gettext(
                     array('name' => 'passwordshort', 'vars' => array('length' => $required_length))), 'error');
             }
-            else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
-                $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
+            else if ($check_strength && ($res = $this->_check_strength($newpwd))) {
+                $rcmail->output->command('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
-            else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
-                $rcmail->output->command('display_message', $this->gettext('samepasswd'), 'error');
+            else if (!$force_save && ($res = $this->_compare($sespwd, $newpwd, PASSWORD_COMPARE_NEW))) {
+                $rcmail->output->command('display_message', $res, 'error');
             }
             // try to save the password
             else if (!($res = $this->_save($curpwd, $newpwd))) {
@@ -268,14 +276,16 @@ class password extends rcube_plugin
 
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         if ($required_length > 0) {
-            $rules .= html::tag('li', array('id' => 'required-length'), $this->gettext(array(
+            $rules .= html::tag('li', array('class' => 'required-length'), $this->gettext(array(
                 'name' => 'passwordshort',
                 'vars' => array('length' => $required_length)
             )));
         }
 
-        if ($rcmail->config->get('password_require_nonalpha')) {
-            $rules .= html::tag('li', array('id' => 'require-nonalpha'), $this->gettext('passwordweak'));
+        if ($rcmail->config->get('password_check_strength') && ($msgs = $this->_strength_rules())) {
+            foreach ($msgs as $msg) {
+                $rules .= html::tag('li', array('class' => 'strength-rule'), $msg);
+            }
         }
 
         if (!empty($rules)) {
@@ -312,37 +322,76 @@ class password extends rcube_plugin
                 . $form_buttons);
     }
 
+    private function _compare($curpwd, $newpwd, $type)
+    {
+        $result = null;
+
+        if (!($driver = $this->_load_driver()))
+            return $this->gettext('internalerror');
+
+        if (method_exists($driver, 'compare')) {
+            $result = $driver->compare($curpwd, $newpwd, $type);
+        }
+        else {
+            switch ($type) {
+                case PASSWORD_COMPARE_CURRENT:
+                    $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
+                    break;
+                case PASSWORD_COMPARE_NEW:
+                    $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
+                    break;
+                default:
+                    $result = $this->gettext('internalerror');
+            }
+        }
+
+        return $result;
+    }
+
+    private function _strength_rules()
+    {
+        $result = null;
+
+        if (!($driver = $this->_load_driver('strength')))
+            return $this->gettext('internalerror');
+
+        if (method_exists($driver, 'strength_rules')) {
+            $result = $driver->strength_rules();
+        }
+        else {
+            $result = $this->gettext('passwordweak');
+        }
+
+        if (!is_array($result)) {
+            $result = array($result);
+        }
+
+        return $result;
+    }
+
+    private function _check_strength($passwd)
+    {
+        $result = null;
+
+        if (!($driver = $this->_load_driver('strength')))
+            return $this->gettext('internalerror');
+
+        if (method_exists($driver, 'check_strength')) {
+            $result = $driver->check_strength($passwd);
+        }
+        else {
+            $result = (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? $this->gettext('passwordweak') : null;
+        }
+
+        return $result;
+    }
+
     private function _save($curpass, $passwd)
     {
-        $config = rcmail::get_instance()->config;
-        $driver = $config->get('password_driver', 'sql');
-        $class  = "rcube_{$driver}_password";
-        $file   = $this->home . "/drivers/$driver.php";
-
-        if (!file_exists($file)) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to open driver file ($file)"
-            ), true, false);
+        if (!($driver = $this->_load_driver()))
             return $this->gettext('internalerror');
-        }
 
-        include_once $file;
-
-        if (!class_exists($class, false) || !method_exists($class, 'save')) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Broken driver $driver"
-            ), true, false);
-            return $this->gettext('internalerror');
-        }
-
-        $object  = new $class;
-        $result  = $object->save($curpass, $passwd, self::username());
+        $result  = $driver->save($curpass, $passwd, self::username());
         $message = '';
 
         if (is_array($result)) {
@@ -375,6 +424,46 @@ class password extends rcube_plugin
         }
 
         return $reason;
+    }
+
+    private function _load_driver($type = 'password')
+    {
+        if (!($type && $driver = rcmail::get_instance()->config->get('password_' . $type . '_driver'))) {
+            $driver = rcmail::get_instance()->config->get('password_driver', 'sql');
+        }
+
+        if (!$this->drivers[$type]) {
+            $class  = "rcube_{$driver}_password";
+            $file = $this->home . "/drivers/$driver.php";
+
+            if (!file_exists($file)) {
+                rcube::raise_error(array(
+                    'code' => 600,
+                    'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Unable to open driver file ($file)"
+                ), true, false);
+                return false;
+            }
+
+            include_once $file;
+
+            if (!class_exists($class, false) || (!method_exists($class, 'save') && !method_exists($class, 'check_strength'))) {
+                rcube::raise_error(array(
+                    'code' => 600,
+                    'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Broken driver $driver"
+                ), true, false);
+                return false;
+            }
+
+            $this->drivers[$type] = new $class;
+            return $this->drivers[$type];
+        }
+        else {
+            return $this->drivers[$type];
+        }
     }
 
     function user_create($args)
