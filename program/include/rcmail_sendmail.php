@@ -1027,15 +1027,8 @@ class rcmail_sendmail
                 if ($v = $message->headers->cc) {
                     $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
                 }
-                // Use Sender header (#1489011)
-                if ($v = $message->headers->get('Sender', false)) {
-                    // Skip common mailing lists addresses: *-bounces@ and *-request@ (#1490452)
-                    if (empty($message->headers->others['list-post'])
-                        || !preg_match('/-(bounces|request)@/', $v)
-                    ) {
-                        $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
-                    }
-                }
+
+                // Deliberately ignore 'Sender' header (#6506)
 
                 // When To: and Reply-To: are the same we add From: address to the list (#1489037)
                 if ($v = $message->headers->from) {
