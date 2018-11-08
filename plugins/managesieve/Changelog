@@ -1,3 +1,5 @@
+* version 9.2 [2018-11-08]
+-----------------------------------------------------------
 - Added support for 'editheader' extension - RFC5293 (#5954)
 - Fix bug where show_real_foldernames setting wasn't respected (#6422)
 
