@@ -42,7 +42,7 @@ $data = array(
     'version' => strval($package->version->release),
     'authors' => array(),
     'repositories' => array(
-        array('type' => 'composer', 'url' => 'http://plugins.roundcube.net'),
+        array('type' => 'composer', 'url' => 'https://plugins.roundcube.net'),
     ),
     'require' => array(
         'php' => '>=5.3.0',
