@@ -613,7 +613,7 @@ function rcube_webmail()
         break;
 
       case 'login':
-        var tz, tz_name, jstz = window.jstz,
+        var tz, tz_name,
             input_user = $('#rcmloginuser'),
             input_tz = $('#rcmlogintz');
 
@@ -625,7 +625,7 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        if (jstz && (tz = jstz.determine()))
+        if (window.jstz && (tz = jstz.determine()))
           tz_name = tz.name();
 
         input_tz.val(tz_name ? tz_name : (new Date().getStdTimezoneOffset() / -60));
@@ -637,7 +637,6 @@ function rcube_webmail()
           ref.display_message('', 'loading');
         });
 
-        this.enable_command('login', true);
         break;
     }
 
@@ -800,11 +799,6 @@ function rcube_webmail()
 
     // process internal command
     switch (command) {
-
-      case 'login':
-        if (this.gui_objects.loginform)
-          this.gui_objects.loginform.submit();
-        break;
 
       // commands to switch task
       case 'logout':
