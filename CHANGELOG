@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added 'raise_error' hook (#6199)
 - Plugin API: Added 'common_headers' hook (#6385)
 - Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
+- Markasjunk: Integrate markasjunk2 features into markasjunk - marking as non-junk + learning engine (#6504)
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
 - Password: Fix bug where new users could skip forced password change (#6434)
