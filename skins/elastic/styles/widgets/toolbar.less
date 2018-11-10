@@ -108,6 +108,9 @@
         &.junk:before {
             content: @fa-var-fire;
         }
+        &.notjunk:before {
+            content: @fa-var-inbox;
+        }
         &.enigma:before,
         &.encrypt:before {
             content: @fa-var-lock;
@@ -614,6 +617,12 @@
     }
     a.encrypt.sign:before {
         content: @fa-var-lock; // TODO
+    }
+    a.junk:before {
+        content: @fa-var-fire;
+    }
+    a.notjunk:before {
+        content: @fa-var-inbox;
     }
 }
 
