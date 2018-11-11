@@ -38,6 +38,13 @@ class rcube_zxcvbn_password
         return $rules;
     }
 
+    /**
+     * Password strength check
+     *
+     * @param string $passwd Password
+     *
+     * @return array Score (1 to 5) and Reason
+     */
     function check_strength($passwd)
     {
         if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
@@ -52,13 +59,7 @@ class rcube_zxcvbn_password
         $rcmail   = rcmail::get_instance();
         $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
-        $result   = null;
 
-        if ($strength['score'] < $rcmail->config->get('password_zxcvbn_min_score', 3)) {
-            $reason = $strength['feedback']['warning'];
-            $result = $rcmail->gettext(array('name' => 'password.passwordweakreason', 'vars' => array('reason' => $reason)));
-        }
-
-        return $result;
+        return array($strength['score'] + 1, $strength['feedback']['warning']);
     }
 }

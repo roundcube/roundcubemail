@@ -421,10 +421,12 @@
  password DO MATCH. Else it should return null (no error).
 
  The check_strength() method, used for checking password strength has one argument: new password.
- This method should return null on success or error message text on failure.
+ This method should return an array with tho elements:
+   - Score: integer from 1 (week) to 5 (strong)
+   - Reason for the score (optional)
 
- Optionally a strength driver can contain a strength_rules() method. This has no arguments as returns
- a string, or array of strings explaining the password strength rules.
+ Optionally a strength driver can contain a strength_rules() method. This has no arguments
+ and returns a string, or array of strings explaining the password strength rules.
 
 
  4. Sudo setup
