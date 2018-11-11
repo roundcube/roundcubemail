@@ -19,9 +19,9 @@ $config['password_confirm_current'] = true;
 // set to blank to allow passwords of any length
 $config['password_minimum_length'] = 0;
 
-// Require the new password to contain a letter and punctuation character
-// Change to false to remove this check.
-$config['password_check_strength'] = false;
+// Require the new password to have at least the specified strength score.
+// Note: Password strength is scored from 1 (week) to 5 (strong).
+$config['password_minimum_score'] = 0;
 
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
@@ -493,9 +493,3 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
-
-
-// Zxcvbn Strength Driver options
-// ------------------------------
-// minimum Zxcvbn score required for new passwords (0 = weak, 4 = very strong, 3 = default)
-$config['password_zxcvbn_min_score'] = 3;
