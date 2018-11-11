@@ -259,7 +259,7 @@
  -----------------
 
  This driver is for changing passwords of shell users authenticated with PAM.
- Requires PECL's PAM exitension to be installed (http://pecl.php.net/package/PAM).
+ Requires PECL's PAM extension to be installed (http://pecl.php.net/package/PAM).
 
 
  2.1.11. Chpasswd (chpasswd)
