@@ -647,41 +647,40 @@ table.fixedcopy {
             &:extend(.font-icon-class);
             content: @fa-var-circle;
             cursor: pointer;
-            font-size: .4em;
+            font-size: .4rem;
             width: 1.1rem;
             height: 2rem;
-            line-height: 2rem;
         }
 
         &.unread:before {
             content: @fa-var-circle;
             color: @color-warning;
-            font-size: .5em;
+            font-size: .5rem;
         }
 
         &.unreadchildren:before {
             .font-icon-regular(@fa-var-circle);
-            font-size: .5em;
+            font-size: .5rem;
         }
 
         &.replied:before {
             .font-icon-solid(@fa-var-reply);
-            font-size: 1.1em;
+            font-size: 1rem;
         }
 
         &.forwarded:before {
             .font-icon-solid(@fa-var-share);
-            font-size: 1.1em;
+            font-size: 1rem;
         }
 
         &.replied.forwarded:before {
             .font-icon-solid(@fa-var-reply); // TODO
-            font-size: 1.1em;
+            font-size: 1rem;
         }
 
         tr.deleted &:before {
             .font-icon-solid(@fa-var-ban);
-            font-size: 1.1em;
+            font-size: 1rem;
         }
     }
 
@@ -724,7 +723,6 @@ html.touch {
             position: relative;
         }
         td.flags {
-            position: absolute;
             top: .25rem;
             right: 0;
             bottom: 0;
