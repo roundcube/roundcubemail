@@ -145,22 +145,27 @@ a {
 .task-login #layout .content #logo {
     display: inline-block;
     position: relative;
-    top: 18vh;
-    max-height: 90px;
+    top: 16vh;
+    max-height: 100px;
 }
 
 #login-form {
     margin: 0 auto;
-    top: 22vh;
+    top: 20vh;
     width: 95%;
-    max-width: 280px;
+    max-width: 320px;
     position: relative;
 
     // Fixes input width and position in IE11
     .row {
-        max-width: 280px;
         margin-right: 0;
         margin-left: 0;
+    }
+}
+
+#rcmloginsubmit {
+    &:before {
+        display: none !important;
     }
 }
 

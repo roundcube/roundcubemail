@@ -996,6 +996,7 @@ function rcube_elastic_ui()
 
         // Make logon form prettier
         if (rcmail.env.task == 'login' && context == document) {
+            $('#rcmloginsubmit').addClass('btn-lg text-uppercase w-100');
             $('#login-form table tr').each(function() {
                 var input = $('input,select', this),
                     label = $('label', this),
@@ -1011,7 +1012,7 @@ function rcube_elastic_ui()
                 input.addClass(input.is('select') ? 'custom-select' : 'form-control')
                     .attr('placeholder', label.text())
                     .before($('<span class="input-group-prepend">').append(icon))
-                    .parent().addClass('input-group');
+                    .parent().addClass('input-group input-group-lg');
             });
         }
 
