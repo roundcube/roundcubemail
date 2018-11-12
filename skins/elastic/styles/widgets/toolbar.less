@@ -812,6 +812,8 @@ a.button.icon.toolbar-button {
         border: 0;
         background: transparent;
         padding: .5rem;
+        line-height: normal; // fixes placeholder misalignment in IE11
+        outline: 0; // removes focus outline in Chrome
     }
 
     a.button {
