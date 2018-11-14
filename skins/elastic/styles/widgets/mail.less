@@ -19,10 +19,8 @@
     margin-bottom: 1rem;
 
     .subject {
-        display: flex;
         font-size: 1.5rem;
         font-weight: bold;
-        white-space: nowrap;
 
         body.status-flagged &:before {
             &:extend(.font-icon-class);
@@ -34,19 +32,15 @@
         }
 
         a.extwin {
-            margin-left: .25rem;
-
             &:before {
                 &:extend(.font-icon-class);
+                float: none;
+                display: inline-block;
                 font-size: 75%;
                 line-height: 1.5;
                 margin: 0;
                 content: @fa-var-external-link-square-alt;
             }
-        }
-
-        & > span {
-            .overflow-ellipsis;
         }
 
         span.inner {

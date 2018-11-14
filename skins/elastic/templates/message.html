@@ -17,10 +17,8 @@
 	<div class="content frame-content" role="main">
 		<div id="message-header">
 			<h2 class="subject">
-				<span onmouseover="rcube_webmail.long_subject_title(this)">
-					<span class="voice"><roundcube:label name="subject" />: </span>
-					<roundcube:object name="messageHeaders" valueOf="subject" />
-				</span>
+				<span class="voice"><roundcube:label name="subject" />: </span>
+				<roundcube:object name="messageHeaders" valueOf="subject" />
 				<roundcube:if condition="!env:message_context && !env:extwin">
 					<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
 						label="openinextwin" title="openinextwin" data-hidden="small" />
