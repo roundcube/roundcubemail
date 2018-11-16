@@ -141,7 +141,7 @@ class password extends rcube_plugin
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
         }
         else {
-            $charset    = strtoupper($this->rc->config->get('password_charset', 'ISO-8859-1'));
+            $charset    = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
             $rc_charset = strtoupper($this->rc->output->get_charset());
 
             $sespwd = $this->rc->decrypt($_SESSION['password']);
@@ -152,12 +152,9 @@ class password extends rcube_plugin
             // check allowed characters according to the configured 'password_charset' option
             // by converting the password entered by the user to this charset and back to UTF-8
             $orig_pwd = $newpwd;
-            $chk_pwd = rcube_charset::convert($orig_pwd, $rc_charset, $charset);
-            $chk_pwd = rcube_charset::convert($chk_pwd, $charset, $rc_charset);
+            $chk_pwd  = rcube_charset::convert($orig_pwd, $rc_charset, $charset);
+            $chk_pwd  = rcube_charset::convert($chk_pwd, $charset, $rc_charset);
 
-            // WARNING: Default password_charset is ISO-8859-1, so conversion will
-            // change national characters. This may disable possibility of using
-            // the same password in other MUA's.
             // We're doing this for consistence with Roundcube core
             $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
             $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
