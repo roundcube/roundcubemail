@@ -386,9 +386,10 @@ function rcube_elastic_ui()
             btn_class += ' button disabled';
         }
         else if (popup = target.data('popup')) {
-            button.data('popup', popup).data('toggle-button', target.data('toggle-button'));
+            button.data({popup: popup, 'toggle-button': target.data('toggle-button')});
             popup_init(button[0]);
             click = false;
+            rcmail.register_menu_button(button[0], popup);
         }
 
         button.attr({id: button_id, href: '#', 'class': btn_class})
