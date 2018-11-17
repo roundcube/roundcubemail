@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'No hay espacio libre en disco. Use Mayúscu
 $messages['invalidrequest'] = '¡Solicitud no válida! No se ha guardado la información.';
 $messages['invalidhost'] = 'Nombre de servidor no válido.';
 $messages['nomessagesfound'] = 'No se encontraron mensajes en esta casilla.';
-$messages['loggedout'] = 'Has terminado correctamente la sesión. ¡Adiós!';
 $messages['mailboxempty'] = 'Casilla vacía';
 $messages['nomessages'] = 'Ningún mensaje';
 $messages['refreshing'] = 'Actualizando...';

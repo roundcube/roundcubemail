@@ -20,3 +20,4 @@ $labels['download'] = 'Hlaða niður...';
 $labels['downloadmbox'] = 'Mbox snið (.zip)';
 $labels['downloadmaildir'] = 'Maildir snið (.zip)';
 $labels['downloademl'] = 'Upprunalegt (.eml)';
+$labels['sizelimiterror'] = 'Heildarstærð valinna skilaboða fer fram yfir ($size) takmörkin';

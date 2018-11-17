@@ -200,6 +200,7 @@ $labels['returnreceipt'] = 'ايصال استلام';
 $labels['dsn'] = 'تنويه حالة التوصيل';
 $labels['mailreplyintro'] = 'كتب $sender في $date:';
 $labels['originalmessage'] = 'الرسالة الأساسية';
+$labels['insert'] = 'ادراج';
 $labels['recipient'] = 'مستلم';
 $labels['editidents'] = 'تعديل الهويات';
 $labels['spellcheck'] = 'التدقيق اﻹملائى';
@@ -333,7 +334,6 @@ $labels['importreplace'] = 'استبدل دفتر العناوين بأكمله'
 $labels['importgroups'] = 'استيراد مهام المجموعة ';
 $labels['importgroupsall'] = 'الكل (انشاء مجموعة في حال الحاجة)';
 $labels['importgroupsexisting'] = 'فقط للمجموعات الموجودة ';
-$labels['importdesc'] = 'يمكنك رفع جهات الاتصال من دفاتر العناوين الموجودة. <br/> نحن الان ندعم استيراد العناوين من <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> او CSV (comma-separated) data format.';
 $labels['done'] = 'تم';
 $labels['settingsfor'] = 'إعدادات';
 $labels['about'] = 'نبذة';

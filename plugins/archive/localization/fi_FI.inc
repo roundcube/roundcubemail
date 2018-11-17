@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Arkistoi';
 $labels['archivetype'] = 'Jaa arkisto';
 $labels['archivetypeyear'] = 'Vuodella (esim. Arkisto/2012)';
 $labels['archivetypemonth'] = 'Kuukaudella (esim. Arkisto/2012/06)';
+$labels['archivetypetbmonth'] = 'Kuukausi - Thunderbird-yhteensopiva (esim. Archive/2012/2012-06)';
 $labels['archivetypefolder'] = 'Alkuperäinen kansio';
 $labels['archivetypesender'] = 'Lähettäjän osoite';
 $labels['unkownsender'] = 'tuntematon';

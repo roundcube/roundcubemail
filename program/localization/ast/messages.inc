@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Nun queda espaciu nel discu. Usa Shift+Supr
 $messages['invalidrequest'] = 'Fallu de la solicitú. Nun se guardaron datos.';
 $messages['invalidhost'] = 'Nome de sirvidor inválidu.';
 $messages['nomessagesfound'] = 'Nun s\'atoparon mensaxes na bandexa';
-$messages['loggedout'] = 'Zarrasti la sesión. Ta llueu!';
 $messages['mailboxempty'] = 'La bandexa de corréu ta balera';
 $messages['nomessages'] = 'Nun hai mensaxes';
 $messages['refreshing'] = 'Anovando...';

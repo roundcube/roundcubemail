@@ -20,3 +20,4 @@ $labels['download'] = 'Download...';
 $labels['downloadmbox'] = 'Mbox-formaat (.zip)';
 $labels['downloadmaildir'] = 'Maildir-formaat (.zip)';
 $labels['downloademl'] = 'Bron (.eml)';
+$labels['sizelimiterror'] = 'Totale grootte van geselecteerde berichten is groter dan de limit ($size)';

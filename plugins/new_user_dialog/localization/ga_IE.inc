@@ -16,4 +16,5 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 $labels['identitydialogtitle'] = 'Críochnaigh do chéannacht seoltóra';
+$labels['identitydialoghint'] = 'Ní fheictear an bosca seo ach uair amháin nuair a cheanglaítear anseo den chéad uair.';
 ?>

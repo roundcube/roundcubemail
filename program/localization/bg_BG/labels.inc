@@ -238,6 +238,7 @@ $labels['keylength'] = 'Бита';
 $labels['keyexpired'] = 'Изтекъл';
 $labels['keyrevoked'] = 'Отменено';
 $labels['bccinstead'] = 'Използвай Bcc';
+$labels['insert'] = 'Вмъкване';
 $labels['recipient'] = 'Получател';
 $labels['editidents'] = 'Промени самоличности';
 $labels['spellcheck'] = 'Правопис';
@@ -390,7 +391,6 @@ $labels['importreplace'] = 'Замени цялата адресна книга'
 $labels['importgroups'] = 'Импорт на задачи на група';
 $labels['importgroupsall'] = 'Всички (създава групи ако е необходимо)';
 $labels['importgroupsexisting'] = 'Само за съществуващите групи';
-$labels['importdesc'] = 'Можете да качвате контакти от съществуваща адресна книга.<br/>В момента поддържаме импорт на адреси от файловите формати <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> или CSV (comma-separated).';
 $labels['done'] = 'Готово';
 $labels['settingsfor'] = 'Настройки за';
 $labels['about'] = 'Относно';

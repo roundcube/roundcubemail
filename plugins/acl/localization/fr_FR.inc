@@ -93,7 +93,7 @@ $messages['createsuccess'] = 'Les droits d’accès ont été ajoutés avec succ
 $messages['updateerror'] = 'Impossible de mettre à jour les droits d’accès';
 $messages['deleteerror'] = 'Impossible de supprimer les droits d’accès';
 $messages['createerror'] = 'Impossible d’ajouter des droits d’accès';
-$messages['deleteconfirm'] = 'Êtes-vous sûr de vouloir retirer les droits d’accès des utilisateurs sélectionnés ?';
-$messages['norights'] = 'Aucun droit n’a été spécifié !';
-$messages['nouser'] = 'Aucun nom d’utilisateur n’a été spécifié !';
+$messages['deleteconfirm'] = 'Êtes-vous certain de vouloir retirer les droits d’accès des utilisateurs sélectionnés ?';
+$messages['norights'] = 'Aucun droit n’a été spécifié !';
+$messages['nouser'] = 'Aucun nom d’utilisateur n’a été spécifié !';
 ?>

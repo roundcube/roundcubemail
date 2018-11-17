@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Nu există spațiu liber. Folosiți SHIFT+D
 $messages['invalidrequest'] = 'Solicitare invalidă! Datele nu au fost salvate.';
 $messages['invalidhost'] = 'Nume server invalid.';
 $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căsuţă poştală';
-$messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
 $messages['nomessages'] = 'Nici un mesaj';
 $messages['refreshing'] = 'Reîmprospătare...';

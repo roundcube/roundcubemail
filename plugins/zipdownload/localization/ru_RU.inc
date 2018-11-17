@@ -20,3 +20,4 @@ $labels['download'] = 'Загрузка...';
 $labels['downloadmbox'] = 'Формат Mbox (.zip)';
 $labels['downloadmaildir'] = 'Формат Maildir (.zip)';
 $labels['downloademl'] = 'Исходный формат (.eml)';
+$labels['sizelimiterror'] = 'Общий размер выбранных сообщений превышает лимит ($size)';

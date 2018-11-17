@@ -144,7 +144,6 @@ $labels['detail'] = 'تفاصيل';
 $labels['default'] = 'افتراضي';
 $labels['index'] = 'الوارد:';
 $labels['indexlast'] = 'تراجع';
-$labels['vacation'] = 'اجازة ';
 $labels['vacation.advanced'] = 'اعدادات متقدمة';
 $labels['vacation.subject'] = 'موضوع';
 $labels['vacation.body'] = 'محتوى ';
@@ -189,5 +188,4 @@ $messages['setexist'] = 'المجموعة موجودة مسبقا.';
 $messages['nodata'] = 'يجب تحديد موضع واحد على الأقل!';
 $messages['invaliddateformat'] = 'تاريخ غير صحيح او يوجد خطا في تنسق اجزاء التاريخ';
 $messages['saveerror'] = 'لا يمكن حفظ البيانات. خطا في الخادم.';
-$messages['vacationsaved'] = 'تم حفظ تاريخ الاجازة بنجاح.';
 ?>

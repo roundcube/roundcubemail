@@ -233,6 +233,7 @@ $labels['keyid'] = 'Ταυτότητα κλειδιού';
 $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Έχει λήξει';
 $labels['keyrevoked'] = 'Έχει αποσυρθεί';
+$labels['insert'] = 'Εισαγωγή';
 $labels['recipient'] = 'Παραλήπτης';
 $labels['editidents'] = 'Επεξεργασία ταυτοτήτων';
 $labels['spellcheck'] = 'Συλλαβισμός';
@@ -384,7 +385,6 @@ $labels['importreplace'] = 'Αντικατάσταση όλου του βιβλ�
 $labels['importgroups'] = 'Εισαγωγή αναθέσεων ομάδων';
 $labels['importgroupsall'] = 'Όλα (δημιουργία ομάδων αν είναι απαραίτητο)';
 $labels['importgroupsexisting'] = 'Μόνο για υπάρχουσες ομάδες';
-$labels['importdesc'] = 'Μπορείτε να ανεβάσετε επαφές από ένα υπάρχον βιβλίο διευθύνσεων.<br/>Υποστηρίζεται η εισαγωγή διευθύνσεων από αρχεία τύπου <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ή CSV (διαχωρισμένα με κόμμα).';
 $labels['done'] = 'Ολοκληρώθηκε';
 $labels['settingsfor'] = 'Ρυθμίσεις για';
 $labels['about'] = 'Σχετικά';

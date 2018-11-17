@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Nema slobodnog prostora. Pritisnite SHIFT+D
 $messages['invalidrequest'] = 'Neispravan zahtjev! Podaci nisu sačuvani.';
 $messages['invalidhost'] = 'Neispravno ime servera.';
 $messages['nomessagesfound'] = 'Nema poruka u ovom sandučetu.';
-$messages['loggedout'] = 'Uspješno ste se odjavili. Doviđenja!';
 $messages['mailboxempty'] = 'Sanduče je prazno';
 $messages['nomessages'] = 'Nema poruka';
 $messages['refreshing'] = 'Osvježavam...';

@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = '여유 디스크 공간이 없습니다. SH
 $messages['invalidrequest'] = '잘못된 요청입니다! 데이터가 저장되지 않았습니다.';
 $messages['invalidhost'] = '잘못된 서버 이름입니다.';
 $messages['nomessagesfound'] = '이 편지함에서 메시지를 발견하지 못했습니다.';
-$messages['loggedout'] = '세션을 성공적으로 종료했습니다. 안녕히 가십시오!';
 $messages['mailboxempty'] = '편지함이 비어있음';
 $messages['nomessages'] = '메시지가 없음';
 $messages['refreshing'] = '새로 고치는 중 ...';

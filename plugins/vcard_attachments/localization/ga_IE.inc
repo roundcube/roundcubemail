@@ -16,6 +16,9 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 $labels['addvcardmsg'] = 'Cuir vCard leis an leabhar seoltaí';
+$labels['vcardsavefailed'] = 'Ní féidir an vCard a chur i dtaisce';
 $labels['attachvcard'] = 'Ceangail vCard leis';
+$labels['vcardattached'] = 'Tá comhad vCard ceangailte leis.';
 $labels['vcard'] = 'vCárta';
+$labels['forwardvcard'] = 'Cuir vCard ar aghaidh';
 ?>

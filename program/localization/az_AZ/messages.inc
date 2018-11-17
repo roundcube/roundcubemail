@@ -31,7 +31,6 @@ $messages['erroroverquotadelete'] = 'Boş disk həcmi yoxdur. Məktubu silmək �
 $messages['invalidrequest'] = 'Səhv sorğu! Məlumat yaddaşda qalmadı.';
 $messages['invalidhost'] = 'Səhv server adı.';
 $messages['nomessagesfound'] = 'Poçt qutusunda məktub tapılmadı.';
-$messages['loggedout'] = 'Çıxış uğurlu oldu. Sağ olun!';
 $messages['mailboxempty'] = 'Poçt boşdur';
 $messages['nomessages'] = 'Məktub yoxdur';
 $messages['refreshing'] = 'Yenilənmə...';

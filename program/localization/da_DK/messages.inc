@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Der er ikke nok ledig diskplads. Brug SHIFT
 $messages['invalidrequest'] = 'Ugyldig forespørgsel! Ingen data blev gemt.';
 $messages['invalidhost'] = 'Ugyldigt servernavn.';
 $messages['nomessagesfound'] = 'Der blev ikke fundet nogen beskeder i denne postkasse.';
-$messages['loggedout'] = 'Du er nu logget af webmail. Farvel så længe!';
 $messages['mailboxempty'] = 'Postkassen er tom.';
 $messages['nomessages'] = 'Ingen beskeder';
 $messages['refreshing'] = 'Opdaterer...';

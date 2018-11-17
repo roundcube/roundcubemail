@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Overifierad signatur. Internt fel.';
 $messages['decryptok'] = 'Meddelandet är dekrypterat.';
 $messages['decrypterror'] = 'Dekrypteringen misslyckades.';
 $messages['decryptnokey'] = 'Dekrypteringen misslyckades. Privat nyckel otillgänglig. Nyckel-ID: $keyid.';
+$messages['decryptnomdc'] = 'Dekryptering behövs inte. Meddelandet är inte skyddat.';
 $messages['decryptbadpass'] = 'Dekrypteringen misslyckades. Fel lösenord.';
 $messages['decryptnopass'] = 'Dekrypteringen misslyckades. Ange nyckelns lösenord.';
 $messages['decryptpartial'] = 'Meddelandet är dekrypterat, men meddelandet var delvis okrypterat.';

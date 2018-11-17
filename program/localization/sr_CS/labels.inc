@@ -235,6 +235,7 @@ $labels['keyid'] = 'ИД кључа';
 $labels['keyexpired'] = 'Истекао';
 $labels['keyrevoked'] = 'Опозван';
 $labels['bccinstead'] = 'Користи БЦЦ';
+$labels['insert'] = 'Убаци';
 $labels['editidents'] = 'Уреди идентитете';
 $labels['spellcheck'] = 'Правопис';
 $labels['checkspelling'] = 'Провера правописа';

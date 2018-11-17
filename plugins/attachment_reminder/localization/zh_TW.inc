@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "是否遺漏了附件？";
 $messages['forgotattachment'] = "似乎忘記加入附件，確定要寄出嗎？";
 $messages['reminderoption'] = "提醒加入附件";
 $messages['keywords'] = "附件,檔案,附加,附檔,附上,履歷,封面";

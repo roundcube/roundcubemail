@@ -20,3 +20,4 @@ $labels['download'] = 'Lataa...';
 $labels['downloadmbox'] = 'Mbox-muoto (.zip)';
 $labels['downloadmaildir'] = 'Maildir-muoto (.zip)';
 $labels['downloademl'] = 'Lähde (.eml)';
+$labels['sizelimiterror'] = 'Valitsemiesi viestien yhteiskoko ylittää rajoituksen ($size)';

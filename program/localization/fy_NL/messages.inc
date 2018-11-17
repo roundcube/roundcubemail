@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Gjin frije skiifromte. Brûk Shift + DEL om
 $messages['invalidrequest'] = 'Ûnjildich fersyk! Gjin data waard bewarre.';
 $messages['invalidhost'] = 'Unjildige tsjinner namme.';
 $messages['nomessagesfound'] = 'Gjin berjochten fûn yn dit postfek.';
-$messages['loggedout'] = 'Jo hawwe de sesje mei súkses beëinige. Oant sjen!';
 $messages['mailboxempty'] = 'Postfek is leech';
 $messages['nomessages'] = 'Gjin berjochten';
 $messages['refreshing'] = 'Ferfarskje...';

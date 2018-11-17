@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Ketas on täis. Kirja kustutamiseks vajuta 
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['invalidhost'] = 'Lubamatu serveri nimi.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
-$messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Kirjakast on tühi';
 $messages['nomessages'] = 'Pole teateid';
 $messages['refreshing'] = 'Värskendamine…';

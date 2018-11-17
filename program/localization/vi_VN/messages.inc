@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Không còn dư chỗ trống trên ổ đ�
 $messages['invalidrequest'] = 'Yêu cầu không hợp lệ! Không có dữ liệu nào được lưu.';
 $messages['invalidhost'] = 'Sai thông tin tên máy chủ';
 $messages['nomessagesfound'] = 'Không thấy có thư nào trong hộp thư này.';
-$messages['loggedout'] = 'Phiên làm việc đã kết thúc thành công. Tạm biệt!';
 $messages['mailboxempty'] = 'Hộp thư rỗng';
 $messages['nomessages'] = 'Không có thư nào';
 $messages['refreshing'] = 'Nạp lại dữ liệu...';

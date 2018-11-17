@@ -29,7 +29,6 @@ $messages['errornoperm'] = 'Klarte ikkje utføra handlinga. Nekta tilgang.';
 $messages['invalidrequest'] = 'Eg forstår ingen ting! Ingen data lagra.';
 $messages['invalidhost'] = 'Ugyldig tenarnamn.';
 $messages['nomessagesfound'] = 'Ingen meldingar i denne postkassa.';
-$messages['loggedout'] = 'Du har avslutta økta. Ha det bra!';
 $messages['refreshing'] = 'Oppdaterer …';
 $messages['loading'] = 'Hentar …';
 $messages['uploading'] = 'Lastar opp fil …';

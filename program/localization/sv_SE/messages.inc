@@ -83,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Vill du verkligen ta bort valda kontakter?
 $messages['deletegroupconfirm']  = 'Vill du verkligen ta bort den valda gruppen?';
 $messages['deletemessagesconfirm'] = 'Vill du verkligen ta bort valda meddelanden?';
 $messages['deletefolderconfirm']  = 'Vill du verkligen ta bort den här katalogen?';
+$messages['movefolderconfirm']  = 'Vill du verkligen flytta den här katalogen?';
 $messages['purgefolderconfirm']  = 'Vill du verkligen ta bort alla meddelanden i den här katalogen?';
 $messages['contactdeleting'] = 'Tar bort kontakt...';
 $messages['groupdeleting'] = 'Tar bort grupp...';

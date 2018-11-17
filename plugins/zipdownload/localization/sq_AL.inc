@@ -20,3 +20,4 @@ $labels['download'] = 'Shkarkoni…';
 $labels['downloadmbox'] = 'Në format Mbox (.zip)';
 $labels['downloadmaildir'] = 'Në format Maildir (.zip)';
 $labels['downloademl'] = 'Burim (.eml)';
+$labels['sizelimiterror'] = 'Madhësia gjithsej e mesazheve të përzgjedhur e tejkalon kufirin ($size)';

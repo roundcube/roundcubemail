@@ -20,7 +20,6 @@ $messages['cookiesdisabled'] = 'Pelayar anda tidak menerima cookies';
 $messages['sessionerror'] = 'Sesi anda tidak sah atau telah tamat';
 $messages['storageerror'] = 'Sambungan ke pelayan IMAP gagal';
 $messages['nomessagesfound'] = 'Tiada mesej dijumpai dalam kotak mel ini';
-$messages['loggedout'] = 'Sesi anda telah tamat. Selamat tinggal!';
 $messages['loading'] = 'Memuat...';
 $messages['loadingdata'] = 'Memuat data...';
 $messages['checkingmail'] = 'Menyemak mesej baru...';

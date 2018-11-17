@@ -20,7 +20,6 @@ $messages['cookiesdisabled'] = 'আপনার ব্রাউজার, কু
 $messages['sessionerror'] = 'আপনার সেশন শেষ';
 $messages['storageerror'] = 'মেইল সারভার এর সাথে যোগাযোগ করা গেল না';
 $messages['nomessagesfound'] = 'এই মেইলবক্সে কোনো চিঠি নাই';
-$messages['loggedout'] = 'আপনের সেশন ঠিকঠাক মতো শেষ হইছে। শুভবিদায়।';
 $messages['loading'] = 'কম্পুটার কাজ করতেছে . .';
 $messages['loadingdata'] = 'কম্পুটার তথ্য আনছে আপনার জন্য..';
 $messages['checkingmail'] = 'নতুন চিঠি আসছে কিনা তা দেখা হচ্ছে';

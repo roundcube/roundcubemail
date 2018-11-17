@@ -60,6 +60,7 @@ $labels['thursday'] = 'ሓሙስ';
 $labels['friday'] = 'ዓርቢ ';
 $labels['saturday'] = 'ቀዳም';
 $labels['isread'] = 'ከንብብ';
+$labels['insert'] = 'ይሸጎጥ';
 $labels['other'] = 'ካሊእ';
 $labels['typeother'] = 'ካሊእ';
 $labels['delete'] = 'ይጥፋእ';

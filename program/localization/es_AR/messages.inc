@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Espacio en disco insuficiente. Utilice SHIF
 $messages['invalidrequest'] = 'Peteción invalida! No se guardó nada.';
 $messages['invalidhost'] = 'Nombre de servidor inválido.';
 $messages['nomessagesfound'] = 'No se han encontrado mensajes en esta casilla';
-$messages['loggedout'] = 'Ha cerrado la sesión. ¡Hasta pronto!';
 $messages['mailboxempty'] = 'La casilla está vacía';
 $messages['nomessages'] = '0 mensajes';
 $messages['refreshing'] = 'Actualizando...';

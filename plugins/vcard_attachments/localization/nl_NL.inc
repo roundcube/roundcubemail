@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Voeg vCard toe aan adresboek';
 $labels['vcardsavefailed'] = 'Kan vCard niet opslaan';
 $labels['attachvcard'] = 'vCard toevoegen';
+$labels['vcardattached'] = 'vCard bijgevoegd';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'vCard doorsturen';
 ?>

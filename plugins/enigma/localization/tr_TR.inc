@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Sorun var! İmza doğrulanmamış.';
 $messages['decryptok'] = 'İleti şifresi çözüldü.';
 $messages['decrypterror'] = 'Şifre çözülemedi.';
 $messages['decryptnokey'] = 'Şifre çözülemedi. Özel anahtar bulunamadı. Anahtar Kodu: $keyid.';
+$messages['decryptnomdc'] = 'Şifre çözme işlemi atlandı. İleti bütünleşik olarak korunmuyor.';
 $messages['decryptbadpass'] = 'Şifre çözülemedi. Parola geçersiz.';
 $messages['decryptnopass'] = 'Şifre çözülemedi. Anahtar parola gerekli.';
 $messages['decryptpartial'] = 'İletinin şifresi çözüldü, fakat metnin tümü şifrelenmemiş.';

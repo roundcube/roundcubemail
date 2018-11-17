@@ -185,6 +185,7 @@ $labels['returnreceipt'] = 'Return receipt';
 $labels['dsn'] = 'Ricev-status-konfirmo';
 $labels['mailreplyintro'] = 'Je $date, $sender skribis:';
 $labels['originalmessage'] = 'Originala mesaĝo';
+$labels['insert'] = 'Enmeti';
 $labels['recipient'] = 'Ricevanto';
 $labels['editidents'] = 'Redaktu identojn';
 $labels['spellcheck'] = 'Literumu';

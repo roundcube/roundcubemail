@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Non hai espazo no disco. Usa Maiúsculas+Su
 $messages['invalidrequest'] = 'Petición non válida! Non se gardou ningún dato.';
 $messages['invalidhost'] = 'O nome do servidor non é válido.';
 $messages['nomessagesfound'] = 'Non se atoparon mensaxes nesta caixa de correo.';
-$messages['loggedout'] = 'Rematou correctamente a tú sesión. Até logo!';
 $messages['mailboxempty'] = 'O cartafol está baleiro';
 $messages['nomessages'] = 'Non hai mensaxes';
 $messages['refreshing'] = 'A refrescar...';

@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Bæta vCard í nafnaskrá';
 $labels['vcardsavefailed'] = 'Tekst ekki að vista vCard';
 $labels['attachvcard'] = 'Hengja við vCard';
+$labels['vcardattached'] = 'vCard-skrá í viðhengi.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Áframsenda vCard';
 ?>

@@ -32,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Di dîskê de cihê vala nîn e. SHIFT+DEL�
 $messages['invalidrequest'] = 'Dawxaza nederbasdar! Tu dane nehat tomarkirin.';
 $messages['invalidhost'] = 'Navê pêşkêş ê nederbasdar.';
 $messages['nomessagesfound'] = 'Di vê peyamdankê de tu peyam nehat dîtin';
-$messages['loggedout'] = 'Te danişînî bi dawî anî. Oxir be!';
 $messages['mailboxempty'] = 'Cihê peyamên hatî vala ye';
 $messages['nomessages'] = 'Peyam nîn in';
 $messages['refreshing'] = 'Tê tezekirin...';

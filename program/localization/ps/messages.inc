@@ -20,7 +20,6 @@ $messages['cookiesdisabled'] = 'ستاسو لټوني ککوړي ونه منل';
 $messages['sessionerror'] = 'ستاسې ناسته ناباوري يا له مينځه تللې ده';
 $messages['storageerror'] = 'له ای ميپ سرور سره پيوستون په بري سره ترسره نه شو';
 $messages['nomessagesfound'] = 'ليکبکس کې هېڅ استوزي ونه مونده';
-$messages['loggedout'] = 'تاسې له ناستې څخه په بشپړه توګه وويستل شوئ الله په امان';
 $messages['loading'] = 'د کار په حال کې';
 $messages['loadingdata'] = 'اومتوک د کار په حال کې';
 $messages['checkingmail'] = 'نوي استوزي ګوري';

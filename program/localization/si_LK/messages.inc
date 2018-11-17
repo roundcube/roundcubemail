@@ -21,7 +21,6 @@ $messages['cookiesdisabled'] = 'ඔබේ බෞසරය කුකී බාර
 $messages['sessionerror'] = 'ඔබේ වාරය අවලංගු හෝ කාලය ඉකුත් වී ඇත';
 $messages['dberror'] = 'දත්ත ගබඩාවේ දෝෂය!';
 $messages['nomessagesfound'] = 'ලියුම් පෙට්ටියේ පනිවුඩ නැත';
-$messages['loggedout'] = 'ඔබගේ වාරය සාර්ථකව අවසන් විය. අයුබොවන්!';
 $messages['loading'] = 'පූරනය...';
 $messages['loadingdata'] = 'දත්ත පූරනය...';
 $messages['checkingmail'] = 'අලුත් පණිවිඩ පරීක්ෂා කරමින්...';

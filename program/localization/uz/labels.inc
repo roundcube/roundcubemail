@@ -396,7 +396,6 @@ $labels['importreplace'] = 'Jami manzillar kitobini almashtirish';
 $labels['importgroups'] = 'Importda guruhlar bo`yicha taqsimlash';
 $labels['importgroupsall'] = 'Barcha (zaruriyat bo`lganda guruh yaratish)';
 $labels['importgroupsexisting'] = 'Faqat mavjud guruhlar uchun';
-$labels['importdesc'] = 'Siz mavjud manzillar kitobidan kontaktlarni yuklashingiz mumkin.<br/> Hozirda biz manzillarni <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> vizit kartalari ko`rinishida  yoki CSV (ma`lumotlar , bilan ajratilgan) formatlar bilan ishlay olamiz.';
 $labels['done'] = 'Yakunlandi';
 $labels['settingsfor'] = 'Kun sozlamalari';
 $labels['about'] = 'Dastur haqida';

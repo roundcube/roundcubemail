@@ -20,3 +20,4 @@ $labels['download'] = '下載...';
 $labels['downloadmbox'] = 'Mbox 格式 (.zip)';
 $labels['downloadmaildir'] = 'Maildir 格式 (.zip)';
 $labels['downloademl'] = '原始格式 (.eml)';
+$labels['sizelimiterror'] = '所選郵件總大小超過限制 ($size)';

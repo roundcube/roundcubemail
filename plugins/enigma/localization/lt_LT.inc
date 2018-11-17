@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Parašo galiojimas nepatikrintas. Įvyko vidinė klaida
 $messages['decryptok'] = 'Laiškas iššifruotas.';
 $messages['decrypterror'] = 'Iššifruoti nepavyko.';
 $messages['decryptnokey'] = 'Iššifruoti nepavyko. Nerastas privatusis raktas. Rakto ID: $keyid.';
+$messages['decryptnomdc'] = 'Iššifravimas praleistas. Laiškas nėra apsaugotas vientisumu.';
 $messages['decryptbadpass'] = 'Iššifravimas nepavyko. Neteisingas slaptažodis.';
 $messages['decryptnopass'] = 'Nepavyko iššifruoti, reikalingas rakto slaptažodis.';
 $messages['decryptpartial'] = 'Laiškas iššifruotas, nors dalis laiško ir nebuvo užšifruota.';
