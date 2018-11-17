@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Update to TinyMCE 4.8.2
 - Plugin API: Added 'raise_error' hook (#6199)
 - Plugin API: Added 'common_headers' hook (#6385)
+- Enigma: Update to OpenPGPjs 4.2.1 - fixes user name encoding issues in key generation (#6524)
 - Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
 - Markasjunk: Integrate markasjunk2 features into markasjunk - marking as non-junk + learning engine (#6504)
 - Password: Added 'modoboa' driver (#6361)
