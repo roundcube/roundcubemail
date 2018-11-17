@@ -171,7 +171,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         openpgp.generateKey(options).then(function(keypair) {
             // success
             var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1,
-                _passwd: password, _keyid: keypair.key.primaryKey.fingerprint};
+                _passwd: password, _keyid: keypair.key.primaryKey.getFingerprint()};
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
