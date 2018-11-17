@@ -20,3 +20,4 @@ $labels['download'] = 'Letöltés...';
 $labels['downloadmbox'] = 'Mbox formátum (.zip)';
 $labels['downloadmaildir'] = 'Maildir formátum (.zip)';
 $labels['downloademl'] = 'Forrás (.eml)';
+$labels['sizelimiterror'] = 'A kiválasztott üzenetek mérete meghaladta a maximum méretet ($size) ';

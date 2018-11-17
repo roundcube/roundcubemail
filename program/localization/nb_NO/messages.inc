@@ -31,7 +31,6 @@ $messages['erroroverquotadelete'] = 'Ingen ledig plass på disk. Bruk SHIFT+DEL 
 $messages['invalidrequest'] = 'Ugyldig forespørsel! Ingen data ble lagret.';
 $messages['invalidhost'] = 'Ugyldig servernavn.';
 $messages['nomessagesfound'] = 'Det ble ikke funnet noen meldinger i denne mappen';
-$messages['loggedout'] = 'Du er logget av webmail. Ha det bra!';
 $messages['mailboxempty'] = 'Mappen er tom';
 $messages['nomessages'] = 'Ingen meldinger';
 $messages['refreshing'] = 'Oppdaterer …';

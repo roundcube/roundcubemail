@@ -5,7 +5,7 @@
  | plugins/markasjunk/localization/<lang>.inc                            |
  |                                                                       |
  | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2018, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,7 +15,4 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontext'] = 'غير المرغوب';
-$labels['buttontitle'] = 'حدد كغير مرغوب';
-$labels['reportedasjunk'] = 'تم الإبلاغ عنه كبريد غير مرغوب فيه بنجاح';
-?>
+$messages['reportedasjunk'] = 'تم الإبلاغ عنه كبريد غير مرغوب فيه بنجاح';

@@ -18,5 +18,7 @@
 $labels['addvcardmsg'] = 'Afegeix la vCard a la llibreta d\'adreces';
 $labels['vcardsavefailed'] = 'No s\'ha pogut desar la vCard';
 $labels['attachvcard'] = 'Adjunta la vCard';
+$labels['vcardattached'] = 'Fitxer vCard adjunt.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Reenvia vCard';
 ?>

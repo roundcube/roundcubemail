@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Spazio su disco non sufficiente. Utilizza S
 $messages['invalidrequest'] = 'Richiesta non valida! Nessun dato salvato.';
 $messages['invalidhost'] = 'Nome del server non valido.';
 $messages['nomessagesfound'] = 'Nessun messaggio trovato in questa cartella';
-$messages['loggedout'] = 'Sessione chiusa correttamente. Arrivederci!';
 $messages['mailboxempty'] = 'La casella di posta è vuota';
 $messages['nomessages'] = 'Non ci sono messaggi';
 $messages['refreshing'] = 'Aggiornamento...';

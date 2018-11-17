@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Hi falta l'adjunt?";
 $messages['forgotattachment'] = "Us heu oblidat afegir un fitxer?";
 $messages['reminderoption'] = "Recordatori de fitxers adjunts oblidats";
 $messages['keywords'] = "adjunt,fitxer,adjuntar,adjuntat,adjuntant,CV,carta";

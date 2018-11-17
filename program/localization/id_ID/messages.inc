@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Disk penuh. Tekan SHIFT + DEL untuk menghap
 $messages['invalidrequest'] = 'Permintaan tidak valid! Tidak ada data yang tersimpan.';
 $messages['invalidhost'] = 'Nama server invalid.';
 $messages['nomessagesfound'] = 'Surat tidak ditemukan di kotak masuk ini';
-$messages['loggedout'] = 'Anda berhasil mengakhiri session. Selamat Tinggal!';
 $messages['mailboxempty'] = 'Kotak masuk kosong';
 $messages['nomessages'] = 'Tidak ada pesan';
 $messages['refreshing'] = 'Menyegarkan...';

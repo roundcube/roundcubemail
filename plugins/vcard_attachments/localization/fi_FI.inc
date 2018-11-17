@@ -17,4 +17,8 @@
 */
 $labels['addvcardmsg'] = 'Lisää vCard osoitekirjaan';
 $labels['vcardsavefailed'] = 'vCardin tallennus epäonnistui';
+$labels['attachvcard'] = 'Liitä vCard';
+$labels['vcardattached'] = 'vCard-tiedosto lisätty.';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Edelleenohjaa vCard';
 ?>

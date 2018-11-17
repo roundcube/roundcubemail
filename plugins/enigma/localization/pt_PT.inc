@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Assinatura não verificada. Erro interno.';
 $messages['decryptok'] = 'Mensagem desencriptada.';
 $messages['decrypterror'] = 'A desencriptação falhou.';
 $messages['decryptnokey'] = 'A desencriptação falhou. Chave privada não encontrada. ID da chave: $keyid.';
+$messages['decryptnomdc'] = 'Desencriptação ignorada. A mensagem não está protegida na sua integridade.';
 $messages['decryptbadpass'] = 'A desencriptação falhou. Palavra-passe inválida.';
 $messages['decryptnopass'] = 'A desencriptação falhou. Chave necessária.';
 $messages['decryptpartial'] = 'Mensagem desencriptada, mas parte do corpo não foi encriptado.';

@@ -20,3 +20,4 @@ $labels['download'] = 'Parsisiųsti...';
 $labels['downloadmbox'] = 'Mbox formatas (.zip)';
 $labels['downloadmaildir'] = 'Maildir formatas (.zip)';
 $labels['downloademl'] = 'Kodas (.eml)';
+$labels['sizelimiterror'] = 'Bendras pasirinktų laiškų dydis viršija ribą ($size)';

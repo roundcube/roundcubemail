@@ -20,3 +20,4 @@ $labels['download'] = 'İndir...';
 $labels['downloadmbox'] = 'Mbox biçimi (.zip)';
 $labels['downloadmaildir'] = 'Maildir biçimi (.zip)';
 $labels['downloademl'] = 'Kaynak (.eml)';
+$labels['sizelimiterror'] = 'Seçilmiş iletilerin toplam boyutu belirtilen sınırı aşıyor ($size)';

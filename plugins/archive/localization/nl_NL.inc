@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archiveren';
 $labels['archivetype'] = 'Archief opdelen in';
 $labels['archivetypeyear'] = 'Jaar (bijv. Archief/2012)';
 $labels['archivetypemonth'] = 'Maand (bijv. Archief/2012/06)';
+$labels['archivetypetbmonth'] = 'Maand - Thunderbird compatibel (bijv. Archief/2012/06)';
 $labels['archivetypefolder'] = 'Originele map';
 $labels['archivetypesender'] = 'Afzender e-mail';
 $labels['unkownsender'] = 'onbekend';

@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Uz diska nav brīvas vietas. Lai dzēstu v�
 $messages['invalidrequest'] = 'Nederīgs pieprasījums! Dati netika saglabāti ...';
 $messages['invalidhost'] = 'Nederīgs servera nosaukums';
 $messages['nomessagesfound'] = 'Šajā pastkastē nav vēstuļu';
-$messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies no sistēmas. Uz redzēšanos!';
 $messages['mailboxempty'] = 'Pastkaste ir tukša';
 $messages['nomessages'] = 'Nav nevienas vēstules';
 $messages['refreshing'] = 'Atjauno...';

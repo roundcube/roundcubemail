@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Bo‘sh joy qolmagan. SHIFT+DEL ni bosib, x
 $messages['invalidrequest'] = 'Noto‘g‘ri so‘rov! Ma’lumot saqlanmadi.';
 $messages['invalidhost'] = 'Server nomi noto‘g‘ri.';
 $messages['nomessagesfound'] = 'Bu pochta qutisida xabarlar topilmadi.';
-$messages['loggedout'] = 'Siz sessiyani muvaffaqqiyatli yakunladingiz. Xayr!';
 $messages['mailboxempty'] = 'Pochta qutisi bo‘sh';
 $messages['nomessages'] = 'Xabarlar yo‘q';
 $messages['refreshing'] = 'Yangilanmoqda...';

@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'لا يوجد مساحة كافية. است
 $messages['invalidrequest'] = 'طلب غير صالح! لم تحفظ أية بيانات.';
 $messages['invalidhost'] = 'اسم الملقم غير صالح.';
 $messages['nomessagesfound'] = 'لم يعثر على أية رسائل في صندوق البريد هذا';
-$messages['loggedout'] = 'قمت بإنهاء هذه الجلسة بنجاح. إلى اللقاء!';
 $messages['mailboxempty'] = 'صندوق البريد فارغ';
 $messages['nomessages'] = 'لا يوجد رسائل';
 $messages['refreshing'] = 'جاري التحديث...';

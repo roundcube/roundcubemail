@@ -34,3 +34,4 @@ $messages['passwinhistory'] = 'لقد قُمت باستخدام هذه الكل�
 $messages['samepasswd'] = 'يجب أن تكون كلمة السر الجديدة لا تُشابِه الكلمة القديمة.';
 $messages['passwdexpirewarning'] = 'تنبيه ! إنّ مدة صلاحية كلمتك السرية سوف تنقضي قريبا، يُرجى تغييرها قبل $expirationdatetime.';
 $messages['passwdexpired'] = 'لقد إنتهت مدة صلاحية كلمتك السرية، يجب عليك تغييرها الآن !';
+$messages['passwdconstraintviolation'] = 'تحتوي كلمة المرور على خروقات. ربما كلمة المرور ضعيفة جدا.';

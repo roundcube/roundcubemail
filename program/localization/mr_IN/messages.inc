@@ -27,7 +27,6 @@ $messages['errorreadonly'] = 'कृती करण्यास असमर्
 $messages['errornoperm'] = 'कृती करण्यास असमर्थ, परवानगी अमान्य';
 $messages['invalidrequest'] = 'अवैध विनंती! माहिती साठवलेली नाही.';
 $messages['nomessagesfound'] = 'या खात्यामधे कोणताही संदेश आलेला नाही';
-$messages['loggedout'] = 'तुम्ही यशस्वीरित्या खाते बंद केले आहे . राम राम !';
 $messages['loading'] = 'संदेश आणत आहे';
 $messages['uploading'] = 'फाईल चढवली जात आहे...';
 $messages['loadingdata'] = 'माहिती आणत आहे';

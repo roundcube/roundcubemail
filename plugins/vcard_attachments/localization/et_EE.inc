@@ -17,4 +17,5 @@
 */
 $labels['addvcardmsg'] = 'Lisa vCard aadressiraamatusse';
 $labels['vcardsavefailed'] = 'vCard salvestamine nurjus';
+$labels['vcard'] = 'vCard';
 ?>

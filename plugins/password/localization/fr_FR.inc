@@ -16,9 +16,9 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 $labels['changepasswd']  = 'Changer le mot de passe';
-$labels['curpasswd']  = 'Mot de passe actuel :';
-$labels['newpasswd']  = 'Nouveau mot de passe :';
-$labels['confpasswd']  = 'Confirmer le nouveau mot de passe :';
+$labels['curpasswd']  = 'Mot de passe actuel :';
+$labels['newpasswd']  = 'Nouveau mot de passe :';
+$labels['confpasswd']  = 'Confirmer le nouveau mot de passe :';
 $messages['nopassword'] = 'Veuillez saisir le nouveau mot de passe.';
 $messages['nocurpassword'] = 'Veuillez saisir le mot de passe actuel.';
 $messages['passwordincorrect'] = 'Le mot de passe actuel est erroné.';
@@ -28,11 +28,14 @@ $messages['connecterror'] = 'Impossible d’enregistrer le nouveau mot de passe.
 $messages['internalerror'] = 'Impossible d’enregistrer le nouveau mot de passe.';
 $messages['passwordshort'] = 'Le mot de passe doit comporter au moins $length caractères.';
 $messages['passwordweak'] = 'Le mot de passe doit comporter au moins un chiffre et un signe de ponctuation.';
+$messages['passwordtooweak'] = 'Le mot de passe est trop faible.';
+$messages['passwordnoseq'] = 'Le mot de passe ne devrait pas être une séquence comme 123456, QWERTY ou AZERTY.';
+$messages['passwordnocommon'] = 'Le mot de passe ne devrait pas être un nom commun ou un nom.';
 $messages['passwordforbidden'] = 'Le mot de passe contient des caractères interdits.';
 $messages['firstloginchange'] = 'Ceci est votre première connexion. Veuillez changer votre mot de passe.';
 $messages['disablednotice'] = 'Le système est en cours de maintenance et les changements de mot de passe sont impossibles pour l’instant. Tout devrait redevenir normal sous peu. Nous regrettons tout inconvénient que cette situation pourrait occasionner.';
 $messages['passwinhistory'] = 'Ce mot de passe a déjà été utilisé précédemment.';
 $messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l’ancien.';
-$messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
-$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';
+$messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
+$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';
 $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';

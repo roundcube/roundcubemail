@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-$messages['errortitle']  = 'Fe gafwyd gwall!';
+$messages['errortitle']  = 'Cafwyd gwall!';
 $messages['loginfailed']  = 'Methwyd mewngofnodi.';
 $messages['cookiesdisabled'] = 'Nid yw eich porwr yn derbyn cwcis.';
 $messages['sessionerror'] = 'Mae\'r sesiwn yn anghywir neu wedi dod i ben.';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = 'Dim gofod gwag ar y disg. Defnyddiwch SHIFT
 $messages['invalidrequest'] = 'Cais annilys! Ni chadwyd unrhyw wybodaeth.';
 $messages['invalidhost'] = 'Enw gweinydd annilys.';
 $messages['nomessagesfound'] = 'Dim negeseuon wedi eu canfod yn y blwch hwn';
-$messages['loggedout'] = 'Rydych wedi gorffen y sesiwn yn llwyddianus. Hwyl fawr!';
+$messages['loggedout'] = 'Rydych wedi cau\'r sesiwn yn llwyddiannus. Hwyl fawr!';
 $messages['mailboxempty'] = 'Mae\'r blwch yn wag';
 $messages['nomessages'] = 'Dim negeseuon';
 $messages['refreshing'] = 'Yn adnewyddu...';
@@ -83,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Ydych chi wir am ddileu y cysylltiadau dde
 $messages['deletegroupconfirm']  = 'Ydych chi wir am ddileu\'r grŵp dewiswyd?';
 $messages['deletemessagesconfirm'] = 'Ydych chi wir am ddileu y neges(euon) ddewiswyd?';
 $messages['deletefolderconfirm']  = 'Ydych chi wir am ddileu y ffolder yma?';
+$messages['movefolderconfirm']  = 'Ydych chi wir am symud y ffolder hwn?';
 $messages['purgefolderconfirm']  = 'Ydych chi wir am ddileu yr holl negeseuon yn y ffolder yma?';
 $messages['contactdeleting'] = 'Dileu cyswllt/cysylltiadau...';
 $messages['groupdeleting'] = 'Yn dileu grŵp...';

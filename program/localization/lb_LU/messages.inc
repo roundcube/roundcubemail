@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Et ass net méi genuch Plaz um Disk. Benotz
 $messages['invalidrequest'] = 'Ongëlteg Ufro! Et goufe keng Date gespäichert.';
 $messages['invalidhost'] = 'Ongëltege Server-Numm.';
 $messages['nomessagesfound'] = 'Keng Messagen an der Mailbox fonnt.';
-$messages['loggedout'] = 'Du hues dech erfollegräich ofgemellt. Äddi!';
 $messages['mailboxempty'] = 'D\'Mailbox ass eidel';
 $messages['nomessages'] = 'Keng Messagen';
 $messages['refreshing'] = 'Lueden nei...';

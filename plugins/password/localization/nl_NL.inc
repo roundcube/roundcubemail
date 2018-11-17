@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Dit wachtwoord is al eerder gebruikt.';
 $messages['samepasswd'] = 'Het nieuwe paswoord dient verschillend ten opzichte van de oude te zijn.';
 $messages['passwdexpirewarning'] = 'Waarschuwing! je wachtwoord verloopt binnenkort, Wijzig het voor $vervaldatum.';
 $messages['passwdexpired'] = 'Je wachtwoord is verlopen, je dient het nu te wijzigen!';
+$messages['passwdconstraintviolation'] = 'Wachtwoord voldoet niet aan beleid. Waarschijnlijk te zwak.';

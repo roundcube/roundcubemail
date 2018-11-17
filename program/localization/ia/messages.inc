@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Nulle spatio libere sur disco. Preme SHIFT+
 $messages['invalidrequest'] = 'Requesta non valide. Le datos non ha essite salveguardate.';
 $messages['invalidhost'] = 'Nomine de servitor non valide.';
 $messages['nomessagesfound'] = 'Nulle message trovate in iste cassa postal.';
-$messages['loggedout'] = 'Vos ha terminate le session. A revider!';
 $messages['mailboxempty'] = 'Le cassa postal es vacue';
 $messages['nomessages'] = 'Nulle message';
 $messages['refreshing'] = 'A refrescar...';

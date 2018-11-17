@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Немате повеќе слободно 
 $messages['invalidrequest'] = 'Неважечко барање! Податоците не се зачувани.';
 $messages['invalidhost'] = 'Името на серверот не е валидно.';
 $messages['nomessagesfound'] = 'Немате писма во ова сандаче';
-$messages['loggedout'] = 'Успешно се одјавивте. Ви благодариме и довидување!';
 $messages['mailboxempty'] = 'Поштенското сандаче е празно.';
 $messages['nomessages'] = 'Нема пораки';
 $messages['refreshing'] = 'Освежување...';

@@ -17,5 +17,6 @@
 */
 $labels['sender'] = 'بھیجنے والا';
 $labels['flagdeleted'] = 'ختم ہو گیا';
+$labels['datetest'] = 'تاریخ';
 $labels['vacation.subject'] = 'مضمون';
 ?>

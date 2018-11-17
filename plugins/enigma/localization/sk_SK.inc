@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Neoverený podpis. Interná chyba.';
 $messages['decryptok'] = 'Správa bola dešifrovaná.';
 $messages['decrypterror'] = 'Dešifrovanie nebolo úspešné.';
 $messages['decryptnokey'] = 'Dešifrovanie nebolo úspešné. Súkromný kľúč sa nenašiel. ID kľúča: $keyid.';
+$messages['decryptnomdc'] = 'Dešifrovanie bolo preskočené. Integrita správy nie je chránená.';
 $messages['decryptbadpass'] = 'Dešifrovanie bolo neúspešné. Neplatné heslo.';
 $messages['decryptnopass'] = 'Dešifrovanie nebolo úspešné. Vyžaduje sa kľúčové heslo.';
 $messages['decryptpartial'] = 'Správa bola dešifrovaná, ale časť jej tela nebola zašifrovaná.';

@@ -33,7 +33,6 @@ $messages['erroroverquotadelete'] = 'دیسک فضای خالی ندارد. بر
 $messages['invalidrequest'] = 'درخواست نامعتبر! هیچ داده‌ای ذخیره نشد.';
 $messages['invalidhost'] = 'نام سرور غیرمعتبر.';
 $messages['nomessagesfound'] = 'هیچ پیغامی در این صندوق‌پستی پیدا نشد.';
-$messages['loggedout'] = 'شما با کام‌یابی نشست را پایان دادید. خدانگهدار!';
 $messages['mailboxempty'] = 'صندوق پستی خالی است';
 $messages['nomessages'] = 'بدون پیام';
 $messages['refreshing'] = 'نوسازی...';

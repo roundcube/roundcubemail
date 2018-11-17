@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Nënshkrim i paverifikuar. Gabim i brendshëm.';
 $messages['decryptok'] = 'Mesazhi u shfshehtëzua.';
 $messages['decrypterror'] = 'Shfshehtëzimi dështoi.';
 $messages['decryptnokey'] = 'Shfshehtëzimi dështoi. S’u gjet kyç privat. ID Kyçi: $keyid.';
+$messages['decryptnomdc'] = 'Shfshehtëzimi u anashkalua. Mesazhi është pa mbrojtje integriteti.';
 $messages['decryptbadpass'] = 'Shfshehtëzimi dështoi. Fjalëkalim i pavlefshëm.';
 $messages['decryptnopass'] = 'Shfshehtëzimi dështoi. Lypset fjalëkalim kyçi.';
 $messages['decryptpartial'] = 'Mesazhi u shfshehtëzua, por një pjesë e lëndë s’u shfshehtëzua.';

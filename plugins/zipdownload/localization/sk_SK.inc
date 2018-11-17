@@ -20,3 +20,4 @@ $labels['download'] = 'Stiahnuť...';
 $labels['downloadmbox'] = 'Formát Mbox (.zip)';
 $labels['downloadmaildir'] = 'Formát Maildir (.zip)';
 $labels['downloademl'] = 'Zdroj (.eml)';
+$labels['sizelimiterror'] = 'Celková veľkosť vybraných správ prekračuje limit ($size)';

@@ -27,7 +27,6 @@ $messages['errorreadonly'] = 'Ne povis fari agon. Dosierujo estas nurlega';
 $messages['errornoperm'] = 'Ne povis fari agon. Ne havas permeson.';
 $messages['invalidrequest'] = 'Nevalida peto';
 $messages['nomessagesfound'] = 'Neniu mesaĝo en ĉi tiu dosierujo';
-$messages['loggedout'] = 'Vi sukcese finis la seancon. Ĝis!';
 $messages['loading'] = 'Ŝarganta...';
 $messages['loadingdata'] = 'Ŝarganta datumojn...';
 $messages['checkingmail'] = 'Kontrolanta, ĉu  novaj mesaĝoj...';

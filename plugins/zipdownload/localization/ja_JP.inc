@@ -20,3 +20,4 @@ $labels['download'] = 'ダウンロード...';
 $labels['downloadmbox'] = 'mbox形式(.zip)';
 $labels['downloadmaildir'] = 'Maildir形式(.zip)';
 $labels['downloademl'] = 'ソース(.eml)';
+$labels['sizelimiterror'] = '選択したメッセージのサイズの合計が制限($size)を超過します。';

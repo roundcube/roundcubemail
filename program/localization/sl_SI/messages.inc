@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Zmanjkalo je diskovnega prostora. Za izbris
 $messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
 $messages['invalidhost'] = 'Nepravilno ime strežnika';
 $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
-$messages['loggedout'] = 'Odjava je bila uspešna.';
 $messages['mailboxempty'] = 'Poštni predal je prazen.';
 $messages['nomessages'] = 'Ni sporočil';
 $messages['refreshing'] = 'Osvežujem...';

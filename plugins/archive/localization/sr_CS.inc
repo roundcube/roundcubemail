@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Архивирање';
 $labels['archivetype'] = 'Разврстај архиве по';
 $labels['archivetypeyear'] = 'години (нпр. Архива/2015)';
 $labels['archivetypemonth'] = 'месецу (нпр. Архива/2015/03)';
+$labels['archivetypetbmonth'] = 'месецу - као Тандерберд (нпр. Архива/2012/2012-03)';
 $labels['archivetypefolder'] = 'изворној фасцикли';
 $labels['archivetypesender'] = 'адреси пошиљаоца';
 $labels['unkownsender'] = 'непознато';

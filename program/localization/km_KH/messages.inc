@@ -29,7 +29,6 @@ $messages['errornoperm'] = 'មិនអាចប្រតិបត្តិប�
 $messages['invalidrequest'] = 'មិនអាចរក្សាទុកទិន្នន័យបានពីព្រោះមានបញ្ហានៅពេលបញ្ជូនទិន្នន័យ';
 $messages['invalidhost'] = 'ឈ្មោះ​ម៉ាស៊ីន​មេ​មិន​ត្រឹមត្រូវ។';
 $messages['nomessagesfound'] = 'ពុំមានសំបុត្រក្នុងប្រអប់សំបុត្រនេះទេ';
-$messages['loggedout'] = 'អ្នកបានពិនិត្យចេញដោយជោគជ័យ។';
 $messages['refreshing'] = 'កំពុង​ផ្ទុកឡើងវិញ...';
 $messages['loading'] = 'កំពុងដំណើរការ...';
 $messages['uploading'] = 'កំពុងបញ្ជូនឯកសារ...';

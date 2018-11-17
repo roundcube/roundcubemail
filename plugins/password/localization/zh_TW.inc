@@ -35,3 +35,4 @@ $messages['passwinhistory'] = '此密碼之前已用過';
 $messages['samepasswd'] = '新密碼要和舊的不同';
 $messages['passwdexpirewarning'] = '警告！您的密碼很快會到期，請在 $expirationdatetime 之前更改';
 $messages['passwdexpired'] = '您的密碼已到期，請馬上更改！';
+$messages['passwdconstraintviolation'] = '違反密碼規限。密碼可能太弱了。';

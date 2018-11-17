@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Egor dieub ebet er gantenn. Grit Pennlizh.+
 $messages['invalidrequest'] = 'Azgoulenn didalvoudek! N\'ez eus bet enrollet roadenn ebet.';
 $messages['invalidhost'] = 'Anv dafariad didalvoudek';
 $messages['nomessagesfound'] = 'Kemennadenn ebet er voest lizhiri';
-$messages['loggedout'] = 'Digevreet hoc\'h eus mat. Kenavo !';
 $messages['mailboxempty'] = 'Goulo eo ar voest lizhiri';
 $messages['nomessages'] = 'Kemennadenn ebet';
 $messages['refreshing'] = 'Oc\'h azgrenaat...';

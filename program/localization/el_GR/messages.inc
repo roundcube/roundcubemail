@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Δεν υπάρχει ελεύθερος χ
 $messages['invalidrequest'] = 'Λανθασμένο αίτημα! Δεν αποθηκεύτηκαν δεδομένα.';
 $messages['invalidhost'] = 'Άκυρο όνομα εξυπηρετητή.';
 $messages['nomessagesfound'] = 'Δεν βρέθηκαν μηνύματα σε αυτή τη θυρίδα.';
-$messages['loggedout'] = 'Έχετε τερματίσει επιτυχώς τη συνεδρία. Αντίο!';
 $messages['mailboxempty'] = 'Η θυρίδα είναι άδεια';
 $messages['nomessages'] = 'Δεν υπάρχουν μηνύματα';
 $messages['refreshing'] = 'Ανανέωση....';

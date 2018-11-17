@@ -20,4 +20,5 @@ $labels['vcardsavefailed'] = 'לא ניתן לשמור את כרטיס הביק�
 $labels['attachvcard'] = 'צרפ/י קובץ חתימה (vCard)';
 $labels['vcardattached'] = 'צורף קובץ vCard';
 $labels['vcard'] = 'קובץ חתימה (vCard)';
+$labels['forwardvcard'] = 'העברה של כרטיס ביקור';
 ?>

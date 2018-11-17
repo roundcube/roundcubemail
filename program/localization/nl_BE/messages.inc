@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Geen vrije schijfruimte. Gebruik SHIFT+DEL 
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
 $messages['invalidhost'] = 'Ongeldige server.';
 $messages['nomessagesfound'] = 'Er zijn geen berichten in deze map...';
-$messages['loggedout'] = 'U bent nu afgemeld. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg';
 $messages['nomessages'] = 'Geen berichten';
 $messages['refreshing'] = 'Bezig met vernieuwen...';
