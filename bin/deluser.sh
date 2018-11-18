@@ -26,8 +26,10 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 function print_usage()
 {
-    print "Usage: deluser.sh [--host=mail_host] username\n";
+    print "Usage: deluser.sh [--host=HOST][--age=DAYS][--dry-run] [username]\n";
     print "--host=HOST  The IMAP hostname or IP the given user is related to\n";
+    print "--age=DAYS   Delete all users who have not logged in for more than X days\n";
+    print "--dry-run    List users but do not delete them (for use with --age)\n";
 }
 
 function _die($msg, $usage=false)
@@ -40,9 +42,28 @@ function _die($msg, $usage=false)
 $rcmail = rcube::get_instance();
 
 // get arguments
-$args     = rcube_utils::get_opt(array('h' => 'host'));
-$username = trim($args[0]);
+$args = rcube_utils::get_opt(array('h' => 'host', 'a' => 'age', 'd' => 'dry-run:bool'));
 
+if (!empty($args['age']) && ($age = intval($args['age']))) {
+    $db = $rcmail->get_dbh();
+    $db->db_connect('r');
+
+    $query = $db->query("SELECT `username`, `mail_host` FROM " . $db->table_name('users', true)
+        . " WHERE `last_login` < " . $db->now($age * -1 * 86400)
+        . ($args['host'] ? " AND `mail_host` = " . $db->quote($args['host']) : '')
+    );
+
+    while ($user = $db->fetch_assoc($query)) {
+        if (!empty($args['dry-run'])) {
+            printf("%s (%s)\n", $user['username'], $user['mail_host']);
+            continue;
+        }
+        system(sprintf("php %s/deluser.sh --host=%s %s", INSTALL_PATH . 'bin', $user['mail_host'], $user['username']));
+    }
+    exit(1);
+}
+
+$username = trim($args[0]);
 if (empty($username)) {
     _die("Missing required parameters", true);
 }
@@ -75,7 +96,7 @@ if (!$db->is_connected() || $db->is_error()) {
     _die("No DB connection\n" . $db->is_error());
 }
 
-// find user in loca database
+// find user in local database
 $user = rcube_user::query($username, $args['host']);
 
 if (!$user) {
@@ -122,4 +143,3 @@ else {
         echo "Successfully deleted user $user->ID\n";
     }
 }
-
