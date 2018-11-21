@@ -103,7 +103,7 @@
 
     a:not(.btn) {
         color: @color-message-link;
-        font-weight: normal;
+        font-weight: @color-message-link-font-weight;
     }
 
     h3 {
@@ -135,19 +135,23 @@
     }
 
     &.boxerror {
-        background-color: @color-message-error-background;
+        background-color: @color-message-error-box-background;
+        & when not(@color-message-error-box = @color-message) { color: @color-message-error-box; }
     }
 
     &.boxinformation {
-        background-color: @color-message-information-background;
+        background-color: @color-message-information-box-background;
+        & when not(@color-message-information-box = @color-message) { color: @color-message-information-box; }
     }
 
     &.boxconfirmation {
-        background-color: @color-message-success-background;
+        background-color: @color-message-success-box-background;
+        & when not(@color-message-error-box = @color-message) { color: @color-message-error-box; }
     }
 
     &.boxwarning {
-        background-color: @color-message-warning-background;
+        background-color: @color-message-warning-box-background;
+        & when not(@color-message-warning-box = @color-message) { color: @color-message-warning-box; }
     }
 
     & + table {
@@ -185,12 +189,11 @@
     }
 
     .loading {
-        background-color: @color-list-selected-background;
-        border-color: @color-main;
-        color: @color-main;
+        background-color: @color-message-loading;
+        color: #fff;
 
         & > i.icon:before {
-            color: @color-main;
+            color: #fff;
         }
     }
 
