@@ -1790,7 +1790,7 @@ function rcube_elastic_ui()
 
         // we need the content to be non-text node for best alignment
         if (wrap && addicon && !$(object).is('.aligned-buttons')) {
-            $(object).wrap('<span>');
+            $(object).html($('<span>').html($(object).html()));
         }
 
         // Type can be e.g. 'notice chat'
