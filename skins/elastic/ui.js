@@ -1768,8 +1768,6 @@ function rcube_elastic_ui()
 
         alert_style(p.object, p.type, true);
         $(p.object).attr('role', 'alert');
-
-        // $('a', p.object).addClass('alert-link');
     };
 
     /**
@@ -1787,17 +1785,16 @@ function rcube_elastic_ui()
                 error: 'alert-danger',
                 loading: 'alert-info loading',
                 uploading: 'alert-info loading',
-                vcardattachment: 'alert-info' /* vcard_attachments plugin */
+                vcardattachment: 'alert-info' // vcard_attachments plugin
             };
+
+        // we need the content to be non-text node for best alignment
+        if (wrap && addicon && !$(object).is('.aligned-buttons')) {
+            $(object).wrap('<span>');
+        }
 
         // Type can be e.g. 'notice chat'
         type = type.split(' ')[0];
-
-        if (wrap && addicon && !$(object).is('.aligned-buttons')) {
-            // we need the content to be non-text node for best alignment
-            tmp = $(object).html();
-            $(object).html($('<span>').html(tmp));
-        }
 
         if (tmp = map[type]) {
             classes += ' ' + tmp;
