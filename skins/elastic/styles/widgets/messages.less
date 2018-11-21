@@ -91,6 +91,10 @@
         content: @fa-var-lock; // enigma plugin
     }
 
+    &.chat > i.icon:before {
+        content: @fa-var-comment;
+    }
+
     // This works with following structure: <i> <span> [button].
     // <span> here is a one-line text, and button can be anything but <span>.
     &.aligned-buttons {
@@ -177,6 +181,8 @@
 
     div {
         border-color: transparent;
+        background-color: @color-message;
+        color: #fff;
 
         &.voice {
             position: absolute;
@@ -186,63 +192,30 @@
         i.icon {
             font-size: 1.5em !important;
         }
+
+        & > i.icon:before {
+            color: #fff;
+        }
     }
 
     .loading {
         background-color: @color-message-loading;
-        color: #fff;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     .alert-info.information {
-        color: #fff;
         background-color: @color-message-information;
-
-        & > i.icon:before {
-            color: #fff;
-        }
-    }
-
-    .alert-info.notice {
-        color: #fff;
-        background-color: @color-taskmenu-background;
-
-        & > i.icon:before {
-            color: #fff;
-        }
-
-        &.chat > i.icon:before {
-            content: @fa-var-comment;
-        }
     }
 
     .alert-success {
-        color: #fff;
         background-color: @color-message-success;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     .alert-warning {
         background-color: @color-message-warning;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     .alert-danger {
-        color: #fff;
         background-color: @color-message-error;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     a {
