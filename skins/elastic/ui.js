@@ -373,7 +373,7 @@ function rcube_elastic_ui()
     /**
      * Create a button clone for use in toolbar
      */
-    function create_cloned_button(target, menu_button, add_class)
+    function create_cloned_button(target, menu_button, add_class, always_active)
     {
         var popup, click = true,
             button = $('<a>'),
@@ -383,7 +383,7 @@ function rcube_elastic_ui()
 
         if (!menu_button) {
             btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
-            btn_class += ' button disabled';
+            btn_class += ' button' + (!always_active ? ' disabled' : '');
         }
         else if (popup = target.data('popup')) {
             button.data({popup: popup, 'toggle-button': target.data('toggle-button')});
@@ -626,7 +626,7 @@ function rcube_elastic_ui()
                 if ((task == '*' || task == rcmail.task)
                     && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
                 ) {
-                    fabuttons.push(create_cloned_button(button));
+                    fabuttons.push(create_cloned_button(button, false, false, true));
                 }
             });
 
