@@ -4743,28 +4743,34 @@ function rcube_webmail()
   // checks the input fields before sending a message
   this.check_compose_input = function(cmd)
   {
-    var key,
-      input_subject = $("[name='_subject']"),
-      input_to = $("[name='_to']");
+    var replace_space_seperated_emailadresses = function (field) 
+    {
+      // checks if the specified field contains multiple e-mail addresses, seperated by a space
+      var component_array = $.trim($(field).val()).split(' ');
+      // are there any space seperated strings
+      if (component_array.length > 1) {
+        var all_items_are_mail_addresses = true;
+        // checks if all space seperated strings are e-mail addresses
+        for (key in component_array) {
+          if (!rcube_check_email(component_array[key].trim() , true)) {
+            all_items_are_mail_addresses = false;
+            break;
+          }
+        }
 
-    // checks if the _to field contains multiple e-mail addresses, seperated by a space
-    var input_to_array = $.trim(input_to.val()).split(' ');
-    // are there any space seperated strings
-    if (input_to_array.length > 1) {
-      var all_items_are_mail_addresses = true;
-      // checks if all space seperated strings are e-mail addresses
-      for (key in input_to_array) {
-        if (!rcube_check_email(input_to_array[key].trim() , true)) {
-          all_items_are_mail_addresses = false;
-          break;
+        // If they are replace the space with a comma, so it will be handled like seperate addresses
+        if (all_items_are_mail_addresses) {
+          $(field).val(component_array.join(','));
         }
       }
-
-      // If they are replace the space with a comma, so it will be handled like seperate addresses
-      if (all_items_are_mail_addresses) {
-        $("[name='_to']").val(input_to_array.join(','));
-      }
     }
+
+    var key,
+      input_subject = $("[name='_subject']");
+
+    replace_space_seperated_emailadresses("[name='_to']");
+    replace_space_seperated_emailadresses("[name='_cc']");
+    replace_space_seperated_emailadresses("[name='_bcc']");
 
     // check if all files has been uploaded
     for (key in this.env.attachments) {
