@@ -4744,7 +4744,27 @@ function rcube_webmail()
   this.check_compose_input = function(cmd)
   {
     var key,
-      input_subject = $("[name='_subject']");
+      input_subject = $("[name='_subject']"),
+      input_to = $("[name='_to']");
+
+    // checks if the _to field contains multiple e-mail addresses, seperated by a space
+    var input_to_array = $.trim(input_to.val()).split(' ');
+    // are there any space seperated strings
+    if (input_to_array.length > 1) {
+      var all_items_are_mail_addresses = true;
+      // checks if all space seperated strings are e-mail addresses
+      for (key in input_to_array) {
+        if (!rcube_check_email(input_to_array[key].trim() , true)) {
+          all_items_are_mail_addresses = false;
+          break;
+        }
+      }
+
+      // If they are replace the space with a comma, so it will be handled like seperate addresses
+      if (all_items_are_mail_addresses) {
+        $("[name='_to']").val(input_to_array.join(','));
+      }
+    }
 
     // check if all files has been uploaded
     for (key in this.env.attachments) {
