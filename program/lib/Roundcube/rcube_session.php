@@ -102,6 +102,11 @@ abstract class rcube_session
      */
     public function register_session_handler()
     {
+        if (session_id()) {
+            // Session already exists, skip
+            return;
+        }
+
         ini_set('session.serialize_handler', 'php');
 
         // set custom functions for PHP session management
