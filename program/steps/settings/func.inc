@@ -207,14 +207,9 @@ function rcmail_user_prefs($current = null)
 
                 $zones = array();
                 foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
-                    try {
-                        $tz      = new DateTimeZone($tzs);
-                        $date    = new DateTime(date('Y') . '-12-21', $tz);
-                        $offset  = $date->format('Z') + 45000;
-                        $sortkey = sprintf('%06d.%s', $offset, $tzs);
-                        $zones[$sortkey] = array($tzs, $date->format('P'));
+                    if ($data = rcmail_timezone_standard_time_data($tzs)) {
+                        $zones[$data['key']] = array($tzs, $data['offset']);
                     }
-                    catch (Exception $e) {}
                 }
 
                 ksort($zones);
@@ -1478,4 +1473,31 @@ function rcmail_timezone_label($tz)
     }
 
     return implode('/', $tokens);
+}
+
+/**
+ * Returns timezone offset in standard time
+ */
+function rcmail_timezone_standard_time_data($tzname)
+{
+    try {
+        $tz    = new DateTimeZone($tzname);
+        $date  = new DateTime(null, $tz);
+        $count = 12;
+
+        // Move back for a month (up to 12 times) until non-DST date is found
+        while ($count > 0 && $date->format('I')) {
+            $date->sub(new DateInterval('P1M'));
+            $count--;
+        }
+
+        $offset  = $date->format('Z') + 45000;
+        $sortkey = sprintf('%06d.%s', $offset, $tzname);
+
+        return array(
+            'key'    => $sortkey,
+            'offset' => $date->format('P'),
+        );
+    }
+    catch (Exception $e) {}
 }
