@@ -284,23 +284,27 @@ class rcube_ldap extends rcube_addressbook
                 $this->readonly = false;
             }
 
-            $bind_pass   = $this->prop['bind_pass'];
-            $bind_user   = $this->prop['bind_user'];
-            $bind_dn     = $this->prop['bind_dn'];
-            $auth_method = $this->prop['auth_method'];
+            // trigger post-connect hook
+            $rcube = rcube::get_instance();
+            $conf  = $rcube->plugins->exec_hook('ldap_connected', $this->prop + array('host' => $host));
 
-            $this->base_dn        = $this->prop['base_dn'];
-            $this->groups_base_dn = $this->prop['groups']['base_dn'] ?: $this->base_dn;
+            $bind_pass   = $conf['bind_pass'];
+            $bind_user   = $conf['bind_user'];
+            $bind_dn     = $conf['bind_dn'];
+            $auth_method = $conf['auth_method'];
+
+            $this->base_dn        = $conf['base_dn'];
+            $this->groups_base_dn = $conf['groups']['base_dn'] ?: $this->base_dn;
 
             // User specific access, generate the proper values to use.
-            if ($this->prop['user_specific']) {
+            if ($conf['user_specific']) {
                 // No password set, use the session password
                 if (empty($bind_pass)) {
                     $bind_pass = $rcube->get_user_password();
                 }
 
                 // Get the pieces needed for variable replacement.
-                if ($fu = ($rcube->get_user_email() ?: $this->prop['username'])) {
+                if ($fu = ($rcube->get_user_email() ?: $conf['username'])) {
                     list($u, $d) = explode('@', $fu);
                 }
                 else {
@@ -310,50 +314,49 @@ class rcube_ldap extends rcube_addressbook
                 $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
 
                 // resolve $dc through LDAP
-                if (!empty($this->prop['domain_filter']) && !empty($this->prop['search_bind_dn']) &&
+                if (!empty($conf['domain_filter']) && !empty($conf['search_bind_dn']) &&
                         method_exists($this->ldap, 'domain_root_dn')) {
-                    $this->ldap->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
+                    $this->ldap->bind($conf['search_bind_dn'], $conf['search_bind_pw']);
                     $dc = $this->ldap->domain_root_dn($d);
                 }
 
                 $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 
                 // Search for the dn to use to authenticate
-                if ($this->prop['search_base_dn'] && $this->prop['search_filter']
+                if ($conf['search_base_dn'] && $conf['search_filter']
                     && (strstr($bind_dn, '%dn') || strstr($this->base_dn, '%dn') || strstr($this->groups_base_dn, '%dn'))
                 ) {
                     $search_attribs = array('uid');
-                     if ($search_bind_attrib = (array)$this->prop['search_bind_attrib']) {
-                         foreach ($search_bind_attrib as $r => $attr) {
-                             $search_attribs[] = $attr;
-                             $replaces[$r] = '';
-                         }
-                     }
+                    if ($search_bind_attrib = (array) $conf['search_bind_attrib']) {
+                        foreach ($search_bind_attrib as $r => $attr) {
+                            $search_attribs[] = $attr;
+                            $replaces[$r] = '';
+                        }
+                    }
 
-                    $search_bind_dn = strtr($this->prop['search_bind_dn'], $replaces);
-                    $search_base_dn = strtr($this->prop['search_base_dn'], $replaces);
-                    $search_filter  = strtr($this->prop['search_filter'], $replaces);
+                    $search_bind_dn = strtr($conf['search_bind_dn'], $replaces);
+                    $search_base_dn = strtr($conf['search_base_dn'], $replaces);
+                    $search_filter  = strtr($conf['search_filter'], $replaces);
 
-                    $cache_key = 'DN.' . md5("$host:$search_bind_dn:$search_base_dn:$search_filter:"
-                        .$this->prop['search_bind_pw']);
+                    $cache_key = 'DN.' . md5("$host:$search_bind_dn:$search_base_dn:$search_filter:" . $conf['search_bind_pw']);
 
                     if ($this->cache && ($dn = $this->cache->get($cache_key))) {
                         $replaces['%dn'] = $dn;
                     }
                     else {
                         $ldap = $this->ldap;
-                        if (!empty($search_bind_dn) && !empty($this->prop['search_bind_pw'])) {
+                        if (!empty($search_bind_dn) && !empty($conf['search_bind_pw'])) {
                             // To protect from "Critical extension is unavailable" error
                             // we need to use a separate LDAP connection
-                            if (!empty($this->prop['vlv'])) {
-                                $ldap = new rcube_ldap_generic($this->prop);
+                            if (!empty($conf['vlv'])) {
+                                $ldap = new rcube_ldap_generic($conf);
                                 $ldap->config_set(array('cache' => $this->cache, 'debug' => $this->debug));
                                 if (!$ldap->connect($host)) {
                                     continue;
                                 }
                             }
 
-                            if (!$ldap->bind($search_bind_dn, $this->prop['search_bind_pw'])) {
+                            if (!$ldap->bind($search_bind_dn, $conf['search_bind_pw'])) {
                                 continue;  // bind failed, try next host
                             }
                         }
@@ -379,8 +382,8 @@ class rcube_ldap extends rcube_addressbook
 
                     // DN not found
                     if (empty($replaces['%dn'])) {
-                        if (!empty($this->prop['search_dn_default']))
-                            $replaces['%dn'] = $this->prop['search_dn_default'];
+                        if (!empty($conf['search_dn_default']))
+                            $replaces['%dn'] = $conf['search_dn_default'];
                         else {
                             rcube::raise_error(array(
                                 'code' => 100, 'type' => 'ldap',
@@ -401,20 +404,24 @@ class rcube_ldap extends rcube_addressbook
                 $this->groups_base_dn = strtr($this->groups_base_dn, $replaces);
 
                 // replace placeholders in filter settings
-                if (!empty($this->prop['filter']))
-                    $this->prop['filter'] = strtr($this->prop['filter'], $replaces);
-
-                foreach (array('base_dn','filter','member_filter') as $k) {
-                    if (!empty($this->prop['groups'][$k]))
-                        $this->prop['groups'][$k] = strtr($this->prop['groups'][$k], $replaces);
+                if (!empty($conf['filter'])) {
+                    $this->prop['filter'] = strtr($conf['filter'], $replaces);
                 }
 
-                if (is_array($this->prop['group_filters'])) {
-                    foreach ($this->prop['group_filters'] as $i => $gf) {
-                        if (!empty($gf['base_dn']))
+                foreach (array('base_dn','filter','member_filter') as $k) {
+                    if (!empty($conf['groups'][$k])) {
+                        $this->prop['groups'][$k] = strtr($conf['groups'][$k], $replaces);
+                    }
+                }
+
+                if (is_array($conf['group_filters'])) {
+                    foreach ($conf['group_filters'] as $i => $gf) {
+                        if (!empty($gf['base_dn'])) {
                             $this->prop['group_filters'][$i]['base_dn'] = strtr($gf['base_dn'], $replaces);
-                        if (!empty($gf['filter']))
+                        }
+                        if (!empty($gf['filter'])) {
                             $this->prop['group_filters'][$i]['filter'] = strtr($gf['filter'], $replaces);
+                        }
                     }
                 }
 
@@ -427,11 +434,11 @@ class rcube_ldap extends rcube_addressbook
                 $this->ready = true;
             }
             else {
-                if (!empty($bind_dn)) {
-                    $this->ready = $this->ldap->bind($bind_dn, $bind_pass);
+                if (!empty($conf['auth_cid'])) {
+                    $this->ready = $this->ldap->sasl_bind($conf['auth_cid'], $bind_pass, $bind_dn);
                 }
-                else if (!empty($this->prop['auth_cid'])) {
-                    $this->ready = $this->ldap->sasl_bind($this->prop['auth_cid'], $bind_pass, $bind_user);
+                else if (!empty($bind_dn)) {
+                    $this->ready = $this->ldap->bind($bind_dn, $bind_pass);
                 }
                 else {
                     $this->ready = $this->ldap->sasl_bind($bind_user, $bind_pass);
