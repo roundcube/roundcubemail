@@ -733,6 +733,39 @@ function rcube_elastic_ui()
             $('input.datepicker').each(function() { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
         }
+
+        // Datepicker widget improvements: overlay element, styling updates on calendar element update
+        // The widget does not provide any event system, so we use MutationObserver
+        if (window.MutationObserver) {
+            var overlay, hidden = true,
+                callback = function(data) {
+                    $.each(data, function(i, v) {
+                        // add/remove overlay on widget show/hide
+                        if (v.type == 'attributes') {
+                            var is_hidden = $(v.target).attr('aria-hidden') == 'true';
+                            if (is_hidden != hidden) {
+                                if (!is_hidden) {
+                                    overlay = $('<div>').attr('class', 'ui-widget-overlay')
+                                        .appendTo('body')
+                                        .click(function(e) { $(this).remove(); });
+                                }
+                                else if (overlay) {
+                                    overlay.remove();
+                                }
+                                hidden = is_hidden;
+                            }
+                        }
+                        // apply styles if widget content changed
+                        else if (v.addedNodes.length) {
+                            bootstrap_style(v.target);
+                        }
+                    });
+                };
+
+            $('.ui-datepicker').each(function() {
+                (new MutationObserver(callback)).observe(this, {childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden']});
+            });
+        }
     };
 
     /**
@@ -985,11 +1018,6 @@ function rcube_elastic_ui()
             alert_style(this, cl);
             $(this).addClass('box' + cl);
             $('a', this).addClass('btn btn-primary');
-        });
-
-        // Style calendar widget (we use setTimeout() because there's no widget event we could bind to)
-        $('input.datepicker', context).focus(function() {
-            setTimeout(function() { bootstrap_style($('.ui-datepicker')); }, 5);
         });
 
         // Form validation errors (managesieve plugin)
@@ -3329,7 +3357,7 @@ function rcube_elastic_ui()
                 .append(items)
                 .on('click', 'a.active', function() {
                     // first close the list, then update the select, the order is important
-                    //for cases when the select might be removed in change event (datepicker)
+                    // for cases when the select might be removed in change event (datepicker)
                     var val = $(this).data('value'), ret = close_func();
                     select.val(val).change();
                     return ret;
