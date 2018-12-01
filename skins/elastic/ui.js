@@ -737,8 +737,10 @@ function rcube_elastic_ui()
         // Datepicker widget improvements: overlay element, styling updates on calendar element update
         // The widget does not provide any event system, so we use MutationObserver
         if (window.MutationObserver) {
-            var overlay, hidden = true,
-                callback = function(data) {
+            var overlay, hidden = true;
+
+            $('.ui-datepicker').each(function() {
+                var input = this, callback = function(data) {
                     $.each(data, function(i, v) {
                         // add/remove overlay on widget show/hide
                         if (v.type == 'attributes') {
@@ -746,8 +748,13 @@ function rcube_elastic_ui()
                             if (is_hidden != hidden) {
                                 if (!is_hidden) {
                                     overlay = $('<div>').attr('class', 'ui-widget-overlay')
-                                        .appendTo('body')
-                                        .click(function(e) { $(this).remove(); });
+                                        .appendTo((is_framed ? parent : window).document.body)
+                                        .click(function(e) {
+                                            $(this).remove();
+                                            if (is_framed) {
+                                                $.datepicker._hideDatepicker();
+                                            }
+                                        });
                                 }
                                 else if (overlay) {
                                     overlay.remove();
@@ -762,7 +769,9 @@ function rcube_elastic_ui()
                     });
                 };
 
-            $('.ui-datepicker').each(function() {
+                if (is_framed) {
+                    $(this).detach().appendTo(parent.document.body);
+                }
                 (new MutationObserver(callback)).observe(this, {childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden']});
             });
         }
