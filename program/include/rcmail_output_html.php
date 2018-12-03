@@ -658,6 +658,11 @@ EOF;
         // find skin template
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
+            // when requesting a plugin template ignore global skin path(s)
+            if ($plugin && strpos($skin_path, $this->app->plugins->url) !== 0) {
+                continue;
+            }
+
             $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
