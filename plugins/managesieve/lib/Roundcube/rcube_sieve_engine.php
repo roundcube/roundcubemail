@@ -2021,7 +2021,7 @@ class rcube_sieve_engine
 
         if (!$compact) {
             $out .= '<td class="advbutton">';
-            $out .= sprintf('<a href="#" id="ruleadv%s" title="%s" onclick="rule_adv_switch(%s, this)" class="show">'
+            $out .= sprintf('<a href="#" id="ruleadv%s" title="%s" onclick="rule_adv_switch(%s, this); return false" class="show">'
                 . '<span class="inner">%s</span></a>', $id, $adv_title, $id, $adv_title);
             $out .= '</td>';
         }
@@ -2032,12 +2032,12 @@ class rcube_sieve_engine
         $out .= '</td>';
         $out .= '<td class="rowbuttons">';
         if ($compact) {
-            $out .= sprintf('<a href="#" id="ruleadv%s" title="%s" onclick="rule_adv_switch(%s, this)" class="advanced show">'
+            $out .= sprintf('<a href="#" id="ruleadv%s" title="%s" onclick="rule_adv_switch(%s, this); return false" class="advanced show">'
                 . '<span class="inner">%s</span></a>', $id, $adv_title, $id, $adv_title);
         }
-        $out .= sprintf('<a href="#" id="ruleadd%s" title="%s" onclick="rcmail.managesieve_ruleadd(\'%s\')" class="button create add">'
+        $out .= sprintf('<a href="#" id="ruleadd%s" title="%s" onclick="rcmail.managesieve_ruleadd(\'%s\'); return false" class="button create add">'
             . '<span class="inner">%s</span></a>', $id, $add_title, $id, $add_title);
-        $out .= sprintf('<a href="#" id="ruledel%s" title="%s" onclick="rcmail.managesieve_ruledel(\'%s\')" class="button delete del%s">'
+        $out .= sprintf('<a href="#" id="ruledel%s" title="%s" onclick="rcmail.managesieve_ruledel(\'%s\'); return false" class="button delete del%s">'
             . '<span class="inner">%s</span></a>', $id, $del_title, $id, ($rows_num < 2 ? ' disabled' : ''), $del_title);
         $out .= '</td>';
 
