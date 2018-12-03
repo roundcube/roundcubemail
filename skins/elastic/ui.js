@@ -78,6 +78,8 @@ function rcube_elastic_ui()
     this.searchbar_init = searchbar_init;
     this.pretty_checkbox = pretty_checkbox;
     this.pretty_select = pretty_select;
+    this.datepicker_init = datepicker_init;
+    this.bootstrap_style = bootstrap_style;
 
 
     // Detect screen size/mode
@@ -727,53 +729,11 @@ function rcube_elastic_ui()
         }
 
         // Add date format placeholder to datepicker inputs
-        var func, format;
-        if (format = rcmail.env.date_format_localized) {
+        var func, format = rcmail.env.date_format_localized;
+        if (format) {
             func = function(input) { $(input).filter('.datepicker').attr('placeholder', format); };
             $('input.datepicker').each(function() { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
-        }
-
-        // Datepicker widget improvements: overlay element, styling updates on calendar element update
-        // The widget does not provide any event system, so we use MutationObserver
-        if (window.MutationObserver) {
-            var overlay, hidden = true;
-
-            $('.ui-datepicker').each(function() {
-                var input = this, callback = function(data) {
-                    $.each(data, function(i, v) {
-                        // add/remove overlay on widget show/hide
-                        if (v.type == 'attributes') {
-                            var is_hidden = $(v.target).attr('aria-hidden') == 'true';
-                            if (is_hidden != hidden) {
-                                if (!is_hidden) {
-                                    overlay = $('<div>').attr('class', 'ui-widget-overlay')
-                                        .appendTo((is_framed ? parent : window).document.body)
-                                        .click(function(e) {
-                                            $(this).remove();
-                                            if (is_framed) {
-                                                $.datepicker._hideDatepicker();
-                                            }
-                                        });
-                                }
-                                else if (overlay) {
-                                    overlay.remove();
-                                }
-                                hidden = is_hidden;
-                            }
-                        }
-                        // apply styles if widget content changed
-                        else if (v.addedNodes.length) {
-                            bootstrap_style(v.target);
-                        }
-                    });
-                };
-
-                if (is_framed) {
-                    $(this).detach().appendTo(parent.document.body);
-                }
-                (new MutationObserver(callback)).observe(this, {childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden']});
-            });
         }
     };
 
@@ -1379,6 +1339,68 @@ function rcube_elastic_ui()
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
+        }
+    };
+
+    function datepicker_init(datepicker)
+    {
+        // Datepicker widget improvements: overlay element, styling updates on calendar element update
+        // The widget does not provide any event system, so we use MutationObserver
+        if (window.MutationObserver) {
+            $(datepicker).not('[data-observed]').each(function() {
+                var overlay, hidden = true,
+                    win = is_framed ? parent : window,
+                    callback = function(data) {
+                        $.each(data, function(i, v) {
+                            // add/remove overlay on widget show/hide
+                            if (v.type == 'attributes') {
+                                var is_hidden = $(v.target).attr('aria-hidden') == 'true';
+                                if (is_hidden != hidden) {
+                                    if (!is_hidden) {
+                                        overlay = $('<div>').attr('class', 'ui-widget-overlay datepicker')
+                                            .appendTo(win.document.body)
+                                            .click(function(e) {
+                                                $(this).remove();
+                                                if (is_framed) {
+                                                    $.datepicker._hideDatepicker();
+                                                }
+                                            });
+                                    }
+                                    else if (overlay) {
+                                        overlay.remove();
+                                    }
+                                    hidden = is_hidden;
+                                }
+                            }
+                            else if (v.addedNodes.length) {
+                                // apply styles when widget content changed
+                                win.UI.bootstrap_style(v.target);
+
+                                // Month/Year change handlers do not work from parent, fix it
+                                if (is_framed) {
+                                    win.$('select.ui-datepicker-month', v.target).on('change', function() {
+                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, "M");
+                                    });
+                                    win.$('select.ui-datepicker-year', v.target).on('change', function() {
+                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, "Y");
+                                    });
+                                }
+                            }
+                        });
+                    };
+
+                $(this).attr('data-observed', '1');
+
+                if (is_framed) {
+                    // move the datepicker to parent window
+                    $(this).detach().appendTo(parent.document.body);
+
+                    // create fake element, so the valid one is not removed by datepicker code
+                    $('<div id="ui-datepicker-div" class="hidden">').appendTo(document.body);
+                }
+
+                (new MutationObserver(callback)).observe(this, {childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden']});
+            });
         }
     };
 
@@ -3404,7 +3426,7 @@ function rcube_elastic_ui()
                 .popover({
                     // because of focus issues we can't always use body,
                     // if select is in a dialog, popover has to be a child of this dialog
-                    container: dialog || 'body',
+                    container: dialog || document.body,
                     content: list[0],
                     placement: 'bottom',
                     trigger: 'manual',
@@ -3430,6 +3452,9 @@ function rcube_elastic_ui()
                     if (rcube_event.is_keyboard(e)) {
                         list.find('a.active:first').focus();
                     }
+
+                    // don't propagate mousedown event
+                    list.on('mousedown', function(e) { e.stopPropagation(); });
                 })
                 .popover('show');
         };
@@ -3854,9 +3879,26 @@ if (window.rcmail) {
 else {
     // rcmail does not exists e.g. on the error template inside a frame
     // we fake the engine a little
-    var rcmail = parent.rcmail;
-    var rcube_webmail = parent.rcube_webmail;
-    var bw = {};
+    var rcmail = parent.rcmail,
+        rcube_webmail = parent.rcube_webmail,
+        bw = {};
 }
 
 var UI = new rcube_elastic_ui();
+
+// Improve non-inline datepickers
+if ($ && $.datepicker) {
+    var __newInst = $.datepicker._newInst;
+
+    $.extend($.datepicker, {
+        _newInst: function(target, inline) {
+            var inst = __newInst.call(this, target, inline);
+
+            if (!inst.inline) {
+                UI.datepicker_init(inst.dpDiv);
+            }
+
+            return inst;
+        }
+    });
+}
