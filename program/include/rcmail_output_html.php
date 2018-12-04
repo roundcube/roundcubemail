@@ -651,12 +651,6 @@ EOF;
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
             }
 
-            // add fallback to default skin
-            if (is_dir($this->app->plugins->dir . $plugin . '/skins/default')) {
-                $skin_dir = $plugin . '/skins/default';
-                $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
-            }
-
             // prepend plugin skin paths to search list
             $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
         }
