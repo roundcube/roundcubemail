@@ -114,6 +114,9 @@ class rcube_smtp
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));
             $this->anonymize_log = 0;
+
+            $_host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
+            $this->debug_handler($this->conn, "Connecting to $_host...");
         }
 
         // register authentication methods
