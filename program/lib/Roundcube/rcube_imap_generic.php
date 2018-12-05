@@ -978,6 +978,14 @@ class rcube_imap_generic
             $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
         }
 
+        if ($this->debug) {
+            // set connection identifier for debug output
+            $this->resourceid = strtoupper(substr(md5(microtime() . $host . $this->user), 0, 4));
+
+            $_host = ($this->prefs['ssl_mode'] == 'tls' ? 'tls://' : '') . $host . ':' . $this->prefs['port'];
+            $this->debug("Connecting to $_host...");
+        }
+
         if (!empty($this->prefs['socket_options'])) {
             $context  = stream_context_create($this->prefs['socket_options']);
             $this->fp = stream_socket_client($host . ':' . $this->prefs['port'], $errno, $errstr,
@@ -1000,14 +1008,8 @@ class rcube_imap_generic
 
         $line = trim(fgets($this->fp, 8192));
 
-        if ($this->debug) {
-            // set connection identifier for debug output
-            preg_match('/#([0-9]+)/', (string) $this->fp, $m);
-            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
-
-            if ($line) {
-                $this->debug('S: '. $line);
-            }
+        if ($this->debug && $line) {
+            $this->debug('S: '. $line);
         }
 
         // Connected to wrong port or connection error?
