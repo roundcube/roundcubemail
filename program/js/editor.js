@@ -42,7 +42,7 @@ function rcube_text_editor(config, id)
       cache_suffix: 's=4080200',
       theme: 'modern',
       language: config.lang,
-      content_css: rcmail.assets_path('program/resources/tinymce/content.css'),
+      content_css: rcmail.assets_path(config.content_css),
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
