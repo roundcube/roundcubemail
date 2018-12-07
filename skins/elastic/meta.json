@@ -7,6 +7,7 @@
 		"layout": "widescreen",
 		"jquery_ui_colors_theme": "bootstrap",
 		"embed_css_location": "/styles/embed.css",
+		"editor_css_location": "/styles/embed.css",
 		"media_browser_css_location": "none"
 	}
 }

@@ -1978,6 +1978,7 @@ class rcmail extends rcube
 
         $lang_codes = array($_SESSION['language']);
         $assets_dir = $this->config->get('assets_dir') ?: INSTALL_PATH;
+        $skin_path  = $this->output->get_skin_path();
 
         if ($pos = strpos($_SESSION['language'], '_')) {
             $lang_codes[] = substr($_SESSION['language'], 0, $pos);
@@ -1997,14 +1998,19 @@ class rcmail extends rcube
         $config = array(
             'mode'       => $mode,
             'lang'       => $lang,
-            'skin_path'  => $this->output->get_skin_path(),
+            'skin_path'  => $skin_path,
             'spellcheck' => $spellcheck, // deprecated
             'spelldict'  => $spelldict,
+            'content_css'      => 'program/resources/tinymce/content.css',
             'disabled_plugins' => $hook['disabled_plugins'],
             'disabled_buttons' => $hook['disabled_buttons'],
             'extra_plugins'    => $hook['extra_plugins'],
             'extra_buttons'    => $hook['extra_buttons'],
         );
+
+        if ($path = $this->config->get('editor_css_location')) {
+            $config['content_css'] = $skin_path . $path;
+        }
 
         $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
         $this->output->set_env('editor_config', $config);
