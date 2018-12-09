@@ -227,7 +227,9 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
                 }
             }
 
-            $COMPOSE['param']['message-id'] = $MESSAGE->headers->get('message-id');
+            if (($msgid = $MESSAGE->headers->get('message-id')) && !preg_match('/^mid:[0-9]+$/', $msgid)) {
+                $COMPOSE['param']['message-id'] = $msgid;
+            }
 
             // use message UID as draft_id
             $OUTPUT->set_env('draft_id', $msg_uid);
