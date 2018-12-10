@@ -147,7 +147,11 @@ class password extends rcube_plugin
             $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
             $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
 
-            if ($chk_pwd != $orig_pwd) {
+            // check if the password contains control characters
+            if ($newpwd !== preg_replace('/[\x00-\x1F]/', '', $newpwd)) {
+                $rcmail->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
+            }
+            else if ($chk_pwd != $orig_pwd) {
                 $rcmail->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
             }
             // other passwords validity checks
