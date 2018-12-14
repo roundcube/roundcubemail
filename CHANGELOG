@@ -24,6 +24,7 @@ CHANGELOG Roundcube Webmail
 - Passowrd: Allow drivers to define password strength rules displayed to the user
 - Password: Allow separate password saving and strength drivers for use of strength checking services (#5040)
 - Password: Add zxcvbn driver for checking password strength (#6479)
+- Password: Disallow control characters in passwords
 - Elastic: Improved datepicker displayed always in parent window
 - Elastic: On touch devices display attachment icons on messages list (#6296)
 - Elastic: Make menu button inactive if all subactions are inactive (#6444)
