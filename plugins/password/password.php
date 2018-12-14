@@ -159,7 +159,7 @@ class password extends rcube_plugin
             $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
             $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
 
-            if ($chk_pwd != $orig_pwd) {
+            if ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
                 $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
             }
             // other passwords validity checks
