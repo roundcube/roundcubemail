@@ -32,6 +32,7 @@ class rcube_config
     private $errors    = array();
     private $userprefs = array();
     private $immutable = array();
+    private $client_tz;
 
 
     /**
@@ -606,13 +607,20 @@ class rcube_config
      */
     private function client_timezone()
     {
+        if ($this->client_tz) {
+            return $this->client_tz;
+        }
+
         // @TODO: remove this legacy timezone handling in the future
         $props = $this->fix_legacy_props(array('timezone' => $_SESSION['timezone']));
 
         if (!empty($props['timezone'])) {
+            // Prevent from using deprecated timezone names
+            $props['timezone'] = $this->resolve_timezone_alias($props['timezone']);
+
             try {
                 $tz = new DateTimeZone($props['timezone']);
-                return $tz->getName();
+                return $this->client_tz = $tz->getName();
             }
             catch (Exception $e) { /* gracefully ignore */ }
         }
@@ -722,5 +730,143 @@ class rcube_config
         );
 
         return $timezones[(string) intval($offset * 60)];
+    }
+
+    /**
+     * Replace deprecated timezone name with a valid one.
+     *
+     * @param string $tzname Timezone name
+     *
+     * @return string Timezone name
+     */
+    static public function resolve_timezone_alias($tzname)
+    {
+        // http://www.php.net/manual/en/timezones.others.php
+        // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        $deprecated_timezones = array(
+            'Australia/ACT'         => 'Australia/Sydney',
+            'Australia/LHI'         => 'Australia/Lord_Howe',
+            'Australia/North'       => 'Australia/Darwin',
+            'Australia/NSW'         => 'Australia/Sydney',
+            'Australia/Queensland'  => 'Australia/Brisbane',
+            'Australia/South'       => 'Australia/Adelaide',
+            'Australia/Adelaide'    => 'Australia/Hobart',
+            'Australia/Tasmania'    => 'Australia/Hobart',
+            'Australia/Victoria'    => 'Australia/Melbourne',
+            'Australia/West'        => 'Australia/Perth',
+            'Brazil/Acre'           => 'America/Rio_Branco',
+            'Brazil/DeNoronha'      => 'America/Noronha',
+            'Brazil/East'           => 'America/Sao_Paulo',
+            'Brazil/West'           => 'America/Manaus',
+            'Canada/Atlantic'       => 'America/Halifax',
+            'Canada/Central'        => 'America/Winnipeg',
+            'Canada/Eastern'        => 'America/Toronto',
+            'Canada/Mountain'       => 'America/Edmonton',
+            'Canada/Newfoundland'   => 'America/St_Johns',
+            'Canada/Pacific'        => 'America/Vancouver',
+            'Canada/Saskatchewan'   => 'America/Regina',
+            'Canada/Yukon'          => 'America/Whitehorse',
+            'CET'                   => 'Europe/Berlin',
+            'Chile/Continental'     => 'America/Santiago',
+            'Chile/EasterIsland'    => 'Pacific/Easter',
+            'CST6CDT'               => 'America/Chicago',
+            'Cuba'                  => ' America/Havana',
+            'EET'                   => 'Europe/Berlin',
+            'Egypt'                 => 'Africa/Cairo',
+            'Eire'                  => 'Europe/Dublin',
+            'EST'                   => 'America/New_York',
+            'EST5EDT'               => 'America/New_York',
+            'Factory'               => 'UTC', // ?
+            'GB'                    => 'Europe/London',
+            'GB-Eire'               => 'Europe/London',
+            'GMT'                   => 'UTC',
+            'GMT+0'                 => 'UTC',
+            'GMT-0'                 => 'UTC',
+            'GMT0'                  => 'UTC',
+            'Greenwich'             => 'UTC',
+            'Hongkong'              => 'Asia/Hong_Kong',
+            'HST'                   => 'Pacific/Honolulu',
+            'Iceland'               => 'Atlantic/Reykjavik',
+            'Iran'                  => 'Asia/Tehran',
+            'Israel'                => 'Asia/Jerusalem',
+            'Jamaica'               => 'America/Jamaica',
+            'Japan'                 => 'Asia/Tokyo',
+            'Kwajalein'             => 'Pacific/Kwajalein',
+            'Libya'                 => 'Africa/Tripoli',
+            'MET'                   => 'Europe/Berlin',
+            'Mexico/BajaNorte'      => 'America/Tijuana',
+            'Mexico/BajaSur'        => 'America/Mazatlan',
+            'Mexico/General'        => 'America/Mexico_City',
+            'MST'                   => 'America/Denver',
+            'MST7MDT'               => 'America/Denver',
+            'Navajo'                => 'America/Denver',
+            'NZ'                    => 'Pacific/Auckland',
+            'NZ-CHAT'               => 'Pacific/Chatham',
+            'Poland'                => 'Europe/Warsaw',
+            'Portugal'              => 'Europe/Lisbon',
+            'PRC'                   => 'Asia/Shanghai',
+            'PST8PDT'               => 'America/Los_Angeles',
+            'ROC'                   => 'Asia/Taipei',
+            'ROK'                   => 'Asia/Seoul',
+            'Singapore'             => 'Asia/Singapore',
+            'Turkey'                => 'Europe/Istanbul',
+            'UCT'                   => 'UTC',
+            'Universal'             => 'UTC',
+            'US/Alaska'             => 'America/Anchorage',
+            'US/Aleutian'           => 'America/Adak',
+            'US/Arizona'            => 'America/Phoenix',
+            'US/Central'            => 'America/Chicago',
+            'US/East-Indiana'       => 'America/Indiana/Indianapolis',
+            'US/Eastern'            => 'America/New_York',
+            'US/Hawaii'             => 'Pacific/Honolulu',
+            'US/Indiana-Starke'     => 'America/Indiana/Knox',
+            'US/Michigan'           => 'America/Detroit',
+            'US/Mountain'           => 'America/Denver',
+            'US/Pacific'            => 'America/Los_Angeles',
+            'US/Pacific-New'        => 'America/Los_Angeles',
+            'US/Samoa'              => 'Pacific/Pago_Pago',
+            'W-SU'                  => 'Europe/Moscow',
+            'WET'                   => 'Europe/Berlin',
+            'Z'                     => 'UTC',
+            'Zulu'                  => 'UTC',
+            // Some of these Etc/X zones are not deprecated, but still problematic
+            'Etc/GMT'           => 'UTC',
+            'Etc/GMT+0'         => 'UTC',
+            'Etc/GMT+1'         => 'Atlantic/Azores',
+            'Etc/GMT+10'        => 'Pacific/Honolulu',
+            'Etc/GMT+11'        => 'Pacific/Midway',
+            'Etc/GMT+12'        => 'Pacific/Auckland',
+            'Etc/GMT+2'         => 'America/Noronha',
+            'Etc/GMT+3'         => 'America/Argentina/Buenos_Aires',
+            'Etc/GMT+4'         => 'America/Manaus',
+            'Etc/GMT+5'         => 'America/New_York',
+            'Etc/GMT+6'         => 'America/Chicago',
+            'Etc/GMT+7'         => 'America/Denver',
+            'Etc/GMT+8'         => 'America/Los_Angeles',
+            'Etc/GMT+9'         => 'America/Anchorage',
+            'Etc/GMT-0'         => 'UTC',
+            'Etc/GMT-1'         => 'Europe/Berlin',
+            'Etc/GMT-10'        => 'Australia/Sydney',
+            'Etc/GMT-11'        => 'Pacific/Norfolk',
+            'Etc/GMT-12'        => 'Pacific/Auckland',
+            'Etc/GMT-13'        => 'Pacific/Apia',
+            'Etc/GMT-14'        => 'Pacific/Kiritimati',
+            'Etc/GMT-2'         => 'Africa/Cairo',
+            'Etc/GMT-3'         => 'Europe/Moscow',
+            'Etc/GMT-4'         => 'Europe/Samara',
+            'Etc/GMT-5'         => 'Asia/Yekaterinburg',
+            'Etc/GMT-6'         => 'Asia/Almaty',
+            'Etc/GMT-7'         => 'Asia/Bangkok',
+            'Etc/GMT-8'         => 'Asia/Hong_Kong',
+            'Etc/GMT-9'         => 'Asia/Tokyo',
+            'Etc/GMT0'          => 'UTC',
+            'Etc/Greenwich'     => 'UTC',
+            'Etc/UCT'           => 'UTC',
+            'Etc/Universal'     => 'UTC',
+            'Etc/UTC'           => 'UTC',
+            'Etc/Zulu'          => 'UTC',
+        );
+
+        return $deprecated_timezones[$tzname] ?: $tzname;
     }
 }
