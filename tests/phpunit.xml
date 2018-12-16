@@ -9,6 +9,7 @@
             <file>Framework/Cache.php</file>
             <file>Framework/CacheShared.php</file>
             <file>Framework/Charset.php</file>
+            <file>Framework/Config.php</file>
             <file>Framework/Contacts.php</file>
             <file>Framework/ContentFilter.php</file>
             <file>Framework/Csv2vcard.php</file>
