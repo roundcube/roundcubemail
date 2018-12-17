@@ -79,7 +79,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
       if (window.UI && UI.recipient_selector) {
         var button, form = $('#compose-attachments > div');
         button = $('<button class="btn btn-secondary attach vcard">')
-          .attr('tabindex', $('button,input', form).first().attr('tabindex') || 0)
+          .attr({type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0})
           .text(rcmail.gettext('vcard_attachments.attachvcard'))
           .appendTo(form)
           .click(function() {
