@@ -21,7 +21,7 @@
 			<h2 id="aria-label-compose-attachments" class="voice"><roundcube:label name="attachments" /></h2>
 			<div class="upload-form">
 				<roundcube:object name="composeAttachmentForm" mode="hint" />
-				<button class="btn btn-secondary attach" tabindex="2" href="#" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></button>
+				<button type="button" class="btn btn-secondary attach" tabindex="2" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></button>
 			</div>
 			<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="2" />
 			<roundcube:object name="fileDropArea" id="compose-attachments" />
