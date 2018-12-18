@@ -1293,8 +1293,10 @@ input.icon-checkbox {
         box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
     }
 
+    &:invalid,
     &.is-invalid {
         border-color: @color-input-border-invalid;
+        box-shadow: none;
 
         &:focus {
             border-color: @color-input-border-invalid;
