@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Niet-geverifieerde ondertekening. Interne fout.';
 $messages['decryptok'] = 'Bericht ontsleuteld.';
 $messages['decrypterror'] = 'Ontsleutelen mislukt.';
 $messages['decryptnokey'] = 'Ontsleutelen mislukt. Geheime sleutel niet gevonden. Sleutel-ID: $keyid.';
+$messages['decryptnomdc'] = 'Ontsleutelen overgeslaan. Het bericht is niet correct versleuteld.';
 $messages['decryptbadpass'] = 'Ontsleutelen mislukt. Verkeerde wachtwoord.';
 $messages['decryptnopass'] = 'Ontsleutelen mislukt. Sleutelwachtwoord vereist.';
 $messages['decryptpartial'] = 'Bericht ontsleuteld, maar een deel van de inhoud was niet versleuteld.';

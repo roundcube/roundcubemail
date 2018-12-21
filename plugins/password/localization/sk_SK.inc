@@ -28,6 +28,7 @@ $messages['connecterror'] = 'Nové heslo nemožno uložiť. Chyba spojenia.';
 $messages['internalerror'] = 'Nové heslo nemožno uložiť.';
 $messages['passwordshort'] = 'Heslo musí mať najmenej $length znakov.';
 $messages['passwordweak'] = 'Heslo musí obsahovať aspoň jedno číslo a jedno interpunkčné znamienko.';
+$messages['passwordtooweak'] = 'Heslo je príliš slabé.';
 $messages['passwordnoseq'] = 'Heslo by nemalo byť takou sekvenciou, ako napr. 123456 alebo QWERTY.';
 $messages['passwordnocommon'] = 'Bežné slovo alebo meno by nemalo byť heslom.';
 $messages['passwordforbidden'] = 'Heslo obsahuje nepovolené znaky.';

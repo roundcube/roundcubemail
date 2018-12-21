@@ -259,6 +259,7 @@ $labels['keyrevoked'] = 'Visszvont';
 $labels['bccinstead'] = 'Titkos másolat használata';
 $labels['addheader'] = 'Címzet (fejléc) hozzáadása ';
 $labels['insert'] = 'Beszúrás';
+$labels['insertcontact'] = 'Kapcsolat(ok) beszúrása';
 $labels['recipient'] = 'Címzett';
 $labels['recipientedit'] = 'A címzett szerkesztése';
 $labels['editidents'] = 'Azonosítók szerkesztése';

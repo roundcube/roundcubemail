@@ -199,6 +199,7 @@ $messages['invalidimageformat'] = 'No és un format d\'imatge vàlid.';
 $messages['mispellingsfound'] = 'S\'han detectat errors d\'ortografia al missatge.';
 $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de la carpeta ascendent seleccionada. No hi ha permisos d\'escriptura.';
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
+$messages['attachmentvalidationerror'] = 'Aquest adjunt és sospitós per què el seu tipus no coincideix amb el tipus declarat en el missatge. Si no us en refieu del remitent, no hauríeu d\'obrir aquest missatge en el navegador per què pot tenir contingut maliciós. <br/><br/><em>S\'esperava: $expected; s\'ha trobat: $detected</em>';
 $messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir heu d\'activar Javascript a les opcions del navegador.';
 $messages['messageissent'] = 'El missatge ja ha estat enviat, però encara no s\'ha desat. Voleu desar-lo ara?';
 $messages['errnotfound'] = 'No s\'ha trobat el fitxer';

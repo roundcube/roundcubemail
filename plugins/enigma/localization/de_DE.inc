@@ -97,6 +97,7 @@ $messages['sigerror'] = 'Unbestätigte Signatur. Interner Fehler.';
 $messages['decryptok'] = 'Nachricht entschlüsselt.';
 $messages['decrypterror'] = 'Entschlüsselung fehlgeschlagen.';
 $messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Privater Schlüssel wurde nicht gefunden. Schlüsselkennung: $keyid.';
+$messages['decryptnomdc'] = 'Entschlüsselung übersprungen. Nachricht ist nicht integritätsgeschützt.';
 $messages['decryptbadpass'] = 'Entschlüsselung fehlgeschlagen. Passwort ungültig.';
 $messages['decryptnopass'] = 'Entschlüsselung fehlgeschlagen. Schlüsselpasswort wird benötigt.';
 $messages['decryptpartial'] = 'Nachricht entschlüsselt, aber ein Teil der Nachricht wurde nicht verschlüsselt.';
