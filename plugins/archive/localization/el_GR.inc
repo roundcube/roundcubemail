@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Αρχειοθέτηση';
 $labels['archivetype'] = 'Τμηματοποίηση αρχείου με βάση';
 $labels['archivetypeyear'] = 'Έτος (π.χ. Αρχείο/2012)';
 $labels['archivetypemonth'] = 'Μήνα (π.χ. Αρχείο/2012/06)';
+$labels['archivetypetbmonth'] = 'Μήνας - Συμβατός με Thunderbird (π.χ. Αρχείο/2012/2012-06)';
 $labels['archivetypefolder'] = 'Αρχικός φάκελος';
 $labels['archivetypesender'] = 'Αποστολέας email';
 $labels['unkownsender'] = 'άγνωστο';
+$labels['readonarchive'] = 'Σημείωση του μηνύματος ως αναγνωσμένο στο αρχείο';
 ?>

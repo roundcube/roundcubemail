@@ -53,4 +53,5 @@ $labels['shortaclwrite'] = 'Skrifa';
 $labels['shortacldelete'] = 'Eyða';
 $labels['longaclc'] = 'Hægt er að útbúa (eða endurnefna) möppur beint inni í þessari möppu';
 $labels['longaclk'] = 'Hægt er að útbúa (eða endurnefna) möppur beint inni í þessari möppu';
+$labels['arialabelaclactions'] = 'Telja upp aðgerðir';
 ?>

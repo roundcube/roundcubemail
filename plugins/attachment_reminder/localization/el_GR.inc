@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Ανύπαρκτο συνημμένο;";
 $messages['forgotattachment'] = "Μήπως ξεχάσετε να επισυνάψετε αρχείο; ";
 $messages['reminderoption'] = "Υπενθύμιση για συνημμένα";
 $messages['keywords'] = "συνημμένο, αρχείο, επισύναψη, συνημμένο, επισυνάπτοντας, εσωκλείοντας, βιογραφικό σημείωμα, συνοδευτική επιστολή";

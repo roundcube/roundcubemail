@@ -28,6 +28,7 @@ $messages['connecterror'] = 'Gat ekki vistað nýtt lykilorð. Villa í tengingu
 $messages['internalerror'] = 'Gat ekki vistað nýtt lykilorð.';
 $messages['passwordshort'] = 'Lykilorð þarf að vera að minnsta kosti $length stafa langt.';
 $messages['passwordweak'] = 'Lykilorð þarf að innihalda a.m.k. einn tölustaf og eitt greinamerki.';
+$messages['passwordtooweak'] = 'Lykilorðið er of veikt.';
 $messages['passwordnoseq'] = 'Lykilorð ætti ekki að vera runa á borð við 123456 eða QWERTY.';
 $messages['passwordnocommon'] = 'Lykilorð ætti ekki að vera algengt orð eða nafn.';
 $messages['passwordforbidden'] = 'Lykilorð inniheldur óleyfilega stafi.';
