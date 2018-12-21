@@ -151,4 +151,24 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $vcards = rcube_vcard::import($input);
         $this->assertEquals("Ǽgean ĽdaMonté", $vcards[0]->displayname, "Decoded from UTF-16");
     }
+
+    /**
+     * Skipping empty values (#6564)
+     */
+    function test_parse_skip_empty()
+    {
+        $vcard = new rcube_vcard("BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:;;;;\n"
+            . "FN:Test\n"
+            . "TEL;TYPE=home:67890\n"
+            . "TEL;TYPE=CELL:\n"
+            . "END:VCARD"
+        );
+
+        $result = $vcard->get_assoc();
+
+        $this->assertCount(1, $result['phone:home'], "TYPE=home entry exists");
+        $this->assertTrue(!isset($result['phone:mobile']), "TYPE=CELL entry ignored");
+    }
 }

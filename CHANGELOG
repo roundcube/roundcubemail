@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where a message/rfc822 part without a filename wasn't listed on the attachments list (#6494)
+- Fix handling of empty entries in vCard import (#6564)
 
 RELEASE 1.3.8
 -------------

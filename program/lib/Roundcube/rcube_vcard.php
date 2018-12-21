@@ -673,8 +673,10 @@ class rcube_vcard
                     $data = self::vcard_unquote($data);
                 }
 
-                $entry = array_merge($entry, (array) $data);
-                $result[$field][] = $entry;
+                if (is_array($data) || (is_string($data) && strlen($data))) {
+                    $entry = array_merge($entry, (array) $data);
+                    $result[$field][] = $entry;
+                }
             }
         }
 
@@ -812,7 +814,10 @@ class rcube_vcard
 
             if (count($parts = explode($sep, strtr($s, $rep1))) > 1) {
                 foreach ($parts as $s) {
-                    $result[] = self::vcard_unquote(strtr($s, $rep2));
+                    $s = self::vcard_unquote(strtr($s, $rep2));
+                    if (is_array($s) || (is_string($s) && strlen($s))) {
+                        $result[] = $s;
+                    }
                 }
                 return $result;
             }
