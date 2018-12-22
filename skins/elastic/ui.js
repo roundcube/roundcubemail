@@ -3278,8 +3278,9 @@ function rcube_elastic_ui()
         frame = $(frame);
 
         if (frame.length) {
-            var loader = $('<div>').attr('class', 'iframe-loader')
-                .append($('<div>').attr('class', 'spinner').text(rcmail.gettext('loading')));
+            var loader = $('<div class="iframe-loader">')
+                .append($('<div class="spinner spinner-border" role="status">')
+                    .append($('<span class="sr-only">').text(rcmail.gettext('loading'))));
 
             // custom 'loaded' event is expected to be triggered by plugins
             // when using the loader not on an iframe
