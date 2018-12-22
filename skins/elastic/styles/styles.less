@@ -46,7 +46,12 @@
     max-width: 320px;
     position: relative;
 
-    // Fixes input width and position in IE11
+    // Fixes table width in IE11
+    table, tbody {
+        display: block;
+    }
+
+    // Fixes input width in IE11
     .row {
         margin-right: 0;
         margin-left: 0;
