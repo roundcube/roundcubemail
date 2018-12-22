@@ -995,22 +995,24 @@ function rcube_elastic_ui()
         // Make logon form prettier
         if (rcmail.env.task == 'login' && context == document) {
             $('#rcmloginsubmit').addClass('btn-lg text-uppercase w-100');
-            $('#login-form table tr').each(function() {
-                var input = $('input,select', this),
-                    label = $('label', this),
-                    icon_name = input.data('icon'),
-                    icon = $('<i>').attr('class', 'input-group-text icon ' + input.attr('name').replace('_', ''));
+            $('#login-form > div').each(function() {
+                if ($('input,select', this).length == 1) {
+                    var input = $('input,select', this),
+                        label = $('label', this),
+                        icon_name = input.data('icon'),
+                        icon = $('<i>').attr('class', 'input-group-text icon ' + input.attr('name').replace('_', ''));
 
-                if (icon_name) {
-                    icon.addClass(icon_name);
+                    if (icon_name) {
+                        icon.addClass(icon_name);
+                    }
+
+                    $(this).addClass('form-group');
+                    label.css('display', 'none');
+                    input.addClass(input.is('select') ? 'custom-select' : 'form-control')
+                        .attr('placeholder', label.text())
+                        .before($('<span class="input-group-prepend">').append(icon))
+                        .parent().addClass('input-group input-group-lg');
                 }
-
-                $(this).addClass('form-group row');
-                label.parent().css('display', 'none');
-                input.addClass(input.is('select') ? 'custom-select' : 'form-control')
-                    .attr('placeholder', label.text())
-                    .before($('<span class="input-group-prepend">').append(icon))
-                    .parent().addClass('input-group input-group-lg');
             });
         }
 

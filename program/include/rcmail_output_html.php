@@ -2078,26 +2078,47 @@ EOF;
 
         $this->add_gui_object('loginform', $form_name);
 
-        // create HTML table with two cols
-        $table = new html_table(array('cols' => 2));
-
-        $table->add('title', html::label('rcmloginuser', html::quote($this->app->gettext('username'))));
-        $table->add('input', $input_user->show(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC)));
-
-        $table->add('title', html::label('rcmloginpwd', html::quote($this->app->gettext('password'))));
-        $table->add('input', $input_pass->show());
+        $fields = array(
+            'user' => array(
+                'title'   => html::label('rcmloginuser', html::quote($this->app->gettext('username'))),
+                'content' => $input_user->show(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC))
+            ),
+            'password' => array(
+                'title'   => html::label('rcmloginpwd', html::quote($this->app->gettext('password'))),
+                'content' => $input_pass->show()
+            )
+        );
 
         // add host selection row
         if (is_object($input_host) && !$hide_host) {
-            $table->add('title', html::label('rcmloginhost', html::quote($this->app->gettext('server'))));
-            $table->add('input', $input_host->show(rcube_utils::get_input_value('_host', rcube_utils::INPUT_GPC)));
+            $fields['host'] = array(
+                'title'   => html::label('rcmloginhost', html::quote($this->app->gettext('server'))),
+                'content' => $input_host->show(rcube_utils::get_input_value('_host', rcube_utils::INPUT_GPC))
+            );
         }
 
         $out  = $input_task->show();
         $out .= $input_action->show();
         $out .= $input_tzone->show();
         $out .= $input_url->show();
-        $out .= $table->show();
+
+        if (!empty($attrib['form-layout']) && $attrib['form-layout'] == 'div') {
+            foreach ($fields as $field) {
+                $out .= html::div(null, $field['title'] . $field['content']);
+            }
+        }
+        else {
+            // create HTML table with two cols
+            // for backwards compatibility with skins pre version 1.4
+            $table = new html_table(array('cols' => 2));
+
+            foreach ($fields as $field) {
+                $table->add('title', $field['title']);
+                $table->add('input', $field['content']);
+            }
+
+            $out .= $table->show();
+        }
 
         if ($hide_host) {
             $out .= $input_host->show();
