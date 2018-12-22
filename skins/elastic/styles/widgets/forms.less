@@ -995,6 +995,10 @@ html.touch .popupmenu.form {
         margin-top: @recipient-input-margin-fix;
         outline: 0;
         line-height: 1.5;
+
+        &::-ms-clear {
+            display: none; // removes clear icon in IE11
+        }
     }
 }
 
