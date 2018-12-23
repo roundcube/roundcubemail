@@ -126,6 +126,7 @@ GO
 CREATE TABLE [dbo].[filestore] (
 	[file_id] [int] IDENTITY (1, 1) NOT NULL ,
 	[user_id] [int] NOT NULL ,
+	[context] [varchar] (32) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[filename] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[mtime] [int] NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NULL ,
@@ -360,6 +361,9 @@ GO
 CREATE UNIQUE INDEX [IX_searches_user_type_name] ON [dbo].[searches]([user_id],[type],[name]) ON [PRIMARY]
 GO
 
+CREATE UNIQUE INDEX [IX_filestore_user_id_context_filename] ON [dbo].[filestore]([user_id],[context],[filename]) ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[identities] ADD CONSTRAINT [FK_identities_user_id] 
     FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
@@ -418,6 +422,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2018021600')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2018122300')
 GO
 
