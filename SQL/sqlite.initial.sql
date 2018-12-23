@@ -196,14 +196,15 @@ CREATE INDEX ix_cache_messages_expires ON cache_messages (expires);
 --
 
 CREATE TABLE filestore (
-    file_id integer PRIMARY KEY,
+    file_id integer NOT NULL PRIMARY KEY,
     user_id integer NOT NULL,
+    context varchar(32) NOT NULL,
     filename varchar(128) NOT NULL,
     mtime integer NOT NULL,
     data text NOT NULL
 );
 
-CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, filename);
+CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, context, filename);
 
 --
 -- Table structure for table system
@@ -214,4 +215,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2018021600');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2018122300');
