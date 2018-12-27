@@ -360,7 +360,6 @@ abstract class rcube_addressbook
     function get_group($group_id)
     {
         /* empty for address books don't supporting groups */
-        return null;
     }
 
     /**

@@ -55,8 +55,6 @@ abstract class rcube_output
             case 'skins':   return $this->skins;
             case 'charset': return $this->charset;
         }
-
-        return null;
     }
 
     /**
