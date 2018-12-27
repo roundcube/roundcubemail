@@ -2924,7 +2924,7 @@ class rcube_imap extends rcube_storage
     public function list_folders_subscribed_direct($root = '', $name = '*')
     {
         if (!$this->check_connection()) {
-           return null;
+            return null;
         }
 
         $config    = rcube::get_instance()->config;

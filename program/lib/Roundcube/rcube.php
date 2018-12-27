@@ -1489,8 +1489,6 @@ class rcube
         else if (isset($_SESSION['user_id'])) {
             return $_SESSION['user_id'];
         }
-
-        return null;
     }
 
     /**
