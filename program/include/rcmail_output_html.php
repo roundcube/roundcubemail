@@ -249,6 +249,14 @@ EOF;
     }
 
     /**
+     * Getter for the current skin path property
+     */
+    public function get_skin_path()
+    {
+        return $this->skin_paths[0];
+    }
+
+    /**
      * Set skin
      *
      * @param string $skin Skin name
