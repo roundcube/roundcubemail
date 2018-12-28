@@ -200,7 +200,7 @@ class rcmail_output_json extends rcmail_output
         if (!$s_header_sent) {
             $s_header_sent = true;
             $this->nocacheing_headers();
-            header('Content-Type: text/plain; charset=' . $this->get_charset());
+            header('Content-Type: application/json; charset=' . $this->get_charset());
         }
 
         // unset default env vars
