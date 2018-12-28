@@ -893,6 +893,9 @@ class rcmail extends rcube
 
         // write performance stats to logs/console
         if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {
+            // we have to disable per_user_logging to make sure stats end up in the main console log
+            $this->config->set('per_user_logging', false);
+
             // make sure logged numbers use unified format
             setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
 
