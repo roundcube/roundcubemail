@@ -900,10 +900,10 @@ class rcmail extends rcube
             setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
 
             if (function_exists('memory_get_usage')) {
-                $mem = $this->show_bytes(memory_get_usage());
+                $mem = round(memory_get_usage() / 1024 /1024, 1);
             }
             if (function_exists('memory_get_peak_usage')) {
-                $mem .= '/'.$this->show_bytes(memory_get_peak_usage());
+                $mem .= '/'. round(memory_get_peak_usage() / 1024 / 1024, 1);
             }
 
             $log = $this->task . ($this->action ? '/'.$this->action : '') . ($mem ? " [$mem]" : '');
