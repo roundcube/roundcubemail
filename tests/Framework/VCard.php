@@ -163,6 +163,7 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
             . "FN:Test\n"
             . "TEL;TYPE=home:67890\n"
             . "TEL;TYPE=CELL:\n"
+            . "ADR;TYPE=home:;;street;city;state;zip;country\n"
             . "END:VCARD"
         );
 
@@ -170,5 +171,8 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $result['phone:home'], "TYPE=home entry exists");
         $this->assertTrue(!isset($result['phone:mobile']), "TYPE=CELL entry ignored");
+        $this->assertCount(5, $result['address:home'][0], "ADR with some fields missing");
+        $this->assertEquals($result['address:home'][0]['zipcode'], 'zip', "ADR with some fields missing (1)");
+        $this->assertEquals($result['address:home'][0]['street'], 'street', "ADR with some fields missing (2)");
     }
 }
