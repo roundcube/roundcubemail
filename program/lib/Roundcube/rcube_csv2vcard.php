@@ -156,6 +156,18 @@ class rcube_csv2vcard
         'name'                  => 'displayname',
         'name_prefix'           => 'prefix',
         'name_suffix'           => 'suffix',
+
+        // Format of Letter Hub test files from
+        // https://letterhub.com/sample-csv-file-with-contacts/
+        'company_name'          => 'organization',
+        'address'               => 'street:home',
+        'city'                  => 'locality:home',
+        //'county'                => '',
+        'state'                 => 'region:home',
+        'zip'                   => 'zipcode:home',
+        'phone1'                => 'phone:home',
+        'phone'                 => 'phone:work',
+        'email'                 => 'email:home',
     );
 
     /**
@@ -389,7 +401,7 @@ class rcube_csv2vcard
             }
         }
 
-        $this->label_map = array_flip($this->label_map);
+        $this->label_map       = array_flip($this->label_map);
         $this->local_label_map = array_flip($this->local_label_map);
     }
 
@@ -526,6 +538,16 @@ class rcube_csv2vcard
 
                 if ($label && !empty($this->csv2vcard_map[$label])) {
                     $map2[$i] = $this->csv2vcard_map[$label];
+                }
+            }
+        }
+
+        // If nothing recognized fallback to simple non-localized labels
+        if (empty($map1) && empty($map2)) {
+            for ($i = 0; $i < $size; $i++) {
+                $label = str_replace(' ', '_', strtolower($elements[$i]));
+                if (!empty($this->csv2vcard_map[$label])) {
+                    $map1[$i] = $this->csv2vcard_map[$label];
                 }
             }
         }
