@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Update to TinyMCE 4.8.2
 - Prevent from using deprecated timezone names from jsTimezoneDetect
 - Force session.gc_probability=1 when using custom session handlers (#6560)
+- Support simple field labels (e.g. LetterHub examples) in csv imports (#6541)
 - Plugin API: Added 'raise_error' hook (#6199)
 - Plugin API: Added 'common_headers' hook (#6385)
 - Plugin API: Added 'ldap_connected' hook
