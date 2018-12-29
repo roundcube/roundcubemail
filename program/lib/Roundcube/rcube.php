@@ -457,6 +457,7 @@ class rcube
             return;
         }
 
+        $storage     = $this->config->get('session_storage', 'db');
         $sess_name   = $this->config->get('session_name');
         $sess_domain = $this->config->get('session_domain');
         $sess_path   = $this->config->get('session_path');
@@ -483,6 +484,12 @@ class rcube
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
+
+        // Make sure session garbage collector is enabled when using custom handlers (#6560)
+        // Note: Use session.gc_divisor to control accuracy
+        if ($storage != 'php' && !ini_get('session.gc_probability')) {
+            ini_set('session.gc_probability', 1);
+        }
 
         // get session driver instance
         $this->session = rcube_session::factory($this->config);
