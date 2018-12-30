@@ -69,9 +69,11 @@ class rcube_plesk_password
 
         if ($result == "ok") {
             return PASSWORD_SUCCESS;
+        } elseif( is_array( $result ) ) {
+            return $result;
         }
-
-        return $result;
+		
+        return PASSWORD_ERROR;
     }
 }
 
