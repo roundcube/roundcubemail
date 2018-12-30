@@ -67,11 +67,11 @@ class rcube_plesk_password
         $result = $plesk->change_mailbox_password($username, $newpass);
         //$plesk->destroy();
 
-        if ($result) {
+        if ($result == "ok") {
             return PASSWORD_SUCCESS;
         }
 
-        return PASSWORD_ERROR;
+        return $result;
     }
 }
 
@@ -241,7 +241,13 @@ class plesk_rpc
             $xml = new SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
-            return $res == "ok";
+			if ($res != "ok") {
+				$res = array(
+					'code' => strval($xml->mail->update->set->result->errcode),
+					'message' => strval($xml->mail->update->set->result->errtext)
+				);
+			}
+            return $res;
         }
 
         return false;
