@@ -245,7 +245,7 @@ class plesk_rpc
 
             if ($res != "ok") {
                 $res = array(
-                    'code' => strval($xml->mail->update->set->result->errcode),
+                    'code' => PASSWORD_ERROR,
                     'message' => strval($xml->mail->update->set->result->errtext)
                 );
             }
