@@ -241,12 +241,12 @@ class plesk_rpc
             $xml = new SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
-			if ($res != "ok") {
-				$res = array(
-					'code' => strval($xml->mail->update->set->result->errcode),
-					'message' => strval($xml->mail->update->set->result->errtext)
-				);
-			}
+            if ($res != "ok") {
+                $res = array(
+                    'code' => strval($xml->mail->update->set->result->errcode),
+                    'message' => strval($xml->mail->update->set->result->errtext)
+                );
+            }
             return $res;
         }
 
