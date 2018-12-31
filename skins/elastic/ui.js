@@ -3097,6 +3097,7 @@ function rcube_elastic_ui()
         // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change blur', parse_func)
+            .on('input', input_len_update) // only to fix input length after paste
             .on('keydown', keydown_func)
             .on('focus mousedown', focus_func);
 
