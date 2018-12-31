@@ -114,7 +114,7 @@ function rcube_identity_form($attrib)
         unset($form['addressing']['content']['standard']);
     }
 
-    // disable some field according to access level
+    // disable/hide some fields according to access level
     if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
         $form['addressing']['content']['email']['disabled'] = true;
         $form['addressing']['content']['email']['class']    = 'disabled';
@@ -122,8 +122,15 @@ function rcube_identity_form($attrib)
 
     if (IDENTITIES_LEVEL == 4) {
         foreach ($form['addressing']['content'] as $formfield => $value){
-            $form['addressing']['content'][$formfield]['disabled'] = true;
-            $form['addressing']['content'][$formfield]['class']    = 'disabled';
+            if (empty($IDENTITY_RECORD[$formfield])) {
+              // hide inaccessible empty field since it provides neither functionality nor information
+              unset($form['addressing']['content'][$formfield]);
+            }
+            else {
+              // disable but still show inaccessible populated field since it provides information
+              $form['addressing']['content'][$formfield]['disabled'] = true;
+              $form['addressing']['content'][$formfield]['class']    = 'disabled';
+            }
         }
     }
 
