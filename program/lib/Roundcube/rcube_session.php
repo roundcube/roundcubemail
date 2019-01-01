@@ -473,7 +473,7 @@ abstract class rcube_session
      * Unserialize session data
      * http://www.php.net/manual/en/function.session-decode.php#56106
      */
-    protected function unserialize($str)
+    public static function unserialize($str)
     {
         $str    = (string)$str;
         $endptr = strlen($str);
