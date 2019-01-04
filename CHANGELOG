@@ -53,6 +53,7 @@ CHANGELOG Roundcube Webmail
 - Fix inconsistent offset for various time zones - always display Standard Time offset (#6531)
 - Fix dummy Message-Id when resuming a draft without Message-Id header (#6548)
 - Fix handling of empty entries in vCard import (#6564)
+- Fix bug in parsing some IMAP command responses that include unsolicited replies (#6577)
 
 RELEASE 1.4-beta
 ----------------
