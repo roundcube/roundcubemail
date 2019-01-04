@@ -1237,10 +1237,10 @@ class rcube_imap_generic
             $items[] = 'UNSEEN';
         }
 
-        list($code, $response) = $this->execute('STATUS', array($this->escape($mailbox),
-            '(' . implode(' ', $items) . ')'));
+        list($code, $response) = $this->execute('STATUS',
+            array($this->escape($mailbox), '(' . implode(' ', $items) . ')'), 0, '/^\* STATUS /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* STATUS /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             $result   = array();
             $response = substr($response, 9); // remove prefix "* STATUS "
 
@@ -1703,11 +1703,11 @@ class rcube_imap_generic
             }
         }
 
-        list($code, $response) = $this->execute('ID', array(
-            !empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)
-        ));
+        list($code, $response) = $this->execute('ID',
+            array(!empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)),
+            0, '/^\* ID /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* ID /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 5); // remove prefix "* ID "
             $items    = $this->tokenizeResponse($response, 1);
             $result   = null;
@@ -1758,9 +1758,9 @@ class rcube_imap_generic
             }
         }
 
-        list($code, $response) = $this->execute('ENABLE', $extension);
+        list($code, $response) = $this->execute('ENABLE', $extension, 0, '/^\* ENABLED /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* ENABLED /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 10); // remove prefix "* ENABLED "
             $result   = (array) $this->tokenizeResponse($response);
 
@@ -3114,7 +3114,7 @@ class rcube_imap_generic
         // * QUOTA user/sample (STORAGE 654 9765)
         // a0001 OK Completed
 
-        list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)));
+        list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)), 0, '/^\* QUOTA /i');
 
         $result   = false;
         $min_free = PHP_INT_MAX;
@@ -3122,41 +3122,39 @@ class rcube_imap_generic
 
         if ($code == self::ERROR_OK) {
             foreach (explode("\n", $response) as $line) {
-                if (preg_match('/^\* QUOTA /', $line)) {
-                    list(, , $quota_root) = $this->tokenizeResponse($line, 3);
+                list(, , $quota_root) = $this->tokenizeResponse($line, 3);
 
-                    $quotas = $this->tokenizeResponse($line, 1);
+                $quotas = $this->tokenizeResponse($line, 1);
 
-                    if (empty($quotas)) {
-                        continue;
+                if (empty($quotas)) {
+                    continue;
+                }
+
+                foreach (array_chunk($quotas, 3) as $quota) {
+                    list($type, $used, $total) = $quota;
+                    $type = strtolower($type);
+
+                    if ($type && $total) {
+                        $all[$quota_root][$type]['used']  = intval($used);
+                        $all[$quota_root][$type]['total'] = intval($total);
                     }
+                }
 
-                    foreach (array_chunk($quotas, 3) as $quota) {
-                        list($type, $used, $total) = $quota;
-                        $type = strtolower($type);
+                if (empty($all[$quota_root]['storage'])) {
+                    continue;
+                }
 
-                        if ($type && $total) {
-                            $all[$quota_root][$type]['used']  = intval($used);
-                            $all[$quota_root][$type]['total'] = intval($total);
-                        }
-                    }
+                $used  = $all[$quota_root]['storage']['used'];
+                $total = $all[$quota_root]['storage']['total'];
+                $free  = $total - $used;
 
-                    if (empty($all[$quota_root]['storage'])) {
-                        continue;
-                    }
-
-                    $used  = $all[$quota_root]['storage']['used'];
-                    $total = $all[$quota_root]['storage']['total'];
-                    $free  = $total - $used;
-
-                    // calculate lowest available space from all storage quotas
-                    if ($free < $min_free) {
-                        $min_free          = $free;
-                        $result['used']    = $used;
-                        $result['total']   = $total;
-                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                        $result['free']    = 100 - $result['percent'];
-                    }
+                // calculate lowest available space from all storage quotas
+                if ($free < $min_free) {
+                    $min_free          = $free;
+                    $result['used']    = $used;
+                    $result['total']   = $total;
+                    $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                    $result['free']    = 100 - $result['percent'];
                 }
             }
         }
@@ -3221,9 +3219,9 @@ class rcube_imap_generic
      */
     public function getACL($mailbox)
     {
-        list($code, $response) = $this->execute('GETACL', array($this->escape($mailbox)));
+        list($code, $response) = $this->execute('GETACL', array($this->escape($mailbox)), 0, '/^\* ACL /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* ACL /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             // Parse server response (remove "* ACL ")
             $response = substr($response, 6);
             $ret  = $this->tokenizeResponse($response);
@@ -3258,10 +3256,10 @@ class rcube_imap_generic
      */
     public function listRights($mailbox, $user)
     {
-        list($code, $response) = $this->execute('LISTRIGHTS', array(
-            $this->escape($mailbox), $this->escape($user)));
+        list($code, $response) = $this->execute('LISTRIGHTS',
+            array($this->escape($mailbox), $this->escape($user)), 0, '/^\* LISTRIGHTS /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* LISTRIGHTS /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             // Parse server response (remove "* LISTRIGHTS ")
             $response = substr($response, 13);
 
@@ -3287,9 +3285,9 @@ class rcube_imap_generic
      */
     public function myRights($mailbox)
     {
-        list($code, $response) = $this->execute('MYRIGHTS', array($this->escape($mailbox)));
+        list($code, $response) = $this->execute('MYRIGHTS', array($this->escape($mailbox)), 0, '/^\* MYRIGHTS /i');
 
-        if ($code == self::ERROR_OK && preg_match('/^\* MYRIGHTS /i', $response)) {
+        if ($code == self::ERROR_OK && $response) {
             // Parse server response (remove "* MYRIGHTS ")
             $response = substr($response, 11);
 
@@ -3704,11 +3702,12 @@ class rcube_imap_generic
      * @param string $command   IMAP command
      * @param array  $arguments Command arguments
      * @param int    $options   Execution options
+     * @param string $filter    Line filter (regexp)
      *
      * @return mixed Response code or list of response code and data
      * @since 0.5-beta
      */
-    public function execute($command, $arguments=array(), $options=0)
+    public function execute($command, $arguments = array(), $options = 0, $filter = null)
     {
         $tag      = $this->nextTag();
         $query    = $tag . ' ' . $command;
@@ -3735,7 +3734,10 @@ class rcube_imap_generic
             $line = $this->readLine(4096);
 
             if ($response !== null) {
-                $response .= $line;
+                // TODO: Better string literals handling with filter
+                if (!$filter || preg_match($filter, $line)) {
+                    $response .= $line;
+                }
             }
 
             // parse untagged response for [COPYUID 1204196876 3456:3457 123:124] (RFC6851)
@@ -3751,8 +3753,12 @@ class rcube_imap_generic
 
         // Remove last line from response
         if ($response) {
-            $line_len = min(strlen($response), strlen($line) + 2);
-            $response = substr($response, 0, -$line_len);
+            if (!$filter) {
+                $line_len = min(strlen($response), strlen($line));
+                $response = substr($response, 0, -$line_len);
+            }
+
+            $response = rtrim($response, "\r\n");
         }
 
         // optional CAPABILITY response
