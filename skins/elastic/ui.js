@@ -986,7 +986,7 @@ function rcube_elastic_ui()
             var cl = $(this).removeClass('notice').attr('class').split(/\s/)[0] || 'warning';
             alert_style(this, cl);
             $(this).addClass('box' + cl);
-            $('a', this).addClass('btn btn-primary');
+            $('a', this).addClass('btn btn-primary btn-sm');
         });
 
         // Form validation errors (managesieve plugin)
