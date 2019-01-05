@@ -16,4 +16,5 @@
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['unknown'] = 'arussin';
+$labels['keychpass'] = 'Beddel awal uffir';
 ?>
