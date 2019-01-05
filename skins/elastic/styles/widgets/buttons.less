@@ -151,12 +151,13 @@ button.btn {
 
 a.btn,
 button.btn {
-    // FIXME: Maybe button text (and icon) alignment requires some rework
-    padding-bottom: .5rem;
-
     &:before {
-        display: inline !important;
+        display: inline-block !important;
         float: none !important;
+        margin-top: -0.3rem;
+        margin-right: 0.4rem;
+        position: relative;
+        top: 0.15rem;
     }
 }
 
