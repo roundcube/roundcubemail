@@ -151,13 +151,13 @@ button.btn {
 
 a.btn,
 button.btn {
+    line-height: 1.8;
+
     &:before {
-        display: inline-block !important;
-        float: none !important;
-        margin-top: -0.3rem;
-        margin-right: 0.4rem;
-        position: relative;
-        top: 0.15rem;
+        margin-right: .4rem;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        width: 1em;
     }
 }
 
@@ -215,6 +215,12 @@ html.touch {
 }
 
 /*** Bootstrap button style overrides ***/
+
+.btn {
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 30%);
+    }
+}
 
 .btn-secondary {
     color: @color-btn-secondary;
