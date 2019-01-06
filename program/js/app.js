@@ -1403,8 +1403,7 @@ function rcube_webmail()
         break;
 
       case 'import':
-        var reload = false,
-          dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
+        var dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
           import_func = function(e) {
             var win = dialog[0].contentWindow,
               form = win.rcmail.gui_objects.importform;
@@ -1421,17 +1420,17 @@ function rcube_webmail()
               form.submit();
               win.rcmail.lock_form(form, true);
               // disable Import button
-              $(e.target).attr('disabled', true);
-              reload = true;
+              $(e.target).attr('disabled', true).next().focus();
             }
           },
           close_func = function(event, ui) {
             $(this).remove();
-            if (reload)
+            if (ref.import_state == 'reload')
               ref.command('list');
           };
 
-        this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
+        this.import_state = null;
+        this.import_dialog = this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
           close: close_func,
           button: 'import',
           width: 500,
@@ -5770,6 +5769,17 @@ function rcube_webmail()
     if (style)
       head.append($('<style id="image-style">').text('img { transform: ' + style.join(' ') + '}'));
   };
+
+  // Update import dialog state
+  this.import_state_set = function(state)
+  {
+    if (this.import_dialog) {
+      this.import_state = state;
+      // activate Import button depending on state
+      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button:first').attr('disabled', state != 'error');
+    }
+  };
+
 
   /*********************************************************/
   /*********     keyboard live-search methods      *********/
