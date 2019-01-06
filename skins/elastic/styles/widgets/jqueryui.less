@@ -84,14 +84,14 @@
         right: 0;
         top: 0;
         position: absolute;
-        height: (@layout-header-height - .7rem);
-        margin: .25rem;
-        padding-bottom: .375rem;
-        cursor: pointer;
+        padding: .25rem;
+        margin: ((@layout-header-height - 2rem) / 2) .5rem;
 
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-times;
+            line-height: 1.5rem;
+            height: 1.5rem;
         }
     }
 
@@ -214,9 +214,11 @@
                     height: @layout-header-height;
                     box-shadow: none;
                     font-size: 90%;
+                    line-height: 1.5;
 
                     &:before {
                         display: block !important;
+                        float: none;
                         width: auto;
                         height: 1.75rem;
                         line-height: 1.75;
