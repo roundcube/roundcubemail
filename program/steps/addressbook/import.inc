@@ -86,6 +86,8 @@ if (is_array($_FILES['_file'])) {
         else {
             $OUTPUT->show_message('importformaterror', 'error');
         }
+
+        $OUTPUT->command('parent.import_state_set', 'error');
     }
     else {
         $IMPORT_STATS = new stdClass;
@@ -172,6 +174,8 @@ if (is_array($_FILES['_file'])) {
         }
 
         $importstep = 'rcmail_import_confirm';
+
+        $OUTPUT->command('parent.import_state_set', $IMPORT_STATS->inserted ? 'reload' : 'ok');
     }
 }
 
