@@ -1,0 +1,41 @@
+<?php
+
+// Websocket connection URL
+// This is where web browsers connect to the service
+// Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
+// %p - Port specified in $config['push_service_port'] (or 9501 if unset)
+$config['push_url'] = 'wss://%n:%p';
+
+// To which IP/Port the service should bind to
+// Note: The service need to be accessible by web browsers and notification services
+$config['push_service_host'] = '0.0.0.0';
+$config['push_service_port'] = 9501;
+
+// Additional security token that external services will have to set
+// when connecting to http service of the plugin. The token can be specified
+// either in X-Token header, or Authorization header with value "Bearer <token>".
+$config['push_token'] = null;
+
+// HTTP service configuration. For all available options see:
+// https://www.swoole.co.uk/docs/modules/swoole-server/configuration
+$config['push_service_config'] = array(
+    // 'chroot' => INSTALL_PATH,
+    // 'heartbeat_idle_time' => 600,
+    // 'heartbeat_check_interval' => 60,
+    // 'pid_file' => 'server.pid',
+    // 'ssl_cert_file' => 'ssl.cert', // PEM not DER
+    // 'ssl_key_file' => 'ssl.key', // PEM not DER
+    // 'ssl_ciphers' => '',
+);
+
+// Shared-memory cache size (maximum number of records).
+// This should be around <users_count> + <active_sessions_count>.
+$config['push_cache_size'] = 1024;
+
+// Enables debug logging for http service (<log_dir>/push) and browser console
+$config['push_debug'] = false;

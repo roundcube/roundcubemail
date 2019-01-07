@@ -1,0 +1,24 @@
+{
+    "name": "roundcube/push",
+    "type": "roundcube-plugin",
+    "description": "Instant updates (push notification) support",
+    "license": "GPLv3+",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Aleksander Machniak",
+            "email": "alec@alec.pl",
+            "role": "Lead"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://plugins.roundcube.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-swoole": "*"
+    }
+}

@@ -1,0 +1,47 @@
+Push plugin for Roundcube
+
+Roundcube plugin that provides support for live updates in mail user interface
+by utilizing push notifications functionality of IMAP servers.
+
+
+ARCHITECTURE
+------------
+
+The old solution for instant notifications in mailboxes is IMAP IDLE. This has however a big limitation
+which is a need to use a separate IMAP connection for every folder.
+
+Recent versions of Dovecot and Cyrus IMAP provide APIs that could be used and might be better than IDLE. For example:
+
+- https://jmap.io/#push-mechanism
+- https://www.cyrusimap.org/imap/concepts/features/event-notifications.html
+- https://wiki.dovecot.org/Plugins/PushNotification
+
+The plugin contains two components:
+
+1. HTTP service that handles connections from imap notification services and passes them
+   to the frontend (with some format conversion logic).
+2. Websocket client (frontend) that receives signals from the service and updates the UI.
+
+
+REQUIREMENTS
+------------
+
+The service uses Swoole extension for PHP (https://www.swoole.co.uk/).
+
+
+INSTALLATION
+------------
+
+1. Rename config.inc.php.dist to config.inc.php in the plugin folder.
+   For available configuration options see config.inc.php.dist file.
+2. Enable the plugin in Roundcube config.
+3. Start the service (`php server.php`).
+   Note: You can move the file to a different location, but make sure to set INSTALL_PATH constant
+   to Roundcube location.
+
+
+NOTES
+-----
+
+1. It should be executed with the same user as Roundcube, so it can have access to logs dir.
+2. It does not work with session_storage=php.
