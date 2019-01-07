@@ -151,13 +151,11 @@ button.btn {
 
 a.btn,
 button.btn {
-    line-height: 1.8;
-
     &:before {
-        margin-right: .4rem;
-        height: 1.8rem;
-        line-height: 1.8rem;
-        width: 1em;
+        display: inline !important;
+        float: none !important;
+        vertical-align: middle;
+        margin-right: .4rem !important; // !important needed for a.btn
     }
 }
 
