@@ -50,6 +50,7 @@ function rcube_webmail()
   this.menu_buttons = {};
   this.entity_selectors = [];
   this.image_style = {};
+  this.uploads = {};
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -684,7 +685,7 @@ function rcube_webmail()
     }
 
     // activate html5 file drop feature (if browser supports it and if configured)
-    if (this.gui_objects.filedrop && this.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+    if (this.gui_objects.filedrop && this.env.filedrop && window.FormData) {
       $(document.body).on('dragover dragleave drop', function(e) { return ref.document_drag_hover(e, e.type == 'dragover'); });
       $(this.gui_objects.filedrop).addClass('droptarget')
         .on('dragover dragleave', function(e) { return ref.file_drag_hover(e, e.type == 'dragover'); })
@@ -1391,8 +1392,6 @@ function rcube_webmail()
       case 'import-messages':
         var form = props || this.gui_objects.importform,
           importlock = this.set_busy(true, 'importwait');
-
-        $('[name="_unlock"]', form).val(importlock);
 
         if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
@@ -5313,77 +5312,21 @@ function rcube_webmail()
   // upload (attachment) file
   this.upload_file = function(form, action, lock)
   {
-    if (!form)
-      return;
-
-    // count files and size on capable browser
-    var size = 0, numfiles = 0;
-
-    $.each($(form).get(0).elements || [], function() {
-      if (this.type != 'file')
-        return;
-
-      var i, files = this.files ? this.files.length : (this.value ? 1 : 0);
-
-      // check file size
-      if (this.files) {
-        for (i=0; i < files; i++)
-          size += this.files[i].size;
-      }
-
-      numfiles += files;
-    });
-
-    // create hidden iframe and post upload form
-    if (numfiles) {
-      if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
-        this.display_message(this.env.filesizeerror, 'error');
-        return false;
-      }
-
-      if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
-        this.display_message(this.env.filecounterror, 'error');
-        return false;
-      }
-
-      var frame_name = this.async_upload_form(form, action || 'upload', function(e) {
-        var d, content = '';
-        try {
-          if (this.contentDocument) {
-            d = this.contentDocument;
-          } else if (this.contentWindow) {
-            d = this.contentWindow.document;
-          }
-          content = d.childNodes[1].innerHTML;
-        } catch (err) {}
-
-        if (!content.match(/add2attachment/) && (!bw.opera || (ref.env.uploadframe && ref.env.uploadframe == e.data.ts))) {
-          if (!content.match(/display_message/))
-            ref.display_message('fileuploaderror', 'error');
-          ref.remove_from_attachment_list(e.data.ts);
-
-          if (lock)
-            ref.set_busy(false, null, lock);
+    if (form) {
+      var fname, files = [];
+      $('input', form).each(function() {
+        if (this.files) {
+          fname = this.name;
+          for (var i=0; i < this.files.length; i++)
+            files.push(this.files[i]);
         }
-        // Opera hack: handle double onload
-        if (bw.opera)
-          ref.env.uploadframe = e.data.ts;
       });
 
-      // display upload indicator and cancel button
-      var content = '<span>' + this.get_label('uploading' + (numfiles > 1 ? 'many' : '')) + '</span>',
-        ts = frame_name.replace(/^rcmupload/, '');
-
-      this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', frame:frame_name, complete:false });
-
-      // upload progress support
-      if (this.env.upload_progress_time) {
-        this.upload_progress_start('upload', ts);
-      }
-
-      // set reference to the form object
-      this.gui_objects.attachmentform = form;
-      return true;
+      return this.file_upload(files, {_id: this.env.compose_id || ''}, {
+        name: fname,
+        action: action,
+        lock: lock
+      });
     }
   };
 
@@ -5407,12 +5350,15 @@ function rcube_webmail()
 
     var label, indicator, li = $('<li>');
 
+    if (!att.complete && att.html.indexOf('<') < 0)
+      att.html = '<span class="uploading">' + att.html + '</span>';
+
     if (!att.complete && this.env.loadingicon)
       att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
-    if (!att.complete && att.frame) {
+    if (!att.complete) {
       label = this.get_label('cancel');
-      att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
+      att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\');" href="#cancelupload" class="cancelupload">'
         + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+label+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
     }
 
@@ -5452,33 +5398,14 @@ function rcube_webmail()
     return false;
   };
 
-  this.cancel_attachment_upload = function(name, frame_name)
+  this.cancel_attachment_upload = function(name)
   {
-    if (!name || !frame_name)
+    if (!name || !this.uploads[name])
       return false;
 
     this.remove_from_attachment_list(name);
-    $("iframe[name='"+frame_name+"']").remove();
+    this.uploads[name].abort();
     return false;
-  };
-
-  this.upload_progress_start = function(action, name)
-  {
-    setTimeout(function() { ref.http_request(action, {_progress: name}); },
-      this.env.upload_progress_time * 1000);
-  };
-
-  this.upload_progress_update = function(param)
-  {
-    var elem = $('#'+param.name + ' > span');
-
-    if (!elem.length || !param.text)
-      return;
-
-    elem.text(param.text);
-
-    if (!param.done)
-      this.upload_progress_start(param.action, param.name);
   };
 
   // rename uploaded attachment (in compose)
@@ -9068,7 +8995,7 @@ function rcube_webmail()
       return;
 
     if (response.unlock)
-      this.set_busy(false);
+      this.set_busy(false, null, response.unlock);
 
     this.triggerEvent('responsebefore', {response: response});
     this.triggerEvent('responsebefore'+response.action, {response: response});
@@ -9471,19 +9398,6 @@ function rcube_webmail()
       frame_name = 'rcmupload' + ts,
       frame = this.dummy_iframe(frame_name);
 
-    // upload progress support
-    if (this.env.upload_progress_name) {
-      var fname = this.env.upload_progress_name,
-        field = $('input[name='+fname+']', form);
-
-      if (!field.length) {
-        field = $('<input>').attr({type: 'hidden', name: fname});
-        field.prependTo(form);
-      }
-
-      field.val(ts);
-    }
-
     // handle upload errors by parsing iframe content in onload
     frame.on('load', {ts:ts}, onload);
 
@@ -9531,19 +9445,14 @@ function rcube_webmail()
     this.file_drag_hover(e, false);
 
     // prepare multipart form data composition
-    var uri, size = 0, numfiles = 0,
+    var uri,
       files = e.target.files || e.dataTransfer.files,
-      formdata = window.FormData ? new FormData() : null,
-      fieldname = (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
-      boundary = '------multipartformboundary' + (new Date).getTime(),
-      dashdash = '--', crlf = '\r\n',
-      multipart = dashdash + boundary + crlf,
       args = {_id: this.env.compose_id || this.env.cid || '', _remote: 1, _from: this.env.action};
 
     if (!files || !files.length) {
       // Roundcube attachment, pass its uri to the backend and attach
       if (uri = e.dataTransfer.getData('roundcube-uri')) {
-        var ts = new Date().getTime(),
+        var ts = 'upload' + new Date().getTime(),
           // jQuery way to escape filename (#1490530)
           content = $('<span>').text(e.dataTransfer.getData('roundcube-name') || this.get_label('attaching')).html();
 
@@ -9556,110 +9465,126 @@ function rcube_webmail()
 
         this.http_post(this.env.filedrop.action || 'upload', args);
       }
+
       return;
     }
 
-    // inline function to submit the files to the server
-    var submit_data = function() {
-      if (ref.env.max_filesize && ref.env.filesizeerror && size > ref.env.max_filesize) {
-        ref.display_message(ref.env.filesizeerror, 'error');
-        return;
-      }
+    this.file_upload(files, args, {
+      name: (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
+      single: this.env.filedrop.single,
+      filter: this.env.filedrop.filter,
+      action: ref.env.filedrop.action
+    });
+  };
 
-      if (ref.env.max_filecount && ref.env.filecounterror && numfiles > ref.env.max_filecount) {
-        ref.display_message(ref.env.filecounterror, 'error');
-        return;
-      }
+  // Files upload using ajax
+  this.file_upload = function(files, post_args, props)
+  {
+    if (!window.FormData || !files || !files.length)
+      return false;
 
-      var multiple = files.length > 1,
-        ts = new Date().getTime(),
-        // jQuery way to escape filename (#1490530)
-        content = $('<span>').text(multiple ? ref.get_label('uploadingmany') : files[0].name).html();
+    var f, i, fname, size = 0, numfiles = 0,
+      formdata = new FormData(),
+      fieldname = props.name || '_file[]',
+      limit = props.single ? 1 : files.length;
+      args = $.extend({_remote: 1, _from: this.env.action}, post_args || {});
 
-      // add to attachments list
-      if (!ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false }))
-        ref.file_upload_id = ref.set_busy(true, 'uploading');
-
-      // complete multipart content and post request
-      multipart += dashdash + boundary + dashdash + crlf;
-
-      args._uploadid = ts;
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: ref.url(ref.env.filedrop.action || 'upload', args),
-        contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
-        processData: false,
-        timeout: 0, // disable default timeout set in ajaxSetup()
-        data: formdata || multipart,
-        headers: {'X-Roundcube-Request': ref.env.request_token},
-        xhr: function() { var xhr = jQuery.ajaxSettings.xhr(); if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; return xhr; },
-        success: function(data){ ref.http_response(data); },
-        error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
-      });
-    };
-
-    // get contents of all dropped files
-    var last = this.env.filedrop.single ? 0 : files.length - 1;
-    for (var j=0, i=0, f; j <= last && (f = files[i]); i++) {
-      if (!f.name) f.name = f.fileName;
-      if (!f.size) f.size = f.fileSize;
-      if (!f.type) f.type = 'application/octet-stream';
-
-      // file name contains non-ASCII characters, do UTF8-binary string conversion.
-      if (!formdata && /[^\x20-\x7E]/.test(f.name))
-        f.name_bin = unescape(encodeURIComponent(f.name));
-
+    // add files to form data
+    for (i=0; numfiles < limit && (f = files[i]); i++) {
       // filter by file type if requested
-      if (this.env.filedrop.filter && !f.type.match(new RegExp(this.env.filedrop.filter))) {
+      if (props.filter && !f.type.match(new RegExp(props.filter))) {
         // TODO: show message to user
         continue;
       }
 
+      formdata.append(fieldname, f);
       size += f.size;
+      fname = f.name;
       numfiles++;
+    }
 
-      // do it the easy way with FormData (FF 4+, Chrome 5+, Safari 5+)
-      if (formdata) {
-        formdata.append(fieldname, f);
-        if (j == last)
-          return submit_data();
+    if (numfiles) {
+      if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
+        this.display_message(this.env.filesizeerror, 'error');
+        return false;
       }
-      // use FileReader supporetd by Firefox 3.6
-      else if (window.FileReader) {
-        var reader = new FileReader();
 
-        // closure to pass file properties to async callback function
-        reader.onload = (function(file, j) {
-          return function(e) {
-            multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
-            multipart += '; filename="' + (f.name_bin || file.name) + '"' + crlf;
-            multipart += 'Content-Length: ' + file.size + crlf;
-            multipart += 'Content-Type: ' + file.type + crlf + crlf;
-            multipart += reader.result + crlf;
-            multipart += dashdash + boundary + crlf;
+      if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
+        this.display_message(this.env.filecounterror, 'error');
+        return false;
+      }
 
-            if (j == last)  // we're done, submit the data
-              return submit_data();
+      var ts = 'upload' + new Date().getTime(),
+        label = numfiles > 1 ? this.get_label('uploadingmany') : fname,
+        // jQuery way to escape filename (#1490530)
+        content = $('<span>').text(label).html();
+
+      // add to attachments list
+      if (!this.add2attachment_list(ts, {name: '', html: content, classname: 'uploading', complete: false}) && !props.lock)
+        props.lock = this.file_upload_id = this.set_busy(true, 'uploading');
+
+      args._uploadid = ts;
+      args._unlock = props.lock;
+
+      this.uploads[ts] = $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: this.url(props.action || 'upload', args),
+        contentType: false,
+        processData: false,
+        timeout: 0, // disable default timeout set in ajaxSetup()
+        data: formdata,
+        headers: {'X-Roundcube-Request': this.env.request_token},
+        xhr: function() {
+          var xhr = $.ajaxSettings.xhr();
+          if (xhr.upload && ref.labels.uploadprogress) {
+            xhr.upload.onprogress = function(e) {
+              var msg = ref.file_upload_msg(e.loaded, e.total);
+              if (msg) {
+                $('#' + ts).find('.uploading').text(msg);
+              }
+            };
           }
-        })(f,j);
-        reader.readAsBinaryString(f);
-      }
-      // Firefox 3
-      else if (f.getAsBinary) {
-        multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
-        multipart += '; filename="' + (f.name_bin || f.name) + '"' + crlf;
-        multipart += 'Content-Length: ' + f.size + crlf;
-        multipart += 'Content-Type: ' + f.type + crlf + crlf;
-        multipart += f.getAsBinary() + crlf;
-        multipart += dashdash + boundary +crlf;
+          return xhr;
+        },
+        success: function(data) {
+          delete ref.uploads[ts];
+          ref.http_response(data);
+        },
+        error: function(o, status, err) {
+          delete ref.uploads[ts];
+          ref.remove_from_attachment_list(ts);
+          ref.http_error(o, status, err, props.lock, 'attachment');
+        }
+      });
+    }
 
-        if (j == last)
-          return submit_data();
+    return true;
+  };
+
+  this.file_upload_msg = function(current, total)
+  {
+    if (total && current < total) {
+      var percent = Math.round(current/total * 100),
+        label = ref.get_label('uploadprogress');
+
+      if (total >= 1073741824) {
+        total = parseFloat(total/1073741824).toFixed(1) + ' ' . this.get_label('GB');
+        current = parseFloat(current/1073741824).toFixed(1);
+      }
+      else if (total >= 1048576) {
+        total = parseFloat(total/1048576).toFixed(1) + ' ' + this.get_label('MB');
+        current = parseFloat(current/1048576).toFixed(1);
+      }
+      else if (total >= 1024) {
+        total = parseInt(total/1024) + ' ' + this.get_label('KB');
+        current = parseInt(current/1024);
+      }
+      else {
+        total = total + ' ' + this.get_label('B');
       }
 
-      j++;
+      return label.replace('$percent', percent + '%').replace('$current', current).replace('$total', total);
     }
   };
 
