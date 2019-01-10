@@ -1187,7 +1187,7 @@ function rcmail_compose_attachment_list($attrib)
                 continue;
             }
 
-            $link_content = sprintf('<span class="attachment-name">%s</span> <span class="attachment-size">(%s)</span>',
+            $link_content = sprintf('<span class="attachment-name" onmouseover="rcube_webmail.long_subject_title_ex(this)">%s</span> <span class="attachment-size">(%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
 
             $content_link = html::a(array(
@@ -1208,7 +1208,6 @@ function rcmail_compose_attachment_list($attrib)
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
                     'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
-                    'onmouseover' => "rcube_webmail.long_subject_title_ex(this, 0)",
                 ),
                 $COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
             );
