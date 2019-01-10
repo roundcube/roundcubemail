@@ -1706,7 +1706,7 @@ EOF;
      * Add inline javascript code
      *
      * @param string $script   JS code snippet
-     * @param string $position Target position [head|head_top|foot]
+     * @param string $position Target position [head|head_top|foot|docready]
      */
     public function add_script($script, $position = 'head')
     {

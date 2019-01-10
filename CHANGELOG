@@ -40,6 +40,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix unwanted thread expanding when selecting a collapsed thread in non-mobile mode (#6445)
 - Elastic: Add "status bar" for mobile in mail composer
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
+- Fix so max_message_size limit is checked also when forwarding messages as attachments (#6580)
 - Fix so performance stats are logged to the main console log also when per_user_logging=true
 - Fix malformed message saved into Sent folder when using big attachments and low memory limit (#6498)
 - Fix incorrect IMAP SASL GSSAPI negotiation (#6308)
