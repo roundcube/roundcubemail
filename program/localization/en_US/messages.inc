@@ -129,6 +129,7 @@ $messages['fileuploaderror'] = 'File upload failed.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';
+$messages['msgsizeerrorfwd'] = 'Maximum size of a message ($size) exceeded. $num message(s) have not been attached.';
 $messages['copysuccess'] = 'Successfully copied $nr contacts.';
 $messages['movesuccess'] = 'Successfully moved $nr contacts.';
 $messages['copyerror'] = 'Could not copy any contacts.';
