@@ -19,7 +19,7 @@ class runlog {
     public $timestamp        = "d-M-Y H:i:s O";
     public $max_line_size    = 150;
 
-    function runlog()
+    function __construct()
     {
         $this->start_time = microtime(true);
     }
@@ -70,9 +70,6 @@ class runlog {
             $tag_report = "";
             foreach ($this->tag_count as $tag => $count){
                 $tag_report .= "$tag: $count, ";
-            }
-            if (!empty($tag_report)) {
-//                $tag_report = "\n$tag_report\n";
             }
             $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
             $this->print_to_console($end_txt, $this->run_log[$lastk]['tag'], 'end');
@@ -222,7 +219,6 @@ class runlog {
         }
         return $buf;
     }
-
 
     function  __destruct()
     {

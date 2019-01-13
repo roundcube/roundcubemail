@@ -55,6 +55,7 @@ CHANGELOG Roundcube Webmail
 - Fix dummy Message-Id when resuming a draft without Message-Id header (#6548)
 - Fix handling of empty entries in vCard import (#6564)
 - Fix bug in parsing some IMAP command responses that include unsolicited replies (#6577)
+- Fix PHP 7.2 compatibility in debug_logger plugin (#6586)
 
 RELEASE 1.4-beta
 ----------------
