@@ -58,25 +58,21 @@ class push_parser_notify
 
     protected function commonProps($data)
     {
-        $uri  = parse_url($data['uri']);
-        $user = $uri['user'];
-        list($folder, ) = explode(';', $uri['path']);
+        $uri = $this->parseURI($data['uri']);
 
         $result = array(
             'service'     => $data['service'],
             'uidset'      => $data['uidset'],
             'exists'      => $data['messages'],
-            'folder_user' => urldecode($user),
-            'folder_name' => urldecode(ltrim($folder, '/')),
+            'folder_user' => $uri['user'] ?: $data['user'],
+            'folder_name' => $uri['folder'],
         );
 
         if (isset($data['oldMailboxID'])) {
-            $uri  = parse_url($data['oldMailboxID']);
-            $user = $uri['user'];
-            list($folder, ) = explode(';', $uri['path']);
+            $uri = $this->parseURI($data['oldMailboxID']);
 
-            $result['old_folder_user'] = urldecode($user);
-            $result['old_folder_name'] = urldecode(ltrim($folder, '/'));
+            $result['old_folder_user'] = $uri['user'] ?: $data['user'];
+            $result['old_folder_name'] = $uri['folder'];
         }
 
         if (isset($data['vnd.cmu.unseenMessages'])) {
@@ -226,5 +222,61 @@ class push_parser_notify
     protected function eventQuotaWithin($data)
     {
         return $this->eventQuotaChange($data);
+    }
+
+    /**
+     * Parse imap folder URI to extract user and folder name
+     */
+    protected function parseURI($uri)
+    {
+        $_uri = parse_url($uri);
+
+        list($path, $args) = explode(';', $_uri['path'], 2);
+
+        $path   = ltrim($path, '/');
+        $params = array();
+
+        // Standard: "imap://test%40example.org@imap.example.org/INBOX";
+        if (!empty($_uri['user'])) {
+            $user = urldecode($_uri['user']);
+            $path = strlen($path) ? urldecode($path) : 'INBOX';
+        }
+        // (Old?) Cyrus IMAP: imap://imap.example.org/user/test.test/Sent%40example.org
+        else if (strpos($path, 'user/') === 0) {
+            $path = array_map('urldecode', explode('/', $path));
+            if (count($path) > 1) {
+                $last = count($path) - 1;
+                $user = $path[1];
+
+                if ($last > 1 && ($pos = strrpos($path[$last], '@'))) {
+                    $user .= substr($path[$last], $pos);
+                    $path[$last] = substr($path[$last], 0, $pos);
+                }
+
+                $path = implode('/', array_slice($path, 2));
+                if (!strlen($path)) {
+                    $path = 'INBOX';
+                }
+            }
+        }
+
+        // E.g. for MailboxSubscribe the uri can be also just imap://imap.example.org/Folder
+
+        if (empty($user) && empty($path)) {
+            // invalid uri?
+        }
+
+        if (!empty($args)) {
+            foreach (explode(';', $args) as $arg) {
+                list($key, $val) = explode('=', $arg);
+                $params[urldecode($key)] = urldecode($val);
+            }
+        }
+
+        return array(
+            'user'   => $user,
+            'folder' => $path,
+            'params' => $params,
+        );
     }
 }

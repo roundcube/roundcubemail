@@ -154,6 +154,29 @@ class push_service extends rcube
         // $response->header("Content-Type", "text/plain; charset=utf-8");
         $response->end();
 
+        $this->notification($request);
+    }
+
+    /**
+     * Similar to rcube::console(), writes to logs/push if debug option is enabled
+     */
+    public function log_debug()
+    {
+        if ($this->debug) {
+            $msg = array();
+            foreach (func_get_args() as $arg) {
+                $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
+            }
+
+            rcube::write_log('push', implode(";\n", $msg));
+        }
+    }
+
+    /**
+     * Handles incoming notification request
+     */
+    protected function notification($request)
+    {
         // Read POST data, or JSON from POST body
         $data = $request->post;
         if (empty($data)) {
@@ -175,21 +198,7 @@ class push_service extends rcube
             }
 
             // TODO: broadcast to old_folder_user
-        }
-    }
-
-    /**
-     * Similar to rcube::console(), writes to logs/push if debug option is enabled
-     */
-    public function log_debug()
-    {
-        if ($this->debug) {
-            $msg = array();
-            foreach (func_get_args() as $arg) {
-                $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
-            }
-
-            rcube::write_log('push', implode(";\n", $msg));
+            // TODO: shared folders
         }
     }
 
