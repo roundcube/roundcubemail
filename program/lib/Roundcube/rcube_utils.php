@@ -127,13 +127,23 @@ class rcube_utils
                 return true;
             }
 
+            // find A record(s)
+            if (!function_exists('checkdnsrr') || checkdnsrr($domain_part, 'A')) {
+                return true;
+            }
+
             // find MX record(s)
             if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
                 return true;
             }
 
-            // find any DNS record
-            if (!function_exists('checkdnsrr') || checkdnsrr($domain_part, 'ANY')) {
+            // find CNAME record(s)
+            if (!function_exists('checkdnsrr(host)') || checkdnsrr($domain_part, 'CNAME')) {
+                return true;
+            }
+
+            // find AAAA record(s)
+            if (!function_exists('checkdnsrr') || checkdnsrr($domain_part, 'AAAA')) {
                 return true;
             }
         }
