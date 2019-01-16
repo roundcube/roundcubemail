@@ -119,18 +119,16 @@ class rcube_utils
 
             $rcube = rcube::get_instance();
 
-            if (!$dns_check || !$rcube->config->get('email_dns_check')) {
+            if (!$dns_check || !function_exists('checkdnsrr') || !$rcube->config->get('email_dns_check')) {
                 return true;
             }
 
-            // find MX record(s)
-            if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
-                return true;
-            }
-
-            // find any DNS record
-            if (!function_exists('checkdnsrr') || checkdnsrr($domain_part, 'ANY')) {
-                return true;
+            // Check DNS record(s)
+            // Note: We can't use ANY (#6581)
+            foreach (array('A', 'MX', 'CNAME', 'AAAA') as $type) {
+                if (checkdnsrr($domain_part, $type)) {
+                    return true;
+                }
             }
         }
 
