@@ -67,7 +67,7 @@ class push_service extends rcube
         $port       = $this->config->get('push_service_post') ?: 9501;
         $cache_size = $this->config->get('push_cache_size') ?: 1024;
 
-        $this->debug   = $this->config->get('push_debug', true);
+        $this->debug   = $this->config->get('push_debug', false);
         $this->token   = $this->config->get('push_token');
         $this->clients = new push_cache($cache_size);
         $this->parser  = new push_parser_notify;
@@ -193,6 +193,7 @@ class push_service extends rcube
 
         if (!empty($event) && $event['folder_user']) {
             $user = $this->clients->get($event['folder_user']);
+
             if ($user) {
                 $this->broadcast($user, $event);
             }
@@ -207,6 +208,9 @@ class push_service extends rcube
      */
     protected function broadcast($client, $event)
     {
+        // remove null items
+        $event = array_filter($event, function($v) { return !is_null($v); });
+
         foreach ((array) $client['sockets'] as $fd) {
             if ($json = json_encode($event)) {
                 $this->log_debug("[$fd] Sending message to " . $client['username'], $json);

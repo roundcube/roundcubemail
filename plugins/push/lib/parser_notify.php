@@ -39,7 +39,7 @@ class push_parser_notify
         }
 
         // Get event name (remove non-standard prefixes)
-        $event  = str_replace('vnd.cmu.', '', $data['event']);
+        $event = str_replace('vnd.cmu.', '', $data['event']);
         $data['event'] = $event;
 
         // Parse data
@@ -61,9 +61,10 @@ class push_parser_notify
         $uri = $this->parseURI($data['uri']);
 
         $result = array(
+            'event'       => $data['event'],
             'service'     => $data['service'],
             'uidset'      => $data['uidset'],
-            'exists'      => $data['messages'],
+            'exists'      => isset($data['messages']) ? intval($data['messages']) : null,
             'folder_user' => $uri['user'] ?: $data['user'],
             'folder_name' => $uri['folder'],
         );

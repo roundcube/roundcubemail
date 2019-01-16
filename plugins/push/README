@@ -40,6 +40,22 @@ INSTALLATION
    to Roundcube location.
 
 
+INSTALLATION - CYRUS IMAP
+-------------------------
+
+0. Make sure the server has PHP with Curl extension installed.
+1. Make sure notify service is enabled in cyrus.conf.
+2. Update imapd.conf with:
+```
+    notify_external: /usr/share/roundcubemail/plugins/push/helpers/notify-cyrus.sh
+    event_notifier: external
+    event_groups: message mailbox flags subscription
+    event_extra_params: diskUsed messages vnd.cmu.unseenMessages flagNames
+```
+3. Configure $URL and $TOKEN in notify-cyrus.sh script.
+4. Restart cyrus-imapd.
+
+
 NOTES
 -----
 
