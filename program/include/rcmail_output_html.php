@@ -2164,7 +2164,8 @@ EOF;
         // add some labels to client
         $this->add_label('searching');
 
-        $attrib['name'] = '_q';
+        $attrib['name']  = '_q';
+        $attrib['class'] = trim($attrib['class'] . ' no-bs');
 
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmqsearchbox';
