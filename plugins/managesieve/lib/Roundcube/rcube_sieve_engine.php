@@ -916,7 +916,7 @@ class rcube_sieve_engine
                         }
                     }
                     else {
-                        $cust_header = $headers = $this->strip_value(array_shift($cust_headers));
+                        $cust_header = $headers = $this->strip_value(array_shift($cust_headers[$idx]));
                         $mod         = $this->strip_value($mods[$idx]);
                         $mod_type    = $this->strip_value($mod_types[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
@@ -926,7 +926,7 @@ class rcube_sieve_engine
                         $mime_part   = $mime_parts[$idx];
 
                         if ($header == 'string') {
-                            $cust_var = $headers = $this->strip_value(array_shift($cust_vars));
+                            $cust_var = $headers = $this->strip_value(array_shift($cust_vars[$idx]));
                         }
 
                         if (preg_match('/^not/', $operator))
