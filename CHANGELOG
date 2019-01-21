@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Update to OpenPGPjs 4.2.1 - fixes user name encoding issues in key generation (#6524)
 - Enigma: Fixed multi-host synchronization of private and deleted keys and pubring.kbx file
 - Managesieve: Added support for 'editheader' extension - RFC5293 (#5954)
+- Managesieve: Fix bug where custom header or variable could be lost on form submission (#6594)
 - Markasjunk: Integrate markasjunk2 features into markasjunk - marking as non-junk + learning engine (#6504)
 - Password: Added 'modoboa' driver (#6361)
 - Password: Fix bug where password_dovecotpw_with_method setting could be ignored (#6436)
