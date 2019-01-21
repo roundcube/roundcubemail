@@ -988,7 +988,7 @@ function sieve_form_init()
   });
 
   // initialize rules form(s)
-  $('[name="_header[]"]', form).each(function() {
+  $('[name^="_header"]', form).each(function() {
     if (/([0-9]+)$/.test(this.id)) {
       rule_header_select(RegExp.$1);
     }
