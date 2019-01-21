@@ -1116,16 +1116,17 @@ function rcube_webmail()
       case 'select-all':
         this.select_all_mode = props ? false : true;
         this.dummy_select = true; // prevent msg opening if there's only one msg on the list
+        var list = this.task == 'addressbook' ? 'contact_list' : 'message_list';
         if (props == 'invert')
-          this.message_list.invert_selection();
+          this[list].invert_selection();
         else
-          this.message_list.select_all(props == 'page' ? '' : props);
+          this[list].select_all(props == 'page' ? '' : props);
         this.dummy_select = null;
         break;
 
       case 'select-none':
         this.select_all_mode = false;
-        this.message_list.clear_selection();
+        this[this.task == 'addressbook' ? 'contact_list' : 'message_list'].clear_selection();
         break;
 
       case 'expand-all':
@@ -9216,7 +9217,7 @@ function rcube_webmail()
           var list = this.contact_list,
             uid = this.env.list_uid;
 
-          this.enable_command('export', (list && list.rowcount > 0));
+          this.enable_command('export', 'select-all', 'select-none', (list && list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
             this.enable_command('search-create', this.env.source == '');
