@@ -2,6 +2,7 @@
 -----------------------------------------------------------
 - Added support for 'editheader' extension - RFC5293 (#5954)
 - Fix bug where show_real_foldernames setting wasn't respected (#6422)
+- Fix bug where custom header or variable could be lost on form submission (#6594)
 
 * version 9.1 [2018-05-19]
 -----------------------------------------------------------
