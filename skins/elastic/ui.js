@@ -333,6 +333,11 @@ function rcube_elastic_ui()
                 (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
             }
             callback();
+
+            // Add title with full folder name on hover
+            // TODO: This should be done in another way, so if an entry is
+            // added after page load it also works there.
+            $('li.mailbox > a').on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
         });
 
         // Store default logo path if not already set

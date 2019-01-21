@@ -7489,7 +7489,7 @@ function rcube_webmail()
     }
 
     // set folder name
-    $('a:first', row).text(display_name);
+    $('a:first', row).text(display_name).removeAttr('title');
 
     // update subscription checkbox
     $('input[name="_subscribed[]"]:first', row).val(id)
