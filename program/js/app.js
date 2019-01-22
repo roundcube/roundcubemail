@@ -162,7 +162,7 @@ function rcube_webmail()
             return disabled = false;
           }
         });
-        $(this[0]).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
+        $(this[0]).add($(this[0]).parent('.dropbutton')).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
       });
     }, 50);
   };
