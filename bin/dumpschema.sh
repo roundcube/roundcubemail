@@ -91,7 +91,8 @@ else {
 
 $schema->disconnect();
 
-if ($error && !$_SERVER['REMOTE_ADDR'])
-	fputs(STDERR, $error);
+if ($error && !$_SERVER['REMOTE_ADDR']) {
+	fwrite(STDERR, $error);
+}
 
 ?>

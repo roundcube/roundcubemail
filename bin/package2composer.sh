@@ -97,7 +97,7 @@ else if (defined('JSON_PRETTY_PRINT')) {
     echo json_encode($data, $flags);
 }
 else {
-    fputs(STDERR,
+    fwrite(STDERR,
 "FAILED! composer.phar not found in current directory.
 
 Please download it from http://getcomposer.org/download/ or with
