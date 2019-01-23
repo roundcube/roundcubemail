@@ -1116,11 +1116,11 @@ function rcube_webmail()
       case 'select-all':
         this.select_all_mode = props ? false : true;
         this.dummy_select = true; // prevent msg opening if there's only one msg on the list
-        var list = this.task == 'addressbook' ? 'contact_list' : 'message_list';
+        var list = this[this.task == 'addressbook' ? 'contact_list' : 'message_list'];
         if (props == 'invert')
-          this[list].invert_selection();
+          list.invert_selection();
         else
-          this[list].select_all(props == 'page' ? '' : props);
+          list.select_all(props == 'page' ? '' : props);
         this.dummy_select = null;
         break;
 
