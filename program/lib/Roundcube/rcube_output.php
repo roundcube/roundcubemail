@@ -273,7 +273,7 @@ abstract class rcube_output
     public function raise_error($code, $message)
     {
         // STUB: to be overloaded by specific output classes
-        fputs(STDERR, "Error $code: $message\n");
+        fwrite(STDERR, "Error $code: $message\n");
         exit(-1);
     }
 
