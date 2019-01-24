@@ -576,7 +576,7 @@ class rcube_imap extends rcube_storage
         // and personal namespace has one prefix (#5073)
         // In such a case we can tell the server to return only content of the
         // specified folder in LIST/LSUB, no post-filtering
-        if (empty($this->namespace['other']) && empty($this->nmespace['shared'])
+        if (empty($this->namespace['other']) && empty($this->namespace['shared'])
             && !empty($this->namespace['personal']) && count($this->namespace['personal']) === 1
             && strlen($this->namespace['personal'][0][0]) > 1
         ) {
