@@ -474,6 +474,7 @@ class rcmail_sendmail
 
                         if (!is_a($msg, 'PEAR_Error')) {
                             $msg = $mailbody_file;
+                            $message->mailbody_file = $mailbody_file;
                         }
                     }
                 }
