@@ -469,12 +469,11 @@ class rcmail_sendmail
                         $msg = $message->mailbody_file;
                     }
                     else {
-                        $mailbody_file = rcube_utils::temp_filename('msg');
-                        $msg           = $message->saveMessageBody($mailbody_file);
+                        $message->mailbody_file = rcube_utils::temp_filename('msg');
+                        $msg = $message->saveMessageBody($message->mailbody_file);
 
                         if (!is_a($msg, 'PEAR_Error')) {
-                            $msg = $mailbody_file;
-                            $message->mailbody_file = $mailbody_file;
+                            $msg = $message->mailbody_file;
                         }
                     }
                 }
