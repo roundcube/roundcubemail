@@ -930,8 +930,10 @@ function rcube_elastic_ui()
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
                         .attr({role: 'tab', 'href': '#' + id})
                         .text($('legend:first', fieldset).text())
-                        .click(function() {
+                        .click(function(e) {
                             $(this).tab('show');
+                            // Because we return false we have to close popups
+                            popups_close(e);
                             // Returning false here prevents from strange scrolling issue
                             // when the form is in an iframe, e.g. contact edit form
                             return false;
