@@ -344,6 +344,17 @@ function rcube_elastic_ui()
         if (!$('#logo').data('src-default')) {
             $('#logo').data('src-default', $('#logo').attr('src'));
         }
+
+        // Add theme-color meta tags to color status bar on mobile devices
+        var theme_color = null;
+        $.each(['#layout > div > .header', '#layout > div.content', 'body'], function() {
+            theme_color = $(this).first().css('background-color');
+
+            if (theme_color !== undefined) {
+                $('<meta>').attr('name', 'theme-color').attr('content', theme_color).appendTo('head');
+                return false;
+            }
+        });
     };
 
     /**
