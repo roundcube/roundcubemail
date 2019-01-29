@@ -63,11 +63,11 @@
     {
       "lib": "openpgp",
       "name": "OpenPGP.js",
-      "version": "4.2.1",
+      "version": "4.4.6",
       "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v$v/dist/openpgp.min.js",
       "api_url": "https://api.github.com/repos/openpgpjs/openpgpjs/contents/dist/openpgp.min.js?ref=v$v",
       "dest": "plugins/enigma/openpgp.min.js",
-      "sha1": "5f793a81236614f69d555545cb855c43521d2fa9",
+      "sha1": "e142168db8e666a40fcb4c48ef89c9d774134f8b",
       "license": "LGPL",
       "copyright": "Copyright (c) OpenPGP Development Team",
       "source": "https://github.com/openpgpjs/openpgpjs/blob/v$v/dist/openpgp.js"
