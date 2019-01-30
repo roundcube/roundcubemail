@@ -1,0 +1,136 @@
+--- jquery.minicolors.css.orig	2019-01-30 11:43:50.000000000 +0100
++++ jquery.minicolors.css	2019-01-30 11:53:43.762019000 +0100
+@@ -10,7 +10,6 @@
+   position: absolute;
+   vertical-align: middle;
+   background-position: -80px 0;
+-  border: solid 1px #ccc;
+   cursor: text;
+   padding: 0;
+   margin: 0;
+@@ -40,8 +39,6 @@
+   position: absolute;
+   width: 173px;
+   background: white;
+-  border: solid 1px #CCC;
+-  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+   z-index: 99999;
+   box-sizing: content-box;
+   display: none;
+@@ -118,8 +115,8 @@
+ .minicolors-slider,
+ .minicolors-opacity-slider {
+   position: absolute;
+-  top: 1px;
+-  left: 152px; /* LTR */
++  top: 2px;
++  left: 153px; /* LTR */
+   width: 20px;
+   height: 150px;
+   background-color: white;
+@@ -250,67 +247,14 @@
+   right: auto;
+ }
+ 
+-/* Default theme */
+-.minicolors-theme-default .minicolors-swatch {
+-  top: 5px;
+-  left: 5px; /* LTR */
+-  width: 18px;
+-  height: 18px;
+-}
+-[dir=rtl] .minicolors-theme-default .minicolors-swatch {
+-  right: 5px;
+-}
+-.minicolors-theme-default .minicolors-swatches .minicolors-swatch {
+-  margin-bottom: 2px;
+-  top: 0;
+-  left: 0; /* LTR */
+-  width: 18px;
+-  height: 18px;
+-}
+-[dir=rtl] .minicolors-theme-default .minicolors-swatches .minicolors-swatch {
+-  right: 0;
+-}
+-.minicolors-theme-default.minicolors-position-right .minicolors-swatch {
+-  left: auto; /* LTR */
+-  right: 5px; /* LTR */
+-}
+-[dir=rtl] .minicolors-theme-default.minicolors-position-left .minicolors-swatch {
+-  right: auto;
+-  left: 5px;
+-}
+-.minicolors-theme-default.minicolors {
+-  width: auto;
+-  display: inline-block;
+-}
+-.minicolors-theme-default .minicolors-input {
+-  height: 20px;
+-  width: auto;
+-  display: inline-block;
+-  padding-left: 26px; /* LTR */
+-}
+-[dir=rtl] .minicolors-theme-default .minicolors-input {
+-  text-align: right;
+-  unicode-bidi: plaintext;
+-  padding-left: 1px;
+-  padding-right: 26px;
+-}
+-.minicolors-theme-default.minicolors-position-right .minicolors-input {
+-  padding-right: 26px; /* LTR */
+-  padding-left: inherit; /* LTR */
+-}
+-[dir=rtl] .minicolors-theme-default.minicolors-position-left .minicolors-input {
+-  padding-right: inherit;
+-  padding-left: 26px;
+-}
+-
+ /* Bootstrap theme */
+ .minicolors-theme-bootstrap .minicolors-swatch {
+   z-index: 2;
+-  top: 3px;
+-  left: 3px; /* LTR */
+-  width: 28px;
+-  height: 28px;
+-  border-radius: 3px;
++  top: 4px;
++  left: 4px; /* LTR */
++  width: 25px;
++  height: 25px;
++  border-radius: .25rem;
+ }
+ [dir=rtl] .minicolors-theme-bootstrap .minicolors-swatch {
+   right: 3px;
+@@ -338,13 +282,13 @@
+ }
+ .minicolors-theme-bootstrap .minicolors-input {
+   float: none;
+-  padding-left: 44px; /* LTR */
++  padding-left: 36px; /* LTR */
+ }
+ [dir=rtl] .minicolors-theme-bootstrap .minicolors-input {
+   text-align: right;
+   unicode-bidi: plaintext;
+   padding-left: 12px;
+-  padding-right: 44px;
++  padding-right: 34px;
+ }
+ .minicolors-theme-bootstrap.minicolors-position-right .minicolors-input {
+   padding-right: 44px; /* LTR */
+@@ -417,16 +361,3 @@
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+ }
+-
+-/* Semantic Ui theme */
+-.minicolors-theme-semanticui .minicolors-swatch {
+-  top: 0;
+-  left: 0; /* LTR */
+-  padding: 18px;
+-}
+-[dir=rtl] .minicolors-theme-semanticui .minicolors-swatch {
+-  right: 0;
+-}
+-.minicolors-theme-semanticui input {
+-  text-indent: 30px;
+-}
