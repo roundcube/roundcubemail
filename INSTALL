@@ -288,3 +288,11 @@ PHP >= 5.6 validates the ssl certificates by default. It means that
 if IMAP/SMTP certificates are self-signed or use wrong host name you'll get
 connection errors. A solution in such cases is to set imap_conn_options,
 smtp_conn_options and managesieve_conn_options in a way described in config/defaults.inc.php.
+
+If you have problems with temp files or non-working logs make sure temp and logs folders
+are writeable to the user used by http server. Access to them may also be blocked by
+SELINUX. Here's some sample commands for SELINUX:
+
+    $ semanage fcontext -a -t httpd_sys_rw_content_t "/path_to_roundcube/logs(/.*)?"
+    $ semanage fcontext -a -t httpd_sys_rw_content_t "/path_to_roundcube/temp(/.*)?"
+    $ restorecon -Rv /path_to_roundcube/
