@@ -61,6 +61,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug in parsing some IMAP command responses that include unsolicited replies (#6577)
 - Fix PHP 7.2 compatibility in debug_logger plugin (#6586)
 - Fix so ANY record is not used for email domain validation, use A, MX, CNAME, AAAA instead (#6581)
+- Fix so mime_content_type check in Installer uses files that should always be available (i.e. from program/resources) (#6599)
 
 RELEASE 1.4-beta
 ----------------
