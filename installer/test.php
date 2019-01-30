@@ -165,7 +165,7 @@ if ($db_working) {
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
         $select = $RCI->versions_select(array('name' => 'version'));
         $select->add('0.9 or newer', '');
-        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
+        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show('') . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
     }
     else {
