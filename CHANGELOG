@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Ignore 'Sender' header on Reply-All action (#6506)
 - deluser.sh: Add option to delete users who have not logged in for more than X days (#6340)
 - Update to TinyMCE 4.8.2
+- Update to jQuery-MiniColors 2.3.4
 - Prevent from using deprecated timezone names from jsTimezoneDetect
 - Force session.gc_probability=1 when using custom session handlers (#6560)
 - Support simple field labels (e.g. LetterHub examples) in csv imports (#6541)
