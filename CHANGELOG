@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Ignore 'Sender' header on Reply-All action (#6506)
 - deluser.sh: Add option to delete users who have not logged in for more than X days (#6340)
 - Update to TinyMCE 4.8.2
+- Update to jQuery-MiniColors 2.3.4
 - Prevent from using deprecated timezone names from jsTimezoneDetect
 - Force session.gc_probability=1 when using custom session handlers (#6560)
 - Support simple field labels (e.g. LetterHub examples) in csv imports (#6541)
@@ -61,6 +62,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug in parsing some IMAP command responses that include unsolicited replies (#6577)
 - Fix PHP 7.2 compatibility in debug_logger plugin (#6586)
 - Fix so ANY record is not used for email domain validation, use A, MX, CNAME, AAAA instead (#6581)
+- Fix so mime_content_type check in Installer uses files that should always be available (i.e. from program/resources) (#6599)
 
 RELEASE 1.4-beta
 ----------------
