@@ -888,13 +888,12 @@ EOF;
     }
 
     /**
-     * Correct absolute paths in images and other tags
-     * add timestamp to .js and .css filename
+     * Correct absolute paths in images and other tags (add cache busters)
      */
     protected function fix_paths($output)
     {
         return preg_replace_callback(
-            '!(src|href|background)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
+            '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
             array($this, 'file_callback'), $output);
     }
 
@@ -915,7 +914,7 @@ EOF;
         }
 
         // add file modification timestamp
-        if (preg_match('/\.(js|css)$/', $file, $m)) {
+        if (preg_match('/\.(js|css|less|ico|png|svg|jpeg)$/', $file, $m)) {
             $file = $this->file_mod($file);
         }
 
