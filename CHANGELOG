@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Prevent from using deprecated timezone names from jsTimezoneDetect
 - Force session.gc_probability=1 when using custom session handlers (#6560)
 - Support simple field labels (e.g. LetterHub examples) in csv imports (#6541)
+- Add cache busters also to images used by templates (#6610)
 - Plugin API: Added 'raise_error' hook (#6199)
 - Plugin API: Added 'common_headers' hook (#6385)
 - Plugin API: Added 'ldap_connected' hook
