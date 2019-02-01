@@ -41,6 +41,8 @@ class rcmail_output_html extends rcmail_output
     protected $script_files = array();
     protected $css_files    = array();
     protected $scripts      = array();
+    protected $meta_tags    = array();
+    protected $link_tags    = array('shortcut icon' => '');
     protected $header       = '';
     protected $footer       = '';
     protected $body         = '';
@@ -348,6 +350,10 @@ EOF;
                 $this->app->load_language($_SESSION['language'], $texts);
             }
         }
+
+        // Use array_merge() here to allow for global default and extended skins
+        $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
+        $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
     }
 
     /**
@@ -1372,12 +1378,52 @@ EOF;
 
                     $content = $this->frame($attrib, true);
                 }
-                else if ($object == 'favicon') {
-                    if ($template_logo = $this->get_template_logo(':favicon', true)) {
-                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $template_logo));
+                else if (in_array($object, array('meta', 'links'))) {
+                    if ($object == 'meta') {
+                        $source = 'meta_tags';
+                        $tag = 'meta';
+                        $key = 'name';
+                        $param = 'content';
                     }
-                    else if ($file = $this->config->get('favicon', '/images/favicon.ico')) {
-                        $content = html::tag('link', array('rel'  => 'shortcut icon', 'href' => $file));
+                    elseif ($object == 'links') {
+                        $source = 'link_tags';
+                        $tag = 'link';
+                        $key = 'rel';
+                        $param = 'href';
+                    }
+
+                    foreach ($this->$source as $name => $vars) {
+                        /*
+                        $vars can be in many forms:
+                          *) string
+                          *) array('key' => 'val')
+                          *) array(string, string)
+                          *) array(array(), string)
+                          *) array(array('key' => 'val'), array('key' => 'val'))
+                        normalise this for processing by checking for string array keys
+                        */
+                        $vars = is_array($vars) ? (count(array_filter(array_keys($vars), 'is_string')) > 0 ? array($vars) : $vars) : array($vars);
+
+                        foreach ($vars as $args) {
+                            // skip unset headers e.g. when extending a skin and removing a header defined in the parent
+                            if ($args === false) {
+                                continue;
+                            }
+
+                            $args = is_array($args) ? $args : array($param => $args);
+
+                            // special handling for favicon
+                            if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
+                                if ($href = $this->get_template_logo(':favicon', true)) {
+                                    $args[$param] = $href;
+                                }
+                                else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
+                                    $args[$param] = $href;
+                                }
+                            }
+
+                            $content .= html::tag($tag, array($key => $name, 'nl' => true) + $args);
+                        }
                     }
                 }
 

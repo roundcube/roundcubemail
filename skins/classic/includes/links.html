@@ -1,5 +1,5 @@
 <link rel="index" href="$__comm_path" />
-<roundcube:object name="favicon" doctype="html4" />
+<roundcube:object name="meta" />
 <link rel="stylesheet" type="text/css" href="/common.css" />
 <roundcube:if condition="in_array(env:task, array('mail', 'addressbook', 'settings'))" />
 <link rel="stylesheet" type="text/css" href="/<roundcube:var name="env:task" />.css" />
@@ -7,3 +7,4 @@
 <roundcube:if condition="browser:safari" />
 <link rel="stylesheet" type="text/css" href="/safari.css" />
 <roundcube:endif />
+<roundcube:object name="links" />

@@ -9,5 +9,10 @@
 		"embed_css_location": "/styles/embed.css",
 		"editor_css_location": "/styles/embed.css",
 		"media_browser_css_location": "none"
+	},
+	"meta": {
+		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
+		"theme-color": "#f4f4f4",
+		"msapplication-navbutton-color": "#f4f4f4"
 	}
 }
