@@ -1,0 +1,363 @@
+--- jquery-ui.css.orig	2018-06-12 09:08:51.034937000 +0200
++++ jquery-ui.css	2018-06-12 09:08:51.034937000 +0200
+@@ -45,7 +45,6 @@
+ 	left: 0;
+ 	position: absolute;
+ 	opacity: 0;
+-	filter:Alpha(Opacity=0); /* support: IE8 */
+ }
+ 
+ .ui-front {
+@@ -121,13 +120,16 @@
+ }
+ .ui-menu .ui-menu-item {
+ 	margin: 0;
+-	cursor: pointer;
+ 	/* support: IE10, see #8844 */
+ 	list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+ }
+ .ui-menu .ui-menu-item-wrapper {
+ 	position: relative;
+-	padding: 3px 1em 3px .4em;
++	padding: 0 .5em;
++	line-height: 2;
++	width: 100%;
++	display: inline-block;
++	text-decoration: none;
+ }
+ .ui-menu .ui-menu-divider {
+ 	margin: 5px 0;
+@@ -313,63 +315,35 @@
+ 	pointer-events: none;
+ }
+ .ui-datepicker {
+-	width: 17em;
+-	padding: .2em .2em 0;
++	width: 20em;
+ 	display: none;
+ }
+ .ui-datepicker .ui-datepicker-header {
+ 	position: relative;
+-	padding: .2em 0;
+ }
+ .ui-datepicker .ui-datepicker-prev,
+ .ui-datepicker .ui-datepicker-next {
+ 	position: absolute;
+-	top: 2px;
++	top: 0;
+ 	width: 1.8em;
+ 	height: 1.8em;
+ }
+-.ui-datepicker .ui-datepicker-prev-hover,
+-.ui-datepicker .ui-datepicker-next-hover {
+-	top: 1px;
+-}
+ .ui-datepicker .ui-datepicker-prev {
+-	left: 2px;
++	left: 0;
+ }
+ .ui-datepicker .ui-datepicker-next {
+-	right: 2px;
+-}
+-.ui-datepicker .ui-datepicker-prev-hover {
+-	left: 1px;
+-}
+-.ui-datepicker .ui-datepicker-next-hover {
+-	right: 1px;
+-}
+-.ui-datepicker .ui-datepicker-prev span,
+-.ui-datepicker .ui-datepicker-next span {
+-	display: block;
+-	position: absolute;
+-	left: 50%;
+-	margin-left: -8px;
+-	top: 50%;
+-	margin-top: -8px;
++	right: 0;
+ }
+ .ui-datepicker .ui-datepicker-title {
+ 	margin: 0 2.3em;
+-	line-height: 1.8em;
+ 	text-align: center;
+ }
+-.ui-datepicker .ui-datepicker-title select {
+-	font-size: 1em;
+-	margin: 1px 0;
+-}
+ .ui-datepicker select.ui-datepicker-month,
+ .ui-datepicker select.ui-datepicker-year {
+ 	width: 45%;
+ }
+ .ui-datepicker table {
+ 	width: 100%;
+-	font-size: .9em;
+-	border-collapse: collapse;
+ 	margin: 0 0 .4em;
+ }
+ .ui-datepicker th {
+@@ -386,7 +360,7 @@
+ .ui-datepicker td a {
+ 	display: block;
+ 	padding: .2em;
+-	text-align: right;
++	text-align: center;
+ 	text-decoration: none;
+ }
+ .ui-datepicker .ui-datepicker-buttonpane {
+@@ -454,14 +428,6 @@
+ 	left: 2px;
+ 	right: auto;
+ }
+-.ui-datepicker-rtl .ui-datepicker-prev:hover {
+-	right: 1px;
+-	left: auto;
+-}
+-.ui-datepicker-rtl .ui-datepicker-next:hover {
+-	left: 1px;
+-	right: auto;
+-}
+ .ui-datepicker-rtl .ui-datepicker-buttonpane {
+ 	clear: right;
+ }
+@@ -491,30 +457,18 @@
+ 	position: absolute;
+ 	top: 0;
+ 	left: 0;
+-	padding: .2em;
+ 	outline: 0;
+ }
+ .ui-dialog .ui-dialog-titlebar {
+-	padding: .4em 1em;
+ 	position: relative;
+ }
+ .ui-dialog .ui-dialog-title {
+ 	float: left;
+-	margin: .1em 0;
+ 	white-space: nowrap;
+-	width: 90%;
++	width: 100%;
+ 	overflow: hidden;
+ 	text-overflow: ellipsis;
+ }
+-.ui-dialog .ui-dialog-titlebar-close {
+-	position: absolute;
+-	right: .3em;
+-	top: 50%;
+-	width: 20px;
+-	margin: -10px 0 0 0;
+-	padding: 1px;
+-	height: 20px;
+-}
+ .ui-dialog .ui-dialog-content {
+ 	position: relative;
+ 	border: 0;
+@@ -523,18 +477,14 @@
+ 	overflow: auto;
+ }
+ .ui-dialog .ui-dialog-buttonpane {
+-	text-align: left;
+-	border-width: 1px 0 0 0;
++	text-align: right;
++	white-space: nowrap;
+ 	background-image: none;
+-	margin-top: .5em;
+-	padding: .3em 1em .5em .4em;
+-}
+-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+-	float: right;
++	padding: 0 1.5rem;
++	height: 4rem;
+ }
+ .ui-dialog .ui-dialog-buttonpane button {
+-	margin: .5em .4em .5em 0;
+-	cursor: pointer;
++	margin: .65rem 0 .65rem .5rem;
+ }
+ .ui-dialog .ui-resizable-n {
+ 	height: 2px;
+@@ -560,8 +510,11 @@
+ 	height: 7px;
+ }
+ .ui-dialog .ui-resizable-se {
+-	right: 0;
+-	bottom: 0;
++	width: 14px;
++	height: 14px;
++	right: 3px;
++	bottom: 3px;
++	background-position: -80px -224px;
+ }
+ .ui-dialog .ui-resizable-sw {
+ 	left: 0;
+@@ -664,7 +617,6 @@
+ .ui-progressbar .ui-progressbar-overlay {
+ 	background: url("data:image/gif;base64,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");
+ 	height: 100%;
+-	filter: alpha(opacity=25); /* support: IE8 */
+ 	opacity: 0.25;
+ }
+ .ui-progressbar-indeterminate .ui-progressbar-value {
+@@ -725,7 +677,7 @@
+ }
+ .ui-slider .ui-slider-handle {
+ 	position: absolute;
+-	z-index: 2;
++	z-index: 1;
+ 	width: 1.2em;
+ 	height: 1.2em;
+ 	cursor: default;
+@@ -883,39 +835,15 @@
+ 
+ /* Component containers
+ ----------------------------------*/
+-.ui-widget {
+-	font-family: Arial,Helvetica,sans-serif;
+-	font-size: 1em;
+-}
+ .ui-widget .ui-widget {
+-	font-size: 1em;
+-}
+-.ui-widget input,
+-.ui-widget select,
+-.ui-widget textarea,
+-.ui-widget button {
+-	font-family: Arial,Helvetica,sans-serif;
+-	font-size: 1em;
+-}
+-.ui-widget.ui-widget-content {
+-	border: 1px solid #c5c5c5;
++	font-size: 1rem;
+ }
+ .ui-widget-content {
+-	border: 1px solid #dddddd;
+-	background: #ffffff;
+-	color: #333333;
+-}
+-.ui-widget-content a {
+-	color: #333333;
++	background-color: #fff;
+ }
+ .ui-widget-header {
+-	border: 1px solid #dddddd;
+-	background: #e9e9e9;
+-	color: #333333;
+ 	font-weight: bold;
+-}
+-.ui-widget-header a {
+-	color: #333333;
++	background-color: #fff;
+ }
+ 
+ /* Interaction states
+@@ -944,19 +872,6 @@
+ 	color: #454545;
+ 	text-decoration: none;
+ }
+-.ui-state-hover,
+-.ui-widget-content .ui-state-hover,
+-.ui-widget-header .ui-state-hover,
+-.ui-state-focus,
+-.ui-widget-content .ui-state-focus,
+-.ui-widget-header .ui-state-focus,
+-.ui-button:hover,
+-.ui-button:focus {
+-	border: 1px solid #cccccc;
+-	background: #ededed;
+-	font-weight: normal;
+-	color: #2b2b2b;
+-}
+ .ui-state-hover a,
+ .ui-state-hover a:hover,
+ .ui-state-hover a:link,
+@@ -1040,20 +955,15 @@
+ .ui-priority-secondary,
+ .ui-widget-content .ui-priority-secondary,
+ .ui-widget-header .ui-priority-secondary {
+-	opacity: .7;
+-	filter:Alpha(Opacity=70); /* support: IE8 */
++	opacity: .5;
+ 	font-weight: normal;
+ }
+ .ui-state-disabled,
+ .ui-widget-content .ui-state-disabled,
+ .ui-widget-header .ui-state-disabled {
+ 	opacity: .35;
+-	filter:Alpha(Opacity=35); /* support: IE8 */
+ 	background-image: none;
+ }
+-.ui-state-disabled .ui-icon {
+-	filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
+-}
+ 
+ /* Icons
+ ----------------------------------*/
+@@ -1070,24 +980,6 @@
+ .ui-widget-header .ui-icon {
+ 	background-image: url("images/ui-icons_444444_256x240.png");
+ }
+-.ui-state-hover .ui-icon,
+-.ui-state-focus .ui-icon,
+-.ui-button:hover .ui-icon,
+-.ui-button:focus .ui-icon {
+-	background-image: url("images/ui-icons_555555_256x240.png");
+-}
+-.ui-state-active .ui-icon,
+-.ui-button:active .ui-icon {
+-	background-image: url("images/ui-icons_ffffff_256x240.png");
+-}
+-.ui-state-highlight .ui-icon,
+-.ui-button .ui-state-highlight.ui-icon {
+-	background-image: url("images/ui-icons_777620_256x240.png");
+-}
+-.ui-state-error .ui-icon,
+-.ui-state-error-text .ui-icon {
+-	background-image: url("images/ui-icons_cc0000_256x240.png");
+-}
+ .ui-button .ui-icon {
+ 	background-image: url("images/ui-icons_777777_256x240.png");
+ }
+@@ -1270,43 +1162,7 @@
+ .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
+ .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
+ 
+-
+-/* Misc visuals
+-----------------------------------*/
+-
+-/* Corner radius */
+-.ui-corner-all,
+-.ui-corner-top,
+-.ui-corner-left,
+-.ui-corner-tl {
+-	border-top-left-radius: 3px;
+-}
+-.ui-corner-all,
+-.ui-corner-top,
+-.ui-corner-right,
+-.ui-corner-tr {
+-	border-top-right-radius: 3px;
+-}
+-.ui-corner-all,
+-.ui-corner-bottom,
+-.ui-corner-left,
+-.ui-corner-bl {
+-	border-bottom-left-radius: 3px;
+-}
+-.ui-corner-all,
+-.ui-corner-bottom,
+-.ui-corner-right,
+-.ui-corner-br {
+-	border-bottom-right-radius: 3px;
+-}
+-
+ /* Overlays */
+ .ui-widget-overlay {
+-	background: #aaaaaa;
+-	opacity: .003;
+-	filter: Alpha(Opacity=.3); /* support: IE8 */
+-}
+-.ui-widget-shadow {
+-	-webkit-box-shadow: 0px 0px 5px #666666;
+-	box-shadow: 0px 0px 5px #666666;
++	opacity: .5;
+ }
