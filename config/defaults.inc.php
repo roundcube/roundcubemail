@@ -796,11 +796,6 @@ $config['max_pagesize'] = 200;
 // Minimal value of user's 'refresh_interval' setting (in seconds)
 $config['min_refresh_interval'] = 60;
 
-// Enables files upload indicator. Requires APC installed and enabled apc.rfc1867 option.
-// By default refresh time is set to 1 second. You can set this value to true
-// or any integer value indicating number of seconds.
-$config['upload_progress'] = false;
-
 // Specifies for how many seconds the Undo button will be available
 // after object delete action. Currently used with supporting address book sources.
 // Setting it to 0, disables the feature.

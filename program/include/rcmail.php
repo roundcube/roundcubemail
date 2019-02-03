@@ -2030,76 +2030,12 @@ class rcmail extends rcube
 
     /**
      * File upload progress handler.
+     *
+     * @deprecated We're using HTML5 upload progress
      */
     public function upload_progress()
     {
-        $params = array(
-            'action' => $this->action,
-            'name'   => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
-        );
-
-        if (function_exists('uploadprogress_get_info')) {
-            $status = uploadprogress_get_info($params['name']);
-
-            if (!empty($status)) {
-                $params['current'] = $status['bytes_uploaded'];
-                $params['total']   = $status['bytes_total'];
-            }
-        }
-
-        if (!isset($status) && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)
-            && ini_get('apc.rfc1867_name')
-        ) {
-            $prefix = ini_get('apc.rfc1867_prefix');
-            $status = apc_fetch($prefix . $params['name']);
-
-            if (!empty($status)) {
-                $params['current'] = $status['current'];
-                $params['total']   = $status['total'];
-            }
-        }
-
-        if (!isset($status) && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)
-            && ini_get('session.upload_progress.name')
-        ) {
-            $key = ini_get('session.upload_progress.prefix') . $params['name'];
-
-            $params['total']   = $_SESSION[$key]['content_length'];
-            $params['current'] = $_SESSION[$key]['bytes_processed'];
-        }
-
-        if (!empty($params['total'])) {
-            $total = $this->show_bytes($params['total'], $unit);
-            switch ($unit) {
-            case 'GB':
-                $gb      = $params['current']/1073741824;
-                $current = sprintf($gb >= 10 ? "%d" : "%.1f", $gb);
-                break;
-            case 'MB':
-                $mb      = $params['current']/1048576;
-                $current = sprintf($mb >= 10 ? "%d" : "%.1f", $mb);
-                break;
-            case 'KB':
-                $current = round($params['current']/1024);
-                break;
-            case 'B':
-            default:
-                $current = $params['current'];
-                break;
-            }
-
-            $params['percent'] = round($params['current']/$params['total']*100);
-            $params['text']    = $this->gettext(array(
-                'name' => 'uploadprogress',
-                'vars' => array(
-                    'percent' => $params['percent'] . '%',
-                    'current' => $current,
-                    'total'   => $total
-                )
-            ));
-        }
-
-        $this->output->command('upload_progress_update', $params);
+        // NOOP
         $this->output->send();
     }
 
@@ -2112,24 +2048,6 @@ class rcmail extends rcube
      */
     public function upload_init($max_size = null)
     {
-        // Enable upload progress bar
-        if ($seconds = $this->config->get('upload_progress')) {
-            if (function_exists('uploadprogress_get_info')) {
-                $field_name = 'UPLOAD_IDENTIFIER';
-            }
-            if (!$field_name && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)) {
-                $field_name = ini_get('apc.rfc1867_name');
-            }
-            if (!$field_name && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)) {
-                $field_name = ini_get('session.upload_progress.name');
-            }
-
-            if ($field_name) {
-                $this->output->set_env('upload_progress_name', $field_name);
-                $this->output->set_env('upload_progress_time', (int) $seconds);
-            }
-        }
-
         // find max filesize value
         $max_filesize = rcube_utils::max_upload_size();
         if ($max_size && $max_size < $max_filesize) {
@@ -2146,6 +2064,8 @@ class rcmail extends rcube
             $this->output->set_env('filecounterror', $this->gettext(array(
                 'name' => 'filecounterror', 'vars' => array('count' => $max_filecount))));
         }
+
+        $this->output->add_label('uploadprogress', 'GB', 'MB', 'KB', 'B');
 
         return $max_filesize_txt;
     }
