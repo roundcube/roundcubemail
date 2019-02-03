@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Use constant prefix for temp file names, don't remove temp files from other apps (#6511)
 - Ignore 'Sender' header on Reply-All action (#6506)
 - deluser.sh: Add option to delete users who have not logged in for more than X days (#6340)
+- HTML5 Upload Progress - as a replacement for the old server-side solution (#6177)
 - Update to TinyMCE 4.8.2
 - Update to jQuery-MiniColors 2.3.4
 - Prevent from using deprecated timezone names from jsTimezoneDetect
