@@ -1377,30 +1377,28 @@ EOF;
 
                     $content = $this->frame($attrib, true);
                 }
-                else if (in_array($object, array('meta', 'links'))) {
+                else if ($object == 'meta' || $object == 'links') {
                     if ($object == 'meta') {
                         $source = 'meta_tags';
-                        $tag = 'meta';
-                        $key = 'name';
-                        $param = 'content';
+                        $tag    = 'meta';
+                        $key    = 'name';
+                        $param  = 'content';
                     }
-                    elseif ($object == 'links') {
+                    else if ($object == 'links') {
                         $source = 'link_tags';
-                        $tag = 'link';
-                        $key = 'rel';
-                        $param = 'href';
+                        $tag    = 'link';
+                        $key    = 'rel';
+                        $param  = 'href';
                     }
 
                     foreach ($this->$source as $name => $vars) {
-                        /*
-                        $vars can be in many forms:
-                          *) string
-                          *) array('key' => 'val')
-                          *) array(string, string)
-                          *) array(array(), string)
-                          *) array(array('key' => 'val'), array('key' => 'val'))
-                        normalise this for processing by checking for string array keys
-                        */
+                        // $vars can be in many forms:
+                        // - string
+                        // - array('key' => 'val')
+                        // - array(string, string)
+                        // - array(array(), string)
+                        // - array(array('key' => 'val'), array('key' => 'val'))
+                        // normalise this for processing by checking for string array keys
                         $vars = is_array($vars) ? (count(array_filter(array_keys($vars), 'is_string')) > 0 ? array($vars) : $vars) : array($vars);
 
                         foreach ($vars as $args) {
