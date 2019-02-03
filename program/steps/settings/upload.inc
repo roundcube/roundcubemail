@@ -19,11 +19,6 @@
  +-----------------------------------------------------------------------+
 */
 
-// Upload progress update
-if (!empty($_GET['_progress'])) {
-    $RCMAIL->upload_progress();
-}
-
 $from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
 $type = preg_replace('/(add|edit)-/', '', $from);
 

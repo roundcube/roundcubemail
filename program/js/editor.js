@@ -729,7 +729,7 @@ function rcube_text_editor(config, id)
     });
 
     // enable drag-n-drop area
-    if ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData) {
+    if (window.FormData) {
       if (!rcmail.env.filedrop) {
         rcmail.env.filedrop = {};
       }

@@ -19,11 +19,6 @@
  +-----------------------------------------------------------------------+
 */
 
-// Upload progress update
-if (!empty($_GET['_progress'])) {
-    $RCMAIL->upload_progress();
-}
-
 $COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 $COMPOSE    = null;
 
