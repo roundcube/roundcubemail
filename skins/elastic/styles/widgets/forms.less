@@ -177,7 +177,6 @@ input.smart-upload {
             & > *:first-child {
                 .overflow-ellipsis;
                 min-width: 8rem;
-                height: auto;
 
                 &:not(select) {
                     padding: 0;
@@ -204,6 +203,9 @@ input.smart-upload {
 
             select {
                 text-align: left;
+            }
+
+            &.composite select {
                 height: auto;
             }
 

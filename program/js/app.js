@@ -6850,6 +6850,8 @@ function rcube_webmail()
         else if (colprop.type == 'composite') {
           var i, childcol, cp, first, templ, cols = [], suffices = [], content = cell;
 
+          row.addClass('composite');
+
           if (compact)
             content = $('<div class="content input-group-text">');
 
