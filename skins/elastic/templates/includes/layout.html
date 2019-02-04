@@ -16,6 +16,7 @@
 <head>
 	<title><roundcube:object name="pagetitle" /></title>
 	<roundcube:object name="meta" />
+	<roundcube:object name="links" />
 	<link rel="stylesheet" href="/deps/bootstrap.min.css">
 	<roundcube:if condition="config:devel_mode" />
 		<link rel="stylesheet/less" href="/styles/styles.less">
@@ -25,7 +26,6 @@
 		<link rel="stylesheet" href="/styles/styles.css">
 		<roundcube:link rel="stylesheet" href="/styles/print.css" condition="env:action == 'print'" />
 	<roundcube:endif />
-	<roundcube:object name="links" />
 </head>
 <body class="task-<roundcube:exp expression="env:error_task ?: env:task ?: 'error'">">
 	<roundcube:if condition="!env:framed || env:extwin" />
