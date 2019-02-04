@@ -736,7 +736,12 @@ function rcube_elastic_ui()
         // Add date format placeholder to datepicker inputs
         var func, format = rcmail.env.date_format_localized;
         if (format) {
-            func = function(input) { $(input).filter('.datepicker').attr('placeholder', format); };
+            func = function(input) {
+                $(input).filter('.datepicker').attr('placeholder', format);
+                // also make selects pretty
+                $(input).parent().find('select').each(function() { pretty_select(this); });
+            };
+
             $('input.datepicker').each(function() { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
         }

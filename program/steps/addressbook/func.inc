@@ -745,11 +745,15 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     }
 
                     $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
+                    $row_class     = 'row';
 
                     // render composite field
                     if ($colprop['type'] == 'composite') {
-                        $composite = array(); $j = 0;
-                        $template = $RCMAIL->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
+                        $row_class .= ' composite';
+                        $composite  = array();
+                        $template   = $RCMAIL->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
+                        $j = 0;
+
                         foreach ($colprop['childs'] as $childcol => $cp) {
                             if (!empty($val) && is_array($val)) {
                                 $childvalue = $val[$childcol] ?: $val[$j];
@@ -847,11 +851,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
                             $val .= $_del_btn;
                         }
 
-                        $rows .= html::div('row', $_label . $val);
+                        $rows .= html::div($row_class, $_label . $val);
                     }
                     // row without label
                     else {
-                        $rows .= html::div('row', $compact ? $val : html::div('contactfield', $val));
+                        $rows .= html::div($row_class, $compact ? $val : html::div('contactfield', $val));
                     }
                 }
 
