@@ -3031,7 +3031,7 @@ class rcube_sieve_engine
     {
         // matching type select (operator)
         $select_op = new html_select(array(
-                'name'     => "_{$name}[]",
+                'name'     => "_{$name}[$id]",
                 'id'       => "{$name}{$id}",
                 'style'    => 'display:' .(!in_array($rule, array('size', 'duplicate')) ? 'inline' : 'none'),
                 'class'    => 'operator_selector',
@@ -3072,7 +3072,7 @@ class rcube_sieve_engine
 
     protected function comparator_selector($comparator, $name, $id)
     {
-        $select_comp = new html_select(array('name' => "_{$name}[]", 'id' => "{$name}_op{$id}"));
+        $select_comp = new html_select(array('name' => "_{$name}[$id]", 'id' => "{$name}_op{$id}"));
         $select_comp->add(rcube::Q($this->plugin->gettext('default')), '');
         $select_comp->add(rcube::Q($this->plugin->gettext('octet')), 'i;octet');
         $select_comp->add(rcube::Q($this->plugin->gettext('asciicasemap')), 'i;ascii-casemap');
