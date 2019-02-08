@@ -480,6 +480,18 @@ class rcube_config
     }
 
     /**
+     * Some options set as immutable that are also listed
+     * in dont_override should not be stored permanently
+     * in user preferences. Here's the list of these
+     *
+     * @return array List of transient options
+     */
+    public function transient_options()
+    {
+        return array_intersect(array_keys($this->immutable), (array) $this->get('dont_override'));
+    }
+
+    /**
      * Special getter for user's timezone offset including DST
      *
      * @return float Timezone offset (in hours)

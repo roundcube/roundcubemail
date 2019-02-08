@@ -328,18 +328,22 @@ EOF;
 
         $this->skins[$skin_id] = $meta;
 
+        // Keep skin config for ajax requests (#6613)
+        $_SESSION['skin_config'] = array();
+
         if ($meta['extends']) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
-                $this->load_skin('skins/' . $meta['extends']);
+                $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
             }
         }
 
-        foreach ((array) $meta['config'] as $key => $value) {
-            $this->config->set($key, $value, true);
-        }
-
         if (!empty($meta['config'])) {
+            foreach ($meta['config'] as $key => $value) {
+                $this->config->set($key, $value, true);
+                $_SESSION['skin_config'][$key] = $value;
+            }
+
             $value = array_merge((array) $this->config->get('dont_override'), array_keys($meta['config']));
             $this->config->set('dont_override', $value, true);
         }
@@ -354,6 +358,8 @@ EOF;
         // Use array_merge() here to allow for global default and extended skins
         $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
         $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+
+        return $_SESSION['skin_config'];
     }
 
     /**

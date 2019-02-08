@@ -45,6 +45,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix too small height of mailvelope mail preview frame (#6600)
 - Elastic: Add "status bar" for mobile in mail composer
 - Elastic: Add selection options on contacts list (#6595)
+- Elastic: Fix unintentional layout preference overwrite (#6613)
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
 - Fix so max_message_size limit is checked also when forwarding messages as attachments (#6580)
 - Fix so performance stats are logged to the main console log also when per_user_logging=true

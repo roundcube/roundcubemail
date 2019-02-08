@@ -179,6 +179,14 @@ class rcube_user
             return false;
         }
 
+        $config       = $this->rc->config;
+        $transient    = $config->transient_options();
+        $a_user_prefs = array_diff_key($a_user_prefs, array_flip($transient));
+
+        if (empty($a_user_prefs)) {
+            return true;
+        }
+
         $plugin = $this->rc->plugins->exec_hook('preferences_update', array(
                 'userid' => $this->ID,
                 'prefs'  => $a_user_prefs,
@@ -191,7 +199,6 @@ class rcube_user
 
         $a_user_prefs = $plugin['prefs'];
         $old_prefs    = $plugin['old'];
-        $config       = $this->rc->config;
         $defaults     = $config->all();
 
         // merge (partial) prefs array with existing settings
