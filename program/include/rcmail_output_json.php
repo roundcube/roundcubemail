@@ -37,6 +37,23 @@ class rcmail_output_json extends rcmail_output
 
 
     /**
+     * Object constructor
+     */
+    public function __construct($task = null, $framed = false)
+    {
+        parent::__construct();
+
+        if (!empty($_SESSION['skin_config'])) {
+            foreach ($_SESSION['skin_config'] as $key => $value) {
+                $this->config->set($key, $value, true);
+            }
+
+            $value = array_merge((array) $this->config->get('dont_override'), array_keys($_SESSION['skin_config']));
+            $this->config->set('dont_override', $value, true);
+        }
+    }
+
+    /**
      * Issue command to set page title
      *
      * @param string $title New page title
