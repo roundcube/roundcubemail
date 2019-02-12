@@ -1250,6 +1250,7 @@ function rcmail_message_body($attrib)
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
     $out       = '';
     $part_no   = 0;
+    $token     = $RCMAIL->get_request_token();
 
     $header_attrib = array();
     foreach ($attrib as $attr => $value) {
@@ -1283,12 +1284,11 @@ function rcmail_message_body($attrib)
                 else if (!$part->size) {
                     continue;
                 }
-
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
                 else if (!rcube_utils::mem_check($part->size * 10)) {
                     $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
-                        . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
+                        . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id.'&_token='.$token
                             .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
                     continue;
                 }
@@ -1333,7 +1333,7 @@ function rcmail_message_body($attrib)
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check(strlen($MESSAGE->body) * 10)) {
             $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
-                . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
+                . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0&_token='.$token
                     .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
         }
         else {
