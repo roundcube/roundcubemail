@@ -642,13 +642,10 @@ function rcmail_message_body($attrib)
                 else if (!$part->size) {
                     continue;
                 }
-
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
                 else if (!rcube_utils::mem_check($part->size * 10)) {
-                    $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
-                        . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-                            .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
+                    $out .= rcmail_part_too_big_message($MESSAGE, $part->mime_id);
                     continue;
                 }
 
@@ -697,9 +694,7 @@ function rcmail_message_body($attrib)
         // Check if we have enough memory to handle the message in it
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check(strlen($MESSAGE->body) * 10)) {
-            $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
-                . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
-                    .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
+            $out .= rcmail_part_too_big_message($MESSAGE, 0);
         }
         else {
             $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
@@ -781,4 +776,25 @@ function rcmail_message_body($attrib)
     }
 
     return html::div($attrib, $out);
+}
+
+/**
+ * Returns a HTML notice element for too big message parts
+ */
+function rcmail_part_too_big_message($MESSAGE, $part_id)
+{
+    global $RCMAIL;
+
+    $token = $RCMAIL->get_request_token();
+    $url   = $RCMAIL->url(array(
+            'task'     => 'mail',
+            'action'   => 'get',
+            'download' => 1,
+            'uid'      => $MESSAGE->uid,
+            'part'     => $part_id,
+            'mbox'     => $MESSAGE->folder,
+            'token'    => $token,
+    ));
+
+    return html::div('part-notice', $RCMAIL->gettext('messagetoobig'). ' ' . html::a($url, $RCMAIL->gettext('download')));
 }
