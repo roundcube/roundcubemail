@@ -283,8 +283,8 @@ function rcmail_message_buttons()
     $attrib['id']    = 'message-buttons';
     $attrib['class'] = 'information notice';
 
-    $msg = html::span(null, rcube::Q($RCMAIL->gettext('isdraft'))) . '&nbsp;';
-    $msg .= html::a(array(
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('isdraft'))) . '&nbsp;'
+        . html::a(array(
             'href'    => "#edit",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')"
         ),
@@ -796,5 +796,5 @@ function rcmail_part_too_big_message($MESSAGE, $part_id)
             'token'    => $token,
     ));
 
-    return html::div('part-notice', $RCMAIL->gettext('messagetoobig'). ' ' . html::a($url, $RCMAIL->gettext('download')));
+    return html::span('part-notice', $RCMAIL->gettext('messagetoobig') . '&nbsp;' . html::a($url, $RCMAIL->gettext('download')));
 }
