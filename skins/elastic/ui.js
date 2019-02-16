@@ -3447,6 +3447,7 @@ function rcube_elastic_ui()
                     boundary: 'viewport',
                     html: true,
                     offset: '0,2',
+                    sanitize: false,
                     template: '<div class="popover select-menu" style="min-width: ' + min_width + 'px; max-width: ' + max_width + 'px">'
                         + '<div class="popover-header"></div>'
                         + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
