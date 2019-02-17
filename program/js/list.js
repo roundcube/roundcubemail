@@ -579,6 +579,7 @@ drag_row: function(e, id)
 
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+
     if (bw.touch) {
       rcube_event.add_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
       rcube_event.add_listener({event:'touchend', object:this, method:'drag_mouse_up'});
@@ -586,6 +587,7 @@ drag_row: function(e, id)
 
     // enable dragging over iframes
     this.add_dragfix();
+    this.focus();
   }
 
   return false;
@@ -1323,9 +1325,7 @@ highlight_children: function(id, status)
  */
 key_press: function(e)
 {
-  var target = e.target || {};
-
-  if (!this.focused || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+  if (!this.focused || $(e.target).is('input,textarea,select'))
     return true;
 
   var keyCode = rcube_event.get_keycode(e),

@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix so ANY record is not used for email domain validation, use A, MX, CNAME, AAAA instead (#6581)
 - Fix so mime_content_type check in Installer uses files that should always be available (i.e. from program/resources) (#6599)
 - Fix missing CSRF token on a link to download too-big message part (#6621)
+- Fix bug when aborting dragging with ESC key didn't stop the move action (#6623)
 
 RELEASE 1.3.8
 -------------
