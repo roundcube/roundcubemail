@@ -1695,6 +1695,7 @@ function rcube_webmail()
     if (menu) {
       $(menu).hide();
     }
+
     this.command(action, this.env.drag_target);
     this.env.drag_target = null;
   };
@@ -1724,7 +1725,8 @@ function rcube_webmail()
     else if (list = this.contact_list)
       model = this.env.contactfolders;
 
-    if (this.drag_active && model && this.env.last_folder_target) {
+    // Note: we accept only mouse events to ignore dragging aborts with ESC key (#6623)
+    if (this.drag_active && model && this.env.last_folder_target && !rcube_event.is_keyboard(e)) {
       var target = model[this.env.last_folder_target];
       list.draglayer.hide();
 
@@ -1809,7 +1811,7 @@ function rcube_webmail()
 
     // remove focus from list widgets
     if (window.rcube_list_widget && rcube_list_widget._instances.length) {
-      $.each(rcube_list_widget._instances, function(i,list){
+      $.each(rcube_list_widget._instances, function(i,list) {
         if (list && !rcube_mouse_is_over(e, list.list.parentNode))
           list.blur();
       });
@@ -1824,7 +1826,7 @@ function rcube_webmail()
     }
 
     // reset popup menus; delayed to have updated menu_stack data
-    setTimeout(function(e){
+    setTimeout(function(e) {
       var obj, skip, config, id, i, parents = $(target).parents();
       for (i = ref.menu_stack.length - 1; i >= 0; i--) {
         id = ref.menu_stack[i];
