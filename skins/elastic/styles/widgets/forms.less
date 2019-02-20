@@ -269,6 +269,10 @@ input.smart-upload {
         }
     }
 
+    .form-group .proplist {
+        padding: 0 15px;
+    }
+
     // Some forms may use multiple elements that are not part of .input-group
     // add proper spacing
     select + select,
@@ -505,8 +509,9 @@ html.ms .propform {
             margin: .5rem 0; // fixes checkbox alignment with other inputs in a form
         }
 
-        .custom-control-label {
-            overflow: unset;
+        .custom-switch + a {
+            line-height: 2;
+            vertical-align: bottom;
         }
 
         td > label {
@@ -651,22 +656,14 @@ html.ms .propform {
         line-height: @proplist-record-height;
         margin-bottom: .25rem;
         display: flex;
+        align-items: center;
 
         &:last-child {
             margin-bottom: 0;
         }
 
         input[type=radio] {
-            vertical-align: middle;
             margin-right: .5em;
-
-            & + .input-group {
-                flex-grow: 1;
-            }
-        }
-
-        .custom-control-label {
-            overflow: unset; // for .custom-switch
         }
 
         label:not(.input-group-text) {
@@ -684,6 +681,7 @@ html.ms .propform {
 .checklist {
     & > div {
         line-height: 2rem;
+        display: block; // overwrite .custom-switch
     }
 
     .custom-control-label {
@@ -1245,6 +1243,9 @@ html.ms .propform {
 }
 
 .custom-switch {
+    padding-left: 0;
+    display: inline-block;
+
     .custom-control-input {
         left: 0;
 
@@ -1269,40 +1270,49 @@ html.ms .propform {
 
     // Make switches bigger, we use smaller font than Bootstrap's default
 
-    html.touch & {
-        padding-left: 3rem;
-    }
-
     .custom-control-label {
-        &:before {
-            width: 2rem;
-            height: 1.2rem;
+        padding-left: 2.5rem;
+        min-height: 2rem;
+        line-height: 2;
+        display: inline-block;
+
+        html.touch & {
+            padding-left: 3rem;
+        }
+
+        &:before,
+        &:after {
             border-radius: .6rem;
-            margin: .125rem 0;
+            margin: .15rem 0;
+            cursor: pointer;
 
             html.touch & {
-                left: -3rem;
-                top: .2rem;
-                width: 2.6rem;
-                height: 1.6rem;
                 border-radius: .8rem;
                 margin: 0;
             }
         }
 
-        &:after {
-            width: ~"calc(1.2rem - 4px)";
-            height: ~"calc(1.2rem - 4px)";
-            border-radius: .6rem;
-            margin: .125rem 0;
+        &:before {
+            left: 2px;
+            width: 2rem;
+            height: 1.2rem;
 
             html.touch & {
-                left: ~"calc(-3rem + 2px)";
+                top: .2rem;
+                width: 2.6rem;
+                height: 1.6rem;
+            }
+        }
+
+        &:after {
+            left: 4px;
+            width: ~"calc(1.2rem - 4px)";
+            height: ~"calc(1.2rem - 4px)";
+
+            html.touch & {
                 top: ~"calc(.2rem + 2px)";
                 height: ~"calc(1.6rem - 4px)";
                 width: ~"calc(1.6rem - 4px)";
-                border-radius: .8rem;
-                margin: 0;
             }
         }
     }

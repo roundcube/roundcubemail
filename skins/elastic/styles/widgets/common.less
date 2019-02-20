@@ -459,6 +459,11 @@ table.table {
         white-space: nowrap;
         overflow: hidden;
         text-align: center;
+        padding: .5rem;
+
+        html.touch & {
+            padding: .5rem .3rem;
+        }
     }
 
     th.checkbox-cell {
@@ -516,15 +521,6 @@ table.table {
         border: 0;
     }
 }
-
-html.touch {
-    table.table {
-        th.checkbox-cell:before {
-            font-size: 1.5rem;
-        }
-    }
-}
-
 
 /* Bootstrap's .table style overwrites */
 .table {
