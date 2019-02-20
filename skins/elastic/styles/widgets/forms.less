@@ -484,11 +484,6 @@ html.ms .propform {
         display: flex; // https://github.com/twbs/bootstrap/issues/22348
         flex-wrap: nowrap;
 
-        // fixed checkbox vertical alignment
-        td:not(.col-form-label) {
-            padding: 0;
-        }
-
         // alignment fixes needed because we do not stick precissely to Bootstrap's form structure
         @media screen and (max-width: @screen-width-bs-phone) {
             .col-6 {
@@ -498,8 +493,7 @@ html.ms .propform {
 
             & > *:last-child {
                 width: 1%;
-                min-width: 2.2em; // for icon-checkbox
-                padding-right: 15px;
+                min-width: 2.6rem; // for .custom-switch
             }
 
             &.with-link > *:last-child {
@@ -508,13 +502,11 @@ html.ms .propform {
         }
 
         .form-check-input {
-            margin: 0; // fixes checkbox alignment with other inputs in a form
-            margin-top: .5rem;
-            margin-bottom: .5rem;
+            margin: .5rem 0; // fixes checkbox alignment with other inputs in a form
+        }
 
-            & + label {
-                display: inline;
-            }
+        .custom-control-label {
+            overflow: unset;
         }
 
         td > label {
@@ -673,25 +665,13 @@ html.ms .propform {
             }
         }
 
+        .custom-control-label {
+            overflow: unset; // for .custom-switch
+        }
+
         label:not(.input-group-text) {
             margin: 0;
             line-height: @proplist-record-height;
-        }
-
-        .icon-checkbox {
-            height: @proplist-record-height;
-            margin-left: -1.2em;
-
-            & + label {
-                height: @proplist-record-height;
-                margin-right: .5rem;
-                padding: 0 !important;
-                line-height: 1.25;
-
-                html.touch &:before {
-                    line-height: 1.1;
-                }
-            }
         }
 
         select {
@@ -702,16 +682,21 @@ html.ms .propform {
 }
 
 .checklist {
-    .form-check-input + label {
-        margin-right: .25rem;
-        line-height: 1;
+    & > div {
+        line-height: 2rem;
     }
 
-    & > label {
-        display: inline-block !important;
+    .custom-control-label {
+        &:before,
+        &:after {
+            margin: -.15rem 0 0 0;
+        }
+    }
+
+    & > div + br {
+        display: none;
     }
 }
-
 
 /*** Forms in popups ***/
 
@@ -755,14 +740,6 @@ html.ms .propform {
     .buttons {
         text-align: center;
         padding: .5rem;
-    }
-}
-
-html.touch .popupmenu.form {
-    li {
-        input.icon-checkbox + label:before {
-            line-height: 1.4;
-        }
     }
 }
 
@@ -1184,79 +1161,6 @@ html.touch .popupmenu.form {
     }
 }
 
-
-/*** Pretty icon checkbox ***/
-
-input.icon-checkbox {
-    opacity: 0;
-    margin-left: -1.5em;
-    cursor: pointer;
-
-    .form-check > * > & {
-        margin-left: -1.5em !important;
-    }
-
-    & + label {
-        margin: 0;
-        display: inline;
-        font-size: 1.2rem;
-        cursor: pointer;
-        width: 1.5em;
-
-        html.touch & {
-            font-size: 1.5rem;
-        }
-
-        &:before {
-            &:extend(.font-icon-class);
-            content: @fa-var-toggle-off;
-            margin: 0;
-            color: @color-checkbox;
-            height: 2rem;
-        }
-
-        // A link after checkbox in a form, used in e.g. newmail_notifier plugin
-        & + a {
-            display: inline-block;
-            line-height: 2rem;
-            padding-left: .5rem;
-            white-space: nowrap;
-        }
-
-        .input-group & {
-            padding: 0 .25rem 0 0;
-
-            &:before {
-                line-height: 1;
-                height: auto;
-            }
-        }
-    }
-
-    &:disabled + label {
-        opacity: 0.4;
-        pointer-events: none;
-    }
-
-    &:checked + label:before {
-        content: @fa-var-toggle-on;
-        color: @color-checkbox-checked;
-    }
-
-    &:focus + label:before {
-        color: @color-checkbox-focus;
-    }
-
-    &:checked:focus + label:before {
-        color: @color-checkbox-checked-focus;
-    }
-
-    &.form-check-input + label {
-        font-size: 1.25rem;
-        padding-top: .25rem;
-    }
-}
-
 .input-group-combo {
     select:first-of-type {
         &.alone {
@@ -1337,5 +1241,77 @@ input.icon-checkbox {
     input:focus {
         z-index: 1;
         border-color: @color-input-border-focus !important;
+    }
+}
+
+.custom-switch {
+    .custom-control-input {
+        left: 0;
+
+        &:focus ~ .custom-control-label:before {
+            box-shadow: 0 0 0 .2rem @color-checkbox-focus-shadow;
+        }
+
+        &:focus:not(:checked) ~ .custom-control-label::before {
+            border-color: @color-checkbox-focus;
+        }
+
+        &:checked ~ .custom-control-label::before {
+            border-color: @color-checkbox;
+            background-color: @color-checkbox;
+        }
+
+        &:checked:disabled ~ .custom-control-label::before {
+            border-color: @color-checkbox-checked-disabled;
+            background-color: @color-checkbox-checked-disabled;
+        }
+    }
+
+    // Make switches bigger, we use smaller font than Bootstrap's default
+
+    html.touch & {
+        padding-left: 3rem;
+    }
+
+    .custom-control-label {
+        &:before {
+            width: 2rem;
+            height: 1.2rem;
+            border-radius: .6rem;
+            margin: .125rem 0;
+
+            html.touch & {
+                left: -3rem;
+                top: .2rem;
+                width: 2.6rem;
+                height: 1.6rem;
+                border-radius: .8rem;
+                margin: 0;
+            }
+        }
+
+        &:after {
+            width: ~"calc(1.2rem - 4px)";
+            height: ~"calc(1.2rem - 4px)";
+            border-radius: .6rem;
+            margin: .125rem 0;
+
+            html.touch & {
+                left: ~"calc(-3rem + 2px)";
+                top: ~"calc(.2rem + 2px)";
+                height: ~"calc(1.6rem - 4px)";
+                width: ~"calc(1.6rem - 4px)";
+                border-radius: .8rem;
+                margin: 0;
+            }
+        }
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        transform: translateX(.8rem);
+
+        html.touch & {
+            transform: translateX(1rem);
+        }
     }
 }
