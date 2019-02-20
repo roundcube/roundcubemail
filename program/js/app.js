@@ -4331,7 +4331,7 @@ function rcube_webmail()
             ref.mark_all_read(folder, $('input:checked', content).val());
             return true;
           },
-          {button: 'mark'}
+          {button: 'mark', button_class: 'save'}
         );
 
         return;
