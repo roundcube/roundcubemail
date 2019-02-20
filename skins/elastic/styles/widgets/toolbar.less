@@ -427,25 +427,6 @@
         }
     }
 
-    &.checkbox > label {
-        margin: 0;
-        width: 100%;
-
-        input.icon-checkbox {
-            right: auto;
-
-            & + label {
-                left: 0;
-                margin: 0 .2em 0 .35em;
-                font-size: 1.1rem;
-            }
-        }
-
-        a {
-            padding: 0 !important;
-        }
-    }
-
     a {
         opacity: .5;
 
@@ -462,6 +443,12 @@
         &:extend(.font-icon-class);
     }
 
+    a.check:before {
+        content: "";
+    }
+    a.check.selected:before {
+        content: @fa-var-check;
+    }
     a.print:before {
         content: @fa-var-print;
     }
@@ -627,13 +614,7 @@
 }
 
 .toolbarmenu.listing li {
-    &.checkbox > label {
-        padding: 0 .5rem 0 2.5em;
-    }
-
     &:hover {
-        &.checkbox > label,
-        input.icon-checkbox + label:before,
         a.active {
             color: @color-toolbarmenu-hover;
             background-color: @color-toolbarmenu-hover-background;
@@ -649,15 +630,9 @@ html.touch {
     }
 
     .toolbarmenu.listing li {
-        &.checkbox > label {
-            padding: 0 .5rem 0 2.75rem;
-        }
     }
 
     .toolbarmenu li {
-        input.icon-checkbox + label {
-            font-size: 1.3rem;
-        }
     }
 }
 

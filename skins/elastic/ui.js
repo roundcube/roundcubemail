@@ -27,6 +27,7 @@ function rcube_elastic_ui()
                 compose_extwin: rcmail.env.compose_extwin,
                 help_open_extwin: rcmail.env.help_open_extwin
             },
+            checkboxes: 0,
             small_screen_config: {
                 standard_windows: true,
                 message_extwin: false,
@@ -971,7 +972,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
@@ -2142,7 +2143,7 @@ function rcube_elastic_ui()
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
                         .appendTo(document.body)
-                        .find('li > a, li.checkbox > label').attr('onclick', '').off('click').on('click', function(e) {
+                        .find('li > a').attr('onclick', '').off('click').on('click', function(e) {
                             if (!$(this).is('.disabled')) {
                                 $(item).popover('hide');
                                 win.$('#' + $(this).attr('id')).click();
@@ -3311,27 +3312,36 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Checkbox wrapper
+     * Convert checkbox input into Bootstrap's custom switch
      */
     function pretty_checkbox(checkbox)
     {
-        var checkbox = $(checkbox),
-            id = checkbox.attr('id');
+        var label, parent, id, checkbox = $(checkbox);
 
-        if (checkbox.is('.icon-checkbox')) {
+        if (checkbox.is('.custom-control-input')) {
             return;
         }
 
-        if (!id) {
-            if (!env.icon_checkbox) env.icon_checkbox = 0;
-            id = 'icochk' + (++env.icon_checkbox);
+        if (!(id = checkbox.attr('id'))) {
+            id = 'icochk' + (++env.checkboxes);
             checkbox.attr('id', id);
         }
 
-        checkbox.addClass('icon-checkbox form-check-input').after(
-            $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
-                .on('click', function(e) { e.stopPropagation(); })
-        );
+        if (checkbox.parent().is('label')) {
+            label = checkbox.parent();
+            checkbox = checkbox.detach();
+            label.before(checkbox);
+        }
+        else {
+            label = $('<label>');
+        }
+
+        label.attr({'for': id, 'class': 'custom-control-label', title: checkbox.attr('title') || ''})
+            .on('click', function(e) { e.stopPropagation(); });
+
+        checkbox.addClass('form-check-input custom-control-input')
+            .wrap('<div class="custom-control custom-switch">')
+            .parent().append(label);
     };
 
     /**
@@ -3577,7 +3587,7 @@ function rcube_elastic_ui()
 
         if (is_table) {
             // Hide unwanted table cells
-            sw.parent().parent().hide();
+            sw.parents('tr').first().hide();
             parent.prev().hide();
             // Modify the textarea cell to use 100% width
             parent.addClass('col-sm-12');
