@@ -4311,19 +4311,14 @@ function rcube_webmail()
       if (state > 1) {
         // build content of the dialog
         $.each({cur: 1, sub: 2, all: 4}, function(i, v) {
-          var label = $('<label>').attr('style', 'display:block; line-height:22px'),
-            text = $('<span>').text(ref.get_label('folders-' + i)),
-            input = $('<input>').attr({type: 'radio', value: i, name: 'mode'});
+          var id = 'readallmode' + i,
+            label = $('<label>').attr('for', id).text(ref.get_label('folders-' + i)),
+            input = $('<input>').attr({type: 'radio', value: i, name: 'mode', id: id, disabled: !(state & v)});
 
-          if (!(state & v)) {
-            label.attr('class', 'disabled');
-            input.attr('disabled', true);
-          }
-
-          nodes.push(label.append(input).append(text));
+          nodes.push($('<li>').append([input, label]));
         });
 
-        content = $('<div>').append(nodes);
+        content = $('<ul class="proplist">').append(nodes);
         $('input:not([disabled]):first', content).attr('checked', true);
 
         this.simple_dialog(content, this.get_label('markallread'),
