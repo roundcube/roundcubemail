@@ -664,6 +664,10 @@ html.ms .propform {
 
         input[type=radio] {
             margin-right: .5em;
+
+            &:disabled + label {
+                opacity: .5;
+            }
         }
 
         label:not(.input-group-text) {
