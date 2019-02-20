@@ -49,7 +49,10 @@ if ($uid) {
 
         $OUTPUT->add_handlers(array('dialogcontent' => 'rcmail_headers_output'));
 
-        if (!$inline) {
+        if ($inline) {
+            $OUTPUT->set_env('dialog_class', 'text-nowrap');
+        }
+        else {
             $OUTPUT->command('set_headers', $source);
         }
     }
