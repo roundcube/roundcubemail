@@ -2127,8 +2127,7 @@ class rcmail extends rcube
         $content = $attrib['prefix'] . $input->show();
 
         if ($attrib['mode'] != 'smart') {
-            $content  = html::div(null, $content);
-            $content .= $hint;
+            $content = html::div(null, $content . $hint);
         }
 
         if (rcube_utils::get_boolean($attrib['buttons'])) {
