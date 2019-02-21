@@ -354,7 +354,7 @@ function rcube_webmail()
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
-          this.enable_command(this.env.compose_commands, 'identities', 'responses', true);
+          this.enable_command(this.env.compose_commands, true);
 
           // add more commands (not enabled)
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
@@ -394,7 +394,6 @@ function rcube_webmail()
         }
         else if (this.env.action == 'bounce') {
           this.init_messageform_inputs();
-          this.enable_command('identities', true);
           this.env.compose_commands = [];
         }
         else if (this.env.action == 'get') {
@@ -8876,6 +8875,7 @@ function rcube_webmail()
       this.set_busy(true, 'loading');
 
     if (this.is_framed()) {
+      url = url.replace(/&_framed=1/, '');
       parent.rcmail.redirect(url, lock);
     }
     else {
