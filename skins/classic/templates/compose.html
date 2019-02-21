@@ -212,7 +212,7 @@
         <roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
         <li><label class="comment"><roundcube:label name="manageresponses" /></label></li>
         <roundcube:button command="save-response" type="link-menuitem" label="newresponse" classAct="active" unselectable="on" />
-        <roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
+        <roundcube:button name="responses" type="link-menuitem" label="editresponses" class="active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
     </ul>
 </div>
 
