@@ -796,7 +796,7 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=file],[type=radio],[type=checkbox]),textarea';
+        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=radio],[type=checkbox]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
 
@@ -954,6 +954,27 @@ function rcube_elastic_ui()
             nav.append(tabs).insertBefore(item);
             // activate the first tab
             $('a.nav-link:first', nav).click();
+        });
+
+        $('input[type=file]:not(.custom-file-input)', context).each(function() {
+            var label_text = rcmail.gettext('choosefile' + (this.multiple ? 's' : '')),
+                label = $('<label>').attr({'class': 'custom-file-label',
+                    'data-browse': rcmail.gettext('browse')}).text(label_text);
+
+            $(this).addClass('custom-file-input').wrap('<div class="custom-file">');
+            $(this).on('change', function() {
+                    var text = label_text;
+                    if (this.files.length) {
+                        text = this.files[0].name;
+                        if (this.files.length > 1) {
+                            text += ', ...';
+                        }
+                    }
+
+                    // Note: We don't use label variable to allow cloning of the input
+                    $(this).next().text(text);
+                })
+                .parent().append(label);
         });
 
         // Make tables pretier
@@ -2612,7 +2633,7 @@ function rcube_elastic_ui()
         }
 
         var content = $('#uploadform'),
-            dialog = content.clone();
+            dialog = content.clone(true);
 
         var save_func = function(e) {
             return rcmail.command('import-messages', $(dialog.find('form')[0]));

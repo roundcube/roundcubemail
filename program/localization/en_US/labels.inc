@@ -445,6 +445,9 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
+$labels['choosefile'] = 'Choose file...';
+$labels['choosefiles'] = 'Choose files...';
+$labels['browse'] = 'Browse';
 
 $labels['newcontact'] = 'Create new contact';
 $labels['deletecontact'] = 'Delete selected contacts';
@@ -747,5 +750,3 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
-
-?>

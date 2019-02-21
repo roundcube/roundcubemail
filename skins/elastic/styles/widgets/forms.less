@@ -1199,7 +1199,7 @@ html.ms .propform {
 }
 
 
-/*** Bootstrap style overrides ***/
+/*** Bootstrap style overrides and improvements ***/
 
 .form-control {
     color: @color-font;
@@ -1328,4 +1328,24 @@ html.ms .propform {
             transform: translateX(1rem);
         }
     }
+}
+
+.custom-file {
+    display: block;
+
+    .custom-file-label {
+        white-space: nowrap;
+        .overflow-ellipsis;
+        padding-right: 100px;
+        line-height: 1.5 !important;
+    }
+
+    & + .hint {
+        margin-top: .25rem;
+    }
+}
+
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: @color-input-border-focus;
+    box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
 }
