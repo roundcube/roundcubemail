@@ -377,6 +377,26 @@ input.smart-upload {
     }
 }
 
+fieldset.advanced {
+    > legend {
+        width: auto;
+        cursor: pointer;
+
+        &:after {
+            &:extend(.font-icon-class);
+            float: right;
+            margin: 0 0 0 .25rem;
+            line-height: inherit;
+            font-size: inherit;
+            content: @fa-var-angle-up;
+        }
+
+        &.closed:after {
+            content: @fa-var-angle-down;
+        }
+    }
+}
+
 @media screen and (max-width: @screen-width-bs-phone) {
     .formcontent .text-only {
         .form-group:not(tr) {

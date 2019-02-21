@@ -909,6 +909,16 @@ function rcube_elastic_ui()
             });
         });
 
+        // Advanced options form
+        $('fieldset.advanced', context).each(function() {
+            var table = $(this).children('.propform').first();
+            table.wrap($('<div>').addClass('collapse'));
+            $(this).children('legend').first().addClass('closed').on('click', function() {
+                table.parent().collapse('toggle');
+                $(this).toggleClass('closed');
+            });
+        });
+
         // Other forms, e.g. Insert response
         $('.propform > .prop.block:not(.row)', context).each(function() {
             $(this).addClass('form-group row').each(function() {
