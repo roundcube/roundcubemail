@@ -159,9 +159,11 @@ class squirrelmail_usercopy extends rcube_plugin
 
         /**** File based backend ****/
         if ($rcmail->config->get('squirrelmail_driver') == 'file' && ($srcdir = $rcmail->config->get('squirrelmail_data_dir'))) {
+
             if (($hash_level = $rcmail->config->get('squirrelmail_data_dir_hash_level')) > 0) {
                 $srcdir = slashify($srcdir).chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
             }
+
             $file_charset = $rcmail->config->get('squirrelmail_file_charset');
 
             $prefsfile = slashify($srcdir) . $uname . '.pref';
@@ -194,12 +196,15 @@ class squirrelmail_usercopy extends rcube_plugin
 
                 // parse address book file
                 if (filesize($abookfile)) {
-                    foreach (file($abookfile) as $line) {
-                        $line = $this->convert_charset(rtrim($line), $file_charset);
-                        list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = explode('|', $line);
-                        if ($rec['name'] && $rec['email']) {
-                            $this->abook[] = $rec;
+                    $rec = array();
+                    if(($abook_fh = fopen($abookfile, 'r')) !== FALSE){
+                        while(($line = fgetcsv($abook_fh, 2048, '|')) !== FALSE){
+                            list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = $line;
+                            if ($rec['name'] && $rec['email']) {
+                                $this->abook[] = $rec;
+                            }
                         }
+                        fclose($abook_fh);
                     }
                 }
             }
