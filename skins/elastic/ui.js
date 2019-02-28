@@ -3012,7 +3012,8 @@ function rcube_elastic_ui()
         }
 
         bar.find('.value').css('width', value + '%')[value >= 90 ? 'addClass' : 'removeClass']('warning');
-        element.attr('title', element.find('.count').attr('title'));
+        // set title and reset tooltip's data (needed in case of empty title)
+        element.attr({'data-original-title': '', title: element.find('.count').attr('title')});
 
         if (p.table) {
             element.css('cursor', 'pointer').data('popup-pos', 'top')
