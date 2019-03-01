@@ -195,22 +195,23 @@ class squirrelmail_usercopy extends rcube_plugin
 
                 // parse address book file
                 if (filesize($abookfile)) {
-                    $rec = array();
-                    if (($abook_fh = fopen($abookfile, 'r')) !== FALSE) {
 
-                        while (($line = fgetcsv($abook_fh, 2048, '|')) !== FALSE) {
+                    foreach (file($abookfile) as $line) {
 
-                            list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = $line;
+                        $line = $this->convert_charset(rtrim($line), $file_charset);
+                        $line = str_getcsv($line, "|");
 
-                            if ($rec['name'] && $rec['email']) {
-                                $this->abook[] = array_map(function ($entry) use ($file_charset) {
-                                    return $this->convert_charset($entry, $file_charset);
-                                }, $rec);
-                            }
+                        $rec = array(
+                            'name'      => $line[0],
+                            'firstname' => $line[1],
+                            'surname'   => $line[2],
+                            'email'     => $line[3],
+                            'notes'     => $line[4],
+                        );
 
+                        if ($rec['name'] && $rec['email']) {
+                            $this->abook[] = $rec;
                         }
-
-                        fclose($abook_fh);
                     }
                 }
             }
