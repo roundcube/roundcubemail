@@ -75,7 +75,7 @@ FOR DEVELOPERS
 - The `<html>` element will receive special classes that will be updated on resize
   or orientation change:
     - `touch`: A touch device, screen width <= 1024px,
-    - 'layout-large`: Screen width > 1200px,
+    - `layout-large`: Screen width > 1200px,
     - `layout-normal`: Screen width <= 1200px and >= 768px,
     - `layout-small`: Screen width < 768px and > 480px,
     - `layout-phone`: Screen width <= 480px.
