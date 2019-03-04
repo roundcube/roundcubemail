@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Elastic: Add hide/show for advanced preferences (#6632)
+
+RELEASE 1.4-rc1
+---------------
 - Changed 'password_charset' default to 'UTF-8' (#6522)
 - Add skins_allowed option (#6483)
 - SMTP GSSAPI support via krb_authentication plugin (#6417)
