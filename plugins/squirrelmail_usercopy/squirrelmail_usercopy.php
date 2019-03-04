@@ -163,7 +163,6 @@ class squirrelmail_usercopy extends rcube_plugin
                 $srcdir = slashify($srcdir).chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
             }
             $file_charset = $rcmail->config->get('squirrelmail_file_charset');
-
             $prefsfile = slashify($srcdir) . $uname . '.pref';
             $abookfile = slashify($srcdir) . $uname . '.abook';
             $sigfile   = slashify($srcdir) . $uname . '.sig';
@@ -194,9 +193,20 @@ class squirrelmail_usercopy extends rcube_plugin
 
                 // parse address book file
                 if (filesize($abookfile)) {
+
                     foreach (file($abookfile) as $line) {
+
                         $line = $this->convert_charset(rtrim($line), $file_charset);
-                        list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = explode('|', $line);
+                        $line = str_getcsv($line, "|");
+
+                        $rec = array(
+                            'name'      => $line[0],
+                            'firstname' => $line[1],
+                            'surname'   => $line[2],
+                            'email'     => $line[3],
+                            'notes'     => $line[4],
+                        );
+
                         if ($rec['name'] && $rec['email']) {
                             $this->abook[] = $rec;
                         }
@@ -252,7 +262,7 @@ class squirrelmail_usercopy extends rcube_plugin
     private function convert_charset($str, $charset = null)
     {
         if (!$charset) {
-            return utf8_encode($sig);
+            return utf8_encode($str);
         }
 
         return rcube_charset::convert($str, $charset, RCUBE_CHARSET);
