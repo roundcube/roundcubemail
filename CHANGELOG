@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Elastic: Add hide/show for advanced preferences (#6632)
+- Fix bug where next row wasn't selected after deleting a collapsed thread (#6655)
 
 RELEASE 1.4-rc1
 ---------------
