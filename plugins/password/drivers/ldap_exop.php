@@ -6,6 +6,7 @@
  * Driver for passwords stored in LDAP
  * This driver is based on Simple LDAP Password Driver, but uses
  * Password Modify Extended Operation
+ * PHP >= 7.2 required
  *
  * @version 1.0
  * @author Peter Kubica <peter@kubica.ch>

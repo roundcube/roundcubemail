@@ -383,6 +383,7 @@
  
  Modified version of ldap_simple.
  Password is changed using ldap_exop_passwd operation.
+ PHP >= 7.2 required.
  
  
  2.2. Password Strength Drivers
