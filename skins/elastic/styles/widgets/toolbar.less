@@ -51,155 +51,6 @@
             margin: 0;
             line-height: 1.75;
         }
-
-        &.reply:before {
-            content: @fa-var-reply;
-        }
-        &.reply-all:before {
-            content: @fa-var-reply-all;
-        }
-        &.forward:before {
-            content: @fa-var-share;
-        }
-        &.delete:before {
-            content: @fa-var-trash-alt;
-        }
-        &.markmessage:before {
-            content: @fa-var-tag;
-        }
-        &.more:before {
-            content: @fa-var-ellipsis-h;
-        }
-        &.dropdown:before {
-            content: @fa-var-caret-down;
-        }
-        &.settings:before {
-            content: @fa-var-sliders-h;
-        }
-        &.create:before {
-            content: @fa-var-plus-square;
-        }
-        &.move:before {
-            content: @fa-var-arrows-alt;
-        }
-        &.purge:before {
-            content: @fa-var-eraser;
-        }
-        &.print:before {
-            content: @fa-var-print;
-        }
-        &.search:before {
-            content: @fa-var-search;
-        }
-        &.upload:before,
-        &.import:before {
-            content: @fa-var-upload;
-        }
-        &.download:before,
-        &.export:before {
-            content: @fa-var-download;
-        }
-        &.compose:before {
-            content: @fa-var-edit;
-        }
-        &.archive:before {
-            content: @fa-var-archive;
-        }
-        &.junk:before {
-            content: @fa-var-fire-alt;
-        }
-        &.notjunk:before {
-            content: @fa-var-inbox;
-        }
-        &.enigma:before,
-        &.encrypt:before {
-            content: @fa-var-lock;
-        }
-        &.prev:before {
-            content: @fa-var-arrow-left;
-        }
-        &.next:before {
-            content: @fa-var-arrow-right;
-        }
-        &.firstpage:before {
-            content: @fa-var-angle-double-left;
-        }
-        &.prevpage:before {
-            content: @fa-var-angle-left;
-        }
-        &.nextpage:before {
-            content: @fa-var-angle-right;
-        }
-        &.lastpage:before {
-            content: @fa-var-angle-double-right;
-        }
-        &.send:before {
-            content: @fa-var-paper-plane;
-        }
-        &.back:before {
-            content: @fa-var-arrow-left;
-        }
-        &.closewin:before {
-            content: @fa-var-window-close;
-        }
-        &.save:before {
-            .font-icon-regular(@fa-var-save);
-        }
-        &.vcard:before,
-        &.attach:before {
-            content: @fa-var-paperclip;
-        }
-        &.spellcheck:before {
-            content: @fa-var-magic; // TODO
-        }
-        &.signature:before {
-            content: @fa-var-signature;
-        }
-        &.responses:before {
-            content: @fa-var-comment;
-        }
-        &.select:before {
-            .font-icon-regular(@fa-var-check-circle);
-        }
-        &.threads:before {
-            content: @fa-var-comments;
-        }
-        &.actions:before {
-            content: @fa-var-cog;
-        }
-        &.refresh:before {
-            content: @fa-var-sync;
-        }
-        &.addressbook:before {
-            content: @fa-var-user;
-        }
-        &.expand:before {
-            content: @fa-var-angle-right;
-        }
-        &.collapse:before {
-            content: @fa-var-angle-down;
-        }
-        &.submit:before {
-            content: @fa-var-check;
-        }
-        &.edit:before {
-            content: @fa-var-pencil-alt;
-        }
-        &.qrcode:before {
-            content: @fa-var-qrcode;
-        }
-        &.properties:before {
-            content: @fa-var-file;
-        }
-        &.zoomin:before {
-            content: @fa-var-search-plus;
-        }
-        &.zoomout:before {
-            content: @fa-var-search-minus;
-        }
-        &.rotate:before {
-            content: @fa-var-redo-alt;
-        }
     }
 
     &:not(.popupmenu) span.inner {
@@ -442,175 +293,6 @@
     a:before {
         &:extend(.font-icon-class);
     }
-
-    a.check:before {
-        content: "";
-    }
-    a.check.selected:before {
-        content: @fa-var-check;
-    }
-    a.print:before {
-        content: @fa-var-print;
-    }
-    a.copy:before {
-        content: @fa-var-copy;
-    }
-    a.move:before {
-        content: @fa-var-arrows-alt;
-    }
-    a.purge:before {
-        content: @fa-var-eraser;
-    }
-    a.source:before {
-        content: @fa-var-file-code;
-    }
-    a.download:before {
-        content: @fa-var-download;
-    }
-    a.extwin:before {
-        content: @fa-var-external-link-square-alt;
-    }
-    a.create:before {
-        content: @fa-var-plus-square;
-    }
-    a.edit:before {
-        content: @fa-var-edit;
-    }
-    a.edit.asnew:before {
-        content: @fa-var-pencil-alt;
-    }
-    a.rename:before {
-        content: @fa-var-pencil-alt;
-    }
-    a.read:before {
-        .font-icon-regular(@fa-var-circle);
-    }
-    a.unread:before {
-        content: @fa-var-circle;
-    }
-    a.flag:before {
-        content: @fa-var-flag;
-    }
-    a.unflag:before {
-        .font-icon-regular(@fa-var-flag);
-    }
-    a.filterlink:before {
-        content: @fa-var-filter;
-    }
-    a.reply.list:before,
-    a.reply.all:before {
-        content: @fa-var-reply-all;
-    }
-    a.forward:before,
-    a.forward.bounce:before,
-    a.forward.attachment:before,
-    a.forward.inline:before {
-        content: @fa-var-share;
-    }
-    a.download.mbox:before,
-    a.download.eml:before,
-    a.download.maildir:before {
-        content: @fa-var-download;
-    }
-    a.export.selection:before,
-    a.export.all:before {
-        content: @fa-var-download;
-    }
-    a.select:before {
-        content: @fa-var-check-circle;
-    }
-    a.threads:before {
-        content: @fa-var-comments;
-    }
-    a.selection:before {
-        content: @fa-var-mouse-pointer;
-    }
-    a.select.all:before {
-        .font-icon-regular(@fa-var-check-square);
-    }
-    a.select.none:before {
-        content: @fa-var-times;
-    }
-    a.select.page:before {
-        content: @fa-var-bars;
-    }
-    a.select.flagged:before {
-        content: @fa-var-flag;
-    }
-    a.select.unread:before {
-        content: @fa-var-circle;
-    }
-    a.select.invert:before {
-        .font-icon-regular(@fa-var-square);
-    }
-    a.expand.all:before,
-    a.expand.unread:before,
-    a.expand.none:before {
-        content: @fa-var-comments;
-    }
-    a.search:before {
-        content: @fa-var-search;
-    }
-    a.delete:before {
-        content: @fa-var-trash-alt;
-    }
-    a.expunge:before {
-        content: @fa-var-compress-arrows-alt;
-    }
-    a.import:before {
-        content: @fa-var-upload;
-    }
-    a.settings:before {
-        content: @fa-var-sliders-h;
-    }
-    a.insertresponse:before {
-        content: @fa-var-comment;
-    }
-    a.compose:before {
-        content: @fa-var-edit;
-    }
-    a.addressbook:before {
-        content: @fa-var-user;
-    }
-    a.recipient:before {
-        .font-icon-regular(@fa-var-envelope);
-    }
-    a.status:before {
-        .font-icon-regular(@fa-var-lightbulb);
-    }
-    a.folders:before {
-        content: @fa-var-folder;
-    }
-    a.remove:before {
-        content: @fa-var-eraser;
-    }
-    a.showurl:before {
-        content: @fa-var-link;
-    }
-    a.qrcode:before {
-        content: @fa-var-qrcode;
-    }
-    a.assigngroup:before {
-        content: @fa-var-user-plus;
-    }
-    a.removegroup:before {
-        content: @fa-var-user-times;
-    }
-    a.vcard:before {
-        content: @fa-var-paperclip;
-    }
-    a.encrypt:before {
-        content: @fa-var-lock;
-    }
-    a.encrypt.sign:before {
-        content: @fa-var-lock; // TODO
-    }
-    a.junk:before {
-        content: @fa-var-fire-alt;
-    }
-    a.notjunk:before {
-        content: @fa-var-inbox;
-    }
 }
 
 .toolbarmenu.listing li {
@@ -619,6 +301,256 @@
             color: @color-toolbarmenu-hover;
             background-color: @color-toolbarmenu-hover-background;
         }
+    }
+}
+
+.toolbar a.button,
+.toolbarmenu li a {
+    &.actions:before {
+        content: @fa-var-cog;
+    }
+    &.addressbook:before {
+        content: @fa-var-user;
+    }
+    &.archive:before {
+        content: @fa-var-archive;
+    }
+    &.assigngroup:before {
+        content: @fa-var-user-plus;
+    }
+    &.attach:before,
+    &.vcard:before {
+        content: @fa-var-paperclip;
+    }
+    &.next:before {
+        content: @fa-var-arrow-right;
+    }
+    &.prev:before,
+    &.back:before {
+        content: @fa-var-arrow-left;
+    }
+    &.check:before {
+        content: "";
+    }
+    &.check.selected:before {
+        content: @fa-var-check;
+    }
+    &.closewin:before {
+        content: @fa-var-window-close;
+    }
+    &.collapse:before {
+        content: @fa-var-angle-down;
+    }
+    &.compose:before {
+        content: @fa-var-edit;
+    }
+    &.copy:before {
+        content: @fa-var-copy;
+    }
+    &.create:before {
+        content: @fa-var-plus-square;
+    }
+    &.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.download:before,
+    &.download.eml:before,
+    &.download.maildir:before,
+    &.download.mbox:before {
+        content: @fa-var-download;
+    }
+    &.dropdown:before {
+        content: @fa-var-caret-down;
+    }
+    &.edit:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.encrypt:before,
+    &.enigma:before {
+        content: @fa-var-lock;
+    }
+    &.encrypt.sign:before {
+        content: @fa-var-lock; // TODO
+    }
+    &.expand:before {
+        content: @fa-var-angle-right;
+    }
+    &.expand.all:before,
+    &.expand.none:before,
+    &.expand.unread:before {
+        content: @fa-var-comments;
+    }
+    &.export:before,
+    &.export.all:before,
+    &.export.selection:before {
+        content: @fa-var-download;
+    }
+    &.expunge:before {
+        content: @fa-var-compress-arrows-alt;
+    }
+    &.extwin:before {
+        content: @fa-var-external-link-square-alt;
+    }
+    &.filterlink:before {
+        content: @fa-var-filter;
+    }
+    &.firstpage:before {
+        content: @fa-var-angle-double-left;
+    }
+    &.nextpage:before {
+        content: @fa-var-angle-right;
+    }
+    &.prevpage:before {
+        content: @fa-var-angle-left;
+    }
+    &.lastpage:before {
+        content: @fa-var-angle-double-right;
+    }
+    &.flag:before,
+    &.select.flagged:before {
+        .font-icon-solid(@fa-var-flag);
+    }
+    &.unflag:before {
+        .font-icon-regular(@fa-var-flag);
+    }
+    &.folders:before {
+        content: @fa-var-folder;
+    }
+    &.forward:before,
+    &.forward.attachment:before,
+    &.forward.bounce:before,
+    &.forward.inline:before {
+        content: @fa-var-share;
+    }
+    &.import:before,
+    &.upload:before {
+        content: @fa-var-upload;
+    }
+    &.insertresponse:before {
+        content: @fa-var-comment;
+    }
+    &.junk:before {
+        content: @fa-var-fire-alt;
+    }
+    &.notjunk:before {
+        content: @fa-var-inbox;
+    }
+    &.markmessage:before {
+        content: @fa-var-tag;
+    }
+    &.more:before {
+        content: @fa-var-ellipsis-h;
+    }
+    &.move:before {
+        content: @fa-var-arrows-alt;
+    }
+    &.print:before {
+        content: @fa-var-print;
+    }
+    &.properties:before {
+        content: @fa-var-file;
+    }
+    &.purge:before {
+        content: @fa-var-eraser;
+    }
+    &.qrcode:before {
+        content: @fa-var-qrcode;
+    }
+    &.read:before {
+        .font-icon-regular(@fa-var-circle);
+    }
+    &.unread:before,
+    &.select.unread:before {
+        .font-icon-solid(@fa-var-circle);
+    }
+    &.recipient:before {
+        .font-icon-regular(@fa-var-envelope);
+    }
+    &.refresh:before {
+        content: @fa-var-sync;
+    }
+    &.remove:before {
+        content: @fa-var-eraser;
+    }
+    &.removegroup:before {
+        content: @fa-var-user-times;
+    }
+    &.rename:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.reply:before {
+        content: @fa-var-reply;
+    }
+    &.reply-all:before,
+    &.reply.all:before,
+    &.reply.list:before {
+        content: @fa-var-reply-all;
+    }
+    &.responses:before {
+        content: @fa-var-comment;
+    }
+    &.rotate:before {
+        content: @fa-var-redo-alt;
+    }
+    &.save:before {
+        .font-icon-regular(@fa-var-save);
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &.search.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.select:before {
+        .font-icon-regular(@fa-var-check-circle);
+    }
+    &.select.all:before {
+        content: @fa-var-check-square;
+    }
+    &.select.invert:before {
+        content: @fa-var-square;
+    }
+    &.select.none:before {
+        .font-icon-solid(@fa-var-times);
+    }
+    &.select.page:before {
+        .font-icon-solid(@fa-var-bars);
+    }
+    &.selection:before {
+        content: @fa-var-mouse-pointer;
+    }
+    &.send:before {
+        content: @fa-var-paper-plane;
+    }
+    &.settings:before {
+        content: @fa-var-sliders-h;
+    }
+    &.showurl:before {
+        content: @fa-var-link;
+    }
+    &.signature:before {
+        content: @fa-var-signature;
+    }
+    &.source:before {
+        content: @fa-var-file-code;
+    }
+    &.spellcheck:before {
+        content: @fa-var-magic; // TODO
+    }
+    &.status:before {
+        .font-icon-regular(@fa-var-lightbulb);
+    }
+    &.submit:before {
+        content: @fa-var-check;
+    }
+    &.threads:before {
+        content: @fa-var-comments;
+    }
+    &.zoomin:before {
+        content: @fa-var-search-plus;
+    }
+    &.zoomout:before {
+        content: @fa-var-search-minus;
     }
 }
 
