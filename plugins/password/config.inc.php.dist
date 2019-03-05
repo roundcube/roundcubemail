@@ -172,7 +172,7 @@ $config['password_pop_port'] = 106;
 $config['password_saslpasswd_args'] = '';
 
 
-// LDAP and LDAP_SIMPLE Driver options
+// LDAP, LDAP_SIMPLE and LDAP_EXOP Driver options
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
