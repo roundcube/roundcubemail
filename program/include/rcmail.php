@@ -328,6 +328,9 @@ class rcmail extends rcube
             );
         }
 
+        $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
+        $list   = $plugin['sources'];
+ 
         if (!empty($ldap_config)) {
             foreach ($ldap_config as $id => $prop) {
                 // handle misconfiguration
@@ -345,9 +348,6 @@ class rcmail extends rcube
                 );
             }
         }
-
-        $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
-        $list   = $plugin['sources'];
 
         foreach ($list as $idx => $item) {
             // register source for shutdown function
