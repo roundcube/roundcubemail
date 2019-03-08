@@ -811,7 +811,7 @@ function rcube_elastic_ui()
         $('table.propform', context).each(function() {
             var text_rows = 0, form_rows = 0;
 
-            $(this).find('> tbody > tr').each(function() {
+            $(this).find('> tbody > tr, > tr').each(function() {
                 var first, last, row = $(this),
                     row_classes = ['form-group', 'row'],
                     cells = row.children('td');
