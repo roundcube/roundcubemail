@@ -33,6 +33,16 @@ class rcube_ldap_exop_password
 
     function save($curpass, $passwd)
     {
+        if (!function_exists('ldap_exop_passwd')) {
+            rcube::raise_error(array(
+                    'code' => 100, 'type' => 'ldap',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "ldap_exop_passwd not supported"
+                ),
+                true);
+            return PASSWORD_CONNECT_ERROR;
+        }
+
         $rcmail = rcmail::get_instance();
 
         $this->debug = $rcmail->config->get('ldap_debug');
@@ -118,11 +128,6 @@ class rcube_ldap_exop_password
         }
 
         $this->_debug("S: OK");
-
-        if (!function_exists('ldap_exop_passwd')) {
-            $this->_debug("ldap_exop_passwd not supported");
-            return PASSWORD_CONNECT_ERROR;
-        }
 
         if (!ldap_exop_passwd($ds, $user_dn, $curpass, $passwd)) {
             $this->_debug("S: ".ldap_error($ds));
