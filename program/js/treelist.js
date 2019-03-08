@@ -1024,8 +1024,7 @@ function rcube_treelist_widget(node, p)
 
     // enable auto-scrolling of list container
     if (container.height() > container.parent().height()) {
-      container.parent()
-        .mousemove(function(e) {
+      container.parent().on('mousemove.treelist', function(e) {
           var scroll = 0,
             mouse = rcube_event.get_mouse_pos(e);
           mouse.y -= container.parent().offset().top;
@@ -1045,13 +1044,13 @@ function rcube_treelist_widget(node, p)
             window.clearTimeout(scroll_timer);
             scroll_timer = null;
           }
-        })
-        .mouseleave(function() {
+      })
+      .on('mouseleave.treelist', function() {
           if (scroll_timer) {
             window.clearTimeout(scroll_timer);
             scroll_timer = null;
           }
-        });
+      });
     }
   }
 
@@ -1060,6 +1059,9 @@ function rcube_treelist_widget(node, p)
    */
   function drag_end()
   {
+    container.parent().off('.treelist');
+    $('li.droptarget', container).removeClass('droptarget');
+
     if (!drag_active)
       return;
 
@@ -1071,8 +1073,6 @@ function rcube_treelist_widget(node, p)
       autoexpand_timer = null;
       autoexpand_item = null;
     }
-
-    $('li.droptarget', container).removeClass('droptarget');
   }
 
   /**
