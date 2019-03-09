@@ -7,7 +7,7 @@
  * This driver is based on Edouard's LDAP Password Driver, but does not
  * require PEAR's Net_LDAP2 to be installed
  *
- * @version 2.0
+ * @version 2.1
  * @author Wout Decre <wout@canodus.be>
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
@@ -30,15 +30,95 @@
 class rcube_ldap_simple_password
 {
     private $debug = false;
+    private $user;
+    private $conn;
 
-    function save($curpass, $passwd)
+
+    public function save($curpass, $passwd)
+    {
+        $rcmail = rcmail::get_instance();
+
+        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
+        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
+        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
+        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
+        $samba        = $rcmail->config->get('password_ldap_samba');
+        $pass_mode    = $rcmail->config->get('password_ldap_encodage', 'crypt');
+        $crypted_pass = password::hash_password($passwd, $pass_mode);
+
+        // Support password_ldap_samba option for backward compat.
+        if ($samba && !$smbpwattr) {
+            $smbpwattr  = 'sambaNTPassword';
+            $smblchattr = 'sambaPwdLastSet';
+        }
+
+        // Crypt new password
+        if (!$crypted_pass) {
+            return PASSWORD_CRYPT_ERROR;
+        }
+
+        // Crypt new Samba password
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
+            return PASSWORD_CRYPT_ERROR;
+        }
+
+        // Connect and bind
+        $ret = $this->connect($curpass);
+        if ($ret !== true) {
+            return $ret;
+        }
+
+        $entry[$pwattr] = $crypted_pass;
+
+        // Update PasswordLastChange Attribute if desired
+        if ($lchattr) {
+            $entry[$lchattr] = (int)(time() / 86400);
+        }
+
+        // Update Samba password
+        if ($smbpwattr) {
+            $entry[$smbpwattr] = $samba_pass;
+        }
+
+        // Update Samba password last change
+        if ($smblchattr) {
+            $entry[$smblchattr] = time();
+        }
+
+        $this->_debug("C: Modify $user_dn: " . print_r($entry, true));
+
+        if (!ldap_modify($this->conn, $this->user, $entry)) {
+            $this->_debug("S: ".ldap_error($this->conn));
+
+            $errno = ldap_errno($this->conn);
+
+            ldap_unbind($this->conn);
+
+            if ($errno == 0x13) {
+                return PASSWORD_CONSTRAINT_VIOLATION;
+            }
+
+            return PASSWORD_CONNECT_ERROR;
+        }
+
+        $this->_debug("S: OK");
+
+        // All done, no error
+        ldap_unbind($this->conn);
+
+        return PASSWORD_SUCCESS;
+    }
+
+    /**
+     * Connect and bind to LDAP server
+     */
+    function connect($curpass)
     {
         $rcmail = rcmail::get_instance();
 
         $this->debug = $rcmail->config->get('ldap_debug');
-
-        $ldap_host = $rcmail->config->get('password_ldap_host', 'localhost');
-        $ldap_port = $rcmail->config->get('password_ldap_port', '389');
+        $ldap_host   = $rcmail->config->get('password_ldap_host', 'localhost');
+        $ldap_port   = $rcmail->config->get('password_ldap_port', '389');
 
         $this->_debug("C: Connect to $ldap_host:$ldap_port");
 
@@ -69,9 +149,6 @@ class rcube_ldap_simple_password
                 return PASSWORD_CONNECT_ERROR;
             }
         }
-
-        // include 'ldap' driver, we share some static methods with it
-        require_once INSTALL_PATH . 'plugins/password/drivers/ldap.php';
 
         // other plugins might want to modify user DN
         $plugin = $rcmail->plugins->exec_hook('password_ldap_bind', array(
@@ -106,30 +183,6 @@ class rcube_ldap_simple_password
             break;
         }
 
-        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
-        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
-        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
-        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
-        $samba        = $rcmail->config->get('password_ldap_samba');
-        $pass_mode    = $rcmail->config->get('password_ldap_encodage', 'crypt');
-        $crypted_pass = password::hash_password($passwd, $pass_mode);
-
-        // Support password_ldap_samba option for backward compat.
-        if ($samba && !$smbpwattr) {
-            $smbpwattr  = 'sambaNTPassword';
-            $smblchattr = 'sambaPwdLastSet';
-        }
-
-        // Crypt new password
-        if (!$crypted_pass) {
-            return PASSWORD_CRYPT_ERROR;
-        }
-
-        // Crypt new Samba password
-        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
-            return PASSWORD_CRYPT_ERROR;
-        }
-
         $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
 
         // Bind
@@ -143,45 +196,10 @@ class rcube_ldap_simple_password
 
         $this->_debug("S: OK");
 
-        $entry[$pwattr] = $crypted_pass;
+        $this->conn = $ds;
+        $this->user = $user_dn;
 
-        // Update PasswordLastChange Attribute if desired
-        if ($lchattr) {
-            $entry[$lchattr] = (int)(time() / 86400);
-        }
-
-        // Update Samba password
-        if ($smbpwattr) {
-            $entry[$smbpwattr] = $samba_pass;
-        }
-
-        // Update Samba password last change
-        if ($smblchattr) {
-            $entry[$smblchattr] = time();
-        }
-
-        $this->_debug("C: Modify $user_dn: " . print_r($entry, true));
-
-        if (!ldap_modify($ds, $user_dn, $entry)) {
-            $this->_debug("S: ".ldap_error($ds));
-
-            $errno = ldap_errno($ds);
-
-            ldap_unbind($ds);
-
-            if ($errno == 0x13) {   // LDAP_CONSTRAINT_VIOLATION
-                return PASSWORD_CONSTRAINT_VIOLATION;
-            }
-
-            return PASSWORD_CONNECT_ERROR;
-        }
-
-        $this->_debug("S: OK");
-
-        // All done, no error
-        ldap_unbind($ds);
-
-        return PASSWORD_SUCCESS;
+        return true;
     }
 
     /**
@@ -231,6 +249,34 @@ class rcube_ldap_simple_password
         }
 
         return ldap_get_dn($ds, ldap_first_entry($ds, $sr));
+    }
+
+    /**
+     * Substitute %login, %name, %domain, %dc in $str
+     * See plugin config for details
+     */
+    public static function substitute_vars($str)
+    {
+        $str = str_replace('%login', $_SESSION['username'], $str);
+        $str = str_replace('%l', $_SESSION['username'], $str);
+
+        $parts = explode('@', $_SESSION['username']);
+
+        if (count($parts) == 2) {
+            $dc = 'dc='.strtr($parts[1], array('.' => ',dc=')); // hierarchal domain string
+
+            $str = str_replace('%name', $parts[0], $str);
+            $str = str_replace('%n', $parts[0], $str);
+            $str = str_replace('%dc', $dc, $str);
+            $str = str_replace('%domain', $parts[1], $str);
+            $str = str_replace('%d', $parts[1], $str);
+        }
+        else if ( count($parts) == 1) {
+            $str = str_replace('%name', $parts[0], $str);
+            $str = str_replace('%n', $parts[0], $str);
+        }
+
+        return $str;
     }
 
     /**
