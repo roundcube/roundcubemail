@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Password: Added ldap_exop driver (#4992)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
