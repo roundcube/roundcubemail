@@ -9,6 +9,12 @@
 	<div class="header">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-filterslist" class="header-title"><roundcube:label name="managesieve.filters" /></span>
+		<roundcube:if condition="!env:managesieve_no_set_list" />
+			<div class="toolbar" role="toolbar">
+				<roundcube:button name="filtersetactions" type="link" title="managesieve.arialabelfiltersetactions" label="actions"
+					class="button actions" innerclass="inner" data-popup="filterset-menu" />
+			</div>
+		<roundcube:endif />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
 	<roundcube:if condition="!env:managesieve_no_set_list" />
@@ -27,12 +33,6 @@
 			role="listbox" data-list="filters_list"
 			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="plugin.managesieve-add" />
 	</div>
-	<roundcube:if condition="!env:managesieve_no_set_list" />
-	<div class="footer toolbar">
-		<roundcube:button name="filtersetactions" type="link" title="managesieve.arialabelfiltersetactions" label="actions"
-			class="button actions" innerclass="inner" data-popup="filterset-menu" />
-	</div>
-	<roundcube:endif />
 </div>
 
 <!-- filter details frame -->
