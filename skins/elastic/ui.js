@@ -3803,9 +3803,9 @@ function rcube_elastic_ui()
 
             if (input.data('type') == 'list') {
                 input.data('error-msg', this[2]);
+                $('#' + this[0] + '_list > .invalid-feedback').text(this[2]);
                 return;
             }
-
 
             input.after($('<span class="invalid-feedback">').text(this[2]));
         });
