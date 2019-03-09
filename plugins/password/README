@@ -48,6 +48,7 @@
  2.1.20. Plesk (Plesk RPC-API)
  2.1.21. Kpasswd
  2.1.22. Modoboa
+ 2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  3.      Driver API
@@ -377,6 +378,14 @@
  See config.inc.php.dist file for configuration description.
 
 
+ 2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ -------------------------------------------------------------
+ 
+ Modified version of ldap_simple.
+ Password is changed using ldap_exop_passwd operation.
+ PHP >= 7.2 required.
+ 
+ 
  2.2. Password Strength Drivers
  ------------------------------
 
