@@ -29,9 +29,9 @@
 
 class rcube_ldap_simple_password
 {
-    private $debug = false;
-    private $user;
-    private $conn;
+    protected $debug = false;
+    protected $user;
+    protected $conn;
 
 
     public function save($curpass, $passwd)
@@ -159,7 +159,7 @@ class rcube_ldap_simple_password
             $user_dn = $plugin['user_dn'];
         }
         else if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
-            $user_dn = rcube_ldap_password::substitute_vars($user_dn);
+            $user_dn = self::substitute_vars($user_dn);
         }
         else {
             $user_dn = $this->search_userdn($rcmail, $ds);
@@ -228,8 +228,8 @@ class rcube_ldap_simple_password
 
         $this->_debug("S: OK");
 
-        $search_base   = rcube_ldap_password::substitute_vars($search_base);
-        $search_filter = rcube_ldap_password::substitute_vars($search_filter);
+        $search_base   = self::substitute_vars($search_base);
+        $search_filter = self::substitute_vars($search_filter);
 
         $this->_debug("C: Search $search_base for $search_filter");
 
@@ -282,7 +282,7 @@ class rcube_ldap_simple_password
     /**
      * Prints debug info to the log
      */
-    private function _debug($str)
+    protected function _debug($str)
     {
         if ($this->debug) {
             rcube::write_log('ldap', $str);
