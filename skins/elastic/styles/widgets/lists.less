@@ -44,6 +44,10 @@
         width: 100%;
     }
 
+    tr:hover td{
+      background-color: @color-list-hover;
+    }
+
     li.selected,
     tr.selected td {
         color: @color-list-selected;
@@ -120,13 +124,13 @@ html:not(.touch) {
         li > a,
         tbody tr > td:first-child,
         &:not(.withselection) tbody tr > td.selection + td {
-            border-left: 2px solid transparent;
+            border-left: 4px solid transparent;
         }
 
         li > a:focus,
         &.focus tbody tr.focused > td:first-child,
         &.focus:not(.withselection) tbody tr.focused > td.selection + td {
-            border-left: 2px solid @color-list-focus-indicator;
+            border-left: 4px solid @color-list-focus-indicator;
             outline: 0;
         }
     }
@@ -403,6 +407,10 @@ ul.treelist {
             padding-left: @listing-treetoggle-width;
         }
 
+
+        & > a:hover {
+            background: @color-list-hover;
+        }
         &.selected {
             // reset .listing selection style
             color: inherit;
