@@ -1294,22 +1294,17 @@ EOF;
                     $object = $this->deprecated_template_objects[$object];
                 }
 
-                // we are calling a class/method
-                if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
-                    if (is_callable($handler)) {
-                        $this->prepare_object_attribs($attrib);
+                $handler = $this->object_handlers[$object];
 
-                        // We assume that objects with src attribute are internal (in most
-                        // cases this is a watermark frame). We need this to make sure assets_path
-                        // is added to the internal assets paths
-                        $external = empty($attrib['src']);
-                        $content  = call_user_func($handler, $attrib);
-                    }
-                }
                 // execute object handler function
-                else if (is_callable($handler)) {
+                if (is_callable($handler)) {
                     $this->prepare_object_attribs($attrib);
-                    $content = call_user_func($handler, $attrib);
+
+                    // We assume that objects with src attribute are internal (in most
+                    // cases this is a watermark frame). We need this to make sure assets_path
+                    // is added to the internal assets paths
+                    $external = empty($attrib['src']);
+                    $content  = call_user_func($handler, $attrib);
                 }
                 else if ($object == 'doctype') {
                     $content = html::doctype($attrib['value']);
