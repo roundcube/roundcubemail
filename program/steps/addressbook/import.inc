@@ -26,6 +26,7 @@ $importstep = 'rcmail_import_form';
 
 if (is_array($_FILES['_file'])) {
     $replace      = (bool)rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC);
+    $skip         = (bool)rcube_utils::get_input_value('_skip', rcube_utils::INPUT_GPC);
     $target       = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
     $with_groups  = intval(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC));
 
@@ -126,7 +127,7 @@ if (is_array($_FILES['_file'])) {
             $email = $vcard->email[0];
             $email = rcube_utils::idn_to_utf8($email);
 
-            if (!$replace) {
+            if ($skip) {
                 $existing = null;
                 // compare e-mail address
                 if ($email) {
@@ -258,6 +259,11 @@ function rcmail_import_form($attrib)
     $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
     $table->add('title', html::label('rcmimportreplace', $RCMAIL->gettext('importreplace')));
     $table->add(null, $check_replace->show(rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC)));
+
+    $check_skip = new html_checkbox(array('name' => '_skip', 'value' => 1, 'id' => 'rcmimportskip'));
+    $table->add('title', html::label('rcmimportskip', $RCMAIL->gettext('importskip')));
+    $current_skip = rcube_utils::get_input_value('_skip', rcube_utils::INPUT_GPC);
+    $table->add(null, $check_skip->show(($current_skip !== null ? $current_skip : 1)));
 
     $form .= $table->show(array('id' => null) + $attrib);
 
