@@ -3410,8 +3410,8 @@ function rcube_webmail()
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
   {
-    var len = a_uids.length,
-      i, uid, all_deleted = true,
+    var i, uid, all_deleted = true,
+      len = a_uids.length,
       rows = this.message_list ? this.message_list.rows : {};
 
     if (len == 1) {
@@ -4021,8 +4021,10 @@ function rcube_webmail()
   this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
     var ul = $('<div>').addClass('listing pgpkeyimport');
+
     $.each(candidates, function(i, keyrec) {
       var li = $('<div>').addClass('key');
+
       if (keyrec.revoked)  li.addClass('revoked');
       if (keyrec.disabled) li.addClass('disabled');
       if (keyrec.expired)  li.addClass('expired');
@@ -4111,7 +4113,6 @@ function rcube_webmail()
           });
         });
     });
-
   };
 
   // enable key management for identity
@@ -4119,6 +4120,7 @@ function rcube_webmail()
   {
     var container = $(this.gui_objects.editform).find('.identity-encryption').first();
     var identity_email = $.trim($(this.gui_objects.editform).find('.ff_email').val());
+
     if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
       return;
 
@@ -4186,7 +4188,7 @@ function rcube_webmail()
 
   // start pgp key generation using Mailvelope
   this.mailvelope_show_keygen_container = function(container, identity_email)
-    {
+  {
     var cid = new Date().getTime();
     var user_id = {email: identity_email, fullName: $.trim($(ref.gui_objects.editform).find('.ff_name').val())};
     var options = {userIds: [user_id], keySize: 4096};
@@ -4240,7 +4242,8 @@ function rcube_webmail()
         // start over
         ref.mailvelope_identity_keygen();
       });
-    };
+  };
+
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/
@@ -9776,22 +9779,18 @@ function rcube_webmail()
     if (!form || !form.elements)
       return;
 
-    var n, len, elm;
-
     if (lock)
       this.disabled_form_elements = [];
 
-    for (n=0, len=form.elements.length; n<len; n++) {
-      elm = form.elements[n];
-
-      if (elm.type == 'hidden')
-        continue;
+    $.each(form.elements, function() {
+      if (this.type == 'hidden')
+        return;
       // remember which elem was disabled before lock
-      if (lock && elm.disabled)
-        this.disabled_form_elements.push(elm);
-      else if (lock || $.inArray(elm, this.disabled_form_elements) < 0)
-        elm.disabled = lock;
-    }
+      if (lock && this.disabled)
+        ref.disabled_form_elements.push(this);
+      else if (lock || $.inArray(this, ref.disabled_form_elements) < 0)
+        this.disabled = lock;
+    });
   };
 
   this.mailto_handler_uri = function()
