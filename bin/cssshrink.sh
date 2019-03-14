@@ -24,7 +24,7 @@ if [ ! -r "$JAR_DIR/yuicompressor.jar" ]; then
 	if which wget >/dev/null 2>&1 && which unzip >/dev/null 2>&1; then
 		wget "$COMPILER_URL" -O "/tmp/$$.zip"
 	elif which curl >/dev/null 2>&1 && which unzip >/dev/null 2>&1; then
-		curl "$COMPILER_URL" -o "/tmp/$$.zip"
+		curl -L "$COMPILER_URL" -o "/tmp/$$.zip"
 	else
 		echo "Please download $COMPILER_URL and extract compiler.jar to $JAR_DIR/."
 		exit 1
