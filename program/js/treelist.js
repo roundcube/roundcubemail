@@ -745,6 +745,9 @@ function rcube_treelist_widget(node, p)
 
         li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
       }
+      else {
+        node.collapsed = true;
+      }
       if (li.hasClass('selected')) {
         li.attr('aria-selected', 'true');
         selection = node.id;
