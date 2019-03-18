@@ -1968,6 +1968,11 @@ function rcube_elastic_ui()
                     return true;
                 }
             },
+            close_func = function() {
+                if ($(bar).is('.open')) {
+                    options_button.click();
+                }
+            },
             update_func = function() {
                 $(bar)[is_search_pending() ? 'addClass' : 'removeClass']('active');
             };
@@ -2024,15 +2029,11 @@ function rcube_elastic_ui()
             update_func();
         });
 
-        rcmail.addEventListener('init', function() { update_func(); })
-            .addEventListener('beforelist', function() {
-                if ($(bar).is('.open')) {
-                    options_button.click(); // close options form on 'list' request
-                }
-            })
-            .addEventListener('responsebeforesearch', function() {
-                update_func();
-            });
+        rcmail.addEventListener('init', update_func)
+            .addEventListener('responsebeforesearch', update_func)
+            // close options form on list/search request
+            .addEventListener('beforelist', close_func)
+            .addEventListener('beforesearch', close_func);
     };
 
     /**
