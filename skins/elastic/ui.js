@@ -2847,7 +2847,7 @@ function rcube_elastic_ui()
         });
 
         // call menu-open so core can set state of menu commands
-        rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, obj, event);
+        return rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, obj, event);
     };
 
     /**
@@ -2867,7 +2867,7 @@ function rcube_elastic_ui()
                     'class': 'button icon dropdown skip-content'
                 })
                 .on('click', function(e) {
-                    attachmentmenu($('#attachmentmenu'), button, e);
+                    return attachmentmenu($('#attachmentmenu'), button, e);
                 })
                 .append($('<span>').attr('class', 'inner').text(label))
                 .appendTo(item);
