@@ -869,7 +869,7 @@ function rcube_webmail()
 
       case 'open':
         if (uid = this.get_single_uid()) {
-          obj.href = this.url('show', this.params_from_uid(uid));
+          obj.href = this.url('show', this.params_from_uid(uid, {_extwin: 1}));
           return true;
         }
         break;
