@@ -91,8 +91,8 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         // tokenize
         $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
-        $diff       = 0;
-        $matches    = array();
+        $diff    = 0;
+        $matches = array();
 
         foreach ($text as $w) {
             $word = trim($w[0]);
