@@ -1100,7 +1100,8 @@ function rcube_webmail()
 
         // open attachment in frame if it's of a supported mimetype
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
-          if (this.open_window(this.url('get', $.extend({_frame: 1}, params))))
+          // Note: We disable _framed for proper X-Frame-Options:deny support (#6688)
+          if (this.open_window(this.url('get', $.extend({_frame: 1, _framed: 0}, params))))
             break;
         }
 

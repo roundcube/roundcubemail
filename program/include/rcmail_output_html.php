@@ -631,16 +631,29 @@ EOF;
             $this->add_script($commands, 'head_top');
         }
 
+        $this->page_headers();
+
+        // call super method
+        $this->_write($template, $this->config->get('skin_path'));
+    }
+
+    /**
+     * Send common page headers
+     * For now it only (re)sets X-Frame-Options when needed
+     */
+    public function page_headers()
+    {
+        if (headers_sent()) {
+            return;
+        }
+
         // allow (legal) iframe content to be loaded
-        $iframe = $this->framed || $this->env['framed'];
-        if (!headers_sent() && $iframe && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
+        $framed = $this->framed || $this->env['framed'];
+        if ($framed && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             if (strtolower($xopt) === 'deny') {
                 header('X-Frame-Options: sameorigin', true);
             }
         }
-
-        // call super method
-        $this->_write($template, $this->config->get('skin_path'));
     }
 
     /**

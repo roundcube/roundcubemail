@@ -20,6 +20,8 @@
  +-----------------------------------------------------------------------+
 */
 
+// This resets X-Frame-Options for framed output (#6688)
+$OUTPUT->page_headers();
 
 // show loading page
 if (!empty($_GET['_preload'])) {
@@ -316,19 +318,23 @@ function rcmail_message_part_frame($attrib)
     global $RCMAIL;
 
     if ($RCMAIL->output->get_env('is_message')) {
-        $attrib['src'] = $RCMAIL->url(array(
-                'task'   => 'mail',
-                'action' => 'preview',
-                'uid'    => $RCMAIL->output->get_env('uid'),
-                'mbox'   => $RCMAIL->output->get_env('mailbox'),
-                'framed' => 1,
-        ));
+        $url = array(
+            'task'   => 'mail',
+            'action' => 'preview',
+            'uid'    => $RCMAIL->output->get_env('uid'),
+            'mbox'   => $RCMAIL->output->get_env('mailbox'),
+        );
     }
     else {
-        $mimetype      = $RCMAIL->output->get_env('mimetype');
-        $frame_replace = strpos($mimetype, 'text/') === 0 ? '_embed=' : '_preload=';
-        $attrib['src'] = './?' . str_replace('_frame=', $frame_replace, $_SERVER['QUERY_STRING']);
+        $mimetype = $RCMAIL->output->get_env('mimetype');
+        $url      = $_GET;
+        $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+        unset($url['_frame']);
     }
+
+    $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
+
+    $attrib['src'] = $RCMAIL->url($url);
 
     $RCMAIL->output->add_gui_object('messagepartframe', $attrib['id']);
 
