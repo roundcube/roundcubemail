@@ -318,7 +318,6 @@ function rcmail_user_prefs($current = null)
                     $input    = new html_radiobutton(array('name'=>'_skin'));
 
                     foreach ($skins as $skin) {
-                        $thumbnail   = "skins/$skin/thumbnail.png";
                         $skinname    = ucfirst($skin);
                         $author_link = $license_link = '';
                         $meta        = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
@@ -330,7 +329,7 @@ function rcmail_user_prefs($current = null)
                         }
 
                         $img = html::img(array(
-                                'src'     => $thumbnail,
+                                'src'     => $RCMAIL->output->asset_url("skins/$skin/thumbnail.png"),
                                 'class'   => 'skinthumbnail',
                                 'alt'     => $skin,
                                 'width'   => 64,
