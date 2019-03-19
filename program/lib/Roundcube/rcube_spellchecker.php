@@ -87,7 +87,7 @@ class rcube_spellchecker
 
         // add correct labels
         $languages = array();
-        foreach ($langs as $lang) {
+        foreach ((array) $langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
             $alias = $rcube_language_aliases[$langc];
             if (!$alias) {

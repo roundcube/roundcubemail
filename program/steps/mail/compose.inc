@@ -280,6 +280,8 @@ $OUTPUT->add_handlers(array(
 
 $OUTPUT->include_script('publickey.js');
 
+rcmail_spellchecker_init();
+
 $OUTPUT->send('compose');
 
 
@@ -422,6 +424,76 @@ function rcmail_message_is_html()
     global $RCMAIL, $MESSAGE;
 
     return $RCMAIL->config->get('prefer_html') && ($MESSAGE instanceof rcube_message) && $MESSAGE->has_html_part(true);
+}
+
+function rcmail_spellchecker_init()
+{
+    global $RCMAIL, $OUTPUT;
+
+    // Set language list
+    if ($RCMAIL->config->get('enable_spellcheck')) {
+        $spellchecker     = new rcube_spellchecker();
+        $spellcheck_langs = $spellchecker->languages();
+    }
+
+    if (!empty($spellchecker) && empty($spellcheck_langs)) {
+        if ($err = $spellchecker->error()) {
+            rcube::raise_error(array('code' => 500,
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Spell check engine error: " . trim($err)),
+                true, false);
+        }
+    }
+    else if (!empty($spellchecker)) {
+        $dictionary = (bool) $RCMAIL->config->get('spellcheck_dictionary');
+        $lang       = $_SESSION['language'];
+
+        // if not found in the list, try with two-letter code
+        if (!$spellcheck_langs[$lang]) {
+            $lang = strtolower(substr($lang, 0, 2));
+        }
+
+        if (!$spellcheck_langs[$lang]) {
+            $lang = 'en';
+        }
+
+        $editor_lang_set = array();
+        foreach ($spellcheck_langs as $key => $name) {
+            $editor_lang_set[] = ($key == $lang ? '+' : '') . rcube::JQ($name).'='.rcube::JQ($key);
+        }
+
+        // include GoogieSpell
+        $OUTPUT->include_script('googiespell.js');
+        $OUTPUT->add_script(sprintf(
+            "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n".
+            "googie.lang_chck_spell = \"%s\";\n".
+            "googie.lang_rsm_edt = \"%s\";\n".
+            "googie.lang_close = \"%s\";\n".
+            "googie.lang_revert = \"%s\";\n".
+            "googie.lang_no_error_found = \"%s\";\n".
+            "googie.lang_learn_word = \"%s\";\n".
+            "googie.setLanguages(%s);\n".
+            "googie.setCurrentLanguage('%s');\n".
+            "googie.setDecoration(false);\n".
+            "googie.decorateTextarea(rcmail.env.composebody);\n",
+            $RCMAIL->output->asset_url($RCMAIL->output->get_skin_path()),
+            $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
+                !empty($dictionary) ? 'true' : 'false',
+            rcube::JQ(rcube::Q($RCMAIL->gettext('checkspelling'))),
+            rcube::JQ(rcube::Q($RCMAIL->gettext('resumeediting'))),
+            rcube::JQ(rcube::Q($RCMAIL->gettext('close'))),
+            rcube::JQ(rcube::Q($RCMAIL->gettext('revertto'))),
+            rcube::JQ(rcube::Q($RCMAIL->gettext('nospellerrors'))),
+            rcube::JQ(rcube::Q($RCMAIL->gettext('addtodict'))),
+            rcube_output::json_serialize($spellcheck_langs),
+            $lang
+            ), 'foot');
+
+        $OUTPUT->add_label('checking');
+        $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
+        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
+        $OUTPUT->set_env('spell_lang', $lang);
+    }
 }
 
 function rcmail_prepare_message_body()
@@ -640,60 +712,6 @@ function rcmail_compose_body($attrib)
 
     // include HTML editor
     $RCMAIL->html_editor();
-
-    // Set language list
-    if ($RCMAIL->config->get('enable_spellcheck')) {
-        $engine           = new rcube_spellchecker();
-        $dictionary       = (bool) $RCMAIL->config->get('spellcheck_dictionary');
-        $spellcheck_langs = $engine->languages();
-        $lang             = $_SESSION['language'];
-
-        // if not found in the list, try with two-letter code
-        if (!$spellcheck_langs[$lang]) {
-            $lang = strtolower(substr($lang, 0, 2));
-        }
-
-        if (!$spellcheck_langs[$lang]) {
-            $lang = 'en';
-        }
-
-        $editor_lang_set = array();
-        foreach ($spellcheck_langs as $key => $name) {
-            $editor_lang_set[] = ($key == $lang ? '+' : '') . rcube::JQ($name).'='.rcube::JQ($key);
-        }
-
-        // include GoogieSpell
-        $OUTPUT->include_script('googiespell.js');
-        $OUTPUT->add_script(sprintf(
-            "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n".
-            "googie.lang_chck_spell = \"%s\";\n".
-            "googie.lang_rsm_edt = \"%s\";\n".
-            "googie.lang_close = \"%s\";\n".
-            "googie.lang_revert = \"%s\";\n".
-            "googie.lang_no_error_found = \"%s\";\n".
-            "googie.lang_learn_word = \"%s\";\n".
-            "googie.setLanguages(%s);\n".
-            "googie.setCurrentLanguage('%s');\n".
-            "googie.setDecoration(false);\n".
-            "googie.decorateTextarea('%s');\n",
-            $RCMAIL->output->asset_url($RCMAIL->output->get_skin_path()),
-            $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
-                !empty($dictionary) ? 'true' : 'false',
-            rcube::JQ(rcube::Q($RCMAIL->gettext('checkspelling'))),
-            rcube::JQ(rcube::Q($RCMAIL->gettext('resumeediting'))),
-            rcube::JQ(rcube::Q($RCMAIL->gettext('close'))),
-            rcube::JQ(rcube::Q($RCMAIL->gettext('revertto'))),
-            rcube::JQ(rcube::Q($RCMAIL->gettext('nospellerrors'))),
-            rcube::JQ(rcube::Q($RCMAIL->gettext('addtodict'))),
-            rcube_output::json_serialize($spellcheck_langs),
-            $lang,
-            $attrib['id']), 'foot');
-
-        $OUTPUT->add_label('checking');
-        $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
-        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
-        $OUTPUT->set_env('spell_lang', $lang);
-    }
 
     return ($form_start ? "$form_start\n" : '')
         . "\n" . $hidden->show() . "\n" . $textarea->show($MESSAGE_BODY)

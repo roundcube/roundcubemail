@@ -39,6 +39,10 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
     {
         $this->init();
 
+        if (!$this->enchant_broker) {
+            return;
+        }
+
         $langs = array();
         if ($dicts = enchant_broker_list_dicts($this->enchant_broker)) {
             foreach ($dicts as $dict) {
