@@ -94,7 +94,7 @@
 			<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
 				<span class="inner"><roundcube:label name="responses" /></span>
 			</a>
-			<roundcube:if condition="config:enable_spellcheck" />
+			<roundcube:if condition="!empty(env:spell_langs)" />
 			<span class="dropbutton">
 				<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled"
 					classAct="button spellcheck" classSel="button spellcheck pressed"
