@@ -37,6 +37,15 @@
 	<roundcube:button name="messagemenulink" id="messagemenulink" type="link"
 		class="button more" label="more" title="moreactions"
 		data-popup="message-menu" innerclass="inner" />
+	<roundcube:if condition="template:name == 'message'" />
+		<span class="spacer"></span>
+		<roundcube:button command="previousmessage" type="link" data-hidden="small"
+			class="button prev disabled" classAct="button prev"
+			innerclass="inner" label="previous" title="previousmessage" />
+		<roundcube:button command="nextmessage" type="link" data-hidden="small"
+			class="button next disabled" classAct="button next"
+			innerclass="inner" label="next" title="nextmessage" />
+	<roundcube:endif />
 </div>
 
 <div id="forward-menu" class="popupmenu">
