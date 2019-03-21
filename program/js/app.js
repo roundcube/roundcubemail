@@ -7906,6 +7906,14 @@ function rcube_webmail()
 
     if (!type)
       type = 'notice';
+    else if (type == 'loading') {
+      if (!key)
+        key = 'loading';
+      if (!timeout)
+        timeout = this.env.request_timeout * 1000;
+      if (!msg)
+        msg = this.get_label('loading');
+    }
 
     if (!key)
       key = this.html_identifier(msg);
@@ -7927,13 +7935,6 @@ function rcube_webmail()
         default:
           timeout = this.message_time;
       }
-    }
-
-    if (type == 'loading') {
-      key = 'loading';
-      timeout = this.env.request_timeout * 1000;
-      if (!msg)
-        msg = this.get_label('loading');
     }
 
     // The same message is already displayed
