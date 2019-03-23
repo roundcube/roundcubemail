@@ -206,3 +206,171 @@
 @color-image-tools-background:          fadeout(@color-main, 60%);
 @color-image-tools-hover:               fadeout(@color-main, 50%);
 
+
+// Dark mode colors
+@color-dark-main:                           @color-main;
+@color-dark-main-dark:                      darken(@color-dark-main, 35%);
+@color-dark-black:                          #aaa;
+@color-dark-font:                           lighten(@color-dark-black, 10%);
+@color-dark-link:                           @color-link;
+@color-dark-link-hover:                     darken(@color-dark-link, 10%);
+@color-dark-border:                         #000;
+@color-dark-error:                          @color-error;
+@color-dark-success:                        @color-success;
+@color-dark-warning:                        @color-warning;
+
+@color-dark-black-shade-text:               tint(@color-dark-black, 40%);
+@color-dark-black-shade-border:             #000;
+@color-dark-black-shade-bg:                 lighten(@color-dark-black-shade-border, 25%);
+
+@color-dark-layout-border:                  @color-dark-black-shade-border;
+@color-dark-layout-header:                  @color-dark-font;
+@color-dark-layout-sidebar-background:      #474e51;
+@color-dark-layout-list-background:         #474e51;
+@color-dark-layout-content-background:      #474e51;
+@color-dark-layout-header-background:       #2f3a3f;
+@color-dark-layout-footer-background:       #474e51;
+
+@color-dark-layout-mobile-header-background: @color-dark-layout-header-background;
+@color-dark-layout-mobile-footer-background: @color-dark-layout-header-background;
+
+@color-dark-taskmenu-background:            #2f3a3f;
+@color-dark-taskmenu-button:                @color-taskmenu-button;
+@color-dark-taskmenu-button-selected:       @color-dark-taskmenu-button;
+@color-dark-taskmenu-button-action:         @color-dark-main;
+@color-dark-taskmenu-button-selected-background: lighten(@color-dark-taskmenu-background, 10%);
+@color-dark-taskmenu-button-action-background: @color-taskmenu-button-action-background;
+@color-dark-taskmenu-button-hover:          @color-taskmenu-button-hover;
+@color-dark-taskmenu-button-action-hover:   @color-dark-main;
+@color-dark-taskmenu-button-background-hover: lighten(@color-dark-taskmenu-background, 10%);
+@color-dark-taskmenu-button-action-background-hover: @color-dark-taskmenu-button-background-hover;
+@color-dark-taskmenu-button-logout-hover:   @color-dark-error;
+
+@color-dark-toolbar-button:                 @color-dark-font;
+@color-dark-toolbar-button-background-hover: darken(@color-dark-layout-header-background, 3%);
+
+@color-dark-searchbar:                      @color-dark-black;
+@color-dark-searchbar-background:           #474e51;
+
+@color-dark-toolbarmenu-hover:              @color-toolbarmenu-hover;
+@color-dark-toolbarmenu-hover-background:   @color-dark-main;
+
+@color-dark-list:                           @color-dark-font;
+@color-dark-list-selected:                  @color-dark-font;
+@color-dark-list-selected-background:       tint(@color-dark-layout-list-background, 25%);
+@color-dark-list-unread:                    @color-dark-main;
+@color-dark-list-flagged:                   tint(@color-dark-error, 15%);
+@color-dark-list-deleted:                   lighten(@color-dark-black, 50%);
+@color-dark-list-secondary:                 @color-dark-black-shade-text;
+@color-dark-list-droptarget-background:     @color-list-droptarget-background;
+@color-dark-list-focus-indicator:           lighten(@color-dark-main, 20%);
+@color-dark-list-border:                    @color-dark-black-shade-bg;
+@color-dark-list-badge:                     @color-list-badge;
+@color-dark-list-badge-background:          @color-dark-main;
+@color-dark-list-recent:                    @color-list-recent;
+@color-dark-list-recent-badge:              @color-list-recent-badge;
+@color-dark-list-recent-badge-background:   @color-dark-list-recent;
+@color-dark-list-pagenav:                   @color-dark-black-shade-text;
+@color-dark-list-icon:                      fadeout(@color-dark-list-secondary, 25%);
+@color-dark-list-unread-status:             @color-dark-warning;
+
+@color-dark-drag-layer:                     @color-drag-layer;
+@color-dark-drag-layer-background:          @color-dark-taskmenu-background;
+@color-dark-drag-layer-shadow:              @color-dark-black-shade-bg;
+
+@color-dark-message:                        @color-dark-font;
+@color-dark-message-border:                 @color-message-border;
+@color-dark-message-background:             fadeout(@color-dark-main, 95%);
+@color-dark-message-link:                   @color-dark-main;
+@color-dark-message-link-font-weight:       @color-message-link-font-weight;
+@color-dark-message-information:            @color-dark-main;
+@color-dark-message-success:                @color-dark-success;
+@color-dark-message-warning:                @color-warning;
+@color-dark-message-error:                  @color-dark-error;
+@color-dark-message-loading:                lighten(#474e51, 15%);
+@color-dark-message-error-box:              @color-dark-message;
+@color-dark-message-information-box:        @color-dark-message;
+@color-dark-message-warning-box:            @color-dark-message;
+@color-dark-message-error-box-background:   fadeout(@color-dark-message-error, 85%);
+@color-dark-message-information-box-background: fadeout(@color-dark-message-information, 15%);
+@color-dark-message-success-box-background: fadeout(@color-dark-message-success, 85%);
+@color-dark-message-warning-box-background: @color-message-warning-box-background;
+
+@color-dark-popover-background:             #474e51;
+@color-dark-popover-shadow:                 @color-dark-black-shade-bg;
+@color-dark-popover-separator:              @color-dark-black-shade-text;
+@color-dark-popover-separator-background:   @color-dark-black-shade-bg;
+@color-dark-popover-mobile-header:          @color-popover-mobile-header;
+@color-dark-popover-mobile-header-background: @color-dark-main-dark;
+
+@color-dark-dialog-overlay-background:      fade(@color-dark-font, 50%);
+@color-dark-dialog-header:                  @color-dark-layout-header;
+@color-dark-dialog-header-background:       #2f3a3f;
+@color-dark-dialog-header-border:           @color-dark-border;
+@color-dark-dialog-content-background:      #474e51;
+
+@color-dark-spinner-circle:                 @color-dark-black-shade-bg;
+@color-dark-spinner-item:                   @color-dark-black-shade-text;
+
+@color-dark-input:                          @color-dark-font;
+@color-dark-input-background:               #474e51;
+@color-dark-input-background-focus:         lighten(@color-dark-input-background, 15%);
+@color-dark-input-border:                   @color-input-border;
+@color-dark-input-border-focus:             @color-dark-main;
+@color-dark-input-border-focus-shadow:      fadeout(@color-dark-main, 75);
+@color-dark-input-border-invalid:           @color-dark-error;
+@color-dark-input-border-invalid-shadow:    fadeout(@color-dark-error, 75);
+@color-dark-input-addon-background:         @color-dark-black-shade-bg;
+@color-dark-recipient-input-border:         @color-dark-input-border;
+@color-dark-recipient-input-background:     @color-dark-black-shade-bg;
+@color-dark-input-placeholder:              @color-input-placeholder;
+
+@color-dark-checkbox:                       lighten(@color-dark-input-background, 15%);
+@color-dark-checkbox-checked:               @color-dark-main;
+@color-dark-checkbox-checked-disabled:      lighten(@color-dark-main, 15%);
+@color-dark-checkbox-focus:                 @color-dark-input-border-focus;
+@color-dark-checkbox-focus-shadow:          @color-dark-input-border-focus-shadow;
+
+@color-dark-form-hint:                      @color-dark-black-shade-text;
+
+@color-dark-image-upload-background:        @color-dark-black-shade-bg;
+
+@color-dark-btn-secondary:                  @color-btn-secondary;
+@color-dark-btn-secondary-background:       darken(@color-dark-black, 10%);
+@color-dark-btn-primary:                    @color-btn-primary;
+@color-dark-btn-primary-background:         @color-dark-main;
+@color-dark-btn-danger:                     @color-btn-danger;
+@color-dark-btn-danger-background:          @color-dark-error;
+
+@color-dark-quota-background:               @color-quota-background;
+@color-dark-quota-text:                     @color-dark-black-shade-text;
+@color-dark-quota-value:                    @color-dark-main;
+@color-dark-quota-value-warning:            @color-dark-error;
+
+@color-dark-blockquote-background:          fadeout(@color-dark-black-shade-bg, 50%);
+@color-dark-blockquote-0:                   darken(@color-dark-main, 30%);
+@color-dark-blockquote-1:                   darken(@color-dark-success, 25%);
+@color-dark-blockquote-2:                   darken(@color-dark-error, 20%);
+@color-dark-blockquote-0-border:            @color-dark-blockquote-0;
+@color-dark-blockquote-1-border:            @color-dark-blockquote-1;
+@color-dark-blockquote-2-border:            @color-dark-blockquote-2;
+
+@color-dark-mail-signature:                 @color-dark-black-shade-text;
+@color-dark-mail-headers:                   @color-dark-black-shade-text;
+
+@color-dark-spellcheck-link:                @color-dark-error;
+
+@color-dark-table-border:                   @color-dark-layout-border;
+@color-dark-table-selected:                 @color-dark-list-selected;
+@color-dark-table-selected-background:      @color-dark-list-selected-background;
+
+@color-dark-datepicker-border:              @color-dark-layout-border;
+@color-dark-datepicker-font:                @color-dark-font;
+@color-dark-datepicker-highlight:           @color-datepicker-highlight;
+@color-dark-datepicker-highlight-background: lighten(@color-dark-main, 30%);
+@color-dark-datepicker-active:              @color-datepicker-active;
+@color-dark-datepicker-active-background:   @color-dark-main;
+
+@color-dark-image-tools-background:         fadeout(@color-dark-main, 60%);
+@color-dark-image-tools:                    @color-image-tools;
+@color-dark-image-tools-hover:              fadeout(@color-dark-main, 50%);
