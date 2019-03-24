@@ -15,9 +15,8 @@
 @import "widgets/buttons";
 @import "widgets/jqueryui";
 @import "widgets/dialogs";
-@import "widgets/taskmenu";
+@import "widgets/menu";
 @import "widgets/messages";
-@import "widgets/toolbar";
 @import "widgets/lists";
 @import "widgets/forms";
 @import "widgets/editor";
@@ -26,17 +25,19 @@
 
 /*** Login form ***/
 
-.task-login #layout > .content {
-    text-align: center;
-    width: 100%;
-    display: block;
-}
+.task-login {
+    #layout-content {
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
 
-.task-login #layout .content #logo {
-    display: inline-block;
-    position: relative;
-    top: 16vh;
-    max-height: 100px;
+    #logo {
+        display: inline-block;
+        position: relative;
+        top: 16vh;
+        max-height: 100px;
+    }
 }
 
 #login-form {
@@ -94,8 +95,8 @@
 }
 
 body.task-error-login #layout {
-    & > .menu,
-    & > .content > .header {
+    #layout-menu,
+    #layout-content > .header {
         display: none;
     }
 }
