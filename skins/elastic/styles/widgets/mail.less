@@ -257,16 +257,8 @@
     background-color: @color-image-tools-background;
     border-radius: 0 .3rem .3rem 0;
 
-    .toolbar {
+    .menu {
         float: left;
-        height: @layout-header-height;
-
-        a.button:before {
-            width: auto;
-            height: 1.75rem;
-            display: block;
-            float: none;
-        }
     }
 
     a.button.icon.tools {
@@ -293,7 +285,7 @@
     }
 
     a {
-        color: @color-image-tools;
+        color: @color-image-tools !important;
 
         &:focus,
         &:hover {
