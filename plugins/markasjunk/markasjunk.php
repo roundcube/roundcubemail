@@ -100,7 +100,7 @@ class markasjunk extends rcube_plugin
                         'type'       => 'link-menuitem',
                         'label'      => 'markasjunk.asjunk',
                         'id'         => 'markasjunk',
-                        'class'      => 'icon junk',
+                        'class'      => 'icon junk disabled',
                         'classact'   => 'icon junk active',
                         'innerclass' => 'icon junk'
                     ), 'markmenu');
@@ -110,7 +110,7 @@ class markasjunk extends rcube_plugin
                         'type'       => 'link-menuitem',
                         'label'      => 'markasjunk.asnotjunk',
                         'id'         => 'markasnotjunk',
-                        'class'      => 'icon notjunk',
+                        'class'      => 'icon notjunk disabled',
                         'classact'   => 'icon notjunk active',
                         'innerclass' => 'icon notjunk'
                     ), 'markmenu');

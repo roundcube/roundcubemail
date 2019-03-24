@@ -169,7 +169,7 @@ class managesieve extends rcube_plugin
                 'label'    => 'managesieve.filtercreate',
                 'type'     => 'link',
                 'classact' => 'icon filterlink active',
-                'class'    => 'icon filterlink',
+                'class'    => 'icon filterlink disabled',
                 'innerclass' => 'icon filterlink',
             ))), 'messagemenu');
 
