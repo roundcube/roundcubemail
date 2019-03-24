@@ -364,11 +364,16 @@ html.ie11 .listing.iconized li a:before {
 .popupmenu .listing {
     li > a {
         border-left: 0;
+
+        &:not(.disabled):hover {
+            color: @color-menu-hover;
+            background-color: @color-menu-hover-background;
+        }
     }
 
     li.selected {
-        color: @color-toolbarmenu-hover;
-        background-color: @color-toolbarmenu-hover-background;
+        color: @color-menu-hover;
+        background-color: @color-menu-hover-background;
     }
 
     td {
@@ -534,16 +539,8 @@ ul.treelist {
     }
 
     // folder-selector fix for left padding
-    &.toolbarmenu a:before {
+    &.menu a:before {
         margin-left: .5em;
-    }
-
-    &.toolbarmenu {
-        li {
-            a:before {
-                margin-right: .25em;
-            }
-        }
     }
 }
 
