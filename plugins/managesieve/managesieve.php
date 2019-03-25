@@ -163,7 +163,7 @@ class managesieve extends rcube_plugin
         $this->init_ui();
 
         // add 'Create filter' item to message menu
-        $this->api->add_content(html::tag('li', null, 
+        $this->api->add_content(html::tag('li', array('role' => 'menuitem'),
             $this->api->output->button(array(
                 'command'  => 'managesieve-create',
                 'label'    => 'managesieve.filtercreate',
