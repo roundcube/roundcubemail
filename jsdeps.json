@@ -37,7 +37,7 @@
     {
       "lib": "tinymce",
       "version": "4.8.2",
-      "url": "http://download.ephox.com/tinymce/community/tinymce_$v.zip",
+      "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
       "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
       "license": "LGPL",
