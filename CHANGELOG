@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix TinyMCE download location (#6694)
 - Fix bug where a message/rfc822 part without a filename wasn't listed on the attachments list (#6494)
 - Fix handling of empty entries in vCard import (#6564)
 - Fix bug in parsing some IMAP command responses that include unsolicited replies (#6577)
