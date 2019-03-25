@@ -96,9 +96,6 @@
     }
 
     .ui-dialog-content {
-        // fixes resize issue e.g. in qr-code dialog
-        box-sizing: initial;
-
         & > .popupmenu {
             display: block !important;
         }
@@ -155,6 +152,12 @@
         border: 0;
         overflow: hidden;
     }
+}
+
+// Fix scrollbar/resize issue e.g. in qr-code dialog
+.ui-dialog,
+.ui-dialog-content {
+    box-sizing: initial;
 }
 
 // Overwriting this icon generally prevents from loading bigger images sprite from jQuery-UI
