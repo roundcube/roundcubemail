@@ -605,6 +605,8 @@ class rcube_washtml
             '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',
             // washtml/DOMDocument cannot handle xml namespaces
             '/<html\s[^>]+>/i',
+            // washtml/DOMDocument cannot handle xml namespaces
+            '/<\?xml:namespace\s[^>]+>/i',
         );
 
         $html_replace = array(
@@ -613,6 +615,7 @@ class rcube_washtml
             '',
             '',
             '<html>',
+            '',
         );
 
         $html = preg_replace($html_search, $html_replace, $html);

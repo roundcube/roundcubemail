@@ -430,4 +430,18 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertContains('for="testmy-other-id"', $washed);
         $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
     }
+
+    /**
+     * Test removing xml:namespace tag
+     */
+    function test_xml_namespace()
+    {
+        $html = '<p><?xml:namespace prefix = "xsl" /></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertNotContains('&lt;?xml:namespace"', $washed);
+        $this->assertSame($washed, '<p></p>');
+    }
 }
