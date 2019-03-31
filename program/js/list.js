@@ -355,8 +355,11 @@ remove_row: function(uid, sel_next)
 
   node.style.display = 'none';
 
+  // Specify removed row uid in the select_next argument.
+  // It's needed because after removing a set of rows
+  // reference to the last selected message is lost.
   if (sel_next)
-    this.select_next();
+    this.select_next(uid);
 
   delete this.rows[uid];
   this.rowcount--;
@@ -877,12 +880,12 @@ get_row_uid: function(row)
 /**
  * get first/next/previous/last rows that are not hidden
  */
-get_next_row: function()
+get_next_row: function(uid)
 {
   if (!this.rowcount)
     return false;
 
-  var last_selected_row = this.rows[this.last_selected],
+  var last_selected_row = this.rows[uid || this.last_selected],
     new_row = last_selected_row ? last_selected_row.obj.nextSibling : null;
 
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
@@ -891,12 +894,12 @@ get_next_row: function()
   return new_row;
 },
 
-get_prev_row: function()
+get_prev_row: function(uid)
 {
   if (!this.rowcount)
     return false;
 
-  var last_selected_row = this.rows[this.last_selected],
+  var last_selected_row = this.rows[uid || this.last_selected],
     new_row = last_selected_row ? last_selected_row.obj.previousSibling : null;
 
   while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none'))
@@ -1031,15 +1034,12 @@ select: function(id)
 
 
 /**
- * Select row next to the last selected one.
+ * Select row next to the specified or last selected one
  * Either below or above.
  */
-select_next: function()
+select_next: function(uid)
 {
-  var next_row = this.get_next_row(),
-    prev_row = this.get_prev_row(),
-    new_row = (next_row) ? next_row : prev_row;
-
+  var new_row = this.get_next_row(uid) || this.get_prev_row(uid);
   if (new_row)
     this.select_row(new_row.uid, false, false);
 },
