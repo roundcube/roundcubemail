@@ -30,6 +30,6 @@
     },
     "suggest": {
         "pear/net_ldap2": "~2.2.0 required for connecting to LDAP",
-        "kolab/Net_LDAP3": "dev-master required for connecting to LDAP"
+        "kolab/net_ldap3": "dev-master required for connecting to LDAP"
     }
 }
