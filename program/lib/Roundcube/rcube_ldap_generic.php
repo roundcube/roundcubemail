@@ -55,19 +55,6 @@ class rcube_ldap_generic extends Net_LDAP3
     }
 
     /**
-     * Get a specific LDAP entry, identified by its DN
-     *
-     * @param string $dn Record identifier
-     * @param array  $attributes Attributes to return
-     *
-     * @return array Hash array
-     */
-    function get_entry($dn, $attributes = array())
-    {
-        return parent::get_entry($dn, !empty($attributes) ? $attributes : $this->attributes);
-    }
-
-    /**
      * Prints debug/error info to the log
      */
     public function log($level, $msg)
