@@ -499,7 +499,7 @@ function rcube_elastic_ui()
     function init()
     {
         // Additional functionality on list widgets
-        $('table[data-list]').each(function() {
+        $('[data-list]').filter('ul,table').each(function() {
             var button,
                 table = $(this),
                 list = table.data('list');
