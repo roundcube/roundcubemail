@@ -560,6 +560,11 @@ class rcube_washtml
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
         if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
+            // always start with an HTML tag because Masterminds
+            // parser ignores lines before the first tag
+            if (stripos($html, '<') !== 0) {
+                $html = '<wbr>' . $html;
+            }
             try {
                 $html5 = new Masterminds\HTML5();
                 $node  = $html5->loadHTML($html);
