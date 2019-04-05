@@ -681,17 +681,19 @@ a.toolbar-button {
         padding: .5rem;
         line-height: normal; // fixes placeholder misalignment in IE11
         outline: 0; // removes focus outline in Chrome
+
+        &::-ms-clear {
+            display: none; // for IE
+        }
     }
 
     a {
-        height: @layout-searchbar-height;
-        min-width: auto;
         color: @color-toolbar-button;
 
         &:before {
             &:extend(.font-icon-class);
             width: 2rem;
-            line-height: @layout-searchbar-height;
+            height: @layout-searchbar-height;
             margin: 0;
         }
 
@@ -706,7 +708,7 @@ a.toolbar-button {
 
             &:before {
                 content: @fa-var-times;
-                font-size: 1em;
+                font-size: 1rem;
             }
         }
 

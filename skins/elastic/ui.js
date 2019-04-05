@@ -1587,7 +1587,7 @@ function rcube_elastic_ui()
 
         screen_resize_logo(mode);
         screen_resize_headers();
-
+/*
         // On iOS and Android the content frame height is never correct, fix it
         if (bw.webkit) {
             $('.iframe-wrapper').each(function() {
@@ -1597,6 +1597,7 @@ function rcube_elastic_ui()
                 }
             });
         }
+*/
     };
 
     /**
