@@ -451,9 +451,16 @@ html.ms .propform {
         }
     }
 
-    // We don't need buttons element on small devices
+    // We don't need buttons element on small devices, nor flex display
     html.layout-small &,
     html.layout-phone & {
+        display: initial;
+        overflow: initial !important;
+
+        .formcontent {
+            overflow: initial !important;
+        }
+
         .formbuttons {
             display: none;
         }
@@ -716,7 +723,7 @@ html.ms .propform {
 /*** Forms in popups ***/
 
 .popup form.propform {
-    padding: .5rem;
+    padding: .25rem;
     overflow-x: hidden;
 }
 

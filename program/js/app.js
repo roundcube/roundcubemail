@@ -4758,7 +4758,7 @@ function rcube_webmail()
       var dialog,
         prompt_value = $('<input>').attr({type: 'text', size: 40}),
         myprompt = $('<div class="prompt">')
-          .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
+          .append($('<p class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
         save_func = function() {
           input_subject.val(prompt_value.val());

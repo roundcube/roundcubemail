@@ -301,11 +301,19 @@
 
 #composestatusbar {
     position: absolute;
-    height: 2.5rem;
-    padding-top: .25rem;
     opacity: .3;
 
     @media screen and (min-width: (@screen-width-small + 1px)) {
         display: none;
+    }
+
+    a.button {
+        display: inline-block;
+        height: 2.5rem;
+        margin-right: .25rem;
+
+        &:before {
+            line-height: 2.5rem;
+        }
     }
 }
