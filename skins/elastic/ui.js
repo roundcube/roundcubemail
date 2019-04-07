@@ -19,6 +19,7 @@ function rcube_elastic_ui()
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
         ios = false,
+        popups_close_lock,
         is_framed = rcmail.is_framed(),
         env = {
             config: {
@@ -2384,6 +2385,11 @@ function rcube_elastic_ui()
      */
     function popups_close(e)
     {
+        // Ignore some of propagated click events (see pretty_select())
+        if (popups_close_lock && popups_close_lock > (new Date().getTime() - 250)) {
+            return;
+        }
+
         $('.popover.show').each(function() {
             var popup = $('.popover-body', this),
                 button = popup.children().first().data('button');
@@ -3424,6 +3430,9 @@ function rcube_elastic_ui()
                 max_height *= 0.5;
             }
 
+            // close other popups
+            popups_close(e);
+
             $('option', select).each(function() {
                 var label = $(this).text(),
                     link = $('<a href="#">')
@@ -3442,6 +3451,7 @@ function rcube_elastic_ui()
 
             var list = $('<ul class="toolbarmenu listing selectable iconized">')
                 .attr('data-ident', select_ident)
+                .data('button', select[0])
                 .append(items)
                 .on('click', 'a.active', function() {
                     // first close the list, then update the select, the order is important
@@ -3496,6 +3506,7 @@ function rcube_elastic_ui()
                         + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
                 })
                 .on('shown.bs.popover', function() {
+                    select.focus(); // for Chrome
                     // Set popup Close title
                     list.parent().prev()
                         .empty()
@@ -3546,15 +3557,15 @@ function rcube_elastic_ui()
                 // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
                 if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
                     open_func(e);
+
+                    // Prevent from closing the menu by general popover closing handler (popups_close())
+                    // We used to just stop propagation in onclick handler, but it didn't work
+                    // in Chrome where onclick handler wasn't invoked on mobile (#6705)
+                    popups_close_lock = new Date().getTime();
+
                     return false;
                 }
             })
-            .on('click', function(e) {
-                // Stop propagation of click event to prevent from
-                // disposing the menu by general popover closing handler (popups_close())
-                e.stopPropagation();
-                return false;
-            });
     };
 
     /**
