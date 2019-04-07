@@ -3421,9 +3421,9 @@ function rcube_elastic_ui()
         var open_func = function(e) {
             var items = [],
                 dialog = select.closest('.ui-dialog')[0],
-                min_width = select.outerWidth(),
                 max_height = $(document.body).height() - 75,
                 max_width = $(document.body).width() - 20,
+                min_width = Math.min(select.outerWidth(), max_width),
                 value = select.val();
 
             if (!is_mobile()) {
