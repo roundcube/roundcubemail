@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where next row wasn't selected after deleting a collapsed thread (#6655)
 - Fix bug where external content (e.g. mail body) was passed to templates parsing code (#6640)
 - Fix bug where attachment preview didn't work with x_frame_options=deny (#6688)
+- Fix so bin/install-jsdeps.sh returns error code on error (#6704)
 
 RELEASE 1.4-rc1
 ---------------
