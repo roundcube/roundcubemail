@@ -13,7 +13,7 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Utility script to fetch and install all 3rd party javascript        |
- |   libraries unsed in Roundcube from source.                           |
+ |   libraries used in Roundcube from source.                           |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <thomas@roundcube.net>                       |
  +-----------------------------------------------------------------------+
@@ -24,13 +24,13 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('exec')) {
-  die("PHP exec() function is required. Check disable_functions in php.ini\n");
+  rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $SOURCES = json_decode(file_get_contents(INSTALL_PATH . 'jsdeps.json'), true);
 
 if (empty($SOURCES['dependencies'])) {
-  die("ERROR: Failed to read sources from " . INSTALL_PATH . "jsdeps.json\n");
+  rcube::raise_error("ERROR: Failed to read sources from " . INSTALL_PATH . 'jsdeps.json', false, true);
 }
 
 $CURL     = trim(`which curl`);
@@ -116,7 +116,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
   if (!is_readable($cache_file) || !$useCache) {
     if (empty($CURL) && empty($WGET)) {
-      die("ERROR: Required program 'wget' or 'curl' not found\n");
+      rcube::raise_error("Required program 'wget' or 'curl' not found.", false, true);
     }
 
     $url = str_replace('$v', $package['version'], $package['url']);
@@ -133,7 +133,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
       $url    = str_replace('$v', $package['version'], $package['api_url']);
       $header = 'Accept:application/vnd.github.v3.raw';
 
-      echo "Fetching failed. Using Github API on $url\n";
+      rcube::raise_error("Fetching failed. Using Github API on $url");
 
       if ($CURL)
         exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
@@ -142,7 +142,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
     }
 
     if ($retval !== 0) {
-      die("ERROR: Failed to download source file from " . $url . "\n");
+      rcube::raise_error("Failed to download source file from $url", false, true);
     }
   }
 
@@ -160,7 +160,7 @@ function extract_filetype($package, &$filetype = null)
   $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
   if (empty($FILEINFO)) {
-    die("ERROR: Required program 'file' not found\n");
+    rcube::raise_error("Required program 'file' not found.", false, true);
   }
 
   // detect downloaded/cached file type
@@ -207,7 +207,7 @@ function compose_destfile($package, $srcfile)
     echo "Wrote file " . INSTALL_PATH . $package['dest'] . "\n";
   }
   else {
-    die("ERROR: Failed to write destination file " . INSTALL_PATH . $package['dest'] . "\n");
+    rcube::raise_error("Failed to write destination file " . INSTALL_PATH . $package['dest'], false, true);
   }
 }
 
@@ -219,7 +219,7 @@ function extract_zipfile($package, $srcfile)
   global $UNZIP, $CACHEDIR;
 
   if (empty($UNZIP)) {
-    die("ERROR: Required program 'unzip' not found\n");
+    rcube::raise_error("Required program 'unzip' not found.", false, true);
   }
 
   $destdir = INSTALL_PATH . $package['dest'];
@@ -228,7 +228,7 @@ function extract_zipfile($package, $srcfile)
   }
 
   if (!is_writeable($destdir)) {
-    die("ERROR: Cannot write to destination directory $destdir\n");
+    rcube::raise_error("Cannot write to destination directory $destdir", false, true);
   }
 
   // pick files from zip archive
@@ -237,7 +237,7 @@ function extract_zipfile($package, $srcfile)
       echo "Extracting files $pattern into $destdir\n";
       exec(sprintf('%s -o %s %s -d %s', $UNZIP, escapeshellarg($srcfile), escapeshellarg($pattern), $destdir), $out, $retval);
       if ($retval !== 0) {
-        echo "ERROR: Failed to unpack $pattern; " . join('; ' . $out) . "\n";
+        rcube::raise_error("Failed to unpack $pattern; " . join('; ' . $out));
       }
     }
   }
@@ -273,7 +273,7 @@ function extract_zipfile($package, $srcfile)
 
       exec(sprintf('mv -f %s/%s %s/%s', $sourcedir, $src, $destdir, $dest), $out, $retval);
       if ($retval !== 0) {
-        echo "ERROR: Failed to move $src into $destdir/$dest; " . join('; ' . $out) . "\n";
+        rcube::raise_error("Failed to move $src into $destdir/$dest; " . join('; ' . $out));
       }
     }
 
@@ -285,7 +285,7 @@ function extract_zipfile($package, $srcfile)
     echo "Extracting zip archive into $destdir\n";
     exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $destdir), $out, $retval);
     if ($retval !== 0) {
-      echo "ERROR: Failed to unzip $srcfile; " . join('; ' . $out) . "\n";
+      rcube::raise_error("Failed to unzip $srcfile; " . join('; ' . $out));
     }
   }
 
@@ -357,7 +357,7 @@ foreach ($SOURCES['dependencies'] as $package) {
   }
 
   if (!empty($package['sha1']) && ($sum = sha1_file($srcfile)) !== $package['sha1']) {
-    die("ERROR: Incorrect sha1 sum of $srcfile. Expected: {$package['sha1']}, got: $sum\n");
+    rcube::raise_error("Incorrect sha1 sum of $srcfile. Expected: {$package['sha1']}, got: $sum", false, true);
   }
 
   if ($args['extract']) {
