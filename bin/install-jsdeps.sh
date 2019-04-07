@@ -24,13 +24,14 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('exec')) {
-  rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
+  rcube::raise_error("PHP exec() function is required. Check disable_functions in php.ini.", false, true);
 }
 
-$SOURCES = json_decode(file_get_contents(INSTALL_PATH . 'jsdeps.json'), true);
+$cfgfile = INSTALL_PATH . 'jsdeps.json';
+$SOURCES = json_decode(file_get_contents($cfgfile), true);
 
 if (empty($SOURCES['dependencies'])) {
-  rcube::raise_error("ERROR: Failed to read sources from " . INSTALL_PATH . 'jsdeps.json', false, true);
+  rcube::raise_error("ERROR: Failed to read dependencies list from $cfgfile", false, true);
 }
 
 $CURL     = trim(`which curl`);
@@ -116,7 +117,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
   if (!is_readable($cache_file) || !$useCache) {
     if (empty($CURL) && empty($WGET)) {
-      rcube::raise_error("Required program 'wget' or 'curl' not found.", false, true);
+      rcube::raise_error("Required 'wget' or 'curl' program not found.", false, true);
     }
 
     $url = str_replace('$v', $package['version'], $package['url']);
@@ -219,7 +220,7 @@ function extract_zipfile($package, $srcfile)
   global $UNZIP, $CACHEDIR;
 
   if (empty($UNZIP)) {
-    rcube::raise_error("Required program 'unzip' not found.", false, true);
+    rcube::raise_error("Required 'unzip' program not found.", false, true);
   }
 
   $destdir = INSTALL_PATH . $package['dest'];
@@ -228,7 +229,7 @@ function extract_zipfile($package, $srcfile)
   }
 
   if (!is_writeable($destdir)) {
-    rcube::raise_error("Cannot write to destination directory $destdir", false, true);
+    rcube::raise_error("Cannot write to destination directory: $destdir", false, true);
   }
 
   // pick files from zip archive
