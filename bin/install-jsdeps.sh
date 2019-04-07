@@ -31,7 +31,7 @@ $cfgfile = INSTALL_PATH . 'jsdeps.json';
 $SOURCES = json_decode(file_get_contents($cfgfile), true);
 
 if (empty($SOURCES['dependencies'])) {
-  rcube::raise_error("ERROR: Failed to read dependencies list from $cfgfile", false, true);
+  rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
 }
 
 $CURL     = trim(`which curl`);
