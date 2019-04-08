@@ -156,9 +156,6 @@ class managesieve extends rcube_plugin
             return;
         }
 
-        // use jQuery for popup window
-        $this->require_plugin('jqueryui');
-
         // include js script and localization
         $this->init_ui();
 
