@@ -119,8 +119,10 @@ function rcube_webmail()
 
     this.buttons[command].push(button_prop);
 
-    if (this.loaded)
+    if (this.loaded) {
       this.init_button(command, button_prop);
+      this.set_button(command, (this.commands[command] ? 'act' : 'pas'));
+    }
   };
 
   // register a button with popup menu, to set its state according to the state of all commands in the menu
@@ -163,7 +165,10 @@ function rcube_webmail()
             return disabled = false;
           }
         });
-        $(this[0]).add($(this[0]).parent('.dropbutton')).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
+
+        $(this[0]).add($(this[0]).parent('.dropbutton'))
+          .addClass(disabled ? 'disabled' : 'active')
+          .removeClass(disabled ? 'active' : 'disabled');
       });
     }, 50);
   };
@@ -7805,13 +7810,10 @@ function rcube_webmail()
       else if (button[state] !== undefined) {
         obj.className = button[state];
       }
+
       // disable/enable input buttons
       if (button.type == 'input' || button.type == 'button') {
         obj.disabled = state == 'pas';
-      }
-      else if (button.type == 'uibutton') {
-        button.status = state;
-        $(obj).button('option', 'disabled', state == 'pas');
       }
       else {
         $obj = $(obj);
