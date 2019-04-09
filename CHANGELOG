@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
 - Elastic: Fix folders list scrolling on touch devices (#6706)
 - Elastic: Fix non-working pretty selects in Chrome browser (#6705)
+- Managesieve: Fix bug where global includes were requested for vacation (#6716)
 - Fix bug where HTML messages with a xml:namespace tag were not rendered (#6697)
 - Fix TinyMCE download location (#6694)
 - Fix so "Open in new window" consistently displays "external window" interface (#6659)
