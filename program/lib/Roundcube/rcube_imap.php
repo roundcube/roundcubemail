@@ -3689,6 +3689,16 @@ class rcube_imap extends rcube_storage
             $data['UNDELETED'] = $this->icache['undeleted_idx'];
         }
 
+        // dovecot does not return HIGHESTMODSEQ until requested, we use it though in our caching system
+        // calling STATUS is needed only once, after first use mod-seq db will be maintained
+        if (!isset($data['HIGHESTMODSEQ']) && empty($data['NOMODSEQ'])
+            && ($this->get_capability('QRESYNC') || $this->get_capability('CONDSTORE'))
+        ) {
+            if ($add_data = $this->conn->status($folder, array('HIGHESTMODSEQ'))) {
+                $data = array_merge($data, $add_data);
+            }
+        }
+
         return $data;
     }
 
