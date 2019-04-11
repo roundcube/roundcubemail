@@ -757,7 +757,7 @@ function rcube_treelist_widget(node, p)
 
       // allow virtual nodes to receive focus
       if (node.virtual) {
-        li.children('a:first').attr('tabindex', '0');
+        li.children('a').first().attr('tabindex', '0');
       }
 
       result.push(node);
@@ -899,19 +899,19 @@ function rcube_treelist_widget(node, p)
       next = li[mod](), limit, parent;
 
     if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
-      li.children('ul').children('li:first').find('a:first').focus();
+      li.children('ul').children('li').first().find('a').first().focus();
     }
     else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
-      next.children('ul').children('li:last').find('a:first').focus();
+      next.children('ul').children('li').last().find('a').first().focus();
     }
-    else if (next.length && next.find('a:first').focus().length) {
+    else if (next.length && next.find('a').first().focus().length) {
         // focused
     }
     else {
       parent = li.parent().closest('li[role=treeitem]');
       if (parent.length)
         if (dir < 0) {
-          parent.find('a:first').focus();
+          parent.find('a').first().focus();
         }
         else {
           focus_next(parent, dir, true);
@@ -937,7 +937,7 @@ function rcube_treelist_widget(node, p)
   {
     var node, child;
     if (selection && (node = id2dom(selection))) {
-      child = node.children('ul').children('li:first');
+      child = node.children('ul').children('li').first();
       if (child.length) {
         return dom2id(child);
       }
@@ -961,7 +961,7 @@ function rcube_treelist_widget(node, p)
     var node, prev, child;
     if (selection && (node = id2dom(selection))) {
       prev = node.prev();
-      child = prev.find('li:last');
+      child = prev.find('li').last();
 
       if (child.length) {
         return dom2id(child);

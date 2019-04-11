@@ -58,5 +58,5 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
       }
     }, true);
 
-    $('input:not(:hidden):first').focus();
+    $('input:not(:hidden)').first().focus();
 });
