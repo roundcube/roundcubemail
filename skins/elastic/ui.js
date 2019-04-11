@@ -989,7 +989,7 @@ function rcube_elastic_ui()
         });
 
         // Make tables pretier
-        $('table:not(.table,.propform,.listing,.ui-datepicker-calendar)', context)
+        $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
