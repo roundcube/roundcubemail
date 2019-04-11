@@ -34,6 +34,7 @@ class rcube_sieve_engine
     protected $exts    = array();
     protected $active  = array();
     protected $headers = array();
+    protected $disabled_actions = array();
     protected $addr_headers = array(
         // Required
         "from", "to", "cc", "bcc", "sender", "resent-from", "resent-to",
@@ -58,7 +59,6 @@ class rcube_sieve_engine
         2 => 'notifyimportancenormal',
         1 => 'notifyimportancehigh'
     );
-    private $disabled_actions;
 
     const VERSION  = '9.2';
     const PROGNAME = 'Roundcube (Managesieve)';
@@ -89,7 +89,7 @@ class rcube_sieve_engine
             'filterseteditraw' => array($this, 'filterset_editraw'),
         ));
 
-        $this->disabled_actions = $this->rc->config->get('managesieve_disabled_actions', array());
+        $this->disabled_actions = (array) $this->rc->config->get('managesieve_disabled_actions');
 
         // connect to managesieve server
         $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));
