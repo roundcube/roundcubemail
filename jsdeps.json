@@ -3,10 +3,10 @@
     {
       "lib": "jquery",
       "name": "jQuery",
-      "version": "3.3.1",
+      "version": "3.4.0",
       "url": "https://code.jquery.com/jquery-$v.min.js",
       "dest": "program/js/jquery.min.js",
-      "sha1": "0dc32db4aa9c5f03f3b38c47d883dbd4fed13aae",
+      "sha1": "e4925196f6f444fa58915420fbcd80f909c68d28",
       "license": "MIT",
       "copyright": "Copyright JS Foundation and other contributors",
       "source": "https://github.com/jquery/jquery/tree/$v"
