@@ -980,7 +980,7 @@ function sieve_form_init()
     parent.rcmail.managesieve_dialog_resize(form);
   }
 
-  $('input[type="text"]:first', form).focus();
+  $('input[type="text"]', form).first().focus();
 
   // initialize smart list inputs
   $('textarea[data-type="list"]', form).each(function() {
@@ -1189,7 +1189,7 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
 {
   var dialog = this.env.managesieve_dialog,
     win = $(window), form = $(o);
-    width = $('fieldset:first', o).width(), // fieldset width is more appropriate here
+    width = $('fieldset', o).first().width(), // fieldset width is more appropriate here
     height = form.height(),
     w = win.width(), h = win.height();
 

@@ -22,7 +22,7 @@
 function rcube_init_settings_tabs()
 {
   var el, cl, container = $('#tabsbar'),
-    last_tab = $('span:last', container),
+    last_tab = $('span', container).last(),
     tab = '#settingstabpreferences',
     action = window.rcmail && rcmail.env.action ? rcmail.env.action : null;
 

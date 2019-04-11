@@ -59,7 +59,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 e.stopPropagation();
             });
 
-            $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a:first').prop('tabindex'));
+            $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a').first().prop('tabindex'));
 
             $.each(['encrypt', 'sign'], function() {
                 var opt = this, input = $('#enigma' + opt + 'opt');

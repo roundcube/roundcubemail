@@ -147,15 +147,15 @@ function rcube_elastic_ui()
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
-            if (title = $('h1.voice:first').text()) {
+            if (title = $('h1.voice').first().text()) {
                 parent.$('#layout > .content > .header > .header-title:not(.constant)').text(title);
             }
         }
         else if (!is_framed) {
-            title = $('.boxtitle:first', layout.content).detach().text();
+            title = $('.boxtitle', layout.content).first().detach().text();
 
             if (!title) {
-                title = $('h1.voice:first').text();
+                title = $('h1.voice').first().text();
             }
 
             if (title) {
@@ -861,7 +861,7 @@ function rcube_elastic_ui()
 
         // Special input + anything entry
         $('td.input-group', context).each(function() {
-            $(this).children(':not(:first)').addClass('input-group-append');
+            $(this).children().slice(1).addClass('input-group-append');
         });
 
         // Other forms, e.g. Contact advanced search
@@ -946,7 +946,7 @@ function rcube_elastic_ui()
                 tab = $('<li>').addClass('nav-item').append(
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
                         .attr({role: 'tab', 'href': '#' + id})
-                        .text($('legend:first', fieldset).text())
+                        .text($('legend', fieldset).first().text())
                         .click(function(e) {
                             $(this).tab('show');
                             // Because we return false we have to close popups
@@ -957,14 +957,14 @@ function rcube_elastic_ui()
                         })
                 );
 
-                $('legend:first', fieldset).hide();
+                $('legend', fieldset).first().hide();
                 tabs.push(tab);
             });
 
             // create the navigation bar
             nav.append(tabs).insertBefore(item);
             // activate the first tab
-            $('a.nav-link:first', nav).click();
+            $('a.nav-link', nav).first().click();
         });
 
         $('input[type=file]:not(.custom-file-input)', context).each(function() {
@@ -1015,7 +1015,7 @@ function rcube_elastic_ui()
         // Input-group combo is an element with a select field on the left
         // and input(s) on right, and where the whole right side can be hidden
         // depending on the select position. This code fixes border radius on select
-        $('.input-group-combo > select:first', context).on('change', function() {
+        $('.input-group-combo > select', context).first().on('change', function() {
             var select = $(this),
                 fn = function() {
                     select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
@@ -2297,7 +2297,7 @@ function rcube_elastic_ui()
                         }
                     });
 
-                    popover.find('a.active:first').focus();
+                    popover.find('a.active').first().focus();
                 }
 
                 if (popup_id && menus[popup_id]) {
@@ -2425,7 +2425,7 @@ function rcube_elastic_ui()
         }
         else if (p.event == 'menu-open') {
             var fn, pos,
-                content = $('ul:first', p.obj),
+                content = $('ul', p.obj).first(),
                 target = p.props && p.props.link ? p.props.link : p.originalEvent.target;
 
             if ($(target).is('span')) {
@@ -3001,7 +3001,7 @@ function rcube_elastic_ui()
             },
             open: function() {
                 // Don't want focus in the search field, we focus first contacts source record instead
-                $('#directorylist a:first').focus();
+                $('#directorylist a').first().focus();
             },
             close: function() {
                 dialog.appendTo(parent);
@@ -3132,7 +3132,7 @@ function rcube_elastic_ui()
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
-                    list.children('li.recipient:last').remove();
+                    list.children('li.recipient').first().remove();
                     apply_func();
                     return false;
                 }
@@ -3519,7 +3519,7 @@ function rcube_elastic_ui()
 
                     // focus first active element on the list
                     if (rcube_event.is_keyboard(e)) {
-                        list.find('a.active:first').focus();
+                        list.find('a.active').first().focus();
                     }
 
                     // don't propagate mousedown event
