@@ -1,3 +1,11 @@
+Roundcube Webmail Texas Style
+=============================
+I absolutely love Roundcube Webmail. I have been a user since the first release and it has benefited me tremendously helping me gain knowledge of php (I do not claim to be an expert) and I fork this to try and contribute a little and have a custom download of the way I like my Roundcube.
+I will not fork the core of Roundcube from the original master, because the folks involved with this are skilled and I will leave all the magic to the them. I will just tweak a few plugins here and there and add the ones I use myself. Of course I am adding some eye candy from [My Skin Project](https://github.com/texxasrulez/Roundcube_Skins) for easier installation of my skin Repository.
+
+Thank you and Enjoy!!!!
+
+
 Roundcube Webmail 
 =================
 [roundcube.net](https://roundcube.net)
