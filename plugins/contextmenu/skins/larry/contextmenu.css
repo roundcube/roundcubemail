@@ -1,0 +1,217 @@
+/**
+ * ContextMenu plugin styles
+ */
+
+.records-table tbody tr.context-source td
+{
+  background-color: #F2F2F2;
+}
+
+#mailboxlist li.context-source,
+#directorylist li.context-source,
+#savedsearchlist li.context-source,
+#addresslist .context-source,
+#contacts-table .context-source
+{
+  background-color: #C7E3EF;
+}
+
+div.contextmenu a
+{
+  position: relative;
+  outline: 0;
+  cursor: default;
+}
+
+div.contextmenu.rcm-mainmenu ul.iconized li a span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 20px;
+}
+
+div.contextmenu ul li.rcm-submenu a span.icon
+{
+  padding-right: 18px;
+}
+
+div.contextmenu ul.iconized li.rcm-submenu a span.sub-button
+{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 15px;
+  width: 18px;
+  background: url(images/contexticons.png) no-repeat right -194px;
+  opacity: 0.2;
+}
+
+div.contextmenu ul.iconized li.rcm-submenu a.active span.sub-button
+{
+  opacity: 0.99;
+}
+
+div.contextmenu ul.iconized li a.reply span.icon
+{
+  background-position: 0 -122px;
+}
+
+div.contextmenu ul.iconized li a.reply-all span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -147px;
+}
+
+div.contextmenu ul.iconized li a.replyalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -147px;
+}
+
+div.contextmenu ul.iconized li a.replylistlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -464px;
+}
+
+div.contextmenu ul.iconized li a.forward span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -169px;
+}
+
+div.contextmenu ul.iconized li a.forwardlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -169px;
+}
+
+div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -445px;
+}
+
+div.contextmenu ul.iconized li a.bouncelink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -760px;
+}
+
+div.contextmenu ul.iconized li a.delete span.icon
+{
+  background-position: 0 -96px;
+}
+
+div.contextmenu ul.iconized li a.junk span.icon
+{
+  background-position: 0 -777px;
+}
+
+div.contextmenu ul.iconized li a.archive span.icon
+{
+  background-position: 0 -795px;
+}
+
+div.contextmenu ul.iconized li a.markmessage span.icon
+{
+  background-position: 0 -670px;
+}
+
+div.contextmenu ul.iconized li a.more span.icon
+{
+  background-position: 0 -690px;
+}
+
+div.contextmenu ul.iconized li a.compose span.icon
+{
+  background-position: 0 -281px;
+}
+
+div.contextmenu ul.iconized li a.print span.icon
+{
+  background-position: 0 -710px;
+}
+
+div.contextmenu ul.iconized li a.removegroup span.icon
+{
+  background-position: 0 -347px;
+}
+
+div.contextmenu ul.iconized li a.cmd_mark-all-read span.icon
+{
+  background-position: 0 -26px;
+}
+
+div.contextmenu ul.iconized li a.cmd_expunge span.icon
+{
+  background-position: 0 -523px;
+}
+
+div.contextmenu ul.iconized li a.cmd_purge span.icon
+{
+  background-position: 0 -504px;
+}
+
+div.contextmenu ul.iconized li a.collapseall span.icon
+{
+  background-position: 0 -326px;
+}
+
+div.contextmenu ul.iconized li a.expandall span.icon
+{
+  background-position: 0 -305px;
+}
+
+div.contextmenu ul.iconized li a.openfolder span.icon
+{
+  background-position: 0 -484px;
+}
+
+div.contextmenu ul.iconized li a.addto span.icon,
+div.contextmenu ul.iconized li a.addcc span.icon,
+div.contextmenu ul.iconized li a.addbcc span.icon
+{
+  background-position: 0 -281px;
+}
+
+div.contextmenu ul.iconized li a.vcard span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -738px;
+}
+
+div.contextmenu ul.iconized li a.movecontact span.icon
+{
+  background-position: 0 -632px;
+}
+
+div.contextmenu ul.iconized li a.copycontact span.icon
+{
+  background-position: 0 -651px;
+}
+
+div.contextmenu ul.iconized li a.export span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -543px;
+}
+
+div.contextmenu ul.iconized li a.exportalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -568px;
+}
+
+div.contextmenu ul.iconized li a.exportsellink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -543px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-create span.icon
+{
+  background-position: 0 -613px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-rename span.icon
+{
+  background-position: 0 -591px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-delete span.icon
+{
+  background-position: 0 -96px;
+}
+
+div.contextmenu ul.iconized li a.cmd_search-delete span.icon
+{
+  background-position: 0 -96px;
+}

@@ -1,0 +1,29 @@
+/* grey-larry */
+
+.webkit .messagelist tr > .authres_status
+{
+  width: 20px;
+}
+
+.messagelist tr > .authres_status {
+  width: 20px;
+  padding: 2px 3px;
+  text-align: center;
+}
+
+.messagelist tr > .authres_status span {
+  display: inline-block;
+  vertical-align: middle;
+  background: url(badge.png) center no-repeat;
+}
+
+#sections-table tbody #rcmrowauthres_status td.section {
+	background-image: url(badge.png);
+	background-position: 10px 5px;
+}
+
+#sections-table tbody #rcmrowauthres_status.selected td.section {
+	background-image: url(badge2.png);
+	background-repeat: no-repeat;
+	background-position: 10px 5px;
+}

@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:34+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/kolab-documentation/language/vi_VN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../en_US/_plugins/calendar/settings.rst:8
+msgid "Calendar Preferences"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:10
+msgid ""
+"The settings for the calendar module are listed in *Settings > Preferences* "
+"and are grouped by the following sections:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:14
+msgid "Main Options"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:17
+msgid "**Default view**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:17
+msgid ""
+"Lets you select the :ref:`calendar-view` which is visible by default when "
+"opening the calendar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:21
+msgid "**Time slots per hour**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:20
+msgid ""
+"How one hour in day and week view is divided vertically. If for example set "
+"to 2, you will see events displayed in 30 minute blocks."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:24
+msgid "**First weekday**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:24
+msgid "Which weekday to begin the week view with."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:28
+msgid "**First hour to show**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:27
+msgid ""
+"When opening the day or week view, the listing of events starts at this "
+"time. Of course all hours of a day are visible by scrolling further up."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:33
+msgid "**Working hours**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:33
+msgid ""
+"This time range will be used in the :ref:`availability finder <calendar-"
+"availability-finder>` when automatically selecting free slots for a meeting."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:40
+msgid "**Event coloring**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:37
+msgid ""
+"The coloring of the title of an event block (\"outline\") as well as the "
+"background color of the box (\"content\") in day and week views is "
+"influenced by the color of the calendar an event belongs to and/or the color"
+" of the category it is assigned to. This setting lets you control which "
+"source for coloring to use or if you even want a combined coloring that "
+"reflects both, the assignment of calendars and categories."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:43
+msgid "**Default reminder setting**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:43
+msgid ""
+"When creating new events, they'll have this type of reminder set by default."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:46
+msgid "**Default reminder time**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:46
+msgid "When enabling reminders in a new event, use this preset as default."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:51
+msgid "**Create new events in**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:49
+msgid ""
+"This is the default selection for saving new events. Used in both the "
+"calendar view and when accepting event invitations."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:54
+msgid "Categories"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:56
+msgid ""
+"This block allows the management of categories used in your calendar and "
+"assign colors to them. Use the color picker to change the color by clicking "
+"on the square color box in the categories list."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:59
+msgid ""
+"To add a new category, enter its unique name into the text box below the "
+"listing and then click the *Add category** button to add it. Note that you "
+"still need to click the *Save* button at the bottom of the preferences panel"
+" in order to finally register the new categories."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:65
+msgid "Birthdays Calendar"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:67
+msgid ""
+"The calendar view and also display birthdays from contacts saved in your "
+"address book. This block controls how this is done."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:71
+msgid "**Display birthdays calendar**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:71
+msgid "Enable the birthdays calendar feature with this checkbox."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:74
+msgid "**From these address books**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:74
+msgid ""
+"Choose from which address books you'd like to see birthdays in your "
+"calendar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:80
+msgid "**Show reminders**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/settings.rst:77
+msgid ""
+"This option controls whether and when to display reminder notifications for "
+"upcoming birthdays."
+msgstr ""

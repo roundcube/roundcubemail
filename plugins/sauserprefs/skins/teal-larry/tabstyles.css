@@ -1,0 +1,15 @@
+/**
+ * SAUserPrefs plugin styles (tab styles)
+ */
+
+#settings-sections #settingstabpluginsauserprefs a
+{
+  background-image: url(images/listicons.png);
+  background-position: 3px -3px;
+}
+
+#settings-sections #settingstabpluginsauserprefs.selected a
+{
+  background-image: url(images/listicons.png);
+  background-position: 3px -27px;
+}

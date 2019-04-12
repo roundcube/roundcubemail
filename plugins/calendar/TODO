@@ -1,0 +1,48 @@
++ Edit: 3.12: Subject
++ Edit: 3.13: Location
++ Edit: 3.14: Start / End / All Day
++ Edit: 3.15: Show time as: Busy, Free, Out of office
++ Edit: 3.16: Reminder set
++ Edit: 3.17: Priority: High/Low
++ Edit: 3.18: Recurrence (in line with Kontact)
++ Edit: 3.19: Attachment Upload
++ Edit: 3.20: Print
++ Add/Manage Attendees
+  + Edit: 3.21: Required / Optional / Resource specification
+  + Edit: 3.22: Conflict Handling (Free/Busy Check for attendees)
++ View: 3.3: Display modes (agenda / day / week / month)
+  + Day / Week / Month
+  + List (Agenda) view
+    + Add selection for date range
+  - Individual days selection
++ Show list of calendars in a (hideable) drawer
+  + View: 3.1: Folder list
+  + View: 3.2: Add / Remove / Rename / Share Folders
+  + View: 3.6: Combined calendar view (Turn calendars on/off)
+  + View: 3.7: Small month overview calendar
++ View: 3.5: Search
+  - Filter by categories (similar to mail)
++ View: 3.9: Alter event with drag/drop
++ Option: 4.12: Set default reminder time
++ Option: 3.23: Specify folder for new event (prefs)
++ Option: Set date/time format in prefs
++ Receive: 1.20: Invitation handling
+  - Jump to calendar view from mail ("Show event")
+  - Allow to re-send invitations
+  - Implement iTIP delegation
+
++ View: 3.4: Fish-Eye View For Busy Days
++ View: 3.8: Color according to calendar and category (similar to Kontact)
+
++ Support for multiple calendars (replace categories)
++ Allow user to create/edit/delete calendars
++ Colors for calendars should be user-configurable
++ ICS parser/generator (http://code.google.com/p/qcal/)
+
+- Script to send event alarms by email (in cronjob)
+- Export *with* attachments
+- Remember last visited view
+- Create/manage invdividual views
++ Importing ICS files (upload, drag & drop)
+
+

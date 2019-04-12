@@ -1,0 +1,25 @@
+/* CSS hacks for IE 7 */
+
+#calendar {
+	top: 5em;
+}
+
+.calwidth {
+	width: 172mm;
+}
+
+.fc-header-title h2 {
+	font-size: 16px;
+}
+
+#calendarlist li {
+	float: none;
+	padding: 0;
+	margin-left: 1em;
+}
+
+@media print {
+	#calendar {
+		top: 0;
+	}
+}

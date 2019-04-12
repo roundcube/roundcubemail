@@ -1,0 +1,32 @@
+/* Violet-Larry */
+.messagelist thead tr>.chbox
+{
+  width: 25px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#selectmenu ul
+{
+  border-radius: 4px 4px 4px 4px;
+  margin: 0px;
+}
+
+#selectmenu ul li
+{
+  padding: 5px 28px 5px 5px;
+  margin-left: -40px;
+  li-style-type: none;
+  display: block;
+  color: white;
+  border-bottom: 1px solid #caa3d2;
+}
+
+#selectmenu ul li:hover
+{
+	background: #3f1a67;
+	background: -moz-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9145e2), color-stop(100%,#3f1a67));
+	background: -ms-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: linear-gradient(to bottom, #9145e2 0%, #3f1a67 100%);
+}

@@ -1,0 +1,23 @@
+#keyboard_shortcuts_help {
+	display: none;
+}
+
+#keyboard_shortcuts_help div {
+	float: left;
+	width: 350px;
+}
+
+#keyboard_shortcuts_help div div.shortcut_key {
+	width: 30px;
+	float: left;
+	font-weight: bold;
+	text-align: center;
+}
+
+#keyboard_shortcuts_title {
+  margin-left: 12px;
+}
+
+#keyboard_shortcuts_link {
+  width: 31px !important;
+}

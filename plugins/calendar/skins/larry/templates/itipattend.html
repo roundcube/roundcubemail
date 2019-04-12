@@ -1,0 +1,37 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="extwin calendaritipattend">
+
+<div id="header">
+<div id="topline">
+	<div class="topright">
+		<a href="#close" class="closelink" onclick="self.close()"><roundcube:label name="close" /></a>
+	</div>
+</div>
+
+<div id="topnav">
+	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" />
+</div>
+
+<br style="clear:both" />
+</div>
+
+<div id="mainscreen">
+
+<div class="centerbox uibox">
+	<roundcube:object name="plugin.event_inviteform" />
+	<roundcube:object name="plugin.event_invitebox" class="calendar-invitebox" />
+	<roundcube:object name="plugin.event_rsvp_buttons" type="submit" iname="rsvp" id="event-rsvp" delegate="false" />
+	</form>
+</div>
+
+<roundcube:object name="message" id="message" />
+
+</div>
+
+</body>
+</html>

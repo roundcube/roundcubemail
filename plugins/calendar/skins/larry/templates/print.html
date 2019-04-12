@@ -1,0 +1,29 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+</head>
+<body class="calendarprint">
+
+<div id="printconfig" class="noprint">
+	<div class="calwidth">
+		<a href="#close" onclick="window.close()" class="rightalign"><roundcube:label name="close" /></a>
+		<span class="prop"><input type="button" id="printme" value="<roundcube:label name='print' />" onclick="window.print()"></span>
+		<span class="prop"><label><input type="checkbox" id="propdescription" checked="checked" /> <roundcube:label name="calendar.printdescriptions" /></label></span>
+	</div>
+</div>
+
+<roundcube:object name="message" id="message" class="noprint" />
+
+<div id="calendar" class="calwidth"></div>
+
+<div class="calwidth">
+	<roundcube:object name="plugin.calendar_list" activeonly="true" id="calendarlist" />
+	<br style="clear:both">
+</div>
+
+<roundcube:object name="plugin.calendar_css" printmode="true" />
+
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="plugins/calendar/skins/classic/print.iehacks.css" /><![endif]-->
+</body>
+</html>

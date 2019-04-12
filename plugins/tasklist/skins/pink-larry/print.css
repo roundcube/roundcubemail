@@ -1,0 +1,94 @@
+/*** Printing styles for Tasklist plugin ***/
+
+body {
+	margin: 0;
+	color: #000;
+	background: #fff;
+}
+
+body, td, th, div, p, h3, select, input, textarea {
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+}
+
+#tasks {
+	position: relative;
+	top: 0;
+	left: 0;
+	height: auto;
+	margin: 5em auto 0 auto;
+	overflow: visible;
+}
+
+#printconfig {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10000;
+	padding: 0.5em;
+	background: #ebebeb;
+	border-bottom: 1px solid #999;
+	box-shadow: 0 3px 4px #ccc;
+	-moz-box-shadow: 0 3px 4px #ccc;
+	-webkit-box-shadow: 0 3px 4px #ccc;
+}
+
+#printconfig .prop {
+	padding-right: 2em;
+}
+
+#message {
+	position: absolute;
+	top: 5.5em;
+	left: 1em;
+}
+
+#message div.loading {
+	color: #666;
+	font-style: italic;
+}
+
+#tasklist {
+	margin: 0;
+	padding: 0 10px;
+}
+
+.pagewidth {
+	width: 700px;
+	margin: 0 auto;
+}
+
+.rightalign {
+	float: right;
+	padding-top: 0.3em;
+}
+
+@media print {
+	.noprint,
+	.fc-header-right span {
+		display: none;
+	}
+	
+	#tasks {
+		margin-top: 0;
+	}
+}
+
+#tasklist .description {
+	display: block;
+	white-space: pre;
+}
+
+#tasklist .title {
+	font-weight: bold;
+}
+
+.taskhead {
+	border-radius: 0;
+	border: 0;
+	border-bottom: 1px solid #bbb;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}

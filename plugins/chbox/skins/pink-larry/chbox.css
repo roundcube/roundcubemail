@@ -1,0 +1,32 @@
+/* Pink-Larry */
+.messagelist thead tr>.chbox
+{
+  width: 25px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#selectmenu ul
+{
+  border-radius: 4px 4px 4px 4px;
+  margin: 0px;
+}
+
+#selectmenu ul li
+{
+  padding: 5px 28px 5px 5px;
+  margin-left: -40px;
+  li-style-type: none;
+  display: block;
+  color: white;
+  border-bottom: 1px solid #e6c5d6;
+}
+
+#selectmenu ul li:hover
+{
+	background: #6d1f49;
+	background: -moz-linear-gradient(top, #c3629e 0%, #6d1f49 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c3629e), color-stop(100%,#6d1f49));
+	background: -ms-linear-gradient(top, #c3629e 0%, #6d1f49 100%);
+	background: linear-gradient(to bottom, #c3629e 0%, #6d1f49 100%);
+}

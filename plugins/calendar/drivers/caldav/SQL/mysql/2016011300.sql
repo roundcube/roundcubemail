@@ -1,0 +1,1 @@
+ALTER TABLE `caldav_calendars` ADD `caldav_oauth_provider` varchar(255) DEFAULT NULL AFTER `caldav_pass`;

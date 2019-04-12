@@ -1,0 +1,26 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<style type="text/css" media="screen">
+
+body.aclform {
+	background: #efefef;
+	margin: 0;
+}
+
+body.aclform .hint {
+	margin: 1em;
+}
+
+</style>
+</head>
+<body class="iframe aclform">
+
+<roundcube:object name="folderacl" />
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

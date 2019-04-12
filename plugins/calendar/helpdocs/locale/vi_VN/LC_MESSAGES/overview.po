@@ -1,0 +1,266 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/kolab-documentation/language/vi_VN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../en_US/_plugins/calendar/overview.rst:6
+msgid "Overview"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:8
+msgid ""
+"The screen of the calendar module presents the following parts: the "
+":ref:`Calendar View <calendar-view>` itself, a small :ref:`Calendar Widget "
+"<calendar-minicalendar>` the :ref:`calendar-lists` as well as the usual "
+"toolbar and search box."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:17
+msgid "Calendar View"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:19
+msgid ""
+"The central part of the screen displays the schedule with events from the "
+"active calendars matching the current date range. The active date range is "
+"displayed above the calendar in the toolbar area and can be moved forward or"
+" backward in time using the arrow buttons right next to the title."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:27
+msgid "Change Views"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:29
+msgid ""
+"You can view your calendar events in Day, Week, Month or Agenda view. Toggle"
+" the view mode using the toolbar buttons above the calendar view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:34
+msgid "**Day**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:33
+msgid ""
+"All events of a single day appear at the time the begin and spawn a box "
+"until their end time. The time scale is displayed in the left side of the "
+"view. All-day events appear at the top."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:37
+msgid "**Week**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:37
+msgid ""
+"Similar to the day view but lists all days of the week horizontally. All-day"
+" events again appear at the top."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:42
+msgid "**Month**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:40
+msgid ""
+"Shows all events of the selected month at a time. Each event only appears as"
+" a single line and if there are more events in a day than can be listed, a "
+"number at the bottom of the day field indicates that. Click that link to "
+"open a zoomed view of that single day."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:47
+msgid "**Agenda**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:45
+msgid ""
+"The agenda view shows a list of events for the selected range in a "
+"chronological order and divided by headers denoting either days, weeks or "
+"months. Both the number of the days considered for the listing as well as "
+"the mode how to divide list can be adjusted with the controls at the bottom "
+"of the agenda view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:51
+msgid ""
+"For all the views, the small calendar on the left highlights the currently "
+"listed days."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:54
+msgid "Go to a specific Date"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:56
+msgid ""
+"Use the mini calendar widget on the left to jump to a specific date. Simply "
+"click a date and the date range of the current view moves to include the "
+"selected day. The left/right arrows in the mini calendar's header quickly "
+"cycle through the months. Use the drop-down menus hidden under the month and"
+" year display in the widget header to directly jump to another month or "
+"year."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:60
+msgid ""
+"A shortcut to switch the calendar view back to today or the current week "
+"provides the *Today* button located in the toolbar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:64
+msgid "Show Event Details"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:66
+msgid ""
+"Click an event box in the calendar view to open a dialog displaying all "
+"details of the event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:70
+msgid "Searching Events"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:72
+msgid ""
+"The search box above the calendar view lets you quickly get a list of events"
+" matching the entered keyword in either the title, location, description or "
+"attendees. Enter the search term into the box and press <Enter> on your "
+"keyboard to start the search. The calendar view will switch to *Agenda* mode"
+" in order to display a list of matches. Of course you can switch the view "
+"again to display the search results differently."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:77
+msgid ""
+"Events are searched within a certain date reange only which is displayed "
+"above the calendar view. Use the mini calendar widget or the arrow toolbar "
+"buttons and the range selector below the agenda view to adjust the time "
+"frame to search in."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:81
+msgid ""
+"For searching as well as for normal views, only events from active calendars"
+" are displayed. Use the checkboxes in the :ref:`calendar-lists` to add or "
+"hide events from different calendars."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:84
+msgid ""
+"Reset the search by clicking the *Reset search* icon on the right border of "
+"the search box. This will also switch the calendar view to whatever mode you"
+" had before the search."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:93
+msgid "Calendars List"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:95
+msgid ""
+"Events can be organized in different calendars which are all displayed in "
+"the lower left list. Use the checkboxes in that list to show or hide events "
+"from the specific calendars in the main view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:100
+msgid ""
+"Beside your personal calendars, the list also displays calendars shared by "
+"other users or ones that are shared amongst your workgroup. Small icons in "
+"the list give a hint about the origin and some of them are possibly read-"
+"only which is denoted with a small lock icon."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:106
+msgid "Colorized Events"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:108
+msgid ""
+"In order to better distinguish the events from various calendars in the "
+"calendar view, calendars have a color assigned which is used to colorize the"
+" events on the screen. Check the :ref:`settings-calendar` for more advanced "
+"options how to colorize events in the calendar view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:112
+msgid ""
+"You can create any number of calendars to store all your events and name "
+"them individually."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:116
+msgid "Create a New Calendar"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:118
+msgid "Click the + icon in the calendars list footer."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:119
+msgid "In the dialog, give the new calendar a unique name and assign a color."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:120
+msgid "Click *Save* to create it."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:122
+msgid "The calendar view will reload and list the new calendar on the left."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:127
+msgid "Edit Calendar Names and Settings"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:129
+#: ../../en_US/_plugins/calendar/overview.rst:137
+msgid "Select the calendar to edit by clicking it in the list."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:130
+msgid ""
+"Click the gear icon in the calendars list footer and select *Edit* from the "
+"options menu."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:131
+msgid "Adjust name, color or reminders settings in the edit dialog."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:132
+msgid "Click *Save* to finally update the calendar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:135
+msgid "Remove entire Calendars"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:138
+msgid ""
+"Click the gear icon in the calendars list footer and select *Remove* from "
+"the options menu."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/overview.rst:139
+msgid ""
+"After a confirmation dialog, the selected calendar with all its events will "
+"be deleted. Caution: This action cannot be undone!"
+msgstr ""

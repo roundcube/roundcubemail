@@ -1,0 +1,96 @@
+<?php
+/**
+ * Localizations for the Kolab calendaring utilities plugin
+ *
+ * Copyright (C) 2014, Kolab Systems AG
+ *
+ * For translation see https://www.transifex.com/projects/p/kolab/resource/libcalendaring/
+ */
+$labels['until'] = 'Eddig';
+$labels['at'] = 'időpont';
+$labels['alarmemail'] = 'E-mail küldése';
+$labels['alarmdisplay'] = 'Üzenet megjelenítése';
+$labels['alarmdisplayoption'] = 'Üzenet';
+$labels['alarmemailoption'] = 'E-mail';
+$labels['alarmat'] = 'ekkor $datetime';
+$labels['trigger@'] = 'adott időpontban';
+$labels['trigger-M'] = 'perccel előtte';
+$labels['trigger-H'] = 'órával előtte';
+$labels['trigger-D'] = 'nappal előtte';
+$labels['trigger+M'] = 'perccel utána';
+$labels['trigger+H'] = 'órával utána';
+$labels['trigger+D'] = 'nappal utána';
+$labels['alarmtitle'] = 'Következő események';
+$labels['dismissall'] = 'Az összes emlékeztető mellőzése';
+$labels['dismiss'] = 'Nem emlékettet újra';
+$labels['snooze'] = 'Újra emlékeztet';
+$labels['repeatinmin'] = 'Emlékeztessen $min perc múlva';
+$labels['repeatinhr'] = 'Emlékeztessen újra 1 óra múlva';
+$labels['repeatinhrs'] = 'Emlékeztessen újra $hrs óra múlva';
+$labels['repeattomorrow'] = 'Emlékeztessen újra holnap';
+$labels['repeatinweek'] = 'Emlékeztessen újra egy hét múlva';
+$labels['showmore'] = 'Tovább...';
+$labels['frequency'] = 'Ismétlődik';
+$labels['never'] = 'soha';
+$labels['daily'] = 'naponta';
+$labels['weekly'] = 'hetente';
+$labels['monthly'] = 'havonta';
+$labels['yearly'] = 'évente';
+$labels['rdate'] = 'adott időpontokban';
+$labels['every'] = 'Minden';
+$labels['days'] = 'napon';
+$labels['weeks'] = 'héten';
+$labels['months'] = 'hónapban';
+$labels['years'] = 'évben ekkor:';
+$labels['bydays'] = 'napon';
+$labels['untildate'] = 'dátumig';
+$labels['each'] = 'napon';
+$labels['onevery'] = 'minden';
+$labels['onsamedate'] = 'Ugyanazon a dátumon';
+$labels['forever'] = 'örökké';
+$labels['recurrencend'] = 'Eddig';
+$labels['forntimes'] = '$nr alkalommal';
+$labels['first'] = 'első';
+$labels['second'] = 'második';
+$labels['third'] = 'harmadik';
+$labels['fourth'] = 'negyedik';
+$labels['last'] = 'utolsó';
+$labels['dayofmonth'] = 'hónap napja';
+$labels['addrdate'] = 'Ismétlési dátum hozzáadása';
+$labels['itipinvitation'] = 'Új esemény:';
+$labels['itipupdate'] = 'Módosítva:';
+$labels['itipcancellation'] = 'Lemondva:';
+$labels['itipreply'] = 'Válasz';
+$labels['itipaccepted'] = 'Elfogadás';
+$labels['itiptentative'] = 'Feltételes';
+$labels['itipdeclined'] = 'Elutasítás';
+$labels['itipdelegated'] = 'Meghatalmazott:';
+$labels['itipcomment'] = 'Megjegyzés';
+$labels['itipeditresponse'] = 'Kérem, adjon meg egy választ';
+$labels['itipsendercomment'] = 'A feladó megjegyzése: ';
+$labels['itipobjectnotfound'] = 'A hivatkozott elem nem található az Ön fiókjában.';
+$labels['itipsubjectaccepted'] = '$title - elfogadva';
+$labels['itipsubjecttentative'] = '$title - feltételesen elfogadva';
+$labels['itipsubjectdeclined'] = '$title - elutasítva';
+$labels['itipsubjectcancel'] = '$title - lemondva';
+$labels['itipnewattendee'] = 'Válasz új résztvevőtől';
+$labels['updateattendeestatus'] = 'A résztvevő státuszának frissítése';
+$labels['acceptinvitation'] = 'Elfogadja ezt a meghívást?';
+$labels['acceptattendee'] = 'Részvétel elfogadása';
+$labels['declineattendee'] = 'Részvétel elutasítása';
+$labels['declineattendeeconfirm'] = 'Megjegyzés az elutasított részvevőnek (opcionális):';
+$labels['youhaveaccepted'] = 'Ön elfogadta ezt a meghívást';
+$labels['youhavetentative'] = 'Ön feltételesen elfogadta ezt a meghívást';
+$labels['youhavedeclined'] = 'Ön elutasította ezt a meghívást';
+$labels['youhavedelegated'] = 'Ön meghatalmazással továbbadta ezt a meghívást';
+$labels['attendeeaccepted'] = 'A résztvevő elfogadta';
+$labels['attendeetentative'] = 'A résztvevő feltételesen elfogadta';
+$labels['attendeedeclined'] = 'A résztvevő elutasította';
+$labels['attendeedelegated'] = 'A meghívott meghatalmazta részvételre: $delegatedto';
+$labels['notanattendee'] = 'Ön nem szerepel az esemény meghívottai között';
+$labels['importtocalendar'] = 'Mentés naptárba';
+$labels['removefromcalendar'] = 'Törlés a naptárból';
+$labels['updatemycopy'] = 'Naptárbejegyzés frissítése';
+$labels['deleteobjectconfirm'] = 'Biztos benne, hogy törölni szeretné ezt az elemet?';
+$labels['declinedeleteconfirm'] = 'Biztos benne, hogy törölni szeretné ezt az elutasított elemet a fiókjából?';
+$labels['savingdata'] = 'Adatok mentése...';

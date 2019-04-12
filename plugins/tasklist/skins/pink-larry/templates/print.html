@@ -1,0 +1,23 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+</head>
+<body class="taskprint">
+
+<div id="printconfig" class="noprint">
+	<div class="pagewidth">
+		<a href="#close" onclick="window.close()" class="rightalign"><roundcube:label name="close" /></a>
+		<span class="prop"><input type="button" id="printme" value="<roundcube:label name='print' />" onclick="window.print()"></span>
+		<span class="prop"><label><input type="checkbox" id="propdescription" checked="checked" onclick="$('#tasklist .description')[this.checked ? 'show' : 'hide']()" /> <roundcube:label name="tasklist.printdescriptions" /></label></span>
+	</div>
+</div>
+
+<roundcube:object name="message" id="message" class="noprint" />
+
+<div id="tasks" class="pagewidth">
+	<roundcube:object name="plugin.tasklist_print" id="tasklist" />
+</div>
+
+</body>
+</html>

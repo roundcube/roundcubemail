@@ -1,0 +1,69 @@
+
+/* Autumn-larry: button */
+
+#mailboxmenulink {
+    vertical-align: top;
+}
+
+#plugin_contextmenu_folder_status {
+    vertical-align: top;
+    background-image: none;
+}
+
+#plugin_contextmenu_folder_status span {
+    color: #493f19;
+    opacity: 1;
+    text-shadow: 0px -1px 0px rgba(0,0,0,0.6), 0px 1px 0px rgba(255,255,255,0.9);
+    font-size: 1.9em;
+    text-indent: 0;
+    text-align: center;
+    display: block;
+    padding: 6px 0px 0px 0px;
+    width: 48px;
+    height: 36px;
+}
+
+/* larry: menu */
+
+div.contextmenu.rcmmainmenu ul.iconized li a.override:before {
+    opacity: 0.8;
+    font-size: 1.1em;
+    padding-right: 0.2em;
+}
+
+div.contextmenu.rcmmainmenu ul.iconized li a.override span.icon {
+    background-image: none;
+    display: inline-block;
+    padding-left: 0.2em;
+}
+
+/* larry: tree list */
+
+ul.treelist li a span[class*="folder-mark"]:before {
+    position: relative;
+    font-size: 0.8em;
+    opacity: 0.7;
+    padding: 0em;
+    margin: 0em;
+    width: 0em;
+}
+
+ul.treelist li a span[class*="folder-mark-upper-left"]:before {
+    top: -0.7em;
+    left: -3.5em;
+}
+
+ul.treelist li a span[class*="folder-mark-lower-left"]:before {
+    top: +0.3em;
+    left: -3.4em;
+}
+
+ul.treelist li a span[class*="folder-mark-upper-right"]:before {
+    top: -0.7em;
+    left: -1.7em;
+}
+
+ul.treelist li a span[class*="folder-mark-lower-right"]:before {
+    top: +0.3em;
+    left: -1.6em;
+}
