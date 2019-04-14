@@ -444,4 +444,32 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertNotContains('&lt;?xml:namespace"', $washed);
         $this->assertSame($washed, '<p></p>');
     }
+
+    /**
+     * Test missing main HTML hierarchy tags (#6713)
+     */
+    function test_missing_tags()
+    {
+        $washer = new rcube_washtml();
+
+        $html   = '<head></head>First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = '<html>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = '<html><head></head>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+    }
 }
