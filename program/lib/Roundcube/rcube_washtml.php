@@ -562,7 +562,7 @@ class rcube_washtml
         if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
             try {
                 $html5 = new Masterminds\HTML5();
-                $node  = $html5->loadHTML($html);
+                $node  = $html5->loadHTML($this->fix_html5($html));
             }
             catch (Exception $e) {
                 // ignore, fallback to DOMDocument
@@ -776,6 +776,28 @@ class rcube_washtml
                 }
             }
         }
+    }
+
+    /**
+     * Cleanup and workarounds on input to Masterminds/HTML5
+     */
+    protected function fix_html5($html)
+    {
+        // HTML5 requires <head> or <body> (#6713)
+        // https://github.com/Masterminds/html5-php/issues/166
+        if (!preg_match('/<(head|body)/i', $html)) {
+            $pos = stripos($html, '<html');
+
+            if ($pos === false) {
+                $html = '<html><body>' . $html;
+            }
+            else {
+                $pos  = strpos($html, '>', $pos);
+                $html = substr_replace($html, '<body>', $pos, 0);
+            }
+        }
+
+        return $html;
     }
 
     /**
