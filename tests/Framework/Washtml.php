@@ -465,7 +465,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $html   = '<html>First line<br />Second line</html>';
         $washed = $washer->wash($html);
 
-        $this->assertContains('First line', $washed);
+        $this->assertContains('>First line', $washed);
 
         $html   = '<html><head></head>First line<br />Second line</html>';
         $washed = $washer->wash($html);

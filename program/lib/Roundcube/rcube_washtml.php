@@ -793,7 +793,7 @@ class rcube_washtml
             }
             else {
                 $pos  = strpos($html, '>', $pos);
-                $html = substr_replace($html, '<body>', $pos, 0);
+                $html = substr_replace($html, '<body>', $pos + 1, 0);
             }
         }
 
