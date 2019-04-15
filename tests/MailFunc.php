@@ -124,6 +124,38 @@ class MailFunc extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test inserting meta tag with required charset definition
+     */
+    function test_meta_insertion()
+    {
+        $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
+        $args = array(
+            'html_elements' => array('html', 'body', 'meta', 'head'),
+            'html_attribs'  => array('charset'),
+        );
+
+        $body   = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
+        $washed = rcmail_wash_html($body, $args);
+        $this->assertContains("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (1)");
+
+        $body   = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
+        $washed = rcmail_wash_html($body, $args);
+        $this->assertContains("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (2)");
+
+        $body   = 'Test1<br>Test2';
+        $washed = rcmail_wash_html($body, $args);
+        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, "Meta tag insertion (3)");
+
+        $body   = '<html>Test1<br>Test2';
+        $washed = rcmail_wash_html($body, $args);
+        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, "Meta tag insertion (4)");
+
+        $body   = '<html><head></head>Test1<br>Test2';
+        $washed = rcmail_wash_html($body, $args);
+        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, "Meta tag insertion (5)");
+    }
+
+    /**
      * Test links pattern replacements in plaintext messages
      */
     function test_plaintext()
