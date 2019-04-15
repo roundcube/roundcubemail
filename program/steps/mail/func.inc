@@ -838,15 +838,24 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
 
     // charset was converted to UTF-8 in rcube_storage::get_message_part(),
     // change/add charset specification in HTML accordingly,
-    // washtml cannot work without that
-    $meta = '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />';
+    // washtml's DOMDocument methods cannot work without that
+    $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
 
     // remove old meta tag and add the new one, making sure
     // that it is placed in the head (#1488093)
-    $html = preg_replace('/<meta[^>]+charset=[a-z0-9-_]+[^>]*>/Ui', '', $html);
-    $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
+    $html = preg_replace('/<meta[^>]+charset=[a-z0-9_"-]+[^>]*>/Ui', $meta, $html, -1, $rcount);
     if (!$rcount) {
-        $html = '<head>' . $meta . '</head>' . $html;
+        $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
+    }
+    if (!$rcount) {
+        // Note: HTML without <html> tag may still be a valid input (#6713)
+        if (($pos = stripos($html, '<html')) === false) {
+            $html = '<html><head>' . $meta . '</head>' . $html;
+        }
+        else {
+            $pos  = strpos($html, '>', $pos);
+            $html = substr_replace($html, '<head>' . $meta . '</head>', $pos + 1, 0);
+        }
     }
 
     // clean HTML with washhtml by Frederic Motte
