@@ -16,7 +16,7 @@
  * @version 3.1
  * @author Christian Chech <christian@chech.fr>
  *
- * Copyright (C) 2005-2016, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

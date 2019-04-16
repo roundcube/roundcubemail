@@ -8,7 +8,7 @@
  * @version 2.2
  * @author Victor Benincasa <vbenincasa @ gmail.com>
  *
- * Copyright (C) 2005-2018, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -492,7 +492,6 @@ class HTTPSocket {
 		return $x;
 	}
 
-
 	/**
 	 * Set a specifc message on how to change the SSL setting, in the event that it's not set correctly.
 	 */
@@ -500,5 +499,4 @@ class HTTPSocket {
 	{
 		$this->ssl_setting_message = $str;
 	}
-
 }

@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,68 +17,66 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Frederic Motte <fmotte@ubixis.com>                            |
  +-----------------------------------------------------------------------+
- */
 
-/*
- *                Washtml, a HTML sanityzer.
- *
- * Copyright (c) 2007 Frederic Motte <fmotte@ubixis.com>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * OVERVIEW:
- *
- * Wahstml take an untrusted HTML and return a safe html string.
- *
- * SYNOPSIS:
- *
- * $washer = new washtml($config);
- * $washer->wash($html);
- * It return a sanityzed string of the $html parameter without html and head tags.
- * $html is a string containing the html code to wash.
- * $config is an array containing options:
- *   $config['allow_remote'] is a boolean to allow link to remote resources (images/css).
- *   $config['blocked_src'] string with image-src to be used for blocked remote images
- *   $config['show_washed'] is a boolean to include washed out attributes as x-washed
- *   $config['cid_map'] is an array where cid urls index urls to replace them.
- *   $config['charset'] is a string containing the charset of the HTML document if it is not defined in it.
- * $washer->extlinks is a reference to a boolean that is set to true if remote images were removed. (FE: show remote images link)
- *
- * INTERNALS:
- *
- * Only tags and attributes in the static lists $html_elements and $html_attributes
- * are kept, inline styles are also filtered: all style identifiers matching
- * /[a-z\-]/i are allowed. Values matching colors, sizes, /[a-z\-]/i and safe
- * urls if allowed and cid urls if mapped are kept.
- *
- * Roundcube Changes:
- * - added $block_elements
- * - changed $ignore_elements behaviour
- * - added RFC2397 support
- * - base URL support
- * - invalid HTML comments removal before parsing
- * - "fixing" unitless CSS values for XHTML output
- * - SVG and MathML support
- */
+                Washtml, a HTML sanityzer.
+
+ Copyright (c) 2007 Frederic Motte <fmotte@ubixis.com>
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ OVERVIEW:
+
+ Wahstml take an untrusted HTML and return a safe html string.
+
+ SYNOPSIS:
+
+ $washer = new washtml($config);
+ $washer->wash($html);
+ It return a sanityzed string of the $html parameter without html and head tags.
+ $html is a string containing the html code to wash.
+ $config is an array containing options:
+   $config['allow_remote'] is a boolean to allow link to remote resources (images/css).
+   $config['blocked_src'] string with image-src to be used for blocked remote images
+   $config['show_washed'] is a boolean to include washed out attributes as x-washed
+   $config['cid_map'] is an array where cid urls index urls to replace them.
+   $config['charset'] is a string containing the charset of the HTML document if it is not defined in it.
+ $washer->extlinks is a reference to a boolean that is set to true if remote images were removed. (FE: show remote images link)
+
+ INTERNALS:
+
+ Only tags and attributes in the static lists $html_elements and $html_attributes
+ are kept, inline styles are also filtered: all style identifiers matching
+ /[a-z\-]/i are allowed. Values matching colors, sizes, /[a-z\-]/i and safe
+ urls if allowed and cid urls if mapped are kept.
+
+ Roundcube Changes:
+ - added $block_elements
+ - changed $ignore_elements behaviour
+ - added RFC2397 support
+ - base URL support
+ - invalid HTML comments removal before parsing
+ - "fixing" unitless CSS values for XHTML output
+ - SVG and MathML support
+*/
 
 /**
  * Utility class providing HTML sanityzer

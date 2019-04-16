@@ -8,8 +8,7 @@
  * @license GNU GPLv3+
  *
  * Configuration (see config.inc.php.dist)
- * 
- **/
+ */
 
 class help extends rcube_plugin
 {

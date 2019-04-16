@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_html.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Class to handle HTML page output using a skin template.             |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -118,7 +116,7 @@ class rcmail_output_html extends rcmail_output
         @licstart  The following is the entire license notice for the 
         JavaScript code in this page.
 
-        Copyright (C) 2005-2014 The Roundcube Dev Team
+        Copyright (C) The Roundcube Dev Team
 
         The JavaScript code in this page is free software: you can redistribute
         it and/or modify it under the terms of the GNU General Public License
