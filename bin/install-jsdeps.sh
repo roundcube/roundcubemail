@@ -2,10 +2,9 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | bin/install-jsdeps.sh                                                 |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2016, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,7 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Utility script to fetch and install all 3rd party javascript        |
- |   libraries used in Roundcube from source.                           |
+ |   libraries used in Roundcube from source.                            |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <thomas@roundcube.net>                       |
  +-----------------------------------------------------------------------+

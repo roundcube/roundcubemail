@@ -20,7 +20,7 @@
  * password_smb_host    => samba host (default: localhost)
  * password_smb_cmd => smbpasswd binary (default: /usr/bin/smbpasswd)
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

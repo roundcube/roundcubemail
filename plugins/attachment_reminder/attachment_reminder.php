@@ -8,7 +8,7 @@
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
  * Copyright (C) 2013 Thomas Yu - Sian, Liu
- * Copyright (C) 2013, Kolab Systems AG
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ class attachment_reminder extends rcube_plugin
                 $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
             }
         }
+
         return $args;
     }
-
 }
