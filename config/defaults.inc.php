@@ -812,12 +812,10 @@ $config['compose_responses_static'] = array(
 // ----------------------------------
 
 // This indicates which type of address book to use. Possible choises:
-// 'sql' (default), 'ldap' and ''.
-// If set to 'ldap' then it will look at using the first writable LDAP
-// address book as the primary address book and it will not display the
-// SQL address book in the 'Address Book' view.
-// If set to '' then no address book will be displayed or only the
-// addressbook which is created by a plugin (like CardDAV).
+// 'sql' - built-in sql addressbook enabled (default),
+// ''    - built-in sql addressbook disabled.
+//         Still LDAP or plugin-added addressbooks will be available.
+//         BC Note: The value can actually be anything except 'sql', it does not matter.
 $config['address_book_type'] = 'sql';
 
 // In order to enable public ldap search, configure an array like the Verisign
