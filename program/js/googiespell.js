@@ -8,8 +8,8 @@
  * JavaScript code in this file.
  *
  * Copyright (C) 2006 Amir Salihefendic
- * Copyright (C) 2009 The Roundcube Dev Team
- * Copyright (C) 2011 Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -28,7 +28,7 @@
  * @licend  The above is the entire license notice
  * for the JavaScript code in this file.
  *
- * @author 4mir Salihefendic <amix@amix.dk> 
+ * @author 4mir Salihefendic <amix@amix.dk>
  * @author Aleksander Machniak - <alec [at] alec.pl>
  */
 
