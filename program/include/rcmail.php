@@ -306,13 +306,13 @@ class rcmail extends rcube
      */
     public function get_address_sources($writeable = false, $skip_hidden = false)
     {
-        $abook_type   = (string) $this->config->get('address_book_type');
+        $abook_type   = strtolower((string) $this->config->get('address_book_type', 'sql'));
         $ldap_config  = (array) $this->config->get('ldap_public');
         $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
         $list         = array();
 
-        // We are using the DB address book or a plugin address book
-        if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
+        // SQL-based (built-in) address book
+        if ($abook_type === 'sql') {
             if (!isset($this->address_books['0'])) {
                 $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
             }
@@ -323,10 +323,11 @@ class rcmail extends rcube
                 'groups'   => $this->address_books['0']->groups,
                 'readonly' => $this->address_books['0']->readonly,
                 'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
-                'autocomplete' => in_array('sql', $autocomplete),
+                'autocomplete' => in_array_nocase('sql', $autocomplete),
             );
         }
 
+        // LDAP address book(s)
         if (!empty($ldap_config)) {
             foreach ($ldap_config as $id => $prop) {
                 // handle misconfiguration
@@ -345,6 +346,7 @@ class rcmail extends rcube
             }
         }
 
+        // Plugins can also add address books, or re-order the list
         $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
         $list   = $plugin['sources'];
 
