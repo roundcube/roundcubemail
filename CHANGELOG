@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Update to jQuery 3.4.0
+- Clarified 'address_book_type' option behavior (#6680)
 - Password: Added ldap_exop driver (#4992)
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
