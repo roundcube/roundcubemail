@@ -1145,6 +1145,9 @@ class rcmail extends rcube
             return;
         }
 
+        $session_id = session_id();
+        $session_id = $session_id ? (substr($session_id, 0, 16) . '...') : 'no-session';
+
         // failed login
         if ($failed_login) {
             // don't fill the log with complete input, which could
@@ -1154,7 +1157,7 @@ class rcmail extends rcube
             }
 
             $message = sprintf('Failed login for %s from %s in session %s (error: %d)',
-                $user, rcube_utils::remote_ip(), session_id(), $error_code);
+                $user, rcube_utils::remote_ip(), $session_id, $error_code);
         }
         // successful login
         else {
@@ -1166,7 +1169,7 @@ class rcmail extends rcube
             }
 
             $message = sprintf('Successful login for %s (ID: %d) from %s in session %s',
-                $user_name, $user_id, rcube_utils::remote_ip(), session_id());
+                $user_name, $user_id, rcube_utils::remote_ip(), $session_id);
         }
 
         // log login
