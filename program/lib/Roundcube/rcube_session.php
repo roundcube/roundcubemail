@@ -288,6 +288,8 @@ abstract class rcube_session
      */
     public function regenerate_id($destroy = true)
     {
+        $old_id = session_id();
+
         // Since PHP 7.0 session_regenerate_id() will cause the old
         // session data update, we don't need this
         $this->ignore_write = true;
@@ -296,6 +298,8 @@ abstract class rcube_session
 
         $this->vars = null;
         $this->key  = session_id();
+
+        $this->log("Session regenerate: $old_id -> {$this->key}");
 
         return true;
     }
@@ -392,9 +396,12 @@ abstract class rcube_session
      */
     public function kill()
     {
+        $this->log("Session destroy: " . session_id());
+
         $this->vars = null;
         $this->ip   = rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
+
         rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
     }
 
