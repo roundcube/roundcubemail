@@ -717,6 +717,40 @@ class rcmail extends rcube
     }
 
     /**
+     * Detects session errors
+     *
+     * @return string Error label
+     */
+    public function session_error()
+    {
+        // log session failures
+        $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
+
+        if ($task && !in_array($task, array('login', 'logout')) && ($sess_id = $_COOKIE[ini_get('session.name')])) {
+            $log   = "Aborted session $sess_id; no valid session data found";
+            $error = 'sessionerror';
+
+            // In rare cases web browser might end up with multiple cookies of the same name
+            // but different params, e.g. domain (webmail.domain.tld and .webmail.domain.tld).
+            // In such case browser will send both cookies in the request header
+            // problem is that PHP session handler can use only one and if that one session
+            // does not exist we'll end up here
+            $cookie          = rcube_utils::request_header('Cookie');
+            $cookie_sessid   = $this->config->get('session_name') ?: 'roundcube_sessid';
+            $cookie_sessauth = $this->config->get('session_auth_name') ?: 'roundcube_sessauth';
+
+            if (substr_count($cookie, $cookie_sessid.'=') > 1 || substr_count($cookie, $cookie_sessauth.'=') > 1) {
+                $log .= ". Cookies mismatch";
+                $error = 'cookiesmismatch';
+            }
+
+            $this->session->log($log);
+
+            return $error;
+        }
+    }
+
+    /**
      * Auto-select IMAP host based on the posted login information
      *
      * @return string Selected IMAP host

@@ -205,24 +205,14 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
 else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
-        $session_error = true;
+        $session_error = 'sessionerror';
     }
 }
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-    // log session failures
-    $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
-
-    if ($task && !in_array($task, array('login','logout'))
-        && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])
-    ) {
-        $RCMAIL->session->log("Aborted session $sess_id; no valid session data found");
-        $session_error = true;
-    }
-
-    if ($session_error || $_REQUEST['_err'] == 'session') {
-        $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
+    if ($session_error || $_REQUEST['_err'] === 'session' || ($session_error = $RCMAIL->session_error())) {
+        $OUTPUT->show_message($session_error ?: 'sessionerror', 'error', null, true, -1);
     }
 
     if ($OUTPUT->ajax_call || $OUTPUT->get_env('framed')) {
