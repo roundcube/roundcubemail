@@ -1145,8 +1145,9 @@ class rcmail extends rcube
             return;
         }
 
+        // don't log full session id for security reasons
         $session_id = session_id();
-        $session_id = $session_id ? (substr($session_id, 0, 16) . '...') : 'no-session';
+        $session_id = $session_id ? substr($session_id, 0, 16) : 'no-session';
 
         // failed login
         if ($failed_login) {
