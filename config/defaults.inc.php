@@ -98,8 +98,8 @@ $config['smtp_log'] = true;
 // Log successful/failed logins to <log_dir>/userlogins or to syslog
 $config['log_logins'] = false;
 
-// Log session authentication errors to <log_dir>/session or to syslog
-$config['log_session'] = false;
+// Log session debug information/authentication errors to <log_dir>/session or to syslog
+$config['session_debug'] = false;
 
 // Log SQL queries to <log_dir>/sql or to syslog
 $config['sql_debug'] = false;
