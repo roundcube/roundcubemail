@@ -19,6 +19,7 @@ $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or expired.';
+$messages['cookiesmismatch'] = 'Cookies mismatch detected. Clear cookies in your browser, please.';
 $messages['storageerror'] = 'Connection to storage server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
