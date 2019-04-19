@@ -92,34 +92,34 @@ $config['syslog_facility'] = LOG_USER;
 // Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.
 $config['per_user_logging'] = false;
 
-// Log sent messages to <log_dir>/sendmail or to syslog
+// Log sent messages to <log_dir>/sendmail.log or to syslog
 $config['smtp_log'] = true;
 
-// Log successful/failed logins to <log_dir>/userlogins or to syslog
+// Log successful/failed logins to <log_dir>/userlogins.log or to syslog
 $config['log_logins'] = false;
 
-// Log session debug information/authentication errors to <log_dir>/session or to syslog
+// Log session debug information/authentication errors to <log_dir>/session.log or to syslog
 $config['session_debug'] = false;
 
-// Log SQL queries to <log_dir>/sql or to syslog
+// Log SQL queries to <log_dir>/sql.log or to syslog
 $config['sql_debug'] = false;
 
-// Log IMAP conversation to <log_dir>/imap or to syslog
+// Log IMAP conversation to <log_dir>/imap.log or to syslog
 $config['imap_debug'] = false;
 
-// Log LDAP conversation to <log_dir>/ldap or to syslog
+// Log LDAP conversation to <log_dir>/ldap.log or to syslog
 $config['ldap_debug'] = false;
 
-// Log SMTP conversation to <log_dir>/smtp or to syslog
+// Log SMTP conversation to <log_dir>/smtp.log or to syslog
 $config['smtp_debug'] = false;
 
-// Log Memcache conversation to <log_dir>/memcache or to syslog
+// Log Memcache conversation to <log_dir>/memcache.log or to syslog
 $config['memcache_debug'] = false;
 
-// Log APC conversation to <log_dir>/apc or to syslog
+// Log APC conversation to <log_dir>/apc.log or to syslog
 $config['apc_debug'] = false;
 
-// Log Redis conversation to <log_dir>/redis or to syslog
+// Log Redis conversation to <log_dir>/redis.log or to syslog
 $config['redis_debug'] = false;
 
 
