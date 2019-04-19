@@ -83,6 +83,8 @@ abstract class rcube_session
     }
 
     /**
+     * Object constructor
+     *
      * @param Object $config
      */
     public function __construct($config)
@@ -93,8 +95,8 @@ abstract class rcube_session
         $this->set_ip_check($this->config->get('ip_check'));
 
         // set cookie name
-        if ($this->config->get('session_auth_name')) {
-            $this->set_cookiename($this->config->get('session_auth_name'));
+        if ($name = $this->config->get('session_auth_name')) {
+            $this->set_cookiename($name);
         }
     }
 
@@ -128,7 +130,7 @@ abstract class rcube_session
     {
         $this->start   = microtime(true);
         $this->ip      = rcube_utils::remote_addr();
-        $this->logging = $this->config->get('log_session', false);
+        $this->logging = $this->config->get('session_debug', false);
 
         $lifetime = $this->config->get('session_lifetime', 1) * 60;
         $this->set_lifetime($lifetime);
