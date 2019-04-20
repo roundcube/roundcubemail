@@ -16,14 +16,6 @@
             background-color: @color-dark-layout-content-background;
         }
 
-        a {
-            color: @color-dark-link;
-
-            &:hover {
-                color: @color-dark-link-hover;
-            }
-        }
-
         .form-control {
             background-color: @color-dark-input-background;
 
@@ -137,12 +129,6 @@
             }
         }
 
-        #rcmdraglayer {
-            background-color: @color-dark-drag-layer-background;
-            color: @color-dark-drag-layer;
-            box-shadow: 3px 3px 5px @color-dark-drag-layer-shadow;
-        }
-
         .listbox {
             .popup & {
                 .footer {
@@ -155,7 +141,6 @@
         // this is when image thumbnails are enabled
         p.image-attachment {
             border-color: @color-dark-border;
-            background-color: @color-dark-message-background;
 
             span {
                 color: @color-dark-form-hint;
@@ -191,16 +176,7 @@
             }
 
             .bar {
-                background-color: @color-dark-quota-background;
                 border-color: @color-dark-layout-border;
-            }
-
-            .value {
-                background-color: @color-dark-quota-value;
-
-                &.warning {
-                    background-color: @color-dark-quota-value-warning;
-                }
             }
         }
 
@@ -232,23 +208,9 @@
             }
         }
 
-        .floating-action-buttons {
-            a.button {
-                background: @color-dark-main;
-                box-shadow: 0 0 5px 5px darken(@color-dark-main, 35%);
-            }
-        }
-
         /*** Bootstrap button style overrides ***/
 
-        .btn {
-            &:focus {
-                box-shadow: 0 0 0 .2rem fade(@color-dark-btn-primary-background, 30%);
-            }
-        }
-
         .btn-secondary {
-            color: @color-dark-btn-secondary;
             background: @color-dark-btn-secondary-background;
             border-color: @color-dark-btn-secondary-background;
 
@@ -281,72 +243,6 @@
             }
         }
 
-        .btn-primary {
-            color: @color-dark-btn-primary;
-            background: @color-dark-btn-primary-background;
-            border-color: @color-dark-btn-primary-background;
-
-            &:focus {
-                box-shadow: 0 0 0 .2rem fade(@color-dark-btn-primary-background, 50%);
-            }
-
-            &:hover {
-                background: darken(@color-dark-btn-primary-background, 5%);
-                border-color: darken(@color-dark-btn-primary-background, 7%);
-            }
-
-            &.disabled,
-            &:disabled {
-                background: lighten(@color-dark-btn-primary-background, 20%);
-                border-color: lighten(@color-dark-btn-primary-background, 20%);
-            }
-
-            &:not(:disabled):not(.disabled) {
-                &:active,
-                &.active {
-                    background: darken(@color-dark-btn-primary-background, 10%);
-                    border-color: darken(@color-dark-btn-primary-background, 12%);
-
-                    &:focus {
-                        box-shadow: 0 0 0 .2rem fade(@color-dark-btn-primary-background, 53%);
-                    }
-                }
-            }
-        }
-
-        .btn-danger {
-            color: @color-dark-btn-danger;
-            background: @color-dark-btn-danger-background;
-            border-color: @color-dark-btn-danger-background;
-
-            &:focus {
-                box-shadow: 0 0 0 .2rem fade(@color-dark-btn-danger-background, 50%);
-            }
-
-            &:hover {
-                background: darken(@color-dark-btn-danger-background, 5%);
-                border-color: darken(@color-dark-btn-danger-background, 7%);
-            }
-
-            &.disabled,
-            &:disabled {
-                background: lighten(@color-dark-btn-danger-background, 20%);
-                border-color: lighten(@color-dark-btn-danger-background, 20%);
-            }
-
-            &:not(:disabled):not(.disabled) {
-                &:active,
-                &.active {
-                    background: darken(@color-dark-btn-danger-background, 10%);
-                    border-color: darken(@color-dark-btn-danger-background, 12%);
-
-                    &:focus {
-                        box-shadow: 0 0 0 .2rem fade(@color-dark-btn-danger-background, 53%);
-                    }
-                }
-            }
-        }
-
         /*** jQuery-UI widgets' style overrides ***/
 
         .ui-widget-overlay {
@@ -356,12 +252,6 @@
         .ui-widget {
             border-color: @color-dark-datepicker-border;
             box-shadow: 3px 3px 5px @color-dark-popover-shadow;
-        }
-
-        .ui-menu {
-           .ui-state-active {
-                background-color: @color-dark-toolbarmenu-hover-background !important;
-            }
         }
 
         .ui-dialog {
@@ -381,10 +271,6 @@
                 .ui-dialog-buttonset {
                     a.btn-link {
                         color: @color-dark-font;
-
-                        &:focus {
-                            background-color: fade(@color-dark-btn-primary-background, 50%);
-                        }
                     }
                 }
             }
@@ -406,31 +292,12 @@
                             &.btn-secondary {
                                 color: @color-dark-toolbar-button;
                             }
-
-                            &.btn-danger {
-                                color: @color-dark-btn-danger-background;
-                            }
                         }
 
                         a.btn-link {
                             color: @color-dark-toolbar-button;
                         }
                     }
-                }
-            }
-        }
-
-        /* Slider widget */
-
-        .ui-slider {
-            .ui-slider-range {
-                background: lighten(@color-dark-main, 30%);
-            }
-
-            .ui-slider-handle {
-                &.ui-state-active {
-                    background: @color-dark-main;
-                    border-color: @color-dark-main-dark;
                 }
             }
         }
@@ -446,19 +313,6 @@
             &.ui-widget-content .ui-state-default {
                 color: @color-dark-datepicker-font;
             }
-
-            .ui-datepicker-days-cell-over a,
-            .ui-datepicker-days-cell-over a.ui-state-default,
-            .ui-state-highlight,
-            &.ui-widget-content .ui-state-highlight {
-                background: @color-dark-datepicker-highlight-background;
-                color: @color-dark-datepicker-highlight;
-            }
-
-            a.ui-state-active {
-                background: @color-dark-datepicker-active-background !important;
-                color: @color-dark-datepicker-active !important;
-            }
         }
 
         .minicolors-panel {
@@ -471,13 +325,6 @@
             border-color: @color-dark-layout-border;
         }
 
-        #rcmKSearchpane {
-            html.layout-small &,
-            html.layout-phone & {
-                border-color: @color-dark-input-border;
-            }
-        }
-
         html.layout-small,
         html.layout-phone {
             .popover:not(.select-menu) {
@@ -488,11 +335,6 @@
 
             .popover-overlay {
                 background-color: @color-dark-dialog-overlay-background;
-            }
-
-            .popover-header {
-                color: @color-dark-popover-mobile-header;
-                background-color: @color-dark-popover-mobile-header-background;
             }
         }
 
@@ -517,15 +359,11 @@
 
             @media screen and (min-width: (@screen-width-xs + 1px)) {
                 a {
-                    color: @color-dark-taskmenu-button;
-
                     &.selected {
-                        color: @color-dark-taskmenu-button-selected;
                         background: @color-dark-taskmenu-button-selected-background;
                     }
 
                     &:hover {
-                        color: @color-dark-taskmenu-button-hover;
                         background: @color-dark-taskmenu-button-background-hover;
                     }
                 }
@@ -536,11 +374,7 @@
 
                 .action-buttons {
                     a {
-                        color: @color-dark-taskmenu-button-action;
-                        background: @color-dark-taskmenu-button-action-background;
-
                         &:hover {
-                            color: @color-dark-taskmenu-button-action-hover;
                             background: @color-dark-taskmenu-button-action-background-hover;
                         }
 
@@ -548,10 +382,6 @@
                             background: @color-dark-taskmenu-button-selected-background;
                         }
                     }
-                }
-
-                a.logout {
-                    color: @color-dark-taskmenu-button-logout-hover !important;
                 }
             }
         }
@@ -566,8 +396,6 @@
 
         .ui.alert {
             color: @color-dark-message;
-            border-color: @color-dark-message-border;
-            background-color: @color-dark-message-background;
 
             & > i.icon {
                 color: lighten(@color-dark-black, 25%);
@@ -577,40 +405,19 @@
                 color: @color-dark-message-loading;
             }
 
-            &.alert-success > i.icon:before {
-                color: @color-dark-message-success;
-            }
-
-            &.alert-warning > i.icon:before {
-                color: @color-dark-message-warning;
-            }
-
-            &.alert-danger > i.icon:before {
-                color: @color-dark-message-error;
-            }
-
-            a:not(.btn) {
-                color: @color-dark-message-link;
-                font-weight: @color-dark-message-link-font-weight;
-            }
-
             &.boxerror {
-                background-color: @color-dark-message-error-box-background;
                 & when not(@color-dark-message-error-box = @color-dark-message) { color: @color-dark-message-error-box; }
             }
 
             &.boxinformation {
-                background-color: @color-dark-message-information-box-background;
                 & when not(@color-dark-message-information-box = @color-dark-message) { color: @color-dark-message-information-box; }
             }
 
             &.boxconfirmation {
-                background-color: @color-dark-message-success-box-background;
                 & when not(@color-dark-message-error-box = @color-dark-message) { color: @color-dark-message-error-box; }
             }
 
             &.boxwarning {
-                background-color: @color-dark-message-warning-box-background;
                 & when not(@color-dark-message-warning-box = @color-dark-message) { color: @color-dark-message-warning-box; }
             }
         }
@@ -628,34 +435,12 @@
             .loading {
                 background-color: @color-dark-message-loading;
             }
-
-            .alert-info.information {
-                background-color: @color-dark-message-information;
-            }
-
-            .alert-success {
-                background-color: @color-dark-message-success;
-            }
-
-            .alert-warning {
-                background-color: @color-dark-message-warning;
-            }
-
-            .alert-danger {
-                background-color: @color-dark-message-error;
-            }
         }
 
         .toolbar {
             &.listing a,
             a {
                 color: @color-dark-toolbar-button;
-            }
-
-            a.button {
-                &.selected {
-                    color: @color-dark-success;
-                }
             }
 
             &.pagenav {
@@ -695,15 +480,6 @@
             &.separator {
                 color: @color-dark-popover-separator;
                 background-color: @color-dark-popover-separator-background;
-            }
-        }
-
-        .toolbarmenu.listing li {
-            &:hover {
-                a.active {
-                    color: @color-dark-toolbarmenu-hover;
-                    background-color: @color-dark-toolbarmenu-hover-background;
-                }
             }
         }
 
@@ -786,11 +562,6 @@
                 background-color: @color-dark-list-selected-background;
             }
 
-            li.droptarget > a,
-            tr.droptarget > td {
-                background-color: @color-dark-list-droptarget-background;
-            }
-
             li.disabled,
             tr.disabled td {
                 color: @color-dark-list-deleted;
@@ -798,17 +569,6 @@
 
             span.secondary {
                 color: @color-dark-list-secondary;
-            }
-        }
-
-        // Focus indicator
-        html:not(.touch) {
-            .listing {
-                li > a:focus,
-                &.focus tbody tr.focused > td:first-child,
-                &.focus:not(.withselection) tbody tr.focused > td.selection + td {
-                    border-left-color: @color-dark-list-focus-indicator;
-                }
             }
         }
 
@@ -832,13 +592,6 @@
             }
         }
 
-        .popupmenu .listing {
-            li.selected {
-                color: @color-dark-toolbarmenu-hover;
-                background-color: @color-dark-toolbarmenu-hover-background;
-            }
-        }
-
         ul.treelist {
             li {
                 &.selected {
@@ -846,26 +599,6 @@
                     & > a {
                         color: @color-dark-list-selected;
                         background-color: @color-dark-list-selected-background;
-                    }
-                }
-            }
-        }
-
-        .folderlist {
-            li {
-                &.mailbox {
-                    &.recent {
-                        color: @color-dark-list-recent;
-                    }
-
-                    .unreadcount {
-                        background: @color-dark-list-badge-background;
-                        color: @color-dark-list-badge;
-                    }
-
-                    &.recent > .unreadcount {
-                        background: @color-dark-list-recent-badge-background;
-                        color: @color-dark-list-recent-badge;
                     }
                 }
             }
@@ -888,24 +621,11 @@
                 }
             }
 
-            tr.flagged td,
-            tr.flagged td.subject span.subject a,
-            tr.flagged td.subject span.date,
-            tr.flagged td.subject span.fromto {
-                color: @color-dark-list-flagged;
-            }
-
             tr.deleted td,
             tr.deleted td.subject span.subject a,
             tr.deleted td.subject span.date,
             tr.deleted td.subject span.fromto {
                 color: @color-dark-list-deleted;
-            }
-
-            td.subject span.msgicon.status {
-                &.unread:before {
-                    color: @color-dark-list-unread-status;
-                }
             }
 
             span.attachment span {
@@ -945,49 +665,7 @@
             // RAW (CodeMirror) editor
             &.raweditor {
                 .CodeMirror {
-                    border-color: @color-dark-input-border;
                     color: @color-dark-font;
-                }
-
-                .CodeMirror-focused {
-                    border-color: @color-dark-input-border-focus;
-                    box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow;
-                }
-
-                .CodeMirror-linebackground.line-error {
-                    background-color: @color-dark-error;
-                }
-            }
-        }
-
-        .input-group a {
-            &:focus {
-                background-color: @color-dark-input-border-focus-shadow;
-            }
-        }
-
-        .multi-input {
-            & > .content {
-                border-color: @color-dark-input-border;
-            }
-
-            input,
-            input:focus,
-            .input-group-text {
-                border-bottom-color: @color-dark-input-border;
-            }
-
-            .input-group-text {
-                border-left-color: @color-dark-input-border;
-            }
-
-            &.is-invalid {
-                & > .content {
-                    border-color: @color-dark-input-border-invalid;
-                    &.focused {
-                        border-color: @color-dark-input-border-invalid;
-                        box-shadow: 0 0 0 .2rem @color-dark-input-border-invalid-shadow;
-                    }
                 }
             }
         }
@@ -1017,7 +695,6 @@
             }
 
             .recipient {
-                border-color: @color-dark-recipient-input-border;
                 background-color: @color-dark-recipient-input-background;
             }
         }
@@ -1026,15 +703,7 @@
 
         .tagedit-list {
             li.tagedit-listelement-old {
-                border-color: @color-dark-recipient-input-border;
                 background-color: @color-dark-recipient-input-background;
-            }
-        }
-
-        .skinselection {
-            .skinthumbnail {
-                border-color: @color-dark-input-border;
-                background: #fff;
             }
         }
 
@@ -1054,38 +723,12 @@
 
             &:focus {
                 color: @color-dark-font;
-                border-color: @color-dark-input-border-focus;
-                box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow;
             }
-
-            // FIXME: This fixes style of required inputs in Firefox/Edge, but
-            // makes inputs on login form red-bordered, commented for now
-            // &:invalid,
-            &.is-invalid {
-                border-color: @color-dark-input-border-invalid;
-
-                &:focus {
-                    border-color: @color-dark-input-border-invalid;
-                    box-shadow: 0 0 0 .2rem @color-dark-input-border-invalid-shadow;
-                }
-            }
-
-            &::placeholder {
-                color: @color-dark-input-placeholder;
-            }
-        }
-
-        .invalid-feedback {
-            color: @color-dark-error;
         }
 
         .input-group-text {
             color: @color-dark-input;
             background-color: @color-dark-input-addon-background;
-
-            input:focus {
-                border-color: @color-dark-input-border-focus !important;
-            }
         }
 
         .custom-switch {
@@ -1094,44 +737,13 @@
                     border-color: @color-dark-checkbox;
                     background-color: @color-dark-checkbox;
                 }
-
-                &:focus ~ .custom-control-label:before {
-                    box-shadow: 0 0 0 .2rem @color-dark-checkbox-focus-shadow;
-                }
-
-                &:focus:not(:checked) ~ .custom-control-label::before {
-                    border-color: @color-dark-checkbox-focus;
-                }
-
-                &:checked ~ .custom-control-label::before {
-                    border-color: @color-dark-checkbox-checked;
-                    background-color: @color-dark-checkbox-checked;
-                }
-
-                &:checked:disabled ~ .custom-control-label::before {
-                    border-color: @color-dark-checkbox-checked-disabled;
-                    background-color: @color-dark-checkbox-checked-disabled;
-                }
             }
-        }
-
-        .custom-file-input:focus ~ .custom-file-label {
-            border-color: @color-dark-input-border-focus;
-            box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow;
         }
 
         .mce-tinymce {
-            &.mce-container.mce-panel {
-                border-color: @color-dark-input-border;
-            }
-
             .mce-btn,
             .mce-panel {
                 background-color: @color-dark-layout-header-background;
-            }
-
-            .mce-panel {
-                border-color: @color-dark-input-border;
             }
         }
 
@@ -1170,13 +782,7 @@
 
                 .mce-btn {
                     &:focus {
-                        color: @color-dark-btn-secondary;
                         background: @color-dark-btn-secondary-background;
-                    }
-
-                    button:hover,
-                    button {
-                        color: @color-dark-btn-secondary;
                     }
                 }
             }
@@ -1186,15 +792,6 @@
 
                 &:focus {
                     color: @color-dark-font;
-                    border-color: @color-dark-input-border-focus;
-                    box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow;
-                }
-            }
-
-            .mce-listbox {
-                &:focus {
-                    border-color: @color-dark-input-border-focus !important;
-                    box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow !important;
                 }
             }
 
@@ -1207,11 +804,6 @@
             .mce-combobox {
                 .mce-btn {
                     background: @color-dark-input-addon-background;
-
-                    &:focus {
-                        background-color: @color-dark-input-border-focus-shadow;
-                        border-color: #c5c5c5;
-                    }
                 }
             }
 
@@ -1219,8 +811,6 @@
                 border-color: @color-dark-layout-border;
 
                 .mce-tab {
-                    color: @color-dark-link;
-
                     &.mce-active {
                         border-color: @color-dark-layout-border;
                         border-bottom-color: #fff;
@@ -1244,13 +834,6 @@
         .mce-floatpanel.mce-popover {
             box-shadow: 3px 3px 5px @color-dark-popover-shadow !important;
             border-color: @color-dark-layout-border !important;
-        }
-
-        .mce-menu {
-            .mce-menu-item.mce-active {
-                color: @color-dark-toolbarmenu-hover;
-                background-color: @color-dark-toolbarmenu-hover-background;
-            }
         }
 
         #mce-modal-block.mce-in {
@@ -1332,8 +915,6 @@
         .html-editor {
             & > .nav {
                 a.active {
-                    border-color: @color-dark-input-border !important;
-
                     &.mode-html {
                         background-color: @color-dark-layout-header-background;
                         border-bottom-color: @color-dark-input-addon-background !important;
@@ -1342,40 +923,6 @@
                     &.mode-plain {
                         border-bottom-color: #fff !important;
                     }
-                }
-            }
-
-            & > iframe { // e.g. mailvelope frame
-                border-color: @color-dark-input-border;
-            }
-
-            & > .mce-tinymce.focused {
-                border-color: @color-dark-input-border-focus;
-                box-shadow: 0 0 0 .2rem @color-dark-input-border-focus-shadow !important;
-            }
-        }
-
-        .googie_edit_layer {
-            border-color: @color-dark-input-border;
-        }
-
-        .googie_link {
-            color: @color-dark-spellcheck-link;
-        }
-
-        .googie_list {
-            td {
-                &.googie_list_onhover {
-                    color: @color-dark-toolbarmenu-hover;
-                    background-color: @color-dark-toolbarmenu-hover-background;
-                }
-            }
-        }
-
-        #message-header {
-            .subject {
-                body.status-flagged &:before {
-                    color: @color-dark-error;
                 }
             }
         }
@@ -1387,22 +934,7 @@
             }
 
             blockquote {
-                color: @color-dark-blockquote-0;
-                border-left-color: @color-dark-blockquote-0-border;
-                border-right-color: @color-dark-blockquote-0-border;
                 background-color: @color-dark-blockquote-background;
-
-                blockquote {
-                    color: @color-dark-blockquote-1;
-                    border-left-color: @color-dark-blockquote-1-border;
-                    border-right-color: @color-dark-blockquote-1-border;
-
-                    blockquote {
-                        color: @color-dark-blockquote-2;
-                        border-left-color: @color-dark-blockquote-2-border;
-                        border-right-color: @color-dark-blockquote-2-border;
-                    }
-                }
 
                 span.blockquote-link {
                     color: @color-dark-black-shade-text;
@@ -1422,19 +954,6 @@
             border-top-color: @color-dark-list-border;
             border-bottom-color: @color-dark-list-border;
             color: @color-dark-mail-headers;
-        }
-
-        .image-tools {
-            background-color: @color-dark-image-tools-background;
-
-            a {
-                color: @color-dark-image-tools;
-
-                &:focus,
-                &:hover {
-                    background-color: @color-dark-image-tools-hover !important;
-                }
-            }
         }
 
         #login-footer {
