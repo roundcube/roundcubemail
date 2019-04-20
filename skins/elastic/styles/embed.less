@@ -93,3 +93,12 @@
 .rcmail-inline-buttons {
     margin: 0;
 }
+
+& when (@dark-mode-enabled = true) {
+    @media (prefers-color-scheme: dark) {
+        .mce-content-body {
+            color: @color-dark-font;
+            background-color: @color-dark-input-background;
+        }
+    }
+}
