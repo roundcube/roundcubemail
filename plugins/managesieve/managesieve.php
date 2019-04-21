@@ -138,6 +138,13 @@ class managesieve extends rcube_plugin
             return;
         }
 
+        $this->load_config();
+
+        $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
+        if ($vacation_mode == 2) {
+            return;
+        }
+
         // use jQuery for popup window
         $this->require_plugin('jqueryui');
 

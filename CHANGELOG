@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+
 RELEASE 1.3.9
 -------------
 - Fix TinyMCE download location (#6694)

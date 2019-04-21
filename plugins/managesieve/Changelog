@@ -1,3 +1,4 @@
+- Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
 - Fix bug where show_real_foldernames setting wasn't respected (#6422)
 - Fix bug where text: syntax was forced for strings longer than 1024 characters (#6143)
 - Fix missing Save button in Edit Filter Set page of Classic skin (#6154)
