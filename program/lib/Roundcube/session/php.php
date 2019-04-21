@@ -32,8 +32,8 @@
 class rcube_session_php extends rcube_session {
 
     /**
-     * native php sessions don't need a save handler
-     * we do need to define abstract function implementations but they are not used.
+     * Native php sessions don't need a save handler.
+     * We do need to define abstract function implementations but they are not used.
      */
 
     public function open($save_path, $session_name) {}
@@ -44,7 +44,9 @@ class rcube_session_php extends rcube_session {
     public function update($key, $newvars, $oldvars) {}
 
     /**
-     * @param Object $config
+     * Object constructor
+     *
+     * @param rcube_config $config Configuration
      */
     public function __construct($config)
     {
