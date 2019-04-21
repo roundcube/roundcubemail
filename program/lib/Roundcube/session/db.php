@@ -35,7 +35,9 @@ class rcube_session_db extends rcube_session
     private $table_name;
 
     /**
-     * @param Object $config
+     * Object constructor
+     *
+     * @param rcube_config $config Configuration
      */
     public function __construct($config)
     {
@@ -55,9 +57,12 @@ class rcube_session_db extends rcube_session
     }
 
     /**
-     * @param $save_path
-     * @param $session_name
-     * @return bool
+     * Opens the session
+     *
+     * @param string $save_path    Session save path
+     * @param string $session_name Session name
+     *
+     * @return bool True on success, False on failure
      */
     public function open($save_path, $session_name)
     {
@@ -65,7 +70,9 @@ class rcube_session_db extends rcube_session
     }
 
     /**
-     * @return bool
+     * Close the session
+     *
+     * @return bool True on success, False on failure
      */
     public function close()
     {
@@ -73,10 +80,11 @@ class rcube_session_db extends rcube_session
     }
 
     /**
-     * Handler for session_destroy()
+     * Destroy the session
      *
-     * @param $key
-     * @return bool
+     * @param string $key Session identifier
+     *
+     * @return bool True on success, False on failure
      */
     public function destroy($key)
     {
@@ -90,9 +98,9 @@ class rcube_session_db extends rcube_session
     /**
      * Read session data from database
      *
-     * @param string Session ID
+     * @param string $key Session identifier
      *
-     * @return string Session vars
+     * @return string Session vars (serialized string)
      */
     public function read($key)
     {
@@ -116,11 +124,12 @@ class rcube_session_db extends rcube_session
     }
 
     /**
-     * insert new data into db session store
+     * Insert new data into db session store
      *
-     * @param $key
-     * @param $vars
-     * @return bool
+     * @param string $key  Session identifier
+     * @param string $vars Serialized data string
+     *
+     * @return bool True on success, False on failure
      */
     public function write($key, $vars)
     {
@@ -139,13 +148,13 @@ class rcube_session_db extends rcube_session
     }
 
     /**
-     * update session data
+     * Update session data
      *
-     * @param $key
-     * @param $newvars
-     * @param $oldvars
+     * @param string $key     Session identifier
+     * @param string $newvars New session data string
+     * @param string $oldvars Old session data string
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function update($key, $newvars, $oldvars)
     {

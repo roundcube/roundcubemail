@@ -101,7 +101,7 @@ abstract class rcube_session
     }
 
     /**
-     * register session handler
+     * Register session handler
      */
     public function register_session_handler()
     {
@@ -149,12 +149,12 @@ abstract class rcube_session
     abstract function update($key, $newvars, $oldvars);
 
     /**
-     * session write handler. This calls the implementation methods for write/update after some initial checks.
+     * Session write handler. This calls the implementation methods for write/update after some initial checks.
      *
-     * @param $key
-     * @param $vars
+     * @param string $key  Session identifier
+     * @param string $vars Serialized data string
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function sess_write($key, $vars)
     {
@@ -191,7 +191,7 @@ abstract class rcube_session
     /**
      * Creates a new (separate) session
      *
-     * @param array Session data
+     * @param array $data Session data
      *
      * @return string Session identifier (on success)
      */
@@ -241,6 +241,10 @@ abstract class rcube_session
 
     /**
      * Execute registered garbage collector routines
+     *
+     * @param int $maxlifetime Maximum session lifetime
+     *
+     * @return bool True on success, False on failure
      */
     public function gc($maxlifetime)
     {
@@ -284,7 +288,7 @@ abstract class rcube_session
      *
      * @param boolean $destroy If enabled the current session will be destroyed
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function regenerate_id($destroy = true)
     {
@@ -307,9 +311,9 @@ abstract class rcube_session
     /**
      * See if we have vars of this key already cached, and if so, return them.
      *
-     * @param string $key Session ID
+     * @param string $key Session identifier
      *
-     * @return string
+     * @return string Serialized data string
      */
     protected function get_cache($key)
     {
@@ -333,9 +337,9 @@ abstract class rcube_session
      *
      * Warning: Do not use if you already modified $_SESSION in the same request (#1490608)
      *
-     * @param string Path denoting the session variable where to append the value
-     * @param string Key name under which to append the new value (use null for appending to an indexed list)
-     * @param mixed  Value to append to the session data array
+     * @param string $path  Path denoting the session variable where to append the value
+     * @param string $key   Key name under which to append the new value (use null for appending to an indexed list)
+     * @param mixed  $value Value to append to the session data array
      */
     public function append($path, $key, $value)
     {
@@ -367,10 +371,12 @@ abstract class rcube_session
     /**
      * Unset a session variable
      *
-     * @param string Variable name (can be a path denoting a certain node in the session array, e.g. compose.attachments.5)
-     * @return boolean True on success
+     * @param string $var Variable name (can be a path denoting a certain node
+     *                    in the session array, e.g. compose.attachments.5)
+     *
+     * @return boolean True on success, False on failure
      */
-    public function remove($var=null)
+    public function remove($var = null)
     {
         if (empty($var)) {
             return $this->destroy(session_id());
@@ -482,6 +488,10 @@ abstract class rcube_session
     /**
      * Unserialize session data
      * http://www.php.net/manual/en/function.session-decode.php#56106
+     *
+     * @param string $str Serialized data string
+     *
+     * @return array Unserialized data
      */
     public static function unserialize($str)
     {
@@ -574,11 +584,13 @@ abstract class rcube_session
             $p = $q;
         }
 
-        return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
+        return unserialize('a:' . $items . ':{' . $serialized . '}');
     }
 
     /**
      * Setter for session lifetime
+     *
+     * @param int $lifetime Session lifetime (in seconds)
      */
     public function set_lifetime($lifetime)
     {
@@ -591,6 +603,8 @@ abstract class rcube_session
 
     /**
      * Getter for remote IP saved with this session
+     *
+     * @return string Client IP address
      */
     public function get_ip()
     {
@@ -599,6 +613,8 @@ abstract class rcube_session
 
     /**
      * Setter for cookie encryption secret
+     *
+     * @param string $secret Authentication secret string
      */
     function set_secret($secret = null)
     {
@@ -617,6 +633,8 @@ abstract class rcube_session
 
     /**
      * Enable/disable IP check
+     *
+     * @param bool $check IP address checking state
      */
     function set_ip_check($check)
     {
@@ -625,11 +643,13 @@ abstract class rcube_session
 
     /**
      * Setter for the cookie name used for session cookie
+     *
+     * @param string $name Authentication cookie name
      */
-    function set_cookiename($cookiename)
+    function set_cookiename($name)
     {
-        if ($cookiename) {
-            $this->cookiename = $cookiename;
+        if ($name) {
+            $this->cookiename = $name;
         }
     }
 
@@ -683,9 +703,9 @@ abstract class rcube_session
     /**
      * Create session cookie for specified time slot.
      *
-     * @param int Time slot to use
+     * @param int $timeslot Time slot to use
      *
-     * @return string
+     * @return string Cookie value
      */
     protected function _mkcookie($timeslot)
     {
@@ -698,6 +718,8 @@ abstract class rcube_session
 
     /**
      * Writes debug information to the log
+     *
+     * @param string Log line
      */
     function log($line)
     {
