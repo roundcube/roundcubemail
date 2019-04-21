@@ -156,6 +156,13 @@ class managesieve extends rcube_plugin
             return;
         }
 
+        $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
+        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+
+        if ($vacation_mode == 2 || $forward_mode == 2) {
+            return;
+        }
+
         // include js script and localization
         $this->init_ui();
 
