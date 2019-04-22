@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Renamed 'log_session' option to 'session_debug'
 - Password: Added ldap_exop driver (#4992)
 - Don't log full session identifiers in userlogins log (#6625)
+- installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
