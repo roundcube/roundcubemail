@@ -1363,13 +1363,13 @@ class rcube
                 self::$instance->output->raise_error($arg['code'], $arg['message']);
             }
             else if ($cli) {
-                fwrite(STDERR, 'ERROR: ' . $arg['message']);
+                fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
             }
 
             exit(1);
         }
         else if ($cli) {
-            fwrite(STDERR, 'ERROR: ' . $arg['message']);
+            fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
         }
     }
 
