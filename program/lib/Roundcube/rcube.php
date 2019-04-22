@@ -453,8 +453,8 @@ class rcube
      */
     public function session_init()
     {
-        // session started (Installer?)
-        if (session_id()) {
+        // Ignore in CLI mode or when session started (Installer?)
+        if (empty($_SERVER['REMOTE_ADDR']) || session_id()) {
             return;
         }
 
@@ -492,14 +492,10 @@ class rcube
             ini_set('session.gc_probability', 1);
         }
 
-        // get session driver instance
+        // Start the session
         $this->session = rcube_session::factory($this->config);
         $this->session->register_gc_handler(array($this, 'gc'));
-
-        // start PHP session (if not in CLI mode)
-        if ($_SERVER['REMOTE_ADDR']) {
-            $this->session->start();
-        }
+        $this->session->start();
     }
 
     /**
