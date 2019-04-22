@@ -45,7 +45,7 @@ class rcmail_utils
             $db->db_connect('w');
 
             if (!$db->is_connected()) {
-                rcube::raise_error("Error connecting to database: " . $db->is_error(), false, true);
+                rcube::raise_error("Failed to connect to database", false, true);
             }
 
             self::$db = $db;
