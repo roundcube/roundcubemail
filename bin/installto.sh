@@ -38,17 +38,23 @@ if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)/', $iniset, $m))
 
 $oldversion = $m[1];
 
-if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '>='))
-  rcube::raise_error("Installation at target location is up-to-date!", false, true);
+if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '>'))
+  rcube::raise_error("Target installation already in version $oldversion.", false, true);
 
-echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
+if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '==')) {
+  echo "Target installation already in version $oldversion. Do you want to update again? (y/N)\n";
+}
+else {
+  echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
+}
+
 $input = trim(fgets(STDIN));
 
 if (strtolower($input) == 'y') {
   echo "Copying files to target location...";
 
   $adds = array();
-  $dirs = array('program','bin','SQL','plugins','skins');
+  $dirs = array('bin','SQL','plugins','skins','program');
 
   if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
     $dirs[] = 'vendor';
