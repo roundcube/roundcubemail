@@ -1352,20 +1352,16 @@ class rcube
             self::log_bug($arg);
         }
 
+        if ($cli) {
+            fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
+        }
+        else if (is_object(self::$instance->output)) {
+            self::$instance->output->raise_error($arg['code'], $arg['message']);
+        }
+
         // terminate script
         if ($terminate) {
-            // display error page
-            if (is_object(self::$instance->output)) {
-                self::$instance->output->raise_error($arg['code'], $arg['message']);
-            }
-            else if ($cli) {
-                fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
-            }
-
             exit(1);
-        }
-        else if ($cli) {
-            fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
         }
     }
 
