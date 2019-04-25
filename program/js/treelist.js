@@ -138,8 +138,9 @@ function rcube_treelist_widget(node, p)
         return true;
 
       var node = p.selectable ? indexbyid[dom2id($(this))] : null;
-      if (node && !node.virtual) {
-        select(node.id);
+      if (node) {
+        if (!node.virtual)
+          select(node.id);
         e.stopPropagation();
       }
     })
