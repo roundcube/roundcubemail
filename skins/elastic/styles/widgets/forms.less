@@ -1302,7 +1302,6 @@ html.ms .propform {
         &:after {
             border-radius: .6rem;
             margin: .15rem 0;
-            cursor: pointer;
 
             html.touch & {
                 border-radius: .8rem;
@@ -1340,6 +1339,12 @@ html.ms .propform {
 
         html.touch & {
             transform: translateX(1rem);
+        }
+    }
+
+    .custom-control-input:not(:disabled) ~ .custom-control-label {
+        &:after, &:before {
+            cursor: pointer;
         }
     }
 }
