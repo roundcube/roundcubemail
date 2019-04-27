@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -182,7 +183,9 @@ class rcube_vcard
                     $subtype = '';
 
                     if (!empty($raw['type'])) {
-                        $combined = join(',', self::array_filter((array)$raw['type'], 'internet,pref', true));
+                        $raw['type'] = array_map('strtolower', $raw['type']);
+
+                        $combined = join(',', array_diff($raw['type'], array('internet', 'pref')));
                         $combined = strtoupper($combined);
 
                         if ($typemap[$combined]) {
@@ -192,11 +195,11 @@ class rcube_vcard
                             $subtype = $typemap[$raw['type'][$k]];
                         }
                         else {
-                            $subtype = strtolower($raw['type'][$k]);
+                            $subtype = $raw['type'][$k];
                         }
 
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
-                            $subtype = $typemap[$raw['type'][++$k]] ?: strtolower($raw['type'][$k]);
+                            $subtype = $typemap[$raw['type'][++$k]] ?: $raw['type'][$k];
                         }
                     }
 
@@ -848,46 +851,19 @@ class rcube_vcard
      * Check if vCard entry is empty: empty string or an array with
      * all entries empty.
      *
-     * @param mixed $value Attribute value (string or array)
+     * @param string|array $value Attribute value
      *
      * @return bool True if the value is empty, False otherwise
      */
     private static function is_empty($value)
     {
         foreach ((array)$value as $v) {
-            if (((string)$v) !== '') {
+            if (strval($v) !== '') {
                 return false;
             }
         }
 
         return true;
-    }
-
-    /**
-     * Extract array values by a filter
-     *
-     * @param array Array to filter
-     * @param keys Array or comma separated list of values to keep
-     * @param boolean Invert key selection: remove the listed values
-     *
-     * @return array The filtered array
-     */
-    private static function array_filter($arr, $values, $inverse = false)
-    {
-        if (!is_array($values)) {
-            $values = explode(',', $values);
-        }
-
-        $result = array();
-        $keep   = array_flip((array)$values);
-
-        foreach ($arr as $key => $val) {
-            if ($inverse != isset($keep[strtolower($val)])) {
-                $result[$key] = $val;
-            }
-        }
-
-        return $result;
     }
 
     /**

@@ -11,8 +11,8 @@
  * @author Philip Weir
  * @author Thomas Bruederli
  *
- * Copyright (C) 2009-2018 The Roundcube Dev Team
- * Copyright (C) 2009-2018 Philip Weir
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Philip Weir
  *
  * This program is a Roundcube (https://roundcube.net) plugin.
  * For more information see README.md.

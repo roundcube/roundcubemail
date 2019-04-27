@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -55,6 +55,7 @@ input.smart-upload {
     td.rowbuttons {
         width: 1%;
         white-space: nowrap;
+        vertical-align: top;
 
         span {
             display: none;
@@ -92,6 +93,7 @@ input.smart-upload {
 
     td.rowactions {
         width: 1%;
+        vertical-align: top;
 
         .form-control {
             width: auto;
@@ -99,6 +101,8 @@ input.smart-upload {
     }
 
     td.rowtargets {
+        vertical-align: top;
+
         .composite {
             input, textarea, select, .multi-input, .input-group {
                 margin-bottom: .5rem;
@@ -312,12 +316,6 @@ input.smart-upload {
 @media screen and (max-width: @screen-width-bs-phone) {
     .propform {
         table.compact-table {
-            overflow-x: initial;
-
-            tbody {
-                display: block;
-            }
-
             .rowactions > select,
             .flexbox > select {
                 width: 100%;
@@ -329,8 +327,7 @@ input.smart-upload {
 
                 td {
                     width: 100%;
-                    padding-right: 0;
-                    padding-left: 0;
+                    padding: .25rem 0 0 0;
 
                     &.rowbuttons {
                         text-align: right;

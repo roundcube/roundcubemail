@@ -5,7 +5,7 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2011-2014, Kolab Systems AG
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,12 +72,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 if ($this->sieve->load($script)) {
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions'])) {
-                            if ($rule['actions'][0]['type'] == 'vacation') {
+                            $action = $rule['actions'][0];
+                            if ($action['type'] == 'vacation') {
                                 $this->script_name = $script;
                                 return 0;
                             }
-                            else if (empty($master) && $rule['actions'][0]['type'] == 'include') {
-                                $included[] = $rule['actions'][0]['target'];
+                            else if (empty($master) && empty($action['global']) && $action['type'] == 'include') {
+                                $included[] = $action['target'];
                             }
                         }
                     }

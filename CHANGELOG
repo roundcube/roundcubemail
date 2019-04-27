@@ -1,17 +1,32 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to jQuery 3.4.0
+- Clarified 'address_book_type' option behavior (#6680)
+- Added cookie mismatch detection, display an error message informing the user to clear cookies
+- Renamed 'log_session' option to 'session_debug'
 - Password: Added ldap_exop driver (#4992)
+- Don't log full session identifiers in userlogins log (#6625)
+- installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
+- Elastic: Fix folders list scrolling on touch devices (#6706)
+- Elastic: Fix non-working pretty selects in Chrome browser (#6705)
+- Managesieve: Fix bug where global includes were requested for vacation (#6716)
+- Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
+- Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Fix bug in HTML parser that could cause missing text fragments when there was no head/body tag (#6713)
+- Fix bug where HTML messages with a xml:namespace tag were not rendered (#6697)
+- Fix TinyMCE download location (#6694)
 - Fix so "Open in new window" consistently displays "external window" interface (#6659)
 - Fix bug where next row wasn't selected after deleting a collapsed thread (#6655)
 - Fix bug where external content (e.g. mail body) was passed to templates parsing code (#6640)
 - Fix bug where attachment preview didn't work with x_frame_options=deny (#6688)
+- Fix so bin/install-jsdeps.sh returns error code on error (#6704)
 
 RELEASE 1.4-rc1
 ---------------

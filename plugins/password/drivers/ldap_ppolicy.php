@@ -8,7 +8,6 @@
  *
  * @version 1.0
  * @author Zbigniew Szmyd <zbigniew.szmyd@linseco.pl>
- *
  */
 
 class rcube_ldap_ppolicy_password

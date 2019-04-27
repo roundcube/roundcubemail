@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |

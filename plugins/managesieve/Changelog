@@ -1,3 +1,9 @@
+* version 9.3 [2019-04-21]
+-----------------------------------------------------------
+- Use RFC-compliant line endings, CRLF instead of LF (#6686)
+- Fix bug where global includes were requested for vacation (#6716)
+- Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+
 * version 9.2 [2018-11-08]
 -----------------------------------------------------------
 - Added support for 'editheader' extension - RFC5293 (#5954)

@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail.php                                            |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2014, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -307,13 +306,13 @@ class rcmail extends rcube
      */
     public function get_address_sources($writeable = false, $skip_hidden = false)
     {
-        $abook_type   = (string) $this->config->get('address_book_type');
+        $abook_type   = strtolower((string) $this->config->get('address_book_type', 'sql'));
         $ldap_config  = (array) $this->config->get('ldap_public');
         $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
         $list         = array();
 
-        // We are using the DB address book or a plugin address book
-        if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
+        // SQL-based (built-in) address book
+        if ($abook_type === 'sql') {
             if (!isset($this->address_books['0'])) {
                 $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
             }
@@ -324,10 +323,11 @@ class rcmail extends rcube
                 'groups'   => $this->address_books['0']->groups,
                 'readonly' => $this->address_books['0']->readonly,
                 'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
-                'autocomplete' => in_array('sql', $autocomplete),
+                'autocomplete' => in_array_nocase('sql', $autocomplete),
             );
         }
 
+        // LDAP address book(s)
         if (!empty($ldap_config)) {
             foreach ($ldap_config as $id => $prop) {
                 // handle misconfiguration
@@ -346,6 +346,7 @@ class rcmail extends rcube
             }
         }
 
+        // Plugins can also add address books, or re-order the list
         $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
         $list   = $plugin['sources'];
 
@@ -712,6 +713,40 @@ class rcmail extends rcube
 
         if ($this->storage && $this->storage->get_error_code() < -1) {
             return self::ERROR_STORAGE;
+        }
+    }
+
+    /**
+     * Detects session errors
+     *
+     * @return string Error label
+     */
+    public function session_error()
+    {
+        // log session failures
+        $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
+
+        if ($task && !in_array($task, array('login', 'logout')) && ($sess_id = $_COOKIE[ini_get('session.name')])) {
+            $log   = "Aborted session $sess_id; no valid session data found";
+            $error = 'sessionerror';
+
+            // In rare cases web browser might end up with multiple cookies of the same name
+            // but different params, e.g. domain (webmail.domain.tld and .webmail.domain.tld).
+            // In such case browser will send both cookies in the request header
+            // problem is that PHP session handler can use only one and if that one session
+            // does not exist we'll end up here
+            $cookie          = rcube_utils::request_header('Cookie');
+            $cookie_sessid   = $this->config->get('session_name') ?: 'roundcube_sessid';
+            $cookie_sessauth = $this->config->get('session_auth_name') ?: 'roundcube_sessauth';
+
+            if (substr_count($cookie, $cookie_sessid.'=') > 1 || substr_count($cookie, $cookie_sessauth.'=') > 1) {
+                $log .= ". Cookies mismatch";
+                $error = 'cookiesmismatch';
+            }
+
+            $this->session->log($log);
+
+            return $error;
         }
     }
 
@@ -1110,6 +1145,10 @@ class rcmail extends rcube
             return;
         }
 
+        // don't log full session id for security reasons
+        $session_id = session_id();
+        $session_id = $session_id ? substr($session_id, 0, 16) : 'no-session';
+
         // failed login
         if ($failed_login) {
             // don't fill the log with complete input, which could
@@ -1119,7 +1158,7 @@ class rcmail extends rcube
             }
 
             $message = sprintf('Failed login for %s from %s in session %s (error: %d)',
-                $user, rcube_utils::remote_ip(), session_id(), $error_code);
+                $user, rcube_utils::remote_ip(), $session_id, $error_code);
         }
         // successful login
         else {
@@ -1131,7 +1170,7 @@ class rcmail extends rcube
             }
 
             $message = sprintf('Successful login for %s (ID: %d) from %s in session %s',
-                $user_name, $user_id, rcube_utils::remote_ip(), session_id());
+                $user_name, $user_id, rcube_utils::remote_ip(), $session_id);
         }
 
         // log login
