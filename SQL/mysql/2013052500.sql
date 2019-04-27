@@ -1,3 +1,5 @@
+DROP TABLE `cache_shared`;
+
 CREATE TABLE `cache_shared` (
  `cache_key` varchar(255) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
