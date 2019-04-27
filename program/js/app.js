@@ -6,8 +6,8 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2005-2015, The Roundcube Dev Team
- * Copyright (C) 2011-2015, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -119,8 +119,10 @@ function rcube_webmail()
 
     this.buttons[command].push(button_prop);
 
-    if (this.loaded)
+    if (this.loaded) {
       this.init_button(command, button_prop);
+      this.set_button(command, (this.commands[command] ? 'act' : 'pas'));
+    }
   };
 
   // register a button with popup menu, to set its state according to the state of all commands in the menu
@@ -163,7 +165,10 @@ function rcube_webmail()
             return disabled = false;
           }
         });
-        $(this[0]).add($(this[0]).parent('.dropbutton')).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
+
+        $(this[0]).add($(this[0]).parent('.dropbutton'))
+          .addClass(disabled ? 'disabled' : 'active')
+          .removeClass(disabled ? 'active' : 'disabled');
       });
     }, 50);
   };
@@ -2962,7 +2967,7 @@ function rcube_webmail()
           r.parent_uid = 0;
           if (r.has_children) {
             // replace 'leaf' with 'collapsed'
-            $('#'+r.id+' .leaf:first')
+            $('#' + r.id + ' .leaf').first()
               .attr('id', 'rcmexpando' + r.id)
               .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
               .mousedown({uid: r.uid}, function(e) {
@@ -4322,7 +4327,7 @@ function rcube_webmail()
         });
 
         content = $('<ul class="proplist">').append(nodes);
-        $('input:not([disabled]):first', content).attr('checked', true);
+        $('input:not([disabled])', content).first().attr('checked', true);
 
         this.simple_dialog(content, this.get_label('markallread'),
           function() {
@@ -5692,7 +5697,7 @@ function rcube_webmail()
     if (this.import_dialog) {
       this.import_state = state;
       // activate Import button depending on state
-      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button:first').attr('disabled', state != 'error');
+      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button').first().attr('disabled', state != 'error');
     }
   };
 
@@ -5980,7 +5985,7 @@ function rcube_webmail()
 
       // select the first
       if (!this.env.contacts.length) {
-        this.ksearch_select($('li:first', ul).get(0));
+        this.ksearch_select($('li', ul)[0]);
       }
     }
 
@@ -6920,7 +6925,7 @@ function rcube_webmail()
           row.appendTo(appendcontainer.show());
 
           if (input.is('div'))
-            input.find('input:first').focus();
+            input.find('input').first().focus();
           else
             input.first().focus();
 
@@ -7419,10 +7424,10 @@ function rcube_webmail()
     }
 
     // set folder name
-    $('a:first', row).text(display_name).removeAttr('title');
+    $('a', row).first().text(display_name).removeAttr('title');
 
     // update subscription checkbox
-    $('input[name="_subscribed[]"]:first', row).val(id)
+    $('input[name="_subscribed[]"]', row).first().val(id)
       .prop({checked: subscribed ? true : false, disabled: is_protected ? true : false});
 
     // add to folder/row-ID map
@@ -7512,7 +7517,7 @@ function rcube_webmail()
       }
 
       if (parent && n == parent) {
-        $('ul:first', parent).append(row);
+        $('ul', parent).first().append(row);
       }
       else {
         while (p = $(n).parent().parent().get(0)) {
@@ -7573,7 +7578,7 @@ function rcube_webmail()
       old_folder = this.env.subscriptionrows[oldid],
       prefix_len_id = oldid.length,
       prefix_len_name = old_folder[0].length,
-      subscribed = $('input[name="_subscribed[]"]:first', row).prop('checked');
+      subscribed = $('input[name="_subscribed[]"]', row).first().prop('checked');
 
     // no renaming, only update class_name
     if (oldid == id) {
@@ -7588,7 +7593,7 @@ function rcube_webmail()
         newid = id + fname.slice(prefix_len_id);
 
       this.id = 'rcmli' + ref.html_identifier_encode(newid);
-      $('input[name="_subscribed[]"]:first', this).val(newid);
+      $('input[name="_subscribed[]"]', this).first().val(newid);
       folder[0] = name + folder[0].slice(prefix_len_name);
 
       subfolders[newid] = folder;
@@ -7673,7 +7678,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('disabled', true);
+      $('input[name="_subscribed[]"]', row).first().prop('disabled', true);
   };
 
   // resets state of subscription checkbox (e.g. on error)
@@ -7681,7 +7686,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('checked', state);
+      $('input[name="_subscribed[]"]', row).first().prop('checked', state);
   };
 
   this.folder_size = function(folder)
@@ -7805,13 +7810,10 @@ function rcube_webmail()
       else if (button[state] !== undefined) {
         obj.className = button[state];
       }
+
       // disable/enable input buttons
       if (button.type == 'input' || button.type == 'button') {
         obj.disabled = state == 'pas';
-      }
-      else if (button.type == 'uibutton') {
-        button.status = state;
-        $(obj).button('option', 'disabled', state == 'pas');
       }
       else {
         $obj = $(obj);

@@ -1,7 +1,7 @@
 /**
  * Roundcube functions for default skin interface
  *
- * Copyright (c) 2013, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work

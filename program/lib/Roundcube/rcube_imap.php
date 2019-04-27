@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -3687,6 +3688,16 @@ class rcube_imap extends rcube_storage
             && $this->icache['undeleted_idx']->get_parameters('MAILBOX') == $folder
         ) {
             $data['UNDELETED'] = $this->icache['undeleted_idx'];
+        }
+
+        // dovecot does not return HIGHESTMODSEQ until requested, we use it though in our caching system
+        // calling STATUS is needed only once, after first use mod-seq db will be maintained
+        if (!isset($data['HIGHESTMODSEQ']) && empty($data['NOMODSEQ'])
+            && ($this->get_capability('QRESYNC') || $this->get_capability('CONDSTORE'))
+        ) {
+            if ($add_data = $this->conn->status($folder, array('HIGHESTMODSEQ'))) {
+                $data = array_merge($data, $add_data);
+            }
         }
 
         return $data;

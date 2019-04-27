@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -49,6 +50,7 @@ class rcube_config
         'min_refresh_interval' => 'min_keep_alive',
         'messages_cache_ttl'   => 'message_cache_lifetime',
         'mail_read_time'       => 'preview_pane_mark_read',
+        'session_debug'        => 'log_session',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
     );
 

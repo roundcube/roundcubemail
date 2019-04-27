@@ -24,7 +24,7 @@
  *   a good starting default:
  *   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -6,7 +6,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2006-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -174,7 +174,7 @@ function rcube_text_editor(config, id)
 
     if (rcmail.env.action == 'compose') {
       var area = $('#' + this.id),
-        height = $('div.mce-toolbar-grp:first', area.parent()).height();
+        height = $('div.mce-toolbar-grp', area.parent()).first().height();
 
       // the editor might be still not fully loaded, making the editing area
       // inaccessible, wait and try again (#1490310)
@@ -686,7 +686,7 @@ function rcube_text_editor(config, id)
       }
     }
 
-    cancel = dialog.parent().parent().find('button:last').parent();
+    cancel = dialog.parent().parent().find('button').last().parent();
 
     // Add custom Tab key handlers, tabindex does not work
     list = $('#image-selector-list').append(list).on('keydown', 'li', function(e) {
@@ -706,7 +706,7 @@ function rcube_text_editor(config, id)
 
     button.keydown(function(e) {
       if (e.which == 9) { // Tab
-        if (rcube_event.get_modifier(e) == SHIFT_KEY || !list.find('li:first').focus().length) {
+        if (rcube_event.get_modifier(e) == SHIFT_KEY || !list.find('li').first().focus().length) {
           cancel.focus();
         }
 
@@ -720,7 +720,7 @@ function rcube_text_editor(config, id)
 
     cancel.keydown(function(e) {
       if (e.which == 9) {
-        if (rcube_event.get_modifier(e) != SHIFT_KEY || !list.find('li:last').focus().length) {
+        if (rcube_event.get_modifier(e) != SHIFT_KEY || !list.find('li').last().focus().length) {
           button.focus();
         }
 

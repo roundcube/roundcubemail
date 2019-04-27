@@ -5,8 +5,8 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2008-2014, The Roundcube Dev Team
- * Copyright (C) 2011-2014, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ class rcube_sieve_engine
     protected $exts    = array();
     protected $active  = array();
     protected $headers = array();
+    protected $disabled_actions = array();
     protected $addr_headers = array(
         // Required
         "from", "to", "cc", "bcc", "sender", "resent-from", "resent-to",
@@ -58,9 +59,8 @@ class rcube_sieve_engine
         2 => 'notifyimportancenormal',
         1 => 'notifyimportancehigh'
     );
-    private $disabled_actions;
 
-    const VERSION  = '9.2';
+    const VERSION  = '9.3';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -89,7 +89,7 @@ class rcube_sieve_engine
             'filterseteditraw' => array($this, 'filterset_editraw'),
         ));
 
-        $this->disabled_actions = $this->rc->config->get('managesieve_disabled_actions', array());
+        $this->disabled_actions = (array) $this->rc->config->get('managesieve_disabled_actions');
 
         // connect to managesieve server
         $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));

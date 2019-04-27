@@ -8,7 +8,7 @@
  * @version 0.1
  * @author Philip Weir
  *
- * Copyright (C) 2018 Philip Weir
+ * Copyright (C) Philip Weir
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
