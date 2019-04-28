@@ -782,17 +782,28 @@ class rcube_washtml
      */
     protected function fix_html5($html)
     {
+        // There might be content before html/body tag, we'll move it to the body
+        // We'll wrap it by a div container, it's an invalid HTML anyway
+        if (strpos($html, '<')) {
+            $pos     = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
+            $prefix  = '<div>' . substr($html, 0, $pos) . '</div>';
+            $html    = substr($html, $pos);
+        }
+
         // HTML5 requires <head> or <body> (#6713)
         // https://github.com/Masterminds/html5-php/issues/166
-        if (!preg_match('/<(head|body)/i', $html)) {
-            $pos = stripos($html, '<html');
+        if (isset($prefix) || !preg_match('/<(head|body)/i', $html)) {
+            $body_pos = stripos($html, '<body');
+            $pos      = $body_pos !== false ? $body_pos : stripos($html, '<html');
 
+            // No HTML and no BODY tag
             if ($pos === false) {
-                $html = '<html><body>' . $html;
+                $html = '<html><body>' . $prefix . $html;
             }
+            // Either HTML or BODY tag found
             else {
                 $pos  = strpos($html, '>', $pos);
-                $html = substr_replace($html, '<body>', $pos + 1, 0);
+                $html = substr_replace($html, ($body_pos === false ? '<body>' : '') . $prefix, $pos + 1, 0);
             }
         }
 

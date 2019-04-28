@@ -471,5 +471,17 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $washer->wash($html);
 
         $this->assertContains('First line', $washed);
+
+        // Not really valid HTML, but because its common in email world
+        // and because it works with DOMDocument, we make sure its supported
+        $html   = 'First line<br /><html><body>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br /><html>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
     }
 }
