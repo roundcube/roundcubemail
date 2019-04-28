@@ -129,7 +129,7 @@ class rcube_cache_redis extends rcube_cache
             $port = ($port !== null) ? $port : 6379;
             $database = ($database !== null) ? $database : 0;
 
-            if (self::$redis->connect($host, $port) === false) {
+	    if ((preg_match('/^unix$/',$host) && $this->redis->connect($port) === false) || (!preg_match('/^unix$/',$host) && $this->redis->connect($host, $port) === false)) {
                 rcube::raise_error(array(
                         'code' => 604,
                         'type' => 'redis',
