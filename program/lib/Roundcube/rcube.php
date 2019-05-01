@@ -1355,7 +1355,7 @@ class rcube
         if ($cli) {
             fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
         }
-        else if (is_object(self::$instance->output)) {
+        else if ($terminate && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         }
 
