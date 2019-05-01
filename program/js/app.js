@@ -2493,6 +2493,9 @@ function rcube_webmail()
 
     url = this.url(preview ? 'preview': 'show', url);
 
+    if (preview)
+      this.preview_id = id;
+
     if (preview && String(target.location.href).indexOf(url) >= 0) {
       this.show_contentframe(true);
     }
@@ -2550,6 +2553,9 @@ function rcube_webmail()
 
     if (!show && this.env.frame_lock)
       this.set_busy(false, null, this.env.frame_lock);
+
+    if (!show)
+      delete this.preview_id;
   };
 
   this.get_frame_element = function(id)
@@ -3408,7 +3414,8 @@ function rcube_webmail()
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
 
-    $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
+    if (this.env.action == 'show' || $.inArray(this.preview_id, a_uids) >= 0)
+      $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
 
     this.http_post('mark', post_data, lock);
   };
