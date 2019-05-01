@@ -29,10 +29,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-if (class_exists('filesystem_attachments', false) && !defined('TESTS_DIR')) {
-    die("Configuration issue. There can be only one enabled plugin for attachments handling");
-}
-
 require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachments.php';
 
 class database_attachments extends filesystem_attachments
