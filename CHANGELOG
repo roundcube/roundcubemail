@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where global includes were requested for vacation (#6716)
 - Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Fix bug where flag change could have been passed to a preview frame when not expected
 - Fix bug in HTML parser that could cause missing text fragments when there was no head/body tag (#6713)
 - Fix bug where HTML messages with a xml:namespace tag were not rendered (#6697)
 - Fix TinyMCE download location (#6694)
