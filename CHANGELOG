@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Update to jQuery 3.4.0
+- Update to jQuery 3.4.1
 - Clarified 'address_book_type' option behavior (#6680)
 - Added cookie mismatch detection, display an error message informing the user to clear cookies
 - Renamed 'log_session' option to 'session_debug'
