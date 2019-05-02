@@ -74,10 +74,10 @@
     },
     {
       "lib": "codemirror",
-      "version": "5.34.0",
+      "version": "5.46.0",
       "url": "https://codemirror.net/codemirror-$v.zip",
       "dest": "plugins/managesieve/codemirror",
-      "sha1": "24d0834c6a5c4b89c4c82ca2ea31e574b0751b32",
+      "sha1": "c11fcb9b63cee2b276e3b9f24a8ad6d7c374c624",
       "license": "MIT",
       "map": {
         "lib": "lib",
