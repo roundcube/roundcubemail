@@ -1652,7 +1652,7 @@ EOF;
         }
 
         // overwrite attributes
-        if (!$attrib['href'] && !$menuitem) {
+        if (!$attrib['href']) {
             $attrib['href'] = '#';
         }
 
