@@ -264,6 +264,8 @@ body.task-error-login #layout {
 .message-part,
 .message-htmlpart {
     padding-top: .5rem;
+    // Fixes absolute positioned mail message content
+    position: relative;
 
     &:not(:first-child) {
         border-top: 1px solid lighten(@color-mail-headers, 50%);
