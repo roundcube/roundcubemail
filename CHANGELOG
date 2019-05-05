@@ -18,9 +18,11 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix non-working pretty selects in Chrome browser (#6705)
 - Elastic: Various internal refactorings
 - Elastic: Fix issue with absolute positioned mail content (#6739)
+- Elastic: Fix bug where some menu actions could cause a browser popup warning
 - Managesieve: Fix bug where global includes were requested for vacation (#6716)
 - Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Larry: Fix regression where menu actions didn't work with keyboard (#6740)
 - Fix so advanced search dialog is not automatically displayed on searchonly addressbooks (#6679)
 - Fix so an error is logged when more than one attachment plugin has been enabled, initialize the first one (#6735)
 - Fix bug where flag change could have been passed to a preview frame when not expected

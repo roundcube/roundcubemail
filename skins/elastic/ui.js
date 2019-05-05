@@ -2276,11 +2276,6 @@ function rcube_elastic_ui()
                                 $(item).popover('toggle').focus();
                                 return false;
 
-                            case 13: // ENTER
-                            case 32: // SPACE
-                                $(this).trigger('click').data('event', 'key');
-                                return false; // for IE
-
                             case 38: // ARROW-UP
                             case 63232:
                                 mode = 'previous';
