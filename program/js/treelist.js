@@ -204,7 +204,7 @@ function rcube_treelist_widget(node, p)
         $(get_item(selection)).find(':focusable').first().focus();
       }
       else if (!has_focus) {
-        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+        container.children('li').find(':focusable').first().focus();
       }
     });
   }
