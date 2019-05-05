@@ -15,28 +15,28 @@
 @import "widgets/buttons";
 @import "widgets/jqueryui";
 @import "widgets/dialogs";
-@import "widgets/taskmenu";
+@import "widgets/menu";
 @import "widgets/messages";
-@import "widgets/toolbar";
 @import "widgets/lists";
 @import "widgets/forms";
 @import "widgets/editor";
-@import "widgets/mail";
 
 
 /*** Login form ***/
 
-.task-login #layout > .content {
-    text-align: center;
-    width: 100%;
-    display: block;
-}
+.task-login {
+    #layout-content {
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
 
-.task-login #layout .content #logo {
-    display: inline-block;
-    position: relative;
-    top: 16vh;
-    max-height: 100px;
+    #logo {
+        display: inline-block;
+        position: relative;
+        top: 16vh;
+        max-height: 100px;
+    }
 }
 
 #login-form {
@@ -94,8 +94,8 @@
 }
 
 body.task-error-login #layout {
-    & > .menu,
-    & > .content > .header {
+    #layout-menu,
+    #layout-content > .header {
         display: none;
     }
 }
@@ -136,5 +136,262 @@ body.task-error-login #layout {
         }
     }
 }
+
+/*** Mail UI ***/
+
+#message-header {
+    margin-bottom: 1rem;
+
+    .subject {
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        body.status-flagged &:before {
+            &:extend(.font-icon-class);
+            display: inline;
+            float: none;
+            content: @fa-var-flag;
+            font-size: 1em;
+            color: @color-error;
+        }
+
+        a.extwin {
+            &:before {
+                &:extend(.font-icon-class);
+                float: none;
+                display: inline-block;
+                font-size: 75%;
+                line-height: 1.5;
+                margin: 0;
+                content: @fa-var-external-link-square-alt;
+            }
+        }
+
+        span.inner {
+            display: none;
+        }
+    }
+
+    .short-header {
+        display: flex;
+
+        img.contactphoto {
+            margin: 0 1rem 0 0;
+            border-radius: 50%;
+            width: @mail-header-photo-height;
+            height: @mail-header-photo-height;
+        }
+
+        div.header-content {
+            min-height: @mail-header-photo-height;
+            flex: 1;
+        }
+
+        div.header-subject {
+            line-height: @mail-header-photo-height/2;
+
+            & > span {
+                line-height: 1.5;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+
+        div.header-links {
+            a {
+                font-size: 90%;
+                margin-right: .5rem;
+                text-decoration: none;
+                white-space: nowrap;
+                display: inline-block;
+
+                &:before {
+                    &:extend(.font-icon-class);
+                    height: 1.5rem;
+                    line-height: 1.3;
+                }
+
+                &.envelope:before {
+                    content: @fa-var-envelope;
+                }
+
+                &.html:before {
+                    content: @fa-var-image;
+                }
+
+                &.plain:before {
+                    content: @fa-var-align-justify;
+                }
+
+                &.zipdownload:before {
+                    content: @fa-var-download;
+                }
+            }
+        }
+
+        .message-partheaders {
+            margin: 0 !important;
+            padding: .25rem 0 !important;
+        }
+    }
+
+    a.extwin,
+    a.headers {
+        text-decoration: none;
+    }
+}
+
+#message-content {
+    .attachmentslist:not(:empty) {
+        margin-bottom: 1rem;
+    }
+}
+
+#message-objects + .ui.alert {
+    float: left;
+}
+
+#messagebody {
+    &.mailvelope {
+        margin: 0;
+
+        iframe {
+            min-height: 75vh;
+        }
+    }
+}
+
+.message-part,
+.message-htmlpart {
+    padding-top: .5rem;
+
+    &:not(:first-child) {
+        border-top: 1px solid lighten(@color-mail-headers, 50%);
+        margin-top: .5rem;
+    }
+
+    div.rcmBody {
+        // Remove margins that can be set by the mail message styles
+        margin: 0 !important;
+    }
+
+    blockquote {
+        .overflow-ellipsis;
+        color: @color-blockquote-0;
+        border-left: 2px solid @color-blockquote-0-border;
+        border-right: 2px solid @color-blockquote-0-border;
+        background-color: @color-blockquote-background;
+        margin: 2px 0;
+        padding: 0 .4em;
+
+        blockquote {
+            color: @color-blockquote-1;
+            border-left: 2px solid @color-blockquote-1-border;
+            border-right: 2px solid @color-blockquote-1-border;
+
+            blockquote {
+                color: @color-blockquote-2;
+                border-left: 2px solid @color-blockquote-2-border;
+                border-right: 2px solid @color-blockquote-2-border;
+            }
+        }
+
+        span.blockquote-link {
+            top: 0;
+            cursor: pointer;
+            right: .5rem;
+            min-width: 4rem;
+            padding: .2rem .25rem .2rem .5rem;
+            font-size: 90%;
+            text-align: center;
+            color: @color-black-shade-text;
+            background: @color-black-shade-bg;
+            border: 1px solid @color-black-shade-border;
+            border-radius: .3rem;
+            line-height: 1;
+            .font-family; // don't inherit monospace font
+
+            &:after {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-down;
+                display: inline-block;
+                float: none;
+                margin: 0;
+                font-size: 90%;
+            }
+
+            &.collapsed:after {
+                content: @fa-var-angle-up;
+            }
+        }
+
+        &.blockquote-header {
+            text-overflow: ellipsis !important;
+            padding-right: 5rem !important;
+        }
+    }
+}
+
+.message-part {
+    span.sig {
+        color: @color-mail-signature;
+    }
+
+    div.pre {
+        font-family: monospace;
+    }
+}
+
+.message-partheaders {
+    padding: .5rem 0;
+    margin: .5rem 0 0 0;
+    font-size: 90%;
+    border-top: 1px solid @color-list-border;
+    border-bottom: 1px solid @color-list-border;
+    color: @color-mail-headers;
+
+    .header-title {
+        .overflow-ellipsis;
+        white-space: nowrap;
+        max-width: 8em;
+        font-weight: bold;
+        padding-right: 1rem;
+        vertical-align: top;
+    }
+
+    .subject {
+        font-weight: bold;
+    }
+
+    & + .message-part,
+    & + .message-htmlpart {
+        border-top: 0;
+        margin: 0;
+    }
+}
+
+#compose-attachments {
+    margin: .5rem .5rem 0 .5rem;
+}
+
+#composestatusbar {
+    position: absolute;
+    opacity: .3;
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        display: none;
+    }
+
+    a.button {
+        display: inline-block;
+        height: 2.5rem;
+        margin-right: .25rem;
+
+        &:before {
+            line-height: 2.5rem;
+        }
+    }
+}
+
 
 @import "_styles";

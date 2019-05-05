@@ -5,7 +5,7 @@
 
 <h1 class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h1>
 
-<div class="content selected">
+<div id="layout-content" class="selected">
 	<roundcube:if condition="!env:framed" />
 		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 		<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
@@ -64,18 +64,18 @@
 <!-- popup menus -->
 <div id="attachmentmenu" class="popupmenu">
 	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
-		<roundcube:button command="open-attachment" type="link-menuitem" id="attachmenuopen" label="open" class="extwin" classAct="extwin active" />
-		<roundcube:button command="download-attachment" type="link-menuitem" id="attachmenudownload" label="download" class="download" classAct="download active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
+		<roundcube:button command="open-attachment" type="link-menuitem" id="attachmenuopen" label="open" class="extwin disabled" classAct="extwin active" />
+		<roundcube:button command="download-attachment" type="link-menuitem" id="attachmenudownload" label="download" class="download disabled" classAct="download active" />
 		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
 	</ul>
 </div>
 
 <div id="mailto-menu" class="popupmenu">
 	<h3 id="aria-label-mailtomenu" class="voice"><roundcube:label name="arialabelmailtomenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailtomenu">
-		<roundcube:button name="addtoaddressbook" type="link-menuitem" label="addtoaddressbook" class="addressbook" />
-		<roundcube:button name="composeto" type="link-menuitem" label="composeto" class="compose active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-mailtomenu">
+		<roundcube:button name="addtoaddressbook" type="link-menuitem" label="addtoaddressbook" class="addressbook" classAct="addressbook active" />
+		<roundcube:button name="composeto" type="link-menuitem" label="composeto" class="compose" classAct="compose active" />
 		<roundcube:container name="mailtomenu" id="mailto-menu" />
 	</ul>
 </div>
