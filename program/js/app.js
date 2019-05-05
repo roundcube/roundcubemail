@@ -3558,7 +3558,7 @@ function rcube_webmail()
         for (i = 1; i <= ref.env.pagecount; i++)
           html += '<li>' + i + '</li>';
 
-        html = '<ul class="toolbarmenu">' + html + '</ul>';
+        html = '<ul class="toolbarmenu menu">' + html + '</ul>';
 
         if (!ref.pagejump) {
           ref.pagejump = $('<div id="pagejump-selector" class="popupmenu"></div>')
@@ -4770,7 +4770,7 @@ function rcube_webmail()
       var dialog,
         prompt_value = $('<input>').attr({type: 'text', size: 40}),
         myprompt = $('<div class="prompt">')
-          .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
+          .append($('<p class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
         save_func = function() {
           input_subject.val(prompt_value.val());
@@ -8572,7 +8572,7 @@ function rcube_webmail()
     if (!container) {
       var rows = [],
         container = $('<div>').attr('id', name).addClass('popupmenu'),
-        ul = $('<ul>').addClass('toolbarmenu'),
+        ul = $('<ul>').addClass('toolbarmenu menu'),
         link = document.createElement('a');
 
       link.href = '#';

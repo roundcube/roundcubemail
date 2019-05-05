@@ -151,10 +151,6 @@ input.smart-upload {
         }
     }
 
-    .rulerow {
-        margin-bottom: .5rem;
-    }
-
     &.groupped {
         &.readonly {
             legend {
@@ -335,9 +331,10 @@ input.smart-upload {
 
                     &.rowbuttons {
                         text-align: right;
+                        padding-top: 0;
 
                         a {
-                            margin-right: .5rem;
+                            margin-left: .5rem;
 
                             & > span {
                                 display: inline;
@@ -451,9 +448,16 @@ html.ms .propform {
         }
     }
 
-    // We don't need buttons element on small devices
+    // We don't need buttons element on small devices, nor flex display
     html.layout-small &,
     html.layout-phone & {
+        display: initial;
+        overflow: initial !important;
+
+        .formcontent {
+            overflow: initial !important;
+        }
+
         .formbuttons {
             display: none;
         }
@@ -716,7 +720,7 @@ html.ms .propform {
 /*** Forms in popups ***/
 
 .popup form.propform {
-    padding: .5rem;
+    padding: .25rem;
     overflow-x: hidden;
 }
 

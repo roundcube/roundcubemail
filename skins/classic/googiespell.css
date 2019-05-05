@@ -24,7 +24,7 @@
   padding: 0;
 }
 
-.googie_list td {
+.googie_list li {
   font-size: 11px;
   padding-left: 10px;
   padding-right: 10px;

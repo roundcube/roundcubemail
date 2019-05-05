@@ -4,7 +4,7 @@
 <h1 class="voice"><roundcube:label name="mail" /></h1>
 
 <!-- folders list -->
-<div class="sidebar listbox" role="navigation" aria-labelledby="aria-label-folderlist">
+<div id="layout-sidebar" class="listbox" role="navigation" aria-labelledby="aria-label-folderlist">
 	<div class="header">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title username"><roundcube:object name="username" /></span>
@@ -15,7 +15,7 @@
 	<div id="folderlist-content" class="scroller">
 		<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing folderlist" folder_filter="mail" unreadwrap="%s" />
 	</div>
-	<div class="footer toolbar small">
+	<div class="footer small">
 		<roundcube:if condition="env:quota" />
 			<div id="quotadisplay" class="quota-widget">
 				<span class="voice"><roundcube:label name="quota"></span>
@@ -26,24 +26,24 @@
 </div>
 
 <!-- messages list -->
-<div class="list listbox selected">
+<div id="layout-list" class="listbox selected">
 	<div id="messagelist-header" class="header">
-		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button folders" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
 		<span class="header-title"></span>
-		<div class="toolbar" role="toolbar">
-			<a href="#select" class="button select disabled" data-popup="listselect-menu" data-toggle-button="list-toggle-button" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
+		<div class="toolbar menu" role="toolbar">
+			<a href="#select" class="select disabled" data-popup="listselect-menu" data-toggle-button="list-toggle-button" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
-				<a href="#threads" class="button threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
+				<a href="#threads" class="threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
-			<roundcube:object name="listmenulink" class="button settings active" label="options" innerclass="inner" />
+			<roundcube:object name="listmenulink" class="settings active" label="options" innerclass="inner" />
 			<roundcube:container name="listcontrols" id="listcontrols" />
 		</div>
 		<roundcube:button command="checkmail" type="link" class="button icon toolbar-button refresh"
 			label="refresh" title="checkmail" innerclass="inner" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar toolbar"
+	<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar menu"
 		label="mailquicksearchbox" buttontitle="findmail" options="searchmenu" ariatag="h2" />
 	<div id="searchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="messagelist">
 		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -96,7 +96,7 @@
 </div>
 
 <!-- message preview -->
-<div class="content">
+<div id="layout-content">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
@@ -118,44 +118,44 @@
 
 <div id="dragmessage-menu" class="popupmenu">
 	<h3 id="aria-label-dragmessage-menu" class="voice"><roundcube:label name="arialabeldropactionmenu" /></h3>
-	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-dragmessage-menu">
-		<roundcube:button command="move" type="link-menuitem" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
-		<roundcube:button command="copy" type="link-menuitem" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-dragmessage-menu">
+		<roundcube:button command="move" type="link-menuitem" onclick="return rcmail.drag_menu_action('move')" label="move" class="disabled" classAct="active" />
+		<roundcube:button command="copy" type="link-menuitem" onclick="return rcmail.drag_menu_action('copy')" label="copy" class="disabled" classAct="active" />
 	</ul>
 </div>
 
 <div id="mailboxoptions-menu" class="popupmenu">
 	<h3 id="aria-label-mailboxoptions-menu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxoptions-menu">
-		<roundcube:button command="expunge" type="link-menuitem" label="compact" class="expunge" classAct="expunge active" />
-		<roundcube:button command="purge" type="link-menuitem" label="empty" class="purge" classAct="purge active" />
-		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" class="read" classAct="read active" />
-		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" class="folders" classAct="folders active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-mailboxoptions-menu">
+		<roundcube:button command="expunge" type="link-menuitem" label="compact" class="expunge disabled" classAct="expunge active" />
+		<roundcube:button command="purge" type="link-menuitem" label="empty" class="purge disabled" classAct="purge active" />
+		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" class="read disabled" classAct="read active" />
+		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" class="folders disabled" classAct="folders active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
 </div>
 
 <div id="listselect-menu" class="popupmenu">
 	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
-		<roundcube:button type="link-menuitem" label="selection" class="selection" classAct="selection active"
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
+		<roundcube:button type="link-menuitem" label="selection" class="selection disabled" classAct="selection active"
 			name="list-toggle-button" id="list-toggle-button"
 			onclick="if ($(this).is('.active')) $('#messagelist').toggleClass('withselection');" />
-		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all" classAct="select all active" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page" classAct="select page active" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread" classAct="select unread active" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="flagged" label="flagged" class="select flagged" classAct="select flagged active" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="select invert" classAct="select invert active" />
-		<roundcube:button command="select-none" type="link-menuitem" label="none" class="select none" classAct="select none active" />
+		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all disabled" classAct="select all active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page disabled" classAct="select page active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread disabled" classAct="select unread active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="flagged" label="flagged" class="select flagged disabled" classAct="select flagged active" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="select invert disabled" classAct="select invert active" />
+		<roundcube:button command="select-none" type="link-menuitem" label="none" class="select none disabled" classAct="select none active" />
 	</ul>
 </div>
 
 <div id="threadselect-menu" class="popupmenu">
 	<h3 id="aria-label-threadselectmenu" class="voice"><roundcube:label name="arialabelthreadselectmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-threadselectmenu">
-		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="expand all" classAct="expand all active" />
-		<roundcube:button command="expand-unread" type="link-menuitem" label="expand-unread" class="expand unread" classAct="expand unread active" />
-		<roundcube:button command="collapse-all" type="link-menuitem" label="collapse-all" class="expand none" classAct="expand none active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-threadselectmenu">
+		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="expand all disabled" classAct="expand all active" />
+		<roundcube:button command="expand-unread" type="link-menuitem" label="expand-unread" class="expand unread disabled" classAct="expand unread active" />
+		<roundcube:button command="collapse-all" type="link-menuitem" label="collapse-all" class="expand none disabled" classAct="expand none active" />
 	</ul>
 </div>
 
