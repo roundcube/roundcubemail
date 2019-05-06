@@ -34,6 +34,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where external content (e.g. mail body) was passed to templates parsing code (#6640)
 - Fix bug where attachment preview didn't work with x_frame_options=deny (#6688)
 - Fix so bin/install-jsdeps.sh returns error code on error (#6704)
+- Fix bug where bmp images couldn't be displayed on some systems (#6728)
 
 RELEASE 1.4-rc1
 ---------------
