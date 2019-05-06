@@ -810,6 +810,11 @@ a.toolbar-button {
             &.selected {
                 color: @color-taskmenu-button-selected;
                 background: @color-taskmenu-button-selected-background;
+
+                &:hover {
+                    color: @color-taskmenu-button-selected-hover;
+                    background: @color-taskmenu-button-background-hover;
+                }
             }
 
             &:hover {
@@ -833,10 +838,6 @@ a.toolbar-button {
                 &:hover {
                     color: @color-taskmenu-button-action-hover;
                     background: @color-taskmenu-button-action-background-hover;
-                }
-
-                &.selected {
-                    background: @color-taskmenu-button-selected-background;
                 }
             }
         }
