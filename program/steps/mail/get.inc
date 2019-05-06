@@ -133,7 +133,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
 
             // accept text/plain with any extension
-            if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype) {
+            if ($real_mimetype == 'text/plain' && rcmail_mimetype_compare($real_mimetype, $mimetype)) {
                 $valid_extension = true;
             }
             // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
@@ -163,7 +163,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             // "fix" real mimetype the same way the original is before comparison
             $real_mimetype = rcmail_fix_mimetype($real_mimetype);
 
-            $valid = $real_mimetype == $mimetype && $valid_extension;
+            $valid = $valid_extension && rcmail_mimetype_compare($real_mimetype, $mimetype);
         }
         else {
             $real_mimetype = $mimetype;
@@ -304,6 +304,19 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
 header('HTTP/1.1 404 Not Found');
 exit;
 
+
+/**
+ * Compares two mimetype strings with making sure that
+ * e.g. image/bmp and image/x-ms-bmp are treated as equal.
+ */
+function rcmail_mimetype_compare($type1, $type2)
+{
+    $regexp = '|/(x-|x-ms-)|';
+    $type1  = preg_replace($regexp, '/', $type1);
+    $type2  = preg_replace($regexp, '/', $type2);
+
+    return $type1 === $type2;
+}
 
 /**
  * Attachment properties table

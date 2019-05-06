@@ -844,6 +844,8 @@ class rcube_mime
             'image/jpg'      => array('jpg', 'jpeg', 'jpe'),
             'image/pjpeg'    => array('jpg', 'jpeg', 'jpe'),
             'image/tiff'     => array('tif'),
+            'image/bmp'      => array('bmp'),
+            'image/x-ms-bmp' => array('bmp'),
             'message/rfc822' => array('eml'),
             'text/x-mail'    => array('eml'),
         );

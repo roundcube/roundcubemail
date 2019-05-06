@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Fix bug where bmp images couldn't be displayed on some systems (#6728)
 
 RELEASE 1.3.9
 -------------
