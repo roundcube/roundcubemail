@@ -742,9 +742,9 @@ class rcube_mime
 
             if ($finfo) {
                 if ($is_stream)
-                    $mime_type = finfo_buffer($finfo, $path);
+                    $mime_type = finfo_buffer($finfo, $path, FILEINFO_MIME_TYPE);
                 else
-                    $mime_type = finfo_file($finfo, $path);
+                    $mime_type = finfo_file($finfo, $path, FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }
@@ -757,11 +757,6 @@ class rcube_mime
         // fall back to user-submitted string
         if (!$mime_type) {
             $mime_type = $failover;
-        }
-        else {
-            // Sometimes (PHP-5.3?) content-type contains charset definition,
-            // Remove it (#1487122) also "charset=binary" is useless
-            $mime_type = array_shift(preg_split('/[; ]/', $mime_type));
         }
 
         return $mime_type;
