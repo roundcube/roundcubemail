@@ -535,8 +535,8 @@ class rcube_vcard
                 '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
                 '/^item\d*\./mi',         // remove item1.ADR instead of ADR
-                '/\n+/',                 // remove empty lines
-                '/^(N:[^;\R]*)$/m',      // if N doesn't have any semicolons, add some
+                '/\n+/',                  // remove empty lines
+                '/^(N:[^;\r\n]*)$/m',     // if N doesn't have any semicolons, add some
             ),
             array(
                 '\2;type=\5\3:\4',
