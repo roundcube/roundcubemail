@@ -288,8 +288,8 @@ if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
 
-  $from = idn_to_ascii(trim($_POST['_from']));
-  $to   = idn_to_ascii(trim($_POST['_to']));
+  $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
+  $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
   if (preg_match('/^' . $RCI->email_pattern . '$/i', $from) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', $to)
@@ -413,8 +413,8 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
       $imap_port = 993;
   }
 
-  $imap_host = idn_to_ascii($imap_host);
-  $imap_user = idn_to_ascii($_POST['_user']);
+  $imap_host = rcube_utils::idn_to_ascii($imap_host);
+  $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
   $imap = new rcube_imap(null);
   $imap->set_options(array(
