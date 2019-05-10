@@ -35,6 +35,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where attachment preview didn't work with x_frame_options=deny (#6688)
 - Fix so bin/install-jsdeps.sh returns error code on error (#6704)
 - Fix bug where bmp images couldn't be displayed on some systems (#6728)
+- Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
 
 RELEASE 1.4-rc1
 ---------------
