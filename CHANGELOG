@@ -36,6 +36,7 @@ CHANGELOG Roundcube Webmail
 - Fix so bin/install-jsdeps.sh returns error code on error (#6704)
 - Fix bug where bmp images couldn't be displayed on some systems (#6728)
 - Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
+- Fix bug in rcube_utils::parse_hosts where %t, %d, %z could return only tld (#6746)
 
 RELEASE 1.4-rc1
 ---------------
