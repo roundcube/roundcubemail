@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
 - Enigma: Fix bug where revoked users/keys were not greyed out in key info
 - Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
+- Enigma: Fix "decryption oracle" bug [CVE-2019-10740] (#6638)
 - Fix so advanced search dialog is not automatically displayed on searchonly addressbooks (#6679)
 - Fix so an error is logged when more than one attachment plugin has been enabled, initialize the first one (#6735)
 - Fix bug where flag change could have been passed to a preview frame when not expected
