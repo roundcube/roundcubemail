@@ -1158,10 +1158,14 @@ class enigma_ui
 
         if ($mode && ($status instanceof enigma_error)) {
             $code = $status->getCode();
-
             if ($code == enigma_error::KEYNOTFOUND) {
-                $vars = array('email' => $status->getData('missing'));
-                $msg  = 'enigma.' . $mode . 'nokey';
+                if ($email = $status->getData('missing')) {
+                    $vars = array('email' => $email);
+                    $msg  = 'enigma.' . $mode . 'nokey';
+                }
+                else {
+                    $msg = 'enigma.' . ($encrypt_enable ? 'encryptnoprivkey' : 'signnokey');
+                }
             }
             else if ($code == enigma_error::BADPASS) {
                 $this->password_prompt($status);
