@@ -8162,6 +8162,8 @@ function rcube_webmail()
     // Don't propagate keyboard events to the UI below the dialog (#6055)
     popup.parent().on('keydown keyup', function(e) { e.stopPropagation(); });
 
+    this.triggerEvent('dialog-open', { id:popup.attr('id') });
+
     return popup;
   };
 
