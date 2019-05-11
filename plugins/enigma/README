@@ -58,7 +58,7 @@ Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
 Possible reasons:
 - non-working loader in shebang (#! /usr/bin/env php)
   Make sure it works for the user the php scripts are executed upon
-  (i.e. apache, www-date, etc.)
+  (i.e. apache, www-data, etc.)
 - SELinux setting, try command: setsebool -P httpd_unified 0
 
 Note: pinentry is used with gpg >= 2.0 and <= 2.1.12.
