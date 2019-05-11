@@ -567,13 +567,15 @@ class rcube_utils
         // %n - host
         $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
-        $t = preg_replace('/^[^\.]+\./', '', $n);
-        // %d - domain name without first part
-        $d = preg_replace('/^[^\.]+\./', '', $_SERVER['HTTP_HOST']);
+        // If %n=domain.tld then %t=domain.tld as well (remains valid)
+        $t = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $n);
+        // %d - domain name without first part (up to domain.tld)
+        $d = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $_SERVER['HTTP_HOST']);
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ?: $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
-        $z = preg_replace('/^[^\.]+\./', '', $h);
+        // If %h=domain.tld then %z=domain.tld as well (remains valid)
+        $z = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $h);
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
