@@ -266,10 +266,6 @@ class enigma_engine
             $recipients = array_merge($recipients, $mime->getRecipients());
         }
 
-        if (empty($recipients)) {
-            return new enigma_error(enigma_error::KEYNOTFOUND);
-        }
-
         $recipients = array_unique($recipients);
 
         // find recipient public keys

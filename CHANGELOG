@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
 - Enigma: Fix bug where revoked users/keys were not greyed out in key info
+- Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
 - Fix bug where bmp images couldn't be displayed on some systems (#6728)
 - Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
 
