@@ -18,6 +18,8 @@ CHANGELOG Roundcube Webmail
 - Elastic: Various internal refactorings
 - Elastic: Fix issue with absolute positioned mail content (#6739)
 - Elastic: Fix bug where some menu actions could cause a browser popup warning
+- Elastic: Fix handling mailto: URL parameters in contact menu (#6751)
+- Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
 - Larry: Fix regression where menu actions didn't work with keyboard (#6740)
 - Password: Added ldap_exop driver (#4992)
 - Managesieve: Fix bug where global includes were requested for vacation (#6716)
