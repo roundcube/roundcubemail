@@ -41,7 +41,7 @@ $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 //       an FQDN is provided, they will not return anything shorter than
 //       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
 //       NOTE: Currently only 2-letter 'sd' supported, be aware when using
-//             this setting if your ccSLD is longer.
+//             this setting if your ccSLD is longer.)
 $config['default_host'] = 'localhost';
 
 // SMTP server host (for sending mails).
@@ -58,7 +58,7 @@ $config['default_host'] = 'localhost';
 //       an FQDN is provided, they will not return anything shorter than
 //       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
 //       NOTE: Currently only 2-letter 'sd' supported, be aware when using
-//             this setting if your ccSLD is longer.
+//             this setting if your ccSLD is longer.)
 $config['smtp_server'] = 'localhost';
 
 // SMTP port (default is 25; use 587 for STARTTLS or 465 for the
