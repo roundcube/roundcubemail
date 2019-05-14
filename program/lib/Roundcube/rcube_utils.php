@@ -575,14 +575,16 @@ class rcube_utils
         $n = self::server_name();
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
         // If %n=domain.tld then %t=domain.tld as well (remains valid)
-        $t = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $n);
-        // %d - domain name without first part (up to domain.tld)
-        $d = preg_replace('/^[^.]+\.(?![^.]+$)/', '', self::server_name('HTTP_HOST'));
+        // Also handles domain.sd.cc, if sd is 2 chars (longer ccSLDs will require a more complex fix)
+        $t = preg_replace('/^[^.]+\.(?!(?:[^.]{3,}|(?:[^.]{2}\.[^.]{2}))$)/', '', $n);
+        // %d - domain name without first part (up to domain.tld or domain.sd.cc)
+        $d = preg_replace('/^[^.]+\.(?!(?:[^.]{3,}|(?:[^.]{2}\.[^.]{2}))$)/', '', self::server_name('HTTP_HOST'));
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ?: $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
         // If %h=domain.tld then %z=domain.tld as well (remains valid)
-        $z = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $h);
+        // Also handles domain.sd.cc, if sd is 2 chars (longer ccSLDs will require a more complex fix)
+        $z = preg_replace('/^[^.]+\.(?!(?:[^.]{3,}|(?:[^.]{2}\.[^.]{2}))$)/', '', $h);
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
