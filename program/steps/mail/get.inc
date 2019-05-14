@@ -667,7 +667,6 @@ class rcmail_attachment_handler
             'allow_remote'  => false,
             'charset'       => RCUBE_CHARSET,
             'html_elements' => array('title'),
-//            'blocked_src'   => 'program/resources/blocked.gif',
         );
 
         // initialize HTML washer

@@ -830,7 +830,7 @@ function rcmail_check_safe($message)
  */
 function rcmail_wash_html($html, $p, $cid_replaces = array())
 {
-    global $REMOTE_OBJECTS;
+    global $REMOTE_OBJECTS, $RCMAIL;
 
     $p += array('safe' => false, 'inline_html' => true);
 
@@ -860,7 +860,7 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
     $wash_opts = array(
         'show_washed'   => false,
         'allow_remote'  => $p['safe'],
-        'blocked_src'   => 'program/resources/blocked.gif',
+        'blocked_src'   => $RCMAIL->output->asset_url('program/resources/blocked.gif'),
         'charset'       => RCUBE_CHARSET,
         'cid_map'       => $cid_replaces,
         'html_elements' => array('body'),

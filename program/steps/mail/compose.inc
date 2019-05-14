@@ -589,7 +589,7 @@ function rcmail_prepare_message_body()
     unset($plugin);
 
     // add blocked.gif attachment (#1486516)
-    $regexp = '# src="program/resources/blocked\.gif"#';
+    $regexp = '/ src="' . preg_quote($RCMAIL->output->asset_url('program/resources/blocked.gif'), '/') . '"/';
     if ($isHtml && preg_match($regexp, $body)) {
         $content = $RCMAIL->get_resource_content('blocked.gif');
 
