@@ -37,6 +37,11 @@ $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.
 $config['default_host'] = 'localhost';
 
 // SMTP server host (for sending mails).
@@ -49,6 +54,11 @@ $config['default_host'] = 'localhost';
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d, %z remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.
 $config['smtp_server'] = 'localhost';
 
 // SMTP port (default is 25; use 587 for STARTTLS or 465 for the
