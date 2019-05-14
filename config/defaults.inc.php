@@ -137,6 +137,11 @@ $config['redis_debug'] = false;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.)
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
 $config['default_host'] = 'localhost';
@@ -262,6 +267,11 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d, %z remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.)
 $config['smtp_server'] = 'localhost';
 
 // SMTP port (default is 587)
@@ -522,6 +532,11 @@ $config['cipher_method'] = 'DES-EDE3-CBC';
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d, %z remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.)
 $config['username_domain'] = '';
 
 // Force domain configured in username_domain to be used for login.
@@ -536,6 +551,11 @@ $config['username_domain_forced'] = false;
 // %d - domain (http hostname without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// (N.B. %t, %d, %z remove only the first part up to domain-level, i.e., if
+//       an FQDN is provided, they will not return anything shorter than
+//       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+//       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+//             this setting if your ccSLD is longer.)
 $config['mail_domain'] = '';
 
 // Password character set, to change the password for user
@@ -848,6 +868,11 @@ $config['ldap_public']['Verisign'] = array(
   // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
+  // (N.B. %t, %d, %z remove only the first part up to domain-level, i.e., if
+  //       an FQDN is provided, they will not return anything shorter than
+  //       domain.tld or domain.sd.cc. Single hostnames are returned as-is.
+  //       NOTE: Currently only 2-letter 'sd' supported, be aware when using
+  //             this setting if your ccSLD is longer.)
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'       => false,
