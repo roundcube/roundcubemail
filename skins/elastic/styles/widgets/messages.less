@@ -15,26 +15,20 @@
 
 .ui.alert {
     margin: 0;
+    margin-bottom: .2rem;
     opacity: .95;
-    float: left;
     width: 100%;
     padding: .75em;
     color: @color-message;
     border: 1px solid @color-message-border;
     background-color: @color-message-background;
+    border-radius: 0;
     display: flex;
     align-items: center;
 
     @media screen and (max-width: @screen-width-xs) {
         border: 0;
-        border-radius: 0;
         min-height: 4.2rem;
-    }
-
-    @media screen and (min-width: (@screen-width-xs + 1px)) {
-        &:not(:last-child) {
-            margin-bottom: .2rem;
-        }
     }
 
     span {
@@ -127,18 +121,10 @@
     &.boxconfirmation,
     &.boxinformation,
     &.boxwarning {
-        float: none;
-        border-radius: 0;
-        border: none;
         padding: .5em;
-        margin-top: 0; // this can be a <p> element, reset default margin
 
         i.icon {
             font-size: 1.5em !important;
-        }
-
-        &:not(:last-child) {
-            margin-bottom: .2rem;
         }
     }
 
@@ -184,9 +170,12 @@
     }
 
     div {
-        border-color: transparent;
         background-color: @color-message;
         color: #fff;
+
+        @media screen and (max-width: @screen-width-xs) {
+            margin: 0;
+        }
 
         &.voice {
             position: absolute;
@@ -199,6 +188,14 @@
 
         & > i.icon:before {
             color: #fff;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        @media screen and (max-width: @screen-width-xs) {
+            margin: 0;
         }
     }
 
