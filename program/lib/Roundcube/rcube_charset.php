@@ -185,8 +185,8 @@ class rcube_charset
     }
 
     /**
-     * Parse and validate charset name string (see #1485758).
-     * Sometimes charset string is malformed, there are also charset aliases 
+     * Parse and validate charset name string.
+     * Sometimes charset string is malformed, there are also charset aliases,
      * but we need strict names for charset conversion (specially utf8 class)
      *
      * @param string $input Input charset name
@@ -207,6 +207,7 @@ class rcube_charset
             '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
             '/UNICODE-1-1-*/',  // RFC1641/1642
             '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
+            '/\*.*$/'           // lang code according to RFC 2231.5
         ), '', $charset);
 
         if ($charset == 'BINARY') {
