@@ -90,6 +90,7 @@ RELEASE 1.4-rc1
 - Elastic: Add "status bar" for mobile in mail composer
 - Elastic: Add selection options on contacts list (#6595)
 - Elastic: Fix unintentional layout preference overwrite (#6613)
+- Elastic: Fix bug where Enigma options in mail compose could sometimes be ignored (#6515)
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
 - Fix regression where drafts were not deleted after sending the message (#6756)
 - Fix so max_message_size limit is checked also when forwarding messages as attachments (#6580)
