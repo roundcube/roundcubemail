@@ -80,13 +80,17 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 var opt = this, input = $('#enigma' + opt + 'opt');
 
                 if (rcmail.env['enigma_force_' + opt]) {
-                    input.prop('checked', true);
+                    input.prop('checked', true)
                 }
 
                 // Compose status bar in Elastic
                 if (window.UI && UI.compose_status) {
-                    input.on('change', function() { UI.compose_status(opt, this.checked); }).trigger('change');
+                    input.on('change', function() { UI.compose_status(opt, this.checked); });
                 }
+
+                // As the options might have been initially enabled we have to
+                // trigger onchange event, so all handlers can update the state
+                input.trigger('change');
             });
         }
 
