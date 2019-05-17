@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Добредојдовте во $product';
 $labels['username'] = 'Корисничко име';
 $labels['password'] = 'Лозинка';
@@ -610,4 +610,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки десно/лево: п
 Ентер: Отвори ја селектираната/фокусираната порака.
 Избриши: Премести ја селектираната порака во ѓубрето.";
 $labels['helplistkeyboardnavcontacts'] = "Ентер: Отвори го селектираниот/фокусираниот контакт.";
-?>

@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -114,5 +113,56 @@ $labels['tz:america:cuiaba'] = 'Cuiaba';
 $labels['tz:america:curacao'] = 'Curaçao';
 $labels['tz:america:danmarkshavn'] = 'Danmarkshavn';
 $labels['tz:america:dawson'] = 'Dawson';
+$labels['tz:america:denver'] = 'Denver';
+$labels['tz:america:detroit'] = 'Detroit';
+$labels['tz:america:el_salvador'] = 'El Salvador';
+$labels['tz:america:grenada'] = 'Grenada';
+$labels['tz:america:indiana'] = 'Indiana';
+$labels['tz:america:indiana:indianapolis'] = 'Indianapolis';
+$labels['tz:america:jamaica'] = 'Jamaika';
+$labels['tz:america:new_york'] = 'New York';
+$labels['tz:america:panama'] = 'Panama';
+$labels['tz:america:port-au-prince'] = 'Port-au-Prince';
+$labels['tz:america:puerto_rico'] = 'Puerto Rico';
+$labels['tz:antarctica'] = 'Antarktika';
+$labels['tz:asia'] = 'Asia';
+$labels['tz:asia:bahrain'] = 'Bahrain';
+$labels['tz:asia:bangkok'] = 'Bangkok';
+$labels['tz:asia:beirut'] = 'Beirut';
+$labels['tz:asia:brunei'] = 'Brunei';
+$labels['tz:asia:damascus'] = 'Damaskus';
+$labels['tz:asia:dili'] = 'Dili';
+$labels['tz:asia:dubai'] = 'Dubai';
+$labels['tz:asia:gaza'] = 'Gaza';
+$labels['tz:asia:ho_chi_minh'] = 'Ho Chi Minh';
+$labels['tz:asia:hong_kong'] = 'Hong Kong';
+$labels['tz:asia:jakarta'] = 'Jakarta';
+$labels['tz:asia:jayapura'] = 'Jayapura';
+$labels['tz:asia:jerusalem'] = 'Yerusalem';
+$labels['tz:asia:karachi'] = 'Karachi';
+$labels['tz:asia:kathmandu'] = 'Kathmandu';
+$labels['tz:asia:kolkata'] = 'Kalkuta';
+$labels['tz:asia:kuala_lumpur'] = 'Kuala Lumpur';
+$labels['tz:asia:kuching'] = 'Kuching';
+$labels['tz:asia:kuwait'] = 'Kuwait';
+$labels['tz:asia:macau'] = 'Makau';
+$labels['tz:asia:makassar'] = 'Makassar';
+$labels['tz:asia:manila'] = 'Manila';
+$labels['tz:asia:pontianak'] = 'Pontianak';
+$labels['tz:asia:pyongyang'] = 'Pyongyang';
+$labels['tz:asia:shanghai'] = 'Shanghai';
+$labels['tz:asia:singapore'] = 'Singapura';
+$labels['tz:asia:taipei'] = 'Taipei';
+$labels['tz:asia:tokyo'] = 'Tokyo';
+$labels['tz:asia:yangon'] = 'Yangon';
+$labels['tz:atlantic'] = 'Atlantik';
+$labels['tz:atlantic:bermuda'] = 'Bermuda';
+$labels['tz:australia'] = 'Australia';
+$labels['tz:australia:adelaide'] = 'Adelaide';
+$labels['tz:australia:brisbane'] = 'Brisbane';
+$labels['tz:australia:darwin'] = 'Darwin';
+$labels['tz:australia:melbourne'] = 'Melbourne';
+$labels['tz:australia:perth'] = 'Perth';
+$labels['tz:europe'] = 'Eropa';
 $labels['tz:pacific:wake'] = 'Wake';
 $labels['tz:pacific:wallis'] = 'Wallis';

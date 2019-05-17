@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienvenue à $product';
 $labels['username'] = 'Nom d’utilisateur';
 $labels['password'] = 'Mot de passe';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Renommer';
 $labels['addphoto'] = 'Ajouter';
 $labels['replacephoto'] = 'Remplacer';
 $labels['uploadphoto'] = 'Téléverser une photo';
+$labels['choosefile'] = 'Choisir un fichier…';
+$labels['choosefiles'] = 'Choisir des fichiers…';
+$labels['browse'] = 'Parcourir';
 $labels['newcontact'] = 'Créer un nouveau contact';
 $labels['deletecontact'] = 'Supprimer les contacts sélectionnés';
 $labels['composeto'] = 'Rédiger un courriel à';
@@ -678,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Flèche droite/gauche : déplier/repl
 Entrée : ouvrir le courriel sélectionné/cible.
 Suppr : déplacer les courriels sélectionnés vers la corbeille.";
 $labels['helplistkeyboardnavcontacts'] = "Entrée : ouvrir le contact sélectionné/cible.";
-?>

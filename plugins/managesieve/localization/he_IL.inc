@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'מסננים';
 $labels['managefilters'] = 'ניהול מסננים לדואר נכנס';
 $labels['filtername'] = 'שם המסנן';
@@ -75,17 +75,17 @@ $labels['days'] = 'ימים';
 $labels['seconds'] = 'שניות';
 $labels['rulestop'] = 'עצירה של בחינת הכללים';
 $labels['enable'] = 'אפשור/ניטרול';
-$labels['filterset'] = 'קבוצת מסננים';
+$labels['filterset'] = 'ערכת מסננים';
 $labels['filtersets'] = 'קבוצות מסננים';
-$labels['filtersetadd'] = 'הוספה של קבוצת מסננים';
-$labels['filtersetdel'] = 'מחיקה של סט מסננים';
-$labels['filtersetact'] = 'הפעלה של מסננים נוכחיים';
-$labels['filtersetdeact'] = 'השבתה של מסננים נוכחיים';
+$labels['filtersetadd'] = 'הוספה של ערכת מסננים';
+$labels['filtersetdel'] = 'מחיקת של ערכת מסננים';
+$labels['filtersetact'] = 'הפעלה של ערכת המסננים הנוכחית';
+$labels['filtersetdeact'] = 'השבתה של ערכת מסננים נוכחית';
 $labels['filterseteditraw'] = 'עריכת סינון';
-$labels['filtersetswitch'] = 'הפעלה/ביטול סט מסננים';
+$labels['filtersetswitch'] = 'הפעלה/השבתה ערכת מסננים';
 $labels['filterdef'] = 'הגדרת מסנן';
-$labels['filtersetname'] = 'שם של קבוצת מסננים';
-$labels['newfilterset'] = 'קבוצת מסננים חדשה';
+$labels['filtersetname'] = 'שם של ערכת מסננים';
+$labels['newfilterset'] = 'ערכת מסננים חדשה';
 $labels['active'] = 'פעיל';
 $labels['none'] = 'אף אחד מאלה';
 $labels['fromset'] = 'מקבוצה';
@@ -245,14 +245,14 @@ $messages['actiondeleteconfirm'] = 'האם אכן ברצונך למחוק את �
 $messages['forbiddenchars'] = 'תווים אסורים בשדה.';
 $messages['cannotbeempty'] = 'השדה לא יכול להישאר ריק.';
 $messages['ruleexist'] = 'כבר קיים מסנן בשם כזה.';
-$messages['setactivateerror'] = 'לא ניתן להפעיל את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
-$messages['setdeactivateerror'] = 'לא ניתן להשבית רשימת מסננים שנבחרה. שגיאת שרת.';
-$messages['setdeleteerror'] = 'לא ניתן למחוק רשימת מסננים שנבחרה. שגיאת שרת.';
+$messages['setactivateerror'] = 'לא ניתן להפעיל את ערכת המסננים שנבחרה. אירעה שגיאה בצד השרת.';
+$messages['setdeactivateerror'] = 'לא ניתן להשבית את ערכת המסננים שנבחרה. אירעה שגיאה בצד השרת.';
+$messages['setdeleteerror'] = 'לא ניתן למחוק את ערכת המסננים הנבחרת. אירעה שגיאה בצד השרת.';
 $messages['setactivated'] = 'ערכת המסננים הופעלה בהצלחה.';
-$messages['setdeactivated'] = 'ערכת המסננים נוטרלה בהצלחה.';
+$messages['setdeactivated'] = 'ערכת המסננים הושבתה בהצלחה.';
 $messages['setdeleted'] = 'ערכת המסננים נמחקה בהצלחה.';
-$messages['setupdated'] = 'הסינון נשמר';
-$messages['setdeleteconfirm'] = 'האם אכן ברצונך למחוק את ערכת המסננים הנבחרת?';
+$messages['setupdated'] = 'ערכת המסננים עודכנה בהצלחה.';
+$messages['setdeleteconfirm'] = 'האם אכן ברצונך למחוק את ערכת המסננים שנבחרה?';
 $messages['setcreateerror'] = 'לא ניתן ליצור ערכת מסננים. אירעה שגיאה בצד השרת.';
 $messages['setcreated'] = 'ערכת המסננים נוצרה בהצלחה.';
 $messages['activateerror'] = 'לא ניתן להפעיל את המסננים הנבחרים. אירעה שגיאה בצד השרת.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'גוף של הודעת חופשה נדרש!';
 $messages['duplicate.conflict.err'] = 'לא ניתן להוסיף כותרת עם מזהה יחודי';
 $messages['disabledaction'] = 'פעולה אסורה';
 $messages['lastindexempty'] = 'נחוץ מצביע כאשר סופרים מהסוף';
-?>

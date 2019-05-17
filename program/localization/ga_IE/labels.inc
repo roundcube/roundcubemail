@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Fáilte go $product';
 $labels['username'] = 'Úsáideoir';
 $labels['password'] = 'Pasfhocal';
@@ -30,6 +30,7 @@ $labels['drafts'] = 'Dréachtaí';
 $labels['sent'] = 'Amach';
 $labels['trash'] = 'Bosca bruscair';
 $labels['junk'] = 'Dramhaíl';
+$labels['show_real_foldernames'] = 'Taispeáin fíorainmneacha i gcomhair fillteáin faoi leith';
 $labels['subject'] = 'Ábhair';
 $labels['from'] = 'Seolaí';
 $labels['sender'] = 'Seoltóir';
@@ -136,6 +137,7 @@ $labels['last'] = 'Deireanach';
 $labels['previous'] = 'Roimhe';
 $labels['next'] = 'Ar aghaidh';
 $labels['select'] = 'Roghnaigh';
+$labels['selection'] = 'Roghnúchán';
 $labels['all'] = 'Uile';
 $labels['none'] = 'Dada';
 $labels['currpage'] = 'An leathanach reatha';
@@ -182,6 +184,7 @@ $labels['quotaused'] = 'Úsáidte';
 $labels['quotastorage'] = 'Slí ar an diosca';
 $labels['quotamessage'] = 'Líon na dteachtaireachtaí';
 $labels['shortheaderdate'] = 'Ar $date';
+$labels['shortheaderto'] = 'Chuig $to ar $date';
 $labels['shortheaderfrom'] = 'Ó $from ar an $date';
 $labels['quicksearch'] = 'Mearcuardaigh';
 $labels['searchplaceholder'] = 'Cuardaigh...';
@@ -258,6 +261,10 @@ $labels['allow'] = 'Ceadaigh';
 $labels['alwaysshow'] = 'Taispeáin íomhánna ó $sender i gcónaí';
 $labels['isdraft'] = 'Seo dréachttheachtaireacht.';
 $labels['andnmore'] = '$nr eile...';
+$labels['details'] = 'Mionsonraí';
+$labels['headers'] = 'Ceannteidil';
+$labels['allheaders'] = 'Gach ceannteideal...';
+$labels['togglemoreheaders'] = 'Taispeáin tuilleadh ceannteidil theachtaireachtaí';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Téacs amháin';
 $labels['savesentmessagein'] = 'Coimeád an teachtaireacht seolta i';
@@ -265,8 +272,14 @@ $labels['dontsave'] = 'ná coimeád é';
 $labels['addcc'] = 'Cuir Cc leis';
 $labels['addbcc'] = 'Cuir Bcc leis';
 $labels['receiptread'] = 'Admháil fillte (léite)';
+$labels['zoomin'] = 'Gluais Isteach';
+$labels['zoomout'] = 'Gluais Amach';
 $labels['rotate'] = 'Rothlaigh';
+$labels['increaseimage'] = 'Méadaigh méid na híomhá';
+$labels['decreaseimage'] = 'Laghdaigh méid na híomhá';
 $labels['rotateimage'] = 'Rothlaigh an íomhá';
+$labels['showtools'] = 'Taispeáin uirlisí don íomhánna';
+$labels['hidetools'] = 'Folaigh uirlisí don íomhá';
 $labels['name'] = 'Leasainm';
 $labels['firstname'] = 'Ainm baiste';
 $labels['surname'] = 'Sloinne';
@@ -303,6 +316,7 @@ $labels['advsearch'] = 'Cuardach casta';
 $labels['advanced'] = 'Ardroghanna';
 $labels['other'] = 'Eile';
 $labels['printcontact'] = 'Cuir an teagmháil i gcló';
+$labels['qrcode'] = 'Cód QR';
 $labels['typehome'] = 'Baile';
 $labels['typework'] = 'Obair';
 $labels['typeother'] = 'Eile';
@@ -311,6 +325,7 @@ $labels['typemain'] = 'Príomh';
 $labels['typehomefax'] = 'Faics baile';
 $labels['typeworkfax'] = 'Faics oibre';
 $labels['typecar'] = 'Gluaisteán';
+$labels['typepager'] = 'Glaoire';
 $labels['typevideo'] = 'Físeán';
 $labels['typeassistant'] = 'Cúntóir';
 $labels['typehomepage'] = 'Leathanach baile';
@@ -320,6 +335,7 @@ $labels['addfield'] = 'Cuir réimse leis...';
 $labels['addcontact'] = 'Cuir teagmháil leis';
 $labels['editcontact'] = 'Chuir chara in eagar';
 $labels['contacts'] = 'Teagmhálacha';
+$labels['contactproperties'] = 'Airíonna na teagmhálaí';
 $labels['contactnameandorg'] = 'Ainm agus Eagraíocht';
 $labels['personalinfo'] = 'Faisnéis phearsanta';
 $labels['personal'] = 'Pearsanta';
@@ -358,6 +374,8 @@ $labels['personaladrbook'] = 'Seoltaí Pearsanta';
 $labels['searchdelete'] = 'Scrios an cuardach';
 $labels['import'] = 'Tabhair isteach';
 $labels['importfromfile'] = 'Tabhair isteach ó chomhad';
+$labels['importtarget'] = 'Cuir teagmhálaithe le';
+$labels['importreplace'] = 'Ionadaigh an leabhar seoltaí iomlán';
 $labels['done'] = 'Déanta';
 $labels['settingsfor'] = 'Socruithe chun';
 $labels['about'] = 'Maidir le';
@@ -365,10 +383,15 @@ $labels['preferences'] = 'Tosaíocht';
 $labels['userpreferences'] = 'Tosaíocht Pearsanta';
 $labels['editpreferences'] = 'Athraigh tosaíocht pearsanta';
 $labels['identities'] = 'Céannachtaí';
+$labels['addidentity'] = 'Cuir céannacht leis';
+$labels['editidentity'] = 'Cuir céannacht in eagar';
 $labels['identityencryption'] = 'Criptiúchán';
 $labels['preferhtml'] = 'Taispeáin an HTML';
 $labels['htmlmessage'] = 'Teachtaireacht HTML';
 $labels['messagepart'] = 'Cuid';
+$labels['digitalsig'] = 'Síniú Digiteach';
+$labels['dateformat'] = 'Leagan amach an dáta';
+$labels['timeformat'] = 'Leagan amach an am';
 $labels['prettydate'] = 'Dátaí Dheas';
 $labels['setdefault'] = 'Socraigh an réamhshocraithe';
 $labels['autodetect'] = 'Uathoibríoch';
@@ -381,11 +404,18 @@ $labels['showinextwin'] = 'Oscail an teachtaireacht i bhfuinneog nua';
 $labels['composeextwin'] = 'Cum i bhfuinneog nua';
 $labels['htmleditor'] = 'Scríobh teachtaireachta HTML';
 $labels['htmlsignature'] = 'Mana clabhsúir HTML';
+$labels['showemail'] = 'Taispeáin an seoladh ríomhphoist leis an ainm taispeána';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['skin'] = 'Craiceann an comhéadain';
+$labels['logoutclear'] = 'Glan Bruscar nuair a scoirtear';
+$labels['logoutcompact'] = 'Comhbhrúigh an Bosca Isteach nuair a scoirtear';
 $labels['uisettings'] = 'Comhéadan';
+$labels['serversettings'] = 'Socruithe an Fhreastalaithe';
+$labels['mailboxview'] = 'Amharc Bosca Poist';
 $labels['askuser'] = 'iarr orm';
 $labels['autosend'] = 'seol admháil';
+$labels['ignorerequest'] = 'Ná bac leis an iarratas';
+$labels['readwhendeleted'] = 'Rianaigh an teachtaireacht mar léite nuair a scriostar í';
 $labels['skipdeleted'] = 'Ná taispeáin teachtaireachtaí scriosta';
 $labels['fromknownsenders'] = 'ó sheoltóirí a bhfuil aithne orthu';
 $labels['always'] = 'riamh';
@@ -397,10 +427,17 @@ $labels['never'] = 'riamh';
 $labels['immediately'] = 'láithreach';
 $labels['messagesdisplaying'] = 'Ag taispeáint na teachtaireachtaí';
 $labels['messagescomposition'] = 'Ag cumadh na teachtaireachtaí';
+$labels['2231folding'] = 'RFC 2231 iomlán (Thunderbird)';
+$labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 iomlán (eile)';
 $labels['advancedoptions'] = 'Ardroghanna';
+$labels['toggleadvancedoptions'] = 'Scoránaigh na hardroghanna';
+$labels['focusonnewmessage'] = 'Dírigh fuinneog an líonléitheora ar theachtaireacht nua';
+$labels['checkallfolders'] = 'Dearbháil gach fillteán do theachtaireachtaí nua';
+$labels['displaynext'] = 'Tar éis teachtaireacht a scriosadh/a bhogadh, taispeáin an chéad teachtaireacht eile';
 $labels['mainoptions'] = 'Príomhroghanna';
 $labels['browseroptions'] = 'Roghanna líonléitheora';
+$labels['section'] = 'Roinn';
 $labels['maintenance'] = 'Cothabháil';
 $labels['newmessage'] = 'Teachtaireacht Nua';
 $labels['signatureoptions'] = 'Roghanna don Síniú';
@@ -438,12 +475,15 @@ $labels['foldertype'] = 'An cineál fillteán';
 $labels['personalfolder'] = 'Fillteán príobháideach';
 $labels['sharedfolder'] = 'Fillteán poiblí';
 $labels['findfolders'] = 'Aimsigh fillteáin';
+$labels['findmail'] = 'Aimsigh teachtaireachtaí poist';
 $labels['namespace.personal'] = 'Pearsanta';
 $labels['namespace.other'] = 'Daoine eile';
 $labels['namespace.shared'] = 'Comhroinnte';
+$labels['dualuselabel'] = 'Ina bhfuil amháin';
 $labels['dualusemail'] = 'teachtaireachtaí';
 $labels['dualusefolder'] = 'fillteáin';
 $labels['generate'] = 'Cruthaigh';
+$labels['openmailvelopesettings'] = 'Oscail Socruithe Mailvelope';
 $labels['sortby'] = 'Sórtáil trí';
 $labels['sortasc'] = 'Sórtáil in ord méadaitheach';
 $labels['sortdesc'] = 'Sórtáil in ord neartaitheach';
@@ -474,9 +514,14 @@ $labels['celtic'] = 'Ceilteach';
 $labels['chinese'] = 'Síneach';
 $labels['arialabeltopnav'] = 'Rialtán fuinneoige';
 $labels['arialabelmailpreviewframe'] = 'Réamhamharc ar an teachtaireacht';
+$labels['arialabelmessagebody'] = 'Corp na Teachtaireachta';
 $labels['arialabelmessageactions'] = 'Gníomhartha na teachtaireachta';
 $labels['arialabelmessageheaders'] = 'Ceanntáisc na teachtaireachta';
 $labels['arialabelforwardingoptions'] = 'Roghanna cur ar aghaidh';
 $labels['arialabelmarkmessagesas'] = 'Rianaigh na teachtaireachtaí roghnaithe mar...';
+$labels['arialabelcomposeoptions'] = 'Roghanna do chumadh teachtaireachta';
+$labels['arialabelattachmentmenu'] = 'Roghanna do cheangaltáin';
+$labels['arialabelmailtomenu'] = 'Roghanna do sheoltaí ríomhphoist';
 $labels['arialabelattachmentpreview'] = 'Réamhamharc ar cheangaltáin';
-?>
+$labels['arialabelsearchterms'] = 'Téarmaí cuardaigh';
+$labels['arialabelimagetools'] = 'Uirlisí don íomhá';

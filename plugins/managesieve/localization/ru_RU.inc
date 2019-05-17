@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Фильтры';
 $labels['managefilters'] = 'Управление фильтрами для входящей почты';
 $labels['filtername'] = 'Название фильтра';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Сообщение о причине отсу�
 $messages['duplicate.conflict.err'] = 'Не разрешено использовать заголовок и уникальный идентификатор вместе.';
 $messages['disabledaction'] = 'Действие не разрешено.';
 $messages['lastindexempty'] = 'Индекс необходим при подсчете с конца';
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Iragazkiak';
 $labels['managefilters'] = 'Kudeatu sarrerako posta-iragazkiak';
 $labels['filtername'] = 'Iragazkiaren izena';
@@ -65,15 +65,9 @@ $labels['days'] = 'egun';
 $labels['seconds'] = 'segundo';
 $labels['rulestop'] = 'Gelditu arauak ebaluatzen';
 $labels['enable'] = 'Gaitu/Ezgaitu';
-$labels['filterset'] = 'Iragazki-paketea';
 $labels['filtersets'] = 'Iragazki-paketeak';
-$labels['filtersetadd'] = 'Gehitu iragazki-paketea';
-$labels['filtersetact'] = 'Gaitu uneko iragazki-paketea';
-$labels['filtersetdeact'] = 'Ezgaitu uneko iragazki-paketea';
 $labels['filterseteditraw'] = 'Editatu iragazki multzoa';
 $labels['filterdef'] = 'Iragazkiaren definizioa';
-$labels['filtersetname'] = 'Iragazki-paketearen izena';
-$labels['newfilterset'] = 'Iragazki-pakete berria';
 $labels['active'] = 'aktiboa';
 $labels['none'] = 'Bat ere ez';
 $labels['fromset'] = 'paketetik';
@@ -213,16 +207,6 @@ $messages['actiondeleteconfirm'] = 'Seguru zaude hautatutako ekintzak ezabatu na
 $messages['forbiddenchars'] = 'Debekatutako karaktereak eremuan.';
 $messages['cannotbeempty'] = 'Eremua ezin da hutsik egon.';
 $messages['ruleexist'] = 'Lehendik badago izen hori duen iragazki bat.';
-$messages['setactivateerror'] = 'Ezin da aktibatu hautatutako iragazki paketea. Zerbitzarian errore bat gertatu da.';
-$messages['setdeactivateerror'] = 'Ezin da ezgaitu hautatutako iragazki-paketea. Zerbitzarian errore bat gertatu da.';
-$messages['setdeleteerror'] = 'Ezin da ezabatu hautatutako iragazki-paketea. Zerbitzarian errore bat gertatu da.';
-$messages['setactivated'] = 'Iragazki paketea ongi aktibatu da.';
-$messages['setdeactivated'] = 'Iragazki paketea ongi desaktibatu da.';
-$messages['setdeleted'] = 'Iragazki paketea ongi ezabatu da.';
-$messages['setupdated'] = 'Iragazkien multzoa ongi eguneratu da.';
-$messages['setdeleteconfirm'] = 'Seguru zaude hautatutako iragazki paketea ezabatu nahi duzula?';
-$messages['setcreateerror'] = 'Ezin da iragazki-paketea sortu. Zerbitzarian errore bat gertatu da.';
-$messages['setcreated'] = 'Iragazki paketea ongi sortu da.';
 $messages['activateerror'] = 'Ezin da gaitu hautatutako iragazkia(k). Zerbitzarian errore bat gertatu da.';
 $messages['deactivateerror'] = 'Ezin da ezgaitu hautatutako iragazkia(k). Zerbitzarian errore bat gertatu da.';
 $messages['deactivated'] = 'Iragazkia(k) ongi ezgaitu da.';
@@ -237,4 +221,3 @@ $messages['invaliddateformat'] = 'Dataren edo dataren zati baten formatua ez da 
 $messages['saveerror'] = 'Ezin dira datuak gorde. Errorea gertatu da zerbitzarian.';
 $messages['emptyvacationbody'] = 'Beharrezkoa da oporraldiko mezua jartzea!';
 $messages['duplicate.conflict.err'] = 'Goiburua eta identifikatzaile bakarra ez dira onartzen.';
-?>

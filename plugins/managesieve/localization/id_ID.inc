@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Atur filter email masuk';
 $labels['filtername'] = 'Nama filter';
@@ -75,17 +75,9 @@ $labels['days'] = 'hari';
 $labels['seconds'] = 'detik';
 $labels['rulestop'] = 'Berhenti mengevaluasi aturan';
 $labels['enable'] = 'Aktifkan/Non-Aktifkan';
-$labels['filterset'] = 'Himpunan filter';
 $labels['filtersets'] = 'Himpunan banyak filter';
-$labels['filtersetadd'] = 'Tambahkan himpunan filter';
-$labels['filtersetdel'] = 'Hapus set filter';
-$labels['filtersetact'] = 'Aktifkan himpunan filter ayng sekarang';
-$labels['filtersetdeact'] = 'Matikan himpunan filter ayng sekarang';
 $labels['filterseteditraw'] = 'Sunting set penyaring';
-$labels['filtersetswitch'] = 'Hidupkan / matikan set filter';
 $labels['filterdef'] = 'Definisi filter';
-$labels['filtersetname'] = 'Nama himpunan filter';
-$labels['newfilterset'] = 'Himpunan filter baru';
 $labels['active'] = 'aktif';
 $labels['none'] = 'nihil';
 $labels['fromset'] = 'dari himpunan';
@@ -229,16 +221,6 @@ $messages['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
 $messages['forbiddenchars'] = 'Karakter terlarang pada isian.';
 $messages['cannotbeempty'] = 'Isian tidak bisa kosong.';
 $messages['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
-$messages['setactivateerror'] = 'Tidak dapat mengaktivkan kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setdeleteerror'] = 'Tidak dapat menghapus kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
-$messages['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
-$messages['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
-$messages['setupdated'] = 'Set penyaring sukses dimutakhirkan.';
-$messages['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
-$messages['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi kesalahan pada server';
-$messages['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
 $messages['activateerror'] = 'Tidak dapat mengaktifkan penyaringan terpilih. Terjadi kesalahan pada server';
 $messages['deactivateerror'] = 'Tidak dapat mematikan penyaringan terpilih. Terjadi kesalahan pada server';
 $messages['deactivated'] = 'Berhasil menghidupkan penyaringan.';
@@ -255,4 +237,3 @@ $messages['forwardsaved'] = 'Meneruskan data sukses tersimpan';
 $messages['emptyvacationbody'] = 'Tubuh pesan liburan diperlukan!';
 $messages['duplicate.conflict.err'] = 'Header dan identifier unik keduanya tidak diijinkan.';
 $messages['disabledaction'] = 'Tindakan tidak di izinkan';
-?>

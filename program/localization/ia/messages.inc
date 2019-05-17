@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Un error ha occurrite.';
 $messages['loginfailed']  = 'Apertura de session fallite.';
 $messages['cookiesdisabled'] = 'Vostre navigator non accepta cookies.';
@@ -61,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Nulle clave public valide ha essite trovate pr
 $messages['encryptnoattachments'] = 'Le attachamentos jam incargate non pote esser cryptate. Per favor re-adde los in le editor cryptographic.';
 $messages['searchpubkeyservers'] = 'Vole tu cercar le claves mancante in le servitores de claves public?';
 $messages['encryptpubkeysfound'] = 'Le sequente claves public ha essite trovate:';
-$messages['keyservererror'] = 'Fallimento de obtener clave ab servitor de claves';
-$messages['keyimportsuccess'] = 'Le clave public $key ha essite importate in tu portaclaves';
 $messages['nocontactsfound'] = 'Nulle contacto trovate.';
 $messages['contactnotfound'] = 'Le contacto requestate non ha essite trovate.';
-$messages['contactsearchonly'] = 'Entra parolas a cercar in contactos';
 $messages['sendingfailed'] = 'Le invio del message ha fallite.';
 $messages['senttooquickly'] = 'Per favor, attende $sec secunda(s) ante inviar iste message.';
 $messages['errorsavingsent'] = 'Un error ha occurrite durante le salveguarda del message inviate.';

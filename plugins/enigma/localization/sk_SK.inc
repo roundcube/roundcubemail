@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Šifrovanie';
 $labels['enigmacerts'] = 'Certifikáty S/MIME';
 $labels['enigmakeys'] = 'Kľúče PGP';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Podpisovanie bolo neúspešné. Neplatné heslo.';
 $messages['signnopass'] = 'Vloženie podpisu nebolo úspešné. Vyžaduje sa kľúčové heslo.';
 $messages['encrypterror'] = 'Šifrovanie nebolo úspešné.';
 $messages['encryptnokey'] = 'Šifrovanie nebolo úspešné. Nenašiel sa verejný kľúč pre $email.';
+$messages['encryptnoprivkey'] = 'Šifrovanie bolo neúspešné. Nenašiel sa súkromný kľúč.';
 $messages['nokeysfound'] = 'Nenašli sa žiadne kľúče';
 $messages['keynotfound'] = 'Kľúč sa nenašiel!';
 $messages['keyopenerror'] = 'Nemožno získať informácie o kľúči! Interná chyba.';

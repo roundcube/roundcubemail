@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ha ocurrido un error!';
 $messages['loginfailed']  = 'Contraseña o nombre de usuario incorrecto';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies';
@@ -54,7 +53,6 @@ $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externa
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo siento!';
 $messages['nocontactsfound'] = 'No hay contactos';
 $messages['contactnotfound'] = 'El contacto solicitado no existe';
-$messages['contactsearchonly'] = 'Ingresá algún término de búsqueda para encontrar contactos';
 $messages['sendingfailed'] = 'Error al enviar mensaje';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de enviar este mensaje';
 $messages['errorsavingsent'] = 'Ocurrió un error al guardar el mensaje enviado';

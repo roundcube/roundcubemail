@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Šifrování';
 $labels['enigmacerts'] = 'S/MIME certifikáty';
 $labels['enigmakeys'] = 'PGP klíče';
@@ -52,7 +51,7 @@ $labels['supportdecryption'] = 'Povolit dešifrování zpráv.';
 $labels['signdefault'] = 'Podepisovat všechny zprávy';
 $labels['encryptdefault'] = 'Šifrovat všechny zprávy';
 $labels['attachpubkeydefault'] = 'Automaticky připojit svůj veřejný klíč';
-$labels['passwordtime'] = 'Uchovat hesla pro privátní klíče pro';
+$labels['passwordtime'] = 'Uchovat hesla soukromých klíčů pro';
 $labels['nminutes'] = '$m minut(a)';
 $labels['wholesession'] = 'celá relace';
 $labels['createkeys'] = 'Vytvořit nový pár klíčů';
@@ -86,8 +85,8 @@ $labels['findkey'] = 'Hledat klíč na keyserveru';
 $labels['keyimportlabel'] = 'Importovat ze souboru';
 $labels['keyimportsearchlabel'] = 'Hledat klíč na keyserveru';
 $labels['managekeys'] = 'Spravovat PGP klíče';
-$labels['identitymatchingprivkeys'] = 'V klíčence máte $nr odpovídajících privátních PGP klíčů:';
-$labels['identitynoprivkeys'] = 'Klíčenka neobsahuje privátní PGP klíč identity odesílatele.';
+$labels['identitymatchingprivkeys'] = 'V klíčence máte $nr odpovídajících soukromých PGP klíčů:';
+$labels['identitynoprivkeys'] = 'Klíčenka neobsahuje soukromý PGP klíč identity odesílatele.';
 $messages['sigvalid'] = 'Ověřený podpis od $sender.';
 $messages['sigvalidpartial'] = 'Ověřený podpis od $sender, ale část těla není podepsána.';
 $messages['siginvalid'] = 'Nesprávný podpis od $sender.';
@@ -96,7 +95,7 @@ $messages['signokey'] = 'Neověřený podpis. Veřejný klíč nebyl nalezen. ID
 $messages['sigerror'] = 'Neověřený podpis. Interní chyba.';
 $messages['decryptok'] = 'Zpráva byla dešifrována.';
 $messages['decrypterror'] = 'Dešifrování selhalo.';
-$messages['decryptnokey'] = 'Dešifrování selhalo. Veřejný klíč nebyl nalezen. ID klíče: $keyid.';
+$messages['decryptnokey'] = 'Dešifrování selhalo. Soukromý klíč nebyl nalezen. ID klíče: $keyid.';
 $messages['decryptnomdc'] = 'Dešifrování přeskočeno. Integrita zprávy není chráněna.';
 $messages['decryptbadpass'] = 'Dešifrování selhalo. Špatné heslo.';
 $messages['decryptnopass'] = 'Dešifrování selhalo. Heslo pro klíč je požadováno.';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Podepisování selhalo. Špatné heslo.';
 $messages['signnopass'] = 'Podepisování selhalo. Heslo pro klíč je požadováno.';
 $messages['encrypterror'] = 'Šifrování selhalo.';
 $messages['encryptnokey'] = 'Šifrování selhalo. Veřejný klíč pro email $email nebyl nalezen.';
+$messages['encryptnoprivkey'] = 'Šifrování selhalo. Soukromý klíč nebyl nalezen.';
 $messages['nokeysfound'] = 'Nebyly nalezeny žádné klíče.';
 $messages['keynotfound'] = 'Klíč nebyl nalezen!';
 $messages['keyopenerror'] = 'Nemohu dostat informace o klíči! Interní chyba.';

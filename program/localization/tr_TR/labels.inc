@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product E-Posta Sistemine Hoş Geldiniz';
 $labels['username'] = 'Kullanıcı Adı';
 $labels['password'] = 'Parola';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Yeniden Adlandır';
 $labels['addphoto'] = 'Ekle';
 $labels['replacephoto'] = 'Değiştir';
 $labels['uploadphoto'] = 'Fotoğraf Yükle';
+$labels['choosefile'] = 'Dosyayı seçin...';
+$labels['choosefiles'] = 'Dosyaları seçin...';
+$labels['browse'] = 'Göz at';
 $labels['newcontact'] = 'Yeni Kişi Ekle';
 $labels['deletecontact'] = 'Seçilmiş Kişileri Sil';
 $labels['composeto'] = 'Şu Kişiye İleti Gönder';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Sağ/Sol Oklar: İleti gruplarını ge
 Enter: Seçilmiş ya da odaklanılmış iletiyi açar.
 Delete: Seçilmiş iletiyi çöpe atar.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Seçilmiş ya da odaklanılmış kişiyi açar.";
-?>

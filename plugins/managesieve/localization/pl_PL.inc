@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Zarządzanie filtrami poczty przychodzącej';
 $labels['filtername'] = 'Nazwa filtru';
@@ -75,7 +75,7 @@ $labels['days'] = 'dni';
 $labels['seconds'] = 'sekundy';
 $labels['rulestop'] = 'Przerwij przetwarzanie reguł';
 $labels['enable'] = 'Włącz/Wyłącz';
-$labels['filterset'] = 'Zbiór filtrów';
+$labels['filterset'] = 'Zbiory fitrów';
 $labels['filtersets'] = 'Zbiory fitrów';
 $labels['filtersetadd'] = 'Dodaj zbiór filtrów';
 $labels['filtersetdel'] = 'Usuń zbiór filtrów';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Treść wiadomości jest wymagana!';
 $messages['duplicate.conflict.err'] = 'Nagłówek i identyfikator nie mogą być używane równocześnie.';
 $messages['disabledaction'] = 'Niedozwolona akcja';
 $messages['lastindexempty'] = 'Number pozycji jest wymagany przy odliczaniu od końca';
-?>
