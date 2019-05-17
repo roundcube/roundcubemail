@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Sveiki! Čia $product';
 $labels['username'] = 'Naudotojo vardas';
 $labels['password'] = 'Slaptažodis';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Pervardinti';
 $labels['addphoto'] = 'Pridėti';
 $labels['replacephoto'] = 'Pakeisti';
 $labels['uploadphoto'] = 'Įkelti nuotrauką';
+$labels['choosefile'] = 'Pasirinkti failą...';
+$labels['choosefiles'] = 'Pasirinkti failus...';
+$labels['browse'] = 'Naršyti';
 $labels['newcontact'] = 'Sukurti naują adresatą';
 $labels['deletecontact'] = 'Ištrinti pažymėtus adresatus';
 $labels['composeto'] = 'Rašyti laišką';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Rodyklė dešinėn / kairėn: išsklei
 Įvesti: atverti pasirinktą / sufokusuotą laišką.
 Šalinti: perkelti pasirinktus laiškus į Šiukšlinę.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Atidaryti pasirinktą adresatą";
-?>

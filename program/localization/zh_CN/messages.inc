@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '发生错误！';
 $messages['loginfailed']  = '登录失败。';
 $messages['cookiesdisabled'] = '您的浏览器不支持 Cookies。';
@@ -63,11 +62,8 @@ $messages['nopubkeyforsender'] = '在您的发件人身份中没有找到有效�
 $messages['encryptnoattachments'] = '已经上传的附件不能加密。请在加密编辑器中重新添加它们。';
 $messages['searchpubkeyservers'] = '您想在公钥服务器搜索缺失的密钥吗？';
 $messages['encryptpubkeysfound'] = '下列公钥已被找到：';
-$messages['keyservererror'] = '从密钥服务器获取密钥失败';
-$messages['keyimportsuccess'] = '公钥 $key 成功导入您的钥匙环';
 $messages['nocontactsfound'] = '未找到联系人。';
 $messages['contactnotfound'] = '未找到指定的联系人。';
-$messages['contactsearchonly'] = '请输入联系人的搜索条件';
 $messages['sendingfailed'] = '发送失败。';
 $messages['senttooquickly'] = '您需要等待$sec秒才能发送邮件。';
 $messages['errorsavingsent'] = '保存已发送邮件时发生错误。';

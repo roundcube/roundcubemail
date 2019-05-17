@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Üdvözli a $product';
 $labels['username'] = 'Felhasználónév';
 $labels['password'] = 'Jelszó';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Átnevezés';
 $labels['addphoto'] = 'Kép hozzáadása';
 $labels['replacephoto'] = 'Kép cseréje';
 $labels['uploadphoto'] = 'Fotó feltöltése';
+$labels['choosefile'] = 'File kiválasztása...';
+$labels['choosefiles'] = 'Fileok kiválasztása...';
+$labels['browse'] = 'Böngészés';
 $labels['newcontact'] = 'Új kapcsolat létrehozása';
 $labels['deletecontact'] = 'Kijelölt kapcsolatok törlése';
 $labels['composeto'] = 'E-mail küldése erre a címre';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Jobbra/Balra nyilak: kibontja/becsukja
 Enter: Kinyitja a kiválasztott/fókuszban levő üzenetet.
 Delete: A kiválaszott üzenet áthelyezése a Kukába.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Megnyitja a kiválasztott/fókuszban levő kapcsolatot.";
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Hidlyddion';
 $labels['managefilters'] = 'Rheoli hidlyddion ebost i fewn';
 $labels['filtername'] = 'Enw hidlydd';
@@ -75,17 +75,17 @@ $labels['days'] = 'dyddiau';
 $labels['seconds'] = 'eiliadau';
 $labels['rulestop'] = 'Stopio gwerthuso rheolau';
 $labels['enable'] = 'Galluogi/Analluogi';
-$labels['filterset'] = 'Set hidlyddion';
+$labels['filterset'] = 'Set hidlo';
 $labels['filtersets'] = 'Setiau hidlyddion';
-$labels['filtersetadd'] = 'Ychwanegu set hidlyddion';
-$labels['filtersetdel'] = 'Dileu hidlyddion osodwyd';
-$labels['filtersetact'] = 'Dileu set hidlyddion gweithredol';
-$labels['filtersetdeact'] = 'Analluogi set hidlyddion cyfredol';
+$labels['filtersetadd'] = 'Ychwanegu set hidlo';
+$labels['filtersetdel'] = 'Dileu set hidlo';
+$labels['filtersetact'] = 'Gweithredu set hidlo presennol';
+$labels['filtersetdeact'] = 'Dadweithredu set hidlo presennol';
 $labels['filterseteditraw'] = 'Golygu set hidlo';
-$labels['filtersetswitch'] = 'Galluogi/analluogi hidlyddion osodwyd';
+$labels['filtersetswitch'] = 'Galluogi/analluogi set hidlo';
 $labels['filterdef'] = 'Diffiniad hidlydd';
-$labels['filtersetname'] = 'Enw set hidlyddion';
-$labels['newfilterset'] = 'Set hidlyddion newydd';
+$labels['filtersetname'] = 'Enw set hidlo';
+$labels['newfilterset'] = 'Set hidlo newydd';
 $labels['active'] = 'gweithredol';
 $labels['none'] = 'dim';
 $labels['fromset'] = 'o set';
@@ -245,16 +245,16 @@ $messages['actiondeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r weit
 $messages['forbiddenchars'] = 'Llythrennau gwaharddedig yn y maes.';
 $messages['cannotbeempty'] = 'Ni all y maes fod yn wag.';
 $messages['ruleexist'] = 'Mae hidlydd gyda\'r enw yma yn bodoli\'n barod.';
-$messages['setactivateerror'] = 'Methwyd galluogi y hidlyddion dewiswyd. Cafwyd gwall gweinydd.';
-$messages['setdeactivateerror'] = 'Methwyd analluogi y hidlyddion dewiswyd. Cafwyd gwall gweinydd.';
-$messages['setdeleteerror'] = 'Methwyd dileu y set hidlyddion ddewiswyd. Cafwyd gwall gweinydd.';
-$messages['setactivated'] = 'Bywiogwyd y set hidlydd yn llwyddiannus.';
-$messages['setdeactivated'] = 'Dadfywiogwyd y set hidlydd yn llwyddiannus.';
-$messages['setdeleted'] = 'Dilëuwyd y set hidlydd yn llwyddiannus.';
+$messages['setactivateerror'] = 'Methwyd gweithredu y set hidlo ddewiswyd. Cafwyd gwall gweinydd.';
+$messages['setdeactivateerror'] = 'Methwyd dadweithredu y set hidlo ddewiswyd. Cafwyd gwall gweinydd.';
+$messages['setdeleteerror'] = 'Methwyd dileu y set hidlo ddewiswyd. Cafwyd gwall gweinydd.';
+$messages['setactivated'] = 'Gweithredwyd y set hidlo yn llwyddiannus.';
+$messages['setdeactivated'] = 'Anweithredwyd y set hidlo yn llwyddiannus.';
+$messages['setdeleted'] = 'Dileuwyd y set hidlo yn llwyddiannus.';
 $messages['setupdated'] = 'Diweddarwyd y set hidlo yn llwyddiannus.';
-$messages['setdeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r set hidlydd ddewiswyd?';
-$messages['setcreateerror'] = 'Methwyd creu set hidlydd. Cafwyd gwall gweinydd.';
-$messages['setcreated'] = 'Crëuwyd y set hidlydd yn llwyddiannus.';
+$messages['setdeleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu\'r set hidlo ddewiswyd?';
+$messages['setcreateerror'] = 'Methwyd creu set hidlo. Cafwyd gwall gweinydd.';
+$messages['setcreated'] = 'Creuwyd y set hidlo yn llwyddiannus.';
 $messages['activateerror'] = 'Methwyd galluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
 $messages['deactivateerror'] = 'Methwyd analluogi y hidlydd(ion) dewiswyd. Cafwyd gwall gweinydd.';
 $messages['deactivated'] = 'Galluogwyd y hidlydd(ion) yn llwyddiannus.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Mae angen rhoi corff y neges wyliau!';
 $messages['duplicate.conflict.err'] = 'Ni ganiateir defnyddio pennawd a dynodwr unigryw.';
 $messages['disabledaction'] = 'Ni ganiateir y weithred.';
 $messages['lastindexempty'] = 'Mae angen mynegai wrth gyfri o\'r diwedd';
-?>

@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Došlo k chybě!';
 $messages['loginfailed']  = 'Přihlášení selhalo.';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné.';
 $messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo.';
+$messages['cookiesmismatch'] = 'Nalezena nekonzistentnost v cookies. Vymažte, prosím, cookies ve vašem prohlížeči.';
 $messages['storageerror'] = 'Připojení na IMAP server selhalo.';
 $messages['servererror'] = 'Chyba serveru!';
 $messages['servererrormsg'] = 'Chyba serveru: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Pro Vaši identitu odesílatele se nenašel ž
 $messages['encryptnoattachments'] = 'Přílohy, které jste už uložili na server, není možné zašifrovat. Prosím, přidejte je znovu v editoru pro šifrování.';
 $messages['searchpubkeyservers'] = 'Přejete si prohledat servery s klíči k nalezení chybějících klíčů?';
 $messages['encryptpubkeysfound'] = 'Byly nalezeny následující veřejné klíče:';
-$messages['keyservererror'] = 'Selhalo získávání klíče ze serveru s klíči';
-$messages['keyimportsuccess'] = 'Veřejný klíč $key byl přidán do vašeho úložiště klíčů';
+$messages['keyservererror'] = 'Nebylo možné získat klíč ze serveru s klíči.';
+$messages['keyimportsuccess'] = 'Veřejný klíč $key byl vložen do vaší klíčenky.';
 $messages['nocontactsfound'] = 'Kontakty nebyly nalezeny.';
 $messages['contactnotfound'] = 'Požadovaný kontakt nebyl nalezen.';
-$messages['contactsearchonly'] = 'Vyplňte některou z položek';
+$messages['contactsearchonly'] = 'Pro zobrazení kontaktů ze zvoleného adresáře použijte vyhledávací formulář.';
 $messages['sendingfailed'] = 'Odesílání zprávy selhalo.';
 $messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním zprávy.';
 $messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy.';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'Nahrávání souboru selhalo.';
 $messages['filesizeerror'] = 'Soubor přesáhl maximální velikost $size.';
 $messages['filecounterror'] = 'Můžete nahrát maximálně $count souborů najednou.';
 $messages['msgsizeerror'] = 'Selhalo připojení souboru. Byla překročena maximální velikost zprávy ($size).';
+$messages['msgsizeerrorfwd'] = 'Překročena maximální délka zprávy ($size). Počet položek, které nebyly připojeny je $num.';
 $messages['copysuccess'] = 'Zkopírováno $nr kontaktů.';
 $messages['movesuccess'] = 'Přesunuto $nr kontaktů.';
 $messages['copyerror'] = 'Kontakty nelze kopírovat.';

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Virhe havaittu.';
 $messages['loginfailed']  = 'Sisäänkirjautuminen epäonnistui';
 $messages['cookiesdisabled'] = 'Selaimesi ei hyväksy evästeitä';
@@ -63,11 +62,8 @@ $messages['nopubkeyforsender'] = 'Lähettäjäidentiteetillesi ei löytynyt kelv
 $messages['encryptnoattachments'] = 'Entuudestaan määritettyjä liitteitä ei voi salata. Lisää liitteet uudelleen salausmuokkaimen kautta.';
 $messages['searchpubkeyservers'] = 'Haluatko etsiä puuttuvia avaimia julkisten avainten palvelimilta?';
 $messages['encryptpubkeysfound'] = 'Seuraavat avaimet löydettiin:';
-$messages['keyservererror'] = 'Avaimen noutaminen avainpalvelimelta epäonnistui';
-$messages['keyimportsuccess'] = 'Julkinen avain $key tuotiin onnistuneesti avainnippuusi';
 $messages['nocontactsfound'] = 'Yhteystietoja ei löytynyt.';
 $messages['contactnotfound'] = 'Pyydettyä yhteystietoa ei löytynyt';
-$messages['contactsearchonly'] = 'Anna hakusanoja, joilla yhteystietoja haetaan';
 $messages['sendingfailed'] = 'Viestin lähetys epäonnistui';
 $messages['senttooquickly'] = 'Odota $sec sekunti(a) ennen viestin lähettämistä';
 $messages['errorsavingsent'] = 'Virhe tallennettaessa lähetettyä viestiä.';

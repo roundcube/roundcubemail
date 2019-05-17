@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Welkom bij $product';
 $labels['username'] = 'Gebruikersnaam';
 $labels['password'] = 'Wachtwoord';
@@ -208,7 +208,7 @@ $labels['quotastorage'] = 'Schijfruimte';
 $labels['quotamessage'] = 'Aantal berichten';
 $labels['shortheaderdate'] = 'Op $date';
 $labels['shortheaderto'] = 'Naar $to op $date';
-$labels['shortheaderfrom'] = 'Van $to op $date';
+$labels['shortheaderfrom'] = 'Van $from op $date';
 $labels['quicksearch'] = 'Snel zoeken';
 $labels['searchplaceholder'] = 'Zoeken...';
 $labels['resetsearch'] = 'Wis zoekopdracht';
@@ -676,4 +676,3 @@ $labels['helplistkeyboardnavmessages'] = "Pijl links/rechts: conversaties in- of
 Enter: Open geselecteerd of actief bericht.
 Delete: Verwijder geselecteerde berichten naar Prullenbak.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open geselecteerd of actief contact.";
-?>

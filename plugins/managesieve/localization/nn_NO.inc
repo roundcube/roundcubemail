@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Rediger filter for innkommande e-post';
 $labels['filtername'] = 'Filternamn';
@@ -58,14 +58,8 @@ $labels['vacationreason'] = 'Innhald (grunngjeving for fråvær)';
 $labels['vacationsubject'] = 'Meldingsemne:';
 $labels['rulestop'] = 'Stopp evaluering av regler';
 $labels['enable'] = 'Aktiver/Deaktiver';
-$labels['filterset'] = 'Filtersett';
 $labels['filtersets'] = 'Filtersett';
-$labels['filtersetadd'] = 'Nytt filtersett';
-$labels['filtersetact'] = 'Aktiver gjeldande filtersett';
-$labels['filtersetdeact'] = 'Deaktiver gjeldande filtersett';
 $labels['filterdef'] = 'Filterdefinisjon';
-$labels['filtersetname'] = 'Namn på filtersett';
-$labels['newfilterset'] = 'Nytt filtersett';
 $labels['active'] = 'aktiv';
 $labels['none'] = 'ingen';
 $labels['fromset'] = 'frå sett';
@@ -142,11 +136,6 @@ $messages['actiondeleteconfirm'] = 'Er du sikker på at du vil slette vald hendi
 $messages['forbiddenchars'] = 'Ugyldige teikn i felt.';
 $messages['cannotbeempty'] = 'Feltet kan ikkje stå tomt.';
 $messages['ruleexist'] = 'Det finst alt eit filter med dette namnet.';
-$messages['setactivated'] = 'Filtersett aktivert.';
-$messages['setdeactivated'] = 'Filtersett deaktivert.';
-$messages['setdeleted'] = 'Filtersett sletta.';
-$messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valde filtersettet?';
-$messages['setcreated'] = 'Filtersett oppretta.';
 $messages['deactivated'] = 'Filter skrudd på.';
 $messages['activated'] = 'Filter skrudd av.';
 $messages['moved'] = 'Filter vart flytta.';
@@ -154,4 +143,3 @@ $messages['nametoolong'] = 'Namnet er for langt.';
 $messages['namereserved'] = 'Namnet er reservert.';
 $messages['setexist'] = 'Settet eksisterer alt.';
 $messages['nodata'] = 'Du må velje minst éin posisjon!';
-?>

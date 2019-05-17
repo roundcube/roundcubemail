@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'エラーが発生しました!';
 $messages['loginfailed']  = 'ログインできませんでした。';
 $messages['cookiesdisabled'] = 'ブラウザーがCookieを受け付けません。';
@@ -64,11 +63,8 @@ $messages['nopubkeyforsender'] = 'あなたの送信者としての有効な公�
 $messages['encryptnoattachments'] = '既にアップロードした添付ファイルは暗号化できません。暗号化のエディター内で再度追加してください。';
 $messages['searchpubkeyservers'] = '欠けている鍵を公開なキーサーバーで検索しますか?';
 $messages['encryptpubkeysfound'] = '以下のキーサーバーが見つかりました:';
-$messages['keyservererror'] = 'キーサーバーから鍵を取得できませんでした。';
-$messages['keyimportsuccess'] = '$key という公開鍵をキーリングにインポートしました。';
 $messages['nocontactsfound'] = '連絡先がありません。';
 $messages['contactnotfound'] = '連絡先が見つかりません。';
-$messages['contactsearchonly'] = '連絡先を探すための検索語を入力してください';
 $messages['sendingfailed'] = 'メッセージを送信できませんでした。';
 $messages['senttooquickly'] = 'このメッセージを送信するまで、$sec秒お待ちください。';
 $messages['errorsavingsent'] = '送信したメッセージの保存中にエラーが発生しました。';

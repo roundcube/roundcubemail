@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Siloù';
 $labels['managefilters'] = 'Ardeiñ siloù ar posteloù o tont tre';
 $labels['filtername'] = 'Anv ar sil';
@@ -65,14 +65,8 @@ $labels['days'] = 'a zevezhioù';
 $labels['seconds'] = 'eilenn';
 $labels['rulestop'] = 'Paouez da briziañ ar reolennoù';
 $labels['enable'] = '(Di)weredekaat';
-$labels['filterset'] = 'Strollad siloù';
 $labels['filtersets'] = 'Strolladoù sil';
-$labels['filtersetadd'] = 'Ouzhpennañ ur strollad siloù';
-$labels['filtersetact'] = 'Gweredekaat ar strollad siloù bremanel';
-$labels['filtersetdeact'] = 'Diweredekaat ar strollad siloù bremanel';
 $labels['filterdef'] = 'Despizadur ar sil';
-$labels['filtersetname'] = 'Anv ar strollad siloù';
-$labels['newfilterset'] = 'Strollad siloù nevez';
 $labels['active'] = 'gweredekaet';
 $labels['none'] = 'hini ebet';
 $labels['fromset'] = 'eus ar strollad';
@@ -211,15 +205,6 @@ $messages['actiondeleteconfirm'] = 'Fellout a ra deoc\'h dilemel ar gwered diuze
 $messages['forbiddenchars'] = 'Arouezennoù difennet er vaezienn.';
 $messages['cannotbeempty'] = 'N\'hall ket ar vaezienn bezañ goullo.';
 $messages['ruleexist'] = 'Ur sil gant an anv erspizet an zo dioutañ endeo.';
-$messages['setactivateerror'] = 'N\'haller ket gweredekaat ar siloù diuzet. Ur fazi dafariad a zo c\'hoarvezet.';
-$messages['setdeactivateerror'] = 'N\'haller ket diweredekaat ar siloù diuzet. Ur fazi dafariad a zo c\'hoarvezet.';
-$messages['setdeleteerror'] = 'N\'haller ket dilemel ar siloù diuzet. Ur fazi dafariad a zo c\'hoarvezet.';
-$messages['setactivated'] = 'Strollad siloù gweredekaet gant berzh.';
-$messages['setdeactivated'] = 'Strollad siloù diweredekaet gant berzh.';
-$messages['setdeleted'] = 'Siloù dilamet gant berzh.';
-$messages['setdeleteconfirm'] = 'Fellout a ra deoc\'h dilemel ar strollad siloù diuzet?';
-$messages['setcreateerror'] = 'N\'haller ket krouiñ ar strollad siloù. Ur fazi dafariad a zo c\'hoarvezet.';
-$messages['setcreated'] = 'Strollad siloù krouet gant berzh.';
 $messages['activateerror'] = 'N\'haller ket gweredekaat ar sil(où) diuzet. Ur fazi dafariad a zo c\'hoarvezet.';
 $messages['deactivateerror'] = 'N\'haller ket diweredekaat ar sil(où) diuzet. Ur fazi dafariad a zo c\'hoarvezet.';
 $messages['deactivated'] = 'Sil(où) diweredekaet gant berzh.';
@@ -234,4 +219,3 @@ $messages['invaliddateformat'] = 'Mentrezh deiziad pe lodenn deiziad didalvoudek
 $messages['saveerror'] = 'N\'haller ket enrollañ ar roadennoù. Ur fazi dafariad a zo c\'hoarvezet.';
 $messages['emptyvacationbody'] = 'Dleet eo korf ar gemennadenn ezvezañs!';
 $messages['duplicate.conflict.err'] = 'Un talbenn hag un naoudi unel n\'int ket aotreet.';
-?>

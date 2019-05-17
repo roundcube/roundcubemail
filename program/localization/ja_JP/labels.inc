@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$productにようこそ';
 $labels['username'] = 'ユーザー名';
 $labels['password'] = 'パスワード';
@@ -674,4 +674,3 @@ $labels['helplistkeyboardnavmessages'] = "右矢印・左矢印: メッセージ
 改行: 現在・選択しているメッセージを開きます。
 削除: 選択しているメッセージをゴミ箱に移動します。";
 $labels['helplistkeyboardnavcontacts'] = "改行: 現在・選択中の連絡先を開きます。";
-?>

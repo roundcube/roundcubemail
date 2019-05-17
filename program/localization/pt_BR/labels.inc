@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bem-vindo ao $product';
 $labels['username'] = 'Usuário';
 $labels['password'] = 'Senha';
@@ -147,6 +147,7 @@ $labels['last'] = 'Último';
 $labels['previous'] = 'Anterior';
 $labels['next'] = 'Próximo';
 $labels['select'] = 'Selecionar';
+$labels['selection'] = 'Seleção';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Nenhuma';
 $labels['currpage'] = 'Página atual';
@@ -195,6 +196,8 @@ $labels['folderactions'] = 'Ações para as pastas...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Esvaziar';
 $labels['importmessages'] = 'Importar mensagens';
+$labels['mailimportdesc'] = 'Você pode fazer upload de mail usando arquivos no formato <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ou <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Múltiplos arquivos podem ser comprimidos para arquivos zip.';
 $labels['quota'] = 'Uso de disco';
 $labels['unknown'] = 'desconhecido';
 $labels['unlimited'] = 'ilimitado';
@@ -256,7 +259,9 @@ $labels['keyrevoked'] = 'Revogado';
 $labels['bccinstead'] = 'Usar Cco';
 $labels['addheader'] = 'Adicionar destinatário (cabeçalho)';
 $labels['insert'] = 'Inserir';
+$labels['insertcontact'] = 'Inserir contato(s)';
 $labels['recipient'] = 'Destinatário';
+$labels['recipientedit'] = 'Editar destinatário';
 $labels['editidents'] = 'Editar identidades';
 $labels['spellcheck'] = 'Revisar';
 $labels['checkspelling'] = 'Verificar ortografia';
@@ -294,7 +299,9 @@ $labels['alwaysshow'] = 'Sempre exibir imagens de $sender';
 $labels['alwaysallow'] = 'Sempre permitir de $sender';
 $labels['isdraft'] = 'Esta é uma mensagem salva como rascunho.';
 $labels['andnmore'] = '$nr mais...';
+$labels['details'] = 'Detalhes';
 $labels['headers'] = 'Cabeçalhos';
+$labels['allheaders'] = 'Todos os cabeçalhos...';
 $labels['togglemoreheaders'] = 'Exibir informações adicionais da mensagem (cabeçalhos)';
 $labels['togglefullheaders'] = 'Exibir cabeçalho original da mensagem';
 $labels['htmltoggle'] = 'HTML';
@@ -389,6 +396,9 @@ $labels['rename'] = 'Renomear';
 $labels['addphoto'] = 'Adicionar';
 $labels['replacephoto'] = 'Substituir';
 $labels['uploadphoto'] = 'Enviar foto';
+$labels['choosefile'] = 'Escolher arquivo...';
+$labels['choosefiles'] = 'Escolher arquivos...';
+$labels['browse'] = 'Procurar';
 $labels['newcontact'] = 'Adicionar novo contato';
 $labels['deletecontact'] = 'Exclui os contatos selecionados';
 $labels['composeto'] = 'Compor mensagem para';
@@ -573,6 +583,9 @@ $labels['dualusemail'] = 'mensagens';
 $labels['dualusefolder'] = 'pastas';
 $labels['generate'] = 'Gerar';
 $labels['encryptioncreatekey'] = 'Criar novo par de chaves';
+$labels['openmailvelopesettings'] = 'Abrir Configurações de Mailvelope';
+$labels['encryptionprivkeysinmailvelope'] = 'Você tem $nr chaves privadas compatíveis armazanadas no keyring do seu Mailvelope:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'A identidade do remetente ainda não possui uma chave privada PGP armazanada em sua extensão do Mailvelope. Gostaria de criar uma para poder habilitar mensagem criptografada?';
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc'] = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
@@ -640,6 +653,7 @@ $labels['arialabelmessageheaders'] = 'Cabeçalhos da mensagem';
 $labels['arialabelforwardingoptions'] = 'Opções de encaminhamento';
 $labels['arialabelreplyalloptions'] = 'Opções de responder a todos';
 $labels['arialabelmoremessageactions'] = 'Mais ações para as mensagens';
+$labels['arialabelmorecontactactions'] = 'Mais ações de contato';
 $labels['arialabelmarkmessagesas'] = 'Marcar a mensagem selecionada como...';
 $labels['arialabelcomposeoptions'] = 'Opções para compor a mensagem';
 $labels['arialabelresponsesmenu'] = 'Menu de respostas pré-configuradas';
@@ -666,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Setas para direita/esquerda: expande/r
 Enter: Abre a mensagem selecionada/em foco.
 Delete: Move a mensagem selecionada para a Lixeira.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abre o contato selecionado";
-?>

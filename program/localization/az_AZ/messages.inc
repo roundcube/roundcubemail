@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Xəta baş verdi!';
 $messages['loginfailed']  = 'Giriş uğursuz oldu.';
 $messages['cookiesdisabled'] = 'Sizin brauzer kukiləri qəbul etmir.';
@@ -52,7 +51,6 @@ $messages['blockedimages'] = 'Təhlükəsizlik məqsədi ilə şəkillərin yük
 $messages['encryptedmessage'] = 'Məktub şifrələnib və göstərilə bilməz. Server inzibatçısına müraciət edin.';
 $messages['nocontactsfound'] = 'Ünvanlar tapılmadı';
 $messages['contactnotfound'] = 'Tələb olunan ünvan tapılmadı';
-$messages['contactsearchonly'] = 'Kontaqların axtarışı üçün şərti daxil edin';
 $messages['sendingfailed'] = 'Məktub göndərilmədi';
 $messages['senttooquickly'] = 'Məktub göndərmək üçün $sec saniyə gözləmək gərəkir';
 $messages['errorsavingsent'] = 'Göndərilən məktubun saxlanılması zamanı xəta baş verdi.';

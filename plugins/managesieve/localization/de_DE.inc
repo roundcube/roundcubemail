@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Filter für eingehende Nachrichten verwalten';
 $labels['filtername'] = 'Filtername';
@@ -75,7 +75,7 @@ $labels['days'] = 'Tage';
 $labels['seconds'] = 'Sekunden';
 $labels['rulestop'] = 'Regelauswertung anhalten';
 $labels['enable'] = 'Aktivieren/Deaktivieren';
-$labels['filterset'] = 'Filtersätze';
+$labels['filterset'] = 'Filtersatz';
 $labels['filtersets'] = 'Filtersätze';
 $labels['filtersetadd'] = 'Filtersatz anlegen';
 $labels['filtersetdel'] = 'Filtersatz löschen';
@@ -248,13 +248,13 @@ $messages['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits
 $messages['setactivateerror'] = 'Kann ausgewählten Filtersatz nicht aktivieren. Serverfehler';
 $messages['setdeactivateerror'] = 'Kann ausgewählten Filtersatz nicht deaktivieren. Serverfehler';
 $messages['setdeleteerror'] = 'Kann ausgewählten Filtersatz nicht löschen. Serverfehler';
-$messages['setactivated'] = 'Filtersatz wurde erfolgreich aktiviert';
-$messages['setdeactivated'] = 'Filtersatz wurde erfolgreich deaktiviert';
-$messages['setdeleted'] = 'Filtersatz wurde erfolgreich gelöscht';
-$messages['setupdated'] = 'Filtersatz wurde erfolgreich aktualisiert';
+$messages['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
+$messages['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
+$messages['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
+$messages['setupdated'] = 'Filtersatz erfolgreich aktualisiert.';
 $messages['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$messages['setcreateerror'] = 'Erstellen von Filter Sätzen nicht möglich. Es ist ein Serverfehler aufgetreten.';
-$messages['setcreated'] = 'Filtersatz wurde erfolgreich erstellt';
+$messages['setcreateerror'] = 'Der Filtersatz kann nicht erstellt werden. Serverfehler aufgetreten.';
+$messages['setcreated'] = 'Filtersatz erfolgreich erstellt.';
 $messages['activateerror'] = 'Filter kann nicht aktiviert werden. Serverfehler.';
 $messages['deactivateerror'] = 'Filter kann nicht deaktiviert werden. Serverfehler.';
 $messages['deactivated'] = 'Filter erfolgreich deaktiviert.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird b
 $messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
 $messages['lastindexempty'] = 'Indexierung nötig, wenn vom Ende gezählt wird';
-?>
