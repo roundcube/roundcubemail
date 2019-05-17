@@ -796,9 +796,10 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=radio],[type=checkbox]),textarea';
+        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=radio],[type=range],[type=checkbox]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
+        $('[type=range]', $('.propform', context)).addClass('custom-range');
 
         // Note: On selects we add form-control to get consistent focus
         //       and to not have to create separate rules for selects and inputs

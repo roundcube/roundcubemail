@@ -23,8 +23,9 @@ class enigma extends rcube_plugin
     public $task = 'mail|settings|cli';
     public $rc;
     public $engine;
-    public $ui;
 
+    private $ui;
+    private $settings_ui;
     private $env_loaded = false;
 
 
@@ -42,7 +43,7 @@ class enigma extends rcube_plugin
             $this->add_hook('message_body_prefix', array($this, 'status_message'));
 
             $this->register_action('plugin.enigmaimport', array($this, 'import_file'));
-            $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
+            $this->register_action('plugin.enigmakeys', array($this, 'keys_ui'));
 
             // load the Enigma plugin configuration
             $this->load_config();
@@ -76,14 +77,23 @@ class enigma extends rcube_plugin
             $this->add_hook('preferences_save', array($this, 'preferences_save'));
             $this->add_hook('identity_form', array($this, 'identity_form'));
 
+            // register handler for secure background style update
+            $this->register_action('plugin.enigmabg', array($this, 'background_style'));
+
             // register handler for keys/certs management
-            $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
-//            $this->register_action('plugin.enigmacerts', array($this, 'preferences_ui'));
+            $this->register_action('plugin.enigmakeys', array($this, 'keys_ui'));
+//            $this->register_action('plugin.enigmacerts', array($this, 'keys_ui'));
 
             $this->load_ui();
 
-            if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0) {
+            if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0
+                || $this->rc->action == 'edit-prefs' || $this->rc->action == 'save-prefs'
+            ) {
                 $this->ui->add_css();
+            }
+
+            if ($this->rc->action == 'edit-prefs' || $this->rc->action == 'save-prefs') {
+                $this->ui->add_js();
             }
 
             $this->password_handler();
@@ -138,6 +148,17 @@ class enigma extends rcube_plugin
     }
 
     /**
+     * Plugin Settings UI initialization.
+     */
+    function load_settings_ui()
+    {
+        if (!$this->settings_ui) {
+            $this->load_ui();
+            $this->settings_ui = new enigma_settings($this);
+        }
+    }
+
+    /**
      * Plugin engine initialization.
      */
     function load_engine()
@@ -183,299 +204,13 @@ class enigma extends rcube_plugin
     }
 
     /**
-     * Handler for settings_actions hook.
-     * Adds Enigma settings section into preferences.
-     *
-     * @param array Original parameters
-     *
-     * @return array Modified parameters
-     */
-    function settings_actions($args)
-    {
-        // add labels
-        $this->add_texts('localization/');
-
-        // register as settings action
-        $args['actions'][] = array(
-            'action' => 'plugin.enigmakeys',
-            'class'  => 'enigma keys',
-            'label'  => 'enigmakeys',
-            'title'  => 'enigmakeys',
-            'domain' => 'enigma',
-        );
-/*
-        $args['actions'][] = array(
-            'action' => 'plugin.enigmacerts',
-            'class'  => 'enigma certs',
-            'label'  => 'enigmacerts',
-            'title'  => 'enigmacerts',
-            'domain' => 'enigma',
-        );
-*/
-        return $args;
-    }
-
-    /**
-     * Handler for preferences_sections_list hook.
-     * Adds Encryption settings section into preferences sections list.
-     *
-     * @param array Original parameters
-     *
-     * @return array Modified parameters
-     */
-    function preferences_sections_list($p)
-    {
-        $p['list']['enigma'] = array(
-            'id' => 'enigma', 'section' => $this->gettext('encryption'),
-        );
-
-        return $p;
-    }
-
-    /**
-     * Handler for preferences_list hook.
-     * Adds options blocks into Enigma settings sections in Preferences.
-     *
-     * @param array Original parameters
-     *
-     * @return array Modified parameters
-     */
-    function preferences_list($p)
-    {
-        if ($p['section'] != 'enigma') {
-            return $p;
-        }
-
-        $no_override = array_flip((array)$this->rc->config->get('dont_override'));
-
-        $p['blocks']['main']['name'] = $this->gettext('mainoptions');
-
-        if (!isset($no_override['enigma_encryption'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_encryption';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_encryption',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_encryption'] = array(
-                'title'   => html::label($field_id, $this->gettext('supportencryption')),
-                'content' => $input->show(intval($this->rc->config->get('enigma_encryption'))),
-            );
-        }
-
-        if (!isset($no_override['enigma_signatures'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_signatures';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_signatures',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_signatures'] = array(
-                'title'   => html::label($field_id, $this->gettext('supportsignatures')),
-                'content' => $input->show(intval($this->rc->config->get('enigma_signatures'))),
-            );
-        }
-
-        if (!isset($no_override['enigma_decryption'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_decryption';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_decryption',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_decryption'] = array(
-                'title'   => html::label($field_id, $this->gettext('supportdecryption')),
-                'content' => $input->show(intval($this->rc->config->get('enigma_decryption'))),
-            );
-        }
-
-        if (!isset($no_override['enigma_sign_all'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_sign_all';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_sign_all',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_sign_all'] = array(
-                'title'   => html::label($field_id, $this->gettext('signdefault')),
-                'content' => $input->show($this->rc->config->get('enigma_sign_all') ? 1 : 0),
-            );
-        }
-
-        if (!isset($no_override['enigma_encrypt_all'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_encrypt_all';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_encrypt_all',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_encrypt_all'] = array(
-                'title'   => html::label($field_id, $this->gettext('encryptdefault')),
-                'content' => $input->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0),
-            );
-        }
-
-        if (!isset($no_override['enigma_attach_pubkey'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_attach_pubkey';
-            $input    = new html_checkbox(array(
-                    'name'  => '_enigma_attach_pubkey',
-                    'id'    => $field_id,
-                    'value' => 1,
-            ));
-
-            $p['blocks']['main']['options']['enigma_attach_pubkey'] = array(
-                'title'   => html::label($field_id, $this->gettext('attachpubkeydefault')),
-                'content' => $input->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0),
-            );
-        }
-
-        if (!isset($no_override['enigma_password_time'])) {
-            if (!$p['current']) {
-                $p['blocks']['main']['content'] = true;
-                return $p;
-            }
-
-            $field_id = 'rcmfd_enigma_password_time';
-            $select   = new html_select(array('name' => '_enigma_password_time', 'id' => $field_id));
-
-            foreach (array(1, 5, 10, 15, 30) as $m) {
-                $label = $this->gettext(array('name' => 'nminutes', 'vars' => array('m' => $m)));
-                $select->add($label, $m);
-            }
-            $select->add($this->gettext('wholesession'), 0);
-
-            $p['blocks']['main']['options']['enigma_password_time'] = array(
-                'title'   => html::label($field_id, $this->gettext('passwordtime')),
-                'content' => $select->show(intval($this->rc->config->get('enigma_password_time'))),
-            );
-        }
-
-        return $p;
-    }
-
-    /**
-     * Handler for preferences_save hook.
-     * Executed on Enigma settings form submit.
-     *
-     * @param array Original parameters
-     *
-     * @return array Modified parameters
-     */
-    function preferences_save($p)
-    {
-        if ($p['section'] == 'enigma') {
-            $p['prefs'] = array(
-                'enigma_signatures'    => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
-                'enigma_decryption'    => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
-                'enigma_encryption'    => (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST),
-                'enigma_sign_all'      => (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST),
-                'enigma_encrypt_all'   => (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST),
-                'enigma_attach_pubkey' => (bool) rcube_utils::get_input_value('_enigma_attach_pubkey', rcube_utils::INPUT_POST),
-                'enigma_password_time' => intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST)),
-            );
-        }
-
-        return $p;
-    }
-
-    /**
      * Handler for keys/certs management UI template.
      */
-    function preferences_ui()
+    function keys_ui()
     {
         $this->load_ui();
 
         $this->ui->init();
-    }
-
-    /**
-     * Handler for 'identity_form' plugin hook.
-     *
-     * This will list private keys matching this identity
-     * and add a link to enigma key management action.
-     *
-     * @param array Original parameters
-     *
-     * @return array Modified parameters
-     */
-    function identity_form($p)
-    {
-        if (isset($p['form']['encryption']) && !empty($p['record']['identity_id'])) {
-            $content = '';
-
-            // find private keys for this identity
-            if ($p['record']['email']) {
-                $listing = array();
-                $engine  = $this->load_engine();
-                $keys    = (array)$engine->list_keys($p['record']['email']);
-
-                foreach ($keys as $key) {
-                    if ($key->get_type() === enigma_key::TYPE_KEYPAIR) {
-                        $listing[] = html::tag('li', null,
-                            html::tag('strong', 'uid', html::quote($key->id))
-                            . ' ' . html::tag('span', 'identity', html::quote($key->name))
-                        );
-                    }
-                }
-
-                if (count($listing)) {
-                    $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
-                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
-                } else {
-                    $content .= html::p(null, $this->gettext('identitynoprivkeys'));
-                }
-            }
-
-            // add button linking to enigma key management
-            $button_attr = array(
-                'class'  => 'button',
-                'href'   => $this->rc->url(array('action' => 'plugin.enigmakeys')),
-                'target' => '_parent',
-            );
-            $content .= html::p(null, html::a($button_attr, $this->gettext('managekeys')));
-
-            // rename class to avoid Mailvelope key management to kick in
-            $p['form']['encryption']['attrs'] = array('class' => 'enigma-identity-encryption');
-            // fill fieldset content with our stuff
-            $p['form']['encryption']['content'] = html::div('identity-encryption-block', $content);
-        }
-
-        return $p;
     }
 
     /**
@@ -578,6 +313,157 @@ class enigma extends rcube_plugin
         $this->load_engine();
 
         $p['abort'] = $p['abort'] || !$this->engine->delete_user_data($p['username']);
+
+        return $p;
+    }
+
+    /**
+     * Handler for settings_actions hook.
+     * Adds Enigma settings section into preferences.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function settings_actions($args)
+    {
+        // add labels
+        $this->add_texts('localization/');
+
+        // register as settings action
+        $args['actions'][] = array(
+            'action' => 'plugin.enigmakeys',
+            'class'  => 'enigma keys',
+            'label'  => 'enigmakeys',
+            'title'  => 'enigmakeys',
+            'domain' => 'enigma',
+        );
+/*
+        $args['actions'][] = array(
+            'action' => 'plugin.enigmacerts',
+            'class'  => 'enigma certs',
+            'label'  => 'enigmacerts',
+            'title'  => 'enigmacerts',
+            'domain' => 'enigma',
+        );
+*/
+        return $args;
+    }
+
+    /**
+     * Handler for preferences_sections_list hook.
+     * Adds Encryption settings section into preferences sections list.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function preferences_sections_list($p)
+    {
+        $p['list']['enigma'] = array(
+            'id' => 'enigma', 'section' => $this->gettext('encryption'),
+        );
+
+        return $p;
+    }
+
+    /**
+     * Handler for preferences_list hook.
+     * Adds options blocks into Enigma settings sections in Preferences.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function preferences_list($p)
+    {
+        if ($p['section'] == 'enigma') {
+            $this->load_settings_ui();
+
+            return $this->settings_ui->preferences_list($p);
+        }
+    }
+
+    /**
+     * Handler for preferences_save hook.
+     * Executed on Enigma settings form submit.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function preferences_save($p)
+    {
+        if ($p['section'] == 'enigma') {
+            $this->load_settings_ui();
+
+            return $this->settings_ui->preferences_save($p);
+        }
+    }
+
+    /**
+     * Handler for background testing action
+     */
+    function background_style()
+    {
+        $this->load_env();
+
+        $this->rc->output->command('enigma_bg_update', enigma_settings::security_bg_style(true));
+        $this->rc->output->send();
+    }
+
+    /**
+     * Handler for 'identity_form' plugin hook.
+     *
+     * This will list private keys matching this identity
+     * and add a link to enigma key management action.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function identity_form($p)
+    {
+        if (isset($p['form']['encryption']) && !empty($p['record']['identity_id'])) {
+            $content = '';
+
+            // find private keys for this identity
+            if ($p['record']['email']) {
+                $listing = array();
+                $engine  = $this->load_engine();
+                $keys    = (array) $engine->list_keys($p['record']['email']);
+
+                foreach ($keys as $key) {
+                    if ($key->get_type() === enigma_key::TYPE_KEYPAIR) {
+                        $listing[] = html::tag('li', null,
+                            html::tag('strong', 'uid', html::quote($key->id))
+                            . ' ' . html::tag('span', 'identity', html::quote($key->name))
+                        );
+                    }
+                }
+
+                if (count($listing)) {
+                    $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
+                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
+                }
+                else {
+                    $content .= html::p(null, $this->gettext('identitynoprivkeys'));
+                }
+            }
+
+            // add button linking to enigma key management
+            $button_attr = array(
+                'class'  => 'button',
+                'href'   => $this->rc->url(array('action' => 'plugin.enigmakeys')),
+                'target' => '_parent',
+            );
+            $content .= html::p(null, html::a($button_attr, $this->gettext('managekeys')));
+
+            // rename class to avoid Mailvelope key management to kick in
+            $p['form']['encryption']['attrs'] = array('class' => 'enigma-identity-encryption');
+            // fill fieldset content with our stuff
+            $p['form']['encryption']['content'] = html::div('identity-encryption-block', $content);
+        }
 
         return $p;
     }

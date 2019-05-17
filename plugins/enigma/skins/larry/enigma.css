@@ -9,12 +9,40 @@
   margin-bottom: 5px;
   padding: 6px 12px 6px 30px;
   font-weight: bold;
+  position: relative;
+}
+
+#enigma-message:before
+{
+  display: block;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  float: left;
+  content: "";
+  top: 0;
+  left: 0;
+}
+
+div.enigmaerror:before
+{
+  background: url(enigma_icons.png) 3px -201px no-repeat;
+}
+
+div.enigmanotice:before
+{
+  background: url(enigma_icons.png) 3px -171px no-repeat;
+}
+
+div.enigmawarning:before
+{
+  background: url(enigma_icons.png) 3px -231px no-repeat;
 }
 
 div.enigmaerror,
 #messagebody div.enigmaerror
 {
-  background: url(enigma_icons.png) 3px -201px no-repeat #f2cccd;
+  background-color: #f2cccd;
   border: 1px solid #c00005;
   color: #c00005;
 }
@@ -22,7 +50,7 @@ div.enigmaerror,
 div.enigmanotice,
 #messagebody div.enigmanotice
 {
-  background: url(enigma_icons.png) 3px -171px no-repeat #c9e6d3;
+  background-color: #c9e6d3;
   border: 1px solid #008a2e;
   color: #008a2e;
 }
@@ -30,7 +58,7 @@ div.enigmanotice,
 div.enigmawarning,
 #messagebody div.enigmawarning
 {
-  background: url(enigma_icons.png) 3px -231px no-repeat #fef893;
+  background-color: #fef893;
   border: 1px solid #ffdf0e;
   color: #960;
 }

@@ -60,7 +60,7 @@ function rcmail_user_prefs_form($attrib)
             foreach ($block['options'] as $option) {
                 if (isset($option['title'])) {
                     $table->add('title', $option['title']);
-                    $table->add(null, $option['content']);
+                    $table->add($option['class'], $option['content']);
                 }
                 else {
                     $table->add(array('colspan' => 2), $option['content']);

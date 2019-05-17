@@ -3,40 +3,61 @@
 /***** Messages displaying *****/
 
 #enigma-message,
-/* fixes border-top */
 #messagebody div #enigma-message
 {
   margin: 0;
   margin-bottom: 5px;
   min-height: 20px;
   padding: 10px 10px 6px 46px;
+  position: relative;
+}
+
+#enigma-message:before
+{
+  display: block;
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  float: left;
+  content: "";
+  top: 0;
+  left: 0;
 }
 
 div.enigmaerror,
-/* fixes border-top */
 #messagebody div.enigmaerror
 {
-  background: url(enigma_error.png) 6px 1px no-repeat;
   background-color: #EF9398;
   border: 1px solid #DC5757;
 }
 
 div.enigmanotice,
-/* fixes border-top */
 #messagebody div.enigmanotice
 {
-  background: url(enigma.png) 6px 1px no-repeat;
   background-color: #A6EF7B;
   border: 1px solid #76C83F;
 }
 
 div.enigmawarning,
-/* fixes border-top */
 #messagebody div.enigmawarning
 {
-  background: url(enigma.png) 6px 1px no-repeat;
   background-color: #F7FDCB;
   border: 1px solid #C2D071;
+}
+
+div.enigmaerror:before
+{
+  background: url(enigma_error.png) 6px 1px no-repeat;
+}
+
+div.enigmanotice:before
+{
+  background: url(enigma.png) 6px 1px no-repeat;
+}
+
+div.enigmawarning:before
+{
+  background: url(enigma.png) 6px 1px no-repeat;
 }
 
 #enigma-message a
