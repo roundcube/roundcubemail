@@ -85,7 +85,7 @@
         top: 0;
         position: absolute;
         padding: .25rem .5rem;
-        margin: ((@layout-header-height - 2rem) / 2) .5rem;
+        margin: ((@layout-header-height - 2 * @page-font-size) / 2) .5rem;
 
         &:before {
             &:extend(.font-icon-class);
@@ -110,7 +110,7 @@
             button {
                 .overflow-ellipsis;
                 min-width: 5rem;
-                margin: .65rem .3rem;
+                margin: floor(.65 * @page-font-size) floor(.3 * @page-font-size);
 
                 &:last-child {
                     margin-right: 0;
