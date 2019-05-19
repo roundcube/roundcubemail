@@ -328,7 +328,8 @@ $config['ldap_cache_ttl'] = '10m';
 
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
-$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+// Example: array('localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock');
+$config['memcache_hosts'] = null;
 
 // Controls the use of a persistent connections to memcache servers
 // See http://php.net/manual/en/memcache.addserver.php
@@ -343,11 +344,15 @@ $config['memcache_timeout'] = 1;
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_retry_interval'] = 15;
 
-// use these hosts for accessing Redis.
-// Currently only one host is supported. cluster support may come in a future release.
-// You can pass 4 fields, host, port, database and password.
-// Unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
-$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
+// Use these hosts for accessing Redis.
+// Currently only one host is supported. Cluster support may come in a future release.
+// You can pass 4 fields, host, port (optional), database (optional) and password (optional).
+// Unset fields will be set to the default values host=127.0.0.1, port=6379.
+// Examples:
+//     array('localhost:6379');
+//     array('192.168.1.1:6379:1:secret');
+//     array('unix:///var/run/redis/redis-server.sock:1:secret');
+$config['redis_hosts'] = null;
 
 // Maximum size of an object in memcache (in bytes). Default: 2MB
 $config['memcache_max_allowed_packet'] = '2M';
