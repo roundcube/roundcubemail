@@ -634,4 +634,27 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
         $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
     }
+
+    /**
+     * Test-Cases for test_parse_host()
+     */
+    function data_parse_host()
+    {
+        return array(
+            array('%z', 'hostname', 'hostname'),
+            array('%z', 'domain.tld', 'domain.tld'),
+            array('%z', 'host.domain.tld', 'domain.tld'),
+            array('%z', 'host1.host2.domain.tld', 'host2.domain.tld'),
+        );
+    }
+
+    /**
+     * Test parse_host()
+     *
+     * @dataProvider data_parse_host
+     */
+    function test_parse_host($name, $host, $result)
+    {
+        $this->assertEquals(rcube_utils::parse_host($name, $host), $result);
+    }
 }
