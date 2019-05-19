@@ -205,6 +205,7 @@
 		</div>
 		<!-- message compose body -->
 		<div id="composebodycontainer">
+			<div id="composestatusbar"></div>
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
 			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />

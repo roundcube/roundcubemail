@@ -1305,7 +1305,6 @@ body.status-flagged .flag-icon {
 	overflow: auto;
 }
 
-#image-selector.droptarget,
 #compose-attachments.droptarget {
 	background-image: url(images/filedrop.png);
 	background-position: center bottom;
@@ -1340,17 +1339,9 @@ body.status-flagged .flag-icon {
 	padding-bottom: 8px;
 }
 
-#composebodycontainer .mce-tinymce {
+#composebodycontainer .tox-tinymce {
 	border: 0 !important;
 	margin-top: 1px;
-}
-
-#composebodycontainer .mce-panel {
-	border-color: #ddd !important;
-}
-
-#composebody_toolbargroup {
-	border-bottom: 1px solid #ddd;
 }
 
 #uploadform a.iconlink {
