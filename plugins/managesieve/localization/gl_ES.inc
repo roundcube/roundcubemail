@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Xestionar os filtros de correo entrante';
 $labels['filtername'] = 'Nome do filtro';
@@ -63,14 +63,8 @@ $labels['days'] = 'días';
 $labels['seconds'] = 'segundos';
 $labels['rulestop'] = 'Parar de avaliar regras';
 $labels['enable'] = 'Activar/Desactivar';
-$labels['filterset'] = 'Conxunto de filtros';
 $labels['filtersets'] = 'Conxunto de filtros';
-$labels['filtersetadd'] = 'Engadir un conxunto de filtros';
-$labels['filtersetact'] = 'Activar o conxunto de filtros actual';
-$labels['filtersetdeact'] = 'Desactivar o conxunto de filtros actual';
 $labels['filterdef'] = 'Definición de filtros';
-$labels['filtersetname'] = 'Nome do conxunto de filtros';
-$labels['newfilterset'] = 'Novo conxunto de filtros';
 $labels['active'] = 'activo';
 $labels['none'] = 'ningún';
 $labels['fromset'] = 'de conxunto';
@@ -188,15 +182,6 @@ $messages['actiondeleteconfirm'] = 'Seguro que queres eliminar a acción selecci
 $messages['forbiddenchars'] = 'Caracteres non permitidos no campo';
 $messages['cannotbeempty'] = 'O campo non pode estar baleiro';
 $messages['ruleexist'] = 'Xa existe un filtro co nome especificado.';
-$messages['setactivateerror'] = 'Non se poden activar os filtros seleccionados. Produciuse un erro de servidor.';
-$messages['setdeactivateerror'] = 'Non foi posíbel desactivar os filtros seleccionados. Produciuse un erro de servidor.';
-$messages['setdeleteerror'] = 'Non é posíbel eliminar os filtros seleccionados. Produciuse un erro de servidor.';
-$messages['setactivated'] = 'O conxunto de filtros activouse con éxito';
-$messages['setdeactivated'] = 'O conxunto de filtros desactivouse con éxito';
-$messages['setdeleted'] = 'O Conxunto de filtros borrouse con éxito';
-$messages['setdeleteconfirm'] = 'Seguro que queres eliminar o conxunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'Non é posíbel crear filtros. Produciuse un erro de servidor.';
-$messages['setcreated'] = 'Conxunto de filtros creado con éxito';
 $messages['activateerror'] = 'Non é posíbel activar o(s) filtro(s) seleccionado(s). Produciuse un erro de servidor.';
 $messages['deactivateerror'] = 'Incapaz de desactivar filtro(s) seleccionado(s). Produciuse un erro de servidor.';
 $messages['deactivated'] = 'Desactiváronse os filtros correctamente.';
@@ -208,4 +193,3 @@ $messages['namereserved'] = 'Nome reservado';
 $messages['setexist'] = 'Xa existe o conxunto';
 $messages['nodata'] = 'É preciso seleccionar polo menos unha posición!';
 $messages['invaliddateformat'] = 'Formato de data ou parte dos datos non válidos';
-?>

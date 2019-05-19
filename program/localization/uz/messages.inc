@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Xatolik yuzaga keldi!';
 $messages['loginfailed']  = 'Kirish amalga oshirilmadi.';
 $messages['cookiesdisabled'] = 'Brauzeringiz kukilarni qabul qilmayapti.';
@@ -61,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Sizning jo‘natuvchi ekanligingizni tasdiqlas
 $messages['encryptnoattachments'] = 'Yuklab bo‘lingan ilovalarni shifrlab bo‘lmaydi. Iltimos ularni shifrash tahrirlovchisiga qayta yuklang';
 $messages['searchpubkeyservers'] = 'Mavjud bo‘lmagan kalitlar uchun ochiq kalitlar serverini qidirishni istaysizmi?';
 $messages['encryptpubkeysfound'] = 'Quyidagi ochiq kalitlar topildi:';
-$messages['keyservererror'] = 'Kalitlar serveridan kalitni olish amalga oshirilmadi';
-$messages['keyimportsuccess'] = '$key ochiq kalit kalitlar xotirasiga import qilindi';
 $messages['nocontactsfound'] = 'Kontaktlar topilmadi.';
 $messages['contactnotfound'] = 'Kerakli kontakt topilmadi.';
-$messages['contactsearchonly'] = 'Kontaktlarni topish uchun izlash matnini kiriting';
 $messages['sendingfailed'] = 'Xatni jo`natish amalga oshirilmadi.';
 $messages['senttooquickly'] = 'Siz xat jo‘natishdan avval $sec sekund kutishingiz kerak.';
 $messages['errorsavingsent'] = 'Jo‘natilayotgan xatni saqlashda xatolik yuz berdi.';

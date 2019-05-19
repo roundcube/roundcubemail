@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Encriptación';
 $labels['enigmacerts'] = 'Certificados S/MIME';
 $labels['enigmakeys'] = 'Claves PGP';
@@ -64,6 +63,7 @@ $labels['keyrevoke'] = 'Revocar';
 $labels['keysend'] = 'Enviar clave pública en el mensaje';
 $labels['keychpass'] = 'Cambiar contraseña';
 $labels['newkeypass'] = 'Contraseña';
+$labels['newkeypassconfirm'] = 'Confirmar contraseña';
 $labels['key2048'] = '2048 bits - por defecto';
 $labels['key4096'] = '4096 bits - más seguro';
 $labels['keygenerating'] = 'Generando claves...';

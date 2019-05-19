@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Изменить пароль';
 $labels['curpasswd']  = 'Текущий пароль:';
 $labels['newpasswd']  = 'Новый пароль:';
@@ -28,6 +27,7 @@ $messages['connecterror'] = 'Не могу сохранить новый пар�
 $messages['internalerror'] = 'Не могу сохранить новый пароль.';
 $messages['passwordshort'] = 'Длина пароля должна быть как минимум $length символов.';
 $messages['passwordweak'] = 'Пароль должен включать в себя как минимум одну цифру и один знак пунктуации.';
+$messages['passwordtooweak'] = 'Пароль слишком простой.';
 $messages['passwordnoseq'] = 'Пароль НЕ должен быть последовательностью, например,123456 или QWERTY.';
 $messages['passwordnocommon'] = 'Пароль не должен быть простым словом или именем.';
 $messages['passwordforbidden'] = 'Пароль содержит недопустимые символы.';

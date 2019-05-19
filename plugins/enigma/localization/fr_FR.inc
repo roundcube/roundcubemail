@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Chiffrement';
 $labels['enigmacerts'] = 'Certificats S/MIME';
 $labels['enigmakeys'] = 'Clés PGP';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Échec de signature. Le mot de passe est invalide.';
 $messages['signnopass'] = 'Échec de signature. Le mot de passe de la clé est exigé.';
 $messages['encrypterror'] = 'Échec de chiffrement.';
 $messages['encryptnokey'] = 'Échec de chiffrement. La clé publique est introuvable pour $email.';
+$messages['encryptnoprivkey'] = 'Échec de chiffrement. La clé privée est introuvable.';
 $messages['nokeysfound'] = 'Aucune clé trouvée';
 $messages['keynotfound'] = 'La clé est introuvable !';
 $messages['keyopenerror'] = 'Impossible d’obtenir les informations sur la clé ! Erreur interne.';

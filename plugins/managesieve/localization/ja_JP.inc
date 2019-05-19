@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターを管理';
 $labels['filtername'] = 'フィルター名';
@@ -67,17 +67,9 @@ $labels['days'] = '日';
 $labels['seconds'] = '秒';
 $labels['rulestop'] = '規則の評価を停止';
 $labels['enable'] = '有効/無効';
-$labels['filterset'] = 'フィルターセット';
 $labels['filtersets'] = 'フィルターセット';
-$labels['filtersetadd'] = 'フィルターセットを追加';
-$labels['filtersetdel'] = 'フィルターセットを削除';
-$labels['filtersetact'] = '現在のフィルター セットを有効';
-$labels['filtersetdeact'] = '現在のフィルター セットを無効';
 $labels['filterseteditraw'] = 'フィルターセットを編集';
-$labels['filtersetswitch'] = 'フィルターセットを有効化・無効化';
 $labels['filterdef'] = 'フィルターの定義';
-$labels['filtersetname'] = 'フィルターセットの名前';
-$labels['newfilterset'] = '新しいフィルターセット';
 $labels['active'] = '有効';
 $labels['none'] = 'なし';
 $labels['fromset'] = 'セットから';
@@ -228,16 +220,6 @@ $messages['actiondeleteconfirm'] = '本当に選択した動作を削除しま�
 $messages['forbiddenchars'] = '項目に禁止している文字が含まれています。';
 $messages['cannotbeempty'] = '項目は空欄にできません。';
 $messages['ruleexist'] = '指定した名前のフィルターが既に存在します。';
-$messages['setactivateerror'] = '選択したフィルターセットを有効にできません。サーバーでエラーが発生しました。';
-$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできません。サーバーでエラーが発生しました。';
-$messages['setdeleteerror'] = '選択したフィルターセットを削除できません。サーバーでエラーが発生しました。';
-$messages['setactivated'] = 'フィルターセットを有効にしました。';
-$messages['setdeactivated'] = 'フィルターセットを無効にしました。';
-$messages['setdeleted'] = 'フィルターセットを削除しました。';
-$messages['setupdated'] = 'フィルターセットを更新しました。';
-$messages['setdeleteconfirm'] = '本当に選択したフィルターセットを削除しますか?';
-$messages['setcreateerror'] = 'フィルターセットを作成できません。サーバーでエラーが発生しました。';
-$messages['setcreated'] = 'フィルターセットを作成しました。';
 $messages['activateerror'] = '選択したフィルターを有効にできません。サーバーでエラーが発生しました。';
 $messages['deactivateerror'] = '選択したフィルターを無効にできません。サーバーでエラーが発生しました。';
 $messages['deactivated'] = 'フィルターを有効にしました。';
@@ -254,4 +236,3 @@ $messages['forwardsaved'] = '転送のデータを保存しました。';
 $messages['emptyvacationbody'] = '休暇のメッセージの本文が必要です!';
 $messages['duplicate.conflict.err'] = 'ヘッダーと一意な識別子の両方は同時に使用できません。';
 $messages['disabledaction'] = '許可されていない動作です。';
-?>

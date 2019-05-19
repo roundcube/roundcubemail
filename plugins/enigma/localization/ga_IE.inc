@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Criptiúchán';
 $labels['keyname'] = 'Ainm';
 $labels['fingerprint'] = 'Méarlorg';
@@ -45,6 +44,9 @@ $labels['keyrevoke'] = 'Aisghairm';
 $labels['keysend'] = 'Seol eochair phoiblí i dteachtaireacht';
 $labels['keychpass'] = 'Athraigh d\'fhocal faire';
 $labels['newkeypass'] = 'Pasfhocal';
+$labels['newkeypassconfirm'] = 'Deimhnigh an focal faire';
+$labels['newkeysize'] = 'Méid na heochrach';
+$labels['key2048'] = '2048 beart - an réamhshocrú';
 $labels['keygenerating'] = 'Ag cruthú eochracha...';
 $labels['encryptmsg'] = 'Criptigh an teachtaireacht seo';
 $labels['signmsg'] = 'Sínigh an teachtaireacht seo go digiteach';
@@ -55,4 +57,5 @@ $messages['signerror'] = 'Theip ar an síniú.';
 $messages['encrypterror'] = 'Theip ar an gcriptiú.';
 $messages['nokeysfound'] = 'Níor aimsíodh aon eochair';
 $messages['keynotfound'] = 'Níor aimsíodh an eochair!';
+$messages['passwordsdiffer'] = 'Ní hionann na focail fhaire!';
 ?>

@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Renamed 'log_session' option to 'session_debug'
 - Don't log full session identifiers in userlogins log (#6625)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
+- Redis: Support connection to unix socket
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
@@ -42,6 +43,8 @@ CHANGELOG Roundcube Webmail
 - Fix so bin/install-jsdeps.sh returns error code on error (#6704)
 - Fix bug where bmp images couldn't be displayed on some systems (#6728)
 - Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
+- Fix bug where bold/strong text was converted to upper-case on html-to-text conversion (6758)
+- Fix bug in rcube_utils::parse_hosts() where %t, %d, %z could return only tld (#6746)
 
 RELEASE 1.4-rc1
 ---------------

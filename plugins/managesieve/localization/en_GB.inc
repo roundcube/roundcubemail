@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filters';
 $labels['managefilters'] = 'Manage incoming mail filters';
 $labels['filtername'] = 'Filter name';
@@ -75,17 +75,17 @@ $labels['days'] = 'days';
 $labels['seconds'] = 'seconds';
 $labels['rulestop'] = 'Stop evaluating rules';
 $labels['enable'] = 'Enable/Disable';
-$labels['filterset'] = 'Filters set';
+$labels['filterset'] = 'Filter set';
 $labels['filtersets'] = 'Filter sets';
-$labels['filtersetadd'] = 'Add filters set';
-$labels['filtersetdel'] = 'Delete filters set';
-$labels['filtersetact'] = 'Activate current filters set';
-$labels['filtersetdeact'] = 'Deactivate current filters set';
+$labels['filtersetadd'] = 'Add filter set';
+$labels['filtersetdel'] = 'Delete filter set';
+$labels['filtersetact'] = 'Activate current filter set';
+$labels['filtersetdeact'] = 'Deactivate current filter set';
 $labels['filterseteditraw'] = 'Edit filter set';
-$labels['filtersetswitch'] = 'Enable/disable filters set';
+$labels['filtersetswitch'] = 'Enable/disable filter set';
 $labels['filterdef'] = 'Filter definition';
-$labels['filtersetname'] = 'Filters set name';
-$labels['newfilterset'] = 'New filters set';
+$labels['filtersetname'] = 'Filter set name';
+$labels['newfilterset'] = 'New filter set';
 $labels['active'] = 'active';
 $labels['none'] = 'none';
 $labels['fromset'] = 'from set';
@@ -245,16 +245,16 @@ $messages['actiondeleteconfirm'] = 'Are you sure, you want to delete selected ac
 $messages['forbiddenchars'] = 'Forbidden characters in field';
 $messages['cannotbeempty'] = 'Field cannot be empty';
 $messages['ruleexist'] = 'Filter with specified name already exists.';
-$messages['setactivateerror'] = 'Unable to activate selected filters set. Server error occurred.';
-$messages['setdeactivateerror'] = 'Unable to deactivate selected filters set. Server error occurred.';
-$messages['setdeleteerror'] = 'Unable to delete selected filters set. Server error occurred.';
-$messages['setactivated'] = 'Filters set activated successfully.';
-$messages['setdeactivated'] = 'Filters set deactivated successfully.';
-$messages['setdeleted'] = 'Filters set deleted successfully.';
-$messages['setupdated'] = 'Filters set updated successfully.';
-$messages['setdeleteconfirm'] = 'Are you sure, you want to delete selected filters set?';
-$messages['setcreateerror'] = 'Unable to create filters set. Server error occurred.';
-$messages['setcreated'] = 'Filters set created successfully.';
+$messages['setactivateerror'] = 'Unable to activate selected filter set. Server error occurred.';
+$messages['setdeactivateerror'] = 'Unable to deactivate selected filter set. Server error occurred.';
+$messages['setdeleteerror'] = 'Unable to delete selected filter set. Server error occurred.';
+$messages['setactivated'] = 'Filter set activated successfully.';
+$messages['setdeactivated'] = 'Filter set deactivated successfully.';
+$messages['setdeleted'] = 'Filter set deleted successfully.';
+$messages['setupdated'] = 'Filter set updated successfully.';
+$messages['setdeleteconfirm'] = 'Are you sure, you want to delete the selected filter set?';
+$messages['setcreateerror'] = 'Unable to create filter set. Server error occurred.';
+$messages['setcreated'] = 'Filter set created successfully.';
 $messages['activateerror'] = 'Unable to enable selected filter(s). Server error occurred.';
 $messages['deactivateerror'] = 'Unable to disable selected filter(s). Server error occurred.';
 $messages['deactivated'] = 'Filter(s) disabled successfully.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Body of vacation message is required!';
 $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not allowed.';
 $messages['disabledaction'] = 'Action not permitted.';
 $messages['lastindexempty'] = 'Index is required when counting from end';
-?>

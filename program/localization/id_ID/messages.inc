@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Terjadi error!';
 $messages['loginfailed']  = 'Login gagal.';
 $messages['cookiesdisabled'] = 'Browser Anda tidak menerima cookies.';
@@ -61,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Tidak ada kunci publik yang valid bagi identit
 $messages['encryptnoattachments'] = 'Lampiran yang telah diunggah tidak dapat dienkripsi. Harap tambahkan ulang lampiran dalam penyunting enkripsi.';
 $messages['searchpubkeyservers'] = 'Apakah Anda ingin mencari di server kunci publik untuk kunci yang kurang?';
 $messages['encryptpubkeysfound'] = 'Kunci publik berikut telah ditemukan:';
-$messages['keyservererror'] = 'Gagal mendapat kunci dari server kunci';
-$messages['keyimportsuccess'] = 'Kunci publik $key sukses diimpor ke dalam ring kunci Anda';
 $messages['nocontactsfound'] = 'Kontak tidak ditemukan';
 $messages['contactnotfound'] = 'Kontak yang diminta tidak ditemukan';
-$messages['contactsearchonly'] = 'Masukkan jenis pencarian untuk mencari kontak';
 $messages['sendingfailed'] = 'Gagal mengirim pesan.';
 $messages['senttooquickly'] = 'Mohon tunggu $sec detik sebelum mengirim pesan ini.';
 $messages['errorsavingsent'] = 'Kesalahan ketika menyimpan pesan terkirim.';
@@ -74,6 +70,8 @@ $messages['errormoving'] = 'Pesan tidak bisa dipindahkan';
 $messages['errorcopying'] = 'Pesan tidak dapat disalin';
 $messages['errordeleting'] = 'Pesan tidak bisa dihapus';
 $messages['errormarking'] = 'Tidak dapat menandai pesan';
+$messages['alerttitle'] = 'Perhatian';
+$messages['confirmationtitle'] = 'Apa Anda yakin...';
 $messages['deletecontactconfirm']  = 'Apakah anda yakin untuk menghapus kontak terpilih?';
 $messages['deletegroupconfirm']  = 'Yakinkah Anda ingin menhapus grup terpilih?';
 $messages['deletemessagesconfirm'] = 'Yakin menghapus pesan terpilih?';
@@ -90,6 +88,7 @@ $messages['noemailwarning'] = 'Tolong masukkan alamat email yang valid';
 $messages['nonamewarning']  = 'Tolong masukkan nama';
 $messages['nopagesizewarning'] = 'Tolong masukkan ukuran halaman';
 $messages['nosenderwarning'] = 'Harap masukkan alamat email pengirim.';
+$messages['recipientsadded'] = 'Penerima telah ditambahkan.';
 $messages['norecipientwarning'] = 'Tolong masukkan sedikitnya satu penerima';
 $messages['disclosedrecipwarning'] = 'Semua penerima akan saling tahu alamat surel pihak lain. Untuk mencegah hal ini dan melindungi privasi mereka Anda dapat memakai ruas Bcc.';
 $messages['disclosedreciptitle'] = 'Terlalu banyak penerima publik';

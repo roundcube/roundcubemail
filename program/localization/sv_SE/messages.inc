@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ett fel uppstod!';
 $messages['loginfailed']  = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Webbläsaren accepterar inte cookies.';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
+$messages['cookiesmismatch'] = 'Något är fel med webbläsarens cookie. Rensa bort den för att kunna fortsätta.';
 $messages['storageerror'] = 'Anslutning till lagringsservern misslyckades.';
 $messages['servererror'] = 'Serverfel!';
 $messages['servererrormsg'] = 'Serverfel: $msg';
@@ -64,11 +64,8 @@ $messages['nopubkeyforsender'] = 'Ingen giltig offentlig nyckel hittades för di
 $messages['encryptnoattachments'] = 'Redan uppladdade bilagor kan inte krypteras. Lägg till bilagorna i krypteringsredigeraren istället.';
 $messages['searchpubkeyservers'] = 'Ska saknade nycklar sökas i offentliga nyckelservrar?';
 $messages['encryptpubkeysfound'] = 'Följande offentliga nycklar hittades:';
-$messages['keyservererror'] = 'Nyckeln kunde inte hämtas från nyckelservern';
-$messages['keyimportsuccess'] = 'Offentlig nyckel $key är tillagd i din nyckelring';
 $messages['nocontactsfound'] = 'Inga kontakter hittades.';
 $messages['contactnotfound'] = 'Efterfrågad kontakt hittades inte.';
-$messages['contactsearchonly'] = 'Ange sökord för att hitta kontakter';
 $messages['sendingfailed'] = 'Meddelandet kunde inte skickas.';
 $messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka meddelandet.';
 $messages['errorsavingsent'] = 'Det skickade meddelandet kunde inte sparas.';
@@ -127,6 +124,7 @@ $messages['fileuploaderror'] = 'Filuppladdning misslyckades.';
 $messages['filesizeerror'] = 'Den uppladdade filens storlek överstiger högsta tillåtna $size.';
 $messages['filecounterror'] = 'Högst $count filer kan laddas upp samtidigt.';
 $messages['msgsizeerror'] = 'Filen kunde inte bifogas. Största tillåtna storlek ($size) överskreds.';
+$messages['msgsizeerrorfwd'] = 'Tillåten storlek på meddelandet ($size) är överskriden. $num meddelanden har inte bifogats.';
 $messages['copysuccess'] = '$nr kontakter har kopierats.';
 $messages['movesuccess'] = '$nr kontakter har flyttats.';
 $messages['copyerror'] = 'Några kontakter kunde inte kopieras.';

@@ -484,7 +484,7 @@ ul.treelist {
                 right: 0;
                 min-width: 2em;
                 line-height: 1.4rem;
-                margin: (@listing-line-height - 1.4rem)/2;
+                margin: (@listing-line-height - 1.4 * @page-font-size) / 2;
                 padding: 0 .3em;
                 border-radius: .4em;
                 background: @color-list-badge-background;
@@ -494,7 +494,7 @@ ul.treelist {
 
                 html.touch & {
                     line-height: 2rem;
-                    margin: (@listing-touch-line-height - 2rem)/2;
+                    margin: (@listing-touch-line-height - 2 * @page-font-size) / 2;
                 }
             }
 

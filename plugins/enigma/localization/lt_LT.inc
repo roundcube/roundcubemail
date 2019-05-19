@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Šifravimas';
 $labels['enigmacerts'] = 'S/MIME liudijimai';
 $labels['enigmakeys'] = 'PGP raktai';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Pasirašyti nepavyko. Neteisingas slaptažodis.';
 $messages['signnopass'] = 'Nepavyko pasirašyti, reikalingas rakto slaptažodis.';
 $messages['encrypterror'] = 'Užšifruoti nepavyko.';
 $messages['encryptnokey'] = 'Užšifruoti nepavyko. Nerastas viešasis $email raktas.';
+$messages['encryptnoprivkey'] = 'Šifravimas nepavyko. Nerastas privatusis raktas.';
 $messages['nokeysfound'] = 'Raktų nerasta';
 $messages['keynotfound'] = 'Raktas nerastas!';
 $messages['keyopenerror'] = 'Nepavyko gauti rakto duomenų! Įvyko vidinė klaida.';

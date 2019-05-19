@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'ברוך בואך אל $product';
 $labels['username'] = 'שם משתמש';
 $labels['password'] = 'סיסמה';
@@ -259,6 +259,7 @@ $labels['keyrevoked'] = 'נשלל';
 $labels['bccinstead'] = 'שימוש במכותבים נסתרים';
 $labels['addheader'] = 'הוספת נמען (כותרת)';
 $labels['insert'] = 'הוספה בין ערכים';
+$labels['insertcontact'] = 'פה יש להוסיף איש קשר';
 $labels['recipient'] = 'הנמען';
 $labels['recipientedit'] = 'עריכת נמענים';
 $labels['editidents'] = 'עריכת זהויות';
@@ -395,6 +396,9 @@ $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
 $labels['uploadphoto'] = 'העלאת תמונה';
+$labels['choosefile'] = 'יש לבחור קובץ...';
+$labels['choosefiles'] = 'יש לבחור קבצים...';
+$labels['browse'] = 'דפדוף';
 $labels['newcontact'] = 'צור איש קשר חדש';
 $labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
 $labels['composeto'] = 'יצירת הודעה אל';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "חץ ימין/שמאל: הרחבה/צ�
 ENTER: פתיחה של ההודעה שנבחרה
 DELETE: העברה של ההודעה שנבחרה לפח האשפה";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: פתיחה של איש הקשר שסומן ";
-?>

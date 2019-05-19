@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtra';
 $labels['managefilters'] = 'Administroni filtra për postë ardhëse';
 $labels['filtername'] = 'Emër filtri';
@@ -77,12 +77,12 @@ $labels['rulestop'] = 'Ndale mbikëqyrjen e rregullave';
 $labels['enable'] = 'Aktivizoje/Çaktivizoje';
 $labels['filterset'] = 'Grup filtrash';
 $labels['filtersets'] = 'Grupe filtrash';
-$labels['filtersetadd'] = 'Shto grup filtrash';
-$labels['filtersetdel'] = 'Fshi grup filtrash';
+$labels['filtersetadd'] = 'Shtoni grup filtrash';
+$labels['filtersetdel'] = 'Fshije grupin e filtrave';
 $labels['filtersetact'] = 'Aktivizo grupin e tanishëm të filtrave';
 $labels['filtersetdeact'] = 'Çaktivizo grupin e tanishëm të filtrave';
 $labels['filterseteditraw'] = 'Përpunoni grup filtrash';
-$labels['filtersetswitch'] = 'Aktivizo/çaktivizo grup filtrash';
+$labels['filtersetswitch'] = 'Aktivizoni/çaktivizoni grup filtrash';
 $labels['filterdef'] = 'Përkufizim filtri';
 $labels['filtersetname'] = 'Emër grupi filtrash';
 $labels['newfilterset'] = 'Grup i ri filtrash';
@@ -272,4 +272,3 @@ $messages['emptyvacationbody'] = 'Lënda e mesazhit të pushimeve është e domo
 $messages['duplicate.conflict.err'] = 'S’lejohet përdorimi i njëkohshëm i kryes dhe identifikuesit unik.';
 $messages['disabledaction'] = 'Veprim jo i lejuar.';
 $messages['lastindexempty'] = 'Treguesi është i domosdoshëm kur numërohet nga fundi';
-?>

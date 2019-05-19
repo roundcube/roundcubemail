@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'An error occurred.';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or has expired.';
+$messages['cookiesmismatch'] = 'Cookie mismatch detected. Please clear your browser\'s cookies.';
 $messages['storageerror'] = 'Connection to IMAP server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'No valid public key found for your sender iden
 $messages['encryptnoattachments'] = 'Already uploaded attachments cannot be encrypted. Please re-add them in the encryption editor.';
 $messages['searchpubkeyservers'] = 'Do you want to search public key servers for the missing keys?';
 $messages['encryptpubkeysfound'] = 'The following public keys have been found:';
-$messages['keyservererror'] = 'Failed to get key from keyserver';
-$messages['keyimportsuccess'] = 'Public key $key successfully imported into your key ring';
+$messages['keyservererror'] = 'Failed to get key from keyserver.';
+$messages['keyimportsuccess'] = 'Public key $key successfully imported into your keyring.';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
-$messages['contactsearchonly'] = 'Enter some search terms to find contacts';
+$messages['contactsearchonly'] = 'You must use a search form to see contacts from this addressbook.';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
 $messages['errorsavingsent'] = 'An error occurred while saving sent message.';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'File upload failed.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';
+$messages['msgsizeerrorfwd'] = 'Maximum size of a message ($size) exceeded. $num message(s) have not been attached.';
 $messages['copysuccess'] = 'Successfully copied $nr contacts.';
 $messages['movesuccess'] = 'Successfully moved $nr contacts.';
 $messages['copyerror'] = 'Could not copy any contacts.';
@@ -186,7 +187,7 @@ $messages['savedsearchcreated'] = 'Saved search successfully created.';
 $messages['savedsearchcreateerror'] = 'Could not create saved search.';
 $messages['messagedeleted'] = 'Message(s) deleted successfully.';
 $messages['messagemoved'] = 'Message(s) moved successfully.';
-$messages['messagemovedtotrash'] = 'Message(s) moved to the Rubbish Bin successfully.';
+$messages['messagemovedtotrash'] = 'Message(s) moved to Deleted Items successfully.';
 $messages['messagecopied'] = 'Message(s) copied successfully.';
 $messages['messagemarked'] = 'Message(s) marked successfully.';
 $messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';

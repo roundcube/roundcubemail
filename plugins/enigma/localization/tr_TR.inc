@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Şifreleme';
 $labels['enigmacerts'] = 'S/MIME Sertifikaları';
 $labels['enigmakeys'] = 'PGP Anahtarları';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'İmzalanamadı. Parola geçersiz.';
 $messages['signnopass'] = 'İmzalanamadı. Anahtar parola gerekli.';
 $messages['encrypterror'] = 'Şifrelenemedi.';
 $messages['encryptnokey'] = 'Şifrelenemedi. Genel anahtar $email içinde bulunamadı.';
+$messages['encryptnoprivkey'] = 'Şifrelenemedi. Özel anahtar bulunamadı.';
 $messages['nokeysfound'] = 'Anahtarlar bulunamadı';
 $messages['keynotfound'] = 'Anahtar buunamadı!';
 $messages['keyopenerror'] = 'Sorun var! Anahtar bilgileri alınamıyor.';

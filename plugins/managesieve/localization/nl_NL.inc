@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filters';
 $labels['managefilters'] = 'Beheer filters voor inkomende e-mail';
 $labels['filtername'] = 'Filternaam';
@@ -75,17 +75,9 @@ $labels['days'] = 'dagen';
 $labels['seconds'] = 'seconden';
 $labels['rulestop'] = 'Stop met regels uitvoeren';
 $labels['enable'] = 'In-/uitschakelen';
-$labels['filterset'] = 'Filterset';
 $labels['filtersets'] = 'Filtersets';
-$labels['filtersetadd'] = 'Nieuwe filterset';
-$labels['filtersetdel'] = 'Filter-set verwijderen';
-$labels['filtersetact'] = 'Huidige filterset activeren';
-$labels['filtersetdeact'] = 'Huidige filterset uitschakelen';
 $labels['filterseteditraw'] = 'Filter-set bewerken';
-$labels['filtersetswitch'] = 'Filter-set in/uitschakelen';
 $labels['filterdef'] = 'Filterdefinitie';
-$labels['filtersetname'] = 'Filtersetnaam';
-$labels['newfilterset'] = 'Nieuwe filterset';
 $labels['active'] = 'actief';
 $labels['none'] = 'geen';
 $labels['fromset'] = 'van set';
@@ -245,16 +237,6 @@ $messages['actiondeleteconfirm'] = 'Weet je zeker dat je de geselecteerde actie 
 $messages['forbiddenchars'] = 'Verboden karakters in het veld';
 $messages['cannotbeempty'] = 'Veld mag niet leeg zijn';
 $messages['ruleexist'] = 'Er bestaat al een filter met deze naam.';
-$messages['setactivateerror'] = 'Filterset kon niet geactiveerd worden. Er trad een serverfout op.';
-$messages['setdeactivateerror'] = 'Filterset kon niet gedeactiveerd worden. Er trad een serverfout op.';
-$messages['setdeleteerror'] = 'Filterset kon niet verwijderd worden. Er trad een serverfout op.';
-$messages['setactivated'] = 'Filterset succesvol geactiveerd.';
-$messages['setdeactivated'] = 'Filterset succesvol gedeactiveerd.';
-$messages['setdeleted'] = 'Filterset succesvol verwijderd.';
-$messages['setupdated'] = 'Filter-set succesvol bijgewerkt.';
-$messages['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filterset wilt verwijderen?';
-$messages['setcreateerror'] = 'Filterset kon niet aangemaakt worden. Er trad een serverfout op.';
-$messages['setcreated'] = 'Filterset succesvol aangemaakt.';
 $messages['activateerror'] = 'Geselecteerde filter(s) konden niet ingeschakeld worden. Er trad een serverfout op.';
 $messages['deactivateerror'] = 'Geselecteerde filter(s) konden niet uitgeschakeld worden. Er trad een serverfout op.';
 $messages['deactivated'] = 'Filter(s) succesvol ingeschakeld.';
@@ -273,4 +255,3 @@ $messages['emptyvacationbody'] = 'Inhoud van vakantiebericht is verplicht!';
 $messages['duplicate.conflict.err'] = 'Zowel header en unieke identificatie opgeven is niet toegestaan.';
 $messages['disabledaction'] = 'Actie is niet toegestaan.';
 $messages['lastindexempty'] = 'Gelieve een index op te geven.';
-?>

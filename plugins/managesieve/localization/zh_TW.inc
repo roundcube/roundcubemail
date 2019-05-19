@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = '篩選';
 $labels['managefilters'] = '設定篩選';
 $labels['filtername'] = '篩選名稱';
@@ -75,17 +75,17 @@ $labels['days'] = '天';
 $labels['seconds'] = '秒';
 $labels['rulestop'] = '停止評估規則';
 $labels['enable'] = '啟用/停用';
-$labels['filterset'] = '篩選集合';
+$labels['filterset'] = '篩選集';
 $labels['filtersets'] = '篩選集合';
-$labels['filtersetadd'] = '加入篩選集合';
-$labels['filtersetdel'] = '刪除篩選集合';
-$labels['filtersetact'] = '啟用目前的篩選集合';
-$labels['filtersetdeact'] = '停用目前的篩選集合';
+$labels['filtersetadd'] = '加入篩選集';
+$labels['filtersetdel'] = '刪除篩選集';
+$labels['filtersetact'] = '啟用現有篩選集';
+$labels['filtersetdeact'] = '停用現有篩選集';
 $labels['filterseteditraw'] = '編輯篩選集合';
-$labels['filtersetswitch'] = '啟用／停用篩選集合';
+$labels['filtersetswitch'] = '啟用/停用篩選集';
 $labels['filterdef'] = '篩選定義';
-$labels['filtersetname'] = '篩選集合名稱';
-$labels['newfilterset'] = '建立篩選集合';
+$labels['filtersetname'] = '篩選集名稱';
+$labels['newfilterset'] = '新篩選集';
 $labels['active'] = '啟用';
 $labels['none'] = '無';
 $labels['fromset'] = '從集合';
@@ -111,6 +111,18 @@ $labels['flagdeleted'] = '已刪除';
 $labels['flaganswered'] = '已經回覆';
 $labels['flagflagged'] = '已加旗標';
 $labels['flagdraft'] = '草稿';
+$labels['addheader'] = '為郵件加入標頭';
+$labels['deleteheader'] = '為郵件移除標頭';
+$labels['headername'] = '標頭名稱';
+$labels['headervalue'] = '標頭值';
+$labels['headerpos'] = '標頭位置';
+$labels['headeratstart'] = '開首';
+$labels['headeratend'] = '結尾';
+$labels['headeroccurrence'] = '標頭出現與否/位置';
+$labels['headerfromstart'] = '由開首開始';
+$labels['headerfromend'] = '由結尾開始';
+$labels['headerpatterns'] = '標頭植樣式';
+$labels['headermatchtype'] = '符合類型：';
 $labels['setvariable'] = '設定變數';
 $labels['setvarname'] = '變數名稱:';
 $labels['setvarvalue'] = '變數值:';
@@ -175,6 +187,7 @@ $labels['asciicasemap'] = '不區分大小寫 (採用 ASCII-casemap)';
 $labels['asciinumeric'] = '數字類型 (ASCII-numeric)';
 $labels['index'] = '索引：';
 $labels['indexlast'] = '向後';
+$labels['vacation'] = '不在辦公室';
 $labels['vacation.reply'] = '回覆郵件';
 $labels['vacation.advanced'] = '進階設定';
 $labels['vacation.from'] = '回覆寄件者位址';
@@ -187,6 +200,7 @@ $labels['vacation.on'] = '開';
 $labels['vacation.off'] = '關';
 $labels['vacation.addresses'] = '我的電子郵件位址';
 $labels['vacation.interval'] = '回覆間隔';
+$labels['vacation.after'] = '在此項目之後放置「不在辦公室」規則：';
 $labels['vacation.saving'] = '正在儲存資料...';
 $labels['vacation.action'] = '對收到的郵件的動作';
 $labels['vacation.keep'] = '保留';
@@ -231,16 +245,16 @@ $messages['actiondeleteconfirm'] = '確定要刪除所選的動作嗎？';
 $messages['forbiddenchars'] = '內容包含禁用字元';
 $messages['cannotbeempty'] = '內容不能為空白';
 $messages['ruleexist'] = '規則名稱重複';
-$messages['setactivateerror'] = '無法啟用所選的篩選集合。伺服器出錯';
-$messages['setdeactivateerror'] = '無法停用所選的篩選集合。伺服器出錯';
-$messages['setdeleteerror'] = '無法刪除所選的篩選集合。伺服器出錯';
-$messages['setactivated'] = '篩選器集合成功啟用';
-$messages['setdeactivated'] = '篩選器集合成功停用';
-$messages['setdeleted'] = '篩選器集合成功刪除';
-$messages['setupdated'] = '篩選集合成功更新';
-$messages['setdeleteconfirm'] = '確定要刪除所選的篩選集合嗎？';
-$messages['setcreateerror'] = '無法建立篩選集合。伺服器出錯';
-$messages['setcreated'] = '篩選器集合成功建立';
+$messages['setactivateerror'] = '無法啟用所選的篩選集。伺服器出錯。';
+$messages['setdeactivateerror'] = '無法停用所選的篩選集。伺服器出錯。';
+$messages['setdeleteerror'] = '無法刪除所選的篩選集。伺服器出錯。';
+$messages['setactivated'] = '已啟用篩選集。';
+$messages['setdeactivated'] = '已停用篩選集。';
+$messages['setdeleted'] = '已刪除篩選集。';
+$messages['setupdated'] = '已更新篩選集。';
+$messages['setdeleteconfirm'] = '確定要刪除所選的篩選集？';
+$messages['setcreateerror'] = '無法建立篩選集。伺服器出錯。';
+$messages['setcreated'] = '成功建立篩選集。';
 $messages['activateerror'] = '無法啟用所選的篩選。伺服器出錯';
 $messages['deactivateerror'] = '無法停用所選的篩選。伺服器出錯';
 $messages['deactivated'] = '篩選器已停用';
@@ -253,8 +267,9 @@ $messages['setexist'] = '集合已存在';
 $messages['nodata'] = '至少要選擇一個位置';
 $messages['invaliddateformat'] = '日期或時間部分格式無效';
 $messages['saveerror'] = '無法儲存資料。伺服器出錯';
+$messages['vacationsaved'] = '成功儲存「不在辦公室」資料。';
 $messages['forwardsaved'] = '成功儲存轉寄資料。';
 $messages['emptyvacationbody'] = '休假郵件要有內容！';
 $messages['duplicate.conflict.err'] = '不允許標頭和識別碼都是獨一無二的';
 $messages['disabledaction'] = '不允許的動作。';
-?>
+$messages['lastindexempty'] = '若要由結尾開始計算，要先有索引';

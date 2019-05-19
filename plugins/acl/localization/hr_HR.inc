@@ -2,22 +2,22 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Dijeljenje';
 $labels['myrights'] = 'Prava pristupa';
 $labels['username'] = 'Korisnik:';
+$labels['advanced'] = 'Napredni način';
 $labels['add'] = 'Dodaj';
 $labels['newuser'] = 'Dodaj unos/pravilo';
 $labels['editperms'] = 'Uredi dozvole';
@@ -77,6 +77,10 @@ $labels['longaclfull'] = 'Potpuna kontrola uključujući administraciju mapa';
 $labels['longaclread'] = 'Mapa može biti otvorena za čitanje';
 $labels['longaclwrite'] = 'Poruke mogu biti označene, pohranjene ili kopirane u mapu';
 $labels['longacldelete'] = 'Poruke mogu biti obrisane';
+$labels['longaclother'] = 'Ostala prava pristupa';
+$labels['ariasummaryacltable'] = 'Popis prava pristupa';
+$labels['arialabelaclactions'] = 'Popis radnji';
+$labels['arialabelaclform'] = 'Obrazac prava pristupa';
 $messages['deleting'] = 'Brišem prava pristupa...';
 $messages['saving'] = 'Pohranjujem prava pristupa';
 $messages['updatesuccess'] = 'Prava pristupa uspješno promjenjena';

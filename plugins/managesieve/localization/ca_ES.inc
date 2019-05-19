@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gestiona els filtres dels missatges d\'entrada';
 $labels['filtername'] = 'Nom del filtre';
@@ -75,17 +75,9 @@ $labels['days'] = 'dies';
 $labels['seconds'] = 'segons';
 $labels['rulestop'] = 'Deixa d\'avaluar regles';
 $labels['enable'] = 'Habilita/Deshabilita';
-$labels['filterset'] = 'Conjunt de filtres';
 $labels['filtersets'] = 'Conjunts de filtres';
-$labels['filtersetadd'] = 'Afegeix un conjunt de filtres';
-$labels['filtersetdel'] = 'Suprimeix els filtres definits';
-$labels['filtersetact'] = 'Activa el conjunt de filtres actual';
-$labels['filtersetdeact'] = 'Desactiva el conjunt de filtres actual';
 $labels['filterseteditraw'] = 'Edita el conjunt de filtres';
-$labels['filtersetswitch'] = 'Activa/desactiva els filtres definits';
 $labels['filterdef'] = 'Definició del filtre';
-$labels['filtersetname'] = 'Nom del conjunt de filtres';
-$labels['newfilterset'] = 'Nou conjunt de filtres';
 $labels['active'] = 'actiu';
 $labels['none'] = 'cap';
 $labels['fromset'] = 'des del conjunt';
@@ -245,16 +237,6 @@ $messages['actiondeleteconfirm'] = 'Esteu segurs que voleu suprimir l\'acció se
 $messages['forbiddenchars'] = 'El camp conté caràcters prohibits.';
 $messages['cannotbeempty'] = 'El camp no pot estar buit.';
 $messages['ruleexist'] = 'Ja existeix un filtre amb aquest nom.';
-$messages['setactivateerror'] = 'No s\'ha pogut activar el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeactivateerror'] = 'No s\'ha pogut desactivar el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeleteerror'] = 'No s\'ha pogut suprimir el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setactivated'] = 'El conjunt de filtres s\'ha activat correctament.';
-$messages['setdeactivated'] = 'El conjunt de filtres s\'ha desactivat correctament.';
-$messages['setdeleted'] = 'El conjunt de filtres s\'ha suprimit correctament.';
-$messages['setupdated'] = 'El conjunt de filtres s\'ha actualitzat correctament.';
-$messages['setdeleteconfirm'] = 'Esteu segurs que voleu suprimir el conjunt de filtres seleccionats?';
-$messages['setcreateerror'] = 'No s\'ha pogut crear el conjunt de filtres. Hi ha hagut un error al servidor.';
-$messages['setcreated'] = 'S\'ha creat correctament el conjunt de filtres.';
 $messages['activateerror'] = 'No s\'ha pogut habilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
 $messages['deactivateerror'] = 'No s\'ha pogut deshabilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
 $messages['deactivated'] = 'Filtre(s) deshabilitat(s) correctament.';
@@ -273,4 +255,3 @@ $messages['emptyvacationbody'] = 'És obligatori definir el cos del missatge de 
 $messages['duplicate.conflict.err'] = 'L\'encapçalament i l\'identificador únic a la vegada no estan permesos.';
 $messages['disabledaction'] = 'Acció no permesa.';
 $messages['lastindexempty'] = 'És necessari l\'índex quan es compta des del final';
-?>
