@@ -1681,11 +1681,6 @@ table.propform td.title {
 	white-space: nowrap;
 }
 
-table.propform .mceLayout td {
-	padding: 0;
-	border-bottom: 0;
-}
-
 ul.proplist {
 	list-style: none;
 	margin: 0;
@@ -3057,47 +3052,32 @@ ul.toolbarmenu li span.copy {
 	padding: 0.5em 1em;
 }
 
-#image-selector-form.droptarget {
+/** Common TinyMCE fixes **/
+
+#image-selector.droptarget {
 	background: url(images/filedrop.png) center bottom no-repeat;
 }
 
-/** Common TinyMCE fixes **/
-.mce-btn:not(.mce-active) {
-	background: transparent !important;
+div.tox .tox-toolbar,
+div.tox .tox-toolbar__overflow,
+div.tox .tox-toolbar__primary {
+	background-color: #f0f0f0;
 }
 
-.mce-btn:not(.mce-active):hover {
-	background: white !important;
+div.tox .tox-toolbar__primary {
+	border: 0;
 }
 
-.mce-btn-small .mce-ico {
-	display: inline; /* for old Firefox */
+div.tox div.tox-dialog-wrap__backdrop {
+	background: #aaa;
+	opacity: .3;
 }
 
-.mce-btn-small i {
-	line-height: 16px !important;
-	vertical-align: text-top !important;
+div.tox div.tox-dialog {
+	box-shadow: 1px 1px 18px #666;
+	border-width: 0;
 }
 
-_:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
-	line-height: 20px !important;
-}
-
-.mce-top-part::before {
-	box-shadow: none !important;
-}
-
-.mce-textbox {
-	border-radius: 0;
-	box-shadow: none;
-}
-
-button.mce-close,
-.mce-btn button,
-.mce-textbox:focus {
-	box-shadow: none;
-	outline: none;
-}
 
 /** PGP Key import dialog **/
 .pgpkeyimport div.key {
