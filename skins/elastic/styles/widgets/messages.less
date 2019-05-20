@@ -121,6 +121,7 @@
     &.boxinformation,
     &.boxwarning {
         padding: .5em;
+        border-radius: 0;
 
         i.icon {
             font-size: 1.5em !important;
@@ -169,12 +170,12 @@
     }
 
     div {
-        border-radius: .25rem;
         background-color: @color-message;
         color: #fff;
 
         @media screen and (max-width: @screen-width-xs) {
             margin: 0;
+            border-radius: 0;
         }
 
         &.voice {
