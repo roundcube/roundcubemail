@@ -81,7 +81,7 @@
                 padding: 0 .3rem;
 
                 &:before {
-                    line-height: 4.2;
+                    line-height: @layout-header-height;
                 }
 
                 &:hover {
@@ -97,14 +97,13 @@
     }
 
     .dropbutton {
-        display: block;
+        display: inline-block;
 
         a.dropdown {
             font-size: 75%;
-            min-width: unset;
+            min-width: 0;
 
             html.ie11 &:before {
-                overflow: hidden;
                 font-size: 80%;
             }
 
