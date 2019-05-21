@@ -43,7 +43,8 @@
 
         a {
             color: @color-toolbar-button;
-            display: inline-block;
+            display: block;
+            float: left;
             border: 0 !important;
             height: @layout-header-height;
             min-width: 3.2rem;
@@ -77,7 +78,6 @@
             }
 
             a.dropdown {
-                min-width: auto;
                 padding: 0 .3rem;
 
                 &:before {
@@ -101,7 +101,7 @@
 
         a.dropdown {
             font-size: 75%;
-            min-width: auto;
+            min-width: unset;
 
             html.ie11 &:before {
                 overflow: hidden;
@@ -772,6 +772,7 @@ a.toolbar-button {
 #taskmenu {
     a {
         display: block;
+        float: none;
     }
 
     @media screen and (max-width: @screen-width-xs) {
