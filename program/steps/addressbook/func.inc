@@ -910,12 +910,16 @@ function rcmail_contact_photo($attrib)
 {
     global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
-    if ($result = $CONTACTS->get_result())
+    if ($result = $CONTACTS->get_result()) {
         $record = $result->first();
+    }
 
-    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
-    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup']) {
         $photo_img = $RCMAIL->output->abs_url($attrib['placeholdergroup'], true);
+    }
+    else {
+        $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+    }
 
     $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
 
