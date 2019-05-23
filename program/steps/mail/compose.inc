@@ -1208,7 +1208,7 @@ function rcmail_compose_attachment_list($attrib)
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
-                'src' => $RCMAIL->output->abs_url($attrib['deleteicon'], true),
+                'src' => $RCMAIL->output->asset_url($attrib['deleteicon'], true),
                 'alt' => $RCMAIL->gettext('delete')
             ));
         }
@@ -1255,13 +1255,13 @@ function rcmail_compose_attachment_list($attrib)
     }
 
     if ($attrib['deleteicon'])
-        $COMPOSE['deleteicon'] = $RCMAIL->output->abs_url($attrib['deleteicon'], true);
+        $COMPOSE['deleteicon'] = $RCMAIL->output->asset_url($attrib['deleteicon'], true);
     else if (rcube_utils::get_boolean($attrib['textbuttons']))
         $COMPOSE['textbuttons'] = true;
     if ($attrib['cancelicon'])
-        $OUTPUT->set_env('cancelicon', $RCMAIL->output->abs_url($attrib['cancelicon'], true));
+        $OUTPUT->set_env('cancelicon', $RCMAIL->output->asset_url($attrib['cancelicon'], true));
     if ($attrib['loadingicon'])
-        $OUTPUT->set_env('loadingicon', $RCMAIL->output->abs_url($attrib['loadingicon'], true));
+        $OUTPUT->set_env('loadingicon', $RCMAIL->output->asset_url($attrib['loadingicon'], true));
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);

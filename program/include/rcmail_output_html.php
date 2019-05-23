@@ -872,11 +872,20 @@ EOF;
 
     /**
      * Modify path by adding URL prefix if configured
+     *
+     * @param string $path    Asset path
+     * @param bool   $abs_url Pass to self::abs_url() first
+     *
+     * @return string Asset path
      */
-    public function asset_url($path)
+    public function asset_url($path, $abs_url = false)
     {
         // iframe content can't be in a different domain
         // @TODO: check if assests are on a different domain
+
+        if ($abs_url) {
+            $path = $this->abs_url($path, true);
+        }
 
         if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
             return $path;
