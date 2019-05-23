@@ -185,6 +185,11 @@ div.tox {
         color: @color-dialog-header;
     }
 
+    .tox-icon {
+        // Fix "blured images" in Firefox when with sub-pixel positioning (because of flexbox)
+        transform: translate(0, 0);
+    }
+
     .tox-label {
         color: @color-font;
         padding-bottom: .25rem;
