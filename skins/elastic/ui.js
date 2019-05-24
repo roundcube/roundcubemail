@@ -1314,6 +1314,7 @@ function rcube_elastic_ui()
                         }
 
                         body.find('select').each(function() { pretty_select(this); });
+                        body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
                     };
 
                 // TODO: Maybe some day we'll not have to use MutationObserver
