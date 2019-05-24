@@ -228,6 +228,33 @@ class rcube_db_mysql extends rcube_db
     }
 
     /**
+     * INSERT ... ON DUPLICATE KEY UPDATE (or equivalent).
+     * When not supported by the engine we do UPDATE and INSERT.
+     *
+     * @param string $table   Table name
+     * @param array  $keys    Hash array (column => value) of the unique constraint
+     * @param array  $columns List of columns to update
+     * @param array  $values  List of values to update (number of elements
+     *                        should be the same as in $columns)
+     *
+     * @return PDOStatement|bool Query handle or False on error
+     * @todo Multi-insert support
+     */
+    public function insert_or_update($table, $keys, $columns, $values)
+    {
+        $table   = $this->table_name($table, true);
+        $columns = array_map(function($i) { return "`$i`"; }, $columns);
+        $cols    = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
+        $cols   .= ', ' . implode(', ', $columns);
+        $vals    = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update  = implode(', ', array_map(function($i) { return "$i = VALUES($i)"; }, $columns));
+
+        return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
+            . " ON DUPLICATE KEY UPDATE $update", $values);
+    }
+
+    /**
      * Handle DB errors, re-issue the query on deadlock errors from InnoDB row-level locking
      *
      * @param string Query that triggered the error

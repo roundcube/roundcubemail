@@ -183,6 +183,38 @@ class rcube_db_pgsql extends rcube_db
     }
 
     /**
+     * INSERT ... ON CONFLICT DO UPDATE.
+     * When not supported by the engine we do UPDATE and INSERT.
+     *
+     * @param string $table   Table name
+     * @param array  $keys    Hash array (column => value) of the unique constraint
+     * @param array  $columns List of columns to update
+     * @param array  $values  List of values to update (number of elements
+     *                        should be the same as in $columns)
+     *
+     * @return PDOStatement|bool Query handle or False on error
+     * @todo Multi-insert support
+     */
+    public function insert_or_update($table, $keys, $columns, $values)
+    {
+        // Check if version >= 9.5, otherwise use fallback
+        if ($this->get_variable('server_version_num') < 90500) {
+            return parent::insert_or_update($table, $keys, $columns, $values);
+        }
+
+        $table   = $this->table_name($table, true);
+        $columns = array_map(array($this, 'quote_identifier'), $columns);
+        $target  = implode(', ', array_map(array($this, 'quote_identifier'), array_keys($keys)));
+        $cols    = $target . ', ' . implode(', ', $columns);
+        $vals    = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update  = implode(', ', array_map(function($i) { return "$i = EXCLUDED.$i"; }, $columns));
+
+        return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
+            . " ON CONFLICT ($target) DO UPDATE SET $update", $values);
+    }
+
+    /**
      * Returns list of tables in a database
      *
      * @return array List of all tables of the current database

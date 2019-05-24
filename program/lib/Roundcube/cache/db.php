@@ -167,39 +167,18 @@ class rcube_cache_db extends rcube_cache
             return !$this->db->is_error($result);
         }
 
-        $key_exists = array_key_exists($key, $this->cache_sums);
-        $expires    = $this->ttl ? $this->db->now($this->ttl) : 'NULL';
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
+        $pkey    = array('cache_key' => $db_key);
 
-        if (!$key_exists) {
-            // Try INSERT temporarily ignoring "duplicate key" errors
-            $this->db->set_option('ignore_key_errors', true);
-
-            if ($this->userid) {
-                $result = $this->db->query(
-                    "INSERT INTO {$this->table} (`expires`, `user_id`, `cache_key`, `data`)"
-                    . " VALUES ($expires, ?, ?, ?)",
-                    $this->userid, $db_key, $data);
-            }
-            else {
-                $result = $this->db->query(
-                    "INSERT INTO {$this->table} (`expires`, `cache_key`, `data`)"
-                    . " VALUES ($expires, ?, ?)",
-                    $db_key, $data);
-            }
-
-            $this->db->set_option('ignore_key_errors', false);
+        if ($this->userid) {
+            $pkey['user_id'] = $this->userid;
         }
 
-        // otherwise try UPDATE
-        if (!isset($result) || !($count = $this->db->affected_rows($result))) {
-            $result = $this->db->query(
-                "UPDATE {$this->table} SET `expires` = $expires, `data` = ? WHERE "
-                . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                . "`cache_key` = ?",
-                $data, $db_key);
+        $result = $this->db->insert_or_update(
+            $this->table, $pkey, array('expires', 'data'), array($expires, $data)
+        );
 
-            $count = $this->db->affected_rows($result);
-        }
+        $count = $this->db->affected_rows($result);
 
         return $count > 0;
     }
