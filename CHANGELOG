@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Added cookie mismatch detection, display an error message informing the user to clear cookies
 - Renamed 'log_session' option to 'session_debug'
 - Don't log full session identifiers in userlogins log (#6625)
+- Support $HasAttachment/$HasNoAttachment keywords (#6201)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Redis: Support connection to unix socket
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
