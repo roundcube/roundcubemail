@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/get.inc                                            |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Delivering a specific uploaded file or mail message attachment      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -134,7 +132,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
 
             // accept text/plain with any extension
-            if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype) {
+            if ($real_mimetype == 'text/plain' && rcmail_mimetype_compare($real_mimetype, $mimetype)) {
                 $valid_extension = true;
             }
             // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
@@ -164,7 +162,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             // "fix" real mimetype the same way the original is before comparison
             $real_mimetype = rcmail_fix_mimetype($real_mimetype);
 
-            $valid = $real_mimetype == $mimetype && $valid_extension;
+            $valid = $valid_extension && rcmail_mimetype_compare($real_mimetype, $mimetype);
         }
         else {
             $real_mimetype = $mimetype;
@@ -284,6 +282,19 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
 header('HTTP/1.1 404 Not Found');
 exit;
 
+
+/**
+ * Compares two mimetype strings with making sure that
+ * e.g. image/bmp and image/x-ms-bmp are treated as equal.
+ */
+function rcmail_mimetype_compare($type1, $type2)
+{
+    $regexp = '~/(x-|x-ms-)~';
+    $type1  = preg_replace($regexp, '/', $type1);
+    $type2  = preg_replace($regexp, '/', $type2);
+
+    return $type1 === $type2;
+}
 
 /**
  * Attachment properties table
@@ -656,7 +667,6 @@ class rcmail_attachment_handler
             'allow_remote'  => false,
             'charset'       => RCUBE_CHARSET,
             'html_elements' => array('title'),
-//            'blocked_src'   => 'program/resources/blocked.gif',
         );
 
         // initialize HTML washer

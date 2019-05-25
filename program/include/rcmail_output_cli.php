@@ -2,17 +2,16 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_cli.php                                 |
+ | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2014 The Roundcube Dev Team                        |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
+ |                                                                       |
  | CONTENTS:                                                             |
  |   Abstract class for output generation                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | User Interface for the Enigma Plugin                                    |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -416,12 +415,12 @@ class enigma_ui
                 }
             }
 
+            $table->set_row_attribs($subkey->revoked || ($subkey->expires && $subkey->expires < $now) ? 'deleted' : '');
             $table->add('id', $subkey->get_short_id());
             $table->add('algo', $algo);
             $table->add('created', $subkey->created ? $this->rc->format_date($subkey->created, $date_format, false) : '');
             $table->add('expires', $subkey->expires ? $this->rc->format_date($subkey->expires, $date_format, false) : $this->enigma->gettext('expiresnever'));
             $table->add('usage', implode(',', $usage));
-            $table->set_row_attribs($subkey->revoked || ($subkey->expires && $subkey->expires < $now) ? 'deleted' : '');
         }
 
         $out .= html::tag('fieldset', null,
@@ -441,9 +440,9 @@ class enigma_ui
             }
             $username .= ' <' . $user->email . '>';
 
+            $table->set_row_attribs($user->revoked || !$user->valid ? 'deleted' : '');
             $table->add('id', rcube::Q(trim($username)));
             $table->add('valid', $this->enigma->gettext($user->valid ? 'valid' : 'unknown'));
-            $table->set_row_attribs($user->revoked || !$user->valid ? 'deleted' : '');
         }
 
         $out .= html::tag('fieldset', null,
@@ -1159,10 +1158,14 @@ class enigma_ui
 
         if ($mode && ($status instanceof enigma_error)) {
             $code = $status->getCode();
-
             if ($code == enigma_error::KEYNOTFOUND) {
-                $vars = array('email' => $status->getData('missing'));
-                $msg  = 'enigma.' . $mode . 'nokey';
+                if ($email = $status->getData('missing')) {
+                    $vars = array('email' => $email);
+                    $msg  = 'enigma.' . $mode . 'nokey';
+                }
+                else {
+                    $msg = 'enigma.' . ($encrypt_enable ? 'encryptnoprivkey' : 'signnokey');
+                }
             }
             else if ($code == enigma_error::BADPASS) {
                 $this->password_prompt($status);

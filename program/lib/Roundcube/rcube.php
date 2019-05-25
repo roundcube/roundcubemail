@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2014, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -452,8 +453,8 @@ class rcube
      */
     public function session_init()
     {
-        // session started (Installer?)
-        if (session_id()) {
+        // Ignore in CLI mode or when session started (Installer?)
+        if (empty($_SERVER['REMOTE_ADDR']) || session_id()) {
             return;
         }
 
@@ -491,14 +492,10 @@ class rcube
             ini_set('session.gc_probability', 1);
         }
 
-        // get session driver instance
+        // Start the session
         $this->session = rcube_session::factory($this->config);
         $this->session->register_gc_handler(array($this, 'gc'));
-
-        // start PHP session (if not in CLI mode)
-        if ($_SERVER['REMOTE_ADDR']) {
-            $this->session->start();
-        }
+        $this->session->start();
     }
 
     /**
@@ -1266,9 +1263,12 @@ class rcube
         $line = sprintf("[%s]: %s\n", $date, $line);
 
         // per-user logging is activated
-        if (self::$instance && self::$instance->config->get('per_user_logging') && self::$instance->get_user_id()) {
+        if (self::$instance && self::$instance->config->get('per_user_logging')
+            && self::$instance->get_user_id()
+            && !in_array($name, array('userlogins', 'sendmail'))
+        ) {
             $log_dir = self::$instance->get_user_log_dir();
-            if (empty($log_dir) && !in_array($name, array('errors', 'userlogins', 'sendmail'))) {
+            if (empty($log_dir) && $name !== 'errors') {
                 return false;
             }
         }
@@ -1355,20 +1355,16 @@ class rcube
             self::log_bug($arg);
         }
 
+        if ($cli) {
+            fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
+        }
+        else if ($terminate && is_object(self::$instance->output)) {
+            self::$instance->output->raise_error($arg['code'], $arg['message']);
+        }
+
         // terminate script
         if ($terminate) {
-            // display error page
-            if (is_object(self::$instance->output)) {
-                self::$instance->output->raise_error($arg['code'], $arg['message']);
-            }
-            else if ($cli) {
-                fwrite(STDERR, 'ERROR: ' . $arg['message']);
-            }
-
             exit(1);
-        }
-        else if ($cli) {
-            fwrite(STDERR, 'ERROR: ' . $arg['message']);
         }
     }
 

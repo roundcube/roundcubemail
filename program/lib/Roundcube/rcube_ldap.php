@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -1017,7 +1018,7 @@ class rcube_ldap extends rcube_addressbook
         if ($this->ready && $dn) {
             $dn = self::dn_decode($dn);
 
-            if ($rec = $this->ldap->get_entry($dn)) {
+            if ($rec = $this->ldap->get_entry($dn, $this->prop['attributes'])) {
                 $rec = array_change_key_case($rec, CASE_LOWER);
             }
 
@@ -1538,8 +1539,15 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($fieldmap as $rf => $lf)
         {
-            for ($i=0; $i < $rec[$lf]['count']; $i++) {
-                if (!($value = $rec[$lf][$i]))
+            // we might be dealing with normalized and non-normalized data
+            $entry = $rec[$lf];
+            if (!is_array($entry) || !isset($entry['count'])) {
+                $entry = (array) $entry;
+                $entry['count'] = count($entry);
+            }
+
+            for ($i=0; $i < $entry['count']; $i++) {
+                if (!($value = $entry[$i]))
                     continue;
 
                 list($col, $subtype) = explode(':', $rf);
@@ -1551,7 +1559,7 @@ class rcube_ldap extends rcube_addressbook
                     $out['address' . ($subtype ? ':' : '') . $subtype][$i][$col] = $value;
                 else if ($col == 'address' && strpos($value, '$') !== false)  // address data is represented as string separated with $
                     list($out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']) = explode('$', $value);
-                else if ($rec[$lf]['count'] > 1)
+                else if ($entry['count'] > 1)
                     $out[$rf][] = $value;
                 else
                     $out[$rf] = $value;

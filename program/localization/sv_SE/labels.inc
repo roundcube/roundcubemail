@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Välkommen till $product';
 $labels['username'] = 'Användarnamn';
 $labels['password'] = 'Lösenord';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Ändra namn';
 $labels['addphoto'] = 'Lägg till';
 $labels['replacephoto'] = 'Ersätt';
 $labels['uploadphoto'] = 'Ladda upp foto';
+$labels['choosefile'] = 'Välj fil...';
+$labels['choosefiles'] = 'Välj filer...';
+$labels['browse'] = 'Bläddra';
 $labels['newcontact'] = 'Ny kontakt';
 $labels['deletecontact'] = 'Ta bort vald kontakt';
 $labels['composeto'] = 'Nytt meddelande till';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Piltangent höger/vänster: visa/göm 
 Retur: Öppna markerat/fokuserat meddelande.
 Backsteg: Flytta markerat meddelande till Papperskorg.";
 $labels['helplistkeyboardnavcontacts'] = "Retur: Öppna markerad/fokuserad kontakt.";
-?>

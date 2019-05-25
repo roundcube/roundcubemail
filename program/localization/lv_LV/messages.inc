@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Radās kļūda!';
 $messages['loginfailed']  = 'Pieslēgties neizdevās';
 $messages['cookiesdisabled'] = 'Jūsu pārlūkprogramma neatbalsta sīkdatnes (cookies)';
@@ -63,11 +62,8 @@ $messages['nopubkeyforsender'] = 'Jūsu sūtīšanas identitātei nav iespējams
 $messages['encryptnoattachments'] = 'Jau augšupielādētu pielikumu nav iespējams nošifrēt. Lūdzu pievienojiet to atkārtoti, izmantojot šifrēšanas redakrotu.';
 $messages['searchpubkeyservers'] = 'Vai Jūs gribat lai trūkstošās atslēgas tiek sameklēt publiskajos atslēgu serveros?';
 $messages['encryptpubkeysfound'] = 'Tika atrastas sekojošās publiskās atslēgas:';
-$messages['keyservererror'] = 'Neizdevās iegūt atslēgu no atslēgu servera';
-$messages['keyimportsuccess'] = 'Publiskā atslēga $key veiksmīgi tika ieimportēta.';
 $messages['nocontactsfound'] = 'Kontakti netika atrasti';
 $messages['contactnotfound'] = 'Pieprasītais kontakts nav atrasts';
-$messages['contactsearchonly'] = 'Lai atrastu kontaktus, ievadiet meklēšanas kritērijus';
 $messages['sendingfailed'] = 'Vēstule netika nosūtīta';
 $messages['senttooquickly'] = 'Lūdzu uzgaidiet $sec sekundi(-es) pirms sūtiet šo vēstuli';
 $messages['errorsavingsent'] = 'Saglabājot nosūtīto vēstuli notika kļūda - vēstule netika saglabāta';

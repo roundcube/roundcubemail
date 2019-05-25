@@ -63,4 +63,3 @@ class Managesieve_Vacation extends PHPUnit_Framework_TestCase
         $this->assertSame('05 Mar 2014', $result['to']);
     }
 }
-

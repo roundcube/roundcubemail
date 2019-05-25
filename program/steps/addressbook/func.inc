@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/func.inc                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide addressbook functionality and GUI objects                   |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -912,12 +910,16 @@ function rcmail_contact_photo($attrib)
 {
     global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
-    if ($result = $CONTACTS->get_result())
+    if ($result = $CONTACTS->get_result()) {
         $record = $result->first();
+    }
 
-    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
-    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup']) {
         $photo_img = $RCMAIL->output->abs_url($attrib['placeholdergroup'], true);
+    }
+    else {
+        $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+    }
 
     $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
 

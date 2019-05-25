@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -573,13 +574,15 @@ class rcube_utils
         // %n - host
         $n = self::server_name();
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
-        $t = preg_replace('/^[^\.]+\./', '', $n);
-        // %d - domain name without first part
-        $d = preg_replace('/^[^\.]+\./', '', self::server_name('HTTP_HOST'));
+        // If %n=domain.tld then %t=domain.tld as well (remains valid)
+        $t = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $n);
+        // %d - domain name without first part (up to domain.tld)
+        $d = preg_replace('/^[^.]+\.(?![^.]+$)/', '', self::server_name('HTTP_HOST'));
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ?: $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
-        $z = preg_replace('/^[^\.]+\./', '', $h);
+        // If %h=domain.tld then %z=domain.tld as well (remains valid)
+        $z = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $h);
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {

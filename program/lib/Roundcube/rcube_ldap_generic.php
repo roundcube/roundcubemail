@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | Roundcube/rcube_ldap_generic.php                                      |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2012-2015, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -52,19 +51,6 @@ class rcube_ldap_generic extends Net_LDAP3
         $host = rcube_utils::idn_to_ascii($host);
 
         return parent::connect($host);
-    }
-
-    /**
-     * Get a specific LDAP entry, identified by its DN
-     *
-     * @param string $dn Record identifier
-     * @param array  $attributes Attributes to return
-     *
-     * @return array Hash array
-     */
-    function get_entry($dn, $attributes = array())
-    {
-        return parent::get_entry($dn, !empty($attributes) ? $attributes : $this->attributes);
     }
 
     /**

@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -11,6 +11,7 @@
 
 /*** Common UI elements ***/
 
+.rcmaddcontact,
 .hidden,
 .voice {
     display: none !important;
@@ -255,16 +256,16 @@ fieldset.image-attachment {
     }
 
     &::-webkit-scrollbar:vertical {
-        width: .6rem;
+        width: .5rem;
     }
 
     &::-webkit-scrollbar:horizontal {
-        height: .6rem;
+        height: .5rem;
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, .4);
-        border-radius: .3rem;
+        background-color: rgba(0, 0, 0, .3);
+        border-radius: .25rem;
         border: 2px solid #fff;
     }
 }
@@ -307,6 +308,55 @@ fieldset.image-attachment {
 
         &.warning {
             background-color: @color-quota-value-warning;
+        }
+    }
+}
+
+.image-tools {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    height: @layout-header-height;
+    overflow: hidden;
+    transform: translateX(-87%);
+    transition: transform 0.3s ease-in-out;
+    background-color: @color-image-tools-background;
+    border-radius: 0 .3rem .3rem 0;
+
+    .menu {
+        float: left;
+    }
+
+    a.button.icon.tools {
+        padding: 0 .25rem;
+        display: inline-block;
+        height: @layout-header-height;
+
+        span.inner {
+            display: none;
+        }
+
+        &:before {
+            line-height: @layout-header-height;
+            margin: 0;
+        }
+    }
+
+    &.open {
+        transform: translateX(0);
+
+        a.button.icon.tools:before {
+            content: @fa-var-chevron-left;
+        }
+    }
+
+    a {
+        color: @color-image-tools !important;
+
+        &:focus,
+        &:hover {
+            background-color: @color-image-tools-hover !important;
+            outline: 0;
         }
     }
 }
@@ -378,9 +428,9 @@ fieldset.image-attachment {
         border-top: 1px solid @color-table-border;
         text-align: left;
 
-        a.button {
-            padding: 0;
-            height: 3.5rem;
+        a {
+            padding: .2rem .45rem !important;
+            height: 3.5rem !important;
         }
     }
 
@@ -434,6 +484,7 @@ fieldset.image-attachment {
 
 table.compact-table {
     margin: 0;
+    width: 100%;
 
     *:not(.invalid-feedback) {
         font-size: inherit;
@@ -519,6 +570,10 @@ table.table {
 
     fieldset.tab-pane & thead th {
         border: 0;
+    }
+
+    tr.deleted td {
+        color: @color-list-deleted !important;
     }
 }
 

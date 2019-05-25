@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// location where plugins are loade from
+// location where plugins are loaded from
 if (!defined('RCUBE_PLUGINS_DIR')) {
     define('RCUBE_PLUGINS_DIR', RCUBE_INSTALL_PATH . 'plugins/');
 }

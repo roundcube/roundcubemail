@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2016, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -741,9 +742,9 @@ class rcube_mime
 
             if ($finfo) {
                 if ($is_stream)
-                    $mime_type = finfo_buffer($finfo, $path);
+                    $mime_type = finfo_buffer($finfo, $path, FILEINFO_MIME_TYPE);
                 else
-                    $mime_type = finfo_file($finfo, $path);
+                    $mime_type = finfo_file($finfo, $path, FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }
@@ -756,11 +757,6 @@ class rcube_mime
         // fall back to user-submitted string
         if (!$mime_type) {
             $mime_type = $failover;
-        }
-        else {
-            // Sometimes (PHP-5.3?) content-type contains charset definition,
-            // Remove it (#1487122) also "charset=binary" is useless
-            $mime_type = array_shift(preg_split('/[; ]/', $mime_type));
         }
 
         return $mime_type;
@@ -849,6 +845,8 @@ class rcube_mime
             'image/jpg'      => array('jpg', 'jpeg', 'jpe'),
             'image/pjpeg'    => array('jpg', 'jpeg', 'jpe'),
             'image/tiff'     => array('tif'),
+            'image/bmp'      => array('bmp'),
+            'image/x-ms-bmp' => array('bmp'),
             'message/rfc822' => array('eml'),
             'text/x-mail'    => array('eml'),
         );

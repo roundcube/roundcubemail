@@ -1,4 +1,19 @@
-/* Enigma Plugin */
+/**
+ * Enigma plugin script
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ */
 
 window.rcmail && rcmail.addEventListener('init', function(evt) {
     if (rcmail.env.task == 'settings') {
@@ -59,19 +74,23 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 e.stopPropagation();
             });
 
-            $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a:first').prop('tabindex'));
+            $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a').first().prop('tabindex'));
 
             $.each(['encrypt', 'sign'], function() {
                 var opt = this, input = $('#enigma' + opt + 'opt');
 
                 if (rcmail.env['enigma_force_' + opt]) {
-                    input.prop('checked', true);
+                    input.prop('checked', true)
                 }
 
                 // Compose status bar in Elastic
                 if (window.UI && UI.compose_status) {
-                    input.on('change', function() { UI.compose_status(opt, this.checked); }).trigger('change');
+                    input.on('change', function() { UI.compose_status(opt, this.checked); });
                 }
+
+                // As the options might have been initially enabled we have to
+                // trigger onchange event, so all handlers can update the state
+                input.trigger('change');
             });
         }
 

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Филтри ';
 $labels['managefilters'] = 'Управувај филтри за дојдовна пошта';
 $labels['filtername'] = 'Име на филтер ';
@@ -65,15 +65,9 @@ $labels['days'] = 'Денови';
 $labels['seconds'] = 'Секунди';
 $labels['rulestop'] = 'Престани да евалуираш правила ';
 $labels['enable'] = 'Овозможи/Оневозможи';
-$labels['filterset'] = 'Сет на филтер ';
 $labels['filtersets'] = 'Сетови филтри';
-$labels['filtersetadd'] = 'Постави сет на филтри';
-$labels['filtersetact'] = 'Активирај го тековниот сет на филтри ';
-$labels['filtersetdeact'] = 'Деактивирај го тековниот сет на филтри ';
 $labels['filterseteditraw'] = 'Уреди го филтер сетот ';
 $labels['filterdef'] = 'Дефиниција на филтер ';
-$labels['filtersetname'] = 'Име на филтер сет ';
-$labels['newfilterset'] = 'Нов сет на филтри ';
 $labels['active'] = 'Активен';
 $labels['none'] = 'Нема ';
 $labels['fromset'] = 'од сет ';
@@ -213,16 +207,6 @@ $messages['actiondeleteconfirm'] = 'Дали сте сигурни дека са
 $messages['forbiddenchars'] = 'Забранет карактер во полето.';
 $messages['cannotbeempty'] = 'Полето не може да биде празно.';
 $messages['ruleexist'] = 'Веќе постои филтер со избраното поле.';
-$messages['setactivateerror'] = 'Не може да се активираат избраните филтер сетови. Настана грешка со серверот.';
-$messages['setdeactivateerror'] = 'Не може да се деактивираат избраните филтер сетови. Настана грешка со серверот.';
-$messages['setdeleteerror'] = 'Не може да се избришаат избраните филтер сетови. Настана грешка со серверот.';
-$messages['setactivated'] = 'Филтер сетовите се успешно активирани.';
-$messages['setdeactivated'] = 'Филтер сетовите се успешно деактивирани.';
-$messages['setdeleted'] = 'Филтер сетовите се успешно избришани.';
-$messages['setupdated'] = 'Филтер сетовите се успешно ажирирани.';
-$messages['setdeleteconfirm'] = 'Дали сте сигурни дека сакате да ги избришате избраните филтер сетови?';
-$messages['setcreateerror'] = 'Не мозе да се создадат филтер сетови. настана грешка со серверот.';
-$messages['setcreated'] = 'Филтер сетовите се успешно креирани.';
 $messages['activateerror'] = 'Не може да се овозможи селектираниот филтер(и). настана грешка со серверот.';
 $messages['deactivateerror'] = 'Не може да се оневозможи избраниот филтер(и). Настана грешка со серверот.';
 $messages['deactivated'] = 'Филтер(и) е успешно оневозможен.';
@@ -237,4 +221,3 @@ $messages['invaliddateformat'] = 'Невалиден датум или дел о
 $messages['saveerror'] = 'Податокот не може да се зачува. Настана грешка со серверот.';
 $messages['emptyvacationbody'] = 'Потребно е тело на пораката за одмор!';
 $messages['duplicate.conflict.err'] = 'Заглавје и единствен идентификатор не се дозволени.';
-?>

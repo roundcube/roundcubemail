@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -31,8 +32,8 @@
 class rcube_session_php extends rcube_session {
 
     /**
-     * native php sessions don't need a save handler
-     * we do need to define abstract function implementations but they are not used.
+     * Native php sessions don't need a save handler.
+     * We do need to define abstract function implementations but they are not used.
      */
 
     public function open($save_path, $session_name) {}
@@ -43,7 +44,9 @@ class rcube_session_php extends rcube_session {
     public function update($key, $newvars, $oldvars) {}
 
     /**
-     * @param Object $config
+     * Object constructor
+     *
+     * @param rcube_config $config Configuration
      */
     public function __construct($config)
     {

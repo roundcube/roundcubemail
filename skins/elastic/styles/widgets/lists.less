@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -364,11 +364,16 @@ html.ie11 .listing.iconized li a:before {
 .popupmenu .listing {
     li > a {
         border-left: 0;
+
+        &:not(.disabled):hover {
+            color: @color-menu-hover;
+            background-color: @color-menu-hover-background;
+        }
     }
 
     li.selected {
-        color: @color-toolbarmenu-hover;
-        background-color: @color-toolbarmenu-hover-background;
+        color: @color-menu-hover;
+        background-color: @color-menu-hover-background;
     }
 
     td {
@@ -479,7 +484,7 @@ ul.treelist {
                 right: 0;
                 min-width: 2em;
                 line-height: 1.4rem;
-                margin: (@listing-line-height - 1.4rem)/2;
+                margin: (@listing-line-height - 1.4 * @page-font-size) / 2;
                 padding: 0 .3em;
                 border-radius: .4em;
                 background: @color-list-badge-background;
@@ -489,7 +494,7 @@ ul.treelist {
 
                 html.touch & {
                     line-height: 2rem;
-                    margin: (@listing-touch-line-height - 2rem)/2;
+                    margin: (@listing-touch-line-height - 2 * @page-font-size) / 2;
                 }
             }
 
@@ -534,16 +539,8 @@ ul.treelist {
     }
 
     // folder-selector fix for left padding
-    &.toolbarmenu a:before {
+    &.menu a:before {
         margin-left: .5em;
-    }
-
-    &.toolbarmenu {
-        li {
-            a:before {
-                margin-right: .25em;
-            }
-        }
     }
 }
 

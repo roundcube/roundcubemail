@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Добро пожаловать в $product!';
 $labels['username'] = 'Имя пользователя';
 $labels['password'] = 'Пароль';
@@ -396,6 +396,9 @@ $labels['rename'] = 'Переименовать';
 $labels['addphoto'] = 'Добавить';
 $labels['replacephoto'] = 'Заменить';
 $labels['uploadphoto'] = 'Загрузить фотографию';
+$labels['choosefile'] = 'Выберите файл...';
+$labels['choosefiles'] = 'Выберите файлы...';
+$labels['browse'] = 'Обзор';
 $labels['newcontact'] = 'Создать новый контакт';
 $labels['deletecontact'] = 'Удалить выбранные контакты';
 $labels['composeto'] = 'Создать сообщение для выбранных контактов';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки вправо/влево
 Enter: Открыть выделенное сообщение.
 Delete: Переместить выбранные сообщения в Корзину.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Открыть выбранный контакт.";
-?>

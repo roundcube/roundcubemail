@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_html.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Class to handle HTML page output using a skin template.             |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -118,7 +116,7 @@ class rcmail_output_html extends rcmail_output
         @licstart  The following is the entire license notice for the 
         JavaScript code in this page.
 
-        Copyright (C) 2005-2014 The Roundcube Dev Team
+        Copyright (C) The Roundcube Dev Team
 
         The JavaScript code in this page is free software: you can redistribute
         it and/or modify it under the terms of the GNU General Public License
@@ -874,11 +872,20 @@ EOF;
 
     /**
      * Modify path by adding URL prefix if configured
+     *
+     * @param string $path    Asset path
+     * @param bool   $abs_url Pass to self::abs_url() first
+     *
+     * @return string Asset path
      */
-    public function asset_url($path)
+    public function asset_url($path, $abs_url = false)
     {
         // iframe content can't be in a different domain
         // @TODO: check if assests are on a different domain
+
+        if ($abs_url) {
+            $path = $this->abs_url($path, true);
+        }
 
         if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
             return $path;
@@ -1654,7 +1661,7 @@ EOF;
         }
 
         // overwrite attributes
-        if (!$attrib['href'] && !$menuitem) {
+        if (!$attrib['href']) {
             $attrib['href'] = '#';
         }
 

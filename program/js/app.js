@@ -6,8 +6,8 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2005-2015, The Roundcube Dev Team
- * Copyright (C) 2011-2015, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -119,8 +119,10 @@ function rcube_webmail()
 
     this.buttons[command].push(button_prop);
 
-    if (this.loaded)
+    if (this.loaded) {
       this.init_button(command, button_prop);
+      this.set_button(command, (this.commands[command] ? 'act' : 'pas'));
+    }
   };
 
   // register a button with popup menu, to set its state according to the state of all commands in the menu
@@ -163,7 +165,10 @@ function rcube_webmail()
             return disabled = false;
           }
         });
-        $(this[0]).add($(this[0]).parent('.dropbutton')).addClass(disabled ? 'disabled' : 'active').removeClass(disabled ? 'active' : 'disabled');
+
+        $(this[0]).add($(this[0]).parent('.dropbutton'))
+          .addClass(disabled ? 'disabled' : 'active')
+          .removeClass(disabled ? 'active' : 'disabled');
       });
     }, 50);
   };
@@ -1854,9 +1859,9 @@ function rcube_webmail()
     var focus_menu_item = function(dir) {
       var obj, item, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
       if (ref.focused_menu && (obj = $('#'+ref.focused_menu))) {
-        item = obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+        item = obj.find(':focus').closest('li')[mod]().has(':not([aria-disabled=true])').find('a,input')[limit]();
         if (!item.length)
-          item = obj.find(':focus').closest('ul')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+          item = obj.find(':focus').closest('ul')[mod]().has(':not([aria-disabled=true])').find('a,input')[limit]();
         return item.focus().length;
       }
 
@@ -2280,12 +2285,12 @@ function rcube_webmail()
         label = this.get_label('withattachment');
         if (flags.attachmentClass)
           html = '<span class="'+flags.attachmentClass+'" title="'+label+'"></span>';
-        else if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
-          html = '<span class="attachment" title="'+label+'"></span>';
-        else if (/multipart\/report/.test(flags.ctype))
+        else if (flags.ctype == 'multipart/report')
           html = '<span class="report"></span>';
         else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime')
           html = '<span class="encrypted"></span>';
+        else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype)))
+          html = '<span class="attachment" title="'+label+'"></span>';
         else
           html = '&nbsp;';
       }
@@ -2488,6 +2493,9 @@ function rcube_webmail()
 
     url = this.url(preview ? 'preview': 'show', url);
 
+    if (preview)
+      this.preview_id = id;
+
     if (preview && String(target.location.href).indexOf(url) >= 0) {
       this.show_contentframe(true);
     }
@@ -2545,6 +2553,9 @@ function rcube_webmail()
 
     if (!show && this.env.frame_lock)
       this.set_busy(false, null, this.env.frame_lock);
+
+    if (!show)
+      delete this.preview_id;
   };
 
   this.get_frame_element = function(id)
@@ -2962,7 +2973,7 @@ function rcube_webmail()
           r.parent_uid = 0;
           if (r.has_children) {
             // replace 'leaf' with 'collapsed'
-            $('#'+r.id+' .leaf:first')
+            $('#' + r.id + ' .leaf').first()
               .attr('id', 'rcmexpando' + r.id)
               .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
               .mousedown({uid: r.uid}, function(e) {
@@ -3403,7 +3414,8 @@ function rcube_webmail()
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
 
-    $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
+    if (this.env.action == 'show' || $.inArray(this.preview_id, a_uids) >= 0)
+      $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
 
     this.http_post('mark', post_data, lock);
   };
@@ -3546,7 +3558,7 @@ function rcube_webmail()
         for (i = 1; i <= ref.env.pagecount; i++)
           html += '<li>' + i + '</li>';
 
-        html = '<ul class="toolbarmenu">' + html + '</ul>';
+        html = '<ul class="toolbarmenu menu">' + html + '</ul>';
 
         if (!ref.pagejump) {
           ref.pagejump = $('<div id="pagejump-selector" class="popupmenu"></div>')
@@ -4322,7 +4334,7 @@ function rcube_webmail()
         });
 
         content = $('<ul class="proplist">').append(nodes);
-        $('input:not([disabled]):first', content).attr('checked', true);
+        $('input:not([disabled])', content).first().attr('checked', true);
 
         this.simple_dialog(content, this.get_label('markallread'),
           function() {
@@ -4758,7 +4770,7 @@ function rcube_webmail()
       var dialog,
         prompt_value = $('<input>').attr({type: 'text', size: 40}),
         myprompt = $('<div class="prompt">')
-          .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
+          .append($('<p class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
         save_func = function() {
           input_subject.val(prompt_value.val());
@@ -5692,7 +5704,7 @@ function rcube_webmail()
     if (this.import_dialog) {
       this.import_state = state;
       // activate Import button depending on state
-      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button:first').attr('disabled', state != 'error');
+      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button').first().attr('disabled', state != 'error');
     }
   };
 
@@ -5980,7 +5992,7 @@ function rcube_webmail()
 
       // select the first
       if (!this.env.contacts.length) {
-        this.ksearch_select($('li:first', ul).get(0));
+        this.ksearch_select($('li', ul)[0]);
       }
     }
 
@@ -6920,7 +6932,7 @@ function rcube_webmail()
           row.appendTo(appendcontainer.show());
 
           if (input.is('div'))
-            input.find('input:first').focus();
+            input.find('input').first().focus();
           else
             input.first().focus();
 
@@ -7298,7 +7310,7 @@ function rcube_webmail()
       .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
       .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
       .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
-      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle'})
+      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control'})
       .droppable({
         // @todo: find better way, accept callback is executed for every folder
         // on the list when dragging starts (and stops), this is slow, but
@@ -7419,10 +7431,10 @@ function rcube_webmail()
     }
 
     // set folder name
-    $('a:first', row).text(display_name).removeAttr('title');
+    $('a', row).first().text(display_name).removeAttr('title');
 
     // update subscription checkbox
-    $('input[name="_subscribed[]"]:first', row).val(id)
+    $('input[name="_subscribed[]"]', row).first().val(id)
       .prop({checked: subscribed ? true : false, disabled: is_protected ? true : false});
 
     // add to folder/row-ID map
@@ -7512,7 +7524,7 @@ function rcube_webmail()
       }
 
       if (parent && n == parent) {
-        $('ul:first', parent).append(row);
+        $('ul', parent).first().append(row);
       }
       else {
         while (p = $(n).parent().parent().get(0)) {
@@ -7573,7 +7585,7 @@ function rcube_webmail()
       old_folder = this.env.subscriptionrows[oldid],
       prefix_len_id = oldid.length,
       prefix_len_name = old_folder[0].length,
-      subscribed = $('input[name="_subscribed[]"]:first', row).prop('checked');
+      subscribed = $('input[name="_subscribed[]"]', row).first().prop('checked');
 
     // no renaming, only update class_name
     if (oldid == id) {
@@ -7588,7 +7600,7 @@ function rcube_webmail()
         newid = id + fname.slice(prefix_len_id);
 
       this.id = 'rcmli' + ref.html_identifier_encode(newid);
-      $('input[name="_subscribed[]"]:first', this).val(newid);
+      $('input[name="_subscribed[]"]', this).first().val(newid);
       folder[0] = name + folder[0].slice(prefix_len_name);
 
       subfolders[newid] = folder;
@@ -7673,7 +7685,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('disabled', true);
+      $('input[name="_subscribed[]"]', row).first().prop('disabled', true);
   };
 
   // resets state of subscription checkbox (e.g. on error)
@@ -7681,7 +7693,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('checked', state);
+      $('input[name="_subscribed[]"]', row).first().prop('checked', state);
   };
 
   this.folder_size = function(folder)
@@ -7805,13 +7817,10 @@ function rcube_webmail()
       else if (button[state] !== undefined) {
         obj.className = button[state];
       }
+
       // disable/enable input buttons
       if (button.type == 'input' || button.type == 'button') {
         obj.disabled = state == 'pas';
-      }
-      else if (button.type == 'uibutton') {
-        button.status = state;
-        $(obj).button('option', 'disabled', state == 'pas');
       }
       else {
         $obj = $(obj);
@@ -8151,7 +8160,9 @@ function rcube_webmail()
     });
 
     // Don't propagate keyboard events to the UI below the dialog (#6055)
-    popup.parent().on('keydown keyup', function(e) { e.stopPropagation(); });
+    dialog.on('keydown keyup', function(e) { e.stopPropagation(); });
+
+    this.triggerEvent('dialog-open', {obj: popup});
 
     return popup;
   };
@@ -8563,7 +8574,7 @@ function rcube_webmail()
     if (!container) {
       var rows = [],
         container = $('<div>').attr('id', name).addClass('popupmenu'),
-        ul = $('<ul>').addClass('toolbarmenu'),
+        ul = $('<ul>').addClass('toolbarmenu menu'),
         link = document.createElement('a');
 
       link.href = '#';

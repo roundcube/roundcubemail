@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail functions for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -19,6 +19,7 @@ function rcube_elastic_ui()
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
         ios = false,
+        popups_close_lock,
         is_framed = rcmail.is_framed(),
         env = {
             config: {
@@ -39,13 +40,13 @@ function rcube_elastic_ui()
         content_buttons = [],
         frame_buttons = [],
         layout = {
-            menu: $('#layout > .menu'),
-            sidebar: $('#layout > .sidebar'),
-            list: $('#layout > .list'),
-            content: $('#layout > .content'),
+            menu: $('#layout-menu'),
+            sidebar: $('#layout-sidebar'),
+            list: $('#layout-list'),
+            content: $('#layout-content'),
         },
         buttons = {
-            menu: $('a.menu-button'),
+            menu: $('a.task-menu-button'),
             back_sidebar: $('a.back-sidebar-button'),
             back_list: $('a.back-list-button'),
             back_content: $('a.back-content-button'),
@@ -146,15 +147,15 @@ function rcube_elastic_ui()
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
-            if (title = $('h1.voice:first').text()) {
-                parent.$('#layout > .content > .header > .header-title:not(.constant)').text(title);
+            if (title = $('h1.voice').first().text()) {
+                parent.$('#layout-content > .header > .header-title:not(.constant)').text(title);
             }
         }
         else if (!is_framed) {
-            title = $('.boxtitle:first', layout.content).detach().text();
+            title = $('.boxtitle', layout.content).first().detach().text();
 
             if (!title) {
-                title = $('h1.voice:first').text();
+                title = $('h1.voice').first().text();
             }
 
             if (title) {
@@ -166,7 +167,7 @@ function rcube_elastic_ui()
         if (!is_framed && layout.content.length && !$(layout.content).is('.no-navbar')
             && !$(layout.content).children('.frame-content').length
         ) {
-            env.frame_nav = $('<div class="footer toolbar content-frame-navigation hide-nav-buttons">')
+            env.frame_nav = $('<div class="footer menu toolbar content-frame-navigation hide-nav-buttons">')
                 .append($('<a class="button prev">')
                     .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
                 .append($('<span class="buttons">'))
@@ -185,7 +186,7 @@ function rcube_elastic_ui()
             var target = $(this);
 
             // skip non-content buttons
-            if (!is_framed && !target.parents('.content').length) {
+            if (!is_framed && !target.parents('#layout-content').length) {
                 return;
             }
 
@@ -242,7 +243,7 @@ function rcube_elastic_ui()
         });
 
         // Taskmenu items added by plugins do not use elastic classes (e.g help plugin)
-        // it's for larry skin compat. We'll assign 'button', 'selected' and icon-specific class.
+        // it's for larry skin compat. We'll assign 'selected' and icon-specific class.
         $('#taskmenu > a').each(function() {
             if (/button-([a-z]+)/.test(this.className)) {
                 var data, name = RegExp.$1,
@@ -250,19 +251,18 @@ function rcube_elastic_ui()
 
                 if (button && (data = button.data)) {
                     if (data.sel) {
-                        data.sel += ' button ' + name;
-                        data.sel = data.sel.replace('button-selected', 'selected');
+                        data.sel = data.sel.replace('button-selected', 'selected') + ' ' + name;
                     }
 
                     if (data.act) {
-                        data.act += ' button ' + name;
+                        data.act += ' ' + name;
                     }
 
                     rcmail.buttons[button.command][button.index] = data;
                     rcmail.init_button(button.command, data);
                 }
 
-                $(this).addClass('button ' + name);
+                $(this).addClass(name);
                 $('.button-inner', this).addClass('inner');
             }
 
@@ -499,21 +499,21 @@ function rcube_elastic_ui()
     function init()
     {
         // Additional functionality on list widgets
-        $('table[data-list]').each(function() {
+        $('[data-list]').filter('ul,table').each(function() {
             var button,
                 table = $(this),
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
                 var repl, button,
-                    parent = table.parents('.sidebar,.list,.content').last(),
+                    parent = table.parents('layout-sidebar,#layout-list,#layout-content').last(),
                     header = parent.find('.header'),
                     toolbar = header.find('ul');
 
                 if (!toolbar.length) {
                     toolbar = header;
                 }
-                else if (button = toolbar.find('a.button.select').data('toggle-button')) {
+                else if (button = toolbar.find('a.select').data('toggle-button')) {
                     button = $('#' + button);
                 }
 
@@ -526,7 +526,7 @@ function rcube_elastic_ui()
                         .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
-                    if (toolbar.is('.toolbar') || toolbar.is('.toolbarmenu')) {
+                    if (toolbar.is('.menu')) {
                         button.prependTo(toolbar).wrap('<li role="menuitem">');
 
                         // Add a button to the content toolbar menu too
@@ -542,7 +542,7 @@ function rcube_elastic_ui()
                         }
                         else {
                             button.appendTo(toolbar).addClass('icon');
-                            if (!parent.is('.sidebar')) {
+                            if (!parent.is('#layout-sidebar')) {
                                 button.addClass('toolbar-button');
                             }
                         }
@@ -675,15 +675,15 @@ function rcube_elastic_ui()
                 // In compose window we do not provide "Back' button, instead
                 // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
                 if (!rcmail.env.extwin) {
-                    $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+                    $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
                 }
 
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
-                    $('a.button.attach, a.button.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
+                    $('a.attach, a.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
-                $('.sidebar > .footer:not(.pagenav) > a.button').click(function() {
+                $('#layout-sidebar > .footer:not(.pagenav) > a.button').click(function() {
                     if ($(this).is('.disabled')) {
                         rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
                     }
@@ -860,7 +860,7 @@ function rcube_elastic_ui()
 
         // Special input + anything entry
         $('td.input-group', context).each(function() {
-            $(this).children(':not(:first)').addClass('input-group-append');
+            $(this).children().slice(1).addClass('input-group-append');
         });
 
         // Other forms, e.g. Contact advanced search
@@ -945,7 +945,7 @@ function rcube_elastic_ui()
                 tab = $('<li>').addClass('nav-item').append(
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
                         .attr({role: 'tab', 'href': '#' + id})
-                        .text($('legend:first', fieldset).text())
+                        .text($('legend', fieldset).first().text())
                         .click(function(e) {
                             $(this).tab('show');
                             // Because we return false we have to close popups
@@ -956,14 +956,14 @@ function rcube_elastic_ui()
                         })
                 );
 
-                $('legend:first', fieldset).hide();
+                $('legend', fieldset).first().hide();
                 tabs.push(tab);
             });
 
             // create the navigation bar
             nav.append(tabs).insertBefore(item);
             // activate the first tab
-            $('a.nav-link:first', nav).click();
+            $('a.nav-link', nav).first().click();
         });
 
         $('input[type=file]:not(.custom-file-input)', context).each(function() {
@@ -988,7 +988,7 @@ function rcube_elastic_ui()
         });
 
         // Make tables pretier
-        $('table:not(.table,.propform,.listing,.ui-datepicker-calendar)', context)
+        $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
@@ -1003,7 +1003,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
@@ -1014,7 +1014,7 @@ function rcube_elastic_ui()
         // Input-group combo is an element with a select field on the left
         // and input(s) on right, and where the whole right side can be hidden
         // depending on the select position. This code fixes border radius on select
-        $('.input-group-combo > select:first', context).on('change', function() {
+        $('.input-group-combo > select', context).first().on('change', function() {
             var select = $(this),
                 fn = function() {
                     select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
@@ -1454,7 +1454,7 @@ function rcube_elastic_ui()
     function rcmail_popup_init(o)
     {
         // Add some common styling to the autocomplete/googiespell popups
-        $('table,ul', o.obj).addClass('toolbarmenu listing iconized');
+        $('ul', o.obj).addClass('menu listing iconized');
         $(o.obj).addClass('popupmenu popover');
         bootstrap_style(o.obj);
 
@@ -1482,7 +1482,7 @@ function rcube_elastic_ui()
                     .click(function() { $(this).remove(); });
             }
 
-            $('table,button', o.obj).click(function(e) {
+            $('ul,button', o.obj).click(function(e) {
                 if (!$(e.target).is('input')) {
                     $('.popover-overlay').remove();
                 }
@@ -1588,8 +1588,10 @@ function rcube_elastic_ui()
 
         screen_resize_logo(mode);
         screen_resize_headers();
-
+/*
         // On iOS and Android the content frame height is never correct, fix it
+        // Actually I needed it for my iPad with iOS 9.3. We'll re-consider
+        // uncommenting that if we know more recent devices need it
         if (bw.webkit) {
             $('.iframe-wrapper').each(function() {
                 var h = $(this).height();
@@ -1598,6 +1600,7 @@ function rcube_elastic_ui()
                 }
             });
         }
+*/
     };
 
     /**
@@ -1706,7 +1709,7 @@ function rcube_elastic_ui()
         screen_resize_small_none();
 
         if (layout.list) {
-            $('.header > ul.toolbar', layout.list).addClass('popupmenu toolbarmenu').removeClass('toolbar');
+            $('.header > ul.menu', layout.list).addClass('popupmenu');
         }
     };
 
@@ -1717,7 +1720,7 @@ function rcube_elastic_ui()
         screen_resize_small_none();
 
         if (layout.list) {
-            $('.header > ul.toolbarmenu.popupmenu', layout.list).removeClass('popupmenu toolbarmenu').addClass('toolbar');
+            $('.header > ul.menu.popupmenu', layout.list).removeClass('popupmenu');
         }
     };
 
@@ -1728,13 +1731,13 @@ function rcube_elastic_ui()
         if (layout.content.length) {
             show = got_content = layout.content.is(env.last_selected);
             layout.content[show ? 'removeClass' : 'addClass']('hidden');
-            $('.header > ul.toolbar', layout.content).addClass('popupmenu');
+            $('.header > ul.menu', layout.content).addClass('popupmenu');
         }
 
         if (layout.list.length) {
             show = !got_content && layout.list.is(env.last_selected);
             layout.list[show ? 'removeClass' : 'addClass']('hidden');
-            $('.header > ul.toolbar', layout.list).addClass('popupmenu');
+            $('.header > ul.menu', layout.list).addClass('popupmenu');
         }
 
         if (layout.sidebar.length) {
@@ -1749,8 +1752,8 @@ function rcube_elastic_ui()
 
     function screen_resize_small_none()
     {
-        buttons.back_list.filter(function() { return $(this).parents('.sidebar').length == 0; }).hide();
-        $('ul.toolbar.popupmenu').removeClass('popupmenu');
+        buttons.back_list.filter(function() { return $(this).parents('#layout-sidebar').length == 0; }).hide();
+        $('ul.menu.popupmenu').removeClass('popupmenu');
     };
 
     function show_content(unsticky)
@@ -2069,7 +2072,7 @@ function rcube_elastic_ui()
 
         // convert content toolbar to a popup list
         if (layout.content) {
-            $('.header > .toolbar', layout.content).each(function() {
+            $('.header > .menu', layout.content).each(function() {
                 var toolbar = $(this);
 
                 toolbar.children().each(function() { button_func(this, items); });
@@ -2079,7 +2082,7 @@ function rcube_elastic_ui()
 
         // convert list toolbar to a popup list
         if (layout.list) {
-            $('.header > .toolbar', layout.list).each(function() {
+            $('.header > .menu', layout.list).each(function() {
                 var toolbar = $(this);
 
                 list_mark = toolbar.next();
@@ -2114,7 +2117,7 @@ function rcube_elastic_ui()
         // append the new list toolbar and menu button
         if (list_items.length) {
             var container = layout.list.children('.header'),
-                menu_attrs = {'class': 'toolbar popupmenu listing iconized', id: 'toolbar-list-menu'},
+                menu_attrs = {'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-list-menu'},
                 menu_button = $('<a class="button icon toolbar-list-button" href="#list-menu">')
                     .attr({'data-popup': 'toolbar-list-menu'}),
                 // TODO: copy original toolbar attributes (class, role, aria-*)
@@ -2132,7 +2135,7 @@ function rcube_elastic_ui()
         // append the new toolbar and menu button
         if (items.length) {
             var container = layout.content.children('.header'),
-                menu_attrs = {'class': 'toolbar popupmenu listing iconized', id: 'toolbar-menu'},
+                menu_attrs = {'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-menu'},
                 menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
                     .attr({'data-popup': 'toolbar-menu'});
 
@@ -2275,11 +2278,6 @@ function rcube_elastic_ui()
                                 $(item).popover('toggle').focus();
                                 return false;
 
-                            case 13: // ENTER
-                            case 32: // SPACE
-                                $(this).trigger('click').data('event', 'key');
-                                return false; // for IE
-
                             case 38: // ARROW-UP
                             case 63232:
                                 mode = 'previous';
@@ -2296,7 +2294,7 @@ function rcube_elastic_ui()
                         }
                     });
 
-                    popover.find('a.active:first').focus();
+                    popover.find('a.active').first().focus();
                 }
 
                 if (popup_id && menus[popup_id]) {
@@ -2384,6 +2382,11 @@ function rcube_elastic_ui()
      */
     function popups_close(e)
     {
+        // Ignore some of propagated click events (see pretty_select())
+        if (popups_close_lock && popups_close_lock > (new Date().getTime() - 250)) {
+            return;
+        }
+
         $('.popover.show').each(function() {
             var popup = $('.popover-body', this),
                 button = popup.children().first().data('button');
@@ -2419,7 +2422,7 @@ function rcube_elastic_ui()
         }
         else if (p.event == 'menu-open') {
             var fn, pos,
-                content = $('ul:first', p.obj),
+                content = $('ul', p.obj).first(),
                 target = p.props && p.props.link ? p.props.link : p.originalEvent.target;
 
             if ($(target).is('span')) {
@@ -2448,7 +2451,7 @@ function rcube_elastic_ui()
             else if (p.name == 'addressbook-selector' || p.name == 'contactgroup-selector') {
                 content.addClass('listing contactlist');
             }
-            else if (content.hasClass('toolbarmenu')) {
+            else if (content.hasClass('menu')) {
                 content.addClass('listing');
             }
 
@@ -2473,6 +2476,7 @@ function rcube_elastic_ui()
 
                 if (!$(target).data('popup')) {
                     $(target).data({
+                        event: rcube_event.is_keyboard(p.originalEvent) ? 'key' : 'mouse',
                         popup: p.name,
                         'popup-pos': pos,
                         'popup-trigger': 'manual'
@@ -2781,7 +2785,7 @@ function rcube_elastic_ui()
             ul = $('ul', obj);
 
         if (!ul.length) {
-            ul = $('<ul class="toolbarmenu selectable listing iconized" role="menu">');
+            ul = $('<ul class="selectable listing iconized" role="menu">');
 
             for (i in rcmail.env.spell_langs) {
                 li = $('<li role="menuitem">');
@@ -2877,7 +2881,7 @@ function rcube_elastic_ui()
     /**
      * Mailto menu
      */
-    function mailtomenu(obj, button, event)
+    function mailtomenu(obj, button, event, onclick)
     {
         var mailto = $(button).attr('href').replace(/^mailto:/, '');
 
@@ -2885,9 +2889,11 @@ function rcube_elastic_ui()
             return true; // let the browser handle this
         }
 
+        // disable all menu actions
+        obj.find('a').off('click').removeClass('active');
+
         if (rcmail.env.has_writeable_addressbook) {
-            $('.addressbook', obj).addClass('active')
-                .off('click').on('click', function(e) {
+            $('.addressbook', obj).addClass('active').on('click', function(e) {
                     var i, contact = mailto,
                         txt = $(button).filter('.rcmContactAddress').text();
 
@@ -2902,11 +2908,20 @@ function rcube_elastic_ui()
                 });
         }
 
-        $('.compose', obj).off('click').on('click', function(e) {
-            rcmail.command('compose', mailto, this, e.originalEvent);
+        $('.compose', obj).addClass('active').on('click', function(e) {
+            // Execute the original onclick handler to support mailto URL arguments (#6751)
+            if (onclick) {
+                button.onclick = onclick;
+                // use the second argument to tell our handler to not display the menu again
+                $(button).trigger('click', [true]);
+                button.onclick = null;
+            }
+            else {
+                rcmail.command('compose', mailto, this, e.originalEvent);
+            }
         });
 
-        return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event);
+        return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event.originalEvent);
     };
 
     /**
@@ -2914,8 +2929,11 @@ function rcube_elastic_ui()
      */
     function mailtomenu_append(item)
     {
-        $(item).attr('onclick', '').on('click', function(e) {
-            return mailtomenu($('#mailto-menu'), item, e);
+        // Remember the original onclick handler and display the menu instead
+        var onclick = item.onclick;
+        item.onclick = null;
+        $(item).on('click', function(e, menu) {
+            return menu || mailtomenu($('#mailto-menu'), item, e, onclick);
         });
     };
 
@@ -2995,7 +3013,7 @@ function rcube_elastic_ui()
             },
             open: function() {
                 // Don't want focus in the search field, we focus first contacts source record instead
-                $('#directorylist a:first').focus();
+                $('#directorylist a').first().focus();
             },
             close: function() {
                 dialog.appendTo(parent);
@@ -3126,7 +3144,7 @@ function rcube_elastic_ui()
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
-                    list.children('li.recipient:last').remove();
+                    list.children('li.recipient').first().remove();
                     apply_func();
                     return false;
                 }
@@ -3415,14 +3433,17 @@ function rcube_elastic_ui()
         var open_func = function(e) {
             var items = [],
                 dialog = select.closest('.ui-dialog')[0],
-                min_width = select.outerWidth(),
-                max_height = $(document.body).height() - 75,
+                max_height = (document.documentElement.clientHeight || $(document.body).height()) - 75,
                 max_width = $(document.body).width() - 20,
+                min_width = Math.min(select.outerWidth(), max_width),
                 value = select.val();
 
             if (!is_mobile()) {
                 max_height *= 0.5;
             }
+
+            // close other popups
+            popups_close(e);
 
             $('option', select).each(function() {
                 var label = $(this).text(),
@@ -3440,8 +3461,9 @@ function rcube_elastic_ui()
                 items.push($('<li>').append(link));
             });
 
-            var list = $('<ul class="toolbarmenu listing selectable iconized">')
+            var list = $('<ul class="listing selectable iconized">')
                 .attr('data-ident', select_ident)
+                .data('button', select[0])
                 .append(items)
                 .on('click', 'a.active', function() {
                     // first close the list, then update the select, the order is important
@@ -3496,6 +3518,7 @@ function rcube_elastic_ui()
                         + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
                 })
                 .on('shown.bs.popover', function() {
+                    select.focus(); // for Chrome
                     // Set popup Close title
                     list.parent().prev()
                         .empty()
@@ -3508,7 +3531,7 @@ function rcube_elastic_ui()
 
                     // focus first active element on the list
                     if (rcube_event.is_keyboard(e)) {
-                        list.find('a.active:first').focus();
+                        list.find('a.active').first().focus();
                     }
 
                     // don't propagate mousedown event
@@ -3546,15 +3569,15 @@ function rcube_elastic_ui()
                 // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
                 if (e.type == 'mousedown' || e.which == 13 || e.which == 32 || e.which == 40 || e.which == 63233) {
                     open_func(e);
+
+                    // Prevent from closing the menu by general popover closing handler (popups_close())
+                    // We used to just stop propagation in onclick handler, but it didn't work
+                    // in Chrome where onclick handler wasn't invoked on mobile (#6705)
+                    popups_close_lock = new Date().getTime();
+
                     return false;
                 }
             })
-            .on('click', function(e) {
-                // Stop propagation of click event to prevent from
-                // disposing the menu by general popover closing handler (popups_close())
-                e.stopPropagation();
-                return false;
-            });
     };
 
     /**
@@ -3818,7 +3841,7 @@ function rcube_elastic_ui()
     function switch_nav_list(obj)
     {
         var records, height, speed = 250,
-            button = $('a.button', obj),
+            button = $('a', obj),
             navlist = $(obj).next();
 
         if (!navlist.height()) {

@@ -3,8 +3,8 @@
 /**
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *
- * Copyright (C) 2008-2011, The Roundcube Dev Team
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -363,21 +363,17 @@ class rcube_sieve
      */
     public function load($name)
     {
-        if (!$this->sieve) {
-            return $this->_set_error(self::ERROR_INTERNAL);
-        }
-
-        if ($this->current == $name) {
+        if ($this->current === $name) {
             return true;
         }
 
-        $script = $this->sieve->getScript($name);
+        $script = $this->get_script($name);
 
-        if (is_a($script, 'PEAR_Error')) {
-            return $this->_set_error(self::ERROR_OTHER);
+        if ($script === false) {
+            return false;
         }
 
-        // try to parse from Roundcube format
+        // try to parse to Roundcube format
         $this->script = $this->_parse($script);
 
         $this->current = $name;
@@ -394,7 +390,7 @@ class rcube_sieve
             return $this->_set_error(self::ERROR_INTERNAL);
         }
 
-        // try to parse from Roundcube format
+        // try to parse to Roundcube format
         $this->script = $this->_parse($script);
     }
 

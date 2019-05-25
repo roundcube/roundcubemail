@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/func.inc                                           |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide webmail functionality and GUI objects                       |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -666,7 +664,7 @@ function rcmail_options_menu_link($attrib = array())
     $inner   = $title = $RCMAIL->gettext($attrib['label'] ?: 'listoptions');
 
     if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-        $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
+        $inner = html::img(array('src' => $RCMAIL->output->asset_url($attrib['optionsmenuicon'], true), 'alt' => $title));
     }
     else if ($attrib['innerclass']) {
         $inner = html::span($attrib['innerclass'], $inner);
@@ -832,28 +830,37 @@ function rcmail_check_safe($message)
  */
 function rcmail_wash_html($html, $p, $cid_replaces = array())
 {
-    global $REMOTE_OBJECTS;
+    global $REMOTE_OBJECTS, $RCMAIL;
 
     $p += array('safe' => false, 'inline_html' => true);
 
     // charset was converted to UTF-8 in rcube_storage::get_message_part(),
     // change/add charset specification in HTML accordingly,
-    // washtml cannot work without that
-    $meta = '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />';
+    // washtml's DOMDocument methods cannot work without that
+    $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
 
     // remove old meta tag and add the new one, making sure
     // that it is placed in the head (#1488093)
-    $html = preg_replace('/<meta[^>]+charset=[a-z0-9-_]+[^>]*>/Ui', '', $html);
-    $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
+    $html = preg_replace('/<meta[^>]+charset=[a-z0-9_"-]+[^>]*>/Ui', $meta, $html, -1, $rcount);
     if (!$rcount) {
-        $html = '<head>' . $meta . '</head>' . $html;
+        $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
+    }
+    if (!$rcount) {
+        // Note: HTML without <html> tag may still be a valid input (#6713)
+        if (($pos = stripos($html, '<html')) === false) {
+            $html = '<html><head>' . $meta . '</head>' . $html;
+        }
+        else {
+            $pos  = strpos($html, '>', $pos);
+            $html = substr_replace($html, '<head>' . $meta . '</head>', $pos + 1, 0);
+        }
     }
 
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
         'show_washed'   => false,
         'allow_remote'  => $p['safe'],
-        'blocked_src'   => 'program/resources/blocked.gif',
+        'blocked_src'   => $RCMAIL->output->asset_url('program/resources/blocked.gif'),
         'charset'       => RCUBE_CHARSET,
         'cid_map'       => $cid_replaces,
         'html_elements' => array('body'),
@@ -1328,7 +1335,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             if ($addicon && $_SESSION['writeable_abook']) {
                 $label = $RCMAIL->gettext('addtoaddressbook');
                 $icon = html::img(array(
-                        'src'   => $RCMAIL->output->abs_url($addicon, true),
+                        'src'   => $RCMAIL->output->asset_url($addicon, true),
                         'alt'   => $label,
                         'class' => 'noselect',
                 ));

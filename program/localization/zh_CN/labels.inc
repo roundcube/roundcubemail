@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '欢迎使用 $product';
 $labels['username'] = '用户名';
 $labels['password'] = '密码';
@@ -670,4 +670,3 @@ $labels['helplistkeyboardnavmessages'] = "方向键左/右：展开/折叠消息
 回车键：打开选中/焦点所在消息。
 删除键：移动选中消息到垃圾箱。";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
-?>

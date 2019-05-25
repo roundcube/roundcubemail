@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Suodattimet';
 $labels['managefilters'] = 'Hallitse saapuvan sähköpostin suodattimia';
 $labels['filtername'] = 'Suodattimen nimi';
@@ -72,15 +72,9 @@ $labels['days'] = 'päivää';
 $labels['seconds'] = 'sekuntia';
 $labels['rulestop'] = 'Lopeta sääntöjen arviointi';
 $labels['enable'] = 'Ota käyttöön/poista käytöstä';
-$labels['filterset'] = 'Suodattimien asetus';
 $labels['filtersets'] = 'Suodattimen asetus';
-$labels['filtersetadd'] = 'Lisää suodatinasetus';
-$labels['filtersetact'] = 'Aktivoi nykyinen suodattimien asetus';
-$labels['filtersetdeact'] = 'Poista käytöstä nykyinen suodattimien asetus';
 $labels['filterseteditraw'] = 'Muokkaa suodatinasetusta';
 $labels['filterdef'] = 'Suodattimen määrittely';
-$labels['filtersetname'] = 'Suodattimien asetuksen nimi';
-$labels['newfilterset'] = 'Uusi suodatinasetus';
 $labels['active'] = 'aktiivinen';
 $labels['none'] = 'Ei mikään';
 $labels['fromset'] = 'sarjasta';
@@ -219,16 +213,6 @@ $messages['actiondeleteconfirm'] = 'Haluatko varmasti poistaa valitun toimenpite
 $messages['forbiddenchars'] = 'Virheellisiä merkkejä kentässä.';
 $messages['cannotbeempty'] = 'Kenttä ei voi olla tyhjä.';
 $messages['ruleexist'] = 'Suodatin samalla nimellä on jo olemassa.';
-$messages['setactivateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu tallentaa.';
-$messages['setdeactivateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu kytkeä pois päältä.';
-$messages['setdeleteerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu poistaa.';
-$messages['setactivated'] = 'Suodatinasetukset kytketty päälle.';
-$messages['setdeactivated'] = 'Suodatinasetukset kytketty pois päältä.';
-$messages['setdeleted'] = 'Suodatinasetukset poistettu.';
-$messages['setupdated'] = 'Suodatinasetukset päivitetty.';
-$messages['setdeleteconfirm'] = 'Oletko varma että haluat poistaa valitut suodatinasetukset?';
-$messages['setcreateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu luoda.';
-$messages['setcreated'] = 'Suodatinasetukset luotiin onnistuneesti.';
 $messages['activateerror'] = 'Palvelinvirheestä johtuen valittuja suodattimia ei voitu ottaa käyttöön.';
 $messages['deactivateerror'] = 'Palvelinvirheestä johtuen valittuja suodattimia ei voitu kytkeä pois käytöstä.';
 $messages['deactivated'] = 'Suodattimet kytketty pois käytöstä.';
@@ -241,4 +225,3 @@ $messages['setexist'] = 'Suodatinasetus on jo olemassa.';
 $messages['saveerror'] = 'Tietojen tallennus epäonnistui palvelinvirheen vuoksi.';
 $messages['emptyvacationbody'] = 'Lomaviestin sisältö vaaditaan!';
 $messages['disabledaction'] = 'Toiminto ei ole sallittu.';
-?>

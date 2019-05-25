@@ -12,7 +12,7 @@
  * method hashPassword based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  * method randomSalt based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -1,17 +1,52 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Password: Added ldap_exop driver (#4992)
+- Update to jQuery 3.4.1
+- Clarified 'address_book_type' option behavior (#6680)
+- Added cookie mismatch detection, display an error message informing the user to clear cookies
+- Renamed 'log_session' option to 'session_debug'
+- Don't log full session identifiers in userlogins log (#6625)
+- Support $HasAttachment/$HasNoAttachment keywords (#6201)
+- installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
+- Redis: Support connection to unix socket
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
+- Elastic: Fix folders list scrolling on touch devices (#6706)
+- Elastic: Fix non-working pretty selects in Chrome browser (#6705)
+- Elastic: Various internal refactorings
+- Elastic: Fix issue with absolute positioned mail content (#6739)
+- Elastic: Fix bug where some menu actions could cause a browser popup warning
+- Elastic: Fix handling mailto: URL parameters in contact menu (#6751)
+- Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
+- Larry: Fix regression where menu actions didn't work with keyboard (#6740)
+- Password: Added ldap_exop driver (#4992)
+- Managesieve: Fix bug where global includes were requested for vacation (#6716)
+- Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
+- Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Enigma: Fix bug where revoked users/keys were not greyed out in key info
+- Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
+- Enigma: Fix "decryption oracle" bug [CVE-2019-10740] (#6638)
+- Fix invalid path to "add contact" icon when using assets_path setting
+- Fix invalid path to blocked.gif when using assets_path setting (#6752)
+- Fix so advanced search dialog is not automatically displayed on searchonly addressbooks (#6679)
+- Fix so an error is logged when more than one attachment plugin has been enabled, initialize the first one (#6735)
+- Fix bug where flag change could have been passed to a preview frame when not expected
+- Fix bug in HTML parser that could cause missing text fragments when there was no head/body tag (#6713)
+- Fix bug where HTML messages with a xml:namespace tag were not rendered (#6697)
+- Fix TinyMCE download location (#6694)
 - Fix so "Open in new window" consistently displays "external window" interface (#6659)
 - Fix bug where next row wasn't selected after deleting a collapsed thread (#6655)
 - Fix bug where external content (e.g. mail body) was passed to templates parsing code (#6640)
 - Fix bug where attachment preview didn't work with x_frame_options=deny (#6688)
+- Fix so bin/install-jsdeps.sh returns error code on error (#6704)
+- Fix bug where bmp images couldn't be displayed on some systems (#6728)
+- Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
+- Fix bug where bold/strong text was converted to upper-case on html-to-text conversion (6758)
+- Fix bug in rcube_utils::parse_hosts() where %t, %d, %z could return only tld (#6746)
 
 RELEASE 1.4-rc1
 ---------------
@@ -60,7 +95,9 @@ RELEASE 1.4-rc1
 - Elastic: Add "status bar" for mobile in mail composer
 - Elastic: Add selection options on contacts list (#6595)
 - Elastic: Fix unintentional layout preference overwrite (#6613)
+- Elastic: Fix bug where Enigma options in mail compose could sometimes be ignored (#6515)
 - Log errors caused by low pcre.backtrack_limit when sending a mail message (#6433)
+- Fix regression where drafts were not deleted after sending the message (#6756)
 - Fix so max_message_size limit is checked also when forwarding messages as attachments (#6580)
 - Fix so performance stats are logged to the main console log also when per_user_logging=true
 - Fix malformed message saved into Sent folder when using big attachments and low memory limit (#6498)

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Administrar filtros de correo entrante';
 $labels['filtername'] = 'Nombre del filtro';
@@ -63,14 +63,8 @@ $labels['days'] = 'dias';
 $labels['seconds'] = 'segundos';
 $labels['rulestop'] = 'Parar de evaluar reglas';
 $labels['enable'] = 'Habilitar/Deshabilitar';
-$labels['filterset'] = 'Conjunto de filtros';
 $labels['filtersets'] = 'Filtro activa';
-$labels['filtersetadd'] = 'Agregar conjunto de filtros';
-$labels['filtersetact'] = 'Activar conjunto de filtros';
-$labels['filtersetdeact'] = 'Deactivar conjunto de filtros';
 $labels['filterdef'] = 'Definicion del conjunto de filtros';
-$labels['filtersetname'] = 'Nombre del conjunto de filtros';
-$labels['newfilterset'] = 'Nuevo conjunto de filtros';
 $labels['active'] = 'Activar';
 $labels['none'] = 'none';
 $labels['fromset'] = 'desde conjunto';
@@ -198,15 +192,6 @@ $messages['actiondeleteconfirm'] = '¿Está seguro de que desea borrar la acció
 $messages['forbiddenchars'] = 'Caracteres prohibidos en el campo';
 $messages['cannotbeempty'] = 'El campo no puede estar vacío';
 $messages['ruleexist'] = 'El filtro con el nombre especificado ya existe.';
-$messages['setactivateerror'] = 'Imposible activar el conjunto de filtros. Error en el servidor.';
-$messages['setdeactivateerror'] = 'Imposible desactivar el conjunto de filtros. Error en el servidor.';
-$messages['setdeleteerror'] = 'Imposible eliminar el conjunto de filtros. Error en el servidor.';
-$messages['setactivated'] = 'Conjunto de filtros activados correctamente';
-$messages['setdeactivated'] = 'Conjunto de filtros desactivados correctamente';
-$messages['setdeleted'] = 'Conjunto de filtros eliminados correctamente';
-$messages['setdeleteconfirm'] = '¿Esta seguro, que quiere eliminar el conjunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'Imposible crear el conjunto de filtros. Error en el servidor.';
-$messages['setcreated'] = 'Conjunto de filtros creados correctamente';
 $messages['activateerror'] = 'Imposible activar el conjunto de filtros. Error en el servidor.';
 $messages['deactivateerror'] = 'Imposible desactivar el conjunto de filtros. Error en el servidor.';
 $messages['deactivated'] = 'Filtro deshabilitado satisfactoriamente';
@@ -220,4 +205,3 @@ $messages['nodata'] = 'Al menos una posición debe ser seleccionada!';
 $messages['invaliddateformat'] = 'Fecha o formato de fecha inválido';
 $messages['saveerror'] = 'Imposible guardar la información. Ha ocurrido un error con el servidor.';
 $messages['emptyvacationbody'] = '¡Se requiere un cuerpo para el mensaje por vacaciones!';
-?>

@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_sendmail.inc                                   |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -364,6 +363,8 @@ class rcmail_sendmail
      * Message delivery, and setting Replied/Forwarded flag on success
      *
      * @param Mail_mime $message Message object
+     *
+     * @return bool True on success, False on failure
      */
     public function deliver_message($message)
     {
@@ -384,14 +385,16 @@ class rcmail_sendmail
             }
 
             if ($smtp_error && is_string($smtp_error)) {
-                return $this->options['error_handler']($smtp_error, 'error');
+                $this->options['error_handler']($smtp_error, 'error');
             }
             else if ($smtp_error && !empty($smtp_error['label'])) {
-                return $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
+                $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
             }
             else {
-                return $this->options['error_handler']('sendingfailed', 'error');
+                $this->options['error_handler']('sendingfailed', 'error');
             }
+
+            return false;
         }
 
         $message->mailbody_file = $mailbody_file;
@@ -418,6 +421,8 @@ class rcmail_sendmail
                 }
             }
         }
+
+        return true;
     }
 
     /**

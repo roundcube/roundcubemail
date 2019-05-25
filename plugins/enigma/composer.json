@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Server-side PGP Encryption for Roundcube",
     "license": "GPLv3+",
-    "version": "0.7",
+    "version": "0.8",
     "authors": [
         {
             "name": "Aleksander Machniak",
@@ -20,6 +20,6 @@
     "require": {
         "php": ">=5.3.0",
         "roundcube/plugin-installer": "~0.1.6",
-        "pear/crypt_gpg": "~1.6.2"
+        "pear/crypt_gpg": "~1.6.3"
     }
 }

@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = '加密';
 $labels['enigmacerts'] = 'S/MIME 憑證';
 $labels['enigmakeys'] = 'PGP 金鑰';
@@ -97,6 +96,7 @@ $messages['sigerror'] = '未驗證的簽名。內部出錯';
 $messages['decryptok'] = '郵件已解密';
 $messages['decrypterror'] = '解密失敗';
 $messages['decryptnokey'] = '解密失敗。找不到私密金鑰。金鑰 ID：$keyid';
+$messages['decryptnomdc'] = '已略過解密。郵件的整全性並未受到保護。';
 $messages['decryptbadpass'] = '解密失敗。密碼無效';
 $messages['decryptnopass'] = '解密失敗。必需要金鑰的密碼';
 $messages['decryptpartial'] = '郵件已解密，但內文部分未有加密';

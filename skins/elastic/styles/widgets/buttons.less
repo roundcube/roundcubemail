@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -12,20 +12,12 @@
 /*** Buttons ***/
 
 
-a.rcmaddcontact {
-    display: none;
-}
-
 .button.disabled {
     opacity: .5;
 }
 
 a.button {
     text-decoration: none;
-
-    &.active {
-        cursor: pointer;
-    }
 }
 
 
@@ -42,7 +34,7 @@ button.btn {
         content: @fa-var-ellipsis-v;
         width: 1em;
     }
-    &.menu-button:before {
+    &.task-menu-button:before {
         content: @fa-var-bars;
     }
     &.back-sidebar-button:before,
@@ -168,7 +160,7 @@ a.button.icon {
 
 html.touch {
     .btn:focus {
-        box-shadow: none;
+        box-shadow: none !important;
     }
 }
 

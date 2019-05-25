@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -980,7 +980,7 @@ function sieve_form_init()
     parent.rcmail.managesieve_dialog_resize(form);
   }
 
-  $('input[type="text"]:first', form).focus();
+  $('input[type="text"]', form).first().focus();
 
   // initialize smart list inputs
   $('textarea[data-type="list"]', form).each(function() {
@@ -1189,7 +1189,7 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
 {
   var dialog = this.env.managesieve_dialog,
     win = $(window), form = $(o);
-    width = $('fieldset:first', o).width(), // fieldset width is more appropriate here
+    width = $('fieldset', o).first().width(), // fieldset width is more appropriate here
     height = form.height(),
     w = win.width(), h = win.height();
 

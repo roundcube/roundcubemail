@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '發生錯誤！';
 $messages['loginfailed']  = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
@@ -64,11 +63,8 @@ $messages['nopubkeyforsender'] = '找不到用於你寄件者身份的有效公�
 $messages['encryptnoattachments'] = '已上傳的附件無法加密。請在加密編輯器重新加入';
 $messages['searchpubkeyservers'] = '是否在公鑰伺服器搜尋缺少的金鑰？';
 $messages['encryptpubkeysfound'] = '找到以下公鑰：';
-$messages['keyservererror'] = '在金鑰伺服器找不到金鑰';
-$messages['keyimportsuccess'] = '公鑰 $key 已成功匯入你的鑰匙圈(key ring)';
 $messages['nocontactsfound'] = '找不到聯絡人';
 $messages['contactnotfound'] = '找不到要求的聯絡人';
-$messages['contactsearchonly'] = '輸入關鍵字找尋連絡人';
 $messages['sendingfailed'] = '郵件寄出失敗';
 $messages['senttooquickly'] = '你寄出的郵件太過於頻繁，請稍候 $sec 秒後再試一次。';
 $messages['errorsavingsent'] = '儲存郵件到寄件備份時發生錯誤。';
@@ -127,6 +123,7 @@ $messages['fileuploaderror'] = '未能上傳檔案。';
 $messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制。';
 $messages['filecounterror'] = '一次只能上傳最多 $count 個檔案';
 $messages['msgsizeerror'] = '未能附加檔案。因為超過了郵件的大小限制 ($size)';
+$messages['msgsizeerrorfwd'] = '已超過郵件大小的 ($size) 上限。未能附上 $num 個郵件。';
 $messages['copysuccess'] = '複製了 $nr 個聯絡人。';
 $messages['movesuccess'] = '移動了 $nr 個聯絡人。';
 $messages['copyerror'] = '無法複製聯絡人。';

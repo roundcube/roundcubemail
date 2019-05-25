@@ -13,7 +13,7 @@
  * @author Ziba Scott <ziba@umich.edu>
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2011-2018, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -28,10 +28,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
-if (class_exists('filesystem_attachments', false) && !defined('TESTS_DIR')) {
-    die("Configuration issue. There can be only one enabled plugin for attachments handling");
-}
 
 require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachments.php';
 

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '¡Ha ocurrido un error!';
 $messages['loginfailed']  = 'Contraseña o nombre de usuario incorrecto.';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies.';
@@ -64,11 +63,9 @@ $messages['nopubkeyforsender'] = 'No se ha encontrado una clave pública de tu i
 $messages['encryptnoattachments'] = 'Todavía no se pueden cifrar los adjuntos subidos. Por favor, añádelos luego en el editor de cifrado.';
 $messages['searchpubkeyservers'] = '¿Quieres buscar servidores de clave pública para las claves que faltan?';
 $messages['encryptpubkeysfound'] = 'Se han encontrado las siguientes claves públicas:';
-$messages['keyservererror'] = 'No se ha podido obtener la clave del servidor de claves';
-$messages['keyimportsuccess'] = 'La clave pública ¢key se ha importado correctamente a tu anillo de claves';
 $messages['nocontactsfound'] = 'No se encontraron contactos.';
 $messages['contactnotfound'] = 'El contacto solicitado no existe.';
-$messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
+$messages['contactsearchonly'] = 'Debes utilizar un formulario de búsqueda para ver los contactos de la libreta de direcciones seleccionada.';
 $messages['sendingfailed'] = 'Error al enviar mensaje.';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de enviar este mensaje.';
 $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado.';

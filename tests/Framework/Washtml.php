@@ -430,4 +430,58 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertContains('for="testmy-other-id"', $washed);
         $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
     }
+
+    /**
+     * Test removing xml:namespace tag
+     */
+    function test_xml_namespace()
+    {
+        $html = '<p><?xml:namespace prefix = "xsl" /></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertNotContains('&lt;?xml:namespace"', $washed);
+        $this->assertSame($washed, '<p></p>');
+    }
+
+    /**
+     * Test missing main HTML hierarchy tags (#6713)
+     */
+    function test_missing_tags()
+    {
+        $washer = new rcube_washtml();
+
+        $html   = '<head></head>First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = '<html>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('>First line', $washed);
+
+        $html   = '<html><head></head>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        // Not really valid HTML, but because its common in email world
+        // and because it works with DOMDocument, we make sure its supported
+        $html   = 'First line<br /><html><body>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br /><html>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+    }
 }

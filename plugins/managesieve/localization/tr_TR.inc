@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Süzgeçler';
 $labels['managefilters'] = 'Gelen e-posta süzgeçleri yönetimi';
 $labels['filtername'] = 'Süzgeç adı';
@@ -247,13 +247,13 @@ $messages['cannotbeempty'] = 'Alan boş olamaz';
 $messages['ruleexist'] = 'Aynı adlı bir süzgeç zaten var.';
 $messages['setactivateerror'] = 'Seçilmiş süzgeç kümesi etkinleştirilemedi. Sunucuda bir sorun çıktı.';
 $messages['setdeactivateerror'] = 'Seçilmiş süzgeç kümesi devre dışı bırakılamadı. Sunucuda bir sorun çıktı.';
-$messages['setdeleteerror'] = 'Seçilmiş süzgeç kümeleri silinemedi. Sunucuda bir sorun çıktı.';
+$messages['setdeleteerror'] = 'Seçilmiş süzgeç kümesi silinemedi. Sunucuda bir sorun çıktı.';
 $messages['setactivated'] = 'Süzgeç kümesi etkinleştirildi.';
 $messages['setdeactivated'] = 'Süzgeç kümesi devre dışı bırakıldı.';
 $messages['setdeleted'] = 'Süzgeç kümesi silindi.';
 $messages['setupdated'] = 'Süzgeç kümesi güncellendi.';
-$messages['setdeleteconfirm'] = 'Seçilmiş süzgeç kümelerini silmek istediğinize emin misiniz?';
-$messages['setcreateerror'] = 'Süzgeç kümeleri eklenemedi. Sunucuda bir sorun çıktı.';
+$messages['setdeleteconfirm'] = 'Seçilmiş süzgeç kümesini silmek istediğinize emin misiniz?';
+$messages['setcreateerror'] = 'Süzgeç kümesi eklenemedi. Sunucuda bir sorun çıktı.';
 $messages['setcreated'] = 'Süzgeç kümesi eklendi.';
 $messages['activateerror'] = 'Seçilmiş süzgeç(ler) etkinleştirilemedi. Sunucuda bir sorun çıktı.';
 $messages['deactivateerror'] = 'Seçilmiş süzgeç(ler) devre dışı bırakılamadı. Sunucuda bir sorun çıktı.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Tatil iletisi metnini yazmalısınız!';
 $messages['duplicate.conflict.err'] = 'Üst bilgi ve tekil belirteç aynı anda kullanılamaz.';
 $messages['disabledaction'] = 'İşleme izin verilmiyor!';
 $messages['lastindexempty'] = 'Sondan sayılırken dizin gereklidir';
-?>

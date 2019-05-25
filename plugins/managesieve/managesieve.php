@@ -11,8 +11,8 @@
  *
  * Configuration (see config.inc.php.dist)
  *
- * Copyright (C) 2008-2013, The Roundcube Dev Team
- * Copyright (C) 2011-2013, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,22 +156,25 @@ class managesieve extends rcube_plugin
             return;
         }
 
-        // use jQuery for popup window
-        $this->require_plugin('jqueryui');
+        $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
+        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+
+        if ($vacation_mode == 2 || $forward_mode == 2) {
+            return;
+        }
 
         // include js script and localization
         $this->init_ui();
 
         // add 'Create filter' item to message menu
-        $this->api->add_content(html::tag('li', null, 
-            $this->api->output->button(array(
+        $this->add_button(array(
                 'command'  => 'managesieve-create',
                 'label'    => 'managesieve.filtercreate',
-                'type'     => 'link',
+                'type'     => 'link-menuitem',
                 'classact' => 'icon filterlink active',
-                'class'    => 'icon filterlink',
+                'class'    => 'icon filterlink disabled',
                 'innerclass' => 'icon filterlink',
-            ))), 'messagemenu');
+            ), 'messagemenu');
 
         // register some labels/messages
         $this->rc->output->add_label('managesieve.newfilter', 'managesieve.usedata',
