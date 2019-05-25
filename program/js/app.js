@@ -2285,12 +2285,12 @@ function rcube_webmail()
         label = this.get_label('withattachment');
         if (flags.attachmentClass)
           html = '<span class="'+flags.attachmentClass+'" title="'+label+'"></span>';
-        else if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
-          html = '<span class="attachment" title="'+label+'"></span>';
-        else if (/multipart\/report/.test(flags.ctype))
+        else if (flags.ctype == 'multipart/report')
           html = '<span class="report"></span>';
         else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime')
           html = '<span class="encrypted"></span>';
+        else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype)))
+          html = '<span class="attachment" title="'+label+'"></span>';
         else
           html = '&nbsp;';
       }
