@@ -77,17 +77,6 @@
 
         body > #layout {
             & > div {
-                &.sidebar,
-                &.list {
-                    border-right-color: @color-dark-border;
-                }
-
-                &.content,
-                &.sidebar,
-                &.list {
-                    background-color: @color-dark-layout-content-background;
-                }
-
                 & > .header,
                 & > .footer {
                     background-color: @color-dark-layout-header-background;
@@ -103,6 +92,17 @@
                     background-color: @color-dark-layout-content-background;
                 }
             }
+        }
+
+        #layout-sidebar,
+        #layout-list {
+            border-right-color: @color-dark-border;
+        }
+
+        #layout-content,
+        #layout-sidebar,
+        #layout-list {
+            background-color: @color-dark-layout-content-background;
         }
 
         .listbox {
@@ -289,7 +289,7 @@
             }
         }
 
-        #taskmenu {
+        #taskmenu.menu.toolbar {
             @media screen and (min-width: (@screen-width-xs + 1px)) {
                 a {
                     &.selected,
@@ -346,7 +346,7 @@
             }
         }
 
-        .toolbar {
+        .toolbar.menu {
             &.listing a,
             a {
                 color: @color-dark-font;
@@ -369,9 +369,14 @@
         }
 
 
-        .header {
+        #layout > div > .header {
             a.button {
                 color: @color-dark-font;
+
+                &:not(.disabled):focus,
+                &:not(.disabled):hover {
+                    background-color: @color-dark-toolbar-button-background-hover;
+                }
             }
 
             .buttons {
@@ -381,7 +386,7 @@
             }
         }
 
-        .toolbarmenu li {
+        .menu.listing li {
             &.separator {
                 color: @color-dark-black-shade-text;
                 background-color: @color-dark-black-shade-bg;
@@ -389,8 +394,8 @@
         }
 
         @media screen and (min-width: (@screen-width-small + 1px)) {
-            .toolbar {
-                a.button {
+            .toolbar.menu {
+                a {
                     &:not(.disabled):focus,
                     &:not(.disabled):hover {
                         background-color: @color-dark-toolbar-button-background-hover;
@@ -402,7 +407,7 @@
                         background-color: @color-dark-toolbar-button-background-hover;
                     }
 
-                    a.button.dropdown {
+                    a.dropdown {
                         &:hover {
                             background-color: darken(@color-dark-toolbar-button-background-hover, 5%);
                         }
@@ -410,7 +415,7 @@
                 }
             }
 
-            .header a.button.icon {
+            .header a.icon {
                 &:not(.disabled):focus,
                 &:not(.disabled):hover {
                     background-color: @color-dark-toolbar-button-background-hover;
