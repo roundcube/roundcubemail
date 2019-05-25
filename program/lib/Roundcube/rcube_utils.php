@@ -49,10 +49,21 @@ class rcube_utils
             return;
         }
 
-        $cookie = session_get_cookie_params();
-        $secure = $cookie['secure'] || self::https_check();
+        $attrib             = session_get_cookie_params();
+        $attrib['expires']  = $exp;
+        $attrib['secure']   = $attrib['secure'] || self::https_check();
+        $attrib['httponly'] = $http_only;
 
-        setcookie($name, $value, $exp, $cookie['path'], $cookie['domain'], $secure, $http_only);
+        // session_get_cookie_params() return includes 'lifetime' but setcookie() does not use it, instead it uses 'expires'
+        unset($attrib['lifetime']);
+
+        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            // An alternative signature for setcookie supporting an options array added in PHP 7.3.0
+            setcookie($name, $value, $attrib);
+        }
+        else {
+            setcookie($name, $value, $attrib['expires'], $attrib['path'], $attrib['domain'], $attrib['secure'], $attrib['httponly']);
+        }
     }
 
     /**
