@@ -41,7 +41,7 @@ $config['managesieve_usetls'] = false;
 // Note: These can be also specified as an array of options indexed by hostname
 $config['managesieve_conn_options'] = null;
 
-// default contents of filters script (eg. default spam filter)
+// A file with default script content (eg. spam filter)
 $config['managesieve_default'] = '/etc/dovecot/sieve/global';
 
 // The name of the script which will be used when there's no user script
