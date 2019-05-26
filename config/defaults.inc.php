@@ -228,7 +228,7 @@ $config['imap_disabled_caps'] = array();
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -315,7 +315,7 @@ $config['smtp_conn_options'] = null;
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
@@ -478,11 +478,12 @@ $config['session_path'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
-// If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
-// Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+// If set to 'memcache' or 'memcached', a list of servers need to be specified in 'memcache_hosts'
+// Make sure the Memcache extension (https://pecl.php.net/package/memcache) version >= 2.0.0
+// or the Memcached extension (https://pecl.php.net/package/memcached) version >= 2.0.0 is installed.
 //
 // If set to 'redis', a server needs to be specified in 'redis_hosts'
-// Make sure the Redis extension (http://pecl.php.net/package/redis) version >= 2.0.0 is installed
+// Make sure the Redis extension (https://pecl.php.net/package/redis) version >= 2.0.0 is installed.
 //
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';

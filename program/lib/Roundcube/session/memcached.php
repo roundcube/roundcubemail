@@ -12,7 +12,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Provide memcache supported session management                       |
+ |   Provide memcached supported session management                      |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -21,7 +21,7 @@
 */
 
 /**
- * Class to provide memcache session storage
+ * Class to provide memcached session storage
  *
  * @package    Framework
  * @subpackage Core
@@ -29,7 +29,7 @@
  * @author     Aleksander Machniak <alec@alec.pl>
  * @author     Cor Bosman <cor@roundcu.be>
  */
-class rcube_session_memcache extends rcube_session
+class rcube_session_memcached extends rcube_session
 {
     private $memcache;
     private $debug;
@@ -43,7 +43,7 @@ class rcube_session_memcache extends rcube_session
     {
         parent::__construct($config);
 
-        $this->memcache = rcube::get_instance()->get_memcache();
+        $this->memcache = rcube::get_instance()->get_memcached();
         $this->debug    = $config->get('memcache_debug');
 
         if (!$this->memcache) {
@@ -111,8 +111,7 @@ class rcube_session_memcache extends rcube_session
      */
     public function read($key)
     {
-        if ($value = $this->memcache->get($key)) {
-            $arr = unserialize($value);
+        if ($arr = $this->memcache->get($key)) {
             $this->changed = $arr['changed'];
             $this->ip      = $arr['ip'];
             $this->vars    = $arr['vars'];
@@ -120,7 +119,7 @@ class rcube_session_memcache extends rcube_session
         }
 
         if ($this->debug) {
-            $this->debug('get', $key, $value);
+            $this->debug('get', $key, $arr ? serialize($arr) : '');
         }
 
         return $this->vars ?: '';
@@ -140,11 +139,11 @@ class rcube_session_memcache extends rcube_session
             return true;
         }
 
-        $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
-        $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
+        $data   = array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars);
+        $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
         if ($this->debug) {
-            $this->debug('set', $key, $data, $result);
+            $this->debug('set', $key, serialize($data), $result);
         }
 
         return $result;
@@ -164,11 +163,11 @@ class rcube_session_memcache extends rcube_session
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
-            $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
+            $data   = array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars);
+            $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
             if ($this->debug) {
-                $this->debug('set', $key, $data, $result);
+                $this->debug('set', $key, serialize($data), $result);
             }
 
             return $result;
