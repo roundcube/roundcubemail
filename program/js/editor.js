@@ -58,7 +58,12 @@ function rcube_text_editor(config, id)
       image_description: false,
       paste_webkit_style: "color font-size font-family",
       paste_data_images: true,
+      // Note: We disable contextmenu specifically for browser_spellcheck:true.
+      //       Otherwise user would have to use Right-Click with CTRL to get to
+      //       the browser's spellchecker options. Should you disable browser_spellcheck
+      //       you can enable contextmenu (by removing these options below).
       browser_spellcheck: true,
+      contextmenu: false,
       anchor_bottom: false,
       anchor_top: false,
       file_picker_types: 'image media',
