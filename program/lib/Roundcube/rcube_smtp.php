@@ -173,7 +173,6 @@ class rcube_smtp
                 $this->response[] = 'Authentication failure: ' . $result->getMessage()
                     . ' (Code: ' . $result->getCode() . ')';
 
-                $this->reset();
                 $this->disconnect();
 
                 return false;
