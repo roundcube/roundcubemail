@@ -90,8 +90,10 @@ class rcube_cache_memcached extends rcube_cache
         $pconnect       = $rcube->config->get('memcache_pconnect', true);
         $timeout        = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
+        $hosts          = $rcube->config->get('memcache_hosts');
+        $persistent_id  = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
 
-        self::$memcache = new Memcached($pconnect ? 'roundcube' : null);
+        self::$memcache = new Memcached($persistent_id);
 
         self::$memcache->setOptions(array(
                 Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
@@ -100,17 +102,19 @@ class rcube_cache_memcached extends rcube_cache
                 Memcached::OPT_COMPRESSION     => true,
         ));
 
-        foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
-            if (substr($host, 0, 7) != 'unix://') {
-                list($host, $port) = explode(':', $host);
-                if (!$port) $port = 11211;
-            }
-            else {
-                $host = substr($host, 8);
-                $port = 0;
-            }
+        if (!$pconnect || !count(self::$memcache->getServerList())) {
+            foreach ((array) $hosts as $host) {
+                if (substr($host, 0, 7) != 'unix://') {
+                    list($host, $port) = explode(':', $host);
+                    if (!$port) $port = 11211;
+                }
+                else {
+                    $host = substr($host, 8);
+                    $port = 0;
+                }
 
-            self::$memcache->addServer($host, $port);
+                self::$memcache->addServer($host, $port);
+            }
         }
 
         // test connection
