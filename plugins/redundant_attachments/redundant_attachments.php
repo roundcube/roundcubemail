@@ -76,11 +76,11 @@ class redundant_attachments extends filesystem_attachments
         }
 
         // Init SQL cache (disable cache data serialization)
-        $this->cache = $rcmail->get_cache($prefix, 'db', $ttl, false);
+        $this->cache = $rcmail->get_cache($prefix, 'db', $ttl, false, true);
 
         // Init memcache/redis (fallback) cache
         if ($fallback) {
-            $this->mem_cache = $rcmail->get_cache($prefix, $fallback, $ttl, false);
+            $this->mem_cache = $rcmail->get_cache($prefix, $fallback, $ttl, false, true);
         }
 
         $this->loaded = true;
@@ -107,10 +107,10 @@ class redundant_attachments extends filesystem_attachments
         $key  = $this->_key($args);
         $data = base64_encode(file_get_contents($args['path']));
 
-        $status = $this->cache->write($key, $data);
+        $status = $this->cache->set($key, $data);
 
         if (!$status && $this->mem_cache) {
-            $status = $this->mem_cache->write($key, $data);
+            $status = $this->mem_cache->set($key, $data);
         }
 
         if ($status) {
@@ -137,10 +137,10 @@ class redundant_attachments extends filesystem_attachments
         $key  = $this->_key($args);
         $data = base64_encode($data);
 
-        $status = $this->cache->write($key, $data);
+        $status = $this->cache->set($key, $data);
 
         if (!$status && $this->mem_cache) {
-            $status = $this->mem_cache->write($key, $data);
+            $status = $this->mem_cache->set($key, $data);
         }
 
         if ($status) {
@@ -199,11 +199,11 @@ class redundant_attachments extends filesystem_attachments
         $this->_load_drivers();
 
         // fetch from database if not found on FS
-        $data = $this->cache->read($args['id']);
+        $data = $this->cache->get($args['id']);
 
         // fetch from memcache if not found on FS and DB
         if (($data === false || $data === null) && $this->mem_cache) {
-            $data = $this->mem_cache->read($args['id']);
+            $data = $this->mem_cache->get($args['id']);
         }
 
         if ($data) {

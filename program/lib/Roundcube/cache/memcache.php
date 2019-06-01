@@ -40,16 +40,11 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Object constructor.
      *
-     * @param int    $userid User identifier
-     * @param string $prefix Key name prefix
-     * @param string $ttl    Expiration time of memcache/apc items
-     * @param bool   $packed Enables/disabled data serialization.
-     *                       It's possible to disable data serialization if you're sure
-     *                       stored data will be always a safe string
+     * @see rcube_cache::__construct()
      */
-    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true)
+    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        parent::__construct($userid, $prefix, $ttl, $packed);
+        parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $this->type  = 'memcache';
         $this->debug = rcube::get_instance()->config->get('memcache_debug');
