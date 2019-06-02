@@ -2052,15 +2052,19 @@ class rcube_imap extends rcube_storage
                 if (!is_array($part[$i])) {
                     break;
                 }
-                // fetch message headers if message/rfc822
-                // or named part (could contain Content-Location header)
+                // fetch message headers if message/rfc822 or named part
                 if (!is_array($part[$i][0])) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
                     }
-                    else if (in_array('name', (array)$part[$i][2]) && empty($part[$i][3])) {
-                        $mime_part_headers[] = $tmp_part_id;
+                    else if (!empty($part[$i][2]) && empty($part[$i][3])) {
+                        $params = array_map('strtolower', (array) $part[$i][2]);
+                        $find   = array('name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*');
+
+                        if (count(array_intersect($params, $find)) > 0) {
+                            $mime_part_headers[] = $tmp_part_id;
+                        }
                     }
                 }
             }
@@ -2108,9 +2112,9 @@ class rcube_imap extends rcube_storage
         */
 
         // regular part
-        $struct->ctype_primary = strtolower($part[0]);
+        $struct->ctype_primary   = strtolower($part[0]);
         $struct->ctype_secondary = strtolower($part[1]);
-        $struct->mimetype = $struct->ctype_primary.'/'.$struct->ctype_secondary;
+        $struct->mimetype        = $struct->ctype_primary.'/'.$struct->ctype_secondary;
 
         // read content type parameters
         if (is_array($part[2])) {
@@ -2235,96 +2239,31 @@ class rcube_imap extends rcube_storage
      */
     protected function set_part_filename(&$part, $headers = null)
     {
-        if (!empty($part->d_parameters['filename'])) {
+        // Some IMAP servers do not support RFC2231, if we have
+        // part headers we'll get attachment name from them, not the BODYSTRUCTURE
+        $rfc2231_params = array();
+        if (!empty($headers) || !empty($part->headers)) {
+            $headers = $part->headers ?: rcube_mime::parse_headers($headers);
+            $tokens  = preg_split('/;[\s\r\n\t]*/', $headers['content-type'] . ';' . $headers['content-disposition']);
+
+            foreach ($tokens as $token) {
+                // TODO: Use order defined by the parameter name not order of occurrence in the header
+                if (preg_match('/^(name|filename)\*([0-9]*)\*?="*([^"]+)"*/i', $token, $matches)) {
+                    $rfc2231_params[strtolower($matches[1])] .= $matches[3];
+                }
+            }
+        }
+
+        if (isset($rfc2231_params['name'])) {
+            $filename_encoded = $rfc2231_params['name'];
+        }
+        else if (isset($rfc2231_params['filename'])) {
+            $filename_encoded = $rfc2231_params['filename'];
+        }
+        else if (!empty($part->d_parameters['filename'])) {
             $filename_mime = $part->d_parameters['filename'];
         }
-        else if (!empty($part->d_parameters['filename*'])) {
-            $filename_encoded = $part->d_parameters['filename*'];
-        }
-        else if (!empty($part->ctype_parameters['name*'])) {
-            $filename_encoded = $part->ctype_parameters['name*'];
-        }
-        // RFC2231 value continuations
-        // TODO: this should be rewrited to support RFC2231 4.1 combinations
-        else if (!empty($part->d_parameters['filename*0'])) {
-            $i = 0;
-            while (isset($part->d_parameters['filename*'.$i])) {
-                $filename_mime .= $part->d_parameters['filename*'.$i];
-                $i++;
-            }
-            // some servers (eg. dovecot-1.x) have no support for parameter value continuations
-            // we must fetch and parse headers "manually"
-            if ($i<2) {
-                if (!$headers) {
-                    $headers = $this->conn->fetchPartHeader(
-                        $this->folder, $this->msg_uid, true, $part->mime_id);
-                }
-                $filename_mime = '';
-                $i = 0;
-                while (preg_match('/filename\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-                    $filename_mime .= $matches[1];
-                    $i++;
-                }
-            }
-        }
-        else if (!empty($part->d_parameters['filename*0*'])) {
-            $i = 0;
-            while (isset($part->d_parameters['filename*'.$i.'*'])) {
-                $filename_encoded .= $part->d_parameters['filename*'.$i.'*'];
-                $i++;
-            }
-            if ($i<2) {
-                if (!$headers) {
-                    $headers = $this->conn->fetchPartHeader(
-                            $this->folder, $this->msg_uid, true, $part->mime_id);
-                }
-                $filename_encoded = '';
-                $i = 0; $matches = array();
-                while (preg_match('/filename\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-                    $filename_encoded .= $matches[1];
-                    $i++;
-                }
-            }
-        }
-        else if (!empty($part->ctype_parameters['name*0'])) {
-            $i = 0;
-            while (isset($part->ctype_parameters['name*'.$i])) {
-                $filename_mime .= $part->ctype_parameters['name*'.$i];
-                $i++;
-            }
-            if ($i<2) {
-                if (!$headers) {
-                    $headers = $this->conn->fetchPartHeader(
-                        $this->folder, $this->msg_uid, true, $part->mime_id);
-                }
-                $filename_mime = '';
-                $i = 0; $matches = array();
-                while (preg_match('/\s+name\*'.$i.'\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-                    $filename_mime .= $matches[1];
-                    $i++;
-                }
-            }
-        }
-        else if (!empty($part->ctype_parameters['name*0*'])) {
-            $i = 0;
-            while (isset($part->ctype_parameters['name*'.$i.'*'])) {
-                $filename_encoded .= $part->ctype_parameters['name*'.$i.'*'];
-                $i++;
-            }
-            if ($i<2) {
-                if (!$headers) {
-                    $headers = $this->conn->fetchPartHeader(
-                        $this->folder, $this->msg_uid, true, $part->mime_id);
-                }
-                $filename_encoded = '';
-                $i = 0; $matches = array();
-                while (preg_match('/\s+name\*'.$i.'\*\s*=\s*"*([^"\n;]+)[";]*/', $headers, $matches)) {
-                    $filename_encoded .= $matches[1];
-                    $i++;
-                }
-            }
-        }
-        // read 'name' after rfc2231 parameters as it may contains truncated filename (from Thunderbird)
+        // read 'name' after rfc2231 parameters as it may contain truncated filename (from Thunderbird)
         else if (!empty($part->ctype_parameters['name'])) {
             $filename_mime = $part->ctype_parameters['name'];
         }
@@ -2337,7 +2276,7 @@ class rcube_imap extends rcube_storage
         }
 
         // decode filename
-        if (!empty($filename_mime)) {
+        if (isset($filename_mime)) {
             if (!empty($part->charset)) {
                 $charset = $part->charset;
             }
@@ -2350,7 +2289,7 @@ class rcube_imap extends rcube_storage
 
             $part->filename = rcube_mime::decode_mime_string($filename_mime, $charset);
         }
-        else if (!empty($filename_encoded)) {
+        else if (isset($filename_encoded)) {
             // decode filename according to RFC 2231, Section 4
             if (preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
                 $filename_charset = $fmatches[1];
