@@ -1588,11 +1588,10 @@ function rcube_elastic_ui()
 
         screen_resize_logo(mode);
         screen_resize_headers();
-/*
-        // On iOS and Android the content frame height is never correct, fix it
-        // Actually I needed it for my iPad with iOS 9.3. We'll re-consider
-        // uncommenting that if we know more recent devices need it
-        if (bw.webkit) {
+
+        // On iOS and Android the content frame height is never correct, fix it.
+        // Actually I observed the issue on my old iPad with iOS 9.3.
+        if (bw.webkit && bw.ipad && bw.agent.match(/OS 9/)) {
             $('.iframe-wrapper').each(function() {
                 var h = $(this).height();
                 if (h) {
@@ -1600,7 +1599,6 @@ function rcube_elastic_ui()
                 }
             });
         }
-*/
     };
 
     /**
