@@ -103,13 +103,13 @@ body.task-error-login #layout {
 /*** Addressbook UI ***/
 
 #contactpic {
-    min-width: @layout-contact-icon-width;
-    min-height: @layout-contact-icon-width;
+    width: @layout-contact-icon-width;
+    height: @layout-contact-icon-width;
     border-radius: .5rem;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display:table-cell;
+    vertical-align:middle;
+    text-align: center;
 
     img {
         max-width: @layout-contact-icon-width;
