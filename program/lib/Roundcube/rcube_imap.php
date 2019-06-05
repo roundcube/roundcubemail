@@ -4345,17 +4345,17 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Sort folders first by default folders and then in alphabethical order
+     * Sort folders in alphabethical order. Optionally put special folders
+     * first and other-users/shared namespaces last.
      *
      * @param array $a_folders    Folders list
-     * @param bool  $skip_default Skip default folders handling
+     * @param bool  $skip_special Skip special folders handling
      *
      * @return array Sorted list
      */
-    public function sort_folder_list($a_folders, $skip_default = false)
+    public function sort_folder_list($a_folders, $skip_special = false)
     {
-        $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
-        $folders   = array();
+        $folders = array();
 
         // convert names to UTF-8
         foreach ($a_folders as $folder) {
@@ -4370,20 +4370,48 @@ class rcube_imap extends rcube_storage
 
         $folders = array_keys($folders);
 
-        if ($skip_default) {
+        if ($skip_special || empty($folders)) {
             return $folders;
         }
 
-        // force the type of folder name variable (#1485527)
-        $folders  = array_map('strval', $folders);
-        $out      = array();
+        // Collect special folders and non-personal namespace roots
+        $specials = array_merge(array('INBOX'), array_values($this->get_special_folders()));
+        $ns_roots = array();
 
-        // finally we must put special folders on top and rebuild the list
-        // to move their subfolders where they belong...
+        foreach (array('other', 'shared') as $ns_name) {
+            if ($ns = $this->get_namespace($ns_name)) {
+                foreach ($ns as $root) {
+                    $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                }
+            }
+        }
+
+        // Force the type of folder name variable (#1485527)
+        $folders = array_map('strval', $folders);
+        $out     = array();
+
+        // Put special folders on top...
         $specials = array_unique(array_intersect($specials, $folders));
         $folders  = array_merge($specials, array_diff($folders, $specials));
 
+        // ... and rebuild the list to move their subfolders where they belong
         $this->sort_folder_specials(null, $folders, $specials, $out);
+
+        // Put other-user/shared namespaces at the end
+        if (!empty($ns_roots)) {
+            $folders = array();
+            foreach ($out as $folder) {
+                foreach ($ns_roots as $root => $prefix) {
+                    if ($folder === $root || strpos($folder, $prefix) === 0) {
+                        $folders[] = $folder;
+                    }
+                }
+            }
+
+            if (!empty($folders)) {
+                $out = array_merge(array_diff($out, $folders), $folders);
+            }
+        }
 
         return $out;
     }

@@ -1588,7 +1588,7 @@ class rcmail extends rcube
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
 
-            if ($folder_class && !$realnames) {
+            if ($folder_class && !$realnames && $this->text_exists($folder_class)) {
                 $foldername = $this->gettext($folder_class);
             }
             else {
@@ -1686,7 +1686,7 @@ class rcmail extends rcube
                 }
             }
 
-            if (!$realnames && ($folder_class = $this->folder_classname($folder['id']))) {
+            if (!$realnames && ($folder_class = $this->folder_classname($folder['id'])) && $this->text_exists($folder_class)) {
                 $foldername = $this->gettext($folder_class);
             }
             else {
@@ -1710,21 +1710,43 @@ class rcmail extends rcube
     }
 
     /**
-     * Return internal name for the given folder if it matches the configured special folders
+     * Returns class name for the given folder if it is a special folder
+     * (including shared/other users namespace roots).
+     *
+     * @param string $folder_id IMAP Folder name
+     *
+     * @return string|null CSS class name
      */
     public function folder_classname($folder_id)
     {
-        if ($folder_id == 'INBOX') {
-            return 'inbox';
-        }
+        static $classes;
 
-        // for these mailboxes we have localized labels and css classes
-        foreach (array('sent', 'drafts', 'trash', 'junk') as $smbx)
-        {
-            if ($folder_id === $this->config->get($smbx.'_mbox')) {
-                return $smbx;
+        if ($classes === null) {
+            $classes = array('INBOX' => 'inbox');
+
+            // for these mailboxes we have css classes
+            foreach (array('sent', 'drafts', 'trash', 'junk') as $type) {
+                if (($mbox = $this->config->get($type . '_mbox')) && !isset($classes[$mbox])) {
+                    $classes[$mbox] = $type;
+                }
+            }
+
+            $storage = $this->get_storage();
+
+            // add classes for shared/other user namespace roots
+            foreach (array('other', 'shared') as $ns_name) {
+                if ($ns = $storage->get_namespace($ns_name)) {
+                    foreach ($ns as $root) {
+                        $root = substr($root[0], 0, -1);
+                        if (strlen($root) && !isset($classes[$root])) {
+                            $classes[$root] = "ns-$ns_name";
+                        }
+                    }
+                }
             }
         }
+
+        return $classes[$folder_id];
     }
 
     /**
@@ -1741,7 +1763,7 @@ class rcmail extends rcube
     {
         $realnames = $this->config->get('show_real_foldernames');
 
-        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
+        if (!$realnames && ($folder_class = $this->folder_classname($name)) && $this->text_exists($folder_class)) {
             return $this->gettext($folder_class);
         }
 
@@ -1762,8 +1784,10 @@ class rcmail extends rcube
 
             if ($count > 1) {
                 for ($i = 1; $i < $count; $i++) {
-                    $folder = implode($delimiter, array_slice($path, 0, -$i));
-                    if ($folder_class = $this->folder_classname($folder)) {
+                    $folder       = implode($delimiter, array_slice($path, 0, -$i));
+                    $folder_class = $this->folder_classname($folder);
+
+                    if ($folder_class && $this->text_exists($folder_class)) {
                         $name = implode($delimiter, array_slice($path, $count - $i));
                         $name = rcube_charset::convert($name, 'UTF7-IMAP');
 
