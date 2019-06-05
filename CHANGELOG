@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix bug where revoked users/keys were not greyed out in key info
 - Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
 - Enigma: Fix "decryption oracle" bug [CVE-2019-10740] (#6638)
+- Fix compatibility with kolab/net_ldap3 > 1.0.7 (#6785)
 - Fix bug where bmp images couldn't be displayed on some systems (#6728)
 - Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
 - Fix bug where bold/strong text was converted to upper-case on html-to-text conversion (6758)
