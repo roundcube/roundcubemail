@@ -921,7 +921,9 @@ function rcmail_contact_photo($attrib)
         $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
     }
 
-    $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
+    $photo_img = $RCMAIL->output->asset_url($photo_img);
+
+    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
 
     unset($attrib['placeholder']);
 
