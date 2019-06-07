@@ -2844,7 +2844,7 @@ function rcube_elastic_ui()
         $.each(['open', 'download', 'rename'], function() {
             var action = this;
             $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function(e) {
-                rcmail.command(action + '-attachment', id, this, e.originalEvent);
+                return rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
 
@@ -2891,7 +2891,8 @@ function rcube_elastic_ui()
         obj.find('a').off('click').removeClass('active');
 
         if (rcmail.env.has_writeable_addressbook) {
-            $('.addressbook', obj).addClass('active').on('click', function(e) {
+            $('.addressbook', obj).addClass('active')
+                .on('click', function(e) {
                     var i, contact = mailto,
                         txt = $(button).filter('.rcmContactAddress').text();
 
@@ -2902,7 +2903,7 @@ function rcube_elastic_ui()
                         contact = '"' + $.trim(txt) + '" <' + contact + '>';
                     }
 
-                    rcmail.command('add-contact', contact, this, e.originalEvent);
+                    return rcmail.command('add-contact', contact, this, e.originalEvent);
                 });
         }
 
@@ -2917,6 +2918,8 @@ function rcube_elastic_ui()
             else {
                 rcmail.command('compose', mailto, this, e.originalEvent);
             }
+
+            return false; // for Chrome
         });
 
         return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event.originalEvent);
