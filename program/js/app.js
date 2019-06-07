@@ -9061,8 +9061,15 @@ function rcube_webmail()
   // get the IMP mailbox of the message with the given UID
   this.get_message_mailbox = function(uid)
   {
-    var msg = (this.env.messages && uid ? this.env.messages[uid] : null) || {};
-    return msg.mbox || this.env.mailbox;
+    var msg;
+
+    if (this.env.messages && uid && (msg = this.env.messages[uid]) && msg.mbox)
+      return msg.mbox;
+
+    if (/^[0-9]+-(.*)$/.test(uid))
+      return RegExp.$1;
+
+    return this.env.mailbox;
   };
 
   // build request parameters from single message id (maybe with mailbox name)
