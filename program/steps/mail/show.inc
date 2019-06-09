@@ -656,7 +656,7 @@ function rcmail_message_body($attrib)
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
-                    array('part' => $part, 'prefix' => ''));
+                    array('part' => $part, 'prefix' => '', 'message' => $MESSAGE));
 
                 // Set attributes of the part container
                 $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
