@@ -10,8 +10,8 @@
 <h1 class="voice"><roundcube:label name="compose" /></h1>
 
 <!-- compose options and attachments list -->
-<div id="layout-sidebar" class="listbox">
-	<div class="header">
+<div id="layout-sidebar" class="listbox sidebar-right">
+	<div class="header layout-box">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title all-sizes"><roundcube:label name="optionsandattachments" /></span>
 	</div>
@@ -74,12 +74,12 @@
 
 <div id="layout-content" class="listbox selected" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-	<div class="header">
+	<div class="header layout-box">
 		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="header-title"><roundcube:label name="compose" /></span>
 		<!-- toolbar -->
 		<div id="messagetoolbar" class="toolbar menu" role="toolbar" aria-labelledby="aria-label-toolbar">
-			<a class="settings" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
+			<a class="options" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
 				<span class="inner"><roundcube:label name="optionsandattachments"></span>
 			</a>
 			<roundcube:button command="savedraft" type="link" class="save draft disabled" classAct="save draft"
@@ -267,7 +267,7 @@
 
 <div id="recipient-dialog" class="popupmenu" role="region" aria-labelledby="aria-label-composecontacts">
 	<div class="listbox">
-		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu"
+		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu layout-box"
 			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" class="no-bs" />
 		<div class="scroller" tabindex="-1">
 			<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"

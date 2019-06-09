@@ -122,9 +122,13 @@ body.task-error-login #layout {
         margin-bottom: .5rem;
 
         span.namefield {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: bold;
             line-height: 1.2;
+
+            @media screen and (max-width: @screen-width-xs) {
+                font-size: 1.5rem;
+            }
         }
     }
 
@@ -140,11 +144,21 @@ body.task-error-login #layout {
 /*** Mail UI ***/
 
 #message-header {
-    margin-bottom: 1rem;
+    margin-bottom: @layout-spacing-lg;
+
+    @media screen and (max-width: @screen-width-xs) {
+        margin-bottom: @layout-spacing;
+    }
 
     .subject {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         font-weight: bold;
+        margin-bottom: @layout-spacing;
+
+        @media screen and (max-width: @screen-width-xs) {
+            font-size: 1.5rem;
+            margin-bottom: @layout-spacing-md;
+        }
 
         body.status-flagged &:before {
             &:extend(.font-icon-class);

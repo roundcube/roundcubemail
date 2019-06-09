@@ -5,7 +5,7 @@
 
 <!-- folders list -->
 <div id="layout-sidebar" class="listbox" role="navigation" aria-labelledby="aria-label-folderlist">
-	<div class="header">
+	<div class="header layout-box">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title username"><roundcube:object name="username" /></span>
 		<roundcube:button name="folderactions" type="link" title="folderactions" label="actions"
@@ -27,7 +27,7 @@
 
 <!-- messages list -->
 <div id="layout-list" class="listbox selected">
-	<div id="messagelist-header" class="header">
+	<div id="messagelist-header" class="header layout-box">
 		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button folders" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
 		<span class="header-title"></span>
@@ -36,14 +36,14 @@
 			<roundcube:if condition="env:threads" />
 				<a href="#threads" class="threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
-			<roundcube:object name="listmenulink" class="settings active" label="options" innerclass="inner" />
+			<roundcube:object name="listmenulink" class="options active" label="options" innerclass="inner" />
 			<roundcube:container name="listcontrols" id="listcontrols" />
 		</div>
 		<roundcube:button command="checkmail" type="link" class="button icon toolbar-button refresh"
 			label="refresh" title="checkmail" innerclass="inner" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar menu"
+	<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar menu layout-box"
 		label="mailquicksearchbox" buttontitle="findmail" options="searchmenu" ariatag="h2" />
 	<div id="searchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="messagelist">
 		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -98,7 +98,7 @@
 <!-- message preview -->
 <div id="layout-content">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<div class="header layout-box" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<roundcube:include file="includes/mail-menu.html" />

@@ -40,7 +40,11 @@ font.bold {
 }
 
 .frame-content {
-    padding: 1rem;
+    padding: @layout-spacing-lg;
+
+    @media screen and (max-width: @screen-width-medium) {
+        padding: @layout-spacing-md * 2;
+    }
 
     h2 {
         font-weight: bold;

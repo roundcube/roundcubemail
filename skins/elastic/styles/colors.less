@@ -9,16 +9,17 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-@color-main:                #37beff;
-@color-main-dark:           darken(@color-main, 35%);
+@color-main:                #007bff;
+@color-main-dark:           #32659b;
 @color-black:               #161b1d;
 @color-font:                lighten(@color-black, 10%);
-@color-link:                #00acff;
+@color-link:                #007bff;
 @color-link-hover:          darken(@color-link, 10%);
 @color-border:              #ddd;
 @color-error:               #ff5552;
 @color-success:             #41b849;
 @color-warning:             #ffd452;
+@color-underline:           #eee;
 
 @color-link-secondary:      lighten(@color-font, 60%);
 @color-black-shade-text:    tint(@color-black, 40%);
@@ -42,7 +43,7 @@
 @color-taskmenu-background:                     #2f3a3f;
 @color-taskmenu-button:                         #fff;
 @color-taskmenu-button-selected:                @color-taskmenu-button;
-@color-taskmenu-button-action:                  @color-main;
+@color-taskmenu-button-action:                  #37beff;
 @color-taskmenu-button-special:                 @color-taskmenu-button;
 
 @color-taskmenu-button-selected-background:     lighten(@color-taskmenu-background, 10%);
@@ -51,7 +52,7 @@
 
 @color-taskmenu-button-hover:                   #fff;
 @color-taskmenu-button-selected-hover:          #fff;
-@color-taskmenu-button-action-hover:            @color-main;
+@color-taskmenu-button-action-hover:            @color-taskmenu-button-action;
 @color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
 
 @color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
@@ -92,6 +93,9 @@
 @color-list-pagenav:                @color-black-shade-text;
 @color-list-icon:                   fadeout(@color-list-secondary, 25%);
 @color-list-unread-status:          @color-warning;
+
+@color-attachmentlist-border:       #f4f4f4;
+@color-attachmentlist-background:   #fcfcfc;
 
 // Drag-n-drop layer
 @color-drag-layer:                  #fff;
@@ -151,6 +155,7 @@
 @color-recipient-input-border:      @color-input-border;
 @color-recipient-input-background:  @color-black-shade-bg;
 @color-input-placeholder:           #bbb;
+@color-propform-background:         #fff;
 
 @color-checkbox:                    @color-main;
 @color-checkbox-checked:            @color-main;

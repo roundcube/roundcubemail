@@ -22,10 +22,14 @@
 
     tbody td,
     li a {
-        padding: 0 .5rem;
+        padding: 0 @layout-spacing;
         white-space: nowrap;
         vertical-align: middle;
         color: @color-list;
+
+        @media screen and (max-width: @screen-width-medium) and (min-width: (@screen-width-xs + 1px)) {
+            padding: 0 @layout-spacing-md;
+        }
     }
 
     tbody td {
@@ -51,12 +55,16 @@
     }
 
     td.selection {
-        padding: 0 0 0 .5em;
-        width: 2em;
+        padding: 0 0 0 @layout-spacing / 2;
+        width: @layout-spacing * 2;
         text-align: center;
 
         & > input {
             vertical-align: middle;
+        }
+
+        @media screen and (max-width: @screen-width-medium) {
+            padding-left: @layout-spacing-md / 2
         }
     }
 
@@ -69,12 +77,18 @@
     }
 
     td.action {
-        padding: 0 .5em;
+        padding: 0 @layout-spacing-md;
         width: 2em;
         text-align: center;
 
+        @media screen and (min-width: @screen-width-large) {
+            width: @layout-spacing-lg * 2;
+            padding-right: @layout-spacing-lg / 2;
+        }
+
         &:empty {
-            width: 0;
+            width: 0 !important;
+            padding: 0 !important;
         }
 
         a {
@@ -217,7 +231,7 @@ html.touch {
 
     td.selection {
         padding: 0;
-        width: 3em;
+        width: @listing-selectbox-width;
     }
 }
 
@@ -597,12 +611,22 @@ table.fixedcopy {
     }
 
     td.threads {
-        padding: 0 0 0 .25rem;
-        width: 1.5em;
+        padding: 0 0 0 @layout-spacing-sm;
+        width: @layout-spacing + @layout-spacing-sm;
+
+        @media screen and (min-width: @screen-width-large) {
+            padding: 0 0 0 @layout-spacing-md;
+            width: @layout-spacing-lg + @layout-spacing-md;
+        }
     }
 
     td.flags {
         width: 2.5em;
+
+        @media screen and (min-width: @screen-width-large) {
+            width: @layout-spacing-lg * 2;
+            padding-right: @layout-spacing-lg / 2;
+        }
 
         & > span {
             height: 1.7em;
@@ -804,8 +828,15 @@ html.touch {
 @attachmentslist-item-height:   2rem;
 
 .attachmentslist {
-    padding: 0;
+    padding: (@layout-spacing-md / 2) @layout-spacing-md;
     margin: 0;
+    background-color: @color-attachmentlist-background;
+    border: 1px solid @color-attachmentlist-border;
+
+    &:empty {
+        padding: 0;
+        border: 0;
+    }
 
     li {
         list-style: none;

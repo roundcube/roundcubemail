@@ -25,6 +25,8 @@ input.smart-upload {
 
 
 .propform {
+    background-color: @color-propform-background;
+
     // TODO: do we need this?
     &:not(.popupmenu) {
         width: 100%;
@@ -153,10 +155,6 @@ input.smart-upload {
 
     &.groupped {
         &.readonly {
-            legend {
-                margin: 0;
-            }
-
             .row.input-group {
                 margin-bottom: 0 !important;
             }
@@ -356,6 +354,9 @@ input.smart-upload {
     legend {
         font-weight: bold;
         font-size: 1.2em;
+        border-bottom: 1px solid @color-underline;
+        padding-bottom: .25rem;
+        margin-bottom: 1rem;
     }
 
     label {
@@ -433,7 +434,7 @@ html.ms .propform {
     }
 
     .formbuttons {
-        padding: 0.5rem 1rem;
+        padding: (@layout-spacing-lg / 2) @layout-spacing-lg;
 
         button {
             margin-right: .5rem;
@@ -467,7 +468,7 @@ html.ms .propform {
 
 .formcontent {
     &:not(.popupmenu) {
-        padding: 1rem;
+        padding: @layout-spacing-lg;
     }
 
     .row {
@@ -583,6 +584,21 @@ html.ms .propform {
             width: .8em;
         }
     }
+}
+
+@media screen and (max-width: @screen-width-medium) {
+    .formcontent {
+        &:not(.popupmenu) {
+            padding: @layout-spacing-md * 2;
+        }
+    }
+
+    .formcontainer {
+        .formbuttons {
+            padding: @layout-spacing-md * 2;
+        }
+    }
+
 }
 
 @media screen and (max-width: @screen-width-mini) {
@@ -1293,13 +1309,13 @@ html.ms .propform {
     // Make switches bigger, we use smaller font than Bootstrap's default
 
     .custom-control-label {
-        padding-left: 2.5rem;
+        padding-left: 3rem;
         min-height: 2rem;
         line-height: 2;
         display: inline-block;
 
         html.touch & {
-            padding-left: 3rem;
+            padding-left: 3.5rem;
         }
 
         &:before,

@@ -39,6 +39,7 @@
         li {
             display: inline-block;
             height: @layout-touch-header-height;
+            margin-right: @layout-spacing;
         }
 
         a {
@@ -121,8 +122,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 !important;
         font-size: 100%; // in case this is .footer.small
+        padding: (@layout-spacing-md / 2) @layout-spacing-md;
+
+        @media screen and (max-width: @screen-width-small) {
+            padding: (@layout-spacing-sm / 2) @layout-spacing-sm;
+        }
 
         a {
             flex-grow: 1;
@@ -253,7 +258,7 @@
                 width: 100%;
                 line-height: @listing-line-height;
                 display: block;
-                padding: 0 .5rem;
+                padding: 0 @layout-spacing;
                 text-align: left;
 
                 &:before {
@@ -318,6 +323,12 @@
     }
 }
 
+@media screen and (max-width: @screen-width-medium) {
+    .menu.toolbar > li {
+        margin-right: @layout-spacing-md / 2;
+    }
+}
+
 @media screen and (max-width: @screen-width-small) {
     .menu.footer {
         justify-content: space-around !important;
@@ -338,6 +349,10 @@
 
     .menu.listing a {
         color: @color-font;
+    }
+
+    .menu.toolbar > li {
+        margin-right: 0;
     }
 }
 
@@ -370,8 +385,11 @@ a.toolbar-button {
     &.contacts:before {
         content: @fa-var-users;
     }
-    &.settings:before {
+    &.options:before {
         content: @fa-var-sliders-h;
+    }
+    &.settings:before {
+        content: @fa-var-cog;
     }
     &.help:before {
         content: @fa-var-life-ring;
@@ -596,10 +614,10 @@ a.toolbar-button {
         content: @fa-var-trash-alt;
     }
     &.select:before {
-        .font-icon-regular(@fa-var-check-circle);
+        content: @fa-var-mouse-pointer;
     }
     &.select.all:before {
-        content: @fa-var-check-square;
+        content: @fa-var-asterisk;
     }
     &.select.invert:before {
         content: @fa-var-square;
@@ -611,13 +629,10 @@ a.toolbar-button {
         .font-icon-solid(@fa-var-bars);
     }
     &.selection:before {
-        content: @fa-var-mouse-pointer;
+        .font-icon-regular(@fa-var-check-square);
     }
     &.send:before {
         content: @fa-var-paper-plane;
-    }
-    &.settings:before {
-        content: @fa-var-sliders-h;
     }
     &.showurl:before {
         content: @fa-var-link;
@@ -657,6 +672,7 @@ a.toolbar-button {
     line-height: @layout-searchbar-height;
     background-color: @color-searchbar-background;
     border-bottom: 1px solid @color-list-border;
+    padding-right: 0 !important;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -671,7 +687,7 @@ a.toolbar-button {
             content: @fa-var-search;
             height: @layout-searchbar-height;
             color: @color-list-pagenav;
-            margin: 0 0 0 .75rem;
+            margin: 0 0 0 .2rem;
         }
     }
 
@@ -780,14 +796,14 @@ a.toolbar-button {
 
         a {
             max-width: unset;
-            padding: 0 .5em;
+            padding: 0 @layout-spacing;
             margin-top: 1px;
             text-align: left;
             line-height: @layout-touch-menu-record-height;
             height: @layout-touch-menu-record-height;
             border-bottom: 1px solid @color-list-border !important;
             color: @color-list;
-            font-size: 1.2rem;
+            font-size: @layout-touch-menu-record-font-size;
 
             &:before {
                 float: left !important;

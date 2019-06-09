@@ -6,12 +6,12 @@
 
 <!-- folders list -->
 <div id="layout-list" class="listbox selected" aria-labelledby="aria-label-folderslist">
-	<div class="header">
+	<div class="header layout-box">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-folderslist" class="header-title"><roundcube:label name="folders" /></span>
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar menu" ariatag="h2"
+	<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar menu layout-box" ariatag="h2"
 		label="foldersearchform" buttontitle="findfolders" options="foldersearchmenu" />
 	<div id="foldersearchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="subscription-table">
 		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -40,7 +40,7 @@
 <!-- folder info frame -->
 <div id="layout-content" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<div class="header layout-box" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<!-- toolbar -->

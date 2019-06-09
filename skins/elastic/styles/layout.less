@@ -65,7 +65,8 @@ body {
             line-height: @layout-header-height;
             height: @layout-header-height;
             min-height: @layout-header-height;
-            padding: 0 .25em;
+            padding-top: 0;
+            padding-bottom: 0;
             margin: 0;
             position: relative; // for absolute positioning of searchbar
             overflow: hidden;
@@ -127,6 +128,12 @@ body {
     min-width: 220px;
     border-right: 1px solid @color-layout-border;
     background-color: @color-layout-sidebar-background;
+
+    &.sidebar-right {
+        order: 2;
+        border-right: 0;
+        border-left: 1px solid @color-layout-border;
+    }
 }
 
 #layout-list {
@@ -190,10 +197,11 @@ body {
         img {
             max-height: @layout-header-height;
             max-width: @layout-menu-width;
-            padding: .25rem;
+            padding: @layout-spacing-md;
 
             @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
                 max-width: @layout-menu-width * 0.45;
+                padding: @layout-spacing-sm;
             }
         }
 
@@ -233,6 +241,9 @@ body {
     }
 }
 
+.layout-box {
+    padding: (@layout-spacing / 2) @layout-spacing;
+}
 
 @media screen and (max-width: @screen-width-large) {
     #layout-sidebar,
@@ -242,15 +253,22 @@ body {
     }
 
     #layout-list > .header > a.button {
-        padding: 0 .25rem;
-        margin: 0 .25rem;
+        padding: 0 .25rem 0 0;
+        margin: 0 .25rem 0 0;
     }
 }
 
 @media screen and (max-width: @screen-width-medium) {
+    .layout-box {
+        padding: @layout-spacing-md / 2 @layout-spacing-md;
+    }
 }
 
 @media screen and (max-width: @screen-width-small) {
+    .layout-box {
+        padding: 0 @layout-spacing-sm;
+    }
+
     #layout-sidebar,
     #layout-list {
         max-width: none;
@@ -259,6 +277,7 @@ body {
 
     #layout > div > .header {
         background-color: @color-layout-mobile-header-background;
+        font-size: @layout-header-font-size * 1.3;
 
         a.button {
             // make the button active area smaller on touch devices
