@@ -3203,13 +3203,14 @@ function rcube_webmail()
     // show wait message
     if (this.env.action == 'show')
       lock = this.set_busy(true, 'movingmessage');
-    else
-      this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
     this.enable_command(this.env.message_commands, false);
 
     this.with_selected_messages('move', post_data, lock);
+
+    if (this.env.action != 'show')
+      this.show_contentframe(false);
   };
 
   // delete selected messages from the current mailbox
@@ -3252,8 +3253,8 @@ function rcube_webmail()
     if (!post_data._uid)
       return;
 
-    this.show_contentframe(false);
     this.with_selected_messages('delete', post_data);
+    this.show_contentframe(false);
   };
 
   // Send a specific move/delete request with UIDs of all selected messages
@@ -3265,7 +3266,8 @@ function rcube_webmail()
     // update the list (remove rows, clear selection)
     if (this.message_list) {
       var n, len, id, root, roots = [],
-        selection = post_data._uid;
+        selection = post_data._uid,
+        display_next = this.env.display_next && this.preview_id;
 
       if (selection === '*')
         selection = this.message_list.get_selection();
@@ -3283,11 +3285,13 @@ function rcube_webmail()
           }
         }
         if (remove)
-          this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
+          this.message_list.remove_row(id, display_next && n == selection.length-1);
       }
+
       // make sure there are no selected rows
-      if (!this.env.display_next && remove)
+      if (!display_next && remove)
         this.message_list.clear_selection();
+
       // update thread tree icons
       for (n=0, len=roots.length; n<len; n++) {
         this.add_tree_icons(roots[n]);
@@ -3471,7 +3475,8 @@ function rcube_webmail()
       lock = this.display_message('markingmessage', 'loading'),
       list = this.message_list,
       rows = list ? list.rows : {},
-      count = 0;
+      count = 0,
+      display_next = this.env.display_next && this.preview_id;
 
     for (var i=0, len=a_uids.length; i<len; i++) {
       uid = a_uids[i];
@@ -3481,7 +3486,7 @@ function rcube_webmail()
 
         if (this.env.skip_deleted) {
           count += this.update_thread(uid);
-          list.remove_row(uid, (this.env.display_next && i == list.get_selection(false).length-1));
+          list.remove_row(uid, display_next && i == list.get_selection(false).length-1);
         }
         else
           this.set_message(uid, 'deleted', true);
@@ -3490,7 +3495,7 @@ function rcube_webmail()
 
     // make sure there are no selected rows
     if (this.env.skip_deleted && list) {
-      if (!this.env.display_next || !list.rowcount)
+      if (!display_next || !list.rowcount)
         list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
@@ -6336,9 +6341,11 @@ function rcube_webmail()
       if (this.env.search_request)
         url._search = this.env.search_request;
 
+      if (cid)
+        url._cid = this.preview_id = cid;
+
       url._action = action;
       url._source = this.env.source;
-      url._cid = cid;
 
       this.location_href(url, target, true);
     }
@@ -6494,12 +6501,11 @@ function rcube_webmail()
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         a_cids.push(id);
-        this.contact_list.remove_row(id, (n == selection.length-1));
+        this.contact_list.remove_row(id, this.env.display_next && this.preview_id && n == selection.length-1);
       }
 
-      // hide content frame if we delete the currently displayed contact
-      if (selection.length == 1)
-        this.show_contentframe(false);
+      if (!this.env.display_next)
+        this.contact_list.clear_selection();
     }
 
     if (!post_data)
@@ -6697,12 +6703,16 @@ function rcube_webmail()
   this.remove_group_contacts = function(props)
   {
     if (this.env.group !== undefined && (this.env.group === props.gid)) {
-      var n, selection = this.contact_list.get_selection();
+      var n, selection = this.contact_list.get_selection(),
+        display_next= this.env.display_next && this.preview_id;
+
       for (n=0; n<selection.length; n++) {
         id = selection[n];
-        this.contact_list.remove_row(id, (n == selection.length-1));
-        this.contact_list.clear_selection();
+        this.contact_list.remove_row(id, display_next && n == selection.length-1);
       }
+
+      if (!display_next)
+        this.contact_list.clear_selection();
     }
   };
 
@@ -7278,7 +7288,7 @@ function rcube_webmail()
 
     if (list && id) {
       list.remove_row(rid);
-     this.show_contentframe(false);
+      this.show_contentframe(false);
     }
 
     this.enable_command('delete', false);

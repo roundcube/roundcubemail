@@ -9,6 +9,10 @@ CHANGELOG Roundcube Webmail
 - Support $HasAttachment/$HasNoAttachment keywords (#6201)
 - Support PECL memcached extension as a session and cache storage driver (experimental)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
+- Changes in `display_next` setting (#6795):
+    - Move it to Preferences > User Interface > Main Options
+    - Make it apply to Contacts interface too
+    - Make it apply only if deleting/moving a previewed message/contact
 - Redis: Support connection to unix socket
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
