@@ -65,8 +65,7 @@ body {
             line-height: @layout-header-height;
             height: @layout-header-height;
             min-height: @layout-header-height;
-            padding-top: 0;
-            padding-bottom: 0;
+            padding: 0 @layout-spacing;
             margin: 0;
             position: relative; // for absolute positioning of searchbar
             overflow: hidden;
@@ -195,13 +194,12 @@ body {
         text-align: center;
 
         img {
-            max-height: @layout-header-height;
+            max-height: 100%;
             max-width: @layout-menu-width;
-            padding: @layout-spacing-md;
+            padding: @layout-spacing-md 0;
 
             @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
                 max-width: @layout-menu-width * 0.45;
-                padding: @layout-spacing-sm;
             }
         }
 
@@ -218,7 +216,9 @@ body {
             display: flex !important;
             align-items: center;
             justify-content: center;
-            padding: 0 .5rem;
+            height: @layout-touch-header-height;
+            min-height: @layout-touch-header-height;
+            padding: 0 @layout-spacing-md;
 
             img {
                 max-width: @layout-mobile-menu-width - 50px;
@@ -241,10 +241,6 @@ body {
     }
 }
 
-.layout-box {
-    padding: (@layout-spacing / 2) @layout-spacing;
-}
-
 @media screen and (max-width: @screen-width-large) {
     #layout-sidebar,
     #layout-list {
@@ -259,16 +255,12 @@ body {
 }
 
 @media screen and (max-width: @screen-width-medium) {
-    .layout-box {
-        padding: @layout-spacing-md / 2 @layout-spacing-md;
+    #layout > div > .header {
+        padding: 0 @layout-spacing-md;
     }
 }
 
 @media screen and (max-width: @screen-width-small) {
-    .layout-box {
-        padding: 0 @layout-spacing-sm;
-    }
-
     #layout-sidebar,
     #layout-list {
         max-width: none;
@@ -277,7 +269,10 @@ body {
 
     #layout > div > .header {
         background-color: @color-layout-mobile-header-background;
-        font-size: @layout-header-font-size * 1.3;
+        font-size: @layout-touch-header-font-size;
+        height: @layout-touch-header-height;
+        line-height: @layout-touch-header-height;
+        min-height: @layout-touch-header-height;
 
         a.button {
             // make the button active area smaller on touch devices
@@ -285,7 +280,7 @@ body {
             padding: 0 !important;
 
             &:before {
-                font-size: 1.75rem;
+                font-size: @layout-touch-header-icon-size;
                 height: @layout-touch-header-height;
                 margin: 0;
             }

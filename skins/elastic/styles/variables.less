@@ -35,24 +35,27 @@
 @layout-header-font-size:               1rem;
 @layout-searchbar-height:               floor(2.6 * @page-font-size);
 
-@layout-touch-header-height:            @layout-header-height;
+@layout-touch-header-height:            floor(@layout-header-height * .9);
 @layout-touch-header-font-size:         floor(1.2 * @page-font-size);
 @layout-touch-menu-record-height:       floor(3.2 * @page-font-size);
 @layout-touch-menu-record-font-size:    floor(1.2 * @page-font-size);
+@layout-touch-header-icon-size:         1.65rem;
 @layout-touch-icon-width:               2.2em;
 
-@layout-mobile-menu-width:              (@screen-width-mini * .85);
+@layout-mobile-menu-width:              (@screen-width-mini * .8);
 
 @layout-contact-icon-width:             112px;
 @layout-contact-icon-height:            135px;
 
 @layout-spacing:                        1rem;
+@layout-spacing-v:                      (@layout-spacing / 2);
 @layout-spacing-lg:                     1.5rem;
-@layout-spacing-md:                     0.5rem;
-@layout-spacing-sm:                     0.25rem;
+@layout-spacing-md:                     0.65rem;
+@layout-spacing-md-v:                   (@layout-spacing-md / 2);
 
 @listing-line-height:                   floor(2.5 * @page-font-size);
-@listing-touch-line-height:             floor(3.4 * @page-font-size);
+@listing-touch-line-height:             floor(3.2 * @page-font-size); /* same as @layout-touch-menu-record-height */
+@listing-touch-font-size:               floor(1.2 * @page-font-size); /* same as @layout-touch-menu-record-font-size */
 @listing-selectbox-width:               2.5em;
 @listing-treetoggle-width:              1.5em;
 

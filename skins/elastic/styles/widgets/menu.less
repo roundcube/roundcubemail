@@ -39,7 +39,7 @@
         li {
             display: inline-block;
             height: @layout-touch-header-height;
-            margin-right: @layout-spacing;
+            margin-right: @layout-spacing / 2;
         }
 
         a {
@@ -123,11 +123,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 100%; // in case this is .footer.small
-        padding: (@layout-spacing-md / 2) @layout-spacing-md;
-
-        @media screen and (max-width: @screen-width-small) {
-            padding: (@layout-spacing-sm / 2) @layout-spacing-sm;
-        }
+        padding: 0 (@layout-spacing-md / 2) !important;
 
         a {
             flex-grow: 1;
@@ -672,7 +668,7 @@ a.toolbar-button {
     line-height: @layout-searchbar-height;
     background-color: @color-searchbar-background;
     border-bottom: 1px solid @color-list-border;
-    padding-right: 0 !important;
+    padding: @layout-spacing-v @layout-spacing;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -715,6 +711,10 @@ a.toolbar-button {
         }
 
         &.options {
+            margin-right: -@layout-spacing;
+            padding-left: @layout-spacing / 2;
+            padding-right: @layout-spacing / 2;
+
             &:before {
                 content: @fa-var-angle-down;
             }
@@ -746,6 +746,16 @@ a.toolbar-button {
 
     &.open a.options:before {
         content: @fa-var-angle-up;
+    }
+
+    @media screen and (max-width: @screen-width-medium) {
+        padding: @layout-spacing-md-v @layout-spacing-md;
+
+        a {
+            &.options {
+                margin-right: -@layout-spacing-md;
+            }
+        }
     }
 }
 
@@ -796,7 +806,7 @@ a.toolbar-button {
 
         a {
             max-width: unset;
-            padding: 0 @layout-spacing;
+            padding: 0 @layout-spacing-md;
             margin-top: 1px;
             text-align: left;
             line-height: @layout-touch-menu-record-height;
@@ -820,7 +830,7 @@ a.toolbar-button {
     @media screen and (min-width: (@screen-width-xs + 1px)) {
         a {
             color: @color-taskmenu-button;
-            padding: .45rem 0;
+            padding: @layout-spacing-md 0;
             min-width: unset;
 
             &.selected {
@@ -867,7 +877,7 @@ a.toolbar-button {
         a {
             width: @layout-menu-width-sm;
             height: @layout-menu-width-sm;
-            font-size: 1.2rem;
+            font-size: @layout-touch-menu-record-font-size;
             padding: 0;
 
             &:before {

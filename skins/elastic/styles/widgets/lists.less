@@ -27,7 +27,7 @@
         vertical-align: middle;
         color: @color-list;
 
-        @media screen and (max-width: @screen-width-medium) and (min-width: (@screen-width-xs + 1px)) {
+        @media screen and (max-width: @screen-width-medium) {
             padding: 0 @layout-spacing-md;
         }
     }
@@ -222,7 +222,7 @@ html.touch {
     .listing:not(.toolbar) li,
     .listing tbody td {
         line-height: @listing-touch-line-height;
-        font-size: 1.2rem;
+        font-size: @listing-touch-font-size;
     }
 
     li input[type=checkbox] {
@@ -568,11 +568,14 @@ table.fixedcopy {
 }
 
 .messagelist {
-    td {
-        border-left: 0;
-        width: 2em;
-        vertical-align: top;
-        font-size: 1rem !important;
+    tbody {
+        td {
+            border-left: 0;
+            width: 2em;
+            vertical-align: top;
+            font-size: 1rem !important;
+            padding: 0 (@layout-spacing / 2);
+        }
     }
 
     td.subject {
@@ -611,8 +614,8 @@ table.fixedcopy {
     }
 
     td.threads {
-        padding: 0 0 0 @layout-spacing-sm;
-        width: @layout-spacing + @layout-spacing-sm;
+        padding: 0 0 0 (@layout-spacing-md / 2);
+        width: @layout-spacing + (@layout-spacing-md / 2);
 
         @media screen and (min-width: @screen-width-large) {
             padding: 0 0 0 @layout-spacing-md;

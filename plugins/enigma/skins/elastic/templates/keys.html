@@ -6,12 +6,12 @@
 
 <!-- keys list -->
 <div id="layout-list" class="listbox selected" aria-labelledby="aria-label-enigmakeyslist">
-	<div class="header layout-box">
+	<div class="header">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-enigmakeyslist" class="header-title"><roundcube:label name="enigma.enigmakeys" /></span>
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<roundcube:object name="searchform" id="keysearch" wrapper="searchbar menu layout-box"
+	<roundcube:object name="searchform" id="keysearch" wrapper="searchbar menu"
 		label="keysearchform" buttontitle="findkeys" ariatag="h2" />
 	<div class="scroller">
 		<roundcube:object name="keyslist" id="keys-table" class="listing" role="listbox" noheader="true"
@@ -36,7 +36,7 @@
 <!-- key info frame -->
 <div id="layout-content" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-	<div class="header layout-box" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<!-- toolbar -->

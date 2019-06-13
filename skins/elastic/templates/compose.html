@@ -11,7 +11,7 @@
 
 <!-- compose options and attachments list -->
 <div id="layout-sidebar" class="listbox sidebar-right">
-	<div class="header layout-box">
+	<div class="header">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title all-sizes"><roundcube:label name="optionsandattachments" /></span>
 	</div>
@@ -74,7 +74,7 @@
 
 <div id="layout-content" class="listbox selected" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-	<div class="header layout-box">
+	<div class="header">
 		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="header-title"><roundcube:label name="compose" /></span>
 		<!-- toolbar -->
@@ -267,7 +267,7 @@
 
 <div id="recipient-dialog" class="popupmenu" role="region" aria-labelledby="aria-label-composecontacts">
 	<div class="listbox">
-		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu layout-box"
+		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu"
 			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" class="no-bs" />
 		<div class="scroller" tabindex="-1">
 			<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"
