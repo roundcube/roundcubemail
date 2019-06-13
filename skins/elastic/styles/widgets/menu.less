@@ -35,6 +35,23 @@
         }
     }
 
+    .popover & {
+        a.menulink {
+            position: realtive;
+
+            &:after {
+                .font-icon-class();
+                content: @fa-var-chevron-right;
+                float: right;
+                width: 1em;
+                margin-right: @layout-spacing-md;
+                color: @color-black-shade-text;
+                font-size: .9em;
+            }
+        }
+    }
+
+
     &.toolbar {
         li {
             display: inline-block;
