@@ -813,6 +813,10 @@ $config['compose_responses_static'] = array(
 //  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
 );
 
+// List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
+// Default: array("keys.fedoraproject.org", "keybase.io")
+$config['keyservers'] = array();
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------

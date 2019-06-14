@@ -92,6 +92,7 @@ $OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
 $OUTPUT->set_env('is_sent', false);
 $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
+$OUTPUT->set_env('keyservers', $RCMAIL->config->keyservers());
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);

@@ -579,6 +579,26 @@ class rcube_config
     }
 
     /**
+     * Returns list of configured PGP key servers
+     *
+     * @return array|null List of keyservers' URLs
+     */
+    public function keyservers()
+    {
+        $list = (array) $this->prop['keyservers'];
+
+        foreach ($list as $idx => $host) {
+            if (!preg_match('|^[a-z]://|', $host)) {
+                $host = "https://$host";
+            }
+
+            $list[$idx] = slashify($host);
+        }
+
+        return !empty($list) ? $list : null;
+    }
+
+    /**
      * Return the mail domain configured for the given host
      *
      * @param string  $host   IMAP host

@@ -3977,7 +3977,7 @@ function rcube_webmail()
   {
     // query with publickey.js
     var deferreds = [],
-      pk = new PublicKey(),
+      pk = new PublicKey(this.env.keyservers),
       lock = ref.display_message('', 'loading');
 
     $.each(emails, function(i, email) {
@@ -4094,7 +4094,7 @@ function rcube_webmail()
     ul.on('click', 'button.importkey', function() {
       var btn = $(this),
         keyid = btn.attr('rel'),
-        pk = new PublicKey(),
+        pk = new PublicKey(ref.env.keyservers),
         lock = ref.display_message('', 'loading');
 
         // fetch from keyserver and import to Mailvelope keyring
