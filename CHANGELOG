@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Support PECL memcached extension as a session and cache storage driver (experimental)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Plugin API: Add 'render_folder_selector' hook
+- Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
 - Redis: Support connection to unix socket
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)

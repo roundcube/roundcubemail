@@ -138,6 +138,8 @@ class enigma_ui
 
         $this->enigma->include_script('enigma.js');
 
+        $this->rc->output->set_env('keyservers', $this->rc->config->keyservers());
+
         $this->js_loaded = true;
     }
 
