@@ -500,10 +500,14 @@ a.toolbar-button {
     &.expand:before {
         content: @fa-var-angle-right;
     }
-    &.expand.all:before,
-    &.expand.none:before,
+    &.expand.all:before {
+        content: @fa-var-angle-double-down;
+    }
+    &.expand.none:before {
+        content: @fa-var-angle-double-right;
+    }
     &.expand.unread:before {
-        content: @fa-var-comments;
+        .font-icon-regular(@fa-var-envelope);
     }
     &.export:before,
     &.export.all:before,
