@@ -63,5 +63,3 @@ if ($args['config']) {
 }
 
 rcmail_utils::mod_pref($pref_name, $pref_value, $args['user'], $args['type']);
-
-?>

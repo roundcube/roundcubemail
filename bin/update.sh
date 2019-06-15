@@ -271,5 +271,3 @@ else {
   echo "This instance of Roundcube is not yet configured!\n";
   echo "Open http://url-to-roundcube/installer/ in your browser and follow the instuctions.\n";
 }
-
-?>

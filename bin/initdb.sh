@@ -37,5 +37,3 @@ if (!file_exists($opts['dir'])) {
 }
 
 rcmail_utils::db_init($opts['dir']);
-
-?>

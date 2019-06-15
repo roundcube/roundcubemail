@@ -27,5 +27,3 @@ else
     $days = 7;
 
 rcmail_utils::db_clean($days);
-
-?>

@@ -19,6 +19,5 @@ OUTPUTFORMAT=HTML
 TEMPLATE=responsive-twig
 
 # make documentation
-$BIN_PHPDOC -d $PATH_PROJECT,$PATH_FRAMEWORK -t $PATH_DOCS --title "$TITLE" --defaultpackagename $PACKAGES \
-	--template=$TEMPLATE
-
+$BIN_PHPDOC -d $PATH_PROJECT,$PATH_FRAMEWORK -t $PATH_DOCS --title "$TITLE" \
+    --defaultpackagename $PACKAGES --template=$TEMPLATE
