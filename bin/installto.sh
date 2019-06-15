@@ -136,5 +136,3 @@ if (strtolower($input) == 'y') {
 else {
   echo "Update cancelled. See ya!\n";
 }
-
-?>
