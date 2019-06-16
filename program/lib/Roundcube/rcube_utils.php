@@ -949,7 +949,7 @@ class rcube_utils
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitely (#6075)
         $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
-        $options = 0;
+        $options = defined('IDNA_NONTRANSITIONAL_TO_ASCII') ? IDNA_NONTRANSITIONAL_TO_ASCII : 0;
 
         // Because php-intl extension lowercases domains and return false
         // on invalid input (#6224), we skip conversion when not needed
