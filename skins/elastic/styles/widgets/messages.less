@@ -92,6 +92,29 @@
         content: @fa-var-comment;
     }
 
+    // #6797: Fix for long buttons issue
+    .boxbuttons {
+        white-space: nowrap;
+
+        .btn {
+            .overflow-ellipsis;
+            max-width: 220px;
+        }
+
+        @media screen and (max-width: @screen-width-xs) {
+            display: flex;
+            flex-direction: column;
+
+            .btn {
+                max-width: 160px;
+
+                &:not(:first-child) {
+                    margin-top: .25rem;
+                }
+            }
+        }
+    }
+
     // This works with following structure: <i> <span> [button].
     // <span> here is a one-line text, and button can be anything but <span>.
     &.aligned-buttons {
