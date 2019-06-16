@@ -642,6 +642,7 @@ class password extends rcube_plugin
 
         case 'ssha512':
             $salt = rcube_utils::random_bytes(8);
+
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_SHA512, $password, $salt, 4);
                 $crypted = mhash(MHASH_SHA512, $password . $salt);
@@ -656,6 +657,7 @@ class password extends rcube_plugin
                     'message' => "Password plugin: Your PHP install does not have the mhash()/hash() function"
                 ), true, true);
             }
+
             $crypted = base64_encode($crypted . $salt);
             $prefix  = '{SSHA512}';
             break;
