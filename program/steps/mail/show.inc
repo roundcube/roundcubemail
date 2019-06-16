@@ -242,8 +242,9 @@ function rcmail_remote_objects_msg()
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: none';
 
-    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources'))) . '&nbsp;'
-        . html::a(array(
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources')));
+
+    $buttons = html::a(array(
             'href'    => "#loadremote",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote')"
         ),
@@ -251,7 +252,7 @@ function rcmail_remote_objects_msg()
 
     // add link to save sender in addressbook and reload message
     if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
-        $msg .= ' ' . html::a(array(
+        $buttons .= ' ' . html::a(array(
                 'href'    => "#loadremotealways",
                 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote', true)",
                 'style'   => "white-space:nowrap"
@@ -261,7 +262,7 @@ function rcmail_remote_objects_msg()
 
     $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
 
-    return html::div($attrib, $msg);
+    return html::div($attrib, $msg . '&nbsp;' . html::span('boxbuttons', $buttons));
 }
 
 function rcmail_message_buttons()
