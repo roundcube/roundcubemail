@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Don't log full session identifiers in userlogins log (#6625)
 - Support $HasAttachment/$HasNoAttachment keywords (#6201)
 - Support PECL memcached extension as a session and cache storage driver (experimental)
+- Switch to IDNA2008 variant (#6806)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Plugin API: Add 'render_folder_selector' hook
 - Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
