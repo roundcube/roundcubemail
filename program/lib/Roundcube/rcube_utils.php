@@ -958,12 +958,12 @@ class rcube_utils
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
                 $options = defined('IDNA_NONTRANSITIONAL_TO_ASCII') ? IDNA_NONTRANSITIONAL_TO_ASCII : 0;
-                $domain = idn_to_ascii($domain, $options, $variant);
+                $domain  = idn_to_ascii($domain, $options, $variant);
             }
         }
         else if (preg_match('/(^|\.)xn--/i', $domain)) {
             $options = defined('IDNA_NONTRANSITIONAL_TO_UNICODE') ? IDNA_NONTRANSITIONAL_TO_UNICODE : 0;
-            $domain = idn_to_utf8($domain, $options, $variant);
+            $domain  = idn_to_utf8($domain, $options, $variant);
         }
 
         if ($domain === false) {

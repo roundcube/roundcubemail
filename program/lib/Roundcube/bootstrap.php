@@ -379,7 +379,7 @@ if (!function_exists('idn_to_utf8'))
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn    = new Net_IDNA2();
+            $idn    = new Net_IDNA2(array('version' => '2008'));
             $loaded = true;
         }
 
@@ -402,7 +402,7 @@ if (!function_exists('idn_to_ascii'))
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn    = new Net_IDNA2();
+            $idn    = new Net_IDNA2(array('version' => '2008'));
             $loaded = true;
         }
 
