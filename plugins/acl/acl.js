@@ -257,15 +257,14 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
             cl = items[cl];
 
         if (cl == 'user')
-            td.addClass(cl).append($('<a>').text(o.username));
+            td.addClass(cl).attr('title', o.title).append($('<a>').text(o.display));
         else
             td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).html('<span/>');
 
         $(this).replaceWith(td);
     });
 
-    row.attr('id', 'rcmrow'+id);
-    row = row.get(0);
+    row = row.attr({id: 'rcmrow' + id, 'data-userid': o.username}).get(0);
 
     this.env.acl[id] = o.acl;
 
@@ -339,7 +338,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         });
 
         if (!this.env.acl_specials.length || $.inArray(id, this.env.acl_specials) < 0)
-            val = $('td.user', row).text();
+            val = $(row).data('userid');
         else
             type = id;
     }
