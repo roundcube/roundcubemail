@@ -28,6 +28,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
 - Elastic: Fix visual issue with long buttons in .boxwarning (#6797)
 - Larry: Fix regression where menu actions didn't work with keyboard (#6740)
+- ACL: Display user/group names (from ldap) instead of acl identifier
 - Password: Added ldap_exop driver (#4992)
 - Managesieve: Fix bug where global includes were requested for vacation (#6716)
 - Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
