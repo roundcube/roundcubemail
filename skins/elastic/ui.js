@@ -3061,16 +3061,13 @@ function rcube_elastic_ui()
      */
     function recipient_input(obj)
     {
-        var list, input, ac_props, update_lock,
+        var list, input, ac_props,
             input_len_update = function() {
                 input.css('width', Math.max(40, input.val().length * 15 + 25));
             },
             apply_func = function() {
                 // update the original input
                 $(obj).val(list.text() + input.val());
-            },
-            focus_func = function() {
-                list.addClass('focus');
             },
             insert_recipient = function(name, email, replace) {
                 var recipient = $('<li class="recipient">'),
@@ -3102,12 +3099,6 @@ function rcube_elastic_ui()
             update_func = function(text) {
                 var result;
 
-                if (update_lock) {
-                    return;
-                }
-
-                update_lock = true;
-
                 text = (text || input.val()).replace(/[,;\s]+$/, '');
                 result = recipient_input_parser(text);
 
@@ -3121,31 +3112,19 @@ function rcube_elastic_ui()
                         input.val(result.text);
                         apply_func();
                         input_len_update();
-                        update_lock = false;
                     }, 1);
 
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
-                if (e.type == 'blur') {
-                    list.removeClass('focus');
-                }
-
-                // FIXME: This is a workaround for a bug where on a touch device
-                // selecting a recipient from autocomplete list do not work because
-                // of some events race condition (?)
-                if (this.value.indexOf('@') < 0) {
-                    return;
-                }
-
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
-                update_func(e.type == 'paste' ? (e.originalEvent.clipboardData || window.clipboardData).getData('text') : null);
+                update_func(e.type == 'paste' ? (e.originalEvent.clipboardData || window.clipboardData).getData('text') : this.value);
             },
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
-                    list.children('li.recipient').first().remove();
+                    list.children('li.recipient').last().remove();
                     apply_func();
                     return false;
                 }
@@ -3161,10 +3140,11 @@ function rcube_elastic_ui()
 
         // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
-            .on('paste change blur', parse_func)
+            .on('paste change', parse_func)
             .on('input', input_len_update) // only to fix input length after paste
             .on('keydown', keydown_func)
-            .on('focus mousedown', focus_func);
+            .on('blur', function() { list.removeClass('focus'); })
+            .on('focus mousedown', function() { list.addClass('focus'); });
 
         list = $('<ul>').addClass('form-control recipient-input')
             .append($('<li>').append(input))
