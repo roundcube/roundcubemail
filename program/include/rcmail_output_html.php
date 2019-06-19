@@ -1859,15 +1859,15 @@ EOF;
         $page_title  = html::quote($this->pagetitle);
         $page_header = '';
         $page_footer = '';
+        $meta_content_type = '';
 
         // include meta tag with charset
         if (!empty($this->charset)) {
             if (!headers_sent()) {
                 header('Content-Type: text/html; charset=' . $this->charset);
             }
-            $page_header = '<meta http-equiv="content-type"';
-            $page_header.= ' content="text/html; charset=';
-            $page_header.= $this->charset . '" />'."\n";
+
+            $meta_content_type = '<meta http-equiv="content-type" content="text/html; charset=' . $this->charset . '" />';
         }
 
         // include scripts into header/footer
@@ -1880,8 +1880,19 @@ EOF;
         $page_footer .= $this->footer . "\n";
         $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
 
-        // find page header
+        // find page closing header
         if ($hpos = stripos($output, '</head>')) {
+            // find page opening header
+            if (($hpos_open = stripos($output, '<head>')) !== false) {
+                // insert content-type immediately after <head>. 6 is strlen('<head>')
+                $output = substr_replace($output, $meta_content_type, $hpos_open + 6, 0);
+                // correct $hpos due to content-type insertion
+                $hpos += strlen($meta_content_type);
+            }
+            else {
+                $page_header = "$meta_content_type\n$page_header";
+            }
+
             $page_header .= "\n";
         }
         else {
@@ -1894,7 +1905,7 @@ EOF;
                 }
                 $hpos++;
             }
-            $page_header = "<head>\n<title>$page_title</title>\n$page_header\n</head>\n";
+            $page_header = "<head>\n$meta_content_type\n<title>$page_title</title>\n$page_header\n</head>\n";
         }
 
         // add page header
