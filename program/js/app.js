@@ -8402,7 +8402,7 @@ function rcube_webmail()
       link = $(item).children('a').eq(0);
       text_obj = link.children('span.unreadcount');
       if (!text_obj.length && mycount)
-        text_obj = $('<span>').addClass('unreadcount').appendTo(link);
+        text_obj = $('<span>').addClass('unreadcount skip-content').appendTo(link);
       reg = /\s+\([0-9]+\)$/i;
 
       childcount = 0;
