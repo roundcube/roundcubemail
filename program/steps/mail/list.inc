@@ -40,19 +40,20 @@ if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
     }
 }
 
+// is there a set of columns for this request?
+if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
+    $_SESSION['list_attrib']['columns'] = explode(',', $cols);
+    if (!in_array('list_cols', $dont_override)) {
+        $save_arr['list_cols'] = explode(',', $cols);
+    }
+}
+
 // register layout change
 if ($layout = rcube_utils::get_input_value('_layout', rcube_utils::INPUT_GET)) {
     $OUTPUT->set_env('layout', $layout);
     $save_arr['layout'] = $layout;
     // force header replace on layout change
     $cols = $_SESSION['list_attrib']['columns'];
-}
-// is there a set of columns for this request?
-else if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
-    $_SESSION['list_attrib']['columns'] = explode(',', $cols);
-    if (!in_array('list_cols', $dont_override)) {
-        $save_arr['list_cols'] = explode(',', $cols);
-    }
 }
 
 if (!empty($save_arr)) {

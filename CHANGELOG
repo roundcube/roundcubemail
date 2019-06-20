@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where bold/strong text was converted to upper-case on html-to-text conversion (6758)
 - Fix bug in rcube_utils::parse_hosts() where %t, %d, %z could return only tld (#6746)
 - Fix bug where Next/Prev button in mail view didn't work with multi-folder search result (#6793)
+- Fix bug where selection of columns on messages list wasn't working
 
 RELEASE 1.3.9
 -------------
