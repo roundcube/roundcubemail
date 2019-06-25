@@ -1576,6 +1576,7 @@ function rcube_elastic_ui()
     function screen_resize()
     {
         if (is_framed && !layout.sidebar.length && !layout.list.length) {
+            screen_resize_headers();
             return;
         }
 
