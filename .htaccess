@@ -19,6 +19,13 @@ RewriteRule /?(README.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
 SetOutputFilter DEFLATE
 </IfModule>
 
+# prefer to brotli over gzip if brotli is available
+<IfModule mod_brotli.c>
+SetOutputFilter BROTLI_COMPRESS
+# some assets have been compressed, so no need to do it again
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|web[pm]|woff2?)$ no-brotli
+</IfModule>
+
 <IfModule mod_expires.c>
 ExpiresActive On
 ExpiresDefault "access plus 1 month"
