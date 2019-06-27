@@ -1169,25 +1169,20 @@ function rcube_elastic_ui()
         // display or reset the content frame
         var common_content_handler = function(e, href, show, title)
         {
-            if (is_mobile()) {
+            if (is_mobile() && env.frame_nav) {
                 content_frame_navigation(href, e);
             }
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
-                screen_resize();
+            }
+            else if (!show && env.last_selected != last_selected && !env.content_lock) {
+                env.last_selected = last_selected;
+            }
 
-                if (title) {
-                    title_reset(title);
-                }
-            }
-            else if (!show) {
-                if (env.last_selected != last_selected && !env.content_lock) {
-                    env.last_selected = last_selected;
-                    screen_resize();
-                }
-                title_reset();
-            }
+            screen_resize();
+
+            title_reset(title && show ? title : null);
 
             env.content_lock = false;
         };
@@ -1251,7 +1246,7 @@ function rcube_elastic_ui()
                 common_list_handler(e);
             })
             .addEventListener('show-content', function(e) {
-                if (!$(e.obj).is('iframe')) {
+                if (e.obj && !$(e.obj).is('iframe')) {
                     $(e.scrollElement || e.obj).scrollTop(0);
                     if (is_mobile()) {
                         iframe_loader(e.obj);
