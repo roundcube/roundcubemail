@@ -2049,11 +2049,8 @@ class rcube_imap extends rcube_storage
 
             // build parts list for headers pre-fetching
             for ($i=0; $i<count($part); $i++) {
-                if (!is_array($part[$i])) {
-                    break;
-                }
                 // fetch message headers if message/rfc822 or named part
-                if (!is_array($part[$i][0])) {
+                if (is_array($part[$i]) && !is_array($part[$i][0])) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
@@ -2062,7 +2059,11 @@ class rcube_imap extends rcube_storage
                         $params = array_map('strtolower', (array) $part[$i][2]);
                         $find   = array('name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*');
 
-                        if (count(array_intersect($params, $find)) > 0) {
+                        // In case of malformed header check disposition. E.g. some servers for
+                        // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
+                        if (count(array_intersect($params, $find)) > 0
+                            || (is_array($part[$i][9]) && stripos($part[$i][9][0], 'attachment') === 0)
+                        ) {
                             $mime_part_headers[] = $tmp_part_id;
                         }
                     }
@@ -2243,8 +2244,14 @@ class rcube_imap extends rcube_storage
         // part headers we'll get attachment name from them, not the BODYSTRUCTURE
         $rfc2231_params = array();
         if (!empty($headers) || !empty($part->headers)) {
-            $headers = $part->headers ?: rcube_mime::parse_headers($headers);
-            $tokens  = preg_split('/;[\s\r\n\t]*/', $headers['content-type'] . ';' . $headers['content-disposition']);
+            if (is_object($headers)) {
+                $headers = get_object_vars($headers);
+            }
+            else {
+                $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $part->headers;
+            }
+
+            $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type'] . ';' . $headers['content-disposition']);
 
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header
@@ -2297,6 +2304,18 @@ class rcube_imap extends rcube_storage
             }
 
             $part->filename = rcube_charset::convert(urldecode($filename_encoded), $filename_charset);
+        }
+
+        // Workaround for invalid Content-Type (#6816)
+        // Some servers for "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
+        if ($part->mimetype == 'text/plain' && !empty($headers['content-type'])) {
+            $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type']);
+            $type   = rcube_mime::fix_mimetype($tokens[0]);
+
+            if ($type != $part->mimetype) {
+                $part->mimetype = $type;
+                list($part->ctype_primary, $part->ctype_secondary) = explode('/', $part->mimetype);
+            }
         }
     }
 
