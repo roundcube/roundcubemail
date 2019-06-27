@@ -1852,7 +1852,7 @@ EOF;
 
         // put docready commands into page footer
         if (!empty($this->scripts['docready'])) {
-            $this->add_script('$(document).ready(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
+            $this->add_script('$(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
         }
 
         // replace specialchars in content
