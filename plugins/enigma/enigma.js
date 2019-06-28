@@ -22,7 +22,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 {multiselect:true, draggable:false, keyboard:true});
             rcmail.keys_list
                 .addEventListener('select', function(o) { rcmail.enigma_keylist_select(o); })
-                .addEventListener('keypress', function(o) { rcmail.enigma_keylist_keypress(o); })
+                .addEventListener('keypress', function(o) { rcmail.list_keypress(o, {del: 'plugin.enigma-key-delete'}); })
                 .init()
                 .focus();
 
@@ -351,19 +351,6 @@ rcube_webmail.prototype.enigma_keylist_select = function(list)
 
     this.enigma_loadframe(url);
     this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-export-selected', list.get_selection().length > 0);
-};
-
-rcube_webmail.prototype.enigma_keylist_keypress = function(list)
-{
-    if (list.modkey == CONTROL_KEY)
-        return;
-
-    if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
-        this.command('plugin.enigma-key-delete');
-    else if (list.key_pressed == 33)
-        this.command('previouspage');
-    else if (list.key_pressed == 34)
-        this.command('nextpage');
 };
 
 // load key frame
