@@ -67,9 +67,10 @@ if (window.rcmail) {
           {multiselect:false, draggable:true, keyboard:true});
 
         rcmail.filters_list
-          .addEventListener('select', function(e) { rcmail.managesieve_select(e); })
-          .addEventListener('dragstart', function(e) { rcmail.managesieve_dragstart(e); })
-          .addEventListener('dragend', function(e) { rcmail.managesieve_dragend(e); })
+          .addEventListener('select', function(o) { rcmail.managesieve_select(o); })
+          .addEventListener('keypress', function(o) { rcmail.list_keypress(o, {del: 'plugin.managesieve-del'}); })
+          .addEventListener('dragstart', function(o) { rcmail.managesieve_dragstart(o); })
+          .addEventListener('dragend', function(o) { rcmail.managesieve_dragend(o); })
           .addEventListener('initrow', function(row) {
             row.obj.onmouseover = function() { rcmail.managesieve_focus_filter(row); };
             row.obj.onmouseout = function() { rcmail.managesieve_unfocus_filter(row); };
