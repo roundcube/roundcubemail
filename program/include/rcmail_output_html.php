@@ -228,9 +228,11 @@ EOF;
     /**
      * Getter for the current page title
      *
+     * @param bool $full Prepend title with product/user name
+     *
      * @return string The page title
      */
-    protected function get_pagetitle()
+    protected function get_pagetitle($full = true)
     {
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
@@ -243,6 +245,15 @@ EOF;
         }
         else {
             $title = ucfirst($this->env['task']);
+        }
+
+        if ($full) {
+            if ($this->devel_mode && !empty($_SESSION['username'])) {
+                $title = $_SESSION['username'] . ' :: ' . $title;
+            }
+            else if ($prod_name = $this->config->get('product_name')) {
+                $title = $prod_name . ' :: ' . $title;
+            }
         }
 
         return $title;
@@ -1374,17 +1385,11 @@ EOF;
                     $content = html::quote($ver);
                 }
                 else if ($object == 'steptitle') {
-                    $content = html::quote($this->get_pagetitle());
+                    $content = html::quote($this->get_pagetitle(false));
                 }
                 else if ($object == 'pagetitle') {
-                    if ($this->devel_mode && !empty($_SESSION['username']))
-                        $title = $_SESSION['username'].' :: ';
-                    else if ($prod_name = $this->config->get('product_name'))
-                        $title = $prod_name . ' :: ';
-                    else
-                        $title = '';
-                    $title .= $this->get_pagetitle();
-                    $content = html::quote($title);
+                    // Deprecated, <title> will be added automatically
+                    $content = html::quote($this->get_pagetitle());
                 }
                 else if ($object == 'contentframe') {
                     if (empty($attrib['id'])) {
@@ -1828,20 +1833,6 @@ EOF;
             $is_empty = true;
         }
 
-        // set default page title
-        if (empty($this->pagetitle)) {
-            $this->pagetitle = 'Roundcube Mail';
-        }
-
-        // declare page language
-        if (!empty($_SESSION['language'])) {
-            $lang = substr($_SESSION['language'], 0, 2);
-            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
-            if (!headers_sent()) {
-                header('Content-Language: ' . $lang);
-            }
-        }
-
         $merge_script_files = function($output, $script) {
             return $output . html::script($script);
         };
@@ -1855,19 +1846,39 @@ EOF;
             $this->add_script('$(function(){ ' . $this->scripts['docready'] . "\n});", 'foot');
         }
 
-        // replace specialchars in content
-        $page_title  = html::quote($this->pagetitle);
         $page_header = '';
         $page_footer = '';
+        $meta        = '';
+
+        // declare page language
+        if (!empty($_SESSION['language'])) {
+            $lang   = substr($_SESSION['language'], 0, 2);
+            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
+
+            if (!headers_sent()) {
+                header('Content-Language: ' . $lang);
+            }
+        }
 
         // include meta tag with charset
         if (!empty($this->charset)) {
             if (!headers_sent()) {
                 header('Content-Type: text/html; charset=' . $this->charset);
             }
-            $page_header = '<meta http-equiv="content-type"';
-            $page_header.= ' content="text/html; charset=';
-            $page_header.= $this->charset . '" />'."\n";
+
+            $meta .= html::tag('meta', array(
+                    'http-equiv' => 'content-type',
+                    'content'    => "text/html; charset={$this->charset}",
+                    'nl'         => true
+            ));
+        }
+
+        // include page title (after charset specification)
+        $meta .= '<title>' . html::quote($this->get_pagetitle()) . "</title>\n";
+
+        $output = preg_replace('/(<head[^>]*>)\n*/i', "\\1\n{$meta}", $output, 1, $count);
+        if (!$count) {
+            $page_header .= $meta;
         }
 
         // include scripts into header/footer
@@ -1894,7 +1905,7 @@ EOF;
                 }
                 $hpos++;
             }
-            $page_header = "<head>\n<title>$page_title</title>\n$page_header\n</head>\n";
+            $page_header = "<head>\n$page_header\n</head>\n";
         }
 
         // add page hader

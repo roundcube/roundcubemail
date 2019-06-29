@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Add 'render_folder_selector' hook
 - Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
 - Redis: Support connection to unix socket
+- Put charset meta specification before a title tag, add page title automatically (#6811)
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
