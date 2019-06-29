@@ -157,7 +157,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 ));
             }
             else if ($active) {
-                $list[$idx] = $rule['name'];
+                $list[$idx] = $rule['name'] ?: ('#' . ($idx + 1));
             }
         }
 
