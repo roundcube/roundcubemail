@@ -1042,10 +1042,23 @@ EOF;
      */
     protected function parse_conditions($input)
     {
+        while (preg_match('/<roundcube:if\s+[^>]+>(((?!<roundcube:(if|endif)).)*)<roundcube:endif[^>]*>/is', $input, $conditions)) {
+            $result = $this->eval_condition($conditions[0]);
+            $input = str_replace($conditions[0], $result, $input);
+        }
+
+        return $input;
+    }
+
+    /**
+     * Process & evaluate conditional tags
+     */
+    protected function eval_condition($input)
+    {
         $matches = preg_split('/<roundcube:(if|elseif|else|endif)\s+([^>]+)>\n?/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE);
         if ($matches && count($matches) == 4) {
             if (preg_match('/^(else|endif)$/i', $matches[1])) {
-                return $matches[0] . $this->parse_conditions($matches[3]);
+                return $matches[0] . $this->eval_condition($matches[3]);
             }
 
             $attrib = html::parse_attrib_string($matches[2]);
@@ -1067,7 +1080,7 @@ EOF;
                     $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
                 }
 
-                return $matches[0] . $this->parse_conditions($result);
+                return $matches[0] . $this->eval_condition($result);
             }
 
             rcube::raise_error(array(
