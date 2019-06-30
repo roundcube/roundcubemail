@@ -33,6 +33,7 @@
             <file>Framework/MessageHeader.php</file>
             <file>Framework/MessagePart.php</file>
             <file>Framework/Mime.php</file>
+            <file>Framework/OutputHtml.php</file>
             <file>Framework/Rcube.php</file>
             <file>Framework/ResultIndex.php</file>
             <file>Framework/ResultMultifolder.php</file>
