@@ -360,9 +360,7 @@ remove_row: function(uid, sel_next)
 
   node.style.display = 'none';
 
-  // Specify removed row uid in the select_next argument.
-  // It's needed because after removing a set of rows
-  // reference to the last selected message is lost.
+  // Select next row before deletion, because we need the reference
   if (sel_next)
     this.select_next(uid);
 

@@ -1163,7 +1163,7 @@ $config['refresh_interval'] = 60;
 // If true all folders will be checked for recent messages
 $config['check_all_folders'] = false;
 
-// If true, after message delete/move, the next message will be displayed
+// If true, after message/contact delete/move, the next message/contact will be displayed
 $config['display_next'] = true;
 
 // Default messages listing mode. One of 'threads' or 'list'.
