@@ -12,6 +12,8 @@
 
 class rcube_ldap_ppolicy_password
 {
+    protected $debug = false;
+
     public function save($currpass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
