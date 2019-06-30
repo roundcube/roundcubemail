@@ -31,8 +31,6 @@ require_once __DIR__ . '/ldap_simple.php';
 
 class rcube_ldap_exop_password extends rcube_ldap_simple_password
 {
-    private $debug = false;
-
     function save($curpass, $passwd)
     {
         if (!function_exists('ldap_exop_passwd')) {
