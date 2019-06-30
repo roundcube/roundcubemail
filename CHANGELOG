@@ -12,6 +12,10 @@ CHANGELOG Roundcube Webmail
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Plugin API: Add 'render_folder_selector' hook
 - Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
+- Changes in `display_next` setting (#6795):
+    - Move it to Preferences > User Interface > Main Options
+    - Make it apply to Contacts interface too
+    - Make it apply only if deleting/moving a previewed message/contact
 - Redis: Support connection to unix socket
 - Put charset meta specification before a title tag, add page title automatically (#6811)
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
