@@ -317,7 +317,7 @@ abstract class rcube_plugin
      */
     public function include_stylesheet($fn)
     {
-        $this->api->include_stylesheet($this->resource_url($fn), $if_exists);
+        $this->api->include_stylesheet($this->resource_url($fn));
     }
 
     /**
