@@ -700,16 +700,20 @@ class rcube_utils
      */
     public static function request_header($name)
     {
-        if (function_exists('getallheaders')) {
-            $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
-            $key  = strtoupper($name);
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+            $key     = strtoupper($name);
         }
         else {
-            $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
-            $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
+            $headers = $_SERVER;
+            $key     = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
         }
 
-        return $hdrs[$key];
+        if (!empty($headers)) {
+            $headers = array_change_key_case($headers, CASE_UPPER);
+
+            return $headers[$key];
+        }
     }
 
     /**
