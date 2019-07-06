@@ -392,5 +392,14 @@ body.task-error-login #layout {
     }
 }
 
+/*** Settings UI ***/
+
+// A default icon for settings menu entries added by plugins
+.settings-default-icon {
+    tr > td.section::before,
+    li > a:before {
+        content: @fa-var-cog;
+    }
+}
 
 @import "_styles";

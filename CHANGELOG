@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
 - Elastic: Fix visual issue with long buttons in .boxwarning (#6797)
 - Elastic: Fix handling new-line in text pasted to a recipient input
+- Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
 - Larry: Fix regression where menu actions didn't work with keyboard (#6740)
 - ACL: Display user/group names (from ldap) instead of acl identifier
 - Password: Added ldap_exop driver (#4992)
