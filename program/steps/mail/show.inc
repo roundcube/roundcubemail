@@ -685,7 +685,7 @@ function rcmail_message_body($attrib)
                     $body = rcmail_html4inline($body, $body_args);
                 }
 
-                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
+                $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
             }
         }
     }
