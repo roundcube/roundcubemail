@@ -1083,13 +1083,13 @@ function rcmail_part_image_type($part)
 /**
  * Modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $args)
+function rcmail_html4inline($body, &$args)
 {
     $last_pos = 0;
     $cont_id  = $args['container_id'] . ($args['body_class'] ? ' div.' . $args['body_class'] : '');
 
     // find STYLE tags
-    while (($pos = stripos($body, '<style', $last_pos)) && ($pos2 = stripos($body, '</style>', $pos))) {
+    while (($pos = stripos($body, '<style', $last_pos)) !== false && ($pos2 = stripos($body, '</style>', $pos+1))) {
         $pos = strpos($body, '>', $pos) + 1;
         $len = $pos2 - $pos;
 
@@ -1101,37 +1101,22 @@ function rcmail_html4inline($body, $args)
         $last_pos = $pos2 + strlen($styles) - $len;
     }
 
-    $body = preg_replace(array(
-            // add comments around html and other tags
-            '/(<!DOCTYPE[^>]*>)/i',
-            '/(<\?xml[^>]*>)/i',
-            '/(<\/?html[^>]*>)/i',
-            '/(<\/?head[^>]*>)/i',
-            '/(<title[^>]*>.*<\/title>)/Ui',
-            '/(<\/?meta[^>]*>)/i',
-            // quote <? of php and xml files that are specified as text/html
-            '/<\?/',
-            '/\?>/',
-            // replace <body> with <div>
-            '/<body([^>]*)>/i',
-            '/<\/body>/i',
-        ),
-        array(
-            '<!--\\1-->',
-            '<!--\\1-->',
-            '<!--\\1-->',
-            '<!--\\1-->',
-            '<!--\\1-->',
-            '<!--\\1-->',
-            '&lt;?',
-            '?&gt;',
-            '<div class="' . $args['body_class'] . '"\\1>',
-            '</div>',
-        ),
-        $body);
+    $replace = array(
+        // add comments around html and other tags
+        '/(<!DOCTYPE[^>]*>)/i'          => '<!--\\1-->',
+        '/(<\?xml[^>]*>)/i'             => '<!--\\1-->',
+        '/(<\/?html[^>]*>)/i'           => '<!--\\1-->',
+        '/(<\/?head[^>]*>)/i'           => '<!--\\1-->',
+        '/(<title[^>]*>.*<\/title>)/Ui' => '<!--\\1-->',
+        '/(<\/?meta[^>]*>)/i'           => '<!--\\1-->',
+        // quote <? of php and xml files that are specified as text/html
+        '/<\?/' => '&lt;?',
+        '/\?>/' => '?&gt;',
+    );
+
+    $regexp = '/<body([^>]*)/';
 
     // Handle body attributes that doesn't play nicely with div elements
-    $regexp = '/<div class="' . preg_quote($args['body_class'], '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
         $style = array();
         $attrs = $m[0];
@@ -1139,13 +1124,13 @@ function rcmail_html4inline($body, $args)
         // Get bgcolor, we'll set it as background-color of the message container
         if ($m[1] && preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
             $style['background-color'] = $mb[1];
-            $attrs = preg_replace('/bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
+            $attrs = preg_replace('/\s?bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
         }
 
         // Get background, we'll set it as background-image of the message container
         if ($m[1] && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
             $style['background-image'] = 'url('.$mb[1].')';
-            $attrs = preg_replace('/background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
+            $attrs = preg_replace('/\s?background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
         }
 
         if (!empty($style)) {
@@ -1171,14 +1156,27 @@ function rcmail_html4inline($body, $args)
                 $style[$idx] = $idx . ': ' . $val;
             }
 
-            $attributes['style'] = implode('; ', $style);
+            $args['container_attrib']['style'] = implode('; ', $style);
         }
+
+        // replace <body> with <div>
+        if (!empty($args['body_class'])) {
+            $replace['/<body([^>]*)>/i'] = '<div class="' . $args['body_class'] . '"\\1>';
+        }
+        else {
+            $replace['/<body/i'] = '<div';
+        }
+
+        $replace['/<\/body>/i'] = '</div>';
     }
     // make sure there's 'rcmBody' div, we need it for proper css modification
     // its name is hardcoded in rcmail_message_body() also
-    else {
+    else if (!empty($args['body_class'])) {
         $body = '<div class="' . $args['body_class'] . '">' . $body . '</div>';
     }
+
+    // Clean up, and replace <body> with <div>
+    $body = preg_replace(array_keys($replace), array_values($replace), $body);
 
     return $body;
 }
