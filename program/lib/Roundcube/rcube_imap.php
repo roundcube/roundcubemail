@@ -2406,13 +2406,15 @@ class rcube_imap extends rcube_storage
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary = $part_data['type'];
-            $o_part->encoding      = $part_data['encoding'];
-            $o_part->charset       = $part_data['charset'];
-            $o_part->size          = $part_data['size'];
+            $o_part->ctype_primary   = $part_data['type'];
+            $o_part->ctype_secondary = $part_data['subtype'];
+            $o_part->encoding        = $part_data['encoding'];
+            $o_part->charset         = $part_data['charset'];
+            $o_part->size            = $part_data['size'];
         }
 
-        if ($o_part && $o_part->size) {
+        // Note: multipart/* parts will have size=0, we don't want to ignore them
+        if ($o_part && ($o_part->size || $o_part->ctype_primary == 'multipart')) {
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
                 $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);

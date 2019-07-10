@@ -3634,6 +3634,7 @@ class rcube_imap_generic
         }
         else {
             $data['type']     = strtolower($part_a[0]);
+            $data['subtype']  = strtolower($part_a[1]);
             $data['encoding'] = strtolower($part_a[5]);
 
             // charset
