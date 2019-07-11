@@ -127,6 +127,12 @@ body {
     min-width: 220px;
     border-right: 1px solid @color-layout-border;
     background-color: @color-layout-sidebar-background;
+
+    &.sidebar-right {
+        order: 2;
+        border-right: 0;
+        border-left: 1px solid @color-layout-border;
+    }
 }
 
 #layout-list {
