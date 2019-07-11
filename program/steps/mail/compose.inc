@@ -1197,7 +1197,7 @@ function rcmail_compose_attachment_list($attrib)
     if (!$attrib['id'])
         $attrib['id'] = 'rcmAttachmentList';
 
-    $out    = "\n";
+    $out    = "";
     $jslist = array();
     $button = '';
 
