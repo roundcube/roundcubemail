@@ -827,6 +827,7 @@ html.touch {
             &:extend(.font-icon-class);
             .font-icon-regular(@fa-var-file);
             height: @attachmentslist-item-height;
+            margin: 0;
         }
 
         &.txt:before,
@@ -943,6 +944,7 @@ html.touch {
         a.filename {
             display: flex;
             overflow: hidden;
+            padding: 0 .2em;
         }
 
         .attachment-name {
@@ -952,7 +954,7 @@ html.touch {
 
         .attachment-size {
             color: @color-list-secondary;
-            padding: 0 .25em;
+            padding-left: .25em;
         }
     }
 }
