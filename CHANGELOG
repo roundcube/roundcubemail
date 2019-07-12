@@ -18,22 +18,23 @@ CHANGELOG Roundcube Webmail
     - Make it apply only if deleting/moving a previewed message/contact
 - Redis: Support connection to unix socket
 - Put charset meta specification before a title tag, add page title automatically (#6811)
+- Elastic: Various internal refactorings
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
+- Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
+- Elastic: Move compose attachments/options to the right side (#6839)
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
 - Elastic: Fix folders list scrolling on touch devices (#6706)
 - Elastic: Fix non-working pretty selects in Chrome browser (#6705)
-- Elastic: Various internal refactorings
 - Elastic: Fix issue with absolute positioned mail content (#6739)
 - Elastic: Fix bug where some menu actions could cause a browser popup warning
 - Elastic: Fix handling mailto: URL parameters in contact menu (#6751)
 - Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
 - Elastic: Fix visual issue with long buttons in .boxwarning (#6797)
 - Elastic: Fix handling new-line in text pasted to a recipient input
-- Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
 - Larry: Fix regression where menu actions didn't work with keyboard (#6740)
 - ACL: Display user/group names (from ldap) instead of acl identifier
 - Password: Added ldap_exop driver (#4992)
