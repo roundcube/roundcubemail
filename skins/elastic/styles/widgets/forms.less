@@ -867,6 +867,9 @@ html.ms .propform {
     }
 
     .attachmentslist {
+        border: 0;
+        background: transparent;
+
         li {
             position: relative;
             display: flex;
@@ -882,10 +885,10 @@ html.ms .propform {
                 position: absolute;
                 right: 0.25em;
                 width: auto; // fix button width if the widget is in a .popupmenu
+            }
 
-                &:before {
-                    margin: 0;
-                }
+            a.dropdown {
+                margin-right: .5em;
             }
 
             .inner {

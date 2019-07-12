@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Add hide/show for advanced preferences (#6632)
 - Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
 - Elastic: Move compose attachments/options to the right side (#6839)
+- Elastic: Add border/background to attachments list widget (#6842)
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
 - Elastic: Fix folders list scrolling on touch devices (#6706)
 - Elastic: Fix non-working pretty selects in Chrome browser (#6705)
