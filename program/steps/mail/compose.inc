@@ -1227,6 +1227,7 @@ function rcmail_compose_attachment_list($attrib)
                     'href'    => "#load",
                     'class'   => 'filename',
                     'onclick' => sprintf("return %s.command('load-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                    'tabindex' => $attrib['tabindex'] ?: '0',
                 ), $link_content);
 
             $delete_link = html::a(array(
@@ -1239,8 +1240,8 @@ function rcmail_compose_attachment_list($attrib)
                 ), $button);
 
             $out .= html::tag('li', array(
-                    'id'          => 'rcmfile'.$id,
-                    'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
+                    'id'    => 'rcmfile' . $id,
+                    'class' => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                 ),
                 $COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
             );

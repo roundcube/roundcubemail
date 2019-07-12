@@ -2855,20 +2855,27 @@ function rcube_elastic_ui()
     {
         item = $(item);
 
-        if (!item.is('.no-menu') && !item.children('.drop').length) {
-            var label = rcmail.gettext('options');
-            var button = $('<a>')
-                .attr({
+        if (!item.is('.no-menu') && !item.children('.dropdown').length) {
+            var label = rcmail.gettext('options'),
+                fname = item.find('a.filename');
+
+            var button = $('<a>').attr({
                     href: '#',
-                    tabindex: 0,
+                    tabindex: fname.attr('tabindex') || 0,
                     title: label,
                     'class': 'button icon dropdown skip-content'
                 })
                 .on('click', function(e) {
                     return attachmentmenu($('#attachmentmenu'), button, e);
                 })
-                .append($('<span>').attr('class', 'inner').text(label))
-                .appendTo(item);
+                .append($('<span>').attr('class', 'inner').text(label));
+
+            if (fname.length) {
+                button.insertAfter(fname);
+            }
+            else {
+                button.appendTo(item);
+            }
         }
     };
 
