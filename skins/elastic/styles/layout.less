@@ -132,6 +132,9 @@ body {
         order: 2;
         border-right: 0;
         border-left: 1px solid @color-layout-border;
+        // sidebar on right is unusual situation, probably there's no list in layout,
+        // in such a case we can make it a little bit wider
+        flex: 3;
     }
 }
 
@@ -259,7 +262,7 @@ body {
     #layout-sidebar,
     #layout-list {
         max-width: none;
-        border: 0;
+        border: 0 !important;
     }
 
     #layout > div > .header {
