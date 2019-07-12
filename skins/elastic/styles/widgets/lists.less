@@ -807,11 +807,20 @@ html.touch {
     padding: 0;
     margin: 0;
 
+    background-color: @color-attachmentlist-background;
+    border: 1px solid @color-attachmentlist-border;
+
+    &:empty {
+        padding: 0;
+        border: 0;
+    }
+
     li {
         list-style: none;
         display: inline-flex;
         white-space: nowrap;
         line-height: @attachmentslist-item-height;
+        padding: 0 .25em;
         max-width: 100%;
 
         &:before {
