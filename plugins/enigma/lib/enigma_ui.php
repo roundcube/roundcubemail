@@ -1026,6 +1026,10 @@ class enigma_ui
         }
 
         if ($count = count($messages)) {
+            // Apply security background
+            $style    = enigma_settings::security_bg_style();
+            $messages = array_map(function($item) use ($style) { $item['style'] = $style; return $item; }, $messages);
+
             if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
                 $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
             }

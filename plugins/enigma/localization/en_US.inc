@@ -96,6 +96,13 @@ $labels['managekeys'] = 'Manage PGP keys';
 $labels['identitymatchingprivkeys'] = 'You have $nr matching PGP private keys stored in your keyring:';
 $labels['identitynoprivkeys'] = 'This sender identity doesn\'t yet have a PGP private key stored in your keyring.';
 
+$labels['securitybg'] = 'Security Background';
+$labels['bgicon'] = 'Image';
+$labels['bgpreview'] = 'Preview';
+$labels['bgangle'] = 'Angle';
+$labels['bgscale'] = 'Scale';
+$labels['samplebox'] = 'The security background helps to recognize user interface manipulations done by senders of encrypted/signed mail.';
+
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';

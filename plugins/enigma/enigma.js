@@ -63,6 +63,12 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 });
             }
         }
+
+        if ($('.enigma-bg-preview').length) {
+            rcmail.enigma_bg_post();
+            $('#rcmfd_enigma_bg_icon, #rcmfd_enigma_bg_scale, #rcmfd_enigma_bg_angle')
+                .on('change', function() { rcmail.enigma_bg_post(); });
+        }
     }
     else if (rcmail.env.task == 'mail') {
         if (rcmail.env.action == 'compose') {
@@ -706,4 +712,21 @@ rcube_webmail.prototype.enigma_find_publickey = function(email)
             rcmail.http_post('plugin.enigmakeys', post, lock);
         }
     );
+};
+
+rcube_webmail.prototype.enigma_bg_post = function()
+{
+    var post = {};
+
+    $.each(['bg_icon', 'bg_scale', 'bg_angle'], function() {
+        post['_enigma_' + this] = $('#rcmfd_enigma_' + this).val();
+    });
+
+    rcmail.http_post('plugin.enigmabg', post);
+};
+
+rcube_webmail.prototype.enigma_bg_update = function(style)
+{
+    if (rcmail.env.task == 'settings')
+        $('.enigma-bg-preview').children().attr('style', style);
 };
