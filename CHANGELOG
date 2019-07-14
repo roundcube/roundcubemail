@@ -69,6 +69,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where Next/Prev button in mail view didn't work with multi-folder search result (#6793)
 - Fix bug where selection of columns on messages list wasn't working
 - Fix bug in converting multi-page Tiff images to Jpeg (#6824)
+- Fix bug where handling multiple messages from multi-folder search result could not work (#6845)
 
 RELEASE 1.4-rc1
 ---------------

@@ -36,18 +36,18 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 
 // remove mbox part from _uid
 if (($_uid  = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC)) && !is_array($_uid) && preg_match('/^\d+-.+/', $_uid)) {
-  list($_uid, $mbox) = explode('-', $_uid, 2);
-  if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
-  if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
-  $_REQUEST['_uid'] = $_uid;
-  unset($_uid);
+    list($_uid, $mbox) = explode('-', $_uid, 2);
+    if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
+    if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
+    $_REQUEST['_uid'] = $_uid;
+    unset($_uid);
 
-  // override mbox
-  if (!empty($mbox)) {
-    $_GET['_mbox']  = $mbox;
-    $_POST['_mbox'] = $mbox;
-    $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
-  }
+    // override mbox
+    if (!empty($mbox)) {
+        $_GET['_mbox']  = $mbox;
+        $_POST['_mbox'] = $mbox;
+        $RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
+    }
 }
 
 if (!empty($_SESSION['browser_caps']) && !$OUTPUT->ajax_call) {

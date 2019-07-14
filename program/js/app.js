@@ -3391,7 +3391,7 @@ function rcube_webmail()
   this.toggle_read_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as read/unread
@@ -3406,7 +3406,7 @@ function rcube_webmail()
   {
     var i, len = a_uids.length,
       win = this.env.contentframe ? this.get_frame_window(this.env.contentframe) : window,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as flagged/unflagged
@@ -3454,7 +3454,7 @@ function rcube_webmail()
   this.flag_as_undeleted = function(a_uids)
   {
     var i, len = a_uids.length,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'undelete'}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: 'undelete'}),
       lock = this.display_message('markingmessage', 'loading');
 
     for (i=0; i<len; i++)
@@ -3466,7 +3466,7 @@ function rcube_webmail()
   this.flag_as_deleted = function(a_uids)
   {
     var r_uids = [],
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: 'delete'}),
       lock = this.display_message('markingmessage', 'loading'),
       list = this.message_list,
       rows = list ? list.rows : {},
@@ -3530,7 +3530,14 @@ function rcube_webmail()
   // with select_all mode checking
   this.uids_to_list = function(uids)
   {
-    return this.select_all_mode ? '*' : ($.isArray(uids) ? uids.join(',') : uids);
+    if (this.select_all_mode)
+      return '*';
+
+    // multi-folder list of uids cannot be passed as a string (#6845)
+    if ($.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
+      uids = uids.join(',');
+
+    return uids;
   };
 
   // Sets title of the delete button
