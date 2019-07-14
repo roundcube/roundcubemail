@@ -70,6 +70,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where selection of columns on messages list wasn't working
 - Fix bug in converting multi-page Tiff images to Jpeg (#6824)
 - Fix bug where handling multiple messages from multi-folder search result could not work (#6845)
+- Fix bug where unread count wasn't updated after moving multi-folder result (#6846)
 
 RELEASE 1.4-rc1
 ---------------
