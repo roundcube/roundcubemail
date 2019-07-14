@@ -672,12 +672,6 @@ function rcube_elastic_ui()
 
         if (rcmail.task == 'mail') {
             if (rcmail.env.action == 'compose') {
-                // In compose window we do not provide "Back' button, instead
-                // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
-                if (!rcmail.env.extwin) {
-                    $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
-                }
-
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
                     $('a.attach, a.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
@@ -698,6 +692,12 @@ function rcube_elastic_ui()
                     observer.observe(list[0], {childList: true});
                     status_callback();
                 }
+            }
+
+            // In compose/preview window we do not provide "Back' button, instead
+            // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+            if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
+                $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
             }
 
             // Append contact menu to all mailto: links
