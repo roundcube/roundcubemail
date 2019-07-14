@@ -1056,8 +1056,10 @@ class rcube_imap extends rcube_storage
                 }
 
                 // slice resultset first...
+                $index = array_slice($search_set->get(), $from, $slice_length);
                 $fetch = array();
-                foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
+
+                foreach ($index as $msg_id) {
                     list($uid, $folder) = explode('-', $msg_id, 2);
                     $fetch[$folder][] = $uid;
                 }
@@ -1067,6 +1069,11 @@ class rcube_imap extends rcube_storage
                 foreach ($fetch as $folder => $a_index) {
                     $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
                 }
+
+                // Re-sort the result according to the original search set order
+                usort($a_msg_headers, function($a, $b) use ($index) {
+                    return array_search($a->uid . '-' . $a->folder, $index) - array_search($b->uid . '-' . $b->folder, $index);
+                });
             }
 
             if ($slice) {
