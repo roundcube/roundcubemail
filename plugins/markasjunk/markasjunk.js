@@ -26,10 +26,10 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
 }
 
 rcube_webmail.prototype.rcmail_markasjunk_move = function(mbox, uids) {
-    var prev_uid = this.env.uid, a_uids = $.isArray(uids) ? uids : uids.split(",");
+    var prev_uid = this.env.uid;
 
-    if (this.message_list && a_uids.length == 1 && !this.message_list.in_selection([a_uids[0]]))
-        this.env.uid = a_uids[0];
+    if (this.message_list && uids.length == 1 && !this.message_list.in_selection(uids[0]))
+        this.env.uid = uids[0];
 
     if (mbox)
         this.move_messages(mbox);
