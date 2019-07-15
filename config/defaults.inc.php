@@ -27,8 +27,12 @@ $config = array();
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
+// Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
+// Note: Various drivers support various additional arguments for connection,
+//       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
+//       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
+//       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
