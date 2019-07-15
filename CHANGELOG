@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
 - Plugin API: Add 'render_folder_selector' hook
 - Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
+- Added flag to disable server certificate validation via Mysql DSN argument (#6848)
 - Changes in `display_next` setting (#6795):
     - Move it to Preferences > User Interface > Main Options
     - Make it apply to Contacts interface too

@@ -141,6 +141,10 @@ class rcube_db_mysql extends rcube_db
             $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
         }
 
+        if (isset($dsn['verify_server_cert'])) {
+            $result[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
+        }
+
         // Always return matching (not affected only) rows count
         $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
 
