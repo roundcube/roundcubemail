@@ -74,7 +74,7 @@ CREATE TABLE users (
   last_login datetime DEFAULT NULL,
   failed_login datetime DEFAULT NULL,
   failed_login_counter integer DEFAULT NULL,
-  language varchar(5),
+  language varchar(6),
   preferences text NOT NULL default ''
 );
 
@@ -99,7 +99,7 @@ CREATE INDEX ix_session_changed ON session (changed);
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL,
-   "language" varchar(5) NOT NULL,
+   "language" varchar(6) NOT NULL,
     data text NOT NULL
 );
 

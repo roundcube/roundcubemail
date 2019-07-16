@@ -102,14 +102,14 @@ CREATE TABLE [dbo].[users] (
 	[last_login] [datetime] NULL ,
 	[failed_login] [datetime] NULL ,
 	[failed_login_counter] [int] NULL ,
-	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NULL ,
+	[language] [varchar] (6) COLLATE Latin1_General_CI_AI NULL ,
 	[preferences] [text] COLLATE Latin1_General_CI_AI NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[dictionary] (
 	[user_id] [int] ,
-	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[language] [varchar] (6) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

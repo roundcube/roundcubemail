@@ -24,7 +24,7 @@ CREATE TABLE users (
     last_login timestamp with time zone DEFAULT NULL,
     failed_login timestamp with time zone DEFAULT NULL,
     failed_login_counter integer DEFAULT NULL,
-    "language" varchar(5),
+    "language" varchar(6),
     preferences text DEFAULT ''::text NOT NULL,
     CONSTRAINT users_username_key UNIQUE (username, mail_host)
 );
@@ -246,7 +246,7 @@ CREATE INDEX cache_messages_expires_idx ON cache_messages (expires);
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-   "language" varchar(5) NOT NULL,
+   "language" varchar(6) NOT NULL,
     data text NOT NULL,
     CONSTRAINT dictionary_user_id_language_key UNIQUE (user_id, "language")
 );
