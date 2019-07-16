@@ -202,7 +202,7 @@ rcube_webmail.prototype.acl_list_update = function(html)
 // Returns names of users in selected rows
 rcube_webmail.prototype.acl_get_usernames = function()
 {
-    var users = [], n, len, cell, row,
+    var users = [], n, len, id, row,
         list = this.acl_list,
         selection = list.get_selection();
 
@@ -210,10 +210,8 @@ rcube_webmail.prototype.acl_get_usernames = function()
         if (this.env.acl_specials.length && $.inArray(selection[n], this.env.acl_specials) >= 0) {
             users.push(selection[n]);
         }
-        else if (row = list.rows[selection[n]]) {
-            cell = $('td.user', row.obj);
-            if (cell.length == 1)
-                users.push(cell.text());
+        else if ((row = list.rows[selection[n]]) && (id = $(row.obj).data('userid'))) {
+            users.push(id);
         }
     }
 
