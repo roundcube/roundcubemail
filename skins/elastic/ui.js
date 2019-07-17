@@ -3109,13 +3109,9 @@ function rcube_elastic_ui()
                     insert_recipient(this.name, this.email);
                 });
 
-                // setTimeout() here is needed for proper input reset on paste event
-                // This is also the reason why we need parse_lock
-                setTimeout(function() {
-                        input.val(result.text);
-                        apply_func();
-                        input_len_update();
-                    }, 1);
+                input.val(result.text);
+                apply_func();
+                input_len_update();
 
                 return result.recipients.length > 0;
             },
@@ -3129,6 +3125,7 @@ function rcube_elastic_ui()
                     paste = (e.originalEvent.clipboardData || window.clipboardData).getData('text') || '';
                     // insert pasted text in place of the selection (or just cursor position)
                     value = value.substring(0, this.selectionStart) + paste + value.substring(this.selectionEnd);
+                    e.preventDefault();
                 }
 
                 update_func(value);
