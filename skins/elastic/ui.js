@@ -522,7 +522,7 @@ function rcube_elastic_ui()
 
                 // Add Select button to the list navigation bar
                 if (!button) {
-                    button = $('<a>').attr({'class': 'button select disabled', role: 'button', title: rcmail.gettext('select')})
+                    button = $('<a>').attr({'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select')})
                         .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
