@@ -3120,9 +3120,18 @@ function rcube_elastic_ui()
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
+                var paste, value = this.value;
+
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
-                update_func(e.type == 'paste' ? (e.originalEvent.clipboardData || window.clipboardData).getData('text') : this.value);
+                if (e.type == 'paste') {
+                    // pasted text
+                    paste = (e.originalEvent.clipboardData || window.clipboardData).getData('text') || '';
+                    // insert pasted text in place of the selection (or just cursor position)
+                    value = value.substring(0, this.selectionStart) + paste + value.substring(this.selectionEnd);
+                }
+
+                update_func(value);
             },
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
