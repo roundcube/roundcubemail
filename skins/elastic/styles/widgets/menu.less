@@ -370,8 +370,11 @@ a.toolbar-button {
     &.contacts:before {
         content: @fa-var-users;
     }
-    &.settings:before {
+    &.options:before {
         content: @fa-var-sliders-h;
+    }
+    &.settings:before {
+        content: @fa-var-cog;
     }
     &.help:before {
         content: @fa-var-life-ring;
@@ -469,10 +472,14 @@ a.toolbar-button {
     &.expand:before {
         content: @fa-var-angle-right;
     }
-    &.expand.all:before,
-    &.expand.none:before,
+    &.expand.all:before {
+        content: @fa-var-angle-double-down;
+    }
+    &.expand.none:before {
+        content: @fa-var-angle-double-right;
+    }
     &.expand.unread:before {
-        content: @fa-var-comments;
+        .font-icon-regular(@fa-var-envelope);
     }
     &.export:before,
     &.export.all:before,
@@ -596,10 +603,10 @@ a.toolbar-button {
         content: @fa-var-trash-alt;
     }
     &.select:before {
-        .font-icon-regular(@fa-var-check-circle);
+        content: @fa-var-mouse-pointer;
     }
     &.select.all:before {
-        content: @fa-var-check-square;
+        content: @fa-var-asterisk;
     }
     &.select.invert:before {
         content: @fa-var-square;
@@ -611,13 +618,10 @@ a.toolbar-button {
         .font-icon-solid(@fa-var-bars);
     }
     &.selection:before {
-        content: @fa-var-mouse-pointer;
+        .font-icon-regular(@fa-var-check-square);
     }
     &.send:before {
         content: @fa-var-paper-plane;
-    }
-    &.settings:before {
-        content: @fa-var-sliders-h;
     }
     &.showurl:before {
         content: @fa-var-link;
