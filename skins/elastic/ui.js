@@ -1344,8 +1344,8 @@ function rcube_elastic_ui()
 
                         if (!e) {
                             // Fix icons in Find and Replace dialog footer
-                            if (buttons.length === 5) {
-                                foot.addClass('tox-search-foot');
+                            if (buttons.length === 4) {
+                                body.closest('.tox-dialog').addClass('tox-search-dialog');
                             }
                             // Switch Save and Cancel buttons order
                             else if (buttons.length == 2) {
