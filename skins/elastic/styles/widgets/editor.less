@@ -151,26 +151,27 @@ div.tox {
                 }
             }
         }
+    }
 
-        &.tox-search-foot {
-            .tox-dialog__footer-start {
-                button:nth-of-type(1):before {
-                    content: @fa-var-search;
-                }
+    .tox-search-dialog {
+        .tox-form__group:not(:first-child) {
+            flex: initial !important;
+        }
 
-                button:nth-of-type(2):before,
-                button:nth-of-type(3):before {
-                    content: @fa-var-pencil-alt;
-                }
+        .tox-dialog__footer-start {
+            button {
+                padding: .25rem;
             }
+        }
 
-            .tox-dialog__footer-end {
-                button {
-                    padding: .5rem;
+        .tox-dialog__footer-end {
+            button {
+                &:before {
+                    content: @fa-var-pencil-alt !important;
+                }
 
-                    &:before {
-                        display: none;
-                    }
+                &:nth-of-type(1):before {
+                    content: @fa-var-search !important;
                 }
             }
         }
