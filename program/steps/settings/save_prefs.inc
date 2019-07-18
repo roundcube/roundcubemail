@@ -31,6 +31,7 @@ case 'general':
         'date_format'  => rcmail_prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
         'time_format'  => rcmail_prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
         'prettydate'   => isset($_POST['_pretty_date']),
+        'display_next' => isset($_POST['_display_next']),
         'refresh_interval' => intval($_POST['_refresh_interval']) * 60,
         'standard_windows' => isset($_POST['_standard_windows']),
         'skin'         => rcmail_prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
@@ -63,7 +64,6 @@ case 'mailview':
         'prefer_html'     => isset($_POST['_prefer_html']),
         'inline_images'   => isset($_POST['_inline_images']),
         'show_images'     => intval($_POST['_show_images']),
-        'display_next'    => isset($_POST['_display_next']),
         'default_charset' => rcmail_prefs_input('default_charset', '/^[a-zA-Z0-9-]+$/'),
     );
 

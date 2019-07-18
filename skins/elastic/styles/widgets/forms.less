@@ -867,10 +867,14 @@ html.ms .propform {
     }
 
     .attachmentslist {
+        border: 0;
+        background: transparent;
+
         li {
             position: relative;
             display: flex;
             padding-right: 1.5em;
+            margin: 0.15em 0;
 
             a.filename {
                 flex: 1;
@@ -879,12 +883,12 @@ html.ms .propform {
             a.delete,
             a.cancelupload {
                 position: absolute;
-                right: 0;
+                right: 0.25em;
                 width: auto; // fix button width if the widget is in a .popupmenu
+            }
 
-                &:before {
-                    margin: 0;
-                }
+            a.dropdown {
+                margin-right: .5em;
             }
 
             .inner {
@@ -974,7 +978,7 @@ html.ms .propform {
     a.button.icon {
         font-size: .8em;
         cursor: pointer;
-        padding: 0 0 0 .25em;
+        padding: 0;
 
         &:before {
             float: none;

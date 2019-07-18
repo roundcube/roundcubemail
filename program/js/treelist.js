@@ -96,6 +96,7 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.in_selection = in_selection;
   this.get_next = get_next;
   this.get_prev = get_prev;
   this.get_single_selection = get_selection;
@@ -293,6 +294,15 @@ function rcube_treelist_widget(node, p)
   function get_selection()
   {
     return selection;
+  }
+
+  /**
+   * Check if given id is selected
+   * This is for consistency with rcube_list_widget
+   */
+  function in_selection(id)
+  {
+    return selection == id;
   }
 
   /**

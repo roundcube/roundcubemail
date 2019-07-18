@@ -43,7 +43,8 @@
 
         a {
             color: @color-toolbar-button;
-            display: inline-block;
+            display: block;
+            float: left;
             border: 0 !important;
             height: @layout-header-height;
             min-width: 3.2rem;
@@ -77,11 +78,10 @@
             }
 
             a.dropdown {
-                min-width: auto;
                 padding: 0 .3rem;
 
                 &:before {
-                    line-height: 4.2;
+                    line-height: @layout-header-height;
                 }
 
                 &:hover {
@@ -97,14 +97,13 @@
     }
 
     .dropbutton {
-        display: block;
+        display: inline-block;
 
         a.dropdown {
             font-size: 75%;
-            min-width: auto;
+            min-width: 0;
 
             html.ie11 &:before {
-                overflow: hidden;
                 font-size: 80%;
             }
 
@@ -630,7 +629,7 @@ a.toolbar-button {
         content: @fa-var-file-code;
     }
     &.spellcheck:before {
-        content: @fa-var-magic; // TODO
+        content: @fa-var-spell-check;
     }
     &.status:before {
         .font-icon-regular(@fa-var-lightbulb);
@@ -772,6 +771,7 @@ a.toolbar-button {
 #taskmenu {
     a {
         display: block;
+        float: none;
     }
 
     @media screen and (max-width: @screen-width-xs) {

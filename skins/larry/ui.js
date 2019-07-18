@@ -907,17 +907,26 @@ function rcube_mail_ui()
   {
     item = $(item);
 
-    if (!item.children('.drop').length)
-      var label = rcmail.gettext('options');
-      item.append($('<a>')
-          .attr({'class': 'drop skip-content', tabindex: 0, 'aria-haspopup': true, title: label})
+    if (!item.children('.drop').length) {
+      var label = rcmail.gettext('options'),
+        fname = item.find('a.filename'),
+        tabindex = fname.attr('tabindex') || 0;
+
+      var button = $('<a>')
+          .attr({'class': 'drop skip-content', tabindex: tabindex, 'aria-haspopup': true, title: label})
           .text(label)
           .on('click keypress', function(e) {
             if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
               attachmentmenu(this, e);
               return false;
             }
-          }));
+          });
+
+      if (fname.length)
+        button.insertAfter(fname);
+      else
+        button.appendTo(item);
+    }
   }
 
   /**

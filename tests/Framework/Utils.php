@@ -598,8 +598,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('рф.ru', 'xn--p1ai.ru'),
             array('δοκιμή.gr', 'xn--jxalpdlp.gr'),
             array('gwóźdź.pl', 'xn--gwd-hna98db.pl'),
+            array('fußball.de', 'xn--fuball-cta.de'),
         );
-
     }
 
     /**

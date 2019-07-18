@@ -103,13 +103,14 @@ body.task-error-login #layout {
 /*** Addressbook UI ***/
 
 #contactpic {
-    min-width: @layout-contact-icon-width;
-    min-height: @layout-contact-icon-width;
+    width: @layout-contact-icon-width;
+    height: @layout-contact-icon-height;
     border-radius: .5rem;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display:table-cell;
+    vertical-align:middle;
+    text-align: center;
+    background-color: @color-image-upload-background;
 
     img {
         max-width: @layout-contact-icon-width;
@@ -369,7 +370,7 @@ body.task-error-login #layout {
 }
 
 #compose-attachments {
-    margin: .5rem .5rem 0 .5rem;
+    margin: 1rem 1rem 0 1rem;
 }
 
 #composestatusbar {
@@ -391,5 +392,14 @@ body.task-error-login #layout {
     }
 }
 
+/*** Settings UI ***/
+
+// A default icon for settings menu entries added by plugins
+.settings-default-icon {
+    tr > td.section::before,
+    li > a:before {
+        content: @fa-var-cog;
+    }
+}
 
 @import "_styles";

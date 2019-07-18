@@ -289,7 +289,7 @@ exit;
  */
 function rcmail_mimetype_compare($type1, $type2)
 {
-    $regexp = '~/(x-|x-ms-)~';
+    $regexp = '~/(x-ms-|x-)~';
     $type1  = preg_replace($regexp, '/', $type1);
     $type2  = preg_replace($regexp, '/', $type2);
 

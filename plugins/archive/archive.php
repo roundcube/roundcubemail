@@ -257,6 +257,7 @@ class archive extends rcube_plugin
         $pages          = ceil($msg_count / $page_size);
         $nextpage_count = $old_count - $page_size * $page;
         $remaining      = $msg_count - $page_size * ($page - 1);
+        $quota_root     = $multifolder ? $this->result['sources'][0] : 'INBOX';
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
@@ -266,22 +267,16 @@ class archive extends rcube_plugin
             $jump_back = true;
         }
 
+        // update unread messages counts for all involved folders
+        foreach ($this->result['sources'] as $folder) {
+            rcmail_send_unread_count($folder, true);
+        }
+
         // update message count display
         $rcmail->output->set_env('messagecount', $msg_count);
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-
-        // update mailboxlist
-        $unseen_count = $msg_count ? $storage->count($mbox, 'UNSEEN') : 0;
-        $old_unseen   = rcmail_get_unseen_count($mbox);
-        $quota_root   = $multifolder ? $this->result['sources'][0] : 'INBOX';
-
-        if ($old_unseen != $unseen_count) {
-            $rcmail->output->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
-            rcmail_set_unseen_count($mbox, $unseen_count);
-        }
-
         $rcmail->output->command('set_quota', $rcmail->quota_content(null, $quota_root));
         $rcmail->output->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 

@@ -658,12 +658,6 @@ function rcube_elastic_ui()
 
         if (rcmail.task == 'mail') {
             if (rcmail.env.action == 'compose') {
-                // In compose window we do not provide "Back' button, instead
-                // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
-                if (!rcmail.env.extwin) {
-                    $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
-                }
-
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
                     $('a.attach, a.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
@@ -684,6 +678,12 @@ function rcube_elastic_ui()
                     observer.observe(list[0], {childList: true});
                     status_callback();
                 }
+            }
+
+            // In compose/preview window we do not provide "Back' button, instead
+            // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+            if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
+                $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
             }
 
             // Append contact menu to all mailto: links
@@ -1075,25 +1075,20 @@ function rcube_elastic_ui()
         // display or reset the content frame
         var common_content_handler = function(e, href, show, title)
         {
-            if (is_mobile()) {
+            if (is_mobile() && env.frame_nav) {
                 content_frame_navigation(href, e);
             }
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
-                screen_resize();
+            }
+            else if (!show && env.last_selected != last_selected && !env.content_lock) {
+                env.last_selected = last_selected;
+            }
 
-                if (title) {
-                    title_reset(title);
-                }
-            }
-            else if (!show) {
-                if (env.last_selected != last_selected && !env.content_lock) {
-                    env.last_selected = last_selected;
-                    screen_resize();
-                }
-                title_reset();
-            }
+            screen_resize();
+
+            title_reset(title && show ? title : null);
 
             env.content_lock = false;
         };
@@ -1157,7 +1152,7 @@ function rcube_elastic_ui()
                 common_list_handler(e);
             })
             .addEventListener('show-content', function(e) {
-                if (!$(e.obj).is('iframe')) {
+                if (e.obj && !$(e.obj).is('iframe')) {
                     $(e.scrollElement || e.obj).scrollTop(0);
                     if (is_mobile()) {
                         iframe_loader(e.obj);
@@ -1521,6 +1516,7 @@ function rcube_elastic_ui()
     function screen_resize()
     {
         if (is_framed && !layout.sidebar.length && !layout.list.length) {
+            screen_resize_headers();
             return;
         }
 
@@ -1533,9 +1529,10 @@ function rcube_elastic_ui()
 
         screen_resize_logo(mode);
         screen_resize_headers();
-/*
-        // On iOS and Android the content frame height is never correct, fix it
-        if (bw.webkit) {
+
+        // On iOS and Android the content frame height is never correct, fix it.
+        // Actually I observed the issue on my old iPad with iOS 9.3.
+        if (bw.webkit && bw.ipad && bw.agent.match(/OS 9/)) {
             $('.iframe-wrapper').each(function() {
                 var h = $(this).height();
                 if (h) {
@@ -1543,7 +1540,6 @@ function rcube_elastic_ui()
                 }
             });
         }
-*/
     };
 
     /**
@@ -2789,7 +2785,7 @@ function rcube_elastic_ui()
         $.each(['open', 'download', 'rename'], function() {
             var action = this;
             $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function(e) {
-                rcmail.command(action + '-attachment', id, this, e.originalEvent);
+                return rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
 
@@ -2804,20 +2800,27 @@ function rcube_elastic_ui()
     {
         item = $(item);
 
-        if (!item.is('.no-menu') && !item.children('.drop').length) {
-            var label = rcmail.gettext('options');
-            var button = $('<a>')
-                .attr({
+        if (!item.is('.no-menu') && !item.children('.dropdown').length) {
+            var label = rcmail.gettext('options'),
+                fname = item.find('a.filename');
+
+            var button = $('<a>').attr({
                     href: '#',
-                    tabindex: 0,
+                    tabindex: fname.attr('tabindex') || 0,
                     title: label,
                     'class': 'button icon dropdown skip-content'
                 })
                 .on('click', function(e) {
                     return attachmentmenu($('#attachmentmenu'), button, e);
                 })
-                .append($('<span>').attr('class', 'inner').text(label))
-                .appendTo(item);
+                .append($('<span>').attr('class', 'inner').text(label));
+
+            if (fname.length) {
+                button.insertAfter(fname);
+            }
+            else {
+                button.appendTo(item);
+            }
         }
     };
 
@@ -2836,7 +2839,8 @@ function rcube_elastic_ui()
         obj.find('a').off('click').removeClass('active');
 
         if (rcmail.env.has_writeable_addressbook) {
-            $('.addressbook', obj).addClass('active').on('click', function(e) {
+            $('.addressbook', obj).addClass('active')
+                .on('click', function(e) {
                     var i, contact = mailto,
                         txt = $(button).filter('.rcmContactAddress').text();
 
@@ -2847,7 +2851,7 @@ function rcube_elastic_ui()
                         contact = '"' + $.trim(txt) + '" <' + contact + '>';
                     }
 
-                    rcmail.command('add-contact', contact, this, e.originalEvent);
+                    return rcmail.command('add-contact', contact, this, e.originalEvent);
                 });
         }
 
@@ -2862,6 +2866,8 @@ function rcube_elastic_ui()
             else {
                 rcmail.command('compose', mailto, this, e.originalEvent);
             }
+
+            return false; // for Chrome
         });
 
         return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event.originalEvent);
@@ -3003,16 +3009,13 @@ function rcube_elastic_ui()
      */
     function recipient_input(obj)
     {
-        var list, input, ac_props, update_lock,
+        var list, input, ac_props,
             input_len_update = function() {
                 input.css('width', Math.max(40, input.val().length * 15 + 25));
             },
             apply_func = function() {
                 // update the original input
                 $(obj).val(list.text() + input.val());
-            },
-            focus_func = function() {
-                list.addClass('focus');
             },
             insert_recipient = function(name, email, replace) {
                 var recipient = $('<li class="recipient">'),
@@ -3044,12 +3047,6 @@ function rcube_elastic_ui()
             update_func = function(text) {
                 var result;
 
-                if (update_lock) {
-                    return;
-                }
-
-                update_lock = true;
-
                 text = (text || input.val()).replace(/[,;\s]+$/, '');
                 result = recipient_input_parser(text);
 
@@ -3057,37 +3054,31 @@ function rcube_elastic_ui()
                     insert_recipient(this.name, this.email);
                 });
 
-                // setTimeout() here is needed for proper input reset on paste event
-                // This is also the reason why we need parse_lock
-                setTimeout(function() {
-                        input.val(result.text);
-                        apply_func();
-                        input_len_update();
-                        update_lock = false;
-                    }, 1);
+                input.val(result.text);
+                apply_func();
+                input_len_update();
 
                 return result.recipients.length > 0;
             },
             parse_func = function(e) {
-                if (e.type == 'blur') {
-                    list.removeClass('focus');
-                }
-
-                // FIXME: This is a workaround for a bug where on a touch device
-                // selecting a recipient from autocomplete list do not work because
-                // of some events race condition (?)
-                if (this.value.indexOf('@') < 0) {
-                    return;
-                }
+                var paste, value = this.value;
 
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
-                update_func(e.type == 'paste' ? (e.originalEvent.clipboardData || window.clipboardData).getData('text') : null);
+                if (e.type == 'paste') {
+                    // pasted text
+                    paste = (e.originalEvent.clipboardData || window.clipboardData).getData('text') || '';
+                    // insert pasted text in place of the selection (or just cursor position)
+                    value = value.substring(0, this.selectionStart) + paste + value.substring(this.selectionEnd);
+                    e.preventDefault();
+                }
+
+                update_func(value);
             },
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
-                    list.children('li.recipient').first().remove();
+                    list.children('li.recipient').last().remove();
                     apply_func();
                     return false;
                 }
@@ -3103,10 +3094,11 @@ function rcube_elastic_ui()
 
         // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
-            .on('paste change blur', parse_func)
+            .on('paste change', parse_func)
             .on('input', input_len_update) // only to fix input length after paste
             .on('keydown', keydown_func)
-            .on('focus mousedown', focus_func);
+            .on('blur', function() { list.removeClass('focus'); })
+            .on('focus mousedown', function() { list.addClass('focus'); });
 
         list = $('<ul>').addClass('form-control recipient-input')
             .append($('<li>').append(input))
@@ -3266,16 +3258,19 @@ function rcube_elastic_ui()
     function image_upload_input(obj)
     {
         var reset_button = $('<a>')
-            .attr({'class': 'icon button delete', href: '#', })
-            .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; });
+                .attr({'class': 'icon button delete', href: '#', })
+                .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; }),
+            img = $(obj).find('img')[0],
+            img_onload = function() {
+                var state = (img.currentSrc || img.src).indexOf(rcmail.env.photo_placeholder) != -1;
+                $(obj)[state ? 'removeClass' : 'addClass']('changed');
+            };
 
         $(obj).append(reset_button).click(function() { rcmail.upload_input('upload-form'); });
 
-        $('img', obj).on('load', function() {
-            // FIXME: will that work in IE?
-            var state = (this.currentSrc || this.src).indexOf(rcmail.env.photo_placeholder) != -1;
-            $(obj)[state ? 'removeClass' : 'addClass']('changed');
-        });
+        // Note: Looks like only Firefox does not need this separate call
+        img_onload();
+        $(img).on('load', img_onload);
     };
 
     /**

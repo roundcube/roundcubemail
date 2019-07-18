@@ -138,6 +138,8 @@ class enigma_ui
 
         $this->enigma->include_script('enigma.js');
 
+        $this->rc->output->set_env('keyservers', $this->rc->config->keyservers());
+
         $this->js_loaded = true;
     }
 
@@ -978,10 +980,7 @@ class enigma_ui
             $attrib['id'] = 'enigma-message';
 
             if ($sig instanceof enigma_signature) {
-                $sender = $sig->name ?: '';
-                if ($sig->email) {
-                    $sender .= ' <' . $sig->email . '>';
-                }
+                $sender = $sig->get_sender($engine, $p['message'], $part_id);
 
                 if ($sig->valid === enigma_error::UNVERIFIED) {
                     $attrib['class'] = 'boxwarning enigmawarning signed';

@@ -3079,6 +3079,10 @@ div.tox div.tox-dialog {
 }
 
 
+.mce-menu {
+	z-index: 65537 !important;
+}
+
 /** PGP Key import dialog **/
 .pgpkeyimport div.key {
 	position: relative;

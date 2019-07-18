@@ -76,14 +76,15 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
         }
     }
 
-    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
-    $OUTPUT->set_env('search_mods', $search_mods);
+    $OUTPUT->set_env('display_next', (bool) $RCMAIL->config->get('display_next'));
+    $OUTPUT->set_env('search_mods', $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT));
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
     $OUTPUT->set_env('contact_move_enabled', $writeable > 1);
     $OUTPUT->set_env('contact_copy_enabled', $writeable > 1 || ($writeable == 1 && count($js_list) > 1));
 
     $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
+
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
@@ -910,14 +911,20 @@ function rcmail_contact_photo($attrib)
 {
     global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
-    if ($result = $CONTACTS->get_result())
+    if ($result = $CONTACTS->get_result()) {
         $record = $result->first();
+    }
 
-    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
-    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup']) {
         $photo_img = $RCMAIL->output->abs_url($attrib['placeholdergroup'], true);
+    }
+    else {
+        $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+    }
 
-    $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
+    $photo_img = $RCMAIL->output->asset_url($photo_img);
+
+    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
 
     unset($attrib['placeholder']);
 

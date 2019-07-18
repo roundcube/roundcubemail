@@ -21,6 +21,20 @@ class Password_Plugin extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * A dummy test testing PHP syntax on password drivers
+     */
+    function test_all_drivers()
+    {
+        if ($files = glob(__DIR__ . '/../drivers/*.php')) {
+            foreach ($files as $file) {
+                if (preg_match('|/([a-z_]+)\.php$|', $file, $matches)) {
+                    $this->load_driver($matches[1]);
+                }
+            }
+        }
+    }
+
+    /**
      * cpanel_webmail driver test
      */
     function test_driver_cpanel_webmail()

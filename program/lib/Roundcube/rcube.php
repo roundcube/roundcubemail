@@ -68,6 +68,13 @@ class rcube
     public $memcache;
 
     /**
+     * Instance of Memcached class.
+     *
+     * @var Memcached
+     */
+    public $memcached;
+
+    /**
      * Instance of Redis class.
      *
      * @var Redis
@@ -214,6 +221,20 @@ class rcube
         }
 
         return $this->memcache;
+    }
+
+    /**
+     * Get global handle for memcached access
+     *
+     * @return object Memcached
+     */
+    public function get_memcached()
+    {
+        if (!isset($this->memcached)) {
+            $this->memcached = rcube_cache_memcached::engine();
+        }
+
+        return $this->memcached;
     }
 
     /**
@@ -1089,8 +1110,10 @@ class rcube
 
         if ($this->memcache) {
             $this->memcache->close();
-            // after close() need to re-init memcache
-            $this->memcache_init();
+        }
+
+        if ($this->memcached) {
+            $this->memcached->quit();
         }
 
         if ($this->smtp) {
@@ -1263,9 +1286,12 @@ class rcube
         $line = sprintf("[%s]: %s\n", $date, $line);
 
         // per-user logging is activated
-        if (self::$instance && self::$instance->config->get('per_user_logging') && self::$instance->get_user_id()) {
+        if (self::$instance && self::$instance->config->get('per_user_logging')
+            && self::$instance->get_user_id()
+            && !in_array($name, array('userlogins', 'sendmail'))
+        ) {
             $log_dir = self::$instance->get_user_log_dir();
-            if (empty($log_dir) && !in_array($name, array('errors', 'userlogins', 'sendmail'))) {
+            if (empty($log_dir) && $name !== 'errors') {
                 return false;
             }
         }
