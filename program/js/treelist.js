@@ -81,6 +81,8 @@ function rcube_treelist_widget(node, p)
   this.container = container;
   this.expand = expand;
   this.collapse = collapse;
+  this.expand_all = expand_all;
+  this.collapse_all = collapse_all;
   this.select = select;
   this.render = render;
   this.reset = reset;
@@ -210,10 +212,8 @@ function rcube_treelist_widget(node, p)
     });
   }
 
-  /////// private methods
-
   /**
-   * Collaps a the node with the given ID
+   * Collapse a the node with the given ID
    */
   function collapse(id, recursive, set)
   {
@@ -251,6 +251,27 @@ function rcube_treelist_widget(node, p)
     if (node = indexbyid[id]) {
       collapse(id, recursive, !node.collapsed);
     }
+  }
+
+  /**
+   * Collapse all expanded nodes
+   */
+  function collapse_all(set)
+  {
+    var collapsed = typeof set == 'undefined' || set;
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed != collapsed) {
+        collapse(id, false, collapsed);
+      }
+    });
+  }
+
+  /**
+   * Expand all collapsed nodes
+   */
+  function expand_all()
+  {
+    collapse_all(false);
   }
 
   /**
