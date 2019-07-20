@@ -2364,12 +2364,12 @@ EOF;
             'ISO-8859-7'   => 'ISO-8859-7 ('.$this->app->gettext('greek').')',
             'ISO-8859-8'   => 'ISO-8859-8 ('.$this->app->gettext('hebrew').')',
             'ISO-8859-9'   => 'ISO-8859-9 ('.$this->app->gettext('turkish').')',
-            'ISO-8859-10'   => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
-            'ISO-8859-11'   => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
-            'ISO-8859-13'   => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-14'   => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
-            'ISO-8859-15'   => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-16'   => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
+            'ISO-8859-10'  => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
+            'ISO-8859-11'  => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
+            'ISO-8859-13'  => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
+            'ISO-8859-14'  => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
+            'ISO-8859-15'  => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
+            'ISO-8859-16'  => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
             'WINDOWS-1250' => 'Windows-1250 ('.$this->app->gettext('easterneuropean').')',
             'WINDOWS-1251' => 'Windows-1251 ('.$this->app->gettext('cyrillic').')',
             'WINDOWS-1252' => 'Windows-1252 ('.$this->app->gettext('westerneuropean').')',
@@ -2387,6 +2387,7 @@ EOF;
             'EUC-CN'       => 'EUC-CN ('.$this->app->gettext('chinese').')',
             'BIG5'         => 'BIG5 ('.$this->app->gettext('chinese').')',
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
+            'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
         );
 
         if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
