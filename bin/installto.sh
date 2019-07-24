@@ -130,7 +130,7 @@ if (strtolower($input) == 'y') {
     }
 
     if (!empty($adds)) {
-        echo implode($adds, "\n") . "\n\n";
+        echo implode("\n", $adds) . "\n\n";
     }
 
     echo "Running update script at target...\n";
