@@ -810,6 +810,11 @@ function rcube_elastic_ui()
 
         $('table.propform', context).each(function() {
             var text_rows = 0, form_rows = 0;
+            var col_sizes = ['sm', 4, 8];
+
+            if ($(this).attr('class').match(/cols-([a-z]+)-(\d)-(\d)/)) {
+                col_sizes = [RegExp.$1, RegExp.$2, RegExp.$3];
+            }
 
             $(this).find('> tbody > tr, > tr').each(function() {
                 var first, last, row = $(this),
@@ -821,8 +826,8 @@ function rcube_elastic_ui()
                     last = cells.last();
 
                     $('label', first).addClass('col-form-label');
-                    first.addClass('col-sm-4');
-                    last.addClass('col-sm-8');
+                    first.addClass('col-' + col_sizes[0] + '-' + col_sizes[1]);
+                    last.addClass('col-' + col_sizes[0] + '-' + col_sizes[2]);
 
                     if (last.find('[type=checkbox]').length == 1 && !last.find('.proplist').length) {
                         row_classes.push('form-check');
