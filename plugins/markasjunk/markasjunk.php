@@ -141,7 +141,7 @@ class markasjunk extends rcube_plugin
 
         if ($result) {
             if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
-                $this->rcube->output->command('rcmail_markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
+                $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
             }
             else {
                 $this->rcube->output->command('command', 'list', $mbox_name);
