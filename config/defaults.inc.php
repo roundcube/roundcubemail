@@ -181,7 +181,7 @@ $config['imap_delimiter'] = null;
 
 // If you know your imap's folder vendor, you can specify it here.
 // Otherwise it will be determined automatically. Use lower-case
-// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+// identifiers, e.g. 'dovecot', 'cyrus', 'gimap', 'hmail', 'uw-imap'.
 $config['imap_vendor'] = null;
 
 // If IMAP server doesn't support NAMESPACE extension, but you're
