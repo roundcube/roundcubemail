@@ -644,7 +644,7 @@ class rcube_imap extends rcube_storage
 
         $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
         $ident   = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
-        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gmail', 'hmail');
+        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail');
 
         foreach ($vendors as $v) {
             if (strpos($ident, $v) !== false) {
