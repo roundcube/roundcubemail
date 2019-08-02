@@ -1123,7 +1123,7 @@ select_next: function(uid)
 
 
 /**
- * Select first row 
+ * Select first row
  */
 select_first: function(mod_key)
 {
@@ -1441,8 +1441,8 @@ key_press: function(e)
       rcube_event.cancel(e);
       return this.select_row(this.last_selected, mod_key, true);
 
-    case 37: // Left arrow key
-    case 39: // Right arrow key
+    case 37: // Left arrow
+    case 39: // Right arrow
       // Stop propagation
       rcube_event.cancel(e);
       var ret = this.use_arrow_key(keyCode, mod_key);
@@ -1460,7 +1460,15 @@ key_press: function(e)
       this.select_last(mod_key);
       return rcube_event.cancel(e);
 
-    case 27:
+    case 65: // Ctrl + A
+      if (mod_key == CONTROL_KEY && this.multiselect) {
+        this.select_first();
+        this.select_last(SHIFT_KEY);
+        return rcube_event.cancel(e);
+      }
+      break;
+
+    case 27: // Esc
       if (this.drag_active)
         return this.drag_mouse_up(e);
 
