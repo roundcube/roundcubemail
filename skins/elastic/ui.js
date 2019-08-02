@@ -1949,7 +1949,8 @@ function rcube_elastic_ui()
      */
     function searchbar_init(bar)
     {
-        var options_button = $('a.button.options', bar),
+        var unread_button = $(),
+            options_button = $('a.button.options', bar),
             input = $('input:not([type=hidden])', bar),
             placeholder = input.attr('placeholder'),
             form = $('form', bar),
@@ -1977,7 +1978,19 @@ function rcube_elastic_ui()
             },
             update_func = function() {
                 $(bar)[is_search_pending() ? 'addClass' : 'removeClass']('active');
+                unread_button[rcmail.gui_objects.search_filter && $(rcmail.gui_objects.search_filter).val() == 'UNSEEN' ? 'addClass' : 'removeClass']('selected');
             };
+
+        // Add Unread filter button
+        if (input.is('#mailsearchform')) {
+            unread_button = $('<a>')
+                .attr({'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread')})
+                .on('click', function(e) {
+                    $(rcmail.gui_objects.search_filter).val($(e.target).is('.selected') ? 'ALL' : 'UNSEEN');
+                    rcmail.command('search');
+                })
+                .insertBefore(options_button);
+        }
 
         options_button.on('click', function(e) {
             var id = $(this).data('target'),
