@@ -246,7 +246,11 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $result = self::$redis->delete($key);
+        if (method_exists(self::$redis, 'del')) {
+            $result = self::$redis->del($key);
+        } else {
+            $result = self::$redis->delete($key);
+        }
 
         if ($this->debug) {
             $this->debug('delete', $key, null, $result);
