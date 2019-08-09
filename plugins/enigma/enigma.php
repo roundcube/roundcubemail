@@ -455,7 +455,7 @@ class enigma extends rcube_plugin
 
                 if (count($listing)) {
                     $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
-                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
+                    $content .= html::tag('ul', 'keylist', implode("\n", $listing));
                 } else {
                     $content .= html::p(null, $this->gettext('identitynoprivkeys'));
                 }
