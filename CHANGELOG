@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where selection of columns on messages list wasn't working
 - Fix bug in converting multi-page Tiff images to Jpeg (#6824)
 - Fix wrong messages order after returning to a multi-folder search result (#6836)
+- Fix PHP 7.4 deprecation: implode() wrong parameter order (#6866)
 
 RELEASE 1.3.9
 -------------

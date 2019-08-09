@@ -732,7 +732,7 @@ class enigma_ui
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, implode($identities, "\n"));
+        $table->add(null, implode("\n", $identities));
 
         // Key size
         $select = new html_select(array('name' => 'size', 'id' => 'key-size'));

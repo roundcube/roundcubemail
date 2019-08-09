@@ -914,7 +914,7 @@ class rcube_db
             $name[] = $start . $elem . $end;
         }
 
-        return implode($name, '.');
+        return implode('.', $name);
     }
 
     /**

@@ -356,7 +356,7 @@ class rcube_contacts extends rcube_addressbook
         if (!empty($post_search) || !empty($required)) {
             $ids = array(0);
             // build key name regexp
-            $regexp = '/^(' . implode(array_keys($post_search), '|') . ')(?:.*)$/';
+            $regexp = '/^(' . implode('|', array_keys($post_search)) . ')(?:.*)$/';
             // use initial WHERE clause, to limit records number if possible
             if (!empty($where))
                 $this->set_search_set($where);

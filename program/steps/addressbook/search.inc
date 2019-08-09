@@ -209,8 +209,8 @@ function rcmail_contact_search()
 
     // search request ID
     $search_request = md5('addr'
-        .(is_array($fields) ? implode($fields, ',') : $fields)
-        .(is_array($search) ? implode($search, ',') : $search));
+        .(is_array($fields) ? implode(',', $fields) : $fields)
+        .(is_array($search) ? implode(',', $search) : $search));
 
     // save search settings in session
     $_SESSION['search'][$search_request] = $search_set;
