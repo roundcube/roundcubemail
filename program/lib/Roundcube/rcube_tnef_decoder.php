@@ -493,21 +493,21 @@ class rcube_tnef_decoder
         $length_preload = strlen($preload);
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {
-            $uncomp .= $preload{$cnt};
+            $uncomp .= $preload[$cnt];
             ++$out;
         }
 
         while ($out < ($size + $length_preload)) {
             if (($flag_count++ % 8) == 0) {
-                $flags = ord($data{$in++});
+                $flags = ord($data[$in++]);
             }
             else {
                 $flags = $flags >> 1;
             }
 
             if (($flags & 1) != 0) {
-                $offset = ord($data{$in++});
-                $length = ord($data{$in++});
+                $offset = ord($data[$in++]);
+                $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
                 $length = ($length & 0xF) + 2;
                 $offset = ((int)($out / 4096)) * 4096 + $offset;
@@ -524,7 +524,7 @@ class rcube_tnef_decoder
                 }
             }
             else {
-                $uncomp .= $data{$in++};
+                $uncomp .= $data[$in++];
                 ++$out;
             }
         }
