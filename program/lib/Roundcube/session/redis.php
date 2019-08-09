@@ -79,7 +79,8 @@ class rcube_session_redis extends rcube_session {
     public function destroy($key)
     {
         if ($key) {
-            $result = $this->redis->del($key);
+            $fname  = method_exists($this->redis, 'del') ? 'del' : 'delete';
+            $result = $this->redis->$fname($key);
 
             if ($this->debug) {
                 $this->debug('delete', $key, null, $result);
