@@ -732,25 +732,13 @@ expand_row: function(e, id)
 {
   var row = this.rows[id],
     evtarget = rcube_event.get_target(e),
-    mod_key = rcube_event.get_modifier(e);
+    mod_key = rcube_event.get_modifier(e),
+    action = (row.expanded ? 'collapse' : 'expand') + (mod_key == CONTROL_KEY || this.multiexpand ? '_all' : '');
 
   // Don't treat double click on the expando as double click on the message.
   row.clicked = 0;
 
-  if (row.expanded) {
-    evtarget.className = 'collapsed';
-    if (mod_key == CONTROL_KEY || this.multiexpand)
-      this.collapse_all(row);
-    else
-      this.collapse(row);
-  }
-  else {
-    evtarget.className = 'expanded';
-    if (mod_key == CONTROL_KEY || this.multiexpand)
-      this.expand_all(row);
-    else
-     this.expand(row);
-  }
+  this[action](row);
 },
 
 collapse: function(row)
@@ -759,6 +747,7 @@ collapse: function(row)
     new_row = row ? row.obj.nextSibling : null;
 
   row.expanded = false;
+  this.update_expando(row.id);
   this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
   while (new_row) {
@@ -814,6 +803,7 @@ expand: function(row)
               last_expanded_parent_depth = p.depth;
               $(new_row).css('display', '');
               r.expanded = true;
+              this.update_expando(r.id, true);
               this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
             }
           }
@@ -828,6 +818,7 @@ expand: function(row)
 
   this.resize();
   this.triggerEvent('listupdate');
+
   return false;
 },
 
@@ -843,7 +834,7 @@ collapse_all: function(row)
     this.update_expando(row.id);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
-    // don't collapse sub-root tree in multiexpand mode 
+    // don't collapse sub-root tree in multiexpand mode
     if (depth && this.multiexpand)
       return false;
   }
@@ -860,10 +851,12 @@ collapse_all: function(row)
 
         if (row || r.depth)
           $(new_row).css('display', 'none');
-        if (r.has_children && r.expanded) {
+        if (r.expanded) {
           r.expanded = false;
-          this.update_expando(r.id, false);
-          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+          if (r.has_children) {
+            this.update_expando(r.id);
+            this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+          }
         }
       }
     }
@@ -872,6 +865,7 @@ collapse_all: function(row)
 
   this.resize();
   this.triggerEvent('listupdate');
+
   return false;
 },
 
@@ -899,10 +893,12 @@ expand_all: function(row)
           break;
 
         $(new_row).css('display', '');
-        if (r.has_children && !r.expanded) {
+        if (!r.expanded) {
           r.expanded = true;
-          this.update_expando(r.id, true);
-          this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+          if (r.has_children) {
+            this.update_expando(r.id, true);
+            this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+          }
         }
       }
     }
@@ -911,6 +907,7 @@ expand_all: function(row)
 
   this.resize();
   this.triggerEvent('listupdate');
+
   return false;
 },
 
@@ -1429,28 +1426,19 @@ key_press: function(e)
     mod_key = rcube_event.get_modifier(e);
 
   switch (keyCode) {
-    case 40:
-    case 38:
-    case 63233: // "down", in safari keypress
-    case 63232: // "up", in safari keypress
+    case 37:    // Left arrow
+    case 39:    // Right arrow
+    case 40:    // Up arrow
+    case 38:    // Down arrow
+    case 63233: // "down" in Safari keypress
+    case 63232: // "up" in Safari keypress
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
 
-    case 32:
+    case 32: // Space
       rcube_event.cancel(e);
       return this.select_row(this.last_selected, mod_key, true);
-
-    case 37: // Left arrow
-    case 39: // Right arrow
-      // Stop propagation
-      rcube_event.cancel(e);
-      var ret = this.use_arrow_key(keyCode, mod_key);
-      this.key_pressed = keyCode;
-      this.modkey = mod_key;
-      this.triggerEvent('keypress');
-      this.modkey = 0;
-      return ret;
 
     case 36: // Home
       this.select_first(mod_key);
@@ -1506,43 +1494,39 @@ key_press: function(e)
  */
 use_arrow_key: function(keyCode, mod_key)
 {
-  var new_row,
-    selected_row = this.rows[this.last_selected];
+  var new_row, selected_row = this.rows[this.last_selected];
 
-  // Safari uses the nonstandard keycodes 63232/63233 for up/down, if we're
+  if (!selected_row) {
+    // select the first row if none selected yet
+    this.select_first(CONTROL_KEY);
+  }
+  // Safari uses the non-standard keycodes 63232/63233 for up/down, if we're
   // using the keypress event (but not the keydown or keyup event).
-  if (keyCode == 40 || keyCode == 63233) // down arrow key pressed
+  else if (keyCode == 40 || keyCode == 63233) // Down arrow
     new_row = this.get_next_row();
-  else if (keyCode == 38 || keyCode == 63232) // up arrow key pressed
+  else if (keyCode == 38 || keyCode == 63232) // Up arrow
     new_row = this.get_prev_row();
-  else {
-    if (!selected_row || !selected_row.has_children)
-      return;
-
-    // expand
-    if (keyCode == 39) {
-      if (selected_row.expanded)
-        return;
-
-      if (mod_key == CONTROL_KEY || this.multiexpand)
-        this.expand_all(selected_row);
-      else
-        this.expand(selected_row);
-    }
-    // collapse
+  else if (keyCode == 39 && selected_row.has_children) { // Right arrow
+    if (!selected_row.expanded)
+      this.expand_all(selected_row);
     else {
-      if (!selected_row.expanded)
-        return;
-
-      if (mod_key == CONTROL_KEY || this.multiexpand)
-        this.collapse_all(selected_row);
-      else
-        this.collapse(selected_row);
+      // jump to the first child
+      new_row = this.get_next_row();
+      mod_key = null;
     }
+  }
+  else if (keyCode == 37) { // Left arrow
+    if (selected_row.expanded && selected_row.has_children && (!selected_row.parent_uid || !this.multiexpand))
+      this.collapse_all(selected_row);
+    else if (selected_row.parent_uid) {
+      // jump to the top-most or closest parent
+      if (mod_key == CONTROL_KEY)
+        new_row = this.rows[this.find_root(selected_row.uid)];
+      else
+        new_row = this.rows[selected_row.parent_uid];
 
-    this.update_expando(selected_row.id, selected_row.expanded);
-
-    return false;
+      mod_key = null;
+    }
   }
 
   if (new_row) {
@@ -1552,10 +1536,6 @@ use_arrow_key: function(keyCode, mod_key)
 
     this.select_row(new_row.uid, mod_key, false);
     this.scrollto(new_row.uid);
-  }
-  else if (!new_row && !selected_row) {
-    // select the first row if none selected yet
-    this.select_first(CONTROL_KEY);
   }
 
   return false;

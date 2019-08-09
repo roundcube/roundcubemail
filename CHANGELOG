@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
 - Added flag to disable server certificate validation via Mysql DSN argument (#6848)
 - Select all records on the current list page with CTRL + A (#6813)
+- Use Left/Right Arrow keys to faster move over threaded messages list (#6399)
 - Changes in `display_next` setting (#6795):
     - Move it to Preferences > User Interface > Main Options
     - Make it apply to Contacts interface too
