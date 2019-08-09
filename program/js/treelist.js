@@ -256,12 +256,11 @@ function rcube_treelist_widget(node, p)
   /**
    * Collapse all expanded nodes
    */
-  function collapse_all(set)
+  function collapse_all()
   {
-    var collapsed = typeof set == 'undefined' || set;
     $.each(indexbyid, function(id, data) {
-      if (data.children.length > 0 && data.collapsed != collapsed) {
-        collapse(id, false, collapsed);
+      if (data.children.length > 0 && !data.collapsed) {
+        collapse(id);
       }
     });
   }
@@ -271,7 +270,11 @@ function rcube_treelist_widget(node, p)
    */
   function expand_all()
   {
-    collapse_all(false);
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed) {
+        collapse(id, false, false);
+      }
+    });
   }
 
   /**
