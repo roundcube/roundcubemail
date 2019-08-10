@@ -1776,6 +1776,9 @@ function rcube_webmail()
 
   this.folder_collapsed = function(node)
   {
+    if (this.folder_collapsed_timer)
+      clearTimeout(this.folder_collapsed_timer);
+
     var prefname = this.env.task == 'addressbook' ? 'collapsed_abooks' : 'collapsed_folders',
       old = this.env[prefname];
 
@@ -1794,7 +1797,7 @@ function rcube_webmail()
 
     if (!this.drag_active) {
       if (old !== this.env[prefname])
-        this.command('save-pref', { name: prefname, value: this.env[prefname] });
+        this.folder_collapsed_timer = setTimeout(function(){ ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10)
 
       if (this.env.unread_counts)
         this.set_unread_count_display(node.id, false);
