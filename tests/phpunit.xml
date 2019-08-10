@@ -51,7 +51,7 @@
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
-            <file>RcmailFunc.php</file>
+            <file>Rcmail/Rcmail.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>
