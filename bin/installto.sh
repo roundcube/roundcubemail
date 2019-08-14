@@ -26,10 +26,11 @@ if (!function_exists('system')) {
     rcube::raise_error("PHP system() function is required. Check disable_functions in php.ini.", false, true);
 }
 
-$target_dir = unslashify($_SERVER['argv'][1]);
+$target_dir = unslashify(end($_SERVER['argv']));
+$accept = in_array('-y', $_SERVER['argv']) ? 'y' : null;
 
 if (empty($target_dir) || !is_dir(realpath($target_dir)))
-    rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh <TARGET>", false, true);
+    rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh [-y] <TARGET>", false, true);
 
 // read version from iniset.php
 $iniset = @file_get_contents($target_dir . '/program/include/iniset.php');
@@ -48,7 +49,7 @@ else {
     echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
 }
 
-$input = trim(fgets(STDIN));
+$input = $accept ?: trim(fgets(STDIN));
 
 if (strtolower($input) == 'y') {
     echo "Copying files to target location...";
@@ -134,7 +135,7 @@ if (strtolower($input) == 'y') {
     }
 
     echo "Running update script at target...\n";
-    system("cd $target_dir && php bin/update.sh --version=$oldversion");
+    system("cd $target_dir && php bin/update.sh --version=$oldversion" . ($accept ? ' -y' : ''));
     echo "All done.\n";
 }
 else {
