@@ -478,9 +478,6 @@ a.toolbar-button {
     &.expand.none:before {
         content: @fa-var-angle-double-right;
     }
-    &.expand.unread:before {
-        .font-icon-regular(@fa-var-envelope);
-    }
     &.export:before,
     &.export.all:before,
     &.export.selection:before {
@@ -561,6 +558,7 @@ a.toolbar-button {
         .font-icon-regular(@fa-var-envelope-open);
     }
     &.unread:before,
+    &.expand.unread:before,
     &.select.unread:before {
         .font-icon-solid(@fa-var-envelope);
     }
