@@ -138,7 +138,7 @@ function rcube_elastic_ui()
         });
 
         // initiate dark mode
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches || color_mode == 'dark') {
+        if (rcmail.env.action != 'print' && (window.matchMedia('(prefers-color-scheme: dark)').matches || color_mode == 'dark')) {
             $('html').addClass('elastic-dark-mode');
         }
 
