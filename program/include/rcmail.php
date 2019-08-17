@@ -1501,6 +1501,16 @@ class rcmail extends rcube
             $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
         }
 
+        // allow plugins to alter the folder tree or to localize folder names
+        $hook = $this->plugins->exec_hook('render_folder_selector', array(
+            'list'      => $a_mailboxes,
+            'delimiter' => $delimiter,
+            'attribs'   => $p,
+        ));
+
+        $a_mailboxes = $hook['list'];
+        $p           = $hook['attribs'];
+
         $select = new html_select($p);
 
         if ($p['noselection']) {
@@ -1625,7 +1635,7 @@ class rcmail extends rcube
             }
 
             $js_name     = $this->JQ($folder['id']);
-            $html_name   = $this->Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
+            $html_name   = $this->Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? array() : array(
                 'href'    => $this->url(array('_mbox' => $folder['id'])),
                 'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),

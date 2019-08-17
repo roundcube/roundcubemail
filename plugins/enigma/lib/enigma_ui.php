@@ -138,6 +138,8 @@ class enigma_ui
 
         $this->enigma->include_script('enigma.js');
 
+        $this->rc->output->set_env('keyservers', $this->rc->config->keyservers());
+
         $this->js_loaded = true;
     }
 
@@ -750,7 +752,7 @@ class enigma_ui
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, html::tag('ul', 'proplist', implode($identities, "\n")));
+        $table->add(null, html::tag('ul', 'proplist', implode("\n", $identities)));
 
         // Key size
         $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
@@ -978,10 +980,7 @@ class enigma_ui
             $attrib['id'] = 'enigma-message';
 
             if ($sig instanceof enigma_signature) {
-                $sender = $sig->name ?: '';
-                if ($sig->email) {
-                    $sender .= ' <' . $sig->email . '>';
-                }
+                $sender = $sig->get_sender($engine, $p['message'], $part_id);
 
                 if ($sig->valid === enigma_error::UNVERIFIED) {
                     $attrib['class'] = 'boxwarning enigmawarning signed';

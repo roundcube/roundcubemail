@@ -700,16 +700,20 @@ class rcube_utils
      */
     public static function request_header($name)
     {
-        if (function_exists('getallheaders')) {
-            $hdrs = array_change_key_case(getallheaders(), CASE_UPPER);
-            $key  = strtoupper($name);
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+            $key     = strtoupper($name);
         }
         else {
-            $key  = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
-            $hdrs = array_change_key_case($_SERVER, CASE_UPPER);
+            $headers = $_SERVER;
+            $key     = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
         }
 
-        return $hdrs[$key];
+        if (!empty($headers)) {
+            $headers = array_change_key_case($headers, CASE_UPPER);
+
+            return $headers[$key];
+        }
     }
 
     /**
@@ -957,11 +961,13 @@ class rcube_utils
 
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
-                $domain = idn_to_ascii($domain, $options, $variant);
+                $options = defined('IDNA_NONTRANSITIONAL_TO_ASCII') ? IDNA_NONTRANSITIONAL_TO_ASCII : 0;
+                $domain  = idn_to_ascii($domain, $options, $variant);
             }
         }
         else if (preg_match('/(^|\.)xn--/i', $domain)) {
-            $domain = idn_to_utf8($domain, $options, $variant);
+            $options = defined('IDNA_NONTRANSITIONAL_TO_UNICODE') ? IDNA_NONTRANSITIONAL_TO_UNICODE : 0;
+            $domain  = idn_to_utf8($domain, $options, $variant);
         }
 
         if ($domain === false) {

@@ -258,7 +258,7 @@ class rcube_sieve_engine
                     $script_name = 'roundcube';
                 }
 
-                if ($script_file && is_readable($script_file)) {
+                if ($script_file && is_readable($script_file) && !is_dir($script_file)) {
                     $content = file_get_contents($script_file);
                 }
 

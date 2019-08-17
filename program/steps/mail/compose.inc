@@ -92,6 +92,7 @@ $OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
 $OUTPUT->set_env('is_sent', false);
 $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
+$OUTPUT->set_env('keyservers', $RCMAIL->config->keyservers());
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -334,10 +335,8 @@ function rcmail_process_compose_params(&$COMPOSE)
     // clean HTML message body which can be submitted by URL
     if (!empty($COMPOSE['param']['body'])) {
         if ($COMPOSE['param']['html'] = strpos($COMPOSE['param']['body'], '<') !== false) {
-            $wash_params = array('safe' => false, 'inline_html' => true);
-            $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], $wash_params, array());
-            $COMPOSE['param']['body'] = preg_replace('/<!--[^>\n]+>/', '', $COMPOSE['param']['body']);
-            $COMPOSE['param']['body'] = preg_replace('/<\/?body>/', '', $COMPOSE['param']['body']);
+            $wash_params              = array('safe' => false, 'inline_html' => true);
+            $COMPOSE['param']['body'] = rcmail_prepare_html_body($COMPOSE['param']['body'], $wash_params);
         }
     }
 
@@ -496,7 +495,9 @@ function rcmail_spellchecker_init()
 
 function rcmail_prepare_message_body()
 {
-    global $RCMAIL, $MESSAGE, $COMPOSE, $HTML_MODE;
+    global $RCMAIL, $MESSAGE, $COMPOSE, $HTML_MODE, $CID_MAP;
+
+    $CID_MAP = array();
 
     // use posted message body
     if (!empty($_POST['_message'])) {
@@ -518,6 +519,23 @@ function rcmail_prepare_message_body()
     else if ($COMPOSE['mode'] && ($COMPOSE['mode'] != rcmail_sendmail::MODE_REPLY || intval($RCMAIL->config->get('reply_mode')) != -1)) {
         $isHtml   = rcmail_compose_editor_mode();
         $messages = array();
+
+        // save inline images to files (before HTML body washing)
+        if ($COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
+            rcmail_write_inline_attachments($MESSAGE);
+        }
+        // save attachments to files (before HTML body washing)
+        else {
+            rcmail_write_compose_attachments($MESSAGE, $isHtml);
+        }
+
+        // set is_safe flag (before HTML body washing)
+        if ($COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
+            $MESSAGE->is_safe = true;
+        }
+        else {
+            rcmail_check_safe($MESSAGE);
+        }
 
         if (!empty($MESSAGE->parts)) {
             // collect IDs of message/rfc822 parts
@@ -578,7 +596,8 @@ function rcmail_prepare_message_body()
             $body = rcmail_create_draft_body($body, $isHtml);
         }
     }
-    else { // new message
+    // new message
+    else {
         $isHtml = rcmail_compose_editor_mode();
     }
 
@@ -634,6 +653,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
 
     if ($isHtml) {
         if ($part->ctype_secondary == 'html') {
+            $body = rcmail_prepare_html_body($body);
         }
         else if ($part->ctype_secondary == 'enriched') {
             $body = rcube_enriched::to_html($body);
@@ -750,13 +770,6 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         }
     }
     else {
-        // save inline images to files
-        $cid_map = rcmail_write_inline_attachments($MESSAGE);
-        // set is_safe flag (we need this for html body washing)
-        rcmail_check_safe($MESSAGE);
-        // clean up html tags
-        $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
-
         $suffix = '';
 
         if ($reply_indent) {
@@ -795,25 +808,9 @@ function rcmail_get_reply_header($message)
 
 function rcmail_create_forward_body($body, $bodyIsHtml)
 {
-    global $RCMAIL, $MESSAGE, $COMPOSE;
+    global $MESSAGE;
 
-    // add attachments
-    if (!isset($COMPOSE['forward_attachments']) && is_array($MESSAGE->mime_parts)) {
-        $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
-    }
-
-    if (!$bodyIsHtml) {
-        $body = trim($body, "\r\n");
-    }
-    else {
-        // set is_safe flag (we need this for html body washing)
-        rcmail_check_safe($MESSAGE);
-
-        // clean up html tags
-        $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
-    }
-
-    return rcmail_get_forward_header($MESSAGE, $bodyIsHtml) . $body;
+    return rcmail_get_forward_header($MESSAGE, $bodyIsHtml) . trim($body, "\r\n");
 }
 
 function rcmail_get_forward_header($message, $bodyIsHtml = false, $extended = true)
@@ -870,44 +867,48 @@ function rcmail_get_forward_header($message, $bodyIsHtml = false, $extended = tr
 
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
-    global $MESSAGE, $COMPOSE;
+    // Return the draft body as-is
+    return $body;
+}
 
-    // add attachments
-    // count($MESSAGE->mime_parts) can be 1 - e.g. attachment, but no text!
-    if (empty($COMPOSE['forward_attachments'])
-        && is_array($MESSAGE->mime_parts)
-        && count($MESSAGE->mime_parts) > 0
-    ) {
-        $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
+// Clean up HTML content of Draft/Reply/Forward (part of the message)
+function rcmail_prepare_html_body($body, $wash_params = array())
+{
+    global $CID_MAP, $MESSAGE, $COMPOSE;
+    static $part_no;
+
+    // Set attributes of the part container
+    $container_id     = $COMPOSE['mode'] . 'body' . (++$part_no);
+    $container_attrib = array('id' => $container_id);
+
+    $body_args = array(
+        'safe'             => $MESSAGE->is_safe,
+        'plain'            => false,
+        'css_prefix'       => 'v' . $part_no,
+    );
+
+    // remove comments (produced by washtml)
+    $replace = array('/<!--[^>]+-->/' => '');
+
+    if ($COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
+        // convert TinyMCE's empty-line sequence (#1490463)
+        $replace['/<p>\xC2\xA0<\/p>/'] = '<p><br /></p>';
+        // remove <body> tags
+        $replace['/<body([^>]*)>/i'] = '';
+        $replace['/<\/body>/i']      = '';
+    }
+    else {
+        $body_args['container_id']     = $container_id;
+        $body_args['container_attrib'] = $container_attrib;
     }
 
-    // clean up HTML tags - XSS prevention (#1489251)
-    if ($bodyIsHtml) {
-        $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
+    // Make the HTML content safe and clean
+    $body = rcmail_wash_html($body, $wash_params + $body_args, $CID_MAP);
+    $body = preg_replace(array_keys($replace), array_values($replace), $body);
+    $body = rcmail_html4inline($body, $body_args);
 
-        // cleanup
-        $body = preg_replace(array(
-                // remove comments (produced by washtml)
-                '/<!--[^>]+-->/',
-                // remove <body> tags
-                '/<body([^>]*)>/i',
-                '/<\/body>/i',
-                // convert TinyMCE's empty-line sequence (#1490463)
-                '/<p>\xC2\xA0<\/p>/',
-            ),
-            array(
-                '',
-                '',
-                '',
-                '<p><br /></p>',
-            ),
-            $body
-        );
-
-        // replace cid with href in inline images links
-        if (!empty($cid_map)) {
-            $body = str_replace(array_keys($cid_map), array_values($cid_map), $body);
-        }
+    if ($COMPOSE['mode'] != rcmail_sendmail::MODE_DRAFT) {
+        $body =  html::div($container_attrib, $body);
     }
 
     return $body;
@@ -937,18 +938,17 @@ function rcmail_remove_signature($body)
 
 function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 {
-    global $RCMAIL, $COMPOSE;
+    global $RCMAIL, $COMPOSE, $CID_MAP;
 
-    $loaded_attachments = array();
-    foreach ((array)$COMPOSE['attachments'] as $attachment) {
-        $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
+    if ($message->pgp_mime || !empty($COMPOSE['forward_attachments'])) {
+        return $CID_MAP;
     }
 
-    $cid_map  = array();
-    $messages = array();
+    $messages           = array();
+    $loaded_attachments = array();
 
-    if ($message->pgp_mime) {
-        return $cid_map;
+    foreach ((array)$COMPOSE['attachments'] as $attachment) {
+        $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
     }
 
     foreach ((array) $message->mime_parts() as $pid => $part) {
@@ -992,9 +992,9 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
                         $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
 
                     if ($part->content_id)
-                        $cid_map['cid:'.$part->content_id] = $url;
+                        $CID_MAP['cid:'.$part->content_id] = $url;
                     else
-                        $cid_map[$part->content_location] = $url;
+                        $CID_MAP[$part->content_location] = $url;
                 }
             }
         }
@@ -1002,19 +1002,18 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 
     $COMPOSE['forward_attachments'] = true;
 
-    return $cid_map;
+    return $CID_MAP;
 }
 
 function rcmail_write_inline_attachments(&$message)
 {
-    global $RCMAIL, $COMPOSE;
-
-    $cid_map  = array();
-    $messages = array();
+    global $RCMAIL, $COMPOSE, $CID_MAP;
 
     if ($message->pgp_mime) {
-        return $cid_map;
+        return $CID_MAP;
     }
+
+    $messages = array();
 
     foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
@@ -1034,14 +1033,14 @@ function rcmail_write_inline_attachments(&$message)
                     $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
 
                 if ($part->content_id)
-                    $cid_map['cid:'.$part->content_id] = $url;
+                    $CID_MAP['cid:'.$part->content_id] = $url;
                 else
-                    $cid_map[$part->content_location] = $url;
+                    $CID_MAP[$part->content_location] = $url;
             }
         }
     }
 
-    return $cid_map;
+    return $CID_MAP;
 }
 
 // Creates attachment(s) from the forwarded message(s)
@@ -1198,7 +1197,7 @@ function rcmail_compose_attachment_list($attrib)
     if (!$attrib['id'])
         $attrib['id'] = 'rcmAttachmentList';
 
-    $out    = "\n";
+    $out    = "";
     $jslist = array();
     $button = '';
 
@@ -1228,6 +1227,7 @@ function rcmail_compose_attachment_list($attrib)
                     'href'    => "#load",
                     'class'   => 'filename',
                     'onclick' => sprintf("return %s.command('load-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                    'tabindex' => $attrib['tabindex'] ?: '0',
                 ), $link_content);
 
             $delete_link = html::a(array(
@@ -1240,8 +1240,8 @@ function rcmail_compose_attachment_list($attrib)
                 ), $button);
 
             $out .= html::tag('li', array(
-                    'id'          => 'rcmfile'.$id,
-                    'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
+                    'id'    => 'rcmfile' . $id,
+                    'class' => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                 ),
                 $COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
             );

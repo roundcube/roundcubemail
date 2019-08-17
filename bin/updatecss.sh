@@ -117,5 +117,3 @@ function get_files($dir)
 
     return $files;
 }
-
-?>

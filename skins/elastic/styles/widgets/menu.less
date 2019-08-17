@@ -629,7 +629,7 @@ a.toolbar-button {
         content: @fa-var-file-code;
     }
     &.spellcheck:before {
-        content: @fa-var-magic; // TODO
+        content: @fa-var-spell-check;
     }
     &.status:before {
         .font-icon-regular(@fa-var-lightbulb);
@@ -698,23 +698,26 @@ a.toolbar-button {
             margin: 0;
         }
 
-        &.options {
-            &:before {
-                content: @fa-var-angle-down;
-            }
+        &.options:before {
+            content: @fa-var-angle-down;
         }
 
-        &.reset {
-            display: none;
-
-            &:before {
-                content: @fa-var-times;
-                font-size: 1rem;
-            }
+        &.reset:before {
+            content: @fa-var-times;
+            font-size: 1rem;
         }
 
+        &.unread:before {
+            .font-icon-solid(@fa-var-envelope);
+        }
+
+        &.reset,
         &.search {
             display: none;
+        }
+
+        &.selected {
+            color: @color-success;
         }
     }
 

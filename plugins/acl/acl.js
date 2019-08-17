@@ -202,7 +202,7 @@ rcube_webmail.prototype.acl_list_update = function(html)
 // Returns names of users in selected rows
 rcube_webmail.prototype.acl_get_usernames = function()
 {
-    var users = [], n, len, cell, row,
+    var users = [], n, len, id, row,
         list = this.acl_list,
         selection = list.get_selection();
 
@@ -210,10 +210,8 @@ rcube_webmail.prototype.acl_get_usernames = function()
         if (this.env.acl_specials.length && $.inArray(selection[n], this.env.acl_specials) >= 0) {
             users.push(selection[n]);
         }
-        else if (row = list.rows[selection[n]]) {
-            cell = $('td.user', row.obj);
-            if (cell.length == 1)
-                users.push(cell.text());
+        else if ((row = list.rows[selection[n]]) && (id = $(row.obj).data('userid'))) {
+            users.push(id);
         }
     }
 
@@ -257,15 +255,14 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
             cl = items[cl];
 
         if (cl == 'user')
-            td.addClass(cl).append($('<a>').text(o.username));
+            td.addClass(cl).attr('title', o.title).append($('<a>').text(o.display));
         else
             td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).html('<span/>');
 
         $(this).replaceWith(td);
     });
 
-    row.attr('id', 'rcmrow'+id);
-    row = row.get(0);
+    row = row.attr({id: 'rcmrow' + id, 'data-userid': o.username}).get(0);
 
     this.env.acl[id] = o.acl;
 
@@ -339,7 +336,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         });
 
         if (!this.env.acl_specials.length || $.inArray(id, this.env.acl_specials) < 0)
-            val = $('td.user', row).text();
+            val = $(row).data('userid');
         else
             type = id;
     }

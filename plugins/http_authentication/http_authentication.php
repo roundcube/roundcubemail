@@ -85,6 +85,7 @@ class http_authentication extends rcube_plugin
         if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER']) {
             if ($url = rcmail::get_instance()->config->get('logout_url')) {
                 header("Location: $url", true, 307);
+                exit;
             }
         }
     }

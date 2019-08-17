@@ -712,9 +712,8 @@ class rcube_mime
     {
         static $mime_ext = array();
 
-        $mime_type  = null;
-        $config     = rcube::get_instance()->config;
-        $mime_magic = $config->get('mime_magic');
+        $mime_type = null;
+        $config    = rcube::get_instance()->config;
 
         if (!$skip_suffix && empty($mime_ext)) {
             foreach ($config->resolve_paths('mimetypes.php') as $fpath) {
@@ -731,6 +730,7 @@ class rcube_mime
 
         // try fileinfo extension if available
         if (!$mime_type && function_exists('finfo_open')) {
+            $mime_magic = $config->get('mime_magic');
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
@@ -741,10 +741,8 @@ class rcube_mime
             }
 
             if ($finfo) {
-                if ($is_stream)
-                    $mime_type = finfo_buffer($finfo, $path, FILEINFO_MIME_TYPE);
-                else
-                    $mime_type = finfo_file($finfo, $path, FILEINFO_MIME_TYPE);
+                $func      = $is_stream ? 'finfo_buffer' : 'finfo_file';
+                $mime_type = $func($finfo, $path, FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }

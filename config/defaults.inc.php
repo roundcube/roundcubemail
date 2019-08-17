@@ -27,8 +27,12 @@ $config = array();
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
+// Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
+// Note: Various drivers support various additional arguments for connection,
+//       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
+//       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
+//       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
@@ -177,7 +181,7 @@ $config['imap_delimiter'] = null;
 
 // If you know your imap's folder vendor, you can specify it here.
 // Otherwise it will be determined automatically. Use lower-case
-// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+// identifiers, e.g. 'dovecot', 'cyrus', 'gimap', 'hmail', 'uw-imap'.
 $config['imap_vendor'] = null;
 
 // If IMAP server doesn't support NAMESPACE extension, but you're
@@ -228,7 +232,7 @@ $config['imap_disabled_caps'] = array();
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -315,7 +319,7 @@ $config['smtp_conn_options'] = null;
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
@@ -478,11 +482,12 @@ $config['session_path'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
-// If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
-// Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+// If set to 'memcache' or 'memcached', a list of servers need to be specified in 'memcache_hosts'
+// Make sure the Memcache extension (https://pecl.php.net/package/memcache) version >= 2.0.0
+// or the Memcached extension (https://pecl.php.net/package/memcached) version >= 2.0.0 is installed.
 //
 // If set to 'redis', a server needs to be specified in 'redis_hosts'
-// Make sure the Redis extension (http://pecl.php.net/package/redis) version >= 2.0.0 is installed
+// Make sure the Redis extension (https://pecl.php.net/package/redis) version >= 2.0.0 is installed.
 //
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
@@ -811,6 +816,10 @@ $config['compose_responses_static'] = array(
 //  array('name' => 'Canned Response 1', 'text' => 'Static Response One'),
 //  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
 );
+
+// List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
+// Default: array("keys.fedoraproject.org", "keybase.io")
+$config['keyservers'] = array();
 
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
@@ -1158,7 +1167,7 @@ $config['refresh_interval'] = 60;
 // If true all folders will be checked for recent messages
 $config['check_all_folders'] = false;
 
-// If true, after message delete/move, the next message will be displayed
+// If true, after message/contact delete/move, the next message/contact will be displayed
 $config['display_next'] = true;
 
 // Default messages listing mode. One of 'threads' or 'list'.

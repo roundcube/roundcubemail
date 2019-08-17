@@ -242,8 +242,9 @@ function rcmail_remote_objects_msg()
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: none';
 
-    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources'))) . '&nbsp;'
-        . html::a(array(
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources')));
+
+    $buttons = html::a(array(
             'href'    => "#loadremote",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote')"
         ),
@@ -251,7 +252,7 @@ function rcmail_remote_objects_msg()
 
     // add link to save sender in addressbook and reload message
     if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
-        $msg .= ' ' . html::a(array(
+        $buttons .= ' ' . html::a(array(
                 'href'    => "#loadremotealways",
                 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote', true)",
                 'style'   => "white-space:nowrap"
@@ -261,7 +262,7 @@ function rcmail_remote_objects_msg()
 
     $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
 
-    return html::div($attrib, $msg);
+    return html::div($attrib, $msg . '&nbsp;' . html::span('boxbuttons', $buttons));
 }
 
 function rcmail_message_buttons()
@@ -656,7 +657,7 @@ function rcmail_message_body($attrib)
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
-                    array('part' => $part, 'prefix' => ''));
+                    array('part' => $part, 'prefix' => '', 'message' => $MESSAGE));
 
                 // Set attributes of the part container
                 $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
@@ -684,7 +685,7 @@ function rcmail_message_body($attrib)
                     $body = rcmail_html4inline($body, $body_args);
                 }
 
-                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
+                $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
             }
         }
     }

@@ -68,6 +68,13 @@ class rcube
     public $memcache;
 
     /**
+     * Instance of Memcached class.
+     *
+     * @var Memcached
+     */
+    public $memcached;
+
+    /**
      * Instance of Redis class.
      *
      * @var Redis
@@ -214,6 +221,20 @@ class rcube
         }
 
         return $this->memcache;
+    }
+
+    /**
+     * Get global handle for memcached access
+     *
+     * @return object Memcached
+     */
+    public function get_memcached()
+    {
+        if (!isset($this->memcached)) {
+            $this->memcached = rcube_cache_memcached::engine();
+        }
+
+        return $this->memcached;
     }
 
     /**
@@ -1089,8 +1110,10 @@ class rcube
 
         if ($this->memcache) {
             $this->memcache->close();
-            // after close() need to re-init memcache
-            $this->memcache_init();
+        }
+
+        if ($this->memcached) {
+            $this->memcached->quit();
         }
 
         if ($this->smtp) {
