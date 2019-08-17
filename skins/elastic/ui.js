@@ -1239,6 +1239,12 @@ function rcube_elastic_ui()
             try {
                 href = e.target.contentWindow.location.href;
                 show = !href.endsWith(rcmail.env.blankpage);
+
+                // add dark mode class if needed
+                if (!show && (window.matchMedia('(prefers-color-scheme: dark)').matches || color_mode == 'dark')) {
+                    $(this).contents().find('html').addClass('elastic-dark-mode');
+                }
+
                 // Reset title back to the default
                 $(e.target.contentWindow).on('unload', title_reset);
             }
