@@ -457,6 +457,9 @@ class rcmail extends rcube
         // set compose mode for all tasks (message compose step can be triggered from everywhere)
         $this->output->set_env('compose_extwin', $this->config->get('compose_extwin',false));
 
+        // set skin color mode
+        $this->output->set_env('skin_color_mode', $this->config->get('skin_color_mode'));
+
         // add some basic labels to client
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
             'refreshing', 'windowopenerror', 'uploadingmany', 'uploading', 'close', 'save', 'cancel',

@@ -2460,6 +2460,16 @@ EOF;
             '*',
         );
 
+        // support different logos in different skin color modes
+        if ($color_mode = $this->config->get('skin_color_mode')) {
+            array_unshift($template_names,
+                $this->skin_name . ':[' . $color_mode . ']' . $name,
+                $this->skin_name . ':[' . $color_mode . ']*',
+                '[' . $color_mode . ']' . $name,
+                '[' . $color_mode . ']*'
+            );
+        }
+
         // If strict matching then remove wildcard options
         if ($strict) {
             $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);

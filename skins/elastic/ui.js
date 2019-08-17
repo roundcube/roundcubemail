@@ -19,6 +19,7 @@ function rcube_elastic_ui()
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
         ios = false,
+        color_mode = rcmail.env.skin_color_mode,
         popups_close_lock,
         is_framed = rcmail.is_framed(),
         env = {
@@ -135,6 +136,11 @@ function rcube_elastic_ui()
                 return this;
             }
         });
+
+        // initiate dark mode
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches || color_mode == 'dark') {
+            $('html').addClass('elastic-dark-mode');
+        }
 
         // menu/sidebar/list button
         buttons.menu.on('click', function() { app_menu(true); return false; });

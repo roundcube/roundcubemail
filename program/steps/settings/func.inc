@@ -318,6 +318,21 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            // dark mode checkbox
+            if (!isset($no_override['skin_color_mode']) && $config['skin_supports_color_modes']) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_colormode';
+                $input    = new html_checkbox(array('name' => '_skin_color_mode', 'id' => $field_id, 'value' => 'dark'));
+
+                $blocks['main']['options']['color_mode'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('darkmode'))),
+                    'content' => $input->show($config['skin_color_mode']),
+                );
+            }
+
             // show drop-down for available skins
             if (!isset($no_override['skin'])) {
                 if (!$current) {

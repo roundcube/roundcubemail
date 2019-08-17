@@ -31,6 +31,7 @@ case 'general':
         'date_format'  => rcmail_prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
         'time_format'  => rcmail_prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
         'prettydate'   => isset($_POST['_pretty_date']),
+        'skin_color_mode' => rcmail_prefs_input('skin_color_mode', '/^[a-z]+$/'),
         'display_next' => isset($_POST['_display_next']),
         'refresh_interval' => intval($_POST['_refresh_interval']) * 60,
         'standard_windows' => isset($_POST['_standard_windows']),
@@ -159,7 +160,7 @@ case 'general':
     if (!$OUTPUT->check_skin($a_user_prefs['skin'])) {
         unset($a_user_prefs['skin']);
     }
-    else if ($RCMAIL->config->get('skin') != $a_user_prefs['skin']) {
+    else if ($RCMAIL->config->get('skin') != $a_user_prefs['skin'] || $RCMAIL->config->get('skin_color_mode') != $a_user_prefs['skin_color_mode']) {
         $OUTPUT->command('reload', 500);
     }
 

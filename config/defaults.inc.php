@@ -400,6 +400,8 @@ $config['support_url'] = '';
 // different logos can be specified for different skins by prefixing the skin name to the array key
 // config applied in order: <skin>:<template>, <skin>:*, <template>, *
 // for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png", "elastic:*" => "/images/logo.png")
+// for skins which support multiple color modes different logos can be placing the desired color mode before the template name as follows
+// array("[dark]*" => "/images/roundcube_logo.png", "[dark]messageprint" => "/images/roundcube_logo_print.png", "elastic:[dark]*" => "/images/logo.png")
 $config['skin_logo'] = null;
 
 // automatically create a new Roundcube user when log-in the first time.
@@ -1063,6 +1065,9 @@ $config['skin'] = 'larry';
 
 // limit skins available/shown in the settings section
 $config['skins_allowed'] = array();
+
+// for skins which support multiple color modes (eg. 'light' or 'dark')
+$config['skin_color_mode'] = null;
 
 // Enables using standard browser windows (that can be handled as tabs)
 // instead of popup windows

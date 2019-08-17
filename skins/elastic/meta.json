@@ -8,7 +8,8 @@
 		"jquery_ui_colors_theme": "bootstrap",
 		"embed_css_location": "/styles/embed.css",
 		"editor_css_location": "/styles/embed.css",
-		"media_browser_css_location": "none"
+		"media_browser_css_location": "none",
+		"skin_supports_color_modes": true
 	},
 	"meta": {
 		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
