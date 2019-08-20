@@ -2630,7 +2630,7 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean True on success, False on error
      */
-    public function move_message($uids, $to_mbox, $from_mbox='')
+    public function move_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
             $from_mbox = $this->folder;
@@ -2674,16 +2674,9 @@ class rcube_imap extends rcube_storage
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
-
             $this->set_search_dirty($from_mbox);
             $this->set_search_dirty($to_mbox);
-        }
-        // moving failed
-        else if ($to_trash && $config->get('delete_always', false)) {
-            $moved = $this->delete_message($uids, $from_mbox);
-        }
 
-        if ($moved) {
             // unset threads internal cache
             unset($this->icache['threads']);
 

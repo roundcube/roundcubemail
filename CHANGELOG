@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Clarified 'address_book_type' option behavior (#6680)
 - Added cookie mismatch detection, display an error message informing the user to clear cookies
 - Renamed 'log_session' option to 'session_debug'
+- Removed 'delete_always' option (#6782)
 - Don't log full session identifiers in userlogins log (#6625)
 - Support $HasAttachment/$HasNoAttachment keywords (#6201)
 - Support PECL memcached extension as a session and cache storage driver (experimental)
