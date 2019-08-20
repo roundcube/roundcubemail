@@ -56,6 +56,7 @@ function rcube_text_editor(config, id)
       paste_webkit_style: "color font-size font-family",
       paste_data_images: true,
       browser_spellcheck: true,
+      forced_root_block: "<br>",
       anchor_bottom: false,
       anchor_top: false
     };
