@@ -1215,12 +1215,6 @@ $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'fr
 // Defaults of the addressbook search field configuration.
 $config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
 
-// 'Delete always'
-// This setting reflects if mail should be always deleted
-// when moving to Trash fails. This is necessary in some setups
-// when user is over quota and Trash is included in the quota.
-$config['delete_always'] = false;
-
 // Directly delete messages in Junk instead of moving to Trash
 $config['delete_junk'] = false;
 

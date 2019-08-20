@@ -113,7 +113,6 @@ case 'server':
         'read_when_deleted' => isset($_POST['_read_when_deleted']),
         'skip_deleted'      => isset($_POST['_skip_deleted']),
         'flag_for_deletion' => isset($_POST['_flag_for_deletion']),
-        'delete_always'     => isset($_POST['_delete_always']),
         'delete_junk'       => isset($_POST['_delete_junk']),
         'logout_purge'      => isset($_POST['_logout_purge']),
         'logout_expunge'    => isset($_POST['_logout_expunge']),
