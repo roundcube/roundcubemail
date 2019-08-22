@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.3.10
+--------------
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
 - Enigma: Fix bug where revoked users/keys were not greyed out in key info
 - Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
