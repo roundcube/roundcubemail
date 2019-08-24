@@ -114,15 +114,18 @@ button.btn {
     &.folders:before {
         content: @fa-var-folder-open;
     }
+    &.options:before {
+        content: @fa-var-sliders-h;
+    }
     &.tools:before,
     &.settings:before {
-        content: @fa-var-wrench;
+        content: @fa-var-cog;
     }
     &.properties:before {
         content: @fa-var-info-circle;
     }
     &.select:before {
-        .font-icon-regular(@fa-var-check-circle);
+        .font-icon-regular(@fa-var-check-square);
     }
     &.insert.recipient:before {
         content: @fa-var-user-plus;
