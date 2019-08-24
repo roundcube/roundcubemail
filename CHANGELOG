@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Various internal refactorings
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
+- Elastic: Changed some icons (#6852)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
