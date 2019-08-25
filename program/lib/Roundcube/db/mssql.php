@@ -99,7 +99,7 @@ class rcube_db_mssql extends rcube_db
             $args = $args[0];
         }
 
-        return '(' . join('+', $args) . ')';
+        return '(' . implode('+', $args) . ')';
     }
 
     /**

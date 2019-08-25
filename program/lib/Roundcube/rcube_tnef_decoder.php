@@ -129,7 +129,7 @@ class rcube_tnef_decoder
      *
      * @param string $data The data to decompress.
      *
-     * @return mixed The decompressed data.
+     * @return array The decompressed data.
      */
     public function decompress($data)
     {
@@ -167,8 +167,8 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bytes from the buffer.
      *
-     * @param string  &$data The data string.
-     * @param integer $bytes How many bytes to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bytes How many bytes to retrieve.
      *
      * @return string Extracted data
      */
@@ -187,10 +187,10 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bits from the buffer
      *
-     * @param string  &$data The data string.
-     * @param integer $bits  How many bits to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bits  How many bits to retrieve.
      *
-     * @return int
+     * @return int|null
      */
     protected function _geti(&$data, $bits)
     {
@@ -216,6 +216,8 @@ class rcube_tnef_decoder
      * Decode a single attribute
      *
      * @param string &$data The data string.
+     *
+     * @return string Extracted data
      */
     protected function _decodeAttribute(&$data)
     {
@@ -534,8 +536,7 @@ class rcube_tnef_decoder
 
     /**
      * Parse RTF data and return the best plaintext representation we can.
-     * Adapted from:
-     * http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
+     * Adapted from: http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
      *
      * @param string $text The RTF (uncompressed) text.
      *
@@ -738,6 +739,9 @@ class rcube_tnef_decoder
         return $document;
     }
 
+    /**
+     * Checks if an RTF element is plain text
+     */
     protected static function _rtfIsPlain($s)
     {
         $notPlain = array('*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet');

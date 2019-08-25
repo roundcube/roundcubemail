@@ -633,7 +633,7 @@ class rcube_config
      */
     public function get_error()
     {
-        return empty($this->errors) ? false : join("\n", $this->errors);
+        return empty($this->errors) ? false : implode("\n", $this->errors);
     }
 
     /**

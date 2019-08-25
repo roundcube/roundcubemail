@@ -338,7 +338,7 @@ class rcube_contacts extends rcube_addressbook
                 foreach ((array)$fields as $idx => $col) {
                     $groups[] = $this->fulltext_sql_where($word, $mode, $col);
                 }
-                $where[] = '(' . join(' OR ', $groups) . ')';
+                $where[] = '(' . implode(' OR ', $groups) . ')';
             }
         }
 
@@ -349,7 +349,7 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($where)) {
             // use AND operator for advanced searches
-            $where = join(" AND ", $where);
+            $where = implode(' AND ', $where);
         }
 
         // Post-searching in vCard data fields
@@ -460,7 +460,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        return count($where) ? '(' . join(" $bool ", $where) . ')' : '';
+        return count($where) ? '(' . implode(" $bool ", $where) . ')' : '';
     }
 
     /**
@@ -645,9 +645,9 @@ class rcube_contacts extends rcube_addressbook
 
         if (!$existing->count && !empty($a_insert_cols)) {
             $this->db->query(
-                "INSERT INTO " . $this->db->table_name($this->db_name, true).
-                " (`user_id`, `changed`, `del`, ".join(', ', $a_insert_cols).")".
-                " VALUES (".intval($this->user_id).", ".$this->db->now().", 0, ".join(', ', $a_insert_values).")"
+                "INSERT INTO " . $this->db->table_name($this->db_name, true)
+                . " (`user_id`, `changed`, `del`, " . implode(', ', $a_insert_cols) . ")"
+                . " VALUES (" . intval($this->user_id) . ", " . $this->db->now() . ", 0, " . implode(', ', $a_insert_values) . ")"
             );
 
             $insert_id = $this->db->insert_id($this->db_name);
@@ -679,11 +679,11 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($write_sql)) {
             $this->db->query(
-                "UPDATE " . $this->db->table_name($this->db_name, true).
-                " SET `changed` = ".$this->db->now().", ".join(', ', $write_sql).
-                " WHERE `contact_id` = ?".
-                    " AND `user_id` = ?".
-                    " AND `del` <> 1",
+                "UPDATE " . $this->db->table_name($this->db_name, true)
+                . " SET `changed` = " . $this->db->now() . ", " . implode(', ', $write_sql)
+                . " WHERE `contact_id` = ?"
+                    . " AND `user_id` = ?"
+                    . " AND `del` <> 1",
                 $id,
                 $this->user_id
             );
@@ -744,7 +744,7 @@ class rcube_contacts extends rcube_addressbook
                 if (isset($value))
                     $vcard->set($field, $value, $section);
                 if ($fulltext && is_array($value))
-                    $words .= ' ' . rcube_utils::normalize_string(join(" ", $value));
+                    $words .= ' ' . rcube_utils::normalize_string(implode(' ', $value));
                 else if ($fulltext && strlen($value) >= 3)
                     $words .= ' ' . rcube_utils::normalize_string($value);
             }
@@ -753,21 +753,24 @@ class rcube_contacts extends rcube_addressbook
 
         foreach ($this->table_cols as $col) {
             $key = $col;
-            if (!isset($save_data[$key]))
+            if (!isset($save_data[$key])) {
                 $key .= ':home';
+            }
             if (isset($save_data[$key])) {
-                if (is_array($save_data[$key]))
-                    $out[$col] = join(self::SEPARATOR, $save_data[$key]);
-                else
+                if (is_array($save_data[$key])) {
+                    $out[$col] = implode(self::SEPARATOR, $save_data[$key]);
+                }
+                else {
                     $out[$col] = $save_data[$key];
+                }
             }
         }
 
         // save all e-mails in database column
-        $out['email'] = join(self::SEPARATOR, $vcard->email);
+        $out['email'] = implode(self::SEPARATOR, $vcard->email);
 
         // join words for fulltext search
-        $out['words'] = join(" ", array_unique(explode(" ", $words)));
+        $out['words'] = implode(' ', array_unique(explode(' ', $words)));
 
         return $out;
     }

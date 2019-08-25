@@ -1010,7 +1010,7 @@ class rcube_db
             $args = $args[0];
         }
 
-        return '(' . join(' || ', $args) . ')';
+        return '(' . implode(' || ', $args) . ')';
     }
 
     /**

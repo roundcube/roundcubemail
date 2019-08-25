@@ -775,7 +775,7 @@ class rcmail_sendmail
             $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
         }
 
-        return join('; ', $parts);
+        return implode('; ', $parts);
     }
 
     /**

@@ -367,7 +367,7 @@ class rcube_message
                         return true;
                     }
 
-                    $parent = $this->mime_parts[join('.', $level)];
+                    $parent = $this->mime_parts[implode('.', $level)];
 
                     if (!$this->check_context($parent)) {
                         return true;
@@ -425,7 +425,7 @@ class rcube_message
                         return true;
                     }
 
-                    $parent = $this->mime_parts[join('.', $level)];
+                    $parent = $this->mime_parts[implode('.', $level)];
 
                     if (!$this->check_context($parent)) {
                         return true;
@@ -1082,7 +1082,7 @@ class rcube_message
             $items = explode('.', $part->mime_id);
             for ($i = count($items)-1; $i > 0; $i--) {
                 $last   = array_pop($items);
-                $parent = $this->mime_parts[join('.', $items)];
+                $parent = $this->mime_parts[implode('.', $items)];
 
                 if ($parent && $parent->charset) {
                     $charsets[] = $parent->charset;

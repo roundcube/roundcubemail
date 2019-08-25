@@ -299,7 +299,7 @@ class rcube_imap_generic
         while ($line[0] == '*');
 
         if ($untagged) {
-            $untagged = join("\n", $untagged);
+            $untagged = implode("\n", $untagged);
         }
 
         return $line;

@@ -462,7 +462,7 @@ class rcmail_install
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
-                    $errors[] = "Missing columns in table '$table': " . join(',', $diff);
+                    $errors[] = "Missing columns in table '$table': " . implode(',', $diff);
                 }
             }
         }
@@ -783,7 +783,7 @@ class rcmail_install
                 }
 
                 if ($isnum) {
-                    return 'array(' . join(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
+                    return 'array(' . implode(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
                 }
             }
         }
