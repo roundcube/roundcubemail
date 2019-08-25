@@ -1645,7 +1645,7 @@ class rcmail extends rcube
 
             $out .= html::tag('li', array(
                     'id'      => "rcmli" . $folder_id,
-                    'class'   => join(' ', $classes),
+                    'class'   => implode(' ', $classes),
                     'noclose' => true
                 ),
                 html::a($link_attrib, $html_name));

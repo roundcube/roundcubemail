@@ -590,15 +590,15 @@ abstract class rcube_storage
             }
             // get UIDs from current search set
             else {
-                $uids = join(',', $this->search_set->get());
+                $uids = implode(',', $this->search_set->get());
             }
         }
         else {
             if (is_array($uids)) {
-                $uids = join(',', $uids);
+                $uids = implode(',', $uids);
             }
             else if (strpos($uids, ':')) {
-                $uids = join(',', rcube_imap_generic::uncompressMessageSet($uids));
+                $uids = implode(',', rcube_imap_generic::uncompressMessageSet($uids));
             }
 
             if (preg_match('/[^0-9,]/', $uids)) {

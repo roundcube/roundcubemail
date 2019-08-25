@@ -772,7 +772,7 @@ class rcube_ldap extends rcube_addressbook
         $rcube = rcube::get_instance();
         $list_fields = $rcube->config->get('contactlist_fields');
 
-        if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
+        if ($this->prop['vlv_search'] && $this->ready && implode(',', (array)$fields) == implode(',', $list_fields)) {
             $this->result = new rcube_result_set(0);
 
             $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && !($mode & rcube_addressbook::SEARCH_STRICT)));
@@ -1608,7 +1608,7 @@ class rcube_ldap extends rcube_addressbook
                   $key = $col.':'.$subtype;
                   foreach ((array)$save_cols[$key] as $i => $val) {
                      $values = array($val['street'], $val['locality'], $val['zipcode'], $val['country']);
-                     $save_cols[$key][$i] = count(array_filter($values)) ? join($delim, $values) : null;
+                     $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
                  }
                }
             }

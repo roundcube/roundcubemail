@@ -1190,7 +1190,7 @@ class rcube
                 }
             }
 
-            $replacements[$tag] = join(" ", $parts);
+            $replacements[$tag] = implode(' ', $parts);
         }
 
         // use strtr behaviour of going through source string once
@@ -1223,7 +1223,7 @@ class rcube
             $msg[] = !is_string($arg) ? var_export($arg, true) : $arg;
         }
 
-        self::write_log('console', join(";\n", $msg));
+        self::write_log('console', implode(";\n", $msg));
     }
 
     /**
@@ -1706,7 +1706,7 @@ class rcube
         if (!$sent) {
             self::raise_error(array('code' => 800, 'type' => 'smtp',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => join("\n", $response)), true, false);
+                'message' => implode("\n", $response)), true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
             $this->plugins->exec_hook('message_send_error', $plugin + array('error' => $error));
@@ -1727,7 +1727,7 @@ class rcube
                     rcube_utils::remote_addr(),
                     $headers['Message-ID'],
                     implode(', ', $mailto),
-                    !empty($response) ? join('; ', $response) : ''));
+                    !empty($response) ? implode('; ', $response) : ''));
             }
         }
 

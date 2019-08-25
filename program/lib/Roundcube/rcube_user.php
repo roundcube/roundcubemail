@@ -27,42 +27,35 @@
  */
 class rcube_user
 {
+    /** @var int User identifier */
     public $ID;
+
+    /** @var array User properties */
     public $data;
+
+    /** @var string User language code */
     public $language;
+
+    /** @var array User preferences */
     public $prefs;
 
-    /**
-     * Holds database connection.
-     *
-     * @var rcube_db
-     */
+
+    /** @var rcube_db Holds database connection */
     private $db;
 
-    /**
-     * Framework object.
-     *
-     * @var rcube
-     */
+    /** @var rcube Framework object */
     private $rc;
 
-    /**
-     * Internal identities cache
-     *
-     * @var array
-     */
+    /** @var array Internal identities cache */
     private $identities = array();
 
-    /**
-     * Internal emails cache
-     *
-     * @var array
-     */
+    /** @var array Internal emails cache */
     private $emails;
 
 
     const SEARCH_ADDRESSBOOK = 1;
-    const SEARCH_MAIL = 2;
+    const SEARCH_MAIL        = 2;
+
 
     /**
      * Object constructor
@@ -378,7 +371,7 @@ class rcube_user
         $query_params[] = $this->ID;
 
         $sql = "UPDATE ".$this->db->table_name('identities', true).
-            " SET `changed` = ".$this->db->now().", ".join(', ', $query_cols).
+            " SET `changed` = ".$this->db->now().", ".implode(', ', $query_cols).
             " WHERE `identity_id` = ?".
                 " AND `user_id` = ?".
                 " AND `del` <> 1";
@@ -420,8 +413,8 @@ class rcube_user
         $insert_values[] = $this->ID;
 
         $sql = "INSERT INTO ".$this->db->table_name('identities', true).
-            " (`changed`, ".join(', ', $insert_cols).")".
-            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), count($insert_values), '?')).")";
+            " (`changed`, ".implode(', ', $insert_cols).")".
+            " VALUES (".$this->db->now().", ".implode(', ', array_pad(array(), count($insert_values), '?')).")";
 
         $insert = $this->db->query($sql, $insert_values);
 
@@ -857,8 +850,8 @@ class rcube_user
         $insert_values[] = serialize($data['data']);
 
         $sql = "INSERT INTO ".$this->db->table_name('searches', true)
-            ." (".join(', ', $insert_cols).")"
-            ." VALUES (".join(', ', array_pad(array(), count($insert_values), '?')).")";
+            ." (".implode(', ', $insert_cols).")"
+            ." VALUES (".implode(', ', array_pad(array(), count($insert_values), '?')).")";
 
         $insert = $this->db->query($sql, $insert_values);
 

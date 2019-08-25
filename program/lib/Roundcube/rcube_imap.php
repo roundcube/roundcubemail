@@ -3188,7 +3188,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            $myrights = join('', (array)$this->my_rights($folder));
+            $myrights = implode('', (array)$this->my_rights($folder));
 
             if ($myrights !== null && !preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);

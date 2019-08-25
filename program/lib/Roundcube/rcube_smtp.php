@@ -350,7 +350,7 @@ class rcube_smtp
             return false;
         }
 
-        $this->response[] = join(': ', $this->conn->getResponse());
+        $this->response[] = implode(': ', $this->conn->getResponse());
         return true;
     }
 
@@ -476,7 +476,7 @@ class rcube_smtp
             }
         }
 
-        return array($from, join(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
+        return array($from, implode(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
     }
 
     /**
