@@ -226,7 +226,8 @@ class html
     /**
      * Derrived method to create <iframe></iframe>
      *
-     * @param mixed $attr Hash array with tag attributes or string with frame source (src)
+     * @param mixed  $attr Hash array with tag attributes or string with frame source (src)
+     * @param string $cont Tag content
      *
      * @return string HTML code
      * @see html::tag()
@@ -935,13 +936,14 @@ class html_table extends html
         $this->content = $thead . ($this->tagname == 'table' ? self::tag('tbody', null, $tbody) : $tbody);
 
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
+
         return parent::show();
     }
 
     /**
      * Count number of rows
      *
-     * @return The number of rows
+     * @return int The number of rows
      */
     public function size()
     {
