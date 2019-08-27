@@ -239,6 +239,42 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
     }
 
+    /**
+     * rcube_utils::mod_css_styles()'s prefix argument handling
+     */
+    function test_mod_css_styles_prefix()
+    {
+        $css = '
+            .one { font-size: 10pt; }
+            .three.four { font-weight: bold; }
+            #id1 { color: red; }
+            #id2.class:focus { color: white; }
+            .five:not(.test), { background: transparent; }
+            div .six { position: absolute; }
+            p > i { font-size: 120%; }
+            div#some { color: yellow; }
+            @media screen and (max-width: 699px) and (min-width: 520px) {
+                li a.button { padding-left: 30px; }
+            }
+            :root * { color: red; }
+            :root > * { top: 0; }
+        ';
+        $mod = rcube_utils::mod_css_styles($css, 'rc', true);
+
+        $this->assertContains('#rc .one', $mod);
+        $this->assertContains('#rc .three.four', $mod);
+        $this->assertContains('#rc #id1', $mod);
+        $this->assertContains('#rc #id2.class:focus', $mod);
+        $this->assertContains('#rc .five:not(.test)', $mod);
+        $this->assertContains('#rc div .six', $mod);
+        $this->assertContains('#rc p > i ', $mod);
+        $this->assertContains('#rc div#some', $mod);
+        $this->assertContains('#rc li a.button', $mod);
+        $this->assertNotContains(':root', $mod);
+        $this->assertContains('#rc * ', $mod);
+        $this->assertContains('#rc > * ', $mod);
+    }
+
     function test_xss_entity_decode()
     {
         $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");

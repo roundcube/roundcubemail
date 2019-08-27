@@ -429,7 +429,7 @@ class rcube_utils
             $source   = substr_replace($source, $repl, $pos+1, $length);
             $last_pos = $pos2 - ($length - strlen($repl));
         }
-
+/*
         // remove html comments and add #container to each tag selector.
         // also replace body definition because we also stripped off the <body> tag
         $source = preg_replace(
@@ -447,6 +447,39 @@ class rcube_utils
                 $container_id,
             ),
             $source);
+*/
+        // remove html comments
+        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
+
+        // add #container to each tag selector
+        if ($container_id) {
+            // (?!##str) below is to not match with ##str_replacement_0##
+            // from rcube_string_replacer used above, this is needed for
+            // cases like @media { body { position: fixed; } } (#5811)
+            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str):?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $callback = function($matches) use ($container_id, $prefix) {
+                $replace = $matches[2];
+
+                if (stripos($replace, ':root') === 0) {
+                    $replace = substr($replace, 5);
+                }
+
+                $replace = "#$container_id " . $replace;
+
+                // Remove redundant spaces (for simpler testing)
+                $replace = preg_replace('/\s+/', ' ', $replace);
+
+                return str_replace($matches[2], $replace, $matches[0]);
+            };
+
+            $source = preg_replace_callback($regexp, $callback, $source);
+        }
+
+        // replace body definition because we also stripped off the <body> tag
+        if ($container_id) {
+            $regexp = '/#' . preg_quote($container_id, '/') . '\s+body/i';
+            $source = preg_replace($regexp, "#$container_id", $source);
+        }
 
         // put block contents back in
         $source = $replacements->resolve($source);

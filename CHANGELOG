@@ -19,6 +19,7 @@ RELEASE 1.3.10
 - Fix PHP 7.4 deprecation: implode() wrong parameter order (#6866)
 - Fix security issue where it was possible to bypass the position:fixed CSS check in received messages (#6898)
 - Fix bug where some strict remote URIs in url() style were unintentionally blocked (#6899)
+- Fix security issue where it was possible to bypass the CSS jail in HTML messages using :root pseudo-class (#6897)
 
 RELEASE 1.3.9
 -------------
