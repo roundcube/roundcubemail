@@ -80,9 +80,10 @@ CHANGELOG Roundcube Webmail
 - Fix bug where unread count wasn't updated after moving multi-folder result (#6846)
 - Fix wrong messages order after returning to a multi-folder search result (#6836)
 - Fix some PHP 7.4 compat. issues (#6884, #6866)
-- Fix security issue where it was possible to bypass the position:fixed CSS check in received messages (#6898)
+- Fix bug where it was possible to bypass the position:fixed CSS check in received messages (#6898)
 - Fix bug where some strict remote URIs in url() style were unintentionally blocked (#6899)
-- Fix security issue where it was possible to bypass the CSS jail in HTML messages using :root pseudo-class (#6897)
+- Fix bug where it was possible to bypass the CSS jail in HTML messages using :root pseudo-class (#6897)
+- Fix bug where it was possible to bypass href URI check with data:application/xhtml+xml URIs (#6896)
 
 RELEASE 1.4-rc1
 ---------------

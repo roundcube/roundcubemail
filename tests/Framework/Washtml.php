@@ -19,19 +19,21 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     /**
      * Test the elimination of some XSS vulnerabilities
      */
-    function test_html_xss3()
+    function test_html_xss()
     {
         // #1488850
-        $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+        $html = '<a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>'
-            .'<p><A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+            .'<A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
+            .'<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
         $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
         $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+        $this->assertNotRegExp('/data:application/', $washed, "Remove data:application links");
     }
 
     /**
