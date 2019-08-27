@@ -233,6 +233,10 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
         $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
+
+        // Allow strict url()
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
+        $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
     }
 
     /**
