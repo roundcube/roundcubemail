@@ -399,7 +399,7 @@ class rcube_utils
             $styles = substr($source, $pos+1, $length);
 
             // Convert position:fixed to position:absolute (#5264)
-            $styles = preg_replace('/position:[\s\r\n]*fixed/i', 'position: absolute', $styles);
+            $styles = preg_replace('/position[^a-z]*:[\s\r\n]*fixed/i', 'position: absolute', $styles);
 
             // check every line of a style block...
             if ($allow_remote) {
