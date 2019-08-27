@@ -256,6 +256,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             @media screen and (max-width: 699px) and (min-width: 520px) {
                 li a.button { padding-left: 30px; }
             }
+            :root * { color: red; }
+            :root > * { top: 0; }
         ';
         $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
 
@@ -268,6 +270,9 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertContains('#rc p > i ', $mod);
         $this->assertContains('#rc div#testsome', $mod);
         $this->assertContains('#rc li a.testbutton', $mod);
+        $this->assertNotContains(':root', $mod);
+        $this->assertContains('#rc * ', $mod);
+        $this->assertContains('#rc > * ', $mod);
     }
 
     function test_xss_entity_decode()

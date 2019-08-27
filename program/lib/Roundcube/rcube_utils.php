@@ -435,9 +435,13 @@ class rcube_utils
             // (?!##str) below is to not match with ##str_replacement_0##
             // from rcube_string_replacer used above, this is needed for
             // cases like @media { body { position: fixed; } } (#5811)
-            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str):?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = function($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
+
+                if (stripos($replace, ':root') === 0) {
+                    $replace = substr($replace, 5);
+                }
 
                 if ($prefix) {
                     $replace = str_replace(array('.', '#'), array(".$prefix", "#$prefix"), $replace);
@@ -446,6 +450,9 @@ class rcube_utils
                 if ($container_id) {
                     $replace = "#$container_id " . $replace;
                 }
+
+                // Remove redundant spaces (for simpler testing)
+                $replace = preg_replace('/\s+/', ' ', $replace);
 
                 return str_replace($matches[2], $replace, $matches[0]);
             };
