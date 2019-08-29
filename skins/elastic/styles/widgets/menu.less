@@ -283,18 +283,51 @@
                 flex: 1;
             }
 
-            a.dropdown {
-                width: auto;
+            &:not(.disabled):hover {
+                background-color: @color-popover-mobile-dropbutton-background;
+            }
 
-                &:before {
-                    content: @fa-var-angle-right;
-                    line-height: inherit;
-                    margin: 0;
+            a.dropdown {
+                width: 3.5rem;
+                padding: 0 .5em;
+                background-color: @color-popover-mobile-dropbutton-background;
+
+                &:hover {
+                    background-color: @color-menu-hover-background;
                 }
 
+                // Note: :before icon is replaced with :after icon by a[aria-haspopup] below
+
+                &:before,
                 span.inner {
                     display: none;
                 }
+            }
+        }
+
+        a[aria-haspopup] {
+            position: realtive;
+
+            &:after {
+                &:extend(.font-icon-class);
+                content: @fa-var-chevron-right;
+                float: right;
+                margin: 0;
+                color: @color-black-shade-text;
+                font-size: .9em;
+
+                html.layout-small & {
+                    margin: 0 .2em;
+                }
+            }
+
+            &.dropdown:after {
+                margin: 0 .5em !important;
+                color: @color-list;
+            }
+
+            &:hover:after {
+                color: @color-menu-hover;
             }
         }
     }
