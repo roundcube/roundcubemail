@@ -30,6 +30,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
 - Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
+- Elastic: Add indicator for popover menu items that open a submenu (#6868)
 - Elastic: Move compose attachments/options to the right side (#6839)
 - Elastic: Add border/background to attachments list widget (#6842)
 - Elastic: Add "Show unread messages" button to the search bar (#6587)
