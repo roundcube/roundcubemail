@@ -398,10 +398,11 @@ EOF;
      * @param string $file       File name/path to resolve (starting with /)
      * @param string &$skin_path Reference to the base path of the matching skin
      * @param string $add_path   Additional path to search in
+     * @param bool   $minified   Fallback to a minified version of the file
      *
      * @return mixed Relative path to the requested file or False if not found
      */
-    public function get_skin_file($file, &$skin_path = null, $add_path = null)
+    public function get_skin_file($file, &$skin_path = null, $add_path = null, $minified = false)
     {
         $skin_paths = $this->skin_paths;
 
@@ -412,6 +413,14 @@ EOF;
 
         if ($skin_path = $this->find_file_path($file, $skin_paths)) {
             return $skin_path . $file;
+        }
+
+        if ($minified && preg_match('/(?<!\.min)\.(js|css)$/', $file)) {
+            $file = preg_replace('/\.(js|css)$/', '.min.\\1', $file);
+
+            if ($skin_path = $this->find_file_path($file, $skin_paths)) {
+                return $skin_path . $file;
+            }
         }
 
         return false;
