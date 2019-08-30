@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'Сбой подписания. Неверный па
 $messages['signnopass'] = 'Сбой подписания. Требуется ключ пароля.';
 $messages['encrypterror'] = 'Сбой шифрования.';
 $messages['encryptnokey'] = 'Сбой шифрования. Не найден открытый ключ для $email.';
+$messages['encryptnoprivkey'] = 'Сбой шифрования. Не найден закрытый ключ.';
 $messages['nokeysfound'] = 'Ключи не найдены';
 $messages['keynotfound'] = 'Ключ не найден!';
 $messages['keyopenerror'] = 'Невозможно получить информацию о ключе! Внутренняя ошибка.';

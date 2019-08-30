@@ -510,7 +510,6 @@ $labels['advancedoptions'] = 'Дополнительные настройки';
 $labels['toggleadvancedoptions'] = 'Дополнительные параметры';
 $labels['focusonnewmessage'] = 'Фокусировать окно браузера при новом сообщении';
 $labels['checkallfolders'] = 'Проверять новые сообщения во всех папках';
-$labels['displaynext'] = 'Показать следующее сообщение, после удаления или перемещения данного';
 $labels['defaultfont'] = 'Шрифт по умолчанию HTML сообщения';
 $labels['mainoptions'] = 'Основные настройки';
 $labels['browseroptions'] = 'Настройки обозревателя';

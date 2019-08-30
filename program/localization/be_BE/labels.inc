@@ -420,7 +420,6 @@ $labels['force7bit'] = 'Ужываць MIME-кадзіроўку для 8-біт
 $labels['advancedoptions'] = 'Дадатковыя параметры';
 $labels['focusonnewmessage'] = 'Актываваць акно браўзера пры новым паведамленні';
 $labels['checkallfolders'] = 'Правяраць усе папкі на новыя паведамленні';
-$labels['displaynext'] = 'Па выдаленні/перамяшчэнні паведамлення паказваць наступнае паведамленне';
 $labels['defaultfont'] = 'Стандартны шрыфт паведамлення ў HTML';
 $labels['mainoptions'] = 'Асноўныя параметры';
 $labels['browseroptions'] = 'Параметры браўзера';

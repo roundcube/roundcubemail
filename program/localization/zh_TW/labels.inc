@@ -510,7 +510,6 @@ $labels['advancedoptions'] = '進階選項';
 $labels['toggleadvancedoptions'] = '切換高級選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '對於所有資料夾，都要檢查有否新郵件';
-$labels['displaynext'] = '郵件刪除/移動時顯示下一封郵件';
 $labels['defaultfont'] = 'HTML 郵件的預設字型';
 $labels['mainoptions'] = '主要選項';
 $labels['browseroptions'] = '瀏覽器選項';

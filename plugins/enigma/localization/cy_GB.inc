@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'Llofnodi wedi methu. Cyfrinair annilys.';
 $messages['signnopass'] = 'Llofnodi wedi methu. Mae angen cyfrinair.';
 $messages['encrypterror'] = 'Amgryptio wedi methu.';
 $messages['encryptnokey'] = 'Amgryptio wedi methu. Allwedd cyhoeddus heb ei ganfod ar gyfer $email.';
+$messages['encryptnoprivkey'] = 'Dadgryptio wedi methu. Allwedd breifat heb ei ganfod.';
 $messages['nokeysfound'] = 'Ni ganfuwyd unrhyw allweddi';
 $messages['keynotfound'] = 'Ni ganfuwyd yr allwedd!';
 $messages['keyopenerror'] = 'Methwyd cael gwybodaeth allwedd! Gwall mewnol.';

@@ -19,3 +19,4 @@ $labels['download'] = 'Heinta...';
 $labels['downloadmbox'] = 'Mbox týpa (.zip)';
 $labels['downloadmaildir'] = 'Teldupost mappu format (.zip)';
 $labels['downloademl'] = 'Kelda (.eml)';
+$labels['sizelimiterror'] = 'Tann samlaða støddin av tí valgda boðnum, er stórri enn stórst loyvdu boð stødd ($size)';

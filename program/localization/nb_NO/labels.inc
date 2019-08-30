@@ -501,7 +501,6 @@ $labels['savelocalstorage'] = "Lagre i nettleserens lokale minne (midlertidig)";
 $labels['advancedoptions'] = 'Avanserte alternativer';
 $labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
 $labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';
-$labels['displaynext'] = 'Vis neste melding etter sletting/flytting av en melding';
 $labels['defaultfont'] = 'Standard skrifttype i HTML-melding';
 $labels['mainoptions'] = 'Hovedinnstillinger';
 $labels['browseroptions'] = 'Alternativer for nettleser';

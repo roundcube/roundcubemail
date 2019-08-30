@@ -474,7 +474,6 @@ $labels['advancedoptions'] = 'Optiones avantiate';
 $labels['toggleadvancedoptions'] = 'Monstrar/celar optiones avantiate';
 $labels['focusonnewmessage'] = 'Focalisar le fenestra del navigator sur le nove message';
 $labels['checkallfolders'] = 'Verificar in tote le dossieres si il ha nove messages';
-$labels['displaynext'] = 'Post deler/displaciar un message, monstrar le proxime message';
 $labels['defaultfont'] = 'Typo de litteras predefinite pro messages HTML';
 $labels['mainoptions'] = 'Optiones principal';
 $labels['browseroptions'] = 'Optiones de navigator';

@@ -467,7 +467,6 @@ $labels['advancedoptions'] = 'Pilihan lanjut';
 $labels['toggleadvancedoptions'] = 'Jungkitkan opsi tingkat lanjut';
 $labels['focusonnewmessage'] = 'Pusatkan jendela broswer saat ada pesan baru';
 $labels['checkallfolders'] = 'Periksa semua folder untuk pesan baru';
-$labels['displaynext'] = 'Setelah menghapus/memindahkan, tampilkan pesan berikutnya';
 $labels['defaultfont'] = 'Huruf standar untuk pesan HTML';
 $labels['mainoptions'] = 'Pilihan Utama';
 $labels['browseroptions'] = 'Pilihan peramban web';

@@ -456,7 +456,6 @@ $labels['advancedoptions'] = 'Dibarzhioù araokaet';
 $labels['toggleadvancedoptions'] = 'Trec\'haoliñ an dibarzhioù araoket';
 $labels['focusonnewmessage'] = 'Stiañ prenestr ar merdeer pa \'z eus ur gemennadenn nevez';
 $labels['checkallfolders'] = 'Gwiriañ an holl deuliadoù evit kemennadennoù nevez';
-$labels['displaynext'] = 'Diskouez ar gemennadenn war-lerc\'h goude ma vefe bet lamet kuit bet dilec\'hiet ur gemennadenn.';
 $labels['defaultfont'] = 'Nodrezh dre ziouer ar c\'hemennadennoù HTML';
 $labels['mainoptions'] = 'Dibarzhioù dre ziouer';
 $labels['browseroptions'] = 'Dibarzhioù ar merdeer';

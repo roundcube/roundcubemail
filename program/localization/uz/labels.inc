@@ -469,7 +469,6 @@ $labels['advancedoptions'] = 'Qo`shimcha xossalar';
 $labels['toggleadvancedoptions'] = 'Qo`shimcha xossalar';
 $labels['focusonnewmessage'] = 'Yangi xatda brauzer oynasini fokuslantirish';
 $labels['checkallfolders'] = 'Barcha papkalarda yangi xabarlarni tekshirish';
-$labels['displaynext'] = 'Mazkur xatni o`chirgandan yoki qayta yuborishdan so`ng keyingisini ko`rsatish';
 $labels['defaultfont'] = ' HTML xatda shrift';
 $labels['mainoptions'] = 'Asosiy xossalar';
 $labels['browseroptions'] = 'Brauzer sozlamalari';
