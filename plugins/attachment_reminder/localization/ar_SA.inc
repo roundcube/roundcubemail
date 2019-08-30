@@ -13,6 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
+$messages['missingattachment'] = "المرفق مفقود ؟";
 $messages['forgotattachment'] = "هل نسيت إرفاق ملف؟";
 $messages['reminderoption'] = "تذكير حول المرفقات المنسية";
 $messages['keywords'] = "المرفقات,الملف,ارفاق,مرفق,ارفاق,مضمون,CV,صفحة المغلف";

@@ -431,7 +431,6 @@ $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';
 $labels['checkallfolders'] = 'Procurar novas mensaxes en todos os cartafoles';
-$labels['displaynext'] = 'Logo de eliminar ou mover unha mensaxe ir á mensaxe seguinte';
 $labels['defaultfont'] = 'Fonte por defecto da mensaxe HTML';
 $labels['mainoptions'] = 'Opcións principais';
 $labels['browseroptions'] = 'Opcións do navegador';

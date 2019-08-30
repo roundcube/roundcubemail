@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Avansearre opsjes';
 $labels['toggleadvancedoptions'] = 'Avansearre opsjes skeakelje';
 $labels['focusonnewmessage'] = 'Fokus browser finster by nij berjocht';
 $labels['checkallfolders'] = 'Kontrolearje alle mappen op nije berjochten';
-$labels['displaynext'] = 'Nij wiskjen/ferpleatsen fan berjocht, toan folgjende berjocht';
 $labels['defaultfont'] = 'Standert lettertype fan HTML berjocht';
 $labels['mainoptions'] = 'Haad Opsjes';
 $labels['browseroptions'] = 'Browser Opsjes';

@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'Aláírás sikertelen. Hibás jelszó.';
 $messages['signnopass'] = 'Aláírás sikertelen. A kulcshoz jelszó kell.';
 $messages['encrypterror'] = 'Titkosítás sikertelen.';
 $messages['encryptnokey'] = 'Titkosítás sikertelen. Nyilvás kulcs nem található a következőhöz: $email.';
+$messages['encryptnoprivkey'] = 'A titkosítás sikertelen. A magánkulcs nem található.';
 $messages['nokeysfound'] = 'Nem  találhatóak kulcsok';
 $messages['keynotfound'] = 'A kulcs nem található!';
 $messages['keyopenerror'] = 'A kulcs információk lekérésés nem lehetséges. Belső hiba.';

@@ -105,6 +105,7 @@ $messages['signbadpass'] = 'Firma non riuscita. Password non valida.';
 $messages['signnopass'] = 'Firma non riuscita. Password della chiave richiesta.';
 $messages['encrypterror'] = 'Cifratura non riuscita.';
 $messages['encryptnokey'] = 'Cifratura non riuscita. Chiave pubblica non trovata per $email.';
+$messages['encryptnoprivkey'] = 'Crittografia fallita. Chiave privata non trovata.';
 $messages['nokeysfound'] = 'Nessuna chiave trovata';
 $messages['keynotfound'] = 'Chiave non trovata!';
 $messages['keyopenerror'] = 'Impossibile ottenere informazioni sulla chiave. Errore interno.';

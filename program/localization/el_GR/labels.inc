@@ -468,7 +468,6 @@ $labels['advancedoptions'] = 'Προχωρημένες επιλογές';
 $labels['toggleadvancedoptions'] = 'Εναλλαγή προχωρημένων επιλογών';
 $labels['focusonnewmessage'] = 'Τα νέα μηνύματα να επιλέγονται αυτόματα';
 $labels['checkallfolders'] = 'Να γίνεται έλεγχος σε όλους τους φακέλους για νέα μηνύματα';
-$labels['displaynext'] = 'Μετά από κάθε μετακίνηση/διαγραφή μηνήματος να εμφανίζεται το επόμενο';
 $labels['defaultfont'] = 'Προεπιλεγμένη γραμματοσειρά για τα μηνύματα μορφής HTML';
 $labels['mainoptions'] = 'Βασικές επιλογές';
 $labels['browseroptions'] = 'Επιλογές περιηγητή';

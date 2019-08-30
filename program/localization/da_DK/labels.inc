@@ -505,7 +505,6 @@ $labels['advancedoptions'] = 'Avancerede indstillinger';
 $labels['toggleadvancedoptions'] = 'Skift avancerede indstillinger';
 $labels['focusonnewmessage'] = 'Fokusér browservindue når der kommer en ny besked';
 $labels['checkallfolders'] = 'Tjek alle mapper for nye beskeder';
-$labels['displaynext'] = 'Efter slet/flyt besked, vis næste besked';
 $labels['defaultfont'] = 'Standard font ved HTML besked';
 $labels['mainoptions'] = 'Generelle indstillinger';
 $labels['browseroptions'] = 'Browserindstillinger';

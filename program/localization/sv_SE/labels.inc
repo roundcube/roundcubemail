@@ -510,7 +510,6 @@ $labels['advancedoptions'] = 'Avancerade inställningar';
 $labels['toggleadvancedoptions'] = 'Växla avancerade inställningar';
 $labels['focusonnewmessage'] = 'Fokusera webbläsarens fönster vid nytt meddelande';
 $labels['checkallfolders'] = 'Genomsök samtliga kataloger efter nya meddelanden';
-$labels['displaynext'] = 'Visa nästa meddelande efter borttagning/flyttning av meddelande';
 $labels['defaultfont'] = 'Förvalt typsnitt i HTML-meddelande';
 $labels['mainoptions'] = 'Huvudalternativ';
 $labels['browseroptions'] = 'Webbläsaralternativ';

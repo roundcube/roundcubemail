@@ -24,7 +24,9 @@ $labels['settingstitle'] = 'Archivo';
 $labels['archivetype'] = 'Separar archivo por';
 $labels['archivetypeyear'] = 'Año (ej. Archivo/2012)';
 $labels['archivetypemonth'] = 'Mes (ej. Archivo/2012/06)';
+$labels['archivetypetbmonth'] = 'Mes - estilo Thunderbird  (ej. Archive/2012/2012-06)';
 $labels['archivetypefolder'] = 'Carpeta original';
 $labels['archivetypesender'] = 'Remitente del correo';
 $labels['unkownsender'] = 'desconocido';
+$labels['readonarchive'] = 'Marcar el mensaje como leído al archivar';
 ?>

@@ -426,7 +426,6 @@ $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['toggleadvancedoptions'] = 'Camudar opciones avanzaes';
 $labels['focusonnewmessage'] = 'Enfocar la ventana de restolación en mensaxes nuevos';
 $labels['checkallfolders'] = 'Comprobar en toles carpetes mensaxes nuevos';
-$labels['displaynext'] = 'Depués de mover/desaniciar amosar el mensaxe siguiente';
 $labels['defaultfont'] = 'Triba de fonte por defeutu del mensaxe HTML';
 $labels['mainoptions'] = 'Opciones principales';
 $labels['browseroptions'] = 'Opciones del restolador';

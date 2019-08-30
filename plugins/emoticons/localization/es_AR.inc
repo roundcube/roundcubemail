@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Localization file of the Roundcube Webmail Emoticons plugin           |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,12 +11,9 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-emoticons/
 */
 
-$labels['downloadall'] = 'Deskargatu eranskin guztiak';
-$labels['download'] = 'Deskargatu...';
-$labels['downloadmbox'] = 'Mbox formatua (.zip)';
-$labels['downloadmaildir'] = 'Maildir formatua (.zip)';
-$labels['downloademl'] = 'Iturburua (.eml)';
-$labels['sizelimiterror'] = 'Hautatutako  mezuen tamainak muga ($size) gainditu du.';
+$labels['emoticonsdisplay'] = 'Mostrar emoticones en mensajes de texto plano';
+$labels['emoticonscompose'] = 'Habilitar emoticones';
+?>

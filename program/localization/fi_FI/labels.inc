@@ -497,7 +497,6 @@ $labels['advancedoptions'] = 'Lisäasetukset';
 $labels['toggleadvancedoptions'] = 'Vaihda edistyneemmät valinnat';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
-$labels['displaynext'] = 'Viestin siirron tai poiston jälkeen, näytä seuraava viesti';
 $labels['defaultfont'] = 'HTML-viestin oletuskirjasin';
 $labels['mainoptions'] = 'Pääasetukset';
 $labels['browseroptions'] = 'Selainasetukset';

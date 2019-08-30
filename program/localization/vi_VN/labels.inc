@@ -428,7 +428,6 @@ $labels['force7bit'] = 'Sử dụng MIME mã hóa cho ký tự 8-bit';
 $labels['advancedoptions'] = 'Tùy chọn tính năng cao hơn';
 $labels['focusonnewmessage'] = 'Tập trung khung cửa trình duyệt vào thư mới';
 $labels['checkallfolders'] = 'Kiểm tra thư mới trong tất cả thư mục';
-$labels['displaynext'] = 'Sau khi "xóa/di chuyển" thư thì hiển thị thư kế tiếp';
 $labels['defaultfont'] = 'Phông chữ mặc định của thư có mã HTML';
 $labels['mainoptions'] = 'Tùy chọn chính';
 $labels['browseroptions'] = 'Tùy chọn Trình duyệt';

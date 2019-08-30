@@ -434,7 +434,6 @@ $labels['advancedoptions'] = 'Ardroghanna';
 $labels['toggleadvancedoptions'] = 'Scoránaigh na hardroghanna';
 $labels['focusonnewmessage'] = 'Dírigh fuinneog an líonléitheora ar theachtaireacht nua';
 $labels['checkallfolders'] = 'Dearbháil gach fillteán do theachtaireachtaí nua';
-$labels['displaynext'] = 'Tar éis teachtaireacht a scriosadh/a bhogadh, taispeáin an chéad teachtaireacht eile';
 $labels['mainoptions'] = 'Príomhroghanna';
 $labels['browseroptions'] = 'Roghanna líonléitheora';
 $labels['section'] = 'Roinn';

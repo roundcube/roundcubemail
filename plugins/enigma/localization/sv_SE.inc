@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'Signeringen misslyckades. Fel lösenord.';
 $messages['signnopass'] = 'Signeringen misslyckades. Ange nyckelns lösenord.';
 $messages['encrypterror'] = 'Krypteringen misslyckades.';
 $messages['encryptnokey'] = 'Krypteringen misslyckades. Offentlig nyckel otillgänglig för $email.';
+$messages['encryptnoprivkey'] = 'Krypteringen misslyckades. Offentlig nyckel kunde inte hittas.';
 $messages['nokeysfound'] = 'Inga nycklar hittades.';
 $messages['keynotfound'] = 'Nyckeln hittades inte!';
 $messages['keyopenerror'] = 'Nyckelinformation kunde inte hämtas. Internt fel.';

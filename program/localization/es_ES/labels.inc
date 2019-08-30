@@ -482,7 +482,6 @@ $labels['advancedoptions'] = 'Opciones avanzadas';
 $labels['toggleadvancedoptions'] = 'Desplegar opciones avanzadas';
 $labels['focusonnewmessage'] = 'Enfocar ventana del navegador al recibir nuevo mensaje';
 $labels['checkallfolders'] = 'Revisar todas las carpetas por nuevos mensajes';
-$labels['displaynext'] = 'Después de borrar/mover un mensaje, mostrar el siguiente';
 $labels['defaultfont'] = 'Tipo de letra predeterminada de mensaje HTML';
 $labels['mainoptions'] = 'Opciones Principales';
 $labels['browseroptions'] = 'Opciones del Navegador';

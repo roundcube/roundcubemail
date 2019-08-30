@@ -510,7 +510,6 @@ $labels['advancedoptions'] = 'Ítarlegir valkostir';
 $labels['toggleadvancedoptions'] = 'Víxla ítarlegum valkostum af/á';
 $labels['focusonnewmessage'] = 'Láta vafraglugga vera virkan á nýjum skilaboðum';
 $labels['checkallfolders'] = 'Athuga með ný skilaboð í öllum möppum';
-$labels['displaynext'] = 'Að eyðingu/færslu lokinni skal birta næstu skilaboð';
 $labels['defaultfont'] = 'Sjálfgefið letur HTML-skilaboða';
 $labels['mainoptions'] = 'Aðalstillingar';
 $labels['browseroptions'] = 'Valkostir vafra';

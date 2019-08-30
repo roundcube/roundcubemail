@@ -466,7 +466,6 @@ $labels['force7bit'] = 'Foloseşte encodarea MIME pentru caracterele cu 8 biţi'
 $labels['advancedoptions'] = 'Opţiuni avansate';
 $labels['focusonnewmessage'] = 'Focalizare pe fereastra browser-ului la mesaje noi';
 $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
-$labels['displaynext'] = 'După ştergerea sau mutarea unui mesaj afişează-l pe următorul din listă';
 $labels['defaultfont'] = 'Font-ul implicit al mesajului HTML';
 $labels['mainoptions'] = 'Opţiuni principale';
 $labels['browseroptions'] = 'Opțiuni browser';
