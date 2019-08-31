@@ -52,6 +52,9 @@ class rcube_browser
     /** @var bool $ie Browser is Internet Explorer */
     public $ie = false;
 
+    /** @var bool $edge Browser is Edge */
+    public $edge = false;
+
     /** @var bool $safari Browser is Safari */
     public $safari = false;
 
@@ -78,18 +81,25 @@ class rcube_browser
         // Engine detection
         $this->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
         $this->opera  = strpos($HTTP_USER_AGENT, 'opera') !== false || ($this->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);
-        $this->chrome = !$this->opera && strpos($HTTP_USER_AGENT, 'chrome') !== false;
-        $this->ie     = !$this->opera && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
-        $this->safari = !$this->opera && !$this->chrome && ($this->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
-        $this->mz     = !$this->ie && !$this->safari && !$this->chrome && !$this->opera && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
+        $this->edge   = strpos($HTTP_USER_AGENT, 'edge/') !== false;
+        $this->ie     = !$this->opera && !$this->edge && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
+        $this->chrome = !$this->opera && !$this->edge && strpos($HTTP_USER_AGENT, 'chrome') !== false;
+        $this->safari = !$this->opera && !$this->chrome && !$this->edge
+                        && ($this->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
+        $this->mz     = !$this->ie && !$this->edge && !$this->safari && !$this->chrome && !$this->opera
+                        && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
 
         // Version detection
-        if ($this->opera) {
-            if (preg_match('/(opera|opr)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-                $this->ver = (float) $regs[2];
-            }
+        if ($this->edge && preg_match('/edge\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+            $this->ver = (float) $regs[1];
         }
-        else if (preg_match('/(chrome|msie|version|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        else if ($this->opera && preg_match('/(opera|opr)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+            $this->ver = (float) $regs[3];
+        }
+        else if ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+            $this->ver = (float) $regs[1];
+        }
+        else if (preg_match('/(chrome|khtml|version)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
         }
         else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
