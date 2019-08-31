@@ -61,29 +61,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
         return $this->extractDataSet(array('version'));
     }
 
-    private function extractDataSet($keys)
-    {
-        $keys = array_merge(array('useragent'), $keys);
-
-        $browser = $this->useragents();
-
-        $extracted = array();
-
-        foreach ($browser as $label => $data) {
-            foreach($keys as $key) {
-                $extracted[$data['useragent']][] = $data[$key];
-            }
-
-        }
-
-        return $extracted;
-    }
-
-    function lang()
-    {
-        return $this->extractDataSet(array('lang'));
-    }
-
     function browsers()
     {
         return $this->extractDataSet(array('isOpera', 'isChrome', 'isIE', 'isEdge', 'isNS', 'isSafari', 'isMZ'));
@@ -105,7 +82,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'         => false,
                 'isSafari'     => false,
                 'isMZ'         => true,
-                'lang'         => 'en-US',
             ),
 
             'LINUX: Bon Echo ' => array(
@@ -121,7 +97,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'       => false,
                 'isSafari'     => false,
                 'isMZ'         => true,
-                'lang'         => 'en-US',
             ),
 
             'Chrome Mac' => array(
@@ -137,7 +112,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'       => false,
                 'isSafari'     => false,
                 'isMZ'         => false,
-                'lang'         => 'en-US',
             ),
 
             'IE 11' => array(
@@ -153,7 +127,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'       => false,
                 'isSafari'     => false,
                 'isMZ'         => false,
-                'lang'         => '',
             ),
 
             'Opera 15' => array(
@@ -169,7 +142,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'       => false,
                 'isSafari'     => false,
                 'isMZ'         => false,
-                'lang'         => '',
             ),
 
             'Edge 14' => array(
@@ -185,7 +157,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                 'isEdge'       => true,
                 'isSafari'     => false,
                 'isMZ'         => false,
-                'lang'         => '',
             ),
         );
     }
@@ -193,6 +164,23 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
     function os()
     {
         return $this->extractDataSet(array('isWin', 'isLinux', 'isUnix', 'isMac'));
+    }
+
+    private function extractDataSet($keys)
+    {
+        $keys = array_merge(array('useragent'), $keys);
+
+        $browser = $this->useragents();
+
+        $extracted = array();
+
+        foreach ($browser as $label => $data) {
+            foreach($keys as $key) {
+                $extracted[$data['useragent']][] = $data[$key];
+            }
+        }
+
+        return $extracted;
     }
 
     /**

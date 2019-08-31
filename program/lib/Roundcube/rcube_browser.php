@@ -61,12 +61,9 @@ class rcube_browser
     /** @var bool $mz Browser is Mozilla Firefox */
     public $mz = false;
 
-    /** @var string $lang Language code */
-    public $lang = 'en';
-
 
     /**
-     * Object construstor
+     * Object constructor
      */
     public function __construct()
     {
@@ -99,16 +96,8 @@ class rcube_browser
         else if ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[1];
         }
-        else if (preg_match('/(chrome|khtml|version)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        else if (preg_match('/(chrome|khtml|version|msie|rv:)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
-        }
-        else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-            $this->ver = (float) $regs[1];
-        }
-
-        // Language code
-        if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs)) {
-            $this->lang =  $regs[1];
         }
     }
 }
