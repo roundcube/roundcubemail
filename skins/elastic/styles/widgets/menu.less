@@ -24,6 +24,10 @@
             &:extend(.font-icon-class);
         }
 
+        &:not(.no-icon):before {
+            content: "\00a0"; // blank place holder
+        }
+
         &:hover,
         &:focus {
             outline: 0;
@@ -262,11 +266,51 @@
                     margin-right: .5rem !important;
                     float: left !important;
                     width: 1.18em !important;
+                    min-width: 1.18em;
                 }
 
                 &:not(.disabled):hover {
                     color: @color-menu-hover;
                     background-color: @color-menu-hover-background;
+                }
+
+                &:after {
+                    &:extend(.font-icon-class);
+                    float: right;
+                    color: @color-black-shade-text;
+                    font-size: .9em;
+                }
+
+                &:only-child {
+                    display: flex;
+
+                    > span {
+                        flex-grow: 1;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                &[aria-haspopup] {
+                    position: realtive;
+
+                    &:after {
+                        min-width: 1.18em;
+                        content: @fa-var-chevron-right;
+
+                        html.layout-small & {
+                            margin: 0 .2em;
+                        }
+                    }
+
+                    &.dropdown:after {
+                        color: @color-list;
+                        margin: 0 .5em !important;
+                    }
+
+                    &:hover:after {
+                        color: @color-menu-hover;
+                    }
                 }
             }
 
@@ -302,32 +346,6 @@
                 span.inner {
                     display: none;
                 }
-            }
-        }
-
-        a[aria-haspopup] {
-            position: realtive;
-
-            &:after {
-                &:extend(.font-icon-class);
-                content: @fa-var-chevron-right;
-                float: right;
-                margin: 0;
-                color: @color-black-shade-text;
-                font-size: .9em;
-
-                html.layout-small & {
-                    margin: 0 .2em;
-                }
-            }
-
-            &.dropdown:after {
-                margin: 0 .5em !important;
-                color: @color-list;
-            }
-
-            &:hover:after {
-                color: @color-menu-hover;
             }
         }
     }
