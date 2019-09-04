@@ -751,6 +751,10 @@ class html_table extends html
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
+        if (!isset($this->rows[$this->rowindex])) {
+            $this->rows[$this->rowindex] = new stdClass;
+        }
+
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
         $this->colindex += max(1, intval($attr['colspan']));
 
