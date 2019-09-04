@@ -22,10 +22,7 @@
 
         &:before {
             &:extend(.font-icon-class);
-        }
-
-        &:not(.no-icon):before {
-            content: "\00a0"; // blank place holder
+            content: "\00a0"; // blank placeholder
         }
 
         &:hover,
@@ -274,27 +271,14 @@
                     background-color: @color-menu-hover-background;
                 }
 
-                &:after {
-                    &:extend(.font-icon-class);
-                    float: right;
-                    color: @color-black-shade-text;
-                    font-size: .9em;
-                }
-
-                &:only-child {
+                &[aria-haspopup] {
                     display: flex;
 
-                    > span {
-                        flex-grow: 1;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
-                }
-
-                &[aria-haspopup] {
-                    position: realtive;
-
                     &:after {
+                        &:extend(.font-icon-class);
+                        color: @color-black-shade-text;
+                        font-size: .9em;
+                        margin: 0 0 0 .2em;
                         min-width: 1.18em;
                         content: @fa-var-chevron-right;
 
@@ -305,11 +289,16 @@
 
                     &.dropdown:after {
                         color: @color-list;
-                        margin: 0 .5em !important;
+                        margin: 0 .6em !important;
                     }
 
                     &:hover:after {
                         color: @color-menu-hover;
+                    }
+
+                    & > span {
+                        .overflow-ellipsis;
+                        flex: 1;
                     }
                 }
             }
@@ -340,7 +329,7 @@
                     background-color: @color-menu-hover-background;
                 }
 
-                // Note: :before icon is replaced with :after icon by a[aria-haspopup] below
+                // Note: :before icon is replaced with :after icon by a[aria-haspopup] above
 
                 &:before,
                 span.inner {
@@ -350,9 +339,7 @@
         }
 
         &.no-icon a:before {
-            width: 0 !important;
-            min-width: 0 !important;
-            content: "" !important;
+            display: none;
         }
     }
 }
