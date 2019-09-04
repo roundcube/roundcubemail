@@ -1247,6 +1247,12 @@ html.ms .propform {
     &::placeholder {
         color: @color-input-placeholder;
     }
+
+    // Note: This must be a separate rule
+    &::-ms-input-placeholder,
+    &::-webkit-input-placeholder {
+        color: @color-input-placeholder;
+    }
 }
 
 .invalid-feedback {
