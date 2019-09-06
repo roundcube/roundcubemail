@@ -470,62 +470,52 @@ this.showErrorWindow = function(elm, id)
         list = document.createElement('ul');
 
     $(this.error_window).html('');
-    $(list).addClass('googie_list').attr('googie_action_btn', '1');
+    $(list).addClass('googie_list toolbarmenu').attr('googie_action_btn', '1');
 
     // Build up the result list
     var suggestions = this.results[id]['suggestions'],
         offset = this.results[id]['attrs']['o'],
         len = this.results[id]['attrs']['l'],
-        row, item, dummy;
+        item, dummy;
 
     // [Add to dictionary] button
     if (this.has_dictionary && !$(elm).attr('is_corrected')) {
-        row = document.createElement('li'),
-        dummy = document.createElement('span');
+        dummy = $('<a>').text(this.lang_learn_word).addClass('googie_add_to_dict active');
 
-        $(dummy).text(this.lang_learn_word).addClass('googie_add_to_dict');
-        $(row).attr('googie_action_btn', '1').css('cursor', 'default')
+        $('<li>').attr('googie_action_btn', '1').css('cursor', 'default')
             .mouseover(ref.item_onmouseover)
             .mouseout(ref.item_onmouseout)
             .click(function(e) {
                 ref.learnWord(elm, id);
                 ref.ignoreError(elm, id);
-            });
-
-        row.appendChild(dummy);
-        list.appendChild(row);
+            })
+            .append(dummy)
+            .appendTo(list);
     }
 
     for (var i=0, len=suggestions.length; i < len; i++) {
-        row = document.createElement('li'),
-        dummy = document.createElement('span');
+        dummy = $('<a>').html(suggestions[i]).addClass('active');
 
-        $(dummy).html(suggestions[i]);
-
-        $(row).mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
-            .click(function(e) { ref.correctError(id, elm, e.target.firstChild); });
-
-        row.appendChild(dummy);
-        list.appendChild(row);
+        $('<li>').mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
+            .click(function(e) { ref.correctError(id, elm, e.target.firstChild); })
+            .append(dummy)
+            .appendTo(list);
     }
 
     // The element is changed, append the revert
     if (elm.is_changed && elm.innerHTML != elm.old_value) {
-        var old_value = elm.old_value,
-            revert_row = document.createElement('li'),
-            rev_span = document.createElement('span');
+        var old_value = elm.old_value;
 
-        $(rev_span).addClass('googie_list_revert').html(this.lang_revert + ' ' + old_value);
+        dummy = $('<a>').addClass('googie_list_revert active').html(this.lang_revert + ' ' + old_value);
 
-        $(revert_row).mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
+        $('<li>').mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
             .click(function(e) {
                 ref.updateOrginalText(offset, elm.innerHTML, old_value, id);
                 $(elm).removeAttr('is_corrected').css('color', '#b91414').html(old_value);
                 ref.hideErrorWindow();
-            });
-
-        revert_row.appendChild(rev_span);
-        list.appendChild(revert_row);
+            })
+            .append(dummy)
+            .appendTo(list);
     }
 
     // Append the edit box
@@ -546,10 +536,9 @@ this.showErrorWindow = function(elm, id)
         return false;
     };
 
-    $(edit_input).width(120)
-      .css({'margin': 0, 'padding': 0})
-      .val($(elm).text()).attr('googie_action_btn', '1');
-    $(edit_row).css('cursor', 'default').attr('googie_action_btn', '1');
+    $(edit_input).width(120).val($(elm).text()).attr('googie_action_btn', '1');
+    $(edit_row).css('cursor', 'default').attr('googie_action_btn', '1')
+        .on('click', function() { return false; });
 
     // roundcube modified image use
     if (this.use_ok_pic) {
@@ -562,15 +551,15 @@ this.showErrorWindow = function(elm, id)
         $(ok_pic).text('OK');
     }
 
-    $(ok_pic).addClass('mainaction save googie_ok_button').click(onsub);
+    $(ok_pic).addClass('mainaction save googie_ok_button btn-sm').click(onsub);
 
     $(edit_form).attr('googie_action_btn', '1')
-        .css({'margin': 0, 'padding': 0, 'cursor': 'default', 'white-space': 'nowrap'})
-        .submit(onsub);
+        .css({'cursor': 'default', 'white-space': 'nowrap'})
+        .submit(onsub)
+        .append(edit_input)
+        .append(ok_pic)
+        .appendTo(edit_row);
 
-    edit_form.appendChild(edit_input);
-    edit_form.appendChild(ok_pic);
-    edit_row.appendChild(edit_form);
     list.appendChild(edit_row);
 
     // Append extra menu items
