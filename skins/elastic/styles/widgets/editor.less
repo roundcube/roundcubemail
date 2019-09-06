@@ -895,6 +895,7 @@ html.touch .mce-grid td {
 
 .googie_window {
     width: 16rem;
+    height: auto;
 }
 
 .googie_edit_layer {
@@ -925,7 +926,7 @@ html.touch .mce-grid td {
 
         .googie_list_revert:before {
             &:extend(.font-icon-class);
-            content: @fa-var-plus-square;
+            content: @fa-var-undo;
         }
 
         .googie_add_to_dict:before {
@@ -936,7 +937,6 @@ html.touch .mce-grid td {
 
     input {
         display: inline-block;
-        margin: .5rem .5rem .5rem 0 !important;
-        padding: .5rem .75rem !important;
+        margin: .25rem .5rem;
     }
 }

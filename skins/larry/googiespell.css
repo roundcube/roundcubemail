@@ -35,6 +35,10 @@
   background: #4db0d2;
 }
 
+.googie_list form {
+  padding: 3px;
+}
+
 .googie_list_close {
   font-size: 11px;
   color: #b91414;
