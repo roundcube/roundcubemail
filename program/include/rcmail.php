@@ -99,11 +99,11 @@ class rcmail extends rcube
         $required_plugins = array('filesystem_attachments', 'jqueryui');
         $this->plugins->load_plugins($plugins, $required_plugins);
 
-        // Remember default skin, before it's replaced by user prefs
-        $this->default_skin = $this->config->get('skin');
-
         // start session
         $this->session_init();
+
+        // Remember default skin, before it's replaced by user prefs
+        $this->default_skin = $this->config->get('skin');
 
         // create user object
         $this->set_user(new rcube_user($_SESSION['user_id']));
