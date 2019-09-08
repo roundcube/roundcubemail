@@ -285,6 +285,7 @@ EOF;
 
         // register skin path(s)
         $this->skin_paths = array();
+        $this->skins      = array();
         $this->load_skin($skin_path);
 
         $this->skin_name = $skin;
