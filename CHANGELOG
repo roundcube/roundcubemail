@@ -56,6 +56,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
 - Enigma: Fix "decryption oracle" bug [CVE-2019-10740] (#6638)
 - Enigma: Fix bug where signature verification could have been skipped for some message structures (#6838)
+- Fix language selection for spellchecker in html mode (#6915)
 - Fix css styles leak from replied/forwarded message to the rest of the composed text (#6831)
 - Fix invalid path to "add contact" icon when using assets_path setting
 - Fix invalid path to blocked.gif when using assets_path setting (#6752)
