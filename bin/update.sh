@@ -269,7 +269,7 @@ if ($RCI->configured) {
             echo "\n    }\n\n";
         }
 
-        echo "NOTE: Update dependencies by running `php composer.phar update --no-dev`\n";
+        echo "NOTICE: Update dependencies by running `php composer.phar update --no-dev`\n";
     }
 
     // index contacts for fulltext searching
