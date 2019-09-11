@@ -37,6 +37,7 @@ following [PEAR][pear] libraries:
 - Net_IDNA2 0.1.1 or newer
 - Auth_SASL 1.0.6 or newer
 - Kolab/Net_LDAP3 1.0.6 or newer (for LDAP addressbook)
+- Masterminds/HTML5 2.5.x (optional HTML parser)
 
 
 USAGE
