@@ -55,13 +55,15 @@
         display: none;
     }
 
-    .listing {
-        li:first-child {
-            border-radius: .25rem .25rem 0 0;
-        }
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        .listing {
+            li:first-child {
+                border-radius: .25rem .25rem 0 0;
+            }
 
-        li:last-child {
-            border-radius: 0 0 .25rem .25rem;
+            li:last-child {
+                border-radius: 0 0 .25rem .25rem;
+            }
         }
     }
 }
