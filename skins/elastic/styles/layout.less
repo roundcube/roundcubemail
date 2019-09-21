@@ -120,6 +120,7 @@ body {
 }
 
 #layout-sidebar {
+    position: relative; // e.g. for .column-resizer
     display: flex;
     flex-direction: column;
     flex: 2;
@@ -139,6 +140,7 @@ body {
 }
 
 #layout-list {
+    position: relative; // e.g. for .column-resizer
     display: flex;
     flex-direction: column;
     flex: 3;
@@ -152,7 +154,6 @@ body {
     display: flex;
     flex: 6;
     flex-direction: column;
-    min-width: 50%;
     background-color: @color-layout-content-background;
 
     html.iframe & {
@@ -241,6 +242,20 @@ body {
     }
 }
 
+.column-resizer {
+    cursor: col-resize;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: -3px;
+    width: 6px;
+    height: 100%;
+
+    .sidebar-right & {
+        left: -3px;
+    }
+}
+
 
 @media screen and (max-width: @screen-width-large) {
     #layout-sidebar,
@@ -256,6 +271,14 @@ body {
 }
 
 @media screen and (max-width: @screen-width-medium) {
+    // Disable column resizing by hiding splitters and reseting columns width
+    .column-resizer {
+        display: none;
+    }
+    #layout-sidebar,
+    #layout-list {
+        width: auto !important;
+    }
 }
 
 @media screen and (max-width: @screen-width-small) {
