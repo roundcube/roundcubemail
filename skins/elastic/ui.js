@@ -15,7 +15,7 @@
 
 function rcube_elastic_ui()
 {
-    var ref = this,
+    var prefs, ref = this,
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
         ios = false,
@@ -490,6 +490,15 @@ function rcube_elastic_ui()
             };
 
             (new MutationObserver(callback)).observe(document.body, {childList: true});
+        }
+
+        // Initialize column resizers
+        if (layout.sidebar.length) {
+            splitter_init(layout.sidebar);
+        }
+
+        if (layout.list.length) {
+            splitter_init(layout.list);
         }
     };
 
@@ -1707,7 +1716,7 @@ function rcube_elastic_ui()
         app_menu(true);
         screen_resize_small_none();
 
-        if (layout.list) {
+        if (layout.list.length) {
             $('.header > ul.menu', layout.list).addClass('popupmenu');
         }
     };
@@ -3871,6 +3880,75 @@ function rcube_elastic_ui()
     };
 
     /**
+     * Create a splitter (resizing) element on a layout column
+     */
+    function splitter_init(node)
+    {
+        var key = rcmail.env.task + rcmail.env.action + '.' + node.attr('id'),
+            pos = get_pref(key),
+            reverted = node.is('.sidebar-right'),
+            set_width = function(width) {
+                node.css({
+                    width: Math.max(100, width),
+                    // reset default properties
+                    // 'min-width': 100,
+                    flex: 'none'
+                });
+            };
+
+        if (!node[reverted ? 'prev' : 'next']().length) {
+            return;
+        }
+
+        $('<div class="column-resizer">')
+            .appendTo(node)
+            .on('mousedown', function(e) {
+                var ts, splitter = $(this), offset = node.position().left;
+
+                // Makes col-resize cursor follow the mouse pointer on dragging
+                // and fixes issues related to iframes
+                splitter.width(10000).css(reverted ? 'left' : 'right',  -5000);
+
+                // Disable selection on document while dragging
+                // It can happen when you move mouse out of window, on top
+                document.body.style.userSelect = 'none';
+
+                // Start listening to mousemove events
+                $(document)
+                    .on('mousemove.resizer', function(e) {
+                        // Use of timeouts makes the move more smooth in Chrome
+                        clearTimeout(ts);
+                        ts = setTimeout(function() {
+                            // For left-side-splitter we need the current offset
+                            if (reverted) {
+                                offset = node.position().left;
+                            }
+                            var cursor_position = rcube_event.get_mouse_pos(e).x,
+                                width = reverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
+
+                            set_width(width);
+                        }, 5);
+                    })
+                    .on('mouseup.resizer', function() {
+                        // Remove registered events
+                        $(document).off('.resizer');
+                        $('iframe').off('.resizer');
+                        document.body.style.userSelect = 'auto';
+
+                        // Set back the splitter width to normal
+                        splitter.width(6).css(reverted ? 'left' : 'right', -3);
+
+                        // Save the current position (width)
+                        save_pref(key, node.width());
+                    });
+            });
+
+        if (pos) {
+            set_width(pos);
+        }
+    };
+
+    /**
      * Wrapper for rcmail.open_window to intercept window opening
      * and display a dialog with an iframe instead of a real window.
      */
@@ -3938,6 +4016,47 @@ function rcube_elastic_ui()
         var meta = layout_metadata();
 
         return meta.touch;
+    };
+
+    /**
+     * Get preference stored in browser
+     */
+    function get_pref(key)
+    {
+        if (!prefs) {
+            prefs = rcmail.local_storage_get_item('prefs.elastic', {});
+        }
+
+        // fall-back to cookies
+        if (prefs[key] == null) {
+            var cookie = rcmail.get_cookie(key);
+            if (cookie != null) {
+                prefs[key] = cookie;
+
+                // copy value to local storage and remove cookie (if localStorage is supported)
+                if (rcmail.local_storage_set_item('prefs.elastic', prefs)) {
+                    rcmail.set_cookie(key, cookie, new Date());  // expire cookie
+                }
+            }
+        }
+
+        return prefs[key];
+    };
+
+    /**
+     * Saves preference value to browser storage
+     */
+    function save_pref(key, val)
+    {
+        prefs[key] = val;
+
+        // write prefs to local storage (if supported)
+        if (!rcmail.local_storage_set_item('prefs.elastic', prefs)) {
+            // store value in cookie
+            var exp = new Date();
+            exp.setYear(exp.getFullYear() + 1);
+            rcmail.set_cookie(key, val, exp);
+        }
     };
 }
 

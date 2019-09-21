@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Elastic: Resizeable columns (#6929)
+
 RELEASE 1.4-rc2
 ---------------
 - Update to jQuery 3.4.1
