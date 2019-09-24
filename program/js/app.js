@@ -235,8 +235,7 @@ function rcube_webmail()
 
     // tell parent window that this frame is loaded
     if (this.is_framed()) {
-      parent.rcmail.set_busy(false, null, parent.rcmail.env.frame_lock);
-      parent.rcmail.env.frame_lock = null;
+      parent.rcmail.unlock_frame();
     }
 
     // enable general commands
@@ -2556,11 +2555,10 @@ function rcube_webmail()
         $(frame)[show ? 'show' : 'hide']();
     }
 
-    if (!show && this.env.frame_lock)
-      this.set_busy(false, null, this.env.frame_lock);
-
-    if (!show)
+    if (!show) {
+      this.unlock_frame();
       delete this.preview_id;
+    }
   };
 
   this.get_frame_element = function(id)
@@ -2579,10 +2577,26 @@ function rcube_webmail()
       return window.frames[frame.name];
   };
 
-  this.lock_frame = function()
+  this.lock_frame = function(target)
   {
-    if (!this.env.frame_lock)
-      (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
+    var rc = this.is_framed() ? parent.rcmail : this;
+
+    if (!rc.env.frame_lock)
+      rc.env.frame_lock = rc.set_busy(true, 'loading');
+
+    if (target.frameElement)
+      $(target.frameElement).on('load.lock', function(e) {
+        rc.unlock_frame();
+        $(this).off('load.lock');
+      });
+  };
+
+  this.unlock_frame = function()
+  {
+    if (this.env.frame_lock) {
+      this.set_busy(false, null, this.env.frame_lock);
+      this.env.frame_lock = null;
+    }
   };
 
   // list a specific page
@@ -8932,7 +8946,7 @@ function rcube_webmail()
   this.location_href = function(url, target, frame)
   {
     if (frame)
-      this.lock_frame();
+      this.lock_frame(target);
 
     if (typeof url == 'object')
       url = this.env.comm_path + '&' + $.param(url);

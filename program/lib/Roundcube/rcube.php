@@ -1348,6 +1348,9 @@ class rcube
         else if ($terminate && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         }
+        else if ($terminate) {
+            header("HTTP/1.0 500 Internal Error");
+        }
 
         // terminate script
         if ($terminate) {
