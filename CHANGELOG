@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Elastic: Resizeable columns (#6929)
+- Redis: Improve error handling and phpredis 5.X support (#6888)
 
 RELEASE 1.4-rc2
 ---------------
