@@ -72,7 +72,7 @@ class rcube_session_redis extends rcube_session {
             $port = ($port !== null) ? $port : 6379;
             $database = ($database !== null) ? $database : 0;
 
-            if ($this->redis->connect($host, $port) === false) {
+            if ($this->redis->connect($host, (int) $port) === false) {
                 rcube::raise_error(
                     array(
                         'code' => 604,
@@ -100,7 +100,7 @@ class rcube_session_redis extends rcube_session {
                 );
             }
 
-            if ($database != 0 && $this->redis->select($database) === false) {
+            if ($database && $this->redis->select($database) === false) {
                 rcube::raise_error(
                     array(
                         'code' => 604,
