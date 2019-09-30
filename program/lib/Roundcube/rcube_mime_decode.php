@@ -25,7 +25,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_mime_decode
 {

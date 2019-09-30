@@ -22,7 +22,6 @@
  *
  * @package    Framework
  * @subpackage Addressbook
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_csv2vcard
 {
@@ -483,6 +482,10 @@ class rcube_csv2vcard
 
     /**
      * Parse CSV file line
+     *
+     * @param string $line Line of text from CSV file
+     *
+     * @return array CSV data extracted from the line
      */
     protected function parse_line($line)
     {
@@ -512,6 +515,8 @@ class rcube_csv2vcard
 
     /**
      * Parse CSV header line, detect fields mapping
+     *
+     * @param array $elements Array of field names from a first line in CSV file
      */
     protected function parse_header($elements)
     {
@@ -574,6 +579,8 @@ class rcube_csv2vcard
 
     /**
      * Convert CSV data row to vCard
+     *
+     * @param array $data CSV data array
      */
     protected function csv_to_vcard($data)
     {

@@ -25,9 +25,6 @@
  *
  * @package    Framework
  * @subpackage Core
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
- * @author     Cor Bosman <cor@roundcu.be>
  */
 class rcube_session_memcached extends rcube_session
 {

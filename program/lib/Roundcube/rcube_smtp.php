@@ -14,6 +14,7 @@
  |   Provide SMTP functionality using socket connections                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -22,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Mail
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_smtp
 {

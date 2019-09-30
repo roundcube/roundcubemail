@@ -24,7 +24,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_message
 {
@@ -137,7 +136,8 @@ class rcube_message
      * Return a (decoded) message header
      *
      * @param string $name Header name
-     * @param bool   $row  Don't mime-decode the value
+     * @param bool   $raw  Don't mime-decode the value
+     *
      * @return string Header value
      */
     public function get_header($name, $raw = false)
@@ -164,6 +164,7 @@ class rcube_message
      *
      * @param string $mime_id Part MIME-ID
      * @param mixed  $embed Mimetype class for parts to be embedded
+     *
      * @return string URL or false if part does not exist
      */
     public function get_part_url($mime_id, $embed = false)
@@ -935,16 +936,22 @@ class rcube_message
      */
     private function get_mime_numbers(&$part)
     {
-        if (strlen($part->mime_id))
+        if (strlen($part->mime_id)) {
             $this->mime_parts[$part->mime_id] = &$part;
+        }
 
-        if (is_array($part->parts))
-            for ($i=0; $i<count($part->parts); $i++)
+        if (is_array($part->parts)) {
+            for ($i=0; $i<count($part->parts); $i++) {
                 $this->get_mime_numbers($part->parts[$i]);
+            }
+        }
     }
 
     /**
      * Add a part to object parts array(s) (with context check)
+     *
+     * @param rcube_message_part $part Message part
+     * @param string             $type Part type (inline/attachment)
      */
     private function add_part($part, $type = null)
     {
@@ -961,6 +968,10 @@ class rcube_message
 
     /**
      * Check if specified part belongs to the current context
+     *
+     * @param rcube_message_part $part Message part
+     *
+     * @return bool True if the part belongs to the current context, False otherwise
      */
     private function check_context($part)
     {
@@ -971,7 +982,8 @@ class rcube_message
      * Decode a Microsoft Outlook TNEF part (winmail.dat)
      *
      * @param rcube_message_part $part Message part to decode
-     * @return array
+     *
+     * @return rcube_message_part[] List of message parts extracted from TNEF
      */
     function tnef_decode(&$part)
     {
@@ -1006,7 +1018,8 @@ class rcube_message
      * Parse message body for UUencoded attachments bodies
      *
      * @param rcube_message_part $part Message part to decode
-     * @return array
+     *
+     * @return rcube_message_part[] List of message parts extracted from the file
      */
     function uu_decode(&$part)
     {
@@ -1059,7 +1072,12 @@ class rcube_message
     }
 
     /**
-     * Fix attachment name encoding if needed/possible
+     * Fix attachment name encoding if needed and possible
+     *
+     * @param string             $name Attachment name
+     * @param rcube_message_part $part Message part
+     *
+     * @return string Fixed attachment name
      */
     protected function fix_attachment_name($name, $part)
     {

@@ -23,7 +23,6 @@
  *
  * @category Install
  * @package  Webmail
- * @author   Thomas Bruederli
  */
 class rcmail_install
 {
