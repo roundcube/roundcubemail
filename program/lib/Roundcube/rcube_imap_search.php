@@ -23,7 +23,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_imap_search
 {

@@ -14,6 +14,7 @@
  |   Provide redis supported session management                          |
  +-----------------------------------------------------------------------+
  | Author: Cor Bosman <cor@roundcu.be>                                   |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -22,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Core
- * @author     Cor Bosman <cor@roundcu.be>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_session_redis extends rcube_session {
 
