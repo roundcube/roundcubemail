@@ -5939,7 +5939,7 @@ function rcube_webmail()
     if (!this.ksearch_pane) {
       ul = $('<ul>');
       this.ksearch_pane = $('<div>')
-        .attr({id: 'rcmKSearchpane', role: 'listbox'})
+        .attr({id: 'rcmKSearchpane', role: 'listbox', 'class': 'select-menu inline'})
         .css({position: 'absolute', 'z-index': 30000})
         .append(ul)
         .appendTo(is_framed ? parent.document.body : document.body);
@@ -5962,7 +5962,10 @@ function rcube_webmail()
       this.env.contacts = [];
 
       // Calculate the results pane position and size
-      var pos = $(this.ksearch_input).offset();
+      // Elastic: On small screen we use the width/position of the whole .ac-input element (input's parent)
+      var is_composite_input = $('html').is('.layout-small,.layout-phone') && $(this.ksearch_input).parents('.ac-input').length == 1,
+        input = is_composite_input ? $(this.ksearch_input).parents('.ac-input')[0] : $(this.ksearch_input)[0],
+        pos = $(input).offset();
 
       // ... consider scroll position
       pos.left -= $(document.documentElement).scrollLeft();
@@ -5983,14 +5986,17 @@ function rcube_webmail()
       }
 
       var w = $(is_framed ? parent : window).width(),
+        input_width = $(input).outerWidth(),
         left = w - pos.left > 200 ? pos.left : w - 200,
+        top = (pos.top + input.offsetHeight + 1),
         width = Math.min(400, w - left);
 
       this.ksearch_pane.css({
-        left: left + 'px',
-        top: (pos.top + this.ksearch_input.offsetHeight + 1) + 'px',
-        maxWidth: width + 'px',
+        left: (is_composite_input ? pos.left : left) + 'px',
+        top: top + 'px',
+        maxWidth: (is_composite_input ? input_width : width) + 'px',
         minWidth: '200px',
+        width: is_composite_input ? (input_width + 'px') : 'auto',
         display: 'none'
       });
     }

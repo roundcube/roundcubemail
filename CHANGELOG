@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Elastic: Resizeable columns (#6929)
+- Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Redis: Improve error handling and phpredis 5.X support (#6888)
 - Fix bug where cache keys were not case-sensitive on MySQL/MSSQL (#6942)
 

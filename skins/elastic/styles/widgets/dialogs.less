@@ -68,25 +68,6 @@
     }
 }
 
-#rcmKSearchpane {
-    width: auto;
-    height: auto;
-
-    li {
-        padding-right: .5rem;
-    }
-
-    html.layout-small &,
-    html.layout-phone & {
-        bottom: auto;
-        border: 1px solid @color-input-border;
-    }
-
-    html.layout-phone & {
-        max-width: 100% !important;
-    }
-}
-
 html.layout-small,
 html.layout-phone {
     .popover:not(.select-menu) {
@@ -166,14 +147,35 @@ html.touch .popover {
 .select-menu {
     max-width: initial;
     margin: 0;
-
-    .listing li a {
-        padding-left: .25rem;
-        outline: 0; // for Android browser
-    }
+    height: auto;
 
     .popover-header {
         border-radius: .25rem .25rem 0 0 !important;
+    }
+
+    .listing li {
+        a {
+            padding-left: .25rem;
+            outline: 0; // for Android browser
+        }
+
+        &:last-child {
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+
+    // Use 'inline' class for menus that have a list elements with no <a> inside
+    // and no header
+    &.inline {
+        .listing li {
+            padding-right: .5rem;
+
+            &:first-child {
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
+        }
     }
 }
 
