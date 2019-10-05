@@ -125,9 +125,8 @@ function rcmail_zip_extract($path)
         return;
     }
 
-    $rcmail   = rcmail::get_instance();
-    $zip      = new ZipArchive;
-    $files    = array();
+    $zip   = new ZipArchive;
+    $files = array();
 
     if ($zip->open($path)) {
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -136,7 +135,7 @@ function rcmail_zip_extract($path)
 
             if (copy("zip://$path#$entry", $tmpfname)) {
                 $ctype = rcube_mime::file_content_type($tmpfname, $entry);
-                list($mtype_primary, $mtype_secondary) = explode('/', $ctype);
+                list($mtype_primary, ) = explode('/', $ctype);
 
                 if (in_array($mtype_primary, array('text', 'message'))) {
                     $files[] = $tmpfname;

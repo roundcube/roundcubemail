@@ -574,8 +574,8 @@ class enigma_driver_gnupg extends enigma_driver
                 $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
                     . " WHERE `file_id` = ?", $record['file_id']);
 
-                $data = $db->fetch_assoc($data_result);
-                $data = $data ? base64_decode($data['data']) : null;
+                $record = $db->fetch_assoc($data_result);
+                $data   = $record ? base64_decode($record['data']) : null;
 
                 if ($data === null || $data === false) {
                     rcube::raise_error(array(
@@ -590,7 +590,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
                     rename($tmpfile, $file);
-                    touch($file, $data_record['mtime']);
+                    touch($file, $record['mtime']);
 
                     if ($this->debug) {
                         $this->debug("SYNC: Fetched file: $file");

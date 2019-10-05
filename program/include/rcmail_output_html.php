@@ -653,7 +653,7 @@ EOF;
         $this->page_headers();
 
         // call super method
-        $this->_write($template, $this->config->get('skin_path'));
+        $this->_write($template);
     }
 
     /**
@@ -856,15 +856,15 @@ EOF;
     /**
      * Make URLs starting with a slash point to skin directory
      *
-     * @param string $str          Input string
-     * @param bool   $search_path  True if URL should be resolved using the current skin path stack
+     * @param string $str         Input string
+     * @param bool   $search_path True if URL should be resolved using the current skin path stack
      *
      * @return string URL
      */
     public function abs_url($str, $search_path = false)
     {
         if ($str[0] == '/') {
-            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
+            if ($search_path && ($file_url = $this->get_skin_file($str))) {
                 return $file_url;
             }
 
@@ -967,7 +967,7 @@ EOF;
         }
 
         // add file modification timestamp
-        if (preg_match('/\.(js|css|less|ico|png|svg|jpeg)$/', $file, $m)) {
+        if (preg_match('/\.(js|css|less|ico|png|svg|jpeg)$/', $file)) {
             $file = $this->file_mod($file);
         }
 
@@ -1578,7 +1578,7 @@ EOF;
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
-            if ($pos = strpos($attrib['type'], '-menuitem')) {
+            if (strpos($attrib['type'], '-menuitem')) {
                 $attrib['type'] = substr($attrib['type'], 0, -9);
                 $menuitem = true;
             }
@@ -1831,10 +1831,9 @@ EOF;
     /**
      * Process template and write to stdOut
      *
-     * @param string $output    HTML output
-     * @param string $base_path Base for absolute paths
+     * @param string $output HTML output
      */
-    protected function _write($output = '', $base_path = '')
+    protected function _write($output = '')
     {
         $output = trim($output);
 

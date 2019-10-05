@@ -33,7 +33,6 @@ class rcube_virtualmin_password
 {
     function save($currpass, $newpass, $username)
     {
-        $rcmail   = rcmail::get_instance();
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
 

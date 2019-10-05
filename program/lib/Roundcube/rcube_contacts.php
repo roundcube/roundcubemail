@@ -294,10 +294,8 @@ class rcube_contacts extends rcube_addressbook
             $required = array($required);
         }
 
-        $where = $and_where = $post_search = array();
+        $where = $post_search = array();
         $mode  = intval($mode);
-        $WS    = ' ';
-        $AS    = self::SEPARATOR;
 
         // direct ID search
         if ($fields == 'ID' || $fields == $this->primary_key) {
@@ -390,7 +388,7 @@ class rcube_contacts extends rcube_addressbook
                     if (!empty($required)) {
                         foreach ($required as $req) {
                             $hit = false;
-                            foreach ($row as $c => $values) {
+                            foreach (array_keys($row) as $c) {
                                 if ($c === $req || strpos($c, $req.':') === 0) {
                                     if ((is_string($row[$c]) && strlen($row[$c])) || !empty($row[$c])) {
                                         $hit = true;

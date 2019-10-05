@@ -55,7 +55,6 @@ class rcube_zxcvbn_password
             return;
         }
 
-        $rcmail   = rcmail::get_instance();
         $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
 

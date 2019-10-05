@@ -682,7 +682,7 @@ class enigma_engine
             $sig = $this->pgp_verify($msg_body, $sig_body);
 
             // Store signature data for display
-            $this->signatures[$struct->mime_id] = $sig;
+            $this->signatures[$struct->mime_id]   = $sig;
             $this->signatures[$msg_part->mime_id] = $sig;
         }
     }

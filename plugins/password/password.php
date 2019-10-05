@@ -132,7 +132,6 @@ class password extends rcube_plugin
 
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
-        $form_disabled   = $this->rc->config->get('password_disabled');
         $confirm         = $this->rc->config->get('password_confirm_current');
         $required_length = intval($this->rc->config->get('password_minimum_length'));
         $force_save      = $this->rc->config->get('password_force_save');

@@ -375,8 +375,6 @@ class rcube_mime_decode
             $struct->charset = $part->ctype_parameters['charset'];
         }
 
-        $part_charset = $struct->charset ?: $this->params['default_charset'];
-
         // determine filename
         if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
             if (!$this->params['decode_headers']) {

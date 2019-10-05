@@ -503,7 +503,9 @@ class rcube_user
      */
     function failed_login()
     {
-        if ($this->ID && ($rate = (int) $this->rc->config->get('login_rate_limit', 3))) {
+        if ($this->ID && $this->rc->config->get('login_rate_limit', 3)) {
+            $counter = 0;
+
             if (empty($this->data['failed_login'])) {
                 $failed_login = new DateTime('now');
                 $counter      = 1;

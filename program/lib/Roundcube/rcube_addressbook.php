@@ -260,7 +260,7 @@ abstract class rcube_addressbook
      *
      * @return mixed The created record ID on success, False on error
      */
-    function insert($save_data, $check=false)
+    function insert($save_data, $check = false)
     {
         /* empty for read-only address books */
     }
@@ -273,7 +273,7 @@ abstract class rcube_addressbook
      *
      * @return array List of created record IDs
      */
-    function insertMultiple($recset, $check=false)
+    function insertMultiple($recset, $check = false)
     {
         $ids = array();
         if (is_object($recset) && is_a($recset, rcube_result_set)) {
@@ -282,6 +282,7 @@ abstract class rcube_addressbook
                     $ids[] = $insert;
             }
         }
+
         return $ids;
     }
 

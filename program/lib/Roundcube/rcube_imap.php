@@ -2706,13 +2706,13 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean True on success, False on error
      */
-    public function copy_message($uids, $to_mbox, $from_mbox='')
+    public function copy_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
             $from_mbox = $this->folder;
         }
 
-        list($uids, $all_mode) = $this->parse_uids($uids);
+        list($uids, ) = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -2736,12 +2736,12 @@ class rcube_imap extends rcube_storage
     /**
      * Mark messages as deleted and expunge them
      *
-     * @param mixed  $uids    Message UIDs as array or comma-separated string, or '*'
-     * @param string $folder  Source folder
+     * @param mixed  $uids   Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder Source folder
      *
      * @return boolean True on success, False on error
      */
-    public function delete_message($uids, $folder='')
+    public function delete_message($uids, $folder = '')
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
