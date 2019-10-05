@@ -850,7 +850,19 @@ class rcube
         $method = $this->config->get_crypto_method();
         $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+        $cipher = openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+
+        if ($cipher === false) {
+            self::raise_error(array(
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Failed to encrypt data with configured cipher method: $method!"
+                ), true, false);
+
+            return false;
+        }
+
+        $cipher = $iv . $cipher;
 
         return $base64 ? base64_encode($cipher) : $cipher;
     }

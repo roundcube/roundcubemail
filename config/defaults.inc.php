@@ -517,7 +517,7 @@ $config['x_frame_options'] = 'sameorigin';
 // with any configured cipher_method (see below).
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// Encryption algorithm. You can use any method supported by openssl.
+// Encryption algorithm. You can use any method supported by OpenSSL.
 // Default is set for backward compatibility to DES-EDE3-CBC,
 // but you can choose e.g. AES-256-CBC which we consider a better choice.
 $config['cipher_method'] = 'DES-EDE3-CBC';
