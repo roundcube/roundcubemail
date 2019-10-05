@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Redis: Improve error handling and phpredis 5.X support (#6888)
 - Fix bug where cache keys were not case-sensitive on MySQL/MSSQL (#6942)
+- Fix so an error is loogged when encryption fails (#6948)
 
 RELEASE 1.4-rc2
 ---------------
