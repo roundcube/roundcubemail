@@ -58,7 +58,7 @@ function roundcube_browser()
   this.dom = document.getElementById ? true : false;
   this.dom2 = document.addEventListener && document.removeEventListener;
 
-  this.edge = this.agent_lc.indexOf(' edge/') > 0;
+  this.edge = this.agent_lc.indexOf(' edge/') > 0 || this.agent_lc.indexOf(' edg/') > 0; // "edg" in Chromium based Edge
   this.webkit = !this.edge && this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
@@ -77,12 +77,25 @@ function roundcube_browser()
   }
 
   if (!this.vendver) {
-    // common version strings
-    this.vendver = /(opera|opr|khtml|chrome|safari|applewebkit|msie)(\s|\/)([0-9\.]+)/.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
+    if (this.ie)
+      pattern = /(msie|rv)(\s|:)([0-9\.]+)/;
+    else if (this.edge)
+      pattern = /(edge?)(\/)([0-9\.]+)/;
+    else if (this.opera)
+      pattern = /(opera|opr)(\/)([0-9\.]+)/;
+    else if (this.konq)
+      pattern = /(konqueror)(\/)([0-9\.]+)/;
+    else if (this.safari)
+      pattern = /(version)(\/)([0-9\.]+)/;
+    else if (this.chrome)
+      pattern = /(chrome)(\/)([0-9\.]+)/;
+    else if (this.mz)
+      pattern = /(firefox)(\/)([0-9\.]+)/;
+    else
+      pattern = /(khtml|safari|applewebkit|rv)(\s|\/|:)([0-9\.]+)/;
 
-    // any other (Mozilla, Camino, IE>=11)
-    if (!this.vendver)
-      this.vendver = /rv:([0-9\.]+)/.test(this.agent) ? parseFloat(RegExp.$1) : 0;
+    // common version strings
+    this.vendver = pattern.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
   }
 
   // get real language out of safari's user agent
@@ -111,6 +124,8 @@ function roundcube_browser()
 
     if (this.ie)
       classname += ' ms ie ie'+parseInt(this.vendver);
+    else if (this.edge && this.vendver > 74)
+      classname += ' chrome';
     else if (this.edge)
       classname += ' ms edge';
     else if (this.opera)
