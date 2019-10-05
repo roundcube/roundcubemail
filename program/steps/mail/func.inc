@@ -1205,7 +1205,6 @@ function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
                 'c'      => $washtml->get_config('container_id'),
                 'p'      => $washtml->get_config('css_prefix'),
         ));
-        $end = ' />';
         $content = null;
     }
     else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {

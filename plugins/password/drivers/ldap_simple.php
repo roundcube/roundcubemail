@@ -85,7 +85,7 @@ class rcube_ldap_simple_password
             $entry[$smblchattr] = time();
         }
 
-        $this->_debug("C: Modify $user_dn: " . print_r($entry, true));
+        $this->_debug("C: Modify {$this->user}: " . print_r($entry, true));
 
         if (!ldap_modify($this->conn, $this->user, $entry)) {
             $this->_debug("S: ".ldap_error($this->conn));

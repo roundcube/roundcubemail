@@ -474,10 +474,9 @@ class rcmail_install
      */
     private function db_read_schema($schemafile)
     {
-        $lines       = file($schemafile);
-        $table_block = false;
-        $schema      = array();
-        $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
+        $lines    = file($schemafile);
+        $schema   = array();
+        $keywords = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
             if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {

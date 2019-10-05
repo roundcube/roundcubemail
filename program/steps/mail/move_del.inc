@@ -29,7 +29,6 @@ $sources   = array();
 
 if ($_POST['_from'] != 'show') {
     $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
-    $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 }
 
 // move messages

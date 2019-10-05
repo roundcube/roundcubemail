@@ -1564,7 +1564,7 @@ class rcube_sieve_engine
         }
 
         if ($compact) {
-            $select = new html_select(array('name' => '_join', 'id' => '_join' . $id,
+            $select = new html_select(array('name' => '_join', 'id' => '_join',
                 'onchange' => 'rule_join_radio(this.value)'));
 
             foreach (array('allof', 'anyof', 'any') as $val) {

@@ -209,11 +209,11 @@ class rcube_message
     /**
      * Get content of a specific part of this message
      *
-     * @param string  $mime_id   Part ID
-     * @param boolean $formatted Enables formatting of text/* parts bodies
-     * @param int     $max_bytes Only return/read this number of bytes
-     * @param mixed   $mode      NULL to return a string, -1 to print body
-     *                           or file pointer to save the body into
+     * @param string $mime_id   Part ID
+     * @param bool   $formatted Enables formatting of text/* parts bodies
+     * @param int    $max_bytes Only return/read this number of bytes
+     * @param mixed  $mode      NULL to return a string, -1 to print body
+     *                          or file pointer to save the body into
      *
      * @return string|bool Part content or operation status
      */
@@ -1099,7 +1099,7 @@ class rcube_message
             // check parents' charset
             $items = explode('.', $part->mime_id);
             for ($i = count($items)-1; $i > 0; $i--) {
-                $last   = array_pop($items);
+                array_pop($items);
                 $parent = $this->mime_parts[implode('.', $items)];
 
                 if ($parent && $parent->charset) {

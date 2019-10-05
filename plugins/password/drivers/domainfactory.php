@@ -30,8 +30,6 @@ class rcube_domainfactory_password
 {
     function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
-
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, array(

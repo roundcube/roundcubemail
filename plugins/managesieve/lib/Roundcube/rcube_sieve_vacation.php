@@ -591,6 +591,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     public static function vacation_interval(&$vacation)
     {
         $rcube = rcube::get_instance();
+        $seconds_extension = in_array('vacation-seconds', $this->exts);
 
         if (isset($vacation['seconds'])) {
             $interval = $vacation['seconds'];
@@ -720,9 +721,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension    = in_array('date', $this->exts);
-        $regex_extension   = in_array('regex', $this->exts);
-        $seconds_extension = in_array('vacation-seconds', $this->exts);
+        $date_extension  = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
 
         // set user's timezone
         try {
@@ -754,8 +754,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         else if ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
-                $from = new DateTime($date_tests['from'] . ' ' . '00:00:00', $timezone);
-                $to   = new DateTime($date_tests['to'] . ' ' . '23:59:59', $timezone);
+                $start = new DateTime($date_tests['from'] . ' ' . '00:00:00', $timezone);
+                $end   = new DateTime($date_tests['to'] . ' ' . '23:59:59', $timezone);
             }
         }
 
@@ -799,9 +799,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension    = in_array('date', $this->exts);
-        $regex_extension   = in_array('regex', $this->exts);
-        $seconds_extension = in_array('vacation-seconds', $this->exts);
+        $date_extension  = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
 
         $vacation['type']      = 'vacation';
         $vacation['reason']    = $this->strip_value(str_replace("\r\n", "\n", $data['message']));

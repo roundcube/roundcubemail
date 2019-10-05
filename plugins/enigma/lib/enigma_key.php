@@ -46,10 +46,12 @@ class enigma_key
      */
     function get_type()
     {
-        if ($this->subkeys[0]->has_private)
+        if ($this->subkeys[0]->has_private) {
             return enigma_key::TYPE_KEYPAIR;
-        else if (!empty($this->subkeys[0]))
+        }
+        else if (!empty($this->subkeys[0])) {
             return enigma_key::TYPE_PUBLIC;
+        }
 
         return enigma_key::TYPE_UNKNOWN;
     }
@@ -59,9 +61,11 @@ class enigma_key
      */
     function is_revoked()
     {
-        foreach ($this->subkeys as $subkey)
-            if (!$subkey->revoked)
+        foreach ($this->subkeys as $subkey) {
+            if (!$subkey->revoked) {
                 return false;
+            }
+        }
 
         return true;
     }
@@ -71,9 +75,11 @@ class enigma_key
      */
     function is_valid()
     {
-        foreach ($this->users as $user)
-            if ($user->valid)
+        foreach ($this->users as $user) {
+            if ($user->valid) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -85,9 +91,11 @@ class enigma_key
     {
         $now = time();
 
-        foreach ($this->subkeys as $subkey)
-            if (!$subkey->expires || $subkey->expires > $now)
+        foreach ($this->subkeys as $subkey) {
+            if (!$subkey->expires || $subkey->expires > $now) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -97,11 +105,11 @@ class enigma_key
      */
     function is_private()
     {
-        $now = time();
-
-        foreach ($this->subkeys as $subkey)
-            if ($subkey->has_private)
+        foreach ($this->subkeys as $subkey) {
+            if ($subkey->has_private) {
                 return true;
+            }
+        }
 
         return false;
     }
