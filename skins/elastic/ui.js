@@ -3182,7 +3182,7 @@ function rcube_elastic_ui()
             .on('blur', function() { list.removeClass('focus'); })
             .on('focus mousedown', function() { list.addClass('focus'); });
 
-        list = $('<ul>').addClass('form-control recipient-input')
+        list = $('<ul>').addClass('form-control recipient-input ac-input')
             .append($('<li>').append(input))
             .on('click', function() { input.focus(); });
 
