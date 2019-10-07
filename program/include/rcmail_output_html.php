@@ -1055,7 +1055,7 @@ EOF;
      */
     protected function eval_condition($input)
     {
-        $matches = preg_split('/<roundcube:(if|elseif|else|endif)\s+([^>]+)>\n?/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE);
+        $matches = preg_split('/<roundcube:(if|elseif|else|endif)\s*([^>]*)>\n?/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE);
         if ($matches && count($matches) == 4) {
             if (preg_match('/^(else|endif)$/i', $matches[1])) {
                 return $matches[0] . $this->eval_condition($matches[3]);
@@ -1064,20 +1064,20 @@ EOF;
             $attrib = html::parse_attrib_string($matches[2]);
 
             if (isset($attrib['condition'])) {
-                $condmet    = $this->check_condition($attrib['condition']);
-                $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
+                $condmet   = $this->check_condition($attrib['condition']);
+                $condparts = preg_split('/<roundcube:((elseif|else|endif)[^>]*)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
 
                 if ($condmet) {
-                    $result = $submatches[0];
-                    if ($submatches[1] != 'endif') {
-                        $result .= preg_replace('/.*<roundcube:endif\s+[^>]+>\n?/Uis', '', $submatches[3], 1);
+                    $result = $condparts[0];
+                    if ($condparts[2] != 'endif') {
+                        $result .= preg_replace('/.*<roundcube:endif[^>]*>\n?/Uis', '', $condparts[3], 1);
                     }
                     else {
-                        $result .= $submatches[3];
+                        $result .= $condparts[3];
                     }
                 }
                 else {
-                    $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
+                    $result = "<roundcube:$condparts[1]>" . $condparts[3];
                 }
 
                 return $matches[0] . $this->eval_condition($result);
