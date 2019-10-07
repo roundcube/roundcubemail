@@ -4578,22 +4578,14 @@ function rcube_webmail()
   // init autocomplete events on compose form inputs
   this.init_messageform_inputs = function(focused)
   {
-    var i, ac_props,
+    var i,
       input_to = $("[name='_to']"),
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
 
-    // configure parallel autocompletion
-    if (this.env.autocomplete_threads > 0) {
-      ac_props = {
-        threads: this.env.autocomplete_threads,
-        sources: this.env.autocomplete_sources
-      };
-    }
-
     // init live search events
-    this.init_address_input_events(input_to, ac_props);
+    this.init_address_input_events(input_to);
     for (i in ac_fields) {
-      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"));
     }
 
     if (!focused)
@@ -4674,6 +4666,14 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj, props)
   {
+    // configure parallel autocompletion
+    if (!props && this.env.autocomplete_threads > 0) {
+      props = {
+        threads: this.env.autocomplete_threads,
+        sources: this.env.autocomplete_sources
+      };
+    }
+
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({autocomplete: 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', role: 'combobox'});
 

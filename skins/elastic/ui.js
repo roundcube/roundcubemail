@@ -703,8 +703,8 @@ function rcube_elastic_ui()
                 }
             }
 
-            // In compose/preview window we do not provide "Back' button, instead
-            // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+            // In compose/preview window we do not provide "Back" button, instead
+            // we modify the "Mail" button in the task menu to act like it (i.e. calls 'list' command)
             if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
                 $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
             }
@@ -737,6 +737,10 @@ function rcube_elastic_ui()
         if (rcmail.env.devel_mode && window.less) {
             less.pageLoadFinished.then(function() {
                 resize();
+                // Re-focus the focused input field on mail compose
+                if (rcmail.env.compose_focus_elem) {
+                    $(rcmail.env.compose_focus_elem).focus();
+                }
             });
         }
         else {
@@ -3091,7 +3095,7 @@ function rcube_elastic_ui()
      */
     function recipient_input(obj)
     {
-        var list, input, ac_props,
+        var list, input,
             input_len_update = function() {
                 input.css('width', Math.max(40, input.val().length * 15 + 25));
             },
@@ -3182,7 +3186,7 @@ function rcube_elastic_ui()
             .on('blur', function() { list.removeClass('focus'); })
             .on('focus mousedown', function() { list.addClass('focus'); });
 
-        list = $('<ul>').addClass('form-control recipient-input ac-input')
+        list = $('<ul>').addClass('form-control recipient-input ac-input rounded-left')
             .append($('<li>').append(input))
             .on('click', function() { input.focus(); });
 
@@ -3196,27 +3200,16 @@ function rcube_elastic_ui()
             // some core code sometimes focuses or changes the original node
             // in such cases we wan't to parse it's value and apply changes
             // to the widget element
-            .on('focus', function(e) { input.focus(); })
-            .on('change', function(e) {
+            .on('focus', function(e) { input.focus(); e.preventDefault(); })
+            .on('change', function() {
                 $('li.recipient', list).remove();
                 input.val(this.value).change();
             })
             // copy and parse the value already set
             .change();
 
-        // this one line is here to fix border of Bootstrap's input-group,
-        // input-group should not contain any hidden elements
-        $(obj).detach().insertBefore(list.parent());
-
-        if (rcmail.env.autocomplete_threads > 0) {
-            ac_props = {
-                threads: rcmail.env.autocomplete_threads,
-                sources: rcmail.env.autocomplete_sources
-            };
-        }
-
         // Init autocompletion
-        rcmail.init_address_input_events(input, ac_props);
+        rcmail.init_address_input_events(input);
     };
 
     /**
