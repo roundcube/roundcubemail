@@ -3877,7 +3877,10 @@ function rcube_elastic_ui()
      */
     function splitter_init(node)
     {
-        var key = rcmail.env.task + rcmail.env.action + '.' + node.attr('id'),
+        // Use id of the list element, if exists, as a part of the key, instead of action.column-id
+        // This way e.g. the sidebar in Settings is always the same width for all Settings' pages
+        var list_id = node.find('.scroller .listing').first().attr('id'),
+            key = rcmail.env.task + '.' + (list_id || (rcmail.env.action + '.' + node.attr('id'))),
             pos = get_pref(key),
             reverted = node.is('.sidebar-right'),
             set_width = function(width) {
