@@ -66,16 +66,16 @@ if (window.rcmail) {
       else
         li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true);
 
-      if (li) {
+      if (li)
         $(li).addClass('archive');
 
-        // in folder selector popup
-        rcmail.addEventListener('menu-open', function(p) {
-          if (p.name == 'folder-selector') {
-            $('a[rel="' + $('a', li).attr('rel') + '"]', p.obj).parent().addClass('archive');
-          }
-        });
-      }
+      // in folder selector popup
+      rcmail.addEventListener('menu-open', function(p) {
+        if (p.name == 'folder-selector') {
+          var search = rcmail.env.archive_folder;
+          $('a', p.obj).filter(function() { return $(this).data('id') == search; }).parent().addClass('archive');
+        }
+      });
     }
   });
 }
