@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Elastic: Fix initial focus on recipients input in mail compose screen
 - Redis: Improve error handling and phpredis 5.X support (#6888)
+- Archive: Fix bug where next email was not displayed after Archive button use (#6965)
 - Fix bug where cache keys were not case-sensitive on MySQL/MSSQL (#6942)
 - Fix so an error is loogged when encryption fails (#6948)
 

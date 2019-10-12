@@ -26,14 +26,15 @@ function rcmail_archive(prop)
   if (!post_data._uid)
     return;
 
-  rcmail.show_contentframe(false);
-
   // Disable message command buttons until a message is selected
   rcmail.enable_command(rcmail.env.message_commands, false);
   rcmail.enable_command('plugin.archive', false);
 
   // let the server sort the messages to the according subfolders
   rcmail.with_selected_messages('move', post_data, null, 'plugin.move2archive');
+
+  // Reset preview (must be after with_selected_messages() call)
+  rcmail.show_contentframe(false);
 }
 
 function rcmail_is_archive()
