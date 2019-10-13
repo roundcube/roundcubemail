@@ -17,11 +17,11 @@ class Framework_Bootstrap extends PHPUnit_Framework_TestCase
         $needle = 'test';
         $result = in_array_nocase($needle, $haystack);
 
-        $this->assertTrue($result, $title);
+        $this->assertTrue($result, "Invalid in_array_nocase() result (Array)");
 
         $result = in_array_nocase($needle, null);
 
-        $this->assertFalse($result, $title);
+        $this->assertFalse($result, "Invalid in_array_nocase() result (null)");
     }
 
     /**
