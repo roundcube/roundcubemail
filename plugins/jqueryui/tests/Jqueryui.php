@@ -14,7 +14,7 @@ class Jqueryui_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new jqueryui($rcube->api);
+        $plugin = new jqueryui($rcube->plugins);
 
         $this->assertInstanceOf('jqueryui', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
