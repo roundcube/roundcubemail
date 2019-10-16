@@ -21,7 +21,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider browsers
      */
-    function test_browser($useragent, $opera, $chrome, $ie, $edge, $ns, $safari, $mz)
+    function test_browser($useragent, $opera, $chrome, $ie, $edge, $safari, $mz)
     {
         $object = $this->getBrowser($useragent);
 
@@ -63,7 +63,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
 
     function browsers()
     {
-        return $this->extractDataSet(array('isOpera', 'isChrome', 'isIE', 'isEdge', 'isNS', 'isSafari', 'isMZ'));
+        return $this->extractDataSet(array('isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ'));
     }
 
     function useragents()
