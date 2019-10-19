@@ -263,8 +263,11 @@ class html
                 $cont = "\n" . $cont . "\n";
         }
 
-        return self::tag('script', $attr + array('type' => 'text/javascript', 'nl' => true),
-            $cont, array_merge(self::$common_attrib, array('src','type','charset')));
+        if (self::$doctype == 'xhtml')
+            $attr += array('type' => 'text/javascript');
+
+        return self::tag('script', $attr + array('nl' => true), $cont,
+            array_merge(self::$common_attrib, array('src','type','charset')));
     }
 
     /**
