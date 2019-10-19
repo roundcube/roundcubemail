@@ -1059,7 +1059,7 @@ $config['contact_search_name'] = '{name} <{email}>';
 $config['default_charset'] = 'ISO-8859-1';
 
 // skin name: folder from skins/
-$config['skin'] = 'larry';
+$config['skin'] = 'elastic';
 
 // limit skins available/shown in the settings section
 $config['skins_allowed'] = array();
