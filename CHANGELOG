@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix permissions on some folders created by bin/install-jsdeps.sh script (#6930)
+- Fix bug where inline images could have been ignored if Content-Id header contained redundant spaces (#6980)
 
 RELEASE 1.3.10
 --------------
