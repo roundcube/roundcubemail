@@ -2059,8 +2059,8 @@ function rcube_elastic_ui()
 
         rcmail.addEventListener('init', update_func)
             .addEventListener('responsebeforesearch', update_func)
-            // close options form on list/search request
             .addEventListener('beforelist', close_func)
+            .addEventListener('afterlist', update_func)
             .addEventListener('beforesearch', close_func);
     };
 
