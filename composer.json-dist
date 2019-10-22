@@ -19,7 +19,8 @@
         "pear/net_sieve": "~1.4.3",
         "roundcube/plugin-installer": "~0.1.6",
         "masterminds/html5": "~2.5.0",
-        "endroid/qr-code": "~1.6.5"
+        "endroid/qr-code": "~1.6.5",
+        "guzzlehttp/guzzle": "^5.3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6 || ^7"

@@ -2235,6 +2235,12 @@ EOF;
             $out .= html::p('formbuttons', html::tag('button', $button_attr, $this->app->gettext('login')));
         }
 
+        // add oauth login button
+        if ($this->config->get('oauth_auth_uri') && $this->config->get('oauth_provider')) {
+            $link_attr = array('href' => $this->app->url(array('action' => 'oauth')), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider'));
+            $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(array('name' => 'oauthlogin', 'vars' => array('provider' => $this->config->get('oauth_provider_name', 'OAuth'))))));
+        }
+
         // surround html output with a form tag
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array('name' => $form_name, 'method' => 'post'), $out);

@@ -22,6 +22,7 @@ $labels['username'] = 'Username';
 $labels['password'] = 'Password';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
+$labels['oauthlogin'] = 'Login with $provider';
 
 // taskbar
 $labels['menu'] = 'Menu';

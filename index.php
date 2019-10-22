@@ -188,6 +188,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
 }
 
+// handle oauth login requests
+else if ($RCMAIL->task == 'login' && $RCMAIL->action == 'oauth') {
+    include INSTALL_PATH . 'program/steps/login/oauth.inc';
+}
+
 // end session
 else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
     $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);
