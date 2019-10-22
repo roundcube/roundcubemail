@@ -319,6 +319,38 @@ $config['smtp_conn_options'] = null;
 
 
 // ----------------------------------
+// OAuth
+// ----------------------------------
+
+// Enable OAuth2 by defining a provider. Use 'generic' here
+$config['oauth_provider'] = null;
+
+// Provider name to be displayed on the login buttin
+$config['oauth_provider_name'] = 'Google';
+
+// Mandatory: OAuth client ID for your Roundcube installation
+$config['oauth_client_id'] = null;
+
+// Mandatory: OAuth client secret
+$config['oauth_client_secret'] = null;
+
+// Mandatory: URI for OAuth user authentication (redirect)
+$config['oauth_auth_uri'] = null;
+
+// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+$config['oauth_token_uri'] = null;
+
+// Optional: Endpoint to query user identity if not provided in auth response
+$config['oauth_identity_uri'] = null;
+
+// Mandatory: OAuth scopes to request (space-separated string)
+$config['oauth_scope'] = null;
+
+// Optional: additional query parameters to send with login request (hash array)
+$config['oauth_auth_parameters'] = [];
+
+
+// ----------------------------------
 // LDAP
 // ----------------------------------
 
