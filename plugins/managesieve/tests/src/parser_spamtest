@@ -1,0 +1,6 @@
+require ["spamtest","relational","comparator-i;ascii-numeric","fileinto"];
+# rule:[Spam]
+if allof (spamtest :value "eq" :comparator "i;ascii-numeric" "10")
+{
+	fileinto "Junk";
+}

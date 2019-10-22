@@ -49,7 +49,8 @@ class rcube_sieve_script
         'vacation',                 // RFC5230
         'vacation-seconds',         // RFC6131
         'variables',                // RFC5229
-        // @TODO: spamtest+virustest, mailbox
+        'spamtest',                 // RFC3685 (not RFC5235 with :percent argument)
+        // @TODO: virustest, mailbox
     );
 
     /**
@@ -230,6 +231,16 @@ class rcube_sieve_script
                     case 'size':
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
                         $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
+                        break;
+
+                    case 'spamtest':
+                        array_push($exts, 'spamtest');
+                        $tests[$i] .= ($test['not'] ? 'not ' : '');
+                        $tests[$i] .= $test['test'];
+
+                        $this->add_operator($test, $tests[$i], $exts);
+
+                        $tests[$i] .= ' ' . self::escape_string($test['arg']);
                         break;
 
                     case 'true':
@@ -755,6 +766,16 @@ class rcube_sieve_script
                         $test['type'] = strtolower(substr($tokens[$i], 1));
                     }
                 }
+
+                $tests[] = $test;
+                break;
+
+            case 'spamtest':
+                $test = array('test' => 'spamtest', 'not' => $not);
+
+                $test['arg'] = array_pop($tokens);
+
+                $test += $this->test_tokens($tokens);
 
                 $tests[] = $test;
                 break;
