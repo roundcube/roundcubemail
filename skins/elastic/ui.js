@@ -1521,14 +1521,14 @@ function rcube_elastic_ui()
             case 'reply-list':
                 if (rcmail.env.reply_all_mode == 1) {
                     var label = rcmail.gettext(args.status ? 'replylist' : 'replyall');
-                    $('a.button.reply-all').attr('title', label).find('.inner').text(label);
+                    $('.toolbar a.reply-all').attr('title', label).find('.inner').text(label);
                 }
                 break;
 
             case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
                 if (args.status) {
-                    $('a.button.encrypt:not(.icon)').parent().show();
+                    $('.toolbar a.encrypt').parent().show();
                 }
                 break;
 

@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix initial focus on recipients input in mail compose screen
 - Elastic: Fix inserting responses at cursor position (#6971)
 - Elastic: Fix unread filter icon and search state on folder change (#6978)
+- Elastic: Fix regression where Encrypt button wasn't displayed in mail compose toolbar (#6982)
 - Enigma: Fix bug where signing option was set to disabled after saving a draft in Elastic skin (#6515)
 - Redis: Improve error handling and phpredis 5.X support (#6888)
 - Archive: Fix bug where next email was not displayed after Archive button use (#6965)
