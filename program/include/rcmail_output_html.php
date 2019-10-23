@@ -1353,7 +1353,7 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(':' . $attrib['type'], true)) !== null) {
+                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(null, $attrib['type'], true)) !== null) {
                         $attrib['src'] = $template_logo;
                     }
                     else if (($template_logo = $this->get_template_logo()) !== null) {
@@ -1363,7 +1363,7 @@ EOF;
                     // process alternative logos (eg for Elastic small screen)
                     foreach ($attrib as $key => $value) {
                         if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
+                            if (($template_logo = $this->get_template_logo(null, $matches[1], true)) !== null) {
                                 $attrib[$key] = $template_logo;
                             }
 
@@ -1447,7 +1447,7 @@ EOF;
 
                             // special handling for favicon
                             if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
-                                if ($href = $this->get_template_logo(':favicon', true)) {
+                                if ($href = $this->get_template_logo(null, 'favicon', true)) {
                                     $args[$param] = $href;
                                 }
                                 else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
@@ -2449,11 +2449,13 @@ EOF;
      *
      * @param string  $name     Name of the logo to check for
      *                          default is current template
+     * @param string  $type     Type of the logo to check for (e.g. 'print' or 'small')
+     *                          default is null (no special type)
      * @param boolean $strict   True if logo should only be returned for specific template
      *
      * @return string image URL
      */
-    protected function get_template_logo($name = null, $strict = false)
+    protected function get_template_logo($name = null, $type = null, $strict = false)
     {
         $template_logo = null;
 
@@ -2463,13 +2465,26 @@ EOF;
         }
 
         $template_names = array(
+            $this->skin_name . ':' . $name . '[' . $type . ']',
             $this->skin_name . ':' . $name,
+            $this->skin_name . ':*[' . $type . ']',
             $this->skin_name . ':*',
+            $this->skin_name . '[' . $type . ']',
+            '*:' . $name . '[' . $type . ']',
+            '*:' . $name,
+            $name . '[' . $type . ']',
             $name,
+            '*[' . $type . ']',
             '*',
+            '[' . $type . ']',
         );
 
-        // If strict matching then remove wildcard options
+        // If no type is specified then remove those options from the list
+        if (empty($type)) {
+            $template_names = preg_grep("/\\[\]$/", $template_names, PREG_GREP_INVERT);
+        }
+
+        // If strict matching then remove wild card options
         if ($strict) {
             $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
         }
