@@ -413,7 +413,7 @@ $config['support_url'] = '';
      // show the image /images/logo_login.png for the Login screen in the Elastic skin
      "elastic:login" => "/images/logo_login.png",
      // show the image /images/logo_small.png in the Elastic skin
-     "elastic[small]" => "/images/logo_small.png",
+     "elastic:*[small]" => "/images/logo_small.png",
      // show the image /images/larry.png in the Larry skin
      "larry:*" => "/images/larry.png",
      // show the image /images/logo_login.png on the login template in all skins
