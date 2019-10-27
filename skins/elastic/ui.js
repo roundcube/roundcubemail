@@ -3129,6 +3129,8 @@ function rcube_elastic_ui()
                     replace.replaceWith(recipient);
                 else
                     recipient.insertBefore(input.parent());
+
+                apply_func();
             },
             update_func = function(text) {
                 var result;
