@@ -51,6 +51,7 @@
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
+            <file>Rcmail/OutputHtml.php</file>
             <file>Rcmail/Rcmail.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">

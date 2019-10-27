@@ -1353,7 +1353,7 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(':' . $attrib['type'], true)) !== null) {
+                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo($attrib['type'])) !== null) {
                         $attrib['src'] = $template_logo;
                     }
                     else if (($template_logo = $this->get_template_logo()) !== null) {
@@ -1363,7 +1363,7 @@ EOF;
                     // process alternative logos (eg for Elastic small screen)
                     foreach ($attrib as $key => $value) {
                         if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
+                            if (($template_logo = $this->get_template_logo($matches[1])) !== null) {
                                 $attrib[$key] = $template_logo;
                             }
 
@@ -1447,7 +1447,7 @@ EOF;
 
                             // special handling for favicon
                             if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
-                                if ($href = $this->get_template_logo(':favicon', true)) {
+                                if ($href = $this->get_template_logo('favicon')) {
                                     $args[$param] = $href;
                                 }
                                 else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
@@ -2447,35 +2447,43 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string  $name     Name of the logo to check for
-     *                          default is current template
-     * @param boolean $strict   True if logo should only be returned for specific template
+     * @param string  $type     Type of the logo to check for (e.g. 'print' or 'small')
+     *                          default is null (no special type)
      *
      * @return string image URL
      */
-    protected function get_template_logo($name = null, $strict = false)
+    protected function get_template_logo($type = null)
     {
         $template_logo = null;
 
-        // Use current template if none provided
-        if (!$name) {
-            $name = $this->template_name;
-        }
-
-        $template_names = array(
-            $this->skin_name . ':' . $name,
-            $this->skin_name . ':*',
-            $name,
-            '*',
-        );
-
-        // If strict matching then remove wildcard options
-        if ($strict) {
-            $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
-        }
-
         if ($logo = $this->config->get('skin_logo')) {
             if (is_array($logo)) {
+                $template_names = array(
+                    $this->skin_name . ':' . $this->template_name . '[' . $type . ']',
+                    $this->skin_name . ':' . $this->template_name,
+                    $this->skin_name . ':*[' . $type . ']',
+                    $this->skin_name . ':[' . $type . ']',
+                    $this->skin_name . ':*',
+                    '*:' . $this->template_name . '[' . $type . ']',
+                    '*:' . $this->template_name,
+                    '*:*[' . $type . ']',
+                    '*:[' . $type . ']',
+                    $this->template_name . '[' . $type . ']',
+                    $this->template_name,
+                    '*[' . $type . ']',
+                    '[' . $type . ']',
+                    '*',
+                );
+
+                if (!empty($type)) {
+                    // Use strict matching, remove wild card options
+                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+                }
+                else {
+                    // No type set so remove those options from the list
+                    $template_names = preg_grep("/\\[\]$/", $template_names, PREG_GREP_INVERT);
+                }
+
                 foreach ($template_names as $key) {
                     if (isset($logo[$key])) {
                         $template_logo = $logo[$key];
