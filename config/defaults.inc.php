@@ -390,23 +390,22 @@ $config['advanced_prefs'] = array();
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';
 
-// replace Roundcube logo with this image
-// specify an URL relative to the document root of this Roundcube installation
-// an array can be used to specify different logos for specific template files
-// the array key specifies the template(s) the logo should be applied to while the
-// value should be the relative URL of the image.
+// Logo image replacement. Specifies location of the image as:
+// - URL relative to the document root of this Roundcube installation
+// - full URL with http:// or https:// prefix
+// - URL relative to the current skin folder (when starts with a '/')
 //
-// the array key is made up of (up to) 3 parts:
-// the skin name (optional)
-// the template name (or * for all templates)
-// the logo type (optional) the type attribute is used for logos used on multiple templates
+// An array can be used to specify different logos for specific template files
+// The array key specifies the place(s) the logo should be applied to and
+// is made up of (up to) 3 parts:
+// - skin name prefix (always with colon, can be replaced with *)
+// - template name (or * for all templates)
+// - logo type - it is used for logos used on multiple templates
 //   the available types include '[favicon]' for favicon, '[print]' for logo on all print
 //   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
 //
-// config applied in order: <skin>:<template>, <skin>:<template>, <skin>:*, <template>, *
+// Example config for skin_logo
 /*
- * example config for skin_logo
- *
    array(
      // show the image /images/logo_login_small.png for the Login screen in the Elastic skin on small screens
      "elastic:login[small]" => "/images/logo_login_small.png",
