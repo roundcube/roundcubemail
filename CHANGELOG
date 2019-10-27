@@ -12,8 +12,9 @@ CHANGELOG Roundcube Webmail
 - Archive: Fix bug where next email was not displayed after Archive button use (#6965)
 - Archive: Fix missing Archive icon in folder selector popup in Elastic
 - Fix bug where cache keys were not case-sensitive on MySQL/MSSQL (#6942)
-- Fix so an error is loogged when encryption fails (#6948)
+- Fix so an error is logged when encryption fails (#6948)
 - Fix bug where inline images could have been ignored if Content-Id header contained redundant spaces (#6980)
+- Fix and document skin_logo setup (#6981)
 
 RELEASE 1.4-rc2
 ---------------
