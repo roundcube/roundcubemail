@@ -70,7 +70,7 @@ class rcube_ldap_generic extends Net_LDAP3
             }
             break;
 
-        case LOG_EMERGE:
+        case LOG_EMERG:
         case LOG_ALERT:
         case LOG_CRIT:
             rcube::raise_error($msg, true, true);
