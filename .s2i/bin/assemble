@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Do Bash Magic to get dot files moved aswell
+shopt -s dotglob
+
+# move the application source
+mv /tmp/src/* $HOME/
+
+cd $HOME/
+
+# get composer
+wget https://getcomposer.org/download/1.9.0/composer.phar
+
+# Install deps
+mv composer.json{-dist,}
+php composer.phar install --no-dev
+
+# remove composer file
+rm composer.phar
+
+# get missing jquery
+
+wget -q https://code.jquery.com/jquery-3.4.1.min.js -O program/js/jquery.min.js
+
+# Compile CSS for elastic-Skin
+cd skins/elastic
+
+npm install lessc
+
+node_modules/less/bin/lessc -x styles/styles.less > styles/styles.css
+node_modules/less/bin/lessc -x styles/print.less > styles/print.css
+node_modules/less/bin/lessc -x styles/embed.less > styles/embed.css
+
+rm -rf node_modules
