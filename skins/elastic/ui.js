@@ -119,7 +119,7 @@ function rcube_elastic_ui()
         // Intercept jQuery-UI dialogs...
         $.ui && $.widget('ui.dialog', $.ui.dialog, {
             open: function() {
-                // .. to unify min width for iframe'd dialogs
+                // ... to unify min width for iframe'd dialogs
                 if ($(this.element).is('.iframe')) {
                     this.options.width = Math.max(576, this.options.width);
                 }
@@ -152,20 +152,20 @@ function rcube_elastic_ui()
             }
         }
         else if (!is_framed) {
-            title = $('.boxtitle', layout.content).first().detach().text();
+            title = layout.content.find('.boxtitle').first().detach().text();
 
             if (!title) {
                 title = $('h1.voice').first().text();
             }
 
             if (title) {
-                $('.header > .header-title', layout.content).text(title);
+                layout.content.find('.header > .header-title').text(title);
             }
         }
 
         // Add content frame toolbar in the footer, for content buttons and navigation
-        if (!is_framed && layout.content.length && !$(layout.content).is('.no-navbar')
-            && !$(layout.content).children('.frame-content').length
+        if (!is_framed && layout.content.length && !layout.content.is('.no-navbar')
+            && !layout.content.children('.frame-content').length
         ) {
             env.frame_nav = $('<div class="footer menu toolbar content-frame-navigation hide-nav-buttons">')
                 .append($('<a class="button prev">')
@@ -1181,7 +1181,7 @@ function rcube_elastic_ui()
                     title = $('h1.voice').text() || $('title').text() || '';
                 }
 
-                $('.header > .header-title', layout.content).text(title);
+                layout.content.find('.header > .header-title').text(title);
             };
 
         // display or reset the content frame
@@ -2096,37 +2096,33 @@ function rcube_elastic_ui()
             };
 
         // convert content toolbar to a popup list
-        if (layout.content) {
-            $('.header > .menu', layout.content).each(function() {
-                var toolbar = $(this);
+        layout.content.find('.header > .menu').each(function() {
+            var toolbar = $(this);
 
-                toolbar.children().each(function() { button_func(this, items); });
-                toolbar.remove();
-            });
-        }
+            toolbar.children().each(function() { button_func(this, items); });
+            toolbar.remove();
+        });
 
         // convert list toolbar to a popup list
-        if (layout.list) {
-            $('.header > .menu', layout.list).each(function() {
-                var toolbar = $(this);
+        layout.list.find('.header > .menu').each(function() {
+            var toolbar = $(this);
 
-                list_mark = toolbar.next();
+            list_mark = toolbar.next();
 
-                toolbar.children().each(function() {
-                    if (meta.mode != 'large') {
-                        // TODO: Would be better to set this automatically on submenu display
-                        //       i.e. in show/shown event (see popup_init()), if possible
-                        $(this).data('popup-pos', 'right');
-                    }
+            toolbar.children().each(function() {
+                if (meta.mode != 'large') {
+                    // TODO: Would be better to set this automatically on submenu display
+                    //       i.e. in show/shown event (see popup_init()), if possible
+                    $(this).data('popup-pos', 'right');
+                }
 
-                    // add items to the content menu too
-                    button_func(this, items, true);
-                    button_func(this, list_items);
-                });
-
-                toolbar.remove();
+                // add items to the content menu too
+                button_func(this, items, true);
+                button_func(this, list_items);
             });
-        }
+
+            toolbar.remove();
+        });
 
         // special elements to clone and add to the toolbar (mobile only)
         $('ul[data-menu="toolbar-small"] > li > a').each(function() {
@@ -2169,13 +2165,11 @@ function rcube_elastic_ui()
                 .append($('<ul>').attr(menu_attrs).data('popup-parent', container).append(items))
                 .append(menu_button);
 
-            if (layout.list.length) {
-                // bind toolbar menu with the menu button in the list header
-                $('a.toolbar-menu-button', layout.list).click(function(e) {
-                    e.stopPropagation();
-                    menu_button.click();
-                });
-            }
+            // bind toolbar menu with the menu button in the list header
+            layout.list.find('a.toolbar-menu-button').click(function(e) {
+                e.stopPropagation();
+                menu_button.click();
+            });
         }
     };
 
@@ -2356,7 +2350,7 @@ function rcube_elastic_ui()
                         // the DOM (https://github.com/twbs/bootstrap/issues/20219)
                         // making our menus to not update buttons state.
                         // Work around this by attaching it back to the DOM tree.
-                        popup.appendTo(popup.data('popup-parent') || document.body);
+                        .appendTo(popup.data('popup-parent') || document.body);
                 }
 
                 // close orphaned popovers, for some reason there are sometimes such dummy elements left
