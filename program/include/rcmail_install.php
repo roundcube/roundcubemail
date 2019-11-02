@@ -23,7 +23,6 @@
  *
  * @category Install
  * @package  Webmail
- * @author   Thomas Bruederli
  */
 class rcmail_install
 {
@@ -214,7 +213,7 @@ class rcmail_install
             if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
                 if ($_POST['_dbtype'] == 'sqlite') {
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
-                        $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
+                        $_POST['_dbname'][0] == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
                 }
                 else if ($_POST['_dbtype']) {
                     $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'],
@@ -462,7 +461,7 @@ class rcmail_install
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
-                    $errors[] = "Missing columns in table '$table': " . join(',', $diff);
+                    $errors[] = "Missing columns in table '$table': " . implode(',', $diff);
                 }
             }
         }
@@ -475,10 +474,9 @@ class rcmail_install
      */
     private function db_read_schema($schemafile)
     {
-        $lines       = file($schemafile);
-        $table_block = false;
-        $schema      = array();
-        $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
+        $lines    = file($schemafile);
+        $schema   = array();
+        $keywords = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
             if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
@@ -783,7 +781,7 @@ class rcmail_install
                 }
 
                 if ($isnum) {
-                    return 'array(' . join(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
+                    return 'array(' . implode(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
                 }
             }
         }

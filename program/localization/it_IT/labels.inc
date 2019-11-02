@@ -506,7 +506,6 @@ $labels['advancedoptions'] = 'Opzioni avanzate';
 $labels['toggleadvancedoptions'] = 'Passa alle impostazioni avanzate';
 $labels['focusonnewmessage'] = 'Attiva la finestra del browser all\'arrivo di un nuovo messaggio';
 $labels['checkallfolders'] = 'Controlla tutte le cartelle per la presenza di nuovi messaggi';
-$labels['displaynext'] = 'Dopo aver eliminato/spostato il messaggio mostra quello successivo';
 $labels['defaultfont'] = 'Carattere standard per messaggi in HTML';
 $labels['mainoptions'] = 'Opzioni principali';
 $labels['browseroptions'] = 'Opzioni del browser';

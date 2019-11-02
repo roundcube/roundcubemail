@@ -61,5 +61,6 @@ $labels['key4096'] = '4096 bita - öruggara';
 $labels['keygenerating'] = 'Útbý dulritunarlykla...';
 $labels['encryptmsg'] = 'Dulrita þessi skilaboð';
 $labels['keyimportlabel'] = 'Flytja inn úr skrá';
+$labels['managekeys'] = 'Sýsla með PGP-lykla';
 $messages['signerror'] = 'Undirritun mistókst.';
 ?>

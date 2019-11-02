@@ -215,18 +215,28 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
-
         $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
-
         $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+
+        // position: fixed (#6898)
+        $mod = rcube_utils::mod_css_styles(".test { position : fixed; top: 0; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
+        $mod = rcube_utils::mod_css_styles(".test { position/**/: fixed; top: 0; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
+        $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
 
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
         $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
         $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
+
+        // Allow strict url()
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
+        $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
     }
 
     /**
@@ -246,6 +256,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             @media screen and (max-width: 699px) and (min-width: 520px) {
                 li a.button { padding-left: 30px; }
             }
+            :root * { color: red; }
+            :root > * { top: 0; }
         ';
         $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
 
@@ -258,6 +270,9 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertContains('#rc p > i ', $mod);
         $this->assertContains('#rc div#testsome', $mod);
         $this->assertContains('#rc li a.testbutton', $mod);
+        $this->assertNotContains(':root', $mod);
+        $this->assertContains('#rc * ', $mod);
+        $this->assertContains('#rc > * ', $mod);
     }
 
     function test_xss_entity_decode()

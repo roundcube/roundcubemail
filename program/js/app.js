@@ -235,8 +235,7 @@ function rcube_webmail()
 
     // tell parent window that this frame is loaded
     if (this.is_framed()) {
-      parent.rcmail.set_busy(false, null, parent.rcmail.env.frame_lock);
-      parent.rcmail.env.frame_lock = null;
+      parent.rcmail.unlock_frame();
     }
 
     // enable general commands
@@ -425,12 +424,19 @@ function rcube_webmail()
           }
 
           // center and scale the image in preview frame
+          // TODO: Find a better way. Onload is late, also we could use embed.css
           if (this.env.mimetype.startsWith('image/'))
             $(this.gui_objects.messagepartframe).on('load', function() {
-              var css = 'img { max-width:100%; max-height:100%; } ' // scale
-                + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }'; // align
+              var contents = $(this).contents();
 
-              $(this).contents().find('head').append('<style type="text/css">'+ css + '</style>');
+              // do not apply styles to an error page (with no image)
+              if (contents.find('img').length)
+                contents.find('head').append(
+                  '<style type="text/css">'
+                  + 'img { max-width:100%; max-height:100%; } ' // scale
+                  + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }' // align
+                  + '</style>'
+                );
             });
         }
         // show printing dialog
@@ -1776,6 +1782,9 @@ function rcube_webmail()
 
   this.folder_collapsed = function(node)
   {
+    if (this.folder_collapsed_timer)
+      clearTimeout(this.folder_collapsed_timer);
+
     var prefname = this.env.task == 'addressbook' ? 'collapsed_abooks' : 'collapsed_folders',
       old = this.env[prefname];
 
@@ -1794,7 +1803,7 @@ function rcube_webmail()
 
     if (!this.drag_active) {
       if (old !== this.env[prefname])
-        this.command('save-pref', { name: prefname, value: this.env[prefname] });
+        this.folder_collapsed_timer = setTimeout(function(){ ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10)
 
       if (this.env.unread_counts)
         this.set_unread_count_display(node.id, false);
@@ -2546,11 +2555,10 @@ function rcube_webmail()
         $(frame)[show ? 'show' : 'hide']();
     }
 
-    if (!show && this.env.frame_lock)
-      this.set_busy(false, null, this.env.frame_lock);
-
-    if (!show)
+    if (!show) {
+      this.unlock_frame();
       delete this.preview_id;
+    }
   };
 
   this.get_frame_element = function(id)
@@ -2569,10 +2577,26 @@ function rcube_webmail()
       return window.frames[frame.name];
   };
 
-  this.lock_frame = function()
+  this.lock_frame = function(target)
   {
-    if (!this.env.frame_lock)
-      (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
+    var rc = this.is_framed() ? parent.rcmail : this;
+
+    if (!rc.env.frame_lock)
+      rc.env.frame_lock = rc.set_busy(true, 'loading');
+
+    if (target.frameElement)
+      $(target.frameElement).on('load.lock', function(e) {
+        rc.unlock_frame();
+        $(this).off('load.lock');
+      });
+  };
+
+  this.unlock_frame = function()
+  {
+    if (this.env.frame_lock) {
+      this.set_busy(false, null, this.env.frame_lock);
+      this.env.frame_lock = null;
+    }
   };
 
   // list a specific page
@@ -4554,22 +4578,14 @@ function rcube_webmail()
   // init autocomplete events on compose form inputs
   this.init_messageform_inputs = function(focused)
   {
-    var i, ac_props,
+    var i,
       input_to = $("[name='_to']"),
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
 
-    // configure parallel autocompletion
-    if (this.env.autocomplete_threads > 0) {
-      ac_props = {
-        threads: this.env.autocomplete_threads,
-        sources: this.env.autocomplete_sources
-      };
-    }
-
     // init live search events
-    this.init_address_input_events(input_to, ac_props);
+    this.init_address_input_events(input_to);
     for (i in ac_fields) {
-      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"));
     }
 
     if (!focused)
@@ -4650,6 +4666,14 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj, props)
   {
+    // configure parallel autocompletion
+    if (!props && this.env.autocomplete_threads > 0) {
+      props = {
+        threads: this.env.autocomplete_threads,
+        sources: this.env.autocomplete_sources
+      };
+    }
+
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({autocomplete: 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', role: 'combobox'});
 
@@ -5915,7 +5939,7 @@ function rcube_webmail()
     if (!this.ksearch_pane) {
       ul = $('<ul>');
       this.ksearch_pane = $('<div>')
-        .attr({id: 'rcmKSearchpane', role: 'listbox'})
+        .attr({id: 'rcmKSearchpane', role: 'listbox', 'class': 'select-menu inline'})
         .css({position: 'absolute', 'z-index': 30000})
         .append(ul)
         .appendTo(is_framed ? parent.document.body : document.body);
@@ -5938,7 +5962,10 @@ function rcube_webmail()
       this.env.contacts = [];
 
       // Calculate the results pane position and size
-      var pos = $(this.ksearch_input).offset();
+      // Elastic: On small screen we use the width/position of the whole .ac-input element (input's parent)
+      var is_composite_input = $('html').is('.layout-small,.layout-phone') && $(this.ksearch_input).parents('.ac-input').length == 1,
+        input = is_composite_input ? $(this.ksearch_input).parents('.ac-input')[0] : $(this.ksearch_input)[0],
+        pos = $(input).offset();
 
       // ... consider scroll position
       pos.left -= $(document.documentElement).scrollLeft();
@@ -5959,14 +5986,17 @@ function rcube_webmail()
       }
 
       var w = $(is_framed ? parent : window).width(),
+        input_width = $(input).outerWidth(),
         left = w - pos.left > 200 ? pos.left : w - 200,
+        top = (pos.top + input.offsetHeight + 1),
         width = Math.min(400, w - left);
 
       this.ksearch_pane.css({
-        left: left + 'px',
-        top: (pos.top + this.ksearch_input.offsetHeight + 1) + 'px',
-        maxWidth: width + 'px',
+        left: (is_composite_input ? pos.left : left) + 'px',
+        top: top + 'px',
+        maxWidth: (is_composite_input ? input_width : width) + 'px',
         minWidth: '200px',
+        width: is_composite_input ? (input_width + 'px') : 'auto',
         display: 'none'
       });
     }
@@ -8922,7 +8952,7 @@ function rcube_webmail()
   this.location_href = function(url, target, frame)
   {
     if (frame)
-      this.lock_frame();
+      this.lock_frame(target);
 
     if (typeof url == 'object')
       url = this.env.comm_path + '&' + $.param(url);

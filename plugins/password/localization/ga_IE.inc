@@ -20,4 +20,6 @@ $labels['newpasswd']  = 'An focal faire nua:';
 $labels['confpasswd']  = 'Deimhnigh an focal faire nua:';
 $messages['nopassword'] = 'Cuir isteach focal faire nua.';
 $messages['internalerror'] = 'Níorbh fhéidir an focal faire nua a chur i dtaisce.';
+$messages['passwordtooweak'] = 'Tá an focal faire rólag.';
+$messages['passwordforbidden'] = 'Tá carachtair nach gceadaítear san fhocal faire.';
 $messages['passwinhistory'] = 'Baineadh feidhm as an bhfocal faire seo cheana.';

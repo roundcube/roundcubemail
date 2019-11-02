@@ -299,7 +299,7 @@ class rcube_imap_generic
         while ($line[0] == '*');
 
         if ($untagged) {
-            $untagged = join("\n", $untagged);
+            $untagged = implode("\n", $untagged);
         }
 
         return $line;
@@ -2653,22 +2653,18 @@ class rcube_imap_generic
      */
     public static function sortHeaders($messages, $field, $flag)
     {
-        // Strategy: First, we'll create an "index" array.
-        // Then, we'll use sort() on that array, and use that to sort the main array.
-
-        $field  = empty($field) ? 'uid' : strtolower($field);
-        $flag   = empty($flag) ? 'ASC' : strtoupper($flag);
-        $index  = array();
-        $result = array();
+        $field = empty($field) ? 'uid' : strtolower($field);
+        $order = empty($flag) ? 'ASC' : strtoupper($flag);
+        $index = array();
 
         reset($messages);
 
+        // Create an index
         foreach ($messages as $key => $headers) {
-            $value = null;
-
             switch ($field) {
             case 'arrival':
                 $field = 'internaldate';
+                // no-break
             case 'date':
             case 'internaldate':
             case 'timestamp':
@@ -2684,33 +2680,26 @@ class rcube_imap_generic
                 $value = $headers->$field;
                 if (is_string($value)) {
                     $value = str_replace('"', '', $value);
+
                     if ($field == 'subject') {
                         $value = preg_replace('/^(Re:\s*|Fwd:\s*|Fw:\s*)+/i', '', $value);
                     }
-
-                    $data = strtoupper($value);
                 }
             }
 
             $index[$key] = $value;
         }
 
-        if (!empty($index)) {
-            // sort index
-            if ($flag == 'ASC') {
-                asort($index);
-            }
-            else {
-                arsort($index);
-            }
+        $sort_order = $flag == 'ASC' ? SORT_ASC : SORT_DESC;
+        $sort_flags = SORT_STRING | SORT_FLAG_CASE;
 
-            // form new array based on index
-            foreach ($index as $key => $val) {
-                $result[$key] = $messages[$key];
-            }
+        if (in_array($field, array('arrival', 'date', 'internaldate', 'timestamp'))) {
+            $sort_flags = SORT_NUMERIC;
         }
 
-        return $result;
+        array_multisort($index, $sort_order, $sort_flags, $messages);
+
+        return $messages;
     }
 
     /**

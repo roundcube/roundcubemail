@@ -22,6 +22,7 @@
 
         &:before {
             &:extend(.font-icon-class);
+            content: "\00a0"; // blank placeholder
         }
 
         &:hover,
@@ -262,11 +263,43 @@
                     margin-right: .5rem !important;
                     float: left !important;
                     width: 1.18em !important;
+                    min-width: 1.18em;
                 }
 
                 &:not(.disabled):hover {
                     color: @color-menu-hover;
                     background-color: @color-menu-hover-background;
+                }
+
+                &[aria-haspopup] {
+                    display: flex;
+
+                    &:after {
+                        &:extend(.font-icon-class);
+                        color: @color-black-shade-text;
+                        font-size: .9em;
+                        margin: 0 0 0 .2em;
+                        min-width: 1.18em;
+                        content: @fa-var-chevron-right;
+
+                        html.layout-small & {
+                            margin: 0 .2em;
+                        }
+                    }
+
+                    &.dropdown:after {
+                        color: @color-list;
+                        margin: 0 .6em !important;
+                    }
+
+                    &:hover:after {
+                        color: @color-menu-hover;
+                    }
+
+                    & > span {
+                        .overflow-ellipsis;
+                        flex: 1;
+                    }
                 }
             }
 
@@ -283,19 +316,30 @@
                 flex: 1;
             }
 
-            a.dropdown {
-                width: auto;
+            &:not(.disabled):hover {
+                background-color: @color-popover-mobile-dropbutton-background;
+            }
 
-                &:before {
-                    content: @fa-var-angle-right;
-                    line-height: inherit;
-                    margin: 0;
+            a.dropdown {
+                width: 3.5rem;
+                padding: 0 .5em;
+                background-color: @color-popover-mobile-dropbutton-background;
+
+                &:hover {
+                    background-color: @color-menu-hover-background;
                 }
 
+                // Note: :before icon is replaced with :after icon by a[aria-haspopup] above
+
+                &:before,
                 span.inner {
                     display: none;
                 }
             }
+        }
+
+        &.no-icon a:before {
+            display: none;
         }
     }
 }
@@ -342,6 +386,8 @@
 }
 
 a.toolbar-button {
+    cursor: pointer;
+
     @media screen and (min-width: (@screen-width-large + 1px)) {
         line-height: 1.5;
         padding: .45rem;
@@ -370,8 +416,11 @@ a.toolbar-button {
     &.contacts:before {
         content: @fa-var-users;
     }
-    &.settings:before {
+    &.options:before {
         content: @fa-var-sliders-h;
+    }
+    &.settings:before {
+        content: @fa-var-cog;
     }
     &.help:before {
         content: @fa-var-life-ring;
@@ -469,10 +518,11 @@ a.toolbar-button {
     &.expand:before {
         content: @fa-var-angle-right;
     }
-    &.expand.all:before,
-    &.expand.none:before,
-    &.expand.unread:before {
-        content: @fa-var-comments;
+    &.expand.all:before {
+        content: @fa-var-angle-double-down;
+    }
+    &.expand.none:before {
+        content: @fa-var-angle-double-up;
     }
     &.export:before,
     &.export.all:before,
@@ -554,6 +604,7 @@ a.toolbar-button {
         .font-icon-regular(@fa-var-envelope-open);
     }
     &.unread:before,
+    &.expand.unread:before,
     &.select.unread:before {
         .font-icon-solid(@fa-var-envelope);
     }
@@ -596,13 +647,13 @@ a.toolbar-button {
         content: @fa-var-trash-alt;
     }
     &.select:before {
-        .font-icon-regular(@fa-var-check-circle);
+        content: @fa-var-mouse-pointer;
     }
     &.select.all:before {
-        content: @fa-var-check-square;
+        content: @fa-var-asterisk;
     }
     &.select.invert:before {
-        content: @fa-var-square;
+        content: @fa-var-check-square;
     }
     &.select.none:before {
         .font-icon-solid(@fa-var-times);
@@ -611,13 +662,10 @@ a.toolbar-button {
         .font-icon-solid(@fa-var-bars);
     }
     &.selection:before {
-        content: @fa-var-mouse-pointer;
+        .font-icon-regular(@fa-var-check-square) !important;
     }
     &.send:before {
         content: @fa-var-paper-plane;
-    }
-    &.settings:before {
-        content: @fa-var-sliders-h;
     }
     &.showurl:before {
         content: @fa-var-link;
@@ -698,23 +746,26 @@ a.toolbar-button {
             margin: 0;
         }
 
-        &.options {
-            &:before {
-                content: @fa-var-angle-down;
-            }
+        &.options:before {
+            content: @fa-var-angle-down;
         }
 
-        &.reset {
-            display: none;
-
-            &:before {
-                content: @fa-var-times;
-                font-size: 1rem;
-            }
+        &.reset:before {
+            content: @fa-var-times;
+            font-size: 1rem;
         }
 
+        &.unread:before {
+            .font-icon-solid(@fa-var-envelope);
+        }
+
+        &.reset,
         &.search {
             display: none;
+        }
+
+        &.selected {
+            color: @color-success;
         }
     }
 

@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache_redis extends rcube_cache
 {
@@ -111,6 +109,7 @@ class rcube_cache_redis extends rcube_cache
         }
 
         self::$redis = new Redis;
+        $failures    = 0;
 
         foreach ($hosts as $redis_host) {
             // explode individual fields
@@ -128,45 +127,38 @@ class rcube_cache_redis extends rcube_cache
 
             try {
                 if (self::$redis->connect($host, $port) === false) {
-                    rcube::raise_error(array(
-                            'code' => 604,
-                            'type' => 'redis',
-                            'line' => __LINE__,
-                            'file' => __FILE__,
-                            'message' => "Could not connect to Redis server. Please check host and port"
-                        ),
-                        true, true);
+                    throw new Exception("Could not connect to Redis server. Please check host and port.");
                 }
 
                 if ($password !== null && self::$redis->auth($password) === false) {
-                    rcube::raise_error(array(
-                            'code' => 604,
-                            'type' => 'redis',
-                            'line' => __LINE__,
-                            'file' => __FILE__,
-                            'message' => "Could not authenticate with Redis server. Please check password."
-                        ),
-                        true, true);
+                    throw new Exception("Could not authenticate with Redis server. Please check password.");
                 }
 
                 if ($database !== null && self::$redis->select($database) === false) {
-                    rcube::raise_error(array(
-                            'code' => 604,
-                            'type' => 'redis',
-                            'line' => __LINE__,
-                            'file' => __FILE__,
-                            'message' => "Could not select Redis database. Please check database setting."
-                        ),
-                        true, true);
+                    throw new Exception("Could not select Redis database. Please check database setting.");
                 }
             }
             catch (Exception $e) {
-                rcube::raise_error($e, true, true);
+                rcube::raise_error($e, true, false);
+                $failures++;
             }
         }
 
-        if (self::$redis->ping() !== "+PONG") {
+        if (count($hosts) === $failures) {
             self::$redis = false;
+        }
+
+        if (self::$redis) {
+            try {
+                $ping = self::$redis->ping();
+                if ($ping !== true && $ping !== "+PONG") {
+                    throw new Exception("Redis connection failure. Ping failed.");
+                }
+            }
+            catch (Exception $e) {
+                self::$redis = false;
+                rcube::raise_error($e, true, false);
+            }
         }
 
         return self::$redis;
@@ -201,7 +193,13 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $data = self::$redis->get($key);
+        try {
+            $data = self::$redis->get($key);
+        }
+        catch (Exception $e) {
+            raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('get', $key, $data);
@@ -224,7 +222,13 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $result = self::$redis->setEx($key, $this->ttl, $data);
+        try {
+            $result = self::$redis->setEx($key, $this->ttl, $data);
+        }
+        catch (Exception $e) {
+            raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('set', $key, $data, $result);
@@ -246,7 +250,14 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $result = self::$redis->delete($key);
+        try {
+            $fname  = method_exists(self::$redis, 'del') ? 'del' : 'delete';
+            $result = self::$redis->$fname($key);
+        }
+        catch (Exception $e) {
+            raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('delete', $key, null, $result);

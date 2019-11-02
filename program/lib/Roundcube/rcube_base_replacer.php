@@ -23,7 +23,6 @@
  *
  * @package    Framework
  * @subpackage Utils
- * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_base_replacer
 {

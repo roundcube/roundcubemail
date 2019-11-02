@@ -655,10 +655,11 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Fetch members of the given group entry from server
      *
-     * @param string Group DN
-     * @param array  Group entry
-     * @param string Member attribute to use
-     * @param boolean Count only
+     * @param string $dn    Group DN
+     * @param array  $entry Group entry
+     * @param string $attr  Member attribute to use
+     * @param bool   $count Count only
+     *
      * @return array Accumulated group members
      */
     private function _list_group_members($dn, $entry, $attr, $count)
@@ -699,16 +700,17 @@ class rcube_ldap extends rcube_addressbook
     /**
      * List members of group class groupOfUrls
      *
-     * @param string Group DN
-     * @param array  Group entry
-     * @param boolean True if only used for counting
+     * @param string $dn    Group DN
+     * @param array  $entry Group entry
+     * @param boo    $count True if only used for counting
+     *
      * @return array Accumulated group members
      */
     private function _list_group_memberurl($dn, $entry, $count)
     {
         $group_members = array();
 
-        for ($i=0; $i < $entry['memberurl']['count']; $i++) {
+        for ($i = 0; $i < $entry['memberurl']['count']; $i++) {
             // extract components from url
             if (!preg_match('!ldap://[^/]*/([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m)) {
                 continue;
@@ -716,14 +718,17 @@ class rcube_ldap extends rcube_addressbook
 
             // add search filter if any
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
-            $attrs = $count ? array('dn','objectClass') : $this->prop['list_attributes'];
+            $attrs  = $count ? array('dn','objectClass') : $this->prop['list_attributes'];
+
             if ($result = $this->ldap->search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
                 $entries = $result->entries();
                 for ($j = 0; $j < $entries['count']; $j++) {
-                    if ($this->is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count)))
+                    if ($this->is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))) {
                         $group_members = array_merge($group_members, $nested_group_members);
-                    else
+                    }
+                    else {
                         $group_members[] = $entries[$j];
+                    }
                 }
             }
         }
@@ -751,7 +756,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @return rcube_result_set List of contact records
      */
-    function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array())
+    function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = array())
     {
         $mode = intval($mode);
 
@@ -772,7 +777,7 @@ class rcube_ldap extends rcube_addressbook
         $rcube = rcube::get_instance();
         $list_fields = $rcube->config->get('contactlist_fields');
 
-        if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
+        if ($this->prop['vlv_search'] && $this->ready && implode(',', (array)$fields) == implode(',', $list_fields)) {
             $this->result = new rcube_result_set(0);
 
             $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && !($mode & rcube_addressbook::SEARCH_STRICT)));
@@ -925,7 +930,6 @@ class rcube_ldap extends rcube_addressbook
         $prop    = $this->group_id ? $this->group_data : $this->prop;
         $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? array('dn') : $this->prop['attributes'];
-        $entries = array();
 
         // Use global search filter
         if ($filter = $this->filter) {
@@ -1608,7 +1612,7 @@ class rcube_ldap extends rcube_addressbook
                   $key = $col.':'.$subtype;
                   foreach ((array)$save_cols[$key] as $i => $val) {
                      $values = array($val['street'], $val['locality'], $val['zipcode'], $val['country']);
-                     $save_cols[$key][$i] = count(array_filter($values)) ? join($delim, $values) : null;
+                     $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
                  }
                }
             }

@@ -24,7 +24,9 @@ $labels['settingstitle'] = 'الأرشيف';
 $labels['archivetype'] = 'تقسيم الأرشيف ب';
 $labels['archivetypeyear'] = 'السنة (مثال. الارشيف/2012)';
 $labels['archivetypemonth'] = 'الشهر (مثال. الارشيف/2012/06)';
+$labels['archivetypetbmonth'] = 'الشهر - متوافق مع ثندربرد (المحفوظات/1433/1433-06 مثلاً)';
 $labels['archivetypefolder'] = 'المجلد الاصلي';
 $labels['archivetypesender'] = 'ايميل المرسل';
 $labels['unkownsender'] = 'مجهول';
+$labels['readonarchive'] = 'تحديد الرسالة مقروءة في المحفوظات';
 ?>

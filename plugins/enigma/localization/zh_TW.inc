@@ -106,6 +106,7 @@ $messages['signbadpass'] = '簽名失敗。密碼無效';
 $messages['signnopass'] = '簽名失敗。必須要金鑰密碼';
 $messages['encrypterror'] = '加密失敗';
 $messages['encryptnokey'] = '加密失敗。找不到用於 $email 的公開金鑰';
+$messages['encryptnoprivkey'] = '加密失敗。找不到私鑰。';
 $messages['nokeysfound'] = '找不到金鑰';
 $messages['keynotfound'] = '找不到金鑰！';
 $messages['keyopenerror'] = '無法取得金鑰資訊！內部出錯';

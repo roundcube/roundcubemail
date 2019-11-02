@@ -411,7 +411,6 @@ $labels['force7bit'] = 'MIME-Kodéierung fir 8-Bit-Zeeche benotzen';
 $labels['advancedoptions'] = 'Avancéiert Optiounen';
 $labels['focusonnewmessage'] = 'Browser-Fënster fokusséiere wann en neie Message ukënnt';
 $labels['checkallfolders'] = 'Nei Messagen an allen Dossieren opruffen';
-$labels['displaynext'] = 'Nom Réckelen/Läsche vun engem Message deen nächsten uweisen';
 $labels['defaultfont'] = 'Standard-Schrëft fir e Message mat Formatéierungen';
 $labels['mainoptions'] = 'Haapt-Optiounen';
 $labels['browseroptions'] = 'Browser-Optiounen';

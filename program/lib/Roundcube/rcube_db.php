@@ -914,7 +914,7 @@ class rcube_db
             $name[] = $start . $elem . $end;
         }
 
-        return implode($name, '.');
+        return implode('.', $name);
     }
 
     /**
@@ -1010,7 +1010,7 @@ class rcube_db
             $args = $args[0];
         }
 
-        return '(' . join(' || ', $args) . ')';
+        return '(' . implode(' || ', $args) . ')';
     }
 
     /**

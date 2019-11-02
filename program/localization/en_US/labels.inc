@@ -193,6 +193,7 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
+$labels['showunread'] = 'Show unread messages';
 
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
@@ -566,7 +567,7 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['toggleadvancedoptions'] = 'Toggle advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['displaynext'] = 'Display next record after delete/move';
+$labels['displaynext'] = 'Display next list entry after delete/move';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['browseroptions'] = 'Browser Options';

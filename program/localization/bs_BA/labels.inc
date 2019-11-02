@@ -439,7 +439,6 @@ $labels['advancedoptions'] = 'Napredne opcije';
 $labels['toggleadvancedoptions'] = '(De)aktivacija naprednih opcija';
 $labels['focusonnewmessage'] = 'Fokusiraj prozor preglednika na novu poruku';
 $labels['checkallfolders'] = 'Provjeri ima li novih poruka u svim folderima';
-$labels['displaynext'] = 'Aakon brisanja/premještanja poruke, prikaži slijedeću poruku';
 $labels['defaultfont'] = 'Osnovni font za HTML poruke';
 $labels['mainoptions'] = 'Glavne opcije';
 $labels['browseroptions'] = 'Opcije preglednika';

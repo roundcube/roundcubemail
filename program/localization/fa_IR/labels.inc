@@ -469,7 +469,6 @@ $labels['force7bit'] = 'از MIME encoding برای کارکترهای ۸-بیت
 $labels['advancedoptions'] = 'گزینه‌های پیشرفته';
 $labels['focusonnewmessage'] = 'مشخص نمودن پیام جدید';
 $labels['checkallfolders'] = 'همه پوشه‌ها را برای مشاهده پیام‌های جدید بررسی کن';
-$labels['displaynext'] = 'بعد از انتقال/حذف پیام، پیام بعدی نمایش داده شود';
 $labels['defaultfont'] = 'فونت پیش فرض برای پیام HTML';
 $labels['mainoptions'] = 'گزینه‌های اصلی';
 $labels['browseroptions'] = 'گزینه‌‌های مرورگر';

@@ -78,12 +78,15 @@ function rcube_text_editor(config, id)
     }
   }
 
-  // secure spellchecker requests with Roundcube token
   // Note: must be registered only once (#1490311)
   if (!tinymce.registered_request_token) {
     tinymce.registered_request_token = true;
     tinymce.util.XHR.on('beforeSend', function(e) {
+      // secure spellchecker requests with Roundcube token
       e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
+      // A hacky way of setting spellchecker language (there's no API for this in Tiny)
+      if (e.settings && e.settings.data)
+        e.settings.data = e.settings.data.replace(/^(method=[a-zA-Z]+&lang=)([^&]+)/, '$1' + rcmail.env.spell_lang);
     });
   }
 
@@ -407,12 +410,7 @@ function rcube_text_editor(config, id)
   // get selected (spellchecker) language
   this.get_language = function()
   {
-    if (this.editor) {
-      return this.editor.settings.spellchecker_language || rcmail.env.spell_lang;
-    }
-    else if (this.spellchecker) {
-      return GOOGIE_CUR_LANG;
-    }
+    return rcmail.env.spell_lang;
   };
 
   // set language for spellchecking
@@ -421,11 +419,14 @@ function rcube_text_editor(config, id)
     var ed = this.editor;
 
     if (ed) {
+      // TODO: this has no effect in recent Tiny versions
       ed.settings.spellchecker_language = lang;
     }
     if (ed = this.spellchecker) {
       ed.setCurrentLanguage(lang);
     }
+
+    rcmail.env.spell_lang = lang;
   };
 
   // replace selection with text snippet
@@ -457,7 +458,7 @@ function rcube_text_editor(config, id)
     }
     // replace selection in compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : {start: 0, end: 0},
+      var selection = rcmail.get_input_selection(ed),
         value = ed.value,
         pre = value.substring(0, selection.start),
         end = value.substring(selection.end, value.length);
@@ -516,7 +517,7 @@ function rcube_text_editor(config, id)
     }
     // get selected text from compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      if (args.selection && $(ed).is(':focus')) {
+      if (args.selection) {
         text = rcmail.get_input_selection(ed).text;
       }
 

@@ -58,10 +58,10 @@ class rcube_utils
     /**
      * E-mail address validation.
      *
-     * @param string  $email     Email address
-     * @param boolean $dns_check True to check dns
+     * @param string $email     Email address
+     * @param bool   $dns_check True to check dns
      *
-     * @return boolean True on success, False if address is invalid
+     * @return bool True on success, False if address is invalid
      */
     public static function check_email($email, $dns_check=true)
     {
@@ -155,10 +155,10 @@ class rcube_utils
     /**
      * Replacing specials characters to a specific encoding type
      *
-     * @param string  Input string
-     * @param string  Encoding type: text|html|xml|js|url
-     * @param string  Replace mode for tags: show|remove|strict
-     * @param boolean Convert newlines
+     * @param string $str      Input string
+     * @param string $enctype  Encoding type: text|html|xml|js|url
+     * @param string $mode     Replace mode for tags: show|remove|strict
+     * @param bool   $newlines Convert newlines
      *
      * @return string The quoted string
      */
@@ -246,10 +246,10 @@ class rcube_utils
      * Read input value and convert it for internal use
      * Performs stripslashes() and charset conversion if necessary
      *
-     * @param string  Field name to read
-     * @param int     Source to get value from (see self::INPUT_*)
-     * @param boolean Allow HTML tags in field value
-     * @param string  Charset to convert into
+     * @param string $fname      Field name to read
+     * @param int    $source     Source to get value from (see self::INPUT_*)
+     * @param bool   $allow_html Allow HTML tags in field value
+     * @param string $charset    Charset to convert into
      *
      * @return string Field value or NULL if not available
      */
@@ -276,9 +276,9 @@ class rcube_utils
      * Parse/validate input value. See self::get_input_value()
      * Performs stripslashes() and charset conversion if necessary
      *
-     * @param string  Input value
-     * @param boolean Allow HTML tags in field value
-     * @param string  Charset to convert into
+     * @param string $value      Input value
+     * @param bool   $allow_html Allow HTML tags in field value
+     * @param string $charset    Charset to convert into
      *
      * @return string Parsed value
      */
@@ -321,9 +321,9 @@ class rcube_utils
      * Convert array of request parameters (prefixed with _)
      * to a regular array with non-prefixed keys.
      *
-     * @param int     $mode       Source to get value from (GPC)
-     * @param string  $ignore     PCRE expression to skip parameters by name
-     * @param boolean $allow_html Allow HTML tags in field value
+     * @param int    $mode       Source to get value from (GPC)
+     * @param string $ignore     PCRE expression to skip parameters by name
+     * @param bool   $allow_html Allow HTML tags in field value
      *
      * @return array Hash array with all request parameters
      */
@@ -345,25 +345,29 @@ class rcube_utils
     /**
      * Convert the given string into a valid HTML identifier
      * Same functionality as done in app.js with rcube_webmail.html_identifier()
+     *
+     * @param string $str    String input
+     * @param bool   $encode Use base64 encoding
+     *
+     * @param string Valid HTML identifier
      */
-    public static function html_identifier($str, $encode=false)
+    public static function html_identifier($str, $encode = false)
     {
         if ($encode) {
             return rtrim(strtr(base64_encode($str), '+/', '-_'), '=');
         }
-        else {
-            return asciiwords($str, true, '_');
-        }
+
+        return asciiwords($str, true, '_');
     }
 
     /**
      * Replace all css definitions with #container [def]
      * and remove css-inlined scripting, make position style safe
      *
-     * @param string CSS source code
-     * @param string Container ID to use as prefix
-     * @param bool   Allow remote content
-     * @param string Prefix to be added to id/class identifier
+     * @param string $source       CSS source code
+     * @param string $container_id Container ID to use as prefix
+     * @param bool   $allow_remote Allow remote content
+     * @param string $prefix       Prefix to be added to id/class identifier
      *
      * @return string Modified CSS source
      */
@@ -381,7 +385,7 @@ class rcube_utils
             return '/* evil! */';
         }
 
-        $strict_url_regexp = '!url\s*\([ "\'](https?:)//[a-z0-9/._+-]+["\' ]\)!Uims';
+        $strict_url_regexp = '!url\s*\(\s*["\']?(https?:)//[a-z0-9/._+-]+["\']?\s*\)!Uims';
 
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
@@ -392,7 +396,7 @@ class rcube_utils
             $styles = substr($source, $pos+1, $length);
 
             // Convert position:fixed to position:absolute (#5264)
-            $styles = preg_replace('/position:[\s\r\n]*fixed/i', 'position: absolute', $styles);
+            $styles = preg_replace('/position[^a-z]*:[\s\r\n]*fixed/i', 'position: absolute', $styles);
 
             // check every line of a style block...
             if ($allow_remote) {
@@ -414,7 +418,7 @@ class rcube_utils
                     }
                 }
 
-                $styles = join(";\n", $a_styles);
+                $styles = implode(";\n", $a_styles);
             }
 
             $key      = $replacements->add($styles);
@@ -431,9 +435,13 @@ class rcube_utils
             // (?!##str) below is to not match with ##str_replacement_0##
             // from rcube_string_replacer used above, this is needed for
             // cases like @media { body { position: fixed; } } (#5811)
-            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str):?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = function($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
+
+                if (stripos($replace, ':root') === 0) {
+                    $replace = substr($replace, 5);
+                }
 
                 if ($prefix) {
                     $replace = str_replace(array('.', '#'), array(".$prefix", "#$prefix"), $replace);
@@ -442,6 +450,9 @@ class rcube_utils
                 if ($container_id) {
                     $replace = "#$container_id " . $replace;
                 }
+
+                // Remove redundant spaces (for simpler testing)
+                $replace = preg_replace('/\s+/', ' ', $replace);
 
                 return str_replace($matches[2], $replace, $matches[0]);
             };
@@ -488,14 +499,14 @@ class rcube_utils
             }
         }
 
-        return join(" ", $classes);
+        return implode(' ', $classes);
     }
 
     /**
      * Decode escaped entities used by known XSS exploits.
      * See http://downloads.securityfocus.com/vulnerabilities/exploits/26800.eml for examples
      *
-     * @param string CSS content to decode
+     * @param string $content CSS content to decode
      *
      * @return string Decoded string
      */
@@ -516,9 +527,9 @@ class rcube_utils
     /**
      * Check if we can process not exceeding memory_limit
      *
-     * @param integer Required amount of memory
+     * @param integer $need Required amount of memory
      *
-     * @return boolean True if memory won't be exceeded, False otherwise
+     * @return bool True if memory won't be exceeded, False otherwise
      */
     public static function mem_check($need)
     {
@@ -531,25 +542,28 @@ class rcube_utils
     /**
      * Check if working in SSL mode
      *
-     * @param integer $port      HTTPS port number
-     * @param boolean $use_https Enables 'use_https' option checking
+     * @param int  $port      HTTPS port number
+     * @param bool $use_https Enables 'use_https' option checking
      *
-     * @return boolean
+     * @return bool True in SSL mode, False otherwise
      */
-    public static function https_check($port=null, $use_https=true)
+    public static function https_check($port = null, $use_https = true)
     {
         if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
             return true;
         }
+
         if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
             && in_array($_SERVER['REMOTE_ADDR'], rcube::get_instance()->config->get('proxy_whitelist', array()))
         ) {
             return true;
         }
+
         if ($port && $_SERVER['SERVER_PORT'] == $port) {
             return true;
         }
+
         if ($use_https && rcube::get_instance()->config->get('use_https')) {
             return true;
         }
@@ -597,11 +611,12 @@ class rcube_utils
     }
 
     /**
-     * Returns the host name after checking it against trusted hostname
-     * patterns, otherwise returns localhost (and logs a warning)
+     * Returns the server name after checking it against trusted hostname patterns.
      *
-     * @param string  $type       The $_SERVER key, e.g. 'HTTP_HOST', Default: 'SERVER_NAME'.
-     * @param boolean $strip_port Strip port from the host name
+     * Returns 'localhost' and logs a warning when the hostname is not trusted.
+     *
+     * @param string $type       The $_SERVER key, e.g. 'HTTP_HOST', Default: 'SERVER_NAME'.
+     * @param bool   $strip_port Strip port from the host name
      *
      * @return string Server name
      */
@@ -696,7 +711,7 @@ class rcube_utils
      *
      * @param string $name Header name
      *
-     * @return mixed Header value or null if not available
+     * @return string|null Header value or null if not available
      */
     public static function request_header($name)
     {
@@ -719,8 +734,8 @@ class rcube_utils
     /**
      * Explode quoted string
      *
-     * @param string Delimiter expression string for preg_match()
-     * @param string Input string
+     * @param string $delimiter Delimiter expression string for preg_match()
+     * @param string $string    Input string
      *
      * @return array String items
      */
@@ -786,7 +801,7 @@ class rcube_utils
      * @param string       $date     Date string
      * @param DateTimeZone $timezone Timezone to use for DateTime object
      *
-     * @return DateTime instance or false on failure
+     * @return DateTime|false DateTime object or False on failure
      */
     public static function anytodatetime($date, $timezone = null)
     {
@@ -880,8 +895,8 @@ class rcube_utils
      * @param string $date   Date string
      * @param string $format Input date format
      *
-     * @return strin Date string in YYYY-MM-DD format, or the original string
-     *               if format is not supported
+     * @return string Date string in YYYY-MM-DD format, or the original string
+     *                if format is not supported
      */
     public static function format_datestr($date, $format)
     {
@@ -980,8 +995,9 @@ class rcube_utils
     /**
      * Split the given string into word tokens
      *
-     * @param string Input to tokenize
-     * @param integer Minimum length of a single token
+     * @param string $str     Input to tokenize
+     * @param int    $minlen  Minimum length of a single token
+     *
      * @return array List of tokens
      */
     public static function tokenize_string($str, $minlen = 2)
@@ -1002,11 +1018,11 @@ class rcube_utils
      * Normalize the given string for fulltext search.
      * Currently only optimized for ISO-8859-1 and ISO-8859-2 characters; to be extended
      *
-     * @param string  Input string (UTF-8)
-     * @param boolean True to return list of words as array
-     * @param integer Minimum length of tokens
+     * @param string $str      Input string (UTF-8)
+     * @param bool   $as_array True to return list of words as array
+     * @param int    $minlen   Minimum length of tokens
      *
-     * @return mixed Normalized string or a list of normalized tokens
+     * @return string|array Normalized string or a list of normalized tokens
      */
     public static function normalize_string($str, $as_array = false, $minlen = 2)
     {
@@ -1050,21 +1066,21 @@ class rcube_utils
             $arr[$i] = $part;
         }
 
-        return $as_array ? $arr : join(" ", $arr);
+        return $as_array ? $arr : implode(' ', $arr);
     }
 
     /**
      * Compare two strings for matching words (order not relevant)
      *
-     * @param string Haystack
-     * @param string Needle
+     * @param string $haystack Haystack
+     * @param string $needle   Needle
      *
-     * @return boolean True if match, False otherwise
+     * @return bool True if match, False otherwise
      */
     public static function words_match($haystack, $needle)
     {
         $a_needle  = self::tokenize_string($needle, 1);
-        $_haystack = join(" ", self::tokenize_string($haystack, 1));
+        $_haystack = implode(' ', self::tokenize_string($haystack, 1));
         $valid     = strlen($_haystack) > 0;
         $hits      = 0;
 
@@ -1141,6 +1157,8 @@ class rcube_utils
      * Safe password prompt for command line
      * from http://blogs.sitepoint.com/2009/05/01/interactive-cli-password-prompt-in-php/
      *
+     * @param string $prompt Prompt text
+     *
      * @return string Password
      */
     public static function prompt_silent($prompt = "Password:")
@@ -1156,20 +1174,22 @@ class rcube_utils
 
             return $password;
         }
-        else {
-            $command = "/usr/bin/env bash -c 'echo OK'";
-            if (rtrim(shell_exec($command)) !== 'OK') {
-                echo $prompt;
-                $pass = trim(fgets(STDIN));
-                echo chr(8)."\r" . $prompt . str_repeat("*", strlen($pass))."\n";
-                return $pass;
-            }
 
-            $command = "/usr/bin/env bash -c 'read -s -p \"" . addslashes($prompt) . "\" mypassword && echo \$mypassword'";
-            $password = rtrim(shell_exec($command));
-            echo "\n";
-            return $password;
+        $command = "/usr/bin/env bash -c 'echo OK'";
+
+        if (rtrim(shell_exec($command)) !== 'OK') {
+            echo $prompt;
+            $pass = trim(fgets(STDIN));
+            echo chr(8)."\r" . $prompt . str_repeat("*", strlen($pass))."\n";
+
+            return $pass;
         }
+
+        $command  = "/usr/bin/env bash -c 'read -s -p \"" . addslashes($prompt) . "\" mypassword && echo \$mypassword'";
+        $password = rtrim(shell_exec($command));
+        echo "\n";
+
+        return $password;
     }
 
     /**
@@ -1177,7 +1197,7 @@ class rcube_utils
      *
      * @param string $str Input value
      *
-     * @return boolean Boolean value
+     * @return bool Boolean value
      */
     public static function get_boolean($str)
     {
@@ -1188,15 +1208,18 @@ class rcube_utils
 
     /**
      * OS-dependent absolute path detection
+     *
+     * @param string $path File path
+     *
+     * @return bool True if the path is absolute, False otherwise
      */
     public static function is_absolute_path($path)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
-        else {
-            return $path[0] == '/';
-        }
+
+        return $path[0] == '/';
     }
 
     /**
@@ -1326,7 +1349,7 @@ class rcube_utils
     public static function parse_socket_options(&$options, $host = null)
     {
         if (empty($host) || empty($options)) {
-            return $options;
+            return;
         }
 
         // get rid of schema and port from the hostname
@@ -1336,7 +1359,7 @@ class rcube_utils
         }
 
         // find per-host options
-        if (array_key_exists($host, $options)) {
+        if ($host && array_key_exists($host, $options)) {
             $options = $options[$host];
         }
     }

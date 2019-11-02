@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Додаткові параметри';
 $labels['toggleadvancedoptions'] = 'Перемкнути додаткові параметри';
 $labels['focusonnewmessage'] = 'Фокусувати вікно браузера при новому листі';
 $labels['checkallfolders'] = 'Перевіряти нові листи у всіх теках';
-$labels['displaynext'] = 'Після видалення/переміщення листа відображати наступний';
 $labels['defaultfont'] = 'Типовий шрифт HTML повідомлення';
 $labels['mainoptions'] = 'Основні налаштування';
 $labels['browseroptions'] = 'Налаштування браузера';

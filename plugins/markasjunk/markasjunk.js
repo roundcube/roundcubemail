@@ -25,7 +25,7 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
     this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({_uid: uids}), lock);
 }
 
-rcube_webmail.prototype.rcmail_markasjunk_move = function(mbox, uids) {
+rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
     var prev_uid = this.env.uid;
 
     if (this.message_list && uids.length == 1 && !this.message_list.in_selection(uids[0]))

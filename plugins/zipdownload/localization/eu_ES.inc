@@ -19,3 +19,4 @@ $labels['download'] = 'Deskargatu...';
 $labels['downloadmbox'] = 'Mbox formatua (.zip)';
 $labels['downloadmaildir'] = 'Maildir formatua (.zip)';
 $labels['downloademl'] = 'Iturburua (.eml)';
+$labels['sizelimiterror'] = 'Hautatutako  mezuen tamainak muga ($size) gainditu du.';

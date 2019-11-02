@@ -430,7 +430,6 @@ $labels['force7bit'] = '8-bitli simvollar üçün MIME istifadə et';
 $labels['advancedoptions'] = 'Ətraflı nizamlama';
 $labels['focusonnewmessage'] = 'Yeni məktub zamanı brauzerin pəncərəsini fokusla';
 $labels['checkallfolders'] = 'Bütün qovluqlarda yeni məktubları yoxla';
-$labels['displaynext'] = 'Hazırkini sildikdə/köçürdükdə növbəti məktubu göstər';
 $labels['defaultfont'] = 'HTML məktubun default şrifti';
 $labels['mainoptions'] = 'Əsas nizamlamalar';
 $labels['browseroptions'] = 'Brauzer ayarları';

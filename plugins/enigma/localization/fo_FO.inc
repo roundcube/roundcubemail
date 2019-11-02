@@ -71,6 +71,7 @@ $labels['signmsg'] = 'Undirskriva hesi boð';
 $labels['enterkeypasstitle'] = 'Skriva loyniorð';
 $labels['enterkeypass'] = 'Tað er tørvur á einum loyniorðið fyri at stongja upp loyndar-lykilin ($keyid) hjá brúkara:';
 $labels['arialabelkeyexportoptions'] = 'Lykla út flytingar møguleikar';
+$labels['keyimportlabel'] = 'Inflyt frá fílu';
 $messages['sigvalid'] = 'Váttað undirskrift frá $sender.';
 $messages['siginvalid'] = 'Ógildig undirskrift frá $sender.';
 $messages['sigunverified'] = 'Óvátta undirskrift: skjal er ikki vátta. Skjal ID: $keyid.';

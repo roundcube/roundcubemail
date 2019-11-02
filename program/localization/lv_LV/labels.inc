@@ -488,7 +488,6 @@ $labels['advancedoptions'] = 'Paplašinātie iestatījumi';
 $labels['toggleadvancedoptions'] = 'Parādīt paplašinātos iestatījumus';
 $labels['focusonnewmessage'] = 'Uzstādīt pārlūka fokusu uz jaunu vēstuli';
 $labels['checkallfolders'] = 'Meklēt visās mapēs jaunās vēstules';
-$labels['displaynext'] = 'Pēc vēstules dzēšanas/pārvietošanas rādīt nākamo vēstuli';
 $labels['defaultfont'] = 'Noklusētais fonts vēstulēm HTML formātā';
 $labels['mainoptions'] = 'Galvenie iestatījumi';
 $labels['browseroptions'] = 'Pārlūka iestatījumi';

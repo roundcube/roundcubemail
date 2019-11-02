@@ -1185,20 +1185,6 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['delete_always'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_delete_always';
-                $input    = new html_checkbox(array('name' => '_delete_always', 'id' => $field_id, 'value' => 1));
-
-                $blocks['main']['options']['delete_always'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('deletealways'))),
-                    'content' => $input->show($config['delete_always']?1:0),
-                );
-            }
-
             if (!isset($no_override['delete_junk'])) {
                 if (!$current) {
                     continue 2;

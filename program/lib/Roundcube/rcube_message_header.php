@@ -23,7 +23,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header
 {

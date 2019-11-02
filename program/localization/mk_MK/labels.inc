@@ -464,7 +464,6 @@ $labels['advancedoptions'] = 'Напредни можности';
 $labels['toggleadvancedoptions'] = 'Вклучи напредни опции ';
 $labels['focusonnewmessage'] = 'Фокусирај го прозорецот на прелистувачот на новото писмо';
 $labels['checkallfolders'] = 'Провери ги сите папки за нови писма';
-$labels['displaynext'] = 'По бришење/преместување на писмото прикажи го следното писмо';
 $labels['defaultfont'] = 'Стандарден фонд на  HTML пораки ';
 $labels['mainoptions'] = 'Главни можности';
 $labels['browseroptions'] = 'Опции на прелистувач';

@@ -99,11 +99,11 @@ class rcmail extends rcube
         $required_plugins = array('filesystem_attachments', 'jqueryui');
         $this->plugins->load_plugins($plugins, $required_plugins);
 
-        // Remember default skin, before it's replaced by user prefs
-        $this->default_skin = $this->config->get('skin');
-
         // start session
         $this->session_init();
+
+        // Remember default skin, before it's replaced by user prefs
+        $this->default_skin = $this->config->get('skin');
 
         // create user object
         $this->set_user(new rcube_user($_SESSION['user_id']));
@@ -1178,6 +1178,38 @@ class rcmail extends rcube
     }
 
     /**
+     * Check if specified asset file exists
+     *
+     * @param string $path     Asset path
+     * @param bool   $minified Fallback to minified version of the file
+     *
+     * @return string Asset path if found (modified if minified file found)
+     */
+    public function find_asset($path, $minified = true)
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $assets_dir = $this->config->get('assets_dir');
+        $root_path  = unslashify($assets_dir ?: INSTALL_PATH) . '/';
+        $full_path  = $root_path . trim($path, '/');
+
+        if (file_exists($full_path)) {
+            return $path;
+        }
+
+        if ($minified && preg_match('/(?<!\.min)\.(js|css)$/', $path)) {
+            $path      = preg_replace('/\.(js|css)$/', '.min.\\1', $path);
+            $full_path = $root_path . trim($path, '/');
+
+            if (file_exists($full_path)) {
+                return $path;
+            }
+        }
+    }
+
+    /**
      * Create a HTML table based on the given data
      *
      * @param array  $attrib     Named table attributes
@@ -1645,7 +1677,7 @@ class rcmail extends rcube
 
             $out .= html::tag('li', array(
                     'id'      => "rcmli" . $folder_id,
-                    'class'   => join(' ', $classes),
+                    'class'   => implode(' ', $classes),
                     'noclose' => true
                 ),
                 html::a($link_attrib, $html_name));
@@ -2061,14 +2093,16 @@ class rcmail extends rcube
         );
 
         if ($path = $this->config->get('editor_css_location')) {
-            $config['content_css'] = $skin_path . $path;
+            if ($path = $this->find_asset($skin_path . $path)) {
+                $config['content_css'] = $path;
+            }
         }
 
         $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
         $this->output->set_env('editor_config', $config);
 
         if ($path = $this->config->get('media_browser_css_location', 'program/resources/tinymce/browser.css')) {
-            if ($path != 'none') {
+            if ($path != 'none' && ($path = $this->find_asset($path))) {
                 $this->output->include_css($path);
             }
         }

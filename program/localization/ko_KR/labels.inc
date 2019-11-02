@@ -466,7 +466,6 @@ $labels['advancedoptions'] = '고급 옵션';
 $labels['toggleadvancedoptions'] = '고급 옵션 표시/숨기기';
 $labels['focusonnewmessage'] = '새 메시지가 있을 경우 브라우저 창으로 포커스 이동';
 $labels['checkallfolders'] = '모든 폴더에서 새로운 메시지 확인';
-$labels['displaynext'] = '메시지 삭제/이동 후 다음 메시지 표시';
 $labels['defaultfont'] = 'HTML 메시지의 기본 글꼴';
 $labels['mainoptions'] = '메인 옵션';
 $labels['browseroptions'] = '브라우저 옵션';

@@ -69,7 +69,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.addEventListener('beforesend', function(props) { rcmail.enigma_beforesend_handler(props); })
                 .addEventListener('beforesavedraft', function(props) { rcmail.enigma_beforesavedraft_handler(props); });
 
-            $('input,label', $('#enigmamenu')).mouseup(function(e) {
+            $('#enigmamenu').find('input,label').mouseup(function(e) {
                 // don't close the menu on mouse click inside
                 e.stopPropagation();
             });
@@ -80,7 +80,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 var opt = this, input = $('#enigma' + opt + 'opt');
 
                 if (rcmail.env['enigma_force_' + opt]) {
-                    input.prop('checked', true)
+                    input.prop('checked', true);
                 }
 
                 // Compose status bar in Elastic
@@ -503,7 +503,7 @@ rcube_webmail.prototype.enigma_compose_handler = function(props)
 {
     var form = this.gui_objects.messageform;
 
-    // copy inputs from enigma menu to the form
+    // copy inputs from enigma menu to the form (not used in Elastic)
     $('#enigmamenu input').each(function() {
         var id = this.id + '_cpy', input = $('#' + id);
 
@@ -514,11 +514,6 @@ rcube_webmail.prototype.enigma_compose_handler = function(props)
 
         input.val(this.checked ? '1' : '');
     });
-
-    // disable signing when saving drafts
-    if (this.env.last_action == 'savedraft') {
-        $('input[name="_enigma_sign"]', form).val(0);
-    }
 };
 
 // Import attached keys/certs file

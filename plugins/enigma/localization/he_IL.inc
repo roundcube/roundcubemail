@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'חתימה נכשלה. סיסמה שגויה.';
 $messages['signnopass'] = 'חיתום נכשל. נדרשת סיסמת מפתח.';
 $messages['encrypterror'] = 'הצפנה נכשלה.';
 $messages['encryptnokey'] = 'הצפנה נכשלה. לא נמצא מפתח ציבורי עבור mail$.';
+$messages['encryptnoprivkey'] = 'הצפנה נכשלה. לא נמצא מפתח פרטי.';
 $messages['nokeysfound'] = 'לא נמצאו מפתחות.';
 $messages['keynotfound'] = 'לא נמצא מפתח !';
 $messages['keyopenerror'] = 'לא ניתן להשיג מידע על מפתח! שגיאה פנימית.';

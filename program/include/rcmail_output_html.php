@@ -285,6 +285,7 @@ EOF;
 
         // register skin path(s)
         $this->skin_paths = array();
+        $this->skins      = array();
         $this->load_skin($skin_path);
 
         $this->skin_name = $skin;
@@ -398,10 +399,11 @@ EOF;
      * @param string $file       File name/path to resolve (starting with /)
      * @param string &$skin_path Reference to the base path of the matching skin
      * @param string $add_path   Additional path to search in
+     * @param bool   $minified   Fallback to a minified version of the file
      *
      * @return mixed Relative path to the requested file or False if not found
      */
-    public function get_skin_file($file, &$skin_path = null, $add_path = null)
+    public function get_skin_file($file, &$skin_path = null, $add_path = null, $minified = false)
     {
         $skin_paths = $this->skin_paths;
 
@@ -412,6 +414,14 @@ EOF;
 
         if ($skin_path = $this->find_file_path($file, $skin_paths)) {
             return $skin_path . $file;
+        }
+
+        if ($minified && preg_match('/(?<!\.min)\.(js|css)$/', $file)) {
+            $file = preg_replace('/\.(js|css)$/', '.min.\\1', $file);
+
+            if ($skin_path = $this->find_file_path($file, $skin_paths)) {
+                return $skin_path . $file;
+            }
         }
 
         return false;
@@ -643,7 +653,7 @@ EOF;
         $this->page_headers();
 
         // call super method
-        $this->_write($template, $this->config->get('skin_path'));
+        $this->_write($template);
     }
 
     /**
@@ -846,15 +856,15 @@ EOF;
     /**
      * Make URLs starting with a slash point to skin directory
      *
-     * @param string $str          Input string
-     * @param bool   $search_path  True if URL should be resolved using the current skin path stack
+     * @param string $str         Input string
+     * @param bool   $search_path True if URL should be resolved using the current skin path stack
      *
      * @return string URL
      */
     public function abs_url($str, $search_path = false)
     {
         if ($str[0] == '/') {
-            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
+            if ($search_path && ($file_url = $this->get_skin_file($str))) {
                 return $file_url;
             }
 
@@ -957,7 +967,7 @@ EOF;
         }
 
         // add file modification timestamp
-        if (preg_match('/\.(js|css|less|ico|png|svg|jpeg)$/', $file, $m)) {
+        if (preg_match('/\.(js|css|less|ico|png|svg|jpeg)$/', $file)) {
             $file = $this->file_mod($file);
         }
 
@@ -1343,7 +1353,7 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo(':' . $attrib['type'], true)) !== null) {
+                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo($attrib['type'])) !== null) {
                         $attrib['src'] = $template_logo;
                     }
                     else if (($template_logo = $this->get_template_logo()) !== null) {
@@ -1353,7 +1363,7 @@ EOF;
                     // process alternative logos (eg for Elastic small screen)
                     foreach ($attrib as $key => $value) {
                         if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo(':' . $matches[1], true)) !== null) {
+                            if (($template_logo = $this->get_template_logo($matches[1])) !== null) {
                                 $attrib[$key] = $template_logo;
                             }
 
@@ -1437,7 +1447,7 @@ EOF;
 
                             // special handling for favicon
                             if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
-                                if ($href = $this->get_template_logo(':favicon', true)) {
+                                if ($href = $this->get_template_logo('favicon')) {
                                     $args[$param] = $href;
                                 }
                                 else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
@@ -1568,7 +1578,7 @@ EOF;
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
-            if ($pos = strpos($attrib['type'], '-menuitem')) {
+            if (strpos($attrib['type'], '-menuitem')) {
                 $attrib['type'] = substr($attrib['type'], 0, -9);
                 $menuitem = true;
             }
@@ -1821,10 +1831,9 @@ EOF;
     /**
      * Process template and write to stdOut
      *
-     * @param string $output    HTML output
-     * @param string $base_path Base for absolute paths
+     * @param string $output HTML output
      */
-    protected function _write($output = '', $base_path = '')
+    protected function _write($output = '')
     {
         $output = trim($output);
 
@@ -2364,12 +2373,12 @@ EOF;
             'ISO-8859-7'   => 'ISO-8859-7 ('.$this->app->gettext('greek').')',
             'ISO-8859-8'   => 'ISO-8859-8 ('.$this->app->gettext('hebrew').')',
             'ISO-8859-9'   => 'ISO-8859-9 ('.$this->app->gettext('turkish').')',
-            'ISO-8859-10'   => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
-            'ISO-8859-11'   => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
-            'ISO-8859-13'   => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-14'   => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
-            'ISO-8859-15'   => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-16'   => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
+            'ISO-8859-10'  => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
+            'ISO-8859-11'  => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
+            'ISO-8859-13'  => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
+            'ISO-8859-14'  => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
+            'ISO-8859-15'  => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
+            'ISO-8859-16'  => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
             'WINDOWS-1250' => 'Windows-1250 ('.$this->app->gettext('easterneuropean').')',
             'WINDOWS-1251' => 'Windows-1251 ('.$this->app->gettext('cyrillic').')',
             'WINDOWS-1252' => 'Windows-1252 ('.$this->app->gettext('westerneuropean').')',
@@ -2387,6 +2396,7 @@ EOF;
             'EUC-CN'       => 'EUC-CN ('.$this->app->gettext('chinese').')',
             'BIG5'         => 'BIG5 ('.$this->app->gettext('chinese').')',
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
+            'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
         );
 
         if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
@@ -2437,35 +2447,43 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string  $name     Name of the logo to check for
-     *                          default is current template
-     * @param boolean $strict   True if logo should only be returned for specific template
+     * @param string  $type     Type of the logo to check for (e.g. 'print' or 'small')
+     *                          default is null (no special type)
      *
      * @return string image URL
      */
-    protected function get_template_logo($name = null, $strict = false)
+    protected function get_template_logo($type = null)
     {
         $template_logo = null;
 
-        // Use current template if none provided
-        if (!$name) {
-            $name = $this->template_name;
-        }
-
-        $template_names = array(
-            $this->skin_name . ':' . $name,
-            $this->skin_name . ':*',
-            $name,
-            '*',
-        );
-
-        // If strict matching then remove wildcard options
-        if ($strict) {
-            $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
-        }
-
         if ($logo = $this->config->get('skin_logo')) {
             if (is_array($logo)) {
+                $template_names = array(
+                    $this->skin_name . ':' . $this->template_name . '[' . $type . ']',
+                    $this->skin_name . ':' . $this->template_name,
+                    $this->skin_name . ':*[' . $type . ']',
+                    $this->skin_name . ':[' . $type . ']',
+                    $this->skin_name . ':*',
+                    '*:' . $this->template_name . '[' . $type . ']',
+                    '*:' . $this->template_name,
+                    '*:*[' . $type . ']',
+                    '*:[' . $type . ']',
+                    $this->template_name . '[' . $type . ']',
+                    $this->template_name,
+                    '*[' . $type . ']',
+                    '[' . $type . ']',
+                    '*',
+                );
+
+                if (!empty($type)) {
+                    // Use strict matching, remove wild card options
+                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+                }
+                else {
+                    // No type set so remove those options from the list
+                    $template_names = preg_grep("/\\[\]$/", $template_names, PREG_GREP_INVERT);
+                }
+
                 foreach ($template_names as $key) {
                     if (isset($logo[$key])) {
                         $template_logo = $logo[$key];

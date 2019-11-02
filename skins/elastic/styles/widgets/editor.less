@@ -469,6 +469,7 @@ div.tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) > :first-child {
 
 .googie_window {
     width: 16rem;
+    height: auto;
 }
 
 .googie_edit_layer {
@@ -499,7 +500,7 @@ div.tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) > :first-child {
 
         .googie_list_revert:before {
             &:extend(.font-icon-class);
-            content: @fa-var-plus-square;
+            content: @fa-var-undo;
         }
 
         .googie_add_to_dict:before {
@@ -510,7 +511,6 @@ div.tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) > :first-child {
 
     input {
         display: inline-block;
-        margin: .5rem .5rem .5rem 0 !important;
-        padding: .5rem .75rem !important;
+        margin: .25rem .5rem;
     }
 }

@@ -71,8 +71,7 @@ class filesystem_attachments extends rcube_plugin
     function upload($args)
     {
         $args['status'] = false;
-        $group  = $args['group'];
-        $rcmail = rcube::get_instance();
+        $group = $args['group'];
 
         // use common temp dir for file uploads
         $tmpfname = rcube_utils::temp_filename('attmnt');
@@ -199,7 +198,7 @@ class filesystem_attachments extends rcube_plugin
 
     private function find_file_by_id($id)
     {
-        foreach ((array) $_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
+        foreach ((array) $_SESSION['plugins']['filesystem_attachments'] as $files) {
             if (isset($files[$id])) {
                 return true;
             }

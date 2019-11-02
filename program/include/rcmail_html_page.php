@@ -32,7 +32,8 @@ class rcmail_html_page extends rcmail_output_html
         self::reset(true);
 
         // load embed.css from skin folder (if exists)
-        if ($embed_css = $this->get_skin_file($this->config->get('embed_css_location', '/embed.css'))) {
+        $embed_css = $this->config->get('embed_css_location', '/embed.css');
+        if ($embed_css = $this->get_skin_file($embed_css, $path, null, true)) {
             $this->include_css($embed_css);
         }
         else {  // set default styles for warning blocks inside the attachment part frame

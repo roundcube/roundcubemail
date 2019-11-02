@@ -27,6 +27,7 @@ REQUIREMENTS
    - Crypt_GPG 1.6.3 or newer (for enigma plugin)
    - Endroid/QrCode 1.6.0 or newer (https://github.com/endroid/QrCode)
    - Kolab/Net_LDAP3 1.0.6 or newer (for LDAP addressbook)
+   - Masterminds/HTML5 2.5.x (optional HTML parser)
 * php.ini options:
    - error_reporting E_ALL & ~E_NOTICE & ~E_STRICT
    - memory_limit > 16MB

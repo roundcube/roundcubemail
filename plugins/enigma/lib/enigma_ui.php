@@ -752,7 +752,7 @@ class enigma_ui
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, html::tag('ul', 'proplist', implode($identities, "\n")));
+        $table->add(null, html::tag('ul', 'proplist', implode("\n", $identities)));
 
         // Key size
         $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
@@ -1253,7 +1253,6 @@ class enigma_ui
         $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
-        $storage = $this->rc->get_storage();
         $engine  = $this->enigma->load_engine();
 
         if ($uid && $mime_id) {

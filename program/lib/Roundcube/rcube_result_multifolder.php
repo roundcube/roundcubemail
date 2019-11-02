@@ -166,7 +166,13 @@ class rcube_result_multifolder
             $msgid .= '-' . $this->folder;
         }
 
-        return array_search($msgid, $this->index);
+        $idx = array_search($msgid, $this->index);
+
+        if ($get_index) {
+            return $idx;
+        }
+
+        return $idx !== false;
     }
 
     /**

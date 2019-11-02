@@ -70,7 +70,7 @@ class rcube_db_mysql extends rcube_db
             $args = $args[0];
         }
 
-        return 'CONCAT(' . join(', ', $args) . ')';
+        return 'CONCAT(' . implode(', ', $args) . ')';
     }
 
     /**

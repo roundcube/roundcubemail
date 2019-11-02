@@ -14,6 +14,7 @@
  |   Provide SMTP functionality using socket connections                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -22,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Mail
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_smtp
 {
@@ -350,7 +349,7 @@ class rcube_smtp
             return false;
         }
 
-        $this->response[] = join(': ', $this->conn->getResponse());
+        $this->response[] = implode(': ', $this->conn->getResponse());
         return true;
     }
 
@@ -476,7 +475,7 @@ class rcube_smtp
             }
         }
 
-        return array($from, join(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
+        return array($from, implode(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
     }
 
     /**

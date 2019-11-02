@@ -38,8 +38,8 @@ class runlog {
 
         $this->parent_stack[] = $name;
 
-        $this->print_to_console("start: ".$name, $tag, 'start');
-        $this->print_to_file("start: ".$name, $tag, 'start');
+        $this->print_to_console("start: ".$name, $tag);
+        $this->print_to_file("start: ".$name, $tag);
         $this->indent++;
     }
 
@@ -72,8 +72,8 @@ class runlog {
                 $tag_report .= "$tag: $count, ";
             }
             $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
-            $this->print_to_console($end_txt, $this->run_log[$lastk]['tag'], 'end');
-            $this->print_to_file($end_txt,  $this->run_log[$lastk]['tag'], 'end');
+            $this->print_to_console($end_txt, $this->run_log[$lastk]['tag']);
+            $this->print_to_file($end_txt,  $this->run_log[$lastk]['tag']);
         }
     }
 
@@ -137,7 +137,7 @@ class runlog {
         $this->print_to_console($msg, $tag);
     }
 
-    public function print_to_file($msg, $tag = false, $type = false)
+    public function print_to_file($msg, $tag = false)
     {
         if (!$tag) {
             $file_handle_tag = 'master';
