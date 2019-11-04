@@ -1315,6 +1315,7 @@ function rcube_elastic_ui()
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
+
         }
 
         if (is_editor) {

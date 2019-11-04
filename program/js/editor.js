@@ -39,12 +39,13 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=5001200',
+      cache_suffix: 's=5010100',
       theme: 'silver',
       language: config.lang,
       content_css: rcmail.assets_path(config.content_css),
       menubar: false,
       statusbar: false,
+      // toolbar_sticky: true, // does not work in scrollable element: https://github.com/tinymce/tinymce/issues/5227
       toolbar_drawer: 'sliding',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | fontselect fontsizeselect | forecolor backcolor',
