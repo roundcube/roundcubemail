@@ -38,6 +38,11 @@ div.tox {
         border-top: 0;
     }
 
+    // This one is for mobile
+    .tox-toolbar {
+        background-color: @color-input-addon-background;
+    }
+
     .tox-edit-area {
         border: 0;
     }
@@ -46,6 +51,7 @@ div.tox {
         border-radius: 0;
         border-color: @color-layout-border;
         box-shadow: none;
+        align-self: unset !important;
 
         .tox-form__group {
             margin-top: 0;
@@ -255,7 +261,8 @@ div.tox {
 @media screen and (max-width: @screen-width-xs) {
     div.tox {
         .tox-dialog {
-            width: 100%;
+            margin: 0 !important;
+            width: 100% !important;
             height: 100%;
             left: 0 !important;
             top: 0 !important;
@@ -317,16 +324,6 @@ div.tox {
             }
         }
     }
-}
-
-div.tinymce-mobile-disabled-mask {
-    border-radius: .25rem;
-    background: @color-editor-disabled-mask !important;
-}
-
-div.tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) > :first-child {
-    color: #fff;
-    background: @color-main;
 }
 
 
@@ -448,19 +445,6 @@ div.tinymce-mobile-toolbar:not(.tinymce-mobile-context-toolbar) > :first-child {
     & > .tox-tinymce.focused {
         border-color: @color-input-border-focus;
         box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
-    }
-
-    // TinyMCE in mobile mode
-    & > .tinymce-mobile-outer-container {
-        margin-top: 36px;
-        width: 100%;
-        border: 1px solid @color-input-border;
-        border-radius: .25rem;
-        overflow: hidden;
-
-        &.tinymce-mobile-fullscreen-maximized {
-            z-index: 2; // above editor tabs
-        }
     }
 }
 

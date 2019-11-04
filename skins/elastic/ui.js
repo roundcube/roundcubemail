@@ -1300,6 +1300,7 @@ function rcube_elastic_ui()
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
+
         }
 
         // Add styling for TinyMCE dialogs
