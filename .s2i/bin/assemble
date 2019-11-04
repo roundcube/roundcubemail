@@ -3,6 +3,10 @@
 # Do Bash Magic to get dot files moved aswell
 shopt -s dotglob
 
+# fetch dependencies
+wget http://mirror.centos.org/centos/7/os/x86_64/Packages/file-5.11-35.el7.x86_64.rpm -O /tmp/file.rpm
+(cd /tmp && rpm2cpio /tmp/file.rpm | cpio -ivd "./usr/bin/file") && mv /tmp/usr/bin/file /tmp/src/bin/file
+
 # move the application source
 mv /tmp/src/* $HOME/
 
@@ -14,13 +18,10 @@ wget https://getcomposer.org/download/1.9.0/composer.phar
 # Install deps
 mv composer.json{-dist,}
 php composer.phar install --no-dev
+php bin/install-jsdeps.sh
 
 # remove composer file
 rm composer.phar
-
-# get missing jquery
-
-wget -q https://code.jquery.com/jquery-3.4.1.min.js -O program/js/jquery.min.js
 
 # Compile CSS for elastic-Skin
 cd skins/elastic
