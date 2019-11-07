@@ -34,7 +34,7 @@ if (empty($target_dir) || !is_dir(realpath($target_dir)))
 
 // read version from iniset.php
 $iniset = @file_get_contents($target_dir . '/program/include/iniset.php');
-if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)/', $iniset, $m))
+if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z0-9-]*)/', $iniset, $m))
     rcube::raise_error("No valid Roundcube installation found at $target_dir", false, true);
 
 $oldversion = $m[1];
