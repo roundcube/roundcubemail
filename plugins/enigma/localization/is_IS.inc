@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Dulritun';
 $labels['enigmacerts'] = 'S/MIME skilríki';
 $labels['enigmakeys'] = 'PGP-lyklar';
@@ -62,5 +61,6 @@ $labels['key4096'] = '4096 bita - öruggara';
 $labels['keygenerating'] = 'Útbý dulritunarlykla...';
 $labels['encryptmsg'] = 'Dulrita þessi skilaboð';
 $labels['keyimportlabel'] = 'Flytja inn úr skrá';
+$labels['managekeys'] = 'Sýsla með PGP-lykla';
 $messages['signerror'] = 'Undirritun mistókst.';
 ?>

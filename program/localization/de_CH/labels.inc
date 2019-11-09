@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Willkommen bei $product';
 $labels['username'] = 'Benutzername';
 $labels['password'] = 'Passwort';
@@ -507,7 +507,6 @@ $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Einstellungen ein-/ausblenden';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
-$labels['displaynext'] = 'Zeige nächste Nachricht nach verschieben/löschen';
 $labels['defaultfont'] = 'Standardschrift in HTML-Nachrichten';
 $labels['mainoptions'] = 'Allgemein';
 $labels['browseroptions'] = 'Browsereinstellungen';
@@ -677,4 +676,3 @@ $labels['helplistkeyboardnavmessages'] = "Pfeiltasten Rechts/Links: Konversation
 Eingabe: Ausgewählte/fokussierte Nachricht öffnen.
 Löschen: Ausgewählte Nachricht in den Papierkorb verschieben resp. löschen.";
 $labels['helplistkeyboardnavcontacts'] = "Eingabe: Ausgewählten Kontakt öffnen.";
-?>

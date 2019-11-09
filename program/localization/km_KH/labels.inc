@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product សូមស្វាគមន៍';
 $labels['username'] = 'ឈ្មោះអ្នកប្រើ';
 $labels['password'] = 'ពាក្យសំងាត់';
@@ -363,7 +363,6 @@ $labels['force7bit'] = 'ប្រើ MIME សំរាប់អក្សរទ�
 $labels['advancedoptions'] = 'ការកំណត់ពឹស្តារ';
 $labels['focusonnewmessage'] = 'ផ្តោតលើវីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
 $labels['checkallfolders'] = 'ពិនិត្យសំបុត្រថ្មីនៅគ្រប់ថតទាំងអស់';
-$labels['displaynext'] = 'បន្ទាប់ពីសំបុត្រត្រូវបានលុប​ឬផ្ទេរបង្ហាញសំបុត្របន្ទាប់';
 $labels['mainoptions'] = 'ជំរើសដែលជាគោល';
 $labels['section'] = 'ផ្នែក';
 $labels['maintenance'] = 'ការថែរក្សា';
@@ -427,4 +426,3 @@ $labels['vietnamese'] = 'ភាសាវៀតណាម';
 $labels['japanese'] = 'ភាសាជប៉ុន';
 $labels['korean'] = 'ភាសាកូរ៉េ';
 $labels['chinese'] = 'ភាសាចិន';
-?>

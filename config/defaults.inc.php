@@ -27,8 +27,12 @@ $config = array();
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
+// Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
+// Note: Various drivers support various additional arguments for connection,
+//       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
+//       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
+//       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
@@ -177,7 +181,7 @@ $config['imap_delimiter'] = null;
 
 // If you know your imap's folder vendor, you can specify it here.
 // Otherwise it will be determined automatically. Use lower-case
-// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+// identifiers, e.g. 'dovecot', 'cyrus', 'gimap', 'hmail', 'uw-imap'.
 $config['imap_vendor'] = null;
 
 // If IMAP server doesn't support NAMESPACE extension, but you're
@@ -228,7 +232,7 @@ $config['imap_disabled_caps'] = array();
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -315,7 +319,7 @@ $config['smtp_conn_options'] = null;
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
@@ -328,7 +332,8 @@ $config['ldap_cache_ttl'] = '10m';
 
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
-$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+// Example: array('localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock');
+$config['memcache_hosts'] = null;
 
 // Controls the use of a persistent connections to memcache servers
 // See http://php.net/manual/en/memcache.addserver.php
@@ -343,11 +348,15 @@ $config['memcache_timeout'] = 1;
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_retry_interval'] = 15;
 
-// use these hosts for accessing Redis.
-// Currently only one host is supported. cluster support may come in a future release.
-// You can pass 4 fields, host, port, database and password.
-// Unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
-$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
+// Use these hosts for accessing Redis.
+// Currently only one host is supported. Cluster support may come in a future release.
+// You can pass 4 fields, host, port (optional), database (optional) and password (optional).
+// Unset fields will be set to the default values host=127.0.0.1, port=6379.
+// Examples:
+//     array('localhost:6379');
+//     array('192.168.1.1:6379:1:secret');
+//     array('unix:///var/run/redis/redis-server.sock:1:secret');
+$config['redis_hosts'] = null;
 
 // Maximum size of an object in memcache (in bytes). Default: 2MB
 $config['memcache_max_allowed_packet'] = '2M';
@@ -381,16 +390,37 @@ $config['advanced_prefs'] = array();
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';
 
-// replace Roundcube logo with this image
-// specify an URL relative to the document root of this Roundcube installation
-// an array can be used to specify different logos for specific template files
-// '*' for default logo
-// ':favicon' for favicon
-// ':print' for logo on all print templates (e.g. messageprint, contactprint)
-// ':small' for small screen logo in Elastic
-// different logos can be specified for different skins by prefixing the skin name to the array key
-// config applied in order: <skin>:<template>, <skin>:*, <template>, *
-// for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png", "elastic:*" => "/images/logo.png")
+// Logo image replacement. Specifies location of the image as:
+// - URL relative to the document root of this Roundcube installation
+// - full URL with http:// or https:// prefix
+// - URL relative to the current skin folder (when starts with a '/')
+//
+// An array can be used to specify different logos for specific template files
+// The array key specifies the place(s) the logo should be applied to and
+// is made up of (up to) 3 parts:
+// - skin name prefix (always with colon, can be replaced with *)
+// - template name (or * for all templates)
+// - logo type - it is used for logos used on multiple templates
+//   the available types include '[favicon]' for favicon, '[print]' for logo on all print
+//   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
+//
+// Example config for skin_logo
+/*
+   array(
+     // show the image /images/logo_login_small.png for the Login screen in the Elastic skin on small screens
+     "elastic:login[small]" => "/images/logo_login_small.png",
+     // show the image /images/logo_login.png for the Login screen in the Elastic skin
+     "elastic:login" => "/images/logo_login.png",
+     // show the image /images/logo_small.png in the Elastic skin
+     "elastic:*[small]" => "/images/logo_small.png",
+     // show the image /images/larry.png in the Larry skin
+     "larry:*" => "/images/larry.png",
+     // show the image /images/logo_login.png on the login template in all skins
+     "login" => "/images/logo_login.png",
+     // show the image /images/logo_print.png for all print type logos in all skins
+     "[print]" => "/images/logo_print.png",
+   );
+*/
 $config['skin_logo'] = null;
 
 // automatically create a new Roundcube user when log-in the first time.
@@ -473,11 +503,12 @@ $config['session_path'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
-// If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
-// Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+// If set to 'memcache' or 'memcached', a list of servers need to be specified in 'memcache_hosts'
+// Make sure the Memcache extension (https://pecl.php.net/package/memcache) version >= 2.0.0
+// or the Memcached extension (https://pecl.php.net/package/memcached) version >= 2.0.0 is installed.
 //
 // If set to 'redis', a server needs to be specified in 'redis_hosts'
-// Make sure the Redis extension (http://pecl.php.net/package/redis) version >= 2.0.0 is installed
+// Make sure the Redis extension (https://pecl.php.net/package/redis) version >= 2.0.0 is installed.
 //
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
@@ -507,7 +538,7 @@ $config['x_frame_options'] = 'sameorigin';
 // with any configured cipher_method (see below).
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// Encryption algorithm. You can use any method supported by openssl.
+// Encryption algorithm. You can use any method supported by OpenSSL.
 // Default is set for backward compatibility to DES-EDE3-CBC,
 // but you can choose e.g. AES-256-CBC which we consider a better choice.
 $config['cipher_method'] = 'DES-EDE3-CBC';
@@ -807,6 +838,10 @@ $config['compose_responses_static'] = array(
 //  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
 );
 
+// List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
+// Default: array("keys.fedoraproject.org", "keybase.io")
+$config['keyservers'] = array();
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
@@ -1045,7 +1080,7 @@ $config['contact_search_name'] = '{name} <{email}>';
 $config['default_charset'] = 'ISO-8859-1';
 
 // skin name: folder from skins/
-$config['skin'] = 'larry';
+$config['skin'] = 'elastic';
 
 // limit skins available/shown in the settings section
 $config['skins_allowed'] = array();
@@ -1153,7 +1188,7 @@ $config['refresh_interval'] = 60;
 // If true all folders will be checked for recent messages
 $config['check_all_folders'] = false;
 
-// If true, after message delete/move, the next message will be displayed
+// If true, after message/contact delete/move, the next message/contact will be displayed
 $config['display_next'] = true;
 
 // Default messages listing mode. One of 'threads' or 'list'.
@@ -1200,12 +1235,6 @@ $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'fr
 
 // Defaults of the addressbook search field configuration.
 $config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
-
-// 'Delete always'
-// This setting reflects if mail should be always deleted
-// when moving to Trash fails. This is necessary in some setups
-// when user is over quota and Trash is included in the quota.
-$config['delete_always'] = false;
 
 // Directly delete messages in Junk instead of moving to Trash
 $config['delete_junk'] = false;

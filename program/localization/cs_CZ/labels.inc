@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Vítejte v $product';
 $labels['username'] = 'Uživatel';
 $labels['password'] = 'Heslo';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Rozbalit všechny';
 $labels['expand-unread'] = 'Rozbalit nepřečtené';
 $labels['collapse-all'] = 'Sbalit všechny';
 $labels['threaded'] = 'Spojovat do konverzací';
+$labels['showunread'] = 'Zobrazit nepřečtené zprávy';
 $labels['autoexpand_threads'] = 'Rozbalit konverzace';
 $labels['do_expand'] = 'všechny konverzace';
 $labels['expand_only_unread'] = 'pouze s nepřečtenými zprávami';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Přejmenovat';
 $labels['addphoto'] = 'Přidat';
 $labels['replacephoto'] = 'Nahradit';
 $labels['uploadphoto'] = 'Nahrát fotku';
+$labels['choosefile'] = 'Vybrat soubor...';
+$labels['choosefiles'] = 'Vybrat soubory...';
+$labels['browse'] = 'Procházet';
 $labels['newcontact'] = 'Vytvořit nový kontakt';
 $labels['deletecontact'] = 'Smazat vybrané kontakty';
 $labels['composeto'] = 'Poslat e-mail';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Pokročilá nastavení';
 $labels['toggleadvancedoptions'] = 'Přepnout pokročilé možnosti';
 $labels['focusonnewmessage'] = 'Aktivovat okno prohlížeče při příchozí zprávě';
 $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';
-$labels['displaynext'] = 'Zobrazit další zprávu po smazání/přesunu zprávy';
+$labels['displaynext'] = 'Zobrazit další záznam po smazání/přesunutí';
 $labels['defaultfont'] = 'Výchozí písmo zprávy HTML';
 $labels['mainoptions'] = 'Hlavní nastavení';
 $labels['browseroptions'] = 'Možnosti prohlížeče';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Šipky vlevo/vpravo: Rozbalit/zabalit 
 Enter: Otevřít vybranou zprávu.
 Delete: Přesunout vybrané zprávy do Koše.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Otevřít označený/vybraný kontakt.";
-?>

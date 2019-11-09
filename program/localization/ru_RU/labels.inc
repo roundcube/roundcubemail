@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Добро пожаловать в $product!';
 $labels['username'] = 'Имя пользователя';
 $labels['password'] = 'Пароль';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Развернуть все';
 $labels['expand-unread'] = 'Развернуть непрочитанные';
 $labels['collapse-all'] = 'Свернуть все';
 $labels['threaded'] = 'Обсуждения';
+$labels['showunread'] = 'Показать непрочитанные сообщения';
 $labels['autoexpand_threads'] = 'Развернуть обсуждения';
 $labels['do_expand'] = 'все обсуждения';
 $labels['expand_only_unread'] = 'только с непрочитанными сообщениями';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Переименовать';
 $labels['addphoto'] = 'Добавить';
 $labels['replacephoto'] = 'Заменить';
 $labels['uploadphoto'] = 'Загрузить фотографию';
+$labels['choosefile'] = 'Выберите файл...';
+$labels['choosefiles'] = 'Выберите файлы...';
+$labels['browse'] = 'Обзор';
 $labels['newcontact'] = 'Создать новый контакт';
 $labels['deletecontact'] = 'Удалить выбранные контакты';
 $labels['composeto'] = 'Создать сообщение для выбранных контактов';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Дополнительные настройки';
 $labels['toggleadvancedoptions'] = 'Дополнительные параметры';
 $labels['focusonnewmessage'] = 'Фокусировать окно браузера при новом сообщении';
 $labels['checkallfolders'] = 'Проверять новые сообщения во всех папках';
-$labels['displaynext'] = 'Показать следующее сообщение, после удаления или перемещения данного';
+$labels['displaynext'] = 'Показать следующую запись списка после удаления/перемещения';
 $labels['defaultfont'] = 'Шрифт по умолчанию HTML сообщения';
 $labels['mainoptions'] = 'Основные настройки';
 $labels['browseroptions'] = 'Настройки обозревателя';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки вправо/влево
 Enter: Открыть выделенное сообщение.
 Delete: Переместить выбранные сообщения в Корзину.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Открыть выбранный контакт.";
-?>

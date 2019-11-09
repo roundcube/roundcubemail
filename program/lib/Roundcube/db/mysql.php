@@ -70,7 +70,7 @@ class rcube_db_mysql extends rcube_db
             $args = $args[0];
         }
 
-        return 'CONCAT(' . join(', ', $args) . ')';
+        return 'CONCAT(' . implode(', ', $args) . ')';
     }
 
     /**
@@ -139,6 +139,10 @@ class rcube_db_mysql extends rcube_db
 
         if (!empty($dsn['ca'])) {
             $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
+        }
+
+        if (isset($dsn['verify_server_cert'])) {
+            $result[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
         }
 
         // Always return matching (not affected only) rows count

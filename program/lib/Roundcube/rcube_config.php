@@ -25,7 +25,7 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'larry';
+    const DEFAULT_SKIN = 'elastic';
 
     private $env       = '';
     private $paths     = array();
@@ -227,7 +227,6 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
         if ($this->prop['skin'] == 'default') {
             $this->prop['skin'] = self::DEFAULT_SKIN;
         }
@@ -452,7 +451,6 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
         if ($prefs['skin'] == 'default') {
             $prefs['skin'] = self::DEFAULT_SKIN;
         }
@@ -579,6 +577,26 @@ class rcube_config
     }
 
     /**
+     * Returns list of configured PGP key servers
+     *
+     * @return array|null List of keyservers' URLs
+     */
+    public function keyservers()
+    {
+        $list = (array) $this->prop['keyservers'];
+
+        foreach ($list as $idx => $host) {
+            if (!preg_match('|^[a-z]://|', $host)) {
+                $host = "https://$host";
+            }
+
+            $list[$idx] = slashify($host);
+        }
+
+        return !empty($list) ? $list : null;
+    }
+
+    /**
      * Return the mail domain configured for the given host
      *
      * @param string  $host   IMAP host
@@ -613,7 +631,7 @@ class rcube_config
      */
     public function get_error()
     {
-        return empty($this->errors) ? false : join("\n", $this->errors);
+        return empty($this->errors) ? false : implode("\n", $this->errors);
     }
 
     /**

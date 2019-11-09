@@ -24,5 +24,3 @@ require_once INSTALL_PATH.'program/include/clisetup.php';
 ini_set('memory_limit', -1);
 
 rcmail_utils::indexcontacts();
-
-?>

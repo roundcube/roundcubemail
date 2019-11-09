@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Üdvözli a $product';
 $labels['username'] = 'Felhasználónév';
 $labels['password'] = 'Jelszó';
@@ -30,7 +30,7 @@ $labels['drafts'] = 'Piszkozatok';
 $labels['sent'] = 'Küldöttek';
 $labels['trash'] = 'Kuka';
 $labels['junk'] = 'Kéretlen';
-$labels['show_real_foldernames'] = 'Valós nevek megjelenítése a speciális mappáknál';
+$labels['show_real_foldernames'] = 'Valódi nevek megjelenítése a speciális mappáknál';
 $labels['subject'] = 'Tárgy';
 $labels['from'] = 'Feladó';
 $labels['sender'] = 'Feladó';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Összes kibontása';
 $labels['expand-unread'] = 'Olvasatlanok kibontása';
 $labels['collapse-all'] = 'Összes összecsukása';
 $labels['threaded'] = 'Témák szerinti csoportosítás';
+$labels['showunread'] = 'Olvasatlan üzenetek megjelenítése';
 $labels['autoexpand_threads'] = 'Témacsoportok kibontása';
 $labels['do_expand'] = 'minden téma';
 $labels['expand_only_unread'] = 'csak ahol van olvasatlan üzenet';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Átnevezés';
 $labels['addphoto'] = 'Kép hozzáadása';
 $labels['replacephoto'] = 'Kép cseréje';
 $labels['uploadphoto'] = 'Fotó feltöltése';
+$labels['choosefile'] = 'File kiválasztása...';
+$labels['choosefiles'] = 'Fileok kiválasztása...';
+$labels['browse'] = 'Böngészés';
 $labels['newcontact'] = 'Új kapcsolat létrehozása';
 $labels['deletecontact'] = 'Kijelölt kapcsolatok törlése';
 $labels['composeto'] = 'E-mail küldése erre a címre';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['toggleadvancedoptions'] = 'Haladó beállítások kapcsolása';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
 $labels['checkallfolders'] = 'Új üzenetek ellenőrzése minden mappában';
-$labels['displaynext'] = 'Levél törlése/áthelyezése után jelenjen meg a következő üzenet';
+$labels['displaynext'] = 'A következő elem megjelenítése törlés/áthelyezés után';
 $labels['defaultfont'] = 'HTML üzenet alap karakterkészlete';
 $labels['mainoptions'] = 'Általános beállítások';
 $labels['browseroptions'] = 'Böngésző beállításai';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Jobbra/Balra nyilak: kibontja/becsukja
 Enter: Kinyitja a kiválasztott/fókuszban levő üzenetet.
 Delete: A kiválaszott üzenet áthelyezése a Kukába.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Megnyitja a kiválasztott/fókuszban levő kapcsolatot.";
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienvenido a $product';
 $labels['username'] = 'Usuario';
 $labels['password'] = 'Contraseña';
@@ -435,7 +435,6 @@ $labels['advancedoptions'] = 'Opciones avanzadas';
 $labels['toggleadvancedoptions'] = 'Cambiar opciones avanzadas';
 $labels['focusonnewmessage'] = 'Enfocar la ventana del navegador en el nuevo mensaje';
 $labels['checkallfolders'] = 'Buscar nuevos mensajes en todas las carpetas';
-$labels['displaynext'] = 'Luego de eliminar/mover mensajes, mostrar el próximo';
 $labels['defaultfont'] = 'Tipo de letra predeterminado en mensajes HTML';
 $labels['mainoptions'] = 'Opciones principales';
 $labels['browseroptions'] = 'Opciones del navegador';
@@ -578,4 +577,3 @@ $labels['helplistkeyboardnavmessages'] = "Flechas derecha/izquierda: Expandir/co
 Intro: Abrir el mensaje seleccionado/enfocado.
 Eliminar: Mover los mensajes seleccionados a la Papelera.";
 $labels['helplistkeyboardnavcontacts'] = "Intro: Abrir el contacto seleccionado/enfocado.";
-?>

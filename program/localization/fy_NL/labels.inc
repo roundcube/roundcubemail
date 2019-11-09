@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Wolkom by $product';
 $labels['username'] = 'Brûkersnamme';
 $labels['password'] = 'Wachtwurd';
@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Avansearre opsjes';
 $labels['toggleadvancedoptions'] = 'Avansearre opsjes skeakelje';
 $labels['focusonnewmessage'] = 'Fokus browser finster by nij berjocht';
 $labels['checkallfolders'] = 'Kontrolearje alle mappen op nije berjochten';
-$labels['displaynext'] = 'Nij wiskjen/ferpleatsen fan berjocht, toan folgjende berjocht';
 $labels['defaultfont'] = 'Standert lettertype fan HTML berjocht';
 $labels['mainoptions'] = 'Haad Opsjes';
 $labels['browseroptions'] = 'Browser Opsjes';
@@ -607,4 +606,3 @@ $labels['helplistkeyboardnavmessages'] = "Pylken rjochts/lofts: útwreidzje/ynsa
 Enter: Iepenje it selektearre/fokuse berjocht.
 Delete: Ferpleats selektearre berjocht nei jiskefet.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Iepenje it selektearre/fokuse kontakt.";
-?>

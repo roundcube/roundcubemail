@@ -183,6 +183,10 @@ ul.listing {
                     }
                 }
             }
+
+            html.touch & {
+                height: @listing-touch-line-height;
+            }
         }
     }
 
@@ -364,11 +368,16 @@ html.ie11 .listing.iconized li a:before {
 .popupmenu .listing {
     li > a {
         border-left: 0;
+
+        &:not(.disabled):hover {
+            color: @color-menu-hover;
+            background-color: @color-menu-hover-background;
+        }
     }
 
     li.selected {
-        color: @color-toolbarmenu-hover;
-        background-color: @color-toolbarmenu-hover-background;
+        color: @color-menu-hover;
+        background-color: @color-menu-hover-background;
     }
 
     td {
@@ -479,7 +488,7 @@ ul.treelist {
                 right: 0;
                 min-width: 2em;
                 line-height: 1.4rem;
-                margin: (@listing-line-height - 1.4rem)/2;
+                margin: (@listing-line-height - 1.4 * @page-font-size) / 2;
                 padding: 0 .3em;
                 border-radius: .4em;
                 background: @color-list-badge-background;
@@ -489,7 +498,7 @@ ul.treelist {
 
                 html.touch & {
                     line-height: 2rem;
-                    margin: (@listing-touch-line-height - 2rem)/2;
+                    margin: (@listing-touch-line-height - 2 * @page-font-size) / 2;
                 }
             }
 
@@ -534,16 +543,8 @@ ul.treelist {
     }
 
     // folder-selector fix for left padding
-    &.toolbarmenu a:before {
+    &.menu a:before {
         margin-left: .5em;
-    }
-
-    &.toolbarmenu {
-        li {
-            a:before {
-                margin-right: .25em;
-            }
-        }
     }
 }
 
@@ -811,17 +812,27 @@ html.touch {
     padding: 0;
     margin: 0;
 
+    background-color: @color-attachmentlist-background;
+    border: 1px solid @color-attachmentlist-border;
+
+    &:empty {
+        padding: 0;
+        border: 0;
+    }
+
     li {
         list-style: none;
         display: inline-flex;
         white-space: nowrap;
         line-height: @attachmentslist-item-height;
+        padding: 0 .25em;
         max-width: 100%;
 
         &:before {
             &:extend(.font-icon-class);
             .font-icon-regular(@fa-var-file);
             height: @attachmentslist-item-height;
+            margin: 0;
         }
 
         &.txt:before,
@@ -923,6 +934,11 @@ html.touch {
             content: @fa-var-trash-alt;
             line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
+            margin: 0;
+        }
+
+        a.dropdown:before {
+            margin: 0;
         }
 
         &.uploading:before {
@@ -933,6 +949,7 @@ html.touch {
         a.filename {
             display: flex;
             overflow: hidden;
+            padding: 0 .2em;
         }
 
         .attachment-name {
@@ -942,7 +959,7 @@ html.touch {
 
         .attachment-size {
             color: @color-list-secondary;
-            padding: 0 .25em;
+            padding-left: .25em;
         }
     }
 }

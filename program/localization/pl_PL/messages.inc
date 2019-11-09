@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Wystąpił błąd!';
 $messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
+$messages['cookiesmismatch'] = 'Niezgodność ciasteczek. Proszę usunąć ciasteczka zapisane w przeglądarce.';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Nie znaleziono klucza publicznego dla używane
 $messages['encryptnoattachments'] = 'Załączniki, które zostały poprzednio przesłane na serwer nie mogą zostać zaszyfrowane. Należy przesłać je ponownie poprzez dodanie do edytora szyfrowania.';
 $messages['searchpubkeyservers'] = 'Czy wyszukać brakujące klucze na serwerach kluczy?';
 $messages['encryptpubkeysfound'] = 'Znaleziono następujące klucze:';
-$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się';
-$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy';
+$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się.';
+$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy.';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony.';
-$messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
+$messages['contactsearchonly'] = 'Dostęp do kontaktów z wybranej książki adresowej możliwy jedynie poprzez formularz wyszukiwania.';
 $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości!';
 $messages['senttooquickly'] = 'Musisz poczekać $sec sek. aby móc wysłać tą wiadomość!';
 $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiadomości!';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się.';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size.';
 $messages['filecounterror'] = 'Możesz wysłać tylko $count plików jednocześnie.';
 $messages['msgsizeerror'] = 'Załączanie pliku nie powiodło się. Przekroczony maksymalny rozmiar wiadomości ($size).';
+$messages['msgsizeerrorfwd'] = 'Maksymalny rozmiar wiadomości ($size) został przekroczony. $num wiadomości nie zostało załączonych.';
 $messages['copysuccess'] = 'Pomyślnie skopiowano $nr kontaktów.';
 $messages['movesuccess'] = 'Pomyślnie przeniesiono $nr kontaktów.';
 $messages['copyerror'] = 'Nie udało się skopiować żadnego kontaktu.';

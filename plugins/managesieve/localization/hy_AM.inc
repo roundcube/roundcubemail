@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Զտիչներ';
 $labels['managefilters'] = 'Կառավարել ստացվող նամակների զտիչները';
 $labels['filtername'] = 'Զտիչի անուն';
@@ -58,14 +58,8 @@ $labels['vacationreason'] = 'Հաղորդագրության բովանդակու
 $labels['vacationsubject'] = 'Հաղորդագրության վերնագիր`';
 $labels['rulestop'] = 'Դադարել պայմանների ստուգումը';
 $labels['enable'] = 'Միացնել/Անջատել';
-$labels['filterset'] = 'Զտիչների համալիր';
 $labels['filtersets'] = 'Զտիչների համալիրներ';
-$labels['filtersetadd'] = 'Ավելացնել զտիչների համալիր';
-$labels['filtersetact'] = 'Միացնել առկա զտիչների համալիրը';
-$labels['filtersetdeact'] = 'Անջատել առկա զտիչների համալիրը';
 $labels['filterdef'] = 'Զտիչի սահմանում';
-$labels['filtersetname'] = 'Զտիչների համալիրի անուն';
-$labels['newfilterset'] = 'Նոր զտիչների համալիր';
 $labels['active'] = 'ակտիվ';
 $labels['none'] = 'ոչ մեկը';
 $labels['fromset'] = 'համալիրից';
@@ -128,11 +122,6 @@ $messages['actiondeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում
 $messages['forbiddenchars'] = 'Դաշտում առկա են արգելված նիշեր։';
 $messages['cannotbeempty'] = 'Դաշտը դատարկ չի կարող լինել։';
 $messages['ruleexist'] = 'Տրված անունով զտիչ արդեն գոյություն ունի։';
-$messages['setactivated'] = 'Զտիչների համալիրը միացված է։';
-$messages['setdeactivated'] = 'Զտիչների համալիրը անջատված է։';
-$messages['setdeleted'] = 'Զտիչների համալիրը ջնջված է։';
-$messages['setdeleteconfirm'] = 'Դուք իսկապե՞ս ցանկանում եք ջնջել նշված զտիչների համալիրը։';
-$messages['setcreated'] = 'Զտիչների համալիրը ստեղծված է։';
 $messages['deactivated'] = 'Զտիչի միացված է։';
 $messages['activated'] = 'Զտիչի անջատված է։';
 $messages['moved'] = 'Զտիչի տեղափոխված է։';
@@ -140,4 +129,3 @@ $messages['nametoolong'] = 'Անունը չափազանց երկար է։';
 $messages['namereserved'] = 'Անթույլատրելի անուն։';
 $messages['setexist'] = 'Համալիրը արդեն գոյություն ունի։';
 $messages['nodata'] = 'Պահանջվում է նշել գոնե մեկ դիրք։';
-?>

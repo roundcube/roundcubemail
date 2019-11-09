@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Sveiki! Čia $product';
 $labels['username'] = 'Naudotojo vardas';
 $labels['password'] = 'Slaptažodis';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'išskleisti visas';
 $labels['expand-unread'] = 'išskleisti turinčias neskaitytų laiškų';
 $labels['collapse-all'] = 'suskleisti visas';
 $labels['threaded'] = 'Rodyti gijas';
+$labels['showunread'] = 'Rodyti neskaitytus laiškus';
 $labels['autoexpand_threads'] = 'Išskleisti gijas';
 $labels['do_expand'] = 'visas';
 $labels['expand_only_unread'] = 'tik turinčias neskaitytų laiškų';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Pervardinti';
 $labels['addphoto'] = 'Pridėti';
 $labels['replacephoto'] = 'Pakeisti';
 $labels['uploadphoto'] = 'Įkelti nuotrauką';
+$labels['choosefile'] = 'Pasirinkti failą...';
+$labels['choosefiles'] = 'Pasirinkti failus...';
+$labels['browse'] = 'Naršyti';
 $labels['newcontact'] = 'Sukurti naują adresatą';
 $labels['deletecontact'] = 'Ištrinti pažymėtus adresatus';
 $labels['composeto'] = 'Rašyti laišką';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Papildomos nuostatos';
 $labels['toggleadvancedoptions'] = 'Rodyti/slėpti papildomus nustatymus';
 $labels['focusonnewmessage'] = 'Fokusuoti naršyklės langą gavus naują laišką';
 $labels['checkallfolders'] = 'Naujų laiškų ieškoti visuose aplankuose';
-$labels['displaynext'] = 'Rodyti pranešimą pašalinus/perkėlus laišką';
+$labels['displaynext'] = 'Rodyti kitą sąrašo įrašą ištrinus/perkėlus';
 $labels['defaultfont'] = 'Numatytasis HTML laiškų šriftas';
 $labels['mainoptions'] = 'Pagrindinės nuostatos';
 $labels['browseroptions'] = 'Naršyklės nuostatos';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Rodyklė dešinėn / kairėn: išsklei
 Įvesti: atverti pasirinktą / sufokusuotą laišką.
 Šalinti: perkelti pasirinktus laiškus į Šiukšlinę.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Atidaryti pasirinktą adresatą";
-?>

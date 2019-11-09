@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// location where plugins are loade from
+// location where plugins are loaded from
 if (!defined('RCUBE_PLUGINS_DIR')) {
     define('RCUBE_PLUGINS_DIR', RCUBE_INSTALL_PATH . 'plugins/');
 }

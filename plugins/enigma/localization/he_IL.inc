@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'הצפנה';
 $labels['enigmacerts'] = 'תעודות מאושרות S/MIME';
 $labels['enigmakeys'] = 'מפתחות PGP';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'חתימה נכשלה. סיסמה שגויה.';
 $messages['signnopass'] = 'חיתום נכשל. נדרשת סיסמת מפתח.';
 $messages['encrypterror'] = 'הצפנה נכשלה.';
 $messages['encryptnokey'] = 'הצפנה נכשלה. לא נמצא מפתח ציבורי עבור mail$.';
+$messages['encryptnoprivkey'] = 'הצפנה נכשלה. לא נמצא מפתח פרטי.';
 $messages['nokeysfound'] = 'לא נמצאו מפתחות.';
 $messages['keynotfound'] = 'לא נמצא מפתח !';
 $messages['keyopenerror'] = 'לא ניתן להשיג מידע על מפתח! שגיאה פנימית.';

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Benvenite a $product';
 $labels['username'] = 'Nomine de usator';
 $labels['password'] = 'Contrasigno';
@@ -474,7 +474,6 @@ $labels['advancedoptions'] = 'Optiones avantiate';
 $labels['toggleadvancedoptions'] = 'Monstrar/celar optiones avantiate';
 $labels['focusonnewmessage'] = 'Focalisar le fenestra del navigator sur le nove message';
 $labels['checkallfolders'] = 'Verificar in tote le dossieres si il ha nove messages';
-$labels['displaynext'] = 'Post deler/displaciar un message, monstrar le proxime message';
 $labels['defaultfont'] = 'Typo de litteras predefinite pro messages HTML';
 $labels['mainoptions'] = 'Optiones principal';
 $labels['browseroptions'] = 'Optiones de navigator';
@@ -629,4 +628,3 @@ $labels['helplistkeyboardnavmessages'] = "Flechas a dextra/sinistra: Displicar/p
 Enter: Aperir le message seligite/focalisate.
 Delete: Jectar le messages seligite in le corbe a papiro.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Aperir le contacto seligite/focalisate.";
-?>

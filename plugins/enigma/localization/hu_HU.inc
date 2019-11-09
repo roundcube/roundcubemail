@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Titkosítás';
 $labels['enigmacerts'] = 'S/MIMI Tanusitványok';
 $labels['enigmakeys'] = 'PGP Kulcsok';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Aláírás sikertelen. Hibás jelszó.';
 $messages['signnopass'] = 'Aláírás sikertelen. A kulcshoz jelszó kell.';
 $messages['encrypterror'] = 'Titkosítás sikertelen.';
 $messages['encryptnokey'] = 'Titkosítás sikertelen. Nyilvás kulcs nem található a következőhöz: $email.';
+$messages['encryptnoprivkey'] = 'A titkosítás sikertelen. A magánkulcs nem található.';
 $messages['nokeysfound'] = 'Nem  találhatóak kulcsok';
 $messages['keynotfound'] = 'A kulcs nem található!';
 $messages['keyopenerror'] = 'A kulcs információk lekérésés nem lehetséges. Belső hiba.';

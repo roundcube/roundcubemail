@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'مشاركة';
 $labels['myrights'] = 'حقوق الوصول';
 $labels['username'] = 'مستخدم:';
@@ -39,6 +38,7 @@ $labels['aclt'] = 'حذف الرسائل';
 $labels['acle'] = 'حُذف';
 $labels['aclx'] = 'حذف المجلد';
 $labels['acla'] = 'ادارة';
+$labels['acln'] = 'التعليق على الرسائل';
 $labels['aclfull'] = 'تحكم كامل';
 $labels['aclother'] = 'اخرى';
 $labels['aclread'] = 'قراءة ';
@@ -57,6 +57,7 @@ $labels['shortaclt'] = 'حذف';
 $labels['shortacle'] = 'حُذف';
 $labels['shortaclx'] = 'حذف المجلد';
 $labels['shortacla'] = 'ادارة';
+$labels['shortacln'] = 'كتابة تعليق';
 $labels['shortaclother'] = 'اخرى';
 $labels['shortaclread'] = 'قراءة ';
 $labels['shortaclwrite'] = 'كتابة';
@@ -74,10 +75,14 @@ $labels['longaclt'] = 'حذف وسم الرسائل من الممكن تغيير
 $labels['longacle'] = 'بالامكان شطب الرسائل';
 $labels['longaclx'] = 'هذا المجلد بالامكان حذفة او اعادة تسميته';
 $labels['longacla'] = 'حقوق الوصول لهذا المجلد بالامكان تغييره';
+$labels['longacln'] = 'يمكن تغيير البيانات الوصفية (التعليقات) المشتركة بين الرسائل';
 $labels['longaclfull'] = 'التحكم الكامل يتضمن ادارة المجلدات';
 $labels['longaclread'] = 'من الممكن فتح المجلد للقراءة';
 $labels['longaclwrite'] = 'لا يمكن وضع علامة على الرسائل, كتبت او نسخة الى هذا المجلد';
 $labels['longacldelete'] = 'لا يمكن حذف الرسائل';
+$labels['longaclother'] = 'حقوق الوصول الأخرى';
+$labels['ariasummaryacltable'] = 'قائمة حقوق الوصول';
+$labels['arialabelaclform'] = 'نموذج حقوق الوصول';
 $messages['deleting'] = 'جاري حذف حقوق الوصول...';
 $messages['saving'] = 'جاري حفظ حقوق الوصول...';
 $messages['updatesuccess'] = 'تم تغيير حقوق الوصول بنجاح';

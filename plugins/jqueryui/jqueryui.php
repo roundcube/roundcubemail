@@ -55,10 +55,10 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js")) {
+                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js", false)) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
                 }
-                else if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js")) {
+                else if ($lang_s != 'en' && self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js", false)) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
@@ -143,12 +143,10 @@ class jqueryui extends rcube_plugin
     /**
      * Checks if an asset file exists in specified location (with assets_dir support)
      */
-    protected static function asset_exists($path)
+    protected static function asset_exists($path, $minified = true)
     {
-        $rcube      = rcube::get_instance();
-        $assets_dir = $rcube->config->get('assets_dir');
-        $full_path  = unslashify($assets_dir ?: INSTALL_PATH) . '/plugins/jqueryui/' . $path;
+        $rcube = rcube::get_instance();
 
-        return file_exists($full_path);
+        return $rcube->find_asset('/plugins/jqueryui/' . $path, $minified) !== null;
     }
 }

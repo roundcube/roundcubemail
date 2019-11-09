@@ -125,7 +125,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         return $this->sieve->error();
     }
 
-    private function vacation_rule()
+    protected function vacation_rule()
     {
         if ($this->script_name === false || $this->script_name === null || !$this->sieve->load($this->script_name)) {
             return;
@@ -157,14 +157,14 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 ));
             }
             else if ($active) {
-                $list[$idx] = $rule['name'];
+                $list[$idx] = $rule['name'] ?: ('#' . ($idx + 1));
             }
         }
 
         $this->vacation['list'] = $list;
     }
 
-    private function vacation_post()
+    protected function vacation_post()
     {
         if (empty($_POST)) {
             return;
@@ -388,7 +388,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        $interval_txt = $interval->show(self::vacation_interval($this->vacation));
+        $interval_txt = $interval->show(self::vacation_interval($this->vacation, $this->exts));
         if ($seconds_extension) {
             $interval_select = new html_select(array('name' => 'vacation_interval_type'));
             $interval_select->add($this->plugin->gettext('days'), 'days');
@@ -498,7 +498,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_addresses', $this->plugin->gettext('vacation.addresses')));
         $table->add(null, $addresses . $addresses_link->show($this->plugin->gettext('filladdresses')));
         $table->add('title', html::label('vacation_interval', $this->plugin->gettext('vacation.interval')));
-        $table->add('input-group', $interval_txt);
+        $table->add(null, html::span('input-group', $interval_txt));
 
         if ($after) {
             $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));
@@ -521,7 +521,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         return $out;
     }
 
-    public static function build_regexp_tests($date_from, $date_to, &$error)
+    protected static function build_regexp_tests($date_from, $date_to, &$error)
     {
         $tests    = array();
         $dt_from  = rcube_utils::anytodatetime($date_from);
@@ -562,7 +562,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         return $tests;
     }
 
-    public static function parse_regexp_tests($tests)
+    protected static function parse_regexp_tests($tests)
     {
         $rx_from = '/^\(([0-9]{2}).*\)\s([A-Za-z]+)\s([0-9]{4})/';
         $rx_to   = '/^\(.*([0-9]{2})\)\s([A-Za-z]+)\s([0-9]{4})/';
@@ -588,9 +588,10 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     /**
      * Get current vacation interval
      */
-    public static function vacation_interval(&$vacation)
+    public static function vacation_interval(&$vacation, $extensions = array())
     {
         $rcube = rcube::get_instance();
+        $seconds_extension = in_array('vacation-seconds', $extensions);
 
         if (isset($vacation['seconds'])) {
             $interval = $vacation['seconds'];
@@ -720,9 +721,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension    = in_array('date', $this->exts);
-        $regex_extension   = in_array('regex', $this->exts);
-        $seconds_extension = in_array('vacation-seconds', $this->exts);
+        $date_extension  = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
 
         // set user's timezone
         try {
@@ -754,8 +754,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         else if ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
-                $from = new DateTime($date_tests['from'] . ' ' . '00:00:00', $timezone);
-                $to   = new DateTime($date_tests['to'] . ' ' . '23:59:59', $timezone);
+                $start = new DateTime($date_tests['from'] . ' ' . '00:00:00', $timezone);
+                $end   = new DateTime($date_tests['to'] . ' ' . '23:59:59', $timezone);
             }
         }
 
@@ -799,9 +799,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension    = in_array('date', $this->exts);
-        $regex_extension   = in_array('regex', $this->exts);
-        $seconds_extension = in_array('vacation-seconds', $this->exts);
+        $date_extension  = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
 
         $vacation['type']      = 'vacation';
         $vacation['reason']    = $this->strip_value(str_replace("\r\n", "\n", $data['message']));

@@ -25,8 +25,7 @@
         "phpunit/phpunit": "^4.8.36 || ^5.7.21"
     },
     "suggest": {
-        "pear/net_ldap2": "~2.2.0 required for connecting to LDAP",
-        "kolab/net_ldap3": "~1.0.6 required for connecting to LDAP",
+        "kolab/net_ldap3": "~1.1.1 required for connecting to LDAP",
         "mkopinsky/zxcvbn-php": "^4.4.2 required for Zxcvbn password strength driver"
     }
 }

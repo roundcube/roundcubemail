@@ -258,7 +258,7 @@ class rcube_sieve_engine
                     $script_name = 'roundcube';
                 }
 
-                if ($script_file && is_readable($script_file)) {
+                if ($script_file && is_readable($script_file) && !is_dir($script_file)) {
                     $content = file_get_contents($script_file);
                 }
 
@@ -1564,7 +1564,7 @@ class rcube_sieve_engine
         }
 
         if ($compact) {
-            $select = new html_select(array('name' => '_join', 'id' => '_join' . $id,
+            $select = new html_select(array('name' => '_join', 'id' => '_join',
                 'onchange' => 'rule_join_radio(this.value)'));
 
             foreach (array('allof', 'anyof', 'any') as $val) {
@@ -2237,7 +2237,7 @@ class rcube_sieve_engine
                 'type'  => 'text',
                 'name'  => '_action_interval[' . $id . ']',
                 'id'    => 'action_interval' . $id,
-                'value' => rcube_sieve_vacation::vacation_interval($action),
+                'value' => rcube_sieve_vacation::vacation_interval($action, $this->exts),
                 'size'  => 2,
                 'class' => $this->error_class($id, 'action', 'interval', 'action_interval'),
             ));

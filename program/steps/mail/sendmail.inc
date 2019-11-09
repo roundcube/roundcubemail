@@ -82,7 +82,7 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $bstyle       = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
     $message_body = '<html><head>'
         . '<meta http-equiv="Content-Type" content="text/html; charset='
         . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'

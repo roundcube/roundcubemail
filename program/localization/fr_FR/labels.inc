@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienvenue à $product';
 $labels['username'] = 'Nom d’utilisateur';
 $labels['password'] = 'Mot de passe';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Tout afficher';
 $labels['expand-unread'] = 'Afficher les non lus';
 $labels['collapse-all'] = 'Fermer tous';
 $labels['threaded'] = 'Par fil';
+$labels['showunread'] = 'Afficher les courriels non lus';
 $labels['autoexpand_threads'] = 'Développer les fils de courriel';
 $labels['do_expand'] = 'Tous les fils';
 $labels['expand_only_unread'] = 'seulement avec des courriels non lus';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Renommer';
 $labels['addphoto'] = 'Ajouter';
 $labels['replacephoto'] = 'Remplacer';
 $labels['uploadphoto'] = 'Téléverser une photo';
+$labels['choosefile'] = 'Choisir un fichier…';
+$labels['choosefiles'] = 'Choisir des fichiers…';
+$labels['browse'] = 'Parcourir';
 $labels['newcontact'] = 'Créer un nouveau contact';
 $labels['deletecontact'] = 'Supprimer les contacts sélectionnés';
 $labels['composeto'] = 'Rédiger un courriel à';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Options avancées';
 $labels['toggleadvancedoptions'] = 'Activer/désactiver les options avancées';
 $labels['focusonnewmessage'] = 'Cibler la fenêtre du navigateur quand un nouveau courriel arrive';
 $labels['checkallfolders'] = 'Vérifier les nouveaux courriels dans tous les dossiers';
-$labels['displaynext'] = 'Après avoir supprimé/déplacé un courriel, afficher le suivant';
+$labels['displaynext'] = 'Afficher la prochaine entrée de la liste après suppression/déplacement';
 $labels['defaultfont'] = 'Police par défaut des courriels HTML';
 $labels['mainoptions'] = 'Options principales';
 $labels['browseroptions'] = 'Options du navigateur';
@@ -678,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Flèche droite/gauche : déplier/repl
 Entrée : ouvrir le courriel sélectionné/cible.
 Suppr : déplacer les courriels sélectionnés vers la corbeille.";
 $labels['helplistkeyboardnavcontacts'] = "Entrée : ouvrir le contact sélectionné/cible.";
-?>

@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Une erreur est survenue !';
 $messages['loginfailed']  = 'La connexion a échoué.';
-$messages['cookiesdisabled'] = 'Votre navigateur n’accepte pas les fichiers témoins.';
+$messages['cookiesdisabled'] = 'Votre navigateur n’accepte pas les témoins.';
 $messages['sessionerror'] = 'Votre session est invalide ou a expiré.';
+$messages['cookiesmismatch'] = 'Une non-concordance de témoin a été détectée. Veuillez effacer les témoins de votre navigateur.';
 $messages['storageerror'] = 'Erreur de connexion au serveur de stockage.';
 $messages['servererror'] = 'Erreur de serveur !';
 $messages['servererrormsg'] = 'Erreur de serveur : $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Aucune clé publique valide n’a été trouv�
 $messages['encryptnoattachments'] = 'Les pièces jointes déjà téléversées ne peuvent pas être chiffrées.  Veuillez les ajouter de nouveau dans l’éditeur de chiffrement.';
 $messages['searchpubkeyservers'] = 'Voulez-vous chercher les clés manquantes sur les serveurs de clés publiques ?';
 $messages['encryptpubkeysfound'] = 'Les clés publiques suivantes ont été trouvées :';
-$messages['keyservererror'] = 'Échec d’obtention de la clé à partir du serveur de clés';
-$messages['keyimportsuccess'] = 'La clé publique $key a été importée dans le trousseau avec succès';
+$messages['keyservererror'] = 'Échec d’obtention de la clé sur le serveur de clés.';
+$messages['keyimportsuccess'] = 'La clé publique $key a été importée dans le trousseau avec succès.';
 $messages['nocontactsfound'] = 'Aucun contact n’a été trouvé.';
 $messages['contactnotfound'] = 'Le contact demandé n’a pas été trouvé.';
-$messages['contactsearchonly'] = 'Saisir des termes d’interrogation pour trouver des contacts.';
+$messages['contactsearchonly'] = 'Vous devez utiliser un formulaire de recherche pour voir les contacts du carnet d’adresses sélectionné.';
 $messages['sendingfailed'] = 'Échec d’envoi du courriel.';
 $messages['senttooquickly'] = 'Veuillez patienter $sec s avant d’envoyer ce courriel.';
 $messages['errorsavingsent'] = 'Une erreur est survenue durant l’enregistrement du courriel envoyé.';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'Échec de téléversement du fichier.';
 $messages['filesizeerror'] = 'Le fichier téléversé dépasse la taille maximale de $size.';
 $messages['filecounterror'] = 'Vous pouvez téléverser un maximum de $count fichiers à la fois.';
 $messages['msgsizeerror'] = 'Échec d’ajout de fichier. La taille maximale d’un fichier ($size) a été dépassée.';
+$messages['msgsizeerrorfwd'] = 'La taille maximale d’un message ($size) a été dépassée. $num message(s) n’ont pas été joints.';
 $messages['copysuccess'] = '$nr contacts copiés avec succès.';
 $messages['movesuccess'] = '$nr contacts déplacés avec succès.';
 $messages['copyerror'] = 'Aucun contact n’a pu être copié.';

@@ -279,16 +279,20 @@ cancel: function(evt)
 },
 
 /**
- * Determine whether the given event was trigered from keyboard
+ * Determine whether the given event was triggered from keyboard
  */
 is_keyboard: function(e)
 {
   if (!e)
     return false;
 
+  // DOM3-compatible
+  // An event invoked by pressing Enter on a link will produce a 'click' event,
+  // so we have to extend the check, e.g. with use of e.clientX.
   if (e.type)
-    return !!e.type.match(/^key/); // DOM3-compatible
+    return !!e.type.match(/^key/) || (e.type == 'click' && !e.clientX);
 
+  // Old browsers
   return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
 },
 

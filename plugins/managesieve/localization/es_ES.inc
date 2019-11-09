@@ -2,25 +2,26 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Administrar filtros de correo entrante';
 $labels['filtername'] = 'Nombre del filtro';
 $labels['newfilter'] = 'Nuevo filtro';
 $labels['filteradd'] = 'Añadir filtro';
 $labels['filterdel'] = 'Eliminar filtro';
+$labels['actions'] = 'Acciones';
 $labels['scope'] = 'Ámbito';
 $labels['moveup'] = 'Mover arriba';
 $labels['movedown'] = 'Mover abajo';
@@ -65,15 +66,9 @@ $labels['days'] = 'días';
 $labels['seconds'] = 'segundos';
 $labels['rulestop'] = 'Parar de evaluar reglas';
 $labels['enable'] = 'Habilitar/Deshabilitar';
-$labels['filterset'] = 'Conjunto de filtros';
 $labels['filtersets'] = 'Conjuntos de filtros';
-$labels['filtersetadd'] = 'Agregar conjunto de filtros';
-$labels['filtersetact'] = 'Activar conjunto de filtros actual';
-$labels['filtersetdeact'] = 'Desactivar conjunto de filtros actual';
 $labels['filterseteditraw'] = 'Editar conjunto de filtros';
 $labels['filterdef'] = 'Definición de filtros';
-$labels['filtersetname'] = 'Nombre del conjunto de filtros';
-$labels['newfilterset'] = 'Nuevo conjunto de filtros';
 $labels['active'] = 'activo';
 $labels['none'] = 'ninguno';
 $labels['fromset'] = 'de conjunto';
@@ -213,16 +208,6 @@ $messages['actiondeleteconfirm'] = '¿Está seguro de que desea borrar la acció
 $messages['forbiddenchars'] = 'Caracteres prohibidos en el campo.';
 $messages['cannotbeempty'] = 'El campo no puede estar vacío.';
 $messages['ruleexist'] = 'Ya existe un filtro con el nombre especificado.';
-$messages['setactivateerror'] = 'No se pudo activar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
-$messages['setdeactivateerror'] = 'No se pudo desactivar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
-$messages['setdeleteerror'] = 'No se pudo borrar el conjunto de filtros seleccionado. Ha ocurrido un error en el servidor.';
-$messages['setactivated'] = 'Conjunto de filtros activado correctamente.';
-$messages['setdeactivated'] = 'Conjunto de filtros desactivado correctamente.';
-$messages['setdeleted'] = 'Conjunto de filtros borrado correctamente.';
-$messages['setupdated'] = 'El conjunto de filtros se ha actualizado correctamente.';
-$messages['setdeleteconfirm'] = '¿Está seguro de que desea borrar el conjunto de filtros seleccionado?';
-$messages['setcreateerror'] = 'No se ha podido crear el conjunto de filtros. Ha ocurrido un error en el servidor.';
-$messages['setcreated'] = 'Conjunto de filtros creado correctamente.';
 $messages['activateerror'] = 'No se pudo habilitar filtro(s) seleccionado(s). Ha ocurrido un error en el servidor.';
 $messages['deactivateerror'] = 'No se pudo deshabilitar filtro(s) seleccionado(s). Ha ocurrido un error en el servidor.';
 $messages['deactivated'] = 'Filtro(s) deshabilitado(s) correctamente.';
@@ -237,4 +222,3 @@ $messages['invaliddateformat'] = 'Fecha o formato de parte de la fecha no válid
 $messages['saveerror'] = 'No se pudo guardar los datos. Ha ocurrido un error en el servidor.';
 $messages['emptyvacationbody'] = '¡Hace falta un texto en el mensaje de vacaciones!';
 $messages['duplicate.conflict.err'] = 'Tanto el encabezameinto, como el identificador único no están permitidos.';
-?>

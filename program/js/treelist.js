@@ -81,6 +81,8 @@ function rcube_treelist_widget(node, p)
   this.container = container;
   this.expand = expand;
   this.collapse = collapse;
+  this.expand_all = expand_all;
+  this.collapse_all = collapse_all;
   this.select = select;
   this.render = render;
   this.reset = reset;
@@ -96,6 +98,7 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.in_selection = in_selection;
   this.get_next = get_next;
   this.get_prev = get_prev;
   this.get_single_selection = get_selection;
@@ -138,8 +141,9 @@ function rcube_treelist_widget(node, p)
         return true;
 
       var node = p.selectable ? indexbyid[dom2id($(this))] : null;
-      if (node && !node.virtual) {
-        select(node.id);
+      if (node) {
+        if (!node.virtual)
+          select(node.id);
         e.stopPropagation();
       }
     })
@@ -203,15 +207,13 @@ function rcube_treelist_widget(node, p)
         $(get_item(selection)).find(':focusable').first().focus();
       }
       else if (!has_focus) {
-        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+        container.children('li').find(':focusable').first().focus();
       }
     });
   }
 
-  /////// private methods
-
   /**
-   * Collaps a the node with the given ID
+   * Collapse a the node with the given ID
    */
   function collapse(id, recursive, set)
   {
@@ -249,6 +251,30 @@ function rcube_treelist_widget(node, p)
     if (node = indexbyid[id]) {
       collapse(id, recursive, !node.collapsed);
     }
+  }
+
+  /**
+   * Collapse all expanded nodes
+   */
+  function collapse_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && !data.collapsed) {
+        collapse(id);
+      }
+    });
+  }
+
+  /**
+   * Expand all collapsed nodes
+   */
+  function expand_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed) {
+        collapse(id, false, false);
+      }
+    });
   }
 
   /**
@@ -292,6 +318,15 @@ function rcube_treelist_widget(node, p)
   function get_selection()
   {
     return selection;
+  }
+
+  /**
+   * Check if given id is selected
+   * This is for consistency with rcube_list_widget
+   */
+  function in_selection(id)
+  {
+    return selection == id;
   }
 
   /**

@@ -323,7 +323,7 @@ class rcube_image
             $p['out']  = $filename;
             $p['type'] = self::$extensions[$type];
 
-            $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -quality 75 {in} {type}:{out}', $p);
+            $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
                 chmod($filename, 0600);
@@ -395,7 +395,9 @@ class rcube_image
     }
 
     /**
-     * Checks if image format conversion is supported
+     * Checks if image format conversion is supported (for specified mimetype).
+     *
+     * @param string $mimetype Mimetype name
      *
      * @return boolean True if specified format can be converted to another format
      */
@@ -441,6 +443,10 @@ class rcube_image
 
     /**
      * Check if we have enough memory to load specified image
+     *
+     * @param array Hash array with image props like channels, width, height
+     *
+     * @return bool True if there's enough memory to process the image, False otherwise
      */
     private function mem_check($props)
     {

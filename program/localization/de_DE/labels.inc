@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Willkommen bei $product';
 $labels['username'] = 'Benutzername';
 $labels['password'] = 'Passwort';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Alle aufklappen';
 $labels['expand-unread'] = 'Ungelesene aufklappen';
 $labels['collapse-all'] = 'Alle zuklappen';
 $labels['threaded'] = 'Gruppiert';
+$labels['showunread'] = 'Ungelesene Nachrichten anzeigen';
 $labels['autoexpand_threads'] = 'Konversationen aufklappen';
 $labels['do_expand'] = 'alle';
 $labels['expand_only_unread'] = 'nur ungelesene';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Umbenennen';
 $labels['addphoto'] = 'Kontaktbild hinzufügen';
 $labels['replacephoto'] = 'Bild ändern';
 $labels['uploadphoto'] = 'Bild hochladen';
+$labels['choosefile'] = 'Datei auswählen…';
+$labels['choosefiles'] = 'Dateien auswählen…';
+$labels['browse'] = 'Durchsuchen';
 $labels['newcontact'] = 'Neuen Kontakt erstellen';
 $labels['deletecontact'] = 'Gewählte Kontakte löschen';
 $labels['composeto'] = 'Nachricht verfassen';
@@ -507,7 +511,6 @@ $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Optionen auswählen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
-$labels['displaynext'] = 'Nächste Nachricht nach verschieben/löschen anzeigen';
 $labels['defaultfont'] = 'Standardschrift von HTML-Nachrichten';
 $labels['mainoptions'] = 'Allgemein';
 $labels['browseroptions'] = 'Browsereinstellungen';
@@ -677,4 +680,3 @@ $labels['helplistkeyboardnavmessages'] = "Pfeil rechts/links: Nachricht im Threa
 Enter: Öffne die ausgewählte/fokussierte Nachricht
 Rücktaste: Verschiebe gewählte Nachricht in den Mülleimer";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
-?>

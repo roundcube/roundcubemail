@@ -51,7 +51,7 @@ class rcube_gearman_password
                     'code' => 600,
                     'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Gearman authentication failed for user $username: $error"
+                    'message' => "Password plugin: Gearman authentication failed for user $username"
                 ), true, false);
             }
         }

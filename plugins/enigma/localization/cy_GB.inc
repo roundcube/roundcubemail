@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Amgryptiad';
 $labels['enigmacerts'] = 'Tystysgrifau S/MIME';
 $labels['enigmakeys'] = 'Allweddi PGP';
@@ -107,6 +106,7 @@ $messages['signbadpass'] = 'Llofnodi wedi methu. Cyfrinair annilys.';
 $messages['signnopass'] = 'Llofnodi wedi methu. Mae angen cyfrinair.';
 $messages['encrypterror'] = 'Amgryptio wedi methu.';
 $messages['encryptnokey'] = 'Amgryptio wedi methu. Allwedd cyhoeddus heb ei ganfod ar gyfer $email.';
+$messages['encryptnoprivkey'] = 'Dadgryptio wedi methu. Allwedd breifat heb ei ganfod.';
 $messages['nokeysfound'] = 'Ni ganfuwyd unrhyw allweddi';
 $messages['keynotfound'] = 'Ni ganfuwyd yr allwedd!';
 $messages['keyopenerror'] = 'Methwyd cael gwybodaeth allwedd! Gwall mewnol.';

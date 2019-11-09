@@ -105,14 +105,14 @@ class zipdownload extends rcube_plugin
         $menu    = array();
         $ul_attr = array('role' => 'menu', 'aria-labelledby' => 'aria-label-zipdownloadmenu');
         if ($rcmail->config->get('skin') != 'classic') {
-            $ul_attr['class'] = 'toolbarmenu';
+            $ul_attr['class'] = 'toolbarmenu menu';
         }
 
         foreach (array('eml', 'mbox', 'maildir') as $type) {
             $menu[] = html::tag('li', null, $rcmail->output->button(array(
                     'command'  => "download-$type",
                     'label'    => "zipdownload.download$type",
-                    'class'    => "download $type",
+                    'class'    => "download $type disabled",
                     'classact' => "download $type active",
                     'type'     => 'link',
             )));
@@ -133,7 +133,6 @@ class zipdownload extends rcube_plugin
         // require CSRF protected request
         $rcmail->request_security_check(rcube_utils::INPUT_GET);
 
-        $imap      = $rcmail->get_storage();
         $tmpfname  = rcube_utils::temp_filename('zipdownload');
         $tempfiles = array($tmpfname);
         $message   = new rcube_message(rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET));

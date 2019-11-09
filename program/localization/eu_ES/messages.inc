@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Errore bat gertatu da!';
 $messages['loginfailed']  = 'Saio hasierak huts egin du.';
 $messages['cookiesdisabled'] = 'Zure nabigatzaileak ez ditu cookie-rik onartzen.';
 $messages['sessionerror'] = 'Zure saioa baliogabea da edo iraungita dago.';
+$messages['cookiesmismatch'] = 'Cookieak ez datozela bat hauteman da. Garbitu zure nabigatzailearen cookieak.';
 $messages['storageerror'] = 'Huts egin du biltegiratze-zerbitzarira konektatzean.';
 $messages['servererror'] = 'Zerbitzari-errorea!';
 $messages['servererrormsg'] = 'Zerbitzari-errorea: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Ez da baliozko gako publikorik aurkitu zure bi
 $messages['encryptnoattachments'] = 'Dagoeneko kargatutako eranskinak ezin dira zifratu. Gehitu itzazu berriro zifratze editorera.';
 $messages['searchpubkeyservers'] = 'Falta diren gakoak gako publikoen zerbitzarietan bilatzea nahi duzu?';
 $messages['encryptpubkeysfound'] = 'Hurrengo gako publikoak aurkitu dira:';
-$messages['keyservererror'] = 'Huts egin du gako zerbitzaritik gakoa eskuratzen';
-$messages['keyimportsuccess'] = '$key gako publikoa ongi inportatu da gako-gunetik';
+$messages['keyservererror'] = 'Huts egin du gakoa gako-zerbitzaritik eskuratzen.';
+$messages['keyimportsuccess'] = '$key gako publikoa zure gako-sortan sartu da.';
 $messages['nocontactsfound'] = 'Ez da kontakturik aurkitu.';
 $messages['contactnotfound'] = 'Eskatutako kontaktua ez da aurkitu.';
-$messages['contactsearchonly'] = 'Sartu kontaktua aurkitzeko bilaketa daturen bat.';
+$messages['contactsearchonly'] = 'Bilaketa inprimaki bat erabili behar duzu hautatutako helbide-liburutik kontaktuak ikusteko.';
 $messages['sendingfailed'] = 'Huts mezua bidaltzerakoan.';
 $messages['senttooquickly'] = 'Itxaron $sec segundo mezua bidali aurretik, mesedez.';
 $messages['errorsavingsent'] = 'Errore bat gertatu da bidalitako mezua gordetzean.';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'Huts fitxategia eransterakoan';
 $messages['filesizeerror'] = 'Erantsi nahi duzun fitxategian $size tamaina muga gainditzen du';
 $messages['filecounterror'] = 'Gehienez jota $count fitxategi kargatu daitezke aldi berean.';
 $messages['msgsizeerror'] = 'Huts egin du fitxategia eransten. Mezu baten gehienezko tamaina ($size) gainditu da.';
+$messages['msgsizeerrorfwd'] = 'Mezuaren gehienezko tamaina  ($size) gainditu da. $num mezu ez dira erantsi.';
 $messages['copysuccess'] = '$nr kontaktu ongi kopiatu dira.';
 $messages['movesuccess'] = '$nr kontaktu ongi mugitu dira.';
 $messages['copyerror'] = 'Ezin da kontakturik kopiatu.';

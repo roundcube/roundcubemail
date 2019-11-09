@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = '暗号化';
 $labels['enigmacerts'] = 'S/MIME証明書';
 $labels['enigmakeys'] = 'PGPのキー';
@@ -87,6 +86,7 @@ $labels['keyimportlabel'] = 'ファイルからインポート';
 $labels['keyimportsearchlabel'] = 'キーサーバーで検索';
 $labels['managekeys'] = 'PGPの鍵を管理';
 $labels['identitymatchingprivkeys'] = 'キーリングに$nr個の合致するPGPのプライベートキー:';
+$labels['identitynoprivkeys'] = 'この送信者の識別へのPGP秘密鍵はキーリングにまだありません。';
 $messages['sigvalid'] = '$senderからの署名を検証しました。';
 $messages['sigvalidpartial'] = '$senderからの署名を検証しましたが、本文の一部は署名されていません。';
 $messages['siginvalid'] = '$senderからの署名は正しくありません。';
@@ -96,6 +96,7 @@ $messages['sigerror'] = '署名を検証できません。内部エラーです�
 $messages['decryptok'] = 'メッセージを復号しました。';
 $messages['decrypterror'] = '復号できませんでした。';
 $messages['decryptnokey'] = '復号できませんでした。次のキーIDの秘密鍵がありません: $keyid';
+$messages['decryptnomdc'] = '復号を省きました。メッセージは完全な状態で保護されていません。';
 $messages['decryptbadpass'] = '復号できませんでした。パスワードが正しくありません。';
 $messages['decryptnopass'] = '復号できませんでした。キーのパスワードが必要です。';
 $messages['decryptpartial'] = 'メッセージを復号しました。しかし、本文の一部は暗号化していませんでした。';
@@ -105,6 +106,7 @@ $messages['signbadpass'] = 'サインインできませんでした。パスワ�
 $messages['signnopass'] = '署名できませんでした。キーのパスワードが必要です。';
 $messages['encrypterror'] = '暗号化できませんでした。';
 $messages['encryptnokey'] = '暗号化できませんでした。$emailへの公開鍵がありません。';
+$messages['encryptnoprivkey'] = '暗号化できませんでした。秘密鍵がありません。';
 $messages['nokeysfound'] = 'キーがありません。';
 $messages['keynotfound'] = 'キーがありません!';
 $messages['keyopenerror'] = 'キーの情報を取得できません!  内部エラーです。';

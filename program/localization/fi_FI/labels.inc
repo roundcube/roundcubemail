@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Tervetuloa $product -käyttäjäksi';
 $labels['username'] = 'Käyttäjätunnus';
 $labels['password'] = 'Salasana';
@@ -497,7 +497,6 @@ $labels['advancedoptions'] = 'Lisäasetukset';
 $labels['toggleadvancedoptions'] = 'Vaihda edistyneemmät valinnat';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
-$labels['displaynext'] = 'Viestin siirron tai poiston jälkeen, näytä seuraava viesti';
 $labels['defaultfont'] = 'HTML-viestin oletuskirjasin';
 $labels['mainoptions'] = 'Pääasetukset';
 $labels['browseroptions'] = 'Selainasetukset';
@@ -657,4 +656,3 @@ $labels['helplistkeyboardnavmessages'] = "Nuolinäppäimet oikealle/vasemmalle: 
 Entteri/rivinvaihto: Avaa valittu/kohdistettu viesti.
 Delete/poista: Siirrä valitut viestit roskakoriin.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: avaa valittu/kohdistettu yhteystieto.";
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product E-Posta Sistemine Hoş Geldiniz';
 $labels['username'] = 'Kullanıcı Adı';
 $labels['password'] = 'Parola';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Tümünü Genişlet';
 $labels['expand-unread'] = 'Okunmamışları Genişlet';
 $labels['collapse-all'] = 'Tümünü Daralt';
 $labels['threaded'] = 'Sohbet Görünümü';
+$labels['showunread'] = 'Okunmamış iletileri görüntüle';
 $labels['autoexpand_threads'] = 'Sohbet iletileri genişletilsin';
 $labels['do_expand'] = 'tüm sohbetler';
 $labels['expand_only_unread'] = 'yalnız okunmamış iletiler bulunan dizilimler';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Yeniden Adlandır';
 $labels['addphoto'] = 'Ekle';
 $labels['replacephoto'] = 'Değiştir';
 $labels['uploadphoto'] = 'Fotoğraf Yükle';
+$labels['choosefile'] = 'Dosyayı seçin...';
+$labels['choosefiles'] = 'Dosyaları seçin...';
+$labels['browse'] = 'Göz at';
 $labels['newcontact'] = 'Yeni Kişi Ekle';
 $labels['deletecontact'] = 'Seçilmiş Kişileri Sil';
 $labels['composeto'] = 'Şu Kişiye İleti Gönder';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Gelişmiş Ayarlar';
 $labels['toggleadvancedoptions'] = 'Gelişmiş ayarları görüntüle/gizle';
 $labels['focusonnewmessage'] = 'Yeni İleti Geldiğinde Web Tarayıcı Penceresine Odaklanılsın';
 $labels['checkallfolders'] = 'Tüm Klasörler İçin Yeni İletiler Denetlensin';
-$labels['displaynext'] = 'İleti Silindiğinde ya da Taşındığında Sonraki İleti Görüntülensin';
+$labels['displaynext'] = 'Silme ya da taşıma sonrası sonraki ileti görüntülensin';
 $labels['defaultfont'] = 'HTML İletiler İçin Varsayılan Yazı Türü';
 $labels['mainoptions'] = 'Temel Ayarlar';
 $labels['browseroptions'] = 'Tarayıcı Ayarları';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Sağ/Sol Oklar: İleti gruplarını ge
 Enter: Seçilmiş ya da odaklanılmış iletiyi açar.
 Delete: Seçilmiş iletiyi çöpe atar.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Seçilmiş ya da odaklanılmış kişiyi açar.";
-?>

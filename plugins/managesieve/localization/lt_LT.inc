@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtrai';
 $labels['managefilters'] = 'Tvarkyti gaunamų laiškų filtrus';
 $labels['filtername'] = 'Filtro pavadinimas';
@@ -79,8 +79,8 @@ $labels['filterset'] = 'Filtrų rinkinys';
 $labels['filtersets'] = 'Filtrų rinkiniai';
 $labels['filtersetadd'] = 'Pridėti filtrų rinkinį';
 $labels['filtersetdel'] = 'Ištrinti filtrų rinkinį';
-$labels['filtersetact'] = 'Įgalinti šį filtrų rinkinį';
-$labels['filtersetdeact'] = 'Išjungti šį filtrų rinkinį';
+$labels['filtersetact'] = 'Aktyvuoti dabartinį filtrų rinkinį';
+$labels['filtersetdeact'] = 'Pasyvinti dabartinį filtrų rinkinį';
 $labels['filterseteditraw'] = 'Taisyti filtrų rinkinį';
 $labels['filtersetswitch'] = 'Įjungti/išjungti filtrų rinkinį';
 $labels['filterdef'] = 'Filtro aprašas';
@@ -245,15 +245,15 @@ $messages['actiondeleteconfirm'] = 'Ar jūs įsitikinęs, jog norite panaikinti 
 $messages['forbiddenchars'] = 'Laukelyje yra draudžiamų simbolių.';
 $messages['cannotbeempty'] = 'Laukelis negali būti tuščias';
 $messages['ruleexist'] = 'Filtras tokiu vardu jau yra.';
-$messages['setactivateerror'] = 'Neįmanoma aktyvuoti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
-$messages['setdeactivateerror'] = 'Neįmanoma išjungti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
-$messages['setdeleteerror'] = 'Neįmanoma panaikinti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setactivateerror'] = 'Nepavyko aktyvuoti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setdeactivateerror'] = 'Nepavyko pasyvinti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setdeleteerror'] = 'Nepavyko ištrinti pasirinkto filtrų rinkinio. Įvyko serverio klaida.';
 $messages['setactivated'] = 'Filtrų rinkinys sėkmingai aktyvuotas.';
-$messages['setdeactivated'] = 'Filtrų rinkinys sėkmingai deaktyvuotas.';
-$messages['setdeleted'] = 'Filtrų rinkinys sėkmingai panaikintas.';
+$messages['setdeactivated'] = 'Filtrų rinkinys sėkmingai pasyvintas.';
+$messages['setdeleted'] = 'Filtrų rinkinys sėkmingai ištrintas.';
 $messages['setupdated'] = 'Filtrų rinkinys sėkmingai atnaujintas.';
-$messages['setdeleteconfirm'] = 'Ar jūs esate tikri, jog norite panaikinti pasirinktą filtrų rinkinį?';
-$messages['setcreateerror'] = 'Neįmanoma sukurti filtrų rinkinio. Įvyko serverio klaida.';
+$messages['setdeleteconfirm'] = 'Ar tikrai norite ištrinti pasirinktą filtrų rinkinį?';
+$messages['setcreateerror'] = 'Nepavyko sukurti filtrų rinkinio. Įvyko serverio klaida.';
 $messages['setcreated'] = 'Filtrų rinkinys sėkmingai sukurtas.';
 $messages['activateerror'] = 'Neįmanoma įjungti pasirinktų filtrų(-o). Įvyko serverio klaida.';
 $messages['deactivateerror'] = 'Neįmanoma išjungti pasirinktų filtrų(-o). Įvyko serverio klaida.';
@@ -273,4 +273,3 @@ $messages['emptyvacationbody'] = 'Atostogų pranešimui turinys būtinas!';
 $messages['duplicate.conflict.err'] = 'Naudojimas antraštės ir identifikatoriaus kartu yra draudžiamas, negalimas.';
 $messages['disabledaction'] = 'Veiksmas neleistinas.';
 $messages['lastindexempty'] = 'Skaičiuojant nuo pabaigos yra reikalingas turinys';
-?>

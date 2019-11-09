@@ -132,7 +132,6 @@ class password extends rcube_plugin
 
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
-        $form_disabled   = $this->rc->config->get('password_disabled');
         $confirm         = $this->rc->config->get('password_confirm_current');
         $required_length = intval($this->rc->config->get('password_minimum_length'));
         $force_save      = $this->rc->config->get('password_force_save');
@@ -638,6 +637,28 @@ class password extends rcube_plugin
 
             $crypted = base64_encode($crypted . $salt);
             $prefix  = '{SSHA}';
+            break;
+
+        case 'ssha512':
+            $salt = rcube_utils::random_bytes(8);
+
+            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
+                $salt    = mhash_keygen_s2k(MHASH_SHA512, $password, $salt, 4);
+                $crypted = mhash(MHASH_SHA512, $password . $salt);
+            }
+            else if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('sha512', $salt . $password)), 0, 4);
+                $crypted = hash('sha512', $password . $salt, true);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() function"
+                ), true, true);
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA512}';
             break;
 
         case 'smd5':

@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_mime
 {
@@ -712,9 +710,8 @@ class rcube_mime
     {
         static $mime_ext = array();
 
-        $mime_type  = null;
-        $config     = rcube::get_instance()->config;
-        $mime_magic = $config->get('mime_magic');
+        $mime_type = null;
+        $config    = rcube::get_instance()->config;
 
         if (!$skip_suffix && empty($mime_ext)) {
             foreach ($config->resolve_paths('mimetypes.php') as $fpath) {
@@ -731,6 +728,7 @@ class rcube_mime
 
         // try fileinfo extension if available
         if (!$mime_type && function_exists('finfo_open')) {
+            $mime_magic = $config->get('mime_magic');
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
@@ -741,10 +739,8 @@ class rcube_mime
             }
 
             if ($finfo) {
-                if ($is_stream)
-                    $mime_type = finfo_buffer($finfo, $path);
-                else
-                    $mime_type = finfo_file($finfo, $path);
+                $func      = $is_stream ? 'finfo_buffer' : 'finfo_file';
+                $mime_type = $func($finfo, $path, FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }
@@ -757,11 +753,6 @@ class rcube_mime
         // fall back to user-submitted string
         if (!$mime_type) {
             $mime_type = $failover;
-        }
-        else {
-            // Sometimes (PHP-5.3?) content-type contains charset definition,
-            // Remove it (#1487122) also "charset=binary" is useless
-            $mime_type = array_shift(preg_split('/[; ]/', $mime_type));
         }
 
         return $mime_type;
@@ -850,6 +841,8 @@ class rcube_mime
             'image/jpg'      => array('jpg', 'jpeg', 'jpe'),
             'image/pjpeg'    => array('jpg', 'jpeg', 'jpe'),
             'image/tiff'     => array('tif'),
+            'image/bmp'      => array('bmp'),
+            'image/x-ms-bmp' => array('bmp'),
             'message/rfc822' => array('eml'),
             'text/x-mail'    => array('eml'),
         );

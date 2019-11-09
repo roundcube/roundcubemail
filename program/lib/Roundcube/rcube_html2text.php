@@ -249,8 +249,6 @@ class rcube_html2text
     protected $callback_search = array(
         '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i', // <a href="">
         '/<(h)[123456]( [^>]*)?>(.*?)<\/h[123456]>/i',         // h1 - h6
-        '/<(b)( [^>]*)?>(.*?)<\/b>/i',                         // <b>
-        '/<(strong)( [^>]*)?>(.*?)<\/strong>/i',               // <strong>
         '/<(th)( [^>]*)?>(.*?)<\/th>/i',                       // <th> and </th>
     );
 
@@ -668,14 +666,12 @@ class rcube_html2text
      * Callback function for preg_replace_callback use.
      *
      * @param array $matches PREG matches
-     * @return string
+     *
+     * @return string Element content
      */
     public function tags_preg_callback($matches)
     {
         switch (strtolower($matches[1])) {
-        case 'b':
-        case 'strong':
-            return $this->_toupper($matches[3]);
         case 'th':
             return $this->_toupper("\t\t". $matches[3] ."\n");
         case 'h':
@@ -691,7 +687,8 @@ class rcube_html2text
      * Callback function for preg_replace_callback use in PRE content handler.
      *
      * @param array $matches PREG matches
-     * @return string
+     *
+     * @return string PRE content
      */
     public function pre_preg_callback($matches)
     {
@@ -702,6 +699,7 @@ class rcube_html2text
      * Strtoupper function with HTML tags and entities handling.
      *
      * @param string $str Text to convert
+     *
      * @return string Converted text
      */
     private function _toupper($str)
@@ -723,6 +721,7 @@ class rcube_html2text
      * Strtoupper multibyte wrapper function with HTML entities handling.
      *
      * @param string $str Text to convert
+     *
      * @return string Converted text
      */
     private function _strtoupper($str)

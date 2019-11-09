@@ -290,6 +290,7 @@ class rcube_result_index
 
                 return $idx;
             }
+
             return true;
         }
 

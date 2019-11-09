@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '歡迎使用 $product';
 $labels['username'] = '使用者名稱';
 $labels['password'] = '使用者密碼';
@@ -147,6 +147,7 @@ $labels['last'] = '最後一個';
 $labels['previous'] = '前一個';
 $labels['next'] = '後一個';
 $labels['select'] = '選取';
+$labels['selection'] = '選取範圍';
 $labels['all'] = '全部郵件';
 $labels['none'] = '無';
 $labels['currpage'] = '目前頁面';
@@ -195,6 +196,8 @@ $labels['folderactions'] = '資料夾動作...';
 $labels['compact'] = '壓緊';
 $labels['empty'] = '清空';
 $labels['importmessages'] = '匯入郵件';
+$labels['mailimportdesc'] = '可以用 <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> 或 <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> 格式檔案上傳郵件。';
+$labels['mailimportzip'] = '多個檔案可以壓縮為 ZIP 檔案。';
 $labels['quota'] = '磁碟使用量';
 $labels['unknown'] = '未知';
 $labels['unlimited'] = '無限制';
@@ -256,6 +259,7 @@ $labels['keyrevoked'] = '已撤銷';
 $labels['bccinstead'] = '使用「密件副本」';
 $labels['addheader'] = '加入收件者 (標頭)';
 $labels['insert'] = '插入';
+$labels['insertcontact'] = '插入聯絡人';
 $labels['recipient'] = '收件者';
 $labels['recipientedit'] = '收件者編輯';
 $labels['editidents'] = '編輯身份資訊';
@@ -297,6 +301,7 @@ $labels['isdraft'] = '這是草稿';
 $labels['andnmore'] = '第$nr封或是更多...';
 $labels['details'] = '詳情';
 $labels['headers'] = '標頭';
+$labels['allheaders'] = '所有標頭...';
 $labels['togglemoreheaders'] = '顯示更多的郵件標頭';
 $labels['togglefullheaders'] = '切換原始郵件標頭';
 $labels['htmltoggle'] = 'HTML';
@@ -391,6 +396,9 @@ $labels['rename'] = '重新命名';
 $labels['addphoto'] = '加入';
 $labels['replacephoto'] = '取代';
 $labels['uploadphoto'] = '上傳相片';
+$labels['choosefile'] = '選擇檔案...';
+$labels['choosefiles'] = '選擇檔案...';
+$labels['browse'] = '瀏覽';
 $labels['newcontact'] = ' 新建聯絡人';
 $labels['deletecontact'] = '刪除所選擇的聯絡人';
 $labels['composeto'] = '寄信至所選擇的聯絡人';
@@ -426,6 +434,7 @@ $labels['importreplace'] = '取代整個通訊錄';
 $labels['importgroups'] = '匯入群組';
 $labels['importgroupsall'] = '全部 (必要時新增群組)';
 $labels['importgroupsexisting'] = '僅限於既有群組';
+$labels['importdesc'] = '可以上傳通訊錄的所有聯絡人。<br/>現時支援 <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> 或 CSV 格式。';
 $labels['done'] = '完成';
 $labels['settingsfor'] = '設定';
 $labels['about'] = '關於';
@@ -501,7 +510,6 @@ $labels['advancedoptions'] = '進階選項';
 $labels['toggleadvancedoptions'] = '切換高級選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '對於所有資料夾，都要檢查有否新郵件';
-$labels['displaynext'] = '郵件刪除/移動時顯示下一封郵件';
 $labels['defaultfont'] = 'HTML 郵件的預設字型';
 $labels['mainoptions'] = '主要選項';
 $labels['browseroptions'] = '瀏覽器選項';
@@ -671,4 +679,3 @@ $labels['helplistkeyboardnavmessages'] = "左／右箭嘴：展開／收起郵�
 Enter：開啟所選／焦點郵件
 Del：將所選郵件移至垃圾桶";
 $labels['helplistkeyboardnavcontacts'] = "Enter：開啟所選／焦點聯絡人";
-?>

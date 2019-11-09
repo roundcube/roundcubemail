@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$productにようこそ';
 $labels['username'] = 'ユーザー名';
 $labels['password'] = 'パスワード';
@@ -259,6 +259,7 @@ $labels['keyrevoked'] = '取り消し済み';
 $labels['bccinstead'] = 'Bccを使用';
 $labels['addheader'] = '宛先を追加(ヘッダー)';
 $labels['insert'] = '挿入';
+$labels['insertcontact'] = '連絡先を挿入';
 $labels['recipient'] = '宛先';
 $labels['recipientedit'] = '宛先編集';
 $labels['editidents'] = '識別情報を編集';
@@ -395,6 +396,9 @@ $labels['rename'] = '名前を変更';
 $labels['addphoto'] = '追加';
 $labels['replacephoto'] = '置き換え';
 $labels['uploadphoto'] = '写真をアップロード';
+$labels['choosefile'] = 'ファイルを選択...';
+$labels['choosefiles'] = 'ファイルを選択...';
+$labels['browse'] = '閲覧';
 $labels['newcontact'] = '新しい連絡先を作成';
 $labels['deletecontact'] = '選択した連絡先を削除';
 $labels['composeto'] = 'この連絡先宛にメッセージを作成';
@@ -506,7 +510,6 @@ $labels['advancedoptions'] = '高度な設定';
 $labels['toggleadvancedoptions'] = '詳細なオプションの表示を切り替え';
 $labels['focusonnewmessage'] = '新しいメッセージが届いたらブラウザーをアクティブ';
 $labels['checkallfolders'] = 'すべてのフォルダーで新着メールを表示';
-$labels['displaynext'] = 'メッセージを削除や移動した後で次のメッセージを表示';
 $labels['defaultfont'] = 'HTMLメッセージの初期フォント';
 $labels['mainoptions'] = '基本的な設定';
 $labels['browseroptions'] = 'ブラウザーのオプション';
@@ -580,6 +583,8 @@ $labels['dualusefolder'] = 'フォルダー';
 $labels['generate'] = '生成';
 $labels['encryptioncreatekey'] = '新しい鍵ペアを作成';
 $labels['openmailvelopesettings'] = 'Mailvelopeの設定を表示';
+$labels['encryptionprivkeysinmailvelope'] = 'Mailvelopeのキーリングに$nr個の一致する秘密鍵:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'この送信者の識別情報へのPGP秘密鍵がMailvelope拡張にまだありません。メッセージの暗号化を有効にするためにPGP秘密鍵を作成しますか?';
 $labels['sortby'] = '並べ替え';
 $labels['sortasc'] = '昇順で並べ替え';
 $labels['sortdesc'] = '降順で並べ替え';
@@ -674,4 +679,3 @@ $labels['helplistkeyboardnavmessages'] = "右矢印・左矢印: メッセージ
 改行: 現在・選択しているメッセージを開きます。
 削除: 選択しているメッセージをゴミ箱に移動します。";
 $labels['helplistkeyboardnavcontacts'] = "改行: 現在・選択中の連絡先を開きます。";
-?>

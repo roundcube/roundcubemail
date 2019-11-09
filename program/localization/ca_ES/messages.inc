@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Hi ha hagut un error!';
 $messages['loginfailed']  = 'L\'accés ha fallat.';
 $messages['cookiesdisabled'] = 'El vostre navegador no accepta cookies.';
@@ -64,11 +63,8 @@ $messages['nopubkeyforsender'] = 'No s\'ha trobat una clau pública vàlida per 
 $messages['encryptnoattachments'] = 'No s\'han pogut encriptar els adjunts ja carregats. Si us plau, afegiu-los de nou a l\'editor d\'encriptació.';
 $messages['searchpubkeyservers'] = 'Voleu cercar en servidors de claus públiques les vostres claus no trobades?';
 $messages['encryptpubkeysfound'] = 'S\'han trobat les següents claus públiques:';
-$messages['keyservererror'] = 'No s\'ha pogut obtenir la clau del servidor de claus';
-$messages['keyimportsuccess'] = 'La clau pública $key s\'ha important correctament al vostre anell de claus local';
 $messages['nocontactsfound'] = 'No s\'ha trobat cap contacte.';
 $messages['contactnotfound'] = 'No s\'ha trobat el contacte sol·licitat.';
-$messages['contactsearchonly'] = 'Introduïu termes de cerca per trobar contactes';
 $messages['sendingfailed'] = 'Error enviant el missatge.';
 $messages['senttooquickly'] = 'Si us plau, espereu $sec segon(s) abans d\'enviar aquest missatge.';
 $messages['errorsavingsent'] = 'S\'ha produït un error mentre es desava el missatge enviat.';

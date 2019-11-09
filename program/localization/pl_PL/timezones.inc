@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -49,6 +48,7 @@ $labels['tz:africa:kigali'] = 'Kigali';
 $labels['tz:africa:kinshasa'] = 'Kinszasa';
 $labels['tz:africa:lagos'] = 'Lagos';
 $labels['tz:africa:libreville'] = 'Libreville';
+$labels['tz:africa:lome'] = 'Lome';
 $labels['tz:africa:luanda'] = 'Luanda';
 $labels['tz:africa:lubumbashi'] = 'Lubumbashi';
 $labels['tz:africa:lusaka'] = 'Lusaka';
@@ -64,6 +64,7 @@ $labels['tz:africa:niamey'] = 'Niamey';
 $labels['tz:africa:nouakchott'] = 'Nawakszut';
 $labels['tz:africa:ouagadougou'] = 'Wagadugu';
 $labels['tz:africa:porto-novo'] = 'Porto-Novo';
+$labels['tz:africa:sao_tome'] = 'Sao Tome';
 $labels['tz:africa:tripoli'] = 'Trypolis';
 $labels['tz:africa:tunis'] = 'Tunis';
 $labels['tz:africa:windhoek'] = 'Windhuk';
@@ -74,7 +75,11 @@ $labels['tz:america:anguilla'] = 'Anguilla';
 $labels['tz:america:antigua'] = 'Antigua';
 $labels['tz:america:araguaina'] = 'Araguaina';
 $labels['tz:america:argentina'] = 'Argentyna';
+$labels['tz:america:argentina:buenos_aires'] = 'Buenos Aires';
+$labels['tz:america:argentina:san_juan'] = 'San Juan';
+$labels['tz:america:argentina:san_luis'] = 'San Luis';
 $labels['tz:america:aruba'] = 'Aruba';
+$labels['tz:america:asuncion'] = 'Asuncion';
 $labels['tz:america:atikokan'] = 'Atikokan';
 $labels['tz:america:bahia'] = 'Bahia';
 $labels['tz:america:bahia_banderas'] = 'Bahia Banderas';
@@ -120,6 +125,7 @@ $labels['tz:america:halifax'] = 'Halifax';
 $labels['tz:america:havana'] = 'Hawana';
 $labels['tz:america:hermosillo'] = 'Hermosillo';
 $labels['tz:america:indiana'] = 'Indiana';
+$labels['tz:america:indiana:indianapolis'] = 'Indianapolis';
 $labels['tz:america:indiana:petersburg'] = 'Petersburg';
 $labels['tz:america:inuvik'] = 'Inuvik';
 $labels['tz:america:iqaluit'] = 'Iqaluit';

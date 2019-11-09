@@ -110,7 +110,7 @@ class newmail_notifier extends rcube_plugin
                 $field_id = '_' . $key;
                 $input    = new html_checkbox(array('name' => $field_id, 'id' => $field_id, 'value' => 1));
                 $content  = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'()'),
+                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'(); return false'),
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = array(

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Benvingut a $product';
 $labels['username'] = 'Nom d\'usuari';
 $labels['password'] = 'Contrasenya';
@@ -467,7 +467,6 @@ $labels['advancedoptions'] = 'Opcions avançades';
 $labels['toggleadvancedoptions'] = 'Commuta les opcions avançades';
 $labels['focusonnewmessage'] = 'Activa la finestra del navegador quan hi hagi un nou missatge';
 $labels['checkallfolders'] = 'Comprova totes les carpetes per missatges nous';
-$labels['displaynext'] = 'Mostra el missatge següent després de suprimir-ne o moure\'n un';
 $labels['defaultfont'] = 'Font de lletra per defecte de missatge en HTML';
 $labels['mainoptions'] = 'Opcions principals';
 $labels['browseroptions'] = 'Opcions del navegador';
@@ -613,4 +612,3 @@ $labels['helplistkeyboardnavmessages'] = "Fletxes dreta/esquerra: expandeix/cont
 Retorn: Obre el missatge seleccionat/actiu.
 Suprimeix: Mou els missatges seleccionats a la Paperera.";
 $labels['helplistkeyboardnavcontacts'] = "Retorn: Obre el contacte seleccionat/actiu";
-?>

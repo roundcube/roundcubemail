@@ -281,6 +281,21 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            // "display after delete" checkbox
+            if (!isset($no_override['display_next'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_displaynext';
+                $input    = new html_checkbox(array('name' => '_display_next', 'id' => $field_id, 'value' => 1));
+
+                $blocks['main']['options']['display_next'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('displaynext'))),
+                    'content' => $input->show($config['display_next']?1:0),
+                );
+            }
+
             if (!isset($no_override['refresh_interval'])) {
                 if (!$current) {
                     continue 2;
@@ -602,21 +617,6 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['inline_images'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('showinlineimages'))),
                     'content' => $input->show($config['inline_images']?1:0),
-                );
-            }
-
-            // "display after delete" checkbox
-            if (!isset($no_override['display_next'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_displaynext';
-                $input    = new html_checkbox(array('name' => '_display_next', 'id' => $field_id, 'value' => 1));
-
-                $blocks['main']['options']['display_next'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('displaynext'))),
-                    'content' => $input->show($config['display_next']?1:0),
                 );
             }
         break;
@@ -1182,20 +1182,6 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['skip_deleted'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('skipdeleted'))),
                     'content' => $input->show($config['skip_deleted']?1:0),
-                );
-            }
-
-            if (!isset($no_override['delete_always'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_delete_always';
-                $input    = new html_checkbox(array('name' => '_delete_always', 'id' => $field_id, 'value' => 1));
-
-                $blocks['main']['options']['delete_always'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('deletealways'))),
-                    'content' => $input->show($config['delete_always']?1:0),
                 );
             }
 

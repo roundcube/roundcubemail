@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Dámosche a benvida a $product';
 $labels['username'] = 'Nome de utente';
 $labels['password'] = 'Contrasinal';
@@ -431,7 +431,6 @@ $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';
 $labels['checkallfolders'] = 'Procurar novas mensaxes en todos os cartafoles';
-$labels['displaynext'] = 'Logo de eliminar ou mover unha mensaxe ir á mensaxe seguinte';
 $labels['defaultfont'] = 'Fonte por defecto da mensaxe HTML';
 $labels['mainoptions'] = 'Opcións principais';
 $labels['browseroptions'] = 'Opcións do navegador';
@@ -551,4 +550,3 @@ $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";
-?>

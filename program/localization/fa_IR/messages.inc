@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'خطایی رخ داد!';
 $messages['loginfailed']  = 'ورود ناموفق بود.';
 $messages['cookiesdisabled'] = 'مرورگر شما کوکی‌ها را قبول نمی‌کند.';
@@ -56,7 +55,6 @@ $messages['blockedimages'] = 'برای حفاظت از حریم شخصی شما�
 $messages['encryptedmessage'] = 'این یک پیام رمزنگاری شده است و قابل نمایش نیست. با عرض پوزش!';
 $messages['nocontactsfound'] = 'مخاطبی پیدا نشد.';
 $messages['contactnotfound'] = 'مخاطب درخواست شده پیدا نشد.';
-$messages['contactsearchonly'] = 'برای یافتن مخاطب‌ها، عبارت جستجو را وارد کنید';
 $messages['sendingfailed'] = 'ارسال پیغام ناموفق بود.';
 $messages['senttooquickly'] = 'لطفا قبل از ارسال این پیام $sec ثانیه صبر کنید.';
 $messages['errorsavingsent'] = 'خطایی رخ داده است پیام ارسالی ذخیره می گردد.';

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Welcome to $product';
 $labels['username'] = 'Username';
 $labels['password'] = 'Password';
@@ -400,7 +400,6 @@ $labels['force7bit'] = 'Use MIME encoding for 8-bit characters';
 $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['displaynext'] = 'After message delete/move display the next message';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['browseroptions'] = 'Browser Options';
@@ -490,4 +489,3 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-?>

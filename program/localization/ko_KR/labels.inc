@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product에 오신 것을 환영합니다';
 $labels['username'] = '사용자명';
 $labels['password'] = '암호';
@@ -466,7 +466,6 @@ $labels['advancedoptions'] = '고급 옵션';
 $labels['toggleadvancedoptions'] = '고급 옵션 표시/숨기기';
 $labels['focusonnewmessage'] = '새 메시지가 있을 경우 브라우저 창으로 포커스 이동';
 $labels['checkallfolders'] = '모든 폴더에서 새로운 메시지 확인';
-$labels['displaynext'] = '메시지 삭제/이동 후 다음 메시지 표시';
 $labels['defaultfont'] = 'HTML 메시지의 기본 글꼴';
 $labels['mainoptions'] = '메인 옵션';
 $labels['browseroptions'] = '브라우저 옵션';
@@ -612,4 +611,3 @@ $labels['helplistkeyboardnavmessages'] = "상/하 화살표: 메시지 글타래
 엔터: 선택한/포커스된 메시지 열기
 삭제: 선택한 메시지를 지운 편지함으로 이동";
 $labels['helplistkeyboardnavcontacts'] = "Enter: 선택한/포커스된 연락처 열기";
-?>

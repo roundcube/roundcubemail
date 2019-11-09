@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Welkom bij $product';
 $labels['username'] = 'Gebruikersnaam';
 $labels['password'] = 'Wachtwoord';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Alles uitklappen';
 $labels['expand-unread'] = 'Ongelezen uitklappen';
 $labels['collapse-all'] = 'Alles inklappen';
 $labels['threaded'] = 'Conversaties';
+$labels['showunread'] = 'Toon ongelezen berichten';
 $labels['autoexpand_threads'] = 'Klap alle conversaties uit';
 $labels['do_expand'] = 'alle conversaties';
 $labels['expand_only_unread'] = 'alleen met ongelezen berichten';
@@ -208,7 +209,7 @@ $labels['quotastorage'] = 'Schijfruimte';
 $labels['quotamessage'] = 'Aantal berichten';
 $labels['shortheaderdate'] = 'Op $date';
 $labels['shortheaderto'] = 'Naar $to op $date';
-$labels['shortheaderfrom'] = 'Van $to op $date';
+$labels['shortheaderfrom'] = 'Van $from op $date';
 $labels['quicksearch'] = 'Snel zoeken';
 $labels['searchplaceholder'] = 'Zoeken...';
 $labels['resetsearch'] = 'Wis zoekopdracht';
@@ -259,6 +260,7 @@ $labels['keyrevoked'] = 'Ingetrokken';
 $labels['bccinstead'] = 'Bcc gebruiken';
 $labels['addheader'] = 'Ontvanger toevoegen (header)';
 $labels['insert'] = 'Invoegen';
+$labels['insertcontact'] = 'Contact(en) invoegen';
 $labels['recipient'] = 'Ontvanger';
 $labels['recipientedit'] = 'Ontvanger aanpassen';
 $labels['editidents'] = 'Identiteiten bewerken';
@@ -360,7 +362,7 @@ $labels['advsearch'] = 'Geavanceerd zoeken';
 $labels['advanced'] = 'Geavanceerd';
 $labels['other'] = 'Anders';
 $labels['printcontact'] = 'Contactpersoon printen';
-$labels['qrcode'] = 'QR code';
+$labels['qrcode'] = 'QR-code';
 $labels['typehome'] = 'Thuis';
 $labels['typework'] = 'Werk';
 $labels['typeother'] = 'Anders';
@@ -395,6 +397,9 @@ $labels['rename'] = 'Hernoemen';
 $labels['addphoto'] = 'Toevoegen';
 $labels['replacephoto'] = 'Vervangen';
 $labels['uploadphoto'] = 'Foto uploaden';
+$labels['choosefile'] = 'Kies bestand...';
+$labels['choosefiles'] = 'Kies bestanden...';
+$labels['browse'] = 'Blader';
 $labels['newcontact'] = 'Nieuw contact aanmaken';
 $labels['deletecontact'] = 'Verwijder geselecteerde contactpersonen';
 $labels['composeto'] = 'Stuur een bericht naar';
@@ -506,7 +511,7 @@ $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['toggleadvancedoptions'] = 'Geavanceerde opties inschakelen';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
 $labels['checkallfolders'] = 'In alle mappen op nieuwe berichten controleren';
-$labels['displaynext'] = 'Ga naar volgend bericht na verwijderen of verplaatsen';
+$labels['displaynext'] = 'Laat volgende item in lijst zien na wissen/verplaatsen';
 $labels['defaultfont'] = 'Standaardlettertype voor HTML-berichten';
 $labels['mainoptions'] = 'Hoofdopties';
 $labels['browseroptions'] = 'Browserinstellingen';
@@ -580,8 +585,8 @@ $labels['dualusefolder'] = 'mappen';
 $labels['generate'] = 'Aanmaken';
 $labels['encryptioncreatekey'] = 'Maak een nieuw sleutelpaar aan';
 $labels['openmailvelopesettings'] = 'open Mailvelope Instellingen';
-$labels['encryptionprivkeysinmailvelope'] = 'U heeft $nr overeenkomende privé sleutels opgeslagen in Mailvelope';
-$labels['encryptionnoprivkeysinmailvelope'] = 'Deze afzender zijn indentiteit heeft (nog) geen PGP privé sleutels opgeslagen in uw Mailvelope extensie. Wilt u deze aanmaken om versleuteling van berichten in te kunnen schakelen?';
+$labels['encryptionprivkeysinmailvelope'] = 'U heeft $nr overeenkomende privésleutels opgeslagen in Mailvelope';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Deze afzender zijn indentiteit heeft (nog) geen PGP-privésleutels opgeslagen in uw Mailvelope extensie. Wilt u deze aanmaken om versleuteling van berichten in te kunnen schakelen?';
 $labels['sortby'] = 'Sorteer op';
 $labels['sortasc'] = 'Sorteer oplopend';
 $labels['sortdesc'] = 'Sorteer aflopend';
@@ -676,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Pijl links/rechts: conversaties in- of
 Enter: Open geselecteerd of actief bericht.
 Delete: Verwijder geselecteerde berichten naar Prullenbak.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open geselecteerd of actief contact.";
-?>

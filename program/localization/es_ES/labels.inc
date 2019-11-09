@@ -2,24 +2,25 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienvenido a $product';
 $labels['username'] = 'Nombre de usuario';
 $labels['password'] = 'Contraseña';
 $labels['server'] = 'Servidor';
 $labels['login'] = 'Iniciar sesión';
+$labels['menu'] = 'Menú';
 $labels['logout'] = 'Cerrar sesión';
 $labels['mail'] = 'Correo';
 $labels['settings'] = 'Configuración';
@@ -44,6 +45,7 @@ $labels['priority'] = 'Prioridad';
 $labels['organization'] = 'Organización';
 $labels['readstatus'] = 'Estado de lectura';
 $labels['listoptions'] = 'Opciones de listado...';
+$labels['listoptionstitle'] = 'Lista de opciones';
 $labels['mailboxlist'] = 'Carpetas';
 $labels['messagesfromto'] = 'Mensajes $from a $to de $count';
 $labels['threadsfromto'] = 'Hilos $from a $to de $count';
@@ -112,6 +114,7 @@ $labels['forward'] = 'Reenviar';
 $labels['forwardinline'] = 'Reenviar entre-líneas';
 $labels['forwardattachment'] = 'Reenviar como adjunto';
 $labels['forwardmessage'] = 'Reenviar mensaje';
+$labels['bounce'] = 'Reenviar';
 $labels['deletemessage'] = 'Eliminar mensaje';
 $labels['movemessagetotrash'] = 'Mover mensaje a la papelera';
 $labels['printmessage'] = 'Imprimir este mensaje';
@@ -135,11 +138,13 @@ $labels['folders-all'] = 'Todas las carpetas';
 $labels['more'] = 'Más';
 $labels['back'] = 'Volver';
 $labels['options'] = 'Opciones';
+$labels['actions'] = 'Acciones';
 $labels['first'] = 'Primero';
 $labels['last'] = 'Último';
 $labels['previous'] = 'Anterior';
 $labels['next'] = 'Siguiente';
 $labels['select'] = 'Seleccionar';
+$labels['selection'] = 'Selección';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
 $labels['currpage'] = 'Página actual';
@@ -196,6 +201,7 @@ $labels['quotaused'] = 'Usado';
 $labels['quotastorage'] = 'Espacio en disco';
 $labels['quotamessage'] = 'Número de mensajes';
 $labels['quicksearch'] = 'Búsqueda rápida';
+$labels['searchplaceholder'] = 'Buscar...';
 $labels['resetsearch'] = 'Reiniciar la búsqueda';
 $labels['searchmod'] = 'Opciones de búsqueda';
 $labels['msgtext'] = 'Mensaje completo';
@@ -275,9 +281,11 @@ $labels['high'] = 'Alta';
 $labels['highest'] = 'La más alta';
 $labels['nosubject'] = '(sin asunto)';
 $labels['showimages'] = 'Mostrar imágenes';
+$labels['allow'] = 'Permitir';
 $labels['alwaysshow'] = 'Siempre mostrar imágenes de $sender';
 $labels['isdraft'] = 'Este es un mensaje de borrador.';
 $labels['andnmore'] = '$nr más…';
+$labels['details'] = 'Detalles';
 $labels['togglemoreheaders'] = 'Mostrar más encabezados del mensaje';
 $labels['togglefullheaders'] = 'Desplegar u ocultar encabezados de mensajes';
 $labels['htmltoggle'] = 'HTML';
@@ -293,6 +301,10 @@ $labels['mdnrequest'] = 'El remitente de este mensaje desea ser notificado cuand
 $labels['receiptread'] = 'Devolver recibo de confirmación (lectura)';
 $labels['yourmessage'] = 'Esto es un acuse de recibo de su mensaje';
 $labels['receiptnote'] = 'Nota: Esta notificación sólo confirma que su mensaje fue abierto en el ordenador del destinatario. Eso no garantiza que el destinatario haya leído o entendido el contenido del mensaje.';
+$labels['rotate'] = 'Girar';
+$labels['increaseimage'] = 'Aumentar el tamaño de la imagen';
+$labels['decreaseimage'] = 'Disminuir el tamaño de la imagen';
+$labels['rotateimage'] = 'Girar imagen';
 $labels['name'] = 'Nombre de visualización';
 $labels['firstname'] = 'Nombre';
 $labels['surname'] = 'Apellido';
@@ -358,6 +370,7 @@ $labels['cancel'] = 'Cancelar';
 $labels['save'] = 'Guardar';
 $labels['delete'] = 'Eliminar';
 $labels['discard'] = 'Descartar';
+$labels['continue'] = 'Continuar';
 $labels['rename'] = 'Renombrar';
 $labels['addphoto'] = 'Añadir';
 $labels['replacephoto'] = 'Reemplazar';
@@ -424,7 +437,7 @@ $labels['signature'] = 'Firma';
 $labels['dstactive'] = 'Horario de verano';
 $labels['showinextwin'] = 'Abrir mensaje en una ventana nueva';
 $labels['composeextwin'] = 'Redactar en una ventana nueva';
-$labels['htmleditor'] = 'Componer mensajes HTML';
+$labels['htmleditor'] = 'Redactar mensajes HTML';
 $labels['htmlonreply'] = 'en respuesta a mensaje HTML';
 $labels['htmlonreplyandforward'] = 'en reenvío o respuesta a mensaje HTML';
 $labels['htmlsignature'] = 'Firma HTML';
@@ -469,7 +482,6 @@ $labels['advancedoptions'] = 'Opciones avanzadas';
 $labels['toggleadvancedoptions'] = 'Desplegar opciones avanzadas';
 $labels['focusonnewmessage'] = 'Enfocar ventana del navegador al recibir nuevo mensaje';
 $labels['checkallfolders'] = 'Revisar todas las carpetas por nuevos mensajes';
-$labels['displaynext'] = 'Después de borrar/mover un mensaje, mostrar el siguiente';
 $labels['defaultfont'] = 'Tipo de letra predeterminada de mensaje HTML';
 $labels['mainoptions'] = 'Opciones Principales';
 $labels['browseroptions'] = 'Opciones del Navegador';
@@ -534,6 +546,7 @@ $labels['findfolders'] = 'Encontrar carpetas';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Otros usuarios';
 $labels['namespace.shared'] = 'Compartido';
+$labels['dualusemail'] = 'mensajes';
 $labels['encryptioncreatekey'] = 'Crear una nueva clave par';
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc'] = 'Orden ascendente';
@@ -607,6 +620,7 @@ $labels['arialabelpreferencesform'] = 'Formulario de preferencias';
 $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidad';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de respuesta';
 $labels['arialabelsearchterms'] = 'Términos de búsqueda';
+$labels['arialabelimagetools'] = 'Herramientas de imagen';
 $labels['helplistnavigation'] = 'Listar la navegación por teclado';
 $labels['helplistkeyboardnavigation'] = "Flechas arriba/abajo: Mover de fila el foco o selección.
 Espacio: Seleccionar la fila enfocada.
@@ -616,4 +630,3 @@ $labels['helplistkeyboardnavmessages'] = "Flechas izquierda/derecha: expandir/re
 Retorno: Abrir el mensaje seleccionado/enfocado.
 Borrar: Mover los mensajes seleccionado a la Papelera.";
 $labels['helplistkeyboardnavcontacts'] = "Retorno: Abrir el contacto seleccionado";
-?>

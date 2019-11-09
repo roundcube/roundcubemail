@@ -184,7 +184,6 @@ function rcmail_contact_record_groups($contact_id)
         'noclose' => true,
     );
 
-    $list     = array();
     $members  = $CONTACTS->get_record_groups($contact_id);
     $table    = new html_table(array('tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist'));
     $checkbox = new html_checkbox(array('name' => '_gid[]',

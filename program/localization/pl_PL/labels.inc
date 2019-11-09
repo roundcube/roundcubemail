@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Witamy w $product';
 $labels['username'] = 'Nazwa';
 $labels['password'] = 'Hasło';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Rozwiń wszystkie';
 $labels['expand-unread'] = 'Rozwiń nieprzeczytane';
 $labels['collapse-all'] = 'Zwiń wszystkie';
 $labels['threaded'] = 'Powątkowane';
+$labels['showunread'] = 'Pokaż nieprzeczytane';
 $labels['autoexpand_threads'] = 'Rozwijaj wątki';
 $labels['do_expand'] = 'wszystkie';
 $labels['expand_only_unread'] = 'tylko nieprzeczytane';
@@ -259,6 +260,7 @@ $labels['keyrevoked'] = 'Unieważniony';
 $labels['bccinstead'] = 'Użyj Bcc';
 $labels['addheader'] = 'Dodaj odbiorcę (nagłówek)';
 $labels['insert'] = 'Dodawanie';
+$labels['insertcontact'] = 'Wstaw kontakt(y)';
 $labels['recipient'] = 'Odbiorca';
 $labels['recipientedit'] = 'Edycja odbiorcy';
 $labels['editidents'] = 'Edytuj tożsamości';
@@ -324,7 +326,7 @@ $labels['decreaseimage'] = 'Zmniejsz rozmiar obrazu';
 $labels['rotateimage'] = 'Obróć obraz';
 $labels['showtools'] = 'Pokaż narzędzia obrazu';
 $labels['hidetools'] = 'Ukryj narzędzia obrazu';
-$labels['name'] = 'Nazwa';
+$labels['name'] = 'Nazwa wyświetlana';
 $labels['firstname'] = 'Imię';
 $labels['surname'] = 'Nazwisko';
 $labels['middlename'] = 'Drugie imię';
@@ -395,6 +397,9 @@ $labels['rename'] = 'Zmień nazwę';
 $labels['addphoto'] = 'Dodaj';
 $labels['replacephoto'] = 'Zamień';
 $labels['uploadphoto'] = 'Wyślij zdjęcie';
+$labels['choosefile'] = 'Wybierz plik...';
+$labels['choosefiles'] = 'Wybierz pliki...';
+$labels['browse'] = 'Przeglądaj';
 $labels['newcontact'] = 'Dodaj nowy kontakt';
 $labels['deletecontact'] = 'Usuń zaznaczone kontakty';
 $labels['composeto'] = 'Utwórz wiadomość do wybranych kontaktów';
@@ -487,7 +492,7 @@ $labels['showremoteimages'] = 'Wyświetlaj obrazki w wiadomościach';
 $labels['allowremoteresources'] = 'Zezwól na zdalne zasoby (obrazki, style)';
 $labels['fromknownsenders'] = 'od znanych nadawców';
 $labels['always'] = 'zawsze';
-$labels['alwaysbutplain'] = 'Zawsze, za wyjątkiem odpowiedzi na zwykły tekst.';
+$labels['alwaysbutplain'] = 'zawsze, za wyjątkiem odpowiedzi na zwykły tekst.';
 $labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
 $labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
 $labels['everynminutes'] = 'co $n minut(y)';
@@ -506,7 +511,7 @@ $labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['toggleadvancedoptions'] = 'Pokaż/ukryj opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';
 $labels['checkallfolders'] = 'Sprawdzaj czy nadeszły nowe wiadomości we wszystkich folderach';
-$labels['displaynext'] = 'Po usunięciu/przeniesieniu wiadomości wyświetl następną';
+$labels['displaynext'] = 'Po usunięciu elementu listy wyświetl następny';
 $labels['defaultfont'] = 'Czcionka wiadomości HTML';
 $labels['mainoptions'] = 'Opcje główne';
 $labels['browseroptions'] = 'Opcje przeglądarki';
@@ -600,7 +605,7 @@ $labels['dateformatd'] = 'DD';
 $labels['dateformatj'] = 'D';
 $labels['dateformatn'] = 'M';
 $labels['B'] = 'B';
-$labels['KB'] = 'KB';
+$labels['KB'] = 'kB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'uniwersalny';
@@ -676,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Strzałki prawo/lewo: Rozwiniecie/zwin
 ENTER: Otwarcie bieżącej wiadomości.
 DELETE: Usunięcie/Przeniesienie wiadomości do Kosza.";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: Otwarcie bieżącego kontaktu.";
-?>

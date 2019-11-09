@@ -151,10 +151,6 @@ input.smart-upload {
         }
     }
 
-    .rulerow {
-        margin-bottom: .5rem;
-    }
-
     &.groupped {
         &.readonly {
             legend {
@@ -335,9 +331,10 @@ input.smart-upload {
 
                     &.rowbuttons {
                         text-align: right;
+                        padding-top: 0;
 
                         a {
-                            margin-right: .5rem;
+                            margin-left: .5rem;
 
                             & > span {
                                 display: inline;
@@ -451,9 +448,16 @@ html.ms .propform {
         }
     }
 
-    // We don't need buttons element on small devices
+    // We don't need buttons element on small devices, nor flex display
     html.layout-small &,
     html.layout-phone & {
+        display: initial;
+        overflow-y: auto !important;
+
+        .formcontent {
+            overflow: initial !important;
+        }
+
         .formbuttons {
             display: none;
         }
@@ -479,7 +483,7 @@ html.ms .propform {
 
         .form-control-plaintext,
         label.col-form-label {
-            padding: .375rem .375rem .375rem 0;
+            padding: floor(.375 * @page-font-size) floor(.375 * @page-font-size) floor(.375 * @page-font-size) 0;
         }
 
         .form-control-plaintext {
@@ -598,7 +602,7 @@ html.ms .propform {
 /* Some common icons for "iconized inputs" */
 .input-group .icon {
     text-decoration: none;
-    padding: .375rem .5rem;
+    padding: floor(.375 * @page-font-size) .5rem;
 
     &.input-group-text {
         min-width: 2.4rem;
@@ -704,7 +708,7 @@ html.ms .propform {
     .custom-control-label {
         &:before,
         &:after {
-            margin: -.15rem 0 0 0;
+            margin: calc(floor(.15 * @page-font-size) * -1) 0 0 0;
         }
     }
 
@@ -716,7 +720,7 @@ html.ms .propform {
 /*** Forms in popups ***/
 
 .popup form.propform {
-    padding: .5rem;
+    padding: .25rem;
     overflow-x: hidden;
 }
 
@@ -863,10 +867,14 @@ html.ms .propform {
     }
 
     .attachmentslist {
+        border: 0;
+        background: transparent;
+
         li {
             position: relative;
             display: flex;
             padding-right: 1.5em;
+            margin: 0.15em 0;
 
             a.filename {
                 flex: 1;
@@ -875,12 +883,12 @@ html.ms .propform {
             a.delete,
             a.cancelupload {
                 position: absolute;
-                right: 0;
+                right: 0.25em;
                 width: auto; // fix button width if the widget is in a .popupmenu
+            }
 
-                &:before {
-                    margin: 0;
-                }
+            a.dropdown {
+                margin-right: .5em;
             }
 
             .inner {
@@ -913,7 +921,7 @@ html.ms .propform {
 
 /*** Smart recipient input field ***/
 
-@recipient-input-margin-fix: .25rem;
+@recipient-input-margin-fix: round(.25 * @page-font-size);
 
 .recipient-input {
     display: flex;
@@ -951,7 +959,7 @@ html.ms .propform {
         flex-grow: 1;
         display: inline-block;
         line-height: 1.1;
-        padding: .25rem;
+        padding: floor(.25 * @page-font-size);
         vertical-align: middle;
     }
 
@@ -970,7 +978,7 @@ html.ms .propform {
     a.button.icon {
         font-size: .8em;
         cursor: pointer;
-        padding: 0 0 0 .25em;
+        padding: 0;
 
         &:before {
             float: none;
@@ -1239,6 +1247,12 @@ html.ms .propform {
     &::placeholder {
         color: @color-input-placeholder;
     }
+
+    // Note: This must be a separate rule
+    &::-ms-input-placeholder,
+    &::-webkit-input-placeholder {
+        color: @color-input-placeholder;
+    }
 }
 
 .invalid-feedback {
@@ -1301,8 +1315,7 @@ html.ms .propform {
         &:before,
         &:after {
             border-radius: .6rem;
-            margin: .15rem 0;
-            cursor: pointer;
+            margin: floor(.15 * @page-font-size) 0;
 
             html.touch & {
                 border-radius: .8rem;
@@ -1312,34 +1325,42 @@ html.ms .propform {
 
         &:before {
             left: 2px;
-            width: 2rem;
-            height: 1.2rem;
+            top: 4px;
+            width: floor(1.9 * @page-font-size);
+            height: floor(1.2 * @page-font-size);
 
             html.touch & {
-                top: .2rem;
-                width: 2.6rem;
-                height: 1.6rem;
+                top: floor(.2 * @page-font-size);
+                width: floor(2.5 * @page-font-size);
+                height: floor(1.6 * @page-font-size);
             }
         }
 
         &:after {
             left: 4px;
-            width: ~"calc(1.2rem - 4px)";
-            height: ~"calc(1.2rem - 4px)";
+            top: 6px;
+            width: floor(1.2 * @page-font-size) - 4;
+            height: floor(1.2 * @page-font-size) - 4;
 
             html.touch & {
-                top: ~"calc(.2rem + 2px)";
-                height: ~"calc(1.6rem - 4px)";
-                width: ~"calc(1.6rem - 4px)";
+                top: floor(.2 * @page-font-size) + 2;
+                height: floor(1.6 * @page-font-size) - 4;
+                width: floor(1.6 * @page-font-size) - 4;
             }
         }
     }
 
     .custom-control-input:checked ~ .custom-control-label::after {
-        transform: translateX(.8rem);
+        transform: translateX(floor(1.2 * @page-font-size) - 6);
 
         html.touch & {
-            transform: translateX(1rem);
+            transform: translateX(floor(1.6 * @page-font-size) - 9);
+        }
+    }
+
+    .custom-control-input:not(:disabled) ~ .custom-control-label {
+        &:after, &:before {
+            cursor: pointer;
         }
     }
 }
@@ -1355,7 +1376,7 @@ html.ms .propform {
     }
 
     & + .hint {
-        margin-top: .25rem;
+        margin-top: floor(.25 * @page-font-size);
     }
 }
 

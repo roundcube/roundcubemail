@@ -10,7 +10,7 @@
 <h1 class="voice"><roundcube:label name="compose" /></h1>
 
 <!-- compose options and attachments list -->
-<div class="sidebar listbox">
+<div id="layout-sidebar" class="listbox sidebar-right">
 	<div class="header">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title all-sizes"><roundcube:label name="optionsandattachments" /></span>
@@ -72,43 +72,43 @@
 	</div>
 </div>
 
-<div class="content listbox selected" role="main">
+<div id="layout-content" class="listbox selected" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header">
-		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="header-title"><roundcube:label name="compose" /></span>
 		<!-- toolbar -->
-		<div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
-			<a class="button settings" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
+		<div id="messagetoolbar" class="toolbar menu" role="toolbar" aria-labelledby="aria-label-toolbar">
+			<a class="options" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
 				<span class="inner"><roundcube:label name="optionsandattachments"></span>
 			</a>
-			<roundcube:button command="savedraft" type="link" class="button save draft disabled" classAct="button save draft"
+			<roundcube:button command="savedraft" type="link" class="save draft disabled" classAct="save draft"
 				label="save" title="savemessage" tabindex="2" innerclass="inner" data-content-button="true" />
 			<span class="spacer"></span>
-			<roundcube:button name="addattachment" type="link" class="button attach"
+			<roundcube:button name="addattachment" type="link" class="attach"
 				label="attach" title="addattachment" data-hidden="small"
 				onclick="if (!$(this).is('.disabled')) rcmail.upload_input('uploadform')"
 				aria-haspopup="true" aria-expanded="false" tabindex="2" innerclass="inner" />
-			<roundcube:button command="insert-sig" type="link" class="button signature disabled" classAct="button signature"
+			<roundcube:button command="insert-sig" type="link" class="signature disabled" classAct="signature"
 				label="signature" title="insertsignature" tabindex="2" innerclass="inner" />
-			<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
+			<a href="#responses" class="responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
 				<span class="inner"><roundcube:label name="responses" /></span>
 			</a>
 			<roundcube:if condition="!empty(env:spell_langs)" />
 			<span class="dropbutton">
-				<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled"
-					classAct="button spellcheck" classSel="button spellcheck pressed"
+				<roundcube:button command="spellcheck" type="link" class="spellcheck disabled"
+					classAct="spellcheck" classSel="button spellcheck pressed"
 					label="spellcheck" title="checkspelling" tabindex="2" innerclass="inner" />
-				<a href="#languages" class="button dropdown" tabindex="2" data-popup="spell-menu">
+				<a href="#languages" class="dropdown" tabindex="2" data-popup="spell-menu">
 					<span class="inner"><roundcube:label name="language" /></span>
 				</a>
 			</span>
 			<roundcube:endif />
 			<span class="dropbutton" style="display:none">
-				<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled"
-					classAct="button encrypt" classSel="button encrypt selected" innerclass="inner"
+				<roundcube:button command="compose-encrypted" type="link" class="encrypt disabled"
+					classAct="encrypt" classSel="encrypt selected" innerclass="inner"
 					label="encrypt" title="encryptmessagemailvelope" tabindex="2" />
-				<a href="#encryption" id="encryption-menu-button" class="button dropdown" tabindex="2" data-popup="encryption-menu">
+				<a href="#encryption" id="encryption-menu-button" class="dropdown" tabindex="2" data-popup="encryption-menu">
 					<span class="inner"><roundcube:label name="encryptmessagemailvelope" /></span>
 				</a>
 			</span>
@@ -229,7 +229,7 @@
 
 <div id="headers-menu" class="popupmenu" data-popup-init="headersmenu">
 	<h3 id="aria-label-headersmenu" class="voice"><roundcube:label name="arialabelheadersmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-headersmenu">
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-headersmenu">
 		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="cc" /></a></li>
 		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="bcc" /></a></li>
 		<li role="menuitem"><a data-target="replyto" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="replyto" /></a></li>
@@ -239,35 +239,35 @@
 
 <div id="responses-menu" class="popupmenu">
 	<h3 id="aria-label-responsesmenu" class="voice"><roundcube:label name="arialabelresponsesmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
 		<li role="separator" class="separator"><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
-		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="create responses" classAct="create responses active" unselectable="on" />
+		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="create responses disabled" classAct="create responses active" unselectable="on" />
 		<roundcube:button name="responses" type="link-menuitem" label="editresponses" class="edit responses active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
 	</ul>
 </div>
 
 <div id="attachmentmenu" class="popupmenu">
 	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
-		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
-		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
-		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename" classAct="rename active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
+		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin disabled" classAct="extwin active" />
+		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download disabled" classAct="download active" />
+		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename disabled" classAct="rename active" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
 	</ul>
 </div>
 
 <div id="encryption-menu" class="popupmenu">
-	<ul class="toolbarmenu listing" role="menu">
-		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" class="encrypt" classAct="encrypt active" />
-		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" class="encrypt sign" classAct="encrypt sign active" />
+	<ul class="menu listing" role="menu">
+		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" class="encrypt disabled" classAct="encrypt active" />
+		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" class="encrypt sign disabled" classAct="encrypt sign active" />
 	</ul>
 </div>
 
 <div id="recipient-dialog" class="popupmenu" role="region" aria-labelledby="aria-label-composecontacts">
 	<div class="listbox">
-		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
+		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu"
 			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" class="no-bs" />
 		<div class="scroller" tabindex="-1">
 			<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"

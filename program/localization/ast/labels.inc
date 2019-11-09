@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienllegáu a $product';
 $labels['username'] = 'Usuariu';
 $labels['password'] = 'Contraseña';
@@ -426,7 +426,6 @@ $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['toggleadvancedoptions'] = 'Camudar opciones avanzaes';
 $labels['focusonnewmessage'] = 'Enfocar la ventana de restolación en mensaxes nuevos';
 $labels['checkallfolders'] = 'Comprobar en toles carpetes mensaxes nuevos';
-$labels['displaynext'] = 'Depués de mover/desaniciar amosar el mensaxe siguiente';
 $labels['defaultfont'] = 'Triba de fonte por defeutu del mensaxe HTML';
 $labels['mainoptions'] = 'Opciones principales';
 $labels['browseroptions'] = 'Opciones del restolador';
@@ -554,4 +553,3 @@ $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
 $labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";
-?>

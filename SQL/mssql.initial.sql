@@ -1,13 +1,13 @@
 CREATE TABLE [dbo].[cache] (
 	[user_id] [int] NOT NULL ,
-	[cache_key] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[cache_key] [varchar] (128) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[cache_shared] (
-	[cache_key] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[cache_key] [varchar] (255) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -15,7 +15,7 @@ GO
 
 CREATE TABLE [dbo].[cache_index] (
 	[user_id] [int] NOT NULL ,
-	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[expires] [datetime] NULL ,
 	[valid] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
@@ -24,7 +24,7 @@ GO
 
 CREATE TABLE [dbo].[cache_thread] (
 	[user_id] [int] NOT NULL ,
-	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -32,7 +32,7 @@ GO
 
 CREATE TABLE [dbo].[cache_messages] (
 	[user_id] [int] NOT NULL ,
-	[mailbox] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[mailbox] [varchar] (128) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[uid] [int] NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL ,
@@ -96,7 +96,7 @@ GO
 
 CREATE TABLE [dbo].[users] (
 	[user_id] [int] IDENTITY (1, 1) NOT NULL ,
-	[username] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[username] [varchar] (128) COLLATE Latin1_General_CS_AS NOT NULL ,
 	[mail_host] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
 	[last_login] [datetime] NULL ,
@@ -422,6 +422,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2018122300')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2019092900')
 GO
 

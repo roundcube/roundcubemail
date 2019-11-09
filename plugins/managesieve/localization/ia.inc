@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Gerer filtros de e-mail entrante';
 $labels['filtername'] = 'Nomine de filtro';
@@ -65,15 +65,9 @@ $labels['days'] = 'dies';
 $labels['seconds'] = 'secundas';
 $labels['rulestop'] = 'Cessar de evalutar regulas';
 $labels['enable'] = 'Activar/Disactivar';
-$labels['filterset'] = 'Gruppo de filtros';
 $labels['filtersets'] = 'Gruppos de filtros';
-$labels['filtersetadd'] = 'Adder gruppo de filtros';
-$labels['filtersetact'] = 'Activar le gruppo de filtros actual';
-$labels['filtersetdeact'] = 'Disactivar le gruppo de filtros actual';
 $labels['filterseteditraw'] = 'Modificar gruppo de filtros';
 $labels['filterdef'] = 'Definition del filtro';
-$labels['filtersetname'] = 'Nomine del gruppo de filtros';
-$labels['newfilterset'] = 'Nove gruppo de filtros';
 $labels['active'] = 'active';
 $labels['none'] = 'nulle';
 $labels['fromset'] = 'ab gruppo';
@@ -213,16 +207,6 @@ $messages['actiondeleteconfirm'] = 'Es vos secur de voler deler le action seligi
 $messages['forbiddenchars'] = 'Le campo contine characteres interdicte.';
 $messages['cannotbeempty'] = 'Le campo non pote esser vacue.';
 $messages['ruleexist'] = 'Un filtro con le nomine specificate jam existe.';
-$messages['setactivateerror'] = 'Impossibile activar le gruppo de filtros seligite. Un error de servitor ha occurrite.';
-$messages['setdeactivateerror'] = 'Impossibile disactivar le gruppo de filtros seligite. Un error de servitor ha occurrite.';
-$messages['setdeleteerror'] = 'Impossibile deler le gruppo de filtros seligite. Un error de servitor ha occurrite.';
-$messages['setactivated'] = 'Le gruppo de filtros ha essite activate.';
-$messages['setdeactivated'] = 'Le gruppo de filtros ha essite disactivate.';
-$messages['setdeleted'] = 'Le gruppo de filtros ha essite delite.';
-$messages['setupdated'] = 'Le insimul de filtros ha essite actualisate.';
-$messages['setdeleteconfirm'] = 'Es vos secur de voler deler le gruppo de filtros seligite?';
-$messages['setcreateerror'] = 'Impossibile crear le gruppo de filtros. Un error de servitor ha occurrite.';
-$messages['setcreated'] = 'Le gruppo de filtros ha essite create.';
 $messages['activateerror'] = 'Impossibile activar le filtro(s) seligite. Un error de servitor ha occurrite.';
 $messages['deactivateerror'] = 'Impossibile disactivar le filtro(s) seligite. Un error de servitor ha occurrite.';
 $messages['deactivated'] = 'Le filtro(s) ha essite disactivate.';
@@ -237,4 +221,3 @@ $messages['invaliddateformat'] = 'Le formato del data o del parte de data non es
 $messages['saveerror'] = 'Impossibile salveguardar le datos. Un error de servitor ha occurrite.';
 $messages['emptyvacationbody'] = 'Le texto del message de vacantias es obligatori.';
 $messages['duplicate.conflict.err'] = 'Ambe le capite e le identificator unic non es permittite.';
-?>

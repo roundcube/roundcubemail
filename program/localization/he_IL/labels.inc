@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'ברוך בואך אל $product';
 $labels['username'] = 'שם משתמש';
 $labels['password'] = 'סיסמה';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'הרחבה כלית';
 $labels['expand-unread'] = 'הרחבה טרם נקרא';
 $labels['collapse-all'] = 'כינוס כללי';
 $labels['threaded'] = 'משורשר';
+$labels['showunread'] = 'הצגת הודעות שלא נקראו';
 $labels['autoexpand_threads'] = 'הרחבת הודעות משורשרות';
 $labels['do_expand'] = 'כל השרשורים';
 $labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
@@ -259,6 +260,7 @@ $labels['keyrevoked'] = 'נשלל';
 $labels['bccinstead'] = 'שימוש במכותבים נסתרים';
 $labels['addheader'] = 'הוספת נמען (כותרת)';
 $labels['insert'] = 'הוספה בין ערכים';
+$labels['insertcontact'] = 'פה יש להוסיף איש קשר';
 $labels['recipient'] = 'הנמען';
 $labels['recipientedit'] = 'עריכת נמענים';
 $labels['editidents'] = 'עריכת זהויות';
@@ -395,6 +397,9 @@ $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
 $labels['uploadphoto'] = 'העלאת תמונה';
+$labels['choosefile'] = 'יש לבחור קובץ...';
+$labels['choosefiles'] = 'יש לבחור קבצים...';
+$labels['browse'] = 'דפדוף';
 $labels['newcontact'] = 'צור איש קשר חדש';
 $labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
 $labels['composeto'] = 'יצירת הודעה אל';
@@ -506,7 +511,6 @@ $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקיות';
-$labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
 $labels['defaultfont'] = 'גופן ברירת מחדל להודעה בפורמט HTML';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
 $labels['browseroptions'] = 'אפשרויות דפדפן';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "חץ ימין/שמאל: הרחבה/צ�
 ENTER: פתיחה של ההודעה שנבחרה
 DELETE: העברה של ההודעה שנבחרה לפח האשפה";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: פתיחה של איש הקשר שסומן ";
-?>

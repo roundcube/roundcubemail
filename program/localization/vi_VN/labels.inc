@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Chào mừng bạn đã sử dụng $product';
 $labels['username'] = 'Tên đăng nhập';
 $labels['password'] = 'Mật khẩu';
@@ -428,7 +428,6 @@ $labels['force7bit'] = 'Sử dụng MIME mã hóa cho ký tự 8-bit';
 $labels['advancedoptions'] = 'Tùy chọn tính năng cao hơn';
 $labels['focusonnewmessage'] = 'Tập trung khung cửa trình duyệt vào thư mới';
 $labels['checkallfolders'] = 'Kiểm tra thư mới trong tất cả thư mục';
-$labels['displaynext'] = 'Sau khi "xóa/di chuyển" thư thì hiển thị thư kế tiếp';
 $labels['defaultfont'] = 'Phông chữ mặc định của thư có mã HTML';
 $labels['mainoptions'] = 'Tùy chọn chính';
 $labels['browseroptions'] = 'Tùy chọn Trình duyệt';
@@ -529,4 +528,3 @@ $labels['arialabelforwardingoptions'] = 'Các lựa chọn chuyển tiếp thư'
 $labels['arialabelreplyalloptions'] = 'Các lựa chọn trả lời tất cả';
 $labels['arialabelmarkmessagesas'] = 'Đánh dấu thư đã chọn như...';
 $labels['arialabelattachmentpreview'] = 'Xem trước tệp tin đính kèm';
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Croeso i $product';
 $labels['username'] = 'Enw defnyddiwr';
 $labels['password'] = 'Cyfrinair';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Ehangu Popeth';
 $labels['expand-unread'] = 'Ehangu Negeseuon Heb eu darllen';
 $labels['collapse-all'] = 'Crebachu Popeth';
 $labels['threaded'] = 'Edafedd';
+$labels['showunread'] = 'Dangos negeseuon heb eu darllen';
 $labels['autoexpand_threads'] = 'Ehangu edefau neges';
 $labels['do_expand'] = 'pob edefyn';
 $labels['expand_only_unread'] = 'dim ond gyda negeseuon heb eu darllen';
@@ -396,6 +397,9 @@ $labels['rename'] = 'Ail-enwi';
 $labels['addphoto'] = 'Ychwanegu';
 $labels['replacephoto'] = 'Amnewid';
 $labels['uploadphoto'] = 'Lanlwytho llun';
+$labels['choosefile'] = 'Dewis ffeil...';
+$labels['choosefiles'] = 'Dewis ffeiliau...';
+$labels['browse'] = 'Pori';
 $labels['newcontact'] = 'Creu cyswllt newydd';
 $labels['deletecontact'] = 'Dileu y cysylltiadau a ddewiswyd';
 $labels['composeto'] = 'Ysgrifennu neges at';
@@ -507,7 +511,7 @@ $labels['advancedoptions'] = 'Dewisiadau uwch';
 $labels['toggleadvancedoptions'] = 'Newid dewisiadau uwch';
 $labels['focusonnewmessage'] = 'Ffocysu\'r porwr ar y neges newydd';
 $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';
-$labels['displaynext'] = 'Ar ôl dileu/symud neges dangos y neges nesaf';
+$labels['displaynext'] = 'Dangos cofnod rhestr nesaf ar ôl dileu/symud';
 $labels['defaultfont'] = 'Ffont arferol ar gyfer negeseuon HTML';
 $labels['mainoptions'] = 'Prif Ddewisiadau';
 $labels['browseroptions'] = 'Dewisiadau Porwr';
@@ -677,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Saeth dde/chwith: ehangu/crebachu edef
 Enter: Agor y neges dewiswyd/dan sylw.
 Delete: Symud y negeseuon dewiswyd i'r Sbwriel.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Agor y cyswllt dewiswyd/dan sylw.";
-?>

@@ -29,13 +29,15 @@ INSTALLATION
 ------------
 Copy all files of this directory to your project or install it in the default
 include_path directory of your webserver. Some classes of the framework require
-one or multiple of the following [PEAR][pear] libraries:
+following [PEAR][pear] libraries:
 
 - Mail_Mime 1.8.1 or newer
 - Net_SMTP 1.8.1 or newer
 - Net_Socket 1.0.12 or newer
 - Net_IDNA2 0.1.1 or newer
 - Auth_SASL 1.0.6 or newer
+- Kolab/Net_LDAP3 1.0.6 or newer (for LDAP addressbook)
+- Masterminds/HTML5 2.5.x (optional HTML parser)
 
 
 USAGE

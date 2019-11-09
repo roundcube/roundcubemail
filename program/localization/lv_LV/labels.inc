@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Esiet laipni lūgti $product';
 $labels['username'] = 'Lietotājvārds';
 $labels['password'] = 'Parole';
@@ -488,7 +488,6 @@ $labels['advancedoptions'] = 'Paplašinātie iestatījumi';
 $labels['toggleadvancedoptions'] = 'Parādīt paplašinātos iestatījumus';
 $labels['focusonnewmessage'] = 'Uzstādīt pārlūka fokusu uz jaunu vēstuli';
 $labels['checkallfolders'] = 'Meklēt visās mapēs jaunās vēstules';
-$labels['displaynext'] = 'Pēc vēstules dzēšanas/pārvietošanas rādīt nākamo vēstuli';
 $labels['defaultfont'] = 'Noklusētais fonts vēstulēm HTML formātā';
 $labels['mainoptions'] = 'Galvenie iestatījumi';
 $labels['browseroptions'] = 'Pārlūka iestatījumi';
@@ -652,4 +651,3 @@ $labels['helplistkeyboardnavmessages'] = "Bultiņas pa labi/kreisi: atvērt vai 
 Enter: Atvērt atzīmēto/izgaismoto vēstuli.
 Dzēst: Pārvietot atzīmēto vēstuli uz papīrgrozu.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: atvērt iezīmētos/izgaismotos kontaktus.";
-?>

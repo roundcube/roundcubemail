@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_imap extends rcube_storage
 {
@@ -644,7 +642,7 @@ class rcube_imap extends rcube_storage
 
         $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
         $ident   = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
-        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gmail', 'hmail');
+        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail');
 
         foreach ($vendors as $v) {
             if (strpos($ident, $v) !== false) {
@@ -1103,8 +1101,10 @@ class rcube_imap extends rcube_storage
                 }
 
                 // slice resultset first...
+                $index = array_slice($search_set->get(), $from, $slice_length);
                 $fetch = array();
-                foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
+
+                foreach ($index as $msg_id) {
                     list($uid, $folder) = explode('-', $msg_id, 2);
                     $fetch[$folder][] = $uid;
                 }
@@ -1114,6 +1114,11 @@ class rcube_imap extends rcube_storage
                 foreach ($fetch as $folder => $a_index) {
                     $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
                 }
+
+                // Re-sort the result according to the original search set order
+                usort($a_msg_headers, function($a, $b) use ($index) {
+                    return array_search($a->uid . '-' . $a->folder, $index) - array_search($b->uid . '-' . $b->folder, $index);
+                });
             }
 
             if ($slice) {
@@ -2175,8 +2180,7 @@ class rcube_imap extends rcube_storage
 
         // get part ID
         if (!empty($part[3])) {
-            $struct->content_id = $part[3];
-            $struct->headers['content-id'] = $part[3];
+            $struct->content_id = $struct->headers['content-id'] = trim($part[3]);
 
             if (empty($struct->disposition)) {
                 $struct->disposition = 'inline';
@@ -2406,13 +2410,15 @@ class rcube_imap extends rcube_storage
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary = $part_data['type'];
-            $o_part->encoding      = $part_data['encoding'];
-            $o_part->charset       = $part_data['charset'];
-            $o_part->size          = $part_data['size'];
+            $o_part->ctype_primary   = $part_data['type'];
+            $o_part->ctype_secondary = $part_data['subtype'];
+            $o_part->encoding        = $part_data['encoding'];
+            $o_part->charset         = $part_data['charset'];
+            $o_part->size            = $part_data['size'];
         }
 
-        if ($o_part && $o_part->size) {
+        // Note: multipart/* parts will have size=0, we don't want to ignore them
+        if ($o_part && ($o_part->size || $o_part->ctype_primary == 'multipart')) {
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
                 $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
@@ -2621,7 +2627,7 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean True on success, False on error
      */
-    public function move_message($uids, $to_mbox, $from_mbox='')
+    public function move_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
             $from_mbox = $this->folder;
@@ -2665,16 +2671,9 @@ class rcube_imap extends rcube_storage
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
-
             $this->set_search_dirty($from_mbox);
             $this->set_search_dirty($to_mbox);
-        }
-        // moving failed
-        else if ($to_trash && $config->get('delete_always', false)) {
-            $moved = $this->delete_message($uids, $from_mbox);
-        }
 
-        if ($moved) {
             // unset threads internal cache
             unset($this->icache['threads']);
 
@@ -2706,13 +2705,13 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean True on success, False on error
      */
-    public function copy_message($uids, $to_mbox, $from_mbox='')
+    public function copy_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
             $from_mbox = $this->folder;
         }
 
-        list($uids, $all_mode) = $this->parse_uids($uids);
+        list($uids, ) = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -2736,12 +2735,12 @@ class rcube_imap extends rcube_storage
     /**
      * Mark messages as deleted and expunge them
      *
-     * @param mixed  $uids    Message UIDs as array or comma-separated string, or '*'
-     * @param string $folder  Source folder
+     * @param mixed  $uids   Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder Source folder
      *
      * @return boolean True on success, False on error
      */
-    public function delete_message($uids, $folder='')
+    public function delete_message($uids, $folder = '')
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
@@ -3186,7 +3185,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            $myrights = join('', (array)$this->my_rights($folder));
+            $myrights = implode('', (array)$this->my_rights($folder));
 
             if ($myrights !== null && !preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);

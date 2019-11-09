@@ -51,7 +51,7 @@ else {
 
     if (!$result->count && $result->searchonly) {
         $OUTPUT->show_message('contactsearchonly', 'notice');
-        $OUTPUT->command('command', 'advanced-search');
+        // Don't invoke advanced search dialog automatically from here (#6679)
     }
 
     if ($CONTACTS->group_id) {

@@ -14,7 +14,7 @@ class Autologon_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new autologon($rcube->api);
+        $plugin = new autologon($rcube->plugins);
 
         $this->assertInstanceOf('autologon', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

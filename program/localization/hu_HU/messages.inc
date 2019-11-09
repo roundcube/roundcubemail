@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Hiba történt!';
 $messages['loginfailed']  = 'Sikertelen bejelentkezés.';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
+$messages['cookiesmismatch'] = 'A cookie-k nem egyeznek meg. Kérjük, töröljed a böngészőből a cookie-kat.';
 $messages['storageerror'] = 'Nem sikerült csatlakozni az IMAP szerverhez';
 $messages['servererror'] = 'Szerverhiba!';
 $messages['servererrormsg'] = 'Szerverhiba: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Nem található érvényes publikus kulcs a k�
 $messages['encryptnoattachments'] = 'A már feltőltött csatolmányokat nem lehet titkosítani. Kérlek csatold újra azokat a titkosító szerkesztőben.';
 $messages['searchpubkeyservers'] = 'Szeretnéd megkeresni a hiányzó kulcsokat publius kulcs szervereken?';
 $messages['encryptpubkeysfound'] = 'A következő publikus kulcs lett megtalálva:';
-$messages['keyservererror'] = 'Nem sikerült kulcsot kapni a kulcsszervertől';
-$messages['keyimportsuccess'] = 'A $key publikus kulcsot sikeresen importáltuk a kulcskarikádra';
+$messages['keyservererror'] = 'Nem sikerült kulcsot kapni a kulcskiszolgálóról.';
+$messages['keyimportsuccess'] = 'A nyilvános kulcsot $key sikeresen importálva a kulcstartódba.';
 $messages['nocontactsfound'] = 'Nem találhatóak kapcsolatok';
 $messages['contactnotfound'] = 'A kiválasztott kapcsolat nem található';
-$messages['contactsearchonly'] = 'Adjon meg keresőkifejezéseket a kapcsolatok közti kereséshez';
+$messages['contactsearchonly'] = 'A keresési űrlapot kell használni a partnerek megjelenítéséhez a kiválasztott címjegyzékből.';
 $messages['sendingfailed'] = 'Az üzenet elküldése nem sikerült';
 $messages['senttooquickly'] = 'Kérem várjon még $sec másodpercet az üzenet elküldése előtt';
 $messages['errorsavingsent'] = 'Hiba történt az elküldött üzenet mentése közben';
@@ -127,6 +127,7 @@ $messages['fileuploaderror'] = 'Feltöltés sikertelen';
 $messages['filesizeerror'] = 'A feltöltött fájl mérete meghaladja a maximális $size méretet';
 $messages['filecounterror'] = 'Egyszerre csak $count filet tölthetsz fel.';
 $messages['msgsizeerror'] = 'Túl nagy a csatolmány mérete. Egy üzenet maximális mérete: ($size).';
+$messages['msgsizeerrorfwd'] = 'Az üzenet elérte a maximális méretet($size). $num üzenet nem lett csatolva.';
 $messages['copysuccess'] = 'Sikeresen átmásolva $nr kapcsolat.';
 $messages['movesuccess'] = '$nr kapcsolat sikeresen áthelyezve.';
 $messages['copyerror'] = 'Nem lehet másolni a kapcsolatokat.';

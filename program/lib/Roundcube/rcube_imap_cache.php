@@ -23,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_imap_cache
 {
@@ -97,6 +95,8 @@ class rcube_imap_cache
         8192    => 'LABEL3',
         16384   => 'LABEL4',
         32768   => 'LABEL5',
+        65536   => 'HASATTACHMENT',
+        131072  => 'HASNOATTACHMENT',
     );
 
 

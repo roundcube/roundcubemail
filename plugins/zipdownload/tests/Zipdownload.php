@@ -14,7 +14,7 @@ class Zipdownload_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new zipdownload($rcube->api);
+        $plugin = new zipdownload($rcube->plugins);
 
         $this->assertInstanceOf('zipdownload', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

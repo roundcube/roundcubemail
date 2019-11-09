@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bem-vindo ao $product';
 $labels['username'] = 'Utilizador';
 $labels['password'] = 'Palavra-passe';
@@ -169,6 +169,7 @@ $labels['expand-all'] = 'Expandir tudo';
 $labels['expand-unread'] = 'Expandir não lidas';
 $labels['collapse-all'] = 'Recolher tudo';
 $labels['threaded'] = 'Agrupar tópicos';
+$labels['showunread'] = 'Mostrar mensagens não lidas';
 $labels['autoexpand_threads'] = 'Expandir tópicos das mensagens';
 $labels['do_expand'] = 'todos os tópicos';
 $labels['expand_only_unread'] = 'só com mensagens não lidas';
@@ -397,6 +398,9 @@ $labels['rename'] = 'Renomear';
 $labels['addphoto'] = 'Adicionar';
 $labels['replacephoto'] = 'Substituir';
 $labels['uploadphoto'] = 'Carregar foto';
+$labels['choosefile'] = 'Escolher ficheiro...';
+$labels['choosefiles'] = 'Escolher ficheiros...';
+$labels['browse'] = 'Procurar';
 $labels['newcontact'] = 'Criar novo contacto';
 $labels['deletecontact'] = 'Eliminar contacto(s) selecionado(s)';
 $labels['composeto'] = 'Nova mensagem para';
@@ -508,7 +512,7 @@ $labels['advancedoptions'] = 'Opções avançadas';
 $labels['toggleadvancedoptions'] = 'Alternar opções de avançadas';
 $labels['focusonnewmessage'] = 'Ativar a janela do navegador na nova mensagem';
 $labels['checkallfolders'] = 'Verificar por novas mensagens em todas as pastas';
-$labels['displaynext'] = 'Depois de mover/eliminar uma mensagem, mostrar a próxima mensagem';
+$labels['displaynext'] = 'Mostrar próxima entrada da lista após eliminar/mover';
 $labels['defaultfont'] = 'Tipo de letra padrão para mensagens HTML';
 $labels['mainoptions'] = 'Opções';
 $labels['browseroptions'] = 'Opções do browser';
@@ -678,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Setas direita/esquerda: Expande/recolh
 Enter: Abre a mensagem selecionada/realçada.
 Delete: Move as mensagens selecionadas para a Reciclagem.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abre o contacto selecionado/realçado. ";
-?>

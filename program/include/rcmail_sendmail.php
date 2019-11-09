@@ -233,7 +233,7 @@ class rcmail_sendmail
      * Set charset and transfer encoding on the message
      *
      * @param Mail_mime $message Message object
-     * @param bool      $flowed Enable format=flowed
+     * @param bool      $flowed  Enable format=flowed
      */
     public function set_message_encoding($message, $flowed = false)
     {
@@ -248,7 +248,7 @@ class rcmail_sendmail
         else if (preg_match('/[^\x00-\x7F]/', $message->getTXTBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
         }
-        else if ($message_charset == 'UTF-8') {
+        else if ($this->options['charset'] == 'UTF-8') {
             $text_charset = 'US-ASCII';
         }
 
@@ -287,9 +287,9 @@ class rcmail_sendmail
 
         // Check if we have enough memory to handle the message in it
         // It's faster than using files, so we'll do this if we only can
-        if (is_array($attachments) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
+        if (is_array($attachments)) {
             $memory = 0;
-            foreach ($attachments as $id => $attachment) {
+            foreach ($attachments as $attachment) {
                 $memory += $attachment['size'];
             }
 
@@ -363,6 +363,8 @@ class rcmail_sendmail
      * Message delivery, and setting Replied/Forwarded flag on success
      *
      * @param Mail_mime $message Message object
+     *
+     * @return bool True on success, False on failure
      */
     public function deliver_message($message)
     {
@@ -383,14 +385,16 @@ class rcmail_sendmail
             }
 
             if ($smtp_error && is_string($smtp_error)) {
-                return $this->options['error_handler']($smtp_error, 'error');
+                $this->options['error_handler']($smtp_error, 'error');
             }
             else if ($smtp_error && !empty($smtp_error['label'])) {
-                return $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
+                $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
             }
             else {
-                return $this->options['error_handler']('sendingfailed', 'error');
+                $this->options['error_handler']('sendingfailed', 'error');
             }
+
+            return false;
         }
 
         $message->mailbody_file = $mailbody_file;
@@ -417,6 +421,8 @@ class rcmail_sendmail
                 }
             }
         }
+
+        return true;
     }
 
     /**
@@ -769,7 +775,7 @@ class rcmail_sendmail
             $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
         }
 
-        return join('; ', $parts);
+        return implode('; ', $parts);
     }
 
     /**
