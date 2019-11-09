@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -119,11 +118,14 @@ $labels['tz:america:halifax'] = 'Halifax';
 $labels['tz:america:havana'] = 'Havanna';
 $labels['tz:america:hermosillo'] = 'Hermosillo';
 $labels['tz:america:indiana'] = 'Indiana';
+$labels['tz:america:indiana:indianapolis'] = 'Indianapolis';
+$labels['tz:america:indiana:knox'] = 'Knox';
 $labels['tz:america:inuvik'] = 'Inuvik';
 $labels['tz:america:iqaluit'] = 'Iqaluit';
 $labels['tz:america:jamaica'] = 'Jamaica';
 $labels['tz:america:juneau'] = 'Juneau';
 $labels['tz:america:kentucky'] = 'Kentucky';
+$labels['tz:america:kentucky:louisville'] = 'Louisville';
 $labels['tz:america:kralendijk'] = 'Kralendijk';
 $labels['tz:america:la_paz'] = 'La Paz';
 $labels['tz:america:lima'] = 'Lima';

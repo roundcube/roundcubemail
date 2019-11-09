@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Salaus';
 $labels['enigmacerts'] = 'S/MIME-varmenteet';
 $labels['enigmakeys'] = 'PGP-avaimet';
@@ -25,6 +24,7 @@ $labels['keyuserid'] = 'Käyttäjätunniste';
 $labels['keytype'] = 'Avaimen tyyppi';
 $labels['fingerprint'] = 'Sormenjälki';
 $labels['subkeys'] = 'Aliavaimet';
+$labels['keyprops'] = 'Avaimen asetukset';
 $labels['basicinfo'] = 'Perustiedot';
 $labels['userids'] = 'Lisäkäyttäjät';
 $labels['typepublickey'] = 'julkinen avain';
@@ -63,18 +63,24 @@ $labels['keydisable'] = 'Poista käytöstä';
 $labels['keyrevoke'] = 'Kumoa';
 $labels['keysend'] = 'Lähetä julkinen avain viestissä';
 $labels['keychpass'] = 'Vaihda salasana';
+$labels['newkeyident'] = 'Identiteetti';
 $labels['newkeypass'] = 'Salasana';
+$labels['newkeypassconfirm'] = 'Vahvista salasana';
+$labels['newkeysize'] = 'Avaimen koko';
 $labels['key2048'] = '2048 bittiä - oletus';
 $labels['key4096'] = '4096 bittiä - turvallisempi';
 $labels['keygenerating'] = 'Luodaan avaimia...';
 $labels['encryptionoptions'] = 'Salausvalinnat...';
 $labels['encryptmsg'] = 'Salaa tämä viesti';
 $labels['signmsg'] = 'Lisää digitaalinen allekirjoitus tähän viestiin';
+$labels['sendunencrypted'] = 'Lähetä salaamaton';
 $labels['enterkeypasstitle'] = 'Anna tunnuslause';
 $labels['arialabelkeyexportoptions'] = 'Avaimien vientivalinnat';
 $labels['attachpubkeymsg'] = 'Liitä julkinen avaimeni';
 $labels['findkey'] = 'Etsi avainpalvelimilta';
+$labels['keyimportlabel'] = 'Tuo tiedostosta';
 $labels['keyimportsearchlabel'] = 'Etsi avainpalvelimilta';
+$labels['managekeys'] = 'Hallinnoi PGP-avaimia';
 $messages['sigvalid'] = 'Vahvistettu allekirjoitus lähettäjältä $sender.';
 $messages['siginvalid'] = 'Virheellinen allekirjoitus lähettäjältä $sender.';
 $messages['sigunverified'] = 'Vahvistamaton allekirjoitus. Varmennetta ei ole vahvistettu. Varmenteen tunniste: $keyid.';
@@ -94,6 +100,10 @@ $messages['keynotfound'] = 'Avainta ei löytynyt!';
 $messages['keyopenerror'] = 'Avaintietojen noutaminen ei onnistu! Sisäinen virhe.';
 $messages['keylisterror'] = 'Avainten listaaminen ei onnistu! Sisäinen virhe.';
 $messages['keysimportfailed'] = 'Avaimen tuominen epäonnistui! Sisäinen virhe.';
+$messages['keyremoving'] = 'Poistetaan avaimia...';
+$messages['keyremoveconfirm'] = 'Oletko varma että haluat poistaa valitut avaimet?';
+$messages['keyremovesuccess'] = 'Avaimet poistettu onnistuneesti';
+$messages['keyremoveerror'] = 'Avaimien poisto epäonnistui.';
 $messages['formerror'] = 'Täytä lomake. Kaikki kentät ovat pakollisia!';
 $messages['passwordsdiffer'] = 'Salasanat eivät täsmää!';
 $messages['keygenerateerror'] = 'Avainparin luominen epäonnistui';

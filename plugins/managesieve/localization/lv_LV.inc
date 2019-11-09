@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Vēstuļu filtri';
 $labels['managefilters'] = 'Pārvaldīt ienākošo vēstuļu filtrus';
 $labels['filtername'] = 'Filtra nosaukums';
@@ -75,17 +75,9 @@ $labels['days'] = 'dienas';
 $labels['seconds'] = 'sekundes';
 $labels['rulestop'] = 'Apturēt nosacījumu pārbaudi';
 $labels['enable'] = 'Ieslēgt/Izslēgt';
-$labels['filterset'] = 'Filtru kopa';
 $labels['filtersets'] = 'Filtru kopas';
-$labels['filtersetadd'] = 'Pievienot filtru kopu';
-$labels['filtersetdel'] = 'Dzēst filtru kopu';
-$labels['filtersetact'] = 'Aktivizēt pašreizējo filtru kopu';
-$labels['filtersetdeact'] = 'Deaktivizēt pašreizējo filtru kopu';
 $labels['filterseteditraw'] = 'Rediģēt filtru kopu';
-$labels['filtersetswitch'] = 'Ieslēgt/izslēgt filtru kopu';
 $labels['filterdef'] = 'Filtra apraksts';
-$labels['filtersetname'] = 'Filtru kopas nosaukums';
-$labels['newfilterset'] = 'Jauna filtru kopa';
 $labels['active'] = 'aktīvs';
 $labels['none'] = 'nav';
 $labels['fromset'] = 'no kopas';
@@ -175,20 +167,16 @@ $labels['asciicasemap'] = 'reģistrnejutīgs (ascii tabula)';
 $labels['asciinumeric'] = 'skaitļu (ascii skaitļu)';
 $labels['index'] = 'indekss:';
 $labels['indexlast'] = 'atpakaļ';
-$labels['vacation'] = 'Brīvdienas';
 $labels['vacation.reply'] = 'Atbildes e-pasts';
 $labels['vacation.advanced'] = 'Paplašinātie iestatījumi';
 $labels['vacation.from'] = 'Atbildes sūtītāja e-pasta adrese';
 $labels['vacation.subject'] = 'Tēma';
 $labels['vacation.body'] = 'Saturs';
-$labels['vacation.start'] = 'Brīvdienu sākuma datums';
-$labels['vacation.end'] = 'Brīvdienu beigu datums';
 $labels['vacation.status'] = 'Statuss';
 $labels['vacation.on'] = 'Ieslēgts';
 $labels['vacation.off'] = 'Izslēgts';
 $labels['vacation.addresses'] = 'Manas e-pasta adreses';
 $labels['vacation.interval'] = 'Atbildēšanas intervāls';
-$labels['vacation.after'] = 'Atvaļinājuma noteikumu ievietot pēc';
 $labels['vacation.saving'] = 'Dati tiek saglabāti...';
 $labels['vacation.action'] = 'Darbības, kuras jāveic, kad tiek atsūtīta jauna vēstule';
 $labels['vacation.keep'] = 'Saglabāt';
@@ -233,16 +221,6 @@ $messages['actiondeleteconfirm'] = 'Vai Jūs tiešām vēlaties dzēst atzīmēt
 $messages['forbiddenchars'] = 'Lauks satur aizliegtus simbolus.';
 $messages['cannotbeempty'] = 'Lauks nedrīkst būt tukšs.';
 $messages['ruleexist'] = 'Filtrs ar tādu nosaukumu jau pastāv.';
-$messages['setactivateerror'] = 'Neizdevās aktivizēt atzīmēto filtru kopu - atgadījās servera iekšējā kļūda.';
-$messages['setdeactivateerror'] = 'Neizdevās deaktivizēt atzīmēto filtru kopu - atgadījās servera iekšējā kļūda.';
-$messages['setdeleteerror'] = 'Neizdevās izdzēst atzīmēto filtru kopu - atgadījās servera ieksējā kļūda.';
-$messages['setactivated'] = 'Filtru kopa veiksmīgi aktivizēta.';
-$messages['setdeactivated'] = 'Filtru kopa veiksmīgi deaktivizēta.';
-$messages['setdeleted'] = 'Filtru kopa veiksmīgi izdzēsta.';
-$messages['setupdated'] = 'Filtru kopa atjaunota veiksmīgi.';
-$messages['setdeleteconfirm'] = 'Vai tiešām Jūs vēlaties dzēst atzīmēto filtru kopu?';
-$messages['setcreateerror'] = 'Neizdevās izveidot filtru kopu - atgadījās servera iekšējā kļūda.';
-$messages['setcreated'] = 'Filtru kopa veiksmīgi izveidota.';
 $messages['activateerror'] = 'Nav iespējams ieslēgt izvēlēto(s) filtru(s) - atgadījās servera iekšējā kļūda.';
 $messages['deactivateerror'] = 'Nav iespējams atslēgt izvēlēto(s) filtru(s) - atgadījās servera iekšējā kļūda.';
 $messages['deactivated'] = 'Filtrs(i) veiksmīgi atslēgts(i).';
@@ -255,9 +233,7 @@ $messages['setexist'] = 'Kopa jau eksistē.';
 $messages['nodata'] = 'Ir jābūt atzīmētai vismaz vienai pozīcijai!';
 $messages['invaliddateformat'] = 'Nederīgs datums vai datuma formāts';
 $messages['saveerror'] = 'Nav iespējams saglabāt datus. Servera kļūda.';
-$messages['vacationsaved'] = 'Brīvdienu iestatījumi veiksmīgi saglabāti.';
 $messages['forwardsaved'] = 'Pārsūtīšanas dati veiksmīgi saglabāti.';
 $messages['emptyvacationbody'] = 'Brīvdienu e-pastam obligāti jānorāda vēstules teksts!';
 $messages['duplicate.conflict.err'] = 'Gan galvenes, gan unikālais identifikators nav atļauts.';
 $messages['disabledaction'] = 'Darbība nav atļauta!';
-?>

@@ -28,7 +28,7 @@ FileETag MTime Size
 
 <IfModule mod_autoindex.c>
 Options -Indexes
-</ifModule>
+</IfModule>
 
 <IfModule mod_headers.c>
 # Disable page indexing
@@ -64,5 +64,6 @@ Header set X-Robots-Tag "noindex, nofollow"
 # CSP - Content Security Policy
 # for better privacy/security ask browsers to not set the Referer
 # more flags for script, stylesheets and images available, read RFC for more information
+# Note: "Referrer-Policy: same-origin" is already set by php code.
 #Header set Content-Security-Policy "referrer no-referrer"
 </IfModule>

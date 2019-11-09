@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -165,7 +166,13 @@ class rcube_result_multifolder
             $msgid .= '-' . $this->folder;
         }
 
-        return array_search($msgid, $this->index);
+        $idx = array_search($msgid, $this->index);
+
+        if ($get_index) {
+            return $idx;
+        }
+
+        return $idx !== false;
     }
 
     /**

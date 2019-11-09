@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/settings/save_prefs.inc                                 |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Save user preferences to DB and to the current session              |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -33,6 +31,7 @@ case 'general':
         'date_format'  => rcmail_prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
         'time_format'  => rcmail_prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
         'prettydate'   => isset($_POST['_pretty_date']),
+        'display_next' => isset($_POST['_display_next']),
         'refresh_interval' => intval($_POST['_refresh_interval']) * 60,
         'standard_windows' => isset($_POST['_standard_windows']),
         'skin'         => rcmail_prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
@@ -65,7 +64,6 @@ case 'mailview':
         'prefer_html'     => isset($_POST['_prefer_html']),
         'inline_images'   => isset($_POST['_inline_images']),
         'show_images'     => intval($_POST['_show_images']),
-        'display_next'    => isset($_POST['_display_next']),
         'default_charset' => rcmail_prefs_input('default_charset', '/^[a-zA-Z0-9-]+$/'),
     );
 
@@ -115,7 +113,6 @@ case 'server':
         'read_when_deleted' => isset($_POST['_read_when_deleted']),
         'skip_deleted'      => isset($_POST['_skip_deleted']),
         'flag_for_deletion' => isset($_POST['_flag_for_deletion']),
-        'delete_always'     => isset($_POST['_delete_always']),
         'delete_junk'       => isset($_POST['_delete_junk']),
         'logout_purge'      => isset($_POST['_logout_purge']),
         'logout_expunge'    => isset($_POST['_logout_expunge']),

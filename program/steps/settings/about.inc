@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/settings/about.inc                                      |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -14,13 +13,12 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Display license information about program and enabled plugins       |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-define('RC_COPYRIGHT', 'Copyright &copy; 2005-2018, The Roundcube Dev Team');
+define('RC_COPYRIGHT', 'Copyright &copy; 2005-2019, The Roundcube Dev Team');
 define('RC_LICENSE', 'This program is free software; you can redistribute it and/or modify it under the terms of the '
             . '<a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
             . 'as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.'

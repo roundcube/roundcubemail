@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'فیلترها';
 $labels['filtername'] = 'نام فیلتر';
 $labels['newfilter'] = 'فیلتر جدید';
@@ -35,7 +35,6 @@ $labels['recipient'] = 'گیرنده';
 $labels['days'] = 'روز';
 $labels['filtersets'] = 'مجموعه فیلتر';
 $labels['filterdef'] = 'تعریف فیلتر';
-$labels['newfilterset'] = 'مجموعه فیلترهای جدید';
 $labels['active'] = 'فعال';
 $labels['none'] = 'هیچ کدام';
 $labels['flagread'] = 'خواندن';
@@ -69,7 +68,6 @@ $labels['detail'] = 'جزئیات';
 $labels['comparator'] = 'مقایسه کننده:';
 $labels['default'] = 'پیش فرض';
 $labels['index'] = 'اندیس';
-$labels['vacation'] = 'تعطیلات';
 $labels['vacation.reply'] = 'پیام پاسخ';
 $labels['vacation.advanced'] = 'تنظیمات پیشرفته';
 $labels['vacation.subject'] = 'موضوع';
@@ -87,4 +85,3 @@ $messages['filtersaved'] = 'فیلتر با موفقیت ذخیره شد.';
 $messages['deactivated'] = 'فیلتر(ها) با موفقیت غیر فعال شدند';
 $messages['nametoolong'] = 'نام بسیار بلند است.';
 $messages['namereserved'] = 'نام  رزرو شده.';
-?>

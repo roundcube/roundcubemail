@@ -2,10 +2,9 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | bin/decrypt.sh                                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Decrypt the encrypted parts of the HTTP Received: headers           |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Tomas Tevesz <ice@extreme.hu>                                 |
  +-----------------------------------------------------------------------+
@@ -57,11 +55,11 @@ define('INSTALL_PATH', realpath(__DIR__ .'/..') . '/');
 require INSTALL_PATH . 'program/include/clisetup.php';
 
 if ($argc < 2) {
-	die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
+    die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
 }
 
 $RCMAIL = rcube::get_instance();
 
 for ($i = 1; $i < $argc; $i++) {
-	printf("%s\n", $RCMAIL->decrypt($argv[$i]));
+    printf("%s\n", $RCMAIL->decrypt($argv[$i]));
 };

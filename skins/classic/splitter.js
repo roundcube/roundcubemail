@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2006-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -56,6 +56,9 @@ function rcube_splitter(attrib)
 
     // add the mouse event listeners
     $(this.elm).mousedown(onDragStart);
+
+    // Update splitter position and elements with on window resize
+    $(window).resize(function(e) { if (e.target === window) me.resize(); });
     if (bw.ie)
       $(window).resize(onResize);
 
@@ -88,9 +91,12 @@ function rcube_splitter(attrib)
       }
     }
     else {
-      this.p1.style.width = Math.floor(this.pos - this.p1pos.left - this.layer.width / 2) + 'px';
-      this.p2.style.left = Math.ceil(this.pos + this.layer.width / 2) + 'px';
-      this.layer.move(Math.round(this.pos - this.layer.width / 2 + 1), this.layer.y);
+      var max_width = $(window).width() - $(this.p1).offset().left - 150,
+        pos = Math.min(this.pos, max_width);
+
+      this.p1.style.width = Math.floor(pos - this.p1pos.left - this.layer.width / 2) + 'px';
+      this.p2.style.left = Math.ceil(pos + this.layer.width / 2) + 'px';
+      this.layer.move(Math.round(pos - this.layer.width / 2 + 1), this.layer.y);
       if (bw.ie) {
         var new_width = parseInt(this.p2.parentNode.offsetWidth, 10) - parseInt(this.p2.style.left, 10) ;
         this.p2.style.width = (new_width > 0 ? new_width : 0) + 'px';

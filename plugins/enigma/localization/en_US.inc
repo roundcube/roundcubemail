@@ -2,15 +2,13 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
@@ -118,6 +116,7 @@ $messages['signbadpass'] = 'Signing failed. Invalid password.';
 $messages['signnopass'] = 'Signing failed. Key password required.';
 $messages['encrypterror'] = 'Encryption failed.';
 $messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
+$messages['encryptnoprivkey'] = 'Encryption failed. Private key not found.';
 $messages['nokeysfound'] = 'No keys found';
 $messages['keynotfound'] = 'Key not found!';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';

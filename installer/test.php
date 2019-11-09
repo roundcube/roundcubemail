@@ -1,4 +1,17 @@
 <?php
+/*
+ +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ +-----------------------------------------------------------------------+
+*/
 
 if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
@@ -165,7 +178,7 @@ if ($db_working) {
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
         $select = $RCI->versions_select(array('name' => 'version'));
         $select->add('0.9 or newer', '');
-        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
+        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show('') . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
     }
     else {
@@ -288,8 +301,8 @@ if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
 
-  $from = idn_to_ascii(trim($_POST['_from']));
-  $to   = idn_to_ascii(trim($_POST['_to']));
+  $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
+  $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
   if (preg_match('/^' . $RCI->email_pattern . '$/i', $from) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', $to)
@@ -413,8 +426,8 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
       $imap_port = 993;
   }
 
-  $imap_host = idn_to_ascii($imap_host);
-  $imap_user = idn_to_ascii($_POST['_user']);
+  $imap_host = rcube_utils::idn_to_ascii($imap_host);
+  $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
   $imap = new rcube_imap(null);
   $imap->set_options(array(

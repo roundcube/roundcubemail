@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Amgryptiad';
 $labels['enigmacerts'] = 'Tystysgrifau S/MIME';
 $labels['enigmakeys'] = 'Allweddi PGP';
@@ -25,6 +24,7 @@ $labels['keyuserid'] = 'ID Defnyddiwr';
 $labels['keytype'] = 'Math o allwedd';
 $labels['fingerprint'] = 'Olion bys';
 $labels['subkeys'] = 'Isallweddi';
+$labels['keyprops'] = 'Nodweddion allwed';
 $labels['basicinfo'] = 'Gwybodaeth sylfaenol';
 $labels['userids'] = 'Defnyddwyr Ychwanegol';
 $labels['typepublickey'] = 'allwedd gyhoeddus';
@@ -63,13 +63,17 @@ $labels['keydisable'] = 'Analluogi';
 $labels['keyrevoke'] = 'Dirymu';
 $labels['keysend'] = 'Danfon allwedd gyhoeddus mewn neges';
 $labels['keychpass'] = 'Newid cyfrinair';
+$labels['newkeyident'] = 'Hunaniaeth';
 $labels['newkeypass'] = 'Cyfrinair';
+$labels['newkeypassconfirm'] = 'Cadarnhau cyfrinair';
+$labels['newkeysize'] = 'Maint allwedd';
 $labels['key2048'] = '2048 did - diofyn';
 $labels['key4096'] = '4096 did - mwy cadarn';
 $labels['keygenerating'] = 'Yn creu allweddi...';
 $labels['encryptionoptions'] = 'Dewisiadau amgryptio...';
 $labels['encryptmsg'] = 'Amgryptio\'r neges hwn';
 $labels['signmsg'] = 'Llofnodi\'r neges yma yn ddigidol';
+$labels['sendunencrypted'] = 'Danfon heb amgodi';
 $labels['enterkeypasstitle'] = 'Rhowch yr ymadrodd cyfrin';
 $labels['enterkeypass'] = 'Mae angen ymadrodd cyfrin i ddatgloi allwedd breifat ($keyid) ar gyfer defnyddiwr: $user:';
 $labels['arialabelkeyexportoptions'] = 'Dewisiadau allforio allweddi';
@@ -80,6 +84,9 @@ $labels['withprivkeys'] = 'Allforio Allweddi Cyfrinachol';
 $labels['findkey'] = 'Chwilio ar weinydd(wyr) allweddi';
 $labels['keyimportlabel'] = 'Mewnforio o ffeil';
 $labels['keyimportsearchlabel'] = 'Chwilio ar weinydd(wyr) allweddi';
+$labels['managekeys'] = 'Rheoli allweddi PGP';
+$labels['identitymatchingprivkeys'] = 'Mae gennych $nr allwedd preifat cyfatebol wedi eu storio yn eich cylch allwedd:';
+$labels['identitynoprivkeys'] = 'Nid oes gan y danfonwr hwn allwedd preifat PGP wedi ei storio yn eich estyniad cylch allwedd.';
 $messages['sigvalid'] = 'Llofnod wedi ddilysu o $sender.';
 $messages['sigvalidpartial'] = 'Llofnod wedi ddilysu o $sender, ond ni arwyddywyd rhan o gorff y neges';
 $messages['siginvalid'] = 'Llofnod annilys o $sender.';
@@ -89,6 +96,7 @@ $messages['sigerror'] = 'Llofnod heb ei ddilysu. Gwall mewnol.';
 $messages['decryptok'] = 'Neges wedi ei ddadgryptio.';
 $messages['decrypterror'] = 'Dadgryptio wedi methu.';
 $messages['decryptnokey'] = 'Dadgryptio wedi methu. Allwedd breifat heb ei ganfod: ID Allwedd: $keyid.';
+$messages['decryptnomdc'] = 'Hepgorwyd y dadgryptio. Nid yw cywirdeb y neges wedi ei wirio.';
 $messages['decryptbadpass'] = 'Dadgryptio wedi methu. Cyfrinair annilys.';
 $messages['decryptnopass'] = 'Dadgryptio wedi methu. Mae angen cyfrinair.';
 $messages['decryptpartial'] = 'Dadgryptiwyd y neges, ond roedd darn o gorff y neges heb ei amgryptio';
@@ -98,6 +106,7 @@ $messages['signbadpass'] = 'Llofnodi wedi methu. Cyfrinair annilys.';
 $messages['signnopass'] = 'Llofnodi wedi methu. Mae angen cyfrinair.';
 $messages['encrypterror'] = 'Amgryptio wedi methu.';
 $messages['encryptnokey'] = 'Amgryptio wedi methu. Allwedd cyhoeddus heb ei ganfod ar gyfer $email.';
+$messages['encryptnoprivkey'] = 'Dadgryptio wedi methu. Allwedd breifat heb ei ganfod.';
 $messages['nokeysfound'] = 'Ni ganfuwyd unrhyw allweddi';
 $messages['keynotfound'] = 'Ni ganfuwyd yr allwedd!';
 $messages['keyopenerror'] = 'Methwyd cael gwybodaeth allwedd! Gwall mewnol.';

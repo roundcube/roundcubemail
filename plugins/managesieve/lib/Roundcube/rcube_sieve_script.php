@@ -3,8 +3,8 @@
 /**
  * Class for operations on Sieve scripts
  *
- * Copyright (C) 2008-2011, The Roundcube Dev Team
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ class rcube_sieve_script
         'copy',                     // RFC3894
         'date',                     // RFC5260
         'duplicate',                // RFC7352
+        'editheader',               // RFC5293
         'enotify',                  // RFC5435
         'envelope',                 // RFC5228
         'ereject',                  // RFC5429
@@ -195,14 +196,14 @@ class rcube_sieve_script
             foreach ($this->vars as $var) {
                 if (empty($has_vars)) {
                     // 'variables' extension not supported, put vars in comments
-                    $output .= sprintf("# %s %s\n", $var['name'], $var['value']);
+                    $output .= sprintf("# %s %s\r\n", $var['name'], $var['value']);
                 }
                 else {
                     $output .= 'set ';
                     foreach (array_diff(array_keys($var), array('name', 'value')) as $opt) {
                         $output .= ":$opt ";
                     }
-                    $output .= self::escape_string($var['name']) . ' ' . self::escape_string($var['value']) . ";\n";
+                    $output .= self::escape_string($var['name']) . ' ' . self::escape_string($var['value']) . ";\r\n";
                 }
             }
         }
@@ -218,7 +219,7 @@ class rcube_sieve_script
 
             // header
             if (!empty($rule['name']) && strlen($rule['name'])) {
-                $script .= '# rule:[' . $rule['name'] . "]\n";
+                $script .= '# rule:[' . $rule['name'] . "]\r\n";
             }
 
             // constraints expressions
@@ -378,7 +379,7 @@ class rcube_sieve_script
                 else {
                     $script .= $tests_str;
                 }
-                $script .= "\n{\n";
+                $script .= "\r\n{\r\n";
             }
 
             // action(s)
@@ -420,6 +421,26 @@ class rcube_sieve_script
                         array_push($exts, $imapflags);
                         $action_script .= $action['type'].' '
                             . self::escape_string($action['target']);
+                        break;
+
+                    case 'addheader':
+                    case 'deleteheader':
+                        array_push($exts, 'editheader');
+                        $action_script .= $action['type'];
+                        if (!empty($action['index'])) {
+                            $action_script .= " :index " . intval($action['index']);
+                        }
+                        if (!empty($action['last']) && (!empty($action['index']) || $action['type'] == 'addheader')) {
+                            $action_script .= " :last";
+                        }
+                        if ($action['type'] == 'deleteheader') {
+                            $action['type'] = $action['match-type'];
+                            $this->add_operator($action, $action_script, $exts);
+                        }
+                        $action_script .= " " . self::escape_string($action['name']);
+                        if ((is_string($action['value']) && strlen($action['value']) > 0) || (is_array($action['value']) && !empty($action['value']))) {
+                            $action_script .= " " . self::escape_string($action['value']);
+                        }
                         break;
 
                     case 'keep':
@@ -527,13 +548,13 @@ class rcube_sieve_script
 
                     if ($action_script) {
                         $script .= !empty($tests) ? "\t" : '';
-                        $script .= $action_script . ";\n";
+                        $script .= $action_script . ";\r\n";
                     }
                 }
             }
 
             if ($script) {
-                $output .= $script . (!empty($tests) ? "}\n" : '');
+                $output .= $script . (!empty($tests) ? "}\r\n" : '');
                 $idx++;
             }
         }
@@ -548,11 +569,11 @@ class rcube_sieve_script
 
             sort($exts); // for convenience use always the same order
 
-            $output = 'require ["' . implode('","', $exts) . "\"];\n" . $output;
+            $output = 'require ["' . implode('","', $exts) . "\"];\r\n" . $output;
         }
 
         if (!empty($this->prefix)) {
-            $output = $this->prefix . "\n\n" . $output;
+            $output = $this->prefix . "\r\n\r\n" . $output;
         }
 
         return $output;
@@ -657,7 +678,7 @@ class rcube_sieve_script
         }
 
         if (!empty($prefix)) {
-            $this->prefix = trim($prefix);
+            $this->prefix = trim(preg_replace('/\r?\n/', "\r\n", $prefix));
         }
     }
 
@@ -906,6 +927,21 @@ class rcube_sieve_script
                 $action += $this->action_arguments($tokens, $args, $vargs);
 
                 $result[] = $action;
+                break;
+
+            case 'addheader':
+            case 'deleteheader':
+                $args = $this->test_tokens($tokens);
+                if ($token == 'deleteheader') {
+                    $args['match-type'] = $args['type'];
+                }
+                if (($index = array_search(':last', $tokens)) !== false) {
+                    $args['last'] = true;
+                    unset($tokens[$index]);
+                }
+                $action = array('type' => $token, 'name' => array_shift($tokens), 'value' => array_shift($tokens));
+
+                $result[] = $action + $args;
                 break;
 
             case 'reject':
@@ -1167,7 +1203,7 @@ class rcube_sieve_script
 
         // multi-line string
         if (preg_match('/[\r\n\0]/', $str)) {
-            return sprintf("text:\n%s\n.\n", self::escape_multiline_string($str));
+            return sprintf("text:\r\n%s\r\n.\r\n", self::escape_multiline_string($str));
         }
         // quoted-string
         else {
@@ -1358,7 +1394,7 @@ class rcube_sieve_script
                         // remove dot-stuffing
                         $text = str_replace("\n..", "\n.", $text);
 
-                        $result[] = $text;
+                        $result[] = rtrim($text, "\r\n");
                         $position++;
                     }
                 }

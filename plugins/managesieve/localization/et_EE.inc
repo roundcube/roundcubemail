@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtrid';
 $labels['managefilters'] = 'Halda sisenevate kirjade filtreid';
 $labels['filtername'] = 'Filtri nimi';
 $labels['newfilter'] = 'Uus filter';
 $labels['filteradd'] = 'Lisa filter';
 $labels['filterdel'] = 'Kustuta filter';
+$labels['rules'] = 'Reeglid';
+$labels['actions'] = 'Tegevused';
 $labels['scope'] = 'Skoop';
 $labels['moveup'] = 'Liiguta üles';
 $labels['movedown'] = 'Liiguta alla';
@@ -39,6 +41,7 @@ $labels['filterregex'] = 'vastab regulaaravaldisele';
 $labels['filternotregex'] = 'ei vasta regulaaravaldisele';
 $labels['filterunder'] = 'alt';
 $labels['filterover'] = 'üle';
+$labels['mime-message'] = 'sõnum';
 $labels['addrule'] = 'Lisa reegel';
 $labels['delrule'] = 'Kustuta reegel';
 $labels['messagemoveto'] = 'Liiguta kiri';
@@ -62,14 +65,8 @@ $labels['days'] = 'päeva';
 $labels['seconds'] = 'sekundit';
 $labels['rulestop'] = 'Peata reeglite otsimine';
 $labels['enable'] = 'Luba/keela';
-$labels['filterset'] = 'Filtrite kogum';
 $labels['filtersets'] = 'Filtri kogum';
-$labels['filtersetadd'] = 'Lisa filtrite kogum';
-$labels['filtersetact'] = 'Aktiveeri praegune filtrite kogum';
-$labels['filtersetdeact'] = 'De-aktiveeri praegune filtrite kogum';
 $labels['filterdef'] = 'Filtri definitsioon';
-$labels['filtersetname'] = 'Filtrite kogumi nimi';
-$labels['newfilterset'] = 'Uus filtrite kogum';
 $labels['active'] = 'aktiivne';
 $labels['none'] = 'puudub';
 $labels['fromset'] = 'kogumist';
@@ -112,6 +109,7 @@ $labels['notifyimportancenormal'] = 'tavaline';
 $labels['notifyimportancehigh'] = 'kõrge';
 $labels['notifymethodmailto'] = 'E-post';
 $labels['notifymethodtel'] = 'Telefon';
+$labels['notifymethodsms'] = 'SMS';
 $labels['filtercreate'] = 'Loo filter';
 $labels['usedata'] = 'Kasuta filtris järgmisi andmeid:';
 $labels['nextstep'] = 'Järgmine samm';
@@ -156,6 +154,7 @@ $labels['indexlast'] = 'tagasisuunas';
 $labels['vacation.subject'] = 'Pealkiri';
 $labels['vacation.body'] = 'Keha';
 $labels['vacation.keep'] = 'Säilita';
+$labels['vacation.discard'] = 'Loobu';
 $labels['duplicate.header'] = 'päis:';
 $messages['filterunknownerror'] = 'Tundmatu serveri tõrge';
 $messages['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
@@ -167,11 +166,6 @@ $messages['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
 $messages['forbiddenchars'] = 'Väljal on lubamatu märk';
 $messages['cannotbeempty'] = 'Väli ei või tühi olla';
 $messages['ruleexist'] = 'Määratud nimega filter on juba olemas';
-$messages['setactivated'] = 'Filtrite kogumi aktiveerimine õnnestus.';
-$messages['setdeactivated'] = 'Filtrite kogumi deaktiveerimine õnnestus.';
-$messages['setdeleted'] = 'Filtrite kogumi kustutamine õnnestus.';
-$messages['setdeleteconfirm'] = 'Oled kindel, et soovid valitud filtrite kogumi kustutada?';
-$messages['setcreated'] = 'Filtrite kogumi loomine õnnestus.';
 $messages['deactivated'] = 'Filter edukalt lubatud.';
 $messages['activated'] = 'Filter edukalt keelatud.';
 $messages['moved'] = 'Filter edukalt liigutatud.';
@@ -180,4 +174,3 @@ $messages['namereserved'] = 'Nimi on reserveeritud.';
 $messages['setexist'] = 'Kogum on juba olemas.';
 $messages['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
 $messages['invaliddateformat'] = 'Vigane kuupäev või kuupäeva formaat';
-?>

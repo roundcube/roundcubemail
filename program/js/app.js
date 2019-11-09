@@ -6,8 +6,8 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2005-2015, The Roundcube Dev Team
- * Copyright (C) 2011-2015, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -47,8 +47,10 @@ function rcube_webmail()
   this.group2expand = {};
   this.http_request_jobs = {};
   this.menu_stack = [];
+  this.menu_buttons = {};
   this.entity_selectors = [];
   this.image_style = {};
+  this.uploads = {};
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -117,8 +119,58 @@ function rcube_webmail()
 
     this.buttons[command].push(button_prop);
 
-    if (this.loaded)
+    if (this.loaded) {
       this.init_button(command, button_prop);
+      this.set_button(command, (this.commands[command] ? 'act' : 'pas'));
+    }
+  };
+
+  // register a button with popup menu, to set its state according to the state of all commands in the menu
+  this.register_menu_button = function(button, menu_id)
+  {
+    if (this.menu_buttons[menu_id]) {
+      this.menu_buttons[menu_id][0].push(button);
+    }
+    else {
+      var commands = [];
+      $('#' + menu_id).find('a').each(function() {
+        var command, link = $(this), onclick = link.attr('onclick');
+
+        if (onclick && String(onclick).match(/rcmail\.command\(\'([^']+)/))
+          command = RegExp.$1;
+        else
+          command = function() { return link.is('.active'); };
+
+        commands.push(command);
+      });
+
+      if (commands.length)
+        this.menu_buttons[menu_id] = [[button], commands];
+    }
+
+    this.set_menu_buttons();
+  };
+
+  // set state of a menu button according to state of all menu actions
+  this.set_menu_buttons = function()
+  {
+    // Use timeouts to not block and set menu button states only once
+    clearTimeout(this.menu_buttons_timeout);
+    this.menu_buttons_timeout = setTimeout(function() {
+      $.each(ref.menu_buttons, function() {
+        var disabled = true;
+        $.each(this[1], function() {
+          var is_func = typeof(this) == 'function';
+          if ((is_func && this()) || (!is_func && ref.commands[this])) {
+            return disabled = false;
+          }
+        });
+
+        $(this[0]).add($(this[0]).parent('.dropbutton'))
+          .addClass(disabled ? 'disabled' : 'active')
+          .removeClass(disabled ? 'active' : 'disabled');
+      });
+    }, 50);
   };
 
   // register a specific gui object
@@ -183,8 +235,7 @@ function rcube_webmail()
 
     // tell parent window that this frame is loaded
     if (this.is_framed()) {
-      parent.rcmail.set_busy(false, null, parent.rcmail.env.frame_lock);
-      parent.rcmail.env.frame_lock = null;
+      parent.rcmail.unlock_frame();
     }
 
     // enable general commands
@@ -217,7 +268,7 @@ function rcube_webmail()
           this.message_list
             .addEventListener('initrow', function(o) { ref.init_message_row(o); })
             .addEventListener('dblclick', function(o) { ref.msglist_dbl_click(o); })
-            .addEventListener('keypress', function(o) { ref.msglist_keypress(o); })
+            .addEventListener('keypress', function(o) { ref.list_keypress(o); })
             .addEventListener('select', function(o) { ref.msglist_select(o); })
             .addEventListener('dragstart', function(o) { ref.drag_start(o); })
             .addEventListener('dragmove', function(e) { ref.drag_move(e); })
@@ -307,7 +358,7 @@ function rcube_webmail()
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
-          this.enable_command(this.env.compose_commands, 'identities', 'responses', true);
+          this.enable_command(this.env.compose_commands, true);
 
           // add more commands (not enabled)
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
@@ -347,7 +398,6 @@ function rcube_webmail()
         }
         else if (this.env.action == 'bounce') {
           this.init_messageform_inputs();
-          this.enable_command('identities', true);
           this.env.compose_commands = [];
         }
         else if (this.env.action == 'get') {
@@ -374,12 +424,19 @@ function rcube_webmail()
           }
 
           // center and scale the image in preview frame
+          // TODO: Find a better way. Onload is late, also we could use embed.css
           if (this.env.mimetype.startsWith('image/'))
             $(this.gui_objects.messagepartframe).on('load', function() {
-              var css = 'img { max-width:100%; max-height:100%; } ' // scale
-                + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }'; // align
+              var contents = $(this).contents();
 
-              $(this).contents().find('head').append('<style type="text/css">'+ css + '</style>');
+              // do not apply styles to an error page (with no image)
+              if (contents.find('img').length)
+                contents.find('head').append(
+                  '<style type="text/css">'
+                  + 'img { max-width:100%; max-height:100%; } ' // scale
+                  + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }' // align
+                  + '</style>'
+                );
             });
         }
         // show printing dialog
@@ -458,7 +515,7 @@ function rcube_webmail()
             {multiselect:true, draggable:this.gui_objects.folderlist?true:false, keyboard:true});
           this.contact_list
             .addEventListener('initrow', function(o) { ref.triggerEvent('insertrow', { cid:o.uid, row:o }); })
-            .addEventListener('keypress', function(o) { ref.contactlist_keypress(o); })
+            .addEventListener('keypress', function(o) { ref.list_keypress(o); })
             .addEventListener('select', function(o) { ref.contactlist_select(o); })
             .addEventListener('dragstart', function(o) { ref.drag_start(o); })
             .addEventListener('dragmove', function(e) { ref.drag_move(e); })
@@ -537,11 +594,7 @@ function rcube_webmail()
             {multiselect:false, draggable:false, keyboard:true});
           this.identity_list
             .addEventListener('select', function(o) { ref.identity_select(o); })
-            .addEventListener('keypress', function(o) {
-              if (o.key_pressed == o.ENTER_KEY) {
-                ref.identity_select(o);
-              }
-            })
+            .addEventListener('keypress', function(o) { ref.list_keypress(o); })
             .init()
             .focus();
         }
@@ -549,7 +602,6 @@ function rcube_webmail()
           this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:true});
           this.sections_list
             .addEventListener('select', function(o) { ref.section_select(o); })
-            .addEventListener('keypress', function(o) { if (o.key_pressed == o.ENTER_KEY) ref.section_select(o); })
             .init()
             .focus();
         }
@@ -560,6 +612,7 @@ function rcube_webmail()
           this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:true});
           this.responses_list
             .addEventListener('select', function(o) { ref.response_select(o); })
+            .addEventListener('keypress', function(o) { ref.list_keypress(o); })
             .init()
             .focus();
         }
@@ -567,7 +620,7 @@ function rcube_webmail()
         break;
 
       case 'login':
-        var tz, tz_name, jstz = window.jstz,
+        var tz, tz_name,
             input_user = $('#rcmloginuser'),
             input_tz = $('#rcmlogintz');
 
@@ -579,7 +632,7 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        if (jstz && (tz = jstz.determine()))
+        if (window.jstz && (tz = jstz.determine()))
           tz_name = tz.name();
 
         input_tz.val(tz_name ? tz_name : (new Date().getStdTimezoneOffset() / -60));
@@ -591,7 +644,6 @@ function rcube_webmail()
           ref.display_message('', 'loading');
         });
 
-        this.enable_command('login', true);
         break;
     }
 
@@ -639,7 +691,7 @@ function rcube_webmail()
     }
 
     // activate html5 file drop feature (if browser supports it and if configured)
-    if (this.gui_objects.filedrop && this.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+    if (this.gui_objects.filedrop && this.env.filedrop && window.FormData) {
       $(document.body).on('dragover dragleave drop', function(e) { return ref.document_drag_hover(e, e.type == 'dragover'); });
       $(this.gui_objects.filedrop).addClass('droptarget')
         .on('dragover dragleave', function(e) { return ref.file_drag_hover(e, e.type == 'dragover'); })
@@ -665,6 +717,9 @@ function rcube_webmail()
       else if (typeof this.onloads[n] === 'function')
         this.onloads[n]();
     }
+
+    // register menu buttons
+    $('[data-popup]').each(function() { ref.register_menu_button(this, $(this).data('popup')); });
 
     // start keep-alive and refresh intervals
     this.start_refresh();
@@ -752,11 +807,6 @@ function rcube_webmail()
     // process internal command
     switch (command) {
 
-      case 'login':
-        if (this.gui_objects.loginform)
-          this.gui_objects.loginform.submit();
-        break;
-
       // commands to switch task
       case 'logout':
       case 'mail':
@@ -826,7 +876,7 @@ function rcube_webmail()
 
       case 'open':
         if (uid = this.get_single_uid()) {
-          obj.href = this.url('show', this.params_from_uid(uid));
+          obj.href = this.url('show', this.params_from_uid(uid, {_extwin: 1}));
           return true;
         }
         break;
@@ -1057,7 +1107,8 @@ function rcube_webmail()
 
         // open attachment in frame if it's of a supported mimetype
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
-          if (this.open_window(this.url('get', $.extend({_frame: 1}, params))))
+          // Note: We disable _framed for proper X-Frame-Options:deny support (#6688)
+          if (this.open_window(this.url('get', $.extend({_frame: 1, _framed: 0}, params))))
             break;
         }
 
@@ -1073,16 +1124,17 @@ function rcube_webmail()
       case 'select-all':
         this.select_all_mode = props ? false : true;
         this.dummy_select = true; // prevent msg opening if there's only one msg on the list
+        var list = this[this.task == 'addressbook' ? 'contact_list' : 'message_list'];
         if (props == 'invert')
-          this.message_list.invert_selection();
+          list.invert_selection();
         else
-          this.message_list.select_all(props == 'page' ? '' : props);
+          list.select_all(props == 'page' ? '' : props);
         this.dummy_select = null;
         break;
 
       case 'select-none':
         this.select_all_mode = false;
-        this.message_list.clear_selection();
+        this[this.task == 'addressbook' ? 'contact_list' : 'message_list'].clear_selection();
         break;
 
       case 'expand-all':
@@ -1349,8 +1401,6 @@ function rcube_webmail()
         var form = props || this.gui_objects.importform,
           importlock = this.set_busy(true, 'importwait');
 
-        $('[name="_unlock"]', form).val(importlock);
-
         if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
           if (flag !== false)
@@ -1360,8 +1410,7 @@ function rcube_webmail()
         break;
 
       case 'import':
-        var reload = false,
-          dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
+        var dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
           import_func = function(e) {
             var win = dialog[0].contentWindow,
               form = win.rcmail.gui_objects.importform;
@@ -1378,17 +1427,17 @@ function rcube_webmail()
               form.submit();
               win.rcmail.lock_form(form, true);
               // disable Import button
-              $(e.target).attr('disabled', true);
-              reload = true;
+              $(e.target).attr('disabled', true).next().focus();
             }
           },
           close_func = function(event, ui) {
             $(this).remove();
-            if (reload)
+            if (ref.import_state == 'reload')
               ref.command('list');
           };
 
-        this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
+        this.import_state = null;
+        this.import_dialog = this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
           close: close_func,
           button: 'import',
           width: 500,
@@ -1463,6 +1512,8 @@ function rcube_webmail()
           args.push(cmd[i]);
       }
     }
+
+    this.set_menu_buttons();
   };
 
   this.command_enabled = function(cmd)
@@ -1526,7 +1577,7 @@ function rcube_webmail()
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error) {
+    else if (task == 'logout') {
       url = this.secure_url(url);
       this.clear_compose_data();
     }
@@ -1651,6 +1702,7 @@ function rcube_webmail()
     if (menu) {
       $(menu).hide();
     }
+
     this.command(action, this.env.drag_target);
     this.env.drag_target = null;
   };
@@ -1680,7 +1732,8 @@ function rcube_webmail()
     else if (list = this.contact_list)
       model = this.env.contactfolders;
 
-    if (this.drag_active && model && this.env.last_folder_target) {
+    // Note: we accept only mouse events to ignore dragging aborts with ESC key (#6623)
+    if (this.drag_active && model && this.env.last_folder_target && !rcube_event.is_keyboard(e)) {
       var target = model[this.env.last_folder_target];
       list.draglayer.hide();
 
@@ -1729,6 +1782,9 @@ function rcube_webmail()
 
   this.folder_collapsed = function(node)
   {
+    if (this.folder_collapsed_timer)
+      clearTimeout(this.folder_collapsed_timer);
+
     var prefname = this.env.task == 'addressbook' ? 'collapsed_abooks' : 'collapsed_folders',
       old = this.env[prefname];
 
@@ -1747,7 +1803,7 @@ function rcube_webmail()
 
     if (!this.drag_active) {
       if (old !== this.env[prefname])
-        this.command('save-pref', { name: prefname, value: this.env[prefname] });
+        this.folder_collapsed_timer = setTimeout(function(){ ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10)
 
       if (this.env.unread_counts)
         this.set_unread_count_display(node.id, false);
@@ -1765,7 +1821,7 @@ function rcube_webmail()
 
     // remove focus from list widgets
     if (window.rcube_list_widget && rcube_list_widget._instances.length) {
-      $.each(rcube_list_widget._instances, function(i,list){
+      $.each(rcube_list_widget._instances, function(i,list) {
         if (list && !rcube_mouse_is_over(e, list.list.parentNode))
           list.blur();
       });
@@ -1780,7 +1836,7 @@ function rcube_webmail()
     }
 
     // reset popup menus; delayed to have updated menu_stack data
-    setTimeout(function(e){
+    setTimeout(function(e) {
       var obj, skip, config, id, i, parents = $(target).parents();
       for (i = ref.menu_stack.length - 1; i >= 0; i--) {
         id = ref.menu_stack[i];
@@ -1808,9 +1864,9 @@ function rcube_webmail()
     var focus_menu_item = function(dir) {
       var obj, item, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
       if (ref.focused_menu && (obj = $('#'+ref.focused_menu))) {
-        item = obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+        item = obj.find(':focus').closest('li')[mod]().has(':not([aria-disabled=true])').find('a,input')[limit]();
         if (!item.length)
-          item = obj.find(':focus').closest('ul')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+          item = obj.find(':focus').closest('ul')[mod]().has(':not([aria-disabled=true])').find('a,input')[limit]();
         return item.focus().length;
       }
 
@@ -1849,6 +1905,20 @@ function rcube_webmail()
 
     return true;
   }
+
+  // Common handler for a keypress event on a list widget
+  this.list_keypress = function(list, conf)
+  {
+    if (list.modkey == CONTROL_KEY)
+      return;
+
+    if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
+      this.command(conf && conf.del ? conf.del : 'delete');
+    else if (list.key_pressed == 33)
+      this.command(conf && conf.prev ? conf.prev : 'previouspage');
+    else if (list.key_pressed == 34)
+      this.command(conf && conf.next ? conf.next : 'nextpage');
+  };
 
   this.msglist_select = function(list)
   {
@@ -1913,21 +1983,6 @@ function rcube_webmail()
       this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
     else if (uid)
       this.show_message(uid, false, false);
-  };
-
-  this.msglist_keypress = function(list)
-  {
-    if (list.modkey == CONTROL_KEY)
-      return;
-
-    if (list.key_pressed == list.ENTER_KEY)
-      this.command('show');
-    else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
-      this.command('delete');
-    else if (list.key_pressed == 33)
-      this.command('previouspage');
-    else if (list.key_pressed == 34)
-      this.command('nextpage');
   };
 
   this.msglist_get_preview = function()
@@ -2234,12 +2289,12 @@ function rcube_webmail()
         label = this.get_label('withattachment');
         if (flags.attachmentClass)
           html = '<span class="'+flags.attachmentClass+'" title="'+label+'"></span>';
-        else if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
-          html = '<span class="attachment" title="'+label+'"></span>';
-        else if (/multipart\/report/.test(flags.ctype))
+        else if (flags.ctype == 'multipart/report')
           html = '<span class="report"></span>';
         else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime')
           html = '<span class="encrypted"></span>';
+        else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype)))
+          html = '<span class="attachment" title="'+label+'"></span>';
         else
           html = '&nbsp;';
       }
@@ -2442,6 +2497,9 @@ function rcube_webmail()
 
     url = this.url(preview ? 'preview': 'show', url);
 
+    if (preview)
+      this.preview_id = id;
+
     if (preview && String(target.location.href).indexOf(url) >= 0) {
       this.show_contentframe(true);
     }
@@ -2497,8 +2555,10 @@ function rcube_webmail()
         $(frame)[show ? 'show' : 'hide']();
     }
 
-    if (!show && this.env.frame_lock)
-      this.set_busy(false, null, this.env.frame_lock);
+    if (!show) {
+      this.unlock_frame();
+      delete this.preview_id;
+    }
   };
 
   this.get_frame_element = function(id)
@@ -2517,10 +2577,26 @@ function rcube_webmail()
       return window.frames[frame.name];
   };
 
-  this.lock_frame = function()
+  this.lock_frame = function(target)
   {
-    if (!this.env.frame_lock)
-      (this.is_framed() ? parent.rcmail : this).env.frame_lock = this.set_busy(true, 'loading');
+    var rc = this.is_framed() ? parent.rcmail : this;
+
+    if (!rc.env.frame_lock)
+      rc.env.frame_lock = rc.set_busy(true, 'loading');
+
+    if (target.frameElement)
+      $(target.frameElement).on('load.lock', function(e) {
+        rc.unlock_frame();
+        $(this).off('load.lock');
+      });
+  };
+
+  this.unlock_frame = function()
+  {
+    if (this.env.frame_lock) {
+      this.set_busy(false, null, this.env.frame_lock);
+      this.env.frame_lock = null;
+    }
   };
 
   // list a specific page
@@ -2916,7 +2992,7 @@ function rcube_webmail()
           r.parent_uid = 0;
           if (r.has_children) {
             // replace 'leaf' with 'collapsed'
-            $('#'+r.id+' .leaf:first')
+            $('#' + r.id + ' .leaf').first()
               .attr('id', 'rcmexpando' + r.id)
               .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
               .mousedown({uid: r.uid}, function(e) {
@@ -3146,13 +3222,14 @@ function rcube_webmail()
     // show wait message
     if (this.env.action == 'show')
       lock = this.set_busy(true, 'movingmessage');
-    else
-      this.show_contentframe(false);
 
     // Hide message command buttons until a message is selected
     this.enable_command(this.env.message_commands, false);
 
     this.with_selected_messages('move', post_data, lock);
+
+    if (this.env.action != 'show')
+      this.show_contentframe(false);
   };
 
   // delete selected messages from the current mailbox
@@ -3195,8 +3272,8 @@ function rcube_webmail()
     if (!post_data._uid)
       return;
 
-    this.show_contentframe(false);
     this.with_selected_messages('delete', post_data);
+    this.show_contentframe(false);
   };
 
   // Send a specific move/delete request with UIDs of all selected messages
@@ -3208,7 +3285,8 @@ function rcube_webmail()
     // update the list (remove rows, clear selection)
     if (this.message_list) {
       var n, len, id, root, roots = [],
-        selection = post_data._uid;
+        selection = post_data._uid,
+        display_next = this.env.display_next && this.preview_id;
 
       if (selection === '*')
         selection = this.message_list.get_selection();
@@ -3226,11 +3304,13 @@ function rcube_webmail()
           }
         }
         if (remove)
-          this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
+          this.message_list.remove_row(id, display_next && n == selection.length-1);
       }
+
       // make sure there are no selected rows
-      if (!this.env.display_next && remove)
+      if (!display_next && remove)
         this.message_list.clear_selection();
+
       // update thread tree icons
       for (n=0, len=roots.length; n<len; n++) {
         this.add_tree_icons(roots[n]);
@@ -3335,7 +3415,7 @@ function rcube_webmail()
   this.toggle_read_status = function(flag, a_uids)
   {
     var i, len = a_uids.length,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as read/unread
@@ -3350,14 +3430,15 @@ function rcube_webmail()
   {
     var i, len = a_uids.length,
       win = this.env.contentframe ? this.get_frame_window(this.env.contentframe) : window,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: flag}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: flag}),
       lock = this.display_message('markingmessage', 'loading');
 
     // mark all message rows as flagged/unflagged
     for (i=0; i<len; i++)
       this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
 
-    $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
+    if (this.env.action == 'show' || $.inArray(this.preview_id, a_uids) >= 0)
+      $(win.document.body)[flag == 'flagged' ? 'addClass' : 'removeClass']('status-flagged');
 
     this.http_post('mark', post_data, lock);
   };
@@ -3365,8 +3446,8 @@ function rcube_webmail()
   // mark all message rows as deleted/undeleted
   this.toggle_delete_status = function(a_uids)
   {
-    var len = a_uids.length,
-      i, uid, all_deleted = true,
+    var i, uid, all_deleted = true,
+      len = a_uids.length,
       rows = this.message_list ? this.message_list.rows : {};
 
     if (len == 1) {
@@ -3397,7 +3478,7 @@ function rcube_webmail()
   this.flag_as_undeleted = function(a_uids)
   {
     var i, len = a_uids.length,
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'undelete'}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: 'undelete'}),
       lock = this.display_message('markingmessage', 'loading');
 
     for (i=0; i<len; i++)
@@ -3409,11 +3490,12 @@ function rcube_webmail()
   this.flag_as_deleted = function(a_uids)
   {
     var r_uids = [],
-      post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
+      post_data = this.selection_post_data({_uid: a_uids, _flag: 'delete'}),
       lock = this.display_message('markingmessage', 'loading'),
       list = this.message_list,
       rows = list ? list.rows : {},
-      count = 0;
+      count = 0,
+      display_next = this.env.display_next && this.preview_id;
 
     for (var i=0, len=a_uids.length; i<len; i++) {
       uid = a_uids[i];
@@ -3423,7 +3505,7 @@ function rcube_webmail()
 
         if (this.env.skip_deleted) {
           count += this.update_thread(uid);
-          list.remove_row(uid, (this.env.display_next && i == list.get_selection(false).length-1));
+          list.remove_row(uid, display_next && i == list.get_selection(false).length-1);
         }
         else
           this.set_message(uid, 'deleted', true);
@@ -3432,7 +3514,7 @@ function rcube_webmail()
 
     // make sure there are no selected rows
     if (this.env.skip_deleted && list) {
-      if (!this.env.display_next || !list.rowcount)
+      if (!display_next || !list.rowcount)
         list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
@@ -3472,7 +3554,14 @@ function rcube_webmail()
   // with select_all mode checking
   this.uids_to_list = function(uids)
   {
-    return this.select_all_mode ? '*' : ($.isArray(uids) ? uids.join(',') : uids);
+    if (this.select_all_mode)
+      return '*';
+
+    // multi-folder list of uids cannot be passed as a string (#6845)
+    if ($.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
+      uids = uids.join(',');
+
+    return uids;
   };
 
   // Sets title of the delete button
@@ -3500,7 +3589,7 @@ function rcube_webmail()
         for (i = 1; i <= ref.env.pagecount; i++)
           html += '<li>' + i + '</li>';
 
-        html = '<ul class="toolbarmenu">' + html + '</ul>';
+        html = '<ul class="toolbarmenu menu">' + html + '</ul>';
 
         if (!ref.pagejump) {
           ref.pagejump = $('<div id="pagejump-selector" class="popupmenu"></div>')
@@ -3919,7 +4008,7 @@ function rcube_webmail()
   {
     // query with publickey.js
     var deferreds = [],
-      pk = new PublicKey(),
+      pk = new PublicKey(this.env.keyservers),
       lock = ref.display_message('', 'loading');
 
     $.each(emails, function(i, email) {
@@ -3976,8 +4065,10 @@ function rcube_webmail()
   this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
     var ul = $('<div>').addClass('listing pgpkeyimport');
+
     $.each(candidates, function(i, keyrec) {
       var li = $('<div>').addClass('key');
+
       if (keyrec.revoked)  li.addClass('revoked');
       if (keyrec.disabled) li.addClass('disabled');
       if (keyrec.expired)  li.addClass('expired');
@@ -4034,7 +4125,7 @@ function rcube_webmail()
     ul.on('click', 'button.importkey', function() {
       var btn = $(this),
         keyid = btn.attr('rel'),
-        pk = new PublicKey(),
+        pk = new PublicKey(ref.env.keyservers),
         lock = ref.display_message('', 'loading');
 
         // fetch from keyserver and import to Mailvelope keyring
@@ -4066,7 +4157,6 @@ function rcube_webmail()
           });
         });
     });
-
   };
 
   // enable key management for identity
@@ -4074,6 +4164,7 @@ function rcube_webmail()
   {
     var container = $(this.gui_objects.editform).find('.identity-encryption').first();
     var identity_email = $.trim($(this.gui_objects.editform).find('.ff_email').val());
+
     if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
       return;
 
@@ -4109,8 +4200,8 @@ function rcube_webmail()
           var ul = $('<ul>').addClass('keylist').appendTo(content);
           $.each(private_keys, function(i, key) {
             $('<li>').appendTo(ul)
-              .append($('<span>').addClass('identity').text('<' + identity_email + '> '))
-              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()));
+              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()))
+              .append($('<span>').addClass('identity').text('<' + identity_email + '> '));
           });
         } else {
           $('<p>').text(ref.get_label('encryptionnoprivkeysinmailvelope')).appendTo(content);
@@ -4141,7 +4232,7 @@ function rcube_webmail()
 
   // start pgp key generation using Mailvelope
   this.mailvelope_show_keygen_container = function(container, identity_email)
-    {
+  {
     var cid = new Date().getTime();
     var user_id = {email: identity_email, fullName: $.trim($(ref.gui_objects.editform).find('.ff_name').val())};
     var options = {userIds: [user_id], keySize: 4096};
@@ -4195,7 +4286,8 @@ function rcube_webmail()
         // start over
         ref.mailvelope_identity_keygen();
       });
-    };
+  };
+
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/
@@ -4265,27 +4357,22 @@ function rcube_webmail()
       if (state > 1) {
         // build content of the dialog
         $.each({cur: 1, sub: 2, all: 4}, function(i, v) {
-          var label = $('<label>').attr('style', 'display:block; line-height:22px'),
-            text = $('<span>').text(ref.get_label('folders-' + i)),
-            input = $('<input>').attr({type: 'radio', value: i, name: 'mode'});
+          var id = 'readallmode' + i,
+            label = $('<label>').attr('for', id).text(ref.get_label('folders-' + i)),
+            input = $('<input>').attr({type: 'radio', value: i, name: 'mode', id: id, disabled: !(state & v)});
 
-          if (!(state & v)) {
-            label.attr('class', 'disabled');
-            input.attr('disabled', true);
-          }
-
-          nodes.push(label.append(input).append(text));
+          nodes.push($('<li>').append([input, label]));
         });
 
-        content = $('<div>').append(nodes);
-        $('input:not([disabled]):first', content).attr('checked', true);
+        content = $('<ul class="proplist">').append(nodes);
+        $('input:not([disabled])', content).first().attr('checked', true);
 
         this.simple_dialog(content, this.get_label('markallread'),
           function() {
             ref.mark_all_read(folder, $('input:checked', content).val());
             return true;
           },
-          {button: 'mark'}
+          {button: 'mark', button_class: 'save'}
         );
 
         return;
@@ -4491,22 +4578,14 @@ function rcube_webmail()
   // init autocomplete events on compose form inputs
   this.init_messageform_inputs = function(focused)
   {
-    var i, ac_props,
+    var i,
       input_to = $("[name='_to']"),
       ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
 
-    // configure parallel autocompletion
-    if (this.env.autocomplete_threads > 0) {
-      ac_props = {
-        threads: this.env.autocomplete_threads,
-        sources: this.env.autocomplete_sources
-      };
-    }
-
     // init live search events
-    this.init_address_input_events(input_to, ac_props);
+    this.init_address_input_events(input_to);
     for (i in ac_fields) {
-      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"));
     }
 
     if (!focused)
@@ -4587,11 +4666,22 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj, props)
   {
+    // configure parallel autocompletion
+    if (!props && this.env.autocomplete_threads > 0) {
+      props = {
+        threads: this.env.autocomplete_threads,
+        sources: this.env.autocomplete_sources
+      };
+    }
+
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
-      .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
+      .attr({autocomplete: 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', role: 'combobox'});
 
     // hide the popup on any click
-    $(document).on('click', function() { ref.ksearch_hide(); });
+    var callback = function() { ref.ksearch_hide(); };
+    $(document).on('click', callback);
+    // and on scroll (that cannot be jQuery.on())
+    document.addEventListener('scroll', callback, true);
   };
 
   this.submit_messageform = function(draft, saveonly)
@@ -4711,7 +4801,7 @@ function rcube_webmail()
       var dialog,
         prompt_value = $('<input>').attr({type: 'text', size: 40}),
         myprompt = $('<div class="prompt">')
-          .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
+          .append($('<p class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
         save_func = function() {
           input_subject.val(prompt_value.val());
@@ -5266,77 +5356,21 @@ function rcube_webmail()
   // upload (attachment) file
   this.upload_file = function(form, action, lock)
   {
-    if (!form)
-      return;
-
-    // count files and size on capable browser
-    var size = 0, numfiles = 0;
-
-    $.each($(form).get(0).elements || [], function() {
-      if (this.type != 'file')
-        return;
-
-      var i, files = this.files ? this.files.length : (this.value ? 1 : 0);
-
-      // check file size
-      if (this.files) {
-        for (i=0; i < files; i++)
-          size += this.files[i].size;
-      }
-
-      numfiles += files;
-    });
-
-    // create hidden iframe and post upload form
-    if (numfiles) {
-      if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
-        this.display_message(this.env.filesizeerror, 'error');
-        return false;
-      }
-
-      if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
-        this.display_message(this.env.filecounterror, 'error');
-        return false;
-      }
-
-      var frame_name = this.async_upload_form(form, action || 'upload', function(e) {
-        var d, content = '';
-        try {
-          if (this.contentDocument) {
-            d = this.contentDocument;
-          } else if (this.contentWindow) {
-            d = this.contentWindow.document;
-          }
-          content = d.childNodes[1].innerHTML;
-        } catch (err) {}
-
-        if (!content.match(/add2attachment/) && (!bw.opera || (ref.env.uploadframe && ref.env.uploadframe == e.data.ts))) {
-          if (!content.match(/display_message/))
-            ref.display_message('fileuploaderror', 'error');
-          ref.remove_from_attachment_list(e.data.ts);
-
-          if (lock)
-            ref.set_busy(false, null, lock);
+    if (form) {
+      var fname, files = [];
+      $('input', form).each(function() {
+        if (this.files) {
+          fname = this.name;
+          for (var i=0; i < this.files.length; i++)
+            files.push(this.files[i]);
         }
-        // Opera hack: handle double onload
-        if (bw.opera)
-          ref.env.uploadframe = e.data.ts;
       });
 
-      // display upload indicator and cancel button
-      var content = '<span>' + this.get_label('uploading' + (numfiles > 1 ? 'many' : '')) + '</span>',
-        ts = frame_name.replace(/^rcmupload/, '');
-
-      this.add2attachment_list(ts, { name:'', html:content, classname:'uploading', frame:frame_name, complete:false });
-
-      // upload progress support
-      if (this.env.upload_progress_time) {
-        this.upload_progress_start('upload', ts);
-      }
-
-      // set reference to the form object
-      this.gui_objects.attachmentform = form;
-      return true;
+      return this.file_upload(files, {_id: this.env.compose_id || ''}, {
+        name: fname,
+        action: action,
+        lock: lock
+      });
     }
   };
 
@@ -5360,19 +5394,20 @@ function rcube_webmail()
 
     var label, indicator, li = $('<li>');
 
+    if (!att.complete && att.html.indexOf('<') < 0)
+      att.html = '<span class="uploading">' + att.html + '</span>';
+
     if (!att.complete && this.env.loadingicon)
       att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
-    if (!att.complete && att.frame) {
+    if (!att.complete) {
       label = this.get_label('cancel');
-      att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
+      att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\');" href="#cancelupload" class="cancelupload">'
         + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+label+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
     }
 
-    li.attr('id', name)
-      .addClass(att.classname)
-      .html(att.html)
-      .on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
+    li.attr('id', name).addClass(att.classname).html(att.html)
+      .find('.attachment-name').on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
 
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {
@@ -5407,33 +5442,14 @@ function rcube_webmail()
     return false;
   };
 
-  this.cancel_attachment_upload = function(name, frame_name)
+  this.cancel_attachment_upload = function(name)
   {
-    if (!name || !frame_name)
+    if (!name || !this.uploads[name])
       return false;
 
     this.remove_from_attachment_list(name);
-    $("iframe[name='"+frame_name+"']").remove();
+    this.uploads[name].abort();
     return false;
-  };
-
-  this.upload_progress_start = function(action, name)
-  {
-    setTimeout(function() { ref.http_request(action, {_progress: name}); },
-      this.env.upload_progress_time * 1000);
-  };
-
-  this.upload_progress_update = function(param)
-  {
-    var elem = $('#'+param.name + ' > span');
-
-    if (!elem.length || !param.text)
-      return;
-
-    elem.text(param.text);
-
-    if (!param.done)
-      this.upload_progress_start(param.action, param.name);
   };
 
   // rename uploaded attachment (in compose)
@@ -5461,24 +5477,14 @@ function rcube_webmail()
   // update attachments list with the new name
   this.rename_attachment_handler = function(id, name)
   {
-    var attachment = this.env.attachments ? this.env.attachments[id] : null,
-      item = $('#' + id + ' > a.filename'),
-      link = $('<a>');
+    var attachment = this.env.attachments ? this.env.attachments[id] : null;
 
     if (!attachment || !name)
       return;
 
     attachment.name = name;
 
-    // update attachments list
-    if (item.length == 1) {
-      // create a new element with new attachment name and cloned size
-      link.text(name).append($('span', item).clone());
-      // update attachment name element
-      item.html(link.html());
-      // reset parent's title which may contain the old name
-      item.parent().attr('title', '');
-    }
+    $('#' + id + ' .attachment-name').text(name).attr('title', '');
   };
 
   // send remote request to add a new contact
@@ -5723,6 +5729,17 @@ function rcube_webmail()
       head.append($('<style id="image-style">').text('img { transform: ' + style.join(' ') + '}'));
   };
 
+  // Update import dialog state
+  this.import_state_set = function(state)
+  {
+    if (this.import_dialog) {
+      this.import_state = state;
+      // activate Import button depending on state
+      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button').first().attr('disabled', state != 'error');
+    }
+  };
+
+
   /*********************************************************/
   /*********     keyboard live-search methods      *********/
   /*********************************************************/
@@ -5742,7 +5759,7 @@ function rcube_webmail()
           return;
 
         var dir = key == 38 ? 1 : 0,
-          highlight = document.getElementById('rcmkSearchItem' + this.ksearch_selected);
+          highlight = this.ksearch_pane.find('li.selected')[0];
 
         if (!highlight)
           highlight = this.ksearch_pane.__ul.firstChild;
@@ -5808,29 +5825,30 @@ function rcube_webmail()
     if (id === null || !this.env.contacts[id] || !this.ksearch_input)
       return;
 
-    var trigger = false, insert = '', delim = ', ';
+    var trigger = false, insert = '', delim = ', ',
+      contact = this.env.contacts[id];
 
     this.ksearch_destroy();
 
     // insert all members of a group
-    if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].type == 'group' && !this.env.contacts[id].email) {
-      insert += this.env.contacts[id].name + delim;
-      this.group2expand[this.env.contacts[id].id] = $.extend({ input: this.ksearch_input }, this.env.contacts[id]);
-      this.http_request('mail/group-expand', {_source: this.env.contacts[id].source, _gid: this.env.contacts[id].id}, false);
+    if (typeof contact === 'object' && contact.type == 'group' && !contact.email && contact.id) {
+      insert = contact.name + delim;
+      this.group2expand[contact.id] = $.extend({input: this.ksearch_input}, contact);
+      this.http_request('mail/group-expand', {_source: contact.source, _gid: contact.id}, false);
     }
-    else if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].name) {
-      insert = this.env.contacts[id].name + delim;
+    else if (typeof contact === 'object' && contact.name) {
+      insert = contact.name + delim;
       trigger = true;
     }
-    else if (typeof this.env.contacts[id] === 'string') {
-      insert = this.env.contacts[id] + delim;
+    else if (typeof contact === 'string') {
+      insert = contact + delim;
       trigger = true;
     }
 
     this.ksearch_input_replace(this.ksearch_value, insert);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id], search:this.ksearch_value_last, result_type:'person' });
+      this.triggerEvent('autocomplete_insert', {field: this.ksearch_input, insert: insert, data: contact, search: this.ksearch_value_last, result_type: 'person'});
       this.ksearch_value_last = null;
       this.compose_type_activity++;
     }
@@ -5913,6 +5931,7 @@ function rcube_webmail()
 
     // display search results
     var i, id, len, ul, text, type, init,
+      is_framed = this.is_framed(),
       value = this.ksearch_value,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
@@ -5920,10 +5939,10 @@ function rcube_webmail()
     if (!this.ksearch_pane) {
       ul = $('<ul>');
       this.ksearch_pane = $('<div>')
-        .attr({id: 'rcmKSearchpane', role: 'listbox'})
+        .attr({id: 'rcmKSearchpane', role: 'listbox', 'class': 'select-menu inline'})
         .css({position: 'absolute', 'z-index': 30000})
         .append(ul)
-        .appendTo(document.body);
+        .appendTo(is_framed ? parent.document.body : document.body);
 
       this.ksearch_pane.__ul = ul[0];
       this.triggerEvent('autocomplete_create', {obj: this.ksearch_pane});
@@ -5941,9 +5960,45 @@ function rcube_webmail()
       // reset content
       ul.innerHTML = '';
       this.env.contacts = [];
-      // move the results pane right under the input box
-      var pos = $(this.ksearch_input).offset();
-      this.ksearch_pane.css({ left:pos.left+'px', top:(pos.top + this.ksearch_input.offsetHeight)+'px', display: 'none'});
+
+      // Calculate the results pane position and size
+      // Elastic: On small screen we use the width/position of the whole .ac-input element (input's parent)
+      var is_composite_input = $('html').is('.layout-small,.layout-phone') && $(this.ksearch_input).parents('.ac-input').length == 1,
+        input = is_composite_input ? $(this.ksearch_input).parents('.ac-input')[0] : $(this.ksearch_input)[0],
+        pos = $(input).offset();
+
+      // ... consider scroll position
+      pos.left -= $(document.documentElement).scrollLeft();
+      pos.top -= $(document.documentElement).scrollTop();
+
+      // ... consider iframe position
+      if (is_framed) {
+        try {
+          parent.$('iframe').each(function() {
+            if (this.contentWindow == window) {
+              var offset = $(this).offset();
+              pos.left += offset.left;
+              pos.top += offset.top;
+            }
+          });
+        }
+        catch(e) {}
+      }
+
+      var w = $(is_framed ? parent : window).width(),
+        input_width = $(input).outerWidth(),
+        left = w - pos.left > 200 ? pos.left : w - 200,
+        top = (pos.top + input.offsetHeight + 1),
+        width = Math.min(400, w - left);
+
+      this.ksearch_pane.css({
+        left: (is_composite_input ? pos.left : left) + 'px',
+        top: top + 'px',
+        maxWidth: (is_composite_input ? input_width : width) + 'px',
+        minWidth: '200px',
+        width: is_composite_input ? (input_width + 'px') : 'auto',
+        display: 'none'
+      });
     }
 
     // add each result line to list
@@ -5975,7 +6030,7 @@ function rcube_webmail()
 
       // select the first
       if (!this.env.contacts.length) {
-        this.ksearch_select($('li:first', ul).get(0));
+        this.ksearch_select($('li', ul)[0]);
       }
     }
 
@@ -6078,12 +6133,6 @@ function rcube_webmail()
   /*********************************************************/
   /*********         address book methods          *********/
   /*********************************************************/
-
-  this.contactlist_keypress = function(list)
-  {
-    if (list.key_pressed == list.DELETE_KEY)
-      this.command('delete');
-  };
 
   this.contactlist_select = function(list)
   {
@@ -6319,9 +6368,11 @@ function rcube_webmail()
       if (this.env.search_request)
         url._search = this.env.search_request;
 
+      if (cid)
+        url._cid = this.preview_id = cid;
+
       url._action = action;
       url._source = this.env.source;
-      url._cid = cid;
 
       this.location_href(url, target, true);
     }
@@ -6477,12 +6528,11 @@ function rcube_webmail()
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         a_cids.push(id);
-        this.contact_list.remove_row(id, (n == selection.length-1));
+        this.contact_list.remove_row(id, this.env.display_next && this.preview_id && n == selection.length-1);
       }
 
-      // hide content frame if we delete the currently displayed contact
-      if (selection.length == 1)
-        this.show_contentframe(false);
+      if (!this.env.display_next)
+        this.contact_list.clear_selection();
     }
 
     if (!post_data)
@@ -6680,12 +6730,16 @@ function rcube_webmail()
   this.remove_group_contacts = function(props)
   {
     if (this.env.group !== undefined && (this.env.group === props.gid)) {
-      var n, selection = this.contact_list.get_selection();
+      var n, selection = this.contact_list.get_selection(),
+        display_next= this.env.display_next && this.preview_id;
+
       for (n=0; n<selection.length; n++) {
         id = selection[n];
-        this.contact_list.remove_row(id, (n == selection.length-1));
-        this.contact_list.clear_selection();
+        this.contact_list.remove_row(id, display_next && n == selection.length-1);
       }
+
+      if (!display_next)
+        this.contact_list.clear_selection();
     }
   };
 
@@ -6845,6 +6899,8 @@ function rcube_webmail()
         else if (colprop.type == 'composite') {
           var i, childcol, cp, first, templ, cols = [], suffices = [], content = cell;
 
+          row.addClass('composite');
+
           if (compact)
             content = $('<div class="content input-group-text">');
 
@@ -6913,7 +6969,7 @@ function rcube_webmail()
           row.appendTo(appendcontainer.show());
 
           if (input.is('div'))
-            input.find('input:first').focus();
+            input.find('input').first().focus();
           else
             input.first().focus();
 
@@ -7259,7 +7315,7 @@ function rcube_webmail()
 
     if (list && id) {
       list.remove_row(rid);
-     this.show_contentframe(false);
+      this.show_contentframe(false);
     }
 
     this.enable_command('delete', false);
@@ -7291,7 +7347,7 @@ function rcube_webmail()
       .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
       .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
       .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
-      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle'})
+      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control'})
       .droppable({
         // @todo: find better way, accept callback is executed for every folder
         // on the list when dragging starts (and stops), this is slow, but
@@ -7412,10 +7468,10 @@ function rcube_webmail()
     }
 
     // set folder name
-    $('a:first', row).text(display_name);
+    $('a', row).first().text(display_name).removeAttr('title');
 
     // update subscription checkbox
-    $('input[name="_subscribed[]"]:first', row).val(id)
+    $('input[name="_subscribed[]"]', row).first().val(id)
       .prop({checked: subscribed ? true : false, disabled: is_protected ? true : false});
 
     // add to folder/row-ID map
@@ -7505,7 +7561,7 @@ function rcube_webmail()
       }
 
       if (parent && n == parent) {
-        $('ul:first', parent).append(row);
+        $('ul', parent).first().append(row);
       }
       else {
         while (p = $(n).parent().parent().get(0)) {
@@ -7566,7 +7622,7 @@ function rcube_webmail()
       old_folder = this.env.subscriptionrows[oldid],
       prefix_len_id = oldid.length,
       prefix_len_name = old_folder[0].length,
-      subscribed = $('input[name="_subscribed[]"]:first', row).prop('checked');
+      subscribed = $('input[name="_subscribed[]"]', row).first().prop('checked');
 
     // no renaming, only update class_name
     if (oldid == id) {
@@ -7581,7 +7637,7 @@ function rcube_webmail()
         newid = id + fname.slice(prefix_len_id);
 
       this.id = 'rcmli' + ref.html_identifier_encode(newid);
-      $('input[name="_subscribed[]"]:first', this).val(newid);
+      $('input[name="_subscribed[]"]', this).first().val(newid);
       folder[0] = name + folder[0].slice(prefix_len_name);
 
       subfolders[newid] = folder;
@@ -7666,7 +7722,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('disabled', true);
+      $('input[name="_subscribed[]"]', row).first().prop('disabled', true);
   };
 
   // resets state of subscription checkbox (e.g. on error)
@@ -7674,7 +7730,7 @@ function rcube_webmail()
   {
     var row = this.subscription_list.get_item(folder, true);
     if (row)
-      $('input[name="_subscribed[]"]:first', row).prop('checked', state);
+      $('input[name="_subscribed[]"]', row).first().prop('checked', state);
   };
 
   this.folder_size = function(folder)
@@ -7798,13 +7854,10 @@ function rcube_webmail()
       else if (button[state] !== undefined) {
         obj.className = button[state];
       }
+
       // disable/enable input buttons
       if (button.type == 'input' || button.type == 'button') {
         obj.disabled = state == 'pas';
-      }
-      else if (button.type == 'uibutton') {
-        button.status = state;
-        $(obj).button('option', 'disabled', state == 'pas');
       }
       else {
         $obj = $(obj);
@@ -7883,7 +7936,7 @@ function rcube_webmail()
   // display a system message, list of types in common.css (below #message definition)
   this.display_message = function(msg, type, timeout, key)
   {
-    if (msg && msg.length && /^[a-z.]+$/.test(msg))
+    if (msg && msg.length && /^[a-z._]+$/.test(msg))
       msg = this.get_label(msg);
 
     // pass command to parent window
@@ -7899,6 +7952,14 @@ function rcube_webmail()
 
     if (!type)
       type = 'notice';
+    else if (type == 'loading') {
+      if (!key)
+        key = 'loading';
+      if (!timeout)
+        timeout = this.env.request_timeout * 1000;
+      if (!msg)
+        msg = this.get_label('loading');
+    }
 
     if (!key)
       key = this.html_identifier(msg);
@@ -7920,13 +7981,6 @@ function rcube_webmail()
         default:
           timeout = this.message_time;
       }
-    }
-
-    if (type == 'loading') {
-      key = 'loading';
-      timeout = this.env.request_timeout * 1000;
-      if (!msg)
-        msg = this.get_label('loading');
     }
 
     // The same message is already displayed
@@ -8143,7 +8197,9 @@ function rcube_webmail()
     });
 
     // Don't propagate keyboard events to the UI below the dialog (#6055)
-    popup.parent().on('keydown keyup', function(e) { e.stopPropagation(); });
+    dialog.on('keydown keyup', function(e) { e.stopPropagation(); });
+
+    this.triggerEvent('dialog-open', {obj: popup});
 
     return popup;
   };
@@ -8343,7 +8399,7 @@ function rcube_webmail()
   this.set_quota = function(content)
   {
     if (this.gui_objects.quotadisplay && content && content.type == 'text')
-      $(this.gui_objects.quotadisplay).text((content.percent||0) + '%').attr('title', content.title);
+      $(this.gui_objects.quotadisplay).text((content.percent||0) + '%').attr('title', content.title || '');
 
     this.triggerEvent('setquota', content);
     this.env.quota_content = content;
@@ -8382,7 +8438,7 @@ function rcube_webmail()
       link = $(item).children('a').eq(0);
       text_obj = link.children('span.unreadcount');
       if (!text_obj.length && mycount)
-        text_obj = $('<span>').addClass('unreadcount').appendTo(link);
+        text_obj = $('<span>').addClass('unreadcount skip-content').appendTo(link);
       reg = /\s+\([0-9]+\)$/i;
 
       childcount = 0;
@@ -8555,7 +8611,7 @@ function rcube_webmail()
     if (!container) {
       var rows = [],
         container = $('<div>').attr('id', name).addClass('popupmenu'),
-        ul = $('<ul>').addClass('toolbarmenu'),
+        ul = $('<ul>').addClass('toolbarmenu menu'),
         link = document.createElement('a');
 
       link.href = '#';
@@ -8872,6 +8928,7 @@ function rcube_webmail()
       this.set_busy(true, 'loading');
 
     if (this.is_framed()) {
+      url = url.replace(/&_framed=1/, '');
       parent.rcmail.redirect(url, lock);
     }
     else {
@@ -8895,7 +8952,7 @@ function rcube_webmail()
   this.location_href = function(url, target, frame)
   {
     if (frame)
-      this.lock_frame();
+      this.lock_frame(target);
 
     if (typeof url == 'object')
       url = this.env.comm_path + '&' + $.param(url);
@@ -8941,6 +8998,9 @@ function rcube_webmail()
       if (data._unlock)
         this.set_busy(false, null, data._unlock);
       return false;
+    }
+    else if (result && result.getResponseHeader) {
+      return result;
     }
     else if (result !== undefined) {
       data = result;
@@ -8988,7 +9048,7 @@ function rcube_webmail()
       return;
 
     if (response.unlock)
-      this.set_busy(false);
+      this.set_busy(false, null, response.unlock);
 
     this.triggerEvent('responsebefore', {response: response});
     this.triggerEvent('responsebefore'+response.action, {response: response});
@@ -9136,7 +9196,7 @@ function rcube_webmail()
           var list = this.contact_list,
             uid = this.env.list_uid;
 
-          this.enable_command('export', (list && list.rowcount > 0));
+          this.enable_command('export', 'select-all', 'select-none', (list && list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
             this.enable_command('search-create', this.env.source == '');
@@ -9391,19 +9451,6 @@ function rcube_webmail()
       frame_name = 'rcmupload' + ts,
       frame = this.dummy_iframe(frame_name);
 
-    // upload progress support
-    if (this.env.upload_progress_name) {
-      var fname = this.env.upload_progress_name,
-        field = $('input[name='+fname+']', form);
-
-      if (!field.length) {
-        field = $('<input>').attr({type: 'hidden', name: fname});
-        field.prependTo(form);
-      }
-
-      field.val(ts);
-    }
-
     // handle upload errors by parsing iframe content in onload
     frame.on('load', {ts:ts}, onload);
 
@@ -9451,19 +9498,14 @@ function rcube_webmail()
     this.file_drag_hover(e, false);
 
     // prepare multipart form data composition
-    var uri, size = 0, numfiles = 0,
+    var uri,
       files = e.target.files || e.dataTransfer.files,
-      formdata = window.FormData ? new FormData() : null,
-      fieldname = (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
-      boundary = '------multipartformboundary' + (new Date).getTime(),
-      dashdash = '--', crlf = '\r\n',
-      multipart = dashdash + boundary + crlf,
       args = {_id: this.env.compose_id || this.env.cid || '', _remote: 1, _from: this.env.action};
 
     if (!files || !files.length) {
       // Roundcube attachment, pass its uri to the backend and attach
       if (uri = e.dataTransfer.getData('roundcube-uri')) {
-        var ts = new Date().getTime(),
+        var ts = 'upload' + new Date().getTime(),
           // jQuery way to escape filename (#1490530)
           content = $('<span>').text(e.dataTransfer.getData('roundcube-name') || this.get_label('attaching')).html();
 
@@ -9476,110 +9518,126 @@ function rcube_webmail()
 
         this.http_post(this.env.filedrop.action || 'upload', args);
       }
+
       return;
     }
 
-    // inline function to submit the files to the server
-    var submit_data = function() {
-      if (ref.env.max_filesize && ref.env.filesizeerror && size > ref.env.max_filesize) {
-        ref.display_message(ref.env.filesizeerror, 'error');
-        return;
-      }
+    this.file_upload(files, args, {
+      name: (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
+      single: this.env.filedrop.single,
+      filter: this.env.filedrop.filter,
+      action: ref.env.filedrop.action
+    });
+  };
 
-      if (ref.env.max_filecount && ref.env.filecounterror && numfiles > ref.env.max_filecount) {
-        ref.display_message(ref.env.filecounterror, 'error');
-        return;
-      }
+  // Files upload using ajax
+  this.file_upload = function(files, post_args, props)
+  {
+    if (!window.FormData || !files || !files.length)
+      return false;
 
-      var multiple = files.length > 1,
-        ts = new Date().getTime(),
-        // jQuery way to escape filename (#1490530)
-        content = $('<span>').text(multiple ? ref.get_label('uploadingmany') : files[0].name).html();
+    var f, i, fname, size = 0, numfiles = 0,
+      formdata = new FormData(),
+      fieldname = props.name || '_file[]',
+      limit = props.single ? 1 : files.length;
+      args = $.extend({_remote: 1, _from: this.env.action}, post_args || {});
 
-      // add to attachments list
-      if (!ref.add2attachment_list(ts, { name:'', html:content, classname:'uploading', complete:false }))
-        ref.file_upload_id = ref.set_busy(true, 'uploading');
-
-      // complete multipart content and post request
-      multipart += dashdash + boundary + dashdash + crlf;
-
-      args._uploadid = ts;
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: ref.url(ref.env.filedrop.action || 'upload', args),
-        contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
-        processData: false,
-        timeout: 0, // disable default timeout set in ajaxSetup()
-        data: formdata || multipart,
-        headers: {'X-Roundcube-Request': ref.env.request_token},
-        xhr: function() { var xhr = jQuery.ajaxSettings.xhr(); if (!formdata && xhr.sendAsBinary) xhr.send = xhr.sendAsBinary; return xhr; },
-        success: function(data){ ref.http_response(data); },
-        error: function(o, status, err) { ref.http_error(o, status, err, null, 'attachment'); }
-      });
-    };
-
-    // get contents of all dropped files
-    var last = this.env.filedrop.single ? 0 : files.length - 1;
-    for (var j=0, i=0, f; j <= last && (f = files[i]); i++) {
-      if (!f.name) f.name = f.fileName;
-      if (!f.size) f.size = f.fileSize;
-      if (!f.type) f.type = 'application/octet-stream';
-
-      // file name contains non-ASCII characters, do UTF8-binary string conversion.
-      if (!formdata && /[^\x20-\x7E]/.test(f.name))
-        f.name_bin = unescape(encodeURIComponent(f.name));
-
+    // add files to form data
+    for (i=0; numfiles < limit && (f = files[i]); i++) {
       // filter by file type if requested
-      if (this.env.filedrop.filter && !f.type.match(new RegExp(this.env.filedrop.filter))) {
+      if (props.filter && !f.type.match(new RegExp(props.filter))) {
         // TODO: show message to user
         continue;
       }
 
+      formdata.append(fieldname, f);
       size += f.size;
+      fname = f.name;
       numfiles++;
+    }
 
-      // do it the easy way with FormData (FF 4+, Chrome 5+, Safari 5+)
-      if (formdata) {
-        formdata.append(fieldname, f);
-        if (j == last)
-          return submit_data();
+    if (numfiles) {
+      if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
+        this.display_message(this.env.filesizeerror, 'error');
+        return false;
       }
-      // use FileReader supporetd by Firefox 3.6
-      else if (window.FileReader) {
-        var reader = new FileReader();
 
-        // closure to pass file properties to async callback function
-        reader.onload = (function(file, j) {
-          return function(e) {
-            multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
-            multipart += '; filename="' + (f.name_bin || file.name) + '"' + crlf;
-            multipart += 'Content-Length: ' + file.size + crlf;
-            multipart += 'Content-Type: ' + file.type + crlf + crlf;
-            multipart += reader.result + crlf;
-            multipart += dashdash + boundary + crlf;
+      if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
+        this.display_message(this.env.filecounterror, 'error');
+        return false;
+      }
 
-            if (j == last)  // we're done, submit the data
-              return submit_data();
+      var ts = 'upload' + new Date().getTime(),
+        label = numfiles > 1 ? this.get_label('uploadingmany') : fname,
+        // jQuery way to escape filename (#1490530)
+        content = $('<span>').text(label).html();
+
+      // add to attachments list
+      if (!this.add2attachment_list(ts, {name: '', html: content, classname: 'uploading', complete: false}) && !props.lock)
+        props.lock = this.file_upload_id = this.set_busy(true, 'uploading');
+
+      args._uploadid = ts;
+      args._unlock = props.lock;
+
+      this.uploads[ts] = $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: this.url(props.action || 'upload', args),
+        contentType: false,
+        processData: false,
+        timeout: 0, // disable default timeout set in ajaxSetup()
+        data: formdata,
+        headers: {'X-Roundcube-Request': this.env.request_token},
+        xhr: function() {
+          var xhr = $.ajaxSettings.xhr();
+          if (xhr.upload && ref.labels.uploadprogress) {
+            xhr.upload.onprogress = function(e) {
+              var msg = ref.file_upload_msg(e.loaded, e.total);
+              if (msg) {
+                $('#' + ts).find('.uploading').text(msg);
+              }
+            };
           }
-        })(f,j);
-        reader.readAsBinaryString(f);
-      }
-      // Firefox 3
-      else if (f.getAsBinary) {
-        multipart += 'Content-Disposition: form-data; name="' + fieldname + '"';
-        multipart += '; filename="' + (f.name_bin || f.name) + '"' + crlf;
-        multipart += 'Content-Length: ' + f.size + crlf;
-        multipart += 'Content-Type: ' + f.type + crlf + crlf;
-        multipart += f.getAsBinary() + crlf;
-        multipart += dashdash + boundary +crlf;
+          return xhr;
+        },
+        success: function(data) {
+          delete ref.uploads[ts];
+          ref.http_response(data);
+        },
+        error: function(o, status, err) {
+          delete ref.uploads[ts];
+          ref.remove_from_attachment_list(ts);
+          ref.http_error(o, status, err, props.lock, 'attachment');
+        }
+      });
+    }
 
-        if (j == last)
-          return submit_data();
+    return true;
+  };
+
+  this.file_upload_msg = function(current, total)
+  {
+    if (total && current < total) {
+      var percent = Math.round(current/total * 100),
+        label = ref.get_label('uploadprogress');
+
+      if (total >= 1073741824) {
+        total = parseFloat(total/1073741824).toFixed(1) + ' ' . this.get_label('GB');
+        current = parseFloat(current/1073741824).toFixed(1);
+      }
+      else if (total >= 1048576) {
+        total = parseFloat(total/1048576).toFixed(1) + ' ' + this.get_label('MB');
+        current = parseFloat(current/1048576).toFixed(1);
+      }
+      else if (total >= 1024) {
+        total = parseInt(total/1024) + ' ' + this.get_label('KB');
+        current = parseInt(current/1024);
+      }
+      else {
+        total = total + ' ' + this.get_label('B');
       }
 
-      j++;
+      return label.replace('$percent', percent + '%').replace('$current', current).replace('$total', total);
     }
   };
 
@@ -9716,8 +9774,15 @@ function rcube_webmail()
   // get the IMP mailbox of the message with the given UID
   this.get_message_mailbox = function(uid)
   {
-    var msg = (this.env.messages && uid ? this.env.messages[uid] : null) || {};
-    return msg.mbox || this.env.mailbox;
+    var msg;
+
+    if (this.env.messages && uid && (msg = this.env.messages[uid]) && msg.mbox)
+      return msg.mbox;
+
+    if (/^[0-9]+-(.*)$/.test(uid))
+      return RegExp.$1;
+
+    return this.env.mailbox;
   };
 
   // build request parameters from single message id (maybe with mailbox name)
@@ -9771,22 +9836,18 @@ function rcube_webmail()
     if (!form || !form.elements)
       return;
 
-    var n, len, elm;
-
     if (lock)
       this.disabled_form_elements = [];
 
-    for (n=0, len=form.elements.length; n<len; n++) {
-      elm = form.elements[n];
-
-      if (elm.type == 'hidden')
-        continue;
+    $.each(form.elements, function() {
+      if (this.type == 'hidden')
+        return;
       // remember which elem was disabled before lock
-      if (lock && elm.disabled)
-        this.disabled_form_elements.push(elm);
-      else if (lock || $.inArray(elm, this.disabled_form_elements) < 0)
-        elm.disabled = lock;
-    }
+      if (lock && this.disabled)
+        ref.disabled_form_elements.push(this);
+      else if (lock || $.inArray(this, ref.disabled_form_elements) < 0)
+        this.disabled = lock;
+    });
   };
 
   this.mailto_handler_uri = function()
@@ -10016,12 +10077,12 @@ function rcube_webmail()
 
 
 // some static methods
-rcube_webmail.long_subject_title = function(elem, indent)
+rcube_webmail.long_subject_title = function(elem, indent, text_elem)
 {
   if (!elem.title) {
-    var $elem = $(elem);
+    var $elem = $(text_elem || elem);
     if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
-      elem.title = rcube_webmail.subject_text(elem);
+      elem.title = rcube_webmail.subject_text($elem[0]);
   }
 };
 
@@ -10030,6 +10091,7 @@ rcube_webmail.long_subject_title_ex = function(elem)
   if (!elem.title) {
     var $elem = $(elem),
       txt = $.trim($elem.text()),
+      indent = $('span.branch', $elem).width() || 0,
       tmp = $('<span>').text(txt)
         .css({position: 'absolute', 'float': 'left', visibility: 'hidden',
           'font-size': $elem.css('font-size'), 'font-weight': $elem.css('font-weight')})
@@ -10037,7 +10099,7 @@ rcube_webmail.long_subject_title_ex = function(elem)
       w = tmp.width();
 
     tmp.remove();
-    if (w + $('span.branch', $elem).width() * 15 > $elem.width())
+    if (w + indent * 15 > $elem.width())
       elem.title = rcube_webmail.subject_text(elem);
   }
 };

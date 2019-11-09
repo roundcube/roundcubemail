@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Hi ha hagut un error!';
 $messages['loginfailed']  = 'L\'accés ha fallat.';
 $messages['cookiesdisabled'] = 'El vostre navegador no accepta cookies.';
@@ -34,7 +33,7 @@ $messages['erroroverquotadelete'] = 'No hi ha prou espai lliure. Feu servir MAJ�
 $messages['invalidrequest'] = 'Petició no vàlida! No s\'han desat les dades.';
 $messages['invalidhost'] = 'Nom de servidor no vàlid.';
 $messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia.';
-$messages['loggedout'] = 'Heu tancat la sessió correctament. A reveure!';
+$messages['loggedout'] = 'Has finalitzat correctament la sessió. Fins aviat!';
 $messages['mailboxempty'] = 'La bústia és buida';
 $messages['nomessages'] = 'No hi ha missatges';
 $messages['refreshing'] = 'S\'està actualitzant...';
@@ -51,10 +50,12 @@ $messages['messagesaved'] = 'Missatge desat a Esborranys.';
 $messages['successfullysaved'] = 'Desat correctament.';
 $messages['savingresponse'] = 'S\'està desant el text de resposta...';
 $messages['deleteresponseconfirm'] = 'Esteu segurs de voler suprimir aquest text de resposta?';
+$messages['nocontactselected'] = 'Encara no has seleccionat un contacte.';
 $messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta d\'adreces.';
 $messages['contactexists'] = 'Ja existeix un contacte amb la mateixa adreça de correu electrònic.';
 $messages['contactnameexists'] = 'Ja existeix un contacte amb el mateix nom.';
 $messages['blockedimages'] = 'Per protegir la vostra privadesa, les imatges remotes han estat bloquejades en aquest missatge.';
+$messages['blockedresources'] = 'Per protegir la teva privacitat s\'han blocat els recursos remots.';
 $messages['encryptedmessage'] = 'Aquest és un missatge xifrat i no pot ser mostrat. Ho sento!';
 $messages['externalmessagedecryption'] = 'Aquest és un missatge encriptat i pot se desencriptat amb un complement del vostre navegador.';
 $messages['nopubkeyfor'] = 'No s\'ha trobat una clau pública vàlida per $email';
@@ -62,11 +63,8 @@ $messages['nopubkeyforsender'] = 'No s\'ha trobat una clau pública vàlida per 
 $messages['encryptnoattachments'] = 'No s\'han pogut encriptar els adjunts ja carregats. Si us plau, afegiu-los de nou a l\'editor d\'encriptació.';
 $messages['searchpubkeyservers'] = 'Voleu cercar en servidors de claus públiques les vostres claus no trobades?';
 $messages['encryptpubkeysfound'] = 'S\'han trobat les següents claus públiques:';
-$messages['keyservererror'] = 'No s\'ha pogut obtenir la clau del servidor de claus';
-$messages['keyimportsuccess'] = 'La clau pública $key s\'ha important correctament al vostre anell de claus local';
 $messages['nocontactsfound'] = 'No s\'ha trobat cap contacte.';
 $messages['contactnotfound'] = 'No s\'ha trobat el contacte sol·licitat.';
-$messages['contactsearchonly'] = 'Introduïu termes de cerca per trobar contactes';
 $messages['sendingfailed'] = 'Error enviant el missatge.';
 $messages['senttooquickly'] = 'Si us plau, espereu $sec segon(s) abans d\'enviar aquest missatge.';
 $messages['errorsavingsent'] = 'S\'ha produït un error mentre es desava el missatge enviat.';
@@ -75,10 +73,13 @@ $messages['errormoving'] = 'No s\'ha pogut moure el(s) missatge(s).';
 $messages['errorcopying'] = 'No s\'ha pogut copiar el(s) missatge(s).';
 $messages['errordeleting'] = 'No s\'ha pogut suprimir el(s) missatge(s).';
 $messages['errormarking'] = 'No s\'ha pogut marcar el(s) missatge(s).';
+$messages['alerttitle'] = 'Atenciò';
+$messages['confirmationtitle'] = 'Estàs segur...';
 $messages['deletecontactconfirm']  = 'Esteu segurs de voler suprimir el(s) contacte(s) seleccionat(s)?';
 $messages['deletegroupconfirm']  = 'Esteu segurs de voler suprimir el grup seleccionat?';
 $messages['deletemessagesconfirm'] = 'Esteu segurs de voler suprimir el(s) missatge(s) seleccionat(s)?';
 $messages['deletefolderconfirm']  = 'Esteu segurs de voler suprimir aquesta carpeta?';
+$messages['movefolderconfirm']  = 'Realment voleu moure aquesta carpeta?';
 $messages['purgefolderconfirm']  = 'Esteu segurs de voler suprimir tots els missatges d\'aquesta carpeta?';
 $messages['contactdeleting'] = 'S\'està suprimint els contacte(s)...';
 $messages['groupdeleting'] = 'S\'està suprimint el grup...';
@@ -91,6 +92,7 @@ $messages['noemailwarning'] = 'Si us plau, introduïu una adreça de correu elec
 $messages['nonamewarning']  = 'Si us plau, introduïu un nom.';
 $messages['nopagesizewarning'] = 'Si us plau, introduïu una mida de pàgina.';
 $messages['nosenderwarning'] = 'Si us plau, introduïu l\'adreça de correu electrònic del remitent.';
+$messages['recipientsadded'] = 'S\'han afegit el(s) destinatari(s) correctament.';
 $messages['norecipientwarning'] = 'Si us plau, introduïu com a mínim un destinatari.';
 $messages['disclosedreciptitle'] = 'Hi ha masses destinataris públics';
 $messages['nosubjectwarning']  = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
@@ -115,6 +117,7 @@ $messages['folderexpunged'] = 'La carpeta ha estat compactada correctament.';
 $messages['deletedsuccessfully'] = 'Suprimit correctament.';
 $messages['converting'] = 'S\'està traient el format del missatge...';
 $messages['messageopenerror'] = 'No s\'ha pogut carregar el missatge del servidor.';
+$messages['filelinkerror'] = 'A fallat l\'adjunció del fitxer.';
 $messages['fileuploaderror'] = 'La pujada del fitxer ha fallat.';
 $messages['filesizeerror'] = 'El fitxer pujat excedeix la mida màxima de $size.';
 $messages['filecounterror'] = 'Podeu carregar un màxim de $count fitxers alhora.';
@@ -158,6 +161,8 @@ $messages['smtpautherror'] = 'Error SMTP ($code): La identificació ha fallat.';
 $messages['smtpfromerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$from" com a remitent ($msg).';
 $messages['smtptoerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$to" com a destinatari ($msg).';
 $messages['smtprecipientserror'] = 'Error SMTP: No s\'ha pogut analitzar la llista de destinataris.';
+$messages['smtputf8error'] = 'Error SMTP: El servidor no admet caràcters Unicode a l\'adreça de correu.';
+$messages['smtpsizeerror'] = 'Error SMTP: La mida del missatge excedeix el límit del servidor ($limit).';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Adreça de correu electrònic no vàlida: $email';
 $messages['toomanyrecipients'] = 'Hi ha masses destinataris. Reduïu el nombre de destinataris a $max.';
@@ -190,6 +195,7 @@ $messages['invalidimageformat'] = 'No és un format d\'imatge vàlid.';
 $messages['mispellingsfound'] = 'S\'han detectat errors d\'ortografia al missatge.';
 $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de la carpeta ascendent seleccionada. No hi ha permisos d\'escriptura.';
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
+$messages['attachmentvalidationerror'] = 'Aquest adjunt és sospitós per què el seu tipus no coincideix amb el tipus declarat en el missatge. Si no us en refieu del remitent, no hauríeu d\'obrir aquest missatge en el navegador per què pot tenir contingut maliciós. <br/><br/><em>S\'esperava: $expected; s\'ha trobat: $detected</em>';
 $messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir heu d\'activar Javascript a les opcions del navegador.';
 $messages['messageissent'] = 'El missatge ja ha estat enviat, però encara no s\'ha desat. Voleu desar-lo ara?';
 $messages['errnotfound'] = 'No s\'ha trobat el fitxer';
@@ -201,3 +207,9 @@ $messages['errrequestcheckfailed'] = 'Ha fallat la verificació de la petició';
 $messages['errcontactserveradmin'] = 'Si us plau, contacteu amb el vostre administrador de sistemes.';
 $messages['clicktoresumesession'] = 'Feu clic aquí per reprendre la vostre sessió anterior';
 $messages['clicktocompose'] = 'Feu clic aquí per editar un nou missatge';
+$messages['nosupporterror'] = 'Aquesta característica no està suportada pel teu navegador.';
+$messages['siginserted'] = 'Signatura inserida correctament.';
+$messages['responseinserted'] = 'Resposta inserida correctament.';
+$messages['listempty'] = 'La llista està buida.';
+$messages['listusebutton'] = 'Utilitza el botó \'Crea\' per afegir un nou registre.';
+$messages['keypaircreatesuccess'] = 'S\'ha creat un nou parell de claus per $identity.';

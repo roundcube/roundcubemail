@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Фільтры';
 $labels['managefilters'] = 'Парадкаваць фільтры атрыманай пошты';
 $labels['filtername'] = 'Назва фільтра';
@@ -63,14 +63,8 @@ $labels['days'] = 'дзён';
 $labels['seconds'] = 'секунд';
 $labels['rulestop'] = 'Перастаць выконваць праверку правілаў';
 $labels['enable'] = 'Уключыць/Выключыць';
-$labels['filterset'] = 'Набор фільтраў';
 $labels['filtersets'] = 'Наборы фільтраў';
-$labels['filtersetadd'] = 'Дадаць набор фільтраў';
-$labels['filtersetact'] = 'Актываваць бягучы набор фільтраў';
-$labels['filtersetdeact'] = 'Дэактываваць бягучы набор фільтраў';
 $labels['filterdef'] = 'Вызначэнне фільтра';
-$labels['filtersetname'] = 'Назва набору фільтраў';
-$labels['newfilterset'] = 'Новы набор фільтраў';
 $labels['active'] = 'актыўны';
 $labels['none'] = 'няма';
 $labels['fromset'] = 'з набору';
@@ -170,15 +164,6 @@ $messages['actiondeleteconfirm'] = 'Напраўду выдаліць абран
 $messages['forbiddenchars'] = 'Забароненыя знакі ў полі.';
 $messages['cannotbeempty'] = 'Поле не можа быць пустым.';
 $messages['ruleexist'] = 'Фільтр з гэтай назвай ужо існуе.';
-$messages['setactivateerror'] = 'Не ўдалося ўключыць абраны набор фільтраў. Памылка на серверы.';
-$messages['setdeactivateerror'] = 'Не ўдалося адключыць абраны набор фільтраў. Памылка на серверы.';
-$messages['setdeleteerror'] = 'Не ўдалося выдаліць абраны набор фільтраў. Памылка на серверы.';
-$messages['setactivated'] = 'Набор фільтраў актываваны.';
-$messages['setdeactivated'] = 'Набор фільтраў дэактываваны.';
-$messages['setdeleted'] = 'Набор фільтраў выдалены.';
-$messages['setdeleteconfirm'] = 'Напраўду выдаліць абраны набор фільтраў?';
-$messages['setcreateerror'] = 'Не ўдалося стварыць набор фільтраў. Памылка на серверы.';
-$messages['setcreated'] = 'Набор фільтраў створаны.';
 $messages['activateerror'] = 'Не ўдалося ўключыць абраны(я) фільтры. Памылка на серверы.';
 $messages['deactivateerror'] = 'Не ўдалося адключыць абраны(я) фільтры. Памылка на серверы.';
 $messages['deactivated'] = 'Фільтр(ы) адключаны.';
@@ -190,4 +175,3 @@ $messages['namereserved'] = 'Зарэзерваваная назва.';
 $messages['setexist'] = 'Набор ужо існуе.';
 $messages['nodata'] = 'Мінімум адна пазіцыя павінна быць вылучана!';
 $messages['invaliddateformat'] = 'Няслушная дата альбо фармат даты';
-?>

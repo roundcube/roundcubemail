@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_imap_cache
 {
@@ -96,6 +95,8 @@ class rcube_imap_cache
         8192    => 'LABEL3',
         16384   => 'LABEL4',
         32768   => 'LABEL5',
+        65536   => 'HASATTACHMENT',
+        131072  => 'HASNOATTACHMENT',
     );
 
 
@@ -612,6 +613,10 @@ class rcube_imap_cache
      */
     function remove_index($mailbox = null, $remove = false)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         // The index should be only removed from database when
         // UIDVALIDITY was detected or the mailbox is empty
         // otherwise use 'valid' flag to not loose HIGHESTMODSEQ value
@@ -646,10 +651,14 @@ class rcube_imap_cache
     /**
      * Clears thread cache.
      *
-     * @param string  $mailbox     Folder name
+     * @param string $mailbox Folder name
      */
     function remove_thread($mailbox = null)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         $this->db->query(
             "DELETE FROM {$this->thread_table}"
             ." WHERE `user_id` = ?"
@@ -704,6 +713,10 @@ class rcube_imap_cache
      */
     private function get_index_row($mailbox)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         // Get index from DB
         $sql_result = $this->db->query(
             "SELECT `data`, `valid`"
@@ -731,8 +744,6 @@ class rcube_imap_cache
                 'modseq'     => $data[5],
             );
         }
-
-        return null;
     }
 
     /**
@@ -740,6 +751,10 @@ class rcube_imap_cache
      */
     private function get_thread_row($mailbox)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         // Get thread from DB
         $sql_result = $this->db->query(
             "SELECT `data`"
@@ -764,8 +779,6 @@ class rcube_imap_cache
                 'uidnext'  => $data[3],
             );
         }
-
-        return null;
     }
 
     /**
@@ -774,6 +787,10 @@ class rcube_imap_cache
     private function add_index_row($mailbox, $sort_field,
         $data, $mbox_data = array(), $exists = false, $modseq = null)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         $data = array(
             $this->db->encode($data, true),
             $sort_field,
@@ -826,6 +843,10 @@ class rcube_imap_cache
      */
     private function add_thread_row($mailbox, $data, $mbox_data = array(), $exists = false)
     {
+        if (!($this->mode & self::MODE_INDEX)) {
+            return;
+        }
+
         $data = array(
             $this->db->encode($data, true),
             (int) $this->skip_deleted,

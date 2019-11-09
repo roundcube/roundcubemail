@@ -13,7 +13,7 @@
  * @version 3.0
  * @author Martijn de Munnik
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ class rcube_virtualmin_password
 {
     function save($currpass, $newpass, $username)
     {
-        $rcmail   = rcmail::get_instance();
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
 

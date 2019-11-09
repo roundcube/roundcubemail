@@ -1,7 +1,7 @@
 /**
  * Roundcube functions for default skin interface
  *
- * Copyright (c) 2013, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -907,17 +907,26 @@ function rcube_mail_ui()
   {
     item = $(item);
 
-    if (!item.children('.drop').length)
-      var label = rcmail.gettext('options');
-      item.append($('<a>')
-          .attr({'class': 'drop skip-content', tabindex: 0, 'aria-haspopup': true, title: label})
+    if (!item.children('.drop').length) {
+      var label = rcmail.gettext('options'),
+        fname = item.find('a.filename'),
+        tabindex = fname.attr('tabindex') || 0;
+
+      var button = $('<a>')
+          .attr({'class': 'drop skip-content', tabindex: tabindex, 'aria-haspopup': true, title: label})
           .text(label)
           .on('click keypress', function(e) {
             if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
               attachmentmenu(this, e);
               return false;
             }
-          }));
+          });
+
+      if (fname.length)
+        button.insertAfter(fname);
+      else
+        button.appendTo(item);
+    }
   }
 
   /**

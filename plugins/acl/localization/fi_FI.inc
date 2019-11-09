@@ -2,26 +2,28 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Jakaminen';
 $labels['myrights'] = 'Käyttöoikeudet';
 $labels['username'] = 'Käyttäjä:';
+$labels['advanced'] = 'Edistynyt tila';
 $labels['add'] = 'Lisää';
+$labels['newuser'] = 'LIsää kohde';
 $labels['editperms'] = 'Muokkaa oikeuksia';
 $labels['anyone'] = 'Kaikki käyttäjät (kuka tahansa)';
 $labels['anonymous'] = 'Vieraat (anonyymit)';
+$labels['aclr'] = 'Lue viestit';
 $labels['aclc'] = 'Luo alikansioita';
 $labels['aclk'] = 'Luo alikansioita';
 $labels['acld'] = 'Poista viestejä';
@@ -35,10 +37,12 @@ $labels['acldelete'] = 'Poisto';
 $labels['shortaclr'] = 'Lue';
 $labels['shortacls'] = 'Säilytä';
 $labels['shortaclw'] = 'Kirjoitus';
+$labels['shortacli'] = 'Lisää';
 $labels['shortaclc'] = 'Luo';
 $labels['shortaclk'] = 'Luo';
 $labels['shortacld'] = 'Poista';
 $labels['shortaclt'] = 'Poista';
+$labels['shortaclx'] = 'Kansion poisto';
 $labels['shortaclother'] = 'Muu';
 $labels['shortaclread'] = 'Luku';
 $labels['shortaclwrite'] = 'Kirjoitus';
@@ -47,6 +51,7 @@ $labels['longaclr'] = 'Kansion voi avata lukua varten';
 $labels['longaclx'] = 'Kansio voidaan poistaa tai nimetä uudelleen';
 $labels['longacla'] = 'Kansion käyttöoikeuksia voi muuttaa';
 $labels['longaclread'] = 'Kansion voi avata lukua varten';
+$labels['arialabelaclactions'] = 'Listatoiminnot';
 $messages['deleting'] = 'Poistetaan käyttöoikeuksia...';
 $messages['saving'] = 'Tallennetaan käyttöoikeuksia...';
 $messages['updatesuccess'] = 'Käyttöoikeuksia muutettiin onnistuneesti';

@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_sendmail.inc                                   |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -234,7 +233,7 @@ class rcmail_sendmail
      * Set charset and transfer encoding on the message
      *
      * @param Mail_mime $message Message object
-     * @param bool      $flowed Enable format=flowed
+     * @param bool      $flowed  Enable format=flowed
      */
     public function set_message_encoding($message, $flowed = false)
     {
@@ -249,7 +248,7 @@ class rcmail_sendmail
         else if (preg_match('/[^\x00-\x7F]/', $message->getTXTBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
         }
-        else if ($message_charset == 'UTF-8') {
+        else if ($this->options['charset'] == 'UTF-8') {
             $text_charset = 'US-ASCII';
         }
 
@@ -288,9 +287,9 @@ class rcmail_sendmail
 
         // Check if we have enough memory to handle the message in it
         // It's faster than using files, so we'll do this if we only can
-        if (is_array($attachments) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
+        if (is_array($attachments)) {
             $memory = 0;
-            foreach ($attachments as $id => $attachment) {
+            foreach ($attachments as $attachment) {
                 $memory += $attachment['size'];
             }
 
@@ -364,6 +363,8 @@ class rcmail_sendmail
      * Message delivery, and setting Replied/Forwarded flag on success
      *
      * @param Mail_mime $message Message object
+     *
+     * @return bool True on success, False on failure
      */
     public function deliver_message($message)
     {
@@ -384,14 +385,16 @@ class rcmail_sendmail
             }
 
             if ($smtp_error && is_string($smtp_error)) {
-                return $this->options['error_handler']($smtp_error, 'error');
+                $this->options['error_handler']($smtp_error, 'error');
             }
             else if ($smtp_error && !empty($smtp_error['label'])) {
-                return $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
+                $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
             }
             else {
-                return $this->options['error_handler']('sendingfailed', 'error');
+                $this->options['error_handler']('sendingfailed', 'error');
             }
+
+            return false;
         }
 
         $message->mailbody_file = $mailbody_file;
@@ -418,6 +421,8 @@ class rcmail_sendmail
                 }
             }
         }
+
+        return true;
     }
 
     /**
@@ -469,12 +474,11 @@ class rcmail_sendmail
                         $msg = $message->mailbody_file;
                     }
                     else {
-                        $temp_dir      = $this->rcmail->config->get('temp_dir');
-                        $mailbody_file = tempnam($temp_dir, 'rcmMsg');
-                        $msg           = $message->saveMessageBody($mailbody_file);
+                        $message->mailbody_file = rcube_utils::temp_filename('msg');
+                        $msg = $message->saveMessageBody($message->mailbody_file);
 
                         if (!is_a($msg, 'PEAR_Error')) {
-                            $msg = $mailbody_file;
+                            $msg = $message->mailbody_file;
                         }
                     }
                 }
@@ -771,7 +775,7 @@ class rcmail_sendmail
             $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
         }
 
-        return join('; ', $parts);
+        return implode('; ', $parts);
     }
 
     /**
@@ -1028,15 +1032,8 @@ class rcmail_sendmail
                 if ($v = $message->headers->cc) {
                     $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
                 }
-                // Use Sender header (#1489011)
-                if ($v = $message->headers->get('Sender', false)) {
-                    // Skip common mailing lists addresses: *-bounces@ and *-request@ (#1490452)
-                    if (empty($message->headers->others['list-post'])
-                        || !preg_match('/-(bounces|request)@/', $v)
-                    ) {
-                        $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
-                    }
-                }
+
+                // Deliberately ignore 'Sender' header (#6506)
 
                 // When To: and Reply-To: are the same we add From: address to the list (#1489037)
                 if ($v = $message->headers->from) {

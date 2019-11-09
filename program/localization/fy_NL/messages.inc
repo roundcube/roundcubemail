@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Der is in flater bard!';
 $messages['loginfailed']  = 'Ynloggen mislearre.';
 $messages['cookiesdisabled'] = 'Jo browser akseptearret gjin koekjes.';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Gjin frije skiifromte. Brûk Shift + DEL om
 $messages['invalidrequest'] = 'Ûnjildich fersyk! Gjin data waard bewarre.';
 $messages['invalidhost'] = 'Unjildige tsjinner namme.';
 $messages['nomessagesfound'] = 'Gjin berjochten fûn yn dit postfek.';
-$messages['loggedout'] = 'Jo hawwe de sesje mei súkses beëinige. Oant sjen!';
 $messages['mailboxempty'] = 'Postfek is leech';
 $messages['nomessages'] = 'Gjin berjochten';
 $messages['refreshing'] = 'Ferfarskje...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Gjin jildich iepenbiere kaai fûn foar jo stjo
 $messages['encryptnoattachments'] = 'Al oanbeane taheaksels kinne net fersifere wurde. Asjebleaft op \'e nij taheakje yn de fersifering bewurker.';
 $messages['searchpubkeyservers'] = 'Wolle jo op publike kaai tsjinners sykje nei de missende kaaien?';
 $messages['encryptpubkeysfound'] = 'De folgjende publike kaaien binne fûn:';
-$messages['keyservererror'] = 'Kaai kin net fan de kaai tsjinner helle wurde';
-$messages['keyimportsuccess'] = 'Publike kaai $key suksesfol ymportearre yn jo kaai ring';
 $messages['nocontactsfound'] = 'Gjin kontakten fûn.';
 $messages['contactnotfound'] = 'De opfrege kontakt waard net fûn.';
-$messages['contactsearchonly'] = 'Fier wat syktermen yn om kontakten te finen';
 $messages['sendingfailed'] = 'Berjocht koe net ferstjoerd wurde.';
 $messages['senttooquickly'] = 'Wachtsje $sec sekonde(n) foar it ferstjoeren fan dit berjocht.';
 $messages['errorsavingsent'] = 'Der barde in flater ûnder it bewarjen fan ferstjoerd berjocht.';

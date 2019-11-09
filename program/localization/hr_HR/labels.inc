@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Dobrodošli na $product';
 $labels['username'] = 'Korisničko ime';
 $labels['password'] = 'Lozinka';
@@ -132,6 +132,7 @@ $labels['folders-all'] = 'Sve mape';
 $labels['more'] = 'Više';
 $labels['back'] = 'Natrag';
 $labels['options'] = 'Postavke';
+$labels['actions'] = 'Radnje';
 $labels['select'] = 'Odaberi';
 $labels['all'] = 'Sve';
 $labels['none'] = 'Ništa';
@@ -181,6 +182,7 @@ $labels['msgtext'] = 'Cijela poruka';
 $labels['body'] = 'Tijelo poruke';
 $labels['type'] = 'Tip';
 $labels['namex'] = 'Ime';
+$labels['searchscope'] = 'Djelokrug';
 $labels['currentfolder'] = 'Trenutna mapa';
 $labels['subfolders'] = 'Ovo i podmape';
 $labels['allfolders'] = 'Sve mape';
@@ -199,6 +201,9 @@ $labels['returnreceipt'] = 'Potvrda o primitku poruke';
 $labels['dsn'] = 'Obavijest o statusu isporuke';
 $labels['mailreplyintro'] = 'Dana $date, $sender je napisao(la):';
 $labels['originalmessage'] = 'Izvorna poruka';
+$labels['encrypt'] = 'Šifriraj';
+$labels['keyid'] = 'ID ključa';
+$labels['insert'] = 'Umetni';
 $labels['recipient'] = 'Primatelj';
 $labels['editidents'] = 'Uredi identitete';
 $labels['spellcheck'] = 'Pravopis';
@@ -328,12 +333,12 @@ $labels['searchsave'] = 'Spremi pretragu';
 $labels['searchdelete'] = 'Obriši pretragu';
 $labels['import'] = 'Uvoz';
 $labels['importcontacts'] = 'Uvoz kontakta';
+$labels['importfromfile'] = 'Uvezi iz datoteke';
 $labels['importtarget'] = 'Dodaj kontakte u';
 $labels['importreplace'] = 'Prepiši cijeli imenik';
 $labels['importgroups'] = 'Uvezi zadatke grupe';
 $labels['importgroupsall'] = 'Sve (stvori grupe ako je potrebno)';
 $labels['importgroupsexisting'] = 'Samo za postojeće grupe';
-$labels['importdesc'] = 'Možete poslati kontakte iz postojećeg imenika.<br/>Trenutno je podržan uvoz adresa iz <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ili CSV (comma-separated) formata.';
 $labels['done'] = 'Završeno';
 $labels['settingsfor'] = 'Postavke za';
 $labels['about'] = 'O programu';
@@ -341,6 +346,7 @@ $labels['preferences'] = 'Postavke';
 $labels['userpreferences'] = 'Korisničke postavke';
 $labels['editpreferences'] = 'Uredi korisničke postavke';
 $labels['identities'] = 'Identiteti';
+$labels['identityencryption'] = 'Šifriranje';
 $labels['preferhtml'] = 'Prikaži HTML';
 $labels['defaultcharset'] = 'Zadana kodna stranica';
 $labels['htmlmessage'] = 'HTML format poruke';
@@ -399,7 +405,6 @@ $labels['force7bit'] = 'Koristi MIME kodiranje za 8-bitne znakove';
 $labels['advancedoptions'] = 'Napredne postavke';
 $labels['focusonnewmessage'] = 'Fokusiraj prozor preglednika pri primitku nove poruke';
 $labels['checkallfolders'] = 'Provjeri nove poruke u svim mapama';
-$labels['displaynext'] = 'Nakon brisanja/micanja poruke, prikaži slijedeću';
 $labels['defaultfont'] = 'Zadani font HTML poruke';
 $labels['mainoptions'] = 'Glavne postavke';
 $labels['browseroptions'] = 'Postavke preglednika';
@@ -489,4 +494,3 @@ $labels['vietnamese'] = 'Vijetnamski';
 $labels['japanese'] = 'Japanski';
 $labels['korean'] = 'Korejski';
 $labels['chinese'] = 'Kineski';
-?>

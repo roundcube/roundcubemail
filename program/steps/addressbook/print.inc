@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/print.inc                                   |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2015, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -14,7 +13,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Print contact details                                               |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
@@ -82,8 +80,6 @@ function rcmail_contact_details($attrib)
     if (!(($result = $CONTACTS->get_result()) && ($record = $result->first()))) {
         return false;
     }
-
-    $i_size = $attrib['size'] ?: 40;
 
     $form = array(
         'contact' => array(

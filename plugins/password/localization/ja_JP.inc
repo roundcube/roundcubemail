@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'パスワードの変更';
 $labels['curpasswd']  = '現在のパスワード:';
 $labels['newpasswd']  = '新しいパスワード:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = '新しいパスワードを保存できませんで
 $messages['internalerror'] = '新しいパスワードを保存できませんでした。';
 $messages['passwordshort'] = 'パスワードは少なくとも $length 文字の長さが必要です。';
 $messages['passwordweak'] = 'パスワードは少なくとも数字の 1 文字と記号の 1 文字を含んでいなければなりません。';
+$messages['passwordtooweak'] = '弱すぎるパスワードです。';
+$messages['passwordnoseq'] = 'パスワードは123456やQWERTYの様な連続にしてはなりません。';
+$messages['passwordnocommon'] = 'パスワードはありふれた単語や名前にしてはなりません。';
 $messages['passwordforbidden'] = 'パスワードに禁止された文字が含まれています。';
 $messages['firstloginchange'] = 'これは初めてのログインです。パスワードを変更してください。';
 $messages['disablednotice'] = 'このシステムは今は保守中で、現在のところパスワードの変更はできません。しばらくすれば、通常の状態に復帰するはずです。ご迷惑を掛けて申し訳ありません。';

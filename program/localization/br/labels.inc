@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Degemer mat war $product';
 $labels['username'] = 'Anv an arveriad';
 $labels['password'] = 'Ger-Tremen';
@@ -231,6 +231,7 @@ $labels['keyid'] = 'Naoudi an alc\'hwez';
 $labels['keylength'] = 'a vitoù';
 $labels['keyexpired'] = 'Diamzeret';
 $labels['keyrevoked'] = 'Dizorniet';
+$labels['insert'] = 'Enlakaat';
 $labels['recipient'] = 'Degemerer';
 $labels['editidents'] = 'Embann ar pivelezhioù';
 $labels['spellcheck'] = 'Skrivañ';
@@ -381,7 +382,6 @@ $labels['importreplace'] = 'Amsaviñ ar c\'harned chomlec\'hioù a-bezh';
 $labels['importgroups'] = 'Enporzhiañ deverkadurioù strolladoù';
 $labels['importgroupsall'] = 'An holl (krouiñ strolladoù m\'eo ret)';
 $labels['importgroupsexisting'] = 'Evit ar strolladoù ma zo diouto hepken';
-$labels['importdesc'] = 'Gallout a rit pellgas darempredoù adalek ur c\'harned chomlec\'hioù a zo dioutañ.<br/>Skorañ a reomp enporzhiañ chomlec\'hioù adalek ar mentrezhoù <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> pe CSV (comma-separated).';
 $labels['done'] = 'Graet eo';
 $labels['settingsfor'] = 'Arventennoù evit';
 $labels['about'] = 'Diwar-benn';
@@ -456,7 +456,6 @@ $labels['advancedoptions'] = 'Dibarzhioù araokaet';
 $labels['toggleadvancedoptions'] = 'Trec\'haoliñ an dibarzhioù araoket';
 $labels['focusonnewmessage'] = 'Stiañ prenestr ar merdeer pa \'z eus ur gemennadenn nevez';
 $labels['checkallfolders'] = 'Gwiriañ an holl deuliadoù evit kemennadennoù nevez';
-$labels['displaynext'] = 'Diskouez ar gemennadenn war-lerc\'h goude ma vefe bet lamet kuit bet dilec\'hiet ur gemennadenn.';
 $labels['defaultfont'] = 'Nodrezh dre ziouer ar c\'hemennadennoù HTML';
 $labels['mainoptions'] = 'Dibarzhioù dre ziouer';
 $labels['browseroptions'] = 'Dibarzhioù ar merdeer';
@@ -602,4 +601,3 @@ $labels['helplistkeyboardnavmessages'] = "Biroù kleiz/dehou: astenn/diskar neud
 Enankañ: Digeriñ ar gemennadenn stiet/diuzet.
 Dilemel: Dilec'hiañ ar c'hemennadennoù diuzet d'ar c'hest.";
 $labels['helplistkeyboardnavcontacts'] = "Enankañ: Digeriñ an darempred stiet/diuzet.";
-?>

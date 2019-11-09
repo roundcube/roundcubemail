@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_json.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -35,6 +34,23 @@ class rcmail_output_json extends rcmail_output
     public $type      = 'js';
     public $ajax_call = true;
 
+
+    /**
+     * Object constructor
+     */
+    public function __construct($task = null, $framed = false)
+    {
+        parent::__construct();
+
+        if (!empty($_SESSION['skin_config'])) {
+            foreach ($_SESSION['skin_config'] as $key => $value) {
+                $this->config->set($key, $value, true);
+            }
+
+            $value = array_merge((array) $this->config->get('dont_override'), array_keys($_SESSION['skin_config']));
+            $this->config->set('dont_override', $value, true);
+        }
+    }
 
     /**
      * Issue command to set page title

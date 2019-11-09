@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/func.inc                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide addressbook functionality and GUI objects                   |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -78,14 +76,15 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
         }
     }
 
-    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
-    $OUTPUT->set_env('search_mods', $search_mods);
+    $OUTPUT->set_env('display_next', (bool) $RCMAIL->config->get('display_next'));
+    $OUTPUT->set_env('search_mods', $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT));
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
     $OUTPUT->set_env('contact_move_enabled', $writeable > 1);
     $OUTPUT->set_env('contact_copy_enabled', $writeable > 1 || ($writeable == 1 && count($js_list) > 1));
 
     $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
+
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
@@ -134,8 +133,11 @@ $RCMAIL->register_action_map(array(
 ));
 
 // Disable qr-code if php-gd or Endroid's QrCode is not installed
-$OUTPUT->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
-$OUTPUT->add_label('qrcode');
+if (!$OUTPUT->ajax_call) {
+    $OUTPUT->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
+    $OUTPUT->add_label('qrcode');
+}
+
 
 // instantiate a contacts object according to the given source
 function rcmail_contact_source($source=null, $init_env=false, $writable=false)
@@ -742,11 +744,15 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     }
 
                     $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
+                    $row_class     = 'row';
 
                     // render composite field
                     if ($colprop['type'] == 'composite') {
-                        $composite = array(); $j = 0;
-                        $template = $RCMAIL->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
+                        $row_class .= ' composite';
+                        $composite  = array();
+                        $template   = $RCMAIL->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
+                        $j = 0;
+
                         foreach ($colprop['childs'] as $childcol => $cp) {
                             if (!empty($val) && is_array($val)) {
                                 $childvalue = $val[$childcol] ?: $val[$j];
@@ -844,11 +850,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
                             $val .= $_del_btn;
                         }
 
-                        $rows .= html::div('row', $_label . $val);
+                        $rows .= html::div($row_class, $_label . $val);
                     }
                     // row without label
                     else {
-                        $rows .= html::div('row', $compact ? $val : html::div('contactfield', $val));
+                        $rows .= html::div($row_class, $compact ? $val : html::div('contactfield', $val));
                     }
                 }
 
@@ -905,14 +911,20 @@ function rcmail_contact_photo($attrib)
 {
     global $SOURCE_ID, $CONTACTS, $CONTACT_COLTYPES, $RCMAIL;
 
-    if ($result = $CONTACTS->get_result())
+    if ($result = $CONTACTS->get_result()) {
         $record = $result->first();
+    }
 
-    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
-    if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
+    if ($record['_type'] == 'group' && $attrib['placeholdergroup']) {
         $photo_img = $RCMAIL->output->abs_url($attrib['placeholdergroup'], true);
+    }
+    else {
+        $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+    }
 
-    $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
+    $photo_img = $RCMAIL->output->asset_url($photo_img);
+
+    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
 
     unset($attrib['placeholder']);
 

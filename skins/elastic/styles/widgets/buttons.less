@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -12,20 +12,12 @@
 /*** Buttons ***/
 
 
-a.rcmaddcontact {
-    display: none;
-}
-
 .button.disabled {
     opacity: .5;
 }
 
 a.button {
     text-decoration: none;
-
-    &.active {
-        cursor: pointer;
-    }
 }
 
 
@@ -42,7 +34,7 @@ button.btn {
         content: @fa-var-ellipsis-v;
         width: 1em;
     }
-    &.menu-button:before {
+    &.task-menu-button:before {
         content: @fa-var-bars;
     }
     &.back-sidebar-button:before,
@@ -99,13 +91,13 @@ button.btn {
     &.attach:before {
         content: @fa-var-paperclip;
     }
+    &.attach.vcard:before {
+        content: @fa-var-user;
+    }
     &.no:before,
     &.close:before,
     &.cancel:before {
         content: @fa-var-times;
-    }
-    &.mark:before {
-        .font-icon-regular(@fa-var-star);
     }
     &.back:before {
         content: @fa-var-chevron-left;
@@ -122,26 +114,40 @@ button.btn {
     &.folders:before {
         content: @fa-var-folder-open;
     }
+    &.options:before {
+        content: @fa-var-sliders-h;
+    }
     &.tools:before,
     &.settings:before {
-        content: @fa-var-wrench;
+        content: @fa-var-cog;
     }
     &.properties:before {
         content: @fa-var-info-circle;
     }
-    &.select:before {
-        .font-icon-regular(@fa-var-check-circle);
+    &.selection:before {
+        .font-icon-regular(@fa-var-check-square);
+    }
+    &.insert.recipient:before {
+        content: @fa-var-user-plus;
+    }
+    &.encrypt:before {
+        content: @fa-var-lock;
+    }
+    &.sign:before {
+        content: @fa-var-signature;
+    }
+    &.sso:before {
+        content: @fa-var-sign-in-alt;
     }
 }
 
 a.btn,
 button.btn {
-    // FIXME: Maybe button text (and icon) alignment requires some rework
-    padding-bottom: .5rem;
-
     &:before {
         display: inline !important;
         float: none !important;
+        vertical-align: middle;
+        margin-right: .4rem !important; // !important needed for a.btn
     }
 }
 
@@ -157,7 +163,7 @@ a.button.icon {
 
 html.touch {
     .btn:focus {
-        box-shadow: none;
+        box-shadow: none !important;
     }
 }
 
@@ -192,6 +198,12 @@ html.touch {
             line-height: @floating-action-button-size;
         }
 
+        &.compose {
+            &:before {
+                content: @fa-var-pen;
+            }
+        }
+
         .inner {
             display: none;
         }
@@ -199,6 +211,12 @@ html.touch {
 }
 
 /*** Bootstrap button style overrides ***/
+
+.btn {
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 30%);
+    }
+}
 
 .btn-secondary {
     color: @color-btn-secondary;

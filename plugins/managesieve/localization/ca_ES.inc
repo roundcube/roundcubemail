@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gestiona els filtres dels missatges d\'entrada';
 $labels['filtername'] = 'Nom del filtre';
 $labels['newfilter'] = 'Filtre Nou';
 $labels['filteradd'] = 'Afegeix un filtre';
 $labels['filterdel'] = 'Suprimeix el filtre';
+$labels['rules'] = 'Regles';
+$labels['actions'] = 'Accions';
 $labels['scope'] = 'Abast';
 $labels['moveup'] = 'Mou amunt';
 $labels['movedown'] = 'Mou avall';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'coincideix amb l\'expressió regular';
 $labels['filternotregex'] = 'no coincideix amb l\'expressió regular';
 $labels['filterunder'] = 'sota';
 $labels['filterover'] = 'sobre';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'Part MIME:';
+$labels['mime-message'] = 'missatge';
+$labels['mime-anychild'] = 'qualsevol';
+$labels['mime-type'] = 'tipus';
+$labels['mime-subtype'] = 'subtipus';
+$labels['mime-contenttype'] = 'tipus de contingut';
+$labels['mime-param'] = 'paràmetre';
 $labels['addrule'] = 'Afegeix una regla';
 $labels['delrule'] = 'Suprimeix una regla';
 $labels['messagemoveto'] = 'Mou el missatge a';
@@ -65,15 +75,9 @@ $labels['days'] = 'dies';
 $labels['seconds'] = 'segons';
 $labels['rulestop'] = 'Deixa d\'avaluar regles';
 $labels['enable'] = 'Habilita/Deshabilita';
-$labels['filterset'] = 'Conjunt de filtres';
 $labels['filtersets'] = 'Conjunts de filtres';
-$labels['filtersetadd'] = 'Afegeix un conjunt de filtres';
-$labels['filtersetact'] = 'Activa el conjunt de filtres actual';
-$labels['filtersetdeact'] = 'Desactiva el conjunt de filtres actual';
 $labels['filterseteditraw'] = 'Edita el conjunt de filtres';
 $labels['filterdef'] = 'Definició del filtre';
-$labels['filtersetname'] = 'Nom del conjunt de filtres';
-$labels['newfilterset'] = 'Nou conjunt de filtres';
 $labels['active'] = 'actiu';
 $labels['none'] = 'cap';
 $labels['fromset'] = 'des del conjunt';
@@ -99,6 +103,18 @@ $labels['flagdeleted'] = 'Suprimit';
 $labels['flaganswered'] = 'Respost';
 $labels['flagflagged'] = 'Marcat';
 $labels['flagdraft'] = 'Esborrany';
+$labels['addheader'] = 'Afegeix una capçalera al missatge';
+$labels['deleteheader'] = 'Suprimeix una capçalera del missatge';
+$labels['headername'] = 'Nom de la capçalera';
+$labels['headervalue'] = 'Valor de la capçalera';
+$labels['headerpos'] = 'Posició de la capçalera';
+$labels['headeratstart'] = 'al començament';
+$labels['headeratend'] = 'al final';
+$labels['headeroccurrence'] = 'Ocurrència/posició de l\'encapçalament';
+$labels['headerfromstart'] = 'des de l\'inici';
+$labels['headerfromend'] = 'des del final';
+$labels['headerpatterns'] = 'Patrons de valor de capçalera';
+$labels['headermatchtype'] = 'tipus de concordança';
 $labels['setvariable'] = 'Ajusta la variable';
 $labels['setvarname'] = 'Nom de la variable:';
 $labels['setvarvalue'] = 'Valor de la variable:';
@@ -163,30 +179,33 @@ $labels['asciicasemap'] = 'No distingeix entre majúscules i minúscules  (ascii
 $labels['asciinumeric'] = 'numèric (ascii-numèric)';
 $labels['index'] = 'índex:';
 $labels['indexlast'] = 'cap enrere';
-$labels['vacation'] = 'Vacances';
+$labels['vacation'] = 'Fora de l\'oficina';
 $labels['vacation.reply'] = 'Missatge de resposta';
 $labels['vacation.advanced'] = 'Paràmetres avançats';
 $labels['vacation.from'] = 'Respon a l\'adreça del remitent';
 $labels['vacation.subject'] = 'Assumpte';
 $labels['vacation.body'] = 'Cos';
-$labels['vacation.start'] = 'Inici de vacances';
-$labels['vacation.end'] = 'Finalització de vacances';
+$labels['vacation.start'] = 'Hora d\'inici';
+$labels['vacation.end'] = 'Hora final';
 $labels['vacation.status'] = 'Estat';
 $labels['vacation.on'] = 'Activat';
 $labels['vacation.off'] = 'Desactivat';
 $labels['vacation.addresses'] = 'Les meves adreces de correu electrònic';
 $labels['vacation.interval'] = 'Interval de resposta';
-$labels['vacation.after'] = 'Posa la regla de vacances després';
+$labels['vacation.after'] = 'Col·loca la regla de \'fora de l\'oficina\' darrera';
 $labels['vacation.saving'] = 'S\'estan desant les dades...';
 $labels['vacation.action'] = 'Acció pel missatge entrant';
 $labels['vacation.keep'] = 'Conserva';
 $labels['vacation.discard'] = 'Descarta';
 $labels['vacation.redirect'] = 'Redirigeix cap a';
 $labels['vacation.copy'] = 'Envia còpia a';
+$labels['forward'] = 'Reenviament';
 $labels['forward.redirect'] = 'Redirigeix cap a';
 $labels['forward.copy'] = 'Envia còpia a';
 $labels['forward.on'] = 'Activat';
 $labels['forward.off'] = 'Desactivat';
+$labels['forward.status'] = 'Estat:';
+$labels['forward.action'] = 'Per als missatges d\'entrada executa la següent acció:';
 $labels['forward.saving'] = 'S\'estan desant les dades...';
 $labels['filladdresses'] = 'Emplena-ho amb totes les meves adreces de correu electrònic';
 $labels['arialabelfiltersetactions'] = 'Accions pel conjunt de filtres';
@@ -196,9 +215,11 @@ $labels['ariasummaryfilterslist'] = 'Llistat de filtres';
 $labels['ariasummaryfiltersetslist'] = 'Llistat de conjunts de filtres';
 $labels['filterstitle'] = 'Edita els filtres pels missatges entrants';
 $labels['vacationtitle'] = 'Edita la norma "fora de l\'oficina"';
+$labels['forwardtitle'] = 'Edita la regla de reenviament de correu';
 $labels['message'] = 'Missatge';
 $labels['duplicate'] = 'està duplicat';
 $labels['notduplicate'] = 'no està duplicat';
+$labels['duplicate.handle'] = 'gestor:';
 $labels['duplicate.header'] = 'capçalera:';
 $labels['duplicate.uniqueid'] = 'Identificador:';
 $labels['duplicate.seconds'] = 'temps d\'espera (en segons):';
@@ -216,16 +237,6 @@ $messages['actiondeleteconfirm'] = 'Esteu segurs que voleu suprimir l\'acció se
 $messages['forbiddenchars'] = 'El camp conté caràcters prohibits.';
 $messages['cannotbeempty'] = 'El camp no pot estar buit.';
 $messages['ruleexist'] = 'Ja existeix un filtre amb aquest nom.';
-$messages['setactivateerror'] = 'No s\'ha pogut activar el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeactivateerror'] = 'No s\'ha pogut desactivar el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setdeleteerror'] = 'No s\'ha pogut suprimir el conjunt de filtres seleccionat. Hi ha hagut un error al servidor.';
-$messages['setactivated'] = 'El conjunt de filtres s\'ha activat correctament.';
-$messages['setdeactivated'] = 'El conjunt de filtres s\'ha desactivat correctament.';
-$messages['setdeleted'] = 'El conjunt de filtres s\'ha suprimit correctament.';
-$messages['setupdated'] = 'El conjunt de filtres s\'ha actualitzat correctament.';
-$messages['setdeleteconfirm'] = 'Esteu segurs que voleu suprimir el conjunt de filtres seleccionats?';
-$messages['setcreateerror'] = 'No s\'ha pogut crear el conjunt de filtres. Hi ha hagut un error al servidor.';
-$messages['setcreated'] = 'S\'ha creat correctament el conjunt de filtres.';
 $messages['activateerror'] = 'No s\'ha pogut habilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
 $messages['deactivateerror'] = 'No s\'ha pogut deshabilitar el(s) filtre(s) seleccionat(s). Hi ha hagut un error al servidor.';
 $messages['deactivated'] = 'Filtre(s) deshabilitat(s) correctament.';
@@ -238,6 +249,9 @@ $messages['setexist'] = 'El conjunt ja existeix.';
 $messages['nodata'] = 'S\'ha de seleccionar com a mínim una posició!';
 $messages['invaliddateformat'] = 'data no vàlida o format no vàlid';
 $messages['saveerror'] = 'No s\'han pogut desar les dades. Hi ha hagut un error al servidor.';
-$messages['vacationsaved'] = 'Les dades de les vacances s\'han desat correctament.';
+$messages['vacationsaved'] = 'Dades de \'fora de l\'oficina\' desades correctament.';
+$messages['forwardsaved'] = 'Dades de reenviament desades correctament.';
 $messages['emptyvacationbody'] = 'És obligatori definir el cos del missatge de vacances';
-?>
+$messages['duplicate.conflict.err'] = 'L\'encapçalament i l\'identificador únic a la vegada no estan permesos.';
+$messages['disabledaction'] = 'Acció no permesa.';
+$messages['lastindexempty'] = 'És necessari l\'índex quan es compta des del final';

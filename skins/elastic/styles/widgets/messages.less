@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -15,8 +15,8 @@
 
 .ui.alert {
     margin: 0;
+    margin-bottom: .2rem;
     opacity: .95;
-    float: left;
     width: 100%;
     padding: .75em;
     color: @color-message;
@@ -27,14 +27,6 @@
 
     @media screen and (max-width: @screen-width-xs) {
         border: 0;
-        border-radius: 0;
-        min-height: 4.2rem;
-    }
-
-    @media screen and (min-width: (@screen-width-xs + 1px)) {
-        &:not(:last-child) {
-            margin-bottom: .2rem;
-        }
     }
 
     span {
@@ -51,6 +43,10 @@
         &:extend(.font-icon-class);
         content: @fa-var-info-circle;
         margin-right: .6rem;
+    }
+
+    .btn {
+        margin-left: .5rem;
     }
 
     &.loading {
@@ -91,6 +87,33 @@
         content: @fa-var-lock; // enigma plugin
     }
 
+    &.chat > i.icon:before {
+        content: @fa-var-comment;
+    }
+
+    // #6797: Fix for long buttons issue
+    .boxbuttons {
+        white-space: nowrap;
+
+        .btn {
+            .overflow-ellipsis;
+            max-width: 220px;
+        }
+
+        @media screen and (max-width: @screen-width-xs) {
+            display: flex;
+            flex-direction: column;
+
+            .btn {
+                max-width: 160px;
+
+                &:not(:first-child) {
+                    margin-top: .25rem;
+                }
+            }
+        }
+    }
+
     // This works with following structure: <i> <span> [button].
     // <span> here is a one-line text, and button can be anything but <span>.
     &.aligned-buttons {
@@ -103,7 +126,7 @@
 
     a:not(.btn) {
         color: @color-message-link;
-        font-weight: normal;
+        font-weight: @color-message-link-font-weight;
     }
 
     h3 {
@@ -119,35 +142,32 @@
     &.boxconfirmation,
     &.boxinformation,
     &.boxwarning {
-        float: none;
-        border-radius: 0;
-        border: none;
         padding: .5em;
-        margin-top: 0; // this can be a <p> element, reset default margin
+        border-radius: 0;
 
         i.icon {
             font-size: 1.5em !important;
         }
-
-        &:not(:last-child) {
-            margin-bottom: .2rem;
-        }
     }
 
     &.boxerror {
-        background-color: @color-message-error-background;
+        background-color: @color-message-error-box-background;
+        & when not(@color-message-error-box = @color-message) { color: @color-message-error-box; }
     }
 
     &.boxinformation {
-        background-color: @color-message-information-background;
+        background-color: @color-message-information-box-background;
+        & when not(@color-message-information-box = @color-message) { color: @color-message-information-box; }
     }
 
     &.boxconfirmation {
-        background-color: @color-message-success-background;
+        background-color: @color-message-success-box-background;
+        & when not(@color-message-error-box = @color-message) { color: @color-message-error-box; }
     }
 
     &.boxwarning {
-        background-color: @color-message-warning-background;
+        background-color: @color-message-warning-box-background;
+        & when not(@color-message-warning-box = @color-message) { color: @color-message-warning-box; }
     }
 
     & + table {
@@ -172,7 +192,14 @@
     }
 
     div {
-        border-color: transparent;
+        background-color: @color-message;
+        color: #fff;
+
+        @media screen and (max-width: @screen-width-xs) {
+            margin: 0;
+            border-radius: 0;
+            min-height: 4.2rem;
+        }
 
         &.voice {
             position: absolute;
@@ -182,64 +209,34 @@
         i.icon {
             font-size: 1.5em !important;
         }
+
+        & > i.icon:before {
+            color: #fff;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .loading {
-        background-color: @color-list-selected-background;
-        border-color: @color-main;
-        color: @color-main;
-
-        & > i.icon:before {
-            color: @color-main;
-        }
+        background-color: @color-message-loading;
     }
 
     .alert-info.information {
-        color: #fff;
         background-color: @color-message-information;
-
-        & > i.icon:before {
-            color: #fff;
-        }
-    }
-
-    .alert-info.notice {
-        color: #fff;
-        background-color: @color-taskmenu-background;
-
-        & > i.icon:before {
-            color: #fff;
-        }
-
-        &.chat > i.icon:before {
-            content: @fa-var-comment;
-        }
     }
 
     .alert-success {
-        color: #fff;
         background-color: @color-message-success;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     .alert-warning {
         background-color: @color-message-warning;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     .alert-danger {
-        color: #fff;
         background-color: @color-message-error;
-
-        & > i.icon:before {
-            color: #fff;
-        }
     }
 
     a {

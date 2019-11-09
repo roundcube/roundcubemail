@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'काहीतरी चूक झाली';
 $messages['loginfailed']  = 'प्रवेश करता आला नाही';
 $messages['cookiesdisabled'] = 'तुमचा ब्राऊझर कुकीज घेऊ शकत नाही';
@@ -27,7 +26,6 @@ $messages['errorreadonly'] = 'कृती करण्यास असमर्
 $messages['errornoperm'] = 'कृती करण्यास असमर्थ, परवानगी अमान्य';
 $messages['invalidrequest'] = 'अवैध विनंती! माहिती साठवलेली नाही.';
 $messages['nomessagesfound'] = 'या खात्यामधे कोणताही संदेश आलेला नाही';
-$messages['loggedout'] = 'तुम्ही यशस्वीरित्या खाते बंद केले आहे . राम राम !';
 $messages['loading'] = 'संदेश आणत आहे';
 $messages['uploading'] = 'फाईल चढवली जात आहे...';
 $messages['loadingdata'] = 'माहिती आणत आहे';

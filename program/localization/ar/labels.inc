@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'مرحباً بكم في $product';
 $labels['username'] = 'اسم المستخدم';
 $labels['password'] = 'كلمة المرور';
@@ -132,6 +132,8 @@ $labels['folders-all'] = 'كافة المجلدات';
 $labels['more'] = 'المزيد';
 $labels['back'] = 'العودة';
 $labels['options'] = 'خيارات';
+$labels['composeoptions'] = 'خيارات الكتابة';
+$labels['optionsandattachments'] = 'الخيارات والمرفقات';
 $labels['actions'] = 'الإجراءات';
 $labels['first'] = 'الأول';
 $labels['last'] = 'الأخير';
@@ -224,6 +226,7 @@ $labels['restoremessage'] = 'هل تود إسترجاع الرسالة ؟';
 $labels['ignore'] = 'تجاهل';
 $labels['responses'] = 'الردود';
 $labels['manageresponses'] = 'إدارة الردود';
+$labels['editresponses'] = 'تعديل الردود';
 $labels['responsename'] = 'الإسم';
 $labels['attach'] = 'إرفاق';
 $labels['attachments'] = 'مرفقات';
@@ -240,6 +243,8 @@ $labels['showimages'] = 'إظهار الصور';
 $labels['alwaysshow'] = 'دائماً أظهر الصّور القادمة من $sender';
 $labels['isdraft'] = 'هذه مسودّة رسالة';
 $labels['andnmore'] = '$nr المزيد ...';
+$labels['details'] = 'التفاصيل';
+$labels['headers'] = 'الرأسيات';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'نص مجرد';
 $labels['savesentmessagein'] = 'احفظ الرسالة المُرسلة في';
@@ -253,6 +258,7 @@ $labels['mdnrequest'] = 'طلب المرسل إعلامه عند قراءتك ل
 $labels['receiptread'] = 'إيصال الاستلام )بالقراءة)';
 $labels['yourmessage'] = 'هذا إيصال بقراءة رسالتك';
 $labels['receiptnote'] = 'ملاحظة: يُعلمك هذا الإيصال بأن رسالتك قد ظهرت على جهاز المستقبِل. ليست هناك أية ضمانات أن المستقبل قد قرأ أو فهم محتويات الرسالة.';
+$labels['zoomin'] = 'تقريب';
 $labels['rotate'] = 'تدوير';
 $labels['increaseimage'] = 'تكبير حجم الصورة';
 $labels['decreaseimage'] = 'تصغير حجم الصورة';
@@ -309,11 +315,13 @@ $labels['typehomepage'] = 'الرئيسية';
 $labels['typeblog'] = 'المدوّنة';
 $labels['typeprofile'] = 'الملف الشخصي';
 $labels['addfield'] = 'إضافة حقل...';
+$labels['addcontact'] = 'إضافة مراسل';
 $labels['editcontact'] = 'تحرير بيانات المراسل';
 $labels['contacts'] = 'المراسلين';
 $labels['contactproperties'] = 'خواص جهة الإتصال';
 $labels['contactnameandorg'] = 'الإسم و المنظمة';
 $labels['personalinfo'] = 'المعلومات الشخصية';
+$labels['contactphoto'] = 'صورة المُراسِل';
 $labels['edit'] = 'تحرير';
 $labels['cancel'] = 'إلغاء';
 $labels['save'] = 'حفظ';
@@ -323,12 +331,16 @@ $labels['rename'] = 'إعادة التسمية';
 $labels['addphoto'] = 'إضافة';
 $labels['replacephoto'] = 'استبدال';
 $labels['uploadphoto'] = 'ارفع صورة';
+$labels['choosefile'] = 'اختر ملفا...';
+$labels['choosefiles'] = 'اختر ملفات...';
+$labels['newcontact'] = 'إنشاء مراسل جديد';
 $labels['deletecontact'] = 'حذف المراسلين المحددين';
 $labels['composeto'] = 'إنشاء رسالة إليه';
 $labels['contactsfromto'] = 'المراسلون $from إلى $to من $count';
 $labels['print'] = 'طباعة';
 $labels['export'] = 'تصدير';
 $labels['exportvcards'] = 'صدّر المراسلين بنسق vCard';
+$labels['newgroup'] = 'إنشاء فريق جديد';
 $labels['grouprename'] = 'تغيير اسم المجموعة';
 $labels['groupdelete'] = 'حذف المجموعة';
 $labels['groupremoveselected'] = 'حذف العنوان المختار من المجموعة';
@@ -410,7 +422,6 @@ $labels['force7bit'] = 'استخدام ترميز MIME للحروف ذات ال�
 $labels['advancedoptions'] = 'خيارات متقدّمة';
 $labels['focusonnewmessage'] = 'التركيز على نافذة المتصفح عند وجود رسالةجديدة';
 $labels['checkallfolders'] = 'التحقق من وجود رسائل جديدة في جميعالمجلدات';
-$labels['displaynext'] = 'إظهار الرسالة التالية بعد حذف/نقلالرسالة الحالية';
 $labels['mainoptions'] = 'الخيارات الأساسية';
 $labels['browseroptions'] = 'خيارات المتصفح';
 $labels['section'] = 'قسم';
@@ -429,6 +440,7 @@ $labels['afternseconds'] = 'بعد $n ثواني';
 $labels['reqmdn'] = 'طلب إشعار استلام دائماً';
 $labels['reqdsn'] = 'طلب تنويه لحالة التوصيل دائماً';
 $labels['replysamefolder'] = 'وضع الردود في المجلد الذي يحوي الرسالةالمردود عليها';
+$labels['defaultabook'] = 'دفتر العناوين الافتراضي';
 $labels['autocompletesingle'] = 'تجاهل عنوان البريد الإلكتروني البديل فيالتكملة التلقائية';
 $labels['spellcheckbeforesend'] = 'تحقق من الإملاء قبل إرسال الرسائل';
 $labels['spellcheckoptions'] = 'خيارات التدقيق الإملاءي';
@@ -456,15 +468,18 @@ $labels['foldertype'] = 'نوع المجلد';
 $labels['personalfolder'] = 'مجلد خاص';
 $labels['otherfolder'] = 'مجلد مستخدم آخر';
 $labels['sharedfolder'] = 'مجلد عام';
+$labels['findfolders'] = 'البحث عن مجلدات';
 $labels['findmail'] = 'البحث عن رسائل إلكترونية';
 $labels['namespace.other'] = 'المستخدِمون الآخرون';
 $labels['dualusemail'] = 'الرسائل';
 $labels['dualusefolder'] = 'المجلدات';
 $labels['generate'] = 'توليد';
+$labels['encryptioncreatekey'] = 'إنشاء زوج مِن المفاتيح';
 $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc'] = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';
 $labels['undo'] = 'تراجع';
+$labels['installedplugins'] = 'الإضافات المثبّتة';
 $labels['plugin'] = 'إضافة';
 $labels['version'] = 'النسخة';
 $labels['source'] = 'المصدر';
@@ -498,6 +513,8 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
+$labels['arialabelmailpreviewframe'] = 'معاينة الرسالة';
+$labels['arialabelmessagebody'] = 'عرض الرسالة';
+$labels['arialabelmessageheaders'] = 'رأسيات الرسالة';
 $labels['arialabelmailtomenu'] = 'خيارات عنوان البريد الإلكتروني';
 $labels['arialabelimagetools'] = 'الأدوات الخاصة بالصُوَر';
-?>

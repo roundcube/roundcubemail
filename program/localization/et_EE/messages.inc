@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ilmnes tõrge!';
 $messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Ketas on täis. Kirja kustutamiseks vajuta 
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['invalidhost'] = 'Lubamatu serveri nimi.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
-$messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
 $messages['mailboxempty'] = 'Kirjakast on tühi';
 $messages['nomessages'] = 'Pole teateid';
 $messages['refreshing'] = 'Värskendamine…';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas väl
 $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda võimalik näidata. Andestust!';
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
 $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
-$messages['contactsearchonly'] = 'Sisesta otsingusõna kontaktide leidmiseks';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
 $messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundit.';
 $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';

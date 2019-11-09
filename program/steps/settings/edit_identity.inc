@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/settings/edit_identity.inc                              |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Show edit form for a identity record or to add a new one            |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -52,7 +50,7 @@ else {
 $OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
-$OUTPUT->add_label('deleteidentityconfirm', 'uploading', 'generate',
+$OUTPUT->add_label('deleteidentityconfirm', 'generate',
     'encryptioncreatekey', 'openmailvelopesettings', 'encryptionprivkeysinmailvelope',
     'encryptionnoprivkeysinmailvelope', 'keypaircreatesuccess');
 

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Benvingut a $product';
 $labels['username'] = 'Nom d\'usuari';
 $labels['password'] = 'Contrasenya';
@@ -135,6 +135,7 @@ $labels['folders-all'] = 'Totes les carpetes';
 $labels['more'] = 'Més';
 $labels['back'] = 'Torna';
 $labels['options'] = 'Opcions';
+$labels['actions'] = 'Accions';
 $labels['first'] = 'Primer';
 $labels['last'] = 'Darrer';
 $labels['previous'] = 'Anterior';
@@ -238,6 +239,7 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Caducat';
 $labels['keyrevoked'] = 'Revocat';
 $labels['bccinstead'] = 'Fes servir Bcc';
+$labels['insert'] = 'Insereix';
 $labels['recipient'] = 'Destinatari';
 $labels['editidents'] = 'Edita identitats';
 $labels['spellcheck'] = 'Ortografia';
@@ -390,7 +392,7 @@ $labels['importreplace'] = 'Substitueix la llibreta d\'adreces sencera';
 $labels['importgroups'] = 'Importa assignacions de grup';
 $labels['importgroupsall'] = 'Tot (crea grups si és necessari)';
 $labels['importgroupsexisting'] = 'Només per a grups existents';
-$labels['importdesc'] = 'Podeu afegir contactes des d\'una llibreta d\'adreces.<br/>Actualment donem suport a la importació d\'adreces des de fitxers de tipus <a href="http://ca.wikipedia.org/wiki/VCard">vCard</a> o CSV (valors separats per comes).';
+$labels['importdesc'] = 'Podeu importar contactes des d\'una llibreta d\'adreces existent. <br/>Actualment es permet la importació d\'adreces des d\'una <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> o en format de dades CSV (dades separades per coma).';
 $labels['done'] = 'Fet';
 $labels['settingsfor'] = 'Configuració per a';
 $labels['about'] = 'Quant a';
@@ -402,6 +404,7 @@ $labels['manageidentities'] = 'Gestiona les identitats';
 $labels['newidentity'] = 'Crea una nova identitat';
 $labels['addidentity'] = 'Afegeix una identitat';
 $labels['editidentity'] = 'Edita la identitat';
+$labels['identityencryption'] = 'Encriptació';
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['defaultcharset'] = 'Joc de caràcters per defecte';
 $labels['htmlmessage'] = 'Missatge HTML';
@@ -464,7 +467,6 @@ $labels['advancedoptions'] = 'Opcions avançades';
 $labels['toggleadvancedoptions'] = 'Commuta les opcions avançades';
 $labels['focusonnewmessage'] = 'Activa la finestra del navegador quan hi hagi un nou missatge';
 $labels['checkallfolders'] = 'Comprova totes les carpetes per missatges nous';
-$labels['displaynext'] = 'Mostra el missatge següent després de suprimir-ne o moure\'n un';
 $labels['defaultfont'] = 'Font de lletra per defecte de missatge en HTML';
 $labels['mainoptions'] = 'Opcions principals';
 $labels['browseroptions'] = 'Opcions del navegador';
@@ -528,6 +530,7 @@ $labels['findfolders'] = 'Cerca carpetes';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Altres usuaris';
 $labels['namespace.shared'] = 'Compartit';
+$labels['encryptioncreatekey'] = 'Crea un nou parell de claus';
 $labels['sortby'] = 'Ordena per';
 $labels['sortasc'] = 'Ordena ascendentment';
 $labels['sortdesc'] = 'Ordena descendentment';
@@ -609,4 +612,3 @@ $labels['helplistkeyboardnavmessages'] = "Fletxes dreta/esquerra: expandeix/cont
 Retorn: Obre el missatge seleccionat/actiu.
 Suprimeix: Mou els missatges seleccionats a la Paperera.";
 $labels['helplistkeyboardnavcontacts'] = "Retorn: Obre el contacte seleccionat/actiu";
-?>

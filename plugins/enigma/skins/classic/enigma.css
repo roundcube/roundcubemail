@@ -79,13 +79,11 @@ p.enigmaattachment span
 
 #enigmamenu div.row > label {
   display: table-cell;
-  width: 99%;
   padding: 3px;
 }
 
 #enigmamenu div.row > div {
   display: table-cell;
-  width: 1%;
   padding: 3px;
 }
 

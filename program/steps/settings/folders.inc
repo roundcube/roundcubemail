@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/settings/folders.inc                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide functionality of folders management                         |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -433,7 +431,9 @@ function rcmail_folder_filter($attrib)
         $attrib['id'] = 'rcmfolderfilter';
     }
 
-    $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+    if (!rcube_utils::get_boolean($attrib['noevent'])) {
+        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+    }
 
     $roots  = array();
     $select = new html_select($attrib);

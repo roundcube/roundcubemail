@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2012, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 abstract class rcube_storage
 {
@@ -589,15 +588,15 @@ abstract class rcube_storage
             }
             // get UIDs from current search set
             else {
-                $uids = join(',', $this->search_set->get());
+                $uids = implode(',', $this->search_set->get());
             }
         }
         else {
             if (is_array($uids)) {
-                $uids = join(',', $uids);
+                $uids = implode(',', $uids);
             }
             else if (strpos($uids, ':')) {
-                $uids = join(',', rcube_imap_generic::uncompressMessageSet($uids));
+                $uids = implode(',', rcube_imap_generic::uncompressMessageSet($uids));
             }
 
             if (preg_match('/[^0-9,]/', $uids)) {

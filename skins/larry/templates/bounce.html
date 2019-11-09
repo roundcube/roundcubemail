@@ -1,7 +1,6 @@
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
 <body class="iframe fullheight">
@@ -16,7 +15,7 @@
 		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
 		<td class="editfield">
 			<roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-			<a href="#identities" onclick="return rcmail.command('identities')" class="iconlink edit" tabindex="1"><roundcube:label name="editidents" /></a>
+			<a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')" class="iconlink edit" tabindex="1"><roundcube:label name="editidents" /></a>
 		</td>
 	</tr>
 	<tr>

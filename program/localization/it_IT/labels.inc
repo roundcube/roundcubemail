@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Benvenuto in $product';
 $labels['username'] = 'Nome Utente';
 $labels['password'] = 'Password';
@@ -114,6 +114,7 @@ $labels['forward'] = 'Inoltra';
 $labels['forwardinline'] = 'Inoltra come messaggio';
 $labels['forwardattachment'] = 'Inoltra come allegato';
 $labels['forwardmessage'] = 'Inoltra il messaggio';
+$labels['bounce'] = 'Rinviare';
 $labels['deletemessage'] = 'Elimina il messaggio';
 $labels['movemessagetotrash'] = 'Sposta il messaggio nel cestino';
 $labels['printmessage'] = 'Stampa il messaggio';
@@ -145,6 +146,7 @@ $labels['last'] = 'Ultimo';
 $labels['previous'] = 'Precedente';
 $labels['next'] = 'Successivo';
 $labels['select'] = 'Seleziona';
+$labels['selection'] = 'Selezione';
 $labels['all'] = 'Tutti';
 $labels['none'] = 'Nessuno';
 $labels['currpage'] = 'Pagina corrente';
@@ -192,6 +194,8 @@ $labels['folderactions'] = 'Azioni cartella...';
 $labels['compact'] = 'Compatta';
 $labels['empty'] = 'Svuota';
 $labels['importmessages'] = 'Importa messaggi';
+$labels['mailimportdesc'] = 'Puoi importare file di e-mail in formato <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> o <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Files multipli possono essere compressi in archivi zip.';
 $labels['quota'] = 'Spazio utilizzato';
 $labels['unknown'] = 'sconosciuto';
 $labels['unlimited'] = 'illimitato';
@@ -252,7 +256,10 @@ $labels['keyexpired'] = 'Scaduta';
 $labels['keyrevoked'] = 'Revocata';
 $labels['bccinstead'] = 'Usa ccn';
 $labels['addheader'] = 'Aggiungi destinatario (intestazione)';
+$labels['insert'] = 'Inserisci';
+$labels['insertcontact'] = 'Aggiungi contatti';
 $labels['recipient'] = 'Destinatario';
+$labels['recipientedit'] = 'Modifica il destinatario';
 $labels['editidents'] = 'Modifica identità';
 $labels['spellcheck'] = 'Controllo ortografico';
 $labels['checkspelling'] = 'Controlla ortografia';
@@ -290,7 +297,9 @@ $labels['alwaysshow'] = 'Mostra sempre immagini da $sender';
 $labels['alwaysallow'] = 'Permetti sempre da $sender';
 $labels['isdraft'] = 'Questa è una bozza.';
 $labels['andnmore'] = 'ancora $nr...';
+$labels['details'] = 'Dettagli';
 $labels['headers'] = 'Intestazioni';
+$labels['allheaders'] = 'Tutte le intestazioni...';
 $labels['togglemoreheaders'] = 'Mostra più intestazioni dei messaggi';
 $labels['togglefullheaders'] = 'Visualizza/nascondi intestazioni originali';
 $labels['htmltoggle'] = 'HTML';
@@ -383,6 +392,9 @@ $labels['rename'] = 'Rinomina';
 $labels['addphoto'] = 'Aggiungi';
 $labels['replacephoto'] = 'Sostituisci';
 $labels['uploadphoto'] = 'Carica foto';
+$labels['choosefile'] = 'Seleziona il file...';
+$labels['choosefiles'] = 'Seleziona i files...';
+$labels['browse'] = 'Sfoglia';
 $labels['newcontact'] = 'Crea un nuovo contatto';
 $labels['deletecontact'] = 'Elimina i contatti selezionati';
 $labels['composeto'] = 'Invia messaggio a';
@@ -418,7 +430,7 @@ $labels['importreplace'] = 'Sostituisci l\'intera rubrica';
 $labels['importgroups'] = 'Importa le assegnazioni di gruppo';
 $labels['importgroupsall'] = 'Tutti (crea i gruppi se necessario)';
 $labels['importgroupsexisting'] = 'Solo per i gruppi esistenti';
-$labels['importdesc'] = 'Puoi caricare i contatti da una rubrica esistente.<br/>Attualmente si possono importare contatti in formato  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> o CSV (comma-separated).';
+$labels['importdesc'] = 'Puoi importare i contatti da una rubrica esistente.<br/>Attualmente è possibile l\'importazione di indirizzi in formato <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> o CSV.';
 $labels['done'] = 'Fatto';
 $labels['settingsfor'] = 'Impostazioni per';
 $labels['about'] = 'Informazioni';
@@ -494,7 +506,6 @@ $labels['advancedoptions'] = 'Opzioni avanzate';
 $labels['toggleadvancedoptions'] = 'Passa alle impostazioni avanzate';
 $labels['focusonnewmessage'] = 'Attiva la finestra del browser all\'arrivo di un nuovo messaggio';
 $labels['checkallfolders'] = 'Controlla tutte le cartelle per la presenza di nuovi messaggi';
-$labels['displaynext'] = 'Dopo aver eliminato/spostato il messaggio mostra quello successivo';
 $labels['defaultfont'] = 'Carattere standard per messaggi in HTML';
 $labels['mainoptions'] = 'Opzioni principali';
 $labels['browseroptions'] = 'Opzioni del browser';
@@ -647,6 +658,7 @@ $labels['arialabelidentityeditfrom'] = 'Modifica modulo identità';
 $labels['arialabelresonseeditfrom'] = 'Modifica modulo ricezione';
 $labels['arialabelsearchterms'] = 'Ricerca termini';
 $labels['arialabeldropactionmenu'] = 'Menu azione con trascinamento';
+$labels['arialabelheadersmenu'] = 'Aggiungi destinatario (intestazione) menu';
 $labels['arialabelimagetools'] = 'Strumenti immagine';
 $labels['helplistnavigation'] = 'Lista navigazione da tastiera';
 $labels['helplistkeyboardnavigation'] = "Frecce su/giù: Sposta le righe selezionate.
@@ -657,4 +669,3 @@ $labels['helplistkeyboardnavmessages'] = "Frecce destra/sinistra: espande/compri
 Invio: apre il contatto selezionato.
 Canc: sposta il messaggio selezionato nel cestino.";
 $labels['helplistkeyboardnavcontacts'] = "Invio: Aprire il contatto selezionato";
-?>

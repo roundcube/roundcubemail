@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | S/MIME driver for the Enigma Plugin                                     |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -82,9 +81,8 @@ class enigma_driver_phpssl extends enigma_driver
     function verify($struct, $message)
     {
         // use common temp dir
-        $temp_dir  = $this->rc->config->get('temp_dir');
-        $msg_file  = tempnam($temp_dir, 'rcmMsg');
-        $cert_file = tempnam($temp_dir, 'rcmCert');
+        $msg_file  = rcube_utils::temp_filename('enigmsg');
+        $cert_file = rcube_utils::temp_filename('enigcrt');
 
         $fh = fopen($msg_file, "w");
         if ($struct->mime_id) {

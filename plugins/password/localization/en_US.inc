@@ -2,15 +2,13 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
@@ -32,6 +30,9 @@ $messages['connecterror'] = 'Could not save new password. Connection error.';
 $messages['internalerror'] = 'Could not save new password.';
 $messages['passwordshort'] = 'Password must be at least $length characters long.';
 $messages['passwordweak'] = 'Password must include at least one number and one punctuation character.';
+$messages['passwordtooweak'] = 'Password too weak.';
+$messages['passwordnoseq'] = 'Password should not be a sequence like 123456 or QWERTY.';
+$messages['passwordnocommon'] = 'Password should not be a common word or name.';
 $messages['passwordforbidden'] = 'Password contains forbidden characters.';
 $messages['firstloginchange'] = 'This is your first login. Please change your password.';
 $messages['disablednotice'] = 'The system is currently under maintenance and password change is not possible at the moment. Everything should be back to normal soon. We apologize for any inconvenience.';

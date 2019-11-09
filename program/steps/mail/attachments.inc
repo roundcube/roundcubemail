@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/attachments.inc                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,16 +12,10 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Upload, remove, display attachments in compose form                 |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
-// Upload progress update
-if (!empty($_GET['_progress'])) {
-    $RCMAIL->upload_progress();
-}
 
 $COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 $COMPOSE    = null;

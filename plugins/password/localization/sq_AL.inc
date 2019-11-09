@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Ndrysho fjalëkalimin';
 $labels['curpasswd']  = 'Fjalëkalimi i Tanishëm';
 $labels['newpasswd']  = 'Fjalëkalimi i Ri:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'S’u ruajt dot fjalëkalimi i ri. Gabim lidhjeje.'
 $messages['internalerror'] = 'S’u ruajt dot fjalëkalimi i ri.';
 $messages['passwordshort'] = 'Fjalëkalimi duhet të jetë të paktën $length shenja i gjatë.';
 $messages['passwordweak'] = 'Fjalëkalimi duhet të përmbajë të paktën një numër dhe një shenjë pikësimi.';
+$messages['passwordtooweak'] = 'Fjalëkalim shumë i dobët.';
+$messages['passwordnoseq'] = 'Fjalëkalimi s’duhet të jetë një sekuencë si, fjala vjen, 123456 apo QWERTY.';
+$messages['passwordnocommon'] = 'Fjalëkalimi s’duhet të jetë një fjalë apo emër i rëndomtë.';
 $messages['passwordforbidden'] = 'Fjalëkalimi përmban shenja të ndaluara.';
 $messages['firstloginchange'] = 'Kjo është hyrja juaj e parë. Ju lutemi, ndryshoni fjalëkalimin tuaj.';
 $messages['disablednotice'] = 'Sistemi është hëpërhë nën gjendje punimesh mirëmbajtjeje dhe ndryshimi i fjalëkalimit s’është i mundur në këtë çast. Gjithçka do të duhej të ish kthyer në gjendje normale shumë shpejt. Kërkojmë ndjesë për çfarëdo siklet.';

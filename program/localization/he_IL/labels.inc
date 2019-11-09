@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'ברוך בואך אל $product';
 $labels['username'] = 'שם משתמש';
 $labels['password'] = 'סיסמה';
@@ -147,6 +147,7 @@ $labels['last'] = 'אחרונה';
 $labels['previous'] = 'הקודמת';
 $labels['next'] = 'הבאה';
 $labels['select'] = 'בחירה';
+$labels['selection'] = 'בחירה';
 $labels['all'] = 'הכל';
 $labels['none'] = 'כלום';
 $labels['currpage'] = 'דף נוכחי';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'הרחבה כלית';
 $labels['expand-unread'] = 'הרחבה טרם נקרא';
 $labels['collapse-all'] = 'כינוס כללי';
 $labels['threaded'] = 'משורשר';
+$labels['showunread'] = 'הצגת הודעות שלא נקראו';
 $labels['autoexpand_threads'] = 'הרחבת הודעות משורשרות';
 $labels['do_expand'] = 'כל השרשורים';
 $labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'פעולות על תיקיות';
 $labels['compact'] = 'פינוי שטח לא מנוצל';
 $labels['empty'] = 'ריקון';
 $labels['importmessages'] = 'ייבוא הודעות';
+$labels['mailimportdesc'] = 'ניתן להעלות דוא"ל באמצעות קבצים המקודדים כ MIME או MBOX';
+$labels['mailimportzip'] = 'ניתן לדחוס מספר קבצים לתוך ארכיון ZIP';
 $labels['quota'] = 'ניצול קיבולת';
 $labels['unknown'] = 'לא ידוע';
 $labels['unlimited'] = 'ללא הגבלה';
@@ -248,13 +252,17 @@ $labels['encryptmessage'] = 'הצפנת הודעה';
 $labels['encryptmessagemailvelope'] = 'הצפנה באמצעות Mailvelope';
 $labels['importpubkeys'] = 'ייבוא מפתחות ציבוריים';
 $labels['encryptedsendialog'] = 'נשלחת הודעה מוצפנת';
+$labels['encryptandsign'] = 'להצפין ולחתום';
 $labels['keyid'] = 'קוד זיהוי מפתח';
 $labels['keylength'] = 'סיביות';
 $labels['keyexpired'] = 'פג תוקף';
 $labels['keyrevoked'] = 'נשלל';
 $labels['bccinstead'] = 'שימוש במכותבים נסתרים';
 $labels['addheader'] = 'הוספת נמען (כותרת)';
+$labels['insert'] = 'הוספה בין ערכים';
+$labels['insertcontact'] = 'פה יש להוסיף איש קשר';
 $labels['recipient'] = 'הנמען';
+$labels['recipientedit'] = 'עריכת נמענים';
 $labels['editidents'] = 'עריכת זהויות';
 $labels['spellcheck'] = 'איות';
 $labels['checkspelling'] = 'בדיקת איות';
@@ -292,8 +300,9 @@ $labels['alwaysshow'] = '$sender תמיד להציג תמונות מאת';
 $labels['alwaysallow'] = 'תמיד לקבל מ- sender$';
 $labels['isdraft'] = 'זו טיוטה של הודעה';
 $labels['andnmore'] = 'עוד  $nr';
+$labels['details'] = 'פרטים';
 $labels['headers'] = 'כותרות';
-$labels['envelope'] = 'מעטפה';
+$labels['allheaders'] = 'כל הכותרות';
 $labels['togglemoreheaders'] = 'הראה נתוני מערכת נוספים של ההודעה';
 $labels['togglefullheaders'] = 'הראה / בטל צפיה בנתוני מערכת של ההודעה';
 $labels['htmltoggle'] = 'HTML';
@@ -309,6 +318,14 @@ $labels['mdnrequest'] = 'השולח ביקש לדעת אם ההודעה נקרא
 $labels['receiptread'] = 'אישור קבלה (נקרא)';
 $labels['yourmessage'] = 'אישור קבלה להודעתך';
 $labels['receiptnote'] = 'הערה: האישור אינו מבטיח שהנמען קרא או הבין את תוכן ההודעה.';
+$labels['zoomin'] = 'מבט עמוק יותר לפרטים';
+$labels['zoomout'] = 'מבט רחוק יותר מהפרטים';
+$labels['rotate'] = 'לסובב';
+$labels['increaseimage'] = 'להגדיל תמונה';
+$labels['decreaseimage'] = 'להקטין תמונה';
+$labels['rotateimage'] = 'לסובב תמונה';
+$labels['showtools'] = 'הצגת כלים לעיבוד תמונה';
+$labels['hidetools'] = 'הסתרת כלים לעיבוד תמונה';
 $labels['name'] = 'שם להצגה';
 $labels['firstname'] = 'שם פרטי';
 $labels['surname'] = 'שם משפחה';
@@ -380,6 +397,9 @@ $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
 $labels['uploadphoto'] = 'העלאת תמונה';
+$labels['choosefile'] = 'יש לבחור קובץ...';
+$labels['choosefiles'] = 'יש לבחור קבצים...';
+$labels['browse'] = 'דפדוף';
 $labels['newcontact'] = 'צור איש קשר חדש';
 $labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
 $labels['composeto'] = 'יצירת הודעה אל';
@@ -393,6 +413,8 @@ $labels['newgroup'] = 'הוסף קבוצה חדשה';
 $labels['addgroup'] = 'הוספת קבוצה';
 $labels['grouprename'] = 'שינוי שם קבוצה';
 $labels['groupdelete'] = 'מחיקת קבוצה';
+$labels['groupassign'] = 'שיוך לקבוצה...';
+$labels['groupremove'] = 'הסרה מקבוצה';
 $labels['groupremoveselected'] = 'אנשי הקשר שנבחרו יוסרו מהקבוצה';
 $labels['uponelevel'] = 'רמה אחת מעלה';
 $labels['previouspage'] = 'הצגת הקבוצה הקודמת';
@@ -413,9 +435,7 @@ $labels['importreplace'] = 'החלפת כל פנקס הכתובות';
 $labels['importgroups'] = 'ייבוא הגדרות קבוצה';
 $labels['importgroupsall'] = 'הכל (יש להקים קבוצות אם צריך)';
 $labels['importgroupsexisting'] = 'רק עבור קבוצות קיימות';
-$labels['importdesc'] = 'ניתן לטעון אנשי קשר מקובץ חיצוני. אנו תומכים בקבצים הערוכים בצורה של 
- <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  או 
- CSV המופרד על ידי פסיקים.';
+$labels['importdesc'] = 'ניתן להעלות אנשי קשר מפנקס כתובות קיים.  כרגע יש תמיכה ביבוא רשומות הערוכות בצורת vCard או CSV (מופרד פסיקים)';
 $labels['done'] = 'בוצע';
 $labels['settingsfor'] = 'הגדרות עבור';
 $labels['about'] = 'אודות';
@@ -491,7 +511,6 @@ $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקיות';
-$labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
 $labels['defaultfont'] = 'גופן ברירת מחדל להודעה בפורמט HTML';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
 $labels['browseroptions'] = 'אפשרויות דפדפן';
@@ -562,7 +581,12 @@ $labels['namespace.shared'] = 'משותף';
 $labels['dualuselabel'] = 'יכול רק להכיל';
 $labels['dualusemail'] = 'הודעות';
 $labels['dualusefolder'] = 'תיקיות';
+$labels['generate'] = 'לחולל';
 $labels['encryptioncreatekey'] = 'יצירה של צמד מפתחות';
+$labels['openmailvelopesettings'] = 'הצגת אפשרויות לתוכנת ההצפנה';
+$labels['encryptionprivkeysinmailvelope'] = 'קיימים nr$ מפתחות פרטיים תואמים ברשימת המפתחות שלך בתוכנת ההצפנה';
+$labels['encryptionnoprivkeysinmailvelope'] = 'לזהות השולחת אין עדיין מפתח הצפנה פרטי השמור בתוכנת ההצפנה שלך. האם ליצור כזה
+כדי לאפשר הצפנת הודעות?';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
@@ -630,13 +654,14 @@ $labels['arialabelmessageheaders'] = 'תקורות הודעה';
 $labels['arialabelforwardingoptions'] = 'אפשרויות העברה';
 $labels['arialabelreplyalloptions'] = 'אפשרויות מענה לכולם';
 $labels['arialabelmoremessageactions'] = 'עוד פעולות הודעה';
+$labels['arialabelmorecontactactions'] = 'פעולות נוספות על אנשי קשר';
 $labels['arialabelmarkmessagesas'] = 'סימון הודעות נבחרות בתור...';
 $labels['arialabelcomposeoptions'] = 'אפשרויות הלחנה';
 $labels['arialabelresponsesmenu'] = 'תפריט של תגובות מוכנות מראש';
-$labels['arialabelattachmentuploadform'] = 'תבנית העלאת תצריף';
+$labels['arialabelattachmentuploadform'] = 'תבנית העלאת צרופה';
 $labels['arialabelattachmentmenu'] = 'אפשרויות צרופה';
 $labels['arialabelmailtomenu'] = 'אפשרויות כתובת דואר';
-$labels['arialabelattachmentpreview'] = 'תצוגה מקדמית של תצריף';
+$labels['arialabelattachmentpreview'] = 'תצוגה מקדמית של צרופה';
 $labels['ariasummarycomposecontacts'] = 'רשימה של אנשי קשר וקבוצות שיבחרו כנמענים';
 $labels['arialabelcontactexportoptions'] = 'אפשרויות ייצוא איש קשר';
 $labels['arialabelabookgroupoptions'] = 'אפשרויות קבוצה/פנקס כתובות';
@@ -646,6 +671,7 @@ $labels['arialabelresonseeditfrom'] = 'טופס עריכת מענה';
 $labels['arialabelsearchterms'] = 'מילות חיםוש';
 $labels['arialabeldropactionmenu'] = 'תפריט גרירה';
 $labels['arialabelheadersmenu'] = 'תפריט הוספת (כותרת) נמען';
+$labels['arialabelimagetools'] = 'כלים לעיבוד תמונה';
 $labels['helplistnavigation'] = 'ניווט ברשימה באמצעות לוח המקשים';
 $labels['helplistkeyboardnavigation'] = "חיצים למלעלה/למטה: בחירת שורה/מיקוד בשורה
 מקש רווח: בחירה בשורת המיקוד
@@ -655,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "חץ ימין/שמאל: הרחבה/צ�
 ENTER: פתיחה של ההודעה שנבחרה
 DELETE: העברה של ההודעה שנבחרה לפח האשפה";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: פתיחה של איש הקשר שסומן ";
-?>

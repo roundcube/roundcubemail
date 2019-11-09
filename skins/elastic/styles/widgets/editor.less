@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -136,6 +136,8 @@
                     &:extend(.font-icon-class);
                     display: inline;
                     float: none;
+                    vertical-align: middle;
+                    margin-right: .4rem;
                 }
             }
 
@@ -373,7 +375,6 @@
         &:focus {
             i.mce-i-checkbox {
                 border: 0;
-                color: @color-checkbox-focus;
             }
         }
     }
@@ -405,8 +406,8 @@
             background: @color-input-addon-background;
 
             &:focus {
-                border-color: @color-input-border-focus;
-                box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+                background-color: @color-input-border-focus-shadow;
+                border-color: #c5c5c5;
             }
         }
     }
@@ -460,9 +461,17 @@
 
 .mce-menu {
     .mce-menu-item.mce-active {
-        color: @color-toolbarmenu-hover;
-        background-color: @color-toolbarmenu-hover-background;
+        color: @color-menu-hover;
+        background-color: @color-menu-hover-background;
     }
+
+    .popover-header {
+        display: none !important;
+    }
+}
+
+div.mce-menubtn.mce-opened {
+    z-index: 65530 !important; // BUG: https://github.com/tinymce/tinymce/issues/4542
 }
 
 #mce-modal-block.mce-in {
@@ -615,18 +624,88 @@
     }
 
     .mce-menu {
-        width: auto !important;
+        width: @layout-mobile-menu-width !important;
         right: 0;
-        left: 0 !important;
-        margin: 0 1rem !important;
+        top: 0 !important;
+        left: auto !important;
+        height: 100% !important;
+        max-height: unset !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0;
+        border: 0 !important;
+
+        .popover-header {
+            display: block !important;
+
+            a {
+                font-size: 1.2rem;
+                line-height: @layout-touch-header-height;
+
+                &:before {
+                    content: @fa-var-times;
+                }
+            }
+        }
 
         .mce-container-body {
             width: 100% !important;
         }
-    }
 
-    div.mce-menubtn.mce-opened {
-        z-index: 65530 !important;
+        .mce-menu-item {
+            height: @layout-touch-menu-record-height;
+            line-height: @layout-touch-menu-record-height;
+            padding: 0 .5rem;
+            border-left: 0;
+            border-bottom: 1px solid @color-list-border;
+            margin: 0;
+
+            .mce-ico {
+                font-size: 150%;
+                padding: 0 .7rem 0 .25rem;
+                margin-top: -.2rem;
+            }
+
+            .mce-text {
+                font-size: 1.2rem;
+                .font-family;
+                line-height: @layout-touch-menu-record-height;
+                color: @color-font;
+            }
+
+            .mce-caret {
+                display: none;
+            }
+
+            &.mce-menu-item-preview {
+                &.mce-active {
+                    border-left: none;
+                    position: relative;
+
+                    &:after {
+                        .font-icon-class; // :extend() does not work here
+                        content: @fa-var-check;
+                        position: absolute;
+                        right: .5rem;
+                        top: 0;
+                        color: @color-font;
+                    }
+                }
+            }
+
+            &.mce-menu-item-expand {
+                position: relative;
+
+                &:after {
+                    .font-icon-class; // :extend() does not work here
+                    content: @fa-var-angle-right;
+                    position: absolute;
+                    right: .5rem;
+                    top: 0;
+                    color: @color-font;
+                }
+            }
+        }
     }
 
     .mce-menu-item-sep,
@@ -764,7 +843,6 @@ html.touch .mce-grid td {
         border-color: transparent;
         z-index: 1;
         position: absolute;
-        top: 1px;
         right: 1rem;
 
         a.active {
@@ -780,8 +858,10 @@ html.touch .mce-grid td {
             }
         }
 
-        a:hover {
+        a:hover,
+        a:focus {
             border-bottom-color: transparent;
+            outline: 0;
         }
     }
 
@@ -815,6 +895,7 @@ html.touch .mce-grid td {
 
 .googie_window {
     width: 16rem;
+    height: auto;
 }
 
 .googie_edit_layer {
@@ -834,18 +915,18 @@ html.touch .mce-grid td {
 }
 
 .googie_list {
-    td {
+    li {
         min-width: 8rem;
         width: auto;
 
         &.googie_list_onhover {
-            color: @color-toolbarmenu-hover;
-            background-color: @color-toolbarmenu-hover-background;
+            color: @color-menu-hover;
+            background-color: @color-menu-hover-background;
         }
 
         .googie_list_revert:before {
             &:extend(.font-icon-class);
-            content: @fa-var-plus-square;
+            content: @fa-var-undo;
         }
 
         .googie_add_to_dict:before {
@@ -856,7 +937,6 @@ html.touch .mce-grid td {
 
     input {
         display: inline-block;
-        margin: .5rem .5rem .5rem 0 !important;
-        padding: .5rem .75rem !important;
+        margin: .25rem .5rem;
     }
 }

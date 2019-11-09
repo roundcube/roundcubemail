@@ -3,28 +3,27 @@
 		<h2 class="voice" id="aria-label-acltable"><roundcube:label name="acl.ariasummaryacltable" /></h2>
 		<roundcube:object name="acltable" id="acltable" class="records-table options-table" aria-labelledby="aria-label-acltable" role="listbox" />
 	</div>
-	<div id="acllist-footer" class="footer toolbar">
-		<roundcube:button command="acl-create" type="link"
-			label="acl.add" title="acl.newuser"
-			class="button create disabled" classAct="button create" innerClass="inner" />
+	<div id="acllist-footer" class="footer toolbar menu">
+		<roundcube:button command="acl-create" type="link" class="create disabled" classAct="create"
+			label="acl.add" title="acl.newuser" innerClass="inner" />
 		<roundcube:button name="aclmenulink" type="link"
 			label="actions" title="acl.actions" href="#acl-actions"
-			class="button actions" innerClass="inner" data-popup="acl-menu" />
+			class="actions" innerClass="inner" data-popup="acl-menu" />
 	</div>
 </div>
 
 <div id="acl-menu" class="popupmenu" aria-hidden="true" data-align="bottom">
 	<h3 id="aria-label-aclactions" class="voice"><roundcube:label name="acl.arialabelaclactions" /></h3>
-	<ul class="toolbarmenu listing iconized" role="menu" aria-labelledby="aria-label-aclactions">
-		<roundcube:button command="acl-edit" label="edit" type="link-menuitem" class="edit" classAct="edit active" />
-		<roundcube:button command="acl-delete" label="delete" type="link-menuitem" class="delete" classAct="delete active" />
+	<ul class="menu listing iconized" role="menu" aria-labelledby="aria-label-aclactions">
+		<roundcube:button command="acl-edit" label="edit" type="link-menuitem" class="edit disabled" classAct="edit active" />
+		<roundcube:button command="acl-delete" label="delete" type="link-menuitem" class="delete disabled" classAct="delete active" />
 		<roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-			<li role="menuitem" class="checkbox"><label id="acl-switch"><input type="checkbox" onchange="rcmail.command('acl-mode-switch')" /><roundcube:label name="acl.advanced" /></label></li>
+			<roundcube:button name="acl-switch" type="link-menuitem" class="active check" id="acl-switch" onclick="rcmail.command('acl-mode-switch')" label="acl.advanced" />
 		<roundcube:endif />
 	</ul>
 </div>
 
-<div id="aclform" class="popupmenu propform" aria-labelledby="aria-label-aclform" role="form">
+<div id="aclform" class="popupmenu formcontent" aria-labelledby="aria-label-aclform" role="form">
 	<h3 id="aria-label-aclform" class="voice"><roundcube:label name="acl.arialabelaclform" /></h3>
 	<div class="row form-group">
 		<label class="col-sm-4 col-form-label"><roundcube:label name="acl.identifier" /></label>

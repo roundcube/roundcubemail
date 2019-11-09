@@ -12,7 +12,7 @@
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
  * @author Adamson Huang <adomputer@gmail.com>
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

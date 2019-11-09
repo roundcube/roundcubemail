@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = '加密';
 $labels['enigmacerts'] = 'S/MIME 憑證';
 $labels['enigmakeys'] = 'PGP 金鑰';
@@ -25,6 +24,7 @@ $labels['keyuserid'] = '使用者 ID';
 $labels['keytype'] = '金鑰類型';
 $labels['fingerprint'] = '指紋';
 $labels['subkeys'] = '子金鑰';
+$labels['keyprops'] = '金鑰屬性';
 $labels['basicinfo'] = '基本資訊';
 $labels['userids'] = '額外使用者';
 $labels['typepublickey'] = '公鑰';
@@ -63,13 +63,17 @@ $labels['keydisable'] = '停用';
 $labels['keyrevoke'] = '撤銷';
 $labels['keysend'] = '在郵件傳送公開金鑰';
 $labels['keychpass'] = '更改密碼';
+$labels['newkeyident'] = '身分';
 $labels['newkeypass'] = '使用者密碼';
+$labels['newkeypassconfirm'] = '確認密碼';
+$labels['newkeysize'] = '金鑰大小';
 $labels['key2048'] = '2048 位元 - 預設';
 $labels['key4096'] = '4096 位元 - 較安全';
 $labels['keygenerating'] = '正在製作金鑰...';
 $labels['encryptionoptions'] = '加密選項...';
 $labels['encryptmsg'] = '加密本郵件';
 $labels['signmsg'] = '數位簽署本郵件';
+$labels['sendunencrypted'] = '以不加密方式傳送';
 $labels['enterkeypasstitle'] = '輸入金鑰密語';
 $labels['enterkeypass'] = '需要密語才能為使用者 $user 解鎖密鑰 ($keyid)';
 $labels['arialabelkeyexportoptions'] = '金鑰匯出選項';
@@ -80,6 +84,9 @@ $labels['withprivkeys'] = '匯出密鑰';
 $labels['findkey'] = '在金鑰伺服器搜尋';
 $labels['keyimportlabel'] = '從檔案匯入';
 $labels['keyimportsearchlabel'] = '在金鑰伺服器搜尋';
+$labels['managekeys'] = '管理 PGP 金鑰';
+$labels['identitymatchingprivkeys'] = '您的鑰匙圈有 $nr 個符合的 PGP 私鑰：';
+$labels['identitynoprivkeys'] = '傳送者的身分不符合您鑰匙圈中 PGP 私鑰的任何一個。';
 $messages['sigvalid'] = '來自 $sender 的已驗證簽名';
 $messages['sigvalidpartial'] = '來自 $sender 的已驗證簽名，但內文部分並未簽署';
 $messages['siginvalid'] = '來自 $sender 的無效簽名';
@@ -89,6 +96,7 @@ $messages['sigerror'] = '未驗證的簽名。內部出錯';
 $messages['decryptok'] = '郵件已解密';
 $messages['decrypterror'] = '解密失敗';
 $messages['decryptnokey'] = '解密失敗。找不到私密金鑰。金鑰 ID：$keyid';
+$messages['decryptnomdc'] = '已略過解密。郵件的整全性並未受到保護。';
 $messages['decryptbadpass'] = '解密失敗。密碼無效';
 $messages['decryptnopass'] = '解密失敗。必需要金鑰的密碼';
 $messages['decryptpartial'] = '郵件已解密，但內文部分未有加密';
@@ -98,6 +106,7 @@ $messages['signbadpass'] = '簽名失敗。密碼無效';
 $messages['signnopass'] = '簽名失敗。必須要金鑰密碼';
 $messages['encrypterror'] = '加密失敗';
 $messages['encryptnokey'] = '加密失敗。找不到用於 $email 的公開金鑰';
+$messages['encryptnoprivkey'] = '加密失敗。找不到私鑰。';
 $messages['nokeysfound'] = '找不到金鑰';
 $messages['keynotfound'] = '找不到金鑰！';
 $messages['keyopenerror'] = '無法取得金鑰資訊！內部出錯';

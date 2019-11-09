@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2006-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 function rcube_init_settings_tabs()
 {
   var el, cl, container = $('#tabsbar'),
-    last_tab = $('span:last', container),
+    last_tab = $('span', container).last(),
     tab = '#settingstabpreferences',
     action = window.rcmail && rcmail.env.action ? rcmail.env.action : null;
 

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product E-Posta Sistemine Hoş Geldiniz';
 $labels['username'] = 'Kullanıcı Adı';
 $labels['password'] = 'Parola';
@@ -127,7 +127,7 @@ $labels['backtolist'] = 'İleti Listesine Dön';
 $labels['viewsource'] = 'Kaynağı Görüntüle';
 $labels['mark'] = 'İşaretle';
 $labels['markmessages'] = 'İletileri işaretle';
-$labels['markread'] = 'Okunmuş ';
+$labels['markread'] = 'Okunmuş Olarak';
 $labels['markunread'] = 'Okunmamış Olarak';
 $labels['markflagged'] = 'İşaretlenmiş Olarak';
 $labels['markunflagged'] = 'İşaretlenmemiş Olarak';
@@ -147,6 +147,7 @@ $labels['last'] = 'Son';
 $labels['previous'] = 'Önceki';
 $labels['next'] = 'Sonraki';
 $labels['select'] = 'Seç';
+$labels['selection'] = 'Seçim';
 $labels['all'] = 'Tümü';
 $labels['none'] = 'Yok';
 $labels['currpage'] = 'Geçerli Sayfa';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Tümünü Genişlet';
 $labels['expand-unread'] = 'Okunmamışları Genişlet';
 $labels['collapse-all'] = 'Tümünü Daralt';
 $labels['threaded'] = 'Sohbet Görünümü';
+$labels['showunread'] = 'Okunmamış iletileri görüntüle';
 $labels['autoexpand_threads'] = 'Sohbet iletileri genişletilsin';
 $labels['do_expand'] = 'tüm sohbetler';
 $labels['expand_only_unread'] = 'yalnız okunmamış iletiler bulunan dizilimler';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Klasör İşlemleri...';
 $labels['compact'] = 'Sıkıştır';
 $labels['empty'] = 'Boşalt';
 $labels['importmessages'] = 'İçe Aktar';
+$labels['mailimportdesc'] = '<a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ya da <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> biçiminde dosyalar kullanarak e-postalarınızı yükleyebilirsiniz.';
+$labels['mailimportzip'] = 'Birden çok dosya zip arşivi biçiminde sıkıştırılabilir.';
 $labels['quota'] = 'Disk Kullanımı';
 $labels['unknown'] = 'bilinmeyen';
 $labels['unlimited'] = 'sınırsız';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Süre Doldu';
 $labels['keyrevoked'] = 'İptal Edilen';
 $labels['bccinstead'] = 'Gizli Kopya Kullanılsın';
 $labels['addheader'] = 'Alıcı Ekle (üst Bilgi)';
+$labels['insert'] = 'Ekle';
+$labels['insertcontact'] = 'Kişi ekle';
 $labels['recipient'] = 'Alıcı';
 $labels['recipientedit'] = 'Alıcıyı düzenle';
 $labels['editidents'] = 'Kimlikleri Düzenle';
@@ -270,7 +276,7 @@ $labels['insertresponse'] = 'Hazır Yanıt Ekle';
 $labels['manageresponses'] = 'Hazır Yanıt Yönetimi';
 $labels['newresponse'] = 'Yeni Hazır Yanıt Ekle';
 $labels['addresponse'] = 'Hazır Yanıt Ekle';
-$labels['editresponse'] = 'Hazır Cevabı Düzenle';
+$labels['editresponse'] = 'Hazır Yanıtı Düzenle';
 $labels['editresponses'] = 'Hazır Yanıtları Düzenle';
 $labels['responsename'] = 'Ad';
 $labels['responsetext'] = 'Hazır Yanıt Metni';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = '$sender tarafından gönderilen görseller her zaman g�
 $labels['alwaysallow'] = '$sender tarafından gönderilen iletiler her zaman alınsın';
 $labels['isdraft'] = 'Bu ileti henüz taslak.';
 $labels['andnmore'] = '$nr daha...';
+$labels['details'] = 'Ayrıntılar';
 $labels['headers'] = 'Üst Bilgiler';
-$labels['envelope'] = 'Zarf';
+$labels['allheaders'] = 'Tüm üst bilgiler...';
 $labels['togglemoreheaders'] = 'Daha fazla ileti başlığı görüntüle';
 $labels['togglefullheaders'] = 'İleti başlıklarını görüntüle/gizle';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Yeniden Adlandır';
 $labels['addphoto'] = 'Ekle';
 $labels['replacephoto'] = 'Değiştir';
 $labels['uploadphoto'] = 'Fotoğraf Yükle';
+$labels['choosefile'] = 'Dosyayı seçin...';
+$labels['choosefiles'] = 'Dosyaları seçin...';
+$labels['browse'] = 'Göz at';
 $labels['newcontact'] = 'Yeni Kişi Ekle';
 $labels['deletecontact'] = 'Seçilmiş Kişileri Sil';
 $labels['composeto'] = 'Şu Kişiye İleti Gönder';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Tüm adres defterinin yerine geçsin';
 $labels['importgroups'] = 'Grup Atamalarını İçe Aktar';
 $labels['importgroupsall'] = 'Tümü (Gerekirse Gruplar Eklensin)';
 $labels['importgroupsexisting'] = 'Yalnız Varolan Gruplar';
-$labels['importdesc'] = 'Varolan bir adres defterinden kişileri yükleyebilirsiniz.<br/> Şu anda <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ya da CSV (virgülle ayrılmış) veri biçimleri desteklenmektedir.';
+$labels['importdesc'] = 'Var olan bir adres defterindeki kişileri yükleyebilirsiniz.<br/>Şu anda <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ve CSV (virgül ile ayrılmış veriler) dosya biçimlerini destekliyoruz.';
 $labels['done'] = 'Tamam';
 $labels['settingsfor'] = 'Şunun Ayarları';
 $labels['about'] = 'Hakkında';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Gelişmiş Ayarlar';
 $labels['toggleadvancedoptions'] = 'Gelişmiş ayarları görüntüle/gizle';
 $labels['focusonnewmessage'] = 'Yeni İleti Geldiğinde Web Tarayıcı Penceresine Odaklanılsın';
 $labels['checkallfolders'] = 'Tüm Klasörler İçin Yeni İletiler Denetlensin';
-$labels['displaynext'] = 'İleti Silindiğinde ya da Taşındığında Sonraki İleti Görüntülensin';
+$labels['displaynext'] = 'Silme ya da taşıma sonrası sonraki ileti görüntülensin';
 $labels['defaultfont'] = 'HTML İletiler İçin Varsayılan Yazı Türü';
 $labels['mainoptions'] = 'Temel Ayarlar';
 $labels['browseroptions'] = 'Tarayıcı Ayarları';
@@ -671,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Sağ/Sol Oklar: İleti gruplarını ge
 Enter: Seçilmiş ya da odaklanılmış iletiyi açar.
 Delete: Seçilmiş iletiyi çöpe atar.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Seçilmiş ya da odaklanılmış kişiyi açar.";
-?>

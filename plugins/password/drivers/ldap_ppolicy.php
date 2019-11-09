@@ -8,11 +8,12 @@
  *
  * @version 1.0
  * @author Zbigniew Szmyd <zbigniew.szmyd@linseco.pl>
- *
  */
 
 class rcube_ldap_ppolicy_password
 {
+    protected $debug = false;
+
     public function save($currpass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
@@ -42,7 +43,15 @@ class rcube_ldap_ppolicy_password
         );
 
         $cmd = 'plugins/password/helpers/'. $cmd;
-        $this->_debug("parameters:\ncmd:$cmd\nuri:$uri\nbaseDN:$baseDN\nfilter:$filter");
+
+        $this->_debug('Policy request: ' . json_encode(array(
+            'user'   => $username,
+            'cmd'    => $cmd,
+            'uri'    => $uri,
+            'baseDN' => $baseDN,
+            'filter' => $filter,
+        )));
+
         $process = proc_open($cmd, $descriptorspec, $pipes);
 
         if (is_resource($process)) {
@@ -65,7 +74,7 @@ class rcube_ldap_ppolicy_password
             $result = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
 
-            $this->_debug('Result:'.$result);
+            $this->_debug('Policy result: ' . $result);
 
             switch ($result) {
             case "OK":
@@ -90,7 +99,7 @@ class rcube_ldap_ppolicy_password
     private function _debug($str)
     {
         if ($this->debug) {
-            rcube::write_log('password_ldap_ppolicy', $str);
+            rcube::write_log('ldap', $str);
         }
     }
 }

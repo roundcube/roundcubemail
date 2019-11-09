@@ -5,7 +5,7 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2011-2017, Kolab Systems AG
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -200,18 +200,12 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return;
         }
 
-        $date_extension  = in_array('date', $this->exts);
-        $regex_extension = in_array('regex', $this->exts);
+        $status = rcube_utils::get_input_value('forward_status', rcube_utils::INPUT_POST);
+        $action = rcube_utils::get_input_value('forward_action', rcube_utils::INPUT_POST);
+        $target = rcube_utils::get_input_value('action_target', rcube_utils::INPUT_POST, true);
 
-        $status        = rcube_utils::get_input_value('forward_status', rcube_utils::INPUT_POST);
-        $action        = rcube_utils::get_input_value('forward_action', rcube_utils::INPUT_POST);
-        $target        = rcube_utils::get_input_value('action_target', rcube_utils::INPUT_POST, true);
-
-        $forward_action['type']         = 'forward';
-        $forward_action['reason']       = $this->strip_value(str_replace("\r\n", "\n", $reason));
-        $forward_action['subject']      = trim($subject);
-        $forward_action['from']         = trim($from);
-        $forward_tests                  = (array) $this->forward['tests'];
+        $date_extension = in_array('date', $this->exts);
+        $forward_tests  = (array) $this->forward['tests'];
 
         if ($action == 'redirect' || $action == 'copy') {
             if (empty($target) || !rcube_utils::check_email($target)) {
@@ -230,7 +224,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             $rule['disabled']   = $status == 'off';
             $rule['tests']      = $forward_tests;
             $rule['join']       = $date_extension ? count($forward_tests) > 1 : false;
-            $rule['actions']    = array($forward_action);
+            $rule['actions']    = array();
             $rule['after']      = $after;
 
             if ($action && $action != 'keep') {
@@ -269,8 +263,8 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
 
         // form elements
-        $status    = new html_select(array('name' => 'forward_status', 'id' => 'forward_status'));
-        $action    = new html_select(array('name' => 'forward_action', 'id' => 'forward_action'));
+        $status = new html_select(array('name' => 'forward_status', 'id' => 'forward_status'));
+        $action = new html_select(array('name' => 'forward_action', 'id' => 'forward_action'));
 
         $status->add($this->plugin->gettext('forward.on'), 'on');
         $status->add($this->plugin->gettext('forward.off'), 'off');
@@ -455,7 +449,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $this->init_script();
         $this->forward_rule();
 
-        $forward['type']      = 'forward';
+        $date_extension = in_array('date', $this->exts);
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
@@ -478,7 +472,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $rule['disabled'] = isset($data['enabled']) && !$data['enabled'];
         $rule['tests']    = $forward_tests;
         $rule['join']     = $date_extension ? count($forward_tests) > 1 : false;
-        $rule['actions']  = array($forward);
+        $rule['actions']  = array();
 
         if ($data['action'] && $data['action'] != 'keep') {
             $rule['actions'][] = array(

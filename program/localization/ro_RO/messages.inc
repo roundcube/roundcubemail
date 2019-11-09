@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'A avut loc o EROARE!';
 $messages['loginfailed']  = 'Autentificare eşuată';
 $messages['cookiesdisabled'] = 'Browserul dumneavoastră nu acceptă cookies';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Nu există spațiu liber. Folosiți SHIFT+D
 $messages['invalidrequest'] = 'Solicitare invalidă! Datele nu au fost salvate.';
 $messages['invalidhost'] = 'Nume server invalid.';
 $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căsuţă poştală';
-$messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
 $messages['nomessages'] = 'Nici un mesaj';
 $messages['refreshing'] = 'Reîmprospătare...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Nu a fost găsită nici o cheie publică valid
 $messages['encryptnoattachments'] = 'Atașamentele deja încărcate nu pot fi criptate. Vă rugăm re-adăugați-le în editorul de criptare.';
 $messages['searchpubkeyservers'] = 'Doriți să căutați în servere de chei publice pentru cheile care lipsesc?';
 $messages['encryptpubkeysfound'] = 'Au fost găsite următoarele chei publice:';
-$messages['keyservererror'] = 'Nu s-a putut obține cheia de la server';
-$messages['keyimportsuccess'] = 'Cheia publică $key a fost importată cu succes';
 $messages['nocontactsfound'] = 'Nu s-a găsit nici un contact';
 $messages['contactnotfound'] = 'Contactul solicitat nu a fost găsit.';
-$messages['contactsearchonly'] = 'Introdu nişte termeni de căutare pentru a găsi contactele';
 $messages['sendingfailed'] = 'Nu s-a reuşit trimiterea mesajului';
 $messages['senttooquickly'] = 'Vă rugăm aşteptaţi $sec sec. înainte de a trimite acest mesaj';
 $messages['errorsavingsent'] = 'A intervenit o eroare în timp ce se efectua salvarea mesajului trimis.';

@@ -1,6 +1,43 @@
-
-#messagetoolbar a.button.junk {
-	text-indent: -5000px;
-	background: url(junk_act.png) 0 0 no-repeat;
+#messagetoolbar a.junk,
+#messagetoolbar a.notjunk
+{
+  text-indent: -5000px;
+  background-image: url(images/mail_toolbar.png);
 }
 
+#messagetoolbar a.junk
+{
+  background-position: -32px 0;
+}
+
+#messagetoolbar a.junk.pressed
+{
+  background-position: -32px -32px;
+}
+
+#messagetoolbar a.notjunk
+{
+  background-position: 0 0;
+}
+
+#messagetoolbar a.notjunk.pressed
+{
+  background-position: 0 -32px;
+}
+
+ul.toolbarmenu li a.junk,
+ul.toolbarmenu li a.notjunk
+{
+  background-image: url(images/messageactions.png) !important;
+  background-repeat: no-repeat;
+}
+
+ul.toolbarmenu li a.junk
+{
+  background-position: 6px -17px !important;
+}
+
+ul.toolbarmenu li a.notjunk
+{
+  background-position: 6px 1px !important;
+}

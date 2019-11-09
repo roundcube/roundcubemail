@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'مرحباً بكم في $product';
 $labels['username'] = 'اسم المستخدم';
 $labels['password'] = 'كلمة المرور';
@@ -200,6 +200,7 @@ $labels['returnreceipt'] = 'ايصال استلام';
 $labels['dsn'] = 'تنويه حالة التوصيل';
 $labels['mailreplyintro'] = 'كتب $sender في $date:';
 $labels['originalmessage'] = 'الرسالة الأساسية';
+$labels['insert'] = 'ادراج';
 $labels['recipient'] = 'مستلم';
 $labels['editidents'] = 'تعديل الهويات';
 $labels['spellcheck'] = 'التدقيق اﻹملائى';
@@ -333,7 +334,6 @@ $labels['importreplace'] = 'استبدل دفتر العناوين بأكمله'
 $labels['importgroups'] = 'استيراد مهام المجموعة ';
 $labels['importgroupsall'] = 'الكل (انشاء مجموعة في حال الحاجة)';
 $labels['importgroupsexisting'] = 'فقط للمجموعات الموجودة ';
-$labels['importdesc'] = 'يمكنك رفع جهات الاتصال من دفاتر العناوين الموجودة. <br/> نحن الان ندعم استيراد العناوين من <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> او CSV (comma-separated) data format.';
 $labels['done'] = 'تم';
 $labels['settingsfor'] = 'إعدادات';
 $labels['about'] = 'نبذة';
@@ -399,7 +399,6 @@ $labels['force7bit'] = 'استخدام ترميز MIME للحروف ذات ال�
 $labels['advancedoptions'] = 'خيارات متقدّمة';
 $labels['focusonnewmessage'] = 'التركيز على نافذة المتصفح عند وجود رسالةجديدة';
 $labels['checkallfolders'] = 'التحقق من وجود رسائل جديدة في جميعالمجلدات';
-$labels['displaynext'] = 'إظهار الرسالة التالية بعد حذف/نقلالرسالة الحالية';
 $labels['defaultfont'] = 'الخط الافتراضي لـ رسائل HTML';
 $labels['mainoptions'] = 'الخيارات الأساسية';
 $labels['browseroptions'] = 'خيارات المتصفح';
@@ -489,4 +488,3 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
-?>

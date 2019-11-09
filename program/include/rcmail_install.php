@@ -2,14 +2,19 @@
 
 /**
  +-----------------------------------------------------------------------+
- | rcmail_install.php                                                    |
+ | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Roundcube Installer                                                 |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -18,7 +23,6 @@
  *
  * @category Install
  * @package  Webmail
- * @author   Thomas Bruederli
  */
 class rcmail_install
 {
@@ -33,7 +37,7 @@ class rcmail_install
     public $bool_config_props = array();
 
     public $local_config    = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane');
+    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check');
     public $replaced_config = array(
         'skin_path'            => 'skin',
         'locale_string'        => 'language',
@@ -209,7 +213,7 @@ class rcmail_install
             if ($prop == 'db_dsnw' && !empty($_POST['_dbtype'])) {
                 if ($_POST['_dbtype'] == 'sqlite') {
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
-                        $_POST['_dbname']{0} == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
+                        $_POST['_dbname'][0] == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
                 }
                 else if ($_POST['_dbtype']) {
                     $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'],
@@ -457,7 +461,7 @@ class rcmail_install
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
-                    $errors[] = "Missing columns in table '$table': " . join(',', $diff);
+                    $errors[] = "Missing columns in table '$table': " . implode(',', $diff);
                 }
             }
         }
@@ -470,10 +474,9 @@ class rcmail_install
      */
     private function db_read_schema($schemafile)
     {
-        $lines       = file($schemafile);
-        $table_block = false;
-        $schema      = array();
-        $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
+        $lines    = file($schemafile);
+        $schema   = array();
+        $keywords = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
             if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
@@ -510,10 +513,9 @@ class rcmail_install
     {
         $errors = array();
         $files  = array(
-            'skins/larry/images/roundcube_logo.png' => 'image/png',
-            'program/resources/blank.tiff'          => 'image/tiff',
-            'program/resources/blocked.gif'         => 'image/gif',
-            'skins/larry/README'                    => 'text/plain',
+            'program/resources/tinymce/video.png' => 'image/png',
+            'program/resources/blank.tiff'        => 'image/tiff',
+            'program/resources/blocked.gif'       => 'image/gif',
         );
 
         foreach ($files as $path => $expected) {
@@ -779,7 +781,7 @@ class rcmail_install
                 }
 
                 if ($isnum) {
-                    return 'array(' . join(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
+                    return 'array(' . implode(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
                 }
             }
         }

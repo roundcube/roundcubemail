@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Kerberos Authentication",
     "license": "GPLv3+",
-    "version": "1.1",
+    "version": "1.2",
     "authors": [
         {
             "name": "Jeroen van Meeuwen",
@@ -14,7 +14,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "http://plugins.roundcube.net"
+            "url": "https://plugins.roundcube.net"
         }
     ],
     "require": {

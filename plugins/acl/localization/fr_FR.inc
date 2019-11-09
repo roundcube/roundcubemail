@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Partage';
 $labels['myrights'] = 'Droits d’accès';
 $labels['username'] = 'Utilisateur :';
@@ -93,7 +92,7 @@ $messages['createsuccess'] = 'Les droits d’accès ont été ajoutés avec succ
 $messages['updateerror'] = 'Impossible de mettre à jour les droits d’accès';
 $messages['deleteerror'] = 'Impossible de supprimer les droits d’accès';
 $messages['createerror'] = 'Impossible d’ajouter des droits d’accès';
-$messages['deleteconfirm'] = 'Êtes-vous sûr de vouloir retirer les droits d’accès des utilisateurs sélectionnés ?';
-$messages['norights'] = 'Aucun droit n’a été spécifié !';
-$messages['nouser'] = 'Aucun nom d’utilisateur n’a été spécifié !';
+$messages['deleteconfirm'] = 'Êtes-vous certain de vouloir retirer les droits d’accès des utilisateurs sélectionnés ?';
+$messages['norights'] = 'Aucun droit n’a été spécifié !';
+$messages['nouser'] = 'Aucun nom d’utilisateur n’a été spécifié !';
 ?>

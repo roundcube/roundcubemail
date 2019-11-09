@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Keisti slaptažodį';
 $labels['curpasswd']  = 'Dabartinis slaptažodis:';
 $labels['newpasswd']  = 'Naujasis slaptažodis:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'Nepavyko įrašyti naujojo slaptažodžio. Ryšio k
 $messages['internalerror'] = 'Nepavyko įrašyti naujojo slaptažodžio.';
 $messages['passwordshort'] = 'Slaptažodis turi būti sudarytas bent iš $length simbolių.';
 $messages['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
+$messages['passwordtooweak'] = 'Slaptažodis pernelyg silpnas.';
+$messages['passwordnoseq'] = 'Slaptažodis neturėtų būti seka, kaip, pavyzdžiui, 123456 ar QWERTY.';
+$messages['passwordnocommon'] = 'Slaptažodis neturėtų būti įprastas žodis ar pavadinimas.';
 $messages['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
 $messages['firstloginchange'] = 'Tai yra pirmasis jūsų prisijungimas. Prašau, pasikeiskite savo slaptažodį.';
 $messages['disablednotice'] = 'Sistema šiuo metu tvarkoma ir slaptažodžio pakeitimas negalimas. Netrukus viskas turėtų grįžti į įprastą būseną. Atsiprašome dėl nepatogumų.';

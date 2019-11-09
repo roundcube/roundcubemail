@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Selamat datang di $product';
 $labels['username'] = 'Username';
 $labels['password'] = 'Password';
@@ -239,6 +239,7 @@ $labels['keylength'] = 'Bit';
 $labels['keyexpired'] = 'Kedaluarsa';
 $labels['keyrevoked'] = 'Dicabut';
 $labels['bccinstead'] = 'Gunakan Bcc';
+$labels['insert'] = 'Sisipkan';
 $labels['recipient'] = 'Penerima';
 $labels['editidents'] = 'Ubah identitas';
 $labels['spellcheck'] = 'Ejaan';
@@ -392,7 +393,6 @@ $labels['importreplace'] = 'Ganti seluruh buku alamat';
 $labels['importgroups'] = 'Impor pengaturan grup';
 $labels['importgroupsall'] = 'Semua (buat grup jika diperlukan)';
 $labels['importgroupsexisting'] = 'Hanya untuk grup yang telah ada';
-$labels['importdesc'] = 'Anda dapat mengunggah kontak dari buku alamat yang telah ada.<br/>Saat ini kami mendukung import alamat dari format data <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> atau CSV (comma-separated).';
 $labels['done'] = 'Selesai';
 $labels['settingsfor'] = 'Pengaturan untuk';
 $labels['about'] = 'Informasi program';
@@ -467,7 +467,6 @@ $labels['advancedoptions'] = 'Pilihan lanjut';
 $labels['toggleadvancedoptions'] = 'Jungkitkan opsi tingkat lanjut';
 $labels['focusonnewmessage'] = 'Pusatkan jendela broswer saat ada pesan baru';
 $labels['checkallfolders'] = 'Periksa semua folder untuk pesan baru';
-$labels['displaynext'] = 'Setelah menghapus/memindahkan, tampilkan pesan berikutnya';
 $labels['defaultfont'] = 'Huruf standar untuk pesan HTML';
 $labels['mainoptions'] = 'Pilihan Utama';
 $labels['browseroptions'] = 'Pilihan peramban web';
@@ -613,4 +612,3 @@ $labels['helplistkeyboardnavmessages'] = "Panah kanan/kiri: kembangkan/mampatkan
 Enter: Buka pesan yang dipilih/difokuskan.
 Delete: Pindahkan pesan yang dipilih ke Tong Sampah.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Buka kontak yang dipilih/terfokus.";
-?>

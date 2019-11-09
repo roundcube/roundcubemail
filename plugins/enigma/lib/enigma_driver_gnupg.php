@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | GnuPG (PGP) driver for the Enigma Plugin                                |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -25,7 +24,7 @@ class enigma_driver_gnupg extends enigma_driver
     protected $user;
     protected $last_sig_algorithm;
     protected $debug    = false;
-    protected $db_files = array('pubring.gpg', 'secring.gpg');
+    protected $db_files = array('pubring.gpg', 'secring.gpg', 'pubring.kbx');
 
 
     function __construct($user)
@@ -388,13 +387,10 @@ class enigma_driver_gnupg extends enigma_driver
             }
             // need to delete private key first
             else if ($code == enigma_error::DELKEY) {
-                $key = $this->get_key($keyid);
-                for ($i = count($key->subkeys) - 1; $i >= 0; $i--) {
-                    $type = ($key->subkeys[$i]->usage & enigma_key::CAN_ENCRYPT) ? 'priv' : 'pub';
-                    $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
-                    if ($result !== true) {
-                        break;
-                    }
+                $result = $this->delete_privkey($keyid);
+
+                if ($result === true) {
+                    $result = $this->delete_pubkey($keyid);
                 }
             }
         }
@@ -563,23 +559,23 @@ class enigma_driver_gnupg extends enigma_driver
 
         $db    = $this->rc->get_dbh();
         $table = $db->table_name('filestore', true);
+        $files = array();
 
         $result = $db->query(
-            "SELECT `file_id`, `filename`, `mtime` FROM $table"
-            . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
-            $this->rc->user->ID
-        );
+            "SELECT `file_id`, `filename`, `mtime` FROM $table WHERE `user_id` = ? AND `context` = ?",
+            $this->rc->user->ID, 'enigma');
 
         while ($record = $db->fetch_assoc($result)) {
             $file  = $this->homedir . '/' . $record['filename'];
             $mtime = @filemtime($file);
+            $files[] = $record['filename'];
 
             if ($mtime < $record['mtime']) {
                 $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
                     . " WHERE `file_id` = ?", $record['file_id']);
 
-                $data = $db->fetch_assoc($data_result);
-                $data = $data ? base64_decode($data['data']) : null;
+                $record = $db->fetch_assoc($data_result);
+                $data   = $record ? base64_decode($record['data']) : null;
 
                 if ($data === null || $data === false) {
                     rcube::raise_error(array(
@@ -594,7 +590,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
                     rename($tmpfile, $file);
-                    touch($file, $data_record['mtime']);
+                    touch($file, $record['mtime']);
 
                     if ($this->debug) {
                         $this->debug("SYNC: Fetched file: $file");
@@ -608,6 +604,19 @@ class enigma_driver_gnupg extends enigma_driver
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                             'message' => "Enigma: Failed to sync $file."
                         ), true, false);
+                }
+            }
+        }
+
+        // Remove files not in database
+        if (!$db->is_error($result)) {
+            foreach (array_diff($this->db_files_list(), $files) as $file) {
+                $file = $this->homedir . '/' . $file;
+
+                if (unlink($file)) {
+                    if ($this->debug) {
+                        $this->debug("SYNC: Removed file: $file");
+                    }
                 }
             }
         }
@@ -633,9 +642,8 @@ class enigma_driver_gnupg extends enigma_driver
 
         if (!$is_empty) {
             $result = $db->query(
-                "SELECT `file_id`, `filename`, `mtime` FROM $table"
-                . " WHERE `user_id` = ? AND `filename` IN (" . $db->array2list($this->db_files) . ")",
-                $this->rc->user->ID
+                "SELECT `file_id`, `filename`, `mtime` FROM $table WHERE `user_id` = ? AND `context` = ?",
+                $this->rc->user->ID, 'enigma'
             );
 
             while ($record = $db->fetch_assoc($result)) {
@@ -643,11 +651,14 @@ class enigma_driver_gnupg extends enigma_driver
             }
         }
 
-        foreach ($this->db_files as $filename) {
+        foreach ($this->db_files_list() as $filename) {
             $file  = $this->homedir . '/' . $filename;
             $mtime = @filemtime($file);
 
-            if ($mtime && (empty($records[$filename]) || $mtime > $records[$filename]['mtime'])) {
+            $existing = $records[$filename];
+            unset($records[$filename]);
+
+            if ($mtime && (empty($existing) || $mtime > $existing['mtime'])) {
                 $data     = file_get_contents($file);
                 $data     = base64_encode($data);
                 $datasize = strlen($data);
@@ -665,16 +676,16 @@ class enigma_driver_gnupg extends enigma_driver
                     continue;
                 }
 
-                if (empty($records[$filename])) {
+                if (empty($existing)) {
                     $result = $db->query(
-                        "INSERT INTO $table (`user_id`, `filename`, `mtime`, `data`)"
-                        . " VALUES(?, ?, ?, ?)",
+                        "INSERT INTO $table (`user_id`, `context`, `filename`, `mtime`, `data`)"
+                        . " VALUES(?, 'enigma', ?, ?, ?)",
                         $this->rc->user->ID, $filename, $mtime, $data);
                 }
                 else {
                     $result = $db->query(
                         "UPDATE $table SET `mtime` = ?, `data` = ? WHERE `file_id` = ?",
-                        $mtime, $data, $records[$filename]['file_id']);
+                        $mtime, $data, $existing['file_id']);
                 }
 
                 if ($db->is_error($result)) {
@@ -691,6 +702,46 @@ class enigma_driver_gnupg extends enigma_driver
                 }
             }
         }
+
+        // Delete removed files from database
+        foreach (array_keys($records) as $filename) {
+            $file   = $this->homedir . '/' . $filename;
+            $result = $db->query("DELETE FROM $table WHERE `user_id` = ? AND `context` = ? AND `filename` = ?",
+                $this->rc->user->ID, 'enigma', $filename);
+
+            if ($db->is_error($result)) {
+                rcube::raise_error(array(
+                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                        'message' => "Enigma: Failed to delete $file from database."
+                    ), true, false);
+
+                break;
+            }
+
+            if ($this->debug) {
+                $this->debug("SYNC: Removed file: $file");
+            }
+        }
+    }
+
+    /**
+     * Returns list of homedir files to backup
+     */
+    protected function db_files_list()
+    {
+        $files = array();
+
+        foreach ($this->db_files as $file) {
+            if (file_exists($this->homedir . '/' . $file)) {
+                $files[] = $file;
+            }
+        }
+
+        foreach (glob($this->homedir . '/private-keys-v1.d/*.key') as $file) {
+            $files[] = ltrim(substr($file, strlen($this->homedir)), '/');
+        }
+
+        return $files;
     }
 
     /**

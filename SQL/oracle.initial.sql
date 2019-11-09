@@ -216,10 +216,11 @@ CREATE TABLE "filestore" (
     "file_id" integer PRIMARY KEY,
     "user_id" integer NOT NULL
         REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "context" varchar(32) NOT NULL,
     "filename" varchar(128) NOT NULL,
     "mtime" integer NOT NULL,
     "data" long,
-    CONSTRAINT "filestore_user_id_key" UNIQUE ("user_id", "filename")
+    CONSTRAINT "filestore_user_id_key" UNIQUE ("user_id", "context", "filename")
 );
 
 CREATE SEQUENCE "filestore_seq"
@@ -237,4 +238,4 @@ CREATE TABLE "system" (
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2018021600');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2019092900');

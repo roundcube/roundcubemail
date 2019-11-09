@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
 <body class="iframe">
@@ -14,7 +13,7 @@
 		<td class="title"><label for="_from"><roundcube:label name="from" /></label></td>
 		<td class="editfield formlinks">
 			<roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-			<a href="#identities" onclick="return rcmail.command('identities')" tabindex="1"><roundcube:label name="editidents" /></a>
+			<a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')" tabindex="1"><roundcube:label name="editidents" /></a>
 		</td>
 	</tr>
 	<tr>

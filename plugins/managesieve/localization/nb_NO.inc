@@ -2,25 +2,26 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Rediger filter for innkommende e-post';
 $labels['filtername'] = 'Filternavn';
 $labels['newfilter'] = 'Nytt filter';
 $labels['filteradd'] = 'Legg til filter';
 $labels['filterdel'] = 'Slett filter';
+$labels['actions'] = 'Handlinger';
 $labels['scope'] = 'Omfanget';
 $labels['moveup'] = 'Flytt opp';
 $labels['movedown'] = 'Flytt ned';
@@ -63,14 +64,8 @@ $labels['days'] = 'dager';
 $labels['seconds'] = 'sekunder';
 $labels['rulestop'] = 'Stopp evaluering av regler';
 $labels['enable'] = 'Aktiver/Deaktiver';
-$labels['filterset'] = 'Filtersett';
 $labels['filtersets'] = 'Filtersett';
-$labels['filtersetadd'] = 'Nytt filtersett';
-$labels['filtersetact'] = 'Aktiver gjeldende filtersett';
-$labels['filtersetdeact'] = 'Deaktiver gjeldende filtersett';
 $labels['filterdef'] = 'Filterdefinisjon';
-$labels['filtersetname'] = 'Navn på filtersett';
-$labels['newfilterset'] = 'Nytt filtersett';
 $labels['active'] = 'aktiv';
 $labels['none'] = 'ingen';
 $labels['fromset'] = 'fra sett';
@@ -157,6 +152,7 @@ $labels['indexlast'] = 'baklengs';
 $labels['vacation.subject'] = 'Emne';
 $labels['vacation.body'] = 'Meldingstekst';
 $labels['vacation.keep'] = 'Behold';
+$labels['vacation.discard'] = 'Forkast';
 $labels['duplicate.header'] = 'header:';
 $messages['filterunknownerror'] = 'Ukjent problem med tjener.';
 $messages['filterconnerror'] = 'Kunne ikke koble til tjeneren.';
@@ -170,15 +166,6 @@ $messages['actiondeleteconfirm'] = 'Er du sikker på at du vil slette valgte hen
 $messages['forbiddenchars'] = 'Ugyldige tegn i felt.';
 $messages['cannotbeempty'] = 'Feltet kan ikke stå tomt.';
 $messages['ruleexist'] = 'Det finnes allerede et filter med dette navnet.';
-$messages['setactivateerror'] = 'Kunne ikke aktivere valgte filtersett. Fikk feilmelding fra server.';
-$messages['setdeactivateerror'] = 'Kunne ikke deaktivere valgte filtersett. Fikk feilmelding fra server.';
-$messages['setdeleteerror'] = 'Kunne ikke slette valgte filtersett. Fikk feilmelding fra server.';
-$messages['setactivated'] = 'Filtersett aktivert.';
-$messages['setdeactivated'] = 'Filtersett deaktivert.';
-$messages['setdeleted'] = 'Filtersett slettet.';
-$messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valgte filtersettet?';
-$messages['setcreateerror'] = 'Kunne ikke opprette filtersett. Fikk feilmelding fra server.';
-$messages['setcreated'] = 'Filtersett opprettet.';
 $messages['activateerror'] = 'Kunne ikke aktivere valgte filter(e). Fikk feilmelding fra server.';
 $messages['deactivateerror'] = 'Kunne ikke deaktivere valgte filter(e). Fikk feilmelding fra server.';
 $messages['deactivated'] = 'Filter skrudd på.';
@@ -190,4 +177,3 @@ $messages['namereserved'] = 'Navnet er reservert.';
 $messages['setexist'] = 'Settet eksisterer allerede.';
 $messages['nodata'] = 'Du må velge minst én posisjon!';
 $messages['invaliddateformat'] = 'Ugyldig dato eller datoformat';
-?>

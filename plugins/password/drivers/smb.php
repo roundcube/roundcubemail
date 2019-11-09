@@ -20,7 +20,7 @@
  * password_smb_host    => samba host (default: localhost)
  * password_smb_cmd => smbpasswd binary (default: /usr/bin/smbpasswd)
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,9 +48,9 @@ class rcube_smb_password
         $cmd      = $bin . ' -r ' . escapeshellarg($host) . ' -s -U "' . escapeshellarg($username) . '" > ' . $tmpfile . ' 2>&1';
         $handle   = @popen($cmd, 'w');
 
-        fputs($handle, $currpass."\n");
-        fputs($handle, $newpass."\n");
-        fputs($handle, $newpass."\n");
+        fwrite($handle, $currpass."\n");
+        fwrite($handle, $newpass."\n");
+        fwrite($handle, $newpass."\n");
         @pclose($handle);
         $res = file($tmpfile);
         unlink($tmpfile);

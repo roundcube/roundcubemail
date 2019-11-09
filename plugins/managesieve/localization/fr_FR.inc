@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtres';
 $labels['managefilters'] = 'Gérer les filtres de courriels entrants';
 $labels['filtername'] = 'Nom du filtre';
@@ -59,18 +59,18 @@ $labels['messagereply'] = 'Répondre avec le courriel';
 $labels['messagedelete'] = 'Supprimer le courriel';
 $labels['messagediscard'] = 'Rejeter avec le courriel';
 $labels['messagekeep'] = 'Conserver le courriel dans la boîte de réception';
-$labels['messagesrules'] = 'Pour les courriels entrants :';
-$labels['messagesactions'] = '...exécuter les actions suivantes :';
+$labels['messagesrules'] = 'Pour les courriels entrants :';
+$labels['messagesactions'] = '...exécuter les actions suivantes :';
 $labels['add'] = 'Ajouter';
 $labels['del'] = 'Supprimer';
 $labels['sender'] = 'Expéditeur';
 $labels['recipient'] = 'Destinataire';
-$labels['vacationaddr'] = 'Mes adresses courriel :';
-$labels['vacationdays'] = 'Fréquence d’envoi des courriels (en jours) :';
-$labels['vacationinterval'] = 'Fréquence d’envoi des courriels :';
-$labels['vacationreason'] = 'Corps du courriel (raison de l’absence) :';
-$labels['vacationfrom'] = 'Adresse de réponse de l’expéditeur :';
-$labels['vacationsubject'] = 'Objet du courriel :';
+$labels['vacationaddr'] = 'Mes adresses courriel :';
+$labels['vacationdays'] = 'Fréquence d’envoi des courriels (en jours) :';
+$labels['vacationinterval'] = 'Fréquence d’envoi des courriels :';
+$labels['vacationreason'] = 'Corps du courriel (raison de l’absence) :';
+$labels['vacationfrom'] = 'Adresse de réponse de l’expéditeur :';
+$labels['vacationsubject'] = 'Objet du courriel :';
 $labels['days'] = 'jours';
 $labels['seconds'] = 'secondes';
 $labels['rulestop'] = 'Arrêter l’évaluation des règles';
@@ -111,10 +111,22 @@ $labels['flagdeleted'] = 'Supprimé';
 $labels['flaganswered'] = 'Réponse envoyée';
 $labels['flagflagged'] = 'Signalé';
 $labels['flagdraft'] = 'Brouillon';
+$labels['addheader'] = 'Ajouter un en-tête au courriel';
+$labels['deleteheader'] = 'Supprimer l’en-tête du courriel';
+$labels['headername'] = 'Nom de l’en-tête';
+$labels['headervalue'] = 'Valeur de l’en-tête';
+$labels['headerpos'] = 'Position de l’en-tête';
+$labels['headeratstart'] = 'au début';
+$labels['headeratend'] = 'à la fin';
+$labels['headeroccurrence'] = 'Occurrence/position de l’en-tête';
+$labels['headerfromstart'] = 'du début';
+$labels['headerfromend'] = 'de la fin';
+$labels['headerpatterns'] = 'Schémas de valeur d’en-tête';
+$labels['headermatchtype'] = 'type de concordance :';
 $labels['setvariable'] = 'Définir une variable';
-$labels['setvarname'] = 'Nom de la variable :';
-$labels['setvarvalue'] = 'Valeur de la variable :';
-$labels['setvarmodifiers'] = 'Modificateurs :';
+$labels['setvarname'] = 'Nom de la variable :';
+$labels['setvarvalue'] = 'Valeur de la variable :';
+$labels['setvarmodifiers'] = 'Modificateurs :';
 $labels['varlower'] = 'minuscule';
 $labels['varupper'] = 'majuscule';
 $labels['varlowerfirst'] = 'premier caractère en minuscule';
@@ -122,11 +134,11 @@ $labels['varupperfirst'] = 'premier caractère en majuscule';
 $labels['varquotewildcard'] = 'citer les caractères spéciaux';
 $labels['varlength'] = 'longueur';
 $labels['notify'] = 'Envoyer la notification';
-$labels['notifytarget'] = 'Cible de la notification :';
-$labels['notifymessage'] = 'Courriel de notification (optionnel) :';
-$labels['notifyoptions'] = 'Options de notification (optionnel) :';
-$labels['notifyfrom'] = 'Expéditeur de la notification (optionnel) :';
-$labels['notifyimportance'] = 'Importance :';
+$labels['notifytarget'] = 'Cible de la notification :';
+$labels['notifymessage'] = 'Courriel de notification (facultatif) :';
+$labels['notifyoptions'] = 'Options de notification (facultatif) :';
+$labels['notifyfrom'] = 'Expéditeur de la notification (facultatif) :';
+$labels['notifyimportance'] = 'Importance :';
 $labels['notifyimportancelow'] = 'faible';
 $labels['notifyimportancenormal'] = 'normale';
 $labels['notifyimportancehigh'] = 'haute';
@@ -134,13 +146,13 @@ $labels['notifymethodmailto'] = 'Courriel';
 $labels['notifymethodtel'] = 'Téléphone';
 $labels['notifymethodsms'] = 'Texto';
 $labels['filtercreate'] = 'Créer un filtre';
-$labels['usedata'] = 'Utiliser les données suivantes dans le filtre :';
+$labels['usedata'] = 'Utiliser les données suivantes dans le filtre :';
 $labels['nextstep'] = 'Étape suivante';
 $labels['...'] = '...';
 $labels['string'] = 'Chaîne';
 $labels['currdate'] = 'Date actuelle';
 $labels['datetest'] = 'Date';
-$labels['dateheader'] = 'en-tête :';
+$labels['dateheader'] = 'en-tête :';
 $labels['year'] = 'année';
 $labels['month'] = 'mois';
 $labels['day'] = 'jour';
@@ -158,37 +170,37 @@ $labels['advancedopts'] = 'Options avancées';
 $labels['body'] = 'Corps';
 $labels['address'] = 'adresse';
 $labels['envelope'] = 'enveloppe';
-$labels['modifier'] = 'modificateur :';
+$labels['modifier'] = 'modificateur :';
 $labels['text'] = 'texte';
 $labels['undecoded'] = 'non décodé (brut)';
 $labels['contenttype'] = 'type de contenu';
-$labels['modtype'] = 'type :';
+$labels['modtype'] = 'type :';
 $labels['allparts'] = 'tout';
 $labels['domain'] = 'domaine';
 $labels['localpart'] = 'partie locale';
 $labels['user'] = 'utilisateur';
 $labels['detail'] = 'détail';
-$labels['comparator'] = 'comparateur :';
+$labels['comparator'] = 'comparateur :';
 $labels['default'] = 'par défaut';
 $labels['octet'] = 'strict (octet)';
 $labels['asciicasemap'] = 'insensible à la casse (ascii-casemap)';
 $labels['asciinumeric'] = 'numérique (ascii-numeric)';
-$labels['index'] = 'index :';
+$labels['index'] = 'index :';
 $labels['indexlast'] = 'à l’envers';
-$labels['vacation'] = 'Vacances';
+$labels['vacation'] = 'Avis d’absence';
 $labels['vacation.reply'] = 'Courriel de réponse';
 $labels['vacation.advanced'] = 'Paramètres avancés';
 $labels['vacation.from'] = 'Adresse de réponse de l’expéditeur';
 $labels['vacation.subject'] = 'Objet';
 $labels['vacation.body'] = 'Corps';
-$labels['vacation.start'] = 'Début de vacances';
-$labels['vacation.end'] = 'Fin de vacances';
+$labels['vacation.start'] = 'Début';
+$labels['vacation.end'] = 'Fin';
 $labels['vacation.status'] = 'État';
 $labels['vacation.on'] = 'Marche';
 $labels['vacation.off'] = 'Arrêt';
 $labels['vacation.addresses'] = 'Mes adresses courriel';
 $labels['vacation.interval'] = 'Plage de réponse';
-$labels['vacation.after'] = 'Mettre en place la règle de vacances après';
+$labels['vacation.after'] = 'Mettre la règle d’avis d’absence après';
 $labels['vacation.saving'] = 'Enregistrement des données...';
 $labels['vacation.action'] = 'Action pour courriel entrant';
 $labels['vacation.keep'] = 'Garder';
@@ -215,10 +227,10 @@ $labels['forwardtitle'] = 'Modifier la règle de transfert des courriels';
 $labels['message'] = 'Message';
 $labels['duplicate'] = 'est un doublon';
 $labels['notduplicate'] = 'n’est pas un doublon';
-$labels['duplicate.handle'] = 'descripteur :';
-$labels['duplicate.header'] = 'en-tête :';
-$labels['duplicate.uniqueid'] = 'identifiant :';
-$labels['duplicate.seconds'] = 'temporisation (secondes) :';
+$labels['duplicate.handle'] = 'descripteur :';
+$labels['duplicate.header'] = 'en-tête :';
+$labels['duplicate.uniqueid'] = 'identifiant :';
+$labels['duplicate.seconds'] = 'temporisation (secondes) :';
 $labels['duplicate.last'] = 'par rapport à la dernière exécution';
 $messages['filterunknownerror'] = 'Erreur de serveur inconnue';
 $messages['filterconnerror'] = 'Connexion au serveur impossible.';
@@ -227,9 +239,9 @@ $messages['filterdeleted'] = 'Le filtre a été supprimé avec succès.';
 $messages['filtersaved'] = 'Le filtre a été enregistré avec succès.';
 $messages['filtersaveerror'] = 'Impossible d’enregistrer le filtre. Une erreur de serveur est survenue.';
 $messages['filterformerror'] = 'Le formulaire de filtrage contient des erreurs.';
-$messages['filterdeleteconfirm'] = 'Voulez-vous vraiment supprimer le filtre sélectionné ?';
-$messages['ruledeleteconfirm'] = 'Voulez-vous vraiment supprimer la règle sélectionnée ?';
-$messages['actiondeleteconfirm'] = 'Voulez-vous vraiment supprimer l’action sélectionnée ?';
+$messages['filterdeleteconfirm'] = 'Voulez-vous vraiment supprimer le filtre sélectionné ?';
+$messages['ruledeleteconfirm'] = 'Voulez-vous vraiment supprimer la règle sélectionnée ?';
+$messages['actiondeleteconfirm'] = 'Voulez-vous vraiment supprimer l’action sélectionnée ?';
 $messages['forbiddenchars'] = 'Caractères interdits dans le champ';
 $messages['cannotbeempty'] = 'Le champ ne peut pas être vide';
 $messages['ruleexist'] = 'Un filtre existe déjà avec ce nom.';
@@ -240,7 +252,7 @@ $messages['setactivated'] = 'Le jeu de filtres a été activé avec succès.';
 $messages['setdeactivated'] = 'Le jeu de filtres a été désactivé avec succès.';
 $messages['setdeleted'] = 'Le jeu de filtres a été supprimé avec succès.';
 $messages['setupdated'] = 'Le jeu de filtres a été mis à jour avec succès.';
-$messages['setdeleteconfirm'] = 'Voulez vous vraiment supprimer le jeu de filtres sélectionné ?';
+$messages['setdeleteconfirm'] = 'Voulez vous vraiment supprimer le jeu de filtres sélectionné ?';
 $messages['setcreateerror'] = 'Impossible de créer un jeu de filtres. Une erreur de serveur est survenue.';
 $messages['setcreated'] = 'Le jeu de filtres a été créé avec succès.';
 $messages['activateerror'] = 'Impossible d’activer le/les filtre(s) sélectionné(s). Une erreur de serveur est survenue.';
@@ -252,12 +264,12 @@ $messages['moveerror'] = 'Impossible de déplacer le filtre sélectionné. Une e
 $messages['nametoolong'] = 'Nom trop long.';
 $messages['namereserved'] = 'Nom réservé.';
 $messages['setexist'] = 'Le jeu existe déjà.';
-$messages['nodata'] = 'Au moins un élément doit être sélectionné !';
+$messages['nodata'] = 'Au moins un élément doit être sélectionné !';
 $messages['invaliddateformat'] = 'Format de date ou d’une partie de la date invalide';
 $messages['saveerror'] = 'Impossible d’enregistrer les données. Une erreur du serveur est survenue.';
-$messages['vacationsaved'] = 'Les données de vacances ont été enregistrées avec succès.';
+$messages['vacationsaved'] = 'Les données d’avis d’absence ont été enregistrées avec succès.';
 $messages['forwardsaved'] = 'Les données de transfert ont été enregistrées avec succès.';
-$messages['emptyvacationbody'] = 'Le corps du courriel de vacances est exigé !';
+$messages['emptyvacationbody'] = 'Le corps du courriel de vacances est exigé !';
 $messages['duplicate.conflict.err'] = 'L’en-tête et l’identifiant unique ne sont pas permis.';
 $messages['disabledaction'] = 'L’action n’est pas permise.';
-?>
+$messages['lastindexempty'] = 'L’index est exigé en comptant de la fin';

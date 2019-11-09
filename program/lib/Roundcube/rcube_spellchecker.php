@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
- | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -87,7 +88,7 @@ class rcube_spellchecker
 
         // add correct labels
         $languages = array();
-        foreach ($langs as $lang) {
+        foreach ((array) $langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
             $alias = $rcube_language_aliases[$langc];
             if (!$alias) {

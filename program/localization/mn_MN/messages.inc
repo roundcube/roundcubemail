@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Алдаа гарлаа!';
 $messages['loginfailed']  = 'Нэвтрэлт амжилтгүй.';
 $messages['cookiesdisabled'] = 'Таны вэб хөтөч күүкүү зөвшөөрөхгүй байна.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Диск дүүрсэн. Захиа уст�
 $messages['invalidrequest'] = 'Алдаатай хүсэлт! Мэдээлэл хадгалагдаагүй.';
 $messages['invalidhost'] = 'Серверийн нэр буруу.';
 $messages['nomessagesfound'] = 'Захианы хавтсанд захиа байхгүй байна.';
-$messages['loggedout'] = 'Та холболтоо амжилттай салгалаа. Баяртай!';
 $messages['mailboxempty'] = 'Захианы хавтас хоосон байна';
 $messages['nomessages'] = 'Захиа байхгүй байна';
 $messages['refreshing'] = 'Шинэчилж байна...';

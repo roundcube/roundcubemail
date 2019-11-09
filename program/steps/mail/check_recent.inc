@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/check_recent.inc                                   |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Check for recent messages, in all mailboxes                         |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -54,6 +52,8 @@ else {
 $plugin      = $RCMAIL->plugins->exec_hook('check_recent', array('folders' => $a_mailboxes, 'all' => $check_all));
 $a_mailboxes = $plugin['folders'];
 
+$RCMAIL->storage_fatal_error();
+
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
     $is_current = $mbox_name == $current || ($search_request && is_object($_SESSION['search'][1]) && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX')));
@@ -64,6 +64,10 @@ foreach ($a_mailboxes as $mbox_name) {
 
     // Get mailbox status
     $status = $RCMAIL->storage->folder_status($mbox_name, $diff);
+
+    if ($is_current) {
+        $RCMAIL->storage_fatal_error();
+    }
 
     if ($status & 1) {
         // trigger plugin hook

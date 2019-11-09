@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '¡Ha ocurrido un error!';
 $messages['loginfailed']  = 'Contraseña o nombre de usuario incorrecto.';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies.';
@@ -51,10 +50,12 @@ $messages['messagesaved'] = 'Mensaje guardado en Borradores.';
 $messages['successfullysaved'] = 'Guardado correctamente.';
 $messages['savingresponse'] = 'Guardando texto de respuesta...';
 $messages['deleteresponseconfirm'] = '¿Realmente quiere eliminar este texto de respuesta?';
+$messages['nocontactselected'] = 'No ha seleccionado ningún contacto aún.';
 $messages['addedsuccessfully'] = 'Contacto añadido correctamente a la libreta de direcciones.';
 $messages['contactexists'] = 'Ya existe un contacto con esta dirección de correo.';
 $messages['contactnameexists'] = 'Ya existe un contacto con el mismo nombre.';
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas de este mensaje han sido bloqueadas.';
+$messages['blockedresources'] = 'Para proteger su privacidad, los recursos remotos han sido bloqueados.';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo sentimos!';
 $messages['externalmessagedecryption'] = 'Este es un mensaje cifrado y se puede descifrar con una extensión de tu navegador.';
 $messages['nopubkeyfor'] = 'No se ha encontrado una clave pública de $email';
@@ -62,11 +63,9 @@ $messages['nopubkeyforsender'] = 'No se ha encontrado una clave pública de tu i
 $messages['encryptnoattachments'] = 'Todavía no se pueden cifrar los adjuntos subidos. Por favor, añádelos luego en el editor de cifrado.';
 $messages['searchpubkeyservers'] = '¿Quieres buscar servidores de clave pública para las claves que faltan?';
 $messages['encryptpubkeysfound'] = 'Se han encontrado las siguientes claves públicas:';
-$messages['keyservererror'] = 'No se ha podido obtener la clave del servidor de claves';
-$messages['keyimportsuccess'] = 'La clave pública ¢key se ha importado correctamente a tu anillo de claves';
 $messages['nocontactsfound'] = 'No se encontraron contactos.';
 $messages['contactnotfound'] = 'El contacto solicitado no existe.';
-$messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
+$messages['contactsearchonly'] = 'Debes utilizar un formulario de búsqueda para ver los contactos de la libreta de direcciones seleccionada.';
 $messages['sendingfailed'] = 'Error al enviar mensaje.';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de enviar este mensaje.';
 $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado.';
@@ -75,10 +74,13 @@ $messages['errormoving'] = 'No se pudo mover el/los mensaje(s).';
 $messages['errorcopying'] = 'No se pudo copiar el/los mensaje(s).';
 $messages['errordeleting'] = 'No se pudo eliminar el/los mensaje(s).';
 $messages['errormarking'] = 'No se pudo marcar el/los mensaje(s).';
+$messages['alerttitle'] = 'Atención';
+$messages['confirmationtitle'] = 'Está seguro...';
 $messages['deletecontactconfirm']  = '¿Realmente quiere eliminar los contactos seleccionados?';
 $messages['deletegroupconfirm']  = '¿Realmente quiere borrar el grupo seleccionado?';
 $messages['deletemessagesconfirm'] = '¿Realmente quiere eliminar los mensajes seleccionados?';
 $messages['deletefolderconfirm']  = '¿Realmente quiere eliminar esta carpeta?';
+$messages['movefolderconfirm']  = '¿Realmente quiere eliminar esta carpeta?';
 $messages['purgefolderconfirm']  = '¿Realmente quiere eliminar todos los mensajes de esta carpeta?';
 $messages['contactdeleting'] = 'Eliminando contacto(s)...';
 $messages['groupdeleting'] = 'Eliminando grupo…';
@@ -91,6 +93,7 @@ $messages['noemailwarning'] = 'Por favor, introduzca un correo electrónico vál
 $messages['nonamewarning']  = 'Por favor, introduzca un nombre.';
 $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página.';
 $messages['nosenderwarning'] = 'Por favor, introduzca la dirección de correo del remitente.';
+$messages['recipientsadded'] = 'Destinatario(s) añadido(s) con éxito.';
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario.';
 $messages['disclosedrecipwarning'] = 'Todos los receptores verán las direcciones de correo electrónico de cada uno. Para evitarlo y para proteger su privacidad puede utilizar el campo Cco';
 $messages['disclosedreciptitle'] = 'Demasiados destinatarios';
@@ -160,6 +163,8 @@ $messages['smtpautherror'] = 'Error SMTP ($code): Ha fallado la autenticación.'
 $messages['smtpfromerror'] = 'Error SMTP ($code): No se pudo asignar el remitente "$from" ($msg).';
 $messages['smtptoerror'] = 'Error SMTP ($code): No se pudo establecer destinatario "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Error SMTP: No es posible analizar la lista de destinatarios.';
+$messages['smtputf8error'] = 'Error SMTP: El servidor no soporta Unicode en la dirección de correo electrónico.';
+$messages['smtpsizeerror'] = 'Error SMTP: El tamaño de mensaje excede el límite del servidor ($limit)';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Dirección de correo incorrecta: $email';
 $messages['toomanyrecipients'] = 'Demasiados destinatarios. Reduzca el número de destinatarios a $max.';
@@ -192,6 +197,7 @@ $messages['invalidimageformat'] = 'No es un formato de imagen válido.';
 $messages['mispellingsfound'] = 'Se han detectado errores ortográficos en el mensaje.';
 $messages['parentnotwritable'] = 'No se pudo crear/mover la carpeta a la carpeta superior seleccionada. No tiene permisos de acceso.';
 $messages['messagetoobig'] = 'Esta parte del mensaje es demasiado grande para ser procesado.';
+$messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este adjunto es sospechoso porque su tipo no coincide con el tipo declarado en el mensaje. Si no confía en su remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/<br/> <em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: ¡Este servicio de webmail necesita Javascript! Para poder usarlo habilite el soporte de Javascript en su navegador, por favor.';
 $messages['messageissent'] = 'El mensaje se ha enviado, pero aún no se ha guardado. ¿Quieres guardarlo ahora?';
 $messages['errnotfound'] = 'Archivo no encontrado';
@@ -206,3 +212,9 @@ $messages['clicktoresumesession'] = 'Haga clic aquí para reanudar la sesión an
 $messages['errcomposesession'] = 'Error de sesión de escritura';
 $messages['errcomposesessionexplain'] = 'No se ha encontrado la sesión de escritura requerida.';
 $messages['clicktocompose'] = 'Hacer clic aquí para escribir un nuevo mensaje';
+$messages['nosupporterror'] = 'Esta función no está soportada por el navegador.';
+$messages['siginserted'] = 'Firma insertada correctamente.';
+$messages['responseinserted'] = 'Respuesta insertada correctamente.';
+$messages['listempty'] = 'La lista está vacía.';
+$messages['listusebutton'] = 'Use el botón Crear para añadir un nuevo registro.';
+$messages['keypaircreatesuccess'] = 'Un nuevo par de claves ha sido creada con éxito para $identity.';

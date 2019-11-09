@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filters';
 $labels['managefilters'] = 'Beheer filters voor inkomende e-mail';
 $labels['filtername'] = 'Filternaam';
 $labels['newfilter'] = 'Nieuw filter';
 $labels['filteradd'] = 'Filter toevoegen';
 $labels['filterdel'] = 'Verwijder filter';
+$labels['rules'] = 'Regels';
+$labels['actions'] = 'Acties';
 $labels['scope'] = 'Zoekbereik';
 $labels['moveup'] = 'Verplaats omhoog';
 $labels['movedown'] = 'Verplaats omlaag';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'komt overeen met de reguliere expressie';
 $labels['filternotregex'] = 'komt niet overeen met de reguliere expressie';
 $labels['filterunder'] = 'onder';
 $labels['filterover'] = 'over';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME gedeelte:';
+$labels['mime-message'] = 'bericht';
+$labels['mime-anychild'] = 'elke';
+$labels['mime-type'] = 'type';
+$labels['mime-subtype'] = 'subtype';
+$labels['mime-contenttype'] = 'inhoudstype';
+$labels['mime-param'] = 'parameter';
 $labels['addrule'] = 'Regel toevoegen';
 $labels['delrule'] = 'Regel verwijderen';
 $labels['messagemoveto'] = 'Verplaats bericht naar';
@@ -65,15 +75,17 @@ $labels['days'] = 'dagen';
 $labels['seconds'] = 'seconden';
 $labels['rulestop'] = 'Stop met regels uitvoeren';
 $labels['enable'] = 'In-/uitschakelen';
-$labels['filterset'] = 'Filterset';
+$labels['filterset'] = 'Filter-set';
 $labels['filtersets'] = 'Filtersets';
-$labels['filtersetadd'] = 'Nieuwe filterset';
-$labels['filtersetact'] = 'Huidige filterset activeren';
-$labels['filtersetdeact'] = 'Huidige filterset uitschakelen';
-$labels['filterseteditraw'] = 'Filterset bewerken';
+$labels['filtersetadd'] = 'Filter-set toevoegen';
+$labels['filtersetdel'] = 'Filter-set verwijderen';
+$labels['filtersetact'] = 'Huidige filter-set activeren';
+$labels['filtersetdeact'] = 'Huidige filter-set uitschakelen';
+$labels['filterseteditraw'] = 'Filter-set bewerken';
+$labels['filtersetswitch'] = 'Filter-set in/uitschakelen';
 $labels['filterdef'] = 'Filterdefinitie';
-$labels['filtersetname'] = 'Filtersetnaam';
-$labels['newfilterset'] = 'Nieuwe filterset';
+$labels['filtersetname'] = 'Filter-set naam';
+$labels['newfilterset'] = 'Nieuwe filter-set';
 $labels['active'] = 'actief';
 $labels['none'] = 'geen';
 $labels['fromset'] = 'van set';
@@ -99,6 +111,18 @@ $labels['flagdeleted'] = 'Verwijderd';
 $labels['flaganswered'] = 'Beantwoord';
 $labels['flagflagged'] = 'Gemarkeerd';
 $labels['flagdraft'] = 'Concept';
+$labels['addheader'] = 'Voeg header toe aan bericht';
+$labels['deleteheader'] = 'Verwijder header van bericht';
+$labels['headername'] = 'Header naam';
+$labels['headervalue'] = 'Header waarde';
+$labels['headerpos'] = 'Header positie';
+$labels['headeratstart'] = 'in het begin';
+$labels['headeratend'] = 'op het einde';
+$labels['headeroccurrence'] = 'Header weergave/positie';
+$labels['headerfromstart'] = 'vanaf begin';
+$labels['headerfromend'] = 'vanaf einde';
+$labels['headerpatterns'] = 'Header gegevenspatroon';
+$labels['headermatchtype'] = 'match op type:';
 $labels['setvariable'] = 'Variabele instellen';
 $labels['setvarname'] = 'Naam variabele:';
 $labels['setvarvalue'] = 'Waarde:';
@@ -163,30 +187,33 @@ $labels['asciicasemap'] = 'hoofdletterongevoelig (ascii-casemap)';
 $labels['asciinumeric'] = 'numeriek (ascii-numeriek)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'terugwaarts';
-$labels['vacation'] = 'Vakantie';
+$labels['vacation'] = 'Afwezigheidsbericht';
 $labels['vacation.reply'] = 'Antwoordbericht';
 $labels['vacation.advanced'] = 'Geavanceerde instellingen';
 $labels['vacation.from'] = 'Antwoord-afzender adres';
 $labels['vacation.subject'] = 'Onderwerp';
 $labels['vacation.body'] = 'Inhoud';
-$labels['vacation.start'] = 'Begin van vakantie';
-$labels['vacation.end'] = 'Einde van vakantie';
+$labels['vacation.start'] = 'Start tijdstip';
+$labels['vacation.end'] = 'Eind tijdstip';
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'Aan';
 $labels['vacation.off'] = 'Uit';
 $labels['vacation.addresses'] = 'Mijn e-mailadressen';
 $labels['vacation.interval'] = 'Antwoordinterval';
-$labels['vacation.after'] = 'Voeg een vakantieregel toe na';
+$labels['vacation.after'] = 'Plaats de afwezigheidsregel achter';
 $labels['vacation.saving'] = 'Gegevens worden opgeslagen...';
 $labels['vacation.action'] = 'Actie voor inkomend bericht';
 $labels['vacation.keep'] = 'Bewaren';
 $labels['vacation.discard'] = 'Weggooien';
 $labels['vacation.redirect'] = 'Doorsturen naar';
 $labels['vacation.copy'] = 'Kopie sturen naar';
+$labels['forward'] = 'Doorsturen';
 $labels['forward.redirect'] = 'Doorsturen naar';
 $labels['forward.copy'] = 'Kopie sturen naar';
 $labels['forward.on'] = 'Aan';
 $labels['forward.off'] = 'Uit';
+$labels['forward.status'] = 'Status:';
+$labels['forward.action'] = 'Voer de volgende actie uit voor binnenkomende berichten:';
 $labels['forward.saving'] = 'Gegevens worden opgeslagen...';
 $labels['filladdresses'] = 'Vullen met al mijn adressen';
 $labels['arialabelfiltersetactions'] = 'Filtersetacties';
@@ -196,6 +223,7 @@ $labels['ariasummaryfilterslist'] = 'Filterlijst';
 $labels['ariasummaryfiltersetslist'] = 'Lijst met filtersets';
 $labels['filterstitle'] = 'Bewerk filters voor inkomende berichten';
 $labels['vacationtitle'] = 'Bewerk vakantieregel';
+$labels['forwardtitle'] = 'Bewerk regel voor doorsturen van mail';
 $labels['message'] = 'Bericht';
 $labels['duplicate'] = 'is duplicaat';
 $labels['notduplicate'] = 'is geen duplicaat';
@@ -217,16 +245,16 @@ $messages['actiondeleteconfirm'] = 'Weet je zeker dat je de geselecteerde actie 
 $messages['forbiddenchars'] = 'Verboden karakters in het veld';
 $messages['cannotbeempty'] = 'Veld mag niet leeg zijn';
 $messages['ruleexist'] = 'Er bestaat al een filter met deze naam.';
-$messages['setactivateerror'] = 'Filterset kon niet geactiveerd worden. Er trad een serverfout op.';
-$messages['setdeactivateerror'] = 'Filterset kon niet gedeactiveerd worden. Er trad een serverfout op.';
-$messages['setdeleteerror'] = 'Filterset kon niet verwijderd worden. Er trad een serverfout op.';
-$messages['setactivated'] = 'Filterset succesvol geactiveerd.';
-$messages['setdeactivated'] = 'Filterset succesvol gedeactiveerd.';
-$messages['setdeleted'] = 'Filterset succesvol verwijderd.';
-$messages['setupdated'] = 'Filterset succesvol bijgewerkt.';
-$messages['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filterset wilt verwijderen?';
-$messages['setcreateerror'] = 'Filterset kon niet aangemaakt worden. Er trad een serverfout op.';
-$messages['setcreated'] = 'Filterset succesvol aangemaakt.';
+$messages['setactivateerror'] = 'Filter-set kon niet geactiveerd worden. Er trad een serverfout op.';
+$messages['setdeactivateerror'] = 'Filter-set kon niet gedeactiveerd worden. Er trad een serverfout op.';
+$messages['setdeleteerror'] = 'Filter-set kon niet verwijderd worden. Er trad een serverfout op.';
+$messages['setactivated'] = 'Filter-set succesvol geactiveerd.';
+$messages['setdeactivated'] = 'Filter-set succesvol gedeactiveerd.';
+$messages['setdeleted'] = 'Filter-set succesvol verwijderd.';
+$messages['setupdated'] = 'Filter-set succesvol bijgewerkt.';
+$messages['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filter-set wilt verwijderen?';
+$messages['setcreateerror'] = 'Filter-set kon niet aangemaakt worden. Er trad een serverfout op.';
+$messages['setcreated'] = 'Filter-set succesvol aangemaakt.';
 $messages['activateerror'] = 'Geselecteerde filter(s) konden niet ingeschakeld worden. Er trad een serverfout op.';
 $messages['deactivateerror'] = 'Geselecteerde filter(s) konden niet uitgeschakeld worden. Er trad een serverfout op.';
 $messages['deactivated'] = 'Filter(s) succesvol ingeschakeld.';
@@ -239,7 +267,9 @@ $messages['setexist'] = 'Filterset bestaat al.';
 $messages['nodata'] = 'Tenminste één positie moet geselecteerd worden!';
 $messages['invaliddateformat'] = 'Ongeldige datum of datumformaat';
 $messages['saveerror'] = 'Opslaan van de gegevens is mislukt. Er trad een serverfout op.';
-$messages['vacationsaved'] = 'Vakantiegegevens succesvol opgeslagen.';
+$messages['vacationsaved'] = 'Afwezigheidsbericht correct bewaard.';
+$messages['forwardsaved'] = 'Doorstuur data succesvol opgeslagen.';
 $messages['emptyvacationbody'] = 'Inhoud van vakantiebericht is verplicht!';
 $messages['duplicate.conflict.err'] = 'Zowel header en unieke identificatie opgeven is niet toegestaan.';
-?>
+$messages['disabledaction'] = 'Actie is niet toegestaan.';
+$messages['lastindexempty'] = 'Gelieve een index op te geven.';

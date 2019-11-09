@@ -10,7 +10,7 @@
  * @author Till Krüss <me@tillkruess.com>
  * @link http://tillkruess.com/projects/roundcube/
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,6 @@ class rcube_domainfactory_password
 {
     function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
-
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, array(

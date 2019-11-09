@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Dámosche a benvida a $product';
 $labels['username'] = 'Nome de utente';
 $labels['password'] = 'Contrasinal';
@@ -216,6 +216,7 @@ $labels['selectimage'] = 'Seleccionar imaxe';
 $labels['addimage'] = 'Engadir imaxe';
 $labels['selectmedia'] = 'Escoller película';
 $labels['addmedia'] = 'Engarid película';
+$labels['insert'] = 'Inserir';
 $labels['recipient'] = 'Persoa destinataria';
 $labels['editidents'] = 'Modificar identidades';
 $labels['spellcheck'] = 'Ortografía';
@@ -360,7 +361,6 @@ $labels['importreplace'] = 'Substituír completamente a Axenda de enderezos';
 $labels['importgroups'] = 'Importar atribucións do grupo';
 $labels['importgroupsall'] = 'Todos (crear grupos, se for necesario)';
 $labels['importgroupsexisting'] = 'Só para os grupos existentes';
-$labels['importdesc'] = 'Podes engadir contactos desde unha axenda de enderezos xa existente.<br/>Pódense importar enderezos en formato <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (valores separados por comas)';
 $labels['done'] = 'Feito!';
 $labels['settingsfor'] = 'Axustes de';
 $labels['about'] = 'Acerca de';
@@ -431,7 +431,6 @@ $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';
 $labels['checkallfolders'] = 'Procurar novas mensaxes en todos os cartafoles';
-$labels['displaynext'] = 'Logo de eliminar ou mover unha mensaxe ir á mensaxe seguinte';
 $labels['defaultfont'] = 'Fonte por defecto da mensaxe HTML';
 $labels['mainoptions'] = 'Opcións principais';
 $labels['browseroptions'] = 'Opcións do navegador';
@@ -551,4 +550,3 @@ $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";
-?>

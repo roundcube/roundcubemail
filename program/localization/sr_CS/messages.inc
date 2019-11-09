@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Дошло је до грешке!';
 $messages['loginfailed']  = 'Неуспешно пријављивање';
 $messages['cookiesdisabled'] = 'Ваш прегледач не прихвата колачиће.';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Нема слободног простор�
 $messages['invalidrequest'] = 'Неисправан захтев! Подаци нису сачувани.';
 $messages['invalidhost'] = 'Неисправно име сервера.';
 $messages['nomessagesfound'] = 'Немате порука у сандучету.';
-$messages['loggedout'] = 'Успешно сте завршили сесију. Довиђења!';
 $messages['mailboxempty'] = 'Сандуче је празно';
 $messages['nomessages'] = 'Нема порука';
 $messages['refreshing'] = 'Освежавам...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Нема исправног јавног кљ�
 $messages['encryptnoattachments'] = 'Већ одаслат прилог не може се шифровати. Додајте га поново у уређивач шифровања.';
 $messages['searchpubkeyservers'] = 'Желите ли да недостајуће кључеве потражите на серверима јавних кључева?';
 $messages['encryptpubkeysfound'] = 'Нађени су следећи јавни кључеви:';
-$messages['keyservererror'] = 'Неуспело добављање кључева са сервера';
-$messages['keyimportsuccess'] = 'Јавни кључ $key успешно је додат међу ваше кључеве';
 $messages['nocontactsfound'] = 'Нема контаката.';
 $messages['contactnotfound'] = 'Тражени контакт није нађен.';
-$messages['contactsearchonly'] = 'Унесите термин за претрагу контаката';
 $messages['sendingfailed'] = 'Грешка при слању поруке.';
 $messages['senttooquickly'] = 'Сачекајте $sec сек. пре слања ове поруке.';
 $messages['errorsavingsent'] = 'Десила се грешка при упису послате поруке.';

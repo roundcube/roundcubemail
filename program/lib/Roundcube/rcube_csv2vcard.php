@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +22,6 @@
  *
  * @package    Framework
  * @subpackage Addressbook
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_csv2vcard
 {
@@ -156,6 +156,18 @@ class rcube_csv2vcard
         'name'                  => 'displayname',
         'name_prefix'           => 'prefix',
         'name_suffix'           => 'suffix',
+
+        // Format of Letter Hub test files from
+        // https://letterhub.com/sample-csv-file-with-contacts/
+        'company_name'          => 'organization',
+        'address'               => 'street:home',
+        'city'                  => 'locality:home',
+        //'county'                => '',
+        'state'                 => 'region:home',
+        'zip'                   => 'zipcode:home',
+        'phone1'                => 'phone:home',
+        'phone'                 => 'phone:work',
+        'email'                 => 'email:home',
     );
 
     /**
@@ -389,7 +401,7 @@ class rcube_csv2vcard
             }
         }
 
-        $this->label_map = array_flip($this->label_map);
+        $this->label_map       = array_flip($this->label_map);
         $this->local_label_map = array_flip($this->local_label_map);
     }
 
@@ -470,6 +482,10 @@ class rcube_csv2vcard
 
     /**
      * Parse CSV file line
+     *
+     * @param string $line Line of text from CSV file
+     *
+     * @return array CSV data extracted from the line
      */
     protected function parse_line($line)
     {
@@ -499,6 +515,8 @@ class rcube_csv2vcard
 
     /**
      * Parse CSV header line, detect fields mapping
+     *
+     * @param array $elements Array of field names from a first line in CSV file
      */
     protected function parse_header($elements)
     {
@@ -530,6 +548,16 @@ class rcube_csv2vcard
             }
         }
 
+        // If nothing recognized fallback to simple non-localized labels
+        if (empty($map1) && empty($map2)) {
+            for ($i = 0; $i < $size; $i++) {
+                $label = str_replace(' ', '_', strtolower($elements[$i]));
+                if (!empty($this->csv2vcard_map[$label])) {
+                    $map1[$i] = $this->csv2vcard_map[$label];
+                }
+            }
+        }
+
         $this->map = count($map1) >= count($map2) ? $map1 : $map2;
 
         // support special Gmail format
@@ -551,6 +579,8 @@ class rcube_csv2vcard
 
     /**
      * Convert CSV data row to vCard
+     *
+     * @param array $data CSV data array
      */
     protected function csv_to_vcard($data)
     {

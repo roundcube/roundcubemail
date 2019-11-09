@@ -15,8 +15,8 @@
  * @author Thomas Bruederli <roundcube@gmail.com>
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
- * Copyright (C) 2011-2018, The Roundcube Dev Team
- * Copyright (C) 2011-2018, Kolab Systems AG
+ * Copyright (C) The Roundcube Dev Team
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -31,10 +31,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
-if (class_exists('filesystem_attachments', false) && !defined('TESTS_DIR')) {
-    die("Configuration issue. There can be only one enabled plugin for attachments handling");
-}
 
 require_once(RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.php');
 

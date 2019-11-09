@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Süzgəclər';
 $labels['managefilters'] = 'Gələn məktub üçün süzgəclərin idarəsi';
 $labels['filtername'] = 'Süzgəcin adı';
@@ -62,14 +62,8 @@ $labels['days'] = 'günlər';
 $labels['seconds'] = 'saniyələr';
 $labels['rulestop'] = 'Yerinə yetirməyi dayandır';
 $labels['enable'] = 'Yandır/Söndür';
-$labels['filterset'] = 'Süzgəc dəsti';
 $labels['filtersets'] = 'Süzgəc dəstləri';
-$labels['filtersetadd'] = 'Süzgəc dəsti əlavə et';
-$labels['filtersetact'] = 'İndiki sücgəc dəstini yandır';
-$labels['filtersetdeact'] = 'İndiki süzgəc dəstini söndür';
 $labels['filterdef'] = 'Süzgəcin təsviri';
-$labels['filtersetname'] = 'Süzgəc dəstinin adı';
-$labels['newfilterset'] = 'Yeni süzgəc dəsti';
 $labels['active'] = 'aktiv';
 $labels['none'] = 'heç biri';
 $labels['fromset'] = 'dəstdən';
@@ -169,15 +163,6 @@ $messages['actiondeleteconfirm'] = 'Bu hərəkəti silməkdə əminsiniz?';
 $messages['forbiddenchars'] = 'Sahədə qadağan edilən işarələr.';
 $messages['cannotbeempty'] = 'Sahə boş ola bilməz.';
 $messages['ruleexist'] = 'Bu adla süzgəc artıq mövcuddur.';
-$messages['setactivateerror'] = 'Seçilmiş süzgəcləri aktiv etmək mümkün deyil. Server xətası.';
-$messages['setdeactivateerror'] = 'Seçilmiş süzgəcləri deaktiv mümkün deyil. Server xətası.';
-$messages['setdeleteerror'] = 'Seçilmiş süzgəcləri silmək mümkün deyil. Server xətası.';
-$messages['setactivated'] = 'Süzgəc dəsti yandırıldı.';
-$messages['setdeactivated'] = 'Süzgəc dəsti söndürüldü.';
-$messages['setdeleted'] = 'Süzgəc dəsti silindi.';
-$messages['setdeleteconfirm'] = 'Bu süzgəc dəstini silməkdə əminsiniz?';
-$messages['setcreateerror'] = 'Süzgəcləri yaratmaq mümkün deyil. Server xətası.';
-$messages['setcreated'] = 'Süzgəc dəsti uğurla yaradıldı.';
 $messages['activateerror'] = 'Seçilmiş süzgəc(lər)i yandırmaq mümkün deyil. Server xətası.';
 $messages['deactivateerror'] = 'Seçilmiş süzgəc(lər)i söndürmək mümkün deyil. Server xətası.';
 $messages['deactivated'] = 'Süzgəc(lər) uğurla yandırıldı.';
@@ -189,4 +174,3 @@ $messages['namereserved'] = 'Rezerv edilmiş ad.';
 $messages['setexist'] = 'Dəst artıq mövcuddur.';
 $messages['nodata'] = 'Heç olmasa bir mövqe tutmaq lazımdır!';
 $messages['invaliddateformat'] = 'Tarix və ya tarix formatının bir hissəsi səhvdir';
-?>

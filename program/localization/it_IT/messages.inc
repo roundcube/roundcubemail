@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Si è verificato un errore!';
 $messages['loginfailed']  = 'Accesso non riuscito.';
 $messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies.';
 $messages['sessionerror'] = 'Sessione non valida o scaduta.';
+$messages['cookiesmismatch'] = 'Rilevata una mancata corrispondenza dei cookies. Per favore, cancella i cookies del tuo browser.';
 $messages['storageerror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = 'Spazio su disco non sufficiente. Utilizza S
 $messages['invalidrequest'] = 'Richiesta non valida! Nessun dato salvato.';
 $messages['invalidhost'] = 'Nome del server non valido.';
 $messages['nomessagesfound'] = 'Nessun messaggio trovato in questa cartella';
-$messages['loggedout'] = 'Sessione chiusa correttamente. Arrivederci!';
+$messages['loggedout'] = 'Hai correttamente terminato la sessione. A presto!';
 $messages['mailboxempty'] = 'La casella di posta è vuota';
 $messages['nomessages'] = 'Non ci sono messaggi';
 $messages['refreshing'] = 'Aggiornamento...';
@@ -56,6 +56,7 @@ $messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';
 $messages['contactexists'] = 'Esiste già un contatto con questo indirizzo email.';
 $messages['contactnameexists'] = 'Esiste già un contatto con questo nome';
 $messages['blockedimages'] = 'Per proteggere la tua privacy, le immagini remote di questo messaggio sono state bloccate.';
+$messages['blockedresources'] = 'Per proteggere la tua privacy le risorse remote sono state bloccate.';
 $messages['encryptedmessage'] = 'Questo messaggio è cifrato e non può essere visualizzato. Spiacenti!';
 $messages['externalmessagedecryption'] = 'Questo messaggio è cifrato e può essere decifrato attraverso un\'estensione del browser.';
 $messages['nopubkeyfor'] = 'Non è stata trovata una chiave pubblica valida per l\'indirizzo $email';
@@ -63,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Non è stata trovata una chiave pubblica valid
 $messages['encryptnoattachments'] = 'Gli allegati già caricati non possono essere cifrati. Si prega di aggiungerli di nuovo all\'editor di cifratura.';
 $messages['searchpubkeyservers'] = 'Si desidera effettuare una ricerca di server di chiavi pubbliche per le chiavi mancanti?';
 $messages['encryptpubkeysfound'] = 'Sono state trovate le seguenti chiavi pubbliche:';
-$messages['keyservererror'] = 'Non è stato possibile recuperare la chiave dal server delle chiavi.';
-$messages['keyimportsuccess'] = 'La chiave pubblica $key è stata importata correttamente nel tuo portachiavi.';
+$messages['keyservererror'] = 'Tentativo non riuscito di ottenere la chiave dal keyserver.';
+$messages['keyimportsuccess'] = 'Chiave pubblica $key importata con successo nel tuo keyring.';
 $messages['nocontactsfound'] = 'Nessun contatto';
 $messages['contactnotfound'] = 'Il contatto richiesto non è stato trovato';
-$messages['contactsearchonly'] = 'Inserisci dei termini per cercare i contatti';
+$messages['contactsearchonly'] = 'Devi usare un modulo di ricerca per vedere i contatti dalla rubrica selezionata.';
 $messages['sendingfailed'] = 'Impossibile inviare il messaggio';
 $messages['senttooquickly'] = 'Per favore, attendi $sec secondi prima di inviare questo messaggio';
 $messages['errorsavingsent'] = 'Si è verificato un errore nel salvare il messaggio inviato.';
@@ -76,10 +77,13 @@ $messages['errormoving'] = 'Impossibile spostare il messaggio';
 $messages['errorcopying'] = 'Impossibile copiare il messaggio';
 $messages['errordeleting'] = 'Impossibile eliminare il messaggio';
 $messages['errormarking'] = 'Impossibile segnare il messaggio';
+$messages['alerttitle'] = 'Attenzione';
+$messages['confirmationtitle'] = 'Sei sicuro...';
 $messages['deletecontactconfirm']  = 'Sei sicuro di voler eliminare i contatti selezionati?';
 $messages['deletegroupconfirm']  = 'Sei sicuro di voler eliminare i gruppi selezionati?';
 $messages['deletemessagesconfirm'] = 'Sei sicuro di voler eliminare i messaggi selezionati?';
 $messages['deletefolderconfirm']  = 'Sei sicuro di voler eliminare la cartella selezionata?';
+$messages['movefolderconfirm']  = 'Sei sicuro di voler spostare la cartella selezionata?';
 $messages['purgefolderconfirm']  = 'Sei sicuro di voler eliminare tutti i messaggi in questa cartella?';
 $messages['contactdeleting'] = 'Eliminazione contatti...';
 $messages['groupdeleting'] = 'Eliminazione gruppo...';
@@ -92,6 +96,7 @@ $messages['noemailwarning'] = 'Per favore, immetti un indirizzo e-mail valido';
 $messages['nonamewarning']  = 'Per favore, immetti un nome';
 $messages['nopagesizewarning'] = 'Per favore, immetti il numero di righe per pagina';
 $messages['nosenderwarning'] = 'Per favore, inserisci l\'indirizzo email del mittente.';
+$messages['recipientsadded'] = 'Destinatari/o aggiunto/i correttamente';
 $messages['norecipientwarning'] = 'Per favore, immetti almeno un destinatario';
 $messages['disclosedrecipwarning'] = 'Tutti i destinatari vedranno i rispettivi indirizzi di posta elettronica. Per evitare questo e proteggerne la riservatezza puoi usare il campo Ccn.';
 $messages['disclosedreciptitle'] = 'Troppi destinatari pubblici';
@@ -122,6 +127,7 @@ $messages['fileuploaderror'] = 'Errore durante il caricamento del file';
 $messages['filesizeerror'] = 'Il file da caricare supera il limite massimo di $size';
 $messages['filecounterror'] = 'È possibile caricare al massimo $count file alla volta.';
 $messages['msgsizeerror'] = 'Errore nell\'allegare un file. Dimensione massima di un messaggio ($size) superata. ';
+$messages['msgsizeerrorfwd'] = 'La dimensione massima del messaggio ($size) è stata superata. $num messaggi non sono stati allegati.';
 $messages['copysuccess'] = 'Copiati correttamente $nr contatti.';
 $messages['movesuccess'] = '$nr contatti spostati correttamente.';
 $messages['copyerror'] = 'Impossibile copiare i contatti.';
@@ -161,6 +167,8 @@ $messages['smtpautherror'] = 'Errore SMTP ($code): autenticazione non riuscita.'
 $messages['smtpfromerror'] = 'Errore SMTP ($code): impostazione del mittente "$from" non riuscita ($msg)';
 $messages['smtptoerror'] = 'Errore SMTP ($code): inserimento del destinatario "$to" non riuscito ($msg)';
 $messages['smtprecipientserror'] = 'Errore SMTP: impossibile processare la lista dei destinatari';
+$messages['smtputf8error'] = 'Errore SMTP: Il server non supporta i caratteri Unicode nell\'indirizzo email';
+$messages['smtpsizeerror'] = 'Errore SMTP: La dimensione del messaggio supera il limite del server ($limit)';
 $messages['smtperror'] = 'Errore SMTP: $msg';
 $messages['emailformaterror'] = 'Indirizzo email non valido: $email';
 $messages['toomanyrecipients'] = 'Numero eccessivo di destinatari, ridurlo a $max';
@@ -193,6 +201,7 @@ $messages['invalidimageformat'] = 'Formato immagine non valido';
 $messages['mispellingsfound'] = 'Sono stati riscontrati errori ortografici nel messaggio';
 $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: accesso negato';
 $messages['messagetoobig'] = 'La parte del messaggio è troppo grande per essere processata.';
+$messages['attachmentvalidationerror'] = 'Questo allegato è sospetto perché il tipo non corrisponde a quanto dichiarato nel messaggio. Se non ti fidi del mittente, non dovresti aprirlo nel browser perché potrebbe contenere contenuti malevoli.<br/><br/><em>Atteso: $expected; trovato: $detected</em>';
 $messages['noscriptwarning'] = 'Attenzione: questo servizio di webmail richiede Javascript! Per utilizzarlo abilita Javascript nelle impostazioni del tuo browser.';
 $messages['messageissent'] = 'Questo messaggio è stato già inviato, ma non ancora salvato. Vuoi salvarlo adesso?';
 $messages['errnotfound'] = 'File non trovato';
@@ -210,4 +219,6 @@ $messages['clicktocompose'] = 'Cliccare qui per comporre un nuovo messaggio';
 $messages['nosupporterror'] = 'La funzione non è supportata dal browser.';
 $messages['siginserted'] = 'Firma inserita con successo.';
 $messages['responseinserted'] = 'Risposta inserita con successo.';
+$messages['listempty'] = 'Questa lista è vuota';
+$messages['listusebutton'] = 'Usa il tasto Crea per aggiungere una nuova voce';
 $messages['keypaircreatesuccess'] = 'Una nuova coppia di chiavi è stata creata con successo per $identity.';

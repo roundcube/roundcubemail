@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Noko gjekk feil.';
 $messages['loginfailed']  = 'Feil ved innlogging.';
 $messages['cookiesdisabled'] = 'Nettlesaren din tillet ikkje informasjonskapslar (cookies).';
@@ -29,7 +28,6 @@ $messages['errornoperm'] = 'Klarte ikkje utføra handlinga. Nekta tilgang.';
 $messages['invalidrequest'] = 'Eg forstår ingen ting! Ingen data lagra.';
 $messages['invalidhost'] = 'Ugyldig tenarnamn.';
 $messages['nomessagesfound'] = 'Ingen meldingar i denne postkassa.';
-$messages['loggedout'] = 'Du har avslutta økta. Ha det bra!';
 $messages['refreshing'] = 'Oppdaterer …';
 $messages['loading'] = 'Hentar …';
 $messages['uploading'] = 'Lastar opp fil …';
@@ -47,7 +45,6 @@ $messages['blockedimages'] = 'Av omsyn til personvernet ditt er eksterne bilete 
 $messages['encryptedmessage'] = 'Dette er ei kryptert melding og kan ikkje visast. Orsak!';
 $messages['nocontactsfound'] = 'Fann ingen kontaktar.';
 $messages['contactnotfound'] = 'Fann ikkje kontakten du såg etter.';
-$messages['contactsearchonly'] = 'Skriv søkeord for å finna kontaktar';
 $messages['sendingfailed'] = 'Klarte ikkje senda meldinga.';
 $messages['senttooquickly'] = 'Du må venta $sec sekund for å senda meldinga.';
 $messages['errormoving'] = 'Klarte ikkje flytte meldinga(r).';

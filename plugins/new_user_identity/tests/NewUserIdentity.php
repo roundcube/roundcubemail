@@ -14,7 +14,7 @@ class NewUserIdentity_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new new_user_identity($rcube->api);
+        $plugin = new new_user_identity($rcube->plugins);
 
         $this->assertInstanceOf('new_user_identity', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

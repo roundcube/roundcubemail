@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for skin "Larry"
  *
- * Copyright (c) 2012-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -2426,6 +2426,8 @@ ul.toolbarmenu li span.copy {
 	border: 0;
 	cursor: default;
 	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #rcmKSearchpane ul li i.icon {
@@ -3060,11 +3062,11 @@ ul.toolbarmenu li span.copy {
 }
 
 /** Common TinyMCE fixes **/
-.mce-btn:not(.mce-active) {
+.mce-btn-small:not(.mce-active) {
 	background: transparent !important;
 }
 
-.mce-btn:not(.mce-active):hover {
+.mce-btn-small:not(.mce-active):hover {
 	background: white !important;
 }
 
@@ -3095,6 +3097,10 @@ button.mce-close,
 .mce-textbox:focus {
 	box-shadow: none;
 	outline: none;
+}
+
+.mce-menu {
+	z-index: 65537 !important;
 }
 
 /** PGP Key import dialog **/

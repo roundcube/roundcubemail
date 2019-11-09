@@ -26,13 +26,17 @@
   border-spacing: 0;
 }
 
-.googie_list td {
+.googie_list li {
   min-width: 80px;
   width: auto;
 }
 
-.googie_list td.googie_list_selected {
+.googie_list li.googie_list_selected {
   background: #4db0d2;
+}
+
+.googie_list form {
+  padding: 3px;
 }
 
 .googie_list_close {

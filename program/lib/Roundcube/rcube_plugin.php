@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -68,9 +69,16 @@ abstract class rcube_plugin
      */
     public $allowed_prefs;
 
+    /** @var string Plugin directory location */
     protected $home;
+
+    /** @var string Base URL to the plugin directory */
     protected $urlbase;
+
+    /** @var string Plugin task name (if registered) */
     private $mytask;
+
+    /** @var array List of plugin configuration files already loaded */
     private $loaded_config = array();
 
 
@@ -95,7 +103,7 @@ abstract class rcube_plugin
     /**
      * Provide information about this
      *
-     * @return array Meta information about a plugin or false if not implemented:
+     * @return array Meta information about a plugin or false if not implemented.
      * As hash array with the following keys:
      *      name: The plugin name
      *    vendor: Name of the plugin developer
@@ -316,7 +324,7 @@ abstract class rcube_plugin
      */
     public function include_stylesheet($fn)
     {
-        $this->api->include_stylesheet($this->resource_url($fn), $if_exists);
+        $this->api->include_stylesheet($this->resource_url($fn));
     }
 
     /**
@@ -379,9 +387,11 @@ abstract class rcube_plugin
     {
         $rcube = rcube::get_instance();
         $skins = array_keys((array)$rcube->output->skins);
+
         if (empty($skins)) {
             $skins = (array) $rcube->config->get('skin');
         }
+
         foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;
             if (is_dir(realpath(slashify($this->home) . $skin_path))) {

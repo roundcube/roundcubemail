@@ -3,8 +3,6 @@
 .googie_window {
   font-size: 11px;
   width: 185px;
-  margin: 0;
-  padding: 0;
 }
 
 .googie_edit_layer {
@@ -24,14 +22,14 @@
   padding: 0;
 }
 
-.googie_list td {
+.googie_list li {
   font-size: 11px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
   cursor: pointer;
   list-style-type: none;
+}
+
+.googie_list form {
+  padding: 3px;
 }
 
 .googie_list_onhover {
@@ -122,7 +120,7 @@
   width: 32px;
   height: 16px;
   cursor: pointer;
-  padding: 0 2px;
+  margin: 0 5px;
   text-indent: -5000px;
-  border: 0;
+  border: 0 !important;
 }

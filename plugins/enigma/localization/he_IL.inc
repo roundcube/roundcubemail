@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'הצפנה';
 $labels['enigmacerts'] = 'תעודות מאושרות S/MIME';
 $labels['enigmakeys'] = 'מפתחות PGP';
@@ -85,6 +84,9 @@ $labels['withprivkeys'] = 'ייצוא מפתחות סודיים';
 $labels['findkey'] = 'חיפוש בשרת(י) מפתח';
 $labels['keyimportlabel'] = 'ייבוא מקובץ';
 $labels['keyimportsearchlabel'] = 'חיפוש בשרת(י) מפתח';
+$labels['managekeys'] = 'ניהול מפתחות הצפנה';
+$labels['identitymatchingprivkeys'] = 'קיימים $nr  מפתחות הצפנה פרטיים תואמים בצרור המפתחות שלך';
+$labels['identitynoprivkeys'] = 'לזהות השולחת אין עדיין מפתח הצפנה פרטי בצרור המפתחות שלך';
 $messages['sigvalid'] = 'אימות חתימה מ sender$';
 $messages['sigvalidpartial'] = 'אומתה חתימה של sender$ אבל חלק מגוף ההודעה לא נחתם';
 $messages['siginvalid'] = 'חתימה לא תקינה מ sender$';
@@ -94,6 +96,7 @@ $messages['sigerror'] = 'חתימה לא מאומתת. שגיאה פנימית.'
 $messages['decryptok'] = 'הודעה פוענחה.';
 $messages['decrypterror'] = 'הפיענוח נכשל.';
 $messages['decryptnokey'] = 'הפיענוח נכשל. לא נמצא מפתח פרטי. קוד מפתח: keyid$.';
+$messages['decryptnomdc'] = 'לא בוצע הפיענוח.  אין להודעה הגנת שלמות.';
 $messages['decryptbadpass'] = 'פיענוח נכשל. סיסמה שגויה.';
 $messages['decryptnopass'] = 'פענוח נכשל. נדרשת סיסמת מפתח.';
 $messages['decryptpartial'] = 'ההודעה פוענחה אבל חלק מגוף ההודעה כלל לא הוצפן';
@@ -103,6 +106,7 @@ $messages['signbadpass'] = 'חתימה נכשלה. סיסמה שגויה.';
 $messages['signnopass'] = 'חיתום נכשל. נדרשת סיסמת מפתח.';
 $messages['encrypterror'] = 'הצפנה נכשלה.';
 $messages['encryptnokey'] = 'הצפנה נכשלה. לא נמצא מפתח ציבורי עבור mail$.';
+$messages['encryptnoprivkey'] = 'הצפנה נכשלה. לא נמצא מפתח פרטי.';
 $messages['nokeysfound'] = 'לא נמצאו מפתחות.';
 $messages['keynotfound'] = 'לא נמצא מפתח !';
 $messages['keyopenerror'] = 'לא ניתן להשיג מידע על מפתח! שגיאה פנימית.';

@@ -7,12 +7,10 @@
 // WARNING: Remember to also set memcache_max_allowed_packet or redis_max_allowed_packet
 //          in config to match with expected maximum attachment size.
 // -------------------------------------------------------------------------------------
-// This option can be set to 'memcache' or 'redis'.
+// This option can be set to 'memcache', 'memcached' or 'redis'.
 // Don't forget to set redis_*/memcache_* options in Roundcube config file.
 $config['redundant_attachments_fallback'] = false;
 
 // Attachment data expires after specified TTL time in seconds (max.2592000).
 // Default is 12 hours.
 $config['redundant_attachments_cache_ttl'] = 12 * 60 * 60;
-
-?>

@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,8 +25,6 @@
  *
  * @package    Framework
  * @subpackage Core
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 abstract class rcube_session
 {
@@ -82,6 +81,8 @@ abstract class rcube_session
     }
 
     /**
+     * Object constructor
+     *
      * @param Object $config
      */
     public function __construct($config)
@@ -92,16 +93,21 @@ abstract class rcube_session
         $this->set_ip_check($this->config->get('ip_check'));
 
         // set cookie name
-        if ($this->config->get('session_auth_name')) {
-            $this->set_cookiename($this->config->get('session_auth_name'));
+        if ($name = $this->config->get('session_auth_name')) {
+            $this->set_cookiename($name);
         }
     }
 
     /**
-     * register session handler
+     * Register session handler
      */
     public function register_session_handler()
     {
+        if (session_id()) {
+            // Session already exists, skip
+            return;
+        }
+
         ini_set('session.serialize_handler', 'php');
 
         // set custom functions for PHP session management
@@ -122,7 +128,7 @@ abstract class rcube_session
     {
         $this->start   = microtime(true);
         $this->ip      = rcube_utils::remote_addr();
-        $this->logging = $this->config->get('log_session', false);
+        $this->logging = $this->config->get('session_debug', false);
 
         $lifetime = $this->config->get('session_lifetime', 1) * 60;
         $this->set_lifetime($lifetime);
@@ -141,12 +147,12 @@ abstract class rcube_session
     abstract function update($key, $newvars, $oldvars);
 
     /**
-     * session write handler. This calls the implementation methods for write/update after some initial checks.
+     * Session write handler. This calls the implementation methods for write/update after some initial checks.
      *
-     * @param $key
-     * @param $vars
+     * @param string $key  Session identifier
+     * @param string $vars Serialized data string
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function sess_write($key, $vars)
     {
@@ -183,7 +189,7 @@ abstract class rcube_session
     /**
      * Creates a new (separate) session
      *
-     * @param array Session data
+     * @param array $data Session data
      *
      * @return string Session identifier (on success)
      */
@@ -233,6 +239,10 @@ abstract class rcube_session
 
     /**
      * Execute registered garbage collector routines
+     *
+     * @param int $maxlifetime Maximum session lifetime
+     *
+     * @return bool True on success, False on failure
      */
     public function gc($maxlifetime)
     {
@@ -276,10 +286,12 @@ abstract class rcube_session
      *
      * @param boolean $destroy If enabled the current session will be destroyed
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function regenerate_id($destroy = true)
     {
+        $old_id = session_id();
+
         // Since PHP 7.0 session_regenerate_id() will cause the old
         // session data update, we don't need this
         $this->ignore_write = true;
@@ -289,15 +301,17 @@ abstract class rcube_session
         $this->vars = null;
         $this->key  = session_id();
 
+        $this->log("Session regenerate: $old_id -> {$this->key}");
+
         return true;
     }
 
     /**
      * See if we have vars of this key already cached, and if so, return them.
      *
-     * @param string $key Session ID
+     * @param string $key Session identifier
      *
-     * @return string
+     * @return string Serialized data string
      */
     protected function get_cache($key)
     {
@@ -306,7 +320,7 @@ abstract class rcube_session
             $cache = null;
         }
         // use internal data for fast requests (up to 0.5 sec.)
-        else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
+        else if ($key == $this->key && (!$this->vars || microtime(true) - $this->start < 0.5)) {
             $cache = $this->vars;
         }
         else { // else read data again
@@ -321,9 +335,9 @@ abstract class rcube_session
      *
      * Warning: Do not use if you already modified $_SESSION in the same request (#1490608)
      *
-     * @param string Path denoting the session variable where to append the value
-     * @param string Key name under which to append the new value (use null for appending to an indexed list)
-     * @param mixed  Value to append to the session data array
+     * @param string $path  Path denoting the session variable where to append the value
+     * @param string $key   Key name under which to append the new value (use null for appending to an indexed list)
+     * @param mixed  $value Value to append to the session data array
      */
     public function append($path, $key, $value)
     {
@@ -355,10 +369,12 @@ abstract class rcube_session
     /**
      * Unset a session variable
      *
-     * @param string Variable name (can be a path denoting a certain node in the session array, e.g. compose.attachments.5)
-     * @return boolean True on success
+     * @param string $var Variable name (can be a path denoting a certain node
+     *                    in the session array, e.g. compose.attachments.5)
+     *
+     * @return boolean True on success, False on failure
      */
-    public function remove($var=null)
+    public function remove($var = null)
     {
         if (empty($var)) {
             return $this->destroy(session_id());
@@ -384,9 +400,12 @@ abstract class rcube_session
      */
     public function kill()
     {
+        $this->log("Session destroy: " . session_id());
+
         $this->vars = null;
         $this->ip   = rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
+
         rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
     }
 
@@ -467,8 +486,12 @@ abstract class rcube_session
     /**
      * Unserialize session data
      * http://www.php.net/manual/en/function.session-decode.php#56106
+     *
+     * @param string $str Serialized data string
+     *
+     * @return array Unserialized data
      */
-    protected function unserialize($str)
+    public static function unserialize($str)
     {
         $str    = (string)$str;
         $endptr = strlen($str);
@@ -559,11 +582,13 @@ abstract class rcube_session
             $p = $q;
         }
 
-        return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
+        return unserialize('a:' . $items . ':{' . $serialized . '}');
     }
 
     /**
      * Setter for session lifetime
+     *
+     * @param int $lifetime Session lifetime (in seconds)
      */
     public function set_lifetime($lifetime)
     {
@@ -576,6 +601,8 @@ abstract class rcube_session
 
     /**
      * Getter for remote IP saved with this session
+     *
+     * @return string Client IP address
      */
     public function get_ip()
     {
@@ -584,6 +611,8 @@ abstract class rcube_session
 
     /**
      * Setter for cookie encryption secret
+     *
+     * @param string $secret Authentication secret string
      */
     function set_secret($secret = null)
     {
@@ -602,6 +631,8 @@ abstract class rcube_session
 
     /**
      * Enable/disable IP check
+     *
+     * @param bool $check IP address checking state
      */
     function set_ip_check($check)
     {
@@ -610,11 +641,13 @@ abstract class rcube_session
 
     /**
      * Setter for the cookie name used for session cookie
+     *
+     * @param string $name Authentication cookie name
      */
-    function set_cookiename($cookiename)
+    function set_cookiename($name)
     {
-        if ($cookiename) {
-            $this->cookiename = $cookiename;
+        if ($name) {
+            $this->cookiename = $name;
         }
     }
 
@@ -668,9 +701,9 @@ abstract class rcube_session
     /**
      * Create session cookie for specified time slot.
      *
-     * @param int Time slot to use
+     * @param int $timeslot Time slot to use
      *
-     * @return string
+     * @return string Cookie value
      */
     protected function _mkcookie($timeslot)
     {
@@ -683,6 +716,8 @@ abstract class rcube_session
 
     /**
      * Writes debug information to the log
+     *
+     * @param string Log line
      */
     function log($line)
     {

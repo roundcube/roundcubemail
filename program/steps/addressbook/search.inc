@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/search.inc                                  |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -14,7 +13,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Search action (and form) for address book contacts                  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
@@ -209,8 +207,8 @@ function rcmail_contact_search()
 
     // search request ID
     $search_request = md5('addr'
-        .(is_array($fields) ? implode($fields, ',') : $fields)
-        .(is_array($search) ? implode($search, ',') : $search));
+        .(is_array($fields) ? implode(',', $fields) : $fields)
+        .(is_array($search) ? implode(',', $search) : $search));
 
     // save search settings in session
     $_SESSION['search'][$search_request] = $search_set;

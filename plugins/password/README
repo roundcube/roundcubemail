@@ -21,33 +21,38 @@
  @author <see driver files for driver authors>
  -----------------------------------------------------------------------
 
- 1. Configuration
- 2. Drivers
- 2.1.  Database (sql)
- 2.2.  Cyrus/SASL (sasl)
- 2.3.  Poppassd/Courierpassd (poppassd)
- 2.4.  LDAP (ldap)
- 2.5.  DirectAdmin Control Panel (directadmin)
- 2.6.  cPanel
- 2.6.1.  cPanel WHM (cpanel)
- 2.6.2.  cPanel Webmail (cpanel_webmail)
- 2.7.  XIMSS/Communigate (ximms)
- 2.8.  Virtualmin (virtualmin)
- 2.9.  hMailServer (hmail)
- 2.10. PAM (pam)
- 2.11. Chpasswd (chpasswd)
- 2.12. LDAP - no PEAR (ldap_simple)
- 2.13. XMail (xmail)
- 2.14. Pw (pw_usermod)
- 2.15. domainFACTORY (domainfactory)
- 2.16. DBMail (dbmail)
- 2.17. Expect (expect)
- 2.18. Samba (smb)
- 2.19. Vpopmail daemon (vpopmaild)
- 2.20. Plesk (Plesk RPC-API)
- 2.21. Kpasswd
- 3. Driver API
- 4. Sudo setup
+ 1.      Configuration
+ 2.      Drivers
+ 2.1.    Password Change Drivers
+ 2.1.1.  Database (sql)
+ 2.1.2.  Cyrus/SASL (sasl)
+ 2.1.3.  Poppassd/Courierpassd (poppassd)
+ 2.1.4.  LDAP (ldap)
+ 2.1.5.  DirectAdmin Control Panel (directadmin)
+ 2.1.6.  cPanel
+ 2.1.6.1.  cPanel WHM (cpanel)
+ 2.1.6.2.  cPanel Webmail (cpanel_webmail)
+ 2.1.7.  XIMSS/Communigate (ximms)
+ 2.1.8.  Virtualmin (virtualmin)
+ 2.1.9.  hMailServer (hmail)
+ 2.1.10. PAM (pam)
+ 2.1.11. Chpasswd (chpasswd)
+ 2.1.12. LDAP - no PEAR (ldap_simple)
+ 2.1.13. XMail (xmail)
+ 2.1.14. Pw (pw_usermod)
+ 2.1.15. domainFACTORY (domainfactory)
+ 2.1.16. DBMail (dbmail)
+ 2.1.17. Expect (expect)
+ 2.1.18. Samba (smb)
+ 2.1.19. Vpopmail daemon (vpopmaild)
+ 2.1.20. Plesk (Plesk RPC-API)
+ 2.1.21. Kpasswd
+ 2.1.22. Modoboa
+ 2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ 2.2.    Password Strength Drivers
+ 2.2.1.  Zxcvbn
+ 3.      Driver API
+ 4.      Sudo setup
 
 
  1. Configuration
@@ -60,12 +65,16 @@
  2. Drivers
  ----------
 
+
+ 2.1. Password Change Drivers
+ ----------------------------
+
  Password plugin supports many password change mechanisms which are
  handled by included drivers. Just pass driver name in 'password_driver' option.
 
 
- 2.1. Database (sql)
- -------------------
+ 2.1.1. Database (sql)
+ ---------------------
 
  You can specify which database to connect by 'password_db_dsn' option and
  what SQL query to execute by 'password_query'. See config.inc.php.dist file for
@@ -118,8 +127,8 @@
     UPDATE users SET password=MD5(%p) WHERE username=%u AND password=MD5(%o) LIMIT 1
 
 
- 2.2. Cyrus/SASL (sasl)
- ----------------------
+ 2.1.2. Cyrus/SASL (sasl)
+ ------------------------
 
  Cyrus SASL database authentication allows your Cyrus+Roundcube
  installation to host mail users without requiring a Unix Shell account!
@@ -169,31 +178,31 @@
    This could save you some headaches if you are the paranoid type.
 
 
- 2.3. Poppassd/Courierpassd (poppassd)
- -------------------------------------
+ 2.1.3. Poppassd/Courierpassd (poppassd)
+ ---------------------------------------
 
  You can specify which host to connect to via 'password_pop_host' and
  what port via 'password_pop_port'. See config.inc.php.dist file for more info.
 
 
- 2.4. LDAP (ldap)
- ----------------
+ 2.1.4. LDAP (ldap)
+ ------------------
 
  See config.inc.php.dist file. Requires PEAR::Net_LDAP2 package.
 
 
- 2.5. DirectAdmin Control Panel (directadmin)
- --------------------------------------------
+ 2.1.5. DirectAdmin Control Panel (directadmin)
+ ----------------------------------------------
 
- You can specify which host to connect to via 'password_directadmin_host' (don't 
+ You can specify which host to connect to via 'password_directadmin_host' (don't
  forget to use tcp:// or ssl://) and what port via 'password_direactadmin_port'.
- The password enforcement with plenty customization can be done directly by 
+ The password enforcement with plenty customization can be done directly by
  DirectAdmin, please see http://www.directadmin.com/features.php?id=910
  See config.inc.php.dist file for more info.
 
 
- 2.6. cPanel
- -----------
+ 2.1.6. cPanel
+ -------------
 
  cPanel offers various APIs. The `cpanel` driver is configured with and admin
  account. It can change user's passwords without access to the current password.
@@ -203,8 +212,8 @@
  an admin account. See 2.6.2.
 
 
- 2.6.1. cPanel WHM (cpanel)
- --------------------------
+ 2.1.6.1. cPanel WHM (cpanel)
+ ----------------------------
 
  Install cPanel XMLAPI Client Class into Roundcube program/lib directory
  or any other place in PHP include path. You can get the class from
@@ -214,8 +223,8 @@
  See config.inc.php.dist file for more info.
 
 
- 2.6.2. cPanel Webmail (cpanel_webmail)
- --------------------------------------
+ 2.1.6.2. cPanel Webmail (cpanel_webmail)
+ ----------------------------------------
 
  Specify the host to connect to via 'password_webmail_cpanel_host'. This driver
  comes with a minimal UAPI implementation and does not use the external xmlapi
@@ -224,48 +233,48 @@
  See config.inc.php.dist file for more info.
 
 
- 2.7. XIMSS/Communigate (ximms)
- ------------------------------
+ 2.1.7. XIMSS/Communigate (ximms)
+ --------------------------------
 
- You can specify which host and port to connect to via 'password_ximss_host' 
+ You can specify which host and port to connect to via 'password_ximss_host'
  and 'password_ximss_port'. See config.inc.php.dist file for more info.
 
 
- 2.8. Virtualmin (virtualmin)
- ----------------------------
+ 2.1.8. Virtualmin (virtualmin)
+ ------------------------------
 
  As in sasl driver this one allows to change password using shell
  utility called "virtualmin". See helpers/chgvirtualminpasswd.c for
  installation instructions. Requires virtualmin >= 4.09.
 
 
- 2.9. hMailServer (hmail)
- ------------------------
+ 2.1.9. hMailServer (hmail)
+ --------------------------
 
  Requires PHP COM (Windows only). For access to hMail server on remote host
  you'll need to define 'hmailserver_remote_dcom' and 'hmailserver_server'.
  See config.inc.php.dist file for more info.
 
 
- 2.10. PAM (pam)
- ---------------
+ 2.1.10. PAM (pam)
+ -----------------
 
  This driver is for changing passwords of shell users authenticated with PAM.
- Requires PECL's PAM exitension to be installed (http://pecl.php.net/package/PAM).
+ Requires PECL's PAM extension to be installed (http://pecl.php.net/package/PAM).
 
 
- 2.11. Chpasswd (chpasswd)
- -------------------------
+ 2.1.11. Chpasswd (chpasswd)
+ ---------------------------
 
- Driver that adds functionality to change the systems user password via 
+ Driver that adds functionality to change the systems user password via
  the 'chpasswd' command. See config.inc.php.dist file.
 
  Attached wrapper script (helpers/chpass-wrapper.py) restricts password changes
  to uids >= 1000 and can deny requests based on a blacklist.
 
 
- 2.12.  LDAP - no PEAR (ldap_simple)
- -----------------------------------
+ 2.1.12.  LDAP - no PEAR (ldap_simple)
+ -------------------------------------
 
  It's rewritten ldap driver that doesn't require the Net_LDAP2 PEAR extension.
  It uses directly PHP's ldap module functions instead (as Roundcube does).
@@ -279,29 +288,29 @@
       why the 'force replace' is always used).
 
 
- 2.13.  XMail (xmail)
- -----------------------------------
+ 2.1.13.  XMail (xmail)
+ ----------------------
 
  Driver for XMail (www.xmailserver.org). See config.inc.php.dist file
  for configuration description.
 
 
- 2.14.  Pw (pw_usermod)
- -----------------------------------
+ 2.1.14.  Pw (pw_usermod)
+ ------------------------
 
  Driver to change the systems user password via the 'pw usermod' command.
  See config.inc.php.dist file for configuration description.
 
 
- 2.15.  domainFACTORY (domainfactory)
- -----------------------------------
+ 2.1.15.  domainFACTORY (domainfactory)
+ -------------------------------------
 
  Driver for the hosting provider domainFACTORY (www.df.eu).
  No configuration options.
 
 
- 2.16.  DBMail (dbmail)
- -----------------------------------
+ 2.1.16.  DBMail (dbmail)
+ ------------------------
 
  Driver that adds functionality to change the users DBMail password.
  It only works with dbmail-users on the same host where Roundcube runs
@@ -312,22 +321,22 @@
  Note: DBMail users can also use sql driver.
 
 
- 2.17.  Expect (expect)
- -----------------------------------
+ 2.1.17.  Expect (expect)
+ ------------------------
 
  Driver to change user password via the 'expect' command.
  See config.inc.php.dist file for configuration description.
 
 
- 2.18.  Samba (smb)
- -----------------------------------
+ 2.1.18.  Samba (smb)
+ --------------------
 
  Driver to change Samba user password via the 'smbpasswd' command.
  See config.inc.php.dist file for configuration description.
 
 
- 2.19. Vpopmail daemon (vpopmaild)
- -----------------------------------
+ 2.1.19. Vpopmail daemon (vpopmaild)
+ -------------------------------------
 
  Driver for the daemon of vpopmail. Vpopmail is used with qmail to
  enable virtual users that are saved in a database and not in /etc/passwd.
@@ -336,12 +345,12 @@
 
  Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
- Set $config['password_vpopmaild_timeout'] to the timeout used for the TCP 
+ Set $config['password_vpopmaild_timeout'] to the timeout used for the TCP
  connection to vpopmaild (You may want to set it higher on busy servers).
 
 
- 2.20. Plesk (Plesk RPC-API)
- ---------------------------
+ 2.1.20. Plesk (Plesk RPC-API)
+ -----------------------------
 
  Driver for changing Passwords via Plesk RPC-API. This Driver also works with
  Parallels Plesk Automation (PPA).
@@ -355,22 +364,78 @@
  Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php.
 
 
- 2.21.  Kpasswd
- -----------------------------------
+ 2.1.21. Kpasswd
+ ---------------
 
  Driver to change the password in Kerberos environments via the 'kpasswd' command.
  See config.inc.php.dist file for configuration description.
 
 
+ 2.1.22. Modoboa
+ ---------------
+
+ Driver to change the password in Modoboa servers.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ -------------------------------------------------------------
+ 
+ Modified version of ldap_simple.
+ Password is changed using ldap_exop_passwd operation.
+ PHP >= 7.2 required.
+ 
+ 
+ 2.2. Password Strength Drivers
+ ------------------------------
+
+ Password plugin supports many password strength checking mechanisms which are
+ handled by included drivers. Just pass driver name in 'password_strength_driver' option.
+
+
+ 2.2.1. Zxcvbn
+ -------------
+
+ Driver to use the Zxcvbn library to check password strength. Requires zxcvbn-php library.
+ The library is not distributed with Roundcube (see composer.json-dist).
+ Note: Required PHP's memory_limit >= 24M.
+
+ Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
+
+
  3. Driver API
  -------------
 
- Driver file (<driver_name>.php) must define rcube_<driver_name>_password class
- with public save() method that has two arguments. First - current password, second - new password.
+ Driver file (<driver_name>.php) must define rcube_<driver_name>_password class. Drivers should
+ provide one or both of a public save() or check_strength() method.
+
+ All password changing drivers (used in config `password_driver` - the password driver) must have
+ a save() method. The same driver can also contain a check_strength() method or a separate driver
+ containing this method can be used in `password_strength_driver` (the strength driver). To enable
+ strength checks ensure `password_check_strength` is set to true.
+
+ The save() method, used for changing the password has three arguments:
+ First - current password, second - new password, third - current username.
  This method should return PASSWORD_SUCCESS on success or any of PASSWORD_CONNECT_ERROR,
  PASSWORD_CRYPT_ERROR, PASSWORD_ERROR when driver was unable to change password.
  Extended result (as a hash-array with 'message' and 'code' items) can be returned
  too. See existing drivers in drivers/ directory for examples.
+
+ Optionally a password driver can contain a compare() method which has three arguments:
+ First - current password, second - test password, third - compare type.
+ Compare type: PASSWORD_COMPARE_CURRENT - when comparing the test password with current password.
+ PASSWORD_COMPARE_NEW - when comparing the current password with the test password.
+ For PASSWORD_COMPARE_CURRENT it should return error text if user entered and real current password
+ DO NOT MATCH. For PASSWORD_COMPARE_NEW it should return error text if user entered and real current
+ password DO MATCH. Else it should return null (no error).
+
+ The check_strength() method, used for checking password strength has one argument: new password.
+ This method should return an array with tho elements:
+   - Score: integer from 1 (week) to 5 (strong)
+   - Reason for the score (optional)
+
+ Optionally a strength driver can contain a strength_rules() method. This has no arguments
+ and returns a string, or array of strings explaining the password strength rules.
 
 
  4. Sudo setup

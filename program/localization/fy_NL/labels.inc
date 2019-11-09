@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Wolkom by $product';
 $labels['username'] = 'Brûkersnamme';
 $labels['password'] = 'Wachtwurd';
@@ -238,6 +238,7 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Ferrûn';
 $labels['keyrevoked'] = 'Ynlutsen';
 $labels['bccinstead'] = 'Bcc brûke';
+$labels['insert'] = 'Ynfoegje';
 $labels['editidents'] = 'Identiteiten bewurkje';
 $labels['spellcheck'] = 'Stavering';
 $labels['checkspelling'] = 'Stavering kontrolearje';
@@ -388,7 +389,6 @@ $labels['importreplace'] = 'It hiele adresboek ferfange';
 $labels['importgroups'] = 'Ymportearje groep opdrachten';
 $labels['importgroupsall'] = 'Alle (meitsje groepen oan wêr nedich)';
 $labels['importgroupsexisting'] = 'Allinnich foar besteande groepen';
-$labels['importdesc'] = 'Jo kinne kontakten út in besteand adresboek oplade.<br/>Wy stypje it ymportearjen fan besteande adressen út de<a href="http://en.wikipedia.org/wiki/VCard">vCard</a> of CSV (komma-skeiden) gegevens formaat.';
 $labels['done'] = 'Klear';
 $labels['settingsfor'] = 'Ynstellings foar';
 $labels['about'] = 'Oer';
@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Avansearre opsjes';
 $labels['toggleadvancedoptions'] = 'Avansearre opsjes skeakelje';
 $labels['focusonnewmessage'] = 'Fokus browser finster by nij berjocht';
 $labels['checkallfolders'] = 'Kontrolearje alle mappen op nije berjochten';
-$labels['displaynext'] = 'Nij wiskjen/ferpleatsen fan berjocht, toan folgjende berjocht';
 $labels['defaultfont'] = 'Standert lettertype fan HTML berjocht';
 $labels['mainoptions'] = 'Haad Opsjes';
 $labels['browseroptions'] = 'Browser Opsjes';
@@ -607,4 +606,3 @@ $labels['helplistkeyboardnavmessages'] = "Pylken rjochts/lofts: útwreidzje/ynsa
 Enter: Iepenje it selektearre/fokuse berjocht.
 Delete: Ferpleats selektearre berjocht nei jiskefet.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Iepenje it selektearre/fokuse kontakt.";
-?>

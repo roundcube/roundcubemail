@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Настана грешка!';
 $messages['loginfailed']  = 'Најавата не успеа';
 $messages['cookiesdisabled'] = 'Вашиот прелистувач не прифаќа колачиња';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Немате повеќе слободно 
 $messages['invalidrequest'] = 'Неважечко барање! Податоците не се зачувани.';
 $messages['invalidhost'] = 'Името на серверот не е валидно.';
 $messages['nomessagesfound'] = 'Немате писма во ова сандаче';
-$messages['loggedout'] = 'Успешно се одјавивте. Ви благодариме и довидување!';
 $messages['mailboxempty'] = 'Поштенското сандаче е празно.';
 $messages['nomessages'] = 'Нема пораки';
 $messages['refreshing'] = 'Освежување...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Не е пронајден валиден ја
 $messages['encryptnoattachments'] = 'Веќе прикачени додатоци не може да се енкриптираат. Ве молиме додадете ги повторно во уредникот за енкрипција.';
 $messages['searchpubkeyservers'] = 'Дали сакате да ги пребарувате јавните клуч сервери за клучевите што недостасуваат?';
 $messages['encryptpubkeysfound'] = 'Следниот јавен клуч е пронајден:';
-$messages['keyservererror'] = 'Неуспешно добивање на клучот од клучсерверот.';
-$messages['keyimportsuccess'] = 'Јавен клуч $клуч успешно додаден во твојата клучалка';
 $messages['nocontactsfound'] = 'Нема пронајдено имиња.';
 $messages['contactnotfound'] = 'Бараното име не е пронајдено';
-$messages['contactsearchonly'] = 'Внесете според што да се пребаруваат контактите.';
 $messages['sendingfailed'] = 'Не упеав да го испратам писмото';
 $messages['senttooquickly'] = 'Почекајте $sec секунда/и пред да го испратите писмото';
 $messages['errorsavingsent'] = 'Се случи грешка при снимањето на испратената порака.';

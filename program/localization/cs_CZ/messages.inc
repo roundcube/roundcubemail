@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Došlo k chybě!';
 $messages['loginfailed']  = 'Přihlášení selhalo.';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné.';
 $messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo.';
+$messages['cookiesmismatch'] = 'Nalezena nekonzistentnost v cookies. Vymažte, prosím, cookies ve vašem prohlížeči.';
 $messages['storageerror'] = 'Připojení na IMAP server selhalo.';
 $messages['servererror'] = 'Chyba serveru!';
 $messages['servererrormsg'] = 'Chyba serveru: $msg';
@@ -61,14 +61,14 @@ $messages['encryptedmessage'] = 'Tato zpráva je zašifrovaná a nelze ji zobraz
 $messages['externalmessagedecryption'] = 'Toto je šifrovaná zpráva a může být dešifrována pomocí rozšíření ve vašem prohlížeči.';
 $messages['nopubkeyfor'] = 'Nenalezen validní veřejný klíč pro $email';
 $messages['nopubkeyforsender'] = 'Pro Vaši identitu odesílatele se nenašel žádný platný veřejný klíč. Chcete správu zašifrovat pro příjemce?';
-$messages['encryptnoattachments'] = 'Přílohy, které jste už uložili na server, není možné zašifrovat. Prosím přidejte je znovu, v editoru pro šifrovaní.';
+$messages['encryptnoattachments'] = 'Přílohy, které jste už uložili na server, není možné zašifrovat. Prosím, přidejte je znovu v editoru pro šifrování.';
 $messages['searchpubkeyservers'] = 'Přejete si prohledat servery s klíči k nalezení chybějících klíčů?';
 $messages['encryptpubkeysfound'] = 'Byly nalezeny následující veřejné klíče:';
-$messages['keyservererror'] = 'Selhalo získávání klíče ze serveru s klíči';
-$messages['keyimportsuccess'] = 'Veřejný klíč $key byl přidán do vašeho úložiště klíčů';
+$messages['keyservererror'] = 'Nebylo možné získat klíč ze serveru s klíči.';
+$messages['keyimportsuccess'] = 'Veřejný klíč $key byl vložen do vaší klíčenky.';
 $messages['nocontactsfound'] = 'Kontakty nebyly nalezeny.';
 $messages['contactnotfound'] = 'Požadovaný kontakt nebyl nalezen.';
-$messages['contactsearchonly'] = 'Vyplňte některou z položek';
+$messages['contactsearchonly'] = 'Pro zobrazení kontaktů ze zvoleného adresáře použijte vyhledávací formulář.';
 $messages['sendingfailed'] = 'Odesílání zprávy selhalo.';
 $messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním zprávy.';
 $messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy.';
@@ -82,7 +82,8 @@ $messages['confirmationtitle'] = 'Jste si jistý...';
 $messages['deletecontactconfirm']  = 'Opravdu chcete smazat označené kontakty?';
 $messages['deletegroupconfirm']  = 'Opravdu chcete smazat skupinu?';
 $messages['deletemessagesconfirm'] = 'Opravdu chcete smazat označené zprávy?';
-$messages['deletefolderconfirm']  = 'Chcete opravdu smazat tento adresář?';
+$messages['deletefolderconfirm']  = 'Opravdu chcete smazat tento adresář?';
+$messages['movefolderconfirm']  = 'Opravdu chcete přesunout tento adresář?';
 $messages['purgefolderconfirm']  = 'Opravdu chcete smazat všechny zprávy v této složce?';
 $messages['contactdeleting'] = 'Mažu kontakty...';
 $messages['groupdeleting'] = 'Mažu skupinu...';
@@ -126,6 +127,7 @@ $messages['fileuploaderror'] = 'Nahrávání souboru selhalo.';
 $messages['filesizeerror'] = 'Soubor přesáhl maximální velikost $size.';
 $messages['filecounterror'] = 'Můžete nahrát maximálně $count souborů najednou.';
 $messages['msgsizeerror'] = 'Selhalo připojení souboru. Byla překročena maximální velikost zprávy ($size).';
+$messages['msgsizeerrorfwd'] = 'Překročena maximální délka zprávy ($size). Počet položek, které nebyly připojeny je $num.';
 $messages['copysuccess'] = 'Zkopírováno $nr kontaktů.';
 $messages['movesuccess'] = 'Přesunuto $nr kontaktů.';
 $messages['copyerror'] = 'Kontakty nelze kopírovat.';
@@ -178,12 +180,12 @@ $messages['contactrestoreerror'] = 'Nelze obnovit smazané kontakty.';
 $messages['contactrestored'] = 'Kontakty byly obnoveny.';
 $messages['groupdeleted'] = 'Skupina byla odstraněna.';
 $messages['grouprenamed'] = 'Skupina byla přejmenována.';
-$messages['groupcreated'] = 'Skupina vytvořena.';
+$messages['groupcreated'] = 'Skupina byla vytvořena.';
 $messages['savedsearchdeleted'] = 'Uložené hledání bylo ostraněno.';
 $messages['savedsearchdeleteerror'] = 'Nelze odstranit uložené hledání.';
 $messages['savedsearchcreated'] = 'Nové hledání bylo vytvořeno.';
 $messages['savedsearchcreateerror'] = 'Nelze vytvořit uložené hledání.';
-$messages['messagedeleted'] = 'Zpráva odstraněna.';
+$messages['messagedeleted'] = 'Zpráva byla odstraněna.';
 $messages['messagemoved'] = 'Zpráva byla přesunuta.';
 $messages['messagemovedtotrash'] = 'Zpráva byla přesunuta do koše.';
 $messages['messagecopied'] = 'Zpráva byla zkopirována.';
@@ -206,7 +208,7 @@ $messages['errnotfound'] = 'Soubor nebyl nalezen';
 $messages['errnotfoundexplain'] = 'Požadovaný objekt nebyl nalezen!';
 $messages['errfailedrequest'] = 'Požadavek zamítnut';
 $messages['errauthorizationfailed'] = 'Autorizace selhala';
-$messages['errunauthorizedexplain'] = 'Nemohu ověřit, že máte právo přistupovat k této službě!';
+$messages['errunauthorizedexplain'] = 'Nemohu ověřit, zda máte právo přistupovat k této službě!';
 $messages['errrequestcheckfailed'] = 'Stav Vašeho požadavku není možné ověřit.';
 $messages['errcsrfprotectionexplain'] = "Pro ochranu Vašeho účtu je přístup do této sekce dočasně zablokován.  Existuje důvodné podezření, že Váš účet byl napaden.\nPokud vidíte toto upozornění, nejspíše jste se neodhlásili před opuštěním této stránky.\n\nAbyste mohli pokračovat, je nutné kontaktovat pověřenou osobu.";
 $messages['errcontactserveradmin'] = 'Prosím, kontaktujte správce serveru.';

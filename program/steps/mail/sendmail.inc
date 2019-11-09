@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/sendmail.inc                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -83,7 +82,7 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $bstyle       = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
     $message_body = '<html><head>'
         . '<meta http-equiv="Content-Type" content="text/html; charset='
         . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'
@@ -115,6 +114,12 @@ if (!$savedraft) {
                 '<p><br /></p>',
             ),
             $message_body);
+
+        rcube_utils::preg_error(array(
+                'line'    => __LINE__,
+                'file'    => __FILE__,
+                'message' => "Could not format HTML!"
+            ), true);
     }
 
     // Check spelling before send
@@ -198,6 +203,12 @@ if (is_array($COMPOSE['attachments'])) {
             }
 
             $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
+
+            rcube_utils::preg_error(array(
+                    'line'    => __LINE__,
+                    'file'    => __FILE__,
+                    'message' => "Could not replace an image reference!"
+                ), true);
 
             $MAIL_MIME->setHTMLBody($message_body);
 

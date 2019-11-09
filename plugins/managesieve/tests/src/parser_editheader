@@ -1,0 +1,36 @@
+require ["editheader"];
+# rule:[test-addheader1]
+if true
+{
+	addheader "X-Sieve-Filtered" "<test@test.com>";
+}
+# rule:[test-addheader2]
+if not header :contains "X-Sieve-Filtered" "<test@test.com>"
+{
+	addheader :last "X-Sieve-Filtered" "<test@test.com>";
+}
+# rule:[test-deleteheader1]
+if true
+{
+	deleteheader :index 1 :contains "Delivered-To" ["bob@example.com","test@test.com"];
+}
+# rule:[test-deleteheader2]
+if true
+{
+	deleteheader :index 2 :last :contains :comparator "i;octet" "Delivered-To" "test@test.com";
+}
+# rule:[test-deleteheader3]
+if true
+{
+	deleteheader "Delivered-To";
+}
+# rule:[test-deleteheader4]
+if true
+{
+	deleteheader :index 3 :last :contains "Delivered-To";
+}
+# rule:[test-deleteheader5]
+if true
+{
+	deleteheader "Delivered-To" "test";
+}

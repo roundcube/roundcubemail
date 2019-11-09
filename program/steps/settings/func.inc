@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/settings/func.inc                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide functionality for user's settings & preferences             |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -207,14 +205,9 @@ function rcmail_user_prefs($current = null)
 
                 $zones = array();
                 foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
-                    try {
-                        $tz      = new DateTimeZone($tzs);
-                        $date    = new DateTime(date('Y') . '-12-21', $tz);
-                        $offset  = $date->format('Z') + 45000;
-                        $sortkey = sprintf('%06d.%s', $offset, $tzs);
-                        $zones[$sortkey] = array($tzs, $date->format('P'));
+                    if ($data = rcmail_timezone_standard_time_data($tzs)) {
+                        $zones[$data['key']] = array($tzs, $data['offset']);
                     }
-                    catch (Exception $e) {}
                 }
 
                 ksort($zones);
@@ -288,6 +281,21 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            // "display after delete" checkbox
+            if (!isset($no_override['display_next'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_displaynext';
+                $input    = new html_checkbox(array('name' => '_display_next', 'id' => $field_id, 'value' => 1));
+
+                $blocks['main']['options']['display_next'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('displaynext'))),
+                    'content' => $input->show($config['display_next']?1:0),
+                );
+            }
+
             if (!isset($no_override['refresh_interval'])) {
                 if (!$current) {
                     continue 2;
@@ -323,7 +331,6 @@ function rcmail_user_prefs($current = null)
                     $input    = new html_radiobutton(array('name'=>'_skin'));
 
                     foreach ($skins as $skin) {
-                        $thumbnail   = "skins/$skin/thumbnail.png";
                         $skinname    = ucfirst($skin);
                         $author_link = $license_link = '';
                         $meta        = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
@@ -335,7 +342,7 @@ function rcmail_user_prefs($current = null)
                         }
 
                         $img = html::img(array(
-                                'src'     => $thumbnail,
+                                'src'     => $RCMAIL->output->asset_url("skins/$skin/thumbnail.png"),
                                 'class'   => 'skinthumbnail',
                                 'alt'     => $skin,
                                 'width'   => 64,
@@ -610,21 +617,6 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['inline_images'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('showinlineimages'))),
                     'content' => $input->show($config['inline_images']?1:0),
-                );
-            }
-
-            // "display after delete" checkbox
-            if (!isset($no_override['display_next'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_displaynext';
-                $input    = new html_checkbox(array('name' => '_display_next', 'id' => $field_id, 'value' => 1));
-
-                $blocks['main']['options']['display_next'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('displaynext'))),
-                    'content' => $input->show($config['display_next']?1:0),
                 );
             }
         break;
@@ -1193,20 +1185,6 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['delete_always'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_delete_always';
-                $input    = new html_checkbox(array('name' => '_delete_always', 'id' => $field_id, 'value' => 1));
-
-                $blocks['main']['options']['delete_always'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('deletealways'))),
-                    'content' => $input->show($config['delete_always']?1:0),
-                );
-            }
-
             if (!isset($no_override['delete_junk'])) {
                 if (!$current) {
                     continue 2;
@@ -1301,17 +1279,20 @@ function rcmail_user_prefs($current = null)
 
 function rcmail_get_skins()
 {
+    global $RCMAIL;
+
     $path  = RCUBE_INSTALL_PATH . 'skins';
     $skins = array();
     $dir   = opendir($path);
+    $limit = (array) $RCMAIL->config->get('skins_allowed');
 
     if (!$dir) {
         return false;
     }
 
     while (($file = readdir($dir)) !== false) {
-        $filename = $path.'/'.$file;
-        if (!preg_match('/^\./', $file) && is_dir($filename) && is_readable($filename)) {
+        $filename = $path . '/' . $file;
+        if ($file[0] != '.' && (empty($limit) || in_array($file, $limit) && is_dir($filename) && is_readable($filename))) {
             $skins[] = $file;
         }
     }
@@ -1475,4 +1456,31 @@ function rcmail_timezone_label($tz)
     }
 
     return implode('/', $tokens);
+}
+
+/**
+ * Returns timezone offset in standard time
+ */
+function rcmail_timezone_standard_time_data($tzname)
+{
+    try {
+        $tz    = new DateTimeZone($tzname);
+        $date  = new DateTime(null, $tz);
+        $count = 12;
+
+        // Move back for a month (up to 12 times) until non-DST date is found
+        while ($count > 0 && $date->format('I')) {
+            $date->sub(new DateInterval('P1M'));
+            $count--;
+        }
+
+        $offset  = $date->format('Z') + 45000;
+        $sortkey = sprintf('%06d.%s', $offset, $tzname);
+
+        return array(
+            'key'    => $sortkey,
+            'offset' => $date->format('P'),
+        );
+    }
+    catch (Exception $e) {}
 }

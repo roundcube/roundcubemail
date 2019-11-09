@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -67,9 +67,10 @@ if (window.rcmail) {
           {multiselect:false, draggable:true, keyboard:true});
 
         rcmail.filters_list
-          .addEventListener('select', function(e) { rcmail.managesieve_select(e); })
-          .addEventListener('dragstart', function(e) { rcmail.managesieve_dragstart(e); })
-          .addEventListener('dragend', function(e) { rcmail.managesieve_dragend(e); })
+          .addEventListener('select', function(o) { rcmail.managesieve_select(o); })
+          .addEventListener('keypress', function(o) { rcmail.list_keypress(o, {del: 'plugin.managesieve-del'}); })
+          .addEventListener('dragstart', function(o) { rcmail.managesieve_dragstart(o); })
+          .addEventListener('dragend', function(o) { rcmail.managesieve_dragend(o); })
           .addEventListener('initrow', function(row) {
             row.obj.onmouseover = function() { rcmail.managesieve_focus_filter(row); };
             row.obj.onmouseout = function() { rcmail.managesieve_unfocus_filter(row); };
@@ -766,7 +767,9 @@ function action_type_select(id)
       vacation: document.getElementById('action_vacation' + id),
       forward: document.getElementById('action_forward' + id),
       set: document.getElementById('action_set' + id),
-      notify: document.getElementById('action_notify' + id)
+      notify: document.getElementById('action_notify' + id),
+      addheader: document.getElementById('action_addheader' + id),
+      deleteheader: document.getElementById('action_deleteheader' + id)
     };
 
   if (v == 'fileinto' || v == 'fileinto_copy') {
@@ -781,17 +784,8 @@ function action_type_select(id)
   else if (v.match(/^(add|set|remove)flag$/)) {
     enabled.flags = 1;
   }
-  else if (v == 'vacation') {
-    enabled.vacation = 1;
-  }
-  else if (v == 'forward') {
-    enabled.forward = 1;
-  }
-  else if (v == 'set') {
-    enabled.set = 1;
-  }
-  else if (v == 'notify') {
-    enabled.notify = 1;
+  else if (v.match(/^(vacation|forward|set|notify|addheader|deleteheader)$/)) {
+    enabled[v] = 1;
   }
 
   for (var x in elems) {
@@ -987,7 +981,7 @@ function sieve_form_init()
     parent.rcmail.managesieve_dialog_resize(form);
   }
 
-  $('input[type="text"]:first', form).focus();
+  $('input[type="text"]', form).first().focus();
 
   // initialize smart list inputs
   $('textarea[data-type="list"]', form).each(function() {
@@ -995,7 +989,7 @@ function sieve_form_init()
   });
 
   // initialize rules form(s)
-  $('[name="_header[]"]', form).each(function() {
+  $('[name^="_header"]', form).each(function() {
     if (/([0-9]+)$/.test(this.id)) {
       rule_header_select(RegExp.$1);
     }
@@ -1196,7 +1190,7 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
 {
   var dialog = this.env.managesieve_dialog,
     win = $(window), form = $(o);
-    width = $('fieldset:first', o).width(), // fieldset width is more appropriate here
+    width = $('fieldset', o).first().width(), // fieldset width is more appropriate here
     height = form.height(),
     w = win.width(), h = win.height();
 

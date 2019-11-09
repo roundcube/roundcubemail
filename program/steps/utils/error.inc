@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/utils/error.inc                                         |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Display error message page                                          |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -127,6 +125,7 @@ EOF;
 
 if ($rcmail->output && $rcmail->output->template_exists('error')) {
     $rcmail->output->reset();
+    $rcmail->output->set_env('error_task', 'error' . (empty($rcmail->user) || empty($rcmail->user->ID) ? '-login' : ''));
     $rcmail->output->set_env('server_error', $ERROR_CODE);
     $rcmail->output->set_env('comm_path', $rcmail->comm_path);
     $rcmail->output->send('error');

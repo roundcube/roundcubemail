@@ -3,10 +3,10 @@
     {
       "lib": "jquery",
       "name": "jQuery",
-      "version": "3.3.1",
+      "version": "3.4.1",
       "url": "https://code.jquery.com/jquery-$v.min.js",
       "dest": "program/js/jquery.min.js",
-      "sha1": "0dc32db4aa9c5f03f3b38c47d883dbd4fed13aae",
+      "sha1": "88523924351bac0b5d560fe0c5781e2556e7693d",
       "license": "MIT",
       "copyright": "Copyright JS Foundation and other contributors",
       "source": "https://github.com/jquery/jquery/tree/$v"
@@ -36,10 +36,10 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.7.13",
-      "url": "http://download.ephox.com/tinymce/community/tinymce_$v.zip",
+      "version": "4.8.2",
+      "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "7f988f3899aebee6d49bd55e981331da07eee6c5",
+      "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
       "license": "LGPL",
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
@@ -56,28 +56,28 @@
     },
     {
       "lib": "tinymce-langs",
-      "version": "4.7.13",
-      "url": "https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy&extension=.zip",
+      "version": "4.8.2",
+      "url": "https://www.tiny.cloud/docs-4x/language/tinymce4x_languages.zip",
       "dest": "program/js/tinymce"
     },
     {
       "lib": "openpgp",
       "name": "OpenPGP.js",
-      "version": "2.6.2",
+      "version": "4.4.6",
       "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v$v/dist/openpgp.min.js",
       "api_url": "https://api.github.com/repos/openpgpjs/openpgpjs/contents/dist/openpgp.min.js?ref=v$v",
       "dest": "plugins/enigma/openpgp.min.js",
-      "sha1": "cce0087eb20328453b9378a2b01cc6339cef97b2",
+      "sha1": "e142168db8e666a40fcb4c48ef89c9d774134f8b",
       "license": "LGPL",
       "copyright": "Copyright (c) OpenPGP Development Team",
       "source": "https://github.com/openpgpjs/openpgpjs/blob/v$v/dist/openpgp.js"
     },
     {
       "lib": "codemirror",
-      "version": "5.34.0",
+      "version": "5.46.0",
       "url": "https://codemirror.net/codemirror-$v.zip",
       "dest": "plugins/managesieve/codemirror",
-      "sha1": "24d0834c6a5c4b89c4c82ca2ea31e574b0751b32",
+      "sha1": "c11fcb9b63cee2b276e3b9f24a8ad6d7c374c624",
       "license": "MIT",
       "map": {
         "lib": "lib",
@@ -88,10 +88,10 @@
     {
       "lib": "bootstrap",
       "name": "Bootstrap",
-      "version": "4.1.2",
+      "version": "4.3.1",
       "url": "https://github.com/twbs/bootstrap/releases/download/v$v/bootstrap-$v-dist.zip",
       "dest": "skins/elastic/deps",
-      "sha1": "d43982739f8f2bb05ef2a2fa55c358ce7e30a72b",
+      "sha1": "ee9e9d6bbbb6181dc519778af2b38804a6aa62a4",
       "license": "MIT",
       "flat": true,
       "map": {
