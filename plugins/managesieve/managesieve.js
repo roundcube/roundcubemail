@@ -426,13 +426,11 @@ rcube_webmail.prototype.load_managesieveframe = function(add_url, reset)
   if (reset)
     this.reset_filters_list();
 
-  if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading'),
-      target = window.frames[this.env.contentframe];
+  var target = this.get_frame_window(this.env.contentframe),
+    url = this.url('plugin.managesieve-action', '_framed=1' + (add_url ? ('&' + add_url) : ''));
 
-    target.location.href = this.env.comm_path
-      + '&_action=plugin.managesieve-action&_framed=1&_unlock=' + lock
-      + (add_url ? ('&' + add_url) : '');
+  if (target) {
+    this.location_href(url, target, true);
   }
 };
 
