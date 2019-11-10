@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.0
+-------------
 - Elastic: Resizeable columns (#6929)
 - Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Elastic: Fix initial focus on recipients input in mail compose screen
