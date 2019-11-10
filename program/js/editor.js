@@ -134,7 +134,7 @@ function rcube_text_editor(config, id)
     $.extend(conf, window.rcmail_editor_settings);
 
   conf.setup = function(ed) {
-    ed.on('init', function(ed) { ref.init_callback(ed); });
+    ed.on('init', function() { ref.init_callback(ed); });
     // add handler for spellcheck button state update
     ed.on('SpellcheckStart SpellcheckEnd', function(args) {
       ref.spellcheck_active = args.type == 'spellcheckstart';
@@ -159,7 +159,7 @@ function rcube_text_editor(config, id)
       conf.setup_callback(ed);
   };
 
-  rcmail.triggerEvent('editor-init', {config: conf, ref: ref});
+  rcmail.triggerEvent('editor-init', {config: conf, ref: ref, id: id});
 
   // textarea identifier
   this.id = id;
@@ -169,11 +169,9 @@ function rcube_text_editor(config, id)
   tinymce.init(conf);
 
   // react to real individual tinyMCE editor init
-  this.init_callback = function(event)
+  this.init_callback = function(editor)
   {
-    this.editor = event.target;
-
-    rcmail.triggerEvent('editor-load', {config: conf, ref: ref});
+    this.editor = editor;
 
     if (rcmail.env.action == 'compose') {
       var area = $('#' + this.id),
@@ -182,7 +180,7 @@ function rcube_text_editor(config, id)
       // the editor might be still not fully loaded, making the editing area
       // inaccessible, wait and try again (#1490310)
       if (height > 200 || height > area.height()) {
-        return setTimeout(function () { ref.init_callback(event); }, 300);
+        return setTimeout(function () { ref.init_callback(editor); }, 300);
       }
 
       var css = {},
@@ -211,6 +209,8 @@ function rcube_text_editor(config, id)
         }
       }
     }
+
+    rcmail.triggerEvent('editor-load', {config: conf, ref: ref});
 
     // set tabIndex and set focus to element that was focused before
     ref.tabindex(ref.force_focus || (fe && fe.id == ref.id));

@@ -836,42 +836,63 @@ html.touch .mce-grid td {
 
 .html-editor {
     position: relative;
-    display: flex;
-    margin-bottom: .25rem;
+    margin-bottom: .2rem;
 
-    & > .nav {
-        border-color: transparent;
-        z-index: 1;
+    .editor-toolbar {
         position: absolute;
-        right: 1rem;
+        left: 1px;
+        top: 1px;
+        right: 1px;
+        border-radius: .25rem .25rem 0 0;
+        border-bottom: 1px solid @color-input-border;
+        background-color: @color-input-addon-background;
 
-        a.active {
-            border-color: @color-input-border !important;
+        .mce-i-html {
+            display: block;
+            padding: 1px 5px;
+            margin: 2px;
+            width: 2rem;
+            height: 24px;
+            border: 1px solid transparent;
+            color: #595959;
 
-            &.mode-html {
-                background-color: @color-input-addon-background;
-                border-bottom-color: @color-input-addon-background !important;
+            &:focus,
+            &:hover {
+                text-decoration: none;
+                border-color: #e2e4e7;
+                background-color: #fff;
             }
-
-            &.mode-plain {
-                border-bottom-color: #fff !important;
-            }
-        }
-
-        a:hover,
-        a:focus {
-            border-bottom-color: transparent;
-            outline: 0;
         }
     }
 
-    & > iframe, // e.g. mailvelope frame
+    // hide toolbar in html mode and in mailvelope mode
+    &.mailvelope .editor-toolbar,
+    .mce-tinymce + textarea + .editor-toolbar {
+        display: none;
+    }
+
+    .mce-i-html:before,
+    .mce-i-plaintext:before {
+        &:extend(.font-icon-class);
+        margin: 0;
+        width: 1em;
+        font-size: 1.2rem;
+    }
+
+    .mce-i-html:before {
+        content: @fa-var-image;
+        line-height: 1.2em;
+    }
+
+    .mce-i-plaintext:before {
+        content: @fa-var-window-close; //@fa-var-align-justify;
+    }
+
     & > .googie_edit_layer,
-    & > .mce-tinymce,
     & > textarea {
-        margin-top: 2.55rem;
         font-family: monospace;
         width: 100% !important;
+        padding-top: 2.5rem;
     }
 
     & > iframe { // e.g. mailvelope frame
@@ -905,7 +926,7 @@ html.touch .mce-grid td {
     padding: .5rem .75rem;
     border: 1px solid @color-input-border;
     border-radius: .3rem;
-    line-height: 1.25;
+    line-height: 1.5;
 }
 
 .googie_link {
