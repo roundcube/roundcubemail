@@ -1350,6 +1350,9 @@ function rcube_elastic_ui()
      */
     function tinymce_init(o)
     {
+        var onload = [],
+            is_editor = $('#' + o.id).is('[data-html-editor]');
+
         // Enable autoresize plugin
         o.config.plugins += ' autoresize';
 
@@ -1374,9 +1377,9 @@ function rcube_elastic_ui()
                 };
 
             // Shift+Tab on mail compose editor scrolls the page to the top
-            o.config.setup_callback = function(ed) {
+            onload.push(function(ed) {
                 ed.on('keypress', keypress);
-            };
+            });
 
             $('#composebody').on('keypress', keypress);
 
@@ -1397,6 +1400,26 @@ function rcube_elastic_ui()
 
             $(window).resize(function() { form.trigger('scroll'); });
         }
+
+        if (is_editor) {
+            o.config.toolbar = 'plaintext | ' + o.config.toolbar;
+            // Use setup_callback, we can't use editor-load event
+            o.config.setup_callback = function(ed) {
+                ed.addButton('plaintext', {
+                    tooltip: rcmail.gettext('plaintoggle'),
+                    icon: 'plaintext',
+                    onclick: function(e) {
+                        if (rcmail.command('toggle-editor', {id: ed.id, html: false}, '', e.originalEvent)) {
+                            $('#' + ed.id).parent().removeClass('ishtml');
+                        }
+                    }
+                });
+            };
+        }
+
+        rcmail.addEventListener('editor-load', function(e) {
+            $.each(onload, function() { this(e.ref.editor); });
+        });
     };
 
     function datepicker_init(datepicker)
@@ -1665,7 +1688,7 @@ function rcube_elastic_ui()
             var title, right = 0, left = 0, padding = 0,
                 sizes = {left: 0, right: 0};
 
-            $(this).children(':visible').each(function() {
+            $(this).children(':visible:not(.position-absolute)').each(function() {
                 if (!title && $(this).is('.header-title')) {
                     title = $(this);
                     return;
@@ -3602,21 +3625,20 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
-            tabindex = editor.attr('tabindex'),
-            mode = function() {
-                if (is_table) {
-                    return sw.is(':checked') ? 'html' : 'plain';
-                }
-
-                return sw.val();
-            },
-            tabs = $('<ul class="nav nav-tabs">')
-                .append($('<li class="nav-item">')
-                    .append($('<a class="nav-link mode-html" href="#">')
-                        .text(rcmail.gettext('htmltoggle'))))
-                .append($('<li class="nav-item">')
-                    .append($('<a class="nav-link mode-plain" href="#">')
-                        .text(rcmail.gettext('plaintoggle'))));
+            plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
+                .attr('title', rcmail.gettext('htmltoggle'))
+                .on('click', function(e) {
+                    if (rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
+                        parent.addClass('ishtml');
+                    }
+                })
+                .on('keydown', function(e) {
+                    if (e.which == 9) { // TAB
+                        editor.focus();
+                        return false;
+                    }
+                }),
+            toolbar = $('<div class="editor-toolbar">').append(plain_btn);
 
         if (parent.is('td')) {
             sw = $('input[type="checkbox"]', parent.parent().next());
@@ -3632,23 +3654,14 @@ function rcube_elastic_ui()
         }
 
         parent.addClass('html-editor');
-        editor.before(tabs);
 
-        $('a', tabs).attr('tabindex', tabindex)
-            .on('click', function(e) {
-                var id = editor.attr('id'), is_html = $(this).is('.mode-html');
-
-                e.preventDefault();
-                if (rcmail.command('toggle-editor', {id: id, html: is_html}, '', e.originalEvent)) {
-                    $(this).tab('show').prop('tabindex', -1);
-                    $('.mode-' + (is_html ? 'plain' : 'html'), tabs).prop('tabindex', tabindex);
-
-                    if (is_table) {
-                        sw.prop('checked', is_html);
-                    }
+        editor.after(toolbar)
+            .on('keydown', function(e) {
+                // ALT + F10 is the way to access toolbar in TinyMCE, let's do the same for plain editor
+                if (e.altKey && e.which == 121) {
+                    plain_btn.focus();
                 }
-            })
-            .filter('.mode-' + mode()).tab('show').prop('tabindex', -1);
+            });
 
         if (is_table) {
             // Hide unwanted table cells

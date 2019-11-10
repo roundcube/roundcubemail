@@ -374,8 +374,8 @@ body.task-error-login #layout {
 }
 
 #composestatusbar {
-    position: absolute;
     opacity: .3;
+    right: 2.5rem;
 
     @media screen and (min-width: (@screen-width-small + 1px)) {
         display: none;
@@ -383,11 +383,10 @@ body.task-error-login #layout {
 
     a.button {
         display: inline-block;
-        height: 2.5rem;
-        margin-right: .25rem;
 
         &:before {
-            line-height: 2.5rem;
+            line-height: @layout-touch-header-height;
+            font-size: 1.25rem !important;
         }
     }
 }

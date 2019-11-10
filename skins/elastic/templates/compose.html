@@ -77,6 +77,7 @@
 	<div class="header">
 		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="header-title"><roundcube:label name="compose" /></span>
+		<div id="composestatusbar" class="position-absolute"></div>
 		<!-- toolbar -->
 		<div id="messagetoolbar" class="toolbar menu" role="toolbar" aria-labelledby="aria-label-toolbar">
 			<a class="options" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
@@ -214,7 +215,6 @@
 		<div id="composebodycontainer">
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
-			<div id="composestatusbar"></div>
 		</div>
 		</form>
 		<div class="formbuttons">
