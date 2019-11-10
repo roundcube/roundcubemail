@@ -354,7 +354,7 @@ if ($files = rcube_utils::get_input_value('_attachments', rcube_utils::INPUT_POS
         unset($COMPOSE['attachments'][$idx]);
     }
 
-    $COMPOSE['attachments'] = array_merge(array_filter($files), $COMPOSE['attachments']);
+    $COMPOSE['attachments'] = array_merge(array_filter($files), (array) $COMPOSE['attachments']);
 }
 
 // set line length for body wrapping
