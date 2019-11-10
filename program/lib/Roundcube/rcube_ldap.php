@@ -339,7 +339,7 @@ class rcube_ldap extends rcube_addressbook
                     $search_base_dn = strtr($conf['search_base_dn'], $replaces);
                     $search_filter  = strtr($conf['search_filter'], $replaces);
 
-                    $cache_key = 'DN.' . md5("$host:$search_bind_dn:$search_base_dn:$search_filter:" . $conf['search_bind_pw']);
+                    $cache_key = rcube_cache::key_name('DN', array($host, $search_bind_dn, $search_base_dn, $search_filter, $conf['search_bind_pw']));
 
                     if ($this->cache && ($dn = $this->cache->get($cache_key))) {
                         $replaces['%dn'] = $dn;
