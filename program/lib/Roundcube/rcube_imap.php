@@ -2859,14 +2859,9 @@ class rcube_imap extends rcube_storage
      *
      * @return  array   List of folders
      */
-    public function list_folders_subscribed($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
+    public function list_folders_subscribed($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false)
     {
-        $cache_key = $root.':'.$name;
-        if (!empty($filter)) {
-            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
-        }
-        $cache_key .= ':'.$rights;
-        $cache_key = 'mailboxes.'.md5($cache_key);
+        $cache_key = rcube_cache::key_name('mailboxes', array($root, $name, $filter, $rights));
 
         // get cached folder list
         $a_mboxes = $this->get_cache($cache_key);
@@ -2996,14 +2991,9 @@ class rcube_imap extends rcube_storage
      *
      * @return array Indexed array with folder names
      */
-    public function list_folders($root='', $name='*', $filter=null, $rights=null, $skip_sort=false)
+    public function list_folders($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false)
     {
-        $cache_key = $root.':'.$name;
-        if (!empty($filter)) {
-            $cache_key .= ':'.(is_string($filter) ? $filter : serialize($filter));
-        }
-        $cache_key .= ':'.$rights;
-        $cache_key = 'mailboxes.list.'.md5($cache_key);
+        $cache_key = rcube_cache::key_name('mailboxes.list', array($root, $name, $filter, $rights));
 
         // get cached folder list
         $a_mboxes = $this->get_cache($cache_key);
@@ -3716,7 +3706,7 @@ class rcube_imap extends rcube_storage
         }
 
         // get cached metadata
-        $cache_key = 'mailboxes.folder-info.' . $folder;
+        $cache_key = rcube_cache::key_name('mailboxes.folder-info', array($folder));
         $cached    = $this->get_cache($cache_key);
 
         if (is_array($cached)) {
@@ -3886,7 +3876,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $this->clear_cache('mailboxes.folder-info.' . $folder);
+        $this->clear_cache(rcube_cache::key_name('mailboxes.folder-info', array($folder)));
 
         return $this->conn->setACL($folder, $user, $acl);
     }
@@ -4063,13 +4053,7 @@ class rcube_imap extends rcube_storage
         $entries = (array) $entries;
 
         if (!$force) {
-            // create cache key
-            // @TODO: this is the simplest solution, but we do the same with folders list
-            //        maybe we should store data per-entry and merge on request
-            sort($options);
-            sort($entries);
-            $cache_key = 'mailboxes.metadata.' . $folder;
-            $cache_key .= '.' . md5(serialize($options).serialize($entries));
+            $cache_key = rcube_cache::key_name('mailboxes.metadata', array($folder, $options, $entries));
 
             // get cached data
             $cached_data = $this->get_cache($cache_key);
