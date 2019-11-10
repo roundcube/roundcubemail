@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Managesieve: Fix locked UI after opening filter frame (#7007)
+- Fix PHP warning: "array_merge(): Expected parameter 2 to be an array, null given in sendmail.inc (#7003)
 
 RELEASE 1.4.0
 -------------
