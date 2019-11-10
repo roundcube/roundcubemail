@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Fix locked UI after opening filter frame (#7007)
+
 RELEASE 1.4.0
 -------------
 - Elastic: Resizeable columns (#6929)
