@@ -1369,8 +1369,8 @@ class rcube_db
         }
 
         $sql = preg_replace_callback(
-            '/((TABLE|TRUNCATE|(?<!ON )UPDATE|INSERT INTO|FROM'
-            . '| ON(?! (DELETE|UPDATE))|REFERENCES|CONSTRAINT|FOREIGN KEY|INDEX)'
+            '/((TABLE|TRUNCATE( TABLE)?|(?<!ON )UPDATE|INSERT INTO|FROM'
+            . '| ON(?! (DELETE|UPDATE))|REFERENCES|CONSTRAINT|FOREIGN KEY|INDEX|UNIQUE( INDEX)?)'
             . '\s+(IF (NOT )?EXISTS )?[`"]*)([^`"\( \r\n]+)/',
             array($this, 'fix_table_names_callback'),
             $sql
