@@ -152,15 +152,15 @@ else {
 
 // initialize db with schema found in /SQL/*
 if ($db_working && $_POST['initdb']) {
-    if (!($success = $RCI->init_db($DB))) {
+    if (!$RCI->init_db($DB)) {
         $db_working = false;
         echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.
-          Make sure that the configured database extists and that the user as write privileges</p>';
+            Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
 
 else if ($db_working && $_POST['updatedb']) {
-    if (!($success = $RCI->update_db($_POST['version']))) {
+    if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
 }
