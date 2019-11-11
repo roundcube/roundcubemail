@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix locked UI after opening filter frame (#7007)
 - Fix PHP warning: "array_merge(): Expected parameter 2 to be an array, null given in sendmail.inc (#7003)
 - Fix bug where cache keys could exceed length limit specified in db schema (#7004)
+- Fix invalid Signature button state after escaping Mailvelope mode (#7015)
 
 RELEASE 1.4.0
 -------------

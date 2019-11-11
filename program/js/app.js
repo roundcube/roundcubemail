@@ -3811,8 +3811,11 @@ function rcube_webmail()
       $('#' + ref.env.composebody).show();
       $("[name='_pgpmime']").remove();
 
-      // disable commands that operate on the compose body
-      ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', true);
+      // re-enable commands that operate on the compose body
+      ref.enable_command('toggle-editor', 'insert-response', 'save-response', true);
+      ref.enable_command('spellcheck', !!window.googie);
+      ref.enable_command('insert-sig', !!(ref.env.signatures && ref.env.identity && ref.env.signatures[ref.env.identity]));
+
       ref.triggerEvent('compose-encrypted', { active:false });
     }
     // embed Mailvelope editor container
