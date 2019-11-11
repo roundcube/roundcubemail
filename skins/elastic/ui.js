@@ -683,7 +683,7 @@ function rcube_elastic_ui()
             if (rcmail.env.action == 'compose') {
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
-                    $('a.attach, a.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
+                    $('a.attach, a.responses:not(.edit)')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
                 $('#layout-sidebar > .footer:not(.pagenav) > a.button').click(function() {
