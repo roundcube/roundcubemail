@@ -234,7 +234,8 @@ if (empty($RCMAIL->user->ID)) {
     $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array(
             'task'      => 'login',
             'error'     => $session_error,
-            'http_code' => !$session_error ? 401 : 200
+            // Return 401 only on failed logins (#7010)
+            'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200
     ));
 
     $RCMAIL->set_task($plugin['task']);
