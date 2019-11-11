@@ -29,7 +29,7 @@ $opts = rcube_utils::get_opt(array('v' => 'version', 'y' => 'accept:bool'));
 if (!$opts['version']) {
     echo "What version are you upgrading from? Type '?' if you don't know.\n";
 
-    if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z-]*$/', $input)) {
+    if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
         $opts['version'] = $input;
     }
     else {
