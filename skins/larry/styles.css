@@ -3103,6 +3103,15 @@ button.mce-close,
 	z-index: 65537 !important;
 }
 
+.mce-tinymce.mce-container {
+	box-shadow: none;
+}
+
+.mce-toolbar.mce-container {
+	background: #f0f0f0;
+}
+
+
 /** PGP Key import dialog **/
 .pgpkeyimport div.key {
 	position: relative;
