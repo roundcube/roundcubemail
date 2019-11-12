@@ -6,8 +6,7 @@
 // See README file for list of supported driver names.
 $config['password_driver'] = 'sql';
 
-// A driver to use for checking password strength. Default: null.
-// Set password_check_strength to true to enable
+// A driver to use for checking password strength. Default: null (disabled).
 // See README file for list of supported driver names.
 $config['password_strength_driver'] = null;
 
