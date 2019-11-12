@@ -4938,21 +4938,19 @@ function rcube_webmail()
   this.toggle_editor = function(props, obj, e)
   {
     // @todo: this should work also with many editors on page
-    var result = this.editor.toggle(props.html, props.noconvert || false);
+    var result = this.editor.toggle(props.html, props.noconvert || false),
+        control = $('#' + this.editor.id).data('control') || $(e ? e.target : []);
 
     // satisfy the expectations of aftertoggle-editor event subscribers
-    props.mode = props.html ? 'html' : 'plain';
+    props.mode = props.html && result ? 'html' : 'plain';
 
-    if (!result && e) {
-      // fix selector value if operation failed
-      props.mode = props.html ? 'plain' : 'html';
-      $(e.target).filter('select').val(props.mode);
-    }
+    // update internal format flag
+    $("[name='_is_html']").val(props.mode == 'html' ? 1 : 0);
 
-    if (result) {
-      // update internal format flag
-      $("[name='_is_html']").val(props.html ? 1 : 0);
-    }
+    if (control.is('[type=checkbox]'))
+      control.prop('checked', props.mode == 'html');
+    else
+      control.val(props.mode);
 
     return result;
   };
