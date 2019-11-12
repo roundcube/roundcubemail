@@ -3655,7 +3655,7 @@ function rcube_elastic_ui()
 
         parent.addClass('html-editor');
 
-        editor.after(toolbar)
+        editor.after(toolbar).data('control', sw)
             .on('keydown', function(e) {
                 // ALT + F10 is the way to access toolbar in TinyMCE, let's do the same for plain editor
                 if (e.altKey && e.which == 121) {
