@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid Signature button state after escaping Mailvelope mode (#7015)
 - Fix so 401 error is returned only on failed logon requests (#7010)
 - Fix db_prefix handling in queries with `TRUNCATE TABLE <name>` and `UNIQUE <name>` (#7013)
+- Fix so update.sh script warns about changed defaults (#7011)
 
 RELEASE 1.4.0
 -------------

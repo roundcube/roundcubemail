@@ -61,6 +61,10 @@ class rcmail_install
         'Oracle'              => 'oci8',
     );
 
+    /** @var array List of config options with default value change per-release */
+    public $defaults_changes = array(
+        '1.4.0' => array('skin', 'smtp_port', 'smto_user', 'smtp_pass'),
+    );
 
     /**
      * Constructor
@@ -298,9 +302,11 @@ class rcmail_install
      * Check the current configuration for missing properties
      * and deprecated or obsolete settings
      *
+     * @param string $version Previous version on upgrade
+     *
      * @return array List with problems detected
      */
-    public function check_config()
+    public function check_config($version = null)
     {
         $this->load_config();
 
@@ -377,6 +383,18 @@ class rcmail_install
                     break;
                 }
             }
+        }
+
+        if ($version) {
+            $out['defaults'] = array();
+
+            foreach ($this->defaults_changes as $v => $opts) {
+                if (version_compare($v, $version, '>')) {
+                    $out['defaults'] = array_merge($out['defaults'], $opts);
+                }
+            }
+
+            $out['defaults'] = array_unique($out['defaults']);
         }
 
         return $out;
