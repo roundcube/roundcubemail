@@ -53,7 +53,8 @@ it on a unix system, you need to do the following operations by hand:
    - run `php composer.phar install --no-dev`.
 4c. If you use git sources or the release package without dependencies
    update javascript dependencies by executing `bin/install-jsdeps.sh` script.
-4d. If you use git sources compile css files for the Elastic skin:
+4d. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 1.5.0):
    $ cd skins/elastic
    $ lessc -x styles/styles.less > styles/styles.css
    $ lessc -x styles/print.less > styles/print.css
