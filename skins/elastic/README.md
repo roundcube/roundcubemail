@@ -28,7 +28,7 @@ INSTALLATION
 ------------
 
 All styles are written using LESS syntax. Thus it needs to be compiled
-using the `lessc` command line tool. This comes with the `nodejs-less`
+using the `lessc` (>= 1.5.0) command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
 ```
     $ lessc -x styles/styles.less > styles/styles.css
