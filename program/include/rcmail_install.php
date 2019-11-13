@@ -63,7 +63,7 @@ class rcmail_install
 
     /** @var array List of config options with default value change per-release */
     public $defaults_changes = array(
-        '1.4.0' => array('skin', 'smtp_port', 'smto_user', 'smtp_pass'),
+        '1.4.0' => array('skin', 'smtp_port', 'smtp_user', 'smtp_pass'),
     );
 
     /**
