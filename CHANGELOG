@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix so 401 error is returned only on failed logon requests (#7010)
 - Fix db_prefix handling in queries with `TRUNCATE TABLE <name>` and `UNIQUE <name>` (#7013)
 - Fix so update.sh script warns about changed defaults (#7011)
+- Fix tables listing routine when DSN contained a database with unsupported suffix (#7034)
 
 RELEASE 1.4.0
 -------------
