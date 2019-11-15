@@ -492,7 +492,29 @@ function rcube_elastic_ui()
             (new MutationObserver(callback)).observe(document.body, {childList: true});
         }
 
-        // Initialize column resizers
+        // Create floating action button(s)
+        if ((layout.list.length || layout.content.length) && is_mobile()) {
+            var fabuttons = [];
+
+            $('[data-fab]').each(function() {
+                var button = $(this),
+                    task = button.data('fab-task') || '*',
+                    action = button.data('fab-action') || '*';
+
+                if ((task == '*' || task == rcmail.task)
+                    && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
+                ) {
+                    fabuttons.push(create_cloned_button(button, false, false, true));
+                }
+            });
+
+            if (fabuttons.length) {
+                $('<div class="floating-action-buttons">').append(fabuttons)
+                    .appendTo(layout.list.length ? layout.list : layout.content);
+            }
+        }
+
+        // Initialize column resizers (must be after floating buttons)
         if (layout.sidebar.length) {
             splitter_init(layout.sidebar);
         }
@@ -629,28 +651,6 @@ function rcube_elastic_ui()
                 // initialize the message
                 callback();
             });
-        }
-
-        // Create floating action button(s)
-        if ((layout.list.length || layout.content.length) && is_mobile()) {
-            var fabuttons = [];
-
-            $('[data-fab]').each(function() {
-                var button = $(this),
-                    task = button.data('fab-task') || '*',
-                    action = button.data('fab-action') || '*';
-
-                if ((task == '*' || task == rcmail.task)
-                    && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
-                ) {
-                    fabuttons.push(create_cloned_button(button, false, false, true));
-                }
-            });
-
-            if (fabuttons.length) {
-                $('<div class="floating-action-buttons">').append(fabuttons)
-                    .appendTo(layout.list.length ? layout.list : layout.content);
-            }
         }
 
         // Add menu link for each attachment
