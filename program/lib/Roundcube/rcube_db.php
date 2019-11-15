@@ -1184,7 +1184,6 @@ class rcube_db
         }
 
         // Find protocol and hostspec
-
         // $dsn => proto(proto_opts)/database
         if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
             $proto       = $match[1];
@@ -1200,9 +1199,9 @@ class rcube_db
                 && strpos($dsn, '/', 2) !== false
                 && $parsed['phptype'] == 'oci8'
             ) {
-                //oracle's "Easy Connect" syntax:
-                //"username/password@[//]host[:port][/service_name]"
-                //e.g. "scott/tiger@//mymachine:1521/oracle"
+                // Oracle's "Easy Connect" syntax:
+                // "username/password@[//]host[:port][/service_name]"
+                // e.g. "scott/tiger@//mymachine:1521/oracle"
                 $proto_opts = $dsn;
                 $pos = strrpos($proto_opts, '/');
                 $dsn = substr($proto_opts, $pos + 1);
@@ -1230,17 +1229,18 @@ class rcube_db
             $parsed['socket'] = $proto_opts;
         }
 
-        // Get dabase if any
+        // Get database if any
         // $dsn => database
         if ($dsn) {
             // /database
             if (($pos = strpos($dsn, '?')) === false) {
                 $parsed['database'] = rawurldecode($dsn);
-            // /database?param1=value1&param2=value2
             }
             else {
+                // /database?param1=value1&param2=value2
                 $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
                 $dsn = substr($dsn, $pos + 1);
+
                 if (strpos($dsn, '&') !== false) {
                     $opts = explode('&', $dsn);
                 }
@@ -1255,6 +1255,9 @@ class rcube_db
                     }
                 }
             }
+
+            // remove problematic suffix (#7034)
+            $parsed['database'] = preg_replace('/;.*$/', '', $parsed['database']);
         }
 
         return $parsed;
