@@ -501,7 +501,7 @@ function rcube_elastic_ui()
                     task = button.data('fab-task') || '*',
                     action = button.data('fab-action') || '*';
 
-                if ((task == '*' || task == rcmail.task)
+                if ((task == '*' || task == rcmail.env.task)
                     && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
                 ) {
                     fabuttons.push(create_cloned_button(button, false, false, true));
