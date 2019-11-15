@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Elastic: Change HTML editor widget to improve form flow (#6992)
+- Elastic: Fix position of mobile floating action button (#7038)
 - Managesieve: Fix locked UI after opening filter frame (#7007)
 - Fix PHP warning: "array_merge(): Expected parameter 2 to be an array, null given in sendmail.inc (#7003)
 - Fix bug where cache keys could exceed length limit specified in db schema (#7004)
