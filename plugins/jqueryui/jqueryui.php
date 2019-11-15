@@ -18,6 +18,10 @@ class jqueryui extends rcube_plugin
 
     private static $features = array();
     private static $ui_theme;
+    private static $skin_map = array(
+        'larry' => 'larry',
+        'default' => 'elastic',
+    );
 
     public function init()
     {
@@ -35,9 +39,9 @@ class jqueryui extends rcube_plugin
 
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
-        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', array());
+        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', self::$skin_map);
         $skins    = array_keys($rcmail->output->skins);
-        $skins[]  = 'larry';
+        $skins[]  = 'elastic';
 
         foreach ($skins as $skin) {
             self::$ui_theme = $ui_theme = $ui_map[$skin] ?: $skin;
