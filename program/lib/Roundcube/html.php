@@ -745,7 +745,7 @@ class html_table extends html
     protected $allowed = array('id','class','style','width','summary',
         'cellpadding','cellspacing','border');
 
-    private $header   = array();
+    private $header   = null;
     private $rows     = array();
     private $rowindex = 0;
     private $colindex = 0;
@@ -807,9 +807,14 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib   = $attr;
-        $cell->content  = $cont;
-        $this->header[] = $cell;
+        $cell->attrib  = $attr;
+        $cell->content = $cont;
+
+        if (empty($this->header)) {
+            $this->header = new stdClass;
+        }
+
+        $this->header->cells[] = $cell;
     }
 
     /**
@@ -821,7 +826,7 @@ class html_table extends html
     public function remove_column($class)
     {
         // Remove the header
-        foreach ($this->header as $index => $header){
+        foreach ($this->header->cells as $index => $header){
             if ($header->attrib['class'] == $class){
                 unset($this->header[$index]);
                 break;
@@ -851,6 +856,24 @@ class html_table extends html
         $this->rows[$this->rowindex] = new stdClass;
         $this->rows[$this->rowindex]->attrib = $attr;
         $this->rows[$this->rowindex]->cells  = array();
+    }
+
+    /**
+     * Set header attributes
+     *
+     * @param array $attr  Row attributes
+     */
+    public function set_header_attribs($attr = array())
+    {
+        if (is_string($attr)) {
+            $attr = array('class' => $attr);
+        }
+
+        if (empty($this->header)) {
+            $this->header = new stdClass;
+        }
+
+        $this->header->attrib = $attr;
     }
 
     /**
@@ -915,10 +938,10 @@ class html_table extends html
         // include <thead>
         if (!empty($this->header)) {
             $rowcontent = '';
-            foreach ($this->header as $c => $col) {
+            foreach ($this->header->cells as $c => $col) {
                 $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
-            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib)) :
                 self::tag($row_tagname, array('class' => 'thead'), $rowcontent, parent::$common_attrib);
         }
 
