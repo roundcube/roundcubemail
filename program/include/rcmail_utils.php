@@ -112,13 +112,7 @@ class rcmail_utils
 
         // Read DB schema version from database (if 'system' table exists)
         if (in_array($db->table_name('system'), (array)$db->list_tables())) {
-            $db->query("SELECT `value`"
-                . " FROM " . $db->table_name('system', true)
-                . " WHERE `name` = ?",
-                $package . '-version');
-
-            $row     = $db->fetch_array();
-            $version = preg_replace('/[^0-9]/', '', $row[0]);
+            $version = self::db_version($package);
         }
 
         // DB version not found, but release version is specified
@@ -251,6 +245,28 @@ class rcmail_utils
         }
 
         return $db->is_error();
+    }
+
+    /**
+     * Get version string for the specified package
+     *
+     * @param string $package Package name
+     *
+     * @return string Version string
+     */
+    public static function db_version($package = 'roundcube')
+    {
+        $db = self::db();
+
+        $db->query("SELECT `value`"
+            . " FROM " . $db->table_name('system', true)
+            . " WHERE `name` = ?",
+            $package . '-version');
+
+        $row     = $db->fetch_array();
+        $version = preg_replace('/[^0-9]/', '', $row[0]);
+
+        return $version;
     }
 
     /**
