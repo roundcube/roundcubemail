@@ -494,6 +494,9 @@ $labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
+$labels['importmapdesc'] = 'Confirm the field mapping information below is correct before proceeding with CSV (comma-separated) data import.';
+$labels['fieldnotmapped'] = 'Field not mapped (do not import)';
+$labels['skipheader'] = 'Do not import first line (headers)';
 $labels['done'] = 'Done';
 
 // settings
@@ -677,6 +680,7 @@ $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
+$labels['destination'] = 'Destination';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';

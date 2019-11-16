@@ -1430,6 +1430,11 @@ function rcube_webmail()
         var dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
           import_func = function(e) {
             var win = dialog[0].contentWindow,
+              form = null;
+
+            if (win.rcmail.gui_objects.importformmap)
+              form = win.rcmail.gui_objects.importformmap;
+            else
               form = win.rcmail.gui_objects.importform;
 
             if (form) {
