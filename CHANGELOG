@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix so update.sh script warns about changed defaults (#7011)
 - Fix tables listing routine when DSN contained a database with unsupported suffix (#7034)
 - Fix so Elastic is also a default in jqueryui plugin (#7039)
+- Fix bug where the Installer would not warn about required schema upgrade (#7042)
 
 RELEASE 1.4.0
 -------------
