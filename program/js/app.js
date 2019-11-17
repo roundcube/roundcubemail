@@ -3077,7 +3077,7 @@ function rcube_webmail()
         css_class += ' status';
       }
 
-      $(row.icon).attr('class', css_class).attr('title', label);
+      $(row.icon).attr({'class': css_class, title: label});
     }
 
     if (row.msgicon && row.msgicon != row.icon) {
@@ -3095,15 +3095,14 @@ function rcube_webmail()
         label += this.get_label('forwarded') + ' ';
       }
 
-      $(row.msgicon).attr('class', css_class).attr('title', label);
+      $(row.msgicon).attr({'class': css_class, title: label});
     }
 
     if (row.flagicon) {
       css_class = (row.flagged ? 'flagged' : 'unflagged');
       label = this.get_label(css_class);
       $(row.flagicon).attr('class', css_class)
-        .attr('aria-label', label)
-        .attr('title', label);
+        .attr({'aria-label': label, title: label});
     }
   };
 
@@ -4078,9 +4077,7 @@ function rcube_webmail()
 
       li.append($('<label>').addClass('keyid').text(ref.get_label('keyid')));
       li.append($('<a>').text(keyrec.keyid.substr(-8).toUpperCase())
-        .attr('href', keyrec.info)
-        .attr('target', '_blank')
-        .attr('tabindex', '-1'));
+        .attr({href: keyrec.info, target: '_blank', tabindex: '-1'}));
 
       li.append($('<label>').addClass('keylen').text(ref.get_label('keylength')));
       li.append($('<span>').text(keyrec.keylen));
@@ -5011,9 +5008,7 @@ function rcube_webmail()
     if (this.gui_objects.responseslist) {
       var li = $('<li>').appendTo(this.gui_objects.responseslist);
       $('<a>').addClass('insertresponse active')
-        .attr('href', '#')
-        .attr('rel', key)
-        .attr('tabindex', '0')
+        .attr({href: '#', rel: key, tabindex: '0'})
         .html(this.quote_html(response.name))
         .appendTo(li)
         .mousedown(function(e) {
@@ -6008,8 +6003,7 @@ function rcube_webmail()
         text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
         type = typeof results[i] === 'object' ? results[i].type : '';
         id = i + this.env.contacts.length;
-        $('<li>').attr('id', 'rcmkSearchItem' + id)
-          .attr('role', 'option')
+        $('<li>').attr({id: 'rcmkSearchItem' + id, role: 'option'})
           .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
           .addClass(type || '')
           .appendTo(ul)
@@ -6023,9 +6017,7 @@ function rcube_webmail()
     if (ul.childNodes.length) {
       // set the right aria-* attributes to the input field
       $(this.ksearch_input)
-        .attr('aria-haspopup', 'true')
-        .attr('aria-expanded', 'true')
-        .attr('aria-owns', 'rcmKSearchpane');
+        .attr({'aria-haspopup': 'true', 'aria-expanded': 'true', 'aria-owns': 'rcmKSearchpane'});
 
       this.ksearch_pane.show();
 
@@ -6105,8 +6097,7 @@ function rcube_webmail()
       this.ksearch_pane.hide();
 
     $(this.ksearch_input)
-      .attr('aria-haspopup', 'false')
-      .attr('aria-expanded', 'false')
+      .attr({'aria-haspopup': 'false', 'aria-expanded': 'false'})
       .removeAttr('aria-activedescendant')
       .removeAttr('aria-owns');
 
@@ -6750,8 +6741,7 @@ function rcube_webmail()
     prop.type = 'group';
 
     var key = 'G'+prop.source+prop.id,
-      link = $('<a>').attr('href', '#')
-        .attr('rel', prop.source+':'+prop.id)
+      link = $('<a>').attr({href: '#', rel: prop.source + ':' + prop.id})
         .click(function() { return ref.command('listgroup', prop, this); })
         .html(prop.name);
 
@@ -6787,8 +6777,7 @@ function rcube_webmail()
       newprop.type = 'group';
 
       newnode.id = newkey;
-      newnode.html = $('<a>').attr('href', '#')
-        .attr('rel', prop.source+':'+prop.newid)
+      newnode.html = $('<a>').attr({href: '#', rel: prop.source + ':' + prop.newid})
         .click(function() { return ref.command('listgroup', newprop, this); })
         .html(prop.name);
     }
@@ -7092,8 +7081,7 @@ function rcube_webmail()
   this.insert_saved_search = function(name, id)
   {
     var key = 'S'+id,
-      link = $('<a>').attr('href', '#')
-        .attr('rel', id)
+      link = $('<a>').attr({href: '#', rel: id})
         .click(function() { return ref.command('listsearch', id, this); })
         .html(name),
       prop = { name:name, id:id };
@@ -7825,7 +7813,7 @@ function rcube_webmail()
   // set button to a specific state
   this.set_button = function(command, state)
   {
-    var n, button, obj, $obj, a_buttons = this.buttons[command],
+    var n, button, obj, a_buttons = this.buttons[command],
       len = a_buttons ? a_buttons.length : 0;
 
     for (n=0; n<len; n++) {
@@ -7861,10 +7849,10 @@ function rcube_webmail()
         obj.disabled = state == 'pas';
       }
       else {
-        $obj = $(obj);
-        $obj
-          .attr('tabindex', state == 'pas' || state == 'sel' ? '-1' : ($obj.attr('data-tabindex') || '0'))
-          .attr('aria-disabled', state == 'pas' || state == 'sel' ? 'true' : 'false');
+        $(obj).attr({
+          tabindex: state == 'pas' || state == 'sel' ? '-1' : ($(obj).attr('data-tabindex') || '0'),
+          'aria-disabled': state == 'pas' || state == 'sel' ? 'true' : 'false'
+        });
       }
     }
   };
@@ -7872,20 +7860,22 @@ function rcube_webmail()
   // display a specific alttext
   this.set_alttext = function(command, label)
   {
-    var n, button, obj, link, a_buttons = this.buttons[command],
+    var n, button, obj, link, label,
+      a_buttons = this.buttons[command],
       len = a_buttons ? a_buttons.length : 0;
 
     for (n=0; n<len; n++) {
       button = a_buttons[n];
       obj = document.getElementById(button.id);
+      label = this.get_label(label);
 
-      if (button.type == 'image' && obj) {
-        obj.setAttribute('alt', this.get_label(label));
+      if (obj && button.type == 'image') {
+        obj.setAttribute('alt', label);
         if ((link = obj.parentNode) && link.tagName.toLowerCase() == 'a')
-          link.setAttribute('title', this.get_label(label));
+          link.setAttribute('title', label);
       }
       else if (obj)
-        obj.setAttribute('title', this.get_label(label));
+        obj.setAttribute('title', label);
     }
   };
 
@@ -8577,9 +8567,9 @@ function rcube_webmail()
     this.entity_selector('addressbook-selector', callback, combined_sources, function(obj, a) {
       if (obj.type == 'group') {
         a.attr('rel', obj.source + ':' + obj.id)
-            .addClass('contactgroup active')
-            .data({source: obj.source, gid: obj.id, id: obj.source + ':' + obj.id})
-            .css('padding-left', '16px');
+          .addClass('contactgroup active')
+          .data({source: obj.source, gid: obj.id, id: obj.source + ':' + obj.id})
+          .css('padding-left', '16px');
       }
       else {
         a.addClass('addressbook active').data('id', obj.id);
@@ -9458,8 +9448,9 @@ function rcube_webmail()
     $(form).attr({
         target: frame_name,
         action: this.url(action, {_id: this.env.compose_id || '', _uploadid: ts, _from: this.env.action}),
-        method: 'POST'})
-      .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
+        method: 'POST',
+        enctype: 'multipart/form-data'
+      })
       .submit();
 
     return frame_name;
