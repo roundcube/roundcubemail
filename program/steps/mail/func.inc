@@ -1704,11 +1704,11 @@ function rcmail_message_import_form($attrib = array())
     $input_attr  = array(
         'multiple' => true,
         'name'     => '_file[]',
-        'accept'   => '.eml, .mbox, .msg, message/rfc822, text/*',
+        'accept'   => '.eml,.mbox,.msg,message/rfc822,text/*',
     );
 
     if (class_exists('ZipArchive', false)) {
-        $input_attr['accept'] .= '.zip, application/zip, application/x-zip';
+        $input_attr['accept'] .= '.zip,application/zip,application/x-zip';
         $description          .= ' ' . $RCMAIL->gettext('mailimportzip');
     }
 
