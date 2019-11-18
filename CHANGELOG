@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Enigma: Add script to import keys from filesystem to the db storage (for multihost)
+- Fix so type attribute on script tags is not used on HTML5 pages (#6975)
 
 RELEASE 1.4.1
 -------------
