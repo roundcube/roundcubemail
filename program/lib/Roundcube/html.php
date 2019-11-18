@@ -256,15 +256,21 @@ class html
         if (is_string($attr)) {
             $attr = array('src' => $attr);
         }
+
         if ($cont) {
-            if (self::$doctype == 'xhtml')
-                $cont = "\n/* <![CDATA[ */\n" . $cont . "\n/* ]]> */\n";
-            else
-                $cont = "\n" . $cont . "\n";
+            if (self::$doctype == 'xhtml') {
+                $cont = "/* <![CDATA[ */\n{$cont}\n/* ]]> */";
+            }
+
+            $cont = "\n{$cont}\n";
         }
 
-        return self::tag('script', $attr + array('type' => 'text/javascript', 'nl' => true),
-            $cont, array_merge(self::$common_attrib, array('src','type','charset')));
+        if (self::$doctype == 'xhtml') {
+            $attr += array('type' => 'text/javascript');
+        }
+
+        return self::tag('script', $attr + array('nl' => true), $cont,
+            array_merge(self::$common_attrib, array('src', 'type', 'charset')));
     }
 
     /**

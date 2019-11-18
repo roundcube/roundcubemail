@@ -115,7 +115,7 @@ class jqueryui extends rcube_plugin
         $config_str   = rcube_output::json_serialize($config);
 
         $rcube->output->include_css('plugins/jqueryui/' . $css);
-        $rcube->output->add_header(html::tag('script', array('type' => 'text/javascript', 'src' => $script)));
+        $rcube->output->include_script($script, 'head', false);
         $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $config_str . ')', 'docready');
         $rcube->output->set_env('minicolors_config', $config);
     }
@@ -141,7 +141,7 @@ class jqueryui extends rcube_plugin
             $rcube->output->include_css('plugins/jqueryui/' . $css);
         }
 
-        $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
+        $rcube->output->include_script($script, 'head', false);
     }
 
     /**
