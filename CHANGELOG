@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Add script to import keys from filesystem to the db storage (for multihost)
+
 RELEASE 1.4.1
 -------------
 - Elastic: Change HTML editor widget to improve form flow (#6992)
