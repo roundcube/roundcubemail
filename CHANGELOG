@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.1
+-------------
 - Elastic: Change HTML editor widget to improve form flow (#6992)
 - Elastic: Fix position of mobile floating action button (#7038)
 - Managesieve: Fix locked UI after opening filter frame (#7007)
