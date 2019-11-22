@@ -679,7 +679,7 @@ function rule_header_select(id)
     rule.val('contains');
 
   rule_op_select(op, id, h);
-  rule_mod_select(id, h);
+  rule_mod_select(id, h, !is_header);
   rule_mime_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
@@ -703,12 +703,15 @@ function rule_trans_select(id)
   target.style.display = obj.value != 'content' ? 'none' : 'inline';
 };
 
-function rule_mod_select(id, header)
+function rule_mod_select(id, header, reset)
 {
   var obj = document.getElementById('rule_mod_op' + id),
     target = document.getElementById('rule_mod_type' + id),
     duplicate = document.getElementById('rule_duplicate_div' + id),
     index = document.getElementById('rule_index_div' + id);
+
+  if (reset)
+    obj.value = '';
 
   if (!header)
     header = document.getElementById('header' + id).value;

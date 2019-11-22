@@ -1,4 +1,5 @@
 - Replace "Filter disabled" with "Filter enabled" (#7028)
+- Fix so modifier type select wasn't hidden after hiding modifier select on header change
 
 * version 9.3 [2019-04-21]
 -----------------------------------------------------------

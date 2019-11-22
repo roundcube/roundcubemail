@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Managesieve: Replace "Filter disabled" with "Filter enabled" (#7028)
+- Managesieve: Fix so modifier type select wasn't hidden after hiding modifier select on header change
 - Enigma: Add script to import keys from filesystem to the db storage (for multihost)
 - Fix so type attribute on script tags is not used on HTML5 pages (#6975)
 - Fix unread count after purge on a folder that is not currently selected (#7051)
