@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix so type attribute on script tags is not used on HTML5 pages (#6975)
 - Fix unread count after purge on a folder that is not currently selected (#7051)
 - Fix bug where Enter key didn't work on messages list in "List" layout (#7052)
+- Fix bug where deleting a saved search in addressbook caused display issue on sources/groups list (#7061)
 
 RELEASE 1.4.1
 -------------
