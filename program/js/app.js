@@ -268,7 +268,7 @@ function rcube_webmail()
           this.message_list
             .addEventListener('initrow', function(o) { ref.init_message_row(o); })
             .addEventListener('dblclick', function(o) { ref.msglist_dbl_click(o); })
-            .addEventListener('keypress', function(o) { ref.list_keypress(o); })
+            .addEventListener('keypress', function(o) { ref.msglist_keypress(o); })
             .addEventListener('select', function(o) { ref.msglist_select(o); })
             .addEventListener('dragstart', function(o) { ref.drag_start(o); })
             .addEventListener('dragmove', function(e) { ref.drag_move(e); })
@@ -951,8 +951,9 @@ function rcube_webmail()
         if (this.task == 'mail') {
           uid = this.get_single_uid();
           if (uid && (!this.env.uid || uid != this.env.uid)) {
-            if (this.env.mailbox == this.env.drafts_mailbox)
-              this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
+            var mbox = this.get_message_mailbox(uid);
+            if (mbox == this.env.drafts_mailbox)
+              this.open_compose_step({_draft_uid: uid, _mbox: mbox});
             else
               this.show_message(uid);
           }
@@ -981,7 +982,7 @@ function rcube_webmail()
           this.load_contact(cid, 'edit');
         else if (this.task == 'mail' && (uid = this.get_single_uid())) {
           url = { _mbox: this.get_message_mailbox(uid) };
-          url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = uid;
+          url[url._mbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = uid;
           this.open_compose_step(url);
         }
         break;
@@ -1920,17 +1921,29 @@ function rcube_webmail()
       this.command(conf && conf.next ? conf.next : 'nextpage');
   };
 
+  // Handler for a keypress event on a messages list widget
+  this.msglist_keypress = function(list)
+  {
+    // On Enter open the message in list layout mode (no preview frame)
+    if (list.key_pressed == list.ENTER_KEY && !this.env.contentframe)
+      this.command('show');
+    else
+      this.list_keypress(list);
+  };
+
   this.msglist_select = function(list)
   {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var selected = list.get_single_selection();
+    var selected = list.get_single_selection(),
+      selected_count = list.get_selection(false).length;
 
     this.enable_command(this.env.message_commands, selected != null);
+
     if (selected) {
       // Hide certain command buttons when Drafts folder is selected
-      if (this.env.mailbox == this.env.drafts_mailbox)
+      if (this.get_message_mailbox(selected) == this.env.drafts_mailbox)
         this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', 'forward-inline', false);
       // Disable reply-list when List-Post header is not set
       else {
@@ -1939,19 +1952,20 @@ function rcube_webmail()
           this.enable_command('reply-list', false);
       }
     }
+
     // Multi-message commands
-    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', list.get_selection(false).length > 0);
+    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', selected_count > 0);
 
     // reset all-pages-selection
-    if (selected || (list.get_selection(false).length && list.get_selection(false).length != list.rowcount))
+    if (selected || (selected_count && selected_count != list.rowcount))
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select) {
       // try to be responsive and try not to overload the server when user is pressing up/down key repeatedly
-      var now = new Date().getTime();
-      var time_diff = now - (this._last_msglist_select_time || 0);
-      var preview_pane_delay = this.preview_delay_click;
+      var now = new Date().getTime(),
+        time_diff = now - (this._last_msglist_select_time || 0),
+        preview_pane_delay = this.preview_delay_click;
 
       // user is selecting messages repeatedly, wait until this ends (use larger delay)
       if (time_diff < this.preview_delay_select) {
@@ -1977,12 +1991,18 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var uid = list.get_single_selection();
+    var mbox, uid = list.get_single_selection();
 
-    if (uid && (this.env.messages[uid].mbox || this.env.mailbox) == this.env.drafts_mailbox)
-      this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
-    else if (uid)
-      this.show_message(uid, false, false);
+    // TODO: Here we should just use this.command('show') but we can't
+    // because at this point this.busy=true (set by msglist_get_preview())
+
+    if (uid) {
+      mbox = this.get_message_mailbox(uid);
+      if (mbox == this.env.drafts_mailbox)
+        this.open_compose_step({_draft_uid: uid, _mbox: mbox});
+      else
+        this.show_message(uid);
+    }
   };
 
   this.msglist_get_preview = function()
