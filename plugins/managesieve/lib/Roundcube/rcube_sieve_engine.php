@@ -698,7 +698,7 @@ class rcube_sieve_engine
             $delheader_op    = rcube_utils::get_input_value('_action_delheader_op', rcube_utils::INPUT_POST);
             $delheader_comp  = rcube_utils::get_input_value('_action_delheader_comp', rcube_utils::INPUT_POST);
 
-            $this->form['disabled'] = !empty($_POST['_disabled']);
+            $this->form['disabled'] = empty($_POST['_enabled']);
             $this->form['join']     = $join == 'allof';
             $this->form['name']     = $name;
             $this->form['tests']    = array();
@@ -1508,7 +1508,7 @@ class rcube_sieve_engine
         $_SESSION['managesieve-compact-form'] = $compact;
 
         // do not allow creation of new rules
-        if ($fid == null && in_array('new_rule', $this->disabled_actions)) {
+        if ($fid === null && in_array('new_rule', $this->disabled_actions)) {
             $this->rc->output->show_message('managesieve.disabledaction', 'error');
             return;
         }
@@ -1556,12 +1556,13 @@ class rcube_sieve_engine
                 $this->filtersets_list(array('id' => 'sievescriptname'), true)
             );
         }
-        else if ($compact) {
-            $out .= sprintf("\n" . '<div class="form-group row form-check">'
-                . '<label for="disabled" class="col-sm-4 col-form-label">%s</label>'
-                . '<div class="col-sm-8 form-check"><input type="checkbox" id="disabled" name="_disabled" value="1" /></div></div>',
-                rcube::Q($this->plugin->gettext('filterdisabled')));
-        }
+
+        $out .= sprintf("\n" . '<div class="form-group row form-check">'
+            . '<label for="fenabled" class="col-sm-4 col-form-label">%s</label>'
+            . '<div class="col-sm-8 form-check">'
+                . '<input type="checkbox" id="fenabled" name="_enabled" value="1"' . (empty($scr['disabled']) ? ' checked' : '') . ' />'
+            . '</div></div>',
+            rcube::Q($this->plugin->gettext('filterenabled')));
 
         if ($compact) {
             $select = new html_select(array('name' => '_join', 'id' => '_join',

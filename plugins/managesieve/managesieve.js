@@ -104,9 +104,6 @@ if (window.rcmail) {
         $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { rcmail.managesieve_fixdragend(e); });
       }
     }
-
-    if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
-      $('#disabled').attr('checked', true);
   });
 };
 
@@ -295,7 +292,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       else
         row.removeClass('disabled');
 
-      $('#disabled', $('iframe').contents()).prop('checked', o.disabled);
+      $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
       break;
 
