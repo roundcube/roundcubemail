@@ -7143,9 +7143,8 @@ function rcube_webmail()
   // callback from server upon search-delete command
   this.remove_search_item = function(id)
   {
-    var li, key = 'S'+id;
-    if (this.savedsearchlist.remove(key)) {
-      this.triggerEvent('search_delete', { id:id, li:li });
+    if (this.savedsearchlist.remove('S' + id)) {
+      this.triggerEvent('search_delete', {id: id});
     }
 
     this.env.search_id = null;
