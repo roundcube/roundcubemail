@@ -368,8 +368,14 @@ function rcube_treelist_widget(node, p)
     // insert as child of an existing node
     if (parent_node) {
       node.level = parent_node.level + 1;
+
       if (!parent_node.children)
         parent_node.children = [];
+      else {
+        // Remove deleted nodes from the parent to make sure re-rendering below
+        // happens when adding a new child to a parent with all nodes removed
+        parent_node.children = parent_node.children.filter(function(node) { return !node.deleted; });
+      }
 
       search_active = false;
       parent_node.children.push(node);
