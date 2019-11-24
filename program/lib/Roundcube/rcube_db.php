@@ -1258,6 +1258,15 @@ class rcube_db
 
             // remove problematic suffix (#7034)
             $parsed['database'] = preg_replace('/;.*$/', '', $parsed['database']);
+
+            // Resolve relative path to the sqlite database file
+            // so for example it works with Roundcube Installer
+            if (!empty($parsed['phptype']) && !empty($parsed['database'])
+                && stripos($parsed['phptype'], 'sqlite') === 0
+                && $parsed['database'][0] != '/'
+            ) {
+                $parsed['database'] = INSTALL_PATH . $parsed['database'];
+            }
         }
 
         return $parsed;
