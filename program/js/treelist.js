@@ -526,7 +526,11 @@ function rcube_treelist_widget(node, p)
       // remove tree-toggle button and children list
       if (!parent.children().length) {
         parent.parent('li').find('div.treetoggle').remove();
-        parent.remove();
+
+        // remove parent, but not if it's the list itself
+        if (parent[0] != container[0]) {
+            parent.remove();
+        }
       }
 
       return true;
