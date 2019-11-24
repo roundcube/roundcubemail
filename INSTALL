@@ -44,7 +44,9 @@ REQUIREMENTS
 INSTALLATION
 ============
 
-1. Decompress and put this folder somewhere inside your document root
+1. Decompress and put this folder somewhere inside your document root.
+  Note: Make sure files have proper owner/group for your setup. If you use
+  tar command `--no-same-owner` option might be helpful.
 2. In case you don't use the so-called "complete" release package,
   you have to install PHP and javascript dependencies.
   2.1. Install PHP dependencies using composer:
@@ -78,7 +80,7 @@ CONFIGURATION HINTS
 IMPORTANT! Read all comments in defaults.inc.php, understand them
 and configure your installation to be not surprised by default behaviour.
 
-Roundcube writes internal errors to the 'errors' log file located in the logs
+Roundcube writes internal errors to the 'errors.log' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
 PHP errors to be logged there as well, set error_log in php.ini or .htaccess file.
 

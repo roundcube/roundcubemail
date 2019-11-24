@@ -14,18 +14,20 @@ and cd into that directory. From there, run the following command in a shell:
 
   ./bin/installto.sh <TARGET-FOLDER>
 
-For <TARGET-FOLDER> you specify the path to the Roundcube installation 
-which should be updated. The update script will then copy all new files to the 
+For <TARGET-FOLDER> you specify the path to the Roundcube installation
+which should be updated. The update script will then copy all new files to the
 target location and check and update the configuration and database schema.
-After all is done, the temporary folder with the new Roundcube files can be 
+After all is done, the temporary folder with the new Roundcube files can be
 removed again.
 
+WARNING: Make sure files have proper owner/group for your setup. If you use
+         tar to extract the package, `--no-same-owner` option might be helpful.
 WARNING: See Post-Upgrade Activities section below.
 
 
 Updating manually
 -----------------
-If you don't have shell access to the Roundcube installation or if not running 
+If you don't have shell access to the Roundcube installation or if not running
 it on a unix system, you need to do the following operations by hand:
 
 1. Replace index.php and all files in
