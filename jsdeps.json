@@ -94,6 +94,7 @@
       "sha1": "ee9e9d6bbbb6181dc519778af2b38804a6aa62a4",
       "license": "MIT",
       "flat": true,
+      "sourcemap": false,
       "map": {
         "bootstrap.bundle.min.js": "bootstrap.bundle.min.js",
         "bootstrap.min.css": "bootstrap.min.css"

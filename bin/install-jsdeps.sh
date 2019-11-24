@@ -237,7 +237,7 @@ function extract_zipfile($package, $srcfile)
             echo "Extracting files $pattern into $destdir\n";
             exec(sprintf('%s -o %s %s -d %s', $UNZIP, escapeshellarg($srcfile), escapeshellarg($pattern), $destdir), $out, $retval);
             if ($retval !== 0) {
-                rcube::raise_error("Failed to unpack $pattern; " . join('; ' . $out));
+                rcube::raise_error("Failed to unpack $pattern; " . implode('; ' . $out));
             }
         }
     }
@@ -258,22 +258,35 @@ function extract_zipfile($package, $srcfile)
         foreach ($package['map'] as $src => $dest) {
             echo "Installing $sourcedir/$src into $destdir/$dest\n";
 
+            $dest_file = $destdir . '/' . $dest;
+            $src_file = $sourcedir . '/' . $src;
+
             // make sure the destination's parent directory exists
             if (strpos($dest, '/') !== false) {
-                $parentdir = dirname($destdir . '/' . $dest);
+                $parentdir = dirname($dest_file);
                 if (!is_dir($parentdir)) {
                     mkdir($parentdir, 0775, true);
                 }
             }
 
             // avoid copying source directory as a child into destination
-            if (is_dir($sourcedir . '/' . $src) && is_dir($destdir . '/' . $dest)) {
-                exec(sprintf('rm -rf %s/%s', $destdir, $dest));
+            if (is_dir($src_file) && is_dir($dest_file)) {
+                exec(sprintf('rm -rf %s', $dest_file));
             }
 
-            exec(sprintf('mv -f %s/%s %s/%s', $sourcedir, $src, $destdir, $dest), $out, $retval);
+            exec(sprintf('mv -f %s %s', $src_file, $dest_file), $out, $retval);
             if ($retval !== 0) {
-                rcube::raise_error("Failed to move $src into $destdir/$dest; " . join('; ' . $out));
+                rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ' . $out));
+            }
+            // Remove sourceMappingURL
+            else if (isset($package['sourcemap']) && $package['sourcemap'] === false) {
+                if ($content = file($dest_file)) {
+                    $index = count($content);
+                    if (preg_match('|sourceMappingURL=|', $content[$index-1])) {
+                        array_pop($content);
+                        file_put_contents($dest_file, implode('', $content));
+                    }
+                }
             }
         }
 
@@ -285,7 +298,7 @@ function extract_zipfile($package, $srcfile)
         echo "Extracting zip archive into $destdir\n";
         exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $destdir), $out, $retval);
         if ($retval !== 0) {
-            rcube::raise_error("Failed to unzip $srcfile; " . join('; ' . $out));
+            rcube::raise_error("Failed to unzip $srcfile; " . implode('; ' . $out));
         }
     }
 
