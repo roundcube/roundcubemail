@@ -189,6 +189,9 @@ if ($db_working) {
 
 // more database tests
 if ($db_working) {
+    // Using transactions to workaround SQLite bug (#7064)
+    $DB->startTransaction();
+
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
@@ -203,6 +206,9 @@ if ($db_working) {
       $RCI->fail('DB Write', $RCI->get_error());
     }
     echo '<br />';
+
+    // Transaction end
+    $DB->rollbackTransaction();
 
     // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
