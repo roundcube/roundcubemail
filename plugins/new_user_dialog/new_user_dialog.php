@@ -37,6 +37,21 @@ class new_user_dialog extends rcube_plugin
     }
 
     /**
+     * remove unwanted sub domains.
+     */
+    function stripdomain($email)
+    {
+        $emailarr = explode('@',$email);
+        $email = array_shift($emailarr);
+        $emailarr = explode('.',$emailarr[0]);
+
+        $delarr = array("www", "mail", "pop", "imap");
+
+        $filteredarr = array_diff($emailarr, $delarr);
+        return $email.'@'.join('.',$filteredarr);
+    }
+
+    /**
      * Callback function when HTML page is rendered
      * We'll add an overlay box here.
      */
@@ -66,7 +81,7 @@ class new_user_dialog extends rcube_plugin
                     'id'       => 'newuserdialog-email',
                     'type'     => 'text',
                     'name'     => '_email',
-                    'value'    => rcube_utils::idn_to_utf8($identity['email']),
+                    'value'    => $this->stripdomain(rcube_utils::idn_to_utf8($identity['email'])),
                     'disabled' => in_array($identities_level, array(1, 3, 4))
             )));
 
