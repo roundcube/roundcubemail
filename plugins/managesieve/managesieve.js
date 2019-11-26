@@ -104,9 +104,6 @@ if (window.rcmail) {
         $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { rcmail.managesieve_fixdragend(e); });
       }
     }
-
-    if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
-      $('#disabled').attr('checked', true);
   });
 };
 
@@ -295,7 +292,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       else
         row.removeClass('disabled');
 
-      $('#disabled', $('iframe').contents()).prop('checked', o.disabled);
+      $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
       break;
 
@@ -426,13 +423,11 @@ rcube_webmail.prototype.load_managesieveframe = function(add_url, reset)
   if (reset)
     this.reset_filters_list();
 
-  if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading'),
-      target = window.frames[this.env.contentframe];
+  var target = this.get_frame_window(this.env.contentframe),
+    url = this.url('plugin.managesieve-action', '_framed=1' + (add_url ? ('&' + add_url) : ''));
 
-    target.location.href = this.env.comm_path
-      + '&_action=plugin.managesieve-action&_framed=1&_unlock=' + lock
-      + (add_url ? ('&' + add_url) : '');
+  if (target) {
+    this.location_href(url, target, true);
   }
 };
 
@@ -684,7 +679,7 @@ function rule_header_select(id)
     rule.val('contains');
 
   rule_op_select(op, id, h);
-  rule_mod_select(id, h);
+  rule_mod_select(id, h, !is_header);
   rule_mime_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
@@ -708,12 +703,15 @@ function rule_trans_select(id)
   target.style.display = obj.value != 'content' ? 'none' : 'inline';
 };
 
-function rule_mod_select(id, header)
+function rule_mod_select(id, header, reset)
 {
   var obj = document.getElementById('rule_mod_op' + id),
     target = document.getElementById('rule_mod_type' + id),
     duplicate = document.getElementById('rule_duplicate_div' + id),
     index = document.getElementById('rule_index_div' + id);
+
+  if (reset)
+    obj.value = '';
 
   if (!header)
     header = document.getElementById('header' + id).value;

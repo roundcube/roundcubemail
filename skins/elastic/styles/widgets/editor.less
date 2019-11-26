@@ -398,42 +398,52 @@ div.tox {
 
 .html-editor {
     position: relative;
-    display: flex;
-    margin-bottom: .25rem;
+    margin-bottom: .2rem;
 
-    & > .nav {
-        border-color: transparent;
-        z-index: 1;
+    .editor-toolbar {
         position: absolute;
-        right: 1rem;
+        left: 1px;
+        top: 1px;
+        right: 1px;
+        border-radius: .25rem .25rem 0 0;
+        border-bottom: 1px solid @color-input-border;
+        background-color: @color-input-addon-background;
 
-        a.active {
-            border-color: @color-input-border !important;
+        .plaintext {
+            display: block;
+            margin: 2px 2px 2px 4px;
+            width: 34px;
+            height: 34px;
+            border-radius: .25rem;
+            color: #222f3e; // from TinyMCE
 
-            &.mode-html {
-                background-color: @color-input-addon-background;
-                border-bottom-color: @color-input-addon-background !important;
+            &:focus,
+            &:hover {
+                text-decoration: none;
+                background-color: #dee0e2; // from TinyMCE
             }
 
-            &.mode-plain {
-                border-bottom-color: #fff !important;
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-image;
+                margin: 0;
+                width: 34px;
+                line-height: 34px;
             }
-        }
-
-        a:hover,
-        a:focus {
-            border-bottom-color: transparent;
-            outline: 0;
         }
     }
 
-    & > iframe, // e.g. mailvelope frame
+    // hide toolbar in html mode and in mailvelope mode
+    &.mailvelope .editor-toolbar,
+    .tox-tinymce + .editor-toolbar {
+        display: none;
+    }
+
     & > .googie_edit_layer,
-    & > .tox-tinymce,
     & > textarea {
-        margin-top: 35px;
         font-family: monospace;
         width: 100% !important;
+        padding-top: 2.5rem;
     }
 
     & > iframe { // e.g. mailvelope frame
@@ -463,7 +473,7 @@ div.tox {
     padding: .5rem .75rem;
     border: 1px solid @color-input-border;
     border-radius: .3rem;
-    line-height: 1.25;
+    line-height: 1.5;
 }
 
 .googie_link {

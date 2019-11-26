@@ -12,7 +12,7 @@ REQUIREMENTS
 * An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.4 or greater including:
-   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Ctype (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
@@ -44,7 +44,9 @@ REQUIREMENTS
 INSTALLATION
 ============
 
-1. Decompress and put this folder somewhere inside your document root
+1. Decompress and put this folder somewhere inside your document root.
+  Note: Make sure files have proper owner/group for your setup. If you use
+  tar command `--no-same-owner` option might be helpful.
 2. In case you don't use the so-called "complete" release package,
   you have to install PHP and javascript dependencies.
   2.1. Install PHP dependencies using composer:
@@ -63,7 +65,8 @@ INSTALLATION
 5. Point your browser to http://url-to-roundcube/installer/
 6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 7. After creating and testing the configuration, remove the installer directory
-8. If you use git sources compile css files for the Elastic skin:
+8. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 1.5.0):
    $ cd skins/elastic
    $ lessc -x styles/styles.less > styles/styles.css
    $ lessc -x styles/print.less > styles/print.css
@@ -77,7 +80,7 @@ CONFIGURATION HINTS
 IMPORTANT! Read all comments in defaults.inc.php, understand them
 and configure your installation to be not surprised by default behaviour.
 
-Roundcube writes internal errors to the 'errors' log file located in the logs
+Roundcube writes internal errors to the 'errors.log' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
 PHP errors to be logged there as well, set error_log in php.ini or .htaccess file.
 

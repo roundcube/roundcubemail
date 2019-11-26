@@ -61,6 +61,11 @@ class rcmail_install
         'Oracle'              => 'oci8',
     );
 
+    /** @var array List of config options with default value change per-release */
+    public $defaults_changes = array(
+        '1.4.0' => array('skin', 'smtp_port', 'smtp_user', 'smtp_pass'),
+        '1.4.1' => array('jquery_ui_skin_map'),
+    );
 
     /**
      * Constructor
@@ -298,9 +303,11 @@ class rcmail_install
      * Check the current configuration for missing properties
      * and deprecated or obsolete settings
      *
+     * @param string $version Previous version on upgrade
+     *
      * @return array List with problems detected
      */
-    public function check_config()
+    public function check_config($version = null)
     {
         $this->load_config();
 
@@ -379,6 +386,18 @@ class rcmail_install
             }
         }
 
+        if ($version) {
+            $out['defaults'] = array();
+
+            foreach ($this->defaults_changes as $v => $opts) {
+                if (version_compare($v, $version, '>')) {
+                    $out['defaults'] = array_merge($out['defaults'], $opts);
+                }
+            }
+
+            $out['defaults'] = array_unique($out['defaults']);
+        }
+
         return $out;
     }
 
@@ -444,8 +463,22 @@ class rcmail_install
 
         // read reference schema from mysql.initial.sql
         $engine    = $db->db_provider;
-        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql");
+        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql", $schema_version);
         $errors    = array();
+
+        // Just check the version
+        if ($schema_version) {
+            $version = rcmail_utils::db_version();
+
+            if (empty($version)) {
+                $errors[] = "Schema version not found";
+            }
+            else if ($schema_version != $version) {
+                $errors[] = "Schema version: {$version} (required: {$schema_version})";
+            }
+
+            return !empty($errors) ? $errors : false;
+        }
 
         // check list of tables
         $existing_tables = $db->list_tables();
@@ -472,7 +505,7 @@ class rcmail_install
     /**
      * Utility function to read database schema from an .sql file
      */
-    private function db_read_schema($schemafile)
+    private function db_read_schema($schemafile, &$version = null)
     {
         $lines    = file($schemafile);
         $schema   = array();
@@ -483,6 +516,9 @@ class rcmail_install
                 $table_name = explode('.', $m[1]);
                 $table_name = end($table_name);
                 $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
+            }
+            else if (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
+                $version = $m[1];
             }
             else if ($table_name && ($line = trim($line))) {
                 if ($line == 'GO' || $line[0] == ')' || $line[strlen($line)-1] == ';') {

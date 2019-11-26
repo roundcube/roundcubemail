@@ -162,7 +162,7 @@ function rcube_text_editor(config, id)
       conf.setup_callback(ed);
   };
 
-  rcmail.triggerEvent('editor-init', {config: conf, ref: ref});
+  rcmail.triggerEvent('editor-init', {config: conf, ref: ref, id: id});
 
   // textarea identifier
   this.id = id;

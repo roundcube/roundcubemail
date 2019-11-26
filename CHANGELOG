@@ -1,6 +1,39 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Replace "Filter disabled" with "Filter enabled" (#7028)
+- Managesieve: Fix so modifier type select wasn't hidden after hiding modifier select on header change
+- Enigma: Add script to import keys from filesystem to the db storage (for multihost)
+- Installer: Fix DB Write test on SQLite database ("database is locked" error) (#7064)
+- Installer: Fix so SQLite DSN with a relative path to the database file works in Installer
+- Fix so type attribute on script tags is not used on HTML5 pages (#6975)
+- Fix unread count after purge on a folder that is not currently selected (#7051)
+- Fix bug where Enter key didn't work on messages list in "List" layout (#7052)
+- Fix bug where deleting a saved search in addressbook caused display issue on sources/groups list (#7061)
+- Fix bug where a new saved search added after removing all searches wasn't added to the list (#7061)
+- Fix bug where a new contact group added after removing all groups from addressbook wasn't added to the list
+- Fix bug where Ctype extension wasn't required in Installer and INSTALL file (#7049)
+- Fix so install-jsdeps.sh removes Bootstrap's sourceMappingURL (#7035)
+- Fix so use of Ctrl+A does not scroll the list (#7020)
+- Fix/remove useless keyup event handler on username input in logon form (#6970)
+
+RELEASE 1.4.1
+-------------
+- Elastic: Change HTML editor widget to improve form flow (#6992)
+- Elastic: Fix position of mobile floating action button (#7038)
+- Managesieve: Fix locked UI after opening filter frame (#7007)
+- Fix PHP warning: "array_merge(): Expected parameter 2 to be an array, null given in sendmail.inc (#7003)
+- Fix bug where cache keys could exceed length limit specified in db schema (#7004)
+- Fix invalid Signature button state after escaping Mailvelope mode (#7015)
+- Fix so 401 error is returned only on failed logon requests (#7010)
+- Fix db_prefix handling in queries with `TRUNCATE TABLE <name>` and `UNIQUE <name>` (#7013)
+- Fix so update.sh script warns about changed defaults (#7011)
+- Fix tables listing routine when DSN contained a database with unsupported suffix (#7034)
+- Fix so Elastic is also a default in jqueryui plugin (#7039)
+- Fix bug where the Installer would not warn about required schema upgrade (#7042)
+
+RELEASE 1.4.0
+-------------
 - Elastic: Resizeable columns (#6929)
 - Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Elastic: Fix initial focus on recipients input in mail compose screen

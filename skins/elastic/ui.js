@@ -478,7 +478,29 @@ function rcube_elastic_ui()
             .addEventListener('enable-command', enable_command_handler)
             .addEventListener('init', init);
 
-        // Initialize column resizers
+        // Create floating action button(s)
+        if ((layout.list.length || layout.content.length) && is_mobile()) {
+            var fabuttons = [];
+
+            $('[data-fab]').each(function() {
+                var button = $(this),
+                    task = button.data('fab-task') || '*',
+                    action = button.data('fab-action') || '*';
+
+                if ((task == '*' || task == rcmail.env.task)
+                    && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
+                ) {
+                    fabuttons.push(create_cloned_button(button, false, false, true));
+                }
+            });
+
+            if (fabuttons.length) {
+                $('<div class="floating-action-buttons">').append(fabuttons)
+                    .appendTo(layout.list.length ? layout.list : layout.content);
+            }
+        }
+
+        // Initialize column resizers (must be after floating buttons)
         if (layout.sidebar.length) {
             splitter_init(layout.sidebar);
         }
@@ -617,28 +639,6 @@ function rcube_elastic_ui()
             });
         }
 
-        // Create floating action button(s)
-        if ((layout.list.length || layout.content.length) && is_mobile()) {
-            var fabuttons = [];
-
-            $('[data-fab]').each(function() {
-                var button = $(this),
-                    task = button.data('fab-task') || '*',
-                    action = button.data('fab-action') || '*';
-
-                if ((task == '*' || task == rcmail.task)
-                    && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
-                ) {
-                    fabuttons.push(create_cloned_button(button, false, false, true));
-                }
-            });
-
-            if (fabuttons.length) {
-                $('<div class="floating-action-buttons">').append(fabuttons)
-                    .appendTo(layout.list.length ? layout.list : layout.content);
-            }
-        }
-
         // Add menu link for each attachment
         if (rcmail.env.action != 'print') {
             $('#attachment-list > li').each(function() {
@@ -669,7 +669,7 @@ function rcube_elastic_ui()
             if (rcmail.env.action == 'compose') {
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
-                    $('a.attach, a.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
+                    $('a.attach, a.responses:not(.edit)')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
                 $('#layout-sidebar > .footer:not(.pagenav) > a.button').click(function() {
@@ -1256,17 +1256,15 @@ function rcube_elastic_ui()
      */
     function tinymce_init(o)
     {
-        var onload = [];
+        var onload = [],
+            is_editor = $('#' + o.id).is('[data-html-editor]');
+
+        // Enable autoresize plugin
+        o.config.plugins += ' autoresize';
 
         if (is_touch()) {
             // Use minimalistic toolbar
             o.config.toolbar = 'undo redo | link image styleselect';
-        }
-
-        if (!is_mobile()) {
-            // Enable autoresize plugin
-            // Note: Disabled in mobile mode because of https://github.com/tinymce/tinymce/issues/4864
-            o.config.plugins += ' autoresize';
         }
 
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
@@ -1339,6 +1337,22 @@ function rcube_elastic_ui()
                 callback();
             });
         });
+
+        if (is_editor) {
+            o.config.toolbar = 'plaintext | ' + o.config.toolbar;
+            // Use setup_callback, we can't use editor-load event
+            o.config.setup_callback = function(ed) {
+                ed.ui.registry.addButton('plaintext', {
+                    tooltip: rcmail.gettext('plaintoggle'),
+                    icon: 'close',
+                    onAction: function(e) {
+                        if (rcmail.command('toggle-editor', {id: ed.id, html: false}, '', e.originalEvent)) {
+                            $('#' + ed.id).parent().removeClass('ishtml');
+                        }
+                    }
+                });
+            };
+        }
 
         rcmail.addEventListener('editor-load', function(e) {
             $.each(onload, function() { this(e.ref.editor); });
@@ -1611,7 +1625,7 @@ function rcube_elastic_ui()
             var title, right = 0, left = 0, padding = 0,
                 sizes = {left: 0, right: 0};
 
-            $(this).children(':visible').each(function() {
+            $(this).children(':visible:not(.position-absolute)').each(function() {
                 if (!title && $(this).is('.header-title')) {
                     title = $(this);
                     return;
@@ -3548,21 +3562,20 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
-            tabindex = editor.attr('tabindex'),
-            mode = function() {
-                if (is_table) {
-                    return sw.is(':checked') ? 'html' : 'plain';
-                }
-
-                return sw.val();
-            },
-            tabs = $('<ul class="nav nav-tabs">')
-                .append($('<li class="nav-item">')
-                    .append($('<a class="nav-link mode-html" href="#">')
-                        .text(rcmail.gettext('htmltoggle'))))
-                .append($('<li class="nav-item">')
-                    .append($('<a class="nav-link mode-plain" href="#">')
-                        .text(rcmail.gettext('plaintoggle'))));
+            plain_btn = $('<a class="plaintext" href="#" tabindex="-1"></a>')
+                .attr('title', rcmail.gettext('htmltoggle'))
+                .on('click', function(e) {
+                    if (rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
+                        parent.addClass('ishtml');
+                    }
+                })
+                .on('keydown', function(e) {
+                    if (e.which == 9) { // TAB
+                        editor.focus();
+                        return false;
+                    }
+                }),
+            toolbar = $('<div class="editor-toolbar">').append(plain_btn);
 
         if (parent.is('td')) {
             sw = $('input[type="checkbox"]', parent.parent().next());
@@ -3578,23 +3591,14 @@ function rcube_elastic_ui()
         }
 
         parent.addClass('html-editor');
-        editor.before(tabs);
 
-        $('a', tabs).attr('tabindex', tabindex)
-            .on('click', function(e) {
-                var id = editor.attr('id'), is_html = $(this).is('.mode-html');
-
-                e.preventDefault();
-                if (rcmail.command('toggle-editor', {id: id, html: is_html}, '', e.originalEvent)) {
-                    $(this).tab('show').prop('tabindex', -1);
-                    $('.mode-' + (is_html ? 'plain' : 'html'), tabs).prop('tabindex', tabindex);
-
-                    if (is_table) {
-                        sw.prop('checked', is_html);
-                    }
+        editor.after(toolbar).data('control', sw)
+            .on('keydown', function(e) {
+                // ALT + F10 is the way to access toolbar in TinyMCE, let's do the same for plain editor
+                if (e.altKey && e.which == 121) {
+                    plain_btn.focus();
                 }
-            })
-            .filter('.mode-' + mode()).tab('show').prop('tabindex', -1);
+            });
 
         if (is_table) {
             // Hide unwanted table cells

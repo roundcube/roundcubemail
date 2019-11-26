@@ -29,7 +29,7 @@ $opts = rcube_utils::get_opt(array('v' => 'version', 'y' => 'accept:bool'));
 if (!$opts['version']) {
     echo "What version are you upgrading from? Type '?' if you don't know.\n";
 
-    if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z-]*$/', $input)) {
+    if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
         $opts['version'] = $input;
     }
     else {
@@ -43,7 +43,7 @@ $RCI->load_config();
 if ($RCI->configured) {
     $success = true;
 
-    if (($messages = $RCI->check_config()) || $RCI->legacy_config) {
+    if (($messages = $RCI->check_config($opts['version'])) || $RCI->legacy_config) {
         $success = false;
         $err = 0;
 
@@ -56,8 +56,6 @@ if ($RCI->configured) {
                 echo "- '" . $msg['prop'] . "' was replaced by '" . $msg['replacement'] . "'\n";
                 $err++;
             }
-
-            echo "\n";
         }
 
         // list obsolete config options (just a notice)
@@ -70,8 +68,6 @@ if ($RCI->configured) {
                 echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
                 $err++;
             }
-
-            echo "\n";
         }
 
         if (!$err && $RCI->legacy_config) {
@@ -134,6 +130,15 @@ if ($RCI->configured) {
             }
             else {
                 echo "Please update your config files manually according to the above messages.\n";
+            }
+        }
+
+        // list of config options with changed default (just a notice)
+        if (!empty($messages['defaults'])) {
+            echo "WARNING: Changed defaults (These config options have new default values):\n";
+
+            foreach ($messages['defaults'] as $opt) {
+                echo "- '{$opt}'\n";
             }
         }
 

@@ -152,15 +152,15 @@ else {
 
 // initialize db with schema found in /SQL/*
 if ($db_working && $_POST['initdb']) {
-    if (!($success = $RCI->init_db($DB))) {
+    if (!$RCI->init_db($DB)) {
         $db_working = false;
         echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.
-          Make sure that the configured database extists and that the user as write privileges</p>';
+            Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
 
 else if ($db_working && $_POST['updatedb']) {
-    if (!($success = $RCI->update_db($_POST['version']))) {
+    if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
 }
@@ -189,6 +189,9 @@ if ($db_working) {
 
 // more database tests
 if ($db_working) {
+    // Using transactions to workaround SQLite bug (#7064)
+    $DB->startTransaction();
+
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
@@ -203,6 +206,9 @@ if ($db_working) {
       $RCI->fail('DB Write', $RCI->get_error());
     }
     echo '<br />';
+
+    // Transaction end
+    $DB->rollbackTransaction();
 
     // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
