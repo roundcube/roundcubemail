@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where a new contact group added after removing all groups from addressbook wasn't added to the list
 - Fix bug where Ctype extension wasn't required in Installer and INSTALL file (#7049)
 - Fix so install-jsdeps.sh removes Bootstrap's sourceMappingURL (#7035)
+- Fix so use of Ctrl+A does not scroll the list (#7020)
 
 RELEASE 1.4.1
 -------------
