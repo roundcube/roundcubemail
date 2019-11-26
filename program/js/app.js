@@ -624,8 +624,6 @@ function rcube_webmail()
             input_user = $('#rcmloginuser'),
             input_tz = $('#rcmlogintz');
 
-        input_user.keyup(function(e) { return ref.login_user_keyup(e); });
-
         if (input_user.val() == '')
           input_user.focus();
         else
@@ -4481,26 +4479,6 @@ function rcube_webmail()
       width: 400,
       height: 300
     });
-
-    return true;
-  };
-
-
-  /*********************************************************/
-  /*********           login form methods          *********/
-  /*********************************************************/
-
-  // handler for keyboard events on the _user field
-  this.login_user_keyup = function(e)
-  {
-    var key = rcube_event.get_keycode(e),
-      passwd = $('#rcmloginpwd');
-
-    // enter
-    if (key == 13 && passwd.length && !passwd.val()) {
-      passwd.focus();
-      return rcube_event.cancel(e);
-    }
 
     return true;
   };
