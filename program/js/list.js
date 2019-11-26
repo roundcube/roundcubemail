@@ -1122,12 +1122,14 @@ select_next: function(uid)
 /**
  * Select first row
  */
-select_first: function(mod_key)
+select_first: function(mod_key, noscroll)
 {
   var row = this.get_first_row();
   if (row) {
     this.select_row(row, mod_key, false);
-    this.scrollto(row);
+
+    if (!noscroll)
+      this.scrollto(row);
   }
 },
 
@@ -1135,12 +1137,14 @@ select_first: function(mod_key)
 /**
  * Select last row
  */
-select_last: function(mod_key)
+select_last: function(mod_key, noscroll)
 {
   var row = this.get_last_row();
   if (row) {
     this.select_row(row, mod_key, false);
-    this.scrollto(row);
+
+    if (!noscroll)
+      this.scrollto(row);
   }
 },
 
@@ -1450,8 +1454,8 @@ key_press: function(e)
 
     case 65: // Ctrl + A
       if (mod_key == CONTROL_KEY && this.multiselect) {
-        this.select_first();
-        this.select_last(SHIFT_KEY);
+        this.select_first(null, true);
+        this.select_last(SHIFT_KEY, true);
         return rcube_event.cancel(e);
       }
       break;
