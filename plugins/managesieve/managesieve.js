@@ -273,7 +273,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
         // update row id
         if (rowid > id) {
-          this.uid = rowid - 1;
+          this.uid = String(rowid - 1);
           $(this).attr('id', 'rcmrow' + this.uid);
         }
       });
