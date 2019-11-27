@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix so install-jsdeps.sh removes Bootstrap's sourceMappingURL (#7035)
 - Fix so use of Ctrl+A does not scroll the list (#7020)
 - Fix/remove useless keyup event handler on username input in logon form (#6970)
+- Fix bug where cancelling switching from HTML to plain text didn't set the flag properly (#7077)
 
 RELEASE 1.4.1
 -------------
