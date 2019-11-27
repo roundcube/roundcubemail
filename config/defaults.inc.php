@@ -883,6 +883,7 @@ $config['ldap_public']['Verisign'] = array(
   // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
+  // Note: Host can also be a full URI e.g. ldaps://hostname.local:636 (for SSL)
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'       => false,
