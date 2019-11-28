@@ -658,7 +658,7 @@ class rcube_utils
         $address = $_SERVER['REMOTE_ADDR'];
 
         // append the NGINX X-Real-IP header, if set
-        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        if (!empty($_SERVER['HTTP_X_REAL_IP']) && $_SERVER['HTTP_X_REAL_IP'] != $address) {
             $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
         }
 
@@ -668,7 +668,7 @@ class rcube_utils
         }
 
         if (!empty($remote_ip)) {
-            $address .= '(' . implode(',', $remote_ip) . ')';
+            $address .= ' (' . implode(',', $remote_ip) . ')';
         }
 
         return $address;
