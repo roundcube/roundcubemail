@@ -106,6 +106,7 @@
 @color-message:                     @color-font;
 @color-message-border:              transparent;
 @color-message-background:          fadeout(@color-main, 95%);
+@color-message-text:                #fff;
 @color-message-link:                @color-main;
 @color-message-link-font-weight:    normal;
 @color-message-information:         @color-main;
@@ -113,14 +114,19 @@
 @color-message-warning:             @color-warning;
 @color-message-error:               @color-error;
 @color-message-loading:             tint(@color-font, 30%);
+@color-message-information-text:    @color-message-text;
+@color-message-success-text:        @color-message-text;
+@color-message-warning-text:        @color-message;
+@color-message-error-text:          @color-message-text;
+@color-message-loading-text:        @color-message-text;
 @color-message-error-box:           @color-message;
 @color-message-information-box:     @color-message;
 @color-message-success-box:         @color-message;
 @color-message-warning-box:         @color-message;
-@color-message-error-box-background:        fadeout(@color-message-error, 85%);
-@color-message-information-box-background:  fadeout(@color-message-information, 85%);
-@color-message-success-box-background:      fadeout(@color-message-success, 85%);
-@color-message-warning-box-background:      fadeout(#ffff66, 75%);
+@color-message-error-box-background:        fadeout(@color-message-error, 80%);
+@color-message-information-box-background:  fadeout(@color-message-information, 80%);
+@color-message-success-box-background:      fadeout(@color-message-success, 80%);
+@color-message-warning-box-background:      fadeout(@color-message-warning, 80%);
 
 
 // Popovers (menus)
