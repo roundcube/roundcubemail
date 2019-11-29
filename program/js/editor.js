@@ -48,7 +48,8 @@ function rcube_text_editor(config, id)
       toolbar_items_size: 'small',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
-      valid_children: '+body[style],+blockquote[style]',
+      // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
+      valid_children: '+body[style],+blockquote[style],+div[style]',
       relative_urls: false,
       remove_script_host: false,
       convert_urls: false, // #1486944
