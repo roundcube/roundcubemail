@@ -19,8 +19,8 @@ class rcube_kpasswd_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $bin      = rcmail::get_instance()->config->get('password_kpasswd_cmd', '/usr/bin/kpasswd');
-        $cmd      = $bin . ' "' . escapeshellarg($username) . '" 2>&1';
+        $bin = rcmail::get_instance()->config->get('password_kpasswd_cmd', '/usr/bin/kpasswd');
+        $cmd = $bin . ' ' . escapeshellarg($username) . ' 2>&1';
 
         $handle = popen($cmd, "w");
         fwrite($handle, $currpass."\n");
