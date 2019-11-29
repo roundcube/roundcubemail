@@ -193,7 +193,7 @@
 
     div {
         background-color: @color-message;
-        color: #fff;
+        color: @color-message-text;
 
         @media screen and (max-width: @screen-width-xs) {
             margin: 0;
@@ -211,7 +211,7 @@
         }
 
         & > i.icon:before {
-            color: #fff;
+            color: @color-message-text;
         }
 
         &:last-child {
@@ -221,22 +221,42 @@
 
     .loading {
         background-color: @color-message-loading;
+        & when not(@color-message-loading-text = @color-message-text) { color: @color-message-loading-text; }
+        & > i.icon:before {
+            & when not(@color-message-loading-text = @color-message-text) { color: @color-message-loading-text; }
+        }
     }
 
     .alert-info.information {
         background-color: @color-message-information;
+        & when not(@color-message-information-text = @color-message-text) { color: @color-message-information-text; }
+        & > i.icon:before {
+            & when not(@color-message-information-text = @color-message-text) { color: @color-message-information-text; }
+        }
     }
 
     .alert-success {
         background-color: @color-message-success;
+        & when not(@color-message-success-text = @color-message-text) { color: @color-message-success-text; }
+        & > i.icon:before {
+            & when not(@color-message-success-text = @color-message-text) { color: @color-message-success-text; }
+        }
     }
 
     .alert-warning {
         background-color: @color-message-warning;
+        & when not(@color-message-warning-text = @color-message-text) { color: @color-message-warning-text; }
+        & > i.icon:before {
+            & when not(@color-message-warning-text = @color-message-text) { color: @color-message-warning-text; }
+        }
     }
 
     .alert-danger {
         background-color: @color-message-error;
+        & when not(@color-message-error-text = @color-message-text) { color: @color-message-error-text; }
+        & > i.icon:before {
+            & when not(@color-message-error-text = @color-message-text) { color: @color-message-error-text; }
+        }
     }
 
     a {
