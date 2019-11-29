@@ -58,6 +58,16 @@ if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
     require INSTALL_PATH . 'vendor/autoload.php';
 }
 
+// translate PATH_INFO to _task and _action GET parameters
+if (!empty($_SERVER['PATH_INFO']) && preg_match('!^/([a-z]+)/([a-z]+)$!', $_SERVER['PATH_INFO'], $m)) {
+    if (!isset($_GET['_task'])) {
+        $_GET['_task'] = $m[1];
+    }
+    if (!isset($_GET['_action'])) {
+        $_GET['_action'] = $m[2];
+    }
+}
+
 // include Roundcube Framework
 require_once 'Roundcube/bootstrap.php';
 
