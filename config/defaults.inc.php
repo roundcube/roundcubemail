@@ -325,7 +325,7 @@ $config['smtp_conn_options'] = null;
 // Enable OAuth2 by defining a provider. Use 'generic' here
 $config['oauth_provider'] = null;
 
-// Provider name to be displayed on the login buttin
+// Provider name to be displayed on the login button
 $config['oauth_provider_name'] = 'Google';
 
 // Mandatory: OAuth client ID for your Roundcube installation
@@ -343,11 +343,18 @@ $config['oauth_token_uri'] = null;
 // Optional: Endpoint to query user identity if not provided in auth response
 $config['oauth_identity_uri'] = null;
 
+// Optional: disable SSL certificate check on HTTP requests to OAuth server
+// See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
+$config['oauth_verify_peer'] = true;
+
 // Mandatory: OAuth scopes to request (space-separated string)
 $config['oauth_scope'] = null;
 
 // Optional: additional query parameters to send with login request (hash array)
 $config['oauth_auth_parameters'] = [];
+
+// Optional: array of field names used to resolve the username within the identity information
+$config['oauth_identity_fields'] = null;
 
 
 // ----------------------------------

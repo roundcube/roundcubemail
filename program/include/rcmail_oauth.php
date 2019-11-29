@@ -70,7 +70,9 @@ class rcmail_oauth
             'client_id' => $this->rcmail->config->get('oauth_client_id'),
             'client_secret' => $this->rcmail->config->get('oauth_client_secret'),
             'identity_uri' => $this->rcmail->config->get('oauth_identity_uri'),
+            'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'scope' => $this->rcmail->config->get('oauth_scope'),
+            'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', array()),
         );
     }
@@ -108,7 +110,8 @@ class rcmail_oauth
      */
     public function get_redirect_uri()
     {
-        return $this->rcmail->url(['action' => 'oauth'], true, true);
+        // rewrite redirect URL to not contain query parameters because some providers do not support this
+        return preg_replace('/\?_task=[a-z]+/', 'index.php/login/oauth', $this->rcmail->url([], true, true));
     }
 
     /**
@@ -133,8 +136,12 @@ class rcmail_oauth
         $header = json_decode(base64_decode($headb64), true);
         $body = json_decode(base64_decode($bodyb64), true);
 
-        if (!isset($body['azp']) || $body['azp'] !== $this->options['client_id']) {
+        if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
+        } else if (isset($body['aud']) && $body['aud'] !== $this->options['client_id']) {
+            throw new RuntimeException('Failed to validate JWT: invalid aud value');
+        } else if (!isset($body['azp']) && !isset($body['aud'])) {
+            throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
         return $body;
@@ -198,6 +205,7 @@ class rcmail_oauth
             try {
                 $client = new Client([
                     'timeout' => 10.0,
+                    'verify' => $this->options['verify_peer'],
                 ]);
                 $response = $client->post($oauth_token_uri, array(
                     'body' => array(
@@ -219,10 +227,20 @@ class rcmail_oauth
                     if (!empty($data['id_token'])) {
                         try {
                             $identity = $this->jwt_decode($data['id_token']);
-                            $username = $identity['email'];
-                            unset($data['id_token']);
+                            foreach ($this->options['identity_fields'] as $field) {
+                                if (isset($identity[$field])) {
+                                    $username = $identity[$field];
+                                    unset($data['id_token']);
+                                    break;
+                                }
+                            }
                         } catch (\Exception $e) {
-                            // ignore
+                            // log error
+                            rcube::raise_error(array(
+                                'message' => $e->getMessage(),
+                                'file'    => __FILE__,
+                                'line'    => __LINE__,
+                            ), true, false);
                         }
                     }
 
@@ -234,13 +252,16 @@ class rcmail_oauth
                                 'Accept' => 'application/json',
                             ),
                         ))->json();
-                        if (isset($identity['email'])) {
-                            $username = $identity['email'];
+                        foreach ($this->options['identity_fields'] as $field) {
+                            if (isset($identity[$field])) {
+                                $username = $identity[$field];
+                                break;
+                            }
                         }
                     }
 
                     $data['identity'] = $username;
-                    self::mask_auth_data($data);
+                    $this->mask_auth_data($data);
 
                     $this->rcmail->write_log('oauth2', 'Auth code success: ' . json_encode($data));
 
@@ -294,16 +315,21 @@ class rcmail_oauth
      */
     public function refresh_access_token(array $token)
     {
+        $oauth_token_uri = $this->options['token_uri'];
+        $oauth_client_id = $this->options['client_id'];
+        $oauth_client_secret = $this->options['client_secret'];
+
         // send token request to get a real access token for the given auth code
         try {
             $client = new Client([
                 'timeout' => 10.0,
+                'verify' => $this->options['verify_peer'],
             ]);
             $response = $client->post($oauth_token_uri, array(
                 'body' => array(
                     'client_id' => $oauth_client_id,
                     'client_secret' => $oauth_client_secret,
-                    'refresh_token' => $token['refresh_token'],
+                    'refresh_token' => $this->rcmail->decrypt($token['refresh_token']),
                     'grant_type' => 'refresh_token',
                 ),
             ));
@@ -315,7 +341,7 @@ class rcmail_oauth
                 $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
                 $_SESSION['password'] = $this->rcmail->encrypt($authorization);
 
-                self::mask_auth_data($data);
+                $this->mask_auth_data($data);
 
                 // update session data
                 $_SESSION['oauth_token'] = array_merge($token, $data);
@@ -350,13 +376,15 @@ class rcmail_oauth
      * @param array $token
      * @return void
      */
-    protected static function mask_auth_data(&$data)
+    protected function mask_auth_data(&$data)
     {
         // compute absolute token expiration date
         $data['expires'] = time() + $data['expires_in'] - 600;
 
-        // mask access token before storing in session
-        $data['access_token'] = substr($data['access_token'], 0, 12) . str_repeat('*', strlen($data['access_token']) - 6);
+        // encrypt refresh token if provided
+        if (isset($data['refresh_token'])) {
+            $data['refresh_token'] = $this->rcmail->encrypt($data['refresh_token']);
+        }
     }
 
     /**
