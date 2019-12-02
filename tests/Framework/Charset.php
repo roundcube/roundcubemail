@@ -84,6 +84,31 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data for test_convert()
+     */
+    function data_email_input_format()
+    {
+        return array(
+            array('ö', 'ö', 'UTF-8'),
+            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP'),
+        );
+    }
+
+    /**
+     * @dataProvider data_email_input_format
+     */
+    function test_email_input_format($input, $output, $charset)
+    {
+        $sendmail = new rcmail_sendmail();
+        $sendmail->options['charset'] = $charset;
+        $sendmail->rcmail->config->set('head_encoding_base64', true);
+        $email = ' <t@domain.jp>';
+        $output = base64_encode(rcube_charset::convert($output, 'UTF-8', $charset));
+        $output = '=?' . $charset . '?B?' . $output . '?=' . $email;
+        $this->assertEquals($output, $sendmail->email_input_format($input . $email));
+    }
+
+    /**
      * Data for test_utf7_to_utf8()
      */
     function data_utf7_to_utf8()
