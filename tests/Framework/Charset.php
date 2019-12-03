@@ -71,6 +71,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
             array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
             array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
+            array('㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'),
         );
     }
 
