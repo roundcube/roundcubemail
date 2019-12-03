@@ -307,7 +307,7 @@ class rcube_charset
 
         // convert charset using iconv module
         if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
-            && $from !== 'ISO-2022-JP'
+            && $from !== 'ISO-2022-JP' && $to !== 'ISO-2022-JP'
         ) {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
