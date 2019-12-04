@@ -3,10 +3,6 @@ language: php
 dist: trusty
 sudo: false
 
-arch:
-  - amd64
-  - ppc64le
-
 matrix:
   fast_finish: true
   include:
@@ -18,6 +14,8 @@ matrix:
       env: CODE_COVERAGE=1
     - php: 7.2
     - php: 7.3
+    - php: 7.3
+      arch: ppc64le
 
 cache:
   directories:
