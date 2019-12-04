@@ -3,6 +3,10 @@ language: php
 dist: trusty
 sudo: false
 
+arch:
+  - amd64
+  - ppc64le
+
 matrix:
   fast_finish: true
   include:
