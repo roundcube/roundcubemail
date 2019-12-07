@@ -2160,13 +2160,14 @@ class rcmail extends rcube
      * @param string $name       Form object name
      * @param string $action     Form action name
      * @param array  $input_attr File input attributes
+     * @param int    $max_size   Maximum upload size
      *
      * @return string HTML output
      */
-    public function upload_form($attrib, $name, $action, $input_attr = array())
+    public function upload_form($attrib, $name, $action, $input_attr = array(), $max_size = null)
     {
         // Get filesize, enable upload progress bar
-        $max_filesize = $this->upload_init();
+        $max_filesize = $this->upload_init($max_size);
 
         $hint = html::div('hint', $this->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
 
