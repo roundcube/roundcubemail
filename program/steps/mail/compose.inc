@@ -1282,7 +1282,10 @@ function rcmail_compose_attachment_form($attrib)
 {
     global $RCMAIL;
 
-    return $RCMAIL->upload_form($attrib, 'uploadform', 'send-attachment', array('multiple' => true));
+    // Limit attachment size according to message size limit
+    $limit = parse_bytes($RCMAIL->config->get('max_message_size')) / 1.33;
+
+    return $RCMAIL->upload_form($attrib, 'uploadform', 'send-attachment', array('multiple' => true), $limit);
 }
 
 /**
