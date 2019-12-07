@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix/remove useless keyup event handler on username input in logon form (#6970)
 - Fix bug where cancelling switching from HTML to plain text didn't set the flag properly (#7077)
 - Fix bug where HTML reply could add an empty line with extra indentation above the original message (#7088)
+- Fix matching multiple X-Forwarded-For addresses with 'proxy_whitelist' (#7107)
 
 RELEASE 1.4.1
 -------------
