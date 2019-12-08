@@ -312,6 +312,12 @@ EOF;
             return false;
         }
 
+        $skins_allowed = $this->config->get('skins_allowed');
+
+        if (!empty($skins_allowed) && !in_array($skin, (array) $skins_allowed)) {
+            return false;
+        }
+
         $path = RCUBE_INSTALL_PATH . 'skins/';
 
         return !empty($skin) && is_dir($path . $skin) && is_readable($path . $skin);
