@@ -43,6 +43,7 @@ function rcube_text_editor(config, id)
       theme: 'silver',
       language: config.lang,
       content_css: rcmail.assets_path(config.content_css),
+      content_style: config.content_style,
       menubar: false,
       statusbar: false,
       // toolbar_sticky: true, // does not work in scrollable element: https://github.com/tinymce/tinymce/issues/5227
@@ -187,18 +188,8 @@ function rcube_text_editor(config, id)
         return setTimeout(function () { ref.init_callback(editor); }, 300);
       }
 
-      var css = {},
-        elem = rcube_find_object('_from'),
+      var elem = rcube_find_object('_from'),
         fe = rcmail.env.compose_focus_elem;
-
-      if (rcmail.env.default_font)
-        css['font-family'] = rcmail.env.default_font;
-
-      if (rcmail.env.default_font_size)
-        css['font-size'] = rcmail.env.default_font_size;
-
-      if (css['font-family'] || css['font-size'])
-        $(this.editor.getBody()).css(css);
 
       if (elem && elem.type == 'select-one') {
         // insert signature (only for the first time)

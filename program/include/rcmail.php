@@ -2138,8 +2138,22 @@ class rcmail extends rcube
             }
         }
 
-        $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia', 'close');
+        $font_family = $this->output->get_env('default_font');
+        $font_size   = $this->output->get_env('default_font_size');
+        $style       = array();
+
+        if ($font_family) {
+            $style[] = "font-family: $font_family;";
+        }
+        if ($font_size) {
+            $style[] = "font-size: $font_size;";
+        }
+        if (!empty($style)) {
+            $config['content_style'] = "body {" . implode(' ', $style) . "}";
+        }
+
         $this->output->set_env('editor_config', $config);
+        $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia', 'close');
 
         if ($path = $this->config->get('media_browser_css_location', 'program/resources/tinymce/browser.css')) {
             if ($path != 'none' && ($path = $this->find_asset($path))) {
