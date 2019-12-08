@@ -454,11 +454,6 @@ function rcmail_spellchecker_init()
             $lang = 'en';
         }
 
-        $editor_lang_set = array();
-        foreach ($spellcheck_langs as $key => $name) {
-            $editor_lang_set[] = ($key == $lang ? '+' : '') . rcube::JQ($name).'='.rcube::JQ($key);
-        }
-
         // include GoogieSpell
         $OUTPUT->include_script('googiespell.js');
         $OUTPUT->add_script(sprintf(
@@ -487,7 +482,6 @@ function rcmail_spellchecker_init()
             ), 'foot');
 
         $OUTPUT->add_label('checking');
-        $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
         $OUTPUT->set_env('spell_langs', $spellcheck_langs);
         $OUTPUT->set_env('spell_lang', $lang);
     }
