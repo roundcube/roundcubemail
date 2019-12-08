@@ -455,6 +455,12 @@ class rcube_config
             $prefs['skin'] = self::DEFAULT_SKIN;
         }
 
+        $skins_allowed = $this->get('skins_allowed');
+
+        if (!empty($prefs['skin']) && !empty($skins_allowed) && !in_array($prefs['skin'], (array) $skins_allowed)) {
+            unset($prefs['skin']);
+        }
+
         $this->userprefs = $prefs;
         $this->prop      = array_merge($this->prop, $prefs);
     }

@@ -1081,10 +1081,11 @@ $config['contact_search_name'] = '{name} <{email}>';
 // Use this charset as fallback for message decoding
 $config['default_charset'] = 'ISO-8859-1';
 
-// skin name: folder from skins/
+// Skin name: folder from skins/
 $config['skin'] = 'elastic';
 
-// limit skins available/shown in the settings section
+// Limit skins available for the user.
+// Note: When not empty, it should include the default skin set in 'skin' option.
 $config['skins_allowed'] = array();
 
 // Enables using standard browser windows (that can be handled as tabs)
