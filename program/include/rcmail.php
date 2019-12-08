@@ -2098,6 +2098,20 @@ class rcmail extends rcube
             }
         }
 
+        $font_family = $this->output->get_env('default_font');
+        $font_size   = $this->output->get_env('default_font_size');
+        $style       = array();
+
+        if ($font_family) {
+            $style[] = "font-family: $font_family;";
+        }
+        if ($font_size) {
+            $style[] = "font-size: $font_size;";
+        }
+        if (!empty($style)) {
+            $config['content_style'] = "body {" . implode(' ', $style) . "}";
+        }
+
         $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
         $this->output->set_env('editor_config', $config);
 
