@@ -36,10 +36,10 @@
     },
     {
       "lib": "tinymce",
-      "version": "5.1.1",
+      "version": "5.1.3",
       "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "574dc89a0a15bbee8b472b1500e5a6f8228a16a8",
+      "sha1": "569753f01ba12aa93b025552011d72fed6ba670c",
       "license": "LGPL",
       "copyright": "Copyright (c) Tiny Technologies, Inc. All rights reserved",
       "rm": "program/js/tinymce",
@@ -53,7 +53,7 @@
     },
     {
       "lib": "tinymce-langs",
-      "version": "5.1.1",
+      "version": "5.1.3",
       "url": "https://www.tiny.cloud/tinymce-services-azure/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy&v=$v&extension=.zip",
       "dest": "program/js/tinymce"
     },
