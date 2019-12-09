@@ -1045,7 +1045,7 @@ function rcube_elastic_ui()
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children(':not(.ui.alert)').add('.part-notice').each(function() {
             // message objects with notice class are really warnings
-            var cl = $(this).removeClass('notice part-notice').attr('class').split(/\s/)[0] || 'warning';
+            var cl = String($(this).removeClass('notice part-notice').attr('class')).split(/\s/)[0] || 'warning';
             alert_style(this, cl);
             $(this).addClass('box' + cl);
             $('a', this).addClass('btn btn-primary btn-sm');

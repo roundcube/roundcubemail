@@ -737,7 +737,7 @@ function rcube_webmail()
   // execute a specific command on the web client
   this.command = function(command, props, obj, event)
   {
-    var ret, uid, cid, url, flag, aborted = false;
+    var ret;
 
     if (obj && obj.blur && !(event && rcube_event.is_keyboard(event)))
       obj.blur();
@@ -778,29 +778,49 @@ function rcube_webmail()
     }
 
     this.last_command = command;
+    this.command_aborted = false;
+
+    // trigger plugin hooks
+    this.triggerEvent('actionbefore', {props: props, action: command, originalEvent: event});
+
+    if ((ret = this.triggerEvent('before' + command, props || event)) !== undefined) {
+      // abort if one of the handlers returned false
+      if (ret === false)
+        return false;
+
+      props = ret;
+    }
 
     // process external commands
     if (typeof this.command_handlers[command] === 'function') {
       ret = this.command_handlers[command](props, obj, event);
-      return ret !== undefined ? ret : (obj ? false : true);
     }
     else if (typeof this.command_handlers[command] === 'string') {
       ret = window[this.command_handlers[command]](props, obj, event);
-      return ret !== undefined ? ret : (obj ? false : true);
+    }
+    // process internal commands
+    else {
+      ret = this.command_handler(command, props, obj, event);
     }
 
-    // trigger plugin hooks
-    this.triggerEvent('actionbefore', {props:props, action:command, originalEvent:event});
-    ret = this.triggerEvent('before'+command, props || event);
-    if (ret !== undefined) {
-      // abort if one of the handlers returned false
-      if (ret === false)
-        return false;
-      else
-        props = ret;
-    }
+    if (!this.command_aborted && this.triggerEvent('after' + command, props) === false)
+      ret = false;
 
-    ret = undefined;
+    this.triggerEvent('actionafter', {props: props, action: command, aborted: this.command_aborted, ret: ret, originalEvent: event});
+
+    if (ret === false)
+      return false;
+
+    if (obj || this.command_aborted === true)
+      return false;
+
+    return true;
+  };
+
+  // execute a specific known command
+  this.command_handler = function(command, props, obj, event)
+  {
+    var uid, cid, url, flag;
 
     // process internal command
     switch (command) {
@@ -820,7 +840,7 @@ function rcube_webmail()
       case 'permaurl':
         if (obj && obj.href && obj.target)
           return true;
-        else if (this.env.permaurl)
+        if (this.env.permaurl)
           parent.location.href = this.env.permaurl;
         break;
 
@@ -1335,8 +1355,7 @@ function rcube_webmail()
 
       // quicksearch
       case 'search':
-        ret = this.qsearch(props);
-        break;
+        return this.qsearch(props);
 
       // reset quicksearch
       case 'reset-search':
@@ -1374,6 +1393,8 @@ function rcube_webmail()
         if (obj && event)
           rcube_event.cancel(event);
 
+        // FIXME: no break?
+
       case 'listgroup':
         this.reset_qsearch();
         this.list_contacts(props.source, props.id, 1, group);
@@ -1404,7 +1425,7 @@ function rcube_webmail()
           this.set_busy(false, null, importlock);
           if (flag !== false)
             this.alert_dialog(this.get_label('selectimportfile'));
-          aborted = true;
+          this.command_aborted = true;
         }
         break;
 
@@ -1473,22 +1494,9 @@ function rcube_webmail()
       default:
         var func = command.replace(/-/g, '_');
         if (this[func] && typeof this[func] === 'function') {
-          ret = this[func](props, obj, event);
+          return this[func](props, obj, event);
         }
-        break;
     }
-
-    if (!aborted && this.triggerEvent('after'+command, props) === false)
-      ret = false;
-    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret, originalEvent:event});
-
-    if (ret === false)
-      return false;
-
-    if (obj || aborted === true)
-      return false;
-
-    return true;
   };
 
   // set command(s) enabled or disabled
