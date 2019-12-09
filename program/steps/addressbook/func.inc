@@ -30,7 +30,7 @@ $CONTACT_COLTYPES = array(
     'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('namesuffix'), 'category' => 'main'),
     'nickname'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('nickname'), 'category' => 'main'),
     'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
-    'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
+    'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
     'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
     'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
     'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
@@ -44,13 +44,13 @@ $CONTACT_COLTYPES = array(
         ), 'category' => 'main'),
     'birthday'     => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('birthday'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
     'anniversary'  => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('anniversary'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
-    'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
-    'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
+    'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
+    'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
     'notes'        => array('type' => 'textarea', 'size' => 40, 'rows' => 15, 'maxlength' => 500, 'label' => $RCMAIL->gettext('notes'), 'limit' => 1),
     'photo'        => array('type' => 'image', 'limit' => 1, 'category' => 'main'),
-    'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
-    'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
-    'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
+    'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
+    'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
+    'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
     // TODO: define fields for vcards like GEO, KEY
 );
 
