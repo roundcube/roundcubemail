@@ -126,7 +126,8 @@ input.button {
 }
 
 .formbuttons button,
-.formbuttons input.button {
+.formbuttons input.button,
+.oauthlogin .button {
 	color: #ddd;
 	font-size: 110%;
 	padding: 4px 12px;
@@ -1762,13 +1763,13 @@ ul.proplist.simplelist li {
 	border-color: #666;
 }
 
-#login-form button.button {
+#login-form .button {
 	color: #444;
 	border-color: #f9f9f9;
 	background-color: #f9f9f9;
 }
 
-#login-form button.button:active {
+#login-form .button:active {
 	color: #333;
 	background-color: #dcdcdc;
 }
@@ -1788,6 +1789,13 @@ ul.proplist.simplelist li {
 #login-form p.formbuttons {
 	margin-top: 2em;
 	text-align: center;
+}
+
+#login-form p.oauthlogin {
+	margin-top: 1.5em;
+	padding-top: 1.5em;
+	text-align: center;
+	border-top: 1px solid #666;
 }
 
 #login-form #logo {
