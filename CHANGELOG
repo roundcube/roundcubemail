@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Fix so displayed maximum attachment size depends also on 'max_message_size' (#7105)
 - Fix bug where 'skins_allowed' option didn't enforce user skin preference (#7080)
 - Fix so contact's organization field accepts up to 128 characters (it was 50)
+- Fix bug where listing tables in PostgreSQL database with db_prefix didn't work (#7093)
 
 RELEASE 1.4.1
 -------------
