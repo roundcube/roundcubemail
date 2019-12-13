@@ -191,9 +191,8 @@ class rcube_db_pgsql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            if ($schema = $this->options['table_prefix']) {
-                $schema = str_replace('.', '', $schema);
-                $add    = " AND TABLE_SCHEMA = " . $this->quote($schema);
+            if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
+                $add = " AND TABLE_SCHEMA = " . $this->quote(substr($schema, 0, -1));
             }
             else {
                 $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
@@ -220,9 +219,9 @@ class rcube_db_pgsql extends rcube_db
     {
         $args = array($table);
 
-        if ($schema = $this->options['table_prefix']) {
+        if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
             $add    = " AND TABLE_SCHEMA = ?";
-            $args[] = str_replace('.', '', $schema);
+            $args[] = substr($schema, 0, -1);
         }
         else {
             $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
