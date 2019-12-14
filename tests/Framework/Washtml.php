@@ -213,6 +213,26 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test deprecated body attributes (#7109)
+     */
+    function test_style_body_attrs()
+    {
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body bgcolor=\"#fff\" text=\"#000\" background=\"#test\" link=\"#111\" alink=\"#222\" vlink=\"#333\">
+            </body></html>";
+
+        $washer = new rcube_washtml(array('html_elements' => array('body')));
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|bgcolor="#fff"|', $washed, "Body bgcolor attribute");
+        $this->assertRegExp('|text="#000"|', $washed, "Body text attribute");
+        $this->assertRegExp('|background="#test"|', $washed, "Body background attribute");
+        $this->assertRegExp('|link="#111"|', $washed, "Body link attribute");
+        $this->assertRegExp('|alink="#222"|', $washed, "Body alink attribute");
+        $this->assertRegExp('|vlink="#333"|', $washed, "Body vlink attribute");
+    }
+
+    /**
      * Test style item fixes
      */
     function test_style_wash()

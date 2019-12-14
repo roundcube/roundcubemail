@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where 'skins_allowed' option didn't enforce user skin preference (#7080)
 - Fix so contact's organization field accepts up to 128 characters (it was 50)
 - Fix bug where listing tables in PostgreSQL database with db_prefix didn't work (#7093)
+- Fix bug where 'text' attribute on body tag was ignored when displaying HTML message (#7109)
 
 RELEASE 1.4.1
 -------------
