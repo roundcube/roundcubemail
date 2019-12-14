@@ -155,6 +155,11 @@ class rcube_washtml
         'maligngroup', 'none', 'mprescripts',
     );
 
+    /**
+     * @var array Additional allowed attributes of body element
+     */
+    static $body_attribs = array('alink', 'background', 'bgcolor', 'link', 'text', 'vlink');
+
     /** @var bool State indicating existence of linked objects in HTML */
     public $extlinks = false;
 
@@ -295,6 +300,11 @@ class rcube_washtml
     {
         $result = '';
         $washed = array();
+        $additional_attribs = array();
+
+        if ($node->nodeName == 'body') {
+            $additional_attribs = self::$body_attribs;
+        }
 
         foreach ($node->attributes as $name => $attr) {
             $key   = strtolower($name);
@@ -304,7 +314,7 @@ class rcube_washtml
                 // replace double quotes to prevent syntax error and XSS issues (#1490227)
                 $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if (isset($this->_html_attribs[$key])) {
+            else if (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
                 $value = trim($value);
                 $out   = null;
 

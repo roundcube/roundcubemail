@@ -1127,6 +1127,12 @@ function rcmail_html4inline($body, &$args)
             $attrs = preg_replace('/\s?bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
         }
 
+        // Get text color, we'll set it as font color of the message container
+        if ($m[1] && preg_match('/text=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
+            $style['color'] = $mb[1];
+            $attrs = preg_replace('/\s?text=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
+        }
+
         // Get background, we'll set it as background-image of the message container
         if ($m[1] && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
             $style['background-image'] = 'url('.$mb[1].')';
