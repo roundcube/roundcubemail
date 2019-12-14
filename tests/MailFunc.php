@@ -50,7 +50,6 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $this->assertRegExp('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
         $this->assertNotRegExp('/ex3.jpg/', $html, "No references to external images");
         $this->assertNotRegExp('/<meta [^>]+>/', $html, "No meta tags allowed");
-        //$this->assertNoPattern('/<style [^>]+>/', $html, "No style tags allowed");
         $this->assertNotRegExp('/<form [^>]+>/', $html, "No form tags allowed");
         $this->assertRegExp('/Subscription form/', $html, "Include <form> contents");
         $this->assertRegExp('/<!-- link ignored -->/', $html, "No external links allowed");
@@ -119,13 +118,15 @@ class MailFunc extends PHPUnit_Framework_TestCase
      */
     function test_html4inline_body_style()
     {
-        $html   = '<body background="test" bgcolor="#fff" style="font-size:11px"><p>test</p></body>';
+        $html   = '<body background="test" bgcolor="#fff" style="font-size:11px" text="#000"><p>test</p></body>';
         $params = array('container_id' => 'foo');
         $html   = rcmail_html4inline($html, $params);
 
         $this->assertRegExp('/<div style="font-size:11px">/', $html, "Body attributes");
         $this->assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
-        $this->assertSame('background-color: #fff; background-image: url(test)', $params['container_attrib']['style'], "Body style");
+        $this->assertRegExp('/background-color: #fff;/', $params['container_attrib']['style'], "Body style (bgcolor)");
+        $this->assertRegExp('/background-image: url\(test\)/', $params['container_attrib']['style'], "Body style (background)");
+        $this->assertRegExp('/color: #000/', $params['container_attrib']['style'], "Body style (text)");
     }
 
     /**
