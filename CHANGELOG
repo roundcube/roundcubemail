@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Fix so contact's organization field accepts up to 128 characters (it was 50)
 - Fix bug where listing tables in PostgreSQL database with db_prefix didn't work (#7093)
 - Fix bug where 'text' attribute on body tag was ignored when displaying HTML message (#7109)
+- Fix bug where next message wasn't displayed after delete in List mode (#7096)
 
 RELEASE 1.4.1
 -------------

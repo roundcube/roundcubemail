@@ -3303,7 +3303,7 @@ function rcube_webmail()
     if (this.message_list) {
       var n, len, id, root, roots = [],
         selection = post_data._uid,
-        display_next = this.env.display_next && this.preview_id;
+        display_next = this.check_display_next();
 
       if (selection === '*')
         selection = this.message_list.get_selection();
@@ -3320,6 +3320,7 @@ function rcube_webmail()
             roots.push(root);
           }
         }
+
         if (remove)
           this.message_list.remove_row(id, display_next && n == selection.length-1);
       }
@@ -3375,6 +3376,11 @@ function rcube_webmail()
       data._next_uid = this.env.next_uid;
 
     return data;
+  };
+
+  this.check_display_next = function()
+  {
+    return this.env.display_next && (this.preview_id || !this.env.contentframe);
   };
 
   // set a specific flag to one or more messages
@@ -3512,7 +3518,7 @@ function rcube_webmail()
       list = this.message_list,
       rows = list ? list.rows : {},
       count = 0,
-      display_next = this.env.display_next && this.preview_id;
+      display_next = this.check_display_next();
 
     for (var i=0, len=a_uids.length; i<len; i++) {
       uid = a_uids[i];
@@ -6512,7 +6518,8 @@ function rcube_webmail()
 
     var n, a_cids = [],
       label = action == 'delete' ? 'contactdeleting' : 'movingcontact',
-      lock = this.display_message(label, 'loading');
+      lock = this.display_message(label, 'loading'),
+      display_next = this.check_display_next();
 
     if (this.env.cid)
       a_cids.push(this.env.cid);
@@ -6520,10 +6527,10 @@ function rcube_webmail()
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         a_cids.push(id);
-        this.contact_list.remove_row(id, this.env.display_next && this.preview_id && n == selection.length-1);
+        this.contact_list.remove_row(id, display_next && n == selection.length-1);
       }
 
-      if (!this.env.display_next)
+      if (!display_next)
         this.contact_list.clear_selection();
     }
 
@@ -6723,7 +6730,7 @@ function rcube_webmail()
   {
     if (this.env.group !== undefined && (this.env.group === props.gid)) {
       var n, selection = this.contact_list.get_selection(),
-        display_next= this.env.display_next && this.preview_id;
+        display_next= this.check_display_next();
 
       for (n=0; n<selection.length; n++) {
         id = selection[n];
