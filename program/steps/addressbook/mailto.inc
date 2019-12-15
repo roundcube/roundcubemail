@@ -43,9 +43,11 @@ if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
         $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
     }
     else if ($CONTACTS->ready) {
+        $maxnum = (int) $RCMAIL->config->get('max_group_members');
+
         $CONTACTS->set_group($group_id);
         $CONTACTS->set_page(1);
-        $CONTACTS->set_pagesize(200); // limit somehow
+        $CONTACTS->set_pagesize($maxnum ?: 999);
         $sources[] = $CONTACTS->list_records();
     }
 }
