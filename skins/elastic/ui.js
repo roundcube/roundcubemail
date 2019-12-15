@@ -3463,7 +3463,7 @@ function rcube_elastic_ui()
         };
 
         var open_func = function(e) {
-            var items = [],
+            var last_char, last_index = -1, items = [], index = [],
                 dialog = select.closest('.ui-dialog')[0],
                 max_height = (document.documentElement.clientHeight || $(document.body).height()) - 75,
                 max_width = $(document.body).width() - 20,
@@ -3485,9 +3485,11 @@ function rcube_elastic_ui()
 
                 if (label.length) {
                     link.text(label);
+                    index.push(this.disabled ? '' : label.charAt(0).toLowerCase());
                 }
                 else {
                     link.html('&nbsp;'); // link can't be empty
+                    index.push('');
                 }
 
                 items.push($('<li>').append(link));
@@ -3505,7 +3507,7 @@ function rcube_elastic_ui()
                     return ret;
                 })
                 .on('keydown', 'a.active', function(e) {
-                    var item, node, mode = 'next';
+                    var item, char, last, node, mode = 'next';
 
                     switch (e.which) {
                         case 27: // ESC
@@ -3520,6 +3522,7 @@ function rcube_elastic_ui()
                         case 38: // ARROW-UP
                         case 63232:
                             mode = 'previous';
+                            // no-break
                         case 40: // ARROW-DOWN
                         case 63233:
                             item = e.target.parentNode;
@@ -3530,6 +3533,27 @@ function rcube_elastic_ui()
                                 }
                             }
                             return false; // prevents from scrolling the whole page
+
+                        default:
+                            // A letter key has been pressed, search mode
+                            char = e.originalEvent.key;
+
+                            if (char && char.length == 1) {
+                                char = char.toLowerCase();
+
+                                if (last_char != char) {
+                                    last_index = -1;
+                                }
+
+                                last = index.indexOf(char, last_index + 1);
+
+                                if (last > -1 || (last = index.indexOf(char)) > -1) {
+                                    list.find('a').eq(last).focus();
+                                }
+
+                                last_char = char;
+                                last_index = last;
+                            }
                     }
                 });
 
@@ -3561,8 +3585,21 @@ function rcube_elastic_ui()
                             })
                         );
 
+                    // Find the selected item, focus it
+                    var selected = list.find('a.selected').first();
+                    if (selected.focus().length) {
+                        var list_parent = list.parent();
+
+                        // try to scroll the list so focused element is in center
+                        last_index = list.find('a').index(selected[0]);
+                        last_char = index[last_index];
+
+                        if (last_index > 5) {
+                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2);
+                        }
+                    }
                     // focus first active element on the list
-                    if (rcube_event.is_keyboard(e)) {
+                    else if (rcube_event.is_keyboard(e)) {
                         list.find('a.active').first().focus();
                     }
 
