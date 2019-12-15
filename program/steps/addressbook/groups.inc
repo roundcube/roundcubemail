@@ -37,7 +37,7 @@ if ($RCMAIL->action == 'group-addmembers') {
         $num2add = count($plugin['ids']);
 
         if (!$plugin['abort']) {
-            if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
+            if (($maxnum = $RCMAIL->config->get('max_group_members')) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
                 $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
                 $OUTPUT->send();
             }
