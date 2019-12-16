@@ -840,7 +840,7 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
     $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
 
     // remove old meta tag and add the new one, making sure that it is placed in the head (#3510, #7116)
-    $html = preg_replace('/<meta[^>]+charset=[a-z0-9_"-]+[^>]*>/Ui', '', $html, -1);
+    $html = preg_replace('/<meta[^>]+charset=[a-z0-9_"-]+[^>]*>/Ui', '', $html);
     $html = preg_replace('/(<head[^>]*>)/Ui', '\\1'.$meta, $html, -1, $rcount);
 
     if (!$rcount) {
