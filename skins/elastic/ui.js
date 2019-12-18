@@ -2031,7 +2031,7 @@ function rcube_elastic_ui()
         options_button.on('click', function(e) {
             var id = $(this).data('target'),
                 options = $('#' + id),
-                open = options.is(':visible');
+                open = $(bar).is('.open');
 
             if (options.length) {
                 if (!open) {
@@ -2049,7 +2049,7 @@ function rcube_elastic_ui()
                 $(bar).toggleClass('open');
 
                 $('button.search', options).off('click.search').on('click.search', function() {
-                    options_button.trigger('click');
+                    options_button.click();
                     update_func();
                 });
             }
