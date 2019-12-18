@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Installer: Fix so SQLite DSN with a relative path to the database file works in Installer
 - Elastic: Fix contrast of warning toasts (#7058)
 - Elastic: Simple search in pretty selects (#7072)
+- Elastic: Fix hidden list widget on mobile/tablet when selecting folder while search menu is open (#7120)
 - Fix so type attribute on script tags is not used on HTML5 pages (#6975)
 - Fix unread count after purge on a folder that is not currently selected (#7051)
 - Fix bug where Enter key didn't work on messages list in "List" layout (#7052)
