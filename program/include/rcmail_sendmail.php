@@ -362,11 +362,12 @@ class rcmail_sendmail
     /**
      * Message delivery, and setting Replied/Forwarded flag on success
      *
-     * @param Mail_mime $message Message object
+     * @param Mail_mime $message    Message object
+     * @param bool      $disconnect Close SMTP connection after delivery
      *
      * @return bool True on success, False on failure
      */
-    public function deliver_message($message)
+    public function deliver_message($message, $disconnect = true)
     {
         // Handle Delivery Status Notification request
         $smtp_opts = array('dsn' => $this->options['dsn_enabled']);
@@ -374,7 +375,7 @@ class rcmail_sendmail
         $sent = $this->rcmail->deliver_message($message,
             $this->options['from'],
             $this->options['mailto'],
-            $smtp_error, $mailbody_file, $smtp_opts, true
+            $smtp_error, $mailbody_file, $smtp_opts, $disconnect
         );
 
         // return to compose page if sending failed
