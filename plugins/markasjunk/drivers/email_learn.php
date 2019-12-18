@@ -45,6 +45,7 @@ class markasjunk_email_learn
         $from         = $identity_arr['email'];
         $from_string  = format_email_recipient($identity_arr['email'], $identity_arr['name']);
         $attach       = $this->rcube->config->get('markasjunk_email_attach', false);
+        $debug        = $this->rcube->config->get('markasjunk_debug');
         $temp_dir     = unslashify($this->rcube->config->get('temp_dir'));
 
         $mailto = $this->rcube->config->get($spam ? 'markasjunk_email_spam' : 'markasjunk_email_ham');
@@ -58,7 +59,7 @@ class markasjunk_email_learn
         $subject = $this->rcube->config->get('markasjunk_email_subject');
         $subject = $this->_parse_vars($subject, $spam, $from);
 
-        foreach ($uids as $uid) {
+        foreach ($uids as $i => $uid) {
             $MESSAGE = new rcube_message($uid);
             $message_file = null;
 
@@ -142,7 +143,7 @@ class markasjunk_email_learn
                 ));
             }
 
-            $SENDMAIL->deliver_message($MAIL_MIME);
+            $SENDMAIL->deliver_message($MAIL_MIME, $i == count($uids) - 1);
             $message_file = $message_file ?: $MAIL_MIME->mailbody_file;
 
             // clean up
@@ -150,11 +151,11 @@ class markasjunk_email_learn
                 unlink($message_file);
             }
 
-            if ($this->rcube->config->get('markasjunk_debug')) {
-                rcube::write_log('', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
+            if ($debug) {
+                rcube::write_log('markasjunk', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
 
                 if ($smtp_error['vars']) {
-                    rcube::write_log('', $smtp_error['vars']);
+                    rcube::write_log('markasjunk', $smtp_error['vars']);
                 }
             }
         }
