@@ -629,6 +629,7 @@ $labels['chinese'] = 'Kineze';
 $labels['arialabeltopnav'] = 'Kontroll dritareje';
 $labels['arialabeltasknav'] = 'Akte aplikacioni';
 $labels['arialabeltoolbar'] = 'Panel aplikacioni';
+$labels['arialabellistnav'] = 'Lëvizje në listë';
 $labels['arialabelactivetask'] = 'Akte aktive';
 $labels['arialabelmessagessearchfilter'] = 'Filtër kërkimesh email';
 $labels['arialabelmailsearchform'] = 'Formular kërkimi mesazhi email';

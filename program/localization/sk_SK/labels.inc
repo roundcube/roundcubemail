@@ -629,6 +629,7 @@ $labels['chinese'] = 'Čínsky';
 $labels['arialabeltopnav'] = 'Ovládanie okna';
 $labels['arialabeltasknav'] = 'Úlohy aplikácie';
 $labels['arialabeltoolbar'] = 'Panel nástrojov aplikácie';
+$labels['arialabellistnav'] = 'Zoznam navigovania';
 $labels['arialabelactivetask'] = 'Aktívna úloha';
 $labels['arialabelmessagessearchfilter'] = 'Filter zoznamu e-mailov';
 $labels['arialabelmailsearchform'] = 'Formulár pre vyhľadanie e-mailu';

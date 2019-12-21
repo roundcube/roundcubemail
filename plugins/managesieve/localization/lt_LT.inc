@@ -91,6 +91,7 @@ $labels['none'] = 'joks';
 $labels['fromset'] = 'iš rinkinio';
 $labels['fromfile'] = 'iš failo';
 $labels['filterdisabled'] = 'Filtras išjungtas';
+$labels['filterenabled'] = 'Filtras įjungtas';
 $labels['countisgreaterthan'] = 'kiekis didesnis nei';
 $labels['countisgreaterthanequal'] = 'kiekis didesnis arba lygus';
 $labels['countislessthan'] = 'kiekis mažesnis nei';

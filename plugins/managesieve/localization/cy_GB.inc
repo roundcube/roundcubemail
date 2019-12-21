@@ -91,6 +91,7 @@ $labels['none'] = 'dim';
 $labels['fromset'] = 'o set';
 $labels['fromfile'] = 'o ffeil';
 $labels['filterdisabled'] = 'Analluogwyd hidlydd';
+$labels['filterenabled'] = 'Galluogwyd yr hidlydd';
 $labels['countisgreaterthan'] = 'rhif yn fwy na';
 $labels['countisgreaterthanequal'] = 'rhif yn fwy na neu hafal i';
 $labels['countislessthan'] = 'rhif yn llai na';

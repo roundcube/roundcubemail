@@ -629,6 +629,7 @@ $labels['chinese'] = 'Kinų';
 $labels['arialabeltopnav'] = 'Lango valdymas';
 $labels['arialabeltasknav'] = 'Aplikacijos užduotys';
 $labels['arialabeltoolbar'] = 'Aplikacijos įrankių juosta';
+$labels['arialabellistnav'] = 'Naršymas sąraše';
 $labels['arialabelactivetask'] = 'Aktyvi užduotis';
 $labels['arialabelmessagessearchfilter'] = 'Laiškų sąrašo filtras';
 $labels['arialabelmailsearchform'] = 'El. laiško paieškos forma';

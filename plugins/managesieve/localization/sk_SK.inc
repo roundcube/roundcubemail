@@ -91,6 +91,7 @@ $labels['none'] = 'žiadne';
 $labels['fromset'] = 'zo súpravy';
 $labels['fromfile'] = 'zo súboru';
 $labels['filterdisabled'] = 'Filter vypnutý';
+$labels['filterenabled'] = 'Filter zapnutý';
 $labels['countisgreaterthan'] = 'počet je väčší ako';
 $labels['countisgreaterthanequal'] = 'počet je väčší alebo rovný ako';
 $labels['countislessthan'] = 'počet je menší ako';

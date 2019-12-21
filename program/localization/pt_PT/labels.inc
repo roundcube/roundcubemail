@@ -630,6 +630,7 @@ $labels['chinese'] = 'Chinês';
 $labels['arialabeltopnav'] = 'Controlo de janela';
 $labels['arialabeltasknav'] = 'Tarefas da aplicação';
 $labels['arialabeltoolbar'] = 'Barra de ferramentas da aplicação';
+$labels['arialabellistnav'] = 'Navegação na lista';
 $labels['arialabelactivetask'] = 'Tarefa ativa';
 $labels['arialabelmessagessearchfilter'] = 'Filtro da listagem de email';
 $labels['arialabelmailsearchform'] = 'Formulário de pesquisa email';
