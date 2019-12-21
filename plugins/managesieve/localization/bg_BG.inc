@@ -91,6 +91,7 @@ $labels['none'] = 'няма';
 $labels['fromset'] = 'от набор';
 $labels['fromfile'] = 'от файл';
 $labels['filterdisabled'] = 'Изключен филтър';
+$labels['filterenabled'] = 'Включен филтър';
 $labels['countisgreaterthan'] = 'брой е по-голям от';
 $labels['countisgreaterthanequal'] = 'брой е по-голям или равен на';
 $labels['countislessthan'] = 'брой е по-малък от';

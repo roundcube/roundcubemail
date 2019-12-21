@@ -91,6 +91,7 @@ $labels['none'] = 'aucun';
 $labels['fromset'] = 'à partir du jeu';
 $labels['fromfile'] = 'à partir du fichier';
 $labels['filterdisabled'] = 'Filtre désactivé';
+$labels['filterenabled'] = 'Le filtre est activé';
 $labels['countisgreaterthan'] = 'total supérieur à';
 $labels['countisgreaterthanequal'] = 'total supérieur ou égal à';
 $labels['countislessthan'] = 'total inférieur à';

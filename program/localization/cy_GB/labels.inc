@@ -629,6 +629,7 @@ $labels['chinese'] = 'Tsieineaidd';
 $labels['arialabeltopnav'] = 'Rheolaeth ffenest';
 $labels['arialabeltasknav'] = 'Tasgiau rhaglen';
 $labels['arialabeltoolbar'] = 'Bar offer y rhaglen';
+$labels['arialabellistnav'] = 'Llywio rhestr';
 $labels['arialabelactivetask'] = 'Tasg gweithredol';
 $labels['arialabelmessagessearchfilter'] = 'Hidlydd rhestr ebost';
 $labels['arialabelmailsearchform'] = 'Ffurflen chwilio neges ebost';

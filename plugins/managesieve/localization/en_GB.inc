@@ -91,6 +91,7 @@ $labels['none'] = 'none';
 $labels['fromset'] = 'from set';
 $labels['fromfile'] = 'from file';
 $labels['filterdisabled'] = 'Filter disabled';
+$labels['filterenabled'] = 'Filter enabled';
 $labels['countisgreaterthan'] = 'count is greater than';
 $labels['countisgreaterthanequal'] = 'count is greater than or equal to';
 $labels['countislessthan'] = 'count is less than';

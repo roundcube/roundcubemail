@@ -629,6 +629,7 @@ $labels['chinese'] = 'chiński';
 $labels['arialabeltopnav'] = 'Kontrolki okna';
 $labels['arialabeltasknav'] = 'Zadania aplikacji';
 $labels['arialabeltoolbar'] = 'Narzędzia aplikacji';
+$labels['arialabellistnav'] = 'Obsługa listy';
 $labels['arialabelactivetask'] = 'Aktywne zadanie';
 $labels['arialabelmessagessearchfilter'] = 'Filtr listy wiadomości';
 $labels['arialabelmailsearchform'] = 'Formularz wyszukiwania wiadomości';
