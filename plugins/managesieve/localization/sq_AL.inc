@@ -91,6 +91,7 @@ $labels['none'] = 'asnjë';
 $labels['fromset'] = 'prej grupi';
 $labels['fromfile'] = 'prej kartele';
 $labels['filterdisabled'] = 'Filtër i çaktivizuar';
+$labels['filterenabled'] = 'Filtri u aktivizua';
 $labels['countisgreaterthan'] = 'numri është më i madh se';
 $labels['countisgreaterthanequal'] = 'numri është më i madh ose baras me';
 $labels['countislessthan'] = 'numri është më i vogël se';

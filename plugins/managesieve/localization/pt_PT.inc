@@ -91,6 +91,7 @@ $labels['none'] = 'nehnum';
 $labels['fromset'] = 'definição de';
 $labels['fromfile'] = 'a partir do ficheiro';
 $labels['filterdisabled'] = 'Filtro desactivado';
+$labels['filterenabled'] = 'Filtro activado';
 $labels['countisgreaterthan'] = 'contagem é maior que';
 $labels['countisgreaterthanequal'] = 'contagem é maior ou igual a';
 $labels['countislessthan'] = 'contagem é menor que';

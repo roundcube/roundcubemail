@@ -21,6 +21,7 @@ $labels['filtername'] = 'Назив филтера';
 $labels['newfilter'] = 'Нови филтер';
 $labels['filteradd'] = 'Додај филтер';
 $labels['filterdel'] = 'Обриши филтер';
+$labels['actions'] = 'Радње';
 $labels['scope'] = 'Распон';
 $labels['moveup'] = 'Помери горе';
 $labels['movedown'] = 'Помери доле';

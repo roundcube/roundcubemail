@@ -16,7 +16,7 @@
 
 $messages['errortitle']  = 'Errore bat gertatu da!';
 $messages['loginfailed']  = 'Saio hasierak huts egin du.';
-$messages['cookiesdisabled'] = 'Zure nabigatzaileak ez ditu cookie-rik onartzen.';
+$messages['cookiesdisabled'] = 'Zure nabigatzaileak ez du cookie-rik onartzen.';
 $messages['sessionerror'] = 'Zure saioa baliogabea da edo iraungita dago.';
 $messages['cookiesmismatch'] = 'Cookieak ez datozela bat hauteman da. Garbitu zure nabigatzailearen cookieak.';
 $messages['storageerror'] = 'Huts egin du biltegiratze-zerbitzarira konektatzean.';

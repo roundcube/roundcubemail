@@ -629,6 +629,7 @@ $labels['chinese'] = 'Chinese';
 $labels['arialabeltopnav'] = 'Window control';
 $labels['arialabeltasknav'] = 'Application tasks';
 $labels['arialabeltoolbar'] = 'Application toolbar';
+$labels['arialabellistnav'] = 'List navigation';
 $labels['arialabelactivetask'] = 'Active task';
 $labels['arialabelmessagessearchfilter'] = 'Email listing filter';
 $labels['arialabelmailsearchform'] = 'Email message search form';
