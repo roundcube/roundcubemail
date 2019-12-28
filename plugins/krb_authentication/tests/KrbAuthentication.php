@@ -1,6 +1,6 @@
 <?php
 
-class KrbAuthentication_Plugin extends PHPUnit_Framework_TestCase
+class KrbAuthentication_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

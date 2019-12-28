@@ -1,6 +1,6 @@
 <?php
 
-class Managesieve_Vacation extends PHPUnit_Framework_TestCase
+class Managesieve_Vacation extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

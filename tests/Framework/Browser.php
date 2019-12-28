@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Browser extends PHPUnit_Framework_TestCase
+class Framework_Browser extends PHPUnit\Framework\TestCase
 {
 
     /**

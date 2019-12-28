@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Mime extends PHPUnit_Framework_TestCase
+class Framework_Mime extends PHPUnit\Framework\TestCase
 {
 
     /**

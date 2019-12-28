@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Contacts extends PHPUnit_Framework_TestCase
+class Framework_Contacts extends PHPUnit\Framework\TestCase
 {
 
     /**

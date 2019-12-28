@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_ImapGeneric extends PHPUnit_Framework_TestCase
+class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
 {
 
     /**

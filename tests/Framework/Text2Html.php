@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Text2Html extends PHPUnit_Framework_TestCase
+class Framework_Text2Html extends PHPUnit\Framework\TestCase
 {
 
     /**

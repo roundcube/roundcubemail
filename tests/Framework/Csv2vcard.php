@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
+class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 {
 
     function test_import_generic()

@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Washtml extends PHPUnit_Framework_TestCase
+class Framework_Washtml extends PHPUnit\Framework\TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml

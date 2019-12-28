@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_SpellcheckerAtd extends PHPUnit_Framework_TestCase
+class Framework_SpellcheckerAtd extends PHPUnit\Framework\TestCase
 {
 
     /**

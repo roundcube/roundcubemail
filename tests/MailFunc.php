@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class MailFunc extends PHPUnit_Framework_TestCase
+class MailFunc extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

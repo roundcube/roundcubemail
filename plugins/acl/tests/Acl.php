@@ -1,6 +1,6 @@
 <?php
 
-class Acl_Plugin extends PHPUnit_Framework_TestCase
+class Acl_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

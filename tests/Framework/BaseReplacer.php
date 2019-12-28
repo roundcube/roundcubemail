@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_BaseReplacer extends PHPUnit_Framework_TestCase
+class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 {
 
     /**

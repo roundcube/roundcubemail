@@ -7,7 +7,7 @@
  * @group database
  * @group mssql
  */
-class Framework_DBMssql extends PHPUnit_Framework_TestCase
+class Framework_DBMssql extends PHPUnit\Framework\TestCase
 {
 
     /**

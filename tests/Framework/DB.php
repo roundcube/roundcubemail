@@ -6,7 +6,7 @@
  * @package Tests
  * @group database
  */
-class Framework_DB extends PHPUnit_Framework_TestCase
+class Framework_DB extends PHPUnit\Framework\TestCase
 {
 
     /**

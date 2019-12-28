@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_User extends PHPUnit_Framework_TestCase
+class Framework_User extends PHPUnit\Framework\TestCase
 {
 
     /**
