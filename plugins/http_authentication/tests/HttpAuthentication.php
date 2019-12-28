@@ -1,6 +1,6 @@
 <?php
 
-class HttpAuthentication_Plugin extends PHPUnit_Framework_TestCase
+class HttpAuthentication_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

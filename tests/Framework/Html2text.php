@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class rc_html2text extends PHPUnit_Framework_TestCase
+class rc_html2text extends PHPUnit\Framework\TestCase
 {
 
     function data_html2text()

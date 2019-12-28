@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Rcube extends PHPUnit_Framework_TestCase
+class Framework_Rcube extends PHPUnit\Framework\TestCase
 {
 
     /**

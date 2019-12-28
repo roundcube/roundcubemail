@@ -1,6 +1,6 @@
 <?php
 
-class Userinfo_Plugin extends PHPUnit_Framework_TestCase
+class Userinfo_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

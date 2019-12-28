@@ -1,6 +1,6 @@
 <?php
 
-class RedundantAttachments_Plugin extends PHPUnit_Framework_TestCase
+class RedundantAttachments_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

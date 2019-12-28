@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_MessagePart extends PHPUnit_Framework_TestCase
+class Framework_MessagePart extends PHPUnit\Framework\TestCase
 {
 
     /**

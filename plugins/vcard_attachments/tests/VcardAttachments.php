@@ -1,6 +1,6 @@
 <?php
 
-class VcardAttachments_Plugin extends PHPUnit_Framework_TestCase
+class VcardAttachments_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

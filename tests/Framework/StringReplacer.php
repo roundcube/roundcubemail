@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_StringReplacer extends PHPUnit_Framework_TestCase
+class Framework_StringReplacer extends PHPUnit\Framework\TestCase
 {
 
     /**

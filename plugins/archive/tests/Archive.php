@@ -1,6 +1,6 @@
 <?php
 
-class Archive_Plugin extends PHPUnit_Framework_TestCase
+class Archive_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

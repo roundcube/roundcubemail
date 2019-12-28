@@ -1,6 +1,6 @@
 <?php
 
-class AttachmentReminder_Plugin extends PHPUnit_Framework_TestCase
+class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseAttachments_Plugin extends PHPUnit_Framework_TestCase
+class DatabaseAttachments_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

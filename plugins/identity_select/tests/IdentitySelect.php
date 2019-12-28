@@ -1,6 +1,6 @@
 <?php
 
-class IdentitySelect_Plugin extends PHPUnit_Framework_TestCase
+class IdentitySelect_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

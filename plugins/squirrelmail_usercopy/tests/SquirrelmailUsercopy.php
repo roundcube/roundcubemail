@@ -1,6 +1,6 @@
 <?php
 
-class SquirrelmailUsercopy_Plugin extends PHPUnit_Framework_TestCase
+class SquirrelmailUsercopy_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

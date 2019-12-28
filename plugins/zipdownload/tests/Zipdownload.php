@@ -1,6 +1,6 @@
 <?php
 
-class Zipdownload_Plugin extends PHPUnit_Framework_TestCase
+class Zipdownload_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

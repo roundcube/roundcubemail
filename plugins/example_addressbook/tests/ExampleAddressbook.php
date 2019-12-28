@@ -1,6 +1,6 @@
 <?php
 
-class ExampleAddressbook_Plugin extends PHPUnit_Framework_TestCase
+class ExampleAddressbook_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

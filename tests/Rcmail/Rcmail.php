@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Rcmail_Rcmail extends PHPUnit_Framework_TestCase
+class Rcmail_Rcmail extends PHPUnit\Framework\TestCase
 {
     function setUp()
     {
