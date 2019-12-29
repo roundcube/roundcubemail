@@ -14,10 +14,10 @@ matrix:
       env: CODE_COVERAGE=1
     - php: 7.2
     - php: 7.3
-    - php: 7.4
       env: BROWSER_TESTS=1
       addons:
         chrome: stable
+    - php: 7.4
 
 cache:
   directories:
