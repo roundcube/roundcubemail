@@ -12,9 +12,14 @@ class Settings extends \Tests\Browser\DuskTestCase
             // task should be set to 'settings'
             $this->assertEnvEquals('task', 'settings');
 
-            $objects = $this->getObjects();
+            $browser->assertSeeIn('#layout-sidebar .header', 'Settings');
 
-            $this->assertContains('sectionslist', $objects);
+            // Sidebar menu
+            $browser->assertVisible('#settings-menu');
+            $browser->assertSeeIn('#settings-menu li.preferences', 'Preferences');
+            $browser->assertSeeIn('#settings-menu li.folders', 'Folders');
+            $browser->assertSeeIn('#settings-menu li.identities', 'Identities');
+            $browser->assertSeeIn('#settings-menu li.responses', 'Responses');
         });
     }
 }
