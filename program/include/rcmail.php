@@ -73,6 +73,11 @@ class rcmail extends rcube
     static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
+            // In cli-server mode env=test
+            if ($env === null && php_sapi_name() == 'cli-server') {
+                $env = 'test';
+            }
+
             self::$instance = new rcmail($env);
             // init AFTER object was linked with self::$instance
             self::$instance->startup();
