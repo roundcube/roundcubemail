@@ -11,10 +11,12 @@
             <file>Addressbook/Import.php</file>
         </testsuite>
         <testsuite name="Settings">
-            <file>Settings/About.php</file>
+            <file>Settings/Settings.php</file>
+            <file>Settings/Preferences.php</file>
             <file>Settings/Folders.php</file>
             <file>Settings/Identities.php</file>
-            <file>Settings/Settings.php</file>
+            <file>Settings/Responses.php</file>
+            <file>Settings/About.php</file>
         </testsuite>
         <testsuite name="Mail">
             <file>Mail/Mail.php</file>

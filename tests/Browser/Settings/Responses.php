@@ -2,27 +2,27 @@
 
 namespace Tests\Browser\Settings;
 
-class Identities extends \Tests\Browser\DuskTestCase
+class Responses extends \Tests\Browser\DuskTestCase
 {
     public function testIdentities()
     {
         $this->browse(function ($browser) {
-            $this->go('settings', 'identities');
+            $this->go('settings', 'responses');
 
             // check task and action
             $this->assertEnvEquals('task', 'settings');
-            $this->assertEnvEquals('action', 'identities');
+            $this->assertEnvEquals('action', 'responses');
 
             $objects = $this->getObjects();
 
             // these objects should be there always
-            $this->assertContains('identitieslist', $objects);
+            $this->assertContains('responseslist', $objects);
 
-            $browser->assertVisible('#settings-menu li.identities.selected');
+            $browser->assertVisible('#settings-menu li.responses.selected');
 
-            // Identities list
-            $browser->assertVisible('#identities-table tr:first-child.focused');
-            $browser->assertSeeIn('#identities-table tr:first-child td.mail', TESTS_USER);
+            // Responses list
+            $browser->assertPresent('#responses-table');
+            $browser->assertMissing('#responses-table tr');
 
             // Toolbar menu
             $browser->assertVisible('#toolbar-menu a.create:not(.disabled)');
