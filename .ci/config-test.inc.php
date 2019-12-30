@@ -14,6 +14,7 @@ $config['smtp_port'] = 25;
 
 // Settings required by the tests
 
+$config['devel_mode'] = true;
 $config['skin'] = 'elastic';
 $config['support_url'] = 'http://support.url';
 

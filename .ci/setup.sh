@@ -6,18 +6,11 @@ DIR=$(dirname $0)
 GMV=1.5.11
 
 # Roundcube tests and instance configuration
-sudo cp $DIR/config-test.inc.php $DIR/../config/config-test.inc.php
-
-echo $?
-cat $DIR/../config/config-test.inc.php
+cp $DIR/config-test.inc.php $DIR/../config/config-test.inc.php
 
 # In-Browser tests dependencies installation
 # and GreenMail server setup and start
-if [ $? = 0 ]
-then
-    sudo apt-get -y install default-jre-headless
-    sudo wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar
-    sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &
-fi
-
-echo $?
+sudo apt-get -y install default-jre-headless \
+    wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
+    && (sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &) \
+    && sleep 5
