@@ -11,6 +11,12 @@ CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f
 # Roundcube tests and instance configuration
 cp $DIR/config-test.inc.php $DIR/../config/config-test.inc.php
 
+# Make temp and logs writeable
+sudo chmod 777 temp logs
+
+# Install javascript dependencies
+$DIR/../bin/install-jsdeps.sh
+
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
 
