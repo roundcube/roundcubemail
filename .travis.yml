@@ -14,6 +14,9 @@ matrix:
       env: CODE_COVERAGE=1
     - php: 7.2
     - php: 7.3
+      env: BROWSER_TESTS=1
+      addons:
+        chrome: stable
     - php: 7.4
 
 cache:
@@ -23,11 +26,13 @@ cache:
 install:
   - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
   - cp composer.json-dist composer.json
+  - if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.7.0" --no-update; fi
   - composer remove endroid/qr-code --no-update
   - composer install --prefer-dist
 
 script:
   - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
+  - if [ "$BROWSER_TESTS" = 1 ]; then .ci/setup.sh && vendor/bin/phpunit -c tests/Browser/phpunit.xml; fi
 
 notifications:
   email: false
