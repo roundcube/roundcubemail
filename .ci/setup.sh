@@ -2,6 +2,8 @@
 
 # The script is intended for use on Travis with Trusty distribution
 
+set -x
+
 DIR=$(dirname $0)
 GMV=1.5.11
 
