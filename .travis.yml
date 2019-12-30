@@ -24,11 +24,7 @@ cache:
     - $HOME/.composer
 
 install:
-  - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
-  - cp composer.json-dist composer.json
-  - if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.7.0" --no-update; fi
-  - composer remove endroid/qr-code --no-update
-  - composer install --prefer-dist
+  - .ci/install.sh
 
 script:
   - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
