@@ -10,7 +10,6 @@ cp $DIR/config-test.inc.php $DIR/../config/config-test.inc.php
 
 # In-Browser tests dependencies installation
 # and GreenMail server setup and start
-sudo apt-get -y install default-jre-headless \
-    && wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
+wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
     && (sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &) \
     && sleep 5
