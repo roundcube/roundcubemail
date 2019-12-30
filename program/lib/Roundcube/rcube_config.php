@@ -343,9 +343,11 @@ class rcube_config
         foreach ($this->paths as $basepath) {
             $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
 
-            // check if <file>-env.ini exists
-            if ($realpath && $use_env && !empty($this->env)) {
-                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $realpath);
+            // check if <file>-<env>.inc.php exists
+            if ($use_env && !empty($this->env)) {
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+                $envfile = $abs_path ? $envfile : realpath($basepath . '/' . $envfile);
+
                 if (is_file($envfile)) {
                     $realpath = $envfile;
                 }

@@ -49,12 +49,6 @@ class bootstrap
         $rcmail = rcmail::get_instance();
         $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
 
-passthru('ls -l ' . INSTALL_PATH . 'config');
-passthru('cat  ' . INSTALL_PATH . 'config/config-test.inc.php');
-passthru('ls -l /tmp');
-print_r($dsn);
-die;
-
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
             $db = $rcmail->get_dbh();
