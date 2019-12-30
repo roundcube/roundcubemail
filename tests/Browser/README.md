@@ -46,6 +46,9 @@ Please, keep the file as simple as possible, i.e. containing only database
 and imap/smtp settings needed for the test user authentication. We would
 want to test default configuration. Especially only Elastic skin is supported.
 
+NOTE: See `.ci` directory for sample config and scripts we use for in-browser
+tests on Travis.
+
 
 EXECUTING THE TESTS
 -------------------
