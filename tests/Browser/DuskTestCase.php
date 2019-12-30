@@ -70,6 +70,11 @@ abstract class DuskTestCase extends TestCase
         Browser::$storeScreenshotsAt = __DIR__ . '/screenshots';
         Browser::$storeConsoleLogAt = __DIR__ . '/console';
 
+        // This folder must exist in case Browser will try to write logs to it
+        if (!is_dir(Browser::$storeConsoleLogAt)) {
+            mkdir(Browser::$storeConsoleLogAt, 0777, true);
+        }
+
         // Purge screenshots from the last test run
         $pattern = sprintf('failure-%s_%s-*',
             str_replace("\\", '_', get_class($this)),
@@ -77,7 +82,23 @@ abstract class DuskTestCase extends TestCase
         );
 
         try {
-            $files = Finder::create()->files()->in(__DIR__ . '/screenshots')->name($pattern);
+            $files = Finder::create()->files()->in(Browser::$storeScreenshotsAt)->name($pattern);
+            foreach ($files as $file) {
+                @unlink($file->getRealPath());
+            }
+        }
+        catch (\Symfony\Component\Finder\Exception\DirectoryNotFoundException $e) {
+            // ignore missing screenshots directory
+        }
+
+        // Purge console logs from the last test run
+        $pattern = sprintf('%s_%s-*',
+            str_replace("\\", '_', get_class($this)),
+            $this->getName(false)
+        );
+
+        try {
+            $files = Finder::create()->files()->in(Browser::$storeConsoleLogAt)->name($pattern);
             foreach ($files as $file) {
                 @unlink($file->getRealPath());
             }
