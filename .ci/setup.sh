@@ -4,18 +4,24 @@
 
 set -x
 
-DIR=$(dirname $0)
 GMV=1.5.11
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
 
 # Roundcube tests and instance configuration
-cp $DIR/config-test.inc.php $DIR/../config/config-test.inc.php
+cp .ci/config-test.inc.php config/config-test.inc.php
 
 # Make temp and logs writeable
 sudo chmod 777 temp logs
 
 # Install javascript dependencies
-$DIR/../bin/install-jsdeps.sh
+bin/install-jsdeps.sh
+
+# Compile Elastic's styles
+sudo apt-get install -y node-less
+
+lessc skins/Elastic/styles/styles.less > skins/Elastic/styles/styles.css
+lessc skins/Elastic/styles/print.less > skins/Elastic/styles/print.css
+lessc skins/Elastic/styles/embed.less > skins/Elastic/styles/embed.css
 
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
