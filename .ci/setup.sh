@@ -17,11 +17,9 @@ sudo chmod 777 temp logs
 bin/install-jsdeps.sh
 
 # Compile Elastic's styles
-sudo apt-get install -y node-less
-
-lessc skins/Elastic/styles/styles.less > skins/Elastic/styles/styles.css
-lessc skins/Elastic/styles/print.less > skins/Elastic/styles/print.css
-lessc skins/Elastic/styles/embed.less > skins/Elastic/styles/embed.css
+lessc skins/elastic/styles/styles.less > skins/elastic/styles/styles.css
+lessc skins/elastic/styles/print.less > skins/elastic/styles/print.css
+lessc skins/elastic/styles/embed.less > skins/elastic/styles/embed.css
 
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
