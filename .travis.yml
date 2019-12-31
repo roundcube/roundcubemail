@@ -14,9 +14,13 @@ matrix:
       env: CODE_COVERAGE=1
     - php: 7.2
     - php: 7.3
+      dist: bionic
       env: BROWSER_TESTS=1
       addons:
         chrome: stable
+        apt:
+          packages:
+            - node-less
     - php: 7.4
 
 cache:
