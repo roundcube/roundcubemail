@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # The script is intended for use on Travis with Trusty distribution
-
-set -x
+# It installs in-browser tests dependencies and prepares Roundcube instance
 
 GMV=1.5.11
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
@@ -24,8 +23,7 @@ lessc skins/elastic/styles/embed.less > skins/elastic/styles/embed.css
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
 
-# In-Browser tests dependencies installation
-# and GreenMail server setup and start
+# GreenMail server download, setup and start
 wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
     && (sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &) \
     && sleep 5
