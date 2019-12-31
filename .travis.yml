@@ -1,6 +1,6 @@
 language: php
 
-dist: trusty
+dist: trusty #
 sudo: false
 
 matrix:
@@ -14,7 +14,7 @@ matrix:
       env: CODE_COVERAGE=1
     - php: 7.2
     - php: 7.3
-      dist: bionic
+      dist: bionic # for proper node-less version
       env: BROWSER_TESTS=1
       addons:
         chrome: stable
