@@ -117,6 +117,21 @@ abstract class DuskTestCase extends TestCase
     }
 
     /**
+     * Assert specified checkbox state
+     */
+    protected function assertCheckboxState($selector, $state)
+    {
+        $this->browse(function (Browser $browser) use ($selector, $state) {
+            if ($state) {
+                $browser->assertChecked($selector);
+            }
+            else {
+                $browser->assertNotChecked($selector);
+            }
+        });
+    }
+
+    /**
      * Get content of rcmail.env entry
      */
     protected function getEnv($key)
@@ -193,14 +208,51 @@ abstract class DuskTestCase extends TestCase
     }
 
     /**
+     * Change state of the Elastic's pretty checkbox
+     */
+    protected function setCheckboxState($selector, $state)
+    {
+        // Because you can't operate on the original checkbox directly
+        $this->browse(function (Browser $browser) use ($selector, $state) {
+            $browser->ensurejQueryIsAvailable();
+
+            if ($state) {
+                $run = "if (!element.prev().is(':checked')) element.click()";
+            }
+            else {
+                $run = "if (element.prev().is(':checked')) element.click()";
+            }
+
+            $browser->script(
+                "var element = jQuery('$selector')[0] || jQuery('input[name=$selector]')[0];"
+                ."element = jQuery(element).next('.custom-control-label'); $run;"
+            );
+        });
+    }
+
+    /**
+     * Wait for UI (notice/confirmation/loading/error/warning) message
+     * and assert it's text
+     */
+    protected function waitForMessage($type, $text)
+    {
+        $selector = '#messagestack > div.' . $type;
+
+        $this->browse(function ($browser) use ($selector, $text) {
+            $browser->waitFor($selector)->assertSeeIn($selector, $text);
+        });
+    }
+
+    /**
      * Starts PHP server.
      */
     protected static function startWebServer()
     {
         $path = realpath(__DIR__ . '/../../public_html');
-        $cmd = ['php', '-S', 'localhost:8000'];
+        $cmd  = ['php', '-S', 'localhost:8000'];
+        $env  = [];
 
-        static::$phpProcess = new Process($cmd, null, []);
+        static::$phpProcess = new Process($cmd, null, $env);
         static::$phpProcess->setWorkingDirectory($path);
         static::$phpProcess->start();
 

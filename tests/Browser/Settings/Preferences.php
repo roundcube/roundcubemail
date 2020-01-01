@@ -16,14 +16,15 @@ class Preferences extends \Tests\Browser\DuskTestCase
             $browser->assertVisible('#settings-menu li.preferences.selected');
 
             // Preferences actions
-            $browser->assertVisible('#sections-table');
-            $browser->assertSeeIn('#sections-table tr.general', 'User Interface');
-            $browser->assertSeeIn('#sections-table tr.mailbox', 'Mailbox View');
-            $browser->assertSeeIn('#sections-table tr.mailview', 'Displaying Messages');
-            $browser->assertSeeIn('#sections-table tr.compose', 'Composing Messages');
-            $browser->assertSeeIn('#sections-table tr.addressbook', 'Contacts');
-            $browser->assertSeeIn('#sections-table tr.folders', 'Special Folders');
-            $browser->assertSeeIn('#sections-table tr.server', 'Server Settings');
+            $browser->with('#sections-table', function($browser) {
+                $browser->assertSeeIn('tr.general', 'User Interface');
+                $browser->assertSeeIn('tr.mailbox', 'Mailbox View');
+                $browser->assertSeeIn('tr.mailview', 'Displaying Messages');
+                $browser->assertSeeIn('tr.compose', 'Composing Messages');
+                $browser->assertSeeIn('tr.addressbook', 'Contacts');
+                $browser->assertSeeIn('tr.folders', 'Special Folders');
+                $browser->assertSeeIn('tr.server', 'Server Settings');
+            });
         });
     }
 }
