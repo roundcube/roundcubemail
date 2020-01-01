@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Browser\Addressbook;
+namespace Tests\Browser\Contacts;
 
-class Addressbook extends \Tests\Browser\DuskTestCase
+class Contacts extends \Tests\Browser\DuskTestCase
 {
     protected function setUp()
     {
