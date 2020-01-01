@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Addressbook;
+namespace Tests\Browser\Contacts;
 
 class Import extends \Tests\Browser\DuskTestCase
 {

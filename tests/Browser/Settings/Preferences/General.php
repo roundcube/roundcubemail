@@ -23,11 +23,11 @@ class General extends \Tests\Browser\DuskTestCase
             $browser->assertVisible('#sections-table tr.general.focused');
 
             $browser->withinFrame('#preferences-frame', function ($browser) {
+                $browser->waitFor('.formbuttons button.submit');
+
                 // check task and action
                 $this->assertEnvEquals('task', 'settings');
                 $this->assertEnvEquals('action', 'edit-prefs');
-
-                $browser->assertVisible('.formbuttons button.submit');
 
                 // Main Options fieldset
                 $browser->with('form.propform fieldset.main', function ($browser) {
