@@ -48,10 +48,10 @@ class bootstrap
     {
         $rcmail = rcmail::get_instance();
         $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
+        $db = $rcmail->get_dbh();
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
-            $db = $rcmail->get_dbh();
             $db->query("SET FOREIGN_KEY_CHECKS=0");
             $sql_res = $db->query("SHOW TABLES");
             while ($sql_arr = $db->fetch_array($sql_res)) {
@@ -62,7 +62,7 @@ class bootstrap
             // init database with schema
             system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
                 realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
-                realpath(TESTS_DIR . 'data/mysql.sql'),
+                realpath(TESTS_DIR . 'data/data.sql'),
                 escapeshellarg($dsn['hostspec']),
                 escapeshellarg($dsn['username']),
                 escapeshellarg($dsn['password']),
@@ -70,8 +70,21 @@ class bootstrap
             ));
         }
         else if ($dsn['phptype'] == 'sqlite') {
-            // delete database file -- will be re-initialized on first access
+            $db->closeConnection();
+            // delete database file
             system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
+
+            // load sample test data
+            // Note: exec_script() does not really work with these queries
+            $sql = file_get_contents(TESTS_DIR . 'data/data.sql');
+            $sql = preg_split('/;\n/', $sql, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach ($sql as $query) {
+                $result = $db->query($query);
+                if ($db->is_error($result)) {
+                    die($db->is_error());
+                }
+            }
         }
     }
 
@@ -89,7 +102,7 @@ class bootstrap
 
         self::connect_imap(TESTS_USER, TESTS_PASS);
         self::purge_mailbox('INBOX');
-        self::ensure_mailbox('Archive', true);
+        // self::ensure_mailbox('Archive', true);
 
         return self::$imap_ready;
     }
@@ -97,7 +110,7 @@ class bootstrap
     /**
      * Authenticate to IMAP with the given credentials
      */
-    public static function connect_imap($username, $password, $host = null)
+    public static function connect_imap($username, $password)
     {
         $rcmail = rcmail::get_instance();
         $imap = $rcmail->get_storage();
@@ -107,7 +120,7 @@ class bootstrap
             self::$imap_ready = false;
         }
 
-        $imap_host = $host ?: $rcmail->config->get('default_host');
+        $imap_host = $rcmail->config->get('default_host');
         $a_host = parse_url($imap_host);
         if ($a_host['host']) {
             $imap_host = $a_host['host'];
@@ -170,5 +183,29 @@ class bootstrap
         else if ($empty) {
             $imap->delete_message('*', $mailbox);
         }
+    }
+
+    /**
+     * Check IMAP capabilities
+     */
+    public static function get_storage()
+    {
+        if (!self::init_imap()) {
+            die(__METHOD__ . ': IMAP connection unavailable');
+        }
+
+        return rcmail::get_instance()->get_storage();
+    }
+
+    /**
+     * Return user preferences directly from database
+     */
+    public static function get_prefs()
+    {
+        $db     = rcmail::get_instance()->get_dbh();
+        $query  = $db->query("SELECT preferences FROM users WHERE username = ?", TESTS_USER);
+        $record = $db->fetch_assoc($query);
+
+        return unserialize($record['preferences']);
     }
 }

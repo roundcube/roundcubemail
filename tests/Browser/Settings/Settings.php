@@ -15,11 +15,22 @@ class Settings extends \Tests\Browser\DuskTestCase
             $browser->assertSeeIn('#layout-sidebar .header', 'Settings');
 
             // Sidebar menu
-            $browser->assertVisible('#settings-menu');
-            $browser->assertSeeIn('#settings-menu li.preferences', 'Preferences');
-            $browser->assertSeeIn('#settings-menu li.folders', 'Folders');
-            $browser->assertSeeIn('#settings-menu li.identities', 'Identities');
-            $browser->assertSeeIn('#settings-menu li.responses', 'Responses');
+            $browser->with('#settings-menu', function($browser) {
+                $browser->assertSeeIn('li.preferences', 'Preferences');
+                $browser->assertSeeIn('li.folders', 'Folders');
+                $browser->assertSeeIn('li.identities', 'Identities');
+                $browser->assertSeeIn('li.responses', 'Responses');
+            });
+
+            // Task menu
+            $browser->with('#taskmenu', function($browser) {
+                $browser->assertVisible('a.compose:not(.disabled):not(.selected)');
+                $browser->assertVisible('a.mail:not(.disabled):not(.selected)');
+                $browser->assertVisible('a.contacts:not(.disabled):not(.selected)');
+                $browser->assertVisible('a.settings:not(.disabled).selected');
+                $browser->assertVisible('a.about:not(.disabled):not(.selected)');
+                $browser->assertVisible('a.logout:not(.disabled):not(.selected)');
+            });
         });
     }
 }

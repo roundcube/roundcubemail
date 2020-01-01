@@ -13,6 +13,7 @@
         <testsuite name="Settings">
             <file>Settings/Settings.php</file>
             <file>Settings/Preferences.php</file>
+            <file>Settings/Preferences/General.php</file>
             <file>Settings/Folders.php</file>
             <file>Settings/Identities.php</file>
             <file>Settings/Responses.php</file>
@@ -20,7 +21,6 @@
         </testsuite>
         <testsuite name="Mail">
             <file>Mail/Mail.php</file>
-            <file>Mail/CheckRecent.php</file>
             <file>Mail/Compose.php</file>
             <file>Mail/Getunread.php</file>
             <file>Mail/List.php</file>
