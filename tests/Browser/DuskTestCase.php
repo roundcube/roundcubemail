@@ -180,6 +180,7 @@ abstract class DuskTestCase extends TestCase
             // On phone the menu is invisible, open it
             if ($this->isPhone()) {
                 $browser->click('.task-menu-button');
+                $browser->waitFor('#taskmenu');
             }
 
             $browser->with('#taskmenu', function(Browser $browser) use ($selected) {
@@ -206,6 +207,7 @@ abstract class DuskTestCase extends TestCase
             // On phone the menu is invisible, open it
             if ($this->isPhone()) {
                 $browser->click('.toolbar-menu-button');
+                $browser->waitFor('#toolbar-menu');
             }
 
             $browser->with('#toolbar-menu', function(Browser $browser) use ($active, $disabled) {
