@@ -16,7 +16,10 @@ vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
 if [ "$BROWSER_TESTS" = 1 ] && [ $? = 0 ]
 then
     .ci/setup.sh \
+    && echo "TESTS_MODE: DESKTOP" \
     && TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml \
+    && echo "TESTS_MODE: PHONE" \
     && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml \
+    && echo "TESTS_MODE: TABLET" \
     && TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml
 fi
