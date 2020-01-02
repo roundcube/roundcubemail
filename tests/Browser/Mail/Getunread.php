@@ -25,13 +25,19 @@ class Getunread extends \Tests\Browser\DuskTestCase
         $this->browse(function ($browser) {
             $this->go('mail');
 
-            // Folders list state
-            $browser->waitFor('.folderlist li.inbox.unread');
-
-            $this->assertEquals(strval($this->msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
+            $browser->waitFor('#messagelist tbody tr');
 
             // Messages list state
-            $this->assertCount($this->msgcount, $browser->elements('#messagelist tr.unread'));
+            $this->assertCount($this->msgcount, $browser->elements('#messagelist tbody tr.unread'));
+
+            if (!$this->isDesktop()) {
+                $browser->click('.back-sidebar-button');
+            }
+
+            // Folders list state
+            $browser->assertVisible('.folderlist li.inbox.unread');
+
+            $this->assertEquals(strval($this->msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
         });
     }
 }

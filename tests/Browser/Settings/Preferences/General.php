@@ -18,12 +18,25 @@ class General extends \Tests\Browser\DuskTestCase
         $this->browse(function ($browser) {
             $this->go('settings');
 
-            $browser->click('#sections-table tr.general');
+            if ($this->isPhone() || $this->isTablet()) {
+                $browser->click('#settings-menu li.preferences');
+                $browser->waitFor('#sections-table');
+            }
 
             $browser->assertVisible('#sections-table tr.general.focused');
 
+            $browser->click('#sections-table tr.general');
+
+            if ($this->isPhone()) {
+                $browser->waitFor('#layout-content .footer a.button.submit:not(.disabled)');
+                $browser->assertVisible('#layout-content .footer a.button.prev.disabled');
+                $browser->assertVisible('#layout-content .footer a.button.next:not(.disabled)');
+            }
+
             $browser->withinFrame('#preferences-frame', function ($browser) {
-                $browser->waitFor('.formbuttons button.submit');
+                if (!$this->isPhone()) {
+                    $browser->waitFor('.formbuttons button.submit');
+                }
 
                 // check task and action
                 $this->assertEnvEquals('task', 'settings');
@@ -112,8 +125,14 @@ class General extends \Tests\Browser\DuskTestCase
                 $this->setCheckboxState('_standard_windows', $this->settings['standard_windows']);
 
                 // Submit form
-                $browser->click('.formbuttons button.submit');
+                if (!$this->isPhone()) {
+                    $browser->click('.formbuttons button.submit');
+                }
             });
+
+            if ($this->isPhone()) {
+                $browser->click('#layout-content .footer a.submit');
+            }
 
             $this->waitForMessage('confirmation', 'Successfully saved');
 

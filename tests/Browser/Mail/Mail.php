@@ -22,34 +22,32 @@ class Mail extends \Tests\Browser\DuskTestCase
             $this->assertContains('search_filter', $objects);
             $this->assertContains('countdisplay', $objects);
 
+            if (!$this->isDesktop()) {
+                $browser->click('.back-sidebar-button');
+            }
+
             $browser->assertSeeIn('#layout-sidebar .header', TESTS_USER);
 
             // Folders list
             $browser->assertVisible('#mailboxlist li.mailbox.inbox.selected');
 
+            if (!$this->isDesktop()) {
+                $browser->click('.back-list-button');
+            }
+
             // Mail preview frame
-            $browser->assertVisible('#messagecontframe');
+            if (!$this->isPhone()) {
+                $browser->assertVisible('#messagecontframe');
+            }
 
             // Toolbar menu
-            $browser->with('#toolbar-menu', function($browser) {
-                $browser->assertMissing('a.compose'); // this is always hidden button
-                $browser->assertVisible('a.reply.disabled');
-                $browser->assertVisible('a.reply-all.disabled');
-                $browser->assertVisible('a.forward.disabled');
-                $browser->assertVisible('a.delete.disabled');
-                $browser->assertVisible('a.markmessage.disabled');
-                $browser->assertVisible('a.more:not(.disabled)');
-            });
+            $this->assertToolbarMenu(
+                ['more'], // active items
+                ['reply', 'reply-all', 'forward', 'delete', 'markmessage'], // inactive items
+            );
 
             // Task menu
-            $browser->with('#taskmenu', function($browser) {
-                $browser->assertVisible('a.compose:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.mail.selected');
-                $browser->assertVisible('a.contacts:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.settings:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.about:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.logout:not(.disabled):not(.selected)');
-            });
+            $this->assertTaskMenu('mail');
         });
     }
 }

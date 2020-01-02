@@ -18,15 +18,16 @@ class Identities extends \Tests\Browser\DuskTestCase
             // these objects should be there always
             $this->assertContains('identitieslist', $objects);
 
-            $browser->assertVisible('#settings-menu li.identities.selected');
+            if ($this->isDesktop()) {
+                $browser->assertVisible('#settings-menu li.identities.selected');
+            }
 
             // Identities list
             $browser->assertVisible('#identities-table tr:first-child.focused');
             $browser->assertSeeIn('#identities-table tr:first-child td.mail', TESTS_USER);
 
             // Toolbar menu
-            $browser->assertVisible('#toolbar-menu a.create:not(.disabled)');
-            $browser->assertVisible('#toolbar-menu a.delete.disabled');
+            $this->assertToolbarMenu(['create'], ['delete']);
         });
     }
 }
