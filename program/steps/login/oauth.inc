@@ -52,7 +52,8 @@ if (!empty($auth_code)) {
             unset($redir['abort'], $redir['_err']);
 
             // send redirect
-            $OUTPUT->redirect($redir, 0, true);
+            header('Location: ' . $rcmail->url($redir, true, false, $secure));
+            exit;
         } else {
             $OUTPUT->show_message('loginfailed', 'warning');
 
