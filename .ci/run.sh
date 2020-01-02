@@ -3,11 +3,12 @@
 # The script is intended for use on Travis with Trusty distribution
 # It executes unit and functional tests
 
-cd ..
+DIR=$(dirname $0)
+cd $DIR/..
 
 if [ "$CODE_COVERAGE" = 1 ]
 then
-    CODE_COVERAGE_ARGS="--coverage-text";
+    CODE_COVERAGE_ARGS="--coverage-text"
 fi
 
 vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
