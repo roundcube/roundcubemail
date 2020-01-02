@@ -37,6 +37,9 @@ class rcmail_oauth
     /** @var string */
     protected $last_error = null;
 
+    /** @var boolean */
+    protected $no_redirect = false;
+
     /** @var rcmail_oauth */
     static protected $instance;
 
@@ -74,6 +77,7 @@ class rcmail_oauth
             'scope' => $this->rcmail->config->get('oauth_scope'),
             'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', array()),
+            'login_redirect' => $this->rcmail->config->get('oauth_login_redirect', false),
         );
     }
 
@@ -88,6 +92,8 @@ class rcmail_oauth
         if ($this->is_enabled()) {
             $this->rcmail->plugins->register_hook('storage_init', [$this, 'storage_init']);
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
+            $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
+            $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
         }
     }
 
@@ -437,6 +443,32 @@ class rcmail_oauth
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
             $options['smtp_auth_type'] = 'XOAUTH2';
+        }
+
+        return $options;
+    }
+
+    /**
+     * Callback for 'logout_after' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function logout_after($options)
+    {
+        $this->no_redirect = true;
+    }
+
+    /**
+     * Callback for 'unauthenticated' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function unauthenticated($options)
+    {
+        if ($this->options['login_redirect'] && !$this->no_redirect && empty($options['error'] && $options['http_code'] === 200)) {
+            $this->login_redirect();
         }
 
         return $options;
