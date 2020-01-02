@@ -31,8 +31,7 @@ install:
   - .ci/install.sh
 
 script:
-  - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
-  - if [ "$BROWSER_TESTS" = 1 ]; then .ci/setup.sh && vendor/bin/phpunit -c tests/Browser/phpunit.xml; fi
+  - .ci/run.sh
 
 notifications:
   email: false
