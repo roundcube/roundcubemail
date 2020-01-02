@@ -57,7 +57,9 @@ To run the test suite call `phpunit` from the tests/Browser directory:
 
 ```
   cd <roundcube-dir>/tests/Browser
-  phpunit                          # or ../../vendor/bin/phpunit
+  TESTS_MODE=desktop phpunit
+  TESTS_MODE=phone phpunit
+  TESTS_MODE=tablet phpunit
 ```
 
 [laravel-dusk]: https://github.com/laravel/dusk
