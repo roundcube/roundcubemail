@@ -467,7 +467,12 @@ class rcmail_oauth
      */
     public function unauthenticated($options)
     {
-        if ($this->options['login_redirect'] && !$this->no_redirect && empty($options['error'] && $options['http_code'] === 200)) {
+        if ($this->options['login_redirect'] &&
+            !$this->rcmail->output->ajax_call &&
+            !$this->no_redirect &&
+            empty($options['error']) &&
+            $options['http_code'] === 200
+            ) {
             $this->login_redirect();
         }
 
