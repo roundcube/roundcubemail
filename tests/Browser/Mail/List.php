@@ -33,16 +33,58 @@ class MailList extends \Tests\Browser\DuskTestCase
             $browser->assertPresent('#messagelist tbody tr:first-child span.msgicon.unread');
 
             // List toolbar menu
-            $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
-            $browser->assertVisible('#toolbar-list-menu a.options:not(.disabled)');
-            $browser->assertVisible('a.toolbar-button.refresh:not(.disabled)');
+            $browser->assertVisible('#layout-list .header a.toolbar-button.refresh:not(.disabled)');
 
-            $imap = \bootstrap::get_storage();
-            if ($imap->get_threading()) {
-                $browser->assertVisible('#toolbar-list-menu a.threads:not(.disabled)');
+            if ($this->isDesktop()) {
+                $browser->with('#toolbar-list-menu', function ($browser) {
+                    $browser->assertVisible('a.select:not(.disabled)');
+                    $browser->assertVisible('a.options:not(.disabled)');
+
+                    $imap = \bootstrap::get_storage();
+                    if ($imap->get_threading()) {
+                        $browser->assertVisible('a.threads:not(.disabled)');
+                    }
+                    else {
+                        $browser->assertMissing('a.threads');
+                    }
+                });
             }
-            else {
-                $browser->assertMissing('#toolbar-list-menu a.threads');
+            else if ($this->isTablet()) {
+                $browser->click('.toolbar-list-button');
+
+                $browser->with('#toolbar-list-menu', function ($browser) {
+                    $browser->assertVisible('a.select:not(.disabled)');
+                    $browser->assertVisible('a.options:not(.disabled)');
+
+                    $imap = \bootstrap::get_storage();
+                    if ($imap->get_threading()) {
+                        $browser->assertVisible('a.threads:not(.disabled)');
+                    }
+                    else {
+                        $browser->assertMissing('a.threads');
+                    }
+                });
+
+                $browser->click(); // hide the popup menu
+            }
+            else { // phone
+                // On phones list options are in the toolbar menu
+                $browser->click('.toolbar-menu-button');
+
+                $browser->with('#toolbar-menu', function ($browser) {
+                    $browser->assertVisible('a.select:not(.disabled)');
+                    $browser->assertVisible('a.options:not(.disabled)');
+
+                    $imap = \bootstrap::get_storage();
+                    if ($imap->get_threading()) {
+                        $browser->assertVisible('a.threads:not(.disabled)');
+                    }
+                    else {
+                        $browser->assertMissing('a.threads');
+                    }
+                });
+
+                $this->closeToolbarMenu();
             }
         });
     }
@@ -53,8 +95,18 @@ class MailList extends \Tests\Browser\DuskTestCase
     public function testListSelection()
     {
         $this->browse(function ($browser) {
-            $browser->click('#toolbar-list-menu a.select');
-            $browser->assertFocused('#toolbar-list-menu a.select');
+            if ($this->isPhone()) {
+                $browser->click('.toolbar-menu-button');
+                $browser->click('#toolbar-menu a.select');
+            }
+            else if ($this->isTablet()) {
+                $browser->click('.toolbar-list-button');
+                $browser->click('#toolbar-list-menu a.select');
+            }
+            else {
+                $browser->click('#toolbar-list-menu a.select');
+                $browser->assertFocused('#toolbar-list-menu a.select');
+            }
 
             // Popup menu content
             $browser->with('#listselect-menu', function($browser) {
@@ -67,7 +119,7 @@ class MailList extends \Tests\Browser\DuskTestCase
                 $browser->assertVisible('a.select.none:not(.disabled)');
             });
 
-            // Close the menu by clicking the page body
+            // Close the menu(s) by clicking the page body
             $browser->click();
             $browser->waitUntilMissing('#listselect-menu');
 

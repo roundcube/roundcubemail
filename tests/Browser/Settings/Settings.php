@@ -23,14 +23,7 @@ class Settings extends \Tests\Browser\DuskTestCase
             });
 
             // Task menu
-            $browser->with('#taskmenu', function($browser) {
-                $browser->assertVisible('a.compose:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.mail:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.contacts:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.settings:not(.disabled).selected');
-                $browser->assertVisible('a.about:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.logout:not(.disabled):not(.selected)');
-            });
+            $this->assertTaskMenu('settings');
         });
     }
 }

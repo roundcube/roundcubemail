@@ -15,6 +15,13 @@ class Preferences extends \Tests\Browser\DuskTestCase
 
             $browser->assertVisible('#settings-menu li.preferences.selected');
 
+            // On phone/tablet #sections-table is initially hidden
+            if ($this->isPhone() || $this->isTablet()) {
+                $browser->assertMissing('#sections-table');
+                $browser->click('#settings-menu li.preferences');
+                $browser->waitFor('#sections-table');
+            }
+
             // Preferences actions
             $browser->with('#sections-table', function($browser) {
                 $browser->assertSeeIn('tr.general', 'User Interface');

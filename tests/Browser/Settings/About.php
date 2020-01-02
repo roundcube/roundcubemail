@@ -9,7 +9,7 @@ class About extends \Tests\Browser\DuskTestCase
         $this->browse(function ($browser) {
             $this->go('settings');
 
-            $browser->click('#taskmenu a.about');
+            $this->clickTaskMenuItem('about');
 
             $browser->assertSeeIn('.ui-dialog-title', 'About');
             $browser->assertVisible('.ui-dialog #aboutframe');

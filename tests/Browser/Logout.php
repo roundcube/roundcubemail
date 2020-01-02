@@ -9,9 +9,8 @@ class Logout extends DuskTestCase
         $this->browse(function ($browser) {
             $this->go('settings');
 
-            // wait for the menu and then click the Logout button
-            $browser->waitFor('#taskmenu');
-            $browser->click('#taskmenu a.logout');
+            // click the Logout button in taskmenu
+            $this->clickTaskMenuItem('logout');
 
             // task should be set to 'login'
             $this->assertEnvEquals('task', 'login');

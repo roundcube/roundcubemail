@@ -18,15 +18,16 @@ class Responses extends \Tests\Browser\DuskTestCase
             // these objects should be there always
             $this->assertContains('responseslist', $objects);
 
-            $browser->assertVisible('#settings-menu li.responses.selected');
+            if ($this->isDesktop()) {
+                $browser->assertVisible('#settings-menu li.responses.selected');
+            }
 
             // Responses list
             $browser->assertPresent('#responses-table');
             $browser->assertMissing('#responses-table tr');
 
             // Toolbar menu
-            $browser->assertVisible('#toolbar-menu a.create:not(.disabled)');
-            $browser->assertVisible('#toolbar-menu a.delete.disabled');
+            $this->assertToolbarMenu(['create'], ['delete']);
         });
     }
 }

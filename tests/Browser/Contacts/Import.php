@@ -12,7 +12,7 @@ class Import extends \Tests\Browser\DuskTestCase
         $this->browse(function ($browser) {
             $this->go('addressbook');
 
-            $browser->click('#toolbar-menu a.import');
+            $this->clickToolbarMenuItem('import');
 
             $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
             $browser->assertVisible('.ui-dialog button.mainaction.import');
@@ -52,7 +52,7 @@ class Import extends \Tests\Browser\DuskTestCase
     {
         $this->browse(function ($browser) {
             // Open the dialog again
-            $browser->click('#toolbar-menu a.import');
+            $this->clickToolbarMenuItem('import');
             $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
 
             // Submit the form with no file attached

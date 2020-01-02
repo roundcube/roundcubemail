@@ -19,15 +19,15 @@ class Folders extends \Tests\Browser\DuskTestCase
             $this->assertContains('quotadisplay', $objects);
             $this->assertContains('subscriptionlist', $objects);
 
-            $browser->assertVisible('#settings-menu li.folders.selected');
+            if ($this->isDesktop()) {
+                $browser->assertVisible('#settings-menu li.folders.selected');
+            }
 
             // Folders list
             $browser->assertVisible('#subscription-table li.mailbox.inbox');
 
             // Toolbar menu
-            $browser->assertVisible('#toolbar-menu a.create:not(.disabled)');
-            $browser->assertVisible('#toolbar-menu a.delete.disabled');
-            $browser->assertVisible('#toolbar-menu a.purge.disabled');
+            $this->assertToolbarMenu(['create'], ['delete', 'purge']);
         });
     }
 }

@@ -14,7 +14,7 @@ class Contacts extends \Tests\Browser\DuskTestCase
     /**
      * Contacts UI Basics
      */
-    public function testAddressbook()
+    public function testContactsUI()
     {
         $this->browse(function ($browser) {
             $this->go('addressbook');
@@ -30,6 +30,11 @@ class Contacts extends \Tests\Browser\DuskTestCase
             $this->assertContains('contactslist', $objects);
             $this->assertContains('countdisplay', $objects);
 
+            if (!$this->isDesktop()) {
+                $browser->assertMissing('#directorylist');
+                $browser->click('a.back-sidebar-button');
+            }
+
             $browser->assertSeeIn('#layout-sidebar .header', 'Groups');
 
             // Groups/Addressbooks list
@@ -38,34 +43,41 @@ class Contacts extends \Tests\Browser\DuskTestCase
             $browser->assertMissing('#directorylist .treetoggle.expanded');
 
             // Contacts list
-            $browser->assertVisible('#contacts-table');
+            if (!$this->isDesktop()) {
+                $browser->assertMissing('#contacts-table');
+                $browser->click('#directorylist li:first-child');
+                $browser->waitFor('#contacts-table');
+            }
+            else {
+                $browser->assertVisible('#contacts-table');
+            }
 
             // Contacts list menu
-            $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
+            if ($this->isPhone()) {
+                $this->assertToolbarMenu(['select'], []);
+            }
+            else if ($this->isTablet()) {
+                $browser->click('.toolbar-list-button');
+                $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
+                $browser->click();
+            }
+            else {
+                $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
+            }
 
             // Toolbar menu
-            $browser->with('#toolbar-menu', function($browser) {
-                $browser->assertVisible('a.create:not(.disabled)');
-                $browser->assertVisible('a.print.disabled');
-                $browser->assertVisible('a.delete.disabled');
-                $browser->assertVisible('a.search:not(.disabled)');
-                $browser->assertVisible('a.import:not(.disabled)');
-                $browser->assertVisible('a.export:not(.disabled)');
-                $browser->assertVisible('a.more.disabled');
-            });
+            $this->assertToolbarMenu(
+                ['create', 'search', 'import', 'export'], // active items
+                ['print', 'delete', 'more'], // inactive items
+            );
 
             // Contact frame
-            $browser->assertVisible('#contact-frame');
+            if (!$this->isPhone()) {
+                $browser->assertVisible('#contact-frame');
+            }
 
             // Task menu
-            $browser->with('#taskmenu', function($browser) {
-                $browser->assertVisible('a.compose:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.mail:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.contacts.selected');
-                $browser->assertVisible('a.settings:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.about:not(.disabled):not(.selected)');
-                $browser->assertVisible('a.logout:not(.disabled):not(.selected)');
-            });
+            $this->assertTaskMenu('contacts');
         });
     }
 }
