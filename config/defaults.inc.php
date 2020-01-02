@@ -356,6 +356,42 @@ $config['oauth_auth_parameters'] = [];
 // Optional: array of field names used to resolve the username within the identity information
 $config['oauth_identity_fields'] = null;
 
+// Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
+$config['oauth_login_redirect'] = false;
+
+///// Example config for Gmail
+// Register your service at https://portal.azure.com/
+// use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['oauth_provider'] = 'google';
+// $config['oauth_provider_name'] = 'Google';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://accounts.google.com/o/oauth2/auth";
+// $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
+// $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
+// $config['oauth_scope'] = "email profile openid https://mail.google.com/";
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline'];
+
+///// Example config for Outlook.com (Office 365)
+// Register your OAuth client at https://portal.azure.com
+// use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+// $config['oauth_provider'] = 'outlook';
+// $config['oauth_provider_name'] = 'Outlook.com';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+// $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+// $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
+// $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
+// $config['oauth_scope'] = "openid email offline_access User.Read Mail.ReadWrite Mail.Send";
+// $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
 
 // ----------------------------------
 // LDAP
