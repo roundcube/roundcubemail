@@ -35,7 +35,8 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      */
     public function install($version = null)
     {
-        $version = trim($this->getUrl(sprintf($this->versionUrl, $version ?: $this->latestVersion())));
+        $version = $version ? preg_replace('/\..*/', '', $version) : $this->latestVersion();
+        $version = trim($this->getUrl(sprintf($this->versionUrl, $version)));
         $currentOS = Laravel\Dusk\OperatingSystem::id();
 
         foreach ($this->slugs as $os => $slug) {
