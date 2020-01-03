@@ -46,6 +46,14 @@ abstract class DuskTestCase extends TestCase
             '--headless',
         ]);
 
+        // For file download handling
+        $prefs = [
+            'profile.default_content_settings.popups' => 0,
+            'download.default_directory' => TESTS_DIR . 'downloads',
+        ];
+
+        $options->setExperimentalOption('prefs', $prefs);
+
         if (getenv('TESTS_MODE') == 'phone') {
             // Fake User-Agent string for mobile mode
             $ua = 'Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Mobile Safari/537.36';
@@ -60,6 +68,16 @@ abstract class DuskTestCase extends TestCase
         }
         else {
             $options->addArguments(['--window-size=1280,720']);
+        }
+
+        // Make sure downloads dir exists and is empty
+        if (!file_exists(TESTS_DIR . 'downloads')) {
+            mkdir(TESTS_DIR . 'downloads', 0777, true);
+        }
+        else {
+            foreach (glob(TESTS_DIR . 'downloads/*') as $file) {
+                @unlink($file);
+            }
         }
 
         return RemoteWebDriver::create(
@@ -83,8 +101,8 @@ abstract class DuskTestCase extends TestCase
         $this->app = \rcmail::get_instance();
 
         Browser::$baseUrl = 'http://localhost:8000';
-        Browser::$storeScreenshotsAt = __DIR__ . '/screenshots';
-        Browser::$storeConsoleLogAt = __DIR__ . '/console';
+        Browser::$storeScreenshotsAt = TESTS_DIR . 'screenshots';
+        Browser::$storeConsoleLogAt = TESTS_DIR . 'console';
 
         // This folder must exist in case Browser will try to write logs to it
         if (!is_dir(Browser::$storeConsoleLogAt)) {
@@ -274,19 +292,34 @@ abstract class DuskTestCase extends TestCase
     /**
      * Select toolbar menu item
      */
-    protected function clickToolbarMenuItem($name)
+    protected function clickToolbarMenuItem($name, $dropdown_action = null)
     {
-        $this->browse(function (Browser $browser) use ($name) {
+        $this->browse(function (Browser $browser) use ($name, $dropdown_action) {
             if ($this->isPhone()) {
                 $browser->click('.toolbar-menu-button');
             }
 
-            $browser->click("#toolbar-menu a.{$name}");
+            $selector = "#toolbar-menu a.{$name}" . ($dropdown_action ? " + a.dropdown" : '');
+
+            $browser->click($selector);
+
+            if ($dropdown_action) {
+                $popup_id = $browser->attribute($selector, 'data-popup');
+                $browser->click("#{$popup_id} li a.{$dropdown_action}");
+            }
 
             if ($this->isPhone()) {
                 $this->closeToolbarMenu();
-//                $browser->waitUntilMissing('#toolbar-menu');
             }
+        });
+    }
+
+    protected function ctrlClick($selector)
+    {
+        $this->browse(function (Browser $browser) use ($selector) {
+            $browser->driver->getKeyboard()->pressKey(\Facebook\WebDriver\WebDriverKeys::LEFT_CONTROL);
+            $browser->element('#contacts-table tbody tr:first-child')->click();
+            $browser->driver->getKeyboard()->releaseKey(\Facebook\WebDriver\WebDriverKeys::LEFT_CONTROL);
         });
     }
 
@@ -301,25 +334,6 @@ abstract class DuskTestCase extends TestCase
         });
 
         return $result;
-    }
-
-    /**
-     * Get HTML IDs of defined buttons for specified Roundcube action
-     */
-    protected function getButtons($action)
-    {
-        $this->browse(function (Browser $browser) use ($action, &$buttons) {
-            $buttons = $browser->script("return rcmail.buttons['$action']");
-            $buttons = $buttons[0];
-        });
-
-        if (is_array($buttons)) {
-            foreach ($buttons as $idx => $button) {
-                $buttons[$idx] = $button['id'];
-            }
-        }
-
-        return (array) $buttons;
     }
 
     /**
@@ -400,6 +414,30 @@ abstract class DuskTestCase extends TestCase
         $this->browse(function ($browser) use ($selector, $text) {
             $browser->waitFor($selector)->assertSeeIn($selector, $text);
         });
+    }
+
+    /**
+     * Returns content of a downloaded file
+     */
+    protected function readDownloadedFile($filename)
+    {
+        $filename = TESTS_DIR . "downloads/$filename";
+        // Give the browser a chance to finish download
+        if (!file_exists($filename)) {
+            sleep(2);
+        }
+
+        $this->assertFileExists($filename);
+
+        return file_get_contents($filename);
+    }
+
+    /**
+     * Removes downloaded file
+     */
+    protected function removeDownloadedFile($filename)
+    {
+        @unlink(TESTS_DIR . "downloads/$filename");
     }
 
     /**

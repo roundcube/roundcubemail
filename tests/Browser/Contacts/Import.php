@@ -9,6 +9,8 @@ class Import extends \Tests\Browser\DuskTestCase
      */
     public function testImportUI()
     {
+        \bootstrap::init_db();
+
         $this->browse(function ($browser) {
             $this->go('addressbook');
 

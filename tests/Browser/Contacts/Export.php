@@ -1,0 +1,50 @@
+<?php
+
+namespace Tests\Browser\Contacts;
+
+class Export extends \Tests\Browser\DuskTestCase
+{
+    /**
+     * Test exporting all contacts
+     */
+    public function testExportAll()
+    {
+        \bootstrap::init_db();
+
+        $this->browse(function ($browser) {
+            $this->go('addressbook');
+
+            $this->clickToolbarMenuItem('export');
+        });
+
+        // Parse the downloaded vCard file
+        $vcard_content = $this->readDownloadedFile('contacts.vcf');
+        $vcard = new \rcube_vcard();
+        $contacts = $vcard->import($vcard_content);
+
+        $this->assertCount(2, $contacts);
+        $this->assertSame('John Doe', $contacts[0]->displayname);
+        $this->assertSame('Jane Stalone', $contacts[1]->displayname);
+        $this->removeDownloadedFile('contacts.vcf');
+    }
+
+    /**
+     * Test exporting selected contacts
+     *
+     * @depends testExportAll
+     */
+    public function testExportSelected()
+    {
+        $this->ctrlClick('#contacts-table tbody tr:first-child');
+        $this->clickToolbarMenuItem('export', 'export.select');
+
+        $vcard_content = $this->readDownloadedFile('contacts.vcf');
+        $vcard = new \rcube_vcard();
+        $contacts = $vcard->import($vcard_content);
+
+        // Parse the downloaded vCard file
+        $this->assertCount(1, $contacts);
+        $this->assertSame('John Doe', $contacts[0]->displayname);
+        $this->removeDownloadedFile('contacts.vcf');
+    }
+}
