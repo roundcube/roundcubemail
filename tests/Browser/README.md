@@ -14,11 +14,15 @@ INSTALLATION
 
 Installation:
 
-1. Add `"laravel/dusk": "~5.7.0"` to your composer.json file and run `composer update`.
+0. Note that the suite has been tested with PHP 7.3 and 7.4.
+1. Install Laravel Dusk with all dependencies.
+```
+composer require "laravel/dusk:~5.7.0"
+```
 2. Install Chrome WebDriver for the version of Chrome/Chromium in your system. Yes,
    you have to have Chrome/Chromium installed.
 ```
-php tests/Browser/install.php [version]`
+php tests/Browser/install.php [version]
 ```
 3. Configure the test account and Roundcube instance.
 
