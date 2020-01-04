@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Mail;
 
+use Tests\Browser\Components\Toolbarmenu;
+
 class MailList extends \Tests\Browser\TestCase
 {
     protected function setUp()
@@ -69,22 +71,20 @@ class MailList extends \Tests\Browser\TestCase
             }
             else { // phone
                 // On phones list options are in the toolbar menu
-                $browser->click('.toolbar-menu-button');
-
-                $browser->with('#toolbar-menu', function ($browser) {
-                    $browser->assertVisible('a.select:not(.disabled)');
-                    $browser->assertVisible('a.options:not(.disabled)');
-
+                $browser->with(new Toolbarmenu(), function ($browser) {
+                    $active  = ['select', 'options'];
+                    $missing = [];
                     $imap = \bootstrap::get_storage();
+
                     if ($imap->get_threading()) {
-                        $browser->assertVisible('a.threads:not(.disabled)');
+                        $active[] = 'threads';
                     }
                     else {
-                        $browser->assertMissing('a.threads');
+                        $missing[] = 'threads';
                     }
-                });
 
-                $browser->closeToolbarMenu();
+                    $browser->assertMenuState($active, [], $missing);
+                });
             }
         });
     }
@@ -96,8 +96,9 @@ class MailList extends \Tests\Browser\TestCase
     {
         $this->browse(function ($browser) {
             if ($browser->isPhone()) {
-                $browser->click('.toolbar-menu-button');
-                $browser->click('#toolbar-menu a.select');
+                $browser->with(new Toolbarmenu(), function ($browser) {
+                    $browser->clickMenuItem('select');
+                });
             }
             else if ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
