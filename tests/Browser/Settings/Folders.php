@@ -2,24 +2,25 @@
 
 namespace Tests\Browser\Settings;
 
-class Folders extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Folders extends \Tests\Browser\TestCase
 {
     public function testFolders()
     {
         $this->browse(function ($browser) {
-            $this->go('settings', 'folders');
+            $browser->go('settings', 'folders');
 
             // task should be set to 'settings' and action to 'folders'
-            $this->assertEnvEquals('task', 'settings');
-            $this->assertEnvEquals('action', 'folders');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'settings');
+                $browser->assertEnv('action', 'folders');
 
-            $objects = $this->getObjects();
+                // these objects should be there always
+                $browser->assertObjects(['quotadisplay', 'subscriptionlist']);
+            });
 
-            // these objects should be there always
-            $this->assertContains('quotadisplay', $objects);
-            $this->assertContains('subscriptionlist', $objects);
-
-            if ($this->isDesktop()) {
+            if ($browser->isDesktop()) {
                 $browser->assertVisible('#settings-menu li.folders.selected');
             }
 
@@ -27,7 +28,7 @@ class Folders extends \Tests\Browser\DuskTestCase
             $browser->assertVisible('#subscription-table li.mailbox.inbox');
 
             // Toolbar menu
-            $this->assertToolbarMenu(['create'], ['delete', 'purge']);
+            $browser->assertToolbarMenu(['create'], ['delete', 'purge']);
         });
     }
 }

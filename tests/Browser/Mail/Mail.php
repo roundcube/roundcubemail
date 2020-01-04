@@ -2,27 +2,30 @@
 
 namespace Tests\Browser\Mail;
 
-class Mail extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Mail extends \Tests\Browser\TestCase
 {
     public function testMailUI()
     {
         $this->browse(function ($browser) {
-            $this->go('mail');
+            $browser->go('mail');
 
             // check task
-            $this->assertEnvEquals('task', 'mail');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'mail');
+                // these objects should be there always
+                $browser->assertObjects([
+                    'qsearchbox',
+                    'mailboxlist',
+                    'messagelist',
+                    'quotadisplay',
+                    'search_filter',
+                    'countdisplay',
+                ]);
+            });
 
-            $objects = $this->getObjects();
-
-            // these objects should be there always
-            $this->assertContains('qsearchbox', $objects);
-            $this->assertContains('mailboxlist', $objects);
-            $this->assertContains('messagelist', $objects);
-            $this->assertContains('quotadisplay', $objects);
-            $this->assertContains('search_filter', $objects);
-            $this->assertContains('countdisplay', $objects);
-
-            if (!$this->isDesktop()) {
+            if (!$browser->isDesktop()) {
                 $browser->click('.back-sidebar-button');
             }
 
@@ -31,23 +34,23 @@ class Mail extends \Tests\Browser\DuskTestCase
             // Folders list
             $browser->assertVisible('#mailboxlist li.mailbox.inbox.selected');
 
-            if (!$this->isDesktop()) {
+            if (!$browser->isDesktop()) {
                 $browser->click('.back-list-button');
             }
 
             // Mail preview frame
-            if (!$this->isPhone()) {
+            if (!$browser->isPhone()) {
                 $browser->assertVisible('#messagecontframe');
             }
 
             // Toolbar menu
-            $this->assertToolbarMenu(
+            $browser->assertToolbarMenu(
                 ['more'], // active items
                 ['reply', 'reply-all', 'forward', 'delete', 'markmessage'], // inactive items
             );
 
             // Task menu
-            $this->assertTaskMenu('mail');
+            $browser->assertTaskMenu('mail');
         });
     }
 }

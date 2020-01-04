@@ -2,15 +2,19 @@
 
 namespace Tests\Browser\Settings;
 
-class Settings extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Settings extends \Tests\Browser\TestCase
 {
     public function testSettings()
     {
         $this->browse(function ($browser) {
-            $this->go('settings');
+            $browser->go('settings');
 
             // task should be set to 'settings'
-            $this->assertEnvEquals('task', 'settings');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'settings');
+            });
 
             $browser->assertSeeIn('#layout-sidebar .header', 'Settings');
 
@@ -23,7 +27,7 @@ class Settings extends \Tests\Browser\DuskTestCase
             });
 
             // Task menu
-            $this->assertTaskMenu('settings');
+            $browser->assertTaskMenu('settings');
         });
     }
 }

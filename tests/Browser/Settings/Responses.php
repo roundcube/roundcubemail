@@ -2,23 +2,25 @@
 
 namespace Tests\Browser\Settings;
 
-class Responses extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Responses extends \Tests\Browser\TestCase
 {
     public function testIdentities()
     {
         $this->browse(function ($browser) {
-            $this->go('settings', 'responses');
+            $browser->go('settings', 'responses');
 
-            // check task and action
-            $this->assertEnvEquals('task', 'settings');
-            $this->assertEnvEquals('action', 'responses');
+            $browser->with(new App(), function ($browser) {
+                // check task and action
+                $browser->assertEnv('task', 'settings');
+                $browser->assertEnv('action', 'responses');
 
-            $objects = $this->getObjects();
+                // these objects should be there always
+                $browser->assertObjects(['responseslist']);
+            });
 
-            // these objects should be there always
-            $this->assertContains('responseslist', $objects);
-
-            if ($this->isDesktop()) {
+            if ($browser->isDesktop()) {
                 $browser->assertVisible('#settings-menu li.responses.selected');
             }
 
@@ -27,7 +29,7 @@ class Responses extends \Tests\Browser\DuskTestCase
             $browser->assertMissing('#responses-table tr');
 
             // Toolbar menu
-            $this->assertToolbarMenu(['create'], ['delete']);
+            $browser->assertToolbarMenu(['create'], ['delete']);
         });
     }
 }

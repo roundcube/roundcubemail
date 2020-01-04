@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Settings\Preferences;
 
-class General extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class General extends \Tests\Browser\TestCase
 {
     protected function tearDown()
     {
@@ -16,9 +18,9 @@ class General extends \Tests\Browser\DuskTestCase
     public function testGeneral()
     {
         $this->browse(function ($browser) {
-            $this->go('settings');
+            $browser->go('settings');
 
-            if ($this->isPhone() || $this->isTablet()) {
+            if (!$browser->isDesktop()) {
                 $browser->click('#settings-menu li.preferences');
                 $browser->waitFor('#sections-table');
             }
@@ -27,20 +29,22 @@ class General extends \Tests\Browser\DuskTestCase
 
             $browser->click('#sections-table tr.general');
 
-            if ($this->isPhone()) {
+            if ($browser->isPhone()) {
                 $browser->waitFor('#layout-content .footer a.button.submit:not(.disabled)');
                 $browser->assertVisible('#layout-content .footer a.button.prev.disabled');
                 $browser->assertVisible('#layout-content .footer a.button.next:not(.disabled)');
             }
 
             $browser->withinFrame('#preferences-frame', function ($browser) {
-                if (!$this->isPhone()) {
+                if (!$browser->isPhone()) {
                     $browser->waitFor('.formbuttons button.submit');
                 }
 
                 // check task and action
-                $this->assertEnvEquals('task', 'settings');
-                $this->assertEnvEquals('action', 'edit-prefs');
+                $browser->with(new App(), function ($browser) {
+                    $browser->assertEnv('task', 'settings');
+                    $browser->assertEnv('action', 'edit-prefs');
+                });
 
                 // Main Options fieldset
                 $browser->with('form.propform fieldset.main', function ($browser) {
@@ -64,10 +68,10 @@ class General extends \Tests\Browser\DuskTestCase
                     $browser->assertSelected('select[name=_date_format]', $this->app->config->get('date_format'));
 
                     $browser->assertSeeIn('label[for=rcmfd_prettydate]', 'Pretty dates');
-                    $this->assertCheckboxState('_pretty_date', $this->app->config->get('prettydate'));
+                    $browser->assertCheckboxState('_pretty_date', $this->app->config->get('prettydate'));
 
                     $browser->assertSeeIn('label[for=rcmfd_displaynext]', 'Display next');
-                    $this->assertCheckboxState('_display_next', $this->app->config->get('display_next'));
+                    $browser->assertCheckboxState('_display_next', $this->app->config->get('display_next'));
 
                     $browser->assertSeeIn('label[for=rcmfd_refresh_interval]', 'Refresh');
                     $browser->assertVisible('select[name=_refresh_interval]');
@@ -86,7 +90,7 @@ class General extends \Tests\Browser\DuskTestCase
                     $browser->assertSeeIn('legend', 'Browser Options');
 
                     $browser->assertSeeIn('label[for=rcmfd_standard_windows]', 'Handle popups');
-                    $this->assertCheckboxState('_standard_windows', $this->app->config->get('standard_windows'));
+                    $browser->assertCheckboxState('_standard_windows', $this->app->config->get('standard_windows'));
                 });
             });
         });
@@ -120,21 +124,21 @@ class General extends \Tests\Browser\DuskTestCase
                 $browser->select('_date_format', $this->settings['date_format']);
                 $browser->select('_refresh_interval', $this->settings['refresh_interval']);
 
-                $this->setCheckboxState('_pretty_date', $this->settings['pretty_date']);
-                $this->setCheckboxState('_display_next', $this->settings['display_next']);
-                $this->setCheckboxState('_standard_windows', $this->settings['standard_windows']);
+                $browser->setCheckboxState('_pretty_date', $this->settings['pretty_date']);
+                $browser->setCheckboxState('_display_next', $this->settings['display_next']);
+                $browser->setCheckboxState('_standard_windows', $this->settings['standard_windows']);
 
                 // Submit form
-                if (!$this->isPhone()) {
+                if (!$browser->isPhone()) {
                     $browser->click('.formbuttons button.submit');
                 }
             });
 
-            if ($this->isPhone()) {
+            if ($browser->isPhone()) {
                 $browser->click('#layout-content .footer a.submit');
             }
 
-            $this->waitForMessage('confirmation', 'Successfully saved');
+            $browser->waitForMessage('confirmation', 'Successfully saved');
 
             // Verify if every option has been updated
             $browser->withinFrame('#preferences-frame', function ($browser) {
@@ -143,9 +147,9 @@ class General extends \Tests\Browser\DuskTestCase
                 $browser->assertSelected('_date_format', $this->settings['date_format']);
                 $browser->assertSelected('_refresh_interval', $this->settings['refresh_interval']);
 
-                $this->assertCheckboxState('_pretty_date', $this->settings['pretty_date']);
-                $this->assertCheckboxState('_display_next', $this->settings['display_next']);
-                $this->assertCheckboxState('_standard_windows', $this->settings['standard_windows']);
+                $browser->assertCheckboxState('_pretty_date', $this->settings['pretty_date']);
+                $browser->assertCheckboxState('_display_next', $this->settings['display_next']);
+                $browser->assertCheckboxState('_standard_windows', $this->settings['standard_windows']);
 
                 // Assert the options have been saved in database properly
                 $prefs   = \bootstrap::get_prefs();

@@ -2,18 +2,22 @@
 
 namespace Tests\Browser;
 
-class Logout extends DuskTestCase
+use Tests\Browser\Components\App;
+
+class Logout extends TestCase
 {
     public function testLogout()
     {
         $this->browse(function ($browser) {
-            $this->go('settings');
+            $browser->go('settings');
 
             // click the Logout button in taskmenu
-            $this->clickTaskMenuItem('logout');
+            $browser->clickTaskMenuItem('logout');
 
             // task should be set to 'login'
-            $this->assertEnvEquals('task', 'login');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'login');
+            });
 
             // form should exist
             $browser->assertVisible('input[name="_user"]');

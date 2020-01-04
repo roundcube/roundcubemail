@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Contacts;
 
-class Contacts extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Contacts extends \Tests\Browser\TestCase
 {
     protected function setUp()
     {
@@ -17,20 +19,17 @@ class Contacts extends \Tests\Browser\DuskTestCase
     public function testContactsUI()
     {
         $this->browse(function ($browser) {
-            $this->go('addressbook');
+            $browser->go('addressbook');
 
-            // check task
-            $this->assertEnvEquals('task', 'addressbook');
+            $browser->with(new App(), function ($browser) {
+                // check task
+                $browser->assertEnv('task', 'addressbook');
 
-            $objects = $this->getObjects();
+                // these objects should be there always
+                $browser->assertObjects(['qsearchbox', 'folderlist', 'contactslist', 'countdisplay']);
+            });
 
-            // these objects should be there always
-            $this->assertContains('qsearchbox', $objects);
-            $this->assertContains('folderlist', $objects);
-            $this->assertContains('contactslist', $objects);
-            $this->assertContains('countdisplay', $objects);
-
-            if (!$this->isDesktop()) {
+            if (!$browser->isDesktop()) {
                 $browser->assertMissing('#directorylist');
                 $browser->click('a.back-sidebar-button');
             }
@@ -43,7 +42,7 @@ class Contacts extends \Tests\Browser\DuskTestCase
             $browser->assertMissing('#directorylist .treetoggle.expanded');
 
             // Contacts list
-            if (!$this->isDesktop()) {
+            if (!$browser->isDesktop()) {
                 $browser->assertMissing('#contacts-table');
                 $browser->click('#directorylist li:first-child');
                 $browser->waitFor('#contacts-table');
@@ -53,10 +52,10 @@ class Contacts extends \Tests\Browser\DuskTestCase
             }
 
             // Contacts list menu
-            if ($this->isPhone()) {
-                $this->assertToolbarMenu(['select'], []);
+            if ($browser->isPhone()) {
+                $browser->assertToolbarMenu(['select'], []);
             }
-            else if ($this->isTablet()) {
+            else if ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
                 $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
                 $browser->click();
@@ -66,18 +65,18 @@ class Contacts extends \Tests\Browser\DuskTestCase
             }
 
             // Toolbar menu
-            $this->assertToolbarMenu(
+            $browser->assertToolbarMenu(
                 ['create', 'search', 'import', 'export'], // active items
                 ['print', 'delete', 'more'], // inactive items
             );
 
             // Contact frame
-            if (!$this->isPhone()) {
+            if (!$browser->isPhone()) {
                 $browser->assertVisible('#contact-frame');
             }
 
             // Task menu
-            $this->assertTaskMenu('contacts');
+            $browser->assertTaskMenu('contacts');
         });
     }
 }

@@ -2,23 +2,25 @@
 
 namespace Tests\Browser\Settings;
 
-class Identities extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Identities extends \Tests\Browser\TestCase
 {
     public function testIdentities()
     {
         $this->browse(function ($browser) {
-            $this->go('settings', 'identities');
+            $browser->go('settings', 'identities');
 
             // check task and action
-            $this->assertEnvEquals('task', 'settings');
-            $this->assertEnvEquals('action', 'identities');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'settings');
+                $browser->assertEnv('action', 'identities');
 
-            $objects = $this->getObjects();
+                // these objects should be there always
+                $browser->assertObjects(['identitieslist']);
+            });
 
-            // these objects should be there always
-            $this->assertContains('identitieslist', $objects);
-
-            if ($this->isDesktop()) {
+            if ($browser->isDesktop()) {
                 $browser->assertVisible('#settings-menu li.identities.selected');
             }
 
@@ -27,7 +29,7 @@ class Identities extends \Tests\Browser\DuskTestCase
             $browser->assertSeeIn('#identities-table tr:first-child td.mail', TESTS_USER);
 
             // Toolbar menu
-            $this->assertToolbarMenu(['create'], ['delete']);
+            $browser->assertToolbarMenu(['create'], ['delete']);
         });
     }
 }

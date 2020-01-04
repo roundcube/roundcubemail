@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Mail;
 
-class MailList extends \Tests\Browser\DuskTestCase
+class MailList extends \Tests\Browser\TestCase
 {
     protected function setUp()
     {
@@ -20,7 +20,7 @@ class MailList extends \Tests\Browser\DuskTestCase
     public function testList()
     {
         $this->browse(function ($browser) {
-            $this->go('mail');
+            $browser->go('mail');
 
             $this->assertCount(1, $browser->elements('#messagelist tbody tr'));
 
@@ -35,7 +35,7 @@ class MailList extends \Tests\Browser\DuskTestCase
             // List toolbar menu
             $browser->assertVisible('#layout-list .header a.toolbar-button.refresh:not(.disabled)');
 
-            if ($this->isDesktop()) {
+            if ($browser->isDesktop()) {
                 $browser->with('#toolbar-list-menu', function ($browser) {
                     $browser->assertVisible('a.select:not(.disabled)');
                     $browser->assertVisible('a.options:not(.disabled)');
@@ -49,7 +49,7 @@ class MailList extends \Tests\Browser\DuskTestCase
                     }
                 });
             }
-            else if ($this->isTablet()) {
+            else if ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
 
                 $browser->with('#toolbar-list-menu', function ($browser) {
@@ -84,7 +84,7 @@ class MailList extends \Tests\Browser\DuskTestCase
                     }
                 });
 
-                $this->closeToolbarMenu();
+                $browser->closeToolbarMenu();
             }
         });
     }
@@ -95,11 +95,11 @@ class MailList extends \Tests\Browser\DuskTestCase
     public function testListSelection()
     {
         $this->browse(function ($browser) {
-            if ($this->isPhone()) {
+            if ($browser->isPhone()) {
                 $browser->click('.toolbar-menu-button');
                 $browser->click('#toolbar-menu a.select');
             }
-            else if ($this->isTablet()) {
+            else if ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
                 $browser->click('#toolbar-list-menu a.select');
             }
