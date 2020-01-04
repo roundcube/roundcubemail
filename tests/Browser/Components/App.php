@@ -27,9 +27,10 @@ class App extends BaseComponent
      */
     public function assert($browser)
     {
-        $result = $browser->script("return typeof(window.rcmail)");
-
-        Assert::assertEquals('object', $result[0]);
+        // Assume the app (window.rcmail) is always available
+        // we can't assert that before we visit the page
+        // i.e. you will not be able to use gotoAction()
+        // method if you try to assert that fact.
     }
 
     /**
@@ -83,5 +84,31 @@ class App extends BaseComponent
         $objects = $objects[0];
 
         return (array) $objects;
+    }
+
+    /**
+     * Visit specified task/action with logon if needed
+     */
+    public function gotoAction($browser, $task = 'mail', $action = null, $login = true)
+    {
+        $browser->visit("/?_task={$task}&_action={$action}");
+
+        // check if we have a valid session
+        if ($login && $this->getEnv($browser, 'task') == 'login') {
+            $this->doLogin($browser);
+        }
+    }
+
+    /**
+     * Log in the test user
+     */
+    protected function doLogin($browser)
+    {
+        $browser->type('_user', TESTS_USER);
+        $browser->type('_pass', TESTS_PASS);
+        $browser->click('button[type="submit"]');
+
+        // wait after successful login
+        $browser->waitUntil('!rcmail.busy');
     }
 }
