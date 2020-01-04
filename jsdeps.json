@@ -36,12 +36,12 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.8.2",
+      "version": "5.1.5",
       "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
+      "sha1": "c9f60ce582aa5c7002fafcf3519969da0c44be45",
       "license": "LGPL",
-      "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
+      "copyright": "Copyright (c) 1999-2019 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
       "map": {
         "js/tinymce": "tinymce"
