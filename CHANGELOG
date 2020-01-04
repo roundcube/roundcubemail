@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.2
+-------------
 - Add support for PHPUnit 6 and 7 (#6870)
 - Plugin API: Make actionbefore, before<action>, actionafter and after<action> events working with plugin actions (#7106)
 - Managesieve: Replace "Filter disabled" with "Filter enabled" (#7028)
