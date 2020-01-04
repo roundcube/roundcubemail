@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Contacts;
 
-class Export extends \Tests\Browser\DuskTestCase
+class Export extends \Tests\Browser\TestCase
 {
     /**
      * Test exporting all contacts
@@ -12,20 +12,21 @@ class Export extends \Tests\Browser\DuskTestCase
         \bootstrap::init_db();
 
         $this->browse(function ($browser) {
-            $this->go('addressbook');
+            $browser->go('addressbook');
 
-            $this->clickToolbarMenuItem('export');
+            $browser->clickToolbarMenuItem('export');
+
+            // Parse the downloaded vCard file
+            $vcard_content = $browser->readDownloadedFile('contacts.vcf');
+            $vcard = new \rcube_vcard();
+            $contacts = $vcard->import($vcard_content);
+
+            $this->assertCount(2, $contacts);
+            $this->assertSame('John Doe', $contacts[0]->displayname);
+            $this->assertSame('Jane Stalone', $contacts[1]->displayname);
+
+            $browser->removeDownloadedFile('contacts.vcf');
         });
-
-        // Parse the downloaded vCard file
-        $vcard_content = $this->readDownloadedFile('contacts.vcf');
-        $vcard = new \rcube_vcard();
-        $contacts = $vcard->import($vcard_content);
-
-        $this->assertCount(2, $contacts);
-        $this->assertSame('John Doe', $contacts[0]->displayname);
-        $this->assertSame('Jane Stalone', $contacts[1]->displayname);
-        $this->removeDownloadedFile('contacts.vcf');
     }
 
     /**
@@ -35,16 +36,20 @@ class Export extends \Tests\Browser\DuskTestCase
      */
     public function testExportSelected()
     {
-        $this->ctrlClick('#contacts-table tbody tr:first-child');
-        $this->clickToolbarMenuItem('export', 'export.select');
+        $this->browse(function ($browser) {
+            $browser->ctrlClick('#contacts-table tbody tr:first-child');
 
-        $vcard_content = $this->readDownloadedFile('contacts.vcf');
-        $vcard = new \rcube_vcard();
-        $contacts = $vcard->import($vcard_content);
+            $browser->clickToolbarMenuItem('export', 'export.select');
 
-        // Parse the downloaded vCard file
-        $this->assertCount(1, $contacts);
-        $this->assertSame('John Doe', $contacts[0]->displayname);
-        $this->removeDownloadedFile('contacts.vcf');
+            $vcard_content = $browser->readDownloadedFile('contacts.vcf');
+            $vcard = new \rcube_vcard();
+            $contacts = $vcard->import($vcard_content);
+
+            // Parse the downloaded vCard file
+            $this->assertCount(1, $contacts);
+            $this->assertSame('John Doe', $contacts[0]->displayname);
+
+            $browser->removeDownloadedFile('contacts.vcf');
+        });
     }
 }

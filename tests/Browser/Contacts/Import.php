@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Contacts;
 
-class Import extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Import extends \Tests\Browser\TestCase
 {
     /**
      * Test basic elements of contacts import UI
@@ -12,9 +14,9 @@ class Import extends \Tests\Browser\DuskTestCase
         \bootstrap::init_db();
 
         $this->browse(function ($browser) {
-            $this->go('addressbook');
+            $browser->go('addressbook');
 
-            $this->clickToolbarMenuItem('import');
+            $browser->clickToolbarMenuItem('import');
 
             $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
             $browser->assertVisible('.ui-dialog button.mainaction.import');
@@ -22,13 +24,12 @@ class Import extends \Tests\Browser\DuskTestCase
 
             $browser->withinFrame('.ui-dialog iframe', function ($browser) {
                 // check task and action
-                $this->assertEnvEquals('task', 'addressbook');
-                $this->assertEnvEquals('action', 'import');
-
-                $objects = $this->getObjects();
-
-                // these objects should be there always
-                $this->assertContains('importform', $objects);
+                $browser->with(new App(), function ($browser) {
+                    $browser->assertEnv('task', 'addressbook');
+                    $browser->assertEnv('action', 'import');
+                    // these objects should be there always
+                    $browser->assertObjects(['importform']);
+                });
 
                 $browser->assertSee('You can upload');
                 $browser->assertVisible('#rcmImportForm');
@@ -54,7 +55,7 @@ class Import extends \Tests\Browser\DuskTestCase
     {
         $this->browse(function ($browser) {
             // Open the dialog again
-            $this->clickToolbarMenuItem('import');
+            $browser->clickToolbarMenuItem('import');
             $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
 
             // Submit the form with no file attached

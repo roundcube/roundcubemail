@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Mail;
 
-class Getunread extends \Tests\Browser\DuskTestCase
+class Getunread extends \Tests\Browser\TestCase
 {
     protected $msgcount = 0;
 
@@ -23,14 +23,14 @@ class Getunread extends \Tests\Browser\DuskTestCase
     public function testGetunread()
     {
         $this->browse(function ($browser) {
-            $this->go('mail');
+            $browser->go('mail');
 
             $browser->waitFor('#messagelist tbody tr');
 
             // Messages list state
             $this->assertCount($this->msgcount, $browser->elements('#messagelist tbody tr.unread'));
 
-            if (!$this->isDesktop()) {
+            if (!$browser->isDesktop()) {
                 $browser->click('.back-sidebar-button');
             }
 

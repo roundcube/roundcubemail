@@ -2,21 +2,23 @@
 
 namespace Tests\Browser\Settings;
 
-class Preferences extends \Tests\Browser\DuskTestCase
+use Tests\Browser\Components\App;
+
+class Preferences extends \Tests\Browser\TestCase
 {
     public function testPreferences()
     {
         $this->browse(function ($browser) {
-            $this->go('settings');
+            $browser->go('settings');
 
-            $objects = $this->getObjects();
-
-            $this->assertContains('sectionslist', $objects);
+            $browser->with(new App(), function ($browser) {
+                $browser->assertObjects(['sectionslist']);
+            });
 
             $browser->assertVisible('#settings-menu li.preferences.selected');
 
             // On phone/tablet #sections-table is initially hidden
-            if ($this->isPhone() || $this->isTablet()) {
+            if (!$browser->isDesktop()) {
                 $browser->assertMissing('#sections-table');
                 $browser->click('#settings-menu li.preferences');
                 $browser->waitFor('#sections-table');

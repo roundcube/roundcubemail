@@ -2,7 +2,9 @@
 
 namespace Tests\Browser;
 
-class Login extends DuskTestCase
+use Tests\Browser\Components\App;
+
+class Login extends TestCase
 {
     protected function setUp()
     {
@@ -21,7 +23,9 @@ class Login extends DuskTestCase
             $browser->assertTitleContains($this->app->config->get('product_name'));
 
             // task should be set to 'login'
-            $this->assertEnvEquals('task', 'login');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'login');
+            });
 
             // Logon form
             $browser->assertVisible('#logo');
@@ -38,10 +42,12 @@ class Login extends DuskTestCase
             }
 
             // test valid login
-            $this->go('mail');
+            $browser->go('mail');
 
             // task should be set to 'mail' now
-            $this->assertEnvEquals('task', 'mail');
+            $browser->with(new App(), function ($browser) {
+                $browser->assertEnv('task', 'mail');
+            });
         });
     }
 }

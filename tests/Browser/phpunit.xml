@@ -3,8 +3,8 @@
     colors="true">
     <testsuites>
         <testsuite name="Logon">
-            <file>Login.php</file>
-            <file>Logout.php</file>
+            <file>Logon/Login.php</file>
+            <file>Logon/Logout.php</file>
         </testsuite>
         <testsuite name="Contacts">
             <file>Contacts/Contacts.php</file>
