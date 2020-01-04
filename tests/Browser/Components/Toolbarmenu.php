@@ -48,7 +48,7 @@ class Toolbarmenu extends BaseComponent
     /**
      * Assert toolbar menu state
      */
-    public function assertMenuState($browser, $active, $disabled)
+    public function assertMenuState($browser, $active, $disabled = [], $missing = [])
     {
         // On phone the menu is invisible, open it
         if ($browser->isPhone()) {
@@ -75,6 +75,10 @@ class Toolbarmenu extends BaseComponent
             else {
                 $browser->assertVisible("a.{$option}.disabled");
             }
+        }
+
+        foreach ($missing as $option) {
+            $browser->assertMissing("a.{$option}");
         }
 
         $this->closeMenu($browser);
