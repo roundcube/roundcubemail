@@ -107,34 +107,13 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
-     * Log in the test user
-     */
-    public function doLogin()
-    {
-        $this->type('_user', TESTS_USER);
-        $this->type('_pass', TESTS_PASS);
-        $this->click('button[type="submit"]');
-
-        // wait after successful login
-        $this->waitUntil('!rcmail.busy');
-
-        return $this;
-    }
-
-    /**
      * Visit specified task/action with logon if needed
      */
     public function go($task = 'mail', $action = null, $login = true)
     {
-        $this->visit("/?_task=$task&_action=$action");
-
-        // check if we have a valid session
-        if ($login) {
-             $app = new Components\App();
-             if ($app->getEnv($this, 'task') == 'login') {
-                $this->doLogin();
-            }
-        }
+        $this->with(new Components\App(), function ($browser) use ($task, $action, $login) {
+            $browser->gotoAction($task, $action, $login);
+        });
 
         return $this;
     }
