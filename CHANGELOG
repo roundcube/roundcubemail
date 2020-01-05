@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Password: Make chpass-wrapper.py Python 3 compatible (#7135)
