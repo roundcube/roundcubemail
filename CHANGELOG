@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Elastic: Fix bug where it was possible to switch editor mode when 'htmleditor' was in 'dont_override' (#7143)
+
 RELEASE 1.4.2
 -------------
 - Plugin API: Make actionbefore, before<action>, actionafter and after<action> events working with plugin actions (#7106)

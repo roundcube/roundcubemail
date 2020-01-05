@@ -27,6 +27,11 @@
     .mce-panel {
         border-color: @color-input-border;
     }
+
+    &.focused {
+        border-color: @color-input-border-focus !important;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
+    }
 }
 
 .mce-top-part::before,
@@ -903,11 +908,6 @@ html.touch .mce-grid td {
 
     #composebody_ifr {
         min-height: 30em;
-    }
-
-    & > .mce-tinymce.focused {
-        border-color: @color-input-border-focus;
-        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
     }
 }
 

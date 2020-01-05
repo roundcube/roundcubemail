@@ -235,7 +235,7 @@ function rcube_elastic_ui()
         // Image upload widget
         $('.image-upload').each(function() { image_upload_input(this); });
 
-        // Add HTML/Plain tabs (switch) on top of textarea with TinyMCE editor
+        // Add HTML/Plain switcher on top of textarea with TinyMCE editor
         $('textarea[data-html-editor]').each(function() { html_editor_init(this); });
 
         $('#dragmessage-menu,#dragcontact-menu').each(function() {
@@ -1351,7 +1351,7 @@ function rcube_elastic_ui()
     function tinymce_init(o)
     {
         var onload = [],
-            is_editor = $('#' + o.id).is('[data-html-editor]');
+            is_editor = $('#' + o.id).parent().is('.html-editor');
 
         // Enable autoresize plugin
         o.config.plugins += ' autoresize';
@@ -3655,7 +3655,7 @@ function rcube_elastic_ui()
     function html_editor_init(obj)
     {
         // Here we support two structures
-        // 1. <div><textarea></textarea><select name="editorSelector"></div>
+        // 1. <div><textarea></textarea><select class="hidden"></div>
         // 2. <tr><td><td><td><textarea></textarea></td></tr>
         //    <tr><td><td><td><input type="checkbox"></td></tr>
 
@@ -3682,8 +3682,11 @@ function rcube_elastic_ui()
             is_table = true;
         }
         else {
-            sw = $('[name="editorSelector"]', obj.form);
+            sw = editor.next('select.hidden');
         }
+
+        // make the textarea autoresizeable
+        textarea_autoresize_init(editor);
 
         // sanity check
         if (sw.length != 1) {
@@ -3707,9 +3710,6 @@ function rcube_elastic_ui()
             // Modify the textarea cell to use 100% width
             parent.addClass('col-sm-12');
         }
-
-        // make the textarea autoresizeable
-        textarea_autoresize_init(editor);
     };
 
     /**
