@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test class to test rcmail_output_html class
  *
@@ -143,5 +144,37 @@ class Rcmail_OutputHtml extends PHPUnit\Framework\TestCase
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img16', $result);
+    }
+
+    /**
+     * Data for test_conditions()
+     */
+    function data_conditions()
+    {
+        return array(
+            array("_start_<roundcube:if condition='1' />A<roundcube:endif />_end_", "_start_A_end_"),
+            array("_start_<roundcube:if condition='0' />A<roundcube:else />B<roundcube:endif />_end_", "_start_B_end_"),
+            array("_start_<roundcube:if condition='0'/>A<roundcube:else/>B<roundcube:endif/>_end_", "_start_B_end_"),
+            array("_start_<roundcube:if condition='0'>A<roundcube:else>B<roundcube:endif>_end_", "_start_B_end_"),
+            array("_start_<roundcube:if condition='0' />A<roundcube:elseif condition='1' />B<roundcube:else />C<roundcube:endif />_end_", "_start_B_end_"),
+            array("_start_<roundcube:if condition='1' /><roundcube:if condition='0' />A<roundcube:else />B<roundcube:endif />C<roundcube:else />D<roundcube:endif />_end_", "_start_BC_end_"),
+            array("_start_<roundcube:if condition='1' /><roundcube:if condition='1' />A<roundcube:else />B<roundcube:endif />C<roundcube:else />D<roundcube:endif />_end_", "_start_AC_end_"),
+            array("_start_<roundcube:if condition='1' /><roundcube:if condition='0' />A<roundcube:elseif condition='1' />B<roundcube:else />C<roundcube:endif />D<roundcube:else />E<roundcube:endif />_end_", "_start_BD_end_"),
+            array("_start_<roundcube:if condition='0' />A<roundcube:elseif condition='1' /><roundcube:if condition='0' />B<roundcube:else /><roundcube:if condition='1' />C<roundcube:endif />D<roundcube:endif /><roundcube:else />E<roundcube:endif />_end_", "_start_CD_end_"),
+            array("_start_<roundcube:if condition='0'>A<roundcube:elseif condition='1'><roundcube:if condition='0'>B<roundcube:else><roundcube:if condition='1'>C<roundcube:endif>D<roundcube:endif><roundcube:else>E<roundcube:endif>_end_", "_start_CD_end_")
+        );
+    }
+
+    /**
+     * Test text to html conversion
+     *
+     * @dataProvider data_conditions
+     */
+    function test_conditions($input, $output)
+    {
+        $object = new rcmail_output_html;
+        $result = $object->just_parse($input);
+
+        $this->assertEquals($output, $result);
     }
 }
