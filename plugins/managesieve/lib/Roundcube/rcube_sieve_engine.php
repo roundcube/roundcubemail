@@ -676,7 +676,7 @@ class rcube_sieve_engine
             $addresses      = rcube_utils::get_input_value('_action_addresses', rcube_utils::INPUT_POST, true);
             $intervals      = rcube_utils::get_input_value('_action_interval', rcube_utils::INPUT_POST);
             $interval_types = rcube_utils::get_input_value('_action_interval_type', rcube_utils::INPUT_POST);
-            $from           = rcube_utils::get_input_value('_action_from', rcube_utils::INPUT_POST);
+            $from           = rcube_utils::get_input_value('_action_from', rcube_utils::INPUT_POST, true);
             $subject        = rcube_utils::get_input_value('_action_subject', rcube_utils::INPUT_POST, true);
             $flags          = rcube_utils::get_input_value('_action_flags', rcube_utils::INPUT_POST);
             $varnames       = rcube_utils::get_input_value('_action_varname', rcube_utils::INPUT_POST);
@@ -1160,8 +1160,30 @@ class rcube_sieve_engine
                         }
                     }
 
-                    if (!empty($this->form['actions'][$i]['from']) && !rcube_utils::check_email($this->form['actions'][$i]['from'])) {
-                        $this->errors['actions'][$i]['from'] = $this->plugin->gettext('noemailwarning');
+                    if (!empty($this->form['actions'][$i]['from'])) {
+                        // According to RFC5230 the :from string must specify a valid [RFC2822] mailbox-list
+                        // we'll try to extract addresses and validate them separately
+                        $from = rcube_mime::decode_address_list($this->form['actions'][$i]['from'], null, true, RCUBE_CHARSET);
+                        foreach ((array) $from as $idx => $addr) {
+                            if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
+                                $this->errors['actions'][$i]['from'] = $this->plugin->gettext('noemailwarning');
+                                break;
+                            }
+                            else {
+                                $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
+                            }
+                        }
+
+                        // Only one address is allowed (at least on cyrus imap)
+                        if (is_array($from) && count($from) > 1) {
+                            $this->errors['actions'][$i]['from'] = $this->plugin->gettext('noemailwarning');
+                        }
+
+                        // Then we convert it back to RFC2822 format
+                        if (empty($this->errors['actions'][$i]['from']) && !empty($from)) {
+                            $this->form['actions'][$i]['from'] = Mail_mimePart::encodeHeader(
+                                'From', implode(', ', $from), RCUBE_CHARSET, 'base64', '');
+                        }
                     }
 
                     if ($this->form['actions'][$i]['reason'] == '')
@@ -2197,7 +2219,16 @@ class rcube_sieve_engine
             }
             if ($from_addr) {
                 $default_identity = $this->rc->user->list_emails(true);
-                $action['from'] = $default_identity['email'];
+                $action['from']   = format_email_recipient($default_identity['email'], $default_identity['name']);
+            }
+        }
+        else if (!empty($action['from'])) {
+            $from = rcube_mime::decode_address_list($action['from'], null, true, RCUBE_CHARSET);
+            foreach ((array) $from as $idx => $addr) {
+                $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
+            }
+            if (!empty($from)) {
+                $action['from'] = implode(', ', $from);
             }
         }
 
