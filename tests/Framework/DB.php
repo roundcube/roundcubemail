@@ -6,7 +6,7 @@
  * @package Tests
  * @group database
  */
-class Framework_DB extends PHPUnit_Framework_TestCase
+class Framework_DB extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -34,19 +34,28 @@ class Framework_DB extends PHPUnit_Framework_TestCase
             "-- test comment",
             "ALTER TABLE `xxx` CHANGE test test int;",
             "TRUNCATE xxx;",
+            "TRUNCATE TABLE xxx;",
             "DROP TABLE `vvv`;",
             "CREATE TABLE `i` (test int CONSTRAINT `iii`
                 FOREIGN KEY (`test`) REFERENCES `xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE);",
+            "CREATE TABLE `i` (`test` int, INDEX `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE INDEX `testidx` (`test`))",
             "INSERT INTO xxx test = 1;",
             "SELECT test FROM xxx;",
         ));
+
         $output = implode("\n", array(
             "CREATE TABLE `prefix_xxx` (test int, INDEX prefix_xxx (test))",
             "ALTER TABLE `prefix_xxx` CHANGE test test int",
             "TRUNCATE prefix_xxx",
+            "TRUNCATE TABLE prefix_xxx",
             "DROP TABLE `prefix_vvv`",
             "CREATE TABLE `prefix_i` (test int CONSTRAINT `prefix_iii`
                 FOREIGN KEY (`test`) REFERENCES `prefix_xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE)",
+            "CREATE TABLE `prefix_i` (`test` int, INDEX `prefix_testidx` (`test`))",
+            "CREATE TABLE `prefix_i` (`test` int, UNIQUE `prefix_testidx` (`test`))",
+            "CREATE TABLE `prefix_i` (`test` int, UNIQUE INDEX `prefix_testidx` (`test`))",
             "INSERT INTO prefix_xxx test = 1",
             "SELECT test FROM prefix_xxx",
         ));

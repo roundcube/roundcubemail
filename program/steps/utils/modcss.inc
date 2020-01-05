@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/utils/modcss.inc                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Modify CSS source from a URL                                        |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |

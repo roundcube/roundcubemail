@@ -2,11 +2,10 @@
 
 /**
  +-----------------------------------------------------------------------+
- | Roundcube/rcube_ldap_generic.php                                      |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2012-2015, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -55,19 +54,6 @@ class rcube_ldap_generic extends Net_LDAP3
     }
 
     /**
-     * Get a specific LDAP entry, identified by its DN
-     *
-     * @param string $dn Record identifier
-     * @param array  $attributes Attributes to return
-     *
-     * @return array Hash array
-     */
-    function get_entry($dn, $attributes = array())
-    {
-        return parent::get_entry($dn, !empty($attributes) ? $attributes : $this->attributes);
-    }
-
-    /**
      * Prints debug/error info to the log
      */
     public function log($level, $msg)
@@ -83,7 +69,7 @@ class rcube_ldap_generic extends Net_LDAP3
             }
             break;
 
-        case LOG_EMERGE:
+        case LOG_EMERG:
         case LOG_ALERT:
         case LOG_CRIT:
             rcube::raise_error($msg, true, true);
@@ -355,10 +341,10 @@ class rcube_ldap_generic extends Net_LDAP3
             foreach ($attributes as $attr) {
                 $parts[] = "($attr=$wp" . self::quote_string($word) . "$ws)";
             }
-            $groups[] = '(|' . join('', $parts) . ')';
+            $groups[] = '(|' . implode('', $parts) . ')';
         }
 
-        return count($groups) > 1 ? '(&' . join('', $groups) . ')' : join('', $groups);
+        return count($groups) > 1 ? '(&' . implode('', $groups) . ')' : implode('', $groups);
     }
 }
 

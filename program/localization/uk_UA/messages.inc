@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Виникла помилка!';
 $messages['loginfailed']  = 'Невдала спроба входу';
 $messages['cookiesdisabled'] = 'Ваш переглядач не приймає cookie';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Недостатньо вільного м�
 $messages['invalidrequest'] = 'Недійсний запит! Дані не збережено.';
 $messages['invalidhost'] = 'Недійсне ім\'я сервера.';
 $messages['nomessagesfound'] = 'Листів не знайдено';
-$messages['loggedout'] = 'Вашу сесію завершено. Всього найкращого!';
 $messages['mailboxempty'] = 'Поштова скринька порожня';
 $messages['nomessages'] = 'Повідомлень немає';
 $messages['refreshing'] = 'Оновлення...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Не знайдено дійсного пуб�
 $messages['encryptnoattachments'] = 'Уже завантажені прикріплення не можна зашифрувати. Будь ласка, додайте їх заново у редакторі шифрування.';
 $messages['searchpubkeyservers'] = 'Хочете пошукати ключі, яких бракує, на серверах публічних ключів?';
 $messages['encryptpubkeysfound'] = 'Було знайдено такі публічні ключі: ';
-$messages['keyservererror'] = 'Не вдалося отримати ключ із сервера ключів';
-$messages['keyimportsuccess'] = 'Публічний ключ $key успішно імпортовано у Ваше кільце ключів';
 $messages['nocontactsfound'] = 'Контакти не знайдені';
 $messages['contactnotfound'] = 'Запитаний контакт не знайдений';
-$messages['contactsearchonly'] = 'Введіть деякі критерії пошуку, щоб знайти контакти';
 $messages['sendingfailed'] = 'Не вдалося відправити листа';
 $messages['senttooquickly'] = 'Будь ласка, зачекайте $sec секунд для відправки листа';
 $messages['errorsavingsent'] = 'Помилка при збереженні відправленого повідомлення.';

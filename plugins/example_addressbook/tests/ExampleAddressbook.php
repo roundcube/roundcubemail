@@ -1,6 +1,6 @@
 <?php
 
-class ExampleAddressbook_Plugin extends PHPUnit_Framework_TestCase
+class ExampleAddressbook_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class ExampleAddressbook_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new example_addressbook($rcube->api);
+        $plugin = new example_addressbook($rcube->plugins);
 
         $this->assertInstanceOf('example_addressbook', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

@@ -1,6 +1,6 @@
 <?php
 
-class EmoticonsEngine extends PHPUnit_Framework_TestCase
+class EmoticonsEngine extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

@@ -18,6 +18,10 @@ class jqueryui extends rcube_plugin
 
     private static $features = array();
     private static $ui_theme;
+    private static $skin_map = array(
+        'larry' => 'larry',
+        'default' => 'elastic',
+    );
 
     public function init()
     {
@@ -35,9 +39,9 @@ class jqueryui extends rcube_plugin
 
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
-        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', array());
+        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', self::$skin_map);
         $skins    = array_keys($rcmail->output->skins);
-        $skins[]  = 'larry';
+        $skins[]  = 'elastic';
 
         foreach ($skins as $skin) {
             self::$ui_theme = $ui_theme = $ui_map[$skin] ?: $skin;
@@ -55,10 +59,10 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js")) {
+                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js", false)) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
                 }
-                else if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js")) {
+                else if ($lang_s != 'en' && self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js", false)) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
@@ -111,7 +115,7 @@ class jqueryui extends rcube_plugin
         $config_str   = rcube_output::json_serialize($config);
 
         $rcube->output->include_css('plugins/jqueryui/' . $css);
-        $rcube->output->add_header(html::tag('script', array('type' => 'text/javascript', 'src' => $script)));
+        $rcube->output->include_script($script, 'head', false);
         $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $config_str . ')', 'docready');
         $rcube->output->set_env('minicolors_config', $config);
     }
@@ -137,18 +141,16 @@ class jqueryui extends rcube_plugin
             $rcube->output->include_css('plugins/jqueryui/' . $css);
         }
 
-        $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
+        $rcube->output->include_script($script, 'head', false);
     }
 
     /**
      * Checks if an asset file exists in specified location (with assets_dir support)
      */
-    protected static function asset_exists($path)
+    protected static function asset_exists($path, $minified = true)
     {
-        $rcube      = rcube::get_instance();
-        $assets_dir = $rcube->config->get('assets_dir');
-        $full_path  = unslashify($assets_dir ?: INSTALL_PATH) . '/plugins/jqueryui/' . $path;
+        $rcube = rcube::get_instance();
 
-        return file_exists($full_path);
+        return $rcube->find_asset('/plugins/jqueryui/' . $path, $minified) !== null;
     }
 }

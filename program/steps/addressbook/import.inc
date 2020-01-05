@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/import.inc                                  |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Import contacts from a vCard or CSV file                            |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <machniak@kolabsys.com>                   |
@@ -86,6 +84,8 @@ if (is_array($_FILES['_file'])) {
         else {
             $OUTPUT->show_message('importformaterror', 'error');
         }
+
+        $OUTPUT->command('parent.import_state_set', 'error');
     }
     else {
         $IMPORT_STATS = new stdClass;
@@ -172,6 +172,8 @@ if (is_array($_FILES['_file'])) {
         }
 
         $importstep = 'rcmail_import_confirm';
+
+        $OUTPUT->command('parent.import_state_set', $IMPORT_STATS->inserted ? 'reload' : 'ok');
     }
 }
 

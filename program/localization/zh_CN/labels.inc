@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '欢迎使用 $product';
 $labels['username'] = '用户名';
 $labels['password'] = '密码';
@@ -248,13 +248,16 @@ $labels['encryptmessage'] = '加密邮件';
 $labels['encryptmessagemailvelope'] = '用 Mailvelope 加密邮件';
 $labels['importpubkeys'] = '导入公钥';
 $labels['encryptedsendialog'] = '正在发送加密的邮件';
+$labels['encryptandsign'] = '加密并签名';
 $labels['keyid'] = '密钥 ID';
 $labels['keylength'] = '位';
 $labels['keyexpired'] = '已过期';
 $labels['keyrevoked'] = '已废除';
 $labels['bccinstead'] = '使用密送';
 $labels['addheader'] = '添加收件人 (信头)';
+$labels['insert'] = '插入';
 $labels['recipient'] = '收件人';
+$labels['recipientedit'] = '编辑收件人';
 $labels['editidents'] = '编辑身份';
 $labels['spellcheck'] = '拼写';
 $labels['checkspelling'] = '拼写检查';
@@ -293,7 +296,6 @@ $labels['alwaysallow'] = '总是允许来自 $sender 的信件';
 $labels['isdraft'] = '这是一封草稿';
 $labels['andnmore'] = '第 $nr 封或更多...';
 $labels['headers'] = '信头';
-$labels['envelope'] = '信封';
 $labels['togglemoreheaders'] = '显示更多消息头';
 $labels['togglefullheaders'] = '切换至原始消息头';
 $labels['htmltoggle'] = 'HTML';
@@ -309,6 +311,14 @@ $labels['mdnrequest'] = '发件人要求在您阅读这封邮件时发送已读�
 $labels['receiptread'] = '发送回执(已读)';
 $labels['yourmessage'] = '这是您的邮件回执';
 $labels['receiptnote'] = '注意：回执只表示邮件在收件人的电脑上被打开过，不表示收件人已经阅读或了解邮件内容。';
+$labels['zoomin'] = '放大';
+$labels['zoomout'] = '缩小';
+$labels['rotate'] = '旋转';
+$labels['increaseimage'] = '增加图片大小';
+$labels['decreaseimage'] = '减小图片大小';
+$labels['rotateimage'] = '旋转图片';
+$labels['showtools'] = '显示图像工具';
+$labels['hidetools'] = '隐藏图像工具';
 $labels['name'] = '显示名称';
 $labels['firstname'] = '名字';
 $labels['surname'] = '姓氏';
@@ -393,6 +403,8 @@ $labels['newgroup'] = '创建新组';
 $labels['addgroup'] = '新建组';
 $labels['grouprename'] = '重命名群组';
 $labels['groupdelete'] = '删除群组';
+$labels['groupassign'] = '分配到分组…';
+$labels['groupremove'] = '从分组中移除';
 $labels['groupremoveselected'] = '删除选中';
 $labels['uponelevel'] = '升一级';
 $labels['previouspage'] = '上一页';
@@ -413,7 +425,6 @@ $labels['importreplace'] = '替换全部通讯录';
 $labels['importgroups'] = '导入群组任务';
 $labels['importgroupsall'] = '全部(如果需要则创建新的群组)';
 $labels['importgroupsexisting'] = '仅限于已有群组';
-$labels['importdesc'] = '您可以从通讯录文件上传联系人，目前已支持 <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> 和 CSV(逗号分隔)格式';
 $labels['done'] = '完成';
 $labels['settingsfor'] = '设置';
 $labels['about'] = '关于';
@@ -489,7 +500,6 @@ $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
 $labels['checkallfolders'] = '检查所有邮件夹里的新邮件';
-$labels['displaynext'] = '当邮件删除/移动后显示下一封邮件';
 $labels['defaultfont'] = '默认的 HTML 格式字体';
 $labels['mainoptions'] = '主要选项';
 $labels['browseroptions'] = '浏览器选项';
@@ -560,7 +570,11 @@ $labels['namespace.shared'] = '已共享';
 $labels['dualuselabel'] = '只能包含';
 $labels['dualusemail'] = '消息';
 $labels['dualusefolder'] = '文件夹';
+$labels['generate'] = '生成';
 $labels['encryptioncreatekey'] = '创建新密钥对';
+$labels['openmailvelopesettings'] = '打开 Mailvelope 设置';
+$labels['encryptionprivkeysinmailvelope'] = '你的 Mailvelope 钥匙环中有 $nr 项符合条件的 PGP 私钥：';
+$labels['encryptionnoprivkeysinmailvelope'] = '你的 Mailvelope 插件钥匙环中没有符合此发件人身份的 PGP 私钥。你想要生成一个以启用加密消息吗？';
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '递增排序';
 $labels['sortdesc'] = '递减排序';
@@ -628,6 +642,7 @@ $labels['arialabelmessageheaders'] = '邮件头';
 $labels['arialabelforwardingoptions'] = '转发选项';
 $labels['arialabelreplyalloptions'] = '回复全部选项';
 $labels['arialabelmoremessageactions'] = '更多邮件选项';
+$labels['arialabelmorecontactactions'] = '更多联系人操作';
 $labels['arialabelmarkmessagesas'] = '标记选中邮件为...';
 $labels['arialabelcomposeoptions'] = '布局选项';
 $labels['arialabelresponsesmenu'] = '预设回复菜单';
@@ -644,6 +659,7 @@ $labels['arialabelresonseeditfrom'] = '回复编辑表单';
 $labels['arialabelsearchterms'] = '搜索关键词';
 $labels['arialabeldropactionmenu'] = '拖拽选项菜单';
 $labels['arialabelheadersmenu'] = '收件人 (信头) 添加菜单';
+$labels['arialabelimagetools'] = '图片工具';
 $labels['helplistnavigation'] = '列表键盘导航';
 $labels['helplistkeyboardnavigation'] = "方向键上/下：移动选中/焦点所在行。
 空格键：选中焦点所在行。
@@ -653,4 +669,3 @@ $labels['helplistkeyboardnavmessages'] = "方向键左/右：展开/折叠消息
 回车键：打开选中/焦点所在消息。
 删除键：移动选中消息到垃圾箱。";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
-?>

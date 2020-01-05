@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Çewtiyek pêk hat!';
 $messages['loginfailed']  = 'Têketin têk çû';
 $messages['cookiesdisabled'] = 'Geroka te destûrê nade çerezan';
@@ -32,7 +31,6 @@ $messages['erroroverquotadelete'] = 'Di dîskê de cihê vala nîn e. SHIFT+DEL�
 $messages['invalidrequest'] = 'Dawxaza nederbasdar! Tu dane nehat tomarkirin.';
 $messages['invalidhost'] = 'Navê pêşkêş ê nederbasdar.';
 $messages['nomessagesfound'] = 'Di vê peyamdankê de tu peyam nehat dîtin';
-$messages['loggedout'] = 'Te danişînî bi dawî anî. Oxir be!';
 $messages['mailboxempty'] = 'Cihê peyamên hatî vala ye';
 $messages['nomessages'] = 'Peyam nîn in';
 $messages['refreshing'] = 'Tê tezekirin...';
@@ -54,7 +52,6 @@ $messages['blockedimages'] = 'Ji bo ewlekariya te wêneyên cuda yên vê peyam�
 $messages['encryptedmessage'] = 'Ev peyamenek şîfrekirî ye, bibore, nayê vekirin!';
 $messages['nocontactsfound'] = 'Tu têkiliyek nehat dîtin';
 $messages['contactnotfound'] = 'Têkiliya dihat xwestin nehat dîtin';
-$messages['contactsearchonly'] = 'Hin têgihan binivîse ji bo ku kesan bibînî.';
 $messages['sendingfailed'] = 'Peyam nehat şandin';
 $messages['senttooquickly'] = 'Ji kerema xwe, bo $ saniyek saniye(yan) bisekine beriya şandina vê peyamê.';
 $messages['errorsavingsent'] = 'Dema ku peyama şandî hat tomarkirin çewtiyek pêk hat.';

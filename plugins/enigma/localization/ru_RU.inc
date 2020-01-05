@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Шифрование';
 $labels['enigmacerts'] = 'Сертификаты S/MIME';
 $labels['enigmakeys'] = 'Ключи PGP';
@@ -85,6 +84,9 @@ $labels['withprivkeys'] = 'Экспортировать закрытые клю�
 $labels['findkey'] = 'Поиск на сервере(-ах) ключей';
 $labels['keyimportlabel'] = 'Импортировать из файла';
 $labels['keyimportsearchlabel'] = 'Поиск на сервере(-ах) ключей';
+$labels['managekeys'] = 'Управление ключами PGP';
+$labels['identitymatchingprivkeys'] = 'У вас есть $nr подходящих закрытых PGP ключей, хранящиеся на вашей связке ключей:';
+$labels['identitynoprivkeys'] = 'У этого идентификатора отправителя еще нет закрытого ключа PGP, хранящегося в вашей связке ключей.';
 $messages['sigvalid'] = 'Проверенная подпись $sender.';
 $messages['sigvalidpartial'] = 'Проверенная подпись $sender, но часть сообщения не подписана.';
 $messages['siginvalid'] = 'Недействительная подпись $sender.';
@@ -94,6 +96,7 @@ $messages['sigerror'] = 'Непроверенная подпись. Внутре
 $messages['decryptok'] = 'Сообщение расшифровано.';
 $messages['decrypterror'] = 'Сбой расшифровки.';
 $messages['decryptnokey'] = 'Сбой расшифровки. Закрытый ключ не найден. ID ключа: $keyid.';
+$messages['decryptnomdc'] = 'Сообщение не расшифровано. Нарушена целостность сообщения.';
 $messages['decryptbadpass'] = 'Сбой расшифровки. Неверный пароль.';
 $messages['decryptnopass'] = 'Сбой расшифровки. Требуется ключ пароля.';
 $messages['decryptpartial'] = 'Сообщение расшифровано, но часть сообщения не была зашифрована.';
@@ -103,6 +106,7 @@ $messages['signbadpass'] = 'Сбой подписания. Неверный па
 $messages['signnopass'] = 'Сбой подписания. Требуется ключ пароля.';
 $messages['encrypterror'] = 'Сбой шифрования.';
 $messages['encryptnokey'] = 'Сбой шифрования. Не найден открытый ключ для $email.';
+$messages['encryptnoprivkey'] = 'Сбой шифрования. Не найден закрытый ключ.';
 $messages['nokeysfound'] = 'Ключи не найдены';
 $messages['keynotfound'] = 'Ключ не найден!';
 $messages['keyopenerror'] = 'Невозможно получить информацию о ключе! Внутренняя ошибка.';

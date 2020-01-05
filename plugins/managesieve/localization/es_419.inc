@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Administrar filtros de correos entrantes';
 $labels['filtername'] = 'Nombre del filtro';
@@ -63,14 +63,8 @@ $labels['days'] = 'días';
 $labels['seconds'] = 'segundos';
 $labels['rulestop'] = 'Detener la evaluación de reglas';
 $labels['enable'] = 'Habilitar/Deshabilitar';
-$labels['filterset'] = 'Set de filtros';
 $labels['filtersets'] = 'Filtro acciona';
-$labels['filtersetadd'] = 'Agregar set de filtros';
-$labels['filtersetact'] = 'Activar set de filtros actual';
-$labels['filtersetdeact'] = 'Desactivar set de filtros actual';
 $labels['filterdef'] = 'Definición del filtro';
-$labels['filtersetname'] = 'Nombre del set de filtros';
-$labels['newfilterset'] = 'Nuevo set de filtros';
 $labels['active'] = 'activo';
 $labels['none'] = 'ninguno';
 $labels['fromset'] = 'desde set';
@@ -159,18 +153,14 @@ $labels['asciicasemap'] = 'no sensible a mayúsculas y minúsculas (mapero-ascii
 $labels['asciinumeric'] = 'numérico (ascii-numérico)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'hacia atrás';
-$labels['vacation'] = 'Vacaciones';
 $labels['vacation.reply'] = 'Responder mensaje';
 $labels['vacation.advanced'] = 'Opciones avanzadas';
 $labels['vacation.subject'] = 'Asunto';
 $labels['vacation.body'] = 'Cuerpo';
-$labels['vacation.start'] = 'Inicio de vacaciones';
-$labels['vacation.end'] = 'Final de vacaciones';
 $labels['vacation.status'] = 'Estado';
 $labels['vacation.on'] = 'Encendido';
 $labels['vacation.off'] = 'Apagado';
 $labels['vacation.interval'] = 'Intervalo de respuesta';
-$labels['vacation.after'] = 'Colocar regla de vacaciones luego';
 $labels['vacation.saving'] = 'Guardando información...';
 $labels['vacation.action'] = 'Acción para mensaje entrante';
 $labels['vacation.keep'] = 'Mantener';
@@ -202,15 +192,6 @@ $messages['actiondeleteconfirm'] = '¿Estás seguro que queires eliminar la acci
 $messages['forbiddenchars'] = 'Carácteres ilegales en el campo.';
 $messages['cannotbeempty'] = 'El campo no puede estar vacio.';
 $messages['ruleexist'] = 'Ya existe un filtro con el nombre especificado.';
-$messages['setactivateerror'] = 'No es posible activar el set de filtros seleccionado. Ha ocurrido un error de servidor.';
-$messages['setdeactivateerror'] = 'No es posible desactivar el set de filtros selecciona. Ha ocurrido un error de servidor.';
-$messages['setdeleteerror'] = 'No es posible eliminar el set de filtros seleccionado. Ha ocurrido un error de servidor.';
-$messages['setactivated'] = 'Set de filtros activado exitosamente.';
-$messages['setdeactivated'] = 'Set de filtros desactivado exitosamente.';
-$messages['setdeleted'] = 'Set de filtroseliminado exitosamente.';
-$messages['setdeleteconfirm'] = '¿Estas seguro que deseas eliminar el set de filtros seleccionado?';
-$messages['setcreateerror'] = 'No es posible crear el set de filtros. Ha ocurrido un error de servidor.';
-$messages['setcreated'] = 'Set de filtros creado exitosamente.';
 $messages['activateerror'] = 'No es posible habilitar los filtros seleccionados. Ha ocurrido un error de servidor.';
 $messages['deactivateerror'] = 'No es posible deshabilitar los filtros seleccionados. Ha ocurrido un error de servidor.';
 $messages['deactivated'] = 'Filtro(s) deshabilitado(s) exitosamente.';
@@ -223,6 +204,4 @@ $messages['setexist'] = 'Set ya existe.';
 $messages['nodata'] = 'Debes seleccionar al menos una posición.';
 $messages['invaliddateformat'] = 'Fecha o parte del formato no válido';
 $messages['saveerror'] = 'No es posible guardar la información. Ha ocurrido un error de servidor.';
-$messages['vacationsaved'] = 'Información de vacaciones guardada exitosamente.';
 $messages['emptyvacationbody'] = 'Cuerpo del mensaje de vacaciones es requerido!';
-?>

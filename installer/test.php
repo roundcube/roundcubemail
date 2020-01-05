@@ -1,4 +1,17 @@
 <?php
+/*
+ +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ +-----------------------------------------------------------------------+
+*/
 
 if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
@@ -139,15 +152,15 @@ else {
 
 // initialize db with schema found in /SQL/*
 if ($db_working && $_POST['initdb']) {
-    if (!($success = $RCI->init_db($DB))) {
+    if (!$RCI->init_db($DB)) {
         $db_working = false;
         echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.
-          Make sure that the configured database extists and that the user as write privileges</p>';
+            Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
 
 else if ($db_working && $_POST['updatedb']) {
-    if (!($success = $RCI->update_db($_POST['version']))) {
+    if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
 }
@@ -165,7 +178,7 @@ if ($db_working) {
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
         $select = $RCI->versions_select(array('name' => 'version'));
         $select->add('0.9 or newer', '');
-        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show() . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
+        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show('') . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
     }
     else {
@@ -176,6 +189,9 @@ if ($db_working) {
 
 // more database tests
 if ($db_working) {
+    // Using transactions to workaround SQLite bug (#7064)
+    $DB->startTransaction();
+
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
@@ -190,6 +206,9 @@ if ($db_working) {
       $RCI->fail('DB Write', $RCI->get_error());
     }
     echo '<br />';
+
+    // Transaction end
+    $DB->rollbackTransaction();
 
     // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
@@ -288,8 +307,8 @@ if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
 
-  $from = idn_to_ascii(trim($_POST['_from']));
-  $to   = idn_to_ascii(trim($_POST['_to']));
+  $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
+  $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
   if (preg_match('/^' . $RCI->email_pattern . '$/i', $from) &&
       preg_match('/^' . $RCI->email_pattern . '$/i', $to)
@@ -413,8 +432,8 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
       $imap_port = 993;
   }
 
-  $imap_host = idn_to_ascii($imap_host);
-  $imap_user = idn_to_ascii($_POST['_user']);
+  $imap_host = rcube_utils::idn_to_ascii($imap_host);
+  $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
   $imap = new rcube_imap(null);
   $imap->set_options(array(

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Gerenciar filtros de entrada de e-mail';
 $labels['filtername'] = 'Nome do filtro';
@@ -75,17 +75,17 @@ $labels['days'] = 'dias';
 $labels['seconds'] = 'segundos';
 $labels['rulestop'] = 'Parar de avaliar regras';
 $labels['enable'] = 'Habilitar/Desabilitar';
-$labels['filterset'] = 'Conjunto de filtros';
+$labels['filterset'] = 'Conjunto de filtro';
 $labels['filtersets'] = 'Conjuntos de filtro';
-$labels['filtersetadd'] = 'Adicionar conjunto de filtros';
-$labels['filtersetdel'] = 'Excluir conjunto de filtros';
-$labels['filtersetact'] = 'Ativar conjunto de filtros atual';
-$labels['filtersetdeact'] = 'Desativar conjunto de filtros atual';
+$labels['filtersetadd'] = 'Adicionar conjunto de filtro';
+$labels['filtersetdel'] = 'Remover conjunto de filtro';
+$labels['filtersetact'] = 'Ativar conjunto de filtro atual';
+$labels['filtersetdeact'] = 'Desativar conjunto de filtro atual';
 $labels['filterseteditraw'] = 'Editar conjunto de filtros';
-$labels['filtersetswitch'] = 'Habilitar/desabilitar conjunto de filtros';
+$labels['filtersetswitch'] = 'Habilitar/desabilitar conjunto de filtro';
 $labels['filterdef'] = 'Definição de filtro';
-$labels['filtersetname'] = 'Nome do conjunto de filtros';
-$labels['newfilterset'] = 'Novo conjunto de filtros';
+$labels['filtersetname'] = 'Nome do conjunto de filtro';
+$labels['newfilterset'] = 'Novo conjunto de filtro';
 $labels['active'] = 'ativo';
 $labels['none'] = 'nenhum';
 $labels['fromset'] = 'Do conjunto';
@@ -111,6 +111,18 @@ $labels['flagdeleted'] = 'Excluída';
 $labels['flaganswered'] = 'Respondida';
 $labels['flagflagged'] = 'Marcada';
 $labels['flagdraft'] = 'Rascunho';
+$labels['addheader'] = 'Adicionar cabeçalho à mensagem';
+$labels['deleteheader'] = 'Remover cabeçalho da mensagem';
+$labels['headername'] = 'Nome do cabeçalho';
+$labels['headervalue'] = 'Valor do cabeçalho';
+$labels['headerpos'] = 'Posição do cabeçalho';
+$labels['headeratstart'] = 'no início';
+$labels['headeratend'] = 'no final';
+$labels['headeroccurrence'] = 'Posição/ocorrência do cabeçalho';
+$labels['headerfromstart'] = 'do início';
+$labels['headerfromend'] = 'do final';
+$labels['headerpatterns'] = 'Padrôes de valor do cabeçalho';
+$labels['headermatchtype'] = 'tipo de combinação:';
 $labels['setvariable'] = 'Definir variável';
 $labels['setvarname'] = 'Nome da variável:';
 $labels['setvarvalue'] = 'Valor da variável:';
@@ -175,20 +187,20 @@ $labels['asciicasemap'] = 'caso insensível (mapa de caracteres ascii)';
 $labels['asciinumeric'] = 'numérico (ascii-numeric)';
 $labels['index'] = 'índice:';
 $labels['indexlast'] = 'retroceder';
-$labels['vacation'] = 'Férias';
+$labels['vacation'] = 'Fora do Escritório';
 $labels['vacation.reply'] = 'Responder mensagem';
 $labels['vacation.advanced'] = 'Opções avançadas';
 $labels['vacation.from'] = 'Responder endereço do remetente';
 $labels['vacation.subject'] = 'Assunto';
 $labels['vacation.body'] = 'Conteúdo';
-$labels['vacation.start'] = 'Início das férias';
-$labels['vacation.end'] = 'Término das férias';
+$labels['vacation.start'] = 'Tempo de início';
+$labels['vacation.end'] = 'Tempo final';
 $labels['vacation.status'] = 'Estado';
 $labels['vacation.on'] = 'Ligado';
 $labels['vacation.off'] = 'Desligado';
 $labels['vacation.addresses'] = 'Meus endereços de e-mail';
 $labels['vacation.interval'] = 'Intervalo de resposta';
-$labels['vacation.after'] = 'Colocar regra de férias após';
+$labels['vacation.after'] = 'Colocar a regra fora-de-escritório após';
 $labels['vacation.saving'] = 'Salvando dados...';
 $labels['vacation.action'] = 'Ações para mensagens recebidas';
 $labels['vacation.keep'] = 'Manter';
@@ -233,16 +245,16 @@ $messages['actiondeleteconfirm'] = 'Deseja realmente excluir a ação selecionad
 $messages['forbiddenchars'] = 'Caracteres não permitidos no campo';
 $messages['cannotbeempty'] = 'Campo não pode ficar em branco';
 $messages['ruleexist'] = 'O filtro com o nome especificado já existe.';
-$messages['setactivateerror'] = 'Impossível ativar o conjunto de filtros selecionados. Ocorreu um erro no servidor.';
-$messages['setdeactivateerror'] = 'Impossível desativar o conjunto de filtros selecionados. Ocorreu um erro no servidor.';
-$messages['setdeleteerror'] = 'Impossível excluir o conjunto de filtros selecionados. Ocorreu um erro no servidor.';
-$messages['setactivated'] = 'Conjunto de filtros ativados com sucesso.';
-$messages['setdeactivated'] = 'Conjunto de filtros desativados com sucesso.';
-$messages['setdeleted'] = 'Conjunto de filtros excluídos com sucesso.';
-$messages['setupdated'] = 'Conjunto de filtros atualizado com sucesso.';
-$messages['setdeleteconfirm'] = 'Você está certo que deseja excluir o conjunto de filtros selecionados?';
-$messages['setcreateerror'] = 'Impossível criar o conjunto de filtros. Ocorreu um erro no servidor.';
-$messages['setcreated'] = 'Conjunto de filtros criado com sucesso.';
+$messages['setactivateerror'] = 'Incapaz de ativar o conjunto de filtro selecionado. Erro de servidor ocorrido.';
+$messages['setdeactivateerror'] = 'Incapaz de desativar o conjunto de filtro selecionado. Erro de servidor ocorrido.';
+$messages['setdeleteerror'] = 'Incapaz de remover o conjunto de filtro selecionado. Erro de servidor ocorrido.';
+$messages['setactivated'] = 'Conjunto de filtro ativo com sucesso.';
+$messages['setdeactivated'] = 'Conjunto de filtro desativo com sucesso.';
+$messages['setdeleted'] = 'Conjunto de filtro removido com sucesso.';
+$messages['setupdated'] = 'Conjunto de filtro atualizado com sucesso.';
+$messages['setdeleteconfirm'] = 'Você tem certeza que você quer remover o conjunto de filtro selecionado?';
+$messages['setcreateerror'] = 'Incapaz de criar o conjunto de filtro. Erro de servidor ocorrido.';
+$messages['setcreated'] = 'Conjunto de filtro criado com sucesso.';
 $messages['activateerror'] = 'Impossível habilitar o(s) filtro(s) selecionado(s). Ocorreu um erro no servidor.';
 $messages['deactivateerror'] = 'Impossível desabilitar o(s) filtro(s) selecionado(s). Ocorreu um erro no servidor.';
 $messages['deactivated'] = 'Filtro(s) habilitado(s) com sucesso.';
@@ -255,9 +267,9 @@ $messages['setexist'] = 'Conjunto já existe.';
 $messages['nodata'] = 'Pelo menos uma posição precisa ser selecionada!';
 $messages['invaliddateformat'] = 'Data inválida';
 $messages['saveerror'] = 'Impossível salvar dados. Ocorreu um erro no servidor.';
-$messages['vacationsaved'] = 'Dados de férias salvos com sucesso.';
+$messages['vacationsaved'] = 'Configurações "fora do escritório" salvas com sucesso.';
 $messages['forwardsaved'] = 'Dados de encaminhamento salvo com sucesso.';
 $messages['emptyvacationbody'] = 'Conteúdo da mensagem de férias necessário!';
 $messages['duplicate.conflict.err'] = 'Ambos cabeçalho e identificador único não são permitidos.';
 $messages['disabledaction'] = 'Ação não permitida.';
-?>
+$messages['lastindexempty'] = 'Índice é requerido quando contagem do final';

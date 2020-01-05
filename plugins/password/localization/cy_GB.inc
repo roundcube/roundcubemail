@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Newid cyfrinair';
 $labels['curpasswd']  = 'Cyfrinair Presennol:';
 $labels['newpasswd']  = 'Cyfrinair Newydd:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'Methwyd cadw\'r cyfrinair newydd. Gwall cysylltiad.
 $messages['internalerror'] = 'Methwyd cadw\'r cyfrinair newydd.';
 $messages['passwordshort'] = 'Rhaid i\'r cyfrinair fod o leia $length llythyren o hyd.';
 $messages['passwordweak'] = 'Rhaid i\'r cyfrinair gynnwys o leia un rhif a un cymeriad atalnodi.';
+$messages['passwordtooweak'] = 'Mae\'r cyfrinair yn rhy wan.';
+$messages['passwordnoseq'] = 'Ni ddylai\'r cyfrinair fod yn ddilyniant fel 123456 neu QWERTY.';
+$messages['passwordnocommon'] = 'Ni ddylai\'r cyfrinair fod yn air cyffredin neu enw.';
 $messages['passwordforbidden'] = 'Mae\'r cyfrinair yn cynnwys llythrennau wedi gwahardd.';
 $messages['firstloginchange'] = 'Dyma eich mewngofnodiad cynta. Newidiwch eich cyfrinair.';
 $messages['disablednotice'] = 'Mae gwaith cynnal a chadw ar y system ar hyn o bryd a nid yw\'n bosib newid y cyfrinair ar hyn o bryd. Fe ddylai fod popeth nol i\'r arfer yn fuan. Rydym yn ymddiheuro am yr anghyfleustra.';

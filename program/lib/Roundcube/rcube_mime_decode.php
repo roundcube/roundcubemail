@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2015, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,7 +25,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_mime_decode
 {
@@ -374,8 +374,6 @@ class rcube_mime_decode
         if ($part->ctype_parameters['charset']) {
             $struct->charset = $part->ctype_parameters['charset'];
         }
-
-        $part_charset = $struct->charset ?: $this->params['default_charset'];
 
         // determine filename
         if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {

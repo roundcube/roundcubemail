@@ -3,46 +3,33 @@
 <roundcube:add_label name="recipientsadded" />
 <roundcube:add_label name="nocontactselected" />
 <roundcube:add_label name="recipient" />
+<roundcube:add_label name="insert" />
+<roundcube:add_label name="insertcontact" />
 <roundcube:add_label name="recipientedit" />
 
 <h1 class="voice"><roundcube:label name="compose" /></h1>
 
-<!-- inline address book -->
-<div class="sidebar listbox" role="region" aria-labelledby="aria-label-composecontacts">
-	<div class="header no-toolbar">
-		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
-		<span id="aria-label-composecontacts" class="header-title"><roundcube:label name="contacts" /></span>
-	</div>
-	<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
-		label="contactsearchform" buttontitle="findcontacts" ariatag="h2" />
-	<div class="scroller" tabindex="-1">
-		<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"
-			summary="ariasummarycomposecontacts" />
-		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized contactlist"
-			noheader="true" role="listbox" data-list="contact_list" />
-	</div>
-	<div class="footer toolbar" role="toolbar">
-		<roundcube:button command="add-recipient" prop="to" type="link" title="to"
-			class="button addto disabled" classAct="button addto" innerClass="inner" content="To+" />
-		<roundcube:button command="add-recipient" prop="cc" type="link" title="cc"
-			class="button addcc disabled" classAct="button addcc" innerClass="inner" content="Cc+" />
-		<roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc"
-			class="button addbcc disabled" classAct="button addbcc" innerClass="inner" content="Bcc+" />
-		<roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
-	</div>
-	<roundcube:include file="includes/pagenav.html" />
-</div>
-
 <!-- compose options and attachments list -->
-<div class="list listbox">
+<div id="layout-sidebar" class="listbox sidebar-right">
 	<div class="header">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title all-sizes"><roundcube:label name="optionsandattachments" /></span>
 	</div>
 	<div class="scroller">
+		<!-- attachments -->
+		<div id="compose-attachments" class="file-upload" role="region" aria-labelledby="aria-label-compose-attachments">
+			<h2 id="aria-label-compose-attachments" class="voice"><roundcube:label name="attachments" /></h2>
+			<div class="upload-form">
+				<roundcube:object name="composeAttachmentForm" mode="hint" />
+				<button type="button" class="btn btn-secondary attach" tabindex="2" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></button>
+			</div>
+			<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="2" />
+			<roundcube:object name="fileDropArea" id="compose-attachments" />
+		</div>
 		<!-- compose options -->
 		<div id="compose-options" class="formcontent" role="region" aria-labelledby="aria-label-composeoptions">
 			<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="arialabelcomposeoptions" /></h2>
+			<roundcube:container name="composeoptions" id="compose-options" />
 			<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
 			<div class="form-group row form-check">
 				<label for="compose-mdn" class="col-form-label col-6"><roundcube:label name="returnreceipt" /></label>
@@ -73,74 +60,48 @@
 				</div>
 			</div>
 			<roundcube:endif />
-			<roundcube:container name="composeoptions" id="compose-options" />
-			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
-				<div class="form-group row hidden">
-					<label for="editor-selector" class="col-form-label col-6"><roundcube:label name="editortype" /></label>
-					<div class="col-6">
-						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" tabindex="2" />
-					</div>
-				</div>
-			<roundcube:endif />
-		</div>
-		<div id="compose-attachments" class="file-upload" role="region" aria-labelledby="aria-label-compose-attachments">
-			<h2 id="aria-label-compose-attachments" class="voice"><roundcube:label name="attachments" /></h2>
-			<div class="upload-form">
-				<roundcube:object name="composeAttachmentForm" mode="hint" />
-				<button class="btn btn-secondary attach" tabindex="2" href="#" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></button>
-			</div>
-			<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="2" />
-			<roundcube:object name="fileDropArea" id="compose-attachments" />
 		</div>
 	</div>
 </div>
 
-<div class="content listbox selected" role="main">
+<div id="layout-content" class="listbox selected" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header">
-		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="header-title"><roundcube:label name="compose" /></span>
+		<div id="composestatusbar" class="position-absolute"></div>
 		<!-- toolbar -->
-		<div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
-			<a class="button settings" href="#options" onclick="UI.show_list(true)" data-hidden="big">
+		<div id="messagetoolbar" class="toolbar menu" role="toolbar" aria-labelledby="aria-label-toolbar">
+			<a class="options" href="#options" onclick="UI.show_sidebar()" data-hidden="big">
 				<span class="inner"><roundcube:label name="optionsandattachments"></span>
 			</a>
-			<a class="button addressbook" href="#contacts" onclick="UI.show_sidebar()" data-hidden="big">
-				<span class="inner"><roundcube:label name="contacts"></span>
-			</a>
-			<roundcube:button command="savedraft" type="link" class="button save draft disabled" classAct="button save draft"
+			<roundcube:button command="savedraft" type="link" class="save draft disabled" classAct="save draft"
 				label="save" title="savemessage" tabindex="2" innerclass="inner" data-content-button="true" />
 			<span class="spacer"></span>
-			<roundcube:button name="addattachment" type="link" class="button attach"
+			<roundcube:button name="addattachment" type="link" class="attach"
 				label="attach" title="addattachment" data-hidden="small"
 				onclick="if (!$(this).is('.disabled')) rcmail.upload_input('uploadform')"
 				aria-haspopup="true" aria-expanded="false" tabindex="2" innerclass="inner" />
-			<roundcube:button command="insert-sig" type="link" class="button signature disabled" classAct="button signature"
+			<roundcube:button command="insert-sig" type="link" class="signature disabled" classAct="signature"
 				label="signature" title="insertsignature" tabindex="2" innerclass="inner" />
-			<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
+			<a href="#responses" class="responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
 				<span class="inner"><roundcube:label name="responses" /></span>
 			</a>
-			<a id="composeoptionslink" class="button settings hidden" href="#options" onclick="UI.show_list(); $(this).addClass('hidden'); $('#composecontactslink').removeClass('hidden')" data-hidden="large,small">
-				<span class="inner"><roundcube:label name="options"></span>
-			</a>
-			<a id="composecontactslink" class="button addressbook" href="#contacts" onclick="UI.show_sidebar(true); $(this).addClass('hidden'); $('#composeoptionslink').removeClass('hidden')" data-hidden="large,small">
-				<span class="inner"><roundcube:label name="contacts"></span>
-			</a>
-			<roundcube:if condition="config:enable_spellcheck" />
+			<roundcube:if condition="!empty(env:spell_langs)" />
 			<span class="dropbutton">
-				<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled"
-					classAct="button spellcheck" classSel="button spellcheck pressed"
+				<roundcube:button command="spellcheck" type="link" class="spellcheck disabled"
+					classAct="spellcheck" classSel="button spellcheck pressed"
 					label="spellcheck" title="checkspelling" tabindex="2" innerclass="inner" />
-				<a href="#languages" class="button dropdown" tabindex="2" data-popup="spell-menu">
+				<a href="#languages" class="dropdown" tabindex="2" data-popup="spell-menu">
 					<span class="inner"><roundcube:label name="language" /></span>
 				</a>
 			</span>
 			<roundcube:endif />
 			<span class="dropbutton" style="display:none">
-				<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled"
-					classAct="button encrypt" classSel="button encrypt selected" innerclass="inner"
+				<roundcube:button command="compose-encrypted" type="link" class="encrypt disabled"
+					classAct="encrypt" classSel="encrypt selected" innerclass="inner"
 					label="encrypt" title="encryptmessagemailvelope" tabindex="2" />
-				<a href="#encryption" id="encryption-menu-button" class="button dropdown" tabindex="2" data-popup="encryption-menu">
+				<a href="#encryption" id="encryption-menu-button" class="dropdown" tabindex="2" data-popup="encryption-menu">
 					<span class="inner"><roundcube:label name="encryptmessagemailvelope" /></span>
 				</a>
 			</span>
@@ -170,6 +131,9 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="to" id="_to" form="form" tabindex="1" aria-required="true" data-recipient-input="true" />
 							<span class="input-group-append">
+								<a href="#add-contact" onclick="UI.recipient_selector('to')" class="input-group-text icon add recipient" title="<roundcube:label name="addcontact" />" tabindex="1"><span class="inner"><roundcube:label name="addcontact" /></span></a>
+							</span>
+							<span class="input-group-append">
 								<a href="#add-header" data-popup="headers-menu" class="input-group-text icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
 							</span>
 						</div>
@@ -181,7 +145,10 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#add-contact" onclick="UI.recipient_selector('cc')" class="input-group-text icon add recipient" title="<roundcube:label name="addcontact" />" tabindex="1"><span class="inner"><roundcube:label name="addcontact" /></span></a>
+							</span>
+							<span class="input-group-append">
+								<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -192,7 +159,10 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#add-contact" onclick="UI.recipient_selector('bcc')" class="input-group-text icon add recipient" title="<roundcube:label name="addcontact" />" tabindex="1"><span class="inner"><roundcube:label name="addcontact" /></span></a>
+							</span>
+							<span class="input-group-append">
+								<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -203,7 +173,10 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="replyto" id="_replyto" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="UI.header_reset('_replyto')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#add-contact" onclick="UI.recipient_selector('replyto')" class="input-group-text icon add recipient" title="<roundcube:label name="addcontact" />" tabindex="1"><span class="inner"><roundcube:label name="addcontact" /></span></a>
+							</span>
+							<span class="input-group-append">
+								<a href="#delete" onclick="UI.header_reset('_replyto')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -214,7 +187,10 @@
 						<div class="input-group">
 							<roundcube:object name="composeHeaders" part="followupto" id="_followupto" form="form" tabindex="1" data-recipient-input="true" />
 							<span class="input-group-append">
-								<a href="#delete" onclick="UI.header_reset('_followupto')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+								<a href="#add-contact" onclick="UI.recipient_selector('followupto')" class="input-group-text icon add recipient" title="<roundcube:label name="addcontact" />" tabindex="1"><span class="inner"><roundcube:label name="addcontact" /></span></a>
+							</span>
+							<span class="input-group-append">
+								<a href="#delete" onclick="UI.header_reset('_followupto')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 							</span>
 						</div>
 					</div>
@@ -231,6 +207,9 @@
 		<div id="composebodycontainer">
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
+			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
+			<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" class="hidden" />
+			<roundcube:endif />
 		</div>
 		</form>
 		<div class="formbuttons">
@@ -245,40 +224,54 @@
 
 <div id="headers-menu" class="popupmenu" data-popup-init="headersmenu">
 	<h3 id="aria-label-headersmenu" class="voice"><roundcube:label name="arialabelheadersmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-headersmenu">
-		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1" class="recipient"><roundcube:label name="cc" /></a></li>
-		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1" class="recipient"><roundcube:label name="bcc" /></a></li>
-		<li role="menuitem"><a data-target="replyto" href="#" role="button" tabindex="-1" class="recipient"><roundcube:label name="replyto" /></a></li>
-		<li role="menuitem"><a data-target="followupto" href="#" role="button" tabindex="-1" class="recipient"><roundcube:label name="followupto" /></a></li>
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-headersmenu">
+		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="cc" /></a></li>
+		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="bcc" /></a></li>
+		<li role="menuitem"><a data-target="replyto" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="replyto" /></a></li>
+		<li role="menuitem"><a data-target="followupto" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="followupto" /></a></li>
 	</ul>
 </div>
 
 <div id="responses-menu" class="popupmenu">
 	<h3 id="aria-label-responsesmenu" class="voice"><roundcube:label name="arialabelresponsesmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
 		<li role="separator" class="separator"><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
-		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="create responses" classAct="create responses active" unselectable="on" />
-		<roundcube:button command="responses" type="link-menuitem" label="editresponses" class="edit responses" classAct="edit responses active" />
+		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="create responses disabled" classAct="create responses active" unselectable="on" />
+		<roundcube:button name="responses" type="link-menuitem" label="editresponses" class="edit responses active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
 	</ul>
 </div>
 
 <div id="attachmentmenu" class="popupmenu">
 	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
-		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
-		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
-		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename" classAct="rename active" />
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
+		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin disabled" classAct="extwin active" />
+		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download disabled" classAct="download active" />
+		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename disabled" classAct="rename active" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
 	</ul>
 </div>
 
 <div id="encryption-menu" class="popupmenu">
-	<ul class="toolbarmenu listing" role="menu">
-		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" class="encrypt" classAct="encrypt active" />
-		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" class="encrypt sign" classAct="encrypt sign active" />
+	<ul class="menu listing" role="menu">
+		<roundcube:button command="compose-encrypted" type="link-menuitem" label="encryptmessage" class="encrypt disabled" classAct="encrypt active" />
+		<roundcube:button command="compose-encrypted-signed" type="link-menuitem" label="encryptandsign" class="encrypt sign disabled" classAct="encrypt sign active" />
 	</ul>
+</div>
+
+<div id="recipient-dialog" class="popupmenu" role="region" aria-labelledby="aria-label-composecontacts">
+	<div class="listbox">
+		<roundcube:object name="searchform" id="searchform" wrapper="searchbar menu"
+			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" class="no-bs" />
+		<div class="scroller" tabindex="-1">
+			<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"
+				summary="ariasummarycomposecontacts" />
+			<roundcube:object name="addresslist" id="contacts-table" class="listing iconized contactlist"
+				noheader="true" role="listbox" data-list="contact_list" data-list-select-replace="#recipient-dialog .pagenav-text" />
+		</div>
+		<roundcube:include file="includes/pagenav.html" />
+	</div>
 </div>
 
 <roundcube:include file="includes/footer.html" />

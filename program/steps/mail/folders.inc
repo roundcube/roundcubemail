@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/folders.inc                                        |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Implement folder operations line EXPUNGE and Clear                  |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -61,6 +59,13 @@ else if ($RCMAIL->action == 'purge') {
 
         if ($success) {
             $OUTPUT->show_message('folderpurged', 'confirmation');
+            $OUTPUT->command('set_unread_count', $mbox, 0);
+            rcmail_set_unseen_count($mbox, 0);
+
+            // set trash folder state
+            if ($mbox === $trash_mbox) {
+                $OUTPUT->command('set_trash_count', 0);
+            }
 
             if (!empty($_REQUEST['_reload'])) {
                 $OUTPUT->set_env('messagecount', 0);
@@ -68,14 +73,7 @@ else if ($RCMAIL->action == 'purge') {
                 $OUTPUT->set_env('exists', 0);
                 $OUTPUT->command('message_list.clear');
                 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text(), $mbox);
-                $OUTPUT->command('set_unread_count', $mbox, 0);
                 $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $mbox));
-                rcmail_set_unseen_count($mbox, 0);
-
-                // set trash folder state
-                if ($mbox === $trash_mbox) {
-                    $OUTPUT->command('set_trash_count', 0);
-                }
             }
         }
         else {

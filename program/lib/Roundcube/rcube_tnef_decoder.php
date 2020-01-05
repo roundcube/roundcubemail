@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -128,7 +129,7 @@ class rcube_tnef_decoder
      *
      * @param string $data The data to decompress.
      *
-     * @return mixed The decompressed data.
+     * @return array The decompressed data.
      */
     public function decompress($data)
     {
@@ -166,8 +167,8 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bytes from the buffer.
      *
-     * @param string  &$data The data string.
-     * @param integer $bytes How many bytes to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bytes How many bytes to retrieve.
      *
      * @return string Extracted data
      */
@@ -186,10 +187,10 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bits from the buffer
      *
-     * @param string  &$data The data string.
-     * @param integer $bits  How many bits to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bits  How many bits to retrieve.
      *
-     * @return int
+     * @return int|null
      */
     protected function _geti(&$data, $bits)
     {
@@ -215,6 +216,8 @@ class rcube_tnef_decoder
      * Decode a single attribute
      *
      * @param string &$data The data string.
+     *
+     * @return string Extracted data
      */
     protected function _decodeAttribute(&$data)
     {
@@ -492,21 +495,21 @@ class rcube_tnef_decoder
         $length_preload = strlen($preload);
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {
-            $uncomp .= $preload{$cnt};
+            $uncomp .= $preload[$cnt];
             ++$out;
         }
 
         while ($out < ($size + $length_preload)) {
             if (($flag_count++ % 8) == 0) {
-                $flags = ord($data{$in++});
+                $flags = ord($data[$in++]);
             }
             else {
                 $flags = $flags >> 1;
             }
 
             if (($flags & 1) != 0) {
-                $offset = ord($data{$in++});
-                $length = ord($data{$in++});
+                $offset = ord($data[$in++]);
+                $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
                 $length = ($length & 0xF) + 2;
                 $offset = ((int)($out / 4096)) * 4096 + $offset;
@@ -523,7 +526,7 @@ class rcube_tnef_decoder
                 }
             }
             else {
-                $uncomp .= $data{$in++};
+                $uncomp .= $data[$in++];
                 ++$out;
             }
         }
@@ -533,8 +536,7 @@ class rcube_tnef_decoder
 
     /**
      * Parse RTF data and return the best plaintext representation we can.
-     * Adapted from:
-     * http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
+     * Adapted from: http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
      *
      * @param string $text The RTF (uncompressed) text.
      *
@@ -737,6 +739,9 @@ class rcube_tnef_decoder
         return $document;
     }
 
+    /**
+     * Checks if an RTF element is plain text
+     */
     protected static function _rtfIsPlain($s)
     {
         $notPlain = array('*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet');

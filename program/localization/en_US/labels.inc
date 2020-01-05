@@ -2,15 +2,13 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
@@ -195,6 +193,7 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
+$labels['showunread'] = 'Show unread messages';
 
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
@@ -291,6 +290,8 @@ $labels['keyexpired'] = 'Expired';
 $labels['keyrevoked'] = 'Revoked';
 $labels['bccinstead'] = 'Use Bcc';
 $labels['addheader'] = 'Add recipient (header)';
+$labels['insert'] = 'Insert';
+$labels['insertcontact'] = 'Insert contact(s)';
 $labels['recipient'] = 'Recipient';
 $labels['recipientedit'] = 'Recipient edit';
 
@@ -443,6 +444,9 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
+$labels['choosefile'] = 'Choose file...';
+$labels['choosefiles'] = 'Choose files...';
+$labels['browse'] = 'Browse';
 
 $labels['newcontact'] = 'Create new contact';
 $labels['deletecontact'] = 'Delete selected contacts';
@@ -563,7 +567,7 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['toggleadvancedoptions'] = 'Toggle advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['displaynext'] = 'After message delete/move display the next message';
+$labels['displaynext'] = 'Display next list entry after delete/move';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['browseroptions'] = 'Browser Options';
@@ -692,6 +696,7 @@ $labels['chinese'] = 'Chinese';
 $labels['arialabeltopnav'] = 'Window control';
 $labels['arialabeltasknav'] = 'Application tasks';
 $labels['arialabeltoolbar'] = 'Application toolbar';
+$labels['arialabellistnav'] = 'List navigation';
 $labels['arialabelactivetask'] = 'Active task';
 $labels['arialabelmessagessearchfilter'] = 'Email listing filter';
 $labels['arialabelmailsearchform'] = 'Email message search form';
@@ -745,5 +750,3 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
-
-?>

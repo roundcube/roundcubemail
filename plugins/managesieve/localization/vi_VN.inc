@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Bộ lọc';
 $labels['managefilters'] = 'Quản lý bộ lọc thư đến';
 $labels['filtername'] = 'Lọc tên';
@@ -63,14 +63,8 @@ $labels['days'] = 'ngày';
 $labels['seconds'] = 'giây';
 $labels['rulestop'] = 'Ngừng đánh giá qui luật';
 $labels['enable'] = 'Kích hoạt/Không kích hoạt';
-$labels['filterset'] = 'Đặt các bộ lọc';
 $labels['filtersets'] = 'Thiết lập bộ lọc';
-$labels['filtersetadd'] = 'Thêm bộ lọc';
-$labels['filtersetact'] = 'Kích hoạt bộ lọc hiện tại';
-$labels['filtersetdeact'] = 'Ngừng kích hoạt bộ lọc hiện tai';
 $labels['filterdef'] = 'Định nghĩa bộ lọc';
-$labels['filtersetname'] = 'Tên bộ lọc';
-$labels['newfilterset'] = 'Thiết lập bộ lọc mới';
 $labels['active'] = 'Kích hoạt';
 $labels['none'] = 'Không có';
 $labels['fromset'] = 'Từ thiết lập';
@@ -159,7 +153,6 @@ $labels['asciicasemap'] = 'Không phân biệt chữ hoa chữ thường';
 $labels['asciinumeric'] = 'Bảng mã ASCII';
 $labels['index'] = 'chỉ mục:';
 $labels['indexlast'] = 'ngược';
-$labels['vacation'] = 'Thiết lập tự động trả lời trong kỳ nghỉ';
 $labels['vacation.reply'] = 'Trả lời thư';
 $labels['vacation.advanced'] = 'Tùy chọn tính năng cao hơn';
 $labels['vacation.subject'] = 'Tiêu đề';
@@ -168,7 +161,6 @@ $labels['vacation.status'] = 'Trạng thái';
 $labels['vacation.on'] = 'Bật';
 $labels['vacation.off'] = 'Tắt';
 $labels['vacation.interval'] = 'Khoảng thời gian trả lời';
-$labels['vacation.after'] = 'Đặt quy định kỳ nghỉ sau';
 $labels['vacation.saving'] = 'Lưu lại dữ liệu...';
 $labels['vacation.keep'] = 'Giữ';
 $labels['forward.on'] = 'Bật';
@@ -187,15 +179,6 @@ $messages['actiondeleteconfirm'] = 'Bạn có chắc chắn muốn xóa hành đ
 $messages['forbiddenchars'] = 'Ký tự bị cấm trong ô';
 $messages['cannotbeempty'] = 'Ô không thể bị bỏ trống';
 $messages['ruleexist'] = 'Đã tồn tại bộ lọc với tên cụ thế';
-$messages['setactivateerror'] = 'Không thể kích hoạt bộ lọc được lựa chọn. Xuất hiện lỗi ở máy chủ';
-$messages['setdeactivateerror'] = 'Không thể tắt bộ lọc được lựa chọn. Xuất hiện lỗi ở máy chủ';
-$messages['setdeleteerror'] = 'Không thể xóa bộ lọc được lựa chọn. Xuất hiện lỗi ở máy chủ.';
-$messages['setactivated'] = 'Bộ lọc được khởi động thành công';
-$messages['setdeactivated'] = 'Ngừng kích hoạt bộ lọc thành công';
-$messages['setdeleted'] = 'Xóa bộ lọc thành công';
-$messages['setdeleteconfirm'] = 'Bạn có chắc bạn muốn xóa thiết lập bộ lọc được chọn?';
-$messages['setcreateerror'] = 'Không thể tạo thiết lập bộ lọc. Có lỗi xuất hiện ở máy chủ';
-$messages['setcreated'] = 'Thiết lập bộ lọc được tạo thành công';
 $messages['activateerror'] = 'Không thể khởi động (các) bộ lọc được chọn. Có lỗi xuất hiện ở máy chủ';
 $messages['deactivateerror'] = 'Không thể tắt (các) bộ lọc đã chọn. Có lỗi xuất hiện ở máy chủ';
 $messages['deactivated'] = 'Bộ lọc được khởi động thành công';
@@ -208,5 +191,3 @@ $messages['setexist'] = 'Thiết lập đã tồn tại';
 $messages['nodata'] = 'Ít nhất một vị trí phải được chọn';
 $messages['invaliddateformat'] = 'Lỗi không đúng cú pháp ngày hoặc nhập ngày sai';
 $messages['saveerror'] = 'Không thể lưu trữ dữ liệu. Xuất hiện lỗi ở máy chủ.';
-$messages['vacationsaved'] = 'Thiết lập kỳ nghỉ đã được lưu lại thành công.';
-?>

@@ -1,6 +1,6 @@
 <?php
 
-class Tokenizer extends PHPUnit_Framework_TestCase
+class Tokenizer extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -12,11 +12,13 @@ class Tokenizer extends PHPUnit_Framework_TestCase
     {
         return array(
             array(1, "text: #test\nThis is test ; message;\nMulti line\n.\n;\n", '"This is test ; message;\nMulti line"'),
+            array(1, "text: #test\r\nThis is test ; message;\nMulti line\r\n.\r\n;", '"This is test ; message;\nMulti line"'),
             array(0, '["test1","test2"]', '[["test1","test2"]]'),
             array(1, '["test"]', '["test"]'),
             array(1, '"te\\"st"', '"te\\"st"'),
             array(0, 'test #comment', '["test"]'),
             array(0, "text:\ntest\n.\ntext:\ntest\n.\n", '["test","test"]'),
+            array(0, "text:\r\ntest\r\n.\r\ntext:\r\ntest\r\n.\r\n", '["test","test"]'),
             array(1, '"\\a\\\\\\"a"', '"a\\\\\\"a"'),
         );
     }

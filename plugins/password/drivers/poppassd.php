@@ -8,7 +8,7 @@
  * @version 2.0
  * @author Philip Weir
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

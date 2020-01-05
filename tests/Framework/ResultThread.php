@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_ResultThread extends PHPUnit_Framework_TestCase
+class Framework_ResultThread extends PHPUnit\Framework\TestCase
 {
 
     /**

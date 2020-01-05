@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Vítejte v $product';
 $labels['username'] = 'Uživatel';
 $labels['password'] = 'Heslo';
@@ -103,7 +103,7 @@ $labels['longdec'] = 'Prosinec';
 $labels['today'] = 'Dnes';
 $labels['refresh'] = 'Obnovit';
 $labels['checkmail'] = 'Zkontrolovat nové zprávy';
-$labels['compose'] = 'Napsat zprávu';
+$labels['compose'] = 'Napsat';
 $labels['writenewmessage'] = 'Vytvořit novou zprávu';
 $labels['reply'] = 'Odpovědět';
 $labels['replytomessage'] = 'Odpovědět odesílateli';
@@ -147,6 +147,7 @@ $labels['last'] = 'Poslední';
 $labels['previous'] = 'Předchozí';
 $labels['next'] = 'Následující';
 $labels['select'] = 'Vybrat';
+$labels['selection'] = 'Výběr';
 $labels['all'] = 'Vše';
 $labels['none'] = 'Nic';
 $labels['currpage'] = 'Aktuální stránka';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Rozbalit všechny';
 $labels['expand-unread'] = 'Rozbalit nepřečtené';
 $labels['collapse-all'] = 'Sbalit všechny';
 $labels['threaded'] = 'Spojovat do konverzací';
+$labels['showunread'] = 'Zobrazit nepřečtené zprávy';
 $labels['autoexpand_threads'] = 'Rozbalit konverzace';
 $labels['do_expand'] = 'všechny konverzace';
 $labels['expand_only_unread'] = 'pouze s nepřečtenými zprávami';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Akce se složkou...';
 $labels['compact'] = 'Zmenšit';
 $labels['empty'] = 'Vyprázdnit';
 $labels['importmessages'] = 'Import zpráv';
+$labels['mailimportdesc'] = 'E-mail můžete nahrát pomocí souborů ve formátu <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> a <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Více souborů může být zkomprimováno do ZIP archivu.';
 $labels['quota'] = 'Využití schránky';
 $labels['unknown'] = 'neznámý';
 $labels['unlimited'] = 'neomezený';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Vypršelý';
 $labels['keyrevoked'] = 'Odvolaný';
 $labels['bccinstead'] = 'Použít skrytou kopii';
 $labels['addheader'] = 'Přidat příjemce (hlavička)';
+$labels['insert'] = 'Vložit';
+$labels['insertcontact'] = 'Vložit kontakty';
 $labels['recipient'] = 'Příjemce';
 $labels['recipientedit'] = 'Úprava příjemce';
 $labels['editidents'] = 'Upravit identity';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Vždy ukazovat obrázky od $sender';
 $labels['alwaysallow'] = 'Vždy povolit od $sender';
 $labels['isdraft'] = 'Toto je šablona zprávy.';
 $labels['andnmore'] = '$nr dalších...';
+$labels['details'] = 'Podrobnosti';
 $labels['headers'] = 'Hlavičky';
-$labels['envelope'] = 'Obálka';
+$labels['allheaders'] = 'Všechny hlavičky...';
 $labels['togglemoreheaders'] = 'Zobrazit více hlaviček zprávy';
 $labels['togglefullheaders'] = 'Přepnout skutečné hlavičky zprávy';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Přejmenovat';
 $labels['addphoto'] = 'Přidat';
 $labels['replacephoto'] = 'Nahradit';
 $labels['uploadphoto'] = 'Nahrát fotku';
+$labels['choosefile'] = 'Vybrat soubor...';
+$labels['choosefiles'] = 'Vybrat soubory...';
+$labels['browse'] = 'Procházet';
 $labels['newcontact'] = 'Vytvořit nový kontakt';
 $labels['deletecontact'] = 'Smazat vybrané kontakty';
 $labels['composeto'] = 'Poslat e-mail';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Nahradit celý seznam kontaktů';
 $labels['importgroups'] = 'Importovat přiřazení do skupin';
 $labels['importgroupsall'] = 'Vše (vytvořit skupiny v případě potřeby)';
 $labels['importgroupsexisting'] = 'Pouze pro existující skupiny';
-$labels['importdesc'] = 'Můžete nahrát kontakty z existujícího adresáře kontaktů.<br/>Momentálně podporujeme kontakty ve formátu <a href="http://cs.wikipedia.org/wiki/VCard">vCard</a> nebo CSV (comma-separated).';
+$labels['importdesc'] = 'Kontakty můžete nahrát z existujícího adresáře.<br/>V současnosti je podporováno načtení adres z dat ve formátu <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> a CSV (odděleno čárkou).';
 $labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavení pro';
 $labels['about'] = 'O programu';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Pokročilá nastavení';
 $labels['toggleadvancedoptions'] = 'Přepnout pokročilé možnosti';
 $labels['focusonnewmessage'] = 'Aktivovat okno prohlížeče při příchozí zprávě';
 $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';
-$labels['displaynext'] = 'Zobrazit další zprávu po smazání/přesunu zprávy';
+$labels['displaynext'] = 'Zobrazit další záznam po smazání/přesunutí';
 $labels['defaultfont'] = 'Výchozí písmo zprávy HTML';
 $labels['mainoptions'] = 'Hlavní nastavení';
 $labels['browseroptions'] = 'Možnosti prohlížeče';
@@ -671,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Šipky vlevo/vpravo: Rozbalit/zabalit 
 Enter: Otevřít vybranou zprávu.
 Delete: Přesunout vybrané zprávy do Koše.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Otevřít označený/vybraný kontakt.";
-?>

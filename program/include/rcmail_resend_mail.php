@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_resend_mail.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -120,8 +119,7 @@ class rcmail_resend_mail extends Mail_mime
         $rcmail   = rcmail::get_instance();
         $storage  = $rcmail->get_storage();
         $message  = $this->build_params['bounce_message'];
-        $temp_dir = unslashify($rcmail->config->get('temp_dir'));
-        $path     = tempnam($temp_dir, 'rcmBounce');
+        $path     = rcube_utils::temp_filename('bounce');
 
         // We'll write the body to the file and the headers to a variable
         if ($fp = fopen($path, 'w')) {

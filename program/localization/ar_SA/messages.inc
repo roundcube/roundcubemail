@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'حدث خطأ!';
 $messages['loginfailed']  = 'فشل تسجيل الدخول';
 $messages['cookiesdisabled'] = 'المتصفح الخاص بك لا يقبل الكوكيز';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'لا يوجد مساحة كافية. است
 $messages['invalidrequest'] = 'طلب غير صالح! لم تحفظ أية بيانات.';
 $messages['invalidhost'] = 'اسم الملقم غير صالح.';
 $messages['nomessagesfound'] = 'لم يعثر على أية رسائل في صندوق البريد هذا';
-$messages['loggedout'] = 'قمت بإنهاء هذه الجلسة بنجاح. إلى اللقاء!';
 $messages['mailboxempty'] = 'صندوق البريد فارغ';
 $messages['nomessages'] = 'لا يوجد رسائل';
 $messages['refreshing'] = 'جاري التحديث...';
@@ -56,11 +54,8 @@ $messages['contactnameexists'] = 'هناك مُرسال له نفس الإسم �
 $messages['blockedimages'] = 'لحماية خصوصيتك، تم حجب الصور الغير مضمنة(البعيدة) في هذه الرسالة.';
 $messages['encryptedmessage'] = 'هذه الرسالة مشفرة ولا يمكن عرضها. عذراً!';
 $messages['nopubkeyfor'] = 'لم يتم العثور على مفتاح عام صالح لـ $email';
-$messages['keyservererror'] = 'فشل الحصول على مفتاح من خادم المفاتيح';
-$messages['keyimportsuccess'] = 'تم استيراد المفتاح العام $key بنجاح إلى حلقة مفاتيحك';
 $messages['nocontactsfound'] = 'لم يعثر على أي مراسل';
 $messages['contactnotfound'] = 'تعذر العثور على المراسل المطلوب';
-$messages['contactsearchonly'] = 'اكتب بعض كلمات البحث للعثور علىالمُراسلين';
 $messages['sendingfailed'] = 'فشل إرسال الرسالة';
 $messages['senttooquickly'] = 'رجاء انتظر $sec ثوان قبل إرسال هذه الرسالة';
 $messages['errorsavingsent'] = 'حدث خطأ أثناء حفظ الرسالة المُرسلة.';

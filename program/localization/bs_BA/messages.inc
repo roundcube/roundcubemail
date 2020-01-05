@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Desila se greška!';
 $messages['loginfailed']  = 'Prijava nije uspjela.';
 $messages['cookiesdisabled'] = 'Vaš preglednik ne prihvata kolačiće.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Nema slobodnog prostora. Pritisnite SHIFT+D
 $messages['invalidrequest'] = 'Neispravan zahtjev! Podaci nisu sačuvani.';
 $messages['invalidhost'] = 'Neispravno ime servera.';
 $messages['nomessagesfound'] = 'Nema poruka u ovom sandučetu.';
-$messages['loggedout'] = 'Uspješno ste se odjavili. Doviđenja!';
 $messages['mailboxempty'] = 'Sanduče je prazno';
 $messages['nomessages'] = 'Nema poruka';
 $messages['refreshing'] = 'Osvježavam...';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa drugih servera
 $messages['encryptedmessage'] = 'Ova poruka je šifrirana i nije je moguće prikazati. Žao nam je!';
 $messages['nocontactsfound'] = 'Adresar je prazan.';
 $messages['contactnotfound'] = 'Traženi kontakt nije pronađen.';
-$messages['contactsearchonly'] = 'Unesite neki pojam za pretragu';
 $messages['sendingfailed'] = 'Greška pri slanju poruke.';
 $messages['senttooquickly'] = 'Molimo sačekajte $sec sekundi prije slanja ove poruke.';
 $messages['errorsavingsent'] = 'Desila se greška pri snimanju poslane poruke.';

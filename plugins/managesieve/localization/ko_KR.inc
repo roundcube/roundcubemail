@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = '필터';
 $labels['managefilters'] = '수신 메일 필터 관리';
 $labels['filtername'] = '필터명';
@@ -65,15 +65,9 @@ $labels['days'] = '일';
 $labels['seconds'] = '초';
 $labels['rulestop'] = '규칙 평가를 중단';
 $labels['enable'] = '활성화/비활성화';
-$labels['filterset'] = '필터 세트';
 $labels['filtersets'] = '필터 세트';
-$labels['filtersetadd'] = '필터 세트 추가';
-$labels['filtersetact'] = '현재 필터 세트 활성화';
-$labels['filtersetdeact'] = '현재 필터 세트 비활성화';
 $labels['filterseteditraw'] = '필터 세트 편집';
 $labels['filterdef'] = '필터 정의';
-$labels['filtersetname'] = '필터 세트명';
-$labels['newfilterset'] = '새 필터 세트';
 $labels['active'] = '활성화됨';
 $labels['none'] = '없음';
 $labels['fromset'] = '세트로부터';
@@ -163,20 +157,16 @@ $labels['asciicasemap'] = '대/소문자 구분 (ascii-casemap)';
 $labels['asciinumeric'] = '숫자 (ascii-numeric)';
 $labels['index'] = '색인:';
 $labels['indexlast'] = '역방향';
-$labels['vacation'] = '휴가';
 $labels['vacation.reply'] = '메시지 회신';
 $labels['vacation.advanced'] = '고급 설정';
 $labels['vacation.from'] = '회신 시 보내는 사람 주소';
 $labels['vacation.subject'] = '제목';
 $labels['vacation.body'] = '본문';
-$labels['vacation.start'] = '휴가 시작';
-$labels['vacation.end'] = '휴가 끝';
 $labels['vacation.status'] = '상태';
 $labels['vacation.on'] = '켬';
 $labels['vacation.off'] = '끔';
 $labels['vacation.addresses'] = '내 이메일 주소';
 $labels['vacation.interval'] = '회신 주기';
-$labels['vacation.after'] = '다음 이후에 휴가 규칙을 위치함';
 $labels['vacation.saving'] = '데이터를 저장하는 중...';
 $labels['vacation.action'] = '수신 메시지 동작';
 $labels['vacation.keep'] = '보관';
@@ -217,16 +207,6 @@ $messages['actiondeleteconfirm'] = '정말로 선택한 동작을 삭제하시�
 $messages['forbiddenchars'] = '필드에 금지된 문자가 존재합니다.';
 $messages['cannotbeempty'] = '필드는 비어둘 수 없습니다.';
 $messages['ruleexist'] = '지정한 이름의 필터가 이미 존재합니다.';
-$messages['setactivateerror'] = '선택한 필터 세트를 활성화할 수 없습니다. 서버 오류가 발생했습니다.';
-$messages['setdeactivateerror'] = '선택한 필터 세트를 비활성화할 수 없습니다. 서버 오류가 발생했습니다.';
-$messages['setdeleteerror'] = '선택한 필터 세트를 삭제할 수 없습니다. 서버 오류가 발생했습니다.';
-$messages['setactivated'] = '필터 세트가 성공적으로 활성화되었습니다.';
-$messages['setdeactivated'] = '필터 세트가 성공적으로 비활성화되었습니다.';
-$messages['setdeleted'] = '필터 세트가 성공적으로 삭제되었습니다.';
-$messages['setupdated'] = '필터 세트가 성공적으로 업데이트 됨.';
-$messages['setdeleteconfirm'] = '정말로 선택한 필터 세트를 삭제하시겠습니까?';
-$messages['setcreateerror'] = '선택한 필터 세트를 생성할 수 없습니다. 서버 오류가 발생했습니다.';
-$messages['setcreated'] = '필터 세트가 성공적으로 생성되었습니다.';
 $messages['activateerror'] = '선택한 필터를 활성화할 수 없습니다. 서버 오류가 발생했습니다.';
 $messages['deactivateerror'] = '선택한 필터를 비활성화할 수 없습니다. 서버 오류가 발생했습니다.';
 $messages['deactivated'] = '필터가 성공적으로 비활성화되었습니다.';
@@ -239,7 +219,5 @@ $messages['setexist'] = '세트가 이미 존재합니다.';
 $messages['nodata'] = '최소 하나의 위치가 선택되어야 합니다!';
 $messages['invaliddateformat'] = '유효하지 않은 날짜 또는 날짜 일부 형식';
 $messages['saveerror'] = '데이터를 저장할 수 없습니다.. 서버 오류가 발생했습니다.';
-$messages['vacationsaved'] = '휴가 데이터가 성공적으로 저장되었습니다.';
 $messages['emptyvacationbody'] = '휴가 메시지의 본문이 필요합니다!';
 $messages['duplicate.conflict.err'] = '머리글 및 유일 식별자가 허용되지 않음.';
-?>

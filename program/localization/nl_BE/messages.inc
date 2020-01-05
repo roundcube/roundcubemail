@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Er is een fout opgetreden!';
 $messages['loginfailed']  = 'Aanmelden mislukt.';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies.';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Geen vrije schijfruimte. Gebruik SHIFT+DEL 
 $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgeslagen.';
 $messages['invalidhost'] = 'Ongeldige server.';
 $messages['nomessagesfound'] = 'Er zijn geen berichten in deze map...';
-$messages['loggedout'] = 'U bent nu afgemeld. Tot ziens!';
 $messages['mailboxempty'] = 'Mailbox is leeg';
 $messages['nomessages'] = 'Geen berichten';
 $messages['refreshing'] = 'Bezig met vernieuwen...';
@@ -60,7 +58,6 @@ $messages['nopubkeyfor'] = 'Geen geldige publieke sleutel gevonden voor $email';
 $messages['encryptpubkeysfound'] = 'De volgende publieke sleutels werden gevonden:';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden.';
 $messages['contactnotfound'] = 'De gevraagde contactpersoon was niet gevonden.';
-$messages['contactsearchonly'] = 'Voer enkele zoektermen in om de contactpersonen te zoeken.';
 $messages['sendingfailed'] = 'Kon het bericht niet versturen.';
 $messages['senttooquickly'] = 'U moet $sec second(en) wachten om het bericht te versturen.';
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht.';

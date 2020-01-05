@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2009-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -37,6 +38,11 @@ class rcube_string_replacer
     protected $noword   = '[^\w@.#-]';
 
 
+    /**
+     * Object constructor
+     *
+     * @param array $options Configuration options
+     */
     function __construct($options = array())
     {
         // Simplified domain expression for UTF8 characters handling
@@ -62,7 +68,7 @@ class rcube_string_replacer
     /**
      * Add a string to the internal list
      *
-     * @param string String value
+     * @param string $str String value
      *
      * @return int Index of value for retrieval
      */
@@ -75,6 +81,10 @@ class rcube_string_replacer
 
     /**
      * Build replacement string
+     *
+     * @param string|int $i Replacement index
+     *
+     * @return string Replacement string
      */
     public function get_replacement($i)
     {
@@ -84,8 +94,10 @@ class rcube_string_replacer
     /**
      * Callback function used to build HTML links around URL strings
      *
-     * @param array Matches result from preg_replace_callback
-     * @return int Index of saved string value
+     * @param array $matches Matches result from preg_replace_callback
+     *
+     * @return string Return valid link for recognized schemes, otherwise
+     *                return the unmodified URL.
      */
     public function link_callback($matches)
     {
@@ -110,13 +122,15 @@ class rcube_string_replacer
             $this->urls[$i] = $attrib['href'];
         }
 
-        // Return valid link for recognized schemes, otherwise
-        // return the unmodified string for unrecognized schemes.
         return $i >= 0 ? $prefix . $this->get_replacement($i) : $matches[0];
     }
 
     /**
      * Callback to add an entry to the link index
+     *
+     * @param array $matches Matches result from preg_replace_callback
+     *
+     * @return string Replacement string
      */
     public function linkref_addindex($matches)
     {
@@ -128,6 +142,10 @@ class rcube_string_replacer
 
     /**
      * Callback to replace link references with real links
+     *
+     * @param array $matches Matches result from preg_replace_callback
+     *
+     * @return string Replacement string
      */
     public function linkref_callback($matches)
     {
@@ -144,9 +162,9 @@ class rcube_string_replacer
     /**
      * Callback function used to build mailto: links around e-mail strings
      *
-     * @param array Matches result from preg_replace_callback
+     * @param array $matches Matches result from preg_replace_callback
      *
-     * @return int Index of saved string value
+     * @return string Replacement string
      */
     public function mailto_callback($matches)
     {
@@ -161,7 +179,8 @@ class rcube_string_replacer
      * Look up the index from the preg_replace matches array
      * and return the substitution value.
      *
-     * @param array Matches result from preg_replace_callback
+     * @param array $matches Matches result from preg_replace_callback
+     *
      * @return string Value at index $matches[1]
      */
     public function replace_callback($matches)
@@ -190,6 +209,10 @@ class rcube_string_replacer
 
     /**
      * Replace substituted strings with original values
+     *
+     * @param string $str Text
+     *
+     * @return string Text
      */
     public function resolve($str)
     {
@@ -198,8 +221,12 @@ class rcube_string_replacer
 
     /**
      * Fixes bracket characters in URL handling
+     *
+     * @param string &$url URL
+     *
+     * @return string Suffix (the rest of the URL input)
      */
-    public static function parse_url_brackets(&$url)
+    protected static function parse_url_brackets(&$url)
     {
         // #1487672: special handling of square brackets,
         // URL regexp allows [] characters in URL, for example:

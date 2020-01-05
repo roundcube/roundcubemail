@@ -13,7 +13,7 @@
 					<div class="input-group">
 						<roundcube:object name="composeHeaders" part="from" id="_from" form="form" tabindex="1" class="form-control" />
 						<span class="input-group-append">
-							<a href="#identities" onclick="return rcmail.command('identities')" class="input-group-text icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
+							<a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')" class="input-group-text icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
 					</div>
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 					<div class="input-group">
 						<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
 						<span class="input-group-append">
-							<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 						</span>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="input-group">
 						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
 						<span class="input-group-append">
-							<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 						</span>
 					</div>
 				</div>
@@ -64,9 +64,9 @@
 
 <div id="headers-menu" class="popupmenu" data-popup-init="headersmenu">
 	<h3 id="aria-label-headersmenu" class="voice"><roundcube:label name="arialabelheadersmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-headersmenu">
-		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1"><roundcube:label name="cc" /></a></li>
-		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1"><roundcube:label name="bcc" /></a></li>
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-headersmenu">
+		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="cc" /></a></li>
+		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="bcc" /></a></li>
 	</ul>
 </div>
 

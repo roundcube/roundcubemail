@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/mark.inc                                           |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Mark the submitted messages with the specified flag                 |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -136,21 +134,14 @@ if ($_uids && $flag) {
                 $jump_back = true;
             }
 
+            foreach ($input as $mbox => $uids) {
+                rcmail_send_unread_count($mbox, true);
+            }
+
             // update message count display
             $OUTPUT->set_env('messagecount', $msg_count);
             $OUTPUT->set_env('current_page', $page);
             $OUTPUT->set_env('pagecount', $pages);
-
-            // update mailboxlist
-            $mbox         = $RCMAIL->storage->get_folder();
-            $unseen_count = $msg_count ? $RCMAIL->storage->count($mbox, 'UNSEEN') : 0;
-            $old_unseen   = rcmail_get_unseen_count($mbox);
-
-            if ($old_unseen != $unseen_count) {
-                $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
-                rcmail_set_unseen_count($mbox, $unseen_count);
-            }
-
             $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
             if ($threading) {

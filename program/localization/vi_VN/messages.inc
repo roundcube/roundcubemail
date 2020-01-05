@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Có lỗi xảy ra.';
 $messages['loginfailed']  = 'Không đăng nhập được';
 $messages['cookiesdisabled'] = 'Trình duyệt không hỗ trợ cookies';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Không còn dư chỗ trống trên ổ đ�
 $messages['invalidrequest'] = 'Yêu cầu không hợp lệ! Không có dữ liệu nào được lưu.';
 $messages['invalidhost'] = 'Sai thông tin tên máy chủ';
 $messages['nomessagesfound'] = 'Không thấy có thư nào trong hộp thư này.';
-$messages['loggedout'] = 'Phiên làm việc đã kết thúc thành công. Tạm biệt!';
 $messages['mailboxempty'] = 'Hộp thư rỗng';
 $messages['nomessages'] = 'Không có thư nào';
 $messages['refreshing'] = 'Nạp lại dữ liệu...';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Để bảo vệ tính riêng tư, chức năng hi
 $messages['encryptedmessage'] = 'Thư này được mã hóa, không thể xem. Rất tiếc!';
 $messages['nocontactsfound'] = 'Không tìm thấy liên hệ.';
 $messages['contactnotfound'] = 'Không tìm thấy liên lạc được yêu cầu';
-$messages['contactsearchonly'] = 'Gõ một vài từ tìm kiếm để tìm liên hệ';
 $messages['sendingfailed'] = 'Không gửi được thư';
 $messages['senttooquickly'] = 'Xin đợi vài giây trước khi gửi thư này';
 $messages['errorsavingsent'] = 'Có lỗi xảy ra khi lưu lại thư đã gửi.';

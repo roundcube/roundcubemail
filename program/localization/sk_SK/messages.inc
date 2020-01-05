@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Vyskytla sa chyba!';
 $messages['loginfailed']  = 'Prihlasovanie bolo neúspešné.';
 $messages['cookiesdisabled'] = 'Váš internetový prehliadač nepodporuje cookies, ktoré sú potrebné na prihlásenie.';
 $messages['sessionerror'] = 'Vaša relácia nie je platná alebo vypršala jej platnosť.';
+$messages['cookiesmismatch'] = 'Bola zistená nezhoda cookie. Prosím vyčistite súbory cookies vo vašom prehliadači.';
 $messages['storageerror'] = 'Nepodarilo sa spojiť s úložným serverom.';
 $messages['servererror'] = 'Chyba servera!';
 $messages['servererrormsg'] = 'Chyba servera: $msg';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = 'Nie je dostatok voľného miesta. Vymažte 
 $messages['invalidrequest'] = 'Neplatná požiadavka! Neuložili sa žiadne údaje.';
 $messages['invalidhost'] = 'Neplatný názov servera.';
 $messages['nomessagesfound'] = 'V tomto priečinku nie je žiadna správa.';
-$messages['loggedout'] = 'Odhlásenie prebehlo úspešne. Dovidenia.';
+$messages['loggedout'] = 'Relácia bola úspešne prerušená. Dovidenia!';
 $messages['mailboxempty'] = 'Schránka je prázdna';
 $messages['nomessages'] = 'Žiadne správy';
 $messages['refreshing'] = 'Obnovuje sa...';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Pre vašu identitu odosielateľa sa nenašiel 
 $messages['encryptnoattachments'] = 'Prílohy, ktoré ste už uložili na server, nie je možné zašifrovať. Prosím pridajte ich znovu, v editore pre šifrovanie.';
 $messages['searchpubkeyservers'] = 'Chcete vyhľadať servery s verejným kľúčom pre chýbajúce kľúče?';
 $messages['encryptpubkeysfound'] = 'Našli sa nasledujúce verejné kľúče:';
-$messages['keyservererror'] = 'Nepodarilo sa získať kľúč zo servera pre kľúče';
-$messages['keyimportsuccess'] = 'Verejný kľúč $key bol úspešne importovaný do okruhu vašich kľúčov';
+$messages['keyservererror'] = 'Nepodarilo sa získať kľúč zo servera pre kľúče.';
+$messages['keyimportsuccess'] = 'Verejný kľúč $key bol úspešne importovaný do okruhu vašich kľúčov.';
 $messages['nocontactsfound'] = 'Nenašli sa žiadne kontakty.';
 $messages['contactnotfound'] = 'Požadovaný kontakt sa nenašiel.';
-$messages['contactsearchonly'] = 'Zadajte nejaký výraz pre vyhľadanie kontaktov';
+$messages['contactsearchonly'] = 'Ak chcete vidieť kontakty z vybraného adresára, musíte použiť vyhľadávací formulár.';
 $messages['sendingfailed'] = 'Nepodarilo sa odoslať správu.';
 $messages['senttooquickly'] = 'Počkajte $sec sekúnd pred odoslaním tejto správy.';
 $messages['errorsavingsent'] = 'Počas ukladania odoslanej správy sa vyskytla chyba.';
@@ -83,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Naozaj chcete vymazať vybrané kontakty?'
 $messages['deletegroupconfirm']  = 'Naozaj chcete vymazať vybranú skupinu?';
 $messages['deletemessagesconfirm'] = 'Naozaj chcete vymazať vybrané správy?';
 $messages['deletefolderconfirm']  = 'Naozaj chcete vymazať tento priečinok?';
+$messages['movefolderconfirm']  = 'Naozaj chcete presunúť tento priečinok?';
 $messages['purgefolderconfirm']  = 'Naozaj chcete vyprázdniť tento priečinok?';
 $messages['contactdeleting'] = 'Vymazávajú sa kontakty...';
 $messages['groupdeleting'] = 'Vymazáva sa skupina...';
@@ -126,6 +127,7 @@ $messages['fileuploaderror'] = 'Nahrávanie súboru bolo neúspešné.';
 $messages['filesizeerror'] = 'Nahraný súbor prekročil maximálnu veľkosť $size.';
 $messages['filecounterror'] = 'Naraz je možné vykonať upload max. $count súborov.';
 $messages['msgsizeerror'] = 'Nepodarilo sa pripojiť súbor. Bola prekročená max. veľkosť správy ($size).';
+$messages['msgsizeerrorfwd'] = 'Došlo k prekročeniu maximálnej veľkosti správy ($size). Počet správ, ktoré neboli pripojené: $num.';
 $messages['copysuccess'] = 'Počet úspešne skopírovaných kontaktov: $nr.';
 $messages['movesuccess'] = 'Počet úspešne presunutých kontaktov: $nr.';
 $messages['copyerror'] = 'Kontakty nemožno kopírovať.';

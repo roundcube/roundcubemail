@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_LdapGeneric extends PHPUnit_Framework_TestCase
+class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
 {
 
     /**

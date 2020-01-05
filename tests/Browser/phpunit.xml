@@ -1,0 +1,30 @@
+<phpunit backupGlobals="false"
+    bootstrap="bootstrap.php"
+    colors="true">
+    <testsuites>
+        <testsuite name="Logon">
+            <file>Logon/Login.php</file>
+            <file>Logon/Logout.php</file>
+        </testsuite>
+        <testsuite name="Contacts">
+            <file>Contacts/Contacts.php</file>
+            <file>Contacts/Import.php</file>
+            <file>Contacts/Export.php</file>
+        </testsuite>
+        <testsuite name="Settings">
+            <file>Settings/Settings.php</file>
+            <file>Settings/Preferences.php</file>
+            <file>Settings/Preferences/General.php</file>
+            <file>Settings/Folders.php</file>
+            <file>Settings/Identities.php</file>
+            <file>Settings/Responses.php</file>
+            <file>Settings/About.php</file>
+        </testsuite>
+        <testsuite name="Mail">
+            <file>Mail/Mail.php</file>
+            <file>Mail/Compose.php</file>
+            <file>Mail/Getunread.php</file>
+            <file>Mail/List.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

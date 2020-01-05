@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Degouezhet ez eus bet ur fazi !';
 $messages['loginfailed']  = 'Kennaskañ c\'hwitet';
 $messages['cookiesdisabled'] = 'Nac\'h a ra ho merdeer an toupinoù';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Egor dieub ebet er gantenn. Grit Pennlizh.+
 $messages['invalidrequest'] = 'Azgoulenn didalvoudek! N\'ez eus bet enrollet roadenn ebet.';
 $messages['invalidhost'] = 'Anv dafariad didalvoudek';
 $messages['nomessagesfound'] = 'Kemennadenn ebet er voest lizhiri';
-$messages['loggedout'] = 'Digevreet hoc\'h eus mat. Kenavo !';
 $messages['mailboxempty'] = 'Goulo eo ar voest lizhiri';
 $messages['nomessages'] = 'Kemennadenn ebet';
 $messages['refreshing'] = 'Oc\'h azgrenaat...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'N\'ez eus bet kavet alc\'hwez foran talvoudek 
 $messages['encryptnoattachments'] = 'Ar c\'henstagadurioù pellgaset endeo n\'hallont ket bezañ enrineget. Ouzhpennit anezho en-dro en embanner enrinegañ.';
 $messages['searchpubkeyservers'] = 'Fellout a ra deoc\'h klask war lec\'h an alc\'hwezioù a vank en dafariadoù alc\'hwezioù foran?';
 $messages['encryptpubkeysfound'] = 'N\'eo ket bet kavet an alc\'hwezioù foran da-heul:';
-$messages['keyservererror'] = 'N\'eo ket bet kavet an alc\'hwez war an dafariad';
-$messages['keyimportsuccess'] = 'Enporzhiet eo bet an alc\'hwez foran $key en ho troñsell gant berzh';
 $messages['nocontactsfound'] = 'N\'eo ket bet kavet darempred ebet';
 $messages['contactnotfound'] = 'N\'eo ket bet kavet an darempred goulennet';
-$messages['contactsearchonly'] = 'Enankit termenoù evit klask darempredoù';
 $messages['sendingfailed'] = 'C\'hwitadenn en ur gas ar gemennadenn';
 $messages['senttooquickly'] = 'Gortozit $sec eilenn a-raok kas ar gemennadenn-mañ.';
 $messages['errorsavingsent'] = 'Ur fazi a zo c\'hoarvezet en ur enrollañ ar gemennadenn kaset.';
@@ -200,3 +195,4 @@ $messages['clicktoresumesession'] = 'Klikit aze evit kenderc\'hel gant ho estez 
 $messages['errcomposesession'] = 'Fazi e savidigezh an estez';
 $messages['errcomposesessionexplain'] = 'N\'eo ket bet kavet an estez azgoulennet';
 $messages['clicktocompose'] = 'Klikit aze evit skrivañ ur gemennadenn nevez';
+$messages['listempty'] = 'Goullo eo ar roll.';

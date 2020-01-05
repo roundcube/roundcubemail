@@ -2,9 +2,9 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.4-git                                                         |
+ | Version 1.5-git                                                         |
  |                                                                         |
- | Copyright (C) 2005-2018, The Roundcube Dev Team                         |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -44,7 +44,7 @@ $RCMAIL = rcmail::get_instance(0, $GLOBALS['env']);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
-$RCMAIL->output->common_headers();
+$RCMAIL->output->common_headers(!empty($_SESSION['user_id']));
 
 // turn on output buffering
 ob_start();
@@ -103,7 +103,7 @@ $RCMAIL->action = $startup['action'];
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
-    $pass_charset  = $RCMAIL->config->get('password_charset', 'ISO-8859-1');
+    $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
 
     // purge the session in case of new login when a session already exists
     $RCMAIL->kill_session();
@@ -205,24 +205,14 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
 else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
-        $session_error = true;
+        $session_error = 'sessionerror';
     }
 }
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-    // log session failures
-    $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
-
-    if ($task && !in_array($task, array('login','logout'))
-        && !$session_error && ($sess_id = $_COOKIE[ini_get('session.name')])
-    ) {
-        $RCMAIL->session->log("Aborted session $sess_id; no valid session data found");
-        $session_error = true;
-    }
-
-    if ($session_error || $_REQUEST['_err'] == 'session') {
-        $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
+    if ($session_error || $_REQUEST['_err'] === 'session' || ($session_error = $RCMAIL->session_error())) {
+        $OUTPUT->show_message($session_error ?: 'sessionerror', 'error', null, true, -1);
     }
 
     if ($OUTPUT->ajax_call || $OUTPUT->get_env('framed')) {
@@ -241,11 +231,16 @@ if (empty($RCMAIL->user->ID)) {
         ));
     }
 
-    $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array('task' => 'login', 'error' => $session_error));
+    $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array(
+            'task'      => 'login',
+            'error'     => $session_error,
+            // Return 401 only on failed logins (#7010)
+            'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200
+    ));
 
     $RCMAIL->set_task($plugin['task']);
 
-    if (!$session_error) {
+    if ($plugin['http_code'] == 401) {
         header('HTTP/1.0 401 Unauthorized');
     }
 

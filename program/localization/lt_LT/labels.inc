@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Sveiki! Čia $product';
 $labels['username'] = 'Naudotojo vardas';
 $labels['password'] = 'Slaptažodis';
@@ -147,6 +147,7 @@ $labels['last'] = 'Paskutinis';
 $labels['previous'] = 'Ankstesnis';
 $labels['next'] = 'Sekantis';
 $labels['select'] = 'Pažymėti';
+$labels['selection'] = 'Žymėjimas';
 $labels['all'] = 'visus';
 $labels['none'] = 'Nieko';
 $labels['currpage'] = 'matomus šiame puslapyje';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'išskleisti visas';
 $labels['expand-unread'] = 'išskleisti turinčias neskaitytų laiškų';
 $labels['collapse-all'] = 'suskleisti visas';
 $labels['threaded'] = 'Rodyti gijas';
+$labels['showunread'] = 'Rodyti neskaitytus laiškus';
 $labels['autoexpand_threads'] = 'Išskleisti gijas';
 $labels['do_expand'] = 'visas';
 $labels['expand_only_unread'] = 'tik turinčias neskaitytų laiškų';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Veiksmai su aplankais…';
 $labels['compact'] = 'Suglaudinti';
 $labels['empty'] = 'Ištuštinti';
 $labels['importmessages'] = 'Importuoti laiškus';
+$labels['mailimportdesc'] = 'Jūs galite įkelti paštą, naudodami failus <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ar <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> formatu.';
+$labels['mailimportzip'] = 'Keli failai gali būti suglaudinti į zip archyvus.';
 $labels['quota'] = 'Disko naudojimas';
 $labels['unknown'] = 'nežinomas';
 $labels['unlimited'] = 'neribotas';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Nebegalioja';
 $labels['keyrevoked'] = 'Atšauktas';
 $labels['bccinstead'] = 'Naudoti Bcc';
 $labels['addheader'] = 'Pridėti gavėją (antraštė)';
+$labels['insert'] = 'Įterpti';
+$labels['insertcontact'] = 'Įterpti adresatą(-us)';
 $labels['recipient'] = 'Gavėjas';
 $labels['recipientedit'] = 'Gavėjo taisymas';
 $labels['editidents'] = 'Tvarkyti tapatybes';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Visada rodyti paveikslėlius $sender laiškuose';
 $labels['alwaysallow'] = 'Visada leisti nuo $sender';
 $labels['isdraft'] = 'Tai – laiško juodraštis.';
 $labels['andnmore'] = '$nr daugiau...';
+$labels['details'] = 'Išsamiau';
 $labels['headers'] = 'Antraštės';
-$labels['envelope'] = 'Vokas';
+$labels['allheaders'] = 'Visos antraštės...';
 $labels['togglemoreheaders'] = 'Rodyti daugiau antraščių';
 $labels['togglefullheaders'] = 'Įjungti/išjungti neapdorotas laiškų antraštes';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Pervardinti';
 $labels['addphoto'] = 'Pridėti';
 $labels['replacephoto'] = 'Pakeisti';
 $labels['uploadphoto'] = 'Įkelti nuotrauką';
+$labels['choosefile'] = 'Pasirinkti failą...';
+$labels['choosefiles'] = 'Pasirinkti failus...';
+$labels['browse'] = 'Naršyti';
 $labels['newcontact'] = 'Sukurti naują adresatą';
 $labels['deletecontact'] = 'Ištrinti pažymėtus adresatus';
 $labels['composeto'] = 'Rašyti laišką';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Perrašyti visą adresų knygą';
 $labels['importgroups'] = 'Importuoti priskyrimus grupėms';
 $labels['importgroupsall'] = 'Visus (sukurti trūkstamas grupes)';
 $labels['importgroupsexisting'] = 'Tik esamoms grupėms';
-$labels['importdesc'] = 'Galite įkelti kontaktus iš jau turimos adresų knygos. <br/>Šiuo metu galima importuoti kontaktus iš <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> arba CSV (comma-separated) duomenų formatų.';
+$labels['importdesc'] = 'Galite įkelti kontaktus iš jau turimos adresų knygos.<br/>Šiuo metu galima importuoti kontaktus iš <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ar CSV (comma-separated) duomenų formatų.';
 $labels['done'] = 'Baigta';
 $labels['settingsfor'] = 'Nuostatos';
 $labels['about'] = 'Apie';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Papildomos nuostatos';
 $labels['toggleadvancedoptions'] = 'Rodyti/slėpti papildomus nustatymus';
 $labels['focusonnewmessage'] = 'Fokusuoti naršyklės langą gavus naują laišką';
 $labels['checkallfolders'] = 'Naujų laiškų ieškoti visuose aplankuose';
-$labels['displaynext'] = 'Rodyti pranešimą pašalinus/perkėlus laišką';
+$labels['displaynext'] = 'Rodyti kitą sąrašo įrašą ištrinus/perkėlus';
 $labels['defaultfont'] = 'Numatytasis HTML laiškų šriftas';
 $labels['mainoptions'] = 'Pagrindinės nuostatos';
 $labels['browseroptions'] = 'Naršyklės nuostatos';
@@ -619,6 +629,7 @@ $labels['chinese'] = 'Kinų';
 $labels['arialabeltopnav'] = 'Lango valdymas';
 $labels['arialabeltasknav'] = 'Aplikacijos užduotys';
 $labels['arialabeltoolbar'] = 'Aplikacijos įrankių juosta';
+$labels['arialabellistnav'] = 'Naršymas sąraše';
 $labels['arialabelactivetask'] = 'Aktyvi užduotis';
 $labels['arialabelmessagessearchfilter'] = 'Laiškų sąrašo filtras';
 $labels['arialabelmailsearchform'] = 'El. laiško paieškos forma';
@@ -671,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Rodyklė dešinėn / kairėn: išsklei
 Įvesti: atverti pasirinktą / sufokusuotą laišką.
 Šalinti: perkelti pasirinktus laiškus į Šiukšlinę.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Atidaryti pasirinktą adresatą";
-?>

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ocurreu un erro!';
 $messages['loginfailed']  = 'O contrasinal ou o nome de utente son incorrectos.';
 $messages['cookiesdisabled'] = 'O teu navegador non acepta cookies.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Non hai espazo no disco. Usa Maiúsculas+Su
 $messages['invalidrequest'] = 'Petición non válida! Non se gardou ningún dato.';
 $messages['invalidhost'] = 'O nome do servidor non é válido.';
 $messages['nomessagesfound'] = 'Non se atoparon mensaxes nesta caixa de correo.';
-$messages['loggedout'] = 'Rematou correctamente a tú sesión. Até logo!';
 $messages['mailboxempty'] = 'O cartafol está baleiro';
 $messages['nomessages'] = 'Non hai mensaxes';
 $messages['refreshing'] = 'A refrescar...';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Estanse a bloquear as imaxes remotas para protexer
 $messages['encryptedmessage'] = 'Sentímolo! Non se pode amosar a mensaxe porque está cifrada.';
 $messages['nocontactsfound'] = 'Non se atoparon contactos.';
 $messages['contactnotfound'] = 'Non se atopou o contacto solicitado.';
-$messages['contactsearchonly'] = 'Introduce algún termo para atopar contactos';
 $messages['sendingfailed'] = 'Fallou o envío da mensaxe.';
 $messages['senttooquickly'] = 'Por favor, espera $sec segundos antes de enviar esta mensaxe.';
 $messages['errorsavingsent'] = 'Houbo un erro ao gardar a mensaxe enviada.';

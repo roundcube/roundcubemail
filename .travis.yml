@@ -1,5 +1,6 @@
 language: php
 
+dist: trusty #
 sudo: false
 
 matrix:
@@ -12,18 +13,25 @@ matrix:
     - php: 7.1
       env: CODE_COVERAGE=1
     - php: 7.2
+    - php: 7.3
+      dist: bionic # for proper node-less version
+      env: BROWSER_TESTS=1
+      addons:
+        chrome: stable
+        apt:
+          packages:
+            - node-less
+    - php: 7.4
 
 cache:
   directories:
     - $HOME/.composer
 
 install:
-  - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
-  - cp composer.json-dist composer.json
-  - composer install --prefer-dist
+  - .ci/install.sh
 
 script:
-  - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
+  - .ci/run.sh
 
 notifications:
   email: false

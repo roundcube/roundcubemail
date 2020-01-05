@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Enriched extends PHPUnit_Framework_TestCase
+class Framework_Enriched extends PHPUnit\Framework\TestCase
 {
 
     /**

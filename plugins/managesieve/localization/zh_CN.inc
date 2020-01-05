@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = '过滤器';
 $labels['managefilters'] = '管理邮件过滤规则';
 $labels['filtername'] = '过滤规则名称';
@@ -75,17 +75,9 @@ $labels['days'] = '天';
 $labels['seconds'] = '秒';
 $labels['rulestop'] = '停止评价规则';
 $labels['enable'] = '启用/禁用';
-$labels['filterset'] = '过滤器设置';
 $labels['filtersets'] = '过滤器设置集';
-$labels['filtersetadd'] = '增加过滤器设置集';
-$labels['filtersetdel'] = '删除过滤器设置集';
-$labels['filtersetact'] = '激活当前的过滤器设置集';
-$labels['filtersetdeact'] = '停用当前的过滤器设置集';
 $labels['filterseteditraw'] = '编辑过滤器设置集';
-$labels['filtersetswitch'] = '启用/禁用过滤器集';
 $labels['filterdef'] = '过滤器定义';
-$labels['filtersetname'] = '过滤器集的名称';
-$labels['newfilterset'] = '新的过滤器集';
 $labels['active'] = '启用';
 $labels['none'] = '无';
 $labels['fromset'] = '从设置集';
@@ -175,20 +167,16 @@ $labels['asciicasemap'] = '不区分大小写(ascii 字符)';
 $labels['asciinumeric'] = '数字类型(ascii 数字)';
 $labels['index'] = '索引：';
 $labels['indexlast'] = '向后';
-$labels['vacation'] = '假期';
 $labels['vacation.reply'] = '回复消息';
 $labels['vacation.advanced'] = '高级设置';
 $labels['vacation.from'] = '回复发件人地址';
 $labels['vacation.subject'] = '主题';
 $labels['vacation.body'] = '正文';
-$labels['vacation.start'] = '假期开始';
-$labels['vacation.end'] = '假期结束';
 $labels['vacation.status'] = '状态';
 $labels['vacation.on'] = '开';
 $labels['vacation.off'] = '关';
 $labels['vacation.addresses'] = '我的电子邮件地址';
 $labels['vacation.interval'] = '回复间隔';
-$labels['vacation.after'] = '将假期规则放在...之后';
 $labels['vacation.saving'] = '正在保存数据...';
 $labels['vacation.action'] = '传入邮件操作';
 $labels['vacation.keep'] = '保留';
@@ -233,16 +221,6 @@ $messages['actiondeleteconfirm'] = '您确定要删除所选择的操作吗？';
 $messages['forbiddenchars'] = '内容包含禁用字符';
 $messages['cannotbeempty'] = '内容不能为空';
 $messages['ruleexist'] = '指定过滤器名称已存在。';
-$messages['setactivateerror'] = '无法激活选定过滤器集。发生服务器错误。';
-$messages['setdeactivateerror'] = '无法取消激活选定过滤器集。发生服务器错误。';
-$messages['setdeleteerror'] = '无法删除选定过滤器集。发生服务器错误。';
-$messages['setactivated'] = '启用过滤器集成功。';
-$messages['setdeactivated'] = '禁用过滤器集成功。';
-$messages['setdeleted'] = '删除过滤器成功。';
-$messages['setupdated'] = '过滤器设置更新成功。';
-$messages['setdeleteconfirm'] = '您确定要删除指定的过滤器吗？';
-$messages['setcreateerror'] = '无法创建过滤器集。发生服务器错误。';
-$messages['setcreated'] = '过滤器成功创建。';
 $messages['activateerror'] = '无法启用选定过滤器。发生服务器错误。';
 $messages['deactivateerror'] = '无法禁用选定过滤器。发生服务器错误。';
 $messages['deactivated'] = '启用过滤器成功。';
@@ -255,9 +233,7 @@ $messages['setexist'] = '设置已存在。';
 $messages['nodata'] = '至少选择一个位置！';
 $messages['invaliddateformat'] = '无效的日期或日期格式';
 $messages['saveerror'] = '无法保存数据。发生服务器错误。';
-$messages['vacationsaved'] = '假期数据保存成功。';
 $messages['forwardsaved'] = '转发数据保存成功';
 $messages['emptyvacationbody'] = '假期消息必须有正文！';
 $messages['duplicate.conflict.err'] = '不允许头和唯一标识符。';
 $messages['disabledaction'] = '不能执行此操作。';
-?>

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '¡Hebo un fallu!';
 $messages['loginfailed']  = 'Contraseña o nome d\'usuariu incorreutu.';
 $messages['cookiesdisabled'] = 'El to restolador nun aceuta cookies.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Nun queda espaciu nel discu. Usa Shift+Supr
 $messages['invalidrequest'] = 'Fallu de la solicitú. Nun se guardaron datos.';
 $messages['invalidhost'] = 'Nome de sirvidor inválidu.';
 $messages['nomessagesfound'] = 'Nun s\'atoparon mensaxes na bandexa';
-$messages['loggedout'] = 'Zarrasti la sesión. Ta llueu!';
 $messages['mailboxempty'] = 'La bandexa de corréu ta balera';
 $messages['nomessages'] = 'Nun hai mensaxes';
 $messages['refreshing'] = 'Anovando...';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Pa protexer la to privacidá, torgáronse les imá
 $messages['encryptedmessage'] = 'Esti ye un mensaxe cifráu y nun soi a amosalu. ¡Sentímoslo!';
 $messages['nocontactsfound'] = 'Nun doi con dengún contautu';
 $messages['contactnotfound'] = 'Nun s\'atopa\'l contautu solicitáu.';
-$messages['contactsearchonly'] = 'Introduz dalgún criteriu pa guetar contautos';
 $messages['sendingfailed'] = 'Falló l\'unviu del mensaxe';
 $messages['senttooquickly'] = 'Por favor espera $sec segundu/os enantes d\'unviar esti mensaxe.';
 $messages['errorsavingsent'] = 'Hebo un fallu al guardar el mensaxe unviáu.';

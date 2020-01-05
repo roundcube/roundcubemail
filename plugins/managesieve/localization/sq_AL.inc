@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtra';
 $labels['managefilters'] = 'Administroni filtra për postë ardhëse';
 $labels['filtername'] = 'Emër filtri';
@@ -77,12 +77,12 @@ $labels['rulestop'] = 'Ndale mbikëqyrjen e rregullave';
 $labels['enable'] = 'Aktivizoje/Çaktivizoje';
 $labels['filterset'] = 'Grup filtrash';
 $labels['filtersets'] = 'Grupe filtrash';
-$labels['filtersetadd'] = 'Shto grup filtrash';
-$labels['filtersetdel'] = 'Fshi grup filtrash';
+$labels['filtersetadd'] = 'Shtoni grup filtrash';
+$labels['filtersetdel'] = 'Fshije grupin e filtrave';
 $labels['filtersetact'] = 'Aktivizo grupin e tanishëm të filtrave';
 $labels['filtersetdeact'] = 'Çaktivizo grupin e tanishëm të filtrave';
 $labels['filterseteditraw'] = 'Përpunoni grup filtrash';
-$labels['filtersetswitch'] = 'Aktivizo/çaktivizo grup filtrash';
+$labels['filtersetswitch'] = 'Aktivizoni/çaktivizoni grup filtrash';
 $labels['filterdef'] = 'Përkufizim filtri';
 $labels['filtersetname'] = 'Emër grupi filtrash';
 $labels['newfilterset'] = 'Grup i ri filtrash';
@@ -91,6 +91,7 @@ $labels['none'] = 'asnjë';
 $labels['fromset'] = 'prej grupi';
 $labels['fromfile'] = 'prej kartele';
 $labels['filterdisabled'] = 'Filtër i çaktivizuar';
+$labels['filterenabled'] = 'Filtri u aktivizua';
 $labels['countisgreaterthan'] = 'numri është më i madh se';
 $labels['countisgreaterthanequal'] = 'numri është më i madh ose baras me';
 $labels['countislessthan'] = 'numri është më i vogël se';
@@ -111,6 +112,18 @@ $labels['flagdeleted'] = 'I fshirë';
 $labels['flaganswered'] = 'Me përgjigje';
 $labels['flagflagged'] = 'Me shenjë';
 $labels['flagdraft'] = 'Skicë';
+$labels['addheader'] = 'Shto krye te mesazhi';
+$labels['deleteheader'] = 'Hiq kryet nga mesazhi';
+$labels['headername'] = 'Emër kryesh';
+$labels['headervalue'] = 'Vlerë kryesh';
+$labels['headerpos'] = 'Pozicion kryesh';
+$labels['headeratstart'] = 'në fillim';
+$labels['headeratend'] = 'në fund';
+$labels['headeroccurrence'] = 'Hasje/pozicion kryeje';
+$labels['headerfromstart'] = 'nga fillimi';
+$labels['headerfromend'] = 'nga fundi';
+$labels['headerpatterns'] = 'Rregullsi vlere kryesh';
+$labels['headermatchtype'] = 'lloj përputhjeje:';
 $labels['setvariable'] = 'Caktoni ndryshore';
 $labels['setvarname'] = 'Emër ndryshoreje:';
 $labels['setvarvalue'] = 'Vlerë ndryshoreje:';
@@ -175,20 +188,20 @@ $labels['asciicasemap'] = 'i pavarur nga shkrimi me të mëdha apo të vogla (as
 $labels['asciinumeric'] = 'numerike (ascii-numeric)';
 $labels['index'] = 'tregues:';
 $labels['indexlast'] = 'mbrapsht';
-$labels['vacation'] = 'Pushime';
+$labels['vacation'] = 'Jo Në Zyrë';
 $labels['vacation.reply'] = 'Mesazh përgjigjeje';
 $labels['vacation.advanced'] = 'Rregullime të mëtejshme';
 $labels['vacation.from'] = 'Adresë dërguesi për përgjigje';
 $labels['vacation.subject'] = 'Subjekt';
 $labels['vacation.body'] = 'Lëndë';
-$labels['vacation.start'] = 'Pushimet fillojnë';
-$labels['vacation.end'] = 'Pushimet mbarojnë';
+$labels['vacation.start'] = 'Kohë fillimi';
+$labels['vacation.end'] = 'Kohë përfundimi';
 $labels['vacation.status'] = 'Gjendje';
 $labels['vacation.on'] = 'On';
 $labels['vacation.off'] = 'Off';
 $labels['vacation.addresses'] = 'Adresat e mia email';
 $labels['vacation.interval'] = 'Interval përgjigjeje';
-$labels['vacation.after'] = 'Vendose rregullin për pushimet pas';
+$labels['vacation.after'] = 'Vendose rregullin "jashtë zyre" pas';
 $labels['vacation.saving'] = 'Po ruhen të dhënat…';
 $labels['vacation.action'] = 'Veprim për mesazh ardhës';
 $labels['vacation.keep'] = 'Mbaje';
@@ -254,9 +267,9 @@ $messages['setexist'] = 'Ka tashmë një grup të tillë.';
 $messages['nodata'] = 'Duhet përzgjedhur të paktën një pozicion!';
 $messages['invaliddateformat'] = 'Format i pavlefshëm date ose pjese date';
 $messages['saveerror'] = 'S’arrihet të ruhen të dhëna. Ndodhi një gabim shërbyesi.';
-$messages['vacationsaved'] = 'Data e pushimeve u ruajt me sukses.';
+$messages['vacationsaved'] = 'Të dhënat "jashtë zyre" u ruajtën me sukses.';
 $messages['forwardsaved'] = 'Të dhënat e përcjelljes u ruajtën me sukses.';
 $messages['emptyvacationbody'] = 'Lënda e mesazhit të pushimeve është e domosdoshme!';
 $messages['duplicate.conflict.err'] = 'S’lejohet përdorimi i njëkohshëm i kryes dhe identifikuesit unik.';
 $messages['disabledaction'] = 'Veprim jo i lejuar.';
-?>
+$messages['lastindexempty'] = 'Treguesi është i domosdoshëm kur numërohet nga fundi';

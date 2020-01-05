@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Ласкаво просимо до $product';
 $labels['username'] = 'Ім\'я користувача';
 $labels['password'] = 'Пароль';
@@ -235,6 +235,7 @@ $labels['keyid'] = 'ID ключа';
 $labels['keylength'] = 'Біти';
 $labels['keyexpired'] = 'Закінчився';
 $labels['keyrevoked'] = 'Відкликаний';
+$labels['insert'] = 'Вставити';
 $labels['recipient'] = 'Отримувач';
 $labels['editidents'] = 'Змінити дані';
 $labels['spellcheck'] = 'Орфографія';
@@ -387,7 +388,6 @@ $labels['importreplace'] = 'Замінити всю адресну книгу';
 $labels['importgroups'] = 'Імпортувати розподіл за групами';
 $labels['importgroupsall'] = 'Усі (створити групи за потреби)';
 $labels['importgroupsexisting'] = 'Лише для наявних груп';
-$labels['importdesc'] = 'Ви можете завантажити контакти з наявної адресної книги.<br/>Наразі ми підтримуємо імпорт адрес у форматі візитної картки <a href="http://en.wikipedia.org/wiki/VCard"> vCard</ a> або CSV (дані, розділені комами).';
 $labels['done'] = 'Готово';
 $labels['settingsfor'] = 'Налаштування для';
 $labels['about'] = 'Про програму';
@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Додаткові параметри';
 $labels['toggleadvancedoptions'] = 'Перемкнути додаткові параметри';
 $labels['focusonnewmessage'] = 'Фокусувати вікно браузера при новому листі';
 $labels['checkallfolders'] = 'Перевіряти нові листи у всіх теках';
-$labels['displaynext'] = 'Після видалення/переміщення листа відображати наступний';
 $labels['defaultfont'] = 'Типовий шрифт HTML повідомлення';
 $labels['mainoptions'] = 'Основні налаштування';
 $labels['browseroptions'] = 'Налаштування браузера';
@@ -608,4 +607,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрілки вправо/вліво
 Enter: Відкрити обране/підсвічене повідомлення.
 Delete: Перемістити обрані повідомлення у Кошик.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Відкрити обраний/підсвічений контакт.";
-?>

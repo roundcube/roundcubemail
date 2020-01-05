@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bienvenue à $product';
 $labels['username'] = 'Nom d’utilisateur';
 $labels['password'] = 'Mot de passe';
@@ -44,7 +44,7 @@ $labels['size'] = 'Taille';
 $labels['priority'] = 'Priorité';
 $labels['organization'] = 'Organisation';
 $labels['readstatus'] = 'État de lecture';
-$labels['listoptions'] = 'Options de liste...';
+$labels['listoptions'] = 'Options de liste…';
 $labels['listoptionstitle'] = 'Options de liste';
 $labels['mailboxlist'] = 'Dossiers';
 $labels['messagesfromto'] = 'Courriels de $from à $to sur $count';
@@ -53,8 +53,8 @@ $labels['messagenrof'] = 'Courriel $nr sur $count';
 $labels['fromtoshort'] = '$from – $to de $count';
 $labels['copy'] = 'Copier';
 $labels['move'] = 'Déplacer';
-$labels['moveto'] = 'Déplacer vers...';
-$labels['copyto'] = 'Copier vers...';
+$labels['moveto'] = 'Déplacer vers…';
+$labels['copyto'] = 'Copier vers…';
 $labels['download'] = 'Télécharger';
 $labels['open'] = 'Ouvrir';
 $labels['showattachment'] = 'Afficher';
@@ -107,7 +107,7 @@ $labels['compose'] = 'Rédiger';
 $labels['writenewmessage'] = 'Créer un nouveau courriel';
 $labels['reply'] = 'Répondre';
 $labels['replytomessage'] = 'Répondre à l’expéditeur';
-$labels['replytoallmessage'] = 'Répondre à la liste, ou à l’expéditeur et à tous les destinataires';
+$labels['replytoallmessage'] = 'Répondre à la liste ou à l’expéditeur et à tous les destinataires';
 $labels['replyall'] = 'Répondre à tous';
 $labels['replylist'] = 'Répondre à la liste';
 $labels['forward'] = 'Transférer';
@@ -131,7 +131,7 @@ $labels['markread'] = 'Comme lu';
 $labels['markunread'] = 'Comme non lu';
 $labels['markflagged'] = 'Comme signalé';
 $labels['markunflagged'] = 'Comme non signalé';
-$labels['moreactions'] = 'Plus d’actions...';
+$labels['moreactions'] = 'Plus d’actions…';
 $labels['markallread'] = 'Tout marquer comme lu';
 $labels['folders-cur'] = 'Dossier sélectionné seulement';
 $labels['folders-sub'] = 'Dossier sélectionné et ses sous-dossiers';
@@ -147,6 +147,7 @@ $labels['last'] = 'Dernier';
 $labels['previous'] = 'Précédent';
 $labels['next'] = 'Suivant';
 $labels['select'] = 'Sélectionner';
+$labels['selection'] = 'Sélection';
 $labels['all'] = 'Tous';
 $labels['none'] = 'Aucun';
 $labels['currpage'] = 'Page courante';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Tout afficher';
 $labels['expand-unread'] = 'Afficher les non lus';
 $labels['collapse-all'] = 'Fermer tous';
 $labels['threaded'] = 'Par fil';
+$labels['showunread'] = 'Afficher les courriels non lus';
 $labels['autoexpand_threads'] = 'Développer les fils de courriel';
 $labels['do_expand'] = 'Tous les fils';
 $labels['expand_only_unread'] = 'seulement avec des courriels non lus';
@@ -190,11 +192,13 @@ $labels['layoutdesktop'] = 'Bureau';
 $labels['layoutlist'] = 'Liste';
 $labels['layoutwidescreendesc'] = 'Écran large (vue sur 3 colonnes)';
 $labels['layoutdesktopdesc'] = 'Bureau (liste large et aperçu des courriels dessous)';
-$labels['layoutlistdesc'] = 'Liste (pas d’aperçu de courriels)';
-$labels['folderactions'] = 'Actions sur les dossiers...';
+$labels['layoutlistdesc'] = 'Liste (pas d’aperçu des courriels)';
+$labels['folderactions'] = 'Actions sur les dossiers…';
 $labels['compact'] = 'Compacter';
 $labels['empty'] = 'Vider';
 $labels['importmessages'] = 'Importer des courriels';
+$labels['mailimportdesc'] = 'Vous pouvez téléverser des courriels en utilisant des fichiers au format <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ou <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Les fichiers multiples peuvent être compressés en fichiers zip.';
 $labels['quota'] = 'Utilisation du disque';
 $labels['unknown'] = 'inconnue';
 $labels['unlimited'] = 'illimitée';
@@ -207,7 +211,7 @@ $labels['shortheaderdate'] = 'Le $date';
 $labels['shortheaderto'] = 'À $to, le $date';
 $labels['shortheaderfrom'] = 'De $from, le $date';
 $labels['quicksearch'] = 'Recherche rapide';
-$labels['searchplaceholder'] = 'Recherche...';
+$labels['searchplaceholder'] = 'Recherche…';
 $labels['resetsearch'] = 'Réinitialiser la recherche';
 $labels['searchmod'] = 'Modificateurs de recherche';
 $labels['msgtext'] = 'Courriel entier';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Expirée';
 $labels['keyrevoked'] = 'Révoquée';
 $labels['bccinstead'] = 'Utiliser la Cci';
 $labels['addheader'] = 'Ajouter un destinataire (en-tête)';
+$labels['insert'] = 'Insérer';
+$labels['insertcontact'] = 'Insérer des contacts';
 $labels['recipient'] = 'Destinataire';
 $labels['recipientedit'] = 'Modification du destinataire';
 $labels['editidents'] = 'Éditer les identités';
@@ -263,7 +269,7 @@ $labels['checkspelling'] = 'Vérification de l’orthographe';
 $labels['resumeediting'] = 'Retourner à l’édition';
 $labels['revertto'] = 'Revenir à';
 $labels['restore'] = 'Restaurer';
-$labels['restoremessage'] = 'Restaurer le courriel ?';
+$labels['restoremessage'] = 'Restaurer le courriel ?';
 $labels['ignore'] = 'Ignorer';
 $labels['responses'] = 'Réponses';
 $labels['insertresponse'] = 'Insérer une réponse';
@@ -279,7 +285,7 @@ $labels['attachments'] = 'Pièces jointes';
 $labels['upload'] = 'Téléverser';
 $labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close'] = 'Fermer';
-$labels['messageoptions'] = 'Options de courriel..';
+$labels['messageoptions'] = 'Options de courriel…';
 $labels['togglecomposeoptions'] = 'Activer/désactiver les options de rédaction';
 $labels['attachmentrename'] = 'Renommer la pièce jointe';
 $labels['low'] = 'Basse';
@@ -293,9 +299,10 @@ $labels['allow'] = 'Autoriser';
 $labels['alwaysshow'] = 'Toujours afficher les images de $sender';
 $labels['alwaysallow'] = 'Toujours autoriser de $sender';
 $labels['isdraft'] = 'Ceci est un brouillon.';
-$labels['andnmore'] = '$nr de plus...';
+$labels['andnmore'] = '$nr de plus…';
+$labels['details'] = 'Détails';
 $labels['headers'] = 'En-têtes';
-$labels['envelope'] = 'Enveloppe';
+$labels['allheaders'] = 'Tous les en-têtes…';
 $labels['togglemoreheaders'] = 'Afficher plus d’en-têtes de courriels';
 $labels['togglefullheaders'] = 'Afficher/masquer les en-têtes brutes de courriels';
 $labels['htmltoggle'] = 'HTML';
@@ -307,10 +314,10 @@ $labels['addcc'] = 'Ajouter Cc';
 $labels['addbcc'] = 'Ajouter une Cci';
 $labels['addreplyto'] = 'Ajouter Répondre à';
 $labels['addfollowupto'] = 'Ajouter Transférer à';
-$labels['mdnrequest'] = 'L’expéditeur de ce courriel a demandé d’être prévenu quand vous le lirez. Souhaitez-vous prévenir l’expéditeur ?';
+$labels['mdnrequest'] = 'L’expéditeur de ce courriel a demandé d’être prévenu quand vous le lirez. Souhaitez-vous prévenir l’expéditeur ?';
 $labels['receiptread'] = 'Avis de réception (lu)';
 $labels['yourmessage'] = 'Ceci est un avis de réception pour votre courriel';
-$labels['receiptnote'] = 'Note : cet avis indique seulement que le courriel a été affiché sur l’ordinateur du destinataire. Il n’y a aucune garantie que le destinataire ait lu ou compris le contenu du courriel.';
+$labels['receiptnote'] = 'Note : Cet avis indique seulement que le courriel a été affiché sur l’ordinateur du destinataire. Il n’y a aucune garantie que le destinataire ait lu ou compris le contenu du courriel.';
 $labels['zoomin'] = 'Zoom avant';
 $labels['zoomout'] = 'Zoom arrière';
 $labels['rotate'] = 'Rotation';
@@ -370,7 +377,7 @@ $labels['typeassistant'] = 'Assistant';
 $labels['typehomepage'] = 'Page d’accueil';
 $labels['typeblog'] = 'Blogue';
 $labels['typeprofile'] = 'Profil';
-$labels['addfield'] = 'Ajouter un champ...';
+$labels['addfield'] = 'Ajouter un champ…';
 $labels['addcontact'] = 'Ajouter un contact';
 $labels['editcontact'] = 'Modifier le contact';
 $labels['contacts'] = 'Contacts';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Renommer';
 $labels['addphoto'] = 'Ajouter';
 $labels['replacephoto'] = 'Remplacer';
 $labels['uploadphoto'] = 'Téléverser une photo';
+$labels['choosefile'] = 'Choisir un fichier…';
+$labels['choosefiles'] = 'Choisir des fichiers…';
+$labels['browse'] = 'Parcourir';
 $labels['newcontact'] = 'Créer un nouveau contact';
 $labels['deletecontact'] = 'Supprimer les contacts sélectionnés';
 $labels['composeto'] = 'Rédiger un courriel à';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Remplacer le carnet d’adresses entier';
 $labels['importgroups'] = 'Importer les affectations de groupe';
 $labels['importgroupsall'] = 'Tous (créer les groupes si nécessaire)';
 $labels['importgroupsexisting'] = 'Seulement pour les groupes existants';
-$labels['importdesc'] = 'Vous pouvez téléverser des contacts à partir d’un carnet d’adresses existant.<br/>Nous prenons en charge présentement l’importation d’adresses à partir des format de données <a href="http://fr.wikipedia.org/wiki/VCard">vCard</a> ou CSV (séparé par une virgule).';
+$labels['importdesc'] = 'Vous pouvez téléverser des contacts à partir d’un carnet d’adresses existant.<br/>Nous prenons actuellement en charge l’importation d’adresses à partir des format de données <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (séparé par des virgules).';
 $labels['done'] = 'Terminé';
 $labels['settingsfor'] = 'Paramètres pour';
 $labels['about'] = 'À propos de';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Options avancées';
 $labels['toggleadvancedoptions'] = 'Activer/désactiver les options avancées';
 $labels['focusonnewmessage'] = 'Cibler la fenêtre du navigateur quand un nouveau courriel arrive';
 $labels['checkallfolders'] = 'Vérifier les nouveaux courriels dans tous les dossiers';
-$labels['displaynext'] = 'Après avoir supprimé/déplacé un courriel, afficher le suivant';
+$labels['displaynext'] = 'Afficher la prochaine entrée de la liste après suppression/déplacement';
 $labels['defaultfont'] = 'Police par défaut des courriels HTML';
 $labels['mainoptions'] = 'Options principales';
 $labels['browseroptions'] = 'Options du navigateur';
@@ -528,7 +538,7 @@ $labels['reqdsn'] = 'Toujours demander une notification d’état de distributio
 $labels['replysamefolder'] = 'Placer les réponses dans le dossier du courriel auquel on répond';
 $labels['defaultabook'] = 'Carnet d’adresses par défaut';
 $labels['autocompletesingle'] = 'Ignorer les adresses de courriel alternatives pour le remplissage automatique';
-$labels['listnamedisplay'] = 'Comment lister les contacts';
+$labels['listnamedisplay'] = 'Lister les contacts en tant que';
 $labels['spellcheckbeforesend'] = 'Vérifier l’orthographe avant d’envoyer un courriel';
 $labels['spellcheckoptions'] = 'Options du vérificateur d’orthographe';
 $labels['spellcheckignoresyms'] = 'Ignorer les mots avec des symboles';
@@ -645,7 +655,7 @@ $labels['arialabelforwardingoptions'] = 'Options de transfert';
 $labels['arialabelreplyalloptions'] = 'Options de réponse à tous';
 $labels['arialabelmoremessageactions'] = 'Actions de courriel supplémentaires';
 $labels['arialabelmorecontactactions'] = 'Autres actions de contact';
-$labels['arialabelmarkmessagesas'] = 'Marquer les courriels sélectionnés comme...';
+$labels['arialabelmarkmessagesas'] = 'Marquer les courriels sélectionnés comme…';
 $labels['arialabelcomposeoptions'] = 'Options de rédaction';
 $labels['arialabelresponsesmenu'] = 'Menu des réponses prédéterminées';
 $labels['arialabelattachmentuploadform'] = 'Formulaire de téléversement de pièce jointe';
@@ -662,7 +672,7 @@ $labels['arialabelsearchterms'] = 'Termes de recherche';
 $labels['arialabeldropactionmenu'] = 'Menu d’action coller-déposer';
 $labels['arialabelheadersmenu'] = 'Menu d’ajout de destinataires (en-tête)';
 $labels['arialabelimagetools'] = 'Outils de manipulation des images';
-$labels['helplistnavigation'] = 'Navigation au clavier des listes ';
+$labels['helplistnavigation'] = 'Lister la navigation au clavier';
 $labels['helplistkeyboardnavigation'] = "Flèche haut/bas : déplacer la cible de sélection.
 Espace : sélectionner la rangée ciblée.
 Maj + haut/bas : Sélectionner des rangées supplémentaires
@@ -672,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Flèche droite/gauche : déplier/repl
 Entrée : ouvrir le courriel sélectionné/cible.
 Suppr : déplacer les courriels sélectionnés vers la corbeille.";
 $labels['helplistkeyboardnavcontacts'] = "Entrée : ouvrir le contact sélectionné/cible.";
-?>

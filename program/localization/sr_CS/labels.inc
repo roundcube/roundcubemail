@@ -2,24 +2,25 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Добродошли на $product';
 $labels['username'] = 'Корисничко име';
 $labels['password'] = 'Лозинка';
 $labels['server'] = 'Сервер';
 $labels['login'] = 'Пријава';
+$labels['menu'] = 'Мени';
 $labels['logout'] = 'Одјава';
 $labels['mail'] = 'Пошта';
 $labels['settings'] = 'Поставке';
@@ -43,6 +44,7 @@ $labels['priority'] = 'Приоритет';
 $labels['organization'] = 'Организација';
 $labels['readstatus'] = 'Стање читања';
 $labels['listoptions'] = 'Опције листе...';
+$labels['listoptionstitle'] = 'Опције листе';
 $labels['mailboxlist'] = 'Фасцикле';
 $labels['messagesfromto'] = 'Порука $from за $to од $count';
 $labels['threadsfromto'] = 'Нити $from за $to од $count';
@@ -134,6 +136,7 @@ $labels['folders-all'] = 'Све фасцикле';
 $labels['more'] = 'Још';
 $labels['back'] = 'Назад';
 $labels['options'] = 'Опције';
+$labels['actions'] = 'Радње';
 $labels['first'] = 'Прво';
 $labels['last'] = 'Последње';
 $labels['previous'] = 'Претходно';
@@ -235,6 +238,7 @@ $labels['keyid'] = 'ИД кључа';
 $labels['keyexpired'] = 'Истекао';
 $labels['keyrevoked'] = 'Опозван';
 $labels['bccinstead'] = 'Користи БЦЦ';
+$labels['insert'] = 'Убаци';
 $labels['editidents'] = 'Уреди идентитете';
 $labels['spellcheck'] = 'Правопис';
 $labels['checkspelling'] = 'Провера правописа';
@@ -447,7 +451,6 @@ $labels['advancedoptions'] = 'Напредне опције';
 $labels['toggleadvancedoptions'] = 'Напредне опције';
 $labels['focusonnewmessage'] = 'Фокусирај прозор претраживача на новој поруци';
 $labels['checkallfolders'] = 'Провери све фасцикле за нове поруке';
-$labels['displaynext'] = 'Након брисања/премештења поруке прикажи следећу поруку';
 $labels['defaultfont'] = 'Подразумевани фонт за ХТМЛ поруке';
 $labels['mainoptions'] = 'Главне опције';
 $labels['browseroptions'] = 'Опције претраживача';
@@ -501,6 +504,7 @@ $labels['personalfolder'] = 'Лична фасцикла';
 $labels['otherfolder'] = 'Фасцикла других корисникa';
 $labels['sharedfolder'] = 'Јавна фасцикла';
 $labels['findfolders'] = 'Нађи фасцикле';
+$labels['findcontacts'] = 'Пронађи контакте';
 $labels['namespace.personal'] = 'Лично';
 $labels['namespace.other'] = 'Остали корисници';
 $labels['sortby'] = 'Поређај';
@@ -554,4 +558,3 @@ $labels['arialabelsearchterms'] = 'Појмови претраге';
 $labels['helplistkeyboardnavmessages'] = "Стрелице лево/десно: скупљају/шире нит порука (само у нитном режиму).
 Ентер: отвара означену поруку.
 Delete: премешта изабране поруке у смеће.";
-?>

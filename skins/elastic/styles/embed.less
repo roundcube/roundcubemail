@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -9,34 +9,23 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-/* Style for embedded inline warning */
+/* Style for embedded pages and TinyMCE editor content page */
 
-@import (reference) "variables";
-@import (reference) "mixins";
+@import "global";
 
-@font-face {
-  font-family: 'Icons';
-  font-style: normal;
-  font-weight: 900;
-  src: url("../fonts/fa-solid-900.woff2") format('woff2'),
-       url("../fonts/fa-solid-900.woff") format('woff');
-}
+.mce-content-body {
+    margin: 4px;
+    color: @color-input;
 
-@font-face {
-  font-family: 'Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url("../fonts/fa-regular-400.woff2") format('woff2'),
-       url("../fonts/fa-regular-400.woff") format('woff');
-}
+    div.pre {
+        font-family: monospace;
+    }
 
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'),
-       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
-       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+    blockquote {
+        border-left: #1010ff 2px solid;
+        margin: 0;
+        padding: 0 0.4em;
+    }
 }
 
 .rcmail-inline-message {
@@ -46,7 +35,7 @@
     margin: 0 0 .5em 0;
     opacity: .95;
     color: @color-message;
-    background-color: @color-message-background;
+    background-color: @color-message-warning-box-background;
     display: flex;
     align-items: center;
 

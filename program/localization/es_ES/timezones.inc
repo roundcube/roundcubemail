@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,6 +22,9 @@ $labels['tz:africa:addis_ababa'] = 'Adís Abeba';
 $labels['tz:africa:algiers'] = 'Argel';
 $labels['tz:africa:asmara'] = 'Asmara';
 $labels['tz:africa:bamako'] = 'Bamako';
+$labels['tz:africa:cairo'] = 'Cairo';
+$labels['tz:africa:ceuta'] = 'Ceuta';
+$labels['tz:africa:dakar'] = 'Dakar';
 $labels['tz:america'] = 'América';
 $labels['tz:america:anchorage'] = 'Anchorage';
 $labels['tz:america:antigua'] = 'Antigua';
@@ -63,11 +65,14 @@ $labels['tz:america:los_angeles'] = 'Los Ángeles';
 $labels['tz:america:managua'] = 'Managua';
 $labels['tz:america:matamoros'] = 'Matamoros';
 $labels['tz:america:merida'] = 'Mérida';
+$labels['tz:america:mexico_city'] = 'Ciudad de México';
 $labels['tz:america:monterrey'] = 'Monterrey';
 $labels['tz:america:montevideo'] = 'Montevideo';
+$labels['tz:america:new_york'] = 'Nueva York';
 $labels['tz:america:panama'] = 'Panamá';
 $labels['tz:america:paramaribo'] = 'Paramaribo';
 $labels['tz:america:phoenix'] = 'Phoenix';
+$labels['tz:america:port_of_spain'] = 'Puerto de España';
 $labels['tz:america:puerto_rico'] = 'Puerto Rico';
 $labels['tz:america:santiago'] = 'Santiago';
 $labels['tz:america:santo_domingo'] = 'Santo Domingo';
@@ -76,6 +81,7 @@ $labels['tz:america:tegucigalpa'] = 'Tegucigalpa';
 $labels['tz:america:tijuana'] = 'Tijuana';
 $labels['tz:america:toronto'] = 'Toronto';
 $labels['tz:asia'] = 'Asia';
+$labels['tz:asia:dubai'] = 'Dubái';
 $labels['tz:asia:gaza'] = 'Gaza';
 $labels['tz:asia:hong_kong'] = 'Hong Kong';
 $labels['tz:asia:karachi'] = 'Karachi';
@@ -115,3 +121,15 @@ $labels['tz:europe:istanbul'] = 'Estambul';
 $labels['tz:europe:kiev'] = 'Kiev';
 $labels['tz:europe:lisbon'] = 'Lisboa';
 $labels['tz:europe:london'] = 'Londres';
+$labels['tz:europe:luxembourg'] = 'Luxemburgo';
+$labels['tz:europe:madrid'] = 'Madrid';
+$labels['tz:europe:monaco'] = 'Mónaco';
+$labels['tz:europe:moscow'] = 'Moscú';
+$labels['tz:europe:oslo'] = 'Oslo';
+$labels['tz:europe:paris'] = 'París';
+$labels['tz:europe:prague'] = 'Praga';
+$labels['tz:europe:rome'] = 'Roma';
+$labels['tz:europe:san_marino'] = 'San Marino';
+$labels['tz:europe:vatican'] = 'Ciudad del Vaticano';
+$labels['tz:europe:vienna'] = 'Viena';
+$labels['tz:europe:zurich'] = 'Zúrich';

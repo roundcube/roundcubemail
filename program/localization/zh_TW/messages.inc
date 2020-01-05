@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '發生錯誤！';
 $messages['loginfailed']  = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
 $messages['sessionerror'] = '你的工作階段已失效或過期';
+$messages['cookiesmismatch'] = '偵測到有不相符的 Cookie，請清理瀏覽器的 cookie。';
 $messages['storageerror'] = '連線到 IMAP 伺服器失敗';
 $messages['servererror'] = '伺服器出錯！';
 $messages['servererrormsg'] = '伺服器出錯：$msg';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = '硬碟空間不夠，請使用 SHIFT+DEL �
 $messages['invalidrequest'] = '要求無效！未儲存任何資料';
 $messages['invalidhost'] = '伺服器名稱無效';
 $messages['nomessagesfound'] = '此郵件匣沒有郵件';
-$messages['loggedout'] = '已成功登出，並結束工作階段。再見！';
+$messages['loggedout'] = '已成功結束工作階段。再見！';
 $messages['mailboxempty'] = '郵件匣是空的';
 $messages['nomessages'] = '沒有郵件';
 $messages['refreshing'] = '重新整理中...';
@@ -51,10 +51,12 @@ $messages['messagesaved'] = '郵件已經儲存至草稿匣';
 $messages['successfullysaved'] = '儲存成功';
 $messages['savingresponse'] = '儲存預設回應中...';
 $messages['deleteresponseconfirm'] = '確定要刪除這個預設回應嗎？';
+$messages['nocontactselected'] = '尚未選取聯絡人。';
 $messages['addedsuccessfully'] = '聯絡人已經成功新增至通訊錄';
 $messages['contactexists'] = '已有相同電郵位址的聯絡人';
 $messages['contactnameexists'] = '已有相同名稱的聯絡人';
 $messages['blockedimages'] = '為了保護你的隱私，已經阻擋此郵件的遠端圖片。';
+$messages['blockedresources'] = '已阻擋遠端資源，以保障您的隱私。';
 $messages['encryptedmessage'] = '此郵件經過加密，因此無法顯示。抱歉！';
 $messages['externalmessagedecryption'] = '此郵件經過加密，可以用你瀏覽器的擴充程式解密';
 $messages['nopubkeyfor'] = '找不到用於 $email 的有效公鑰';
@@ -62,11 +64,11 @@ $messages['nopubkeyforsender'] = '找不到用於你寄件者身份的有效公�
 $messages['encryptnoattachments'] = '已上傳的附件無法加密。請在加密編輯器重新加入';
 $messages['searchpubkeyservers'] = '是否在公鑰伺服器搜尋缺少的金鑰？';
 $messages['encryptpubkeysfound'] = '找到以下公鑰：';
-$messages['keyservererror'] = '在金鑰伺服器找不到金鑰';
-$messages['keyimportsuccess'] = '公鑰 $key 已成功匯入你的鑰匙圈(key ring)';
+$messages['keyservererror'] = '未能從金鑰伺服器取得金鑰。';
+$messages['keyimportsuccess'] = '成功將公鑰 $key 匯入到您的鎖匙圈。';
 $messages['nocontactsfound'] = '找不到聯絡人';
 $messages['contactnotfound'] = '找不到要求的聯絡人';
-$messages['contactsearchonly'] = '輸入關鍵字找尋連絡人';
+$messages['contactsearchonly'] = '要使用搜尋表格，才能在所選的通訊錄看到聯絡人。';
 $messages['sendingfailed'] = '郵件寄出失敗';
 $messages['senttooquickly'] = '你寄出的郵件太過於頻繁，請稍候 $sec 秒後再試一次。';
 $messages['errorsavingsent'] = '儲存郵件到寄件備份時發生錯誤。';
@@ -75,10 +77,13 @@ $messages['errormoving'] = '無法移動此郵件';
 $messages['errorcopying'] = '無法複製此郵件';
 $messages['errordeleting'] = '無法刪除此郵件';
 $messages['errormarking'] = '無法標記此郵件';
+$messages['alerttitle'] = '注意';
+$messages['confirmationtitle'] = '真的確定嗎...';
 $messages['deletecontactconfirm']  = '確定要刪除所選的聯絡人嗎？';
 $messages['deletegroupconfirm']  = '確定要刪除所選的群組嗎?';
 $messages['deletemessagesconfirm'] = '確定要刪除所選的郵件嗎？';
 $messages['deletefolderconfirm']  = '確定要刪除這個資料夾嗎？';
+$messages['movefolderconfirm']  = '確定要移動此資料夾嗎？';
 $messages['purgefolderconfirm']  = '確定要刪除這個資料夾裡面所有的郵件嗎？';
 $messages['contactdeleting'] = '刪除聯絡人...';
 $messages['groupdeleting'] = '刪除群組...';
@@ -91,6 +96,7 @@ $messages['noemailwarning'] = '請輸入有效的電子郵件位址';
 $messages['nonamewarning']  = '請輸入名字';
 $messages['nopagesizewarning'] = '請輸入一頁顯示多少郵件';
 $messages['nosenderwarning'] = '請輸入寄件者的電郵位址';
+$messages['recipientsadded'] = '成功加入收件者。';
 $messages['norecipientwarning'] = '請輸入至少一位收件者';
 $messages['disclosedrecipwarning'] = '所有收件者都會看到其他人的電郵位址。要防止這件事發生，以及保護其隱私，可以用「密件副本(Bcc)」欄位';
 $messages['disclosedreciptitle'] = '太多公開收件者';
@@ -116,13 +122,14 @@ $messages['folderexpunged'] = '資料夾成功壓緊';
 $messages['deletedsuccessfully'] = '刪除成功';
 $messages['converting'] = '移除郵件格式中...';
 $messages['messageopenerror'] = '無法從伺服器載入郵件';
-$messages['filelinkerror'] = '附加檔案失敗';
-$messages['fileuploaderror'] = '檔案上傳失敗。';
+$messages['filelinkerror'] = '未能附加檔案。';
+$messages['fileuploaderror'] = '未能上傳檔案。';
 $messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制。';
 $messages['filecounterror'] = '一次只能上傳最多 $count 個檔案';
-$messages['msgsizeerror'] = '附加檔案失敗。因為超過了郵件的最大尺寸 ($size)';
-$messages['copysuccess'] = '成功複製 $nr 個聯絡人。';
-$messages['movesuccess'] = '成功移動 $nr 個聯絡人。';
+$messages['msgsizeerror'] = '未能附加檔案。因為超過了郵件的大小限制 ($size)';
+$messages['msgsizeerrorfwd'] = '已超過郵件大小的 ($size) 上限。未能附上 $num 個郵件。';
+$messages['copysuccess'] = '複製了 $nr 個聯絡人。';
+$messages['movesuccess'] = '移動了 $nr 個聯絡人。';
 $messages['copyerror'] = '無法複製聯絡人。';
 $messages['moveerror'] = '無法移動聯絡人。';
 $messages['sourceisreadonly'] = '此來源位址是唯讀的';
@@ -132,7 +139,7 @@ $messages['copyingmessage'] = '正在複製郵件...';
 $messages['copyingcontact'] = '正在複製聯絡人...';
 $messages['movingcontact'] = '正在移動聯絡人...';
 $messages['deletingmessage'] = '正在刪除郵件...';
-$messages['markingmessage'] = '正在標示郵件...';
+$messages['markingmessage'] = '正在標記郵件...';
 $messages['addingmember'] = '正在新增聯絡人至群組...';
 $messages['removingmember'] = '正在從群組刪除聯絡人...';
 $messages['receiptsent'] = '閱讀回條傳送成功';
@@ -160,6 +167,8 @@ $messages['smtpautherror'] = 'SMTP 錯誤（$code）：身份核對失敗';
 $messages['smtpfromerror'] = 'SMTP 錯誤（$code）：無法設定寄件者「$from」（$msg）';
 $messages['smtptoerror'] = 'SMTP 錯誤（$code）：無法加入收件者「$to」（$msg）';
 $messages['smtprecipientserror'] = 'SMTP 錯誤：無法解讀收件者清單';
+$messages['smtputf8error'] = 'SMTP 錯誤：伺服器不支援電郵位址有 Unicode。';
+$messages['smtpsizeerror'] = 'SMTP 錯誤：郵件大小超過伺服器限制 ($limit)';
 $messages['smtperror'] = 'SMTP 錯誤：$msg';
 $messages['emailformaterror'] = '電郵位址無效：$email';
 $messages['toomanyrecipients'] = '太多收件人。請減少至 $max 人';
@@ -192,6 +201,7 @@ $messages['invalidimageformat'] = '圖片格式錯誤';
 $messages['mispellingsfound'] = '郵件中偵測到拼字錯誤';
 $messages['parentnotwritable'] = '無法建立/移動資料夾至指定的上層目錄，因為無存取權限';
 $messages['messagetoobig'] = '郵件太大，無法處理';
+$messages['attachmentvalidationerror'] = '附件有可疑，因其類型不符合在郵件宣稱的。如不信任寄件者，不應在瀏覽器開啟，因可能有惡意內容。<br/><br/><em>預期的是：$expected；收到的是：$detected</em>';
 $messages['noscriptwarning'] = '警告：使用 Webmail 要有 Javascript 支援！請確定您瀏覽器已啟用 Javascript';
 $messages['messageissent'] = '此郵件已經寄出，但尚未儲存。是否立即儲存？';
 $messages['errnotfound'] = '找不到檔案';
@@ -206,3 +216,9 @@ $messages['clicktoresumesession'] = '按此繼續之前的工作階段';
 $messages['errcomposesession'] = '撰寫工作階段出錯';
 $messages['errcomposesessionexplain'] = '找不到要求的撰寫工作階段';
 $messages['clicktocompose'] = '按此撰寫新郵件';
+$messages['nosupporterror'] = '您的瀏覽器不支援此功能。';
+$messages['siginserted'] = '已加入簽章。';
+$messages['responseinserted'] = '已加入回應。';
+$messages['listempty'] = '列表沒有內容';
+$messages['listusebutton'] = '按「建立」鈕加入新紀錄';
+$messages['keypaircreatesuccess'] = '已為 $identity 建立新的金鑰對。';

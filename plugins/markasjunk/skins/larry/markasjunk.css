@@ -1,0 +1,31 @@
+#messagetoolbar a.junk,
+#messagetoolbar a.notjunk
+{
+  background-image: url(images/mail_toolbar.png);
+}
+
+#messagetoolbar a.junk
+{
+  background-position: center -14px;
+}
+
+#messagetoolbar a.notjunk
+{
+  background-position: center -61px;
+}
+
+ul.toolbarmenu li a.junk span.icon,
+ul.toolbarmenu li a.notjunk span.icon
+{
+  background-image: url(images/messageactions.png) !important;
+}
+
+ul.toolbarmenu li a.junk span.icon
+{
+  background-position: 1px -17px !important;
+}
+
+ul.toolbarmenu li a.notjunk span.icon
+{
+  background-position: 1px 4px !important;
+}

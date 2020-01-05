@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011, The Roundcube Dev Team                            |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache
 {
@@ -157,7 +156,7 @@ class rcube_cache
      * @param boolean $prefix_mode Enable it to clear all keys starting
      *                             with prefix specified in $key
      */
-    public function remove($key=null, $prefix_mode=false)
+    public function remove($key = null, $prefix_mode = false)
     {
         // Remove all keys
         if ($key === null) {
@@ -231,6 +230,33 @@ class rcube_cache
         $this->cache         = array();
         $this->cache_sums    = array();
         $this->cache_changes = array();
+    }
+
+    /**
+     * A helper to build cache key for specified parameters.
+     *
+     * @param string $prefix Key prefix (Max. length 64 characters)
+     * @param array  $params Additional parameters
+     *
+     * @return string Key name
+     */
+    public static function key_name($prefix, $params = array())
+    {
+        $cache_key = $prefix;
+
+        if (!empty($params)) {
+            $func   = function($v) {
+                if (is_array($v)) {
+                    sort($v);
+                }
+                return is_string($v) ? $v : serialize($v);
+            };
+
+            $params = array_map($func, $params);
+            $cache_key .= '.' . md5(implode(':', $params));
+        }
+
+        return $cache_key;
     }
 
     /**

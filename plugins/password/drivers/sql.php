@@ -5,10 +5,10 @@
  *
  * Driver for passwords stored in SQL database
  *
- * @version 2.0
- * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
+ * @version 2.1
+ * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
-
 class rcube_sql_password
 {
+    /**
+     * Update current user password
+     *
+     * @param string $curpass Current password
+     * @param string $passwd  New password
+     *
+     * @return int Result
+     */
     function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
@@ -159,11 +166,11 @@ class rcube_sql_password
                 }
             }
             else {
-                // This is the good case: 1 row updated
-                if ($db->affected_rows($res) == 1)
+                // Note: Don't be tempted to check affected_rows = 1. For some queries
+                // (e.g. INSERT ... ON DUPLICATE KEY UPDATE) the result can be 2.
+                if ($db->affected_rows($res) > 0) {
                     return PASSWORD_SUCCESS;
-                // @TODO: Some queries don't affect any rows
-                // Should we assume a success if there was no error?
+                }
             }
         }
 
@@ -172,6 +179,10 @@ class rcube_sql_password
 
     /**
      * Parse DSN string and replace host variables
+     *
+     * @param string $dsn DSN string
+     *
+     * @return string DSN string
      */
     protected static function parse_dsn($dsn)
     {

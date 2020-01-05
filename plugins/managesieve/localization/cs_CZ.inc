@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtry';
 $labels['managefilters'] = 'Nastavení filtrů';
 $labels['filtername'] = 'Název filtru';
@@ -84,13 +84,14 @@ $labels['filtersetdeact'] = 'Vypnout tuto sadu filtrů';
 $labels['filterseteditraw'] = 'Upravit sadu pravidel';
 $labels['filtersetswitch'] = 'Zapnout/Vypnout sadu filtrů';
 $labels['filterdef'] = 'Definice filtru';
-$labels['filtersetname'] = 'Nastavit název sady filtrů';
+$labels['filtersetname'] = 'Název sady filtrů';
 $labels['newfilterset'] = 'Nová sada filtrů';
 $labels['active'] = 'aktivní';
 $labels['none'] = 'nic';
 $labels['fromset'] = 'ze sady';
 $labels['fromfile'] = 'ze souboru';
 $labels['filterdisabled'] = 'Filtr neaktivní';
+$labels['filterenabled'] = 'Filtr aktivní';
 $labels['countisgreaterthan'] = 'počet je větší než';
 $labels['countisgreaterthanequal'] = 'počet je větší nebo roven';
 $labels['countislessthan'] = 'počet je nižší než';
@@ -111,6 +112,18 @@ $labels['flagdeleted'] = 'Smazáno';
 $labels['flaganswered'] = 'Odpovězené';
 $labels['flagflagged'] = 'Označeno';
 $labels['flagdraft'] = 'Koncept';
+$labels['addheader'] = 'Přidat hlavičku do zprávy';
+$labels['deleteheader'] = 'Odebrat hlavičku ze zprávy';
+$labels['headername'] = 'Název hlavičky';
+$labels['headervalue'] = 'Hodnota hlavičky';
+$labels['headerpos'] = 'Umístění hlavičky';
+$labels['headeratstart'] = 'na začátku';
+$labels['headeratend'] = 'na konci';
+$labels['headeroccurrence'] = 'Výskyt/Umístění hlavičky';
+$labels['headerfromstart'] = 'od začátku';
+$labels['headerfromend'] = 'od konce';
+$labels['headerpatterns'] = 'Vzory hodnot hlavičky';
+$labels['headermatchtype'] = 'odpovídající typ:';
 $labels['setvariable'] = 'Nastavit proměnnou';
 $labels['setvarname'] = 'Název proměnné:';
 $labels['setvarvalue'] = 'Hodnota proměnné:';
@@ -175,20 +188,20 @@ $labels['asciicasemap'] = 'nerozlišuje velikost písmen (ascii-casemap)';
 $labels['asciinumeric'] = 'číslené (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'pozpátku';
-$labels['vacation'] = 'Dovolená';
+$labels['vacation'] = 'Mimo-kancelář';
 $labels['vacation.reply'] = 'Odpověd';
 $labels['vacation.advanced'] = 'Pokročilá nastavení';
 $labels['vacation.from'] = 'Adresa odesílatele odpovědi';
 $labels['vacation.subject'] = 'Předmět';
 $labels['vacation.body'] = 'Tělo';
-$labels['vacation.start'] = 'Začátek dovolené';
-$labels['vacation.end'] = 'Konec dovolené';
+$labels['vacation.start'] = 'Začátek';
+$labels['vacation.end'] = 'Konec';
 $labels['vacation.status'] = 'Stav';
 $labels['vacation.on'] = 'Zapnuto';
 $labels['vacation.off'] = 'Vypnuto';
 $labels['vacation.addresses'] = 'Mé e-mailové adresy';
 $labels['vacation.interval'] = 'Doba mezi odpověďmi';
-$labels['vacation.after'] = 'Uložit pravidlo o dovolené za';
+$labels['vacation.after'] = 'Přidat pravidlo mimo-kancelář za';
 $labels['vacation.saving'] = 'Ukládám data...';
 $labels['vacation.action'] = 'Akce pro příchozí zprávu';
 $labels['vacation.keep'] = 'Zachovat';
@@ -218,35 +231,35 @@ $labels['notduplicate'] = 'není duplicitní';
 $labels['duplicate.handle'] = 'popisovač:';
 $labels['duplicate.header'] = 'hlavička:';
 $labels['duplicate.uniqueid'] = 'Identifikátor:';
-$labels['duplicate.seconds'] = 'prodleva (sekundy)';
+$labels['duplicate.seconds'] = 'prodleva (sekundy):';
 $labels['duplicate.last'] = 'relativní k poslednímu vykonání';
-$messages['filterunknownerror'] = 'Neznámá chyba serveru';
+$messages['filterunknownerror'] = 'Neznámá chyba serveru.';
 $messages['filterconnerror'] = 'Nebylo možné se připojit k sieve serveru';
 $messages['filterdeleteerror'] = 'Nebylo možné smazat filtr. Došlo k chybě serveru.';
-$messages['filterdeleted'] = 'Filtr byl smazán';
-$messages['filtersaved'] = 'Filtr byl uložen';
+$messages['filterdeleted'] = 'Filtr byl smazán.';
+$messages['filtersaved'] = 'Filtr byl uložen.';
 $messages['filtersaveerror'] = 'Nebylo možné uložit filtr. Došlo k chybě serveru.';
-$messages['filterformerror'] = 'Formulář filtru obsahuje chyby';
+$messages['filterformerror'] = 'Formulář filtru obsahuje chyby.';
 $messages['filterdeleteconfirm'] = 'Opravdu chcete smazat vybraný filtr?';
 $messages['ruledeleteconfirm'] = 'Jste si jisti, že chcete smazat vybrané pravidlo?';
 $messages['actiondeleteconfirm'] = 'Jste si jisti, že chcete smazat vybranou akci?';
-$messages['forbiddenchars'] = 'Zakázané znaky v poli';
-$messages['cannotbeempty'] = 'Pole nemůže být prázdné';
+$messages['forbiddenchars'] = 'Zakázané znaky v poli.';
+$messages['cannotbeempty'] = 'Pole nemůže být prázdné.';
 $messages['ruleexist'] = 'Filtr s uvedeným názvem již existuje.';
 $messages['setactivateerror'] = 'Nelze zapnout vybranou sadu filtrů. Došlo k chybě serveru.';
 $messages['setdeactivateerror'] = 'Nelze vypnout vybranou sadu filtrů. Došlo k chybě serveru.';
 $messages['setdeleteerror'] = 'Nelze odstranit vybranou sadu filtrů. Došlo k chybě serveru.';
-$messages['setactivated'] = 'Sada filtrů zapnuta.';
-$messages['setdeactivated'] = 'Sada filtrů vypnuta.';
-$messages['setdeleted'] = 'Sada filtrů odstraněna.';
-$messages['setupdated'] = 'Sada pravidel byla úspúěšně upravena';
-$messages['setdeleteconfirm'] = 'Opravdu si přejete odebrat vybranou sadu filtrů.';
+$messages['setactivated'] = 'Sada filtrů byla zapnuta.';
+$messages['setdeactivated'] = 'Sada filtrů byla vypnuta.';
+$messages['setdeleted'] = 'Sada filtrů byla odstraněna.';
+$messages['setupdated'] = 'Sada filtrů byla upravena.';
+$messages['setdeleteconfirm'] = 'Opravdu si přejete odebrat vybranou sadu filtrů?';
 $messages['setcreateerror'] = 'Nelze vytvořit sadu filtrů. Došlo k chybě serveru.';
-$messages['setcreated'] = 'Sada filtrů vytvořena.';
-$messages['activateerror'] = 'Nelze zapnout vybrané filtr/y. Došlo k chybě serveru.';
-$messages['deactivateerror'] = 'Nelze vypnout vybrané filtr/y. Došlo k chybě serveru.';
+$messages['setcreated'] = 'Sada filtrů byla vytvořena.';
+$messages['activateerror'] = 'Nelze zapnout vybrané filtry. Došlo k chybě serveru.';
+$messages['deactivateerror'] = 'Nelze vypnout vybrané filtry. Došlo k chybě serveru.';
 $messages['deactivated'] = 'Filtry vypnuty.';
-$messages['activated'] = 'Filtr zapnuty.';
+$messages['activated'] = 'Filtry zapnuty.';
 $messages['moved'] = 'Filtr byl přesunut.';
 $messages['moveerror'] = 'Nelze přesunout vybraný filtr. Došlo k chybě serveru.';
 $messages['nametoolong'] = 'Příliš dlouhý název.';
@@ -255,9 +268,9 @@ $messages['setexist'] = 'Sada již existuje.';
 $messages['nodata'] = 'Musí být vybrána minimálně jedna pozice!';
 $messages['invaliddateformat'] = 'Neplatné datum nebo část data';
 $messages['saveerror'] = 'Nebylo možné uložit data. Došlo k chybě serveru.';
-$messages['vacationsaved'] = 'Data o dovolené byla uložena.';
+$messages['vacationsaved'] = 'Data mimo-kancelář byla uložena.';
 $messages['forwardsaved'] = 'Data pro přeposlání byla uložena.';
 $messages['emptyvacationbody'] = 'Tělo zprávy';
 $messages['duplicate.conflict.err'] = 'Hlavička a jedinečný identifikátor zároveň nejsou povoleny.';
 $messages['disabledaction'] = 'Akce není povolena';
-?>
+$messages['lastindexempty'] = 'Při počítání od zadu je vyžadován index.';

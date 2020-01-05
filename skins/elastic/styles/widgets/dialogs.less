@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -15,6 +15,7 @@
     display: none;
     padding: 0;
     min-width: 180px;
+    height: 100%;
 
     li > a {
         width: 100%;
@@ -22,7 +23,6 @@
 
     &.propform {
         overflow: hidden;
-        margin-top: 1rem;
         padding: .25rem; // so overflow do not truncate focus outline on inputs
     }
 
@@ -54,15 +54,17 @@
         // On mobile don't display popup arrows and titles
         display: none;
     }
-}
 
-#rcmKSearchpane {
-    width: auto;
-    max-width: none;
-    overflow: hidden;
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        .listing {
+            li:first-child {
+                border-radius: .25rem .25rem 0 0;
+            }
 
-    li {
-        padding-right: .5rem;
+            li:last-child {
+                border-radius: 0 0 .25rem .25rem;
+            }
+        }
     }
 }
 
@@ -92,10 +94,6 @@ html.layout-phone {
         }
     }
 
-    .popover.menu {
-        left: 0 !important;
-    }
-
     .popover-overlay {
         z-index: 1000;
         background-color: @color-dialog-overlay-background;
@@ -103,11 +101,6 @@ html.layout-phone {
         top: 0;
         bottom: 0;
         width: 100%;
-    }
-
-    #rcmKSearchpane {
-        bottom: auto;
-        border: 1px solid @color-input-border;
     }
 
     .popover-header {
@@ -154,14 +147,35 @@ html.touch .popover {
 .select-menu {
     max-width: initial;
     margin: 0;
-
-    .listing li a {
-        padding-left: .25rem;
-        outline: 0; // for Android browser
-    }
+    height: auto;
 
     .popover-header {
         border-radius: .25rem .25rem 0 0 !important;
+    }
+
+    .listing li {
+        a {
+            padding-left: .25rem;
+            outline: 0; // for Android browser
+        }
+
+        &:last-child {
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+
+    // Use 'inline' class for menus that have a list elements with no <a> inside
+    // and no header
+    &.inline {
+        .listing li {
+            padding-right: .5rem;
+
+            &:first-child {
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
+        }
     }
 }
 

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Prišlo je do napake!';
 $messages['loginfailed']  = 'Prijava ni uspela';
 $messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Zmanjkalo je diskovnega prostora. Za izbris
 $messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
 $messages['invalidhost'] = 'Nepravilno ime strežnika';
 $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
-$messages['loggedout'] = 'Odjava je bila uspešna.';
 $messages['mailboxempty'] = 'Poštni predal je prazen.';
 $messages['nomessages'] = 'Ni sporočil';
 $messages['refreshing'] = 'Osvežujem...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Veljavnega javnega ključa za pošiljatelja ni
 $messages['encryptnoattachments'] = 'Priponke, ki ste jih že naložili, ne morejo biti šifrirane. Dodajte jih znova v urejevalnik.';
 $messages['searchpubkeyservers'] = 'Ali želite manjkajoče javne ključe poiskati na javno dostopnih strežnikih?';
 $messages['encryptpubkeysfound'] = 'Najdeni so bili naslednji javni ključi:';
-$messages['keyservererror'] = 'Na strežniku ključa ni bilo mogoče najti';
-$messages['keyimportsuccess'] = 'Uspešno ste shranili svoj javni ključ $key';
 $messages['nocontactsfound'] = 'Ni stikov.';
 $messages['contactnotfound'] = 'Iskanega stika ni bilo mogoče najti.';
-$messages['contactsearchonly'] = 'Vpišite iskalni parameter za iskanje stika';
 $messages['sendingfailed'] = 'Sporočila ni bilo mogoče poslati.';
 $messages['senttooquickly'] = 'Počakajte $sec sekund in nato znova poskusite s pošiljanjem sporočila.';
 $messages['errorsavingsent'] = 'Pri shranjevanju poslanega sporočila je prišlo do napake.';

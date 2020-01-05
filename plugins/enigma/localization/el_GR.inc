@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Κρυπτογράφηση';
 $labels['enigmacerts'] = 'Πιστοποιητικά S/MIME';
 $labels['enigmakeys'] = 'PGP Κλειδιά';
@@ -89,6 +88,7 @@ $messages['sigerror'] = 'Ανεπαλήθευτη υπογραφή. Εσωτερ
 $messages['decryptok'] = 'Το μήνυμα αποκρυπτογραφήθηκε.';
 $messages['decrypterror'] = 'Η αποκρυπτογράφηση απέτυχε.';
 $messages['decryptnokey'] = 'Η αποκρυπτογράφηση απέτυχε. Το ιδιωτικό κλειδί δε βρέθηκε. Ταυτότητα κλειδιού: $keyid.';
+$messages['decryptbadpass'] = 'Η αποκρυπτογράφηση απέτυχε. Μη έγκυρος κωδικός πρόσβασης.';
 $messages['decryptnopass'] = 'Η αποκρυπτογράφηση απέτυχε. Απαιτείται ο κωδικός του κλειδιού.';
 $messages['decryptpartial'] = 'Το μήνυμα αποκρυπτογραφήθηκε, αλλά τμήμα του μηνύματος δεν ήταν κρυπτογραφημένο.';
 $messages['signerror'] = 'Η υπογραφή απέτυχε.';

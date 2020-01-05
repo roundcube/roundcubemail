@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,7 +34,7 @@ class html
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align','unselectable','tabindex','role');
     public static $containers    = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script','a');
-    public static $bool_attrib   = array('checked','multiple','disabled','selected','autofocus','readonly');
+    public static $bool_attrib   = array('checked','multiple','disabled','selected','autofocus','readonly','required');
 
 
     /**
@@ -225,7 +226,8 @@ class html
     /**
      * Derrived method to create <iframe></iframe>
      *
-     * @param mixed $attr Hash array with tag attributes or string with frame source (src)
+     * @param mixed  $attr Hash array with tag attributes or string with frame source (src)
+     * @param string $cont Tag content
      *
      * @return string HTML code
      * @see html::tag()
@@ -254,15 +256,21 @@ class html
         if (is_string($attr)) {
             $attr = array('src' => $attr);
         }
+
         if ($cont) {
-            if (self::$doctype == 'xhtml')
-                $cont = "\n/* <![CDATA[ */\n" . $cont . "\n/* ]]> */\n";
-            else
-                $cont = "\n" . $cont . "\n";
+            if (self::$doctype == 'xhtml') {
+                $cont = "/* <![CDATA[ */\n{$cont}\n/* ]]> */";
+            }
+
+            $cont = "\n{$cont}\n";
         }
 
-        return self::tag('script', $attr + array('type' => 'text/javascript', 'nl' => true),
-            $cont, array_merge(self::$common_attrib, array('src','type','charset')));
+        if (self::$doctype == 'xhtml') {
+            $attr += array('type' => 'text/javascript');
+        }
+
+        return self::tag('script', $attr + array('nl' => true), $cont,
+            array_merge(self::$common_attrib, array('src', 'type', 'charset')));
     }
 
     /**
@@ -774,6 +782,10 @@ class html_table extends html
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
+        if (!isset($this->rows[$this->rowindex])) {
+            $this->rows[$this->rowindex] = new stdClass;
+        }
+
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
         $this->colindex += max(1, intval($attr['colspan']));
 
@@ -934,13 +946,14 @@ class html_table extends html
         $this->content = $thead . ($this->tagname == 'table' ? self::tag('tbody', null, $tbody) : $tbody);
 
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
+
         return parent::show();
     }
 
     /**
      * Count number of rows
      *
-     * @return The number of rows
+     * @return int The number of rows
      */
     public function size()
     {

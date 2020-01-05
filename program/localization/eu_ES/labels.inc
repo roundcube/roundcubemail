@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Ongi etorri $product-ra';
 $labels['username'] = 'Erabiltzaile-izena';
 $labels['password'] = 'Pasahitza';
@@ -139,11 +139,15 @@ $labels['folders-all'] = 'Karpeta guztiak';
 $labels['more'] = 'Gehiago';
 $labels['back'] = 'Atzera';
 $labels['options'] = 'Aukerak';
+$labels['composeoptions'] = 'Aukerak konposatzea';
+$labels['optionsandattachments'] = 'Aukerak eta eranskinak';
+$labels['actions'] = 'Ekintzak';
 $labels['first'] = 'Lehenengoa';
 $labels['last'] = 'Azkena';
 $labels['previous'] = 'Aurrekoa';
 $labels['next'] = 'Hurrengoa';
 $labels['select'] = 'Hautatu';
+$labels['selection'] = 'Hautapena';
 $labels['all'] = 'Denak';
 $labels['none'] = 'Bat ere ez';
 $labels['currpage'] = 'Uneko orrialdea';
@@ -165,6 +169,7 @@ $labels['expand-all'] = 'Ireki denak';
 $labels['expand-unread'] = 'Ireki irakurri gabeak';
 $labels['collapse-all'] = 'Tolestu guztiak';
 $labels['threaded'] = 'Harian';
+$labels['showunread'] = 'Erakutsi irakurri gabeko mezuak';
 $labels['autoexpand_threads'] = 'Ireki mezu-hariak';
 $labels['do_expand'] = 'hari guztiak';
 $labels['expand_only_unread'] = 'soilik irakurri gabeko mezuak dutenak';
@@ -179,7 +184,8 @@ $labels['desc'] = 'behera';
 $labels['listcolumns'] = 'Zerrenda-zutabeak';
 $labels['listsorting'] = 'Zutabea ordenatzen';
 $labels['listorder'] = 'Ordenatze era';
-$labels['listmode'] = 'Zerrenda ikuspegia';
+$labels['listmode'] = 'Zerrenda ikuspegiko modua';
+$labels['lmode'] = 'Zerrenda modua';
 $labels['layout'] = 'Diseinua';
 $labels['layoutwidescreen'] = 'Panoramikoa';
 $labels['layoutdesktop'] = 'Mahaigaina';
@@ -191,6 +197,8 @@ $labels['folderactions'] = 'Karpeta-ekintzak...';
 $labels['compact'] = 'Trinkotu';
 $labels['empty'] = 'Hustu';
 $labels['importmessages'] = 'Inportatu mezuak';
+$labels['mailimportdesc'] = 'Kargatu dezakezu mezua fitxategiak erabiliaz <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> edo <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> formatuetan.';
+$labels['mailimportzip'] = 'Hainbat fitxategi konprimatu daiteke zip fitxategietan.';
 $labels['quota'] = 'Disko erabilera';
 $labels['unknown'] = 'ezezaguna';
 $labels['unlimited'] = 'mugagabea';
@@ -199,6 +207,9 @@ $labels['quotatotal'] = 'Muga';
 $labels['quotaused'] = 'Erabilita';
 $labels['quotastorage'] = 'Diskoko tokia';
 $labels['quotamessage'] = 'Mezu kopurua';
+$labels['shortheaderdate'] = '$date egunean';
+$labels['shortheaderto'] = ' $date -ko $to -etara';
+$labels['shortheaderfrom'] = '$date -ko $from -etatik';
 $labels['quicksearch'] = 'Bilaketa azkarra';
 $labels['searchplaceholder'] = 'Bilatu...';
 $labels['resetsearch'] = 'Bilaketa berrabiarazi';
@@ -241,12 +252,17 @@ $labels['encryptmessage'] = 'Zifratu mezua';
 $labels['encryptmessagemailvelope'] = 'Zifratu mezua Mailvelope-ren bidez';
 $labels['importpubkeys'] = 'Inportatu gako publikoak';
 $labels['encryptedsendialog'] = 'Zifratutako mezua bidaltzen';
+$labels['encryptandsign'] = 'Zifratu eta sinatu';
 $labels['keyid'] = 'Gakoaren IDa';
 $labels['keylength'] = 'Bitak';
 $labels['keyexpired'] = 'Iraungita';
 $labels['keyrevoked'] = 'Errebokatuta';
 $labels['bccinstead'] = 'Erabili Bcc';
+$labels['addheader'] = 'Gehitu hartzailea (goiburua)';
+$labels['insert'] = 'Txertatu';
+$labels['insertcontact'] = 'Txertatu kontaktua(k)';
 $labels['recipient'] = 'Hartzailea';
+$labels['recipientedit'] = 'Hartzailearen edizioa';
 $labels['editidents'] = 'Editatu identitateak';
 $labels['spellcheck'] = 'Ortografia-egiaztatu';
 $labels['checkspelling'] = 'Egiaztaketa ortografikoa';
@@ -279,9 +295,14 @@ $labels['high'] = 'Altua';
 $labels['highest'] = 'Altuena';
 $labels['nosubject'] = '(gairik gabea)';
 $labels['showimages'] = 'Irudiak bistaratu';
+$labels['allow'] = 'Baimendu';
 $labels['alwaysshow'] = 'Beti ikusi $sender -en irudiak';
+$labels['alwaysallow'] = 'Baimendu beti $sender -engandik';
 $labels['isdraft'] = 'Hau zirriborro bat da';
 $labels['andnmore'] = '$nr gehiago...';
+$labels['details'] = 'Zehaztasunak';
+$labels['headers'] = 'Goiburuak';
+$labels['allheaders'] = 'Goiburu guztiak...';
 $labels['togglemoreheaders'] = 'Erakutsi mezu mezu-goiburu gehiago';
 $labels['togglefullheaders'] = 'Erakutsi/Ezkutatu mezuen goiburuak';
 $labels['htmltoggle'] = 'HTML';
@@ -297,6 +318,14 @@ $labels['mdnrequest'] = 'Mezu honen bidaltzaileak mezua irakurtzen duzunean jaki
 $labels['receiptread'] = 'Bidali jasotze-agiria (irakurria)';
 $labels['yourmessage'] = 'Hau zure mezuaren jasotze-agiria da';
 $labels['receiptnote'] = 'Oharra:  jasotze-agiri honek hartzailearen ordenagailuan mezua bistaratu dela adierazten du besterik gabe. Honek ez du esan nahi hartzaileak mezua irakurri edo/eta ulertu duenik:';
+$labels['zoomin'] = 'Handiagotu';
+$labels['zoomout'] = 'Txikiagotu';
+$labels['rotate'] = 'Biratu';
+$labels['increaseimage'] = 'Handiagotu irudiaren tamaina';
+$labels['decreaseimage'] = 'Txikiagotu irudiaren tamaina';
+$labels['rotateimage'] = 'Biratu irudia';
+$labels['showtools'] = 'Erakutsi irudi-tresnak';
+$labels['hidetools'] = 'Ezkutatu irudi-tresnak';
 $labels['name'] = 'Bistaratu izena';
 $labels['firstname'] = 'Izena';
 $labels['surname'] = 'Abizena';
@@ -362,10 +391,15 @@ $labels['cancel'] = 'Utzi';
 $labels['save'] = 'Gorde';
 $labels['delete'] = 'Ezabatu';
 $labels['discard'] = 'Baztertu';
+$labels['continue'] = 'Jarraitu';
+$labels['ok'] = 'Ados';
 $labels['rename'] = 'Berrizendatu';
 $labels['addphoto'] = 'Gehitu';
 $labels['replacephoto'] = 'Ordeztu';
 $labels['uploadphoto'] = 'Kargatu argazkia';
+$labels['choosefile'] = 'Aukeratu fitxategia...';
+$labels['choosefiles'] = 'Aukeratu fitxategiak...';
+$labels['browse'] = 'Arakatu';
 $labels['newcontact'] = 'Sortu kontaktu berria';
 $labels['deletecontact'] = 'Ezabatu hautatutako kontaktuak';
 $labels['composeto'] = 'Idatzi mezua honi:';
@@ -379,6 +413,8 @@ $labels['newgroup'] = 'Sortu talde berria';
 $labels['addgroup'] = 'Gehitu taldea';
 $labels['grouprename'] = 'Berrizendatu taldea';
 $labels['groupdelete'] = 'Ezabatu taldea';
+$labels['groupassign'] = 'Gehitu taldean...';
+$labels['groupremove'] = 'Kendu taldetik';
 $labels['groupremoveselected'] = 'Ezabatu taldetik hautatutako kontaktuak';
 $labels['uponelevel'] = 'Igo maila bat';
 $labels['previouspage'] = 'Aurreko orria ikusi';
@@ -399,7 +435,7 @@ $labels['importreplace'] = 'Ordezkatu helbide-liburu osoa';
 $labels['importgroups'] = 'Inportatu talde-esleipenak';
 $labels['importgroupsall'] = 'Dena (sortu taldeak behar izatekotan)';
 $labels['importgroupsexisting'] = 'Existitzen diren taldeentzat soilik';
-$labels['importdesc'] = 'Gehitzen ahal duzu kontaktuak dagoen helbide-liburu batetik.<br/>Inportatzeko onartzen diren formatuak:  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> eta CSV (komaz banandutakoak).';
+$labels['importdesc'] = 'Kargatu ditzakezu kontaktuak dagoen helbide liburu batetik.<br/>Une honetan onartzen dugu helbideen inportazioa <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> edo CSV (komaz bereizita) datu formatuetan.';
 $labels['done'] = 'Egina';
 $labels['settingsfor'] = 'Honen ezarpenak:';
 $labels['about'] = 'Honi buruz';
@@ -454,6 +490,7 @@ $labels['deletealways'] = 'Zakarrontzira bidaltzeak huts egiten badu, ezabatu';
 $labels['deletejunk'] = 'Ezabatu zuzenean 
 zabor-mezuak';
 $labels['showremoteimages'] = 'Erakutsi konektatutako urrutiko irudiak';
+$labels['allowremoteresources'] = 'Baimendu urrutiko baliabideak (irudia, estiloak)';
 $labels['fromknownsenders'] = 'bidaltzaile ezagunengandik';
 $labels['always'] = 'beti';
 $labels['alwaysbutplain'] = 'beti, testu lauari erantzutean izan ezik';
@@ -475,7 +512,7 @@ $labels['advancedoptions'] = 'Aukera aurreratuak';
 $labels['toggleadvancedoptions'] = 'Toggle aukera aurreratuak';
 $labels['focusonnewmessage'] = 'Fokatu leihoa mezu berrian';
 $labels['checkallfolders'] = 'Egiaztatu karpeta guztiak mezu berrien bila';
-$labels['displaynext'] = 'Mezu bat ezabatu/mugitzean erakutsi hurrengo mezua';
+$labels['displaynext'] = 'Bistaratu  zerrendako hurrengo sarrera ezabatu/lekuz aldatu ondoren';
 $labels['defaultfont'] = 'Lehenetsitako letra-mota HTML mezuetarako';
 $labels['mainoptions'] = 'Aukera nagusiak';
 $labels['browseroptions'] = 'Nabigatze-aukerak';
@@ -495,6 +532,7 @@ $labels['replyandforwardonly'] = 'bakarri erantzun eta birbidalketak';
 $labels['insertsignature'] = 'Txertatu sinadura';
 $labels['sigbelow'] = 'Sinadura aipamenaren azpian jarri';
 $labels['sigseparator'] = 'Behartu banatzaile estandarra sinaduretan';
+$labels['automarkread'] = 'Markatu mezuak irakurrita gisa';
 $labels['afternseconds'] = '$n segundo eta gero';
 $labels['reqmdn'] = 'Eskatu beti jasotze-agiria';
 $labels['reqdsn'] = 'Eskatu beti entrega-egoeraren jakinarazpena';
@@ -545,7 +583,11 @@ $labels['namespace.shared'] = 'Konpartitua';
 $labels['dualuselabel'] = 'Bakarrik eduki dezake';
 $labels['dualusemail'] = 'mezuak';
 $labels['dualusefolder'] = 'karpetak';
+$labels['generate'] = 'Sortu';
 $labels['encryptioncreatekey'] = 'Sortu gako pare berria';
+$labels['openmailvelopesettings'] = 'Ireki Mailvelope ezarpenak';
+$labels['encryptionprivkeysinmailvelope'] = ' Badaukazu bat datozen $nr gako pribatu zure Mailvelope giltzarrian gordeta:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Bidaltzaile identitate honek jada ez dauka PGP gako pribaturik gordeta zure Mailvelope gehigarrian. Nahi al duzu bat sortzea mezuak zifratu ahal izateko?';
 $labels['sortby'] = 'Honela ordenatu';
 $labels['sortasc'] = 'Goraka ordenatu';
 $labels['sortdesc'] = 'Beheraka ordenatu';
@@ -557,6 +599,12 @@ $labels['source'] = 'Iturria';
 $labels['license'] = 'Lizentzia';
 $labels['support'] = 'Eskuratu laguntza';
 $labels['savedsearches'] = 'Gordetako bilaketak';
+$labels['dateformatY'] = 'UUUU';
+$labels['dateformaty'] = 'UU';
+$labels['dateformatm'] = 'HH';
+$labels['dateformatd'] = 'EE';
+$labels['dateformatj'] = 'E';
+$labels['dateformatn'] = 'H';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -607,11 +655,13 @@ $labels['arialabelmessageheaders'] = 'Mezuen goiburuak';
 $labels['arialabelforwardingoptions'] = 'Birbidaltzeko aukerak';
 $labels['arialabelreplyalloptions'] = 'Guztiei erantzuteko aukerak';
 $labels['arialabelmoremessageactions'] = 'Mezu ekintza gehiago';
+$labels['arialabelmorecontactactions'] = 'Kontaktuen ekintza gehiago';
 $labels['arialabelmarkmessagesas'] = 'Markatu hautatutako mezua gisa honetara...';
 $labels['arialabelcomposeoptions'] = 'Konposizio aukerak';
 $labels['arialabelresponsesmenu'] = 'Erantzun finkoen menua';
 $labels['arialabelattachmentuploadform'] = 'Eranskinak kargatzeko formularioa';
 $labels['arialabelattachmentmenu'] = 'Eranskinaren aukerak';
+$labels['arialabelmailtomenu'] = 'Helbide elektronikoaren aukerak';
 $labels['arialabelattachmentpreview'] = 'Eranskinaren aurrebista';
 $labels['ariasummarycomposecontacts'] = 'Kontaktuak eta taldeak hartzaile gisa hautatzeko zerrenda';
 $labels['arialabelcontactexportoptions'] = 'Kontaktuak esportatzeko aukerak';
@@ -621,6 +671,8 @@ $labels['arialabelidentityeditfrom'] = 'Identitatea editatzeko formularioa';
 $labels['arialabelresonseeditfrom'] = 'Erantzuna editatzeko formularioa';
 $labels['arialabelsearchterms'] = 'Bilatu terminoak';
 $labels['arialabeldropactionmenu'] = 'Arrastatu eta jaregin ekintzaren menua';
+$labels['arialabelheadersmenu'] = 'Hartzailea (goiburua) menua gehituz';
+$labels['arialabelimagetools'] = 'Irudi-tresnak';
 $labels['helplistnavigation'] = 'Zerrendatu teklatuaren nabigazioa';
 $labels['helplistkeyboardnavigation'] = "Gezia gora/behera: Mugitu ilararen fokua/hautaketa.
 Zuriunea: Hautatu fokatutako ilara.
@@ -631,4 +683,3 @@ Sartu: Ireki hautatutako/fokatutako mezua.
 Ezabatu: Eraman hautatutako mezuak zakarrontzira.
 ";
 $labels['helplistkeyboardnavcontacts'] = "Sartu: Ireki hautatutako/fokatutako kontaktua.";
-?>

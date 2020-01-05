@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/groups.inc                                  |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2010-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Create/delete/rename contact groups and assign/remove contacts      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -39,7 +37,7 @@ if ($RCMAIL->action == 'group-addmembers') {
         $num2add = count($plugin['ids']);
 
         if (!$plugin['abort']) {
-            if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
+            if (($maxnum = $RCMAIL->config->get('max_group_members')) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
                 $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
                 $OUTPUT->send();
             }

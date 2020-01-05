@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'عوامل التصفية';
 $labels['filtername'] = 'إسم عامل التصفية';
 $labels['newfilter'] = 'عامل تصفية جديد';
@@ -60,6 +60,9 @@ $labels['day'] = 'يوم';
 $labels['hour'] = 'ساعة';
 $labels['minute'] = 'دقيقة';
 $labels['second'] = 'ثانية';
+$labels['time'] = 'الوقت (hh:mm:ss)';
+$labels['iso8601'] = 'التاريخ (ISO8601)';
+$labels['std11'] = 'التاريخ (RFC2822)';
 $labels['advancedopts'] = 'خيارات متقدّمة';
 $labels['body'] = 'هيكل الرسالة';
 $labels['address'] = 'العنوان';
@@ -69,4 +72,6 @@ $labels['default'] = 'إفتراضي';
 $labels['vacation.advanced'] = 'الإعدادات المتقدمة';
 $labels['vacation.subject'] = 'الموضوع';
 $labels['vacation.body'] = 'هيكل الرسالة';
-?>
+$labels['vacation.saving'] = 'جارٍ حفظ البيانات...';
+$labels['forward.status'] = 'الحالة:';
+$labels['forward.saving'] = 'جارٍ حفظ البيانات...';

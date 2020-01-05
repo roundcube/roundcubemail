@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><roundcube:object name="productname" /> :: <roundcube:label name="compose" /></title>
 <roundcube:include file="/includes/links.html" />
 <roundcube:if condition="config:enable_spellcheck" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
@@ -32,7 +31,7 @@
     <roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attachSel" title="addattachment" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
     <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
     <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
-<roundcube:if condition="config:enable_spellcheck" />
+<roundcube:if condition="!empty(env:spell_langs)" />
     <span class="dropbutton">
         <roundcube:button command="spellcheck" type="link" class="buttonPas spellcheck" classAct="button spellcheck" classSel="button spellcheckSel" title="checkspelling" content=" " />
         <span id="spellmenulink" onclick="rcmail_ui.show_popup('spellmenu');return false"></span>
@@ -212,7 +211,7 @@
         <roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
         <li><label class="comment"><roundcube:label name="manageresponses" /></label></li>
         <roundcube:button command="save-response" type="link-menuitem" label="newresponse" classAct="active" unselectable="on" />
-        <roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
+        <roundcube:button name="responses" type="link-menuitem" label="editresponses" class="active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
     </ul>
 </div>
 

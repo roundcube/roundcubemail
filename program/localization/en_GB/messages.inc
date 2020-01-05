@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-$messages['errortitle']  = 'An error occured.';
+
+$messages['errortitle']  = 'An error occurred.';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or has expired.';
+$messages['cookiesmismatch'] = 'Cookie mismatch detected. Please clear your browser\'s cookies.';
 $messages['storageerror'] = 'Connection to IMAP server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
@@ -51,6 +51,7 @@ $messages['messagesaved'] = 'Message saved to Drafts.';
 $messages['successfullysaved'] = 'Successfully saved.';
 $messages['savingresponse'] = 'Saving response text...';
 $messages['deleteresponseconfirm'] = 'Do you really want to delete this response text?';
+$messages['nocontactselected'] = 'You have not selected a contact yet.';
 $messages['addedsuccessfully'] = 'Contact successfully added to address book.';
 $messages['contactexists'] = 'A contact with the same email address already exists.';
 $messages['contactnameexists'] = 'A contact with the same name already exists.';
@@ -63,11 +64,11 @@ $messages['nopubkeyforsender'] = 'No valid public key found for your sender iden
 $messages['encryptnoattachments'] = 'Already uploaded attachments cannot be encrypted. Please re-add them in the encryption editor.';
 $messages['searchpubkeyservers'] = 'Do you want to search public key servers for the missing keys?';
 $messages['encryptpubkeysfound'] = 'The following public keys have been found:';
-$messages['keyservererror'] = 'Failed to get key from keyserver';
-$messages['keyimportsuccess'] = 'Public key $key successfully imported into your key ring';
+$messages['keyservererror'] = 'Failed to get key from keyserver.';
+$messages['keyimportsuccess'] = 'Public key $key successfully imported into your keyring.';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
-$messages['contactsearchonly'] = 'Enter some search terms to find contacts';
+$messages['contactsearchonly'] = 'You must use a search form to see contacts from this addressbook.';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
 $messages['errorsavingsent'] = 'An error occurred while saving sent message.';
@@ -82,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Do you really want to delete the selected 
 $messages['deletegroupconfirm']  = 'Do you really want to delete the selected group?';
 $messages['deletemessagesconfirm'] = 'Do you really want to delete the selected message(s)?';
 $messages['deletefolderconfirm']  = 'Do you really want to delete this folder?';
+$messages['movefolderconfirm']  = 'Do you really want to move this folder?';
 $messages['purgefolderconfirm']  = 'Do you really want to delete all messages in this folder?';
 $messages['contactdeleting'] = 'Deleting contact(s)...';
 $messages['groupdeleting'] = 'Deleting group...';
@@ -94,6 +96,7 @@ $messages['noemailwarning'] = 'Please enter a valid email address.';
 $messages['nonamewarning']  = 'Please enter a name.';
 $messages['nopagesizewarning'] = 'Please enter a page size.';
 $messages['nosenderwarning'] = 'Please enter sender email address.';
+$messages['recipientsadded'] = 'Recipient(s) added successfully.';
 $messages['norecipientwarning'] = 'Please enter at least one recipient.';
 $messages['disclosedrecipwarning'] = 'All recipients will see each others e-mail addresses. To prevent this and protect their privacy you can use the Bcc field.';
 $messages['disclosedreciptitle'] = 'Too many public recipients';
@@ -124,6 +127,7 @@ $messages['fileuploaderror'] = 'File upload failed.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';
+$messages['msgsizeerrorfwd'] = 'Maximum size of a message ($size) exceeded. $num message(s) have not been attached.';
 $messages['copysuccess'] = 'Successfully copied $nr contacts.';
 $messages['movesuccess'] = 'Successfully moved $nr contacts.';
 $messages['copyerror'] = 'Could not copy any contacts.';
@@ -149,7 +153,7 @@ $messages['contactaddedtogroup'] = 'Successfully added the contacts to this grou
 $messages['contactremovedfromgroup'] = 'Successfully removed contacts from this group.';
 $messages['nogroupassignmentschanged'] = 'No group assignments changed.';
 $messages['importwait'] = 'Importing, please wait...';
-$messages['importformaterror'] = 'Import failed! The uploaded file is not a valid import data file.';
+$messages['importformaterror'] = 'Import failed! The uploaded file is not in a valid import format.';
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts</b>';
 $messages['importconfirmskipped'] = '<b>Skipped $skipped existing entries</b>';
 $messages['importmessagesuccess'] = 'Successfully imported $nr messages';
@@ -163,6 +167,7 @@ $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from" ($msg).';
 $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to" ($msg).';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list.';
+$messages['smtputf8error'] = 'SMTP Error: Server does not support Unicode in email address.';
 $messages['smtpsizeerror'] = 'SMTP Error: Message size exceeds server limit ($limit)';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Invalid email address: $email';
@@ -176,13 +181,13 @@ $messages['contactrestored'] = 'Contact(s) successfully restored.';
 $messages['groupdeleted'] = 'Group deleted successfully.';
 $messages['grouprenamed'] = 'Group renamed successfully.';
 $messages['groupcreated'] = 'Group created successfully.';
-$messages['savedsearchdeleted'] = 'Saved search deleted successfully.';
+$messages['savedsearchdeleted'] = 'Saved search successfully deleted.';
 $messages['savedsearchdeleteerror'] = 'Could not delete saved search.';
-$messages['savedsearchcreated'] = 'Saved search created successfully.';
+$messages['savedsearchcreated'] = 'Saved search successfully created.';
 $messages['savedsearchcreateerror'] = 'Could not create saved search.';
 $messages['messagedeleted'] = 'Message(s) deleted successfully.';
 $messages['messagemoved'] = 'Message(s) moved successfully.';
-$messages['messagemovedtotrash'] = 'Message(s) moved to the Rubbish Bin successfully.';
+$messages['messagemovedtotrash'] = 'Message(s) moved to Deleted Items successfully.';
 $messages['messagecopied'] = 'Message(s) copied successfully.';
 $messages['messagemarked'] = 'Message(s) marked successfully.';
 $messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';
@@ -195,19 +200,25 @@ $messages['foldercreated'] = 'Successfully created folder.';
 $messages['invalidimageformat'] = 'Not a valid image format.';
 $messages['mispellingsfound'] = 'Spelling errors detected in the message.';
 $messages['parentnotwritable'] = 'Unable to create/move folder into selected parent folder. No access rights.';
-$messages['messagetoobig'] = 'The message part is too big to process it.';
+$messages['messagetoobig'] = 'The message part is too big to be processed.';
 $messages['attachmentvalidationerror'] = 'This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 $messages['messageissent'] = 'The message was already sent, but not yet saved. Do you want to save it now?';
-$messages['errnotfound'] = 'File Not Found';
-$messages['errnotfoundexplain'] = 'The requested resource was not found!';
+$messages['errnotfound'] = 'File not found';
+$messages['errnotfoundexplain'] = 'The requested resource was not found.';
 $messages['errfailedrequest'] = 'Failed request';
-$messages['errauthorizationfailed'] = 'Authorisation Failed';
-$messages['errunauthorizedexplain'] = 'Could not verify that you are authorised to access this service!';
-$messages['errrequestcheckfailed'] = 'Request Check Failed';
+$messages['errauthorizationfailed'] = 'Authorisation failed';
+$messages['errunauthorizedexplain'] = 'Could not verify that you are authorised to access this service.';
+$messages['errrequestcheckfailed'] = 'Request check failed';
 $messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nIf you see this, you probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
 $messages['errcontactserveradmin'] = 'Please contact your server administrator.';
 $messages['clicktoresumesession'] = 'Click here to resume your previous session';
 $messages['errcomposesession'] = 'Compose session error';
 $messages['errcomposesessionexplain'] = 'Requested compose session not found.';
 $messages['clicktocompose'] = 'Click here to compose a new message';
+$messages['nosupporterror'] = 'This feature is not supported by your web browser.';
+$messages['siginserted'] = 'Signature inserted successfully.';
+$messages['responseinserted'] = 'Response inserted successfully.';
+$messages['listempty'] = 'The list is empty.';
+$messages['listusebutton'] = 'Use the Create button to add a new record.';
+$messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';

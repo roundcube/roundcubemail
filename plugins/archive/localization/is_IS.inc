@@ -2,24 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/archive/localization/<lang>.inc                                |
- |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2016, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
+
 $labels['buttontext'] = 'Geymsla';
-$labels['buttontitle'] = 'Setja þetta skeyti í geymslu';
+$labels['buttontitle'] = 'Setja þessi skilaboð í safngeymslu';
 $labels['archived'] = 'Tókst að setja í geymslu';
 $labels['archivedreload'] = 'Tókst að setja í geymslu. Endurlestu síðuna til að sjá nýju geymslumöppurnar.';
-$labels['archiveerror'] = 'Ekki var hægt að setja öll skeyti í geymslu';
+$labels['archiveerror'] = 'Ekki var hægt að setja öll skilaboð í safngeymslu';
 $labels['archivefolder'] = 'Geymsla';
 $labels['settingstitle'] = 'Geymsla';
 $labels['archivetype'] = 'Skipta geymslu upp eftir';
@@ -29,5 +28,5 @@ $labels['archivetypetbmonth'] = 'mánuði - samhæft við Thunderbird (t.d. Geym
 $labels['archivetypefolder'] = 'Upprunaleg mappa';
 $labels['archivetypesender'] = 'Tölvupóstfang sendanda';
 $labels['unkownsender'] = 'óþekkt';
-$labels['readonarchive'] = 'Merkja skeyti sem lesið þegar það er lesið í geymslu';
+$labels['readonarchive'] = 'Merkja skilaboð sem lesin þegar þau eru lesin í safni';
 ?>

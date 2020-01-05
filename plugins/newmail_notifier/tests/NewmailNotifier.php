@@ -1,6 +1,6 @@
 <?php
 
-class NewmailNotifier_Plugin extends PHPUnit_Framework_TestCase
+class NewmailNotifier_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class NewmailNotifier_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new newmail_notifier($rcube->api);
+        $plugin = new newmail_notifier($rcube->plugins);
 
         $this->assertInstanceOf('newmail_notifier', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

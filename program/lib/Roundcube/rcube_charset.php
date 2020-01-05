@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  | Copyright (C) 2000 Edmund Grimley Evans <edmundo@rano.org>            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -16,6 +17,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
+ | Author: Edmund Grimley Evans <edmundo@rano.org>                       |
  +-----------------------------------------------------------------------+
 */
 
@@ -24,9 +26,6 @@
  *
  * @package    Framework
  * @subpackage Core
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
- * @author     Edmund Grimley Evans <edmundo@rano.org>
  */
 class rcube_charset
 {
@@ -184,8 +183,8 @@ class rcube_charset
     }
 
     /**
-     * Parse and validate charset name string (see #1485758).
-     * Sometimes charset string is malformed, there are also charset aliases 
+     * Parse and validate charset name string.
+     * Sometimes charset string is malformed, there are also charset aliases,
      * but we need strict names for charset conversion (specially utf8 class)
      *
      * @param string $input Input charset name
@@ -206,6 +205,7 @@ class rcube_charset
             '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
             '/UNICODE-1-1-*/',  // RFC1641/1642
             '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
+            '/\*.*$/'           // lang code according to RFC 2231.5
         ), '', $charset);
 
         if ($charset == 'BINARY') {

@@ -1,7 +1,6 @@
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <roundcube:if condition="config:enable_spellcheck" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
@@ -24,7 +23,7 @@
 	<roundcube:button command="send" type="link" class="button send disabled" classAct="button send" label="send" title="sendmessage" tabindex="2" />
 	<roundcube:button command="savedraft" type="link" class="button savedraft disabled" classAct="button savedraft" label="save" title="savemessage" tabindex="2" />
 	<span class="spacer"></span>
-	<roundcube:if condition="config:enable_spellcheck" />
+	<roundcube:if condition="!empty(env:spell_langs)" />
 	<span class="dropbutton">
 		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" tabindex="2" />
 		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" aria-expanded="false" tabindex="2">Select Spell Language</a>
@@ -213,7 +212,7 @@
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
 		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" classAct="active" unselectable="on" />
-		<roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
+		<roundcube:button name="responses" type="link-menuitem" label="editresponses" class="active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
 	</ul>
 </div>
 

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filteri';
 $labels['managefilters'] = 'Upravljanje dolaznim email filterima';
 $labels['filtername'] = 'Naziv filtera';
@@ -64,14 +64,8 @@ $labels['days'] = 'dana';
 $labels['seconds'] = 'sekundi';
 $labels['rulestop'] = 'Prestani procjenjivati pravila';
 $labels['enable'] = 'Omogući/Onemogući';
-$labels['filterset'] = 'Set filtera';
 $labels['filtersets'] = 'Setovi filtera';
-$labels['filtersetadd'] = 'Dodaj set filtera';
-$labels['filtersetact'] = 'Aktiviraj trenutni set filtera';
-$labels['filtersetdeact'] = 'Deaktiviraj trenutni set filtera';
 $labels['filterdef'] = 'Definicija filtera';
-$labels['filtersetname'] = 'Naziv seta filtera';
-$labels['newfilterset'] = 'Novi set filtera';
 $labels['active'] = 'aktivno';
 $labels['none'] = 'ništa';
 $labels['fromset'] = 'iz seta';
@@ -160,19 +154,15 @@ $labels['asciicasemap'] = 'osjetljivo na velika/mala slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'unazad';
-$labels['vacation'] = 'Odmor';
 $labels['vacation.reply'] = 'Poruka sa odgovorom';
 $labels['vacation.advanced'] = 'Napredmen postavke';
 $labels['vacation.subject'] = 'Naslov';
 $labels['vacation.body'] = 'Tijelo';
-$labels['vacation.start'] = 'Početak odmora';
-$labels['vacation.end'] = 'Kraj odmora';
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'Uključeno';
 $labels['vacation.off'] = 'Isključeno';
 $labels['vacation.addresses'] = 'Moje email adrese';
 $labels['vacation.interval'] = 'Interval odgovora';
-$labels['vacation.after'] = 'Pravilo za odmor stavi nakon';
 $labels['vacation.saving'] = 'Snimam podatke...';
 $labels['vacation.action'] = 'Akcija za dolazne poruke';
 $labels['vacation.keep'] = 'Zadrži';
@@ -205,15 +195,6 @@ $messages['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati označe
 $messages['forbiddenchars'] = 'U polje su uneseni nedozvoljeni znakovi.';
 $messages['cannotbeempty'] = 'Polje ne može biti prazno.';
 $messages['ruleexist'] = 'Filter s tim imenom već postoji.';
-$messages['setactivateerror'] = 'Nije moguće aktivirati označeni set filtera. Desila se serverska greška.';
-$messages['setdeactivateerror'] = 'Nije moguće deaktivirati označeni set filtera. Desila se serverska greška.';
-$messages['setdeleteerror'] = 'Nije moguće obrisati označeni set filtera. Desila se serverska greška.';
-$messages['setactivated'] = 'Set filtera je uspješno aktiviran.';
-$messages['setdeactivated'] = 'Set filtera je uspješno deaktiviran.';
-$messages['setdeleted'] = 'Set filtera je uspješno obrisan.';
-$messages['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati označeni set filtera?';
-$messages['setcreateerror'] = 'Nije moguće kreirati set filtera. Desila se serverska greška.';
-$messages['setcreated'] = 'Set filtera je uspješno kreiran.';
 $messages['activateerror'] = 'Nije moguće omogućiti označene filtere. Desila se serverska greška.';
 $messages['deactivateerror'] = 'Nije moguće onemogućiti označene filtere. Desila se serverska greška.';
 $messages['deactivated'] = 'Filteri su uspješno omogućeni.';
@@ -226,6 +207,4 @@ $messages['setexist'] = 'Set već postoji.';
 $messages['nodata'] = 'Morate označiti barem jednu poziciju!';
 $messages['invaliddateformat'] = 'Netačan datum ili dio formata datuma';
 $messages['saveerror'] = 'Nije moguće snimiti podatke. Desila se serverska greška.';
-$messages['vacationsaved'] = 'Podaci o odmoru su uspješno snimljeni.';
 $messages['emptyvacationbody'] = 'Tijelo poruke za odmor je neophodno!';
-?>

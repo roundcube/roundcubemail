@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = '加密';
 $labels['enigmacerts'] = 'S/MIME 证书';
 $labels['enigmakeys'] = 'PGP 密钥';
@@ -85,6 +84,9 @@ $labels['withprivkeys'] = '导出私钥';
 $labels['findkey'] = '搜索密钥服务器';
 $labels['keyimportlabel'] = '从文件导入';
 $labels['keyimportsearchlabel'] = '在密钥服务器上搜索';
+$labels['managekeys'] = '管理 PGP 密钥';
+$labels['identitymatchingprivkeys'] = '你的钥匙环中有 $nr 项符合条件的 PGP 私钥：';
+$labels['identitynoprivkeys'] = '你的钥匙环中没有符合此发件人身份的 PGP 私钥';
 $messages['sigvalid'] = '已验证来自 $sender 的签名。';
 $messages['sigvalidpartial'] = '已验证来自 $sender 的签名，但主体部分未被签名。';
 $messages['siginvalid'] = '无效的来自 $sender 的签名。';

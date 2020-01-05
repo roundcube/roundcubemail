@@ -8,8 +8,7 @@
  * @license GNU GPLv3+
  *
  * Configuration (see config.inc.php.dist)
- * 
- **/
+ */
 
 class help extends rcube_plugin
 {
@@ -144,7 +143,7 @@ class help extends rcube_plugin
 
         // resolve task/action for deep linking
         $rel = $_REQUEST['_rel'];
-        list($task, $action) = explode('/', $rel);
+        list($task, ) = explode('/', $rel);
         if ($add = $index_map[$rel]) {
             $src .= $add;
         }

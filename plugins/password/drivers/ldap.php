@@ -12,7 +12,7 @@
  * method hashPassword based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  * method randomSalt based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,10 +34,11 @@ class rcube_ldap_password
     {
         $rcmail = rcmail::get_instance();
         require_once 'Net/LDAP2.php';
+        require_once __DIR__ . '/ldap_simple.php';
 
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
-            $userDN = self::substitute_vars($userDN);
+            $userDN = rcube_ldap_simple_password::substitute_vars($userDN);
         }
         else {
             $userDN = $this->search_userdn($rcmail);
@@ -179,8 +180,8 @@ class rcube_ldap_password
             return '';
         }
 
-        $base   = self::substitute_vars($rcmail->config->get('password_ldap_search_base'));
-        $filter = self::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
+        $base   = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
+        $filter = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = array (
             'scope' => 'sub',
             'attributes' => array(),
@@ -195,32 +196,5 @@ class rcube_ldap_password
         $ldap->done();
 
         return $userDN;
-    }
-
-    /**
-     * Substitute %login, %name, %domain, %dc in $str
-     * See plugin config for details
-     */
-    static function substitute_vars($str)
-    {
-        $str = str_replace('%login', $_SESSION['username'], $str);
-        $str = str_replace('%l', $_SESSION['username'], $str);
-
-        $parts = explode('@', $_SESSION['username']);
-
-        if (count($parts) == 2) {
-            $dc = 'dc='.strtr($parts[1], array('.' => ',dc=')); // hierarchal domain string
-
-            $str = str_replace('%name', $parts[0], $str);
-            $str = str_replace('%n', $parts[0], $str);
-            $str = str_replace('%dc', $dc, $str);
-            $str = str_replace('%domain', $parts[1], $str);
-            $str = str_replace('%d', $parts[1], $str);
-        } else if ( count($parts) == 1) {
-            $str = str_replace('%name', $parts[0], $str);
-            $str = str_replace('%n', $parts[0], $str);
-        }
-
-        return $str;
     }
 }

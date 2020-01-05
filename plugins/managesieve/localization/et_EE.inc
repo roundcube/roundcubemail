@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtrid';
 $labels['managefilters'] = 'Halda sisenevate kirjade filtreid';
 $labels['filtername'] = 'Filtri nimi';
 $labels['newfilter'] = 'Uus filter';
 $labels['filteradd'] = 'Lisa filter';
 $labels['filterdel'] = 'Kustuta filter';
+$labels['rules'] = 'Reeglid';
+$labels['actions'] = 'Tegevused';
 $labels['scope'] = 'Skoop';
 $labels['moveup'] = 'Liiguta üles';
 $labels['movedown'] = 'Liiguta alla';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'vastab regulaaravaldisele';
 $labels['filternotregex'] = 'ei vasta regulaaravaldisele';
 $labels['filterunder'] = 'alt';
 $labels['filterover'] = 'üle';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME osa:';
+$labels['mime-message'] = 'sõnum';
+$labels['mime-anychild'] = 'mistahes';
+$labels['mime-type'] = 'tüüp';
+$labels['mime-subtype'] = 'alamtüüp';
+$labels['mime-contenttype'] = 'sisu tüüp';
+$labels['mime-param'] = 'parameeter';
 $labels['addrule'] = 'Lisa reegel';
 $labels['delrule'] = 'Kustuta reegel';
 $labels['messagemoveto'] = 'Liiguta kiri';
@@ -48,25 +58,31 @@ $labels['messagesendcopy'] = 'Saada kirja koopia';
 $labels['messagereply'] = 'Vasta kirjaga';
 $labels['messagedelete'] = 'Kustuta kiri';
 $labels['messagediscard'] = 'Viska ära teatega';
+$labels['messagekeep'] = 'Hoia kirjad sisendkaustas';
 $labels['messagesrules'] = 'Siseneva kirja puhul, mis:';
 $labels['messagesactions'] = '...käivita järgnevad tegevused:';
 $labels['add'] = 'Lisa';
 $labels['del'] = 'Kustuta';
 $labels['sender'] = 'Saatja';
 $labels['recipient'] = 'Saaja';
+$labels['vacationaddr'] = 'Minu e-posti aadressid:';
 $labels['vacationdays'] = 'Kui tihti kirju saata (päevades):';
 $labels['vacationinterval'] = 'Kui tihti kirju saata:';
 $labels['vacationreason'] = 'Kirja sisu (puhkuse põhjus):';
+$labels['vacationfrom'] = 'Vastuse saatja aadress:';
 $labels['vacationsubject'] = 'Kirja teema:';
 $labels['days'] = 'päeva';
 $labels['seconds'] = 'sekundit';
 $labels['rulestop'] = 'Peata reeglite otsimine';
 $labels['enable'] = 'Luba/keela';
-$labels['filterset'] = 'Filtrite kogum';
+$labels['filterset'] = 'Filtri kogum';
 $labels['filtersets'] = 'Filtri kogum';
 $labels['filtersetadd'] = 'Lisa filtrite kogum';
-$labels['filtersetact'] = 'Aktiveeri praegune filtrite kogum';
-$labels['filtersetdeact'] = 'De-aktiveeri praegune filtrite kogum';
+$labels['filtersetdel'] = 'Kustuta filtrite kogum';
+$labels['filtersetact'] = 'Aktiveeri see filtrite kogum';
+$labels['filtersetdeact'] = 'Deaktiveeri see filtrite kogum';
+$labels['filterseteditraw'] = 'Muuda filtrite kogumit';
+$labels['filtersetswitch'] = 'Luba/keela filtrite kogum';
 $labels['filterdef'] = 'Filtri definitsioon';
 $labels['filtersetname'] = 'Filtrite kogumi nimi';
 $labels['newfilterset'] = 'Uus filtrite kogum';
@@ -75,6 +91,7 @@ $labels['none'] = 'puudub';
 $labels['fromset'] = 'kogumist';
 $labels['fromfile'] = 'failist';
 $labels['filterdisabled'] = 'Filter keelatud';
+$labels['filterenabled'] = 'Filter lubatud';
 $labels['countisgreaterthan'] = 'koguarv on suurem kui';
 $labels['countisgreaterthanequal'] = 'koguarv on suurem kui või võrdne';
 $labels['countislessthan'] = 'koguarv on väiksem';
@@ -95,6 +112,18 @@ $labels['flagdeleted'] = 'Kustutatud';
 $labels['flaganswered'] = 'Vastatud';
 $labels['flagflagged'] = 'Märgistatud';
 $labels['flagdraft'] = 'Mustand';
+$labels['addheader'] = 'Lisa kirjale päis';
+$labels['deleteheader'] = 'Eemalda kirjast päis';
+$labels['headername'] = 'Päise nimi';
+$labels['headervalue'] = 'Päise väärtus';
+$labels['headerpos'] = 'Päise positsioon';
+$labels['headeratstart'] = 'alguses';
+$labels['headeratend'] = 'lõpus';
+$labels['headeroccurrence'] = 'Päise positsioon';
+$labels['headerfromstart'] = 'algusest';
+$labels['headerfromend'] = 'lõpust';
+$labels['headerpatterns'] = 'Päise väärtuse mustrid';
+$labels['headermatchtype'] = 'vastavuse tüüp:';
 $labels['setvariable'] = 'Määra muutuja';
 $labels['setvarname'] = 'Muutuja nimi:';
 $labels['setvarvalue'] = 'Muutuja väärtus:';
@@ -106,16 +135,22 @@ $labels['varupperfirst'] = 'esimene märk on suurtäht';
 $labels['varquotewildcard'] = 'tsiteeri erimärke';
 $labels['varlength'] = 'pikkus';
 $labels['notify'] = 'Saada teavitus';
+$labels['notifytarget'] = 'Teavituse sihtmärk:';
+$labels['notifymessage'] = 'Teavituse sõnum (valikuline):';
+$labels['notifyoptions'] = 'Teavituse valikud (valikuline):';
+$labels['notifyfrom'] = 'Teavituse saatja (valikuline):';
 $labels['notifyimportance'] = 'Tähtsus:';
 $labels['notifyimportancelow'] = 'madal';
 $labels['notifyimportancenormal'] = 'tavaline';
 $labels['notifyimportancehigh'] = 'kõrge';
 $labels['notifymethodmailto'] = 'E-post';
 $labels['notifymethodtel'] = 'Telefon';
+$labels['notifymethodsms'] = 'SMS';
 $labels['filtercreate'] = 'Loo filter';
 $labels['usedata'] = 'Kasuta filtris järgmisi andmeid:';
 $labels['nextstep'] = 'Järgmine samm';
 $labels['...'] = '…';
+$labels['string'] = 'Tekst';
 $labels['currdate'] = 'Praegune kuupäev';
 $labels['datetest'] = 'Kuupäev';
 $labels['dateheader'] = 'päis:';
@@ -153,31 +188,89 @@ $labels['asciicasemap'] = 'tõstutundetu (ascii-casemap)';
 $labels['asciinumeric'] = 'numbriline (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'tagasisuunas';
+$labels['vacation'] = 'Kontorist väljas';
+$labels['vacation.reply'] = 'Vasta sõnumiga';
+$labels['vacation.advanced'] = 'Lisaseaded';
+$labels['vacation.from'] = 'Vastuse saatja aadress';
 $labels['vacation.subject'] = 'Pealkiri';
 $labels['vacation.body'] = 'Keha';
+$labels['vacation.start'] = 'Alguse aeg';
+$labels['vacation.end'] = 'Lõpu aeg';
+$labels['vacation.status'] = 'Staatus';
+$labels['vacation.on'] = 'Sees';
+$labels['vacation.off'] = 'Väljas';
+$labels['vacation.addresses'] = 'Minu e-maili aadress';
+$labels['vacation.interval'] = 'Vastuse sagedus';
+$labels['vacation.after'] = 'Pane kontorist väljas reeglel peale';
+$labels['vacation.saving'] = 'Salvestan andmeid...';
+$labels['vacation.action'] = 'Saabuva kirja tegevus';
 $labels['vacation.keep'] = 'Säilita';
+$labels['vacation.discard'] = 'Loobu';
+$labels['vacation.redirect'] = 'Suuna';
+$labels['vacation.copy'] = 'Saada koopia';
+$labels['forward'] = 'Edastamine';
+$labels['forward.redirect'] = 'Suuna';
+$labels['forward.copy'] = 'Saada koopia';
+$labels['forward.on'] = 'Sees';
+$labels['forward.off'] = 'Väljas';
+$labels['forward.status'] = 'Staatus:';
+$labels['forward.action'] = 'Sisenevatele kirjadele käivita järgmine tegevus:';
+$labels['forward.saving'] = 'Salvestan andmeid...';
+$labels['filladdresses'] = 'Täida minu aadressidega';
+$labels['arialabelfiltersetactions'] = 'Filtrikogumi tegevused';
+$labels['arialabelfilteractions'] = 'Filtri tegevused';
+$labels['arialabelfilterform'] = 'Filtri omadused';
+$labels['ariasummaryfilterslist'] = 'Filtrite nimekiri';
+$labels['ariasummaryfiltersetslist'] = 'Filtrikogumite nimekiri';
+$labels['filterstitle'] = 'Muuda sisenevate kirjade filtreid';
+$labels['vacationtitle'] = 'Muuda kontorist väljas reeglit';
+$labels['forwardtitle'] = 'Muuda kirja edastamise reeglit';
+$labels['message'] = 'Kiri';
+$labels['duplicate'] = 'on duplikaat';
+$labels['notduplicate'] = 'ei ole duplikaat';
+$labels['duplicate.handle'] = 'käsitlus:';
 $labels['duplicate.header'] = 'päis:';
+$labels['duplicate.uniqueid'] = 'tuvastaja:';
+$labels['duplicate.seconds'] = 'aegumine (sekundit):';
+$labels['duplicate.last'] = 'suhteline viimasest käivitusest';
 $messages['filterunknownerror'] = 'Tundmatu serveri tõrge';
 $messages['filterconnerror'] = 'Managesieve serveriga ühendumine nurjus';
+$messages['filterdeleteerror'] = 'Ei saa filtrit kustutada. Ilmnes serveri viga.';
 $messages['filterdeleted'] = 'Filter edukalt kustutatud';
 $messages['filtersaved'] = 'Filter edukalt salvestatud';
+$messages['filtersaveerror'] = 'Ei saa filtrit salvestada. Ilmnes serveri viga.';
+$messages['filterformerror'] = 'Filtri vormis on vead.';
 $messages['filterdeleteconfirm'] = 'Soovid valitud filtri kustutada?';
 $messages['ruledeleteconfirm'] = 'Soovid valitud reegli kustutada?';
 $messages['actiondeleteconfirm'] = 'Soovid valitud tegevuse kustutada?';
 $messages['forbiddenchars'] = 'Väljal on lubamatu märk';
 $messages['cannotbeempty'] = 'Väli ei või tühi olla';
 $messages['ruleexist'] = 'Määratud nimega filter on juba olemas';
-$messages['setactivated'] = 'Filtrite kogumi aktiveerimine õnnestus.';
-$messages['setdeactivated'] = 'Filtrite kogumi deaktiveerimine õnnestus.';
-$messages['setdeleted'] = 'Filtrite kogumi kustutamine õnnestus.';
-$messages['setdeleteconfirm'] = 'Oled kindel, et soovid valitud filtrite kogumi kustutada?';
-$messages['setcreated'] = 'Filtrite kogumi loomine õnnestus.';
+$messages['setactivateerror'] = 'Ei saa valitud filtrite kogumit aktiveerida. Ilmnes serveri viga.';
+$messages['setdeactivateerror'] = 'Ei saa valitud filtrite kogumit deaktiveerida. Ilmnes serveri viga.';
+$messages['setdeleteerror'] = 'Ei saa valitud filtrite kogumit kustutada. Ilmnes serveri viga.';
+$messages['setactivated'] = 'Filtrite kogum aktiveeritud.';
+$messages['setdeactivated'] = 'Filtrite kogum deaktiveeritud.';
+$messages['setdeleted'] = 'Filtrite kogum kustutatud.';
+$messages['setupdated'] = 'Filtrite kogum uuendatud.';
+$messages['setdeleteconfirm'] = 'Oled kindel, et tahd valitud filtrite kogumit kustutada?';
+$messages['setcreateerror'] = 'Ei saa filtrite kogumit luua. Ilmnes serveri viga.';
+$messages['setcreated'] = 'Filtrite kogum loodud.';
+$messages['activateerror'] = 'Ei saa valitud filtrit/(eid) aktiveerida. Ilmnes serveri viga.';
+$messages['deactivateerror'] = 'Ei saa valitud filtrit/(eid) keelata. Ilmnes serveri viga.';
 $messages['deactivated'] = 'Filter edukalt lubatud.';
 $messages['activated'] = 'Filter edukalt keelatud.';
 $messages['moved'] = 'Filter edukalt liigutatud.';
+$messages['moveerror'] = 'Ei saa valitud filtrit liigutada. Ilmnes serveri viga.';
 $messages['nametoolong'] = 'Nimi on liiga pikk.';
 $messages['namereserved'] = 'Nimi on reserveeritud.';
 $messages['setexist'] = 'Kogum on juba olemas.';
 $messages['nodata'] = 'Valitud peab olema vähemalt üks asukoht!';
 $messages['invaliddateformat'] = 'Vigane kuupäev või kuupäeva formaat';
-?>
+$messages['saveerror'] = 'Ei saa andmeid salvestada. Imnes serveri viga.';
+$messages['vacationsaved'] = 'Kontorist väljas teade edukalt salvestatud.';
+$messages['forwardsaved'] = 'Edastuse info edukalt salvestatud.';
+$messages['emptyvacationbody'] = 'Puhkuse sõnumi sinu on nõutud!';
+$messages['duplicate.conflict.err'] = 'Päis ja unikaalne identifikaator ei ole korraga lubatud.';
+$messages['disabledaction'] = 'Tegevus ei ole lubatud.';
+$messages['lastindexempty'] = 'Indeks on vajalik kui loendada lõpust';

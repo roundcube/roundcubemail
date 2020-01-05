@@ -9,6 +9,7 @@
             <file>Framework/Cache.php</file>
             <file>Framework/CacheShared.php</file>
             <file>Framework/Charset.php</file>
+            <file>Framework/Config.php</file>
             <file>Framework/Contacts.php</file>
             <file>Framework/ContentFilter.php</file>
             <file>Framework/Csv2vcard.php</file>
@@ -50,12 +51,14 @@
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
-            <file>RcmailFunc.php</file>
+            <file>Rcmail/OutputHtml.php</file>
+            <file>Rcmail/Rcmail.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>
             <file>./../plugins/additional_message_headers/tests/AdditionalMessageHeaders.php</file>
             <file>./../plugins/archive/tests/Archive.php</file>
+            <file>./../plugins/attachment_reminder/tests/AttachmentReminder.php</file>
             <file>./../plugins/autologon/tests/Autologon.php</file>
             <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
             <file>./../plugins/debug_logger/tests/DebugLogger.php</file>

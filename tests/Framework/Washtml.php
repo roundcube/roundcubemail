@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Washtml extends PHPUnit_Framework_TestCase
+class Framework_Washtml extends PHPUnit\Framework\TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml
@@ -19,19 +19,21 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     /**
      * Test the elimination of some XSS vulnerabilities
      */
-    function test_html_xss3()
+    function test_html_xss()
     {
         // #1488850
-        $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+        $html = '<a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>'
-            .'<p><A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+            .'<A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
+            .'<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
         $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
         $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+        $this->assertNotRegExp('/data:application/', $washed, "Remove data:application links");
     }
 
     /**
@@ -115,6 +117,11 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - bracket inside");
+
+        $html   = "<p><!-- span>1</span -->\n<span>2</span>\n<!-- >3</span --><span>4</span></p>";
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertEquals("<p>\n<span>2</span>\n<span>4</span></p>", $washed, "HTML comments (#6464)");
     }
 
     /**
@@ -220,6 +227,26 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $washer->wash($html);
 
         $this->assertRegExp('|style="font-family: 新細明體; color: red"|', $washed, "Unicode chars in style attribute (#1489697)");
+    }
+
+    /**
+     * Test deprecated body attributes (#7109)
+     */
+    function test_style_body_attrs()
+    {
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body bgcolor=\"#fff\" text=\"#000\" background=\"#test\" link=\"#111\" alink=\"#222\" vlink=\"#333\">
+            </body></html>";
+
+        $washer = new rcube_washtml(array('html_elements' => array('body')));
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|bgcolor="#fff"|', $washed, "Body bgcolor attribute");
+        $this->assertRegExp('|text="#000"|', $washed, "Body text attribute");
+        $this->assertRegExp('|background="#test"|', $washed, "Body background attribute");
+        $this->assertRegExp('|link="#111"|', $washed, "Body link attribute");
+        $this->assertRegExp('|alink="#222"|', $washed, "Body alink attribute");
+        $this->assertRegExp('|vlink="#333"|', $washed, "Body vlink attribute");
     }
 
     /**
@@ -441,5 +468,59 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertContains('id="testmy-id"', $washed);
         $this->assertContains('for="testmy-other-id"', $washed);
         $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
+    }
+
+    /**
+     * Test removing xml:namespace tag
+     */
+    function test_xml_namespace()
+    {
+        $html = '<p><?xml:namespace prefix = "xsl" /></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertNotContains('&lt;?xml:namespace"', $washed);
+        $this->assertSame($washed, '<p></p>');
+    }
+
+    /**
+     * Test missing main HTML hierarchy tags (#6713)
+     */
+    function test_missing_tags()
+    {
+        $washer = new rcube_washtml();
+
+        $html   = '<head></head>First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br />Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = '<html>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('>First line', $washed);
+
+        $html   = '<html><head></head>First line<br />Second line</html>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        // Not really valid HTML, but because its common in email world
+        // and because it works with DOMDocument, we make sure its supported
+        $html   = 'First line<br /><html><body>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
+
+        $html   = 'First line<br /><html>Second line';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('First line', $washed);
     }
 }

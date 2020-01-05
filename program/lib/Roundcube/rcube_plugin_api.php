@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// location where plugins are loade from
+// location where plugins are loaded from
 if (!defined('RCUBE_PLUGINS_DIR')) {
     define('RCUBE_PLUGINS_DIR', RCUBE_INSTALL_PATH . 'plugins/');
 }
@@ -596,8 +597,7 @@ class rcube_plugin_api
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->add_header(html::tag('script',
-                array('type' => "text/javascript", 'src' => $src)));
+            $this->output->include_script($src, 'head_bottom', false);
         }
     }
 

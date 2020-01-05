@@ -5,7 +5,7 @@
  *
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2011-2012, Kolab Systems AG
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -407,10 +407,10 @@ class acl extends rcube_plugin
         }
         else {
             $items = array(
-                'read' => 'lrs',
-                'write' => 'wi',
+                'read'   => 'lrs',
+                'write'  => 'wi',
                 'delete' => $deleteright,
-                'other' => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
+                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
             );
 
             // give plugins the opportunity to adjust this list
@@ -438,14 +438,19 @@ class acl extends rcube_plugin
 
             // filter out virtual rights (c or d) the server may return
             $userrights = array_intersect($rights, $supported);
-            $userid = rcube_utils::html_identifier($user);
+            $userid     = rcube_utils::html_identifier($user);
+            $title      = null;
 
             if (!empty($this->specials) && in_array($user, $this->specials)) {
-                $user = $this->gettext($user);
+                $username = $this->gettext($user);
+            }
+            else {
+                $username = $this->resolve_acl_identifier($user, $title);
             }
 
-            $table->add_row(array('id' => 'rcmrow'.$userid));
-            $table->add('user', html::a(array('id' => 'rcmlinkrow'.$userid), rcube::Q($user)));
+            $table->add_row(array('id' => 'rcmrow' . $userid, 'data-userid' => $user));
+            $table->add(array('class' => 'user text-nowrap', 'title' => $title),
+                html::a(array('id' => 'rcmlinkrow' . $userid), rcube::Q($username)));
 
             foreach ($items as $key => $right) {
                 $in = $this->acl_compare($userrights, $right);
@@ -515,9 +520,15 @@ class acl extends rcube_plugin
 
             if ($user != $_SESSION['username'] && $username != $_SESSION['username']) {
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
-                    $ret = array('id' => rcube_utils::html_identifier($user),
-                         'username' => $username, 'acl' => implode($acl), 'old' => $oldid);
-                    $this->rc->output->command('acl_update', $ret);
+                    $display = $this->resolve_acl_identifier($username, $title);
+                    $this->rc->output->command('acl_update', array(
+                            'id'       => rcube_utils::html_identifier($user),
+                            'username' => $username,
+                            'title'    => $title,
+                            'display'  => $display,
+                            'acl'      => implode($acl),
+                            'old'      => $oldid
+                    ));
                     $result++;
                 }
             }
@@ -608,8 +619,9 @@ class acl extends rcube_plugin
             }
         }
 
-        if (count($list) == count($supported))
+        if (count($list) == count($supported)) {
             return rcube::Q($this->gettext('aclfull'));
+        }
 
         return html::tag('ul', $attrib, implode("\n", $list));
     }
@@ -636,12 +648,15 @@ class acl extends rcube_plugin
         $cnt1 = count($res);
         $cnt2 = count($acl2);
 
-        if ($cnt1 == $cnt2)
+        if ($cnt1 == $cnt2) {
             return 2;
-        else if ($cnt1)
+        }
+
+        if ($cnt1) {
             return 1;
-        else
-            return 0;
+        }
+
+        return 0;
     }
 
     /**
@@ -786,5 +801,52 @@ class acl extends rcube_plugin
         }
 
         return $user;
+    }
+
+    /**
+     * Resolve acl identifier to user/group name
+     */
+    protected function resolve_acl_identifier($id, &$title = null)
+    {
+        if ($this->init_ldap()) {
+            $groups      = $this->rc->config->get('acl_groups');
+            $prefix      = $this->rc->config->get('acl_group_prefix');
+            $group_field = $this->rc->config->get('acl_group_field', 'name');
+
+            // Unfortunately this works only if group_field=name,
+            // list_groups() allows searching by group name only
+            if ($groups && $prefix && $group_field === 'name' && strpos($id, $prefix) === 0) {
+                $gid    = substr($id, strlen($prefix));
+                $result = $this->ldap->list_groups($gid, rcube_addressbook::SEARCH_STRICT);
+
+                if (count($result) === 1 && ($record = $result[0])) {
+                    if ($record[$group_field] === $gid) {
+                        $display = $record['name'];
+                        if ($display != $gid) {
+                            $title = sprintf('%s (%s)', $display, $gid);
+                        }
+
+                        return $display;
+                    }
+                }
+
+                return $id;
+            }
+
+            $this->ldap->set_pagesize('2');
+            // Note: 'uid' works here because we overwrite fieldmap in init_ldap() above
+            $result = $this->ldap->search('uid', $id, rcube_addressbook::SEARCH_STRICT);
+
+            if ($result->count === 1 && ($record = $result->first())) {
+                if ($record['uid'] === $id) {
+                    $title   = rcube_addressbook::compose_search_name($record);
+                    $display = rcube_addressbook::compose_list_name($record);
+
+                    return $display;
+                }
+            }
+        }
+
+        return $id;
     }
 }

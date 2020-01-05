@@ -7,7 +7,7 @@
  * @group database
  * @group sqlrsv
  */
-class Framework_DBSqlsrv extends PHPUnit_Framework_TestCase
+class Framework_DBSqlsrv extends PHPUnit\Framework\TestCase
 {
 
     /**

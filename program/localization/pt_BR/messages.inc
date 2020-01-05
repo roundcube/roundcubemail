@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ocorreu um erro!';
 $messages['loginfailed']  = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não aceita cookies.';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
+$messages['cookiesmismatch'] = 'Cookie imcompatível detectado. Por favor, limpar os cookies de seu navegador.';
 $messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se informou os dados corretamente.';
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
@@ -51,6 +51,7 @@ $messages['messagesaved'] = 'Mensagem salva em Rascunhos';
 $messages['successfullysaved'] = 'Salvo com sucesso';
 $messages['savingresponse'] = 'Salvando resposta pré-definida...';
 $messages['deleteresponseconfirm'] = 'Você realmente deseja apagar esta resposta pré-definida?';
+$messages['nocontactselected'] = 'Você ainda não selecionou um contato.';
 $messages['addedsuccessfully'] = 'Contato incluído com sucesso no catálogo de endereços.';
 $messages['contactexists'] = 'Já existe um contato com esse mesmo e-mail.';
 $messages['contactnameexists'] = 'Já existe um contato com o mesmo nome.';
@@ -63,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Nenhuma chave pública válida encontrada para
 $messages['encryptnoattachments'] = 'Anexos já carregados não podem ser criptografados. Adicione-os novamente no editor com criptografia.';
 $messages['searchpubkeyservers'] = 'Você deseja procurar as chaves faltantes nos servidores de chaves públicas?';
 $messages['encryptpubkeysfound'] = 'As seguintes chaves públicas foram localizadas:';
-$messages['keyservererror'] = 'Falha em obter a chave do servidor';
-$messages['keyimportsuccess'] = 'Chave pública $key importada com êxito em seu chaveiro';
+$messages['keyservererror'] = 'Falha ao obter a chave de seu servidor de chaves.';
+$messages['keyimportsuccess'] = 'Chave Pública $key importada com sucesso ao seu chaveiro.';
 $messages['nocontactsfound'] = 'Nenhum contato encontrado.';
 $messages['contactnotfound'] = 'O contato solicitado não foi encontrado.';
-$messages['contactsearchonly'] = 'Informe os termos de pesquisa para localizar os contatos';
+$messages['contactsearchonly'] = 'Você tem que usar o formulário de busca para ver os contatos do catálogo de endereço selecionado.';
 $messages['sendingfailed'] = 'Falha no envio da mensagem.';
 $messages['senttooquickly'] = 'Aguarde $sec s para enviar a mensagem.';
 $messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada.';
@@ -82,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Deseja realmente excluir o(s) contato(s) s
 $messages['deletegroupconfirm']  = 'Deseja realmente excluir o grupo selecionado?';
 $messages['deletemessagesconfirm'] = 'Deseja realmente excluir a(s) mensagem(s) selecionada(s)?';
 $messages['deletefolderconfirm']  = 'Deseja realmente excluir esta pasta?';
+$messages['movefolderconfirm']  = 'Você realmente quer mover esta pasta?';
 $messages['purgefolderconfirm']  = 'Deseja realmente excluir todas mensagens desta pasta?';
 $messages['contactdeleting'] = 'Excluindo contato(s)...';
 $messages['groupdeleting'] = 'Excluindo grupo...';
@@ -94,6 +96,7 @@ $messages['noemailwarning'] = 'Por favor, informe um endereço de e-mail válido
 $messages['nonamewarning']  = 'Por favor, informe o nome';
 $messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página';
 $messages['nosenderwarning'] = 'Por favor, informe o e-mail do remetente';
+$messages['recipientsadded'] = 'Destinatário(s) adicionado(s) com sucesso.';
 $messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário';
 $messages['disclosedrecipwarning'] = 'Todos os destinatários verão os endereços de e-mail uns dos outros. Para prevenir isto e proteger a privacidade deles, você deve usar o campo Cópia Oculta (Cco).';
 $messages['disclosedreciptitle'] = 'Há muitos destinatários públicos';
@@ -124,6 +127,7 @@ $messages['fileuploaderror'] = 'Falha ao enviar o arquivo';
 $messages['filesizeerror'] = 'O arquivo enviado excede o tamanho máximo de $size';
 $messages['filecounterror'] = 'Você pode enviar no máximo $count arquivos por vez.';
 $messages['msgsizeerror'] = 'Falha ao anexar o arquivo. Tamanho máximo da mensagem ($size) excedido.';
+$messages['msgsizeerrorfwd'] = 'Tamanho máximo de uma mensagem ($size) excedido. $num mensagens não foram anexadas.';
 $messages['copysuccess'] = '$nr contato(s) copiado(s) com sucesso.';
 $messages['movesuccess'] = '$nr contato(s) movido(s) com sucesso.';
 $messages['copyerror'] = 'Não foi possível copiar os contatos.';
@@ -163,6 +167,7 @@ $messages['smtpautherror'] = 'Erro SMTP ($code): Falha na autenticação.';
 $messages['smtpfromerror'] = 'Erro SMTP ($code): Falha ao definir o remetente "$from" ($msg).';
 $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatário "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Erro SMTP: Não é possível processar a lista destinatários.';
+$messages['smtputf8error'] = 'Erro de SMTP: Servidor não suporta Unicode em endereço de email.';
 $messages['smtpsizeerror'] = 'Erro de SMTP: Tamanho da mensagem excede o limite do servidor ($limit)';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail inválido: $email';
@@ -211,3 +216,9 @@ $messages['clicktoresumesession'] = 'Clique aqui para continuar sua sessão ante
 $messages['errcomposesession'] = 'Erro na sessão de composição';
 $messages['errcomposesessionexplain'] = 'A sessão de composição solicitada não foi encontrada.';
 $messages['clicktocompose'] = 'Clique aqui para compor uma nova mensagem';
+$messages['nosupporterror'] = 'Esta característica não é suportada pelo seu navegador.';
+$messages['siginserted'] = 'Assinatura inserida com sucesso.';
+$messages['responseinserted'] = 'Resposta inserida com sucesso.';
+$messages['listempty'] = 'A lista está vazia.';
+$messages['listusebutton'] = 'Use o botão Criar para adicionar um novo registro.';
+$messages['keypaircreatesuccess'] = 'Um novo par de chaves foi criado com sucesso para $identity.';

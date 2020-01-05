@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Croeso i $product';
 $labels['username'] = 'Enw defnyddiwr';
 $labels['password'] = 'Cyfrinair';
@@ -147,6 +147,7 @@ $labels['last'] = 'Olaf';
 $labels['previous'] = 'Blaenorol';
 $labels['next'] = 'Nesaf';
 $labels['select'] = 'Dewis';
+$labels['selection'] = 'Dewis';
 $labels['all'] = 'Popeth';
 $labels['none'] = 'Dim';
 $labels['currpage'] = 'Tudalen gyfredol';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Ehangu Popeth';
 $labels['expand-unread'] = 'Ehangu Negeseuon Heb eu darllen';
 $labels['collapse-all'] = 'Crebachu Popeth';
 $labels['threaded'] = 'Edafedd';
+$labels['showunread'] = 'Dangos negeseuon heb eu darllen';
 $labels['autoexpand_threads'] = 'Ehangu edefau neges';
 $labels['do_expand'] = 'pob edefyn';
 $labels['expand_only_unread'] = 'dim ond gyda negeseuon heb eu darllen';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Gweithredoedd ffolder...';
 $labels['compact'] = 'Crynhoi';
 $labels['empty'] = 'Gwagio';
 $labels['importmessages'] = 'Mewnforio negeseuon';
+$labels['mailimportdesc'] = 'Fe allwch chi lwytho fyny ffeiliau ebost mewn fformat <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> neu <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>';
+$labels['mailimportzip'] = 'Gellir cywasgu nifer o ffeiliau mewn i archif zip.';
 $labels['quota'] = 'Defnydd';
 $labels['unknown'] = 'anhysbys';
 $labels['unlimited'] = 'diderfyn';
@@ -230,7 +234,7 @@ $labels['changeformattext'] = 'Dangos mewn fformat testun plaen';
 $labels['changeformathtml'] = 'Dangos mewn fformat HTML';
 $labels['editasnew'] = 'Golygu fel neges newydd';
 $labels['send'] = 'Anfon';
-$labels['sendmessage'] = 'Danfon nawr';
+$labels['sendmessage'] = 'Anfon nawr';
 $labels['savemessage'] = 'Cadw\'r drafft hwn';
 $labels['addattachment'] = 'Atodi ffeil';
 $labels['charset'] = 'Set nodiau';
@@ -247,7 +251,7 @@ $labels['encrypt'] = 'Amgryptio';
 $labels['encryptmessage'] = 'Amgryptio neges';
 $labels['encryptmessagemailvelope'] = 'Amgryption neges gyda Mailvelope';
 $labels['importpubkeys'] = 'Mewnforio allweddi cyhoeddus';
-$labels['encryptedsendialog'] = 'Danfon neges wedi amgryptio';
+$labels['encryptedsendialog'] = 'Anfon neges wedi amgryptio';
 $labels['encryptandsign'] = 'Amgodi ac arwyddo';
 $labels['keyid'] = 'ID Allwedd';
 $labels['keylength'] = 'Didiau';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Wedi darfod';
 $labels['keyrevoked'] = 'Wedi dirymu';
 $labels['bccinstead'] = 'Defnyddio Bcc';
 $labels['addheader'] = 'Ychwanegu derbynnydd (pennawd)';
+$labels['insert'] = 'Mewnosod';
+$labels['insertcontact'] = 'Mewnosod cyswllt/cysylltiadau';
 $labels['recipient'] = 'Derbynnwr';
 $labels['recipientedit'] = 'Golygu derbynnydd';
 $labels['editidents'] = 'Golygu personoliaethau';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Dangos lluniau bob amser o $sender';
 $labels['alwaysallow'] = 'Caniatau bob amser o $sender';
 $labels['isdraft'] = 'Mae hwn yn neges ddrafft';
 $labels['andnmore'] = '$nr mwy...';
+$labels['details'] = 'Manylion';
 $labels['headers'] = 'Penawdau';
-$labels['envelope'] = 'Amlen';
+$labels['allheaders'] = 'Pob pennawd...';
 $labels['togglemoreheaders'] = 'Dangos fwy o benynnau\'r neges';
 $labels['togglefullheaders'] = 'Toglo penawdau llawn y neges';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Ail-enwi';
 $labels['addphoto'] = 'Ychwanegu';
 $labels['replacephoto'] = 'Amnewid';
 $labels['uploadphoto'] = 'Lanlwytho llun';
+$labels['choosefile'] = 'Dewis ffeil...';
+$labels['choosefiles'] = 'Dewis ffeiliau...';
+$labels['browse'] = 'Pori';
 $labels['newcontact'] = 'Creu cyswllt newydd';
 $labels['deletecontact'] = 'Dileu y cysylltiadau a ddewiswyd';
 $labels['composeto'] = 'Ysgrifennu neges at';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Dileu y llyfr cyfeiriadau cyfan wrth lwytho';
 $labels['importgroups'] = 'Mewnforio penodiadau grŵp';
 $labels['importgroupsall'] = 'Holl (creu grwpiau os oes angen)';
 $labels['importgroupsexisting'] = 'Dim ond ar gyfer grwpiau sy\'n bodoli';
-$labels['importdesc'] = 'Fe allwch chi lanlwytho cysylltiadau o lyfr cyfeiriadau presennol.<br/>Ar hyn o bryd, rydym yn cefnogi mewnforio cyfeiriadau o\'r fformatau <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> neu CSV.';
+$labels['importdesc'] = 'Gallwch lwytho fyny cysylltiadau o lyfr cyfeiriadau blaenorol. <br/>Ar hyn o bryd rydym yn cefnogi mewnforio cyfeiriadau o\'r fformatau data <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> neu CSV (comma-separated)';
 $labels['done'] = 'Wedi gorffen';
 $labels['settingsfor'] = 'Gosodiadau ar gyfer';
 $labels['about'] = 'Amdan';
@@ -469,9 +479,9 @@ $labels['serversettings'] = 'Gosodiadau Gweinydd';
 $labels['mailboxview'] = 'Ymddangosiad y Blychau';
 $labels['mdnrequests'] = 'Hysbysiadau anfonwr';
 $labels['askuser'] = 'gofyn i\'r defnyddiwr';
-$labels['autosend'] = 'danfon yn awtomatig';
-$labels['autosendknown'] = 'danfon y derbynneb i fy nghsylltiadau yn unig';
-$labels['autosendknownignore'] = 'danfon derbynneb i fy nghysylltiadau, anwybyddu fel arall';
+$labels['autosend'] = 'anfon yn awtomatig';
+$labels['autosendknown'] = 'anfon y derbynneb i fy nghsylltiadau yn unig';
+$labels['autosendknownignore'] = 'anfon derbynneb i fy nghysylltiadau, anwybyddu fel arall';
 $labels['ignorerequest'] = 'anwybyddu\'r cais';
 $labels['readwhendeleted'] = 'Nodi\'r neges fel darllenwyd wrth ddileu';
 $labels['flagfordeletion'] = 'Fflagio\'r neges i\'w ddileu yn hytrach na dileu yn syth';
@@ -480,7 +490,7 @@ $labels['deletealways'] = 'Pan fod symud negeseuon i\'r Sbwriel yn methu, dileu 
 $labels['deletejunk'] = 'Dileu negeseuon yn uniongyrchol yn Sbwriel';
 $labels['showremoteimages'] = 'Dangos lluniau o wefannau allanol';
 $labels['allowremoteresources'] = 'Caniatau adnoddau pell (delweddau, arddulliau)';
-$labels['fromknownsenders'] = 'o ddanfonwyr hysbys';
+$labels['fromknownsenders'] = 'o anfonwyr hysbys';
 $labels['always'] = 'bob amser';
 $labels['alwaysbutplain'] = 'bob amser, heblaw pan yn ymateb i destun plaen';
 $labels['showinlineimages'] = 'Dangos lluniau atodol islaw\'r neges';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Dewisiadau uwch';
 $labels['toggleadvancedoptions'] = 'Newid dewisiadau uwch';
 $labels['focusonnewmessage'] = 'Ffocysu\'r porwr ar y neges newydd';
 $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';
-$labels['displaynext'] = 'Ar ôl dileu/symud neges dangos y neges nesaf';
+$labels['displaynext'] = 'Dangos cofnod rhestr nesaf ar ôl dileu/symud';
 $labels['defaultfont'] = 'Ffont arferol ar gyfer negeseuon HTML';
 $labels['mainoptions'] = 'Prif Ddewisiadau';
 $labels['browseroptions'] = 'Dewisiadau Porwr';
@@ -529,7 +539,7 @@ $labels['replysamefolder'] = 'Rhoi atebion yn yr un ffolder i\'r neges sy\'n cae
 $labels['defaultabook'] = 'Llyfr cyfeiriadau diofyn';
 $labels['autocompletesingle'] = 'Hepgor cyfeiriadau ebost amgen wrth awto-gwblhau';
 $labels['listnamedisplay'] = 'Rhestrwch cysylltiadau fel';
-$labels['spellcheckbeforesend'] = 'Gwirio sillafu cyn danfon neges';
+$labels['spellcheckbeforesend'] = 'Gwirio sillafu cyn anfon neges';
 $labels['spellcheckoptions'] = 'Dewisiadau gwirio sillafu';
 $labels['spellcheckignoresyms'] = 'Anwybyddu geiriau gyda symbolau';
 $labels['spellcheckignorenums'] = 'Anwybyddu geiriau gyda rhifau';
@@ -576,7 +586,7 @@ $labels['generate'] = 'Cynhyrchu';
 $labels['encryptioncreatekey'] = 'Creu pâr allweddi newydd';
 $labels['openmailvelopesettings'] = 'Agor Gosodiadau Mailvelope';
 $labels['encryptionprivkeysinmailvelope'] = 'Mae gennych $nr allwedd preifat cyfatebol wedi eu storio yn eich cylch allwedd Mailvelope:';
-$labels['encryptionnoprivkeysinmailvelope'] = 'Nid oes gan y danfonwr hwn allwedd preifat PGP wedi ei storio yn eich estyniad Mailvelope. Hoffech chi greu un er mwyn ei ddefnyddio i ddanfon negeseuon wedi eu amgryptio?';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Nid oes gan y anfonwr hwn allwedd preifat PGP wedi ei storio yn eich estyniad Mailvelope. Hoffech chi greu un er mwyn ei ddefnyddio i anfon negeseuon wedi eu amgryptio?';
 $labels['sortby'] = 'Trefnu yn ôl';
 $labels['sortasc'] = 'Trefn esgynnol';
 $labels['sortdesc'] = 'Trefn ddisgynnol';
@@ -619,6 +629,7 @@ $labels['chinese'] = 'Tsieineaidd';
 $labels['arialabeltopnav'] = 'Rheolaeth ffenest';
 $labels['arialabeltasknav'] = 'Tasgiau rhaglen';
 $labels['arialabeltoolbar'] = 'Bar offer y rhaglen';
+$labels['arialabellistnav'] = 'Llywio rhestr';
 $labels['arialabelactivetask'] = 'Tasg gweithredol';
 $labels['arialabelmessagessearchfilter'] = 'Hidlydd rhestr ebost';
 $labels['arialabelmailsearchform'] = 'Ffurflen chwilio neges ebost';
@@ -671,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Saeth dde/chwith: ehangu/crebachu edef
 Enter: Agor y neges dewiswyd/dan sylw.
 Delete: Symud y negeseuon dewiswyd i'r Sbwriel.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Agor y cyswllt dewiswyd/dan sylw.";
-?>

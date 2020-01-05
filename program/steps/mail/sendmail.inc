@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/sendmail.inc                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -83,7 +82,7 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $bstyle       = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
     $message_body = '<html><head>'
         . '<meta http-equiv="Content-Type" content="text/html; charset='
         . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'
@@ -169,7 +168,7 @@ if ($files = rcube_utils::get_input_value('_attachments', rcube_utils::INPUT_POS
         unset($COMPOSE['attachments'][$idx]);
     }
 
-    $COMPOSE['attachments'] = array_merge(array_filter($files), $COMPOSE['attachments']);
+    $COMPOSE['attachments'] = array_merge(array_filter($files), (array) $COMPOSE['attachments']);
 }
 
 // Since we can handle big messages with disk usage, we need more time to work

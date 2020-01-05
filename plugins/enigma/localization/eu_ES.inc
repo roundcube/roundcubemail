@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Zifraketa';
 $labels['enigmacerts'] = 'S/MIME ziurtagiriak';
 $labels['enigmakeys'] = 'PGP gakoak';
@@ -85,6 +84,7 @@ $labels['withprivkeys'] = 'Esportatu gako sekretuak';
 $labels['findkey'] = 'Bilatu gako zerbitzari(et)an';
 $labels['keyimportlabel'] = 'Inportatu fitxategitik';
 $labels['keyimportsearchlabel'] = 'Bilatu gako zerbitzari(et)an';
+$labels['managekeys'] = 'Kudeatu PGP gakoak';
 $messages['sigvalid'] = '$sender-en sinadura egiaztatuta';
 $messages['sigvalidpartial'] = '$sender-en sinadura egiaztatuta, baina testu-gorputzaren zati bat ez dago sinatua.';
 $messages['siginvalid'] = '$sender-en sinadura baliogabea.';
@@ -94,6 +94,7 @@ $messages['sigerror'] = 'Egiaztatu gabeko sinadura. Barne errorea.';
 $messages['decryptok'] = 'Mezua deszifratua.';
 $messages['decrypterror'] = 'Deszifratzeak huts egin du.';
 $messages['decryptnokey'] = 'Deszifratzeak  huts egin du. Ez da aurkitu gako pribatua. Gakoaren IDa:  $keyid.';
+$messages['decryptnomdc'] = 'Deszifratzeak huts egin du. Mezua ez da bere osotasunean babestu.';
 $messages['decryptbadpass'] = 'Deszifratzeak huts egin du. Baliogabeko pasahitza.';
 $messages['decryptnopass'] = 'Deszifratzeak huts egin du. Pasahitz gakoa behar da.';
 $messages['decryptpartial'] = 'Mezua deszifratua, baina testu gorputzaren zati bat ez zegoen zifratua.';
@@ -103,6 +104,7 @@ $messages['signbadpass'] = 'Sinadurak huts egin du. Baliogabeko pasahitza.';
 $messages['signnopass'] = 'Sinadurak huts egin du. Gako pasahitza behar da.';
 $messages['encrypterror'] = 'Zifratzeak huts egin du.';
 $messages['encryptnokey'] = 'Zifratzeak huts egin du. Ez da $email -ren gako publikoa aurkitu.';
+$messages['encryptnoprivkey'] = 'Zifratzeak huts egin du. Gako pribatua ez da aurkitu.';
 $messages['nokeysfound'] = 'Ez dira gakoak aurkitu';
 $messages['keynotfound'] = 'Gakoa ez da aurkitu!';
 $messages['keyopenerror'] = 'Ezin izan da gakoaren informazioa eskuratu! Barne errorea.';

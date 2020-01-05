@@ -1,6 +1,6 @@
 <?php
 
-class Markasjunk_Plugin extends PHPUnit_Framework_TestCase
+class Markasjunk_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class Markasjunk_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new markasjunk($rcube->api);
+        $plugin = new markasjunk($rcube->plugins);
 
         $this->assertInstanceOf('markasjunk', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
- | Copyright (C) 20011-2013, The Roundcube Dev Team                      |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -38,6 +38,10 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
     function languages()
     {
         $this->init();
+
+        if (!$this->enchant_broker) {
+            return;
+        }
 
         $langs = array();
         if ($dicts = enchant_broker_list_dicts($this->enchant_broker)) {
@@ -87,8 +91,8 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         // tokenize
         $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
-        $diff       = 0;
-        $matches    = array();
+        $diff    = 0;
+        $matches = array();
 
         foreach ($text as $w) {
             $word = trim($w[0]);

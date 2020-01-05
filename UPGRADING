@@ -14,18 +14,20 @@ and cd into that directory. From there, run the following command in a shell:
 
   ./bin/installto.sh <TARGET-FOLDER>
 
-For <TARGET-FOLDER> you specify the path to the Roundcube installation 
-which should be updated. The update script will then copy all new files to the 
+For <TARGET-FOLDER> you specify the path to the Roundcube installation
+which should be updated. The update script will then copy all new files to the
 target location and check and update the configuration and database schema.
-After all is done, the temporary folder with the new Roundcube files can be 
+After all is done, the temporary folder with the new Roundcube files can be
 removed again.
 
+WARNING: Make sure files have proper owner/group for your setup. If you use
+         tar to extract the package, `--no-same-owner` option might be helpful.
 WARNING: See Post-Upgrade Activities section below.
 
 
 Updating manually
 -----------------
-If you don't have shell access to the Roundcube installation or if not running 
+If you don't have shell access to the Roundcube installation or if not running
 it on a unix system, you need to do the following operations by hand:
 
 1. Replace index.php and all files in
@@ -53,7 +55,8 @@ it on a unix system, you need to do the following operations by hand:
    - run `php composer.phar install --no-dev`.
 4c. If you use git sources or the release package without dependencies
    update javascript dependencies by executing `bin/install-jsdeps.sh` script.
-4d. If you use git sources compile css files for the Elastic skin:
+4d. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 1.5.0):
    $ cd skins/elastic
    $ lessc -x styles/styles.less > styles/styles.css
    $ lessc -x styles/print.less > styles/print.css
@@ -71,11 +74,14 @@ it on a unix system, you need to do the following operations by hand:
 
 Post-Upgrade Activities
 -----------------------
-1. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
-2. When upgrading from version older than 0.6-beta you should make sure
+1. Check system requirements in INSTALL file.
+2. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
+3. When upgrading from version older than 0.6-beta you should make sure
    your folder settings contain namespace prefix. For example Courier users
    should add INBOX. prefix to folder names in main configuration file.
-3. Check system requirements in INSTALL file.
+4. When upgrading from version older than 1.4.0 make sure old files
+   in configured temp_dir are removed. Since this version we use constant filename
+   prefix and do not remove files not starting with "RCMTEMP".
 
 SQLite database upgrade
 -----------------------

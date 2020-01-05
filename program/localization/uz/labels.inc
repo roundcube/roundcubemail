@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product ga xush kelibsiz!';
 $labels['username'] = 'Foydalanuvchi nomi';
 $labels['password'] = 'Parol';
@@ -396,7 +396,6 @@ $labels['importreplace'] = 'Jami manzillar kitobini almashtirish';
 $labels['importgroups'] = 'Importda guruhlar bo`yicha taqsimlash';
 $labels['importgroupsall'] = 'Barcha (zaruriyat bo`lganda guruh yaratish)';
 $labels['importgroupsexisting'] = 'Faqat mavjud guruhlar uchun';
-$labels['importdesc'] = 'Siz mavjud manzillar kitobidan kontaktlarni yuklashingiz mumkin.<br/> Hozirda biz manzillarni <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> vizit kartalari ko`rinishida  yoki CSV (ma`lumotlar , bilan ajratilgan) formatlar bilan ishlay olamiz.';
 $labels['done'] = 'Yakunlandi';
 $labels['settingsfor'] = 'Kun sozlamalari';
 $labels['about'] = 'Dastur haqida';
@@ -470,7 +469,6 @@ $labels['advancedoptions'] = 'Qo`shimcha xossalar';
 $labels['toggleadvancedoptions'] = 'Qo`shimcha xossalar';
 $labels['focusonnewmessage'] = 'Yangi xatda brauzer oynasini fokuslantirish';
 $labels['checkallfolders'] = 'Barcha papkalarda yangi xabarlarni tekshirish';
-$labels['displaynext'] = 'Mazkur xatni o`chirgandan yoki qayta yuborishdan so`ng keyingisini ko`rsatish';
 $labels['defaultfont'] = ' HTML xatda shrift';
 $labels['mainoptions'] = 'Asosiy xossalar';
 $labels['browseroptions'] = 'Brauzer sozlamalari';
@@ -625,4 +623,3 @@ $labels['helplistkeyboardnavmessages'] = "O`ng/chap strelkalar: muhokama etilayo
 Enter: Tanlangan xatlarni ochish.
 Delete: Tanlangan xatni Savatga solish.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Tanlangan kontaktni ochish.";
-?>

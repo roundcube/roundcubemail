@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Vitajte v $product';
 $labels['username'] = 'Meno používateľa';
 $labels['password'] = 'Heslo';
@@ -147,6 +147,7 @@ $labels['last'] = 'Posledná/-ý';
 $labels['previous'] = 'Predchádzajúca/-i';
 $labels['next'] = 'Ďalšia/-í';
 $labels['select'] = 'Výber';
+$labels['selection'] = 'Výber';
 $labels['all'] = 'Všetko';
 $labels['none'] = 'Nič';
 $labels['currpage'] = 'Aktuálna stránka';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Rozbaliť všetko';
 $labels['expand-unread'] = 'Rozbaliť neprečítané';
 $labels['collapse-all'] = 'Zbaliť všetko';
 $labels['threaded'] = 'Spojené do konverzácií';
+$labels['showunread'] = 'Zobraziť neprečítané správy';
 $labels['autoexpand_threads'] = 'Rozbaliť konverzácie';
 $labels['do_expand'] = 'všetky';
 $labels['expand_only_unread'] = 'len s neprečítanými správami';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Akcie pre priečinky...';
 $labels['compact'] = 'Zhustiť';
 $labels['empty'] = 'Vyprázdniť';
 $labels['importmessages'] = 'Importovať správy';
+$labels['mailimportdesc'] = 'E-mail môžete nahrať s použitím súborov vo formáte <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> alebo <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Viaceré súbory je možné skomprimovať do archívov ZIP.';
 $labels['quota'] = 'Úložné miesto';
 $labels['unknown'] = 'neznáme';
 $labels['unlimited'] = 'neobmedzené';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Expirované';
 $labels['keyrevoked'] = 'Odvolané';
 $labels['bccinstead'] = 'Použiť skrytú kópiu';
 $labels['addheader'] = 'Pridať príjemcu (hlavička)';
+$labels['insert'] = 'Vložiť';
+$labels['insertcontact'] = 'Vložiť kontakt(y)';
 $labels['recipient'] = 'Príjemca';
 $labels['recipientedit'] = 'Úprava príjemcu';
 $labels['editidents'] = 'Upraviť identitu odosielateľa';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Vždy zobraziť obrázky od odosielateľa $sender';
 $labels['alwaysallow'] = 'Vždy povoliť od $sender';
 $labels['isdraft'] = 'Toto je koncept';
 $labels['andnmore'] = 'Počet ďalších: $nr...';
+$labels['details'] = 'Podrobnosti';
 $labels['headers'] = 'Hlavičky';
-$labels['envelope'] = 'Obálka';
+$labels['allheaders'] = 'Všetky hlavičky...';
 $labels['togglemoreheaders'] = 'Zobraziť viac hlavičiek správ';
 $labels['togglefullheaders'] = 'Prepnúť zobrazenie úplných hlavičiek správ';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Premenovať';
 $labels['addphoto'] = 'Pridať fotografiu';
 $labels['replacephoto'] = 'Nahradiť fotografiu';
 $labels['uploadphoto'] = 'Nahrať fotografiu';
+$labels['choosefile'] = 'Vybrať súbor...';
+$labels['choosefiles'] = 'Vybrať súbory...';
+$labels['browse'] = 'Prehľadávať';
 $labels['newcontact'] = 'Vytvoriť nový kontakt';
 $labels['deletecontact'] = 'Vymazať vybrané kontakty';
 $labels['composeto'] = 'Vytvoriť správu pre';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Nahradiť celý adresár kontaktov';
 $labels['importgroups'] = 'Importovať priradenia do skupín';
 $labels['importgroupsall'] = 'Všetky (vytvoriť skupiny ak je to potrebné)';
 $labels['importgroupsexisting'] = 'Len pre existujúce skupiny';
-$labels['importdesc'] = 'Môžete vložiť kontakty zo svojho existujúceho adresára.<br/>Momentálne je možné importovanie adries z formátu <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> alebo CSV (údaje oddeľované čiarkou).';
+$labels['importdesc'] = 'Môžete nahrať kontakty z existujúceho adresára. <br/>Momentálne podporujeme import adries z formátu <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> alebo CSV (údaje oddeľované čiarkou).';
 $labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavenia pre';
 $labels['about'] = 'O systéme';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Rozšírené nastavenia';
 $labels['toggleadvancedoptions'] = 'Prepnúť pokročilé nastavenia';
 $labels['focusonnewmessage'] = 'Aktivovať okno prehliadača pri novej správe';
 $labels['checkallfolders'] = 'Kontrolovať nové správy vo všetkých priečinkoch';
-$labels['displaynext'] = 'Zobraziť ďalšiu správu po vymazaní/presunutí správy';
+$labels['displaynext'] = 'Po vymazaní/presune zobraziť ďalší záznam v zozname';
 $labels['defaultfont'] = 'Predvolené písmo pre HTML správu';
 $labels['mainoptions'] = 'Hlavné nastavenia';
 $labels['browseroptions'] = 'Nastavenia prehliadania';
@@ -619,6 +629,7 @@ $labels['chinese'] = 'Čínsky';
 $labels['arialabeltopnav'] = 'Ovládanie okna';
 $labels['arialabeltasknav'] = 'Úlohy aplikácie';
 $labels['arialabeltoolbar'] = 'Panel nástrojov aplikácie';
+$labels['arialabellistnav'] = 'Zoznam navigovania';
 $labels['arialabelactivetask'] = 'Aktívna úloha';
 $labels['arialabelmessagessearchfilter'] = 'Filter zoznamu e-mailov';
 $labels['arialabelmailsearchform'] = 'Formulár pre vyhľadanie e-mailu';
@@ -671,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Šípky doprava/doľava: rozbaliť/zba
 Enter: otvoriť vybranú/zvýraznenú správu.
 Delete: presunúť vybrané správy do koša.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Otvoriť vybraný/zvýraznený kontakt.";
-?>

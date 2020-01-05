@@ -1,12 +1,31 @@
 <?php
 
-class Managesieve_Vacation extends PHPUnit_Framework_TestCase
+class Managesieve_Vacation extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
     {
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_vacation.php';
+    }
+
+    /**
+     * Call protected/private method of rcube_sieve_vacation object.
+     *
+     * @param string $methodName Method name to call
+     * @param array  $parameters Array of parameters to pass into method.
+     *
+     * @return mixed Method return.
+     */
+    public function invokePrivateMethod($methodName, array $parameters = array())
+    {
+        $vacation   = new rcube_sieve_vacation(true);
+        $reflection = new ReflectionClass('rcube_sieve_vacation');
+
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($vacation, $parameters);
     }
 
     /**
@@ -21,7 +40,7 @@ class Managesieve_Vacation extends PHPUnit_Framework_TestCase
 
     function test_build_regexp_tests()
     {
-        $tests = rcube_sieve_vacation::build_regexp_tests('2014-02-20', '2014-03-05', $error);
+        $tests = $this->invokePrivateMethod('build_regexp_tests', array('2014-02-20', '2014-03-05', &$error));
 
         $this->assertCount(2, $tests);
         $this->assertSame('header', $tests[0]['test']);
@@ -33,7 +52,7 @@ class Managesieve_Vacation extends PHPUnit_Framework_TestCase
         $this->assertSame('received', $tests[1]['arg1']);
         $this->assertSame('([ 0]1|[ 0]2|[ 0]3|[ 0]4|[ 0]5) Mar 2014', $tests[1]['arg2']);
 
-        $tests = rcube_sieve_vacation::build_regexp_tests('2014-02-20', '2014-01-05', $error);
+        $tests = $this->invokePrivateMethod('build_regexp_tests', array('2014-02-20', '2014-01-05', &$error));
 
         $this->assertSame(null, $tests);
         $this->assertSame('managesieve.invaliddateformat', $error);
@@ -56,11 +75,10 @@ class Managesieve_Vacation extends PHPUnit_Framework_TestCase
             )
         );
 
-        $result = rcube_sieve_vacation::parse_regexp_tests($tests);
+        $result = $this->invokePrivateMethod('parse_regexp_tests', array($tests));
 
         $this->assertCount(2, $result);
         $this->assertSame('20 Feb 2014', $result['from']);
         $this->assertSame('05 Mar 2014', $result['to']);
     }
 }
-

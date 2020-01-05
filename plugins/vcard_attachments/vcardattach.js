@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -72,8 +72,28 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
     rcmail.addEventListener('insertrow', function(data, evt) { plugin_vcard_insertrow(data); });
 
   if ((rcmail.env.action == 'compose' || (rcmail.env.task == 'addressbook' && rcmail.env.action == '')) && rcmail.gui_objects.contactslist) {
-    if (rcmail.env.action == 'compose')
+    if (rcmail.env.action == 'compose') {
       rcmail.env.compose_commands.push('attach-vcard');
+
+      // Elastic: add "Attach vCard" button to the attachments widget
+      if (window.UI && UI.recipient_selector) {
+        var button, form = $('#compose-attachments > div');
+        button = $('<button class="btn btn-secondary attach vcard">')
+          .attr({type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0})
+          .text(rcmail.gettext('vcard_attachments.attachvcard'))
+          .appendTo(form)
+          .click(function() {
+            UI.recipient_selector('', {
+              title: 'vcard_attachments.attachvcard',
+              button: 'vcard_attachments.attachvcard',
+              button_class: 'attach',
+              focus: button,
+              multiselect: false,
+              action: function() { rcmail.command('attach-vcard'); }
+            });
+          });
+      }
+    }
 
     rcmail.register_command('attach-vcard', function() { plugin_vcard_attach(); });
     rcmail.contact_list.addEventListener('select', function(list) {

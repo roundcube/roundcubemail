@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Välkommen till $product';
 $labels['username'] = 'Användarnamn';
 $labels['password'] = 'Lösenord';
@@ -147,6 +147,7 @@ $labels['last'] = 'Sista';
 $labels['previous'] = 'Föregående';
 $labels['next'] = 'Nästa';
 $labels['select'] = 'Välj';
+$labels['selection'] = 'Markering';
 $labels['all'] = 'Alla';
 $labels['none'] = 'Ingen';
 $labels['currpage'] = 'Sida';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Visa alla';
 $labels['expand-unread'] = 'Visa olästa';
 $labels['collapse-all'] = 'Dölj alla';
 $labels['threaded'] = 'Trådat';
+$labels['showunread'] = 'Visa olästa meddelanden';
 $labels['autoexpand_threads'] = 'Visa trådade meddelanden';
 $labels['do_expand'] = 'Alla trådar';
 $labels['expand_only_unread'] = 'Trådar med olästa meddelanden';
@@ -185,7 +187,7 @@ $labels['listorder'] = 'Ordning';
 $labels['listmode'] = 'Visningsläge';
 $labels['lmode'] = 'Listläge';
 $labels['layout'] = 'Layout';
-$labels['layoutwidescreen'] = 'Bredbild';
+$labels['layoutwidescreen'] = 'Bred skärm';
 $labels['layoutdesktop'] = 'Skrivbord';
 $labels['layoutlist'] = 'Lista';
 $labels['layoutwidescreendesc'] = 'Bred skärm (visning i 3 kolumner)';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Hantera kataloger...';
 $labels['compact'] = 'Packa';
 $labels['empty'] = 'Töm';
 $labels['importmessages'] = 'Importera meddelanden';
+$labels['mailimportdesc'] = 'Meddelanden kan laddas upp från filer i formatet <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> eller formatet <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Flera filer kan komprimeras till zip-arkiv.';
 $labels['quota'] = 'Diskutrymme';
 $labels['unknown'] = 'okänt';
 $labels['unlimited'] = 'obegränsat';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'Utgången';
 $labels['keyrevoked'] = 'Upphävd';
 $labels['bccinstead'] = 'Använd Dold kopia';
 $labels['addheader'] = 'Lägg till mottagare (meddelandeinfo)';
+$labels['insert'] = 'Infoga';
+$labels['insertcontact'] = 'Infoga kontakt(er)';
 $labels['recipient'] = 'Mottagare';
 $labels['recipientedit'] = 'Ändra mottagare';
 $labels['editidents'] = 'Ändra identiteter';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Visa alltid bilder från $sender';
 $labels['alwaysallow'] = 'Tillåt alltid från $sender';
 $labels['isdraft'] = 'Detta meddelande är ett utkast.';
 $labels['andnmore'] = '$nr fler...';
+$labels['details'] = 'Detaljerad information';
 $labels['headers'] = 'Meddelandeinfo';
-$labels['envelope'] = 'Konvolut';
+$labels['allheaders'] = 'All meddelandeinfo...';
 $labels['togglemoreheaders'] = 'Växla ytterligare meddelandeinfo';
 $labels['togglefullheaders'] = 'Växla teknisk meddelandeinfo';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Ändra namn';
 $labels['addphoto'] = 'Lägg till';
 $labels['replacephoto'] = 'Ersätt';
 $labels['uploadphoto'] = 'Ladda upp foto';
+$labels['choosefile'] = 'Välj fil...';
+$labels['choosefiles'] = 'Välj filer...';
+$labels['browse'] = 'Bläddra';
 $labels['newcontact'] = 'Ny kontakt';
 $labels['deletecontact'] = 'Ta bort vald kontakt';
 $labels['composeto'] = 'Nytt meddelande till';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Ersätt samtliga kontakter i adressboken';
 $labels['importgroups'] = 'Importera grupptillhörigheter';
 $labels['importgroupsall'] = 'Alla (skapa grupper om nödvändigt)';
 $labels['importgroupsexisting'] = 'Endast till befintliga grupper';
-$labels['importdesc'] = 'Kontakter kan importeras från en befintlig adressbok.<br/>Programmet stödjer inläsning av kontakter i formatet <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> eller formatet CSV (kommaseparerad data).';
+$labels['importdesc'] = 'Kontakter kan importeras från en befintlig adressbok.<br/>Programmet stödjer inläsning av kontakter i formatet <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> eller formatet CSV (kommaseparerad data).';
 $labels['done'] = 'Klart';
 $labels['settingsfor'] = 'Inställningar för';
 $labels['about'] = 'Om';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Avancerade inställningar';
 $labels['toggleadvancedoptions'] = 'Växla avancerade inställningar';
 $labels['focusonnewmessage'] = 'Fokusera webbläsarens fönster vid nytt meddelande';
 $labels['checkallfolders'] = 'Genomsök samtliga kataloger efter nya meddelanden';
-$labels['displaynext'] = 'Visa nästa meddelande efter borttagning/flyttning av meddelande';
+$labels['displaynext'] = 'Visa nästa i listan efter ta bort eller flytta';
 $labels['defaultfont'] = 'Förvalt typsnitt i HTML-meddelande';
 $labels['mainoptions'] = 'Huvudalternativ';
 $labels['browseroptions'] = 'Webbläsaralternativ';
@@ -671,4 +681,3 @@ $labels['helplistkeyboardnavmessages'] = "Piltangent höger/vänster: visa/göm 
 Retur: Öppna markerat/fokuserat meddelande.
 Backsteg: Flytta markerat meddelande till Papperskorg.";
 $labels['helplistkeyboardnavcontacts'] = "Retur: Öppna markerad/fokuserad kontakt.";
-?>

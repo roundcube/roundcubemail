@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -14,6 +14,10 @@
 .ui-widget-overlay {
     background-color: @color-dialog-overlay-background;
     opacity: 1 !important; // override jQuery-UI opacity, the color above is semi-transparent
+
+    &.datepicker {
+        z-index: 119; // above Bootstrap's form controls, below datepicker
+    }
 }
 
 .ui-widget {
@@ -32,7 +36,7 @@
 
    .ui-state-active {
         border: 0 !important;
-        background-color: @color-toolbarmenu-hover-background !important;
+        background-color: @color-menu-hover-background !important;
     }
 
     .ui-menu-item {
@@ -80,21 +84,18 @@
         right: 0;
         top: 0;
         position: absolute;
-        height: (@layout-header-height - .7rem);
-        margin: .25rem;
-        padding-bottom: .375rem;
-        cursor: pointer;
+        padding: .25rem .5rem;
+        margin: ((@layout-header-height - 2 * @page-font-size) / 2) .5rem;
 
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-times;
+            line-height: 1.5rem;
+            margin: 0 !important;
         }
     }
 
     .ui-dialog-content {
-        // fixes resize issue e.g. in qr-code dialog
-        box-sizing: initial;
-
         & > .popupmenu {
             display: block !important;
         }
@@ -109,7 +110,7 @@
             button {
                 .overflow-ellipsis;
                 min-width: 5rem;
-                margin: .65rem .3rem;
+                margin: floor(.65 * @page-font-size) floor(.3 * @page-font-size);
 
                 &:last-child {
                     margin-right: 0;
@@ -153,10 +154,15 @@
     }
 }
 
+// Fix scrollbar/resize issue e.g. in qr-code dialog
+.ui-dialog,
+.ui-dialog-content {
+    box-sizing: initial;
+}
+
 // Overwriting this icon generally prevents from loading bigger images sprite from jQuery-UI
 .ui-widget-content .ui-icon.ui-resizable-se {
     background: @icon-resize-corner;
-    background-size: cover;
 }
 
 /* FIXME: why do I need !important here? */
@@ -168,6 +174,7 @@
         display: flex;
         flex-direction: column;
         border: 0;
+        top: 0 !important; // for Chrome
 
         .ui-resizable-handle,
         .ui-dialog-titlebar-close {
@@ -210,13 +217,15 @@
                     height: @layout-header-height;
                     box-shadow: none;
                     font-size: 90%;
+                    line-height: 1.5;
 
                     &:before {
                         display: block !important;
+                        float: none;
                         width: auto;
                         height: 1.75rem;
                         line-height: 1.75;
-                        margin: 0;
+                        margin: 0 !important;
                     }
 
                     &:active {
@@ -286,11 +295,11 @@
 
 .ui-datepicker {
     // Always display datepicker centered, overwriting widgets position
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
-    box-shadow: 10px 10px 10px 1000px @color-dialog-overlay-background;
+    margin: ~"calc(50vh - 10em) calc(50vw - 10em) !important";
+    top: 0 !important;
+    left: 0 !important;
+    box-shadow: none;
+    user-select: none;
 
     &:not(.ui-datepicker-inline) {
         z-index: 120 !important; // fixes datepicker over input-group and dialogs
@@ -314,6 +323,7 @@
             display: inline-block;
         }
     }
+
     .ui-icon {
         background-image: none !important;
         background-position: none !important;
@@ -354,27 +364,26 @@
         color: @color-datepicker-font;
     }
 
+    .ui-datepicker-days-cell-over a,
+    .ui-datepicker-days-cell-over a.ui-state-default,
     .ui-state-highlight,
     &.ui-widget-content .ui-state-highlight {
         background: @color-datepicker-highlight-background;
         color: @color-datepicker-highlight;
     }
 
-    .ui-state-active,
-    &.ui-widget-content .ui-state-active {
-        background: @color-datepicker-active-background;
-        color: @color-datepicker-active;
+    a.ui-state-active {
+        background: @color-datepicker-active-background !important;
+        color: @color-datepicker-active !important;
         font-weight: bold;
     }
-}
 
-html.touch {
-    .ui-datepicker {
-        min-width: (@screen-width-mini - 20px);
-
-        td a {
-            font-size: 1.2em;
-            line-height: 2.2em;
+    html.touch {
+        & {
+            td a {
+                font-size: 1.2em;
+                line-height: 2.2em;
+            }
         }
     }
 }
@@ -402,10 +411,6 @@ html.touch {
         min-width: 130px;
         border-left: 0;
         border-right: 0;
-    }
-
-    .minicolors-swatch {
-        height: 25px !important;
     }
 }
 

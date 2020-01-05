@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '发生错误！';
 $messages['loginfailed']  = '登录失败。';
 $messages['cookiesdisabled'] = '您的浏览器不支持 Cookies。';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = '没有足够的磁盘空间。请使用 SHI
 $messages['invalidrequest'] = '请求无效！未保存数据。';
 $messages['invalidhost'] = '无效的主机名。';
 $messages['nomessagesfound'] = '此邮件夹内无邮件。';
-$messages['loggedout'] = '您已成功注销，再见！';
 $messages['mailboxempty'] = '邮箱为空';
 $messages['nomessages'] = '无邮件';
 $messages['refreshing'] = '正在刷新...';
@@ -51,6 +49,7 @@ $messages['messagesaved'] = '邮件已暂存至草稿箱。';
 $messages['successfullysaved'] = '保存成功。';
 $messages['savingresponse'] = '正在保存响应文本...';
 $messages['deleteresponseconfirm'] = '是否确认删除响应文本?';
+$messages['nocontactselected'] = '你还没有选择联系人';
 $messages['addedsuccessfully'] = '联系人已添加。';
 $messages['contactexists'] = '已经具有此电子邮件地址的联系人已经存在。';
 $messages['contactnameexists'] = '已存在同名联系人。';
@@ -63,11 +62,8 @@ $messages['nopubkeyforsender'] = '在您的发件人身份中没有找到有效�
 $messages['encryptnoattachments'] = '已经上传的附件不能加密。请在加密编辑器中重新添加它们。';
 $messages['searchpubkeyservers'] = '您想在公钥服务器搜索缺失的密钥吗？';
 $messages['encryptpubkeysfound'] = '下列公钥已被找到：';
-$messages['keyservererror'] = '从密钥服务器获取密钥失败';
-$messages['keyimportsuccess'] = '公钥 $key 成功导入您的钥匙环';
 $messages['nocontactsfound'] = '未找到联系人。';
 $messages['contactnotfound'] = '未找到指定的联系人。';
-$messages['contactsearchonly'] = '请输入联系人的搜索条件';
 $messages['sendingfailed'] = '发送失败。';
 $messages['senttooquickly'] = '您需要等待$sec秒才能发送邮件。';
 $messages['errorsavingsent'] = '保存已发送邮件时发生错误。';
@@ -94,6 +90,7 @@ $messages['noemailwarning'] = '请输入一个有效的邮件地址。';
 $messages['nonamewarning']  = '请输入名称。';
 $messages['nopagesizewarning'] = '请输入每页显示的邮件数量。';
 $messages['nosenderwarning'] = '请输入发件人的电子邮件地址。';
+$messages['recipientsadded'] = '联系人添加成功';
 $messages['norecipientwarning'] = '至少输入一个收件人。';
 $messages['disclosedrecipwarning'] = '所有的收件人都能看到其他收件人的地址。如果您不想这么做并且想保护他人隐私，您可以使用"密送 (Bcc)"一栏。';
 $messages['disclosedreciptitle'] = '太多公共收件人';
@@ -163,6 +160,7 @@ $messages['smtpautherror'] = 'SMTP 错误 ($code): 认证失败。';
 $messages['smtpfromerror'] = 'SMTP 错误 ($code):添加发件人失败 "$from" ($msg)。';
 $messages['smtptoerror'] = 'SMTP 错误 ($code): 添加收件人失败 "$to" ($msg)。';
 $messages['smtprecipientserror'] = 'SMTP 错误: 无法解析收件人列表。';
+$messages['smtputf8error'] = 'SMTP 错误：服务器不支持带 Unicode 字符的邮件地址';
 $messages['smtpsizeerror'] = 'SMTP 错误：消息长度超过服务器能接受的长度 ($limit)';
 $messages['smtperror'] = 'SMTP 错误: $msg';
 $messages['emailformaterror'] = '无效的电子邮件地址：$email';
@@ -211,3 +209,9 @@ $messages['clicktoresumesession'] = '点击此处恢复你之前的会话';
 $messages['errcomposesession'] = '撰写会话错误';
 $messages['errcomposesessionexplain'] = '请求的撰写会话未找到。';
 $messages['clicktocompose'] = '点击这里撰写新邮件';
+$messages['nosupporterror'] = '你的网页浏览器不支持此功能';
+$messages['siginserted'] = '签名插入成功';
+$messages['responseinserted'] = '回复插入成功';
+$messages['listempty'] = '列表为空';
+$messages['listusebutton'] = '请使用 添加 按钮添加新的记录';
+$messages['keypaircreatesuccess'] = '已为 $identity 添加了新的钥匙对';

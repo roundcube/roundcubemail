@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Cache extends PHPUnit_Framework_TestCase
+class Framework_Cache extends PHPUnit\Framework\TestCase
 {
 
     /**

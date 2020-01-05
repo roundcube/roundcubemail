@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,25 +25,13 @@
  */
 class rcube_text2html
 {
-    /**
-     * Contains the HTML content after conversion.
-     *
-     * @var string $html
-     */
+    /** @var string Contains the HTML content after conversion */
     protected $html;
 
-    /**
-     * Contains the plain text.
-     *
-     * @var string $text
-     */
+    /** @var string Contains the plain text */
     protected $text;
 
-    /**
-     * Configuration
-     *
-     * @var array $config
-     */
+    /** @var array Configuration */
     protected $config = array(
         // non-breaking space
         'space' => "\xC2\xA0",
@@ -74,9 +63,9 @@ class rcube_text2html
      * will instantiate with that source propagated, all that has
      * to be done it to call get_html().
      *
-     * @param string  $source    Plain text
-     * @param boolean $from_file Indicates $source is a file to pull content from
-     * @param array   $config    Class configuration
+     * @param string $source    Plain text
+     * @param bool   $from_file Indicates $source is a file to pull content from
+     * @param array  $config    Class configuration
      */
     function __construct($source = '', $from_file = false, $config = array())
     {
@@ -92,8 +81,8 @@ class rcube_text2html
     /**
      * Loads source text into memory, either from $source string or a file.
      *
-     * @param string  $source    Plain text
-     * @param boolean $from_file Indicates $source is a file to pull content from
+     * @param string $source    Plain text
+     * @param bool   $from_file Indicates $source is a file to pull content from
      */
     function set_text($source, $from_file = false)
     {
@@ -142,7 +131,9 @@ class rcube_text2html
     /**
      * Workhorse function that does actual conversion.
      *
-     * @param string Plain text
+     * @param string $text Plain text
+     *
+     * @return string HTML content
      */
     protected function _converter($text)
     {
@@ -235,7 +226,7 @@ class rcube_text2html
                 str_repeat('</blockquote>', $quote_level)));
         }
 
-        $text = join("\n", $text);
+        $text = implode("\n", $text);
 
         // colorize signature (up to <sig_max_lines> lines)
         $len           = strlen($text);
@@ -265,6 +256,11 @@ class rcube_text2html
 
     /**
      * Converts spaces in line of text
+     *
+     * @param string $text      Plain text
+     * @param bool   $is_flowed Is the $text format=flowed?
+     *
+     * @return string Converted text
      */
     protected function _convert_line($text, $is_flowed)
     {

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bem-vindo ao $product';
 $labels['username'] = 'Utilizador';
 $labels['password'] = 'Palavra-passe';
@@ -133,8 +133,8 @@ $labels['markflagged'] = 'Com sinalização';
 $labels['markunflagged'] = 'Como sem sinalização';
 $labels['moreactions'] = 'Mais ações...';
 $labels['markallread'] = 'Marcar todas como Lidas';
-$labels['folders-cur'] = 'Apenas pasta seleccionada';
-$labels['folders-sub'] = 'Pasta seleccionada e respectivas subpastas';
+$labels['folders-cur'] = 'Apenas pasta selecionada';
+$labels['folders-sub'] = 'Pasta selecionada e respetivas subpastas';
 $labels['folders-all'] = 'Todas as pastas';
 $labels['more'] = 'Mais';
 $labels['back'] = 'Voltar';
@@ -147,6 +147,7 @@ $labels['last'] = 'Último';
 $labels['previous'] = 'Anterior';
 $labels['next'] = 'Seguinte';
 $labels['select'] = 'Selecionar';
+$labels['selection'] = 'Selecção';
 $labels['all'] = 'Todas';
 $labels['none'] = 'Nenhum';
 $labels['currpage'] = 'Página atual';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Expandir tudo';
 $labels['expand-unread'] = 'Expandir não lidas';
 $labels['collapse-all'] = 'Recolher tudo';
 $labels['threaded'] = 'Agrupar tópicos';
+$labels['showunread'] = 'Mostrar mensagens não lidas';
 $labels['autoexpand_threads'] = 'Expandir tópicos das mensagens';
 $labels['do_expand'] = 'todos os tópicos';
 $labels['expand_only_unread'] = 'só com mensagens não lidas';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Ações para pastas...';
 $labels['compact'] = 'Compactar';
 $labels['empty'] = 'Esvaziar';
 $labels['importmessages'] = 'Importar mensagens';
+$labels['mailimportdesc'] = 'Pode carregar e-mails usando ficheiros no formato <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ou <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Vários ficheiros podem ser compactados em arquivos zip.';
 $labels['quota'] = 'Espaço utilizado';
 $labels['unknown'] = 'desconhecido';
 $labels['unlimited'] = 'ilimitado';
@@ -256,6 +260,8 @@ $labels['keyexpired'] = 'Expirada';
 $labels['keyrevoked'] = 'Revogada';
 $labels['bccinstead'] = 'Usar Bcc';
 $labels['addheader'] = 'Adicionar destinatário (cabeçalho)';
+$labels['insert'] = 'Inserir';
+$labels['insertcontact'] = 'Inserir contacto(s)';
 $labels['recipient'] = 'Destinatário';
 $labels['recipientedit'] = 'Editar destinatário';
 $labels['editidents'] = 'Editar entidades';
@@ -295,8 +301,9 @@ $labels['alwaysshow'] = 'Mostrar sempre imagens a partir de $sender';
 $labels['alwaysallow'] = 'Permitir sempre de $sender';
 $labels['isdraft'] = 'Esta é uma mensagem de rascunho.';
 $labels['andnmore'] = '$nr mais...';
+$labels['details'] = 'Detalhes';
 $labels['headers'] = 'Cabeçalhos';
-$labels['envelope'] = 'Envelope';
+$labels['allheaders'] = 'Todos os cabeçalhos';
 $labels['togglemoreheaders'] = 'Mostrar cabeçalhos adicionais da mensagem';
 $labels['togglefullheaders'] = 'Mostrar cabeçalho original da mensagem';
 $labels['htmltoggle'] = 'HTML';
@@ -391,6 +398,9 @@ $labels['rename'] = 'Renomear';
 $labels['addphoto'] = 'Adicionar';
 $labels['replacephoto'] = 'Substituir';
 $labels['uploadphoto'] = 'Carregar foto';
+$labels['choosefile'] = 'Escolher ficheiro...';
+$labels['choosefiles'] = 'Escolher ficheiros...';
+$labels['browse'] = 'Procurar';
 $labels['newcontact'] = 'Criar novo contacto';
 $labels['deletecontact'] = 'Eliminar contacto(s) selecionado(s)';
 $labels['composeto'] = 'Nova mensagem para';
@@ -426,7 +436,7 @@ $labels['importreplace'] = 'Substituir todo o livro de endereços.';
 $labels['importgroups'] = 'Importar atribuições de grupo';
 $labels['importgroupsall'] = 'Todos (criar grupos se necessário)';
 $labels['importgroupsexisting'] = 'Apenas para grupos existentes';
-$labels['importdesc'] = 'Pode enviar/carregar contactos de um livro de endereços existente.<br/>Neste momento suportamos a importação nos seguintes formatos: <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (valores separados por vírgula).';
+$labels['importdesc'] = 'Pode carregar contactos de um livro de endereços existente.<br/>Actualmente, suportamos a importação de endereços no formato de dados <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ou CSV (separados por vírgulas).';
 $labels['done'] = 'Concluído';
 $labels['settingsfor'] = 'Configurações para';
 $labels['about'] = 'Acerca';
@@ -502,7 +512,7 @@ $labels['advancedoptions'] = 'Opções avançadas';
 $labels['toggleadvancedoptions'] = 'Alternar opções de avançadas';
 $labels['focusonnewmessage'] = 'Ativar a janela do navegador na nova mensagem';
 $labels['checkallfolders'] = 'Verificar por novas mensagens em todas as pastas';
-$labels['displaynext'] = 'Depois de mover/eliminar uma mensagem, mostrar a próxima mensagem';
+$labels['displaynext'] = 'Mostrar próxima entrada da lista após eliminar/mover';
 $labels['defaultfont'] = 'Tipo de letra padrão para mensagens HTML';
 $labels['mainoptions'] = 'Opções';
 $labels['browseroptions'] = 'Opções do browser';
@@ -620,6 +630,7 @@ $labels['chinese'] = 'Chinês';
 $labels['arialabeltopnav'] = 'Controlo de janela';
 $labels['arialabeltasknav'] = 'Tarefas da aplicação';
 $labels['arialabeltoolbar'] = 'Barra de ferramentas da aplicação';
+$labels['arialabellistnav'] = 'Navegação na lista';
 $labels['arialabelactivetask'] = 'Tarefa ativa';
 $labels['arialabelmessagessearchfilter'] = 'Filtro da listagem de email';
 $labels['arialabelmailsearchform'] = 'Formulário de pesquisa email';
@@ -660,7 +671,7 @@ $labels['arialabelpreferencesform'] = 'Formulário de preferências';
 $labels['arialabelidentityeditfrom'] = 'Formulário de edição de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulário de edição de resposta';
 $labels['arialabelsearchterms'] = 'Termos de pesquisa';
-$labels['arialabeldropactionmenu'] = 'Menu de acção Arrastar e Largar';
+$labels['arialabeldropactionmenu'] = 'Menu de ação Arrastar e Largar';
 $labels['arialabelheadersmenu'] = 'Destinatário (cabeçalho) a adicionar menu';
 $labels['arialabelimagetools'] = 'Ferramentas de imagem';
 $labels['helplistnavigation'] = 'Lista de teclas de navegação';
@@ -672,4 +683,3 @@ $labels['helplistkeyboardnavmessages'] = "Setas direita/esquerda: Expande/recolh
 Enter: Abre a mensagem selecionada/realçada.
 Delete: Move as mensagens selecionadas para a Reciclagem.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abre o contacto selecionado/realçado. ";
-?>

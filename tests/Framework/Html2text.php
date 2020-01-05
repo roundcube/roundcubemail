@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class rc_html2text extends PHPUnit_Framework_TestCase
+class rc_html2text extends PHPUnit\Framework\TestCase
 {
 
     function data_html2text()
@@ -27,19 +27,19 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'out'   => '&quot;',
             ),
             3 => array(
-                'title' => 'HTML entity in STRONG tag',
-                'in'    => '<strong>&#347;</strong>', // ś
-                'out'   => 'Ś', // upper ś
+                'title' => 'HTML entity in H1 tag',
+                'in'    => '<h1>&#347;</h1>', // ś
+                'out'   => "Ś\n\n", // upper ś
             ),
             4 => array(
-                'title' => 'STRONG tag to upper-case conversion',
-                'in'    => '<strong>ś</strong>',
-                'out'   => 'Ś',
+                'title' => 'H1 tag to upper-case conversion',
+                'in'    => '<h1>ś</h1>',
+                'out'   => "Ś\n\n",
             ),
             5 => array(
-                'title' => 'STRONG inside B tag',
-                'in'    => '<b><strong>&#347;</strong></b>',
-                'out'   => 'Ś',
+                'title' => 'H1 inside B tag',
+                'in'    => '<b><h1>&#347;</h1></b>',
+                'out'   => "Ś\n\n",
             ),
             6 => array(
                 'title' => 'Don\'t remove non-printable chars',
@@ -55,6 +55,21 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'title' => '&nbsp; handling test',
                 'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
                 'out'   => "eye:   test\ntes:   test",
+            ),
+            9 => array(
+                'title' => 'HTML entity in STRONG tag',
+                'in'    => '<strong>&#347;</strong>', // ś
+                'out'   => 'ś',
+            ),
+            10 => array(
+                'title' => 'STRONG tag to upper-case conversion',
+                'in'    => '<strong>ś</strong>',
+                'out'   => 'ś',
+            ),
+            11 => array(
+                'title' => 'STRONG inside B tag',
+                'in'    => '<b><strong>&#347;</strong></b>',
+                'out'   => 'ś',
             ),
         );
     }

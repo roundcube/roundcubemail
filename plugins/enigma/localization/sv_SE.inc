@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Kryptering';
 $labels['enigmacerts'] = 'S/MIME-certifikat';
 $labels['enigmakeys'] = 'PGP-nycklar';
@@ -97,6 +96,7 @@ $messages['sigerror'] = 'Overifierad signatur. Internt fel.';
 $messages['decryptok'] = 'Meddelandet är dekrypterat.';
 $messages['decrypterror'] = 'Dekrypteringen misslyckades.';
 $messages['decryptnokey'] = 'Dekrypteringen misslyckades. Privat nyckel otillgänglig. Nyckel-ID: $keyid.';
+$messages['decryptnomdc'] = 'Dekryptering behövs inte. Meddelandet är inte skyddat.';
 $messages['decryptbadpass'] = 'Dekrypteringen misslyckades. Fel lösenord.';
 $messages['decryptnopass'] = 'Dekrypteringen misslyckades. Ange nyckelns lösenord.';
 $messages['decryptpartial'] = 'Meddelandet är dekrypterat, men meddelandet var delvis okrypterat.';
@@ -106,6 +106,7 @@ $messages['signbadpass'] = 'Signeringen misslyckades. Fel lösenord.';
 $messages['signnopass'] = 'Signeringen misslyckades. Ange nyckelns lösenord.';
 $messages['encrypterror'] = 'Krypteringen misslyckades.';
 $messages['encryptnokey'] = 'Krypteringen misslyckades. Offentlig nyckel otillgänglig för $email.';
+$messages['encryptnoprivkey'] = 'Krypteringen misslyckades. Offentlig nyckel kunde inte hittas.';
 $messages['nokeysfound'] = 'Inga nycklar hittades.';
 $messages['keynotfound'] = 'Nyckeln hittades inte!';
 $messages['keyopenerror'] = 'Nyckelinformation kunde inte hämtas. Internt fel.';

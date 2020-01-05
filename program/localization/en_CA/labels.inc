@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Welcome to $product';
 $labels['username'] = 'Username';
 $labels['password'] = 'Password';
@@ -200,6 +200,7 @@ $labels['returnreceipt'] = 'Return receipt';
 $labels['dsn'] = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
+$labels['insert'] = 'Insert';
 $labels['recipient'] = 'Recipient';
 $labels['editidents'] = 'Edit identities';
 $labels['spellcheck'] = 'Spell';
@@ -334,7 +335,6 @@ $labels['importreplace'] = 'Replace the entire address book';
 $labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';
-$labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
 $labels['done'] = 'Done';
 $labels['settingsfor'] = 'Settings for';
 $labels['about'] = 'About';
@@ -400,7 +400,6 @@ $labels['force7bit'] = 'Use MIME encoding for 8-bit characters';
 $labels['advancedoptions'] = 'Advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['displaynext'] = 'After message delete/move display the next message';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['browseroptions'] = 'Browser Options';
@@ -490,4 +489,3 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
-?>

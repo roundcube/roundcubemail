@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Zmiana hasła';
 $labels['curpasswd']  = 'Aktualne hasło:';
 $labels['newpasswd']  = 'Nowe hasło:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'Nie udało się zapisać nowego hasła. Błąd poł
 $messages['internalerror'] = 'Nie udało się zapisać nowego hasła.';
 $messages['passwordshort'] = 'Hasło musi posiadać co najmniej $length znaków.';
 $messages['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i znak interpunkcyjny.';
+$messages['passwordtooweak'] = 'Hasło jest zbyt słabe.';
+$messages['passwordnoseq'] = 'Hasło nie powinno być sekwencją typu 123456 albo QWERTY.';
+$messages['passwordnocommon'] = 'Hasło nie może być zwykłym słowem lub nazwą.';
 $messages['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
 $messages['firstloginchange'] = 'To jest twoje pierwsze logowanie. Proszę zmień hasło.';
 $messages['disablednotice'] = 'System jest w trakcie konserwacji i zmiana hasła w tym momencie nie jest możliwa. Wszystko powinno wrócić do normy w niedługim czasie. Przepraszamy za wszelkie niedogodności';

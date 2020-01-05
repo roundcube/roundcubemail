@@ -2,26 +2,28 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Scagairí';
 $labels['managefilters'] = 'Bainistigh na scagairí do theachtaireachtaí isteach';
 $labels['filtername'] = 'Ainm an scagaire';
 $labels['newfilter'] = 'Scagaire nua';
 $labels['filteradd'] = 'Cuir scagaire leis';
 $labels['filterdel'] = 'Scrios an scagaire';
-$labels['scope'] = 'Cuimse';
+$labels['rules'] = 'Rialacha';
+$labels['actions'] = 'Gníomhartha';
+$labels['scope'] = 'Raon feidhme';
 $labels['moveup'] = 'Bog suas';
 $labels['movedown'] = 'Bog síos';
 $labels['filterany'] = 'gach teachtaireacht';
@@ -31,6 +33,11 @@ $labels['filteris'] = 'cothrom le';
 $labels['filterisnot'] = 'níl sé cothrom le';
 $labels['filterunder'] = 'faoi';
 $labels['filterover'] = 'thar';
+$labels['mime-message'] = 'teachtaireacht';
+$labels['mime-anychild'] = 'ceann ar bith';
+$labels['mime-type'] = 'cineál';
+$labels['mime-subtype'] = 'fochineál';
+$labels['mime-param'] = 'paraiméadar';
 $labels['addrule'] = 'Cuir rial leis';
 $labels['delrule'] = 'Scrios an rial';
 $labels['messagemoveto'] = 'Bog teachtaireacht chuig';
@@ -42,6 +49,7 @@ $labels['messagedelete'] = 'Scrios an teachtaireacht';
 $labels['messagediscard'] = 'Cuileáil leis an teachtaireacht';
 $labels['messagekeep'] = 'Coinnigh an teachtaireacht sa Bhosca Isteach';
 $labels['messagesrules'] = 'I gcomhair teachtaireachtaí isteach:';
+$labels['messagesactions'] = '...rith na gníomhartha seo a leanas:';
 $labels['add'] = 'Cuir leis';
 $labels['del'] = 'Scrios';
 $labels['sender'] = 'Seoltóir';
@@ -54,9 +62,7 @@ $labels['vacationsubject'] = 'Ábhar na teachtaireachta:';
 $labels['days'] = 'lá';
 $labels['seconds'] = 'soicind';
 $labels['enable'] = 'Cumasaigh/Díchumasaigh';
-$labels['filterset'] = 'Tacair scagairí';
 $labels['filtersets'] = 'Tacair scagairí';
-$labels['filtersetadd'] = 'Cuir scagairí socraithe leis';
 $labels['filterdef'] = 'Sainmhíniú an fhillteáin';
 $labels['active'] = 'gníomhach';
 $labels['none'] = 'dada';
@@ -73,12 +79,17 @@ $labels['flagdeleted'] = 'Scriosta';
 $labels['flaganswered'] = 'Freagartha';
 $labels['flagflagged'] = 'Bratach curtha leis';
 $labels['flagdraft'] = 'Cum teachtaireacht';
+$labels['headeratstart'] = 'ag an tús';
+$labels['headeratend'] = 'ag an deireadh';
+$labels['headerfromstart'] = 'ón tús';
+$labels['headerfromend'] = 'ón deireadh';
 $labels['setvariable'] = 'Socraigh athraitheach';
 $labels['setvarmodifiers'] = 'Mionathraitheoirí:';
 $labels['varlower'] = 'cás íochtar';
 $labels['varupper'] = 'cás uachtar';
 $labels['varlength'] = 'fad';
 $labels['notify'] = 'Seol fógra';
+$labels['notifytarget'] = 'Sprioc an fhógra:';
 $labels['notifyimportance'] = 'Tábhacht:';
 $labels['notifyimportancelow'] = 'íseal';
 $labels['notifyimportancenormal'] = 'gnáth';
@@ -121,23 +132,28 @@ $labels['detail'] = 'mionsonra';
 $labels['default'] = 'réamhshocrú';
 $labels['index'] = 'Treorán:';
 $labels['indexlast'] = 'siar';
-$labels['vacation'] = 'Saoire';
+$labels['vacation'] = 'As Oifig';
 $labels['vacation.reply'] = 'Freagair an teachtaireacht';
 $labels['vacation.advanced'] = 'Ardsocruithe';
 $labels['vacation.subject'] = 'Ábhar';
 $labels['vacation.body'] = 'Corp';
+$labels['vacation.start'] = 'Am tosaigh';
+$labels['vacation.end'] = 'Am le críochnú';
 $labels['vacation.status'] = 'Treo';
 $labels['vacation.on'] = 'Ar siúl';
 $labels['vacation.off'] = 'As';
 $labels['vacation.addresses'] = 'Mo sheoltaí ríomhphoist';
+$labels['vacation.interval'] = 'Eatramh an fhreagra';
 $labels['vacation.keep'] = 'Coinnigh';
 $labels['vacation.discard'] = 'Cuileáil';
 $labels['vacation.redirect'] = 'Atreoraigh chuig';
 $labels['vacation.copy'] = 'Seol macasamhail chuig';
+$labels['forward'] = 'Cur ar aghaidh';
 $labels['forward.redirect'] = 'Atreoraigh chuig';
 $labels['forward.copy'] = 'Seol macasamhail chuig';
 $labels['forward.on'] = 'Ar siúl';
 $labels['forward.off'] = 'As';
+$labels['forward.status'] = 'Treo:';
 $labels['filladdresses'] = 'Líon le mo sheoltaí uile';
 $labels['arialabelfilteractions'] = 'Gníomhartha an scagaire';
 $labels['arialabelfilterform'] = 'Airíonna an fhillteáin';
@@ -147,13 +163,14 @@ $labels['duplicate.header'] = 'ceanntásc:';
 $labels['duplicate.uniqueid'] = 'aitheantóir:';
 $messages['filterdeleted'] = 'Scriosadh an fillteán go ráthúil.';
 $messages['filterdeleteconfirm'] = 'An bhfuil tú cinnte gur mian leat an scagaire roghnaithe a scriosadh?';
+$messages['ruledeleteconfirm'] = 'An bhfuil tú cinnte gur mian leat an riail roghnaithe sin a scriosadh?';
 $messages['actiondeleteconfirm'] = 'An bhfuil tú cinnte gur mian leat an gníomh roghnaithe a scriosadh?';
+$messages['forbiddenchars'] = 'Tá carachtair neamhcheadaithe sa réimse.';
 $messages['cannotbeempty'] = 'Ní féidir leis an réimse bheith folamh.';
 $messages['ruleexist'] = 'Tá an scagaire leis an ainm sonraithe ann cheana.';
-$messages['setcreated'] = 'Cruthaíodh tacair de scagairí go ráthúil.';
 $messages['moved'] = 'Bogadh an scagaire go ráthúil.';
 $messages['nametoolong'] = 'Tá an t-ainm rófhada.';
 $messages['namereserved'] = 'Ainm curtha in áirithe.';
 $messages['setexist'] = 'Tá an tacair sin ann cheana.';
 $messages['nodata'] = 'Caithfear ar a laghad suíomh amháin a roghnú!';
-?>
+$messages['disabledaction'] = 'Ní cheadaítear an gníomh sin.';

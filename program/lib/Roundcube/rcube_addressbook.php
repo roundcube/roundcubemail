@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -259,7 +260,7 @@ abstract class rcube_addressbook
      *
      * @return mixed The created record ID on success, False on error
      */
-    function insert($save_data, $check=false)
+    function insert($save_data, $check = false)
     {
         /* empty for read-only address books */
     }
@@ -272,7 +273,7 @@ abstract class rcube_addressbook
      *
      * @return array List of created record IDs
      */
-    function insertMultiple($recset, $check=false)
+    function insertMultiple($recset, $check = false)
     {
         $ids = array();
         if (is_object($recset) && is_a($recset, rcube_result_set)) {
@@ -281,6 +282,7 @@ abstract class rcube_addressbook
                     $ids[] = $insert;
             }
         }
+
         return $ids;
     }
 
@@ -360,7 +362,6 @@ abstract class rcube_addressbook
     function get_group($group_id)
     {
         /* empty for address books don't supporting groups */
-        return null;
     }
 
     /**
@@ -508,7 +509,7 @@ abstract class rcube_addressbook
 
         // default display name composition according to vcard standard
         if (!$fn) {
-            $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
+            $fn = implode(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
             $fn = trim(preg_replace('/\s+/u', ' ', $fn));
         }
 
@@ -543,18 +544,24 @@ abstract class rcube_addressbook
     {
         static $compose_mode;
 
-        if (!isset($compose_mode))  // cache this
+        if (!isset($compose_mode)) {
             $compose_mode = rcube::get_instance()->config->get('addressbook_name_listing', 0);
+        }
 
-        if ($compose_mode == 3)
-            $fn = join(' ', array($contact['surname'] . ',', $contact['firstname'], $contact['middlename']));
-        else if ($compose_mode == 2)
-            $fn = join(' ', array($contact['surname'], $contact['firstname'], $contact['middlename']));
-        else if ($compose_mode == 1)
-            $fn = join(' ', array($contact['firstname'], $contact['middlename'], $contact['surname']));
-        else if ($compose_mode == 0)
-            $fn = $contact['name'] ?: join(' ', array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']));
-        else {
+        switch ($compose_mode) {
+        case 3:
+            $fn = implode(' ', array($contact['surname'] . ',', $contact['firstname'], $contact['middlename']));
+            break;
+        case 2:
+            $fn = implode(' ', array($contact['surname'], $contact['firstname'], $contact['middlename']));
+            break;
+        case 1:
+            $fn = implode(' ', array($contact['firstname'], $contact['middlename'], $contact['surname']));
+            break;
+        case 0:
+            $fn = $contact['name'] ?: implode(' ', array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']));
+            break;
+        default:
             $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', array('contact' => $contact));
             $fn     = $plugin['fn'];
         }

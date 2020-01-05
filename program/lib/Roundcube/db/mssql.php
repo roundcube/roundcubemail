@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -98,7 +99,7 @@ class rcube_db_mssql extends rcube_db
             $args = $args[0];
         }
 
-        return '(' . join('+', $args) . ')';
+        return '(' . implode('+', $args) . ')';
     }
 
     /**

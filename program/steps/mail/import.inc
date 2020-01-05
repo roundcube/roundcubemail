@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/import.inc                                         |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Save the uploaded file(s) as messages to the current IMAP folder    |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -127,19 +125,17 @@ function rcmail_zip_extract($path)
         return;
     }
 
-    $rcmail   = rcmail::get_instance();
-    $temp_dir = $rcmail->config->get('temp_dir');
-    $zip      = new ZipArchive;
-    $files    = array();
+    $zip   = new ZipArchive;
+    $files = array();
 
     if ($zip->open($path)) {
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $entry    = $zip->getNameIndex($i);
-            $tmpfname = tempnam($temp_dir, 'zipimport');
+            $tmpfname = rcube_utils::temp_filename('zipimport');
 
             if (copy("zip://$path#$entry", $tmpfname)) {
                 $ctype = rcube_mime::file_content_type($tmpfname, $entry);
-                list($mtype_primary, $mtype_secondary) = explode('/', $ctype);
+                list($mtype_primary, ) = explode('/', $ctype);
 
                 if (in_array($mtype_primary, array('text', 'message'))) {
                     $files[] = $tmpfname;

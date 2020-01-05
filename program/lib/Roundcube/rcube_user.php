@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,42 +27,35 @@
  */
 class rcube_user
 {
+    /** @var int User identifier */
     public $ID;
+
+    /** @var array User properties */
     public $data;
+
+    /** @var string User language code */
     public $language;
+
+    /** @var array User preferences */
     public $prefs;
 
-    /**
-     * Holds database connection.
-     *
-     * @var rcube_db
-     */
+
+    /** @var rcube_db Holds database connection */
     private $db;
 
-    /**
-     * Framework object.
-     *
-     * @var rcube
-     */
+    /** @var rcube Framework object */
     private $rc;
 
-    /**
-     * Internal identities cache
-     *
-     * @var array
-     */
+    /** @var array Internal identities cache */
     private $identities = array();
 
-    /**
-     * Internal emails cache
-     *
-     * @var array
-     */
+    /** @var array Internal emails cache */
     private $emails;
 
 
     const SEARCH_ADDRESSBOOK = 1;
-    const SEARCH_MAIL = 2;
+    const SEARCH_MAIL        = 2;
+
 
     /**
      * Object constructor
@@ -179,6 +173,14 @@ class rcube_user
             return false;
         }
 
+        $config       = $this->rc->config;
+        $transient    = $config->transient_options();
+        $a_user_prefs = array_diff_key($a_user_prefs, array_flip($transient));
+
+        if (empty($a_user_prefs)) {
+            return true;
+        }
+
         $plugin = $this->rc->plugins->exec_hook('preferences_update', array(
                 'userid' => $this->ID,
                 'prefs'  => $a_user_prefs,
@@ -191,7 +193,6 @@ class rcube_user
 
         $a_user_prefs = $plugin['prefs'];
         $old_prefs    = $plugin['old'];
-        $config       = $this->rc->config;
         $defaults     = $config->all();
 
         // merge (partial) prefs array with existing settings
@@ -370,7 +371,7 @@ class rcube_user
         $query_params[] = $this->ID;
 
         $sql = "UPDATE ".$this->db->table_name('identities', true).
-            " SET `changed` = ".$this->db->now().", ".join(', ', $query_cols).
+            " SET `changed` = ".$this->db->now().", ".implode(', ', $query_cols).
             " WHERE `identity_id` = ?".
                 " AND `user_id` = ?".
                 " AND `del` <> 1";
@@ -412,8 +413,8 @@ class rcube_user
         $insert_values[] = $this->ID;
 
         $sql = "INSERT INTO ".$this->db->table_name('identities', true).
-            " (`changed`, ".join(', ', $insert_cols).")".
-            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), count($insert_values), '?')).")";
+            " (`changed`, ".implode(', ', $insert_cols).")".
+            " VALUES (".$this->db->now().", ".implode(', ', array_pad(array(), count($insert_values), '?')).")";
 
         $insert = $this->db->query($sql, $insert_values);
 
@@ -502,7 +503,9 @@ class rcube_user
      */
     function failed_login()
     {
-        if ($this->ID && ($rate = (int) $this->rc->config->get('login_rate_limit', 3))) {
+        if ($this->ID && $this->rc->config->get('login_rate_limit', 3)) {
+            $counter = 0;
+
             if (empty($this->data['failed_login'])) {
                 $failed_login = new DateTime('now');
                 $counter      = 1;
@@ -849,8 +852,8 @@ class rcube_user
         $insert_values[] = serialize($data['data']);
 
         $sql = "INSERT INTO ".$this->db->table_name('searches', true)
-            ." (".join(', ', $insert_cols).")"
-            ." VALUES (".join(', ', array_pad(array(), count($insert_values), '?')).")";
+            ." (".implode(', ', $insert_cols).")"
+            ." VALUES (".implode(', ', array_pad(array(), count($insert_values), '?')).")";
 
         $insert = $this->db->query($sql, $insert_values);
 

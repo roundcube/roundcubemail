@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$productにようこそ';
 $labels['username'] = 'ユーザー名';
 $labels['password'] = 'パスワード';
@@ -147,6 +147,7 @@ $labels['last'] = '最後';
 $labels['previous'] = '前';
 $labels['next'] = '次';
 $labels['select'] = '選択';
+$labels['selection'] = '選択範囲';
 $labels['all'] = 'すべて';
 $labels['none'] = 'なし';
 $labels['currpage'] = '現在のページ';
@@ -195,6 +196,8 @@ $labels['folderactions'] = 'フォルダーの操作...';
 $labels['compact'] = '圧縮';
 $labels['empty'] = '空';
 $labels['importmessages'] = 'メッセージをインポート';
+$labels['mailimportdesc'] = '<a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a>または<a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>形式を使用してメールをアップロードできます。';
+$labels['mailimportzip'] = '複数のファイルをzipアーカイブに圧縮できます。';
 $labels['quota'] = 'ディスクの使用状況';
 $labels['unknown'] = '不明';
 $labels['unlimited'] = '無制限';
@@ -248,13 +251,17 @@ $labels['encryptmessage'] = 'メッセージを暗号化';
 $labels['encryptmessagemailvelope'] = 'Mailvelopeでメッセージを暗号化';
 $labels['importpubkeys'] = '公開鍵をインポート';
 $labels['encryptedsendialog'] = '暗号化したメッセージを送信中';
+$labels['encryptandsign'] = '暗号化と署名';
 $labels['keyid'] = 'キーID';
 $labels['keylength'] = 'ビット';
 $labels['keyexpired'] = '期限切れ';
 $labels['keyrevoked'] = '取り消し済み';
 $labels['bccinstead'] = 'Bccを使用';
 $labels['addheader'] = '宛先を追加(ヘッダー)';
+$labels['insert'] = '挿入';
+$labels['insertcontact'] = '連絡先を挿入';
 $labels['recipient'] = '宛先';
+$labels['recipientedit'] = '宛先編集';
 $labels['editidents'] = '識別情報を編集';
 $labels['spellcheck'] = 'スペル';
 $labels['checkspelling'] = 'スペルチェック';
@@ -292,8 +299,9 @@ $labels['alwaysshow'] = '$sender から届いた画像は常に表示';
 $labels['alwaysallow'] = '$senderからは常に許可';
 $labels['isdraft'] = 'これは下書きのメッセージです。';
 $labels['andnmore'] = 'さらに$nr件...';
+$labels['details'] = '詳細';
 $labels['headers'] = 'ヘッダー';
-$labels['envelope'] = 'エンベロープ';
+$labels['allheaders'] = 'すべてのヘッダー...';
 $labels['togglemoreheaders'] = 'さらにメッセージのヘッダーを表示';
 $labels['togglefullheaders'] = 'メッセージヘッダーの生の表示と切り替え';
 $labels['htmltoggle'] = 'HTML';
@@ -309,6 +317,14 @@ $labels['mdnrequest'] = 'このメッセージを読んだときに、送信者�
 $labels['receiptread'] = '開封確認(表示済み)';
 $labels['yourmessage'] = 'これはあなたが送信したメッセージに対する開封確認です。';
 $labels['receiptnote'] = '注意: この開封確認は、メッセージが宛先のコンピューターで表示されたことだけを知らせるものです。受信者がメッセージを読んだり、内容を理解したと保証するものではありません。';
+$labels['zoomin'] = 'ズームイン';
+$labels['zoomout'] = 'ズームアウト';
+$labels['rotate'] = '回転';
+$labels['increaseimage'] = '画像のサイズを増やす';
+$labels['decreaseimage'] = '画像のサイズを減らす';
+$labels['rotateimage'] = '画像を回転';
+$labels['showtools'] = '画像ツールを表示';
+$labels['hidetools'] = '画像ツールを非表示';
 $labels['name'] = '表示名';
 $labels['firstname'] = '名';
 $labels['surname'] = '姓';
@@ -380,6 +396,9 @@ $labels['rename'] = '名前を変更';
 $labels['addphoto'] = '追加';
 $labels['replacephoto'] = '置き換え';
 $labels['uploadphoto'] = '写真をアップロード';
+$labels['choosefile'] = 'ファイルを選択...';
+$labels['choosefiles'] = 'ファイルを選択...';
+$labels['browse'] = '閲覧';
 $labels['newcontact'] = '新しい連絡先を作成';
 $labels['deletecontact'] = '選択した連絡先を削除';
 $labels['composeto'] = 'この連絡先宛にメッセージを作成';
@@ -393,6 +412,8 @@ $labels['newgroup'] = '新しいグループを作成';
 $labels['addgroup'] = 'グループを追加';
 $labels['grouprename'] = 'グループ名を変更';
 $labels['groupdelete'] = 'グループを削除';
+$labels['groupassign'] = 'グループに割り当て...';
+$labels['groupremove'] = 'グループから削除';
 $labels['groupremoveselected'] = '選択した連絡先をグループから削除';
 $labels['uponelevel'] = '1つ上のレベル';
 $labels['previouspage'] = '前のページを表示';
@@ -413,7 +434,7 @@ $labels['importreplace'] = 'アドレス帳全体と置き換え';
 $labels['importgroups'] = 'グループの割り当てをインポート';
 $labels['importgroupsall'] = 'すべて (必要ならグループを作成)';
 $labels['importgroupsexisting'] = '存在するグループだけ';
-$labels['importdesc'] = '連絡先を既存のアドレス帳からアップロードできます。<br />現在、<a href="http://ja.wikipedia.org/wiki/VCard">vCard</a>またはCSV(コンマ区切り)のデータ形式からアドレスのインポートをサポートしています。';
+$labels['importdesc'] = '既存のアドレス帳から連絡先をアップロードできます。<br/>現在、<a href="https://en.wikipedia.org/wiki/VCard">vCard</a>またはCSV(コンマ区切り)のデータ形式からのアドレスの取り込みをサポートしています。';
 $labels['done'] = '完了';
 $labels['settingsfor'] = '次の設定:';
 $labels['about'] = 'このプログラムについて';
@@ -489,7 +510,6 @@ $labels['advancedoptions'] = '高度な設定';
 $labels['toggleadvancedoptions'] = '詳細なオプションの表示を切り替え';
 $labels['focusonnewmessage'] = '新しいメッセージが届いたらブラウザーをアクティブ';
 $labels['checkallfolders'] = 'すべてのフォルダーで新着メールを表示';
-$labels['displaynext'] = 'メッセージを削除や移動した後で次のメッセージを表示';
 $labels['defaultfont'] = 'HTMLメッセージの初期フォント';
 $labels['mainoptions'] = '基本的な設定';
 $labels['browseroptions'] = 'ブラウザーのオプション';
@@ -560,7 +580,11 @@ $labels['namespace.shared'] = '共有した';
 $labels['dualuselabel'] = 'これだけ含められる';
 $labels['dualusemail'] = 'メッセージ';
 $labels['dualusefolder'] = 'フォルダー';
+$labels['generate'] = '生成';
 $labels['encryptioncreatekey'] = '新しい鍵ペアを作成';
+$labels['openmailvelopesettings'] = 'Mailvelopeの設定を表示';
+$labels['encryptionprivkeysinmailvelope'] = 'Mailvelopeのキーリングに$nr個の一致する秘密鍵:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'この送信者の識別情報へのPGP秘密鍵がMailvelope拡張にまだありません。メッセージの暗号化を有効にするためにPGP秘密鍵を作成しますか?';
 $labels['sortby'] = '並べ替え';
 $labels['sortasc'] = '昇順で並べ替え';
 $labels['sortdesc'] = '降順で並べ替え';
@@ -572,6 +596,12 @@ $labels['source'] = 'ソース';
 $labels['license'] = 'ライセンス';
 $labels['support'] = 'サポートを依頼';
 $labels['savedsearches'] = '検索を保存';
+$labels['dateformatY'] = 'YYYY';
+$labels['dateformaty'] = 'YY';
+$labels['dateformatm'] = 'MM';
+$labels['dateformatd'] = 'DD';
+$labels['dateformatj'] = 'D';
+$labels['dateformatn'] = 'M';
 $labels['B'] = 'バイト';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -622,6 +652,7 @@ $labels['arialabelmessageheaders'] = 'メッセージのヘッダー';
 $labels['arialabelforwardingoptions'] = '転送のオプション';
 $labels['arialabelreplyalloptions'] = '全員に返信のオプション';
 $labels['arialabelmoremessageactions'] = 'さらにメッセージを操作';
+$labels['arialabelmorecontactactions'] = 'さらに連絡先を操作';
 $labels['arialabelmarkmessagesas'] = '選択したメッセージに次のマーク...';
 $labels['arialabelcomposeoptions'] = '作成のオプション';
 $labels['arialabelresponsesmenu'] = '回答テンプレートメニュー';
@@ -638,6 +669,7 @@ $labels['arialabelresonseeditfrom'] = '回答のフォーム';
 $labels['arialabelsearchterms'] = '検索語';
 $labels['arialabeldropactionmenu'] = 'ドラッグ・アンド・ドロップの動作メニュー';
 $labels['arialabelheadersmenu'] = '宛先(ヘッダー)を追加するメニュー';
+$labels['arialabelimagetools'] = '画像ツール';
 $labels['helplistnavigation'] = 'キーボードのナビゲーションの一覧';
 $labels['helplistkeyboardnavigation'] = "上矢印・下矢印: 選択する行を移動します。
 スペース: 現在の行を選択します。
@@ -647,4 +679,3 @@ $labels['helplistkeyboardnavmessages'] = "右矢印・左矢印: メッセージ
 改行: 現在・選択しているメッセージを開きます。
 削除: 選択しているメッセージをゴミ箱に移動します。";
 $labels['helplistkeyboardnavcontacts'] = "改行: 現在・選択中の連絡先を開きます。";
-?>

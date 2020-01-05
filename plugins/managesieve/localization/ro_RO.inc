@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Administreaza filtrele pentru mesaje primite.';
 $labels['filtername'] = 'Nume filtru';
@@ -64,15 +64,9 @@ $labels['days'] = 'zile';
 $labels['seconds'] = 'secunde';
 $labels['rulestop'] = 'Nu mai evalua reguli';
 $labels['enable'] = 'Activeaza/Dezactiveaza';
-$labels['filterset'] = 'Filtre setate';
 $labels['filtersets'] = 'Filtrul seteaza';
-$labels['filtersetadd'] = 'Adauga set de filtre';
-$labels['filtersetact'] = 'Activeaza setul curent de filtre';
-$labels['filtersetdeact'] = 'Dezactiveaza setul curent de filtre';
 $labels['filterseteditraw'] = 'Modifică set filtre';
 $labels['filterdef'] = 'Definiţie filtru';
-$labels['filtersetname'] = 'Nume set filtre';
-$labels['newfilterset'] = 'Set filtre nou';
 $labels['active'] = 'activ';
 $labels['none'] = 'niciunul';
 $labels['fromset'] = 'din setul';
@@ -162,20 +156,16 @@ $labels['asciicasemap'] = 'ignoră majusculele (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'invers';
-$labels['vacation'] = 'Vacanta';
 $labels['vacation.reply'] = 'Raspunde mesajului';
 $labels['vacation.advanced'] = 'Setari avansate';
 $labels['vacation.from'] = 'Adresa expeditorului răspunsului';
 $labels['vacation.subject'] = 'Subiect';
 $labels['vacation.body'] = 'Corp';
-$labels['vacation.start'] = 'Începere vacanță';
-$labels['vacation.end'] = 'Sfârșit vacanță';
 $labels['vacation.status'] = 'Statut';
 $labels['vacation.on'] = 'Pe';
 $labels['vacation.off'] = 'De pe';
 $labels['vacation.addresses'] = 'Adresele mele de e-mail';
 $labels['vacation.interval'] = 'Interval de raspundere';
-$labels['vacation.after'] = 'Pune regula de vacanta dupa';
 $labels['vacation.saving'] = 'Salvez datele...';
 $labels['vacation.action'] = 'Acțiune mesaj primit';
 $labels['vacation.keep'] = 'Păstrează';
@@ -215,16 +205,6 @@ $messages['actiondeleteconfirm'] = 'Eşti sigur că vrei să ştergi acţiunea s
 $messages['forbiddenchars'] = 'Caractere nepermise în câmp.';
 $messages['cannotbeempty'] = 'Câmpul nu poate fi gol.';
 $messages['ruleexist'] = 'Filtrul cu numele specificat există deja.';
-$messages['setactivateerror'] = 'Nu pot activa setul de filtre selectat. S-a produs o eroare la server.';
-$messages['setdeactivateerror'] = 'Nu pot dezactiva setul de filtre selectat. S-a produs o eroare la server.';
-$messages['setdeleteerror'] = 'Nu pot şterge setul de filtre selectat. S-a produs o eroare la server.';
-$messages['setactivated'] = 'Setul de filtre activat cu succes.';
-$messages['setdeactivated'] = 'Setul de filtre dezactivat cu succes.';
-$messages['setdeleted'] = 'Setul de filtre şters cu succes.';
-$messages['setupdated'] = 'Setul de filtre a fost actualizat cu succes';
-$messages['setdeleteconfirm'] = 'Eşti sigur(ă) că vrei să ştergi setul de filtre selectat?';
-$messages['setcreateerror'] = 'Nu am putut crea setul de filtre. S-a produs o eroare la server.';
-$messages['setcreated'] = 'Setul de filtre creat cu succes.';
 $messages['activateerror'] = 'Nu am putut activa filtrul (filtrele) selectate. S-a produs o eroare la server.';
 $messages['deactivateerror'] = 'Nu am putut dezactiva filtrele (filtrele) selectate. S-a produs o eroare la server.';
 $messages['deactivated'] = 'Filtrele au fost activate cu succes.';
@@ -237,7 +217,5 @@ $messages['setexist'] = 'Setul există deja.';
 $messages['nodata'] = 'Trebuie selectată cel putin o poziţie!';
 $messages['invaliddateformat'] = 'Data sau parte din data in format invalid';
 $messages['saveerror'] = 'Nu am putut salva datele. A aparut o eroare de server.';
-$messages['vacationsaved'] = 'Data de vacanta salvata cu succes';
 $messages['emptyvacationbody'] = 'Corpul mesajului de vacanță este obligatoriu!';
 $messages['duplicate.conflict.err'] = 'Atât antetul, cât și identificatorul unic nu sunt permise.';
-?>

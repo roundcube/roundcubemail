@@ -2,26 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ilmnes tõrge!';
-$messages['loginfailed']  = 'Sisselogimine ebaõnnestus';
+$messages['loginfailed']  = 'Sisselogimine ebaõnnestus.';
 $messages['cookiesdisabled'] = 'Sinu veebilehitseja ei võta präänikuid vastu';
 $messages['sessionerror'] = 'Sinu seanss on aegunud või vigane';
+$messages['cookiesmismatch'] = 'Tuvastatud küpsise sobimatus. Tühjenda oma brauseri küpsised.';
 $messages['storageerror'] = 'Ei õnnestunud IMAP serveriga ühendust luua';
 $messages['servererror'] = 'Serveri tõrge!';
 $messages['servererrormsg'] = 'Serveri tõrge: $msg';
+$messages['accountlocked'] = 'Liiga palju ebaõnnestunud sisselogimiskatseid. Proovi hiljem uuesti.';
 $messages['connerror'] = 'Viga ühenduses (Ei suutnud luua ühendust serveriga)';
 $messages['dberror'] = 'Andmebaasi tõrge!';
 $messages['windowopenerror'] = 'Hüpikaken blokeeriti!';
@@ -33,12 +34,13 @@ $messages['erroroverquotadelete'] = 'Ketas on täis. Kirja kustutamiseks vajuta 
 $messages['invalidrequest'] = 'Lubamatu päring! Andmeid ei salvestatud.';
 $messages['invalidhost'] = 'Lubamatu serveri nimi.';
 $messages['nomessagesfound'] = 'Postkast paistab tühi olevat';
-$messages['loggedout'] = 'Sinu seanss on edukalt lõpetatud. Nägemiseni!';
-$messages['mailboxempty'] = 'Kirjakast on tühi';
+$messages['loggedout'] = 'Oled sessiooni edukalt lõpetanud. Nägemist!';
+$messages['mailboxempty'] = 'Postkast on tühi';
 $messages['nomessages'] = 'Pole teateid';
 $messages['refreshing'] = 'Värskendamine…';
 $messages['loading'] = 'Laadin...';
 $messages['uploading'] = 'Laadin faili üles...';
+$messages['attaching'] = 'Lisan faili...';
 $messages['uploadingmany'] = 'Failide üleslaadimine...';
 $messages['loadingdata'] = 'Andmete laadimine...';
 $messages['checkingmail'] = 'Kontrollin uusi kirju...';
@@ -49,13 +51,18 @@ $messages['messagesaved'] = 'Kiri salvestatud mustanditesse';
 $messages['successfullysaved'] = 'Edukalt salvestatud';
 $messages['savingresponse'] = 'Salvestan vastuse teksti...';
 $messages['deleteresponseconfirm'] = 'Soovid valitud vastuse kustutada?';
+$messages['nocontactselected'] = 'Sa ei ole veel konakti valinud';
 $messages['addedsuccessfully'] = 'Kontakt lisati edukalt aadressiraamatusse';
+$messages['contactexists'] = 'Sama e-posti aadressiga kontakt on juba olemas.';
 $messages['contactnameexists'] = 'Sama nimega kontakt on juba olemas.';
 $messages['blockedimages'] = 'Sinu privaatsuse kaitsmiseks on selles kirjas välised pildid blokeeritud.';
+$messages['blockedresources'] = 'Sinu privaatsuse kaitsmiseks on kaugressursid blokeeritud.';
 $messages['encryptedmessage'] = 'See on krüpteeritud kiri ja kahjuks pole seda võimalik näidata. Andestust!';
+$messages['externalmessagedecryption'] = 'See on krüptitud kiri ja selle saab teie brauserilaiendiga dekrüpteerida.';
+$messages['nopubkeyfor'] = 'Ei leitud ühtegi kehtivat avalikku $email võtit';
 $messages['nocontactsfound'] = 'Ei leitud ühtegi kontakti';
 $messages['contactnotfound'] = 'Otsitud kontakti ei leitud';
-$messages['contactsearchonly'] = 'Sisesta otsingusõna kontaktide leidmiseks';
+$messages['contactsearchonly'] = 'Valitud aadressiraamatus olevate kontaktide nägemiseks pead kasutama otsinguvormi.';
 $messages['sendingfailed'] = 'Kirja saatmine ebaõnnestus';
 $messages['senttooquickly'] = 'Palun oota enne selle kirja saatmist $sec sekundit.';
 $messages['errorsavingsent'] = 'Saadetud kirja salvestamisel ilmnes tõrge';
@@ -64,10 +71,13 @@ $messages['errormoving'] = 'Ei suutnud seda kirja liigutada';
 $messages['errorcopying'] = 'Kirju ei õnnestunud kopeerida';
 $messages['errordeleting'] = 'Ei suutnud seda kirja kustutada';
 $messages['errormarking'] = 'Kirja märkimine nurjus';
+$messages['alerttitle'] = 'Tähelepanu';
+$messages['confirmationtitle'] = 'Oled sa kindel...';
 $messages['deletecontactconfirm']  = 'Soovid valitud kontaktid kustutada?';
 $messages['deletegroupconfirm']  = 'Soovid valitud grupi kustutada?';
 $messages['deletemessagesconfirm'] = 'Soovid valitud kirja(d) kustutada?';
 $messages['deletefolderconfirm']  = 'Soovid selle kataloogi kindlasti kustutada?';
+$messages['movefolderconfirm']  = 'Kas soovid tõesti selle kausta teisaldada?';
 $messages['purgefolderconfirm']  = 'Soovid sellest kaustast kõik kirjad kustutada?';
 $messages['contactdeleting'] = 'Kontakti(de) kustutamine…';
 $messages['groupdeleting'] = 'Grupi kustutamine…';
@@ -79,9 +89,14 @@ $messages['formincomplete'] = 'Vormi kõik väljad ei ole täidetud';
 $messages['noemailwarning'] = 'Palun sisesta toimiv e-posti aadress';
 $messages['nonamewarning']  = 'Palun sisesta nimi';
 $messages['nopagesizewarning'] = 'Palun sisesta lehekülje suurus';
+$messages['nosenderwarning'] = 'Sisesta saatja e-posti aadress.';
+$messages['recipientsadded'] = 'Adressaat edukalt lisatud.';
 $messages['norecipientwarning'] = 'Palun sisesta vähemalt üks adressaat';
+$messages['disclosedreciptitle'] = 'Liiga palju avalikke adressaate';
 $messages['nosubjectwarning']  = 'Väli „Pealkiri“ on tühi. Soovid selle ära täita?';
+$messages['nosubjecttitle']  = 'Teema puudub';
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita?';
+$messages['notsentwarning'] = 'Sõnumit ei ole saadetud ja selles on salvestamata muudatusi. Kas soovid muudatustest loobuda?';
 $messages['restoresavedcomposedata'] = 'Eelnevalt loodud aga saatmatta kiri leiti.\n\nTeema: $subject\nSalvestatud: $date\n\nKas sa soovid antud kirja taastada?';
 $messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-posti aadress';
 $messages['notuploadedwarning'] = 'Kõiki manuseid ei ole veel üles laaditud. Palun oota või tühista üleslaadimine.';
@@ -100,8 +115,12 @@ $messages['folderexpunged'] = 'Kaust tühjendatud edukalt';
 $messages['deletedsuccessfully'] = 'Edukalt kustutatud';
 $messages['converting'] = 'Eemaldan kirjast vormindust...';
 $messages['messageopenerror'] = 'Kirjade serverist laadimine ebaõnnestus';
+$messages['filelinkerror'] = 'Faili lisamine ebaõnnestus.';
 $messages['fileuploaderror'] = 'Faili üleslaadimine ebaõnnestus';
 $messages['filesizeerror'] = 'Üleslaetava faili suurus ületab maksimaalse suuruse $size';
+$messages['filecounterror'] = 'Maksimaalselt saad lisada $count faili korraga.';
+$messages['msgsizeerror'] = 'Faili lisamine ebaõnnestus. Sõnumi maksimaalne suurus ($size) on ületatud.';
+$messages['msgsizeerrorfwd'] = 'Sõnumi maksimaalne suurus ($size) on ületatud. $num sõnumit pole lisatud.';
 $messages['copysuccess'] = '$nr kontakti edukalt kopeeritud.';
 $messages['movesuccess'] = '$nr kontakti edukalt liigutatud.';
 $messages['copyerror'] = 'Ühegi kontakti kopeerimine ei õnnestunud.';
@@ -133,6 +152,7 @@ $messages['importconfirmskipped'] = '<b> $skipped olemasolevat kirjet jäeti vah
 $messages['importmessagesuccess'] = '$nr kirja edukalt imporditud';
 $messages['importmessageerror'] = 'Import nurjus! Laaditud fail ei ole kirja ega postkasti fail';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
+$messages['nofromaddress'] = 'Valitud identiteedis puudub e-posti aadress.';
 $messages['editorwarning'] = 'Klaarteksti redaktorile lülitamine kaotab kogu teksti vorminduse. Soovid jätkata?';
 $messages['httpreceivedencrypterror'] = 'Viga seadistustes. Võta kohe oma süsteemiadministraatoriga ühendust. <b>Sinu kirja polnud võimalik ära saata.</b>';
 $messages['smtpconnerror'] = 'SMTP tõrge ($code): serveriga ühendumine nurjus';
@@ -140,7 +160,10 @@ $messages['smtpautherror'] = 'SMTP tõrge ($code): autentimine nurjus';
 $messages['smtpfromerror'] = 'SMTP tõrge ($code): "$from" saatjaks määramine nurjus ($msg)';
 $messages['smtptoerror'] = 'SMTP tõrge ($code): "$to" saajaks määramine nurjus ($msg)';
 $messages['smtprecipientserror'] = 'SMTP tõrge: saajate nimekirja parsimine nurjus';
+$messages['smtputf8error'] = 'SMTP Viga: Server ei toeta Unicode\'i e-posti aadressi.';
+$messages['smtpsizeerror'] = 'SMTP Viga: Kirja suurus ületab serveri limiiti ($limit)';
 $messages['smtperror'] = 'SMTP tõrge: $msg';
+$messages['emailformaterror'] = 'Vigane e-posti aadress: $email';
 $messages['toomanyrecipients'] = 'Liiga palju adressaate. Vähenda kirja saajate hulka $max-ni.';
 $messages['maxgroupmembersreached'] = 'Grupi liikmete arv ületab suurima lubatud $max';
 $messages['internalerror'] = 'Ilmnes sisemine tõrge. Palun proovi uuesti.';
@@ -157,12 +180,14 @@ $messages['savedsearchcreated'] = 'Salvestatud otsing edukalt loodud.';
 $messages['savedsearchcreateerror'] = 'Salvestatud otsingu loomine nurjus.';
 $messages['messagedeleted'] = 'Kiri edukalt kustutatud';
 $messages['messagemoved'] = 'Kiri edukalt liigutatud';
+$messages['messagemovedtotrash'] = 'Kiri edukalt rämpsposti teisaldatud.';
 $messages['messagecopied'] = 'Kiri edukalt kopeeritud';
 $messages['messagemarked'] = 'Kiri edukalt märgitud';
 $messages['autocompletechars'] = 'Sisesta vähemalt $min märki autom. lõpetuseks';
 $messages['autocompletemore'] = 'Otsingule on liiga palju vasteid. Palun sisesta veel mõni märk.';
 $messages['namecannotbeempty'] = 'Nimi ei saa olla tühi';
 $messages['nametoolong'] = 'Nimi liiga pikk';
+$messages['namedotforbidden'] = 'Kausta nimi ei tohi alata punktiga.';
 $messages['folderupdated'] = 'Kaust uuendatud edukalt';
 $messages['foldercreated'] = 'Kaust loodud edukalt';
 $messages['invalidimageformat'] = 'Pole õige pildi formaat';
@@ -170,3 +195,18 @@ $messages['mispellingsfound'] = 'Kiri sisaldab õigekirjavigu';
 $messages['parentnotwritable'] = 'Kasuta loomine/liigutamine valitud kausta nurjus. Pole õigusi.';
 $messages['messagetoobig'] = 'Kiri on töötlemiseks liiga suur.';
 $messages['noscriptwarning'] = 'Hoiatus: see veebimaili teenus vajab Javascripti! Teenuse kasutamiseks luba Javascript oma brauseri seadetes.';
+$messages['messageissent'] = 'Sõnum oli juba saadetud, kuid seda pole veel salvestatud. Kas soovid selle nüüd salvestada?';
+$messages['errnotfound'] = 'Faili ei leitud';
+$messages['errnotfoundexplain'] = 'Päringu ressurssi ei leitud!';
+$messages['errfailedrequest'] = 'Päring nurjus';
+$messages['errauthorizationfailed'] = 'Atoriseerimine ebaõnnestus';
+$messages['errunauthorizedexplain'] = 'Ei saanud kontrollida, kas sul on õigus seda teenust kasutada!';
+$messages['errrequestcheckfailed'] = 'Päringu kontroll nurjus';
+$messages['errcontactserveradmin'] = 'Palun pöördu oma serveri administraatori poole.';
+$messages['clicktoresumesession'] = 'Eelmise seansi jätkamiseks klõpsa siin';
+$messages['clicktocompose'] = 'Uue sõnumi koostamiseks klõpsa siin';
+$messages['nosupporterror'] = 'Sinu veebibrauser seda funktsiooni ei toeta.';
+$messages['siginserted'] = 'Allkiri on edukalt sisestatud.';
+$messages['responseinserted'] = 'Vastus edukalt sisestatud.';
+$messages['listempty'] = 'See nimekiri on tühi.';
+$messages['listusebutton'] = 'Uue kirje lisamiseks kasuta nuppu Lisa.';

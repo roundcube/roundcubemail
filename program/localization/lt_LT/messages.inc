@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Įvyko klaida!';
 $messages['loginfailed']  = 'Prisijungti nepavyko.';
 $messages['cookiesdisabled'] = 'Jūsų naršyklė nepriima slapukų.';
 $messages['sessionerror'] = 'Jūsų sesija negaliojanti.';
+$messages['cookiesmismatch'] = 'Aptiktas slapukų neatitikimas. Prašome išvalyti savo naršyklės slapukus.';
 $messages['storageerror'] = 'Nepavyko prisijungti prie IMAP serverio.';
 $messages['servererror'] = 'Serverio klaida!';
 $messages['servererrormsg'] = 'Serverio klaida: $msg';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = 'Diske trūksta laisvos vietos. Laiškui pa�
 $messages['invalidrequest'] = 'Netinkama užklausa! Duomenys neišsaugoti.';
 $messages['invalidhost'] = 'Negalimas serverio vardas.';
 $messages['nomessagesfound'] = 'Šioje pašto dėžutėje laiškų nėra.';
-$messages['loggedout'] = 'Jūs sėkmingai atsijungėte. Iki kito karto!';
+$messages['loggedout'] = 'Jūs sėkmingai užbaigėte sesiją. Viso gero!';
 $messages['mailboxempty'] = 'Pašto dėžutė tuščia.';
 $messages['nomessages'] = 'Laiškų nėra';
 $messages['refreshing'] = 'Atnaujinama…';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Jūsų tapatybei nerastas galiojantis viešasi
 $messages['encryptnoattachments'] = 'Jau įkeltų priedų užšifruoti negalima. Jei norite tai padaryti, įkelkite juos iš naujo šifravimo redaktoriuje.';
 $messages['searchpubkeyservers'] = 'Ar norite ieškoti trūkstamų raktų viešuosiuose raktų serveriuose?';
 $messages['encryptpubkeysfound'] = 'Aptikti šie viešieji raktai:';
-$messages['keyservererror'] = 'Nepavyko gauti rakto iš raktų serverio';
-$messages['keyimportsuccess'] = 'Viešasis raktas $key sėkmingai įtrauktas į jūsų raktinę';
+$messages['keyservererror'] = 'Nepavyko gauti rakto iš raktų serverio.';
+$messages['keyimportsuccess'] = 'Viešasis raktas $key sėkmingai įtrauktas į jūsų raktinę.';
 $messages['nocontactsfound'] = 'Adresatų nerasta.';
 $messages['contactnotfound'] = 'Ieškotas adresatas nerastas.';
-$messages['contactsearchonly'] = 'Įveskite reikšminius žodžius adresatų paieškai';
+$messages['contactsearchonly'] = 'Turite naudoti paieškos formą, norėdami pamatyti adresatus iš pasirinktos adresų knygos.';
 $messages['sendingfailed'] = 'Laiško išsiųsti nepavyko.';
 $messages['senttooquickly'] = 'Turite luktelėti $sec sek., kad galėtumėte išsiųsti laišką.';
 $messages['errorsavingsent'] = 'Įrašant išsiųstą laišką, įvyko klaida.';
@@ -83,6 +83,7 @@ $messages['deletecontactconfirm']  = 'Ar tikrai pašalinti pažymėtą(-us) adre
 $messages['deletegroupconfirm']  = 'Ar tikrai pašalinti pažymėtą grupę?';
 $messages['deletemessagesconfirm'] = 'Ar tikrai pašalinti pažymėtą(-us) laišką(-us)?';
 $messages['deletefolderconfirm']  = 'Ar tikrai pašalinti šį aplanką?';
+$messages['movefolderconfirm']  = 'Ar tikrai norite perkelti šį aplanką?';
 $messages['purgefolderconfirm']  = 'Ar tikrai pašalinti visus šiame aplanke esančius laiškus?';
 $messages['contactdeleting'] = 'Adresatas(-ai) šalinamas(-i)…';
 $messages['groupdeleting'] = 'Grupė šalinama…';
@@ -126,6 +127,7 @@ $messages['fileuploaderror'] = 'Nepavyko įkelti failo.';
 $messages['filesizeerror'] = 'Įkeltas failas viršija maksimalų leistiną dydį – $size.';
 $messages['filecounterror'] = 'Jūs daugiausiai vienu metu galite įkelti $count failų(-us).';
 $messages['msgsizeerror'] = 'Nepavyko pridėti failo. Viršytas maksimalus leistinas laiko dydis ($size).';
+$messages['msgsizeerrorfwd'] = 'Viršytas maksimalus laiško dydis ($size). $num laiškai(-ų) nebuvo pridėti.';
 $messages['copysuccess'] = 'Nukopijuota adresatų: $nr.';
 $messages['movesuccess'] = 'Perkelta adresatų: $nr.';
 $messages['copyerror'] = 'Adresatų nukopijuoti nepavyko.';

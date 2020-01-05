@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Mirë se erdhët te $product';
 $labels['username'] = 'Emër përdoruesi';
 $labels['password'] = 'Fjalëkalimi';
@@ -147,6 +147,7 @@ $labels['last'] = 'I fundit';
 $labels['previous'] = 'I mëparshmi';
 $labels['next'] = 'Pasuesi';
 $labels['select'] = 'Përzgjidhni';
+$labels['selection'] = 'Përzgjdhje';
 $labels['all'] = 'Krejt';
 $labels['none'] = 'Asnjë';
 $labels['currpage'] = 'Faqja e tanishme';
@@ -168,6 +169,7 @@ $labels['expand-all'] = 'Zgjeroji Krejt';
 $labels['expand-unread'] = 'Zgjero të Palexuarit';
 $labels['collapse-all'] = 'Tkurri Krejt';
 $labels['threaded'] = 'Me rrjedhë';
+$labels['showunread'] = 'Shfaq mesazhe të palexuar';
 $labels['autoexpand_threads'] = 'Zgjero rrjedha mesazhesh';
 $labels['do_expand'] = 'krejt rrjedhat';
 $labels['expand_only_unread'] = 'vetëm ato me mesazhe të palexuar';
@@ -195,6 +197,8 @@ $labels['folderactions'] = 'Veprime mbi dosje…';
 $labels['compact'] = 'Ngjeshe';
 $labels['empty'] = 'Zbraze';
 $labels['importmessages'] = 'Importo mesazhe';
+$labels['mailimportdesc'] = 'Mund të ngarkoni postë duke përdorur kartela në formatin <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ose <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Një grup kartelash mund të ngjeshen në arkiva zip.';
 $labels['quota'] = 'Përdorim disku';
 $labels['unknown'] = 'i panjohur';
 $labels['unlimited'] = 'i pakufizuar';
@@ -255,6 +259,8 @@ $labels['keyexpired'] = 'I skaduar';
 $labels['keyrevoked'] = 'I shfuqizuar';
 $labels['bccinstead'] = 'Përdor Bcc';
 $labels['addheader'] = 'Shtoni marrës (krye)';
+$labels['insert'] = 'Fut';
+$labels['insertcontact'] = 'Futni kontakt(e)';
 $labels['recipient'] = 'Marrës';
 $labels['recipientedit'] = 'Përpunim i marrësit';
 $labels['editidents'] = 'Përpunoni identitete';
@@ -294,8 +300,9 @@ $labels['alwaysshow'] = 'Shfaqi përherë figurat nga $sender';
 $labels['alwaysallow'] = 'Lejo përherë nga $sender';
 $labels['isdraft'] = 'Kjo është një skicë mesazhi.';
 $labels['andnmore'] = '$nr të tjerë...';
+$labels['details'] = 'Hollësi';
 $labels['headers'] = 'Krye';
-$labels['envelope'] = 'Mbështjellëse';
+$labels['allheaders'] = 'Krejt kryet…';
 $labels['togglemoreheaders'] = 'Shfaq më tepër krye mesazhi';
 $labels['togglefullheaders'] = 'Shfaq/fshih krye të papërpunuar mesazhi';
 $labels['htmltoggle'] = 'HTML';
@@ -390,6 +397,9 @@ $labels['rename'] = 'Riemërtojeni';
 $labels['addphoto'] = 'Shtoni';
 $labels['replacephoto'] = 'Zëvendësoje';
 $labels['uploadphoto'] = 'Ngarkoni foto';
+$labels['choosefile'] = 'Zgjidhni kartelë…';
+$labels['choosefiles'] = 'Zgjidhni kartela…';
+$labels['browse'] = 'Shfletoni';
 $labels['newcontact'] = 'Krijoni kontakt të ri';
 $labels['deletecontact'] = 'Fshiji kontaktet e përzgjedhur';
 $labels['composeto'] = 'Hartoni email për';
@@ -425,7 +435,7 @@ $labels['importreplace'] = 'Zëvendëso krejt librin e adresave';
 $labels['importgroups'] = 'Importo përshoqërime grupi';
 $labels['importgroupsall'] = 'Krejt (krijo grupe, në u dashtë)';
 $labels['importgroupsexisting'] = 'Vetëm për grupe ekzistues';
-$labels['importdesc'] = 'Mund të ngarkoni kontakte nga një libër ekzistues adresash.<br/>Hëpërhë mbulojmë adresa nga format të dhënash <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ose CSV (ndarë me presje).';
+$labels['importdesc'] = 'Mund të ngarkoni kontakte nga një libër ekzistues adresash.<br/>Deri këtu mbulojmë importim adresash prej formati <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ose CSV (comma-separated) të dhënash.';
 $labels['done'] = 'U bë';
 $labels['settingsfor'] = 'Rregullime për';
 $labels['about'] = 'Rreth';
@@ -501,7 +511,7 @@ $labels['advancedoptions'] = 'Mundësi të mëtejshme';
 $labels['toggleadvancedoptions'] = 'Shfaq/fshih mundësi të mëtejshme';
 $labels['focusonnewmessage'] = 'Për mesazhe të rinj kaloje fokusin te dritarja e shfletuesit';
 $labels['checkallfolders'] = 'Kontrollo krejt dosjet për mesazhe të rinj';
-$labels['displaynext'] = 'Pas fshirjes/lëvizjes së një mesazhi shfaq mesazhin pasues';
+$labels['displaynext'] = 'Pas fshirjesh/lëvizjesh, shfaq zërin pasues në listë';
 $labels['defaultfont'] = 'Shkronja parazgjedhje për mesazhe HTML';
 $labels['mainoptions'] = 'Mundësitë Kryesore';
 $labels['browseroptions'] = 'Mundësi Shfletuesi';
@@ -619,6 +629,7 @@ $labels['chinese'] = 'Kineze';
 $labels['arialabeltopnav'] = 'Kontroll dritareje';
 $labels['arialabeltasknav'] = 'Akte aplikacioni';
 $labels['arialabeltoolbar'] = 'Panel aplikacioni';
+$labels['arialabellistnav'] = 'Lëvizje në listë';
 $labels['arialabelactivetask'] = 'Akte aktive';
 $labels['arialabelmessagessearchfilter'] = 'Filtër kërkimesh email';
 $labels['arialabelmailsearchform'] = 'Formular kërkimi mesazhi email';
@@ -671,4 +682,3 @@ $labels['helplistkeyboardnavmessages'] = "Shigjetat majtas/djathtas: zgjeroni/tk
 Enter: Hapni mesazhin e përzgjedhur/atë që ka fokusin.
 Delete: Shpjereni mesazhin e përzgjedhur te Hedhurinat.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Hapni kontaktin e përzgjedhur/atë që ka fokusin.";
-?>

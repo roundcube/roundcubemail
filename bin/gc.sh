@@ -2,10 +2,9 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | bin/gc.sh                                                             |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Trigger garbage collecting routines manually (e.g. via cronjob)     |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

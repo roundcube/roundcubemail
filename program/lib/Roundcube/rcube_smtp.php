@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,6 +14,7 @@
  |   Provide SMTP functionality using socket connections                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -21,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Mail
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_smtp
 {
@@ -108,11 +108,15 @@ class rcube_smtp
         // IDNA Support
         $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
 
-        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options']);
+        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
+            $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));
             $this->anonymize_log = 0;
+
+            $_host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
+            $this->debug_handler($this->conn, "Connecting to $_host...");
         }
 
         // register authentication methods
@@ -154,7 +158,7 @@ class rcube_smtp
         }
 
         // attempt to authenticate to the SMTP server
-        if ($smtp_user && $smtp_pass) {
+        if (($smtp_user && $smtp_pass) || ($smtp_auth_type == 'GSSAPI')) {
             // IDNA Support
             if (strpos($smtp_user, '@')) {
                 $smtp_user = rcube_utils::idn_to_ascii($smtp_user);
@@ -168,7 +172,6 @@ class rcube_smtp
                 $this->response[] = 'Authentication failure: ' . $result->getMessage()
                     . ' (Code: ' . $result->getCode() . ')';
 
-                $this->reset();
                 $this->disconnect();
 
                 return false;
@@ -346,7 +349,7 @@ class rcube_smtp
             return false;
         }
 
-        $this->response[] = join(': ', $this->conn->getResponse());
+        $this->response[] = implode(': ', $this->conn->getResponse());
         return true;
     }
 
@@ -472,7 +475,7 @@ class rcube_smtp
             }
         }
 
-        return array($from, join(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
+        return array($from, implode(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
     }
 
     /**

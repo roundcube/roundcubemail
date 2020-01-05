@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'பிழை ஏற்பட்டது!';
 $messages['loginfailed']  = 'நுழைவு தோல்வியடைந்தது';
 $messages['cookiesdisabled'] = 'உங்கள் உலாவி நினைவிகளை அனுமதிப்பதில்லை';
@@ -24,7 +23,6 @@ $messages['servererror'] = 'சேவையக பிழை!';
 $messages['servererrormsg'] = 'சேவையக பிழை: $msg';
 $messages['invalidrequest'] = 'செல்லாத வேண்டுகோள்! எந்த தரவும் சேமிக்கப்படவில்லை.';
 $messages['nomessagesfound'] = 'இந்த தபால் பெட்டியில் எந்த தரவும் சேமிக்கப்படவில்லை';
-$messages['loggedout'] = 'நீங்கள் அமர்வை வெற்றிகரமாக முடித்தீர்கள். வணக்கம்';
 $messages['mailboxempty'] = 'தபால் பெட்டி காலியாக உள்ளது';
 $messages['loading'] = 'ஏற்றுகிறது...';
 $messages['uploading'] = 'கோப்பை ஏற்றுகிறது...';

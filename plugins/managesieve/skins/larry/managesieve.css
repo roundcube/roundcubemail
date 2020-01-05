@@ -95,8 +95,8 @@ body.iframe
   padding: 20px 10px 10px 10px;
 }
 
-#filter-form legend, #filter-form label
-{
+#filter-form legend,
+#filter-form label {
   color: #666666;
   vertical-align: middle;
 }
@@ -105,10 +105,15 @@ body.iframe
   border: none;
 }
 
+#filter-form .col-sm-4,
 #filter-form .col-form-label {
   display: inline-block;
-  min-width: 75px;
+  min-width: 100px;
   line-height: 2.5;
+}
+
+#filter-form input[type=checkbox] {
+  margin: 0;
 }
 
 #filter-form .col-form-label + div {
@@ -352,6 +357,7 @@ span.sieve.error
   vertical-align: middle;
   max-width: 280px;
 }
+
 /* revert larry style button */
 #filter-form input.button
 {

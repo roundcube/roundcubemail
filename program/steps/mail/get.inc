@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/get.inc                                            |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,13 +12,14 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Delivering a specific uploaded file or mail message attachment      |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
+// This resets X-Frame-Options for framed output (#6688)
+$OUTPUT->page_headers();
 
 // show loading page
 if (!empty($_GET['_preload'])) {
@@ -76,13 +76,12 @@ if (!empty($_GET['_frame'])) {
 // render thumbnail of an image attachment
 if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
-    $temp_dir       = $RCMAIL->config->get('temp_dir');
     $file_ident     = $attachment->ident;
-    $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
-    $cache_file     = $cache_basename . '.thumb';
+    $thumb_name     = 'thumb' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
+    $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
 
     // render thumbnail image if not done yet
-    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_basename . '.tmp')) {
+    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_file . '.tmp')) {
         $image = new rcube_image($orig_name);
 
         if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
@@ -133,7 +132,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
 
             // accept text/plain with any extension
-            if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype) {
+            if ($real_mimetype == 'text/plain' && rcmail_mimetype_compare($real_mimetype, $mimetype)) {
                 $valid_extension = true;
             }
             // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
@@ -163,7 +162,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             // "fix" real mimetype the same way the original is before comparison
             $real_mimetype = rcmail_fix_mimetype($real_mimetype);
 
-            $valid = $real_mimetype == $mimetype && $valid_extension;
+            $valid = $valid_extension && rcmail_mimetype_compare($real_mimetype, $mimetype);
         }
         else {
             $real_mimetype = $mimetype;
@@ -261,8 +260,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
 
     // handle tiff to jpeg conversion
     if (!empty($convert2jpeg)) {
-        $temp_dir  = unslashify($RCMAIL->config->get('temp_dir'));
-        $file_path = tempnam($temp_dir, 'rcmAttmnt');
+        $file_path = rcube_utils::temp_filename('attmnt');
 
         // convert image to jpeg and send it to the browser
         if ($attachment->body_to_file($file_path)) {
@@ -284,6 +282,19 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
 header('HTTP/1.1 404 Not Found');
 exit;
 
+
+/**
+ * Compares two mimetype strings with making sure that
+ * e.g. image/bmp and image/x-ms-bmp are treated as equal.
+ */
+function rcmail_mimetype_compare($type1, $type2)
+{
+    $regexp = '~/(x-ms-|x-)~';
+    $type1  = preg_replace($regexp, '/', $type1);
+    $type2  = preg_replace($regexp, '/', $type2);
+
+    return $type1 === $type2;
+}
 
 /**
  * Attachment properties table
@@ -318,19 +329,23 @@ function rcmail_message_part_frame($attrib)
     global $RCMAIL;
 
     if ($RCMAIL->output->get_env('is_message')) {
-        $attrib['src'] = $RCMAIL->url(array(
-                'task'   => 'mail',
-                'action' => 'preview',
-                'uid'    => $RCMAIL->output->get_env('uid'),
-                'mbox'   => $RCMAIL->output->get_env('mailbox'),
-                'framed' => 1,
-        ));
+        $url = array(
+            'task'   => 'mail',
+            'action' => 'preview',
+            'uid'    => $RCMAIL->output->get_env('uid'),
+            'mbox'   => $RCMAIL->output->get_env('mailbox'),
+        );
     }
     else {
-        $mimetype      = $RCMAIL->output->get_env('mimetype');
-        $frame_replace = strpos($mimetype, 'text/') === 0 ? '_embed=' : '_preload=';
-        $attrib['src'] = './?' . str_replace('_frame=', $frame_replace, $_SERVER['QUERY_STRING']);
+        $mimetype = $RCMAIL->output->get_env('mimetype');
+        $url      = $_GET;
+        $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+        unset($url['_frame']);
     }
+
+    $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
+
+    $attrib['src'] = $RCMAIL->url($url);
 
     $RCMAIL->output->add_gui_object('messagepartframe', $attrib['id']);
 
@@ -652,7 +667,6 @@ class rcmail_attachment_handler
             'allow_remote'  => false,
             'charset'       => RCUBE_CHARSET,
             'html_elements' => array('title'),
-//            'blocked_src'   => 'program/resources/blocked.gif',
         );
 
         // initialize HTML washer

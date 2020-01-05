@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -293,10 +294,8 @@ class rcube_contacts extends rcube_addressbook
             $required = array($required);
         }
 
-        $where = $and_where = $post_search = array();
+        $where = $post_search = array();
         $mode  = intval($mode);
-        $WS    = ' ';
-        $AS    = self::SEPARATOR;
 
         // direct ID search
         if ($fields == 'ID' || $fields == $this->primary_key) {
@@ -337,7 +336,7 @@ class rcube_contacts extends rcube_addressbook
                 foreach ((array)$fields as $idx => $col) {
                     $groups[] = $this->fulltext_sql_where($word, $mode, $col);
                 }
-                $where[] = '(' . join(' OR ', $groups) . ')';
+                $where[] = '(' . implode(' OR ', $groups) . ')';
             }
         }
 
@@ -348,7 +347,7 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($where)) {
             // use AND operator for advanced searches
-            $where = join(" AND ", $where);
+            $where = implode(' AND ', $where);
         }
 
         // Post-searching in vCard data fields
@@ -356,7 +355,7 @@ class rcube_contacts extends rcube_addressbook
         if (!empty($post_search) || !empty($required)) {
             $ids = array(0);
             // build key name regexp
-            $regexp = '/^(' . implode(array_keys($post_search), '|') . ')(?:.*)$/';
+            $regexp = '/^(' . implode('|', array_keys($post_search)) . ')(?:.*)$/';
             // use initial WHERE clause, to limit records number if possible
             if (!empty($where))
                 $this->set_search_set($where);
@@ -380,7 +379,7 @@ class rcube_contacts extends rcube_addressbook
                             foreach ((array)$row[$col] as $value) {
                                 if ($this->compare_search_value($colname, $value, $search, $mode)) {
                                     $found[$colname] = true;
-                                    break 2;
+                                    break;
                                 }
                             }
                         }
@@ -389,7 +388,7 @@ class rcube_contacts extends rcube_addressbook
                     if (!empty($required)) {
                         foreach ($required as $req) {
                             $hit = false;
-                            foreach ($row as $c => $values) {
+                            foreach (array_keys($row) as $c) {
                                 if ($c === $req || strpos($c, $req.':') === 0) {
                                     if ((is_string($row[$c]) && strlen($row[$c])) || !empty($row[$c])) {
                                         $hit = true;
@@ -459,7 +458,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        return count($where) ? '(' . join(" $bool ", $where) . ')' : '';
+        return count($where) ? '(' . implode(" $bool ", $where) . ')' : '';
     }
 
     /**
@@ -644,9 +643,9 @@ class rcube_contacts extends rcube_addressbook
 
         if (!$existing->count && !empty($a_insert_cols)) {
             $this->db->query(
-                "INSERT INTO " . $this->db->table_name($this->db_name, true).
-                " (`user_id`, `changed`, `del`, ".join(', ', $a_insert_cols).")".
-                " VALUES (".intval($this->user_id).", ".$this->db->now().", 0, ".join(', ', $a_insert_values).")"
+                "INSERT INTO " . $this->db->table_name($this->db_name, true)
+                . " (`user_id`, `changed`, `del`, " . implode(', ', $a_insert_cols) . ")"
+                . " VALUES (" . intval($this->user_id) . ", " . $this->db->now() . ", 0, " . implode(', ', $a_insert_values) . ")"
             );
 
             $insert_id = $this->db->insert_id($this->db_name);
@@ -678,11 +677,11 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($write_sql)) {
             $this->db->query(
-                "UPDATE " . $this->db->table_name($this->db_name, true).
-                " SET `changed` = ".$this->db->now().", ".join(', ', $write_sql).
-                " WHERE `contact_id` = ?".
-                    " AND `user_id` = ?".
-                    " AND `del` <> 1",
+                "UPDATE " . $this->db->table_name($this->db_name, true)
+                . " SET `changed` = " . $this->db->now() . ", " . implode(', ', $write_sql)
+                . " WHERE `contact_id` = ?"
+                    . " AND `user_id` = ?"
+                    . " AND `del` <> 1",
                 $id,
                 $this->user_id
             );
@@ -743,7 +742,7 @@ class rcube_contacts extends rcube_addressbook
                 if (isset($value))
                     $vcard->set($field, $value, $section);
                 if ($fulltext && is_array($value))
-                    $words .= ' ' . rcube_utils::normalize_string(join(" ", $value));
+                    $words .= ' ' . rcube_utils::normalize_string(implode(' ', $value));
                 else if ($fulltext && strlen($value) >= 3)
                     $words .= ' ' . rcube_utils::normalize_string($value);
             }
@@ -752,21 +751,24 @@ class rcube_contacts extends rcube_addressbook
 
         foreach ($this->table_cols as $col) {
             $key = $col;
-            if (!isset($save_data[$key]))
+            if (!isset($save_data[$key])) {
                 $key .= ':home';
+            }
             if (isset($save_data[$key])) {
-                if (is_array($save_data[$key]))
-                    $out[$col] = join(self::SEPARATOR, $save_data[$key]);
-                else
+                if (is_array($save_data[$key])) {
+                    $out[$col] = implode(self::SEPARATOR, $save_data[$key]);
+                }
+                else {
                     $out[$col] = $save_data[$key];
+                }
             }
         }
 
         // save all e-mails in database column
-        $out['email'] = join(self::SEPARATOR, $vcard->email);
+        $out['email'] = implode(self::SEPARATOR, $vcard->email);
 
         // join words for fulltext search
-        $out['words'] = join(" ", array_unique(explode(" ", $words)));
+        $out['words'] = implode(' ', array_unique(explode(' ', $words)));
 
         return $out;
     }

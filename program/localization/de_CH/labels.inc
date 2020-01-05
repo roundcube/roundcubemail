@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Willkommen bei $product';
 $labels['username'] = 'Benutzername';
 $labels['password'] = 'Passwort';
@@ -147,6 +147,7 @@ $labels['last'] = 'Letzte';
 $labels['previous'] = 'Vorherige';
 $labels['next'] = 'Nächste';
 $labels['select'] = 'Auswählen';
+$labels['selection'] = 'Auswahl';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';
 $labels['currpage'] = 'Aktuelle Seite';
@@ -195,6 +196,8 @@ $labels['folderactions'] = 'Ordneraktionen...';
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['importmessages'] = 'Nachrichten importieren';
+$labels['mailimportdesc'] = 'Sie können E-Mails im <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a>- oder <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>-Format hochladen.';
+$labels['mailimportzip'] = 'Mehrere Dateien können in ein Zip-Archiv gepackt werden.';
 $labels['quota'] = 'Kapazität';
 $labels['unknown'] = 'unbekannt';
 $labels['unlimited'] = 'unlimitiert';
@@ -255,6 +258,8 @@ $labels['keyexpired'] = 'Abgelaufen';
 $labels['keyrevoked'] = 'Widerrufen';
 $labels['bccinstead'] = 'Bcc verwenden';
 $labels['addheader'] = 'Empfänger hinzufügen (Kopfzeile)';
+$labels['insert'] = 'Hinzufügen';
+$labels['insertcontact'] = 'Kontakt(e) einfügen';
 $labels['recipient'] = 'Empfänger';
 $labels['recipientedit'] = 'Empfänger bearbeiten';
 $labels['editidents'] = 'Absender bearbeiten';
@@ -294,8 +299,9 @@ $labels['alwaysshow'] = 'Bilder von $sender immer zeigen';
 $labels['alwaysallow'] = 'Von $sender immer erlauben';
 $labels['isdraft'] = 'Dies ist ein Entwurf';
 $labels['andnmore'] = '$nr weitere...';
+$labels['details'] = 'Details';
 $labels['headers'] = 'Kopfzeilen';
-$labels['envelope'] = 'Umschlag';
+$labels['allheaders'] = 'Alle Kopfzeilen...';
 $labels['togglemoreheaders'] = 'Weitere Kopfzeilen anzeigen';
 $labels['togglefullheaders'] = 'Original-Kopfzeilen ein-/ausblenden';
 $labels['htmltoggle'] = 'HTML';
@@ -425,6 +431,7 @@ $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
 $labels['importgroups'] = 'Gruppenzuweisungen importieren';
 $labels['importgroupsall'] = 'Alle (nicht vorhandene Gruppen erstellen)';
 $labels['importgroupsexisting'] = 'Für existierende Gruppen';
+$labels['importdesc'] = 'Sie können Kontakte aus einem bestehenden Adressbuch hochladen.<br/>Unterstützt werden aktuell <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> oder CSV (comma-separated) Dateiformate.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';
 $labels['about'] = 'Über';
@@ -500,7 +507,6 @@ $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Einstellungen ein-/ausblenden';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
-$labels['displaynext'] = 'Zeige nächste Nachricht nach verschieben/löschen';
 $labels['defaultfont'] = 'Standardschrift in HTML-Nachrichten';
 $labels['mainoptions'] = 'Allgemein';
 $labels['browseroptions'] = 'Browsereinstellungen';
@@ -670,4 +676,3 @@ $labels['helplistkeyboardnavmessages'] = "Pfeiltasten Rechts/Links: Konversation
 Eingabe: Ausgewählte/fokussierte Nachricht öffnen.
 Löschen: Ausgewählte Nachricht in den Papierkorb verschieben resp. löschen.";
 $labels['helplistkeyboardnavcontacts'] = "Eingabe: Ausgewählten Kontakt öffnen.";
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
@@ -75,17 +75,9 @@ $labels['days'] = 'Tage';
 $labels['seconds'] = 'Sekunden';
 $labels['rulestop'] = 'Regelauswertung anhalten';
 $labels['enable'] = 'Aktivieren/Deaktivieren';
-$labels['filterset'] = 'Filtersätze';
 $labels['filtersets'] = 'Filtersätze';
-$labels['filtersetadd'] = 'Filtersatz anlegen';
-$labels['filtersetdel'] = 'Filtersatz löschen';
-$labels['filtersetact'] = 'Aktuellen Filtersatz aktivieren';
-$labels['filtersetdeact'] = 'Aktuellen Filtersatz deaktivieren';
 $labels['filterseteditraw'] = 'Filtersatz bearbeiten';
-$labels['filtersetswitch'] = 'Filtersatz aktivieren/deaktivieren';
 $labels['filterdef'] = 'Filterdefinition';
-$labels['filtersetname'] = 'Filtersatzname';
-$labels['newfilterset'] = 'Neuer Filtersatz';
 $labels['active'] = 'aktiv';
 $labels['none'] = 'keine';
 $labels['fromset'] = 'aus Filtersatz';
@@ -233,16 +225,6 @@ $messages['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion lö
 $messages['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
 $messages['cannotbeempty'] = 'Feld darf nicht leer sein';
 $messages['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits.';
-$messages['setactivateerror'] = 'Serverfehler beim Aktivieren des gewählten Filtersatzes.';
-$messages['setdeactivateerror'] = 'Serverfehler beim Deaktivieren des gewählten Filtersatzes.';
-$messages['setdeleteerror'] = 'Serverfehler beim Löschen des gewählten Filtersatzes.';
-$messages['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
-$messages['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
-$messages['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
-$messages['setupdated'] = 'Filtersatz erfolgreich gespeichert.';
-$messages['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$messages['setcreateerror'] = 'Serverfehler beim Erstellen des Filtersatzes.';
-$messages['setcreated'] = 'Filter erfolgreich erstellt.';
 $messages['activateerror'] = 'Serverfehler beim Aktivieren des/der gewählten Filter(s).';
 $messages['deactivateerror'] = 'Serverfehler beim Deaktivieren des/der gewählten Filter(s).';
 $messages['deactivated'] = 'Filter erfolgreich aktiviert.';
@@ -260,4 +242,3 @@ $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Mitteilungstext ist erforderlich!';
 $messages['duplicate.conflict.err'] = 'Kopfzeile und eindeutiger Bezeichner sind nicht zusammen erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
-?>

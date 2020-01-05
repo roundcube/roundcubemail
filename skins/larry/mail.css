@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Email section
  *
- * Copyright (c) 2012-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -1347,7 +1347,6 @@ body.status-flagged .flag-icon {
 
 #composebodycontainer .mce-panel {
 	border-color: #ddd !important;
-	background: #f0f0f0;
 }
 
 #composebody_toolbargroup {

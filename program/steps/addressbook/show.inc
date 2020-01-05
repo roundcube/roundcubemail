@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/addressbook/show.inc                                    |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Show contact details                                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -186,7 +184,6 @@ function rcmail_contact_record_groups($contact_id)
         'noclose' => true,
     );
 
-    $list     = array();
     $members  = $CONTACTS->get_record_groups($contact_id);
     $table    = new html_table(array('tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist'));
     $checkbox = new html_checkbox(array('name' => '_gid[]',

@@ -6,7 +6,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2005-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -279,16 +279,20 @@ cancel: function(evt)
 },
 
 /**
- * Determine whether the given event was trigered from keyboard
+ * Determine whether the given event was triggered from keyboard
  */
 is_keyboard: function(e)
 {
   if (!e)
     return false;
 
+  // DOM3-compatible
+  // An event invoked by pressing Enter on a link will produce a 'click' event,
+  // so we have to extend the check, e.g. with use of e.clientX.
   if (e.type)
-    return !!e.type.match(/^key/); // DOM3-compatible
+    return !!e.type.match(/^key/) || (e.type == 'click' && !e.clientX);
 
+  // Old browsers
   return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
 },
 
@@ -402,7 +406,7 @@ triggerEvent: function(evt, e)
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline, count)
+function rcube_check_email(input, inline, count, strict)
 {
   if (!input)
     return count ? 0 : false;
@@ -438,7 +442,7 @@ function rcube_check_email(input, inline, count)
         '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
       ],
       icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
-      word = '('+atom+'|'+quoted_string+')',
+      word = strict ? '('+atom+'|'+quoted_string+')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
       delim = '[,;\\s\\n]',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',

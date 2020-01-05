@@ -1,6 +1,6 @@
 <?php
 
-class Help_Plugin extends PHPUnit_Framework_TestCase
+class Help_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class Help_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new help($rcube->api);
+        $plugin = new help($rcube->plugins);
 
         $this->assertInstanceOf('help', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

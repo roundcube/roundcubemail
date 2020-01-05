@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/steps/mail/move_del.inc                                       |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +12,6 @@
  |                                                                       |
  | PURPOSE:                                                              |
  |   Move the submitted messages to a specific mailbox or delete them    |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -31,7 +29,6 @@ $sources   = array();
 
 if ($_POST['_from'] != 'show') {
     $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
-    $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 }
 
 // move messages
@@ -137,25 +134,20 @@ if ($page > 1 && $remaining == 0) {
     $jump_back = true;
 }
 
-// update message count display
-$OUTPUT->set_env('messagecount', $msg_count);
-$OUTPUT->set_env('current_page', $page);
-$OUTPUT->set_env('pagecount', $pages);
-$OUTPUT->set_env('exists', $exists);
-
-// update mailboxlist
-$unseen_count = $msg_count ? $RCMAIL->storage->count($mbox, 'UNSEEN') : 0;
-$old_unseen   = rcmail_get_unseen_count($mbox);
-
-if ($old_unseen != $unseen_count) {
-    $OUTPUT->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
-    rcmail_set_unseen_count($mbox, $unseen_count);
+// update unseen messages counts for all involved folders
+foreach ($sources as $source) {
+    rcmail_send_unread_count($source, true);
 }
 
 if ($RCMAIL->action == 'move' && strlen($target)) {
     rcmail_send_unread_count($target, true);
 }
 
+// update message count display
+$OUTPUT->set_env('messagecount', $msg_count);
+$OUTPUT->set_env('current_page', $page);
+$OUTPUT->set_env('pagecount', $pages);
+$OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 

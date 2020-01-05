@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Здарылася памылка!';
 $messages['loginfailed']  = 'Не ўдалося ўвайсці.';
 $messages['cookiesdisabled'] = 'Ваш браўзер не падтрымлівае кукіс.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'Няма свабоднай прастор�
 $messages['invalidrequest'] = 'Невалідны запрос! Дадзеныя не захаваныя.';
 $messages['invalidhost'] = 'Няслушнае імя сервера.';
 $messages['nomessagesfound'] = 'Паведамленняў у гэтай скрынцы не знойдзена';
-$messages['loggedout'] = 'Сесія скасавана. Да пабачэння!';
 $messages['mailboxempty'] = 'У паштовай скрынцы пуста';
 $messages['nomessages'] = 'Няма паведамленняў';
 $messages['refreshing'] = 'Абнаўляецца...';
@@ -55,7 +53,6 @@ $messages['blockedimages'] = 'Дзеля забеспячэння вашай п�
 $messages['encryptedmessage'] = 'Гэта зашыфраванае паведамленне. Яно не можа быць адлюстравана. Выбачайце!';
 $messages['nocontactsfound'] = 'Кантактаў не знойдзена.';
 $messages['contactnotfound'] = 'Запытаны кантакт не знойдзены.';
-$messages['contactsearchonly'] = 'Задайце выраз для пошука кантактаў';
 $messages['sendingfailed'] = 'Не ўдалося адправіць паведамленне.';
 $messages['senttooquickly'] = 'Пачакайце $sec секунд(ы) перад адпраўкай гэтага паведамлення.';
 $messages['errorsavingsent'] = 'Не ўдалося захаваць адпраўленае паведамленне.';

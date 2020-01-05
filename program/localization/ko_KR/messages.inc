@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '오류가 발생했습니다!';
 $messages['loginfailed']  = '로그인이 실패했습니다.';
 $messages['cookiesdisabled'] = '브라우저가 쿠키를 허용하지 않습니다.';
@@ -34,7 +33,7 @@ $messages['erroroverquotadelete'] = '여유 디스크 공간이 없습니다. SH
 $messages['invalidrequest'] = '잘못된 요청입니다! 데이터가 저장되지 않았습니다.';
 $messages['invalidhost'] = '잘못된 서버 이름입니다.';
 $messages['nomessagesfound'] = '이 편지함에서 메시지를 발견하지 못했습니다.';
-$messages['loggedout'] = '세션을 성공적으로 종료했습니다. 안녕히 가십시오!';
+$messages['loggedout'] = '세션을 성공적으로 종료했습니다. 안녕히가세요!';
 $messages['mailboxempty'] = '편지함이 비어있음';
 $messages['nomessages'] = '메시지가 없음';
 $messages['refreshing'] = '새로 고치는 중 ...';
@@ -51,6 +50,7 @@ $messages['messagesaved'] = '메시지가 임시 보관함에 저장되었습니
 $messages['successfullysaved'] = '성공적으로 저장함.';
 $messages['savingresponse'] = '응답 문구를 저장하는 중...';
 $messages['deleteresponseconfirm'] = '정말로 이 응답 문구를 삭제하시겠습니까?';
+$messages['nocontactselected'] = '아직 연락처를 선택하지 않으셨습니다.';
 $messages['addedsuccessfully'] = '연락처가 주소록에 성공적으로 추가되었습니다.';
 $messages['contactexists'] = '동일한 이메일 주소의 연락처가 이미 존재합니다.';
 $messages['contactnameexists'] = '연락처에 동일한 이름이 이미 존재합니다.';
@@ -62,11 +62,8 @@ $messages['nopubkeyforsender'] = '보내는 사람 신원에 대한 올바른 �
 $messages['encryptnoattachments'] = '이미 첨부파일을 업로드하여 암호화할 수 없음. 암호화 편집기에 다시 추가해주십시오.';
 $messages['searchpubkeyservers'] = '분실한 키에 대한 공개 키 서버를 검색하시겠습니까?';
 $messages['encryptpubkeysfound'] = '다음 공개 키가 발견되었습니다:';
-$messages['keyservererror'] = '키 서버로부터 키를 가져오지 못함';
-$messages['keyimportsuccess'] = '공개 키 $key을(를) 열쇠고리로 성공적으로 가져왔습니다.';
 $messages['nocontactsfound'] = '연락처를 발견하지 못했습니다.';
 $messages['contactnotfound'] = '요청한 연락처를 찾을 수 없습니다.';
-$messages['contactsearchonly'] = '연락처를 찾기 위해 일부 검색용어를 입력하십시오.';
 $messages['sendingfailed'] = '메시지 발송을 실패했습니다.';
 $messages['senttooquickly'] = '이 메시지를 보내기 전에 $sec초 동안 기다려주십시오.';
 $messages['errorsavingsent'] = '보낸 메시지를 저장하는 도중 오류가 발생했습니다.';
@@ -75,10 +72,13 @@ $messages['errormoving'] = '메시지를 이동할 수 없었습니다.';
 $messages['errorcopying'] = '메시지를 복사할 수 없었습니다.';
 $messages['errordeleting'] = '메시지를 삭제할 수 없었습니다.';
 $messages['errormarking'] = '메시지를 표시할 수 없었습니다.';
+$messages['alerttitle'] = '주목';
+$messages['confirmationtitle'] = '정말로...';
 $messages['deletecontactconfirm']  = '정말 선택한 연락처를 삭제하시겠습니까?';
 $messages['deletegroupconfirm']  = '정말로 선택한 그룹을 삭제하시겠습니까?';
 $messages['deletemessagesconfirm'] = '정말로 선택한 메시지를 삭제하시겠습니까?';
 $messages['deletefolderconfirm']  = '정말로 이 폴더를 삭제하시겠습니까?';
+$messages['movefolderconfirm']  = '정말로 이 폴더를 이동하시겠습니까?';
 $messages['purgefolderconfirm']  = '정말로 이 폴더의 모든 메시지를 삭제하시겠습니까?';
 $messages['contactdeleting'] = '연락처를 삭제하는 중...';
 $messages['groupdeleting'] = '그룹을 삭제하는 중...';
@@ -91,6 +91,7 @@ $messages['noemailwarning'] = '유효한 이메일 주소를 입력해주십시�
 $messages['nonamewarning']  = '이름을 입력해주십시오.';
 $messages['nopagesizewarning'] = '페이지 크기를 입력해주십시오.';
 $messages['nosenderwarning'] = '보내는 사람의 이메일 주소를 입력해주세요.';
+$messages['recipientsadded'] = '받는 사람을 성공적으로 추가했습니다.';
 $messages['norecipientwarning'] = '최소 하나의 수신자를 입력해주십시오.';
 $messages['disclosedrecipwarning'] = '모든 수신자가 서로의 이메일 주소를 볼 수 있습니다. 이것을 방지하고 개인 정보를 보호하려면 Bcc 필드를 사용할 수 있습니다.';
 $messages['disclosedreciptitle'] = '너무 많은 공개 수신자';
@@ -207,3 +208,6 @@ $messages['clicktoresumesession'] = '이전 세션을 다시 시작하려면 여
 $messages['errcomposesession'] = '세션 오류 작성';
 $messages['errcomposesessionexplain'] = '요청한 작성 세션을 찾을 수 없습니다.';
 $messages['clicktocompose'] = '새로운 메시지를 작성하려면 여기를 클릭하십시오';
+$messages['siginserted'] = '서명을 성공적으로 삽입했습니다.';
+$messages['responseinserted'] = '응답을 성공적으로 삽입했습니다.';
+$messages['listempty'] = '목록이 비어있습니다.';

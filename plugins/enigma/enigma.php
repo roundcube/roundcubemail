@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | Enigma Plugin for Roundcube                                             |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -456,7 +455,7 @@ class enigma extends rcube_plugin
 
                 if (count($listing)) {
                     $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
-                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
+                    $content .= html::tag('ul', 'keylist', implode("\n", $listing));
                 } else {
                     $content .= html::p(null, $this->gettext('identitynoprivkeys'));
                 }

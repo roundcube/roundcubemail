@@ -6,7 +6,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -81,6 +81,8 @@ function rcube_treelist_widget(node, p)
   this.container = container;
   this.expand = expand;
   this.collapse = collapse;
+  this.expand_all = expand_all;
+  this.collapse_all = collapse_all;
   this.select = select;
   this.render = render;
   this.reset = reset;
@@ -96,6 +98,7 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.in_selection = in_selection;
   this.get_next = get_next;
   this.get_prev = get_prev;
   this.get_single_selection = get_selection;
@@ -138,8 +141,9 @@ function rcube_treelist_widget(node, p)
         return true;
 
       var node = p.selectable ? indexbyid[dom2id($(this))] : null;
-      if (node && !node.virtual) {
-        select(node.id);
+      if (node) {
+        if (!node.virtual)
+          select(node.id);
         e.stopPropagation();
       }
     })
@@ -203,15 +207,13 @@ function rcube_treelist_widget(node, p)
         $(get_item(selection)).find(':focusable').first().focus();
       }
       else if (!has_focus) {
-        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+        container.children('li').find(':focusable').first().focus();
       }
     });
   }
 
-  /////// private methods
-
   /**
-   * Collaps a the node with the given ID
+   * Collapse a the node with the given ID
    */
   function collapse(id, recursive, set)
   {
@@ -249,6 +251,30 @@ function rcube_treelist_widget(node, p)
     if (node = indexbyid[id]) {
       collapse(id, recursive, !node.collapsed);
     }
+  }
+
+  /**
+   * Collapse all expanded nodes
+   */
+  function collapse_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && !data.collapsed) {
+        collapse(id);
+      }
+    });
+  }
+
+  /**
+   * Expand all collapsed nodes
+   */
+  function expand_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed) {
+        collapse(id, false, false);
+      }
+    });
   }
 
   /**
@@ -295,6 +321,15 @@ function rcube_treelist_widget(node, p)
   }
 
   /**
+   * Check if given id is selected
+   * This is for consistency with rcube_list_widget
+   */
+  function in_selection(id)
+  {
+    return selection == id;
+  }
+
+  /**
    * Return the DOM element of the list item with the given ID
    */
   function get_node(id)
@@ -333,8 +368,14 @@ function rcube_treelist_widget(node, p)
     // insert as child of an existing node
     if (parent_node) {
       node.level = parent_node.level + 1;
+
       if (!parent_node.children)
         parent_node.children = [];
+      else {
+        // Remove deleted nodes from the parent to make sure re-rendering below
+        // happens when adding a new child to a parent with all nodes removed
+        parent_node.children = parent_node.children.filter(function(node) { return !node.deleted; });
+      }
 
       search_active = false;
       parent_node.children.push(node);
@@ -484,8 +525,12 @@ function rcube_treelist_widget(node, p)
 
       // remove tree-toggle button and children list
       if (!parent.children().length) {
-        parent.parent().find('div.treetoggle').remove();
-        parent.remove();
+        parent.parent('li').find('div.treetoggle').remove();
+
+        // remove parent, but not if it's the list itself
+        if (parent[0] != container[0]) {
+            parent.remove();
+        }
       }
 
       return true;
@@ -517,9 +562,10 @@ function rcube_treelist_widget(node, p)
   /**
    *
    */
-  function reset(keep_content)
+  function reset(keep_content, keep_selection)
   {
-    select('');
+    if (!keep_selection)
+      select('');
 
     data = [];
     indexbyid = {};
@@ -544,7 +590,7 @@ function rcube_treelist_widget(node, p)
       container.html('');
     }
 
-    reset_search();
+    reset_search(keep_selection);
   }
 
   /**
@@ -609,7 +655,7 @@ function rcube_treelist_widget(node, p)
   /**
    * 
    */
-  function reset_search()
+  function reset_search(nosel)
   {
     if (searchfield)
       searchfield.val('');
@@ -622,7 +668,7 @@ function rcube_treelist_widget(node, p)
     me.triggerEvent('search', { query: false, last: last_search });
     last_search = '';
 
-    if (selection)
+    if (selection && !nosel)
       select(selection);
   }
 
@@ -756,7 +802,7 @@ function rcube_treelist_widget(node, p)
 
       // allow virtual nodes to receive focus
       if (node.virtual) {
-        li.children('a:first').attr('tabindex', '0');
+        li.children('a').first().attr('tabindex', '0');
       }
 
       result.push(node);
@@ -898,19 +944,19 @@ function rcube_treelist_widget(node, p)
       next = li[mod](), limit, parent;
 
     if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
-      li.children('ul').children('li:first').find('a:first').focus();
+      li.children('ul').children('li').first().find('a').first().focus();
     }
     else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
-      next.children('ul').children('li:last').find('a:first').focus();
+      next.children('ul').children('li').last().find('a').first().focus();
     }
-    else if (next.length && next.find('a:first').focus().length) {
+    else if (next.length && next.find('a').first().focus().length) {
         // focused
     }
     else {
       parent = li.parent().closest('li[role=treeitem]');
       if (parent.length)
         if (dir < 0) {
-          parent.find('a:first').focus();
+          parent.find('a').first().focus();
         }
         else {
           focus_next(parent, dir, true);
@@ -936,7 +982,7 @@ function rcube_treelist_widget(node, p)
   {
     var node, child;
     if (selection && (node = id2dom(selection))) {
-      child = node.children('ul').children('li:first');
+      child = node.children('ul').children('li').first();
       if (child.length) {
         return dom2id(child);
       }
@@ -960,7 +1006,7 @@ function rcube_treelist_widget(node, p)
     var node, prev, child;
     if (selection && (node = id2dom(selection))) {
       prev = node.prev();
-      child = prev.find('li:last');
+      child = prev.find('li').last();
 
       if (child.length) {
         return dom2id(child);
@@ -1023,8 +1069,7 @@ function rcube_treelist_widget(node, p)
 
     // enable auto-scrolling of list container
     if (container.height() > container.parent().height()) {
-      container.parent()
-        .mousemove(function(e) {
+      container.parent().on('mousemove.treelist', function(e) {
           var scroll = 0,
             mouse = rcube_event.get_mouse_pos(e);
           mouse.y -= container.parent().offset().top;
@@ -1044,13 +1089,13 @@ function rcube_treelist_widget(node, p)
             window.clearTimeout(scroll_timer);
             scroll_timer = null;
           }
-        })
-        .mouseleave(function() {
+      })
+      .on('mouseleave.treelist', function() {
           if (scroll_timer) {
             window.clearTimeout(scroll_timer);
             scroll_timer = null;
           }
-        });
+      });
     }
   }
 
@@ -1059,6 +1104,9 @@ function rcube_treelist_widget(node, p)
    */
   function drag_end()
   {
+    container.parent().off('.treelist');
+    $('li.droptarget', container).removeClass('droptarget');
+
     if (!drag_active)
       return;
 
@@ -1070,8 +1118,6 @@ function rcube_treelist_widget(node, p)
       autoexpand_timer = null;
       autoexpand_item = null;
     }
-
-    $('li.droptarget', container).removeClass('droptarget');
   }
 
   /**

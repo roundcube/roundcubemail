@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Šifrování';
 $labels['enigmacerts'] = 'S/MIME certifikáty';
 $labels['enigmakeys'] = 'PGP klíče';
@@ -30,8 +29,8 @@ $labels['basicinfo'] = 'Základní informace';
 $labels['userids'] = 'Další uživatelé';
 $labels['typepublickey'] = 'veřejný klíč';
 $labels['typekeypair'] = 'pár klíčů';
-$labels['keyattfound'] = 'Tato zpráva má přiložený/é PGP klíč(e).';
-$labels['keyattimport'] = 'Importovat klíč(e)';
+$labels['keyattfound'] = 'Tato zpráva má přiložený/é PGP klíče.';
+$labels['keyattimport'] = 'Importovat klíče';
 $labels['typesign'] = 'Podepsat';
 $labels['typeencrypt'] = 'Zašifrovat';
 $labels['typecert'] = 'Certifikovat';
@@ -52,12 +51,12 @@ $labels['supportdecryption'] = 'Povolit dešifrování zpráv.';
 $labels['signdefault'] = 'Podepisovat všechny zprávy';
 $labels['encryptdefault'] = 'Šifrovat všechny zprávy';
 $labels['attachpubkeydefault'] = 'Automaticky připojit svůj veřejný klíč';
-$labels['passwordtime'] = 'Uchovat hesla pro privátní klíče pro';
+$labels['passwordtime'] = 'Uchovat hesla soukromých klíčů pro';
 $labels['nminutes'] = '$m minut(a)';
 $labels['wholesession'] = 'celá relace';
 $labels['createkeys'] = 'Vytvořit nový pár klíčů';
-$labels['importkeys'] = 'Importovat klíč(e)';
-$labels['exportkeys'] = 'Exportovat klíč(e)';
+$labels['importkeys'] = 'Importovat klíče';
+$labels['exportkeys'] = 'Exportovat klíče';
 $labels['keyactions'] = 'Akce s klíčem...';
 $labels['keyremove'] = 'Smazat';
 $labels['keydisable'] = 'Vypnout';
@@ -69,7 +68,7 @@ $labels['newkeypass'] = 'Heslo';
 $labels['newkeypassconfirm'] = 'Potvrdit heslo';
 $labels['newkeysize'] = 'Velikost klíče';
 $labels['key2048'] = '2048 bitů - výchozí';
-$labels['key4096'] = '4093 bítů - více bezpečné';
+$labels['key4096'] = '4096 bitů - více bezpečné';
 $labels['keygenerating'] = 'Generuji klíče...';
 $labels['encryptionoptions'] = 'Možnosti šifrování...';
 $labels['encryptmsg'] = 'Zašifrovat tuto zprávu';
@@ -86,8 +85,8 @@ $labels['findkey'] = 'Hledat klíč na keyserveru';
 $labels['keyimportlabel'] = 'Importovat ze souboru';
 $labels['keyimportsearchlabel'] = 'Hledat klíč na keyserveru';
 $labels['managekeys'] = 'Spravovat PGP klíče';
-$labels['identitymatchingprivkeys'] = 'V klíčence máte $nr odpovídajících privátních PGP klíčů:';
-$labels['identitynoprivkeys'] = 'Klíčenka neobsahuje privátní PGP klíč identity odesílatele.';
+$labels['identitymatchingprivkeys'] = 'V klíčence máte $nr odpovídajících soukromých PGP klíčů:';
+$labels['identitynoprivkeys'] = 'Klíčenka neobsahuje soukromý PGP klíč identity odesílatele.';
 $messages['sigvalid'] = 'Ověřený podpis od $sender.';
 $messages['sigvalidpartial'] = 'Ověřený podpis od $sender, ale část těla není podepsána.';
 $messages['siginvalid'] = 'Nesprávný podpis od $sender.';
@@ -96,7 +95,8 @@ $messages['signokey'] = 'Neověřený podpis. Veřejný klíč nebyl nalezen. ID
 $messages['sigerror'] = 'Neověřený podpis. Interní chyba.';
 $messages['decryptok'] = 'Zpráva byla dešifrována.';
 $messages['decrypterror'] = 'Dešifrování selhalo.';
-$messages['decryptnokey'] = 'Dešifrování selhalo. Veřejný klíč nebyl nalezen. ID klíče: $keyid.';
+$messages['decryptnokey'] = 'Dešifrování selhalo. Soukromý klíč nebyl nalezen. ID klíče: $keyid.';
+$messages['decryptnomdc'] = 'Dešifrování přeskočeno. Integrita zprávy není chráněna.';
 $messages['decryptbadpass'] = 'Dešifrování selhalo. Špatné heslo.';
 $messages['decryptnopass'] = 'Dešifrování selhalo. Heslo pro klíč je požadováno.';
 $messages['decryptpartial'] = 'Zpráva byla dešifrována, ale část jejího těla nebyla zašifrovaná.';
@@ -106,17 +106,18 @@ $messages['signbadpass'] = 'Podepisování selhalo. Špatné heslo.';
 $messages['signnopass'] = 'Podepisování selhalo. Heslo pro klíč je požadováno.';
 $messages['encrypterror'] = 'Šifrování selhalo.';
 $messages['encryptnokey'] = 'Šifrování selhalo. Veřejný klíč pro email $email nebyl nalezen.';
+$messages['encryptnoprivkey'] = 'Šifrování selhalo. Soukromý klíč nebyl nalezen.';
 $messages['nokeysfound'] = 'Nebyly nalezeny žádné klíče.';
 $messages['keynotfound'] = 'Klíč nebyl nalezen!';
 $messages['keyopenerror'] = 'Nemohu dostat informace o klíči! Interní chyba.';
 $messages['keylisterror'] = 'Nemohu získat seznam klíčů! Interní chyba.';
-$messages['keysimportfailed'] = 'Nemohu importovat klíč(e)! Interní chyba.';
-$messages['keysimportsuccess'] = 'Klíč(e) byl(y) naimportován(y). Importovány: $new, nezměněny: $old.';
-$messages['keyremoving'] = 'Odstraňuji klíč(e)...';
-$messages['keyremoveconfirm'] = 'Opravdu si přejete odstranit vybraný/é klíč(e)?';
-$messages['keyremovesuccess'] = 'Klíč(e) byl(y) odstraněn(y).';
-$messages['keyremoveerror'] = 'Nemohu smazat vybraný/é klíč(e).';
-$messages['keyimporttext'] = 'Můžete naimportovat soukromý/é a veřejný/é klíč(e) nebo podpisy pro revokaci ve formátu ASCII-Armor.';
+$messages['keysimportfailed'] = 'Nemohu importovat klíče! Interní chyba.';
+$messages['keysimportsuccess'] = 'Klíče byly naimportovány. Importovány: $new, nezměněny: $old.';
+$messages['keyremoving'] = 'Odstraňuji klíče...';
+$messages['keyremoveconfirm'] = 'Opravdu si přejete odstranit vybrané klíče?';
+$messages['keyremovesuccess'] = 'Klíče byly odstraněny.';
+$messages['keyremoveerror'] = 'Nemohu smazat vybrané klíče.';
+$messages['keyimporttext'] = 'Můžete naimportovat soukromé a veřejné klíče nebo podpisy pro revokaci ve formátu ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Veřejné klíče můžete vyhledávat podle identifikátoru klíče, uživatele, nebo e-mailové adresy a potom je přímo importovat.';
 $messages['formerror'] = 'Prosím vyplňte tento formulář. Všechna pole jsou požadována.';
 $messages['passwordsdiffer'] = 'Zadaná hesla se neshodují!';
@@ -124,5 +125,5 @@ $messages['keygenerateerror'] = 'Selhalo generování páru klíčů';
 $messages['keygeneratesuccess'] = 'Pár klíčů byl vygenerován a naimportován.';
 $messages['keygennosupport'] = 'Váš webový prohlížeč nepodporuje kryptografii. Nemohu vygenerovat pár klíčů.';
 $messages['noidentselected'] = 'Pro tento klíč si musíte vybrat alespoň jednu identitu!';
-$messages['nonameident'] = 'Identita musí mít definované uživatelské jméno.';
+$messages['nonameident'] = 'Identita musí mít definované uživatelské jméno!';
 ?>

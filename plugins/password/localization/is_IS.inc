@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Breyta lykilorði';
 $labels['curpasswd']  = 'Núverandi lykilorð:';
 $labels['newpasswd']  = 'Nýtt lykilorð:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'Gat ekki vistað nýtt lykilorð. Villa í tengingu
 $messages['internalerror'] = 'Gat ekki vistað nýtt lykilorð.';
 $messages['passwordshort'] = 'Lykilorð þarf að vera að minnsta kosti $length stafa langt.';
 $messages['passwordweak'] = 'Lykilorð þarf að innihalda a.m.k. einn tölustaf og eitt greinamerki.';
+$messages['passwordtooweak'] = 'Lykilorðið er of veikt.';
+$messages['passwordnoseq'] = 'Lykilorð ætti ekki að vera runa á borð við 123456 eða QWERTY.';
+$messages['passwordnocommon'] = 'Lykilorð ætti ekki að vera algengt orð eða nafn.';
 $messages['passwordforbidden'] = 'Lykilorð inniheldur óleyfilega stafi.';
 $messages['firstloginchange'] = 'Þetta er í fyrsta skipti sem þú skráir þig inn. Endilega breyttu lykilorðinu þínu.';
 $messages['disablednotice'] = 'Kerfið er í viðhaldsfasa og því er ekki hægt að breyta lykilorðum sem stendur. Allt ætti að vera komið í samt lag innan stundar. Við biðjumst afsökunar á þeim óþægindum sem af þessu geta hlotist.';

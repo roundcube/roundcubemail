@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Errore bat gertatu da!';
 $messages['loginfailed']  = 'Saio hasierak huts egin du.';
-$messages['cookiesdisabled'] = 'Zure nabigatzaileak ez ditu cookie-rik onartzen.';
+$messages['cookiesdisabled'] = 'Zure nabigatzaileak ez du cookie-rik onartzen.';
 $messages['sessionerror'] = 'Zure saioa baliogabea da edo iraungita dago.';
+$messages['cookiesmismatch'] = 'Cookieak ez datozela bat hauteman da. Garbitu zure nabigatzailearen cookieak.';
 $messages['storageerror'] = 'Huts egin du biltegiratze-zerbitzarira konektatzean.';
 $messages['servererror'] = 'Zerbitzari-errorea!';
 $messages['servererrormsg'] = 'Zerbitzari-errorea: $msg';
@@ -34,7 +34,7 @@ $messages['erroroverquotadelete'] = 'Diskoan ez dago tokirik. Erabili SHIFT+DEL 
 $messages['invalidrequest'] = 'Eskaera ez da baliozkoa! Datuak ez dira gorde.';
 $messages['invalidhost'] = 'Zerbitzari-izena ez da baliozkoa.';
 $messages['nomessagesfound'] = 'Ez da mezurik aurkitu postontzi honetan.';
-$messages['loggedout'] = 'Saioa behar bezala amaitu duzu. Agur!';
+$messages['loggedout'] = 'Itxi duzu saioa. Agur!';
 $messages['mailboxempty'] = 'Postontzia hutsik dago';
 $messages['nomessages'] = 'Ez dago mezurik';
 $messages['refreshing'] = 'Freskatzen...';
@@ -51,6 +51,7 @@ $messages['messagesaved'] = 'Mezua zirriborroetan gordea.';
 $messages['successfullysaved'] = 'Behar bezala gorde da.';
 $messages['savingresponse'] = 'Erantzun-testua gordetzen...';
 $messages['deleteresponseconfirm'] = 'Seguru zaude erantzun-testu hau  ezabatu nahi duzula?';
+$messages['nocontactselected'] = 'Oraindik ez duzu kontakturik hautatu.';
 $messages['addedsuccessfully'] = 'Kontaktua behar bezala gehitu da helbide-liburura.';
 $messages['contactexists'] = 'Badago kontaktu bat helbide elektroniko horrekin';
 $messages['contactnameexists'] = 'Lehendik badago izen hori duen kontaktua.';
@@ -63,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Ez da baliozko gako publikorik aurkitu zure bi
 $messages['encryptnoattachments'] = 'Dagoeneko kargatutako eranskinak ezin dira zifratu. Gehitu itzazu berriro zifratze editorera.';
 $messages['searchpubkeyservers'] = 'Falta diren gakoak gako publikoen zerbitzarietan bilatzea nahi duzu?';
 $messages['encryptpubkeysfound'] = 'Hurrengo gako publikoak aurkitu dira:';
-$messages['keyservererror'] = 'Huts egin du gako zerbitzaritik gakoa eskuratzen';
-$messages['keyimportsuccess'] = '$key gako publikoa ongi inportatu da gako-gunetik';
+$messages['keyservererror'] = 'Huts egin du gakoa gako-zerbitzaritik eskuratzen.';
+$messages['keyimportsuccess'] = '$key gako publikoa zure gako-sortan sartu da.';
 $messages['nocontactsfound'] = 'Ez da kontakturik aurkitu.';
 $messages['contactnotfound'] = 'Eskatutako kontaktua ez da aurkitu.';
-$messages['contactsearchonly'] = 'Sartu kontaktua aurkitzeko bilaketa daturen bat.';
+$messages['contactsearchonly'] = 'Bilaketa inprimaki bat erabili behar duzu hautatutako helbide-liburutik kontaktuak ikusteko.';
 $messages['sendingfailed'] = 'Huts mezua bidaltzerakoan.';
 $messages['senttooquickly'] = 'Itxaron $sec segundo mezua bidali aurretik, mesedez.';
 $messages['errorsavingsent'] = 'Errore bat gertatu da bidalitako mezua gordetzean.';
@@ -76,10 +77,13 @@ $messages['errormoving'] = 'Ezin d(ir)a mezua(k) mugitu.';
 $messages['errorcopying'] = 'Ezin d(ir)a kopiatu mezua(k).';
 $messages['errordeleting'] = 'Ezin da mezua ezabatu';
 $messages['errormarking'] = 'Ezin d(ir)a markatu mezua(k).';
+$messages['alerttitle'] = 'Kontuz';
+$messages['confirmationtitle'] = 'Ziur zaude...';
 $messages['deletecontactconfirm']  = 'Benetan hautaturiko kontaktuak ezabatu nahi dituzula?';
 $messages['deletegroupconfirm']  = 'Seguru zaude hautatutako taldea ezabatu nahi duzula?';
 $messages['deletemessagesconfirm'] = 'Benetan hautaturiko mezuak ezabatu nahi dituzula?';
 $messages['deletefolderconfirm']  = 'Benetan Karpeta hau ezabatu nahi duzu?';
+$messages['movefolderconfirm']  = 'Seguru zaude mugitu nahi duzula karpeta hori?';
 $messages['purgefolderconfirm']  = 'Benetan karpeta honetako mezu guziak ezabatu nahi dituzu?';
 $messages['contactdeleting'] = 'Kontaktua(k) ezabatzen...';
 $messages['groupdeleting'] = 'Taldea ezabatzen...';
@@ -92,6 +96,7 @@ $messages['noemailwarning'] = 'Idatzi baliozko helbide elektroniko bat';
 $messages['nonamewarning']  = 'Mesedez izen bat idatzi';
 $messages['nopagesizewarning'] = 'Mesedez paper tamaina idatzi';
 $messages['nosenderwarning'] = 'Idatzi bidaltzailearen helbide elektronikoa';
+$messages['recipientsadded'] = 'Hartzailea(k) gehitu d(ir)a.';
 $messages['norecipientwarning'] = 'Mesedez behintzat hartzaile bat idatzi';
 $messages['disclosedrecipwarning'] = 'Hartzaile guztiek ikusiko dute beste hartzaileen posta helbideak. Hori eragozteko eta haien pribatutasuna babesteko erabili dezakezu Bcc -ezkutuko kopia- eremua.';
 $messages['disclosedreciptitle'] = 'Hartzaile publiko gehiegi';
@@ -122,6 +127,7 @@ $messages['fileuploaderror'] = 'Huts fitxategia eransterakoan';
 $messages['filesizeerror'] = 'Erantsi nahi duzun fitxategian $size tamaina muga gainditzen du';
 $messages['filecounterror'] = 'Gehienez jota $count fitxategi kargatu daitezke aldi berean.';
 $messages['msgsizeerror'] = 'Huts egin du fitxategia eransten. Mezu baten gehienezko tamaina ($size) gainditu da.';
+$messages['msgsizeerrorfwd'] = 'Mezuaren gehienezko tamaina  ($size) gainditu da. $num mezu ez dira erantsi.';
 $messages['copysuccess'] = '$nr kontaktu ongi kopiatu dira.';
 $messages['movesuccess'] = '$nr kontaktu ongi mugitu dira.';
 $messages['copyerror'] = 'Ezin da kontakturik kopiatu.';
@@ -161,6 +167,8 @@ $messages['smtpautherror'] = 'SMTP errorea ($code): Egiaztapenak huts egin du.';
 $messages['smtpfromerror'] = 'SMTP errorea ($code):  "$from" ($msg) bidaltzailearen ezartzeak huts egin du.';
 $messages['smtptoerror'] = 'SMTP errorea ($code):  "$to" ($msg) hartzailea  gehitzen huts egin du.';
 $messages['smtprecipientserror'] = 'SMTP errorea: Ezin da hartzaileen zerrenda analizatu.';
+$messages['smtputf8error'] = 'SMTP errorea: Zerbitzariak ez du Unicode onartzen posta-helbidean.';
+$messages['smtpsizeerror'] = 'SMTP errorea: Mezuak zerbitzariak ezarritako muga ($limit) gainditu du.';
 $messages['smtperror'] = 'SMTP errorea: $msg';
 $messages['emailformaterror'] = 'Helbide elektroniko baliogabea: $email';
 $messages['toomanyrecipients'] = 'Hartzaile gehiegi. Txikitu hartzaile kopura hona $max.';
@@ -193,6 +201,7 @@ $messages['invalidimageformat'] = 'Irudi formatua ez da baliozkoa.';
 $messages['mispellingsfound'] = 'Ortografia akatsak detektatu dira mezuan.';
 $messages['parentnotwritable'] = 'Ezin da karpeta sortu/mugi hautatutako goragoko karpetan. Sartzeko baimenik ez.';
 $messages['messagetoobig'] = 'Mezu-zatia handiegia da prozesatzeko.';
+$messages['attachmentvalidationerror'] = 'Eranskina ez da fidagarria bere motak ez duelako bat egiten mezuan aitortzen duen motarekin. Ez baduzu konfiantza bidaltzailearekin ez zenuke ireki behar zeren eta kode maltzurra gorde dezake.<br/><br/><em>Iradokita: $expected; topatuta: $detected</em>';
 $messages['noscriptwarning'] = 'Kontuz: web-posta zerbitzu honek Javascript behar du! Erabili nahi baduzu gaitu Javascript zure nabigatzailearen ezarpenetan.';
 $messages['messageissent'] = 'Mezua bidali da baina oraindik ez da gorde. Nahi duzu orain gorde?';
 $messages['errnotfound'] = 'Fitxategia ez da aurkitu';
@@ -207,3 +216,9 @@ $messages['clicktoresumesession'] = 'Egin klik hemen zure aurreko saioarekin jar
 $messages['errcomposesession'] = 'Idazketa sesioan errorea';
 $messages['errcomposesessionexplain'] = 'Eskatutako idazketa sesioa ez da aurkitu.';
 $messages['clicktocompose'] = 'Klik egin hemen mezu berri bat idazteko';
+$messages['nosupporterror'] = 'Zure nabigatzaileak ez du eginbide hori onartzen.';
+$messages['siginserted'] = 'Sinadura behar bezala txertatu da.';
+$messages['responseinserted'] = 'Erantzuna behar bezala txertatu da.';
+$messages['listempty'] = 'Zerrenda hutsik dago.';
+$messages['listusebutton'] = 'Erabili Sortu botoia erregistro berri bat gehitzeko.';
+$messages['keypaircreatesuccess'] = 'Gako pare berria behar bezala sortu da $identity-(r)entzat.';

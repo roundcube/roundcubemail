@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Dobrodošli v $product';
 $labels['username'] = 'Uporabniško ime';
 $labels['password'] = 'Geslo';
@@ -139,11 +139,15 @@ $labels['folders-all'] = 'Vse mape';
 $labels['more'] = 'Več';
 $labels['back'] = 'Nazaj';
 $labels['options'] = 'Možnosti';
+$labels['composeoptions'] = 'Možnosti sestavljanja sporočil';
+$labels['optionsandattachments'] = 'Možnosti in priponke';
+$labels['actions'] = 'Možnosti';
 $labels['first'] = 'Prvo';
 $labels['last'] = 'Zadnje';
 $labels['previous'] = 'Prejšnje';
 $labels['next'] = 'Naslednje';
 $labels['select'] = 'Izberi';
+$labels['selection'] = 'Izbor';
 $labels['all'] = 'Vse';
 $labels['none'] = 'Brez';
 $labels['currpage'] = 'Trenutna stran';
@@ -180,6 +184,7 @@ $labels['listcolumns'] = 'Seznam stolpcev';
 $labels['listsorting'] = 'Urejanje stolpcev';
 $labels['listorder'] = 'Vrstni red';
 $labels['listmode'] = 'Način prikaza seznama';
+$labels['lmode'] = 'Način prikaza seznama';
 $labels['layout'] = 'Postavitev';
 $labels['layoutwidescreen'] = 'Širok zaslon';
 $labels['layoutdesktop'] = 'Namizje';
@@ -191,6 +196,8 @@ $labels['folderactions'] = 'Upravljanje map...';
 $labels['compact'] = 'Stisni';
 $labels['empty'] = 'Izprazni';
 $labels['importmessages'] = 'Uvozi sporočila';
+$labels['mailimportdesc'] = 'Naložite lahko sporočila v formatu <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ali <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Več dokumentov lahko skrčite v arhiv zip.';
 $labels['quota'] = 'Poraba prostora';
 $labels['unknown'] = 'neznana';
 $labels['unlimited'] = 'neomejena';
@@ -199,6 +206,9 @@ $labels['quotatotal'] = 'Omejitev';
 $labels['quotaused'] = 'Porabljeno';
 $labels['quotastorage'] = 'Prostor na disku';
 $labels['quotamessage'] = 'Število sporočil';
+$labels['shortheaderdate'] = 'Dne $date';
+$labels['shortheaderto'] = 'Za $to dne $date';
+$labels['shortheaderfrom'] = 'Od $from dne $date';
 $labels['quicksearch'] = 'Hitri iskalnik';
 $labels['searchplaceholder'] = 'Iskanje...';
 $labels['resetsearch'] = 'Prekliči iskanje';
@@ -241,12 +251,17 @@ $labels['encryptmessage'] = 'Šifriraj sporočilo';
 $labels['encryptmessagemailvelope'] = 'Šifriraj sporočilo z Mailvelope';
 $labels['importpubkeys'] = 'Uvozi javne ključe';
 $labels['encryptedsendialog'] = 'Pošilji šifrirano sporočilo';
+$labels['encryptandsign'] = 'Šifriraj in podpiši';
 $labels['keyid'] = 'ID ključa';
 $labels['keylength'] = 'Bitov';
 $labels['keyexpired'] = 'Pretečen';
 $labels['keyrevoked'] = 'Preklican';
 $labels['bccinstead'] = 'Uporabi Skp';
+$labels['addheader'] = 'Dodaj prejemnika (glava sporočila)';
+$labels['insert'] = 'Vstavi';
+$labels['insertcontact'] = 'Vstavi stik(e)';
 $labels['recipient'] = 'Prejemnik';
+$labels['recipientedit'] = 'Uredi prejemnika';
 $labels['editidents'] = 'Uredi identitete';
 $labels['spellcheck'] = 'Črkovanje';
 $labels['checkspelling'] = 'Preglej pravopis';
@@ -279,9 +294,14 @@ $labels['high'] = 'Visoka';
 $labels['highest'] = 'Najvišja';
 $labels['nosubject'] = '(brez naslova)';
 $labels['showimages'] = 'Prikaži slike';
+$labels['allow'] = 'Dovoli';
 $labels['alwaysshow'] = 'Vedno prikaži slike od $sender';
+$labels['alwaysallow'] = 'Vedno dovoli pošiljatelju $sender';
 $labels['isdraft'] = 'To je osnutek sporočila.';
 $labels['andnmore'] = '$nr več...';
+$labels['details'] = 'Podrobnosti';
+$labels['headers'] = 'Glave sporočil';
+$labels['allheaders'] = 'Vse glave...';
 $labels['togglemoreheaders'] = 'Prikaži več glav sporočila';
 $labels['togglefullheaders'] = 'Preklopi na neobdelan zapis glave sporočila';
 $labels['htmltoggle'] = 'Obogateno besedilo (HTML)';
@@ -297,6 +317,14 @@ $labels['mdnrequest'] = 'Pošiljatelj tega sporočila je zaprosil za potrdilo o 
 $labels['receiptread'] = 'Potrdilo o branju';
 $labels['yourmessage'] = 'To je potrdilo o branju.';
 $labels['receiptnote'] = 'Pozor: to je samo potrdilo, da je bilo vaše sporočilo prikazano na prejemnikovem računalniku. To še ne pomeni, da je prejemnik prebral ali razumel vsebino vašega sporočila.';
+$labels['zoomin'] = 'Povečaj';
+$labels['zoomout'] = 'Pomanjšaj';
+$labels['rotate'] = 'Zasukaj';
+$labels['increaseimage'] = 'Povečaj velikost slike';
+$labels['decreaseimage'] = 'Zmanjšaj velikost slike';
+$labels['rotateimage'] = 'Zasukaj sliko';
+$labels['showtools'] = 'Prikaži orodja za urejanje slik';
+$labels['hidetools'] = 'Skrij orodja za urejanje slik';
 $labels['name'] = 'Ime za prikaz';
 $labels['firstname'] = 'Ime';
 $labels['surname'] = 'Priimek';
@@ -362,10 +390,15 @@ $labels['cancel'] = 'Prekliči';
 $labels['save'] = 'Shrani';
 $labels['delete'] = 'Izbriši';
 $labels['discard'] = 'Zavrži';
+$labels['continue'] = 'Nadaljuj';
+$labels['ok'] = 'V redu';
 $labels['rename'] = 'Preimenuj';
 $labels['addphoto'] = 'Dodaj';
 $labels['replacephoto'] = 'Zamenjaj';
 $labels['uploadphoto'] = 'Naloži sliko';
+$labels['choosefile'] = 'Izberi dokument...';
+$labels['choosefiles'] = 'Izberi dokumente..';
+$labels['browse'] = 'Prebrskaj';
 $labels['newcontact'] = 'Ustvari nov stik';
 $labels['deletecontact'] = 'Izbriši izbrane vizitke';
 $labels['composeto'] = 'Sestavi sporočilo za';
@@ -379,6 +412,8 @@ $labels['newgroup'] = 'Ustvari novo skupino';
 $labels['addgroup'] = 'Dodaj skupino';
 $labels['grouprename'] = 'Preimenuj skupino';
 $labels['groupdelete'] = 'Izbriši skupino';
+$labels['groupassign'] = 'Dodeli skupini';
+$labels['groupremove'] = 'Odstrani iz skupine';
 $labels['groupremoveselected'] = 'Odstrani izbrane stike iz skupine';
 $labels['uponelevel'] = 'Nivo višje';
 $labels['previouspage'] = 'Prejšnja stran';
@@ -393,12 +428,13 @@ $labels['searchsave'] = 'Shrani iskanje';
 $labels['searchdelete'] = 'Izbriši iskanje';
 $labels['import'] = 'Uvozi';
 $labels['importcontacts'] = 'Uvozi stike';
+$labels['importfromfile'] = 'Uvozi iz dokumenta';
 $labels['importtarget'] = 'Dodaj stike v';
 $labels['importreplace'] = 'Zamenjaj celoten imenik';
 $labels['importgroups'] = 'Vnesi skupinske zadolžitve';
 $labels['importgroupsall'] = 'Vse (ustvari skupine, če je potrebno)';
 $labels['importgroupsexisting'] = 'Samo za obstoječe skupine';
-$labels['importdesc'] = 'Stike lahko naložite iz obstoječega imenika. <br/>Trenutno je podprt uvoz stikov v zapisu  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ali v CSV (z vejico ločene vrednosti) zapisu.';
+$labels['importdesc'] = 'Stike lahko naložite iz obstoječega imenika. <br/>Trenutno je podprt uvoz stikov v zapisu <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> ali v CSV (z vejico ločene vrednosti) zapisu. ';
 $labels['done'] = 'Dokončano';
 $labels['settingsfor'] = 'Nastavitve za';
 $labels['about'] = 'Vizitka';
@@ -410,6 +446,7 @@ $labels['manageidentities'] = 'Upravljaj identitete';
 $labels['newidentity'] = 'Ustvari novo identiteto';
 $labels['addidentity'] = 'Dodaj identiteto';
 $labels['editidentity'] = 'Uredi identiteto';
+$labels['identityencryption'] = 'Šifriranje';
 $labels['preferhtml'] = 'Prednostno HTML';
 $labels['defaultcharset'] = 'Privzeto kodiranje znakov';
 $labels['htmlmessage'] = 'HTML sporočilo';
@@ -451,6 +488,7 @@ $labels['skipdeleted'] = 'Ne prikaži izbrisanih sporočil';
 $labels['deletealways'] = 'Če premikanje sporočil v Smeti spodleti, naj bodo izbrisana.';
 $labels['deletejunk'] = 'Neposredno izbriši sporočila v mapi Nezaželena sporočila';
 $labels['showremoteimages'] = 'Prikaži slike iz oddaljenih strežnikov';
+$labels['allowremoteresources'] = 'Dovoli zunanje vire (slike, stile)';
 $labels['fromknownsenders'] = 'od znanih pošiljateljev';
 $labels['always'] = 'vedno';
 $labels['alwaysbutplain'] = 'vedno, razen ko odgovarjam v golem besedilu';
@@ -472,7 +510,6 @@ $labels['advancedoptions'] = 'Dodatne možnosti';
 $labels['toggleadvancedoptions'] = 'Preklopi napredne nastavitve';
 $labels['focusonnewmessage'] = 'Usmeri okno brskalnika na novo sporočilo';
 $labels['checkallfolders'] = 'Preglej nova sporočila za vse mape';
-$labels['displaynext'] = 'Po izbrisu/premikanju sporočila prikaži naslednje sporočilo';
 $labels['defaultfont'] = 'Privzeta pisava HTML sporočil';
 $labels['mainoptions'] = 'Osnovne nastavitve';
 $labels['browseroptions'] = 'Možnosti brskalnika';
@@ -543,6 +580,11 @@ $labels['namespace.shared'] = 'V skupni rabi';
 $labels['dualuselabel'] = 'Vsebuje lahko samo';
 $labels['dualusemail'] = 'sporočila';
 $labels['dualusefolder'] = 'mape';
+$labels['generate'] = 'Generiraj';
+$labels['encryptioncreatekey'] = 'Ustvari nov par ključev';
+$labels['openmailvelopesettings'] = 'Odpri nastavitve za Mailvelope';
+$labels['encryptionprivkeysinmailvelope'] = 'V Mailvelope imate shranjenih $nr zasebnih ključev';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Ta identiteta pošiljatelja v Mailvelope še nima shranjenega zasebnega ključa GPG. Želite ključ ustvariti in s tem omogočiti pošiljanje šifriranih sporočil?';
 $labels['sortby'] = 'Uredi po';
 $labels['sortasc'] = 'Uredi naraščajoče';
 $labels['sortdesc'] = 'Uredi padajoče';
@@ -554,6 +596,12 @@ $labels['source'] = 'Vir';
 $labels['license'] = 'Licenca';
 $labels['support'] = 'Podpora';
 $labels['savedsearches'] = 'Shranjena iskanja';
+$labels['dateformatY'] = 'LLLL';
+$labels['dateformaty'] = 'LL';
+$labels['dateformatm'] = 'MM';
+$labels['dateformatd'] = 'DD';
+$labels['dateformatj'] = 'D';
+$labels['dateformatn'] = 'M';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -604,11 +652,13 @@ $labels['arialabelmessageheaders'] = 'Glave sporočil';
 $labels['arialabelforwardingoptions'] = 'Možnosti posredovanja';
 $labels['arialabelreplyalloptions'] = 'Možnost Odgovori vsem';
 $labels['arialabelmoremessageactions'] = 'Več opravil za sporočila';
+$labels['arialabelmorecontactactions'] = 'Več možnosti za stike';
 $labels['arialabelmarkmessagesas'] = 'Označi izbrana sporočila kot ...';
 $labels['arialabelcomposeoptions'] = 'Možnosti sestavljanja sporočil';
 $labels['arialabelresponsesmenu'] = 'Meni v naprej pripravljenih odgovorov';
 $labels['arialabelattachmentuploadform'] = 'Priponka naložena iz';
 $labels['arialabelattachmentmenu'] = 'Možnosti za priponke';
+$labels['arialabelmailtomenu'] = 'Možnosti za elektronske naslove';
 $labels['arialabelattachmentpreview'] = 'Predogled priponke';
 $labels['ariasummarycomposecontacts'] = 'Seznam stikov in skupin za izbor prejemnikov';
 $labels['arialabelcontactexportoptions'] = 'Možnosti izvoza stika';
@@ -618,6 +668,8 @@ $labels['arialabelidentityeditfrom'] = 'Urejanje identitete';
 $labels['arialabelresonseeditfrom'] = 'Urejanje odgovora';
 $labels['arialabelsearchterms'] = 'Iskalni pogoji';
 $labels['arialabeldropactionmenu'] = 'Meni operacij povleci in spusti';
+$labels['arialabelheadersmenu'] = 'Meni za dodajanje naslovnika (glava sporočila)';
+$labels['arialabelimagetools'] = 'Orodja za slike';
 $labels['helplistnavigation'] = 'Izpiši možnosti krmarjenja s tipkovnico';
 $labels['helplistkeyboardnavigation'] = "Puščica gor/dol: Premakni fokus/izbor vrstice
 Presledek: Izberi označeno vrstico.
@@ -627,4 +679,3 @@ $labels['helplistkeyboardnavmessages'] = "Puščice desno/levo: razširi/skrči 
 Enter: Odpri izbrano sporočilo
 Delete: Premakni izbrana sporočila v Smeti.";
 $labels['helplistkeyboardnavcontacts'] = "Odpri izbran stik.";
-?>
