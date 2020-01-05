@@ -437,12 +437,13 @@ class rcube
             return;
         }
 
-        $storage     = $this->config->get('session_storage', 'db');
-        $sess_name   = $this->config->get('session_name');
-        $sess_domain = $this->config->get('session_domain');
-        $sess_path   = $this->config->get('session_path');
-        $lifetime    = $this->config->get('session_lifetime', 0) * 60;
-        $is_secure   = $this->config->get('use_https') || rcube_utils::https_check();
+        $storage       = $this->config->get('session_storage', 'db');
+        $sess_name     = $this->config->get('session_name');
+        $sess_domain   = $this->config->get('session_domain');
+        $sess_path     = $this->config->get('session_path');
+        $sess_samesite = $this->config->get('session_samesite');
+        $lifetime      = $this->config->get('session_lifetime', 0) * 60;
+        $is_secure     = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -451,6 +452,11 @@ class rcube
         // set session path
         if ($sess_path) {
             ini_set('session.cookie_path', $sess_path);
+        }
+        // set session samesite attribute
+        // requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
+        if (version_compare(PHP_VERSION, '7.3.0', '>=') && $sess_samesite) {
+            ini_set('session.cookie_samesite', $sess_samesite);
         }
         // set session garbage collecting time according to session_lifetime
         if ($lifetime) {
