@@ -502,6 +502,11 @@ $config['session_auth_name'] = null;
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
+// Session samesite. Defaults to PHP session.cookie_samesite setting.
+// Requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
+// Possible values: null (default), 'Lax', or 'Strict'
+$config['session_samesite'] = null;
+
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
 // If set to 'memcache' or 'memcached', a list of servers need to be specified in 'memcache_hosts'
