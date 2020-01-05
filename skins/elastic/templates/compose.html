@@ -60,14 +60,6 @@
 				</div>
 			</div>
 			<roundcube:endif />
-			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
-				<div class="form-group row hidden">
-					<label for="editor-selector" class="col-form-label col-6"><roundcube:label name="editortype" /></label>
-					<div class="col-6">
-						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" tabindex="2" />
-					</div>
-				</div>
-			<roundcube:endif />
 		</div>
 	</div>
 </div>
@@ -215,6 +207,9 @@
 		<div id="composebodycontainer">
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
+			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
+			<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" class="hidden" />
+			<roundcube:endif />
 		</div>
 		</form>
 		<div class="formbuttons">
