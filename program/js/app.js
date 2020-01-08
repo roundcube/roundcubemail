@@ -811,7 +811,7 @@ function rcube_webmail()
     if (ret === false)
       return false;
 
-    if (obj || this.command_aborted === true)
+    if ((obj && ret !== true) || this.command_aborted === true)
       return false;
 
     return true;
