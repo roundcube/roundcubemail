@@ -56,9 +56,10 @@ class Contacts extends \Tests\Browser\TestCase
                 $browser->assertToolbarMenu(['select'], []);
             }
             else if ($browser->isTablet()) {
-                $browser->click('.toolbar-list-button');
-                $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
-                $browser->click();
+                $browser->click('.toolbar-list-button')
+                    ->waitFor('#toolbar-list-menu')
+                    ->assertVisible('#toolbar-list-menu a.select:not(.disabled)')
+                    ->click();
             }
             else {
                 $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
