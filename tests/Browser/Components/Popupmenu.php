@@ -5,8 +5,18 @@ namespace Tests\Browser\Components;
 use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
 
-class Toolbarmenu extends Component
+class Popupmenu extends Component
 {
+    public $id;
+
+    /**
+     * Class constructor
+     */
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * Get the root selector for the component.
      *
@@ -14,7 +24,7 @@ class Toolbarmenu extends Component
      */
     public function selector()
     {
-        return '#toolbar-menu';
+        return '#' . $this->id;
     }
 
     /**
@@ -26,12 +36,7 @@ class Toolbarmenu extends Component
      */
     public function assert($browser)
     {
-        if ($browser->isPhone()) {
-            $browser->assertPresent($this->selector());
-        }
-        else {
-            $browser->assertVisible($this->selector());
-        }
+        $browser->waitFor($this->selector());
     }
 
     /**
@@ -46,18 +51,10 @@ class Toolbarmenu extends Component
     }
 
     /**
-     * Assert toolbar menu state
+     * Assert popup menu state
      */
     public function assertMenuState($browser, $active, $disabled = [], $missing = [])
     {
-        // On phone the menu is invisible, open it
-        if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
-                $browser->click('.toolbar-menu-button');
-                $browser->waitFor($this->selector());
-            });
-        }
-
         foreach ($active as $option) {
             // Print action is disabled on phones
             if ($option == 'print' && $browser->isPhone()) {
@@ -80,40 +77,32 @@ class Toolbarmenu extends Component
         foreach ($missing as $option) {
             $browser->assertMissing("a.{$option}");
         }
-
-        $this->closeMenu($browser);
     }
 
     /**
-     * Close toolbar menu (on phones)
+     * Close popup menu
      */
     public function closeMenu($browser)
     {
         // hide the menu back
-        if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
-                $browser->script("window.UI.menu_hide('toolbar-menu')");
-                $browser->waitUntilMissing($this->selector());
+        $browser->withinBody(function ($browser) {
+            $browser->script("window.UI.menu_hide('{$this->id}')");
+            $browser->waitUntilMissing($this->selector());
+            if ($browser->isPhone()) {
                 // FIXME: For some reason sometimes .popover-overlay does not close,
                 //        we have to remove it manually
                 $browser->script(
                     "Array.from(document.getElementsByClassName('popover-overlay')).forEach(function(elem) { elem.parentNode.removeChild(elem); })"
                 );
-            });
-        }
+            }
+        });
     }
 
     /**
-     * Select toolbar menu item
+     * Select popup menu item
      */
     public function clickMenuItem($browser, $name, $dropdown_action = null)
     {
-        if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
-                $browser->click('.toolbar-menu-button');
-            });
-        }
-
         $selector = "a.{$name}" . ($dropdown_action ? " + a.dropdown" : '');
 
         $browser->click($selector);

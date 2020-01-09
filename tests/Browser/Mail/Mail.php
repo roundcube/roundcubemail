@@ -3,6 +3,7 @@
 namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\Components\Popupmenu;
 
 class Mail extends \Tests\Browser\TestCase
 {
@@ -51,6 +52,33 @@ class Mail extends \Tests\Browser\TestCase
 
             // Task menu
             $browser->assertTaskMenu('mail');
+        });
+    }
+
+    /**
+     * Test message menu
+     */
+    public function testMessageMenu()
+    {
+        $this->browse(function ($browser) {
+            $browser->go('mail');
+
+            $browser->clickToolbarMenuItem('more');
+
+            $browser->with(new Popupmenu('message-menu'), function ($browser) {
+                // Note: These are button class names, not action names
+                $active = ['import'];
+                $disabled = ['print', 'download', 'edit.asnew', 'source', 'move', 'copy', 'extwin'];
+                $hidden = [];
+
+                if ($browser->isPhone()) {
+                    $hidden = ['print', 'extwin'];
+                    $disabled = array_diff($disabled, $hidden);
+                }
+
+                $browser->assertMenuState($active, $disabled, $hidden);
+                $browser->closeMenu();
+            });
         });
     }
 }
