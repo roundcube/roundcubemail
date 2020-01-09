@@ -2,11 +2,11 @@
 
 namespace Tests\Browser\Components;
 
-use Laravel\Dusk\Component as BaseComponent;
+use Laravel\Dusk\Component;
 use PHPUnit\Framework\Assert;
 use Tests\Browser\Browser;
 
-class App extends BaseComponent
+class App extends Component
 {
     /**
      * Get the root selector for the component.
@@ -46,10 +46,21 @@ class App extends BaseComponent
 
     /**
      * Assert value of rcmail.env entry
+     *
+     * @param Browser      $browser  Browser object
+     * @param array|string $key      Env key name or array of key->expected pairs
+     * @param mixed        $expected Expected value when $key is a string
      */
-    public function assertEnv($browser, string $key, $expected)
+    public function assertEnv($browser, $key, $expected = null)
     {
-        Assert::assertEquals($expected, $this->getEnv($browser, $key));
+        if (is_array($key)) {
+            foreach ($key as $name => $expected) {
+                Assert::assertEquals($expected, $this->getEnv($browser, $name));
+            }
+        }
+        else {
+            Assert::assertEquals($expected, $this->getEnv($browser, $key));
+        }
     }
 
     /**
@@ -69,10 +80,7 @@ class App extends BaseComponent
      */
     public function getEnv($browser, $key)
     {
-        $result = $browser->script("return rcmail.env['$key']");
-        $result = $result[0];
-
-        return $result;
+        return $browser->driver->executeScript("return rcmail.env['$key']");
     }
 
     /**
@@ -80,10 +88,7 @@ class App extends BaseComponent
      */
     public function getObjects($browser)
     {
-        $objects = $browser->script("var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r");
-        $objects = $objects[0];
-
-        return (array) $objects;
+        return (array) $browser->driver->executeScript("var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r");
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace Tests\Browser\Components;
 
 use Tests\Browser\Browser;
-use Laravel\Dusk\Component as BaseComponent;
+use Laravel\Dusk\Component;
 
-class Taskmenu extends BaseComponent
+class Taskmenu extends Component
 {
     protected $options = ['compose', 'mail', 'contacts', 'settings', 'about', 'logout'];
 

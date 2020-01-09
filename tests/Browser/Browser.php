@@ -143,6 +143,26 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
+     * Handler for actions that expect to open a new window
+     *
+     * @param callback $callback Function to execute with Browser object as argument
+     *
+     * @return array Main window handle and new window handle
+     */
+    public function openWindow($callback)
+    {
+        $current_window = $this->driver->getWindowHandle();
+        $before_handles = $this->driver->getWindowHandles();
+
+        $callback($this);
+
+        $after_handles = $this->driver->getWindowHandles();
+        $new_window = reset(array_diff($after_handles, $before_handles));
+
+        return [$current_window, $new_window];
+    }
+
+    /**
      * Change state of the Elastic's pretty checkbox
      */
     public function setCheckboxState($selector, $state)

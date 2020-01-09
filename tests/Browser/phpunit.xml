@@ -25,6 +25,7 @@
             <file>Mail/Compose.php</file>
             <file>Mail/Getunread.php</file>
             <file>Mail/List.php</file>
+            <file>Mail/Open.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
