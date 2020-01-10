@@ -34,8 +34,6 @@ class Contacts extends \Tests\Browser\TestCase
                 $browser->click('a.back-sidebar-button');
             }
 
-            $browser->assertSeeIn('#layout-sidebar .header', 'Groups');
-
             // Groups/Addressbooks list
             $browser->assertVisible('#directorylist');
             $browser->assertSeeIn('#directorylist li:first-child', 'Personal Addresses');

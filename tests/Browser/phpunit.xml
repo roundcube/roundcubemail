@@ -8,6 +8,7 @@
         </testsuite>
         <testsuite name="Contacts">
             <file>Contacts/Contacts.php</file>
+            <file>Contacts/Groups.php</file>
             <file>Contacts/Import.php</file>
             <file>Contacts/Export.php</file>
         </testsuite>
