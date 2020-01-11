@@ -79,13 +79,15 @@ class subscriptions_option extends rcube_plugin
 
         if (!$rcmail->config->get('use_subscriptions', true)) {
             $storage = $rcmail->get_storage();
-            $folders = $storage->list_folders_direct();
-            $folders = array_filter($folders, function($folder) use ($storage) {
-                $attrs = $storage->folder_attributes($folder);
-                return !in_array_nocase('\\Noselect', $attrs);
-            });
 
-            $args['folders'] = $folders;
+            if ($folders = $storage->list_folders_direct()) {
+                $folders = array_filter($folders, function($folder) use ($storage) {
+                    $attrs = $storage->folder_attributes($folder);
+                    return !in_array_nocase('\\Noselect', $attrs);
+                });
+
+                $args['folders'] = $folders;
+            }
         }
 
         return $args;
