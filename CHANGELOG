@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Enigma: Fix so key list selection is reset when opening key creation form (#7154)
 - Password: Make chpass-wrapper.py Python 3 compatible (#7135)
 - Elastic: Fix bug where it was possible to switch editor mode when 'htmleditor' was in 'dont_override' (#7143)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
