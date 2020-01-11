@@ -4,19 +4,17 @@ namespace Tests\Browser\Mail;
 
 class Getunread extends \Tests\Browser\TestCase
 {
-    protected $msgcount = 0;
+    protected static $msgcount = 0;
 
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
-
         \bootstrap::init_imap();
         \bootstrap::purge_mailbox('INBOX');
 
         // import email messages
-        foreach (glob(TESTS_DIR . 'data/mail/list_*.eml') as $f) {
+        foreach (glob(TESTS_DIR . 'data/mail/list_??.eml') as $f) {
             \bootstrap::import_message($f, 'INBOX');
-            $this->msgcount++;
+            self::$msgcount++;
         }
     }
 
@@ -28,7 +26,7 @@ class Getunread extends \Tests\Browser\TestCase
             $browser->waitFor('#messagelist tbody tr');
 
             // Messages list state
-            $this->assertCount($this->msgcount, $browser->elements('#messagelist tbody tr.unread'));
+            $this->assertCount(self::$msgcount, $browser->elements('#messagelist tbody tr.unread'));
 
             if (!$browser->isDesktop()) {
                 $browser->click('.back-sidebar-button');
@@ -37,7 +35,7 @@ class Getunread extends \Tests\Browser\TestCase
             // Folders list state
             $browser->assertVisible('.folderlist li.inbox.unread');
 
-            $this->assertEquals(strval($this->msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
+            $this->assertEquals(strval(self::$msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
         });
     }
 }
