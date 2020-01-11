@@ -347,7 +347,7 @@ rcube_webmail.prototype.enigma_keylist_select = function(list)
 {
     var id = list.get_single_selection(), url;
 
-    if (id)
+    if (id && !list.multi_selecting)
         url = '&_action=plugin.enigmakeys&_a=info&_id=' + id;
 
     this.enigma_loadframe(url);
