@@ -6,16 +6,17 @@ use Tests\Browser\Components\Toolbarmenu;
 
 class MailList extends \Tests\Browser\TestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
+    protected static $msgcount = 0;
 
+    public static function setUpBeforeClass()
+    {
         \bootstrap::init_imap();
         \bootstrap::purge_mailbox('INBOX');
 
         // import email messages
-        foreach (glob(TESTS_DIR . 'data/mail/list_00.eml') as $f) {
+        foreach (glob(TESTS_DIR . 'data/mail/list_??.eml') as $f) {
             \bootstrap::import_message($f, 'INBOX');
+            self::$msgcount++;
         }
     }
 
@@ -24,12 +25,13 @@ class MailList extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $this->assertCount(1, $browser->elements('#messagelist tbody tr'));
+            $this->assertCount(self::$msgcount, $browser->elements('#messagelist tbody tr'));
 
             // check message list
             $browser->assertVisible('#messagelist tbody tr:first-child.unread');
 
-            $this->assertEquals('Lines', $browser->text('#messagelist tbody tr:first-child span.subject'));
+            $this->assertEquals('Test HTML with local and remote image',
+                $browser->text('#messagelist tbody tr:first-child span.subject'));
 
             // Note: This element icon has width=0, use assertPresent() not assertVisible()
             $browser->assertPresent('#messagelist tbody tr:first-child span.msgicon.unread');
@@ -52,7 +54,8 @@ class MailList extends \Tests\Browser\TestCase
                 });
             }
             else if ($browser->isTablet()) {
-                $browser->click('.toolbar-list-button');
+                $browser->click('.toolbar-list-button')
+                    ->waitFor('#toolbar-list-menu');
 
                 $browser->with('#toolbar-list-menu', function ($browser) {
                     $browser->assertVisible('a.select:not(.disabled)');

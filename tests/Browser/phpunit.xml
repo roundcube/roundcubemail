@@ -27,6 +27,7 @@
             <file>Mail/Getunread.php</file>
             <file>Mail/List.php</file>
             <file>Mail/Open.php</file>
+            <file>Mail/Preview.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

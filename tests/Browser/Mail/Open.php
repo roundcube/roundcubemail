@@ -7,10 +7,8 @@ use Tests\Browser\Components\Popupmenu;
 
 class Open extends \Tests\Browser\TestCase
 {
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
-
         \bootstrap::init_imap();
         \bootstrap::purge_mailbox('INBOX');
 
