@@ -307,3 +307,6 @@ needed to add following MIME Types definitions (via web.config or IIS Manager):
 
     .woff   application/font-woff
     .woff2  application/font-woff2
+
+When installing on Windows be aware we're using symbolic links which may need an additional
+attention. See https://github.com/roundcube/roundcubemail/issues/7151.
