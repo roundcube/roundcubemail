@@ -2946,6 +2946,9 @@ class rcube_imap extends rcube_storage
         // Add/Remove folders according to some configuration options
         $this->list_folders_filter($result, $root . $name, ($list_extended ? 'ext-' : '') . 'subscribed');
 
+        // Save the last command state, so we can ignore errors on any following UNSEBSCRIBE calls
+        $state = $this->save_conn_state();
+
         if ($list_extended) {
             // unsubscribe non-existent folders, remove from the list
             if ($name == '*' && !empty($this->conn->data['LIST'])) {
@@ -2976,6 +2979,8 @@ class rcube_imap extends rcube_storage
                 }
             }
         }
+
+        $this->restore_conn_state($state);
 
         return $result;
     }
@@ -4543,6 +4548,31 @@ class rcube_imap extends rcube_storage
         }
 
         return $date->format('d-M-Y H:i:s O');
+    }
+
+    /**
+     * Remember state of the IMAP connection (last IMAP command).
+     * Use e.g. if you want to execute more commands and ignore results of these.
+     *
+     * @return array Connection state
+     */
+    protected function save_conn_state()
+    {
+        return array(
+            $this->conn->error,
+            $this->conn->errornum,
+            $this->conn->resultcode,
+        );
+    }
+
+    /**
+     * Restore saved connection state.
+     *
+     * @param array $state Connection result
+     */
+    protected function restore_conn_state($state)
+    {
+        list($this->conn->error, $this->conn->errornum, $this->conn->resultcode) = $state;
     }
 
     /**
