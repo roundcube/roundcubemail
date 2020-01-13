@@ -1,18 +1,19 @@
 Return-Path: <thomas@roundcube.net>
 X-Original-To: tb@tester.local
+From: "Thomas B." <thomas@roundcube.net>
 To: Tom Tester <tb@tester.local>
 Subject: Lines
-X-PHP-Originating-Script: 501:rcmail.php
+Cc: test1@domain.tld, test2@domain.tld, test3@domain.tld, test4@domain.tld,
+ test5@domain.tld, test6@domain.tld, test7@domain.tld, test8@domain.tld,
+ test9@domain.tld, test10@domain.tld, test11@domain.tld, test12@domain.tld
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
  boundary="=_8853bfb47b7da1852ac882e69cc724f3"
 Date: Fri, 23 May 2014 19:44:50 +0200
-From: "Thomas B." <thomas@roundcube.net>
 Reply-To: hello@roundcube.net
 Mail-Reply-To: hello@roundcube.net
 Message-ID: <99839b8ec12482419372f1edafa9de75@woodcrest.local>
 X-Sender: thomas@roundcube.net
-User-Agent: Roundcube Webmail/1.0.1
 
 --=_8853bfb47b7da1852ac882e69cc724f3
 Content-Transfer-Encoding: 7bit

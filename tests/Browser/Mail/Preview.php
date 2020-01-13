@@ -95,4 +95,84 @@ class Preview extends \Tests\Browser\TestCase
             }
         });
     }
+
+    /**
+     * Test "X more..." link on mail preview with many recipients,
+     * and some more
+     */
+    public function testPreviewMorelink()
+    {
+        $this->browse(function ($browser) {
+            $browser->go('mail');
+
+            $browser->waitFor('#messagelist tbody tr:last-child')
+                ->click('#messagelist tbody tr:last-child')
+                ->waitForMessage('loading', 'Loading...')
+                ->waitFor('#messagecontframe')
+                ->waitUntilMissing('#messagestack');
+
+            $browser->withinFrame('#messagecontframe', function ($browser) {
+                $browser->waitFor('img.contactphoto');
+
+                $browser->assertSeeIn('.subject', 'Lines')
+                    ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
+                    ->assertVisible('.message-part div.pre .sig');
+
+                $browser->assertMissing('.headers-table')
+                    ->click('a.envelope')
+                    ->waitFor('.headers-table')
+                    ->assertVisible('.header.cc')
+                    ->assertSeeIn('.header.cc', 'test10@domain.tld')
+                    ->assertDontSeeIn('.header.cc', 'test11@domain.tld')
+                    ->assertSeeIn('.header.cc a.morelink', '2 more...')
+                    ->click('.header.cc a.morelink');
+            });
+
+            $browser->waitFor('.ui-dialog')
+                ->with('.ui-dialog', function ($browser) {
+                    $browser->assertSeeIn('.ui-dialog-titlebar', 'Cc')
+                        ->assertSeeIn('.ui-dialog-content', 'test1@domain.tld')
+                        ->assertSeeIn('.ui-dialog-content', 'test12@domain.tld');
+
+                    $this->assertCount(12, $browser->elements('span.adr'));
+
+                    $browser->click('.ui-dialog-buttonset button.cancel');
+                });
+
+            $browser->waitUntilMissing('.ui-dialog');
+
+            // Attachments list
+            $browser->withinFrame('#messagecontframe', function ($browser) {
+                $browser->with('#attachment-list', function ($browser) {
+                    $this->assertCount(2, $browser->elements('li'));
+                    $browser->assertVisible('li.text.plain')
+                        ->assertSeeIn('li:first-child .attachment-name', 'lines.txt')
+                        ->assertSeeIn('li:first-child .attachment-size', '(~13 B)')
+                        ->assertSeeIn('li:last-child .attachment-name', 'lines_lf.txt')
+                        ->assertSeeIn('li:last-child .attachment-size', '(~11 B)')
+                        ->click('li:first-child a.dropdown');
+                });
+
+                if (!$browser->isPhone()) {
+                    $browser->waitFor('#attachmentmenu')
+                        ->with('#attachmentmenu', function ($browser) {
+                            $browser->assertVisible('a.extwin:not(.disabled)')
+                                ->assertVisible('a.download:not(.disabled)');
+                    });
+                }
+            });
+
+            if ($browser->isPhone()) {
+                $browser->waitFor('#attachmentmenu-clone')
+                    ->with('#attachmentmenu-clone', function ($browser) {
+                        $browser->assertVisible('a.extwin:not(.disabled)')
+                            ->assertVisible('a.download:not(.disabled)');
+                    })
+                    ->click('.popover a.cancel')
+                    ->waitUntilMissing('.popover')
+                    ->click('#layout-content .header a.back-list-button')
+                    ->assertVisible('#messagelist');
+            }
+        });
+    }
 }
