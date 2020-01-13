@@ -957,7 +957,6 @@ html.ms .propform {
     .name {
         .overflow-ellipsis;
         flex-grow: 1;
-        display: inline-block;
         line-height: 1.1;
         padding: floor(.25 * @page-font-size);
         vertical-align: middle;
@@ -990,6 +989,10 @@ html.ms .propform {
 
     li {
         max-width: 100%;
+
+        &:not(.recipient) {
+            user-select: text;
+        }
     }
 
     input {
