@@ -1391,7 +1391,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             $out .= ' ' . html::a(array(
                     'href'    => '#more',
                     'class'   => 'morelink',
-                    'onclick' => sprintf("return %s.show_popup_dialog('%s','%s')",
+                    'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
                         rcmail_output::JS_OBJECT_NAME,
                         rcube::JQ(join(', ', $allvalues)),
                         rcube::JQ($title))
