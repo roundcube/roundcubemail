@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix regression where "Open in new window" action didn't work (#7155)
 - Fix PHP Warning: array_filter() expects parameter 1 to be array, null given in subscriptions_option plugin (#7165)
 - Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
+- Fix recipient duplicates in print-view when the recipient list has been expanded (#7169)
 
 RELEASE 1.4.2
 -------------
