@@ -1280,6 +1280,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     $j   = 0;
     $out = '';
     $allvalues  = array();
+    $shown_addresses = array();
     $show_email = $RCMAIL->config->get('message_show_email');
 
     if ($addicon && !isset($_SESSION['writeable_abook'])) {
@@ -1363,6 +1364,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 
         if (!$moreadrs) {
             $out .= ($out ? ', ' : '') . $address;
+            $shown_addresses[] = $address;
         }
 
         if ($max && $j == $max && $c > $j) {
@@ -1385,7 +1387,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                     'class'   => 'morelink',
                     'onclick' => '$(this).hide().next().show()',
                 ), $label)
-                . html::span(array('style' => 'display:none'), join(', ', $allvalues));
+                . html::span(array('style' => 'display:none'), join(', ', array_diff($allvalues, $shown_addresses)));
         }
         else {
             $out .= ' ' . html::a(array(
