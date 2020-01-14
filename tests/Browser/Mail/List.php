@@ -25,7 +25,7 @@ class MailList extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $this->assertCount(self::$msgcount, $browser->elements('#messagelist tbody tr'));
+            $browser->assertElementsCount('#messagelist tbody tr', self::$msgcount);
 
             // check message list
             $browser->assertVisible('#messagelist tbody tr:first-child.unread');

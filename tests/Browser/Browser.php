@@ -12,6 +12,27 @@ use Tests\Browser\Components;
 class Browser extends \Laravel\Dusk\Browser
 {
     /**
+     * Assert number of (visible) elements
+     */
+    public function assertElementsCount($selector, $expected_count, $visible = true)
+    {
+        $elements = $this->elements($selector);
+        $count = count($elements);
+
+        if ($visible) {
+            foreach ($elements as $element) {
+                if (!$element->isDisplayed()) {
+                    $count--;
+                }
+            }
+        }
+
+        Assert::assertEquals($expected_count, $count);
+
+        return $this;
+    }
+
+    /**
      * Assert specified rcmail.env value
      */
     public function assertEnvEquals($key, $expected)

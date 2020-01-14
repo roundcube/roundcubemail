@@ -63,7 +63,7 @@ class Import extends \Tests\Browser\TestCase
             $browser->waitForText('Attention');
             $browser->assertSee('Please select a file');
             $browser->driver->getKeyboard()->sendKeys(\Facebook\WebDriver\WebDriverKeys::ESCAPE);
-            $this->assertCount(1, $browser->elements('.ui-dialog'));
+            $browser->assertElementsCount('.ui-dialog', 1);
 
             $browser->withinFrame('.ui-dialog iframe', function ($browser) {
                 $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
@@ -79,9 +79,9 @@ class Import extends \Tests\Browser\TestCase
             $browser->click('.ui-dialog button.cancel');
 
             // Expected existing contacts + imported
-            $browser->waitFor('#contacts-table tr');
-            $this->assertCount(4, $browser->elements('#contacts-table tbody tr'));
-            $browser->assertSeeIn('#rcmcountdisplay', '1 – 4 of 4');
+            $browser->waitFor('#contacts-table tr')
+                ->assertElementsCount('#contacts-table tbody tr', 4)
+                ->assertSeeIn('#rcmcountdisplay', '1 – 4 of 4');
         });
     }
 
