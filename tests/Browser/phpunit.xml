@@ -28,6 +28,7 @@
             <file>Mail/List.php</file>
             <file>Mail/Open.php</file>
             <file>Mail/Preview.php</file>
+            <file>Mail/Print.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
