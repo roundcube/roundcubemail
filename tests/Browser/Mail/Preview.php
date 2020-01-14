@@ -132,11 +132,9 @@ class Preview extends \Tests\Browser\TestCase
                 ->with('.ui-dialog', function ($browser) {
                     $browser->assertSeeIn('.ui-dialog-titlebar', 'Cc')
                         ->assertSeeIn('.ui-dialog-content', 'test1@domain.tld')
-                        ->assertSeeIn('.ui-dialog-content', 'test12@domain.tld');
-
-                    $this->assertCount(12, $browser->elements('span.adr'));
-
-                    $browser->click('.ui-dialog-buttonset button.cancel');
+                        ->assertSeeIn('.ui-dialog-content', 'test12@domain.tld')
+                        ->assertElementsCount('span.adr', 12)
+                        ->click('.ui-dialog-buttonset button.cancel');
                 });
 
             $browser->waitUntilMissing('.ui-dialog');
@@ -144,8 +142,8 @@ class Preview extends \Tests\Browser\TestCase
             // Attachments list
             $browser->withinFrame('#messagecontframe', function ($browser) {
                 $browser->with('#attachment-list', function ($browser) {
-                    $this->assertCount(2, $browser->elements('li'));
-                    $browser->assertVisible('li.text.plain')
+                    $browser->assertElementsCount('li', 2)
+                        ->assertVisible('li.text.plain')
                         ->assertSeeIn('li:first-child .attachment-name', 'lines.txt')
                         ->assertSeeIn('li:first-child .attachment-size', '(~13 B)')
                         ->assertSeeIn('li:last-child .attachment-name', 'lines_lf.txt')

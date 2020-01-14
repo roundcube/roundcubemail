@@ -26,7 +26,7 @@ class Getunread extends \Tests\Browser\TestCase
             $browser->waitFor('#messagelist tbody tr');
 
             // Messages list state
-            $this->assertCount(self::$msgcount, $browser->elements('#messagelist tbody tr.unread'));
+            $browser->assertElementsCount('#messagelist tbody tr.unread', self::$msgcount);
 
             if (!$browser->isDesktop()) {
                 $browser->click('.back-sidebar-button');

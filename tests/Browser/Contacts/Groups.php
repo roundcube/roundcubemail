@@ -70,11 +70,10 @@ class Groups extends \Tests\Browser\TestCase
             $browser->waitUntilMissing('.ui-dialog');
 
             $browser->with('#directorylist', function ($browser) {
-                $browser->waitFor('li:first-child ul.groups');
-                $browser->assertVisible('.treetoggle.expanded');
-
-                $this->assertCount(1, $browser->elements('ul.groups > li.contactgroup'));
-                $browser->assertSeeIn('ul.groups > li.contactgroup', 'New Group');
+                $browser->waitFor('li:first-child ul.groups')
+                    ->assertVisible('.treetoggle.expanded')
+                    ->assertElementsCount('ul.groups > li.contactgroup', 1)
+                    ->assertSeeIn('ul.groups > li.contactgroup', 'New Group');
 
                 // Test expand toggle
                 $browser->click('.treetoggle.expanded')
@@ -123,11 +122,10 @@ class Groups extends \Tests\Browser\TestCase
             $browser->waitUntilMissing('.ui-dialog');
 
             $browser->with('#directorylist', function ($browser) {
-                $browser->waitFor('li:first-child ul.groups');
-                $browser->assertVisible('.treetoggle.expanded');
-
-                $this->assertCount(1, $browser->elements('ul.groups > li.contactgroup'));
-                $browser->assertSeeIn('ul.groups > li.contactgroup', 'Renamed');
+                $browser->waitFor('li:first-child ul.groups')
+                    ->assertVisible('.treetoggle.expanded')
+                    ->assertElementsCount('ul.groups > li.contactgroup', 1)
+                    ->assertSeeIn('ul.groups > li.contactgroup', 'Renamed');
 
                 // Test if expand toggle is still working
                 $browser->click('.treetoggle.expanded')
