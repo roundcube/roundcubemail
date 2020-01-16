@@ -24,6 +24,6 @@ lessc skins/elastic/styles/embed.less > skins/elastic/styles/embed.css
 php tests/Browser/install.php $CHROMEVERSION
 
 # GreenMail server download, setup and start
-wget http://central.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
+wget https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
     && (sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &) \
     && sleep 5
