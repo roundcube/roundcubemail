@@ -234,6 +234,18 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
+     * Close UI (notice/confirmation/loading/error/warning) message
+     */
+    public function closeMessage($type)
+    {
+        $selector = '#messagestack > div.' . $type;
+
+        $this->click($selector);
+
+        return $this;
+    }
+
+    /**
      * Wait for UI (notice/confirmation/loading/error/warning) message
      * and assert it's text
      */

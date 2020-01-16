@@ -191,6 +191,24 @@ class bootstrap
     }
 
     /**
+     * Make sure only special folders exist in IMAP
+     */
+    public static function reset_mailboxes()
+    {
+        if (!self::init_imap()) {
+            die(__METHOD__ . ': IMAP connection unavailable');
+        }
+
+        $imap = rcmail::get_instance()->get_storage();
+
+        foreach ($imap->list_folders() as $folder) {
+            if (!$imap->is_special_folder($folder)) {
+                $imap->delete_folder($folder);
+            }
+        }
+    }
+
+    /**
      * Check IMAP capabilities
      */
     public static function get_storage()
