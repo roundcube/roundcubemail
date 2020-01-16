@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP Warning: array_filter() expects parameter 1 to be array, null given in subscriptions_option plugin (#7165)
 - Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
 - Fix recipient duplicates in print-view when the recipient list has been expanded (#7169)
+- Fix bug where files in skins/ directory were listed on skins list (#7180)
 
 RELEASE 1.4.2
 -------------
