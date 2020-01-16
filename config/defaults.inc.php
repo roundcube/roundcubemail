@@ -476,6 +476,10 @@ $config['login_password_maxlen'] = 1024;
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
+// Input field type.
+// Set to 'email' if email address is used as login.
+$config['login_field_type'] = 'text';
+
 // Brute-force attacks prevention.
 // The value specifies maximum number of failed logon attempts per minute.
 $config['login_rate_limit'] = 3;

@@ -2136,6 +2136,7 @@ EOF;
     {
         $default_host = $this->config->get('default_host');
         $autocomplete = (int) $this->config->get('login_autocomplete');
+        $login_field_type = $this->config->get('login_field_type');
 
         $_SESSION['temp'] = true;
 
@@ -2158,7 +2159,7 @@ EOF;
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
         $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
-        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'required' => 'required')
+        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'required' => 'required', 'type' => $login_field_type)
             + $attrib + $user_attrib);
         $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required')
             + $attrib + $pass_attrib);
