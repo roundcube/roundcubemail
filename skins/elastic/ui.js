@@ -476,6 +476,7 @@ function rcube_elastic_ui()
             .addEventListener('googiespell_create', rcmail_popup_init)
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
+            .addEventListener('clonerow', pretty_checkbox_fix)
             .addEventListener('init', init);
 
         // Add styling for TinyMCE editor popups
@@ -3427,6 +3428,19 @@ function rcube_elastic_ui()
         checkbox.addClass('form-check-input custom-control-input')
             .wrap('<div class="custom-control custom-switch">')
             .parent().append(label);
+    };
+
+    /**
+     * Fix pretty checkbox input in a cloned element
+     */
+    function pretty_checkbox_fix(params)
+    {
+        var id, input = $(params.row).find('input[id^=icochk]');
+
+        if (input.length) {
+            id = 'icochk' + (++env.checkboxes);
+            input.attr('id', id).next('label').attr('for', id);
+        }
     };
 
     /**

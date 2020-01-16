@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix bug where it was possible to switch editor mode when 'htmleditor' was in 'dont_override' (#7143)
 - Elastic: Fix text selection in recipient inputs (#7129)
 - Elastic: Fix missing Close button in "more recipients" dialog
+- Elastic: Fix non-working folder subscription checkbox for newly added folders (#7174)
 - Fix regression where "Open in new window" action didn't work (#7155)
 - Fix PHP Warning: array_filter() expects parameter 1 to be array, null given in subscriptions_option plugin (#7165)
 - Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
