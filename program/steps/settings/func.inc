@@ -1292,7 +1292,10 @@ function rcmail_get_skins()
 
     while (($file = readdir($dir)) !== false) {
         $filename = $path . '/' . $file;
-        if ($file[0] != '.' && (empty($limit) || in_array($file, $limit) && is_dir($filename) && is_readable($filename))) {
+        if ($file[0] != '.'
+            && (empty($limit) || in_array($file, $limit))
+            && is_dir($filename) && is_readable($filename)
+        ) {
             $skins[] = $file;
         }
     }
