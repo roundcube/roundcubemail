@@ -7598,6 +7598,10 @@ function rcube_webmail()
     if (row.scrollIntoView)
       row.scrollIntoView(false);
 
+    // Let skins to do their magic, e.g. Elastic will fix pretty checkbox
+    if (!refrow)
+      this.triggerEvent('clonerow', {row: row, id: id});
+
     return row;
   };
 
