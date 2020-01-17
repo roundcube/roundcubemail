@@ -34,7 +34,7 @@ class PrintTest extends \Tests\Browser\TestCase
             $browser->with(new Popupmenu('message-menu'), function ($browser) use (&$current_window, &$new_window) {
                 if ($browser->isPhone()) {
                     $browser->assertMissing('a.print');
-                    return;
+                    $this->markTestSkipped();
                 }
 
                 list($current_window, $new_window) = $browser->openWindow(function ($browser) {
