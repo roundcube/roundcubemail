@@ -26,7 +26,6 @@ class Open extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             if ($browser->isPhone()) {
                 $this->markTestSkipped();
-                return;
             }
 
             $browser->go('mail');
