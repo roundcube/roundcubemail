@@ -747,7 +747,7 @@ class enigma_ui
 
         foreach ($identities as $idx => $ident) {
             $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
-            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email']);
+            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email_ascii']);
             $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name)));
         }
 
