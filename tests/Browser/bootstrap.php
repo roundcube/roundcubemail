@@ -18,10 +18,13 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+if (php_sapi_name() != 'cli') {
+    die("Not in shell mode (php-cli)");
+}
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/' );
+if (!defined('INSTALL_PATH')) {
+    define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/' );
+}
 
 require_once(INSTALL_PATH . 'program/include/iniset.php');
 
@@ -87,7 +90,7 @@ class bootstrap
             foreach ($sql as $query) {
                 $result = $db->query($query);
                 if ($db->is_error($result)) {
-                    die($db->is_error());
+                    rcube::raise_error($db->is_error(), false, true);
                 }
             }
         }
@@ -138,7 +141,7 @@ class bootstrap
         }
 
         if (!$imap->connect($imap_host, $username, $password, $imap_port, $imap_ssl)) {
-            die("IMAP error: unable to authenticate with user " . TESTS_USER);
+            rcube::raise_error("IMAP error: unable to authenticate with user " . TESTS_USER, false, true);
         }
 
         self::$imap_ready = true;
@@ -150,7 +153,7 @@ class bootstrap
     public static function import_message($filename, $mailbox = 'INBOX')
     {
         if (!self::init_imap()) {
-            die(__METHOD__ . ': IMAP connection unavailable');
+            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         $imap = rcmail::get_instance()->get_storage();
@@ -163,7 +166,7 @@ class bootstrap
     public static function purge_mailbox($mailbox)
     {
         if (!self::init_imap()) {
-            die(__METHOD__ . ': IMAP connection unavailable');
+            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         $imap = rcmail::get_instance()->get_storage();
@@ -176,7 +179,7 @@ class bootstrap
     public static function ensure_mailbox($mailbox, $empty = false)
     {
         if (!self::init_imap()) {
-            die(__METHOD__ . ': IMAP connection unavailable');
+            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         $imap = rcmail::get_instance()->get_storage();
@@ -196,7 +199,7 @@ class bootstrap
     public static function reset_mailboxes()
     {
         if (!self::init_imap()) {
-            die(__METHOD__ . ': IMAP connection unavailable');
+            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         $imap = rcmail::get_instance()->get_storage();
@@ -214,7 +217,7 @@ class bootstrap
     public static function get_storage()
     {
         if (!self::init_imap()) {
-            die(__METHOD__ . ': IMAP connection unavailable');
+            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         return rcmail::get_instance()->get_storage();
