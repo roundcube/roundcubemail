@@ -5,6 +5,7 @@
 
 GMV=1.5.11
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
+GMARGS="-Dgreenmail.setup.all -Dgreenmail.users=test:test -Dgreenmail.startup.timeout=3000"
 
 # Roundcube tests and instance configuration
 cp .ci/config-test.inc.php config/config-test.inc.php
@@ -25,5 +26,5 @@ php tests/Browser/install.php $CHROMEVERSION
 
 # GreenMail server download, setup and start
 wget https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
-    && (sudo java -Dgreenmail.setup.all -Dgreenmail.users=test:test -jar greenmail-standalone-$GMV.jar &) \
+    && (sudo java $GMARGS -jar greenmail-standalone-$GMV.jar &) \
     && sleep 5
