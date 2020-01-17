@@ -436,6 +436,14 @@ class enigma_ui
         $table->add_header('valid', $this->enigma->gettext('uservalid'));
 
         foreach ($this->data->users as $user) {
+            // Convert punny-code domain into UTF8
+            if (($pos = strpos($user->email, '@xn--')) > 0) {
+                $domain = substr($user->email, $pos + 1);
+                if ($domain = rcube_utils::idn_to_utf8($domain)) {
+                    $user->email = substr($user->email, 0, $pos + 1) . $domain;
+                }
+            }
+
             $username = $user->name;
             if ($user->comment) {
                 $username .= ' (' . $user->comment . ')';
@@ -746,7 +754,7 @@ class enigma_ui
         $identities = $plugin['identities'];
 
         foreach ($identities as $idx => $ident) {
-            $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
+            $name = format_email_recipient($ident['email'], $ident['name']);
             $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email_ascii']);
             $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name)));
         }
