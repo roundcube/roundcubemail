@@ -58,6 +58,20 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
+     * Assert that the given element has specified class assigned.
+     */
+    public function assertHasClass($selector, $class_name)
+    {
+        $fullSelector = $this->resolver->format($selector);
+        $element      = $this->resolver->findOrFail($selector);
+        $classes      = explode(' ', (string) $element->getAttribute('class'));
+
+        Assert::assertContains($class_name, $classes);
+
+        return $this;
+    }
+
+    /**
      * Assert Task menu state
      */
     public function assertTaskMenu($selected)
