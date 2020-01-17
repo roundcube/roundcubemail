@@ -202,10 +202,15 @@ class bootstrap
             rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        $imap = rcmail::get_instance()->get_storage();
+        $rcmail     = rcmail::get_instance();
+        $imap       = $rcmail->get_storage();
+        $no_special = $rcmail->config->get('create_special_folders');
 
+        // Note: We do not expect IMAP server auto-creating any folders
         foreach ($imap->list_folders() as $folder) {
-            if (!$imap->is_special_folder($folder)) {
+            if ($folder != 'INBOX' && (!$no_special || !$imap->is_special_folder($folder))) {
+                // Note: GreenMail throws errors when unsubscribing deleted folder
+                // We'll ignore that for now
                 $imap->delete_folder($folder);
             }
         }

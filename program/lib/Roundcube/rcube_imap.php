@@ -631,7 +631,7 @@ class rcube_imap extends rcube_storage
             return;
         }
 
-        if (($ident = $this->conn->data['ID']) === null) {
+        if (($ident = $this->conn->data['ID']) === null && $this->get_capability('ID')) {
             $ident = $this->conn->id(array(
                     'name'    => 'Roundcube',
                     'version' => RCUBE_VERSION,
@@ -642,7 +642,7 @@ class rcube_imap extends rcube_storage
 
         $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
         $ident   = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
-        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail');
+        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail', 'greenmail');
 
         foreach ($vendors as $v) {
             if (strpos($ident, $v) !== false) {
