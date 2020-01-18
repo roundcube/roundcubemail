@@ -6,13 +6,16 @@ use Tests\Browser\Components\Popupmenu;
 
 class GroupsTest extends \Tests\Browser\TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \bootstrap::init_db();
+    }
+
     /**
      * Contact groups UI basics
      */
     public function testGroups()
     {
-        \bootstrap::init_db();
-
         $this->browse(function ($browser) {
             $browser->go('addressbook');
 

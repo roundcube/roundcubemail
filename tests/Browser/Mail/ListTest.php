@@ -113,6 +113,7 @@ class ListTest extends \Tests\Browser\TestCase
             }
 
             // Popup menu content
+            $browser->waitFor('#listselect-menu');
             $browser->with('#listselect-menu', function($browser) {
                 $browser->assertVisible('a.selection:not(.disabled)');
                 $browser->assertVisible('a.select.all:not(.disabled)');
