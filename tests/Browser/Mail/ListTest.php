@@ -4,7 +4,7 @@ namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\Toolbarmenu;
 
-class MailList extends \Tests\Browser\TestCase
+class ListTest extends \Tests\Browser\TestCase
 {
     protected static $msgcount = 0;
 

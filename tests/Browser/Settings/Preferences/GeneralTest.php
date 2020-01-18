@@ -4,7 +4,7 @@ namespace Tests\Browser\Settings\Preferences;
 
 use Tests\Browser\Components\App;
 
-class General extends \Tests\Browser\TestCase
+class GeneralTest extends \Tests\Browser\TestCase
 {
     protected function tearDown()
     {

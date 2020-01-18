@@ -5,7 +5,7 @@ namespace Tests\Browser\Mail;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Popupmenu;
 
-class Mail extends \Tests\Browser\TestCase
+class MailTest extends \Tests\Browser\TestCase
 {
     public function testMailUI()
     {

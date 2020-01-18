@@ -4,7 +4,7 @@ namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
 
-class Folders extends \Tests\Browser\TestCase
+class FoldersTest extends \Tests\Browser\TestCase
 {
     public static function setUpBeforeClass()
     {

@@ -4,7 +4,7 @@ namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
 
-class Contacts extends \Tests\Browser\TestCase
+class ContactsTest extends \Tests\Browser\TestCase
 {
     protected function setUp()
     {
