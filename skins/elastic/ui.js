@@ -707,7 +707,10 @@ function rcube_elastic_ui()
             // In compose/preview window we do not provide "Back" button, instead
             // we modify the "Mail" button in the task menu to act like it (i.e. calls 'list' command)
             if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
-                $('a.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+                $('a.mail', layout.menu).attr({
+                    'aria-disabled': false,
+                    onclick: "return rcmail.command('list','',this,event);"
+                });
             }
 
             // Append contact menu to all mailto: links
@@ -1176,6 +1179,10 @@ function rcube_elastic_ui()
      */
     function content_frame_init()
     {
+        if (!layout.list.length) {
+            return;
+        }
+
         var last_selected = env.last_selected,
             title_reset = function(title) {
                 if (typeof title !== 'string' || !title.length) {
