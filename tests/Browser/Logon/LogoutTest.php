@@ -4,7 +4,7 @@ namespace Tests\Browser;
 
 use Tests\Browser\Components\App;
 
-class Logout extends TestCase
+class LogoutTest extends TestCase
 {
     public function testLogout()
     {

@@ -4,7 +4,7 @@ namespace Tests\Browser;
 
 use Tests\Browser\Components\App;
 
-class Login extends TestCase
+class LoginTest extends TestCase
 {
     protected function setUp()
     {

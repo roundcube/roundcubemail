@@ -4,7 +4,7 @@ namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
 
-class About extends \Tests\Browser\TestCase
+class AboutTest extends \Tests\Browser\TestCase
 {
     public function testAbout()
     {

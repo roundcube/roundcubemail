@@ -4,7 +4,7 @@ namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
 
-class Import extends \Tests\Browser\TestCase
+class ImportTest extends \Tests\Browser\TestCase
 {
     /**
      * Test basic elements of contacts import UI

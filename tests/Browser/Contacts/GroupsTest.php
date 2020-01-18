@@ -4,7 +4,7 @@ namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\Popupmenu;
 
-class Groups extends \Tests\Browser\TestCase
+class GroupsTest extends \Tests\Browser\TestCase
 {
     /**
      * Contact groups UI basics

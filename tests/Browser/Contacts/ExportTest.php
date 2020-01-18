@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Contacts;
 
-class Export extends \Tests\Browser\TestCase
+class ExportTest extends \Tests\Browser\TestCase
 {
     /**
      * Test exporting all contacts

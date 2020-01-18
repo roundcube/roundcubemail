@@ -4,7 +4,7 @@ namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
 
-class Responses extends \Tests\Browser\TestCase
+class ResponsesTest extends \Tests\Browser\TestCase
 {
     public function testIdentities()
     {

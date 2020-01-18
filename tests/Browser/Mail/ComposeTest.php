@@ -4,7 +4,7 @@ namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\App;
 
-class Compose extends \Tests\Browser\TestCase
+class ComposeTest extends \Tests\Browser\TestCase
 {
     public function testCompose()
     {
