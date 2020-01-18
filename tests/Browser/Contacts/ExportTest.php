@@ -4,13 +4,16 @@ namespace Tests\Browser\Contacts;
 
 class ExportTest extends \Tests\Browser\TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \bootstrap::init_db();
+    }
+
     /**
      * Test exporting all contacts
      */
     public function testExportAll()
     {
-        \bootstrap::init_db();
-
         $this->browse(function ($browser) {
             $browser->go('addressbook');
 

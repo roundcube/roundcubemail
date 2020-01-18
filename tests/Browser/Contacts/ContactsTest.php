@@ -6,10 +6,8 @@ use Tests\Browser\Components\App;
 
 class ContactsTest extends \Tests\Browser\TestCase
 {
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
-
         \bootstrap::init_db();
     }
 

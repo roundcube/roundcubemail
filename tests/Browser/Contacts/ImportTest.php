@@ -6,13 +6,16 @@ use Tests\Browser\Components\App;
 
 class ImportTest extends \Tests\Browser\TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \bootstrap::init_db();
+    }
+
     /**
      * Test basic elements of contacts import UI
      */
     public function testImportUI()
     {
-        \bootstrap::init_db();
-
         $this->browse(function ($browser) {
             $browser->go('addressbook');
 
