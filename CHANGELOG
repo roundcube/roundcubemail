@@ -24,6 +24,7 @@ CHANGELOG Roundcube Webmail
 - Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
 - Fix recipient duplicates in print-view when the recipient list has been expanded (#7169)
 - Fix bug where files in skins/ directory were listed on skins list (#7180)
+- Fix bug where message parts with no Content-Disposition header and no name were not listed on attachments list (#7117)
 
 RELEASE 1.4.2
 -------------
