@@ -12,6 +12,8 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix generation of key pairs for identities with IDN domains (#7181)
 - Enigma: Display IDN domains of key users and identities in UTF8
 - Password: Make chpass-wrapper.py Python 3 compatible (#7135)
+- Elastic: Fix disappearing sidebar in mail compose after clicking Mail button
+- Elastic: Fix incorrect aria-disabled attribute on Mail taskmenu button in mail compose
 - Elastic: Fix bug where it was possible to switch editor mode when 'htmleditor' was in 'dont_override' (#7143)
 - Elastic: Fix text selection in recipient inputs (#7129)
 - Elastic: Fix missing Close button in "more recipients" dialog
