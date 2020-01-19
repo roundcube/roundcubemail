@@ -160,7 +160,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             }
 
             // "fix" real mimetype the same way the original is before comparison
-            $real_mimetype = rcmail_fix_mimetype($real_mimetype);
+            $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
 
             $valid = $valid_extension && rcmail_mimetype_compare($real_mimetype, $mimetype);
         }
@@ -446,7 +446,7 @@ class rcmail_attachment_handler
         // check connection status
         self::check_storage_status();
 
-        $this->mimetype = rcmail_fix_mimetype($this->mimetype);
+        $this->mimetype = rcube_mime::fix_mimetype($this->mimetype);
     }
 
     /**
