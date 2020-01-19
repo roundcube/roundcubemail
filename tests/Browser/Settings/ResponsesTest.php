@@ -3,6 +3,7 @@
 namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
 
 class ResponsesTest extends \Tests\Browser\TestCase
@@ -124,15 +125,15 @@ class ResponsesTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->clickToolbarMenuItem('delete');
 
-            $browser->waitFor('.ui-dialog')
-                ->with('.ui-dialog', function ($browser) {
-                    $browser->assertSeeIn('.ui-dialog-title', 'Are you sure...')
-                        ->assertSeeIn('.ui-dialog-content', 'Do you really want to delete this response text?')
-                        ->click('.ui-dialog-buttonpane button.mainaction.delete');
-                });
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('Are you sure...')
+                    ->assertDialogContent('Do you really want to delete this response text?')
+                    ->assertButton('mainaction.delete', 'Delete')
+                    ->assertButton('cancel', 'Cancel')
+                    ->clickButton('mainaction.delete');
+            });
 
             $browser->waitForMessage('confirmation', 'Successfully deleted.')
-                ->assertMissing('.ui-dialog')
                 ->closeMessage('confirmation');
 
             // Preview frame should reset to the watermark page

@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Contacts;
 
+use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
 
 class GroupsTest extends \Tests\Browser\TestCase
@@ -61,16 +62,14 @@ class GroupsTest extends \Tests\Browser\TestCase
                 $browser->clickMenuItem('create');
             });
 
-            $browser->waitFor('.ui-dialog');
-            $browser->with('.ui-dialog', function ($browser) {
-                $browser
-                    ->assertSeeIn('.ui-dialog-titlebar', 'Create new group')
-                    ->assertFocused('input.form-control')
-                    ->type('input.form-control', 'New Group')
-                    ->click('button.mainaction');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('Create new group')
+                    ->assertButton('save.mainaction', 'Save')
+                    ->assertButton('cancel', 'Cancel')
+                    ->assertFocused('@content input.form-control')
+                    ->type('@content input.form-control', 'New Group')
+                    ->clickButton('save');
             });
-
-            $browser->waitUntilMissing('.ui-dialog');
 
             $browser->with('#directorylist', function ($browser) {
                 $browser->waitFor('li:first-child ul.groups')
@@ -113,16 +112,16 @@ class GroupsTest extends \Tests\Browser\TestCase
                 $browser->clickMenuItem('group.rename');
             });
 
-            $browser->waitFor('.ui-dialog');
-            $browser->with('.ui-dialog', function ($browser) {
-                $browser->assertSeeIn('.ui-dialog-titlebar', 'Rename group')
-                    ->assertFocused('input.form-control')
-                    ->assertValue('input.form-control', 'New Group')
-                    ->type('input.form-control', 'Renamed')
-                    ->click('button.mainaction');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser
+                    ->assertDialogTitle('Rename group')
+                    ->assertButton('save.mainaction', 'Save')
+                    ->assertButton('cancel', 'Cancel')
+                    ->assertFocused('@content input.form-control')
+                    ->assertValue('@content input.form-control', 'New Group')
+                    ->type('@content input.form-control', 'Renamed')
+                    ->clickButton('save');
             });
-
-            $browser->waitUntilMissing('.ui-dialog');
 
             $browser->with('#directorylist', function ($browser) {
                 $browser->waitFor('li:first-child ul.groups')
@@ -165,15 +164,14 @@ class GroupsTest extends \Tests\Browser\TestCase
                 $browser->clickMenuItem('group.delete');
             });
 
-            $browser->waitFor('.ui-dialog');
-            $browser->with('.ui-dialog', function ($browser) {
-                $browser->assertSeeIn('.ui-dialog-titlebar', 'Are you sure...')
-                    ->assertSeeIn('.ui-dialog-content', 'Do you really want to delete selected group?')
-                    ->assertFocused('button.mainaction.delete')
-                    ->click('button.mainaction.delete');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser
+                    ->assertDialogTitle('Are you sure...')
+                    ->assertDialogContent('Do you really want to delete selected group?')
+                    ->assertButton('delete.mainaction', 'Delete')
+                    ->assertButton('cancel', 'Cancel')
+                    ->clickButton('delete');
             });
-
-            $browser->waitUntilMissing('.ui-dialog');
 
             $browser->with('#directorylist', function ($browser) {
                 $browser->assertMissing('.treetoggle.expanded')

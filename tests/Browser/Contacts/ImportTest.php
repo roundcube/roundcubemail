@@ -3,6 +3,7 @@
 namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\Components\Dialog;
 
 class ImportTest extends \Tests\Browser\TestCase
 {
@@ -21,9 +22,11 @@ class ImportTest extends \Tests\Browser\TestCase
 
             $browser->clickToolbarMenuItem('import');
 
-            $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
-            $browser->assertVisible('.ui-dialog button.mainaction.import');
-            $browser->assertVisible('.ui-dialog button.cancel');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('Import contacts')
+                    ->assertButton('mainaction.import', 'Import')
+                    ->assertButton('cancel', 'Cancel');
+            });
 
             $browser->withinFrame('.ui-dialog iframe', function ($browser) {
                 // check task and action
@@ -44,8 +47,9 @@ class ImportTest extends \Tests\Browser\TestCase
             });
 
             // Close the dialog
-            $browser->click('.ui-dialog button.cancel');
-            $browser->assertMissing('.ui-dialog');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->clickButton('cancel');
+            });
         });
     }
 
@@ -59,27 +63,30 @@ class ImportTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             // Open the dialog again
             $browser->clickToolbarMenuItem('import');
-            $browser->assertSeeIn('.ui-dialog-title', 'Import contacts');
+
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('Import contacts')
+                    ->clickButton('import');
+            });
 
             // Submit the form with no file attached
-            $browser->click('.ui-dialog button.mainaction');
-            $browser->waitForText('Attention');
-            $browser->assertSee('Please select a file');
-            $browser->driver->getKeyboard()->sendKeys(\Facebook\WebDriver\WebDriverKeys::ESCAPE);
-            $browser->assertElementsCount('.ui-dialog', 1);
-
-            $browser->withinFrame('.ui-dialog iframe', function ($browser) {
-                $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
+            $browser->with(new Dialog(2), function ($browser) {
+                $browser->assertDialogTitle('Attention')
+                    ->assertDialogContent('Please select a file')
+                    ->assertButton('save.mainaction', 'OK')
+                    ->pressESC();
             });
 
-            $browser->click('.ui-dialog button.mainaction');
-
-            $browser->withinFrame('.ui-dialog iframe', function ($browser) {
-                $browser->waitForText('Successfully imported 2 contacts:');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->withinDialogFrame(function ($browser) {
+                        $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
+                    })
+                    ->clickButton('import')
+                    ->withinDialogFrame(function ($browser) {
+                        $browser->waitForText('Successfully imported 2 contacts:');
+                    })
+                    ->closeDialog();
             });
-
-            // Close the dialog
-            $browser->click('.ui-dialog button.cancel');
 
             // Expected existing contacts + imported
             $browser->waitFor('#contacts-table tr')
