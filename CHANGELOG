@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added support for INSERT OR REPLACE queries (#6771)
+- Extract RFC2231 attachment name from message headers (#6729, #6783)
 - Managesieve: Allow display name with email address in vacation :from field (#6760)
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
