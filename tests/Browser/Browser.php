@@ -86,10 +86,10 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Assert toolbar menu state
      */
-    public function assertToolbarMenu($active, $disabled)
+    public function assertToolbarMenu($active, $disabled = [], $missing = [])
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($active, $disabled) {
-            $browser->assertMenuState($active, $disabled);
+        $this->with(new Components\Toolbarmenu(), function ($browser) use ($active, $disabled, $missing) {
+            $browser->assertMenuState($active, $disabled, $missing);
         });
 
         return $this;
