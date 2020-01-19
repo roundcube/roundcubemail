@@ -53,7 +53,14 @@ class Toolbarmenu extends Component
         // On phone the menu is invisible, open it
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
-                $browser->click('.toolbar-menu-button');
+                // As we might be in a list or content "view" we have to find
+                // currently visible menu button, and click it
+                foreach ($browser->elements('.toolbar-menu-button') as $button) {
+                    if ($button->isDisplayed()) {
+                        $button->click();
+                    }
+                }
+
                 $browser->waitFor($this->selector());
             });
         }
@@ -110,7 +117,13 @@ class Toolbarmenu extends Component
     {
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
-                $browser->click('.toolbar-menu-button');
+                // Click (visible) menu button
+                foreach ($browser->elements('.toolbar-menu-button') as $button) {
+                    if ($button->isDisplayed()) {
+                        $button->click();
+                    }
+                }
+                $browser->waitFor($this->selector());
             });
         }
 
