@@ -77,7 +77,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->assertVisible('#layout-content .header a.back-list-button')
-                    ->assertVisible('#layout-content .footer .buttons a.button.submit')
+                    ->waitFor('#layout-content .footer .buttons')
                     ->click('#layout-content .footer .buttons a.button.submit');
             }
 
