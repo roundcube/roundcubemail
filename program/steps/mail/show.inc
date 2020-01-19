@@ -194,7 +194,7 @@ function rcmail_message_attachments($attrib)
         foreach ($MESSAGE->attachments as $attach_prop) {
             $filename = rcmail_attachment_name($attach_prop, true);
             $filesize = $RCMAIL->message_part_size($attach_prop);
-            $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
+            $mimetype = $attach_prop->mimetype;
             $class    = rcube_utils::file2class($mimetype, $filename);
             $id       = 'attach' . $attach_prop->mime_id;
 

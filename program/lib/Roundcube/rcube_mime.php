@@ -893,4 +893,37 @@ class rcube_mime
 
         return implode('@', $parts);
     }
+
+    /**
+     * Fix mimetype name.
+     *
+     * @param string $type Mimetype
+     *
+     * @return string Mimetype
+     */
+    public static function fix_mimetype($type)
+    {
+        $type    = strtolower(trim($type));
+        $aliases = array(
+            'image/x-ms-bmp' => 'image/bmp',        // #4771
+            'pdf'            => 'application/pdf',  // #6816
+        );
+
+        if ($alias = $aliases[$type]) {
+            return $alias;
+        }
+
+        // Some versions of Outlook create garbage Content-Type:
+        // application/pdf.A520491B_3BF7_494D_8855_7FAC2C6C0608
+        if (preg_match('/^application\/pdf.+/', $type)) {
+            return 'application/pdf';
+        }
+
+        // treat image/pjpeg (image/pjpg, image/jpg) as image/jpeg (#4196)
+        if (preg_match('/^image\/p?jpe?g$/', $type)) {
+            return 'image/jpeg';
+        }
+
+        return $type;
+    }
 }

@@ -1046,7 +1046,7 @@ function rcmail_part_image_type($part)
 
     // Content-Type: image/*...
     if (strpos($mimetype, 'image/') === 0) {
-        return rcmail_fix_mimetype($mimetype);
+        return $mimetype;
     }
 
     // Many clients use application/octet-stream, we'll detect mimetype
@@ -1550,31 +1550,6 @@ function rcmail_send_mdn($message, &$smtp_error)
 function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'reply')
 {
     return rcmail_sendmail::identity_select($MESSAGE, $identities, $compose_mode);
-}
-
-// Fixes some content-type names
-function rcmail_fix_mimetype($name)
-{
-    $map = array(
-        'image/x-ms-bmp' => 'image/bmp', // #1490282
-    );
-
-    $name = strtolower($name);
-
-    if ($alias = $map[$name]) {
-        $name = $alias;
-    }
-    // Some versions of Outlook create garbage Content-Type:
-    // application/pdf.A520491B_3BF7_494D_8855_7FAC2C6C0608
-    else if (preg_match('/^application\/pdf.+/', $name)) {
-        $name = 'application/pdf';
-    }
-    // treat image/pjpeg (image/pjpg, image/jpg) as image/jpeg (#1489097)
-    else if (preg_match('/^image\/p?jpe?g$/', $name)) {
-        $name = 'image/jpeg';
-    }
-
-    return $name;
 }
 
 // return attachment filename, handle empty filename case
