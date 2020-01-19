@@ -55,6 +55,12 @@ class rcube_db
     const DEBUG_LINE_LENGTH = 4096;
     const DEFAULT_QUOTE     = '`';
 
+    const TYPE_SQL    = 'sql';
+    const TYPE_INT    = 'integer';
+    const TYPE_BOOL   = 'bool';
+    const TYPE_STRING = 'string';
+
+
     /**
      * Factory, returns driver-specific instance of the class
      *
@@ -550,6 +556,46 @@ class rcube_db
     }
 
     /**
+     * INSERT ... ON DUPLICATE KEY UPDATE (or equivalent).
+     * When not supported by the engine we do UPDATE and INSERT.
+     *
+     * @param string $table   Table name
+     * @param array  $keys    Hash array (column => value) of the unique constraint
+     * @param array  $columns List of columns to update
+     * @param array  $values  List of values to update (number of elements
+     *                        should be the same as in $columns)
+     *
+     * @return PDOStatement|bool Query handle or False on error
+     * @todo Multi-insert support
+     */
+    public function insert_or_update($table, $keys, $columns, $values)
+    {
+        $table   = $this->table_name($table, true);
+        $columns = array_map(function($i) { return "`$i`"; }, $columns);
+        $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
+
+        array_walk($where, function(&$val, $key) {
+            $val = $this->quote_identifier($key) . " = " . $this->quote($val);
+        });
+
+        // First try UPDATE
+        $result = $this->query("UPDATE $table SET " . implode(", ", $sets)
+            . " WHERE " . implode(" AND ", $where), $values);
+
+        // if UPDATE fails use INSERT
+        if ($result && !$this->affected_rows($result)) {
+            $cols  = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
+            $cols .= ', ' . implode(', ', $columns);
+            $vals  = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+            $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+
+            $result = $this->query("INSERT INTO $table ($cols) VALUES ($vals)", $values);
+        }
+
+        return $result;
+    }
+
+    /**
      * Get number of affected rows for the last query
      *
      * @param mixed $result Optional query handle
@@ -813,6 +859,10 @@ class rcube_db
      */
     public function quote($input, $type = null)
     {
+        if ($input instanceof rcube_db_param) {
+            return (string) $input;
+        }
+
         // handle int directly for better performance
         if ($type == 'integer' || $type == 'int') {
             return intval($input);
@@ -915,6 +965,17 @@ class rcube_db
         }
 
         return implode('.', $name);
+    }
+
+    /**
+     * Create query parameter object
+     *
+     * @param mixed  $value Parameter value
+     * @param string $type  Parameter type (one of rcube_db::TYPE_* constants)
+     */
+    public function param($value, $type = null)
+    {
+        return new rcube_db_param($this, $value, $type);
     }
 
     /**

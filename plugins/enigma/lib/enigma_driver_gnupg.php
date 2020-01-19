@@ -676,17 +676,8 @@ class enigma_driver_gnupg extends enigma_driver
                     continue;
                 }
 
-                if (empty($existing)) {
-                    $result = $db->query(
-                        "INSERT INTO $table (`user_id`, `context`, `filename`, `mtime`, `data`)"
-                        . " VALUES(?, 'enigma', ?, ?, ?)",
-                        $this->rc->user->ID, $filename, $mtime, $data);
-                }
-                else {
-                    $result = $db->query(
-                        "UPDATE $table SET `mtime` = ?, `data` = ? WHERE `file_id` = ?",
-                        $mtime, $data, $existing['file_id']);
-                }
+                $unique = array('user_id' => $this->rc->user->ID, 'context' => 'enigma', 'filename' => $filename);
+                $result = $db->insert_or_update($table, $unique, array('mtime', 'data'), array($mtime, $data));
 
                 if ($db->is_error($result)) {
                     rcube::raise_error(array(
