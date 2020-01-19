@@ -3,6 +3,7 @@
 namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
 
 class PreviewTest extends \Tests\Browser\TestCase
@@ -128,16 +129,14 @@ class PreviewTest extends \Tests\Browser\TestCase
                     ->click('.header.cc a.morelink');
             });
 
-            $browser->waitFor('.ui-dialog')
-                ->with('.ui-dialog', function ($browser) {
-                    $browser->assertSeeIn('.ui-dialog-titlebar', 'Cc')
-                        ->assertSeeIn('.ui-dialog-content', 'test1@domain.tld')
-                        ->assertSeeIn('.ui-dialog-content', 'test12@domain.tld')
-                        ->assertElementsCount('span.adr', 12)
-                        ->click('.ui-dialog-buttonset button.cancel');
-                });
-
-            $browser->waitUntilMissing('.ui-dialog');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('Cc')
+                    ->assertDialogContent('test1@domain.tld')
+                    ->assertDialogContent('test12@domain.tld')
+                    ->assertElementsCount('@content span.adr', 12)
+                    ->assertButton('cancel', 'Close')
+                    ->clickButton('cancel');
+            });
 
             // Attachments list
             $browser->withinFrame('#messagecontframe', function ($browser) {

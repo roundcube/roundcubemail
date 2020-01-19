@@ -3,6 +3,7 @@
 namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\Components\Dialog;
 
 class AboutTest extends \Tests\Browser\TestCase
 {
@@ -13,8 +14,15 @@ class AboutTest extends \Tests\Browser\TestCase
 
             $browser->clickTaskMenuItem('about');
 
-            $browser->assertSeeIn('.ui-dialog-title', 'About');
-            $browser->assertVisible('.ui-dialog #aboutframe');
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->assertDialogTitle('About')
+                    ->assertButton('cancel', 'Close')
+                    ->assertVisible('@content #aboutframe');
+
+                if ($url = \rcmail::get_instance()->config->get('support_url')) {
+                    $browser->assertButton('mainaction.help', 'Get support');
+                }
+            });
 
             $browser->withinFrame('#aboutframe', function ($browser) {
                 // check task and action
@@ -25,6 +33,10 @@ class AboutTest extends \Tests\Browser\TestCase
 
                 $browser->assertSee($this->app->config->get('product_name'));
                 $browser->assertVisible('#pluginlist');
+            });
+
+            $browser->with(new Dialog(), function ($browser) {
+                $browser->closeDialog();
             });
         });
     }
