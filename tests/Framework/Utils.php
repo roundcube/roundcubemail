@@ -31,6 +31,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             array('firstname-lastname@domain.com', 'Dash in address field is valid'),
             array('test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'),
             array('あいうえお@domain.com', 'Unicode char as address'),
+            array('test@domain.2legit2quit', 'Extended TLD'),
         );
     }
 
