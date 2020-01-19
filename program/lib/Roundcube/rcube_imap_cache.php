@@ -474,47 +474,16 @@ class rcube_imap_cache
         }
 
         unset($msg->flags);
-        $msg = $this->db->encode($msg, true);
 
-        // update cache record (even if it exists, the update
-        // here will work as select, assume row exist if affected_rows=0)
-        if (!$force) {
-            $res = $this->db->query(
-                "UPDATE {$this->messages_table}"
-                ." SET `flags` = ?, `data` = ?, `expires` = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?"
-                    ." AND `uid` = ?",
-                $flags, $msg, $this->userid, $mailbox, (int) $message->uid);
+        $msg     = $this->db->encode($msg, true);
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
 
-            if ($this->db->affected_rows($res)) {
-                return;
-            }
-        }
-
-        $this->db->set_option('ignore_key_errors', true);
-
-        // insert new record
-        $res = $this->db->query(
-            "INSERT INTO {$this->messages_table}"
-            ." (`user_id`, `mailbox`, `uid`, `flags`, `expires`, `data`)"
-            ." VALUES (?, ?, ?, ?, ". ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?)",
-            $this->userid, $mailbox, (int) $message->uid, $flags, $msg);
-
-        // race-condition, insert failed so try update (#1489146)
-        // thanks to ignore_key_errors "duplicate row" errors will be ignored
-        if ($force && !$res && !$this->db->is_error($res)) {
-            $this->db->query(
-                "UPDATE {$this->messages_table}"
-                ." SET `expires` = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
-                    .", `flags` = ?, `data` = ?"
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?"
-                    ." AND `uid` = ?",
-                $flags, $msg, $this->userid, $mailbox, (int) $message->uid);
-        }
-
-        $this->db->set_option('ignore_key_errors', false);
+        $this->db->insert_or_update(
+            $this->messages_table,
+            array('user_id' => $this->userid, 'mailbox' => $mailbox, 'uid' => (int) $message->uid),
+            array('flags', 'expires', 'data'),
+            array($flags, $expires, $msg)
+        );
     }
 
     /**
@@ -801,41 +770,14 @@ class rcube_imap_cache
         );
 
         $data    = implode('@', $data);
-        $expires = $this->ttl ? $this->db->now($this->ttl) : 'NULL';
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
 
-        if ($exists) {
-            $res = $this->db->query(
-                "UPDATE {$this->index_table}"
-                ." SET `data` = ?, `valid` = 1, `expires` = $expires"
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?",
-                $data, $this->userid, $mailbox);
-
-            if ($this->db->affected_rows($res)) {
-                return;
-            }
-        }
-
-        $this->db->set_option('ignore_key_errors', true);
-
-        $res = $this->db->query(
-            "INSERT INTO {$this->index_table}"
-            ." (`user_id`, `mailbox`, `valid`, `expires`, `data`)"
-            ." VALUES (?, ?, 1, $expires, ?)",
-            $this->userid, $mailbox, $data);
-
-        // race-condition, insert failed so try update (#1489146)
-        // thanks to ignore_key_errors "duplicate row" errors will be ignored
-        if (!$exists && !$res && !$this->db->is_error($res)) {
-            $res = $this->db->query(
-                "UPDATE {$this->index_table}"
-                ." SET `data` = ?, `valid` = 1, `expires` = $expires"
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?",
-                $data, $this->userid, $mailbox);
-        }
-
-        $this->db->set_option('ignore_key_errors', false);
+        $this->db->insert_or_update(
+            $this->index_table,
+            array('user_id' => $this->userid, 'mailbox' => $mailbox),
+            array('valid', 'expires', 'data'),
+            array(1, $expires, $data)
+        );
     }
 
     /**
@@ -855,41 +797,14 @@ class rcube_imap_cache
         );
 
         $data    = implode('@', $data);
-        $expires = $this->ttl ? $this->db->now($this->ttl) : 'NULL';
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
 
-        if ($exists) {
-            $res = $this->db->query(
-                "UPDATE {$this->thread_table}"
-                ." SET `data` = ?, `expires` = $expires"
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?",
-                $data, $this->userid, $mailbox);
-
-            if ($this->db->affected_rows($res)) {
-                return;
-            }
-        }
-
-        $this->db->set_option('ignore_key_errors', true);
-
-        $res = $this->db->query(
-            "INSERT INTO {$this->thread_table}"
-            ." (`user_id`, `mailbox`, `expires`, `data`)"
-            ." VALUES (?, ?, $expires, ?)",
-            $this->userid, $mailbox, $data);
-
-        // race-condition, insert failed so try update (#1489146)
-        // thanks to ignore_key_errors "duplicate row" errors will be ignored
-        if (!$exists && !$res && !$this->db->is_error($res)) {
-            $this->db->query(
-                "UPDATE {$this->thread_table}"
-                ." SET `expires` = $expires, `data` = ?"
-                ." WHERE `user_id` = ?"
-                    ." AND `mailbox` = ?",
-                $data, $this->userid, $mailbox);
-        }
-
-        $this->db->set_option('ignore_key_errors', false);
+        $this->db->insert_or_update(
+            $this->thread_table,
+            array('user_id' => $this->userid, 'mailbox' => $mailbox),
+            array('expires', 'data'),
+            array($expires, $data)
+        );
     }
 
     /**
