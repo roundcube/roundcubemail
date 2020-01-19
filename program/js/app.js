@@ -9968,7 +9968,7 @@ function rcube_webmail()
 
     for (i=0; i<len; i++) {
       plugin = plugins[i];
-      if (typeof plugin === 'String') {
+      if (typeof plugin === 'string') {
         if (regex.test(plugin))
           return 1;
       }
