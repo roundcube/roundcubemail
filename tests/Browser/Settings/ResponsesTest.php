@@ -189,9 +189,74 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->waitFor('#responseslist')
                 ->click('#responseslist li:nth-child(1) a.insertresponse')
                 ->waitUntilMissing('#responses-menu')
-                ->assertValue('#composebody', 'Body and Response 1');
+                ->assertValue('#composebody', 'Body and Response 1')
+                ->waitForMessage('confirmation', 'Response inserted successfully.')
+                ->closeMessage('confirmation');
 
             // TODO: Test HTML mode, test response creation
+        });
+    }
+
+    /**
+     * Test response update
+     *
+     * @depends testResponsesInComposer
+     */
+    public function testResponseUpdate()
+    {
+        $this->browse(function ($browser) {
+            // We're in mail compose, use responses menu to goto Settings > Responses
+            $browser->clickToolbarMenuItem('responses')
+                ->waitFor('#responses-menu')
+                ->click('#responses-menu a.edit.responses')
+                ->with(new Dialog(), function ($browser) {
+                    $browser->assertDialogTitle('Are you sure...')
+                        ->assertDialogContent('The message has not been sent and has unsaved changes. Do you want to discard your changes?')
+                        ->assertButton('mainaction.discard', 'Discard')
+                        ->assertButton('cancel', 'Cancel')
+                        ->clickButton('discard');
+                });
+
+            $browser->waitFor('#responses-table')
+                ->assertSeeIn('#responses-table tbody tr:first-child td', 'Test 1')
+                ->click('#responses-table tbody tr:first-child')
+                ->waitFor('#preferences-frame');
+
+            $browser->withinFrame('#preferences-frame', function($browser) {
+                $browser->waitFor('form')
+                    ->with('form', function ($browser) {
+                        $browser->assertValue('[name=_name]', 'Test 1')
+                            ->assertValue('[name=_text]', 'Response 1')
+                            ->type('[name=_name]', 'Test 11')
+                            ->type('[name=_text]', 'Response 11');
+                    });
+
+                if (!$browser->isPhone()) {
+                    $browser->click('.formbuttons button.submit');
+                }
+            });
+
+            if ($browser->isPhone()) {
+                $browser->waitFor('#layout-content .footer')
+                    ->with('#layout-content .footer', function ($browser) {
+                        $browser->assertVisible('a.button.prev.disabled')
+                            ->assertVisible('a.button.next:not(.disabled)')
+                            ->click('a.button.submit');
+                    });
+            }
+
+            $browser->waitForMessage('confirmation', 'Successfully saved.')
+                ->closeMessage('confirmation');
+
+            if ($browser->isPhone()) {
+                $browser->click('#layout-content .header a.back-list-button')
+                    ->waitFor('#responses-table');
+            }
+
+            // Responses list
+            $browser->with('#responses-table', function ($browser) {
+                $browser->assertSeeIn('tbody tr:nth-child(1)', 'Test 11');
+            });
         });
     }
 }
