@@ -96,7 +96,7 @@ class App extends Component
      */
     public function gotoAction($browser, $task = 'mail', $action = null, $login = true)
     {
-        $browser->visit("/?_task={$task}&_action={$action}");
+        $browser->visit("?_task={$task}&_action={$action}");
 
         // check if we have a valid session
         if ($login && $this->getEnv($browser, 'task') == 'login') {

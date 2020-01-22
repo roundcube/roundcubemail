@@ -10,7 +10,6 @@
         </testsuite>
         <testsuite name="Settings">
             <directory suffix="Test.php">Settings</directory>
-            <directory suffix="Test.php">Settings/Preferences</directory>
         </testsuite>
         <testsuite name="Mail">
             <directory suffix="Test.php">Mail</directory>
