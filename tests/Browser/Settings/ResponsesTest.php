@@ -157,12 +157,12 @@ class ResponsesTest extends \Tests\Browser\TestCase
     public function testResponsesInComposer()
     {
         // Quickly create a set of responses
-        $responses = array(
-            array('name' => 'Test 1', 'text' => 'Response 1', 'format' => 'text', 'key' => substr(md5('Test 1'), 0, 16)),
-            array('name' => 'Test 2', 'text' => 'Response 2', 'format' => 'text', 'key' => substr(md5('Test 2'), 0, 16)),
-        );
+        $responses = [
+            ['name' => 'Test 1', 'text' => 'Response 1', 'format' => 'text', 'key' => substr(md5('Test 1'), 0, 16)],
+            ['name' => 'Test 2', 'text' => 'Response 2', 'format' => 'text', 'key' => substr(md5('Test 2'), 0, 16)],
+        ];
 
-        (new \rcube_user(1))->save_prefs(array('compose_responses' => $responses));
+        (new \rcube_user(1))->save_prefs(['compose_responses' => $responses]);
 
         $this->browse(function ($browser) {
             if ($browser->isPhone()) {
