@@ -102,8 +102,11 @@ class markasjunk_cmd_learn
             $output = shell_exec($tmp_command);
 
             if ($debug) {
+                if ($output) {
+                    $tmp_command .= "\n$output";
+                }
+
                 rcube::write_log('markasjunk', $tmp_command);
-                rcube::write_log('markasjunk', $output);
             }
 
             if (strpos($command, '%f') !== false) {
