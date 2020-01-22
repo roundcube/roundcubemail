@@ -111,17 +111,22 @@ if (window.rcmail) {
 
     rcmail.addEventListener('listupdate', function() { rcmail.markasjunk_toggle_button(); });
 
-    rcmail.addEventListener('beforemoveto', function(mbox) {
-        if (mbox && typeof mbox === 'object')
+    rcmail.addEventListener('beforemove', function(mbox) {
+        if (mbox && typeof mbox === 'object') {
             mbox = mbox.id;
+        }
+
+        if (!mbox) {
+            return;
+        }
 
         var is_spam = null;
 
         // check if destination mbox equals junk box (and we're not already in the junk box)
-        if (rcmail.env.markasjunk_move_spam && mbox && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
+        if (rcmail.env.markasjunk_move_spam && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
             is_spam = true;
         // or if destination mbox equals ham box and we are in the junk box
-        else if (rcmail.env.markasjunk_move_ham && mbox && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
+        else if (rcmail.env.markasjunk_move_ham && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
             is_spam = false;
 
         if (is_spam !== null) {
