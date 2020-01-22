@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix so using list checkbox selection does not load the key preview frame
 - Enigma: Fix generation of key pairs for identities with IDN domains (#7181)
 - Enigma: Display IDN domains of key users and identities in UTF8
+- Markasjunk: Fix bug where marking as spam/ham didn't work on moving messages with drag-and-drop (#7137)
 - Password: Make chpass-wrapper.py Python 3 compatible (#7135)
 - Elastic: Fix disappearing sidebar in mail compose after clicking Mail button
 - Elastic: Fix incorrect aria-disabled attribute on Mail taskmenu button in mail compose
