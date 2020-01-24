@@ -25,7 +25,8 @@ class ListTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $browser->assertElementsCount('#messagelist tbody tr', self::$msgcount);
+            $browser->waitUntilNotBusy()
+                ->assertElementsCount('#messagelist tbody tr', self::$msgcount);
 
             // check message list
             $browser->assertVisible('#messagelist tbody tr:first-child.unread');

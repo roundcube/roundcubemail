@@ -139,6 +139,8 @@ class Browser extends \Laravel\Dusk\Browser
         $this->driver->getKeyboard()->pressKey(WebDriverKeys::LEFT_CONTROL);
         $this->element($selector)->click();
         $this->driver->getKeyboard()->releaseKey(WebDriverKeys::LEFT_CONTROL);
+
+        return $this;
     }
 
     /**
@@ -255,6 +257,16 @@ class Browser extends \Laravel\Dusk\Browser
         $selector = '#messagestack > div.' . $type;
 
         $this->click($selector);
+
+        return $this;
+    }
+
+    /**
+     * Wait until the UI is unlocked
+     */
+    public function waitUntilNotBusy()
+    {
+        $this->waitUntil("!rcmail.busy");
 
         return $this;
     }
