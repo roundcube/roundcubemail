@@ -45,9 +45,8 @@ class FoldersTest extends \Tests\Browser\TestCase
 
             // Folders list
             $browser->with('#subscription-table', function ($browser) {
-                $browser->assertElementsCount('li', 5)
-                    // Note: first li element is root which is hidden in Elastic
-                    ->assertHasClass('li:nth-child(2)', 'inbox')
+                // Note: first li element is root which is hidden in Elastic
+                $browser->assertHasClass('li:nth-child(2)', 'inbox')
                     ->assertSeeIn('li:nth-child(2)', 'Inbox')
                     ->assertPresent('li:nth-child(2) [type=checkbox][disabled]')
                     ->assertHasClass('li:nth-child(3)', 'drafts')
@@ -73,6 +72,8 @@ class FoldersTest extends \Tests\Browser\TestCase
     {
         $this->browse(function ($browser) {
             $browser->go('settings', 'folders');
+
+            $num = count($browser->elements('#subscription-table li'));
 
             if ($browser->isPhone()) {
                 $browser->assertVisible('.floating-action-buttons a.create:not(.disabled)')
@@ -117,13 +118,15 @@ class FoldersTest extends \Tests\Browser\TestCase
 
             $browser->closeMessage('confirmation');
 
+            $num++;
+
             // Folders list
-            $browser->with('#subscription-table', function ($browser) {
+            $browser->with('#subscription-table', function ($browser) use ($num) {
                 // Note: li.root is hidden in Elastic
-                $browser->waitFor('li.mailbox:nth-child(7)')
-                    ->assertElementsCount('li', 6)
-                    ->assertPresent('li.mailbox:nth-child(7) [type=checkbox]:not([disabled])')
-                    ->click('li.mailbox:nth-child(7)');
+                $browser->waitFor("li.mailbox:nth-child({$num})")
+                    ->assertElementsCount('li', $num - 1)
+                    ->assertPresent("li.mailbox:nth-child({$num}) [type=checkbox]:not([disabled])")
+                    ->click("li.mailbox:nth-child({$num})");
             });
 
             if ($browser->isPhone()) {
@@ -141,7 +144,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                     ->waitFor('#subscription-table');
             }
 
-            $browser->setCheckboxState('#subscription-table li:nth-child(7) input', false)
+            $browser->setCheckboxState("#subscription-table li:nth-child({$num}) input", false)
                 ->waitForMessage('confirmation', 'Folder successfully unsubscribed.');
         });
     }

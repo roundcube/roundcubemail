@@ -18,3 +18,8 @@ $config['create_default_folders'] = true;
 $config['skin'] = 'elastic';
 $config['support_url'] = 'http://support.url';
 
+// Plugins with tests
+
+$config['plugins'] = ['archive'];
+
+$config['archive_mbox'] = 'Archive';

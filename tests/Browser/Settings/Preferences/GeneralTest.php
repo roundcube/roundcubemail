@@ -6,13 +6,9 @@ use Tests\Browser\Components\App;
 
 class GeneralTest extends \Tests\Browser\TestCase
 {
-    protected function tearDown()
+    public static function setUpBeforeClass()
     {
-        parent::tearDown();
-
-        // Reset user preferences back to defaults
-        $db = $this->app->get_dbh();
-        $db->query("UPDATE users SET preferences = '' WHERE username = ?", TESTS_USER);
+        \bootstrap::init_db();
     }
 
     public function testGeneral()

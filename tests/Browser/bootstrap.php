@@ -110,8 +110,6 @@ class bootstrap
         }
 
         self::connect_imap(TESTS_USER, TESTS_PASS);
-        self::purge_mailbox('INBOX');
-        // self::ensure_mailbox('Archive', true);
 
         return self::$imap_ready;
     }
@@ -143,6 +141,12 @@ class bootstrap
 
         if (!$imap->connect($imap_host, $username, $password, $imap_port, $imap_ssl)) {
             rcube::raise_error("IMAP error: unable to authenticate with user " . TESTS_USER, false, true);
+        }
+
+        if (in_array('archive', (array) $rcmail->config->get('plugins'))) {
+            // Register special folder type for the Archive plugin.
+            // As we're in cli mode the plugin can't do it by its own
+            rcube_storage::$folder_types[] = 'archive';
         }
 
         self::$imap_ready = true;
