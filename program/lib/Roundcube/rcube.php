@@ -1124,6 +1124,19 @@ class rcube
     }
 
     /**
+     * Quote a given string, remove new-line characters, use strict mode.
+     * Shortcut function for rcube_utils::rep_specialchars_output()
+     *
+     * @param string $str A string to quote
+     *
+     * @return string HTML-quoted string
+     */
+    public static function SQ($str)
+    {
+        return rcube_utils::rep_specialchars_output($str, 'html', 'strict', false);
+    }
+
+    /**
      * Construct shell command, execute it and return output as string.
      * Keywords {keyword} are replaced with arguments
      *
