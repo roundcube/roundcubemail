@@ -1804,7 +1804,7 @@ function rcube_elastic_ui()
 
     /**
      * mail screen layout
-     * switch between widescreen and list views
+     * switch between wide screen and list views
      */
     function mail_layout(p)
     {
@@ -1815,6 +1815,10 @@ function rcube_elastic_ui()
             list_header = layout.list.find('.header'),
             content_header = layout.content.find('.header');
 
+        // set message list layout
+        rcmail.env.list_layout = 'widescreen';
+
+        // set the layout class on layout change and initial page load
         if (p || $('#layout')[0].classList == '')
             $('#layout').removeClass().addClass(cur_layout);
 

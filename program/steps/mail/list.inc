@@ -54,6 +54,13 @@ if ($layout = rcube_utils::get_input_value('_layout', rcube_utils::INPUT_GET)) {
     $cols = $_SESSION['list_attrib']['columns'];
 }
 
+// register list layout change
+if ($list_layout = rcube_utils::get_input_value('_list_layout', rcube_utils::INPUT_GET)) {
+    $_SESSION['list_layout'] = $list_layout;
+    // force header replace on layout change
+    $cols = $_SESSION['list_attrib']['columns'];
+}
+
 if (!empty($save_arr)) {
     $RCMAIL->user->save_prefs($save_arr);
 }

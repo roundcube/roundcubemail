@@ -5,7 +5,6 @@
 	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/",
 	"supported-layouts": ["widescreen", "list"],
 	"config": {
-		"layout_messagelist": "widescreen",
 		"jquery_ui_colors_theme": "bootstrap",
 		"embed_css_location": "/styles/embed.css",
 		"editor_css_location": "/styles/embed.css",

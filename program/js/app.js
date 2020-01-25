@@ -2721,6 +2721,10 @@ function rcube_webmail()
       this.env.mailbox = mbox;
     }
 
+    url._list_layout = this.env.layout;
+    if (this.env.list_layout)
+      url._list_layout = this.env.list_layout;
+
     // load message list remotely
     if (this.gui_objects.messagelist) {
       this.list_mailbox_remote(mbox, page, url);

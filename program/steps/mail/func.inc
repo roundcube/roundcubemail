@@ -359,7 +359,7 @@ function rcmail_message_list($attrib)
     $listcols = $a_show_cols;
 
     // Widescreen layout uses hardcoded list of columns
-    if (rcmail_get_messagelist_layout() == 'widescreen') {
+    if ($_SESSION['list_layout'] == 'widescreen') {
         $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
         $listcols    = $a_show_cols;
         array_shift($listcols);
@@ -410,7 +410,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $delimiter   = $RCMAIL->storage->get_hierarchy_delimiter();
     $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
-    $layout      = rcmail_get_messagelist_layout();
+    $layout      = $_SESSION['list_layout'];
 
     // add/remove 'folder' column to the list on multi-folder searches
     if ($multifolder && !in_array('folder', $a_show_cols)) {
@@ -1883,14 +1883,4 @@ function rcmail_supported_mimetypes()
     }
 
     return array_values($mimetypes);
-}
-
-function rcmail_get_messagelist_layout()
-{
-    $rcmail = rcube::get_instance();
-
-    $layout = $rcmail->config->get('layout', 'widescreen');
-    $layout = $rcmail->config->get('layout_messagelist') ?: $layout;
-
-    return $layout;
 }
