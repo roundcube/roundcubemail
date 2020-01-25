@@ -257,6 +257,9 @@ class rcube_config
             ini_set('error_log', $error_log);
         }
 
+        // set default screen layouts
+        $this->prop['skin_layouts'] = array('widescreen', 'desktop', 'list');
+
         // remove deprecated properties
         unset($this->prop['dst_active']);
     }

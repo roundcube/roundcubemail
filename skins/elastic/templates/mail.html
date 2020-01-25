@@ -200,6 +200,17 @@
 		</div>
 	</div>
 	<roundcube:endif />
+	<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
+	<div class="form-group row">
+		<label for="listoptions-layout" class="col-form-label col-sm-4"><roundcube:label name="layout" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-layout" name="layout">
+				<option value="widescreen"><roundcube:label name="layoutwidescreendesc" /></option>
+				<option value="list"><roundcube:label name="layoutlistdesc" /></option>
+			</select>
+		</div>
+	</div>
+	<roundcube:endif />
 	<roundcube:container name="listoptions" id="listoptionsmenu" />
 	<roundcube:add_label name="listoptionstitle" />
 </div>

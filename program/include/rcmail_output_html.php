@@ -371,6 +371,18 @@ EOF;
             }
         }
 
+        $layouts = $this->config->get('skin_layouts');
+        if (!empty($meta['supported-layouts'])) {
+            $layouts = $meta['supported-layouts'];
+            $this->config->set('skin_layouts', $meta['supported-layouts'], true);
+        }
+
+        // make sure current layout config is supported by current skin
+        // if not then fallback to first defined layout
+        if (!in_array($this->config->get('layout', 'widescreen'), $layouts)) {
+            $this->config->set('layout', $layouts[0], true);
+        }
+
         // Use array_merge() here to allow for global default and extended skins
         $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
         $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);

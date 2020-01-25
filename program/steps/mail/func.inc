@@ -359,7 +359,7 @@ function rcmail_message_list($attrib)
     $listcols = $a_show_cols;
 
     // Widescreen layout uses hardcoded list of columns
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+    if (rcmail_get_messagelist_layout() == 'widescreen') {
         $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
         $listcols    = $a_show_cols;
         array_shift($listcols);
@@ -410,6 +410,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $delimiter   = $RCMAIL->storage->get_hierarchy_delimiter();
     $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
+    $layout      = rcmail_get_messagelist_layout();
 
     // add/remove 'folder' column to the list on multi-folder searches
     if ($multifolder && !in_array('folder', $a_show_cols)) {
@@ -434,7 +435,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
     // Widescreen layout uses hardcoded list of columns
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+    if ($layout == 'widescreen') {
         $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
     }
 
@@ -446,7 +447,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = $plugin['cols'];
     $a_headers   = $plugin['messages'];
 
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+    if ($layout == 'widescreen') {
         if (!$RCMAIL->storage->get_threading()) {
             if (($idx = array_search('threads', $a_show_cols)) !== false) {
                 unset($a_show_cols[$idx]);
@@ -549,8 +550,9 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         if ($header->priority)
             $a_msg_flags['prio'] = (int) $header->priority;
 
-        $a_msg_flags['ctype'] = rcube::Q($header->ctype);
-        $a_msg_flags['mbox']  = $header->folder;
+        $a_msg_flags['ctype']  = rcube::Q($header->ctype);
+        $a_msg_flags['mbox']   = $header->folder;
+        $a_msg_flags['layout'] = $layout;
 
         // merge with plugin result (Deprecated, use $header->flags)
         if (!empty($header->list_flags) && is_array($header->list_flags))
@@ -1881,4 +1883,14 @@ function rcmail_supported_mimetypes()
     }
 
     return array_values($mimetypes);
+}
+
+function rcmail_get_messagelist_layout()
+{
+    $rcmail = rcube::get_instance();
+
+    $layout = $rcmail->config->get('layout', 'widescreen');
+    $layout = $rcmail->config->get('layout_messagelist') ?: $layout;
+
+    return $layout;
 }

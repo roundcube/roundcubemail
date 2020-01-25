@@ -477,7 +477,8 @@ function rcube_elastic_ui()
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
             .addEventListener('clonerow', pretty_checkbox_fix)
-            .addEventListener('init', init);
+            .addEventListener('init', init)
+            .addEventListener('layout-change', mail_layout);
 
         // Add styling for TinyMCE editor popups
         // We need to use MutationObserver, as TinyMCE does not provide any events for this
@@ -1615,6 +1616,8 @@ function rcube_elastic_ui()
 
         // Hide content frame buttons on small devices (with frame toolbar in parent window)
         $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
+
+        mail_layout();
     };
 
     function screen_resize()
@@ -1743,7 +1746,7 @@ function rcube_elastic_ui()
             layout.list[show ? 'removeClass' : 'addClass']('hidden');
         }
         if (layout.sidebar.length) {
-            show = !layout.list.length || layout.sidebar.is(env.last_selected) || layout.sidebar.is('.layout-sticky');
+            show = !layout.list.length || layout.sidebar.is(env.last_selected) || layout.sidebar.is('.layout-sticky') || rcmail.env.layout == 'list';
             layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
         }
 
@@ -1752,7 +1755,7 @@ function rcube_elastic_ui()
         screen_resize_small_none();
 
         if (layout.list.length) {
-            $('.header > ul.menu', layout.list).addClass('popupmenu');
+            $('.header > ul.menu', layout.list).not("[data-source='content-header']").addClass('popupmenu');
         }
     };
 
@@ -1797,6 +1800,36 @@ function rcube_elastic_ui()
     {
         buttons.back_list.filter(function() { return $(this).parents('#layout-sidebar').length == 0; }).hide();
         $('ul.menu.popupmenu').removeClass('popupmenu');
+    };
+
+    /**
+     * mail screen layout
+     * switch between widescreen and list views
+     */
+    function mail_layout(p)
+    {
+        if (rcmail.env.task != 'mail' || rcmail.env.action != '')
+            return;
+
+        var cur_layout = p ? p.new_layout : rcmail.env.layout,
+            list_header = layout.list.find('.header'),
+            content_header = layout.content.find('.header');
+
+        if (p || $('#layout')[0].classList == '')
+            $('#layout').removeClass().addClass(cur_layout);
+
+        if (cur_layout == 'list') {
+            layout.list.removeAttr('style');
+        }
+
+        if ((mode == 'large' || mode == 'normal') && cur_layout == 'list') {
+            content_header.children().attr('data-source', 'content-header').appendTo(list_header);
+            rcmail.env.contentframe = null; // disable preview pane
+        }
+        else if (list_header.find("[data-source='content-header']").length > 0) {
+            list_header.find("[data-source='content-header']").appendTo(content_header);
+            rcmail.env.contentframe = 'messagecontframe'; // enable preview pane
+        }
     };
 
     function show_content(unsticky)
@@ -2619,6 +2652,7 @@ function rcube_elastic_ui()
         $('select[name="sort_col"]', dialog).val(rcmail.env.sort_col || '');
         $('select[name="sort_ord"]', dialog).val(rcmail.env.sort_order || 'ASC');
         $('select[name="mode"]', dialog).val(rcmail.env.threading ? 'threads' : 'list');
+        $('select[name="layout"]', dialog).val(rcmail.env.layout);
 
         // Fix id/for attributes
         $('select', dialog).each(function() { this.id = this.id + '-clone'; });
@@ -2631,9 +2665,10 @@ function rcube_elastic_ui()
 
             var col = $('select[name="sort_col"]', dialog).val(),
                 ord = $('select[name="sort_ord"]', dialog).val(),
-                mode = $('select[name="mode"]', dialog).val();
+                mode = $('select[name="mode"]', dialog).val(),
+                layout = $('select[name="layout"]', dialog).val();
 
-            rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0);
+            rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0, layout);
             return true;
         };
 

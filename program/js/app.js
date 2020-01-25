@@ -2364,7 +2364,7 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
-    if (this.env.layout == 'widescreen')
+    if (flags.layout == 'widescreen')
       row = this.widescreen_message_row(row, uid, message);
 
     list.insert_row(row, attop);

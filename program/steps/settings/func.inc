@@ -412,9 +412,17 @@ function rcmail_user_prefs($current = null)
                 $field_id = 'rcmfd_layout';
                 $select   = new html_select(array('name' => '_layout', 'id' => $field_id));
 
-                $select->add($RCMAIL->gettext('layoutwidescreendesc'), 'widescreen');
-                $select->add($RCMAIL->gettext('layoutdesktopdesc'), 'desktop');
-                $select->add($RCMAIL->gettext('layoutlistdesc'), 'list');
+                $layouts = array(
+                    'widescreen' => 'layoutwidescreendesc',
+                    'desktop'    => 'layoutdesktopdesc',
+                    'list'       => 'layoutlistdesc'
+                );
+
+                foreach ($layouts as $val => $label) {
+                    if (in_array($val, $config['skin_layouts'])) {
+                        $select->add($RCMAIL->gettext($label), $val);
+                    }
+                }
 
                 $blocks['main']['options']['layout'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('layout'))),

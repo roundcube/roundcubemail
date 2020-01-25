@@ -148,6 +148,32 @@ body {
     min-width: 300px;
     border-right: 1px solid @color-layout-border;
     background-color: @color-layout-list-background;
+
+    #layout.list & {
+        flex: 9;
+        max-width: none;
+
+        html.layout-normal & {
+            #toolbar-menu {
+                width: 100%;
+            }
+
+            a.toolbar-button {
+                order: 98;
+            }
+        }
+
+        html.layout-large & {
+            & > .header > #toolbar-menu {
+                margin-left: 2.5em;
+            }
+
+            & > .footer {
+                padding-left: 30% !important;
+                padding-right: 30% !important;
+            }
+        }
+    }
 }
 
 #layout-content {
@@ -253,6 +279,10 @@ body {
 
     .sidebar-right & {
         left: -3px;
+    }
+
+    #layout.list > #layout-list & {
+        display: none;
     }
 }
 
@@ -393,6 +423,18 @@ html.layout-normal {
     .hidden-lbs,
     .hidden-big {
         display: none !important;
+    }
+
+    #layout.list {
+        a.back-list-button,
+        a.back-sidebar-button,
+        #layout-list span.header-title {
+            display: none !important;
+        }
+
+        #layout-content {
+            display: none;
+        }
     }
 }
 
