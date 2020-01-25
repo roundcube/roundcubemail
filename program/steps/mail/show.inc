@@ -494,16 +494,16 @@ function rcmail_message_headers($attrib, $headers=null)
     // single header value is requested
     if (!empty($attrib['valueof'])) {
         $row = $plugin['output'][$attrib['valueof']];
-        return $row['html'] ? $row['value'] : rcube::Q($row['value']);
+        return $row['html'] ? $row['value'] : rcube::SQ($row['value']);
     }
 
     // compose html table
     $table = new html_table(array('cols' => 2));
 
     foreach ($plugin['output'] as $hkey => $row) {
-        $val = $row['html'] ? $row['value'] : rcube::Q($row['value']);
+        $val = $row['html'] ? $row['value'] : rcube::SQ($row['value']);
 
-        $table->add(array('class' => 'header-title'), rcube::Q($row['title']));
+        $table->add(array('class' => 'header-title'), rcube::SQ($row['title']));
         $table->add(array('class' => 'header '.$hkey), $val);
     }
 

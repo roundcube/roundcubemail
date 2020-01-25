@@ -29,6 +29,8 @@ CHANGELOG Roundcube Webmail
 - Fix recipient duplicates in print-view when the recipient list has been expanded (#7169)
 - Fix bug where files in skins/ directory were listed on skins list (#7180)
 - Fix bug where message parts with no Content-Disposition header and no name were not listed on attachments list (#7117)
+- Fix display issues with mail subject that contains line-breaks (#7191)
+- Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
 
 RELEASE 1.4.2
 -------------
