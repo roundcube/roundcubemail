@@ -105,4 +105,45 @@ class SettingsTest extends \Tests\Browser\TestCase
             });
         });
     }
+
+    /**
+     * Test Preferences UI (Server Settings)
+     */
+    public function testServerSettings()
+    {
+        $this->browse(function ($browser) {
+            $browser->go('settings', 'preferences');
+
+            $browser->click('#sections-table tr.server');
+
+            $browser->withinFrame('#preferences-frame', function ($browser) {
+                if (!$browser->isPhone()) {
+                    $browser->waitFor('.formbuttons button.submit');
+                }
+
+                // Main Options fieldset
+                $browser->with('form.propform fieldset.main', function ($browser) {
+                    $browser->assertSeeIn('label[for=ff_read_on_archive]', 'Mark the message as read on archive')
+                        ->assertCheckboxState('_read_on_archive', false)
+                        ->setCheckboxState('_read_on_archive', true);
+                });
+
+                // Submit form
+                if (!$browser->isPhone()) {
+                    $browser->click('.formbuttons button.submit');
+                }
+            });
+
+            if ($browser->isPhone()) {
+                $browser->click('#layout-content .footer a.submit');
+            }
+
+            $browser->waitForMessage('confirmation', 'Successfully saved');
+
+            // Verify if every option has been updated
+            $browser->withinFrame('#preferences-frame', function ($browser) {
+                $browser->assertCheckboxState('_read_on_archive', true);
+            });
+        });
+    }
 }
