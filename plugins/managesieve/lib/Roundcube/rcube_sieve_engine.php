@@ -1084,16 +1084,12 @@ class rcube_sieve_engine
                 case 'addflag':
                 case 'setflag':
                 case 'removeflag':
-                    $_target = array();
-                    if (empty($flags[$idx])) {
-                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext('noflagset');
+                    $this->form['actions'][$i]['target'] = $this->strip_value($flags[$idx]);
+
+                    if (empty($this->form['actions'][$i]['target'])) {
+                        $this->errors['actions'][$i]['flag'] = $this->plugin->gettext('noflagset');
                     }
-                    else {
-                        foreach ($flags[$idx] as $flag) {
-                            $_target[] = $this->strip_value($flag);
-                        }
-                    }
-                    $this->form['actions'][$i]['target'] = $_target;
+
                     break;
 
                 case 'addheader':
@@ -2285,7 +2281,7 @@ class rcube_sieve_engine
         }
 
         $flout .= $this->list_input($id, 'action_flags', $custom_flags, true,
-            $this->error_class($id, 'action', 'flags', 'action_flags'));
+            $this->error_class($id, 'action', 'flag', 'action_flags_flag'), null, false, "action_flags_flag{$id}");
 
         $out .= html::div(array(
                 'id'    => 'action_flags' . $id,
@@ -2547,7 +2543,7 @@ class rcube_sieve_engine
         return $trim ? trim($str) : $str;
     }
 
-    protected function error_class($id, $type, $target, $elem_prefix='')
+    protected function error_class($id, $type, $target, $elem_prefix = '')
     {
         // TODO: tooltips
         if (($type == 'test' && ($str = $this->errors['tests'][$id][$target])) ||
@@ -2579,7 +2575,7 @@ class rcube_sieve_engine
         $this->rc->output->add_script($script, 'docready');
     }
 
-    protected function list_input($id, $name, $value, $enabled, $class, $size = null, $hidden = false)
+    protected function list_input($id, $name, $value, $enabled, $class, $size = null, $hidden = false, $elem_id = null)
     {
         $value = (array) $value;
         $value = array_map(array('rcube', 'Q'), $value);
@@ -2590,7 +2586,7 @@ class rcube_sieve_engine
                 'data-size' => $size,
                 'data-hidden' => $hidden ?: null,
                 'name'      => '_' . $name . '[' . $id . ']',
-                'id'        => $name.$id,
+                'id'        => $elem_id ?: ($name.$id),
                 'disabled'  => !$enabled,
                 'class'     => $class,
                 'style'     => 'display:none',
