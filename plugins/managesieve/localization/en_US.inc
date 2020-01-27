@@ -276,3 +276,4 @@ $messages['emptyvacationbody'] = 'Body of vacation message is required!';
 $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not allowed.';
 $messages['disabledaction'] = 'Action not permitted.';
 $messages['lastindexempty'] = 'Index is required when counting from end';
+$messages['noflagset'] = 'At least one flag must be selected.';
