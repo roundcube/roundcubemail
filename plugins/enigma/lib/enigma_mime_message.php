@@ -243,8 +243,6 @@ class enigma_mime_message extends Mail_mime
             }
 
             $this->headers = array_merge($this->headers, $headers);
-
-            return;
         }
         else {
             $output = $message->encode($boundary, $skip_head);
@@ -254,9 +252,16 @@ class enigma_mime_message extends Mail_mime
             }
 
             $this->headers = array_merge($this->headers, $output['headers']);
-
-            return $output['body'];
         }
+
+        // remember the boundary used, in case we'd handle headers() call later
+        if (empty($boundary) && !empty($this->headers['Content-Type'])) {
+            if (preg_match('/boundary="([^"]+)/', $this->headers['Content-Type'], $m)) {
+                $this->build_params['boundary'] = $m[1];
+            }
+        }
+
+        return $filename ? null : $output['body'];
     }
 
     /**
