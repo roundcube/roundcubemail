@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Fix compatibility with Mail_Mime >= 1.10.5
 - Fix permissions on some folders created by bin/install-jsdeps.sh script (#6930)
 - Fix bug where inline images could have been ignored if Content-Id header contained redundant spaces (#6980)
 - Fix PHP Warning: Use of undefined constant LOG_EMERGE (#6991)
