@@ -4564,7 +4564,7 @@ class rcube_imap extends rcube_storage
     /**
      * This is our own debug handler for the IMAP connection
      */
-    public function debug_handler(&$imap, $message)
+    public function debug_handler($imap, $message)
     {
         rcube::write_log('imap', $message);
     }
