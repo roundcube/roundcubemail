@@ -144,7 +144,7 @@ class rcube_imap_generic
         $res = 0;
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i=0, $cnt=count($parts); $i<$cnt; $i++) {
-                if (preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
+                if ($i+1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
                     // LITERAL+ support
                     if ($this->prefs['literal+']) {
                         $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
@@ -940,7 +940,7 @@ class rcube_imap_generic
 
         // Connected and authenticated
         if (is_resource($result)) {
-            if ($this->prefs['force_caps']) {
+            if (!empty($this->prefs['force_caps'])) {
                 $this->clearCapability();
             }
             $this->logged = true;
@@ -971,11 +971,11 @@ class rcube_imap_generic
         }
 
         // check for SSL
-        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
+        if (!empty($this->prefs['ssl_mode']) && $this->prefs['ssl_mode'] != 'tls') {
             $host = $this->prefs['ssl_mode'] . '://' . $host;
         }
 
-        if ($this->prefs['timeout'] <= 0) {
+        if (empty($this->prefs['timeout']) || $this->prefs['timeout'] < 0) {
             $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
         }
 
