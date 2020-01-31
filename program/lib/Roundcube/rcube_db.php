@@ -1264,6 +1264,7 @@ class rcube_db
             if (!empty($parsed['phptype']) && !empty($parsed['database'])
                 && stripos($parsed['phptype'], 'sqlite') === 0
                 && $parsed['database'][0] != '/'
+                && strpos($parsed['database'], ':') === false
             ) {
                 $parsed['database'] = INSTALL_PATH . $parsed['database'];
             }
