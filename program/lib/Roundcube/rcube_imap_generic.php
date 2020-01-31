@@ -4093,7 +4093,7 @@ class rcube_imap_generic
         }
 
         if ($this->debug_handler) {
-            call_user_func_array($this->debug_handler, array(&$this, $message));
+            call_user_func_array($this->debug_handler, array($this, $message));
         }
         else {
             echo "DEBUG: $message\n";

@@ -377,7 +377,7 @@ class rcube_smtp
     /**
      * This is our own debug handler for the SMTP connection
      */
-    public function debug_handler(&$smtp, $message)
+    public function debug_handler($smtp, $message)
     {
         // catch AUTH commands and set anonymization flag for subsequent sends
         if (preg_match('/^Send: AUTH ([A-Z]+)/', $message, $m)) {
