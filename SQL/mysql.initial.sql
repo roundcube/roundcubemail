@@ -25,7 +25,7 @@ CREATE TABLE `users` (
  `last_login` datetime DEFAULT NULL,
  `failed_login` datetime DEFAULT NULL,
  `failed_login_counter` int(10) UNSIGNED DEFAULT NULL,
- `language` varchar(5),
+ `language` varchar(16),
  `preferences` longtext,
  PRIMARY KEY(`user_id`),
  UNIQUE `username` (`username`, `mail_host`)
@@ -176,7 +176,7 @@ CREATE TABLE `identities` (
 CREATE TABLE `dictionary` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, -- redundant, for compat. with Galera Cluster
   `user_id` int(10) UNSIGNED DEFAULT NULL, -- NULL here is for "shared dictionaries"
-  `language` varchar(5) NOT NULL,
+  `language` varchar(16) NOT NULL,
   `data` longtext NOT NULL,
   CONSTRAINT `user_id_fk_dictionary` FOREIGN KEY (`user_id`)
     REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -223,4 +223,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2019092900');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020020100');

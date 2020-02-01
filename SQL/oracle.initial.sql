@@ -9,7 +9,7 @@ CREATE TABLE "users" (
     "last_login" timestamp with time zone DEFAULT NULL,
     "failed_login" timestamp with time zone DEFAULT NULL,
     "failed_login_counter" integer DEFAULT NULL,
-    "language" varchar(5),
+    "language" varchar(16),
     "preferences" long DEFAULT NULL,
     CONSTRAINT "users_username_key" UNIQUE ("username", "mail_host")
 );
@@ -186,7 +186,7 @@ CREATE INDEX "cache_messages_expires_idx" ON "cache_messages" ("expires");
 CREATE TABLE "dictionary" (
     "user_id" integer DEFAULT NULL
         REFERENCES "users" ("user_id") ON DELETE CASCADE,
-    "language" varchar(5) NOT NULL,
+    "language" varchar(16) NOT NULL,
     "data" long DEFAULT NULL,
     CONSTRAINT "dictionary_user_id_lang_key" UNIQUE ("user_id", "language")
 );
@@ -238,4 +238,4 @@ CREATE TABLE "system" (
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2019092900');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2020020100');
