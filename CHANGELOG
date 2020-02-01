@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)
 - Relaxed domain name validation for extended TLDs support (#5588)
 - Added support for INSERT OR REPLACE queries (#6771)
 - Extract RFC2231 attachment name from message headers (#6729, #6783)

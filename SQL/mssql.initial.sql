@@ -102,14 +102,14 @@ CREATE TABLE [dbo].[users] (
 	[last_login] [datetime] NULL ,
 	[failed_login] [datetime] NULL ,
 	[failed_login_counter] [int] NULL ,
-	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NULL ,
+	[language] [varchar] (16) COLLATE Latin1_General_CI_AI NULL ,
 	[preferences] [text] COLLATE Latin1_General_CI_AI NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[dictionary] (
 	[user_id] [int] ,
-	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[language] [varchar] (16) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -422,6 +422,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2019092900')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2020020100')
 GO
 

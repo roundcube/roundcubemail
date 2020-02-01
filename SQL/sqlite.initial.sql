@@ -74,7 +74,7 @@ CREATE TABLE users (
   last_login datetime DEFAULT NULL,
   failed_login datetime DEFAULT NULL,
   failed_login_counter integer DEFAULT NULL,
-  language varchar(5),
+  language varchar(16),
   preferences text NOT NULL default ''
 );
 
@@ -99,11 +99,11 @@ CREATE INDEX ix_session_changed ON session (changed);
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL,
-   "language" varchar(5) NOT NULL,
+   language varchar(16) NOT NULL,
     data text NOT NULL
 );
 
-CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, "language");
+CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, language);
 
 --
 -- Table structure for table searches
@@ -215,4 +215,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2019092900');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2020020100');
