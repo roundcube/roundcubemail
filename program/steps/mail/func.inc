@@ -593,7 +593,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $list_menu = rcmail_options_menu_link();
+        $list_menu = rcmail_options_menu_link($attrib);
     }
 
     $cells = $coltypes = array();
@@ -662,21 +662,22 @@ function rcmail_options_menu_link($attrib = array())
 {
     global $RCMAIL;
 
-    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+    if ($attrib['optionsmenuicon'] == 'config:list_cols' && in_array('list_cols', (array)$RCMAIL->config->get('dont_override'))) {
+        return;
+    }
+
+    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', '" . ($attrib['optionsmenuname'] ?: 'messagelistmenu') ."', this, event)";
     $inner   = $title = $RCMAIL->gettext($attrib['label'] ?: 'listoptions');
 
-    if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-        $inner = html::img(array('src' => $RCMAIL->output->asset_url($attrib['optionsmenuicon'], true), 'alt' => $title));
-    }
-    else if ($attrib['innerclass']) {
+    if ($attrib['innerclass']) {
         $inner = html::span($attrib['innerclass'], $inner);
     }
 
     return html::a(array(
             'href'     => '#list-options',
             'onclick'  => $onclick,
-            'class'    => isset($attrib['class']) ? $attrib['class'] : 'listmenu',
-            'id'       => 'listmenulink',
+            'class'    => isset($attrib['linkclass']) ? $attrib['linkclass'] : 'listmenu',
+            'id'       => $attrib['menulinkid'] ?: 'listmenulink',
             'title'    => $title,
             'tabindex' => '0',
     ), $inner);

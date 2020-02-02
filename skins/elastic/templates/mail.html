@@ -36,7 +36,7 @@
 			<roundcube:if condition="env:threads" />
 				<a href="#threads" class="threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
-			<roundcube:object name="listmenulink" class="options active" label="options" innerclass="inner" />
+			<roundcube:object name="listmenulink" linkclass="options active" label="options" innerclass="inner" />
 			<roundcube:container name="listcontrols" id="listcontrols" />
 		</div>
 		<roundcube:button command="checkmail" type="link" class="button icon toolbar-button refresh"
@@ -85,9 +85,11 @@
 			<button type="button" class="btn btn-primary icon search" onclick="return rcmail.command('search')"><roundcube:label name="search" /></button>
 		</div>
 	</div>
+
 	<div id="messagelist-content" class="scroller" tabindex="-1">
 		<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 		<roundcube:object name="messages" id="messagelist" class="listing messagelist sortheader fixedheader"
+			optionsmenuicon="config:list_cols" optionsmenuname="messagelistcolsmenu" label="columnoptions" menulinkid="colmenulink"
 			aria-labelledby="aria-label-messagelist" data-list="message_list" data-label-msg="listempty"
 		/>
 	</div>
@@ -138,8 +140,7 @@
 	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul class="menu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
 		<roundcube:button type="link-menuitem" label="selection" class="selection disabled" classAct="selection active"
-			name="list-toggle-button" id="list-toggle-button"
-			onclick="if ($(this).is('.active')) $('#messagelist').toggleClass('withselection');" />
+			name="list-toggle-button" id="list-toggle-button" onclick="UI.toggle_list_selection(this, 'messagelist');" />
 		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all disabled" classAct="select all active" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page disabled" classAct="select page active" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread disabled" classAct="select unread active" />
@@ -201,7 +202,7 @@
 	</div>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
-	<div class="form-group row">
+	<div class="form-group row hidden-phone hidden-small">
 		<label for="listoptions-layout" class="col-form-label col-sm-4"><roundcube:label name="layout" /></label>
 		<div class="col-sm-8">
 			<select id="listoptions-layout" name="layout">
@@ -213,6 +214,37 @@
 	<roundcube:endif />
 	<roundcube:container name="listoptions" id="listoptionsmenu" />
 	<roundcube:add_label name="listoptionstitle" />
+</div>
+
+<div id="coloptions-menu" class="popupmenu propform" role="dialog" aria-labelledby="aria-label-coloptions">
+	<h3 id="aria-label-coloptions" class="voice"><roundcube:label name="arialabelmessagecoloptions" /></h3>
+    <roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<div class="row">
+		<div class="col-sm-6">
+			<ul class="proplist">
+				<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" disabled /> <span><roundcube:label name="threads" /></span></label></li>
+				<li><label class="disabled"><input type="checkbox" name="list_col[]" value="subject" disabled /> <span><roundcube:label name="subject" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="fromto" /> <span><roundcube:label name="fromto" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="from" /> <span><roundcube:label name="from" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="to" /> <span><roundcube:label name="to" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="replyto" /> <span><roundcube:label name="replyto" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="cc" /> <span><roundcube:label name="cc" /></span></label></li>
+			</ul>
+		</div>
+		<div class="col-sm-6">
+			<ul class="proplist">
+				<li><label><input type="checkbox" name="list_col[]" value="date" /> <span><roundcube:label name="date" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="size" /> <span><roundcube:label name="size" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="status" /> <span><roundcube:label name="readstatus" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="attachment" /> <span><roundcube:label name="attachment" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="flag" /> <span><roundcube:label name="flag" /></span></label></li>
+				<li><label><input type="checkbox" name="list_col[]" value="priority" /> <span><roundcube:label name="priority" /></span></label></li>
+			</ul>
+		</div>
+		<roundcube:container name="coloptions" id="coloptionsmenu" />
+		<roundcube:add_label name="columnoptionstitle" />
+	</div>
+    <roundcube:endif />
 </div>
 
 <roundcube:include file="includes/footer.html" />

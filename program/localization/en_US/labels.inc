@@ -54,6 +54,8 @@ $labels['organization'] = 'Organization';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
 $labels['listoptionstitle'] = 'List options';
+$labels['columnoptions'] = 'Column options...';
+$labels['columnoptionstitle'] = 'Column options';
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
@@ -712,6 +714,7 @@ $labels['arialabelmailboxmenu'] = 'Folder actions menu';
 $labels['arialabellistselectmenu'] = 'List selection menu';
 $labels['arialabelthreadselectmenu'] = 'Threads listing menu';
 $labels['arialabelmessagelistoptions'] = 'Message list display and sorting options';
+$labels['arialabelmessagecoloptions'] = 'Message list columns';
 $labels['arialabelmailimportdialog'] = 'Message import dialog';
 $labels['arialabelmessagenav'] = 'Message navigation';
 $labels['arialabelmessagebody'] = 'Message Body';

@@ -81,8 +81,8 @@ function rcube_elastic_ui()
     this.pretty_checkbox = pretty_checkbox;
     this.pretty_select = pretty_select;
     this.datepicker_init = datepicker_init;
+    this.toggle_list_selection = toggle_list_selection;
     this.bootstrap_style = bootstrap_style;
-
 
     // Detect screen size/mode
     screen_mode();
@@ -556,7 +556,7 @@ function rcube_elastic_ui()
                 // Add Select button to the list navigation bar
                 if (!button) {
                     button = $('<a>').attr({'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select')})
-                        .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
+                        .on('click', function() { UI.toggle_list_selection(this, table.attr('id')); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
                     if (toolbar.is('.menu')) {
@@ -1493,6 +1493,15 @@ function rcube_elastic_ui()
         }
     };
 
+    function toggle_list_selection(obj, list_id)
+    {
+        if ($(obj).is('.active')) {
+            $('#' + list_id + ',#' + list_id + '-fixedcopy').toggleClass('withselection');
+            var list = $('#' + list_id).data('list');
+            rcmail[list].resize();
+        }
+    };
+
     /**
      * Handler for some Roundcube core popups
      */
@@ -1813,26 +1822,54 @@ function rcube_elastic_ui()
 
         var cur_layout = p ? p.new_layout : rcmail.env.layout,
             list_header = layout.list.find('.header'),
-            content_header = layout.content.find('.header');
-
-        // set message list layout
-        rcmail.env.list_layout = 'widescreen';
-
-        // set the layout class on layout change and initial page load
-        if (p || $('#layout')[0].classList == '')
-            $('#layout').removeClass().addClass(cur_layout);
+            content_header = layout.content.find('.header'),
+            list_layout = 'widescreen';
 
         if (cur_layout == 'list') {
+            // when in 'list' mode remove any inline styles like those applied by the splitter
             layout.list.removeAttr('style');
         }
 
         if ((mode == 'large' || mode == 'normal') && cur_layout == 'list') {
-            content_header.children().attr('data-source', 'content-header').appendTo(list_header);
-            rcmail.env.contentframe = null; // disable preview pane
+            if (list_header.find("[data-source='content-header']").length == 0) {
+                content_header.children().attr('data-source', 'content-header').appendTo(list_header);
+                rcmail.env.contentframe = null; // disable preview pane
+
+                $('#layout').removeClass().addClass('layout-list');
+
+                list_layout = mode == 'large' ? 'list' : 'widescreen';
+            }
+            else if (mode == 'large') {
+                list_layout = 'list';
+            }
+            else if (mode == 'normal') {
+                list_layout = 'widescreen';
+            }
         }
         else if (list_header.find("[data-source='content-header']").length > 0) {
             list_header.find("[data-source='content-header']").appendTo(content_header);
             rcmail.env.contentframe = 'messagecontframe'; // enable preview pane
+            $('#layout').removeClass().addClass('layout-widescreen');
+            list_layout = 'widescreen';
+        }
+        else if (cur_layout == 'widescreen') {
+            list_layout = cur_layout;
+        }
+
+        rcmail.env.list_layout = list_layout;
+        if (list_layout && !$('.messagelist').hasClass('layout-' + list_layout)) {
+            $('.messagelist').removeClass('layout-widescreen layout-list').addClass('layout-' + list_layout);
+
+            // refresh the message list because list format has changed from 'widescreen' to 'list'
+            if (!p) {
+                rcmail.command('list');
+            }
+        }
+
+        // if the user has changed layout mode then redraw the UI
+        if (p) {
+            rcmail.env.layout = cur_layout;
+            resize();
         }
     };
 
@@ -1876,7 +1913,10 @@ function rcube_elastic_ui()
         }
         else {
             // show list and hide sidebar and content
-            layout.sidebar.addClass('hidden').removeClass('layout-sticky');
+            if (!$('#layout').hasClass('layout-list')) {
+                layout.sidebar.addClass('hidden').removeClass('layout-sticky');
+            }
+
             layout.list.removeClass('hidden');
 
             if (mode == 'small' || mode == 'phone') {
@@ -2507,6 +2547,9 @@ function rcube_elastic_ui()
         if (p.name == 'messagelistmenu') {
             menu_messagelist(p);
         }
+        else if (p.name == 'messagelistcolsmenu') {
+            menu_collist(p);
+        }
         else if (p.event == 'menu-open') {
             var fn, pos,
                 content = $('ul', p.obj).first(),
@@ -2677,6 +2720,45 @@ function rcube_elastic_ui()
         };
 
         dialog = rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
+            closeOnEscape: true,
+            minWidth: 400
+        });
+    };
+
+    /**
+     * Messages list columns options dialog
+     */
+    function menu_collist(obj)
+    {
+        var content = $('#coloptions-menu'),
+            dialog = content.clone(true);
+
+        // set form values
+        $.each(rcmail.env.listcols, function() {
+            $('input[name="list_col[]"][value="' + this + '"]', dialog).prop('checked', true);
+        });
+
+        // Fix id/for attributes
+        $('input', dialog).each(function() { this.id = this.id + '-clone'; });
+        $('label', dialog).each(function() { $(this).attr('for', $(this).attr('for') + '-clone'); });
+
+        var save_func = function(e) {
+            if (rcube_event.is_keyboard(e.originalEvent)) {
+                $('#colmenulink').focus();
+            }
+
+            var cols = [];
+            $.each($('input[name="list_col[]"]', dialog), function() {
+                if ($(this).is(':checked')) {
+                    cols.push($(this).val());
+                }
+            });
+
+            rcmail.set_list_options(cols, rcmail.env.sort_col, rcmail.env.sort_col, rcmail.env.threading, rcmail.env.layout);
+            return true;
+        };
+
+        dialog = rcmail.simple_dialog(dialog, rcmail.gettext('columnoptionstitle'), save_func, {
             closeOnEscape: true,
             minWidth: 400
         });

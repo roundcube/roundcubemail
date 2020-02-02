@@ -8354,14 +8354,11 @@ function rcube_webmail()
           if (repl[c].className) cell.className = repl[c].className;
           tr.appendChild(cell);
         }
-        thead.appendChild(tr);
-      }
 
-      for (n=0, len=this.env.listcols.length; n<len; n++) {
-        col = this.env.listcols[n];
-        if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
-          $(cell).attr('rel', col).find('span,a').text(this.get_label(col == 'fromto' ? smart_col : col));
-        }
+        if (list.checkbox_selection)
+          list.insert_checkbox(tr, 'thead');
+
+        thead.appendChild(tr);
       }
     }
 

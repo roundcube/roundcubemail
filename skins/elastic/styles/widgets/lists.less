@@ -12,6 +12,11 @@
 /*** List and treelist widgets ***/
 
 .listing {
+    > thead {
+        background-color: @color-list-header-background;
+    }
+
+    thead th,
     tbody td,
     li {
         border-bottom: 1px solid @color-list-border;
@@ -20,12 +25,44 @@
         line-height: @listing-line-height;
     }
 
+    thead th,
     tbody td,
     li a {
         padding: 0 .5rem;
         white-space: nowrap;
         vertical-align: middle;
         color: @color-list;
+    }
+
+    thead th {
+        padding: .25rem .5rem;
+        font-weight: bold;
+        color: @color-list-header;
+
+        a {
+            color: @color-list-header;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        &.sortedDESC,
+        &.sortedASC, {
+            > a:after {
+                &:extend(.font-icon-class);
+                float: none;
+                display: inline-block;
+                margin-left: .1em;
+                font-size: .9rem;
+                color: @color-list-header-icon;
+                content: @fa-var-long-arrow-alt-up;
+            }
+        }
+
+        &.sortedASC > a:after {
+            content: @fa-var-long-arrow-alt-down;
+        }
     }
 
     tbody td {
@@ -50,6 +87,10 @@
         background-color: @color-list-selected-background;
     }
 
+    th.selection > input {
+        display: none;
+    }
+
     td.selection {
         padding: 0 0 0 .5em;
         width: 2em;
@@ -60,6 +101,7 @@
         }
     }
 
+    &:not(.withselection) th.selection,
     &:not(.withselection) td.selection {
         display: none;
     }
@@ -558,12 +600,24 @@ ul.treelist {
 /*** Messages list widget ***/
 
 .messagelist > thead,
-.messagelist .branch,
-table.fixedcopy {
-    display: none;
+.messagelist .branch {
+    .layout-widescreen& {
+        display: none;
+    }
+
+    th.threads,
+    th.flag,
+    th.attachment,
+    th.status,
+    th.priority {
+        text-indent: -999px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
 
 .messagelist {
+    th,
     td {
         border-left: 0;
         width: 2em;
@@ -572,10 +626,13 @@ table.fixedcopy {
     }
 
     td.subject {
-        width: 100%;
         padding-right: 0;
-        display: flex;
-        flex-wrap: wrap;
+
+        .layout-widescreen& {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
 
         a {
             text-decoration: none;
@@ -626,6 +683,7 @@ table.fixedcopy {
     }
 
     tr.flagged td,
+    tr.flagged td.subject > a,
     tr.flagged td.subject span.subject a,
     tr.flagged td.subject span.date,
     tr.flagged td.subject span.fromto {
@@ -633,6 +691,7 @@ table.fixedcopy {
     }
 
     tr.deleted td,
+    tr.deleted td.subject > a,
     tr.deleted td.subject span.subject a,
     tr.deleted td.subject span.date,
     tr.deleted td.subject span.fromto {
@@ -659,14 +718,17 @@ table.fixedcopy {
         content: @fa-var-angle-down;
     }
 
-    td.subject span.msgicon.status {
+    td.subject span.msgicon {
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-circle;
-            cursor: pointer;
             font-size: .4rem;
             width: 1.1rem;
             height: 2rem;
+        }
+
+        &.status:before {
+            cursor: pointer;
         }
 
         &.unread:before {
@@ -701,33 +763,179 @@ table.fixedcopy {
         }
     }
 
-    span.attachment span {
-        &:extend(.font-icon-class);
-        color: @color-list-icon;
+    th.attachment,
+    td.attachment,
+    span.attachment {
+        span {
+            &:before {
+                &:extend(.font-icon-class);
+                color: @color-list-icon;
 
-        &:before {
-            margin: 0;
-            content: @fa-var-paperclip;
+                margin: 0;
+                content: @fa-var-paperclip;
+
+                .layout-list& {
+                    height: auto;
+                    text-indent: 0;
+                }
+            }
+            &.report:before {
+                .font-icon-regular(@fa-var-file-alt);
+            }
+            &.encrypted:before {
+                content: @fa-var-lock;
+            }
+            &.vcard:before {
+                .font-icon-regular(@fa-var-user); // vcard_attachments plugin
+            }
         }
-        &.report:before {
-            .font-icon-regular(@fa-var-file-alt);
-        }
-        &.encrypted:before {
-            content: @fa-var-lock;
-        }
-        &.vcard:before {
-            .font-icon-regular(@fa-var-user); // vcard_attachments plugin
-        }
+    }
+
+    th.attachment span:before {
+        color: @color-list-header;
+    }
+
+    th.threads a:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-columns;
+        height: auto;
+        text-indent: 0;
     }
 
     span.flagged:before {
         &:extend(.font-icon-class);
         content: @fa-var-flag;
+
+        .layout-list& {
+            height: auto;
+            text-indent: 0;
+        }
+    }
+
+    span.status:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-envelope;
+
+        .layout-list& {
+            height: auto;
+            text-indent: 0;
+        }
+    }
+
+    span.priority:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-exclamation;
+
+        .layout-list& {
+            height: auto;
+            text-indent: 0;
+        }
+    }
+
+    .layout-list& {
+        th {
+            &.threads,
+            &.flag,
+            &.attachment
+            &.status,
+            &.priority, {
+                width: 2.5em;
+            }
+
+            &.fromto,
+            &.from,
+            &.to,
+            &.cc,
+            &.replyto {
+                width: 15em;
+            }
+
+            &.date {
+                width: 11em;
+            }
+
+            &.size {
+                width: 4em;
+            }
+
+            &.subject {
+                width: 99%;
+            }
+        }
+
+        span.unflagged:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-flag;
+            height: auto;
+            color: transparent;
+        }
+
+        td.status span {
+            &:extend(.font-icon-class);
+            height: auto;
+            cursor: pointer;
+
+            &:before {
+                .font-icon-regular(@fa-var-envelope-open);
+            }
+
+            &.unread:before {
+                .font-icon-solid(@fa-var-envelope);
+            }
+        }
+
+        td.priority span {
+            &:extend(.font-icon-class);
+            height: auto;
+
+            &.prio1:before {
+                content: @fa-var-exclamation;
+                color: @color-list-priority-1;
+            }
+
+            &.prio2:before {
+                content: @fa-var-long-arrow-alt-up;
+                color: @color-list-priority-2;
+            }
+
+            &.prio3:before {
+                content: @fa-var-arrows-alt-v;
+                color: @color-list-priority-3;
+            }
+
+            &.prio4:before {
+                content: @fa-var-long-arrow-alt-down;
+                color: @color-list-priority-4;
+            }
+
+            &.prio5:before {
+                content: @fa-var-long-arrow-alt-down;
+                color: @color-list-priority-5;
+            }
+        }
+
+        td > span.branch > div {
+            display: inline-block;
+        }
+
+        tr.unread td {
+            font-weight: bold;
+        }
+
+        tr.thread.expanded {
+            background-color: @color-list-thread-background
+        }
     }
 
     tr:hover span.unflagged:before {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
+        cursor: pointer;
+
+        .layout-list& {
+            height: auto;
+            color: @color-list;
+        }
     }
 }
 
