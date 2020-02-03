@@ -869,7 +869,7 @@ ul.treelist {
 
         &.unread:before {
             .font-icon-solid(@fa-var-envelope);
-            color: @color-list;
+            color: @color-list-unread-status !important;
         }
     }
 
@@ -918,7 +918,7 @@ ul.treelist {
     tr:hover {
         td.status span:before,
         span.unflagged:before {
-            color: @color-list;
+            color: @color-list-icon;
             cursor: pointer;
         }
     }
