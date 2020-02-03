@@ -418,10 +418,9 @@ function rcmail_user_prefs($current = null)
                     'list'       => 'layoutlistdesc'
                 );
 
-                foreach ($layouts as $val => $label) {
-                    if (in_array($val, $config['skin_layouts'])) {
-                        $select->add($RCMAIL->gettext($label), $val);
-                    }
+                $available_layouts = array_intersect_key($layouts, array_flip($config['skin_layouts']));
+                foreach ($available_layouts as $val => $label) {
+                    $select->add($RCMAIL->gettext($label), $val);
                 }
 
                 $blocks['main']['options']['layout'] = array(
