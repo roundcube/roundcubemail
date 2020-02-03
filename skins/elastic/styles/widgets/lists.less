@@ -25,7 +25,6 @@
         line-height: @listing-line-height;
     }
 
-    thead th,
     tbody td,
     li a {
         padding: 0 .5rem;
@@ -36,8 +35,12 @@
 
     thead th {
         padding: .25rem .5rem;
+        white-space: nowrap;
+        vertical-align: middle;
         font-weight: bold;
         color: @color-list-header;
+        .overflow-ellipsis;
+        outline: none;
 
         a {
             color: @color-list-header;
@@ -599,20 +602,10 @@ ul.treelist {
 
 /*** Messages list widget ***/
 
-.messagelist > thead,
-.messagelist .branch {
-    .layout-widescreen& {
+.messagelist:not(.layout-list) {
+    > thead,
+    .branch {
         display: none;
-    }
-
-    th.threads,
-    th.flag,
-    th.attachment,
-    th.status,
-    th.priority {
-        text-indent: -999px;
-        white-space: nowrap;
-        overflow: hidden;
     }
 }
 
@@ -625,10 +618,61 @@ ul.treelist {
         font-size: 1rem !important;
     }
 
+    th {
+        &.threads,
+        &.flag,
+        &.attachment,
+        &.status,
+        &.priority {
+            text-indent: -999px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 2.5em;
+        }
+
+        &.threads a:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-columns;
+            height: auto;
+            text-indent: 0;
+        }
+
+        &.flag,
+        &.attachment {
+            span:before {
+                color: @color-list-header !important;
+            }
+        }
+
+        &.status span:before {
+            .font-icon-solid(@fa-var-envelope);
+        }
+
+        &.fromto,
+        &.from,
+        &.to,
+        &.cc,
+        &.replyto {
+            width: 15em;
+        }
+
+        &.date {
+            width: 11em;
+        }
+
+        &.size {
+            width: 4em;
+        }
+
+        &.subject {
+            width: 99%;
+        }
+    }
+
     td.subject {
         padding-right: 0;
 
-        .layout-widescreen& {
+        :not(.layout-list)& {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
@@ -791,129 +835,95 @@ ul.treelist {
         }
     }
 
-    th.attachment span:before {
-        color: @color-list-header;
-    }
+    th.flag span,
+    td.flag span,
+    span.flag span {
+        &:before {
+            &:extend(.font-icon-class);
+            .font-icon-regular(@fa-var-flag);
+            color: transparent;
 
-    th.threads a:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-columns;
-        height: auto;
-        text-indent: 0;
-    }
+            .layout-list& {
+                height: auto;
+                text-indent: 0;
+            }
+        }
 
-    span.flagged:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-flag;
-
-        .layout-list& {
-            height: auto;
-            text-indent: 0;
+        &.flagged:before {
+            .font-icon-solid(@fa-var-flag);
+            color: @color-list-flagged;
         }
     }
 
-    span.status:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-envelope;
+    td.status span,
+    span.status {
+        &:before {
+            &:extend(.font-icon-class);
+            .font-icon-regular(@fa-var-envelope-open);
 
-        .layout-list& {
-            height: auto;
-            text-indent: 0;
+            .layout-list& {
+                height: auto;
+                text-indent: 0;
+            }
+        }
+
+        &.unread:before {
+            .font-icon-solid(@fa-var-envelope);
+            color: @color-list;
         }
     }
 
-    span.priority:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-exclamation;
+    td.status span {
+        color: transparent;
+    }
 
-        .layout-list& {
-            height: auto;
-            text-indent: 0;
+    td.priority span,
+    span.priority {
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-exclamation;
+
+            .layout-list& {
+                height: auto;
+                text-indent: 0;
+            }
+        }
+
+        &.prio1:before {
+            content: @fa-var-exclamation;
+            color: @color-list-priority-1;
+        }
+
+        &.prio2:before {
+            content: @fa-var-long-arrow-alt-up;
+            color: @color-list-priority-2;
+        }
+
+        &.prio3:before {
+            content: @fa-var-arrows-alt-v;
+            color: @color-list-priority-3;
+        }
+
+        &.prio4:before {
+            content: @fa-var-long-arrow-alt-down;
+            color: @color-list-priority-4;
+        }
+
+        &.prio5:before {
+            content: @fa-var-long-arrow-alt-down;
+            color: @color-list-priority-5;
+        }
+    }
+
+    tr:hover {
+        td.status span:before,
+        span.unflagged:before {
+            color: @color-list;
+            cursor: pointer;
         }
     }
 
     .layout-list& {
-        th {
-            &.threads,
-            &.flag,
-            &.attachment,
-            &.status,
-            &.priority, {
-                width: 2.5em;
-            }
-
-            &.fromto,
-            &.from,
-            &.to,
-            &.cc,
-            &.replyto {
-                width: 15em;
-            }
-
-            &.date {
-                width: 11em;
-            }
-
-            &.size {
-                width: 4em;
-            }
-
-            &.subject {
-                width: 99%;
-            }
-        }
-
-        span.unflagged:before {
-            &:extend(.font-icon-class);
-            content: @fa-var-flag;
-            height: auto;
-            color: transparent;
-        }
-
-        td.status span {
-            &:extend(.font-icon-class);
-            height: auto;
-            cursor: pointer;
-
-            &:before {
-                .font-icon-regular(@fa-var-envelope-open);
-            }
-
-            &.unread:before {
-                .font-icon-solid(@fa-var-envelope);
-            }
-        }
-
-        td.priority span {
-            &:extend(.font-icon-class);
-            height: auto;
-
-            &.prio1:before {
-                content: @fa-var-exclamation;
-                color: @color-list-priority-1;
-            }
-
-            &.prio2:before {
-                content: @fa-var-long-arrow-alt-up;
-                color: @color-list-priority-2;
-            }
-
-            &.prio3:before {
-                content: @fa-var-arrows-alt-v;
-                color: @color-list-priority-3;
-            }
-
-            &.prio4:before {
-                content: @fa-var-long-arrow-alt-down;
-                color: @color-list-priority-4;
-            }
-
-            &.prio5:before {
-                content: @fa-var-long-arrow-alt-down;
-                color: @color-list-priority-5;
-            }
-        }
-
         td > span.branch > div {
             display: inline-block;
         }
@@ -923,18 +933,7 @@ ul.treelist {
         }
 
         tr.thread.expanded {
-            background-color: @color-list-thread-background
-        }
-    }
-
-    tr:hover span.unflagged:before {
-        &:extend(.font-icon-class);
-        .font-icon-regular(@fa-var-flag);
-        cursor: pointer;
-
-        .layout-list& {
-            height: auto;
-            color: @color-list;
+            background-color: @color-list-thread-background;
         }
     }
 }
