@@ -669,7 +669,7 @@ rcube_webmail.prototype.enigma_key_not_found = function(data)
             text: rcmail.get_label('enigma.sendunencrypted'),
             click: function(e) {
                 $(this).remove();
-                $('#enigmaencryptopt').prop('checked', false);
+                $('#enigmaencryptopt').prop('checked', false).change();
                 rcmail.command('send', {nocheck: true}, e.target, e.originalEvent);
             }
         });
