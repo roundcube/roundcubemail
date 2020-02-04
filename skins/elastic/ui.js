@@ -310,6 +310,9 @@ function rcube_elastic_ui()
                 if ($(this).next('.formbuttons').length) {
                     $(this).parent().addClass('formcontainer');
                 }
+
+                // Set the scrollable parent object for the table's fixed header
+                rcube_list_widget.prototype.container = 'div.formcontent';
             });
         }
 
