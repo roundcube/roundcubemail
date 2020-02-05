@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Télécharger toutes les pièces jointes';
-$labels['download'] = 'Télécharger...';
+$labels['download'] = 'Télécharger…';
 $labels['downloadmbox'] = 'Format mbox (.zip)';
 $labels['downloadmaildir'] = 'Format maildir (.zip)';
 $labels['downloademl'] = 'Source (.eml)';

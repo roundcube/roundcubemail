@@ -91,6 +91,7 @@ $labels['none'] = 'ingen';
 $labels['fromset'] = 'från grupp';
 $labels['fromfile'] = 'från fil';
 $labels['filterdisabled'] = 'Filter inaktiverat';
+$labels['filterenabled'] = 'Filter aktiverat';
 $labels['countisgreaterthan'] = 'antal är större än';
 $labels['countisgreaterthanequal'] = 'antal är större än eller lika med';
 $labels['countislessthan'] = 'antal är mindre än';

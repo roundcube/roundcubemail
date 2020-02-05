@@ -629,6 +629,7 @@ $labels['chinese'] = 'Kinesisk';
 $labels['arialabeltopnav'] = 'Fönsterkontroll';
 $labels['arialabeltasknav'] = 'Programuppgifter';
 $labels['arialabeltoolbar'] = 'Programmets verktygslist';
+$labels['arialabellistnav'] = 'Listnavigering';
 $labels['arialabelactivetask'] = 'Aktiv uppgift';
 $labels['arialabelmessagessearchfilter'] = 'Meddelandelistningsfilter';
 $labels['arialabelmailsearchform'] = 'Sökformulär för meddelande';
