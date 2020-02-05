@@ -274,3 +274,4 @@ $messages['emptyvacationbody'] = 'Tatil iletisi metnini yazmalısınız!';
 $messages['duplicate.conflict.err'] = 'Üst bilgi ve tekil belirteç aynı anda kullanılamaz.';
 $messages['disabledaction'] = 'İşleme izin verilmiyor!';
 $messages['lastindexempty'] = 'Sondan sayılırken dizin gereklidir';
+$messages['noflagset'] = 'En az bir işaret seçilmelidir.';

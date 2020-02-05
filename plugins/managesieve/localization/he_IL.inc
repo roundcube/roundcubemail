@@ -91,6 +91,7 @@ $labels['none'] = 'אף אחד מאלה';
 $labels['fromset'] = 'מקבוצה';
 $labels['fromfile'] = 'מקובץ';
 $labels['filterdisabled'] = 'מסנן מושבת';
+$labels['filterenabled'] = 'מופעל מסנן';
 $labels['countisgreaterthan'] = 'המספר גדול מ-';
 $labels['countisgreaterthanequal'] = 'המספר גדול או שווה ל-';
 $labels['countislessthan'] = 'המספר קטן מ-';

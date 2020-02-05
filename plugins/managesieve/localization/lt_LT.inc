@@ -274,3 +274,4 @@ $messages['emptyvacationbody'] = 'Atostogų pranešimui turinys būtinas!';
 $messages['duplicate.conflict.err'] = 'Naudojimas antraštės ir identifikatoriaus kartu yra draudžiamas, negalimas.';
 $messages['disabledaction'] = 'Veiksmas neleistinas.';
 $messages['lastindexempty'] = 'Skaičiuojant nuo pabaigos yra reikalingas turinys';
+$messages['noflagset'] = 'Privalo būti pasirinktas bent vienas požymis.';

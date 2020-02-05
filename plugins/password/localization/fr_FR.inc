@@ -36,5 +36,5 @@ $messages['disablednotice'] = 'Le système est en cours de maintenance et les ch
 $messages['passwinhistory'] = 'Ce mot de passe a déjà été utilisé précédemment.';
 $messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l’ancien.';
 $messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
-$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';
+$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant';
 $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';
