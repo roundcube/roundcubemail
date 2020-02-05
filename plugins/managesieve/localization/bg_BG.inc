@@ -274,3 +274,4 @@ $messages['emptyvacationbody'] = 'Липсва текст на писмо при
 $messages['duplicate.conflict.err'] = 'Не е позволено едновременното използване на заглавен блок и уникален идентификатор.';
 $messages['disabledaction'] = 'Непозволенo действие.';
 $messages['lastindexempty'] = 'Необходим е индекс, когато се брои от края';
+$messages['noflagset'] = 'Поне един флаг трябва да е избран.';

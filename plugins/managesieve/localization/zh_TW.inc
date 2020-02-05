@@ -91,6 +91,7 @@ $labels['none'] = '無';
 $labels['fromset'] = '從集合';
 $labels['fromfile'] = '從檔案';
 $labels['filterdisabled'] = '篩選已停用';
+$labels['filterenabled'] = '已啟用篩選';
 $labels['countisgreaterthan'] = '數量大於';
 $labels['countisgreaterthanequal'] = '數量大於或等於';
 $labels['countislessthan'] = '數量小於';

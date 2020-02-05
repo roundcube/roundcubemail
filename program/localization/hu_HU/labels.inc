@@ -629,6 +629,7 @@ $labels['chinese'] = 'Kínai';
 $labels['arialabeltopnav'] = 'Ablak beállítás';
 $labels['arialabeltasknav'] = 'Alkalmazás feladatok';
 $labels['arialabeltoolbar'] = 'Alkamazás eszközsor';
+$labels['arialabellistnav'] = 'Lista navigáció';
 $labels['arialabelactivetask'] = 'Aktiv feladat';
 $labels['arialabelmessagessearchfilter'] = 'Email lista szűrő';
 $labels['arialabelmailsearchform'] = 'Email üzenet kereső űrlap';
