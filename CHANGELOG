@@ -36,6 +36,7 @@ CHANGELOG Roundcube Webmail
 - Fix display issues with mail subject that contains line-breaks (#7191)
 - Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
 - Fix regression where using an absolute path to SQLite database file on Windows didn't work (#7196)
+- Fix using unix:///path/to/socket.file in memcached driver (#7210)
 
 RELEASE 1.4.2
 -------------
