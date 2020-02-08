@@ -514,13 +514,11 @@ function rcmail_prepare_message_body()
         $isHtml   = rcmail_compose_editor_mode();
         $messages = array();
 
-        // save inline images to files (before HTML body washing)
-        if ($COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
-            rcmail_write_inline_attachments($MESSAGE);
-        }
-        // save attachments to files (before HTML body washing)
-        else {
-            rcmail_write_compose_attachments($MESSAGE, $isHtml);
+        // Create a (fake) image attachments map. We need it before we handle
+        // the message body. After that we'll go throughout the list and check
+        // which images were used in the body and attach them for real or skip.
+        if ($isHtml) {
+            $CID_MAP = rcmail_cid_map($MESSAGE);
         }
 
         // set is_safe flag (before HTML body washing)
@@ -589,6 +587,10 @@ function rcmail_prepare_message_body()
         else if ($COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT || $COMPOSE['mode'] == rcmail_sendmail::MODE_EDIT) {
             $body = rcmail_create_draft_body($body, $isHtml);
         }
+
+        // Save forwarded files (or inline images) as attachments
+        // This will also update inline images location in the body
+        rcmail_write_compose_attachments($MESSAGE, $isHtml, $body);
     }
     // new message
     else {
@@ -930,12 +932,12 @@ function rcmail_remove_signature($body)
     return $body;
 }
 
-function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
+function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body)
 {
     global $RCMAIL, $COMPOSE, $CID_MAP;
 
     if ($message->pgp_mime || !empty($COMPOSE['forward_attachments'])) {
-        return $CID_MAP;
+        return;
     }
 
     $messages           = array();
@@ -961,11 +963,6 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
                 continue;
             }
 
-            // skip inline images when forwarding in text mode
-            if ($part->content_id && $part->disposition == 'inline' && !$bodyIsHtml && $COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD) {
-                continue;
-            }
-
             // skip version.txt parts of multipart/encrypted messages
             if ($message->pgp_mime && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
                 continue;
@@ -978,43 +975,60 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
                 }
             }
 
+            $replace = null;
+
+            // skip inline images when not used in the body
+            if ($part->disposition == 'inline') {
+                if (!$bodyIsHtml) {
+                    continue;
+                }
+
+                $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
+
+                if ($idx && isset($CID_MAP[$idx]) && strpos($message_body, $CID_MAP[$idx]) !== false) {
+                    $replace = $CID_MAP[$idx];
+                }
+                else {
+                    continue;
+                }
+            }
+            // skip any other attachment on Reply
+            else if ($COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
+                continue;
+            }
+
             if (($attachment = $loaded_attachments[rcmail_attachment_name($part) . $part->mimetype])
                 || ($attachment = rcmail_save_attachment($message, $pid, $COMPOSE['id']))
             ) {
-                if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
+                if ($replace) {
                     $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                         $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
 
-                    if ($part->content_id)
-                        $CID_MAP['cid:'.$part->content_id] = $url;
-                    else
-                        $CID_MAP[$part->content_location] = $url;
+                    $message_body = str_replace($replace, $url, $message_body);
                 }
             }
         }
     }
 
     $COMPOSE['forward_attachments'] = true;
-
-    return $CID_MAP;
 }
 
-function rcmail_write_inline_attachments(&$message)
+// Create a map of attachment content-id/content-locations
+function rcmail_cid_map($message)
 {
-    global $RCMAIL, $COMPOSE, $CID_MAP;
-
     if ($message->pgp_mime) {
-        return $CID_MAP;
+        return array();
     }
 
     $messages = array();
+    $map = array();
 
     foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
             $messages[] = $part->mime_id;
         }
 
-        if (($part->content_id || $part->content_location) && $part->filename) {
+        if ($part->content_id || $part->content_location) {
             // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
             foreach ($messages as $mimeid) {
                 if (strpos($part->mime_id, $mimeid . '.') === 0) {
@@ -1022,19 +1036,14 @@ function rcmail_write_inline_attachments(&$message)
                 }
             }
 
-            if ($attachment = rcmail_save_attachment($message, $pid, $COMPOSE['id'])) {
-                $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
-                    $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
+            $url = sprintf('RCMAP%s', md5($message->folder . '/' . $message->uid));
+            $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
 
-                if ($part->content_id)
-                    $CID_MAP['cid:'.$part->content_id] = $url;
-                else
-                    $CID_MAP[$part->content_location] = $url;
-            }
+            $map[$idx] = $url;
         }
     }
 
-    return $CID_MAP;
+    return $map;
 }
 
 // Creates attachment(s) from the forwarded message(s)
