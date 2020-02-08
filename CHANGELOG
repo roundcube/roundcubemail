@@ -37,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
 - Fix regression where using an absolute path to SQLite database file on Windows didn't work (#7196)
 - Fix using unix:///path/to/socket.file in memcached driver (#7210)
+- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
 
 RELEASE 1.4.2
 -------------
