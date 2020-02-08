@@ -117,6 +117,11 @@ Note 1: 'password' is the master password for the roundcube user. It is strongly
 recommended you replace this with a more secure password. Please keep in
 mind: You need to specify this password later in 'config/db.inc.php'.
 
+Note 2: When using MySQL < 5.7.7 or MariaDB < 10.2.2 it is required to configure
+the database engine with:
+    innodb_large_prefix=true
+    innodb_file_format=Barracuda
+
 
 * SQLite
 --------
