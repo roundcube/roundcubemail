@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Rcmail_OutputHtml extends PHPUnit\Framework\TestCase
+class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 {
     /**
      * Test get_template_logo()
