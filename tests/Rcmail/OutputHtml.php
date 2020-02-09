@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test class to test rcmail_output_html class
  *

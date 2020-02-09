@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
+- Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
+
 RELEASE 1.4.3
 -------------
 - Enigma: Fix so key list selection is reset when opening key creation form (#7154)
@@ -27,7 +30,6 @@ RELEASE 1.4.3
 - Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
 - Fix regression where using an absolute path to SQLite database file on Windows didn't work (#7196)
 - Fix using unix:///path/to/socket.file in memcached driver (#7210)
-- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
 
 RELEASE 1.4.2
 -------------
