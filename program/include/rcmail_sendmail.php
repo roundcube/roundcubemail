@@ -1478,8 +1478,9 @@ class rcmail_sendmail
                     break;
                 }
             }
+
             // use replied/forwarded message recipients
-            else if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
+            if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
                 // remember first matching identity address
                 if ($found_idx['to'] === null) {
                     $found_idx['to'] = $idx;
@@ -1495,7 +1496,7 @@ class rcmail_sendmail
         // If matching by name+address didn't find any matches,
         // get first found identity (address) if any
         if ($from_idx === null) {
-            $from_idx = $found_idx['from'] !== null ? $found_idx['from'] : $found_idx['to'];
+            $from_idx = $found_idx['to'] !== null ? $found_idx['to'] : $found_idx['from'];
         }
 
         // Try Return-Path

@@ -53,6 +53,7 @@
             <file>MailFunc.php</file>
             <file>Rcmail/OutputHtml.php</file>
             <file>Rcmail/Rcmail.php</file>
+            <file>Rcmail/Sendmail.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>
