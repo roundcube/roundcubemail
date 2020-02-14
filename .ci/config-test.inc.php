@@ -20,6 +20,11 @@ $config['support_url'] = 'http://support.url';
 
 // Plugins with tests
 
-$config['plugins'] = ['archive', 'markasjunk', 'zipdownload'];
+$config['plugins'] = [
+    'archive',
+    'attachment_reminder',
+    'markasjunk',
+    'zipdownload'
+];
 
 $config['archive_mbox'] = 'Archive';
