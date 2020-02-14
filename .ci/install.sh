@@ -12,7 +12,7 @@ cd $DIR/..
 cp composer.json-dist composer.json
 
 # Add laravel/dusk for Browser tests
-if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.7.0" --no-update; fi
+if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.9.1" --no-update; fi
 
 # Remove qr-code as it requires php-gd which is not always available on Travis
 # and we don't really need it for tests
