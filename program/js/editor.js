@@ -58,6 +58,7 @@ function rcube_text_editor(config, id)
       convert_urls: false, // #1486944
       image_description: false,
       paste_webkit_style: "color font-size font-family",
+      automatic_uploads: false, // allows to paste images
       paste_data_images: true,
       // Note: We disable contextmenu options specifically for browser_spellcheck:true.
       //       Otherwise user would have to use Right-Click with CTRL to get to
