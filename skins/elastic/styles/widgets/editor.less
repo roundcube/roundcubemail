@@ -34,8 +34,9 @@ div.tox {
         z-index: 1; // for sticky header feature
 
         & > div {
+            // The svg is copied from TinyMCE with modified height params
+            background: url("data:image/svg+xml;charset=utf8,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E");
             background-color: @color-input-addon-background;
-            box-sizing: border-box;
         }
     }
 
@@ -82,7 +83,7 @@ div.tox {
     }
 
     .tox-dialog__header {
-        height: @layout-header-height;
+        height: (@layout-header-height - 1px);
         border-bottom: 1px solid @color-dialog-header-border;
         justify-content: flex-end; // fixes close button position when dialog has no title
         padding: 0;
@@ -113,7 +114,7 @@ div.tox {
     }
 
     .tox-dialog__footer {
-        height: @layout-header-height !important;
+        height: (@layout-footer-height - 1px) !important;
         border: 0;
         margin: 0;
         padding: 0 1rem;
@@ -124,6 +125,7 @@ div.tox {
 
         & > div {
             white-space: nowrap;
+            max-height: (@layout-footer-height - 1px);
 
             button:first-child {
                 margin: 0;
@@ -197,10 +199,13 @@ div.tox {
         color: @color-dialog-header;
     }
 
-    .tox-tbtn svg,
-    .tox-icon svg {
-        // Fix "blured images" in Firefox when with sub-pixel positioning (because of flexbox)
-        transform: translate(0, 0);
+    // Make toolbar buttons smaller
+    .tox-tbtn {
+        height: 28px;
+
+        &:not(.tox-tbtn--select,.tox-split-button__chevron) {
+            width: 32px;
+        }
     }
 
     .tox-label {
@@ -210,28 +215,21 @@ div.tox {
 
     // Adding .form-control does not work with TinyMCE skins,
     // so we have to overwrite some props here
-    .tox-color-input > span,
+    .tox-color-input > input,
     .tox-selectfield select,
     .tox-textarea,
     .tox-textfield {
         .font-family !important;
-        font-size: @page-font-size !important;
-        line-height: 1.5 !important;
-        color: @color-font !important;
-        border-radius: .25rem !important;
+        font-size: @page-font-size;
+        line-height: 1.5;
+        color: @color-font;
+        border-radius: .25rem;
+        min-height: 0;
+        padding: .375rem .75rem;
 
         &:focus {
             border-color: @color-input-border-focus;
             box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
-        }
-    }
-
-    .tox-color-input {
-        & > span {
-            border-radius: 0 .25rem .25rem 0 !important;
-        }
-        & > .tox-textfield {
-            border-radius: .25rem 0 0 .25rem !important;
         }
     }
 
@@ -355,7 +353,7 @@ div.tox {
         overflow-x: hidden;
         overflow-y: auto;
         height: 19.1em;
-        padding: 0;
+        padding: 0 !important;
 
         li {
             padding: .25rem;
@@ -416,18 +414,25 @@ div.tox {
 
         .mce-i-html {
             display: block;
-            padding: 1px 5px;
-            margin: 2px;
-            width: 2rem;
-            height: 24px;
-            border: 1px solid transparent;
-            color: #595959;
+            margin: 2px 2px 2px 4px;
+            width: 32px;
+            height: 28px;
+            border-radius: .25rem;
+            color: #222f3e; // from TinyMCE
 
             &:focus,
             &:hover {
                 text-decoration: none;
                 border-color: #e2e4e7;
-                background-color: #fff;
+                background-color: #dee0e2; // from TinyMCE
+            }
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-image;
+                margin: 0;
+                width: 32px;
+                line-height: 28px;
             }
         }
     }
