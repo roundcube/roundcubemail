@@ -1505,6 +1505,7 @@ class rcube_imap_generic
             $mailbox = '*';
         }
 
+        $lstatus = false;
         $args = array();
         $rets = array();
 
