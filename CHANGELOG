@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.3
+-------------
 - Enigma: Fix so key list selection is reset when opening key creation form (#7154)
 - Enigma: Fix so using list checkbox selection does not load the key preview frame
 - Enigma: Fix generation of key pairs for identities with IDN domains (#7181)
