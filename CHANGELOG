@@ -12,6 +12,12 @@ CHANGELOG Roundcube Webmail
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Fix so messages in threads with no root aren't displayed separately (#4999)
+- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
+- Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
+
+RELEASE 1.4.3
+-------------
 - Enigma: Fix so key list selection is reset when opening key creation form (#7154)
 - Enigma: Fix so using list checkbox selection does not load the key preview frame
 - Enigma: Fix generation of key pairs for identities with IDN domains (#7181)
@@ -26,7 +32,6 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix text selection in recipient inputs (#7129)
 - Elastic: Fix missing Close button in "more recipients" dialog
 - Elastic: Fix non-working folder subscription checkbox for newly added folders (#7174)
-- Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix regression where "Open in new window" action didn't work (#7155)
 - Fix PHP Warning: array_filter() expects parameter 1 to be array, null given in subscriptions_option plugin (#7165)
 - Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
@@ -37,8 +42,6 @@ CHANGELOG Roundcube Webmail
 - Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
 - Fix regression where using an absolute path to SQLite database file on Windows didn't work (#7196)
 - Fix using unix:///path/to/socket.file in memcached driver (#7210)
-- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
-- Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
 
 RELEASE 1.4.2
 -------------
