@@ -1529,12 +1529,17 @@ EOF;
      */
     protected function prepare_object_attribs(&$attribs)
     {
-        // Localize data-label-* attributes
-        array_walk($attribs, function(&$value, $key, $rcube) {
+        foreach ($attribs as $key => &$value) {
             if (strpos($key, 'data-label-') === 0) {
-                $value = $rcube->gettext($value);
+                // Localize data-label-* attributes
+                $value = $this->app->gettext($value);
             }
-        }, $this->app);
+            elseif ($key[0] == ':') {
+                // Evaluate attributes with expressions and remove special character from attribute name
+                $attribs[substr($key, 1)] = $this->eval_expression($value);
+                unset($attribs[$key]);
+            }
+        }
     }
 
     /**

@@ -591,7 +591,14 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $list_menu = rcmail_options_menu_link();
+        $params = array();
+        foreach ($attrib as $key => $val) {
+            if (preg_match('/^optionsmenu(.+)$/', $key, $matches)) {
+                $params[$matches[1]] = $val;
+            }
+        }
+
+        $list_menu = rcmail_options_menu_link($params);
     }
 
     $cells = $coltypes = array();
@@ -660,11 +667,16 @@ function rcmail_options_menu_link($attrib = array())
 {
     global $RCMAIL;
 
-    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', '" . ($attrib['ref'] ?: 'messagelistmenu') ."', this, event)";
     $inner   = $title = $RCMAIL->gettext($attrib['label'] ?: 'listoptions');
 
-    if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-        $inner = html::img(array('src' => $RCMAIL->output->asset_url($attrib['optionsmenuicon'], true), 'alt' => $title));
+    // Backwards compatibility, attribute renamed in v1.5
+    if (isset($attrib['optionsmenuicon'])) {
+        $attrib['icon'] = $attrib['optionsmenuicon'];
+    }
+
+    if (is_string($attrib['icon']) && $attrib['icon'] != 'true') {
+        $inner = html::img(array('src' => $RCMAIL->output->asset_url($attrib['icon'], true), 'alt' => $title));
     }
     else if ($attrib['innerclass']) {
         $inner = html::span($attrib['innerclass'], $inner);
@@ -674,7 +686,7 @@ function rcmail_options_menu_link($attrib = array())
             'href'     => '#list-options',
             'onclick'  => $onclick,
             'class'    => isset($attrib['class']) ? $attrib['class'] : 'listmenu',
-            'id'       => 'listmenulink',
+            'id'       => isset($attrib['id']) ? $attrib['id'] : 'listmenulink',
             'title'    => $title,
             'tabindex' => '0',
     ), $inner);
