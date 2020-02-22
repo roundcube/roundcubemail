@@ -404,7 +404,7 @@ function rcmail_user_prefs($current = null)
                 'advanced'    => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
-            if (!isset($no_override['layout'])) {
+            if (!isset($no_override['layout']) && count($config['supported_layouts']) > 1) {
                 if (!$current) {
                     continue 2;
                 }
@@ -412,9 +412,16 @@ function rcmail_user_prefs($current = null)
                 $field_id = 'rcmfd_layout';
                 $select   = new html_select(array('name' => '_layout', 'id' => $field_id));
 
-                $select->add($RCMAIL->gettext('layoutwidescreendesc'), 'widescreen');
-                $select->add($RCMAIL->gettext('layoutdesktopdesc'), 'desktop');
-                $select->add($RCMAIL->gettext('layoutlistdesc'), 'list');
+                $layouts = array(
+                    'widescreen' => 'layoutwidescreendesc',
+                    'desktop'    => 'layoutdesktopdesc',
+                    'list'       => 'layoutlistdesc'
+                );
+
+                $available_layouts = array_intersect_key($layouts, array_flip($config['supported_layouts']));
+                foreach ($available_layouts as $val => $label) {
+                    $select->add($RCMAIL->gettext($label), $val);
+                }
 
                 $blocks['main']['options']['layout'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('layout'))),

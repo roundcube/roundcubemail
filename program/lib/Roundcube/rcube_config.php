@@ -257,6 +257,9 @@ class rcube_config
             ini_set('error_log', $error_log);
         }
 
+        // set default screen layouts
+        $this->prop['supported_layouts'] = array('widescreen', 'desktop', 'list');
+
         // remove deprecated properties
         unset($this->prop['dst_active']);
     }
@@ -399,6 +402,11 @@ class rcube_config
             }
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
+            }
+        }
+        else if ($name == 'layout') {
+            if (!in_array($result, $this->prop['supported_layouts'])) {
+                $result = $this->prop['supported_layouts'][0];
             }
         }
 
