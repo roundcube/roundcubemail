@@ -259,12 +259,18 @@ init_header: function()
   }
 },
 
+/**
+ * Set the scrollable parent object for the table's fixed header
+ */
+container: window,
+
 init_fixed_header: function()
 {
   var clone = $(this.list.tHead).clone();
 
   if (!this.fixed_header) {
     this.fixed_header = $('<table>')
+      .attr('id', this.list.id + '-fixedcopy')
       .attr('class', this.list.className + ' fixedcopy')
       .attr('role', 'presentation')
       .css({ position:'fixed' })
@@ -273,14 +279,14 @@ init_fixed_header: function()
     $(this.list).before(this.fixed_header);
 
     var me = this;
-    $(window).resize(function() { me.resize(); });
-    $(window).scroll(function() {
-      var w = $(window);
-      me.fixed_header.css({
-        marginLeft: -w.scrollLeft() + 'px',
-        marginTop: -w.scrollTop() + 'px'
+    $(window).on('resize', function() { me.resize(); });
+    $(this.container).on('scroll', function() {
+        var w = $(this);
+        me.fixed_header.css({
+          marginLeft: -w.scrollLeft() + 'px',
+          marginTop: -w.scrollTop() + 'px'
+        });
       });
-    });
   }
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
