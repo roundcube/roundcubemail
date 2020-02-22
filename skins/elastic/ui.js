@@ -82,7 +82,10 @@ function rcube_elastic_ui()
     this.pretty_select = pretty_select;
     this.datepicker_init = datepicker_init;
     this.bootstrap_style = bootstrap_style;
-
+    this.toggle_list_selection = toggle_list_selection;
+    this.get_screen_mode = get_screen_mode;
+    this.is_mobile = is_mobile;
+    this.is_touch = is_touch;
 
     // Detect screen size/mode
     screen_mode();
@@ -555,7 +558,7 @@ function rcube_elastic_ui()
                 // Add Select button to the list navigation bar
                 if (!button) {
                     button = $('<a>').attr({'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select')})
-                        .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
+                        .on('click', function() { UI.toggle_list_selection(this, table.attr('id')); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
                     if (toolbar.is('.menu')) {
@@ -1492,6 +1495,13 @@ function rcube_elastic_ui()
         }
     };
 
+    function toggle_list_selection(obj, list_id)
+    {
+        if ($(obj).is('.active')) {
+            $('#' + list_id).toggleClass('withselection');
+        }
+    };
+
     /**
      * Handler for some Roundcube core popups
      */
@@ -1592,6 +1602,14 @@ function rcube_elastic_ui()
     };
 
     /**
+     *  Get current screen mode
+     */
+    function get_screen_mode()
+    {
+        return mode;
+    };
+
+    /**
      * Window resize handler
      * Does layout reflows e.g. on screen orientation change
      */
@@ -1615,6 +1633,8 @@ function rcube_elastic_ui()
 
         // Hide content frame buttons on small devices (with frame toolbar in parent window)
         $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
+
+        rcmail.triggerEvent('skin-resize', { mode: mode })
     };
 
     function screen_resize()
@@ -2474,6 +2494,11 @@ function rcube_elastic_ui()
             var fn, pos,
                 content = $('ul', p.obj).first(),
                 target = p.props && p.props.link ? p.props.link : p.originalEvent.target;
+
+            // Sanity check, make sure we have some content to show
+            if (!content.length) {
+                return;
+            }
 
             if ($(target).is('span')) {
                 target = $(target).parents('a,li')[0];
