@@ -2364,7 +2364,7 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
-    if (this.env.layout == 'widescreen')
+    if (flags.layout == 'widescreen')
       row = this.widescreen_message_row(row, uid, message);
 
     list.insert_row(row, attop);
@@ -2720,6 +2720,10 @@ function rcube_webmail()
       this.unmark_folder(mbox, 'recent', '', true);
       this.env.mailbox = mbox;
     }
+
+    url._list_layout = this.env.layout;
+    if (this.env.list_layout)
+      url._list_layout = this.env.list_layout;
 
     // load message list remotely
     if (this.gui_objects.messagelist) {
