@@ -47,17 +47,6 @@ class rcube_db_mysql extends rcube_db
     }
 
     /**
-     * Driver-specific configuration of database connection
-     *
-     * @param array $dsn DSN for DB connections
-     * @param PDO   $dbh Connection handler
-     */
-    protected function conn_configure($dsn, $dbh)
-    {
-        $dbh->query("SET NAMES 'utf8'");
-    }
-
-    /**
      * Abstract SQL statement for value concatenation
      *
      * @return string SQL statement to be used in query
@@ -101,7 +90,7 @@ class rcube_db_mysql extends rcube_db
             $params[] = 'unix_socket=' . $dsn['socket'];
         }
 
-        $params[] = 'charset=utf8';
+        $params[] = 'charset=' . ($dsn['charset'] ?: 'utf8mb4');
 
         if (!empty($params)) {
             $result .= implode(';', $params);
