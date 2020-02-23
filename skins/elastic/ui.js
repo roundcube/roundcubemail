@@ -3741,37 +3741,20 @@ function rcube_elastic_ui()
      */
     function textarea_autoresize_init(textarea)
     {
-        var resize = function(e) {
-            clearTimeout(env.textarea_timer);
-            env.textarea_timer = setTimeout(function() {
-                var area = $(e.target),
-                    initial_height = area.data('initial-height'),
-                    scroll_height = area[0].scrollHeight;
+        // FIXME: Is there a better way to get initial height of the textarea?
+        var min_height = ($(textarea)[0].rows || 5) * 21,
+            resize = function(e) {
+                var oldHeight = $(this).outerHeight();
+                $(this).outerHeight(0);
+                var newHeight = Math.max(min_height, this.scrollHeight);
+                $(this).outerHeight(oldHeight);
 
-                // do nothing when the area is hidden
-                if (!scroll_height) {
-                    return;
+                if (newHeight !== oldHeight) {
+                    $(this).height(newHeight);
                 }
+            };
 
-                if (!initial_height) {
-                    area.data('initial-height', initial_height = scroll_height);
-                }
-
-                // strange effect in Chrome/Firefox when you delete a line in the textarea
-                // the scrollHeight is not decreased by the line height, but by 2px
-                // so jumps up many times in small steps, we'd rather use one big step
-                if (area.outerHeight() - scroll_height == 2) {
-                    scroll_height -= 19; // 21px is the assumed line height
-                }
-
-                area.outerHeight(Math.max(initial_height, scroll_height));
-            }, 10);
-        };
-
-        $(textarea).css('overflow-y', 'hidden').on('input', resize).trigger('input');
-
-        // Make sure the height is up-to-date also in time intervals
-        setInterval(function() { $(textarea).trigger('input'); }, 1000);
+        $(textarea).on('input', resize).trigger('input');
     };
 
     // Inititalizes smart list input
