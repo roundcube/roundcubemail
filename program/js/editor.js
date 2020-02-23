@@ -331,7 +331,7 @@ function rcube_text_editor(config, id)
         if (is_sig)
           data = data.replace(sig_mark, "\n" + signature.text);
 
-        input.val(data).focus();
+        input.val(data).focus().trigger('input');
         rcmail.set_caret_pos(input.get(0), 0);
       };
 
