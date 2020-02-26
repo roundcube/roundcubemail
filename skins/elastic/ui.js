@@ -3173,8 +3173,8 @@ function rcube_elastic_ui()
 
                 return result.recipients.length > 0;
             },
-            parse_func = function(e) {
-                var paste, value = this.value;
+            parse_func = function(e, ac) {
+                var last, paste, value = this.value;
 
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
@@ -3184,6 +3184,16 @@ function rcube_elastic_ui()
                     // insert pasted text in place of the selection (or just cursor position)
                     value = value.substring(0, this.selectionStart) + paste + value.substring(this.selectionEnd);
                     e.preventDefault();
+                }
+                // #7231: When clicking on autocompletion list a change event
+                // is fired twice. We have to remove last recipient box if it is
+                // the same recpient (with incomplete email address).
+                // FIXME: Anyone with a better solution?
+                else if (ac) {
+                    last = list.find('li.recipient').last();
+                    if (last.length && this.value.indexOf(last.text().replace(/[ ,]+$/, '')) > -1) {
+                        last.remove();
+                    }
                 }
 
                 update_func(value);
