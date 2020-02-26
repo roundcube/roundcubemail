@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
 - Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
 - Elastic: Fix text selection with Shift+PageUp and Shift+PageDown in plain text editor when using Chrome (#7230)
+- Elastic: Fix recipient input bug when using click to select a contact from autocomplete list (#7231)
 
 RELEASE 1.4.3
 -------------
