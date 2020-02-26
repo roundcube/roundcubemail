@@ -6081,7 +6081,7 @@ function rcube_webmail()
     this.set_caret_pos(input, p + to.length);
 
     // run onchange action on the element
-    $(input).change();
+    $(input).trigger('change', [true]);
   };
 
   this.ksearch_click = function(node)
