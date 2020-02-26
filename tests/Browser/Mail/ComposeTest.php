@@ -5,9 +5,15 @@ namespace Tests\Browser\Mail;
 use Facebook\Webdriver\WebDriverKeys;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\HtmlEditor;
+use Tests\Browser\Components\RecipientInput;
 
 class ComposeTest extends \Tests\Browser\TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \bootstrap::init_db();
+    }
+
     public function testCompose()
     {
         $this->browse(function ($browser) {
@@ -65,6 +71,10 @@ class ComposeTest extends \Tests\Browser\TestCase
             // Compose options
             $browser->assertSeeIn('#layout-sidebar .header', 'Options and attachments');
             $browser->assertVisible('#compose-attachments');
+
+            if ($browser->isPhone()) {
+                $browser->click('#layout-sidebar a.back-content-button');
+            }
         });
     }
 
@@ -95,6 +105,28 @@ class ComposeTest extends \Tests\Browser\TestCase
                     ->switchMode(HtmlEditor::MODE_PLAIN)
                     ->assertValue('@plain-body', "line1\nline2\nline1\nline2")
                     ->switchMode(HtmlEditor::MODE_HTML, false);
+            });
+        });
+    }
+
+    /**
+     * depends @testCompose
+     */
+    function testRecipientInput()
+    {
+        // Test for #7231: Recipient input bug when using click
+        // to select a contact from autocomplete list
+        $this->browse(function ($browser) {
+            $browser->with(new RecipientInput('#compose_to'), function ($browser) {
+                $browser->type('@input', 'johndoe@e')
+                    ->withinBody(function ($browser) {
+                        $browser->whenAvailable('#rcmKSearchpane', function ($browser) {
+                            $browser->click('li:first-child');
+                        });
+                    })
+                    ->waitFor('@recipient')
+                    ->assertElementsCount('@recipient', 1)
+                    ->assertRecipient(1, 'John Doe <johndoe@example.org>');
             });
         });
     }
