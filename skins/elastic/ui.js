@@ -3751,16 +3751,36 @@ function rcube_elastic_ui()
      */
     function textarea_autoresize_init(textarea)
     {
-        // FIXME: Is there a better way to get initial height of the textarea?
-        var min_height = ($(textarea)[0].rows || 5) * 21,
+        var padding = parseInt($(textarea).css('padding-top')) + parseInt($(textarea).css('padding-bottom')) + 2,
+            // FIXME: Is there a better way to get initial height of the textarea?
+            //        At this moment clientHeight/offsetHeight is 0.
+            min_height = ($(textarea)[0].rows || 5) * 21,
             resize = function(e) {
+                if (this.scrollHeight - padding <= min_height) {
+                    return;
+                }
+
+                // To fix scroll-jump issue in Edge we'll find the scrolling parent
+                // and re-apply scrollTop value after we reset textarea height
+                var scroll_element, scroll_pos = 0;
+                $(e.target).parents().each(function() {
+                    if (this.scrollTop > 0) {
+                        scroll_element = this;
+                        scroll_pos = this.scrollTop;
+                        return false;
+                    }
+                });
+
                 var oldHeight = $(this).outerHeight();
                 $(this).outerHeight(0);
                 var newHeight = Math.max(min_height, this.scrollHeight);
                 $(this).outerHeight(oldHeight);
-
                 if (newHeight !== oldHeight) {
                     $(this).height(newHeight);
+                }
+
+                if (scroll_pos) {
+                    scroll_element.scrollTop = scroll_pos;
                 }
             };
 
