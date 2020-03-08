@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing contact display name in QR Code data (#7257)
 - Fix so button label in Select image/media dialogs is "Close" not "Cancel" (#7246)
 - Fix regression in testing database schema on MSSQL (#7227)
+- Fix cursor position after inserting a group to a recipient input using autocompletion (#7267)
 
 RELEASE 1.4.3
 -------------
