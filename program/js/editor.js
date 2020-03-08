@@ -664,7 +664,7 @@ function rcube_text_editor(config, id)
       title: rcmail.get_label('select' + type),
       width: 500,
       html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
-      buttons: [{text: 'Cancel', onclick: function() { ref.file_browser_close(); }}]
+      buttons: [{text: rcmail.get_label('close'), onclick: function() { ref.file_browser_close(); }}]
     });
 
     rcmail.env.file_browser_field = field_name;
