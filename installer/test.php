@@ -190,7 +190,9 @@ if ($db_working) {
 // more database tests
 if ($db_working) {
     // Using transactions to workaround SQLite bug (#7064)
-    $DB->startTransaction();
+    if ($DB->db_provider == 'sqlite') {
+        $DB->startTransaction();
+    }
 
     // write test
     $insert_id = md5(uniqid());
@@ -208,7 +210,9 @@ if ($db_working) {
     echo '<br />';
 
     // Transaction end
-    $DB->rollbackTransaction();
+    if ($DB->db_provider == 'sqlite') {
+        $DB->rollbackTransaction();
+    }
 
     // check timezone settings
     $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
