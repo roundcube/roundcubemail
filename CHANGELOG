@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid Content-Type for messages with only html part and inline images - Mail_Mime-1.10.7 (#7261)
 - Fix missing contact display name in QR Code data (#7257)
 - Fix so button label in Select image/media dialogs is "Close" not "Cancel" (#7246)
+- Fix regression in testing database schema on MSSQL (#7227)
 
 RELEASE 1.4.3
 -------------
