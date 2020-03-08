@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix text selection with Shift+PageUp and Shift+PageDown in plain text editor when using Chrome (#7230)
 - Elastic: Fix recipient input bug when using click to select a contact from autocomplete list (#7231)
 - Fix invalid Content-Type for messages with only html part and inline images - Mail_Mime-1.10.7 (#7261)
+- Fix missing contact display name in QR Code data (#7257)
 
 RELEASE 1.4.3
 -------------
