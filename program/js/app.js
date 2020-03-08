@@ -6078,7 +6078,7 @@ function rcube_webmail()
     input.value = pre + to + end;
 
     // set caret to insert pos
-    this.set_caret_pos(input, p + to.length);
+    this.set_caret_pos(input, cpos + to.length - from.length);
 
     // run onchange action on the element
     $(input).trigger('change', [true]);
