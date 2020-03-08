@@ -370,9 +370,9 @@ class rcube_imap extends rcube_storage
     /**
      * Returns the IMAP server's capability.
      *
-     * @param   string  $cap Capability name
+     * @param string $cap Capability name
      *
-     * @return  mixed   Capability value or TRUE if supported, FALSE if not
+     * @return mixed Capability value or TRUE if supported, FALSE if not
      */
     public function get_capability($cap)
     {
@@ -3179,6 +3179,13 @@ class rcube_imap extends rcube_storage
 
         if (!$this->check_connection()) {
             return 0;
+        }
+
+        if ($this->get_capability('STATUS=SIZE')) {
+            $status = $this->conn->status($folder, array('SIZE'));
+            if (is_array($status) && array_key_exists('SIZE', $status)) {
+                return (int) $status['SIZE'];
+            }
         }
 
         // On Cyrus we can use special folder annotation, which should be much faster
