@@ -1526,7 +1526,7 @@ class rcube_imap_generic
 
         if (!empty($return_opts) && $this->getCapability('LIST-STATUS')) {
             $lstatus     = true;
-            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN');
+            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN', 'SIZE');
             $opts        = array_diff($return_opts, $status_opts);
             $status_opts = array_diff($return_opts, $opts);
 
