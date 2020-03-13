@@ -79,7 +79,7 @@ class markasjunk extends rcube_plugin
                         'classsel'   => 'button junk pressed',
                         'title'      => 'markasjunk.buttonjunk',
                         'innerclass' => 'inner',
-                        'label'      => 'junk'
+                        'label'      => 'markasjunk.junk'
                     ), 'toolbar');
 
                 $this->add_button(array(
