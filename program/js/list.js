@@ -454,10 +454,10 @@ update_row: function(id, cols, newid, select)
 /**
  * Add selection checkbox to the list record
  */
-insert_checkbox: function(row)
+insert_checkbox: function(row, tag_name)
 {
   var key, self = this,
-    cell = document.createElement(this.col_tagname()),
+    cell = document.createElement(this.col_tagname(tag_name)),
     chbox = document.createElement('input');
 
   chbox.type = 'checkbox';
@@ -494,14 +494,26 @@ enable_checkbox_selection: function()
   this.checkbox_selection = true;
 
   // Add checkbox to existing records if any
-  var r, len, cell, row_tag = this.row_tagname().toUpperCase(),
-    rows = this.tbody.childNodes;
+  var r, len, cell, rows,
+    row_tag = this.row_tagname().toUpperCase();
 
+  if (this.thead) {
+    rows = this.thead.childNodes;
+    for (r=0, len=rows.length; r<len; r++) {
+      if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
+        if (cell.className == 'selection')
+          break;
+        this.insert_checkbox(rows[r], 'thead');
+      }
+    }
+  }
+
+  rows = this.tbody.childNodes;
   for (r=0, len=rows.length; r<len; r++) {
     if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
       if (cell.className == 'selection')
         break;
-      this.insert_checkbox(rows[r]);
+      this.insert_checkbox(rows[r], 'tbody');
     }
   }
 },
@@ -1014,10 +1026,10 @@ row_tagname: function()
   return row_tagnames[this.tagname] || row_tagnames['*'];
 },
 
-col_tagname: function()
+col_tagname: function(tagname)
 {
-  var col_tagnames = { table:'td', '*':'span' };
-  return col_tagnames[this.tagname] || col_tagnames['*'];
+  var col_tagnames = { table:'td', thead:'th', tbody:'td', '*':'span' };
+  return col_tagnames[tagname || this.tagname] || col_tagnames['*'];
 },
 
 get_cell: function(row, index)
