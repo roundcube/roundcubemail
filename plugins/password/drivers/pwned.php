@@ -61,26 +61,18 @@ class rcube_pwned_password
     // See https://www.troyhunt.com/enhancing-pwned-passwords-privacy-with-padding/
     const ENHANCED_PRIVACY_CURL = 1;
 
-    // check result constants
-    const CHECKED_NOT_LISTED = 0;
-    const CHECKED_LISTED = 1;
-    const CHECK_RUNTIME_ERROR = 2;
-
-    const CONFIGURATION_ERROR = 'CONFIGURATION ERROR: Need curl or allow_url_fopen to check for compromised passwords';
+    // Score constants, these directly correspond to the score that is returned.
+    const SCORE_LISTED = 1;
+    const SCORE_ERROR = 2;
+    const SCORE_NOT_LISTED = 3;
 
     /**
      * Rule description.
      *
-     * @return human-readable description of the check rule.
+     * @return array human-readable description of the check rule.
      */
     function strength_rules()
     {
-        // show error message (only) if configuration won't allow to check for pwned passwords.
-        if (!$this->can_retrieve()) {
-            return array("<font size='+1' color='red'><b>" .self::CONFIGURATION_ERROR. "</b></font>");
-        }
-
-        // otherwise, show hint.
         $rc = rcmail::get_instance();
         return array($rc->gettext('password.pwned_mustnotbedisclosed'));
     }
@@ -91,47 +83,51 @@ class rcube_pwned_password
      *     1 - if password is definitely compromised.
      *     2 - if status for password can't be determined (network failures etc.)
      *     3 - if password is not publicly known to be compromised.
-     * @param string $passwd Password
      *
-     * @return array Score (1 to 3) and Reason
+     * @param string $passwd Password
+     * @return array password score (1 to 3) and (optional) reason message
      */
     function check_strength($passwd)
     {
-        $result = $this->is_pwned($passwd);
+        $score = $this->check_pwned($passwd);
+        $message = null;
 
-        if ($result === self::CHECKED_NOT_LISTED) {
-            // all good
-            return array(3, null);
-        } elseif ($result === self::CHECKED_LISTED) {
-            // compromised password
+        if ($score !== self::SCORE_NOT_LISTED) {
             $rc = rcmail::get_instance();
-            return array(1, $rc->gettext('password.pwned_isdisclosed'));
-        } else {
-            // other error message, return unchanged
-            return array(2, $result);
-        }
-    }
-
-    function is_pwned($passwd)
-    {
-        if (!($this->can_retrieve())) {
-            return self::CONFIGURATION_ERROR;
-        }
-
-        list($prefix, $suffix) = $this->hash_split($passwd);
-
-        $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
-
-        if ($suffixes) {
-            $result = $this->is_in_list($suffix, $suffixes);
-            if ($result !== self::CHECK_RUNTIME_ERROR) {
-                return $result;
+            if ($score === self::SCORE_LISTED) {
+                $message = $rc->gettext('password.pwned_isdisclosed');
+            } else {
+                $message = $rc->gettext('password.pwned_fetcherror');
             }
         }
 
-        // fallthrough: some error occurred while retrieving or parsing list
-        $rc = rcmail::get_instance();
-        return $rc->gettext('password.pwned_fetcherror');
+        return array($score, $message);
+    }
+
+    /**
+     * Check password using HIBP.
+     * @param string $passwd
+     * @return int score, one of the SCORE_* constants (between 1 and 3).
+     */
+    function check_pwned($passwd)
+    {
+        // initialize with error score
+        $result = self::SCORE_ERROR;
+
+        if (!$this->can_retrieve()) {
+            // Log the fact that we cannot check because of configuration error.
+            rcube::write_log('errors', "Plugin 'password', driver 'pwned': configuration error: need curl or allow_url_fopen to check for compromised passwords");
+        } else {
+            list($prefix, $suffix) = $this->hash_split($passwd);
+
+            $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
+
+            if ($suffixes) {
+                $result = $this->check_suffix_in_list($suffix, $suffixes);
+            }
+        }
+
+        return $result;
     }
 
     function hash_split($passwd)
@@ -191,10 +187,10 @@ class rcube_pwned_password
         return $output;
     }
 
-    function is_in_list($candidate, $list)
+    function check_suffix_in_list($candidate, $list)
     {
-        // initialize to error message in case there are no lines at all
-        $result = self::CHECK_RUNTIME_ERROR;
+        // initialize to error in case there are no lines at all
+        $result = self::SCORE_ERROR;
 
         foreach(preg_split('/[\r\n]+/', $list) as $line) {
             $line = strtolower($line);
@@ -202,13 +198,13 @@ class rcube_pwned_password
                 if (($matches[2] > 0) && ($matches[1] === $candidate)) {
                     // more than 0 occurrences, and suffix matches
                     // -> password is compromised
-                    return self::CHECKED_LISTED;
+                    return self::SCORE_LISTED;
                 }
                 // valid line, not matching the current password
-                $result = self::CHECKED_NOT_LISTED;
+                $result = self::SCORE_NOT_LISTED;
             } else {
                 // invalid line
-                return self::CHECK_RUNTIME_ERROR;
+                return self::SCORE_ERROR;
             }
         }
         return $result;
