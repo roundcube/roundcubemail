@@ -8350,11 +8350,15 @@ function rcube_webmail()
           if (repl[c].className) cell.className = repl[c].className;
           tr.appendChild(cell);
         }
+
+        if (list.checkbox_selection)
+          list.insert_checkbox(tr, 'thead');
+
         thead.appendChild(tr);
       }
 
       for (n=0, len=this.env.listcols.length; n<len; n++) {
-        col = this.env.listcols[n];
+        col = this.env.listcols[list.checkbox_selection ? n-1 : n];
         if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
           $(cell).attr('rel', col).find('span,a').text(this.get_label(col == 'fromto' ? smart_col : col));
         }
