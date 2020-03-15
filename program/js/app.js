@@ -1582,9 +1582,7 @@ function rcube_webmail()
     if (action)
       url += '&_action=' + action;
 
-    if (task == 'mail')
-      url += '&_mbox=INBOX';
-    else if (task == 'logout') {
+    if (task == 'logout') {
       url = this.secure_url(url);
       this.clear_compose_data();
     }
