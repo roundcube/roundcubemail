@@ -199,6 +199,17 @@ class archive extends rcube_plugin
                     case 'sender':
                         $subfolder = $this->sender_subfolder($message->get('from'));
                         break;
+
+                    case 'folderyear':
+                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                            . $delimiter . $mbox;
+                        break;
+
+                    case 'foldermonth':
+                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                            . $delimiter . $rcmail->format_date($message->timestamp, 'm')
+                            . $delimiter . $mbox;
+                        break;
                     }
 
                     // compose full folder path
@@ -414,6 +425,8 @@ class archive extends rcube_plugin
                 $archive_type->add($this->gettext('archivetypetbmonth'), 'tbmonth');
                 $archive_type->add($this->gettext('archivetypesender'), 'sender');
                 $archive_type->add($this->gettext('archivetypefolder'), 'folder');
+                $archive_type->add($this->gettext('archivetypefolderyear'), 'folderyear');
+                $archive_type->add($this->gettext('archivetypefoldermonth'), 'foldermonth');
 
                 $args['blocks']['archive'] = array(
                     'name'    => rcube::Q($this->gettext('settingstitle')),
