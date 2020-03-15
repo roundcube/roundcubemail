@@ -40,4 +40,3 @@ $messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le chan
 $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';
 $messages['pwned_mustnotbedisclosed'] = 'Le mot de passe ne doit pas être&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">communément connu</a>.';
 $messages['pwned_isdisclosed'] = 'Ce mot de passe est communément connu.';
-$messages['pwned_fetcherror'] = 'ERREUR: La vérification des mots de passe compromis a échoué';
