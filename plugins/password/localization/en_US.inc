@@ -43,4 +43,4 @@ $messages['passwdexpired'] = 'Your password has expired, you have to change it n
 $messages['passwdconstraintviolation'] = 'Password constraint violation. Password probably too weak.';
 $messages['pwned_mustnotbedisclosed'] = 'Password must not be&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'This password is commonly known.';
-$messages['pwned_fetcherror'] = 'ERROR: Verification of compromised passwords failed.';
+$messages['pwned_fetcherror'] = 'Failed to verify the password strength.';

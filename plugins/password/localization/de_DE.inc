@@ -40,4 +40,3 @@ $messages['passwdexpired'] = 'Ihr Passwort ist abgelaufen, ändern Sie es jetzt!
 $messages['passwdconstraintviolation'] = 'Passwortbeschränkungsverletzung. Passwort wahrscheinlich zu schwach.';
 $messages['pwned_mustnotbedisclosed'] = 'Passwort darf nicht&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">allgemein bekannt</a>&nbsp;sein.';
 $messages['pwned_isdisclosed'] = 'Dieses Passwort ist bereits allgemein bekannt.';
-$messages['pwned_fetcherror'] = 'FEHLER: Die Überprüfung kompromittierter Passwörter ist fehlgeschlagen.';

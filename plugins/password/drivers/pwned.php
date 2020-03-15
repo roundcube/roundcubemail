@@ -85,6 +85,7 @@ class rcube_pwned_password
      *     3 - if password is not publicly known to be compromised.
      *
      * @param string $passwd Password
+     *
      * @return array password score (1 to 3) and (optional) reason message
      */
     function check_strength($passwd)
@@ -96,7 +97,8 @@ class rcube_pwned_password
             $rc = rcmail::get_instance();
             if ($score === self::SCORE_LISTED) {
                 $message = $rc->gettext('password.pwned_isdisclosed');
-            } else {
+            }
+            else {
                 $message = $rc->gettext('password.pwned_fetcherror');
             }
         }
@@ -106,7 +108,9 @@ class rcube_pwned_password
 
     /**
      * Check password using HIBP.
+     *
      * @param string $passwd
+     *
      * @return int score, one of the SCORE_* constants (between 1 and 3).
      */
     function check_pwned($passwd)
@@ -116,8 +120,9 @@ class rcube_pwned_password
 
         if (!$this->can_retrieve()) {
             // Log the fact that we cannot check because of configuration error.
-            rcube::write_log('errors', "Plugin 'password', driver 'pwned': configuration error: need curl or allow_url_fopen to check for compromised passwords");
-        } else {
+            rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
+        }
+        else {
             list($prefix, $suffix) = $this->hash_split($passwd);
 
             $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
@@ -132,9 +137,10 @@ class rcube_pwned_password
 
     function hash_split($passwd)
     {
-        $hash = strtolower(sha1($passwd));
+        $hash   = strtolower(sha1($passwd));
         $prefix = substr($hash, 0, 5);
         $suffix = substr($hash, 5);
+
         return array($prefix, $suffix);
     }
 
@@ -145,8 +151,7 @@ class rcube_pwned_password
 
     function can_curl()
     {
-        return (in_array('curl', get_loaded_extensions())
-            && function_exists('curl_init'));
+        return function_exists('curl_init');
     }
 
     function can_fopen()
@@ -158,7 +163,8 @@ class rcube_pwned_password
     {
         if ($this->can_curl()) {
             return $this->retrieve_curl($url);
-        } else {
+        }
+        else {
             return $this->retrieve_fopen($url);
         }
     }
@@ -173,6 +179,7 @@ class rcube_pwned_password
         }
         $output = curl_exec($ch);
         curl_close($ch);
+
         return $output;
     }
 
@@ -184,6 +191,7 @@ class rcube_pwned_password
             $output .= fgets($ch);
         }
         fclose($ch);
+
         return $output;
     }
 
@@ -192,17 +200,20 @@ class rcube_pwned_password
         // initialize to error in case there are no lines at all
         $result = self::SCORE_ERROR;
 
-        foreach(preg_split('/[\r\n]+/', $list) as $line) {
+        foreach (preg_split('/[\r\n]+/', $list) as $line) {
             $line = strtolower($line);
+
             if (preg_match('/^([0-9a-f]{35}):(\d)+$/', $line, $matches)) {
-                if (($matches[2] > 0) && ($matches[1] === $candidate)) {
+                if ($matches[2] > 0 && $matches[1] === $candidate) {
                     // more than 0 occurrences, and suffix matches
                     // -> password is compromised
                     return self::SCORE_LISTED;
                 }
+
                 // valid line, not matching the current password
                 $result = self::SCORE_NOT_LISTED;
-            } else {
+            }
+            else {
                 // invalid line
                 return self::SCORE_ERROR;
             }
