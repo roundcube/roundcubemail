@@ -203,7 +203,7 @@ class rcube_pwned_password
         foreach (preg_split('/[\r\n]+/', $list) as $line) {
             $line = strtolower($line);
 
-            if (preg_match('/^([0-9a-f]{35}):(\d)+$/', $line, $matches)) {
+            if (preg_match('/^([0-9a-f]{35}):(\d+)$/', $line, $matches)) {
                 if ($matches[2] > 0 && $matches[1] === $candidate) {
                     // more than 0 occurrences, and suffix matches
                     // -> password is compromised
