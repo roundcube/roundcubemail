@@ -2171,7 +2171,7 @@ function rcube_webmail()
   };
 
   // create a table row in the message list
-  this.add_message_row = function(uid, cols, flags, attop)
+  this.add_message_row = function(uid, cols, flags, attop, layout = this.env.layout)
   {
     if (!this.gui_objects.messagelist || !this.message_list)
       return false;
@@ -2219,7 +2219,14 @@ function rcube_webmail()
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
         + (message.selected ? ' selected' : ''),
-      row = { cols:[], style:{}, id:'rcmrow'+msg_id, uid:uid };
+      row = { cols:[], style:{}, id:'rcmrow'+msg_id, uid:uid },
+      listcols = layout == 'widescreen' ? this.env.listcols_widescreen : this.env.listcols;
+
+    // widescreen layout does not have a separate status column
+    if (layout == 'widescreen')
+      this.env.status_col = null;
+    else if ((n = $.inArray('status', this.env.listcols)) >= 0)
+      this.env.status_col = n;
 
     // message status icons
     css_class = 'msgicon';
@@ -2298,8 +2305,8 @@ function rcube_webmail()
     }
 
     // add each submitted col
-    for (n in this.env.listcols) {
-      c = this.env.listcols[n];
+    for (n in listcols) {
+      c = listcols[n];
       col = {className: String(c).toLowerCase(), events:{}};
 
       if (this.env.coltypes[c] && this.env.coltypes[c].hidden) {
@@ -2364,7 +2371,7 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
-    if (this.env.layout == 'widescreen')
+    if (layout == 'widescreen')
       row = this.widescreen_message_row(row, uid, message);
 
     list.insert_row(row, attop);
@@ -8330,7 +8337,7 @@ function rcube_webmail()
   {
     var list = this.message_list,
       thead = list ? list.thead : null,
-      repl, cell, col, n, len, tr;
+      repl, cell, col, c, n, len, tr;
 
     this.env.listcols = listcols;
 
@@ -8343,7 +8350,8 @@ function rcube_webmail()
         thead.innerHTML = '';
         tr = document.createElement('tr');
 
-        for (c=0, len=repl.length; c < len; c++) {
+        for (n in this.env.listcols) {
+          c = this.env.listcols[n];
           cell = document.createElement('th');
           cell.innerHTML = repl[c].html || '';
           if (repl[c].id) cell.id = repl[c].id;

@@ -358,13 +358,6 @@ function rcmail_message_list($attrib)
 
     $listcols = $a_show_cols;
 
-    // Widescreen layout uses hardcoded list of columns
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
-        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
-        $listcols    = $a_show_cols;
-        array_shift($listcols);
-    }
-
     // set client env
     $OUTPUT->add_gui_object('messagelist', $attrib['id']);
     $OUTPUT->set_env('autoexpand_threads', intval($RCMAIL->config->get('autoexpand_threads')));
@@ -372,14 +365,21 @@ function rcmail_message_list($attrib)
     $OUTPUT->set_env('sort_order', $_SESSION['sort_order']);
     $OUTPUT->set_env('messages', array());
     $OUTPUT->set_env('listcols', $listcols);
+    $OUTPUT->set_env('listcols_widescreen', array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment'));
 
     $OUTPUT->include_script('list.js');
 
     $table = new html_table($attrib);
 
     if (!$attrib['noheader']) {
-        foreach (rcmail_message_list_head($attrib, $a_show_cols) as $cell)
-            $table->add_header(array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+        $allcols = array_merge($listcols, array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment'));
+        $allcols = array_unique($allcols);
+
+        foreach (rcmail_message_list_head($attrib, $allcols) as $col => $cell) {
+            if (in_array($col, $listcols)) {
+                $table->add_header(array('class' => $cell['className'], 'id' => $cell['id']), $cell['html']);
+            }
+        }
     }
 
     return $table->show();
@@ -433,11 +433,6 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = array_unique($a_show_cols);
     $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
-    // Widescreen layout uses hardcoded list of columns
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
-        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
-    }
-
     // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
     // and list columns
     $plugin = $RCMAIL->plugins->exec_hook('messages_list',
@@ -446,15 +441,11 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = $plugin['cols'];
     $a_headers   = $plugin['messages'];
 
-    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
-        if (!$RCMAIL->storage->get_threading()) {
-            if (($idx = array_search('threads', $a_show_cols)) !== false) {
-                unset($a_show_cols[$idx]);
-            }
-        }
-    }
+    // make sure minimum required columns are present (needed for widescreen layout)
+    $allcols = array_merge($a_show_cols, array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment'));
+    $allcols = array_unique($allcols);
 
-    $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
+    $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $allcols) : NULL;
 
     // get name of smart From/To column in folder context
     if (array_search('fromto', $a_show_cols) !== false) {
@@ -475,8 +466,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // remove 'threads', 'attachment', 'flag', 'status' columns, we don't need them here
     foreach (array('threads', 'attachment', 'flag', 'status', 'priority') as $col) {
-        if (($key = array_search($col, $a_show_cols)) !== FALSE) {
-            unset($a_show_cols[$key]);
+        if (($key = array_search($col, $allcols)) !== FALSE) {
+            unset($allcols[$key]);
         }
     }
 
@@ -500,7 +491,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $a_msg_flags = array();
 
         // format each col; similar as in rcmail_message_list()
-        foreach ($a_show_cols as $col) {
+        foreach ($allcols as $col) {
             $col_name = $col == 'fromto' ? $smart_col : $col;
 
             if (in_array($col_name, array('from', 'to', 'cc', 'replyto'))) {
@@ -655,7 +646,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $class_name = $col.$sort_class;
 
         // put it all together
-        $cells[] = array('className' => $class_name, 'id' => "rcm$col", 'html' => $col_name);
+        $cells[$col] = array('className' => $class_name, 'id' => "rcm$col", 'html' => $col_name);
         $coltypes[$col] = array('className' => $class_name, 'id' => "rcm$col", 'label' => $label, 'sortable' => $sortable);
     }
 
