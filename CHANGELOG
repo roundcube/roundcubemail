@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Fix so button label in Select image/media dialogs is "Close" not "Cancel" (#7246)
 - Fix regression in testing database schema on MSSQL (#7227)
 - Fix cursor position after inserting a group to a recipient input using autocompletion (#7267)
+- Fix string literals handling in IMAP STATUS (and various other) responses (#7290)
 
 RELEASE 1.4.3
 -------------
