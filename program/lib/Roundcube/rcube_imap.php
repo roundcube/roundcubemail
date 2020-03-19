@@ -1900,8 +1900,11 @@ class rcube_imap extends rcube_storage
         }
 
         // Check internal cache
-        if (!empty($this->icache['message'])) {
-            if (($headers = $this->icache['message']) && $headers->uid == $uid) {
+        if (!empty($this->icache['message']) && ($headers = $this->icache['message'])) {
+            // Make sure the folder and UID is what we expect.
+            // In case when the same process works with folders that are personal
+            // and shared two folders can contain the same UIDs.
+            if ($headers->uid == $uid && $headers->folder == $folder) {
                 return $headers;
             }
         }
