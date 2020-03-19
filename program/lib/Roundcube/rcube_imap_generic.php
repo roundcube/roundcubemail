@@ -3724,7 +3724,21 @@ class rcube_imap_generic
             $line = $this->readLine(4096);
 
             if ($response !== null) {
-                // TODO: Better string literals handling with filter
+                // In filter mode we need additional code for string literals.
+                // We'll merge the following literal data into one chunk, so
+                // it can be compared with the filter below
+                if ($filter && preg_match('/\{([0-9]+)\}\r\n$/', $line, $match)) {
+                    // read and append the given bytes
+                    $bytes = $match[1];
+                    $out = '';
+                    while (strlen($out) < $bytes) {
+                        $tmp = $this->readBytes($bytes);
+                        if ($tmp === null) break;
+                        $out .= $tmp;
+                    }
+                    $line .= $out;
+                }
+
                 if (!$filter || preg_match($filter, $line)) {
                     $response .= $line;
                 }
