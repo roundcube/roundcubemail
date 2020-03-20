@@ -594,7 +594,7 @@ class rcube_config
         $list = (array) $this->prop['keyservers'];
 
         foreach ($list as $idx => $host) {
-            if (!preg_match('|^[a-z]://|', $host)) {
+            if (!preg_match('|^[a-z]+://|', $host)) {
                 $host = "https://$host";
             }
 
