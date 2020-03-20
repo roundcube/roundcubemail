@@ -478,10 +478,6 @@ ul.treelist {
                 }
             }
 
-            &.recent {
-                color: @color-list-recent;
-            }
-
             .unreadcount {
                 position: absolute;
                 top: 0;
@@ -502,9 +498,15 @@ ul.treelist {
                 }
             }
 
-            &.recent > .unreadcount {
-                background: @color-list-recent-badge-background;
-                color: @color-list-recent-badge;
+            &.recent {
+                & > a {
+                    color: @color-list-recent;
+
+                    & > .unreadcount {
+                        background: @color-list-recent-badge-background;
+                        color: @color-list-recent-badge;
+                    }
+                }
             }
 
             &.root {

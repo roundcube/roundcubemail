@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
 - Elastic: Fix text selection with Shift+PageUp and Shift+PageDown in plain text editor when using Chrome (#7230)
 - Elastic: Fix recipient input bug when using click to select a contact from autocomplete list (#7231)
+- Elastic: Fix color of a folder with recent messages (#7281)
 - Fix invalid Content-Type for messages with only html part and inline images - Mail_Mime-1.10.7 (#7261)
 - Fix missing contact display name in QR Code data (#7257)
 - Fix so button label in Select image/media dialogs is "Close" not "Cancel" (#7246)
