@@ -1042,7 +1042,7 @@ function rcmail_cid_map($message)
                 }
             }
 
-            $url = sprintf('RCMAP%s', md5($message->folder . '/' . $message->uid));
+            $url = sprintf('RCMAP%s', md5($message->folder . '/' . $message->uid . '/' . $pid));
             $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
 
             $map[$idx] = $url;

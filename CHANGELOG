@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix regression in testing database schema on MSSQL (#7227)
 - Fix cursor position after inserting a group to a recipient input using autocompletion (#7267)
 - Fix string literals handling in IMAP STATUS (and various other) responses (#7290)
+- Fix bug where multiple images in a message were replaced by the first one on forward/reply/edit (#7293)
 
 RELEASE 1.4.3
 -------------
