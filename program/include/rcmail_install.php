@@ -599,18 +599,33 @@ class rcmail_install
     }
 
     /**
-     * Return a list with all imap hosts configured
+     * Return a list with all imap/smtp hosts configured
      *
-     * @return array Clean list with imap hosts
+     * @return array Clean list with imap/smtp hosts
      */
-    public function get_hostlist()
+    public function get_hostlist($prop = 'default_host')
     {
-        $default_hosts = (array) $this->getprop('default_host');
-        $out           = array();
+        $hosts     = (array) $this->getprop($prop);
+        $out       = array();
+        $imap_host = '';
 
-        foreach ($default_hosts as $key => $name) {
+        if ($prop == 'smtp_server') {
+            // Set the imap host name for the %h macro
+            $default_hosts = $this->get_hostlist();
+            $imap_host = !empty($default_hosts) ? $default_hosts[0] : '';
+        }
+
+        foreach ($hosts as $key => $name) {
             if (!empty($name)) {
-                $out[] = rcube_utils::parse_host(is_numeric($key) ? $name : $key);
+                if ($prop == 'smtp_server') {
+                    // SMTP host array uses `IMAP host => SMTP host` format
+                    $host = $name;
+                }
+                else {
+                    $host = is_numeric($key) ? $name : $key;
+                }
+
+                $out[] = rcube_utils::parse_host($host, $imap_host);
             }
         }
 
