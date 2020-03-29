@@ -42,6 +42,7 @@ class markasjunk extends rcube_plugin
         'JUNK'    => 'Junk',
         'NONJUNK' => 'NonJunk'
     );
+    private $driver;
 
 
     public function init()
@@ -123,10 +124,10 @@ class markasjunk extends rcube_plugin
             $this->rcube->output->set_env('markasjunk_move_ham', $this->rcube->config->get('markasjunk_move_ham', false));
             $this->rcube->output->set_env('markasjunk_permanently_remove', $this->rcube->config->get('markasjunk_permanently_remove', false));
             $this->rcube->output->set_env('markasjunk_spam_only', $this->rcube->config->get('markasjunk_spam_only', false));
-
-            // check for init method from driver
-            $this->_call_driver('init');
         }
+
+        // init learning driver
+        $this->_init_driver();
     }
 
     public function mark_message()
@@ -134,11 +135,20 @@ class markasjunk extends rcube_plugin
         $this->add_texts('localization');
 
         $is_spam    = $this->rcube->action == 'plugin.markasjunk.junk' ? true : false;
-        $messageset = rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
+        $uids       = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox_name  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $messageset = rcmail::get_uids($uids, $mbox_name, $multifolder);
         $dest_mbox  = $is_spam ? $this->spam_mbox : $this->ham_mbox;
-        $result     = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
 
+        // special case when select all is used, uid is '*', and not in multi folder mode and we are using a driver
+        // rcmail::get_uids does not handle this
+        if ($uids == '*' && !$multifolder && is_object($this->driver)) {
+            $storage = $this->rcube->get_storage();
+            $result_index = $storage->index($mbox_name);
+            $messageset = array($mbox_name => $result_index->get());
+        }
+
+        $result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
         if ($result) {
             if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
                 $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
@@ -224,50 +234,19 @@ class markasjunk extends rcube_plugin
 
     private function _call_driver($action, &$uids = null, $source_mbox = null, $dest_mbox = null)
     {
-        $driver_name = $this->rcube->config->get('markasjunk_learning_driver');
-
-        if (empty($driver_name)) {
+        // already initialized
+        if (!is_object($this->driver)) {
             return true;
         }
 
-        $driver = $this->home . "/drivers/$driver_name.php";
-        $class  = "markasjunk_$driver_name";
-
-        if (!is_readable($driver)) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "markasjunk plugin: Unable to open driver file $driver"
-            ), true, false);
-        }
-
-        include_once $driver;
-
-        if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "markasjunk plugin: Broken driver: $driver"
-            ), true, false);
-        }
-
-        // call the relevant function from the driver
-        $object = new $class();
         if ($action == 'spam') {
-            $object->spam($uids, $source_mbox, $dest_mbox);
+            $this->driver->spam($uids, $source_mbox, $dest_mbox);
         }
         elseif ($action == 'ham') {
-            $object->ham($uids, $source_mbox, $dest_mbox);
-        }
-        elseif ($action == 'init' && method_exists($object, 'init')) { // method_exists check here for backwards compatibility
-            $object->init();
+            $this->driver->ham($uids, $source_mbox, $dest_mbox);
         }
 
-        return $object->is_error ? false : true;
+        return $this->driver->is_error ? false : true;
     }
 
     private function _messageset_to_uids($messageset, $multifolder)
@@ -316,6 +295,48 @@ class markasjunk extends rcube_plugin
         if (count($this->flags) > 0) {
             // register the ham/spam flags with the core
             $this->add_hook('storage_init', array($this, 'set_flags'));
+        }
+    }
+
+    private function _init_driver()
+    {
+        $driver_name = $this->rcube->config->get('markasjunk_learning_driver');
+
+        if (empty($driver_name)) {
+            return;
+        }
+
+        $driver = $this->home . "/drivers/$driver_name.php";
+        $class  = "markasjunk_$driver_name";
+
+        if (!is_readable($driver)) {
+            rcube::raise_error(array(
+                'code' => 600,
+                'type' => 'php',
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "markasjunk plugin: Unable to open driver file $driver"
+            ), true, false);
+        }
+
+        include_once $driver;
+
+        if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
+            rcube::raise_error(array(
+                'code' => 600,
+                'type' => 'php',
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "markasjunk plugin: Broken driver: $driver"
+            ), true, false);
+        }
+
+        // call the relevant function from the driver
+        $this->driver = new $class();
+
+        // method_exists check here for backwards compatibility
+        if (method_exists($this->driver, 'init')) {
+            $this->driver->init();
         }
     }
 }
