@@ -254,8 +254,10 @@ class markasjunk extends rcube_plugin
         $a_uids = array();
 
         foreach ($messageset as $mbox => $uids) {
-            foreach ($uids as $uid) {
-                $a_uids[] = $multifolder ? $uid . '-' . $mbox : $uid;
+            if (is_array($uids)) {
+                foreach ($uids as $uid) {
+                    $a_uids[] = $multifolder ? $uid . '-' . $mbox : $uid;
+                }
             }
         }
 
