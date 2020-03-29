@@ -101,7 +101,7 @@ $RCMAIL->set_task($startup['task']);
 $RCMAIL->action = $startup['action'];
 
 // try to log in
-if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
+if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login' && !isset($_SESSION['user_id'])) {
     $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
     $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
 
@@ -185,7 +185,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $RCMAIL->request_security_check($mode = rcube_utils::INPUT_GET);
 
     $userdata = array(
