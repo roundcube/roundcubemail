@@ -14,6 +14,8 @@ CHANGELOG Roundcube Webmail
 - Fix string literals handling in IMAP STATUS (and various other) responses (#7290)
 - Fix bug where multiple images in a message were replaced by the first one on forward/reply/edit (#7293)
 - Fix handling keyservers configured with protocol prefix (#7295)
+- Markasjunk: Fix marking as spam/ham on moving messages with Move menu (#7189)
+- Markasjunk: Fix bug where moving to Junk was failing on messages selected with Select > All (#7206)
 
 RELEASE 1.4.3
 -------------
