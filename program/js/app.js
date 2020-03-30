@@ -735,7 +735,7 @@ function rcube_webmail()
   /*********************************************************/
 
   // execute a specific command on the web client
-  this.command = function(command, props, obj, event)
+  this.command = function(command, props, obj, event, allow_disabled)
   {
     var ret;
 
@@ -753,7 +753,7 @@ function rcube_webmail()
     }
 
     // command not supported or allowed
-    if (!this.commands[command]) {
+    if (!allow_disabled && !this.commands[command]) {
       // pass command to parent window
       if (this.is_framed())
         parent.rcmail.command(command, props);
@@ -3198,12 +3198,13 @@ function rcube_webmail()
   this.copy_messages = function(mbox, event, uids)
   {
     if (mbox && typeof mbox === 'object') {
+      if (mbox.uids) uids = mbox.uids;
       mbox = mbox.id;
     }
     else if (!mbox) {
       uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
-      return this.folder_selector(event, function(folder) {
-        ref.copy_messages(folder, null, uids);
+      return this.folder_selector(event, function(folder, obj) {
+        ref.command('copy', {id: folder, uids: uids}, obj, event, true);
       });
     }
 
@@ -3225,12 +3226,13 @@ function rcube_webmail()
   this.move_messages = function(mbox, event, uids)
   {
     if (mbox && typeof mbox === 'object') {
+      if (mbox.uids) uids = mbox.uids;
       mbox = mbox.id;
     }
     else if (!mbox) {
       uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
-      return this.folder_selector(event, function(folder) {
-        ref.move_messages(folder, null, uids);
+      return this.folder_selector(event, function(folder, obj) {
+        ref.command('move', {id: folder, uids: uids}, obj, event, true);
       });
     }
 
