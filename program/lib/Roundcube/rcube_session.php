@@ -694,7 +694,7 @@ abstract class rcube_session
     public function set_auth_cookie()
     {
         $this->cookie = $this->_mkcookie($this->now);
-        rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
+        rcube_utils::setcookie($this->cookiename, $this->cookie, time() + $this->lifetime);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 
