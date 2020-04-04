@@ -135,7 +135,12 @@ if (!$error && !strlen($old_imap)) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
+        if (!empty($plugin['message'])) {
+            $OUTPUT->show_message($plugin['message'], 'error', null, false);
+        }
+        else {
+            $RCMAIL->display_server_error('errorsaving');
+        }
     }
 }
 // update a mailbox
@@ -198,7 +203,12 @@ else if (!$error) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
+        if (!empty($plugin['message'])) {
+            $OUTPUT->show_message($plugin['message'], 'error', null, false);
+        }
+        else {
+            $RCMAIL->display_server_error('errorsaving');
+        }
     }
 }
 

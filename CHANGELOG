@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Markasjunk: Fix marking as spam/ham on moving messages with Move menu (#7189)
 - Markasjunk: Fix bug where moving to Junk was failing on messages selected with Select > All (#7206)
 - Fix bug where session was destoryed with window close (#7251)
+- Fix so imap error message is displayed to the user on folder create/update (#7245)
 
 RELEASE 1.4.3
 -------------
