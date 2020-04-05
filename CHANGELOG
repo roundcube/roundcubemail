@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Markasjunk: Fix bug where moving to Junk was failing on messages selected with Select > All (#7206)
 - Fix so imap error message is displayed to the user on folder create/update (#7245)
 - Fix bug where a special folder couldn't be created if a special-use flag is not supported (#7147)
+- Mailvelope: Fix bug where recipients with name were not handled properly in mail compose (#7312)
 
 RELEASE 1.4.3
 -------------

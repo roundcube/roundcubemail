@@ -3907,7 +3907,7 @@ function rcube_webmail()
     $.each(['to', 'cc', 'bcc'], function(i,field) {
       var pos, rcpt, val = $.trim($('[name="_' + field + '"]').val());
       while (val.length && rcube_check_email(val, true)) {
-        rcpt = RegExp.$2;
+        rcpt = RegExp.$2.replace(/^<+/, '').replace(/>+$/, '');
         recipients.push(rcpt);
         val = val.substr(val.indexOf(rcpt) + rcpt.length + 1).replace(/^\s*,\s*/, '');
       }
