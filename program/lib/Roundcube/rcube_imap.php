@@ -3296,6 +3296,12 @@ class rcube_imap extends rcube_storage
 
         $result = $this->conn->createFolder($folder, $type ? array("\\" . ucfirst($type)) : null);
 
+        // Folder creation may fail when specific special-use flag is not supported.
+        // Try to create it anyway with no flag specified (#7147)
+        if (!$result && $type) {
+            $result = $this->conn->createFolder($folder);
+        }
+
         // try to subscribe it
         if ($result) {
             // clear cache
