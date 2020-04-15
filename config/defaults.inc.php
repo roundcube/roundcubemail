@@ -488,7 +488,18 @@ $config['skin_include_php'] = false;
 $config['display_product_info'] = 1;
 
 // Session lifetime in minutes
+// While the browser is active, the session's life is constantly extended. But
+// when the browser is inactive, the session expires after this amount of
+// minutes.
 $config['session_lifetime'] = 10;
+
+// Maximum session lifetime in minutes
+// Maximum allowed time for a user to stay logged in even while the browser is
+// active. A value of 0 means that the session will be valid until the browser
+// is closed. A greater value means that logins persist browser restarts. But
+// the session will end this amount of minutes after the user initially logged
+// in.
+$config['session_lifetime_max'] = 0;
 
 // Session domain: .example.org
 $config['session_domain'] = '';

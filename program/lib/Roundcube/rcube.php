@@ -443,6 +443,7 @@ class rcube
         $sess_path     = $this->config->get('session_path');
         $sess_samesite = $this->config->get('session_samesite');
         $lifetime      = $this->config->get('session_lifetime', 0) * 60;
+        $lifetime_max  = $this->config->get('session_lifetime_max', 0) * 60;
         $is_secure     = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
@@ -463,8 +464,7 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
-        // set session cookie lifetime so it never expires (#5961)
-        ini_set('session.cookie_lifetime', 0);
+        ini_set('session.cookie_lifetime', $lifetime_max);
         ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ?: 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
