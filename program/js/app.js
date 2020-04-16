@@ -6760,7 +6760,7 @@ function rcube_webmail()
     var key = 'G'+prop.source+prop.id,
       link = $('<a>').attr({href: '#', rel: prop.source + ':' + prop.id})
         .click(function() { return ref.command('listgroup', prop, this); })
-        .html(prop.name);
+        .text(prop.name);
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
     this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, 'contactgroup');
@@ -6796,11 +6796,11 @@ function rcube_webmail()
       newnode.id = newkey;
       newnode.html = $('<a>').attr({href: '#', rel: prop.source + ':' + prop.newid})
         .click(function() { return ref.command('listgroup', newprop, this); })
-        .html(prop.name);
+        .text(prop.name);
     }
     // update displayed group name
     else {
-      $(this.treelist.get_item(key)).children().first().html(prop.name);
+      $(this.treelist.get_item(key)).children().first().text(prop.name);
       this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
 
       if (prop.source == this.env.source && prop.id == this.env.group)
