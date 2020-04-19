@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Mailvelope: Fix bug where recipients with name were not handled properly in mail compose (#7312)
 - Fix characters encoding in group rename input after group creation/rename (#7330)
 - Fix bug where some message/rfc822 parts could not be attached on forward (#7323)
+- Make install-jsdeps.sh script working without the 'file' program installed (#7325)
 
 RELEASE 1.4.3
 -------------
