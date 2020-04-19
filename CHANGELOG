@@ -37,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where a special folder couldn't be created if a special-use flag is not supported (#7147)
 - Mailvelope: Fix bug where recipients with name were not handled properly in mail compose (#7312)
 - Fix characters encoding in group rename input after group creation/rename (#7330)
+- Fix bug where some message/rfc822 parts could not be attached on forward (#7323)
 
 RELEASE 1.4.3
 -------------
