@@ -36,7 +36,6 @@ if (empty($SOURCES['dependencies'])) {
 $CURL     = trim(`which curl`);
 $WGET     = trim(`which wget`);
 $UNZIP    = trim(`which unzip`);
-$FILEINFO = trim(`which file`);
 
 if (($CACHEDIR = getenv("CACHEDIR")) && is_writeable($CACHEDIR)) {
     // use $CACHEDIR
@@ -154,19 +153,17 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
  */
 function extract_filetype($package, &$filetype = null)
 {
-    global $FILEINFO, $CACHEDIR;
+    global $CACHEDIR;
 
     $filetype   = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
     $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
-    if (empty($FILEINFO)) {
-        rcube::raise_error("Required program 'file' not found.", false, true);
-    }
-
-    // detect downloaded/cached file type
-    exec(sprintf('%s -b %s', $FILEINFO, $cache_file), $out);
-    if (stripos($out[0], 'zip') === 0) {
-        $filetype = 'zip';
+    // Make sure it is a zip file
+    if (file_exists($cache_file)) {
+        $magic = file_get_contents($cache_file, false, null, 0, 4);
+        if ($magic === "PK\003\004") {
+            $filetype = 'zip';
+        }
     }
 
     return $cache_file;
