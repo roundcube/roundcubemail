@@ -952,7 +952,12 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
             $messages[] = $part->mime_id;
         }
 
-        if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
+        if (
+            $part->disposition == 'attachments'
+            || ($part->disposition == 'inline' && $bodyIsHtml)
+            || $part->filename
+            || $part->mimetype == 'message/rfc822'
+        ) {
             // skip parts that aren't valid attachments
             if ($part->ctype_primary == 'multipart' || $part->mimetype == 'application/ms-tnef') {
                 continue;
