@@ -23,6 +23,7 @@ CHANGELOG Roundcube Webmail
 - Fix characters encoding in group rename input after group creation/rename (#7330)
 - Fix bug where some message/rfc822 parts could not be attached on forward (#7323)
 - Make install-jsdeps.sh script working without the 'file' program installed (#7325)
+- Fix performance issue of parsing big HTML messages by disabling HTML5 parser for these (#7331)
 
 RELEASE 1.4.3
 -------------
