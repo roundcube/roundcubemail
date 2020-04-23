@@ -4021,7 +4021,8 @@ function rcube_webmail()
       }
 
       ref.hide_message(msgid);
-      $(selector).addClass('mailvelope').children().not('iframe').hide();
+      $(selector).children().not('iframe').hide();
+      $('#messagebody').addClass('mailvelope');
 
       // on success we can remove encrypted part from the attachments list
       if (ref.env.pgp_mime_part)
