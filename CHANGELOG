@@ -70,6 +70,7 @@ RELEASE 1.4.4
 - Security: Fix local file inclusion (and code execution) via crafted 'plugins' option [CVE-2020-12640]
 - Security: Fix CSRF bypass that could be used to log out an authenticated user [CVE-2020-12626] (#7302)
 - Mailvelope: Fix size of iframe for PGP-inlined mail (#7348)
+- Mailvelope: Add config option to use Main Keyring (#7348)
 
 RELEASE 1.4.3
 -------------
