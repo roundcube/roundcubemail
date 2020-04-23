@@ -86,3 +86,7 @@ $config['plugins'] = array(
 
 // skin name: folder from skins/
 $config['skin'] = 'elastic';
+
+// Use the Main Keyring in Mailvelope? If not, use (creating if required)
+// a per-site keyring. Most sites use the Main Keyring, so set this to true.
+$config['mailvelope_main_keyring'] = true;

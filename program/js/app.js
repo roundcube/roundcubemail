@@ -3711,7 +3711,7 @@ function rcube_webmail()
   // Load Mailvelope functionality (and initialize keyring if needed)
   this.mailvelope_load = function(action)
   {
-    var keyring = this.env.user_id,
+    var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
       fn = function(kr) {
         ref.mailvelope_keyring = kr;
         ref.mailvelope_init(action, kr);
@@ -3722,10 +3722,14 @@ function rcube_webmail()
       mailvelope.VERSION_MAJOR = Math.floor(parseFloat(v));
       return mailvelope.getKeyring(keyring);
     }).then(fn, function(err) {
-      // attempt to create a new keyring for this app/user
-      mailvelope.createKeyring(keyring).then(fn, function(err) {
+      if (keyring) {
+        // attempt to create a new keyring for this app/user
+        mailvelope.createKeyring(keyring).then(fn, function(err) {
+          console.error(err);
+        });
+      } else {
         console.error(err);
-      });
+      }
     });
   };
 
