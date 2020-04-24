@@ -405,16 +405,8 @@ function rcube_webmail()
           this.enable_command('image-scale', 'image-rotate', !!/^image\//.test(this.env.mimetype));
 
           // Mozilla's PDF.js viewer does not allow printing from host page (#5125)
-          // to minimize user confusion we disable the Print button
-          if (bw.mz && this.env.mimetype == 'application/pdf') {
-            n = 0; // there will be two onload events, first for the preload page
-            $(this.gui_objects.messagepartframe).on('load', function() {
-              if (n++) try { if (this.contentWindow.document) ref.enable_command('print', true); }
-                catch (e) {/* ignore */}
-            });
-          }
-          else
-            this.enable_command('print', true);
+          // to minimize user confusion we disable the Print button on Firefox < 75
+          this.enable_command('print', this.env.mimetype != 'application/pdf' || !bw.mz || bw.vendver >= 75);
 
           if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
