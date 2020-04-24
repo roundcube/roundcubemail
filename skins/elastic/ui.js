@@ -235,6 +235,20 @@ function rcube_elastic_ui()
         // This have to be after mail compose feature above
         $('[data-recipient-input]').each(function() { recipient_input(this); });
 
+        var recipient_inputs = $('#_to, #_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).siblings('.recipient-input');
+        recipient_inputs.each(function() {
+            $(this).sortable({
+                appendTo: document.body,
+                items: "> li.recipient",
+                handle: false,
+                connectWith: recipient_inputs,
+                stop: function(event, ui) {
+                    ui.item.parent().find('li:not(.recipient)').appendTo(ui.item.parent());
+                    ui.item.parent().find('input').trigger($.Event('keydown', { key: "," }));
+                }
+            });
+        });
+
         // Image upload widget
         $('.image-upload').each(function() { image_upload_input(this); });
 
