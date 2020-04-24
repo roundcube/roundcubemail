@@ -4268,7 +4268,7 @@ function rcube_webmail()
   {
     var cid = new Date().getTime();
     var user_id = {email: identity_email, fullName: $(ref.gui_objects.editform).find('.ff_name').val().trim()};
-    var options = {userIds: [user_id], keySize: 4096};
+    var options = {userIds: [user_id], keySize: this.env.mailvelope_keysize};
 
     $('<div>').attr('id', 'mailvelope-keygen-container-' + cid)
       .css({height: '245px', marginBottom: '10px'})
