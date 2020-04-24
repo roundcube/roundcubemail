@@ -760,7 +760,8 @@ function rcube_webmail()
 
     // check input before leaving compose step
     if (this.task == 'mail' && this.env.action == 'compose' && !this.env.server_error && command != 'save-pref'
-      && $.inArray(command, this.env.compose_commands) < 0 && !this.compose_skip_unsavedcheck
+      && ($.inArray(command, this.env.compose_commands) < 0 || command.startsWith('compose-encrypted') && ref.mailvelope_editor)
+      && !this.compose_skip_unsavedcheck
     ) {
       if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
         this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function() {
@@ -3834,7 +3835,6 @@ function rcube_webmail()
     // remove Mailvelope editor if active
     if (ref.mailvelope_editor) {
       ref.mailvelope_editor = null;
-      ref.compose_skip_unsavedcheck = false;
       ref.set_button('compose-encrypted', 'act');
 
       container.removeClass('mailvelope')
@@ -3872,7 +3872,6 @@ function rcube_webmail()
 
       mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring, options).then(function(editor) {
         ref.mailvelope_editor = editor;
-        ref.compose_skip_unsavedcheck = true;
         ref.set_button('compose-encrypted', 'sel');
 
         container.addClass('mailvelope');
