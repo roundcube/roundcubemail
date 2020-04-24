@@ -242,9 +242,12 @@ function rcube_elastic_ui()
                 items: "> li.recipient",
                 handle: false,
                 connectWith: recipient_inputs,
-                stop: function(event, ui) {
+                receive: function(event, ui) {
                     ui.item.parent().find('li:not(.recipient)').appendTo(ui.item.parent());
                     ui.item.parent().find('input').trigger($.Event('keydown', { key: "," }));
+                    if (ui.sender) {
+                        ui.sender.find('input').trigger($.Event('keydown', { key: "," }));
+                    }
                 }
             });
         });
