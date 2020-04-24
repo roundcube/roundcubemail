@@ -72,6 +72,7 @@ RELEASE 1.4.4
 - Mailvelope: Fix size of iframe for PGP-inlined mail (#7348)
 - Mailvelope: Add config option to use Main Keyring (#7348)
 - Mailvelope: Add config option to set the size for new keys (#7348)
+- Mailvelope: Always ask before discarding email currently being composed (#7348)
 
 RELEASE 1.4.3
 -------------
