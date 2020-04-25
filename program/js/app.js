@@ -3881,9 +3881,14 @@ function rcube_webmail()
         ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
         ref.triggerEvent('compose-encrypted', { active:true });
 
-        // notify user about loosing attachments
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
-          ref.alert_dialog(ref.get_label('encryptnoattachments'));
+          // notify user if losing attachments
+          if (ref.env.compose_mode != 'draft'
+            || Object.keys(ref.env.attachments).length != 1
+            || ref.env.attachments[Object.keys(ref.env.attachments)[0]].name != 'encrypted.asc'
+          ) {
+            ref.alert_dialog(ref.get_label('encryptnoattachments'));
+          }
 
           $.each(ref.env.attachments, function(name, attach) {
             ref.remove_from_attachment_list(name);
