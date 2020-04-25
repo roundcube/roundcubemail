@@ -235,23 +235,6 @@ function rcube_elastic_ui()
         // This have to be after mail compose feature above
         $('[data-recipient-input]').each(function() { recipient_input(this); });
 
-        var recipient_inputs = $('#_to, #_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).siblings('.recipient-input');
-        recipient_inputs.each(function() {
-            $(this).sortable({
-                appendTo: document.body,
-                items: "> li.recipient",
-                handle: false,
-                connectWith: recipient_inputs,
-                receive: function(event, ui) {
-                    ui.item.parent().find('li:not(.recipient)').appendTo(ui.item.parent());
-                    ui.item.parent().find('input').trigger($.Event('keydown', { key: "," }));
-                    if (ui.sender) {
-                        ui.sender.find('input').trigger($.Event('keydown', { key: "," }));
-                    }
-                }
-            });
-        });
-
         // Image upload widget
         $('.image-upload').each(function() { image_upload_input(this); });
 
@@ -3269,7 +3252,19 @@ function rcube_elastic_ui()
             .append($('<li>').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
-            .on('click', function() { if (!selection.length) input.focus(); });
+            .on('click', function() { if (!selection.length) input.focus(); })
+            .sortable({
+                appendTo: document.body,
+                items: "> .recipient",
+                connectWith: '.recipient-input',
+                receive: function(event, ui) {
+                    list.find('li:not(.recipient)').appendTo(ui.item.parent());
+                    list.find('input').trigger($.Event('keydown', { key: "," }));
+                    if (ui.sender) {
+                        ui.sender.find('input').trigger($.Event('keydown', { key: "," }));
+                    }
+                }
+            });
 
         // Hide the original input/textarea
         // Note: we do not remove the original element, and we do not use
