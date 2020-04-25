@@ -3258,8 +3258,8 @@ function rcube_elastic_ui()
                 items: "> .recipient",
                 connectWith: '.recipient-input',
                 receive: function(event, ui) {
-                    list.find('li:not(.recipient)').appendTo(ui.item.parent());
-                    list.find('input').trigger($.Event('keydown', { key: "," }));
+                    input.parent().appendTo(list);
+                    input.trigger($.Event('keydown', { key: "," }));
                     if (ui.sender) {
                         ui.sender.find('input').trigger($.Event('keydown', { key: "," }));
                     }
