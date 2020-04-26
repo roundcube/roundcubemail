@@ -158,7 +158,8 @@ class rcube_image
                             'size'    => $width . 'x' . $height,
                         );
 
-                        $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
+                        $result = rcube::exec(escapeshellcmd($convert)
+                            . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
                             . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
                     }
                     // use PHP's Imagick class
@@ -323,7 +324,8 @@ class rcube_image
             $p['out']  = $filename;
             $p['type'] = self::$extensions[$type];
 
-            $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
+            $result = rcube::exec(escapeshellcmd($convert)
+                . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
                 chmod($filename, 0600);
@@ -419,7 +421,7 @@ class rcube_image
         // use ImageMagick in command line
         if ($cmd = $rcube->config->get('im_identify_path')) {
             $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
-            $id   = rcube::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
+            $id   = rcube::exec(escapeshellcmd($cmd) . ' 2>/dev/null -format {format} {in}', $args);
 
             if ($id) {
                 return explode(' ', strtolower($id));
