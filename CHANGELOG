@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Make install-jsdeps.sh script working without the 'file' program installed (#7325)
 - Fix performance issue of parsing big HTML messages by disabling HTML5 parser for these (#7331)
 - Fix so Print button for PDF attachments works on Firefox >= 75 (#5125)
+- Security: Fix XSS issue in handling of CDATA in HTML messages
 
 RELEASE 1.4.3
 -------------
