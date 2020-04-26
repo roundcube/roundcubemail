@@ -43,6 +43,7 @@ CHANGELOG Roundcube Webmail
 - Fix so Print button for PDF attachments works on Firefox >= 75 (#5125)
 - Security: Fix XSS issue in handling of CDATA in HTML messages
 - Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings
+- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option
 
 RELEASE 1.4.3
 -------------
