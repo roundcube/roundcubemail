@@ -3259,9 +3259,9 @@ function rcube_elastic_ui()
                 connectWith: '.recipient-input',
                 receive: function(event, ui) {
                     input.parent().appendTo(list);
-                    input.trigger($.Event('keydown', { key: "," }));
+                    apply_func();
                     if (ui.sender) {
-                        ui.sender.find('input').trigger($.Event('keydown', { key: "," }));
+                        ui.sender.find('input').change();
                     }
                 }
             });
