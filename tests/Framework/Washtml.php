@@ -506,4 +506,17 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
 
         $this->assertContains('First line', $washed);
     }
+
+    /**
+     * Test CDATA cleanup
+     */
+    function test_cdata()
+    {
+        $html = '<p><![CDATA[<script>alert(document.cookie)</script>]]></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, '<script>') === false, "CDATA content");
+    }
 }
