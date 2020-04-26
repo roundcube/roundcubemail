@@ -44,6 +44,7 @@ CHANGELOG Roundcube Webmail
 - Security: Fix XSS issue in handling of CDATA in HTML messages
 - Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings
 - Security: Fix local file inclusion (and code execution) via crafted 'plugins' option
+- Security: Fix CSRF bypass that could be used to log out an authenticated user (#7302)
 
 RELEASE 1.4.3
 -------------
