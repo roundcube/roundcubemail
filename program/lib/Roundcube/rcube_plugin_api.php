@@ -163,6 +163,14 @@ class rcube_plugin_api
             $plugins_dir = unslashify($dir->path);
         }
 
+        // Validate the plugin name to prevent from path traversal
+        if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
+            rcube::raise_error(array('code' => 520,
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Invalid plugin name: $plugin_name"), true, false);
+            return false;
+        }
+
         // plugin already loaded?
         if (!$this->plugins[$plugin_name]) {
             $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
@@ -281,6 +289,14 @@ class rcube_plugin_api
         $dir  = dir($this->dir);
         $fn   = unslashify($dir->path) . "/$plugin_name/$plugin_name.php";
         $info = false;
+
+        // Validate the plugin name to prevent from path traversal
+        if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
+            rcube::raise_error(array('code' => 520,
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Invalid plugin name: $plugin_name"), true, false);
+            return false;
+        }
 
         if (!class_exists($plugin_name, false)) {
             if (is_readable($fn)) {
