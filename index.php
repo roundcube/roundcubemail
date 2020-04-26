@@ -106,7 +106,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
 
     // purge the session in case of new login when a session already exists
-    $RCMAIL->kill_session();
+    if ($request_valid) {
+        $RCMAIL->kill_session();
+    }
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
             'host'  => $RCMAIL->autoselect_host(),
@@ -180,13 +182,15 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         $RCMAIL->plugins->exec_hook('login_failed', array(
             'code' => $error_code, 'host' => $auth['host'], 'user' => $auth['user']));
 
-        $RCMAIL->kill_session();
+        if (!isset($_SESSION['user_id'])) {
+            $RCMAIL->kill_session();
+        }
     }
 }
 
 // end session
 else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
-    $RCMAIL->request_security_check($mode = rcube_utils::INPUT_GET);
+    $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);
 
     $userdata = array(
         'user' => $_SESSION['username'],
