@@ -1568,9 +1568,7 @@ function rcube_elastic_ui()
 
             case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
-                if (args.status) {
-                    $('.toolbar a.encrypt').parent().show();
-                }
+                $('.toolbar a.encrypt').parent().show();
                 break;
 
             case 'compose-encrypted-signed':
