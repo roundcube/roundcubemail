@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug in extracting required plugins from composer.json that led to spurious error in log (#7364)
+
 RELEASE 1.4.4
 -------------
 - Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
