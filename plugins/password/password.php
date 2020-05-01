@@ -712,6 +712,8 @@ class password extends rcube_plugin
                 $method = 'CRAM-MD5';
             }
 
+            $method = strtoupper($method);
+
             $spec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a'));
             $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
 
@@ -729,7 +731,7 @@ class password extends rcube_plugin
             fclose($pipes[1]);
             proc_close($pipe);
 
-            if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
+            if (!(mb_strpos('{' . $method . '}', $crypted) === 0) {
                 return false;
             }
 
