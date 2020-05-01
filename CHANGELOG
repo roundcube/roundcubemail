@@ -17,6 +17,9 @@ CHANGELOG Roundcube Webmail
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
+
+RELEASE 1.4.4
+-------------
 - Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
 - Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
 - Elastic: Fix text selection with Shift+PageUp and Shift+PageDown in plain text editor when using Chrome (#7230)
