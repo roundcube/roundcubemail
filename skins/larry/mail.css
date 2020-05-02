@@ -401,7 +401,7 @@ table.messagelist.fixedcopy {
 }
 
 /* thread parent message with flagged children */
-.messagelist tbody tr.flaggedroot .flag span {
+.messagelist tr.flaggedroot td.flag span.unflagged {
 	background-position: -23px -1076px;
 }
 
