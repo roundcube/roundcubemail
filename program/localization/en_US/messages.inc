@@ -223,3 +223,4 @@ $messages['responseinserted'] = 'Response inserted successfully.';
 $messages['listempty'] = 'The list is empty.';
 $messages['listusebutton'] = 'Use the Create button to add a new record.';
 $messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';
+$messages['emptyattachment'] = 'This attachment appears to be empty.<br>Please, check with the person who sent this.';

@@ -209,20 +209,30 @@ function rcmail_message_attachments($attrib)
             $item = html::span('attachment-name', rcube::Q($filename))
                 . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
 
+            $li_class = $class;
+
             if (!$PRINT_MODE) {
-                $item = html::a(array(
+                $link_attrs = array(
                     'href'        => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                     'onclick'     => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
                     'title'       => $title,
                     'class'       => 'filename',
-                    ), $item);
+                );
 
+                if ($filesize == 0) {
+                    $li_class .= ' no-menu';
+                    $link_attrs['onclick'] = sprintf('%s.alert_dialog(%s.get_label(\'emptyattachment\')); return false',
+                            rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
+                    $RCMAIL->output->add_label('emptyattachment');
+                }
+
+                $item = html::a($link_attrs, $item);
                 $attachments[$attach_prop->mime_id] = $mimetype;
             }
 
-            $ol .= html::tag('li', array('class' => $class, 'id' => $id), $item);
+            $ol .= html::tag('li', array('class' => $li_class, 'id' => $id), $item);
         }
 
         $out = html::tag('ul', $attrib, $ol, html::$common_attrib);

@@ -905,7 +905,7 @@ function rcube_mail_ui()
   {
     item = $(item);
 
-    if (!item.children('.drop').length) {
+    if (!item.children('.drop').length && !item.is('.no-menu')) {
       var label = rcmail.gettext('options'),
         fname = item.find('a.filename'),
         tabindex = fname.attr('tabindex') || 0;
