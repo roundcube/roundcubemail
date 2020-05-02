@@ -104,7 +104,7 @@ $input_support = new html_inputfield(array('name' => '_support_url', 'size' => 5
 echo $input_support->show($RCI->getprop('support_url'));
 
 ?>
-<div>Provide an URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
+<div>Provide a URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
 <p class="hint">Enter an absolute URL (including http://) to a support page/form or a mailto: link.</p>
 </dd>
 
