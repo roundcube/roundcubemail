@@ -721,6 +721,12 @@ table.fixedcopy {
         content: @fa-var-flag;
     }
 
+    tr.flaggedroot:not(:hover) span.unflagged:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-flag;
+        color: @color-list-icon;
+    }
+
     tr:hover span.unflagged:before {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
