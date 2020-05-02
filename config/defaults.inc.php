@@ -537,6 +537,7 @@ $config['x_frame_options'] = 'sameorigin';
 // This key is used for encrypting purposes, like storing of imap password
 // in the session. For historical reasons it's called DES_key, but it's used
 // with any configured cipher_method (see below).
+// For the default cipher_method a required key length is 24 characters.
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
 // Encryption algorithm. You can use any method supported by OpenSSL.
