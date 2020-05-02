@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug in extracting required plugins from composer.json that led to spurious error in log (#7364)
+- Fix so the database setup description is compatible with MySQL 8 (#7340)
 
 RELEASE 1.4.4
 -------------
