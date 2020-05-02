@@ -850,7 +850,7 @@ class rcmail extends rcube
      *
      * @param mixed   $p        Either a string with the action or
      *                          url parameters as key-value pairs
-     * @param boolean $absolute Build an URL absolute to document root
+     * @param boolean $absolute Build a URL absolute to document root
      * @param boolean $full     Create fully qualified URL including http(s):// and hostname
      * @param bool    $secure   Return absolute URL in secure location
      *
