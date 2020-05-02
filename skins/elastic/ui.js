@@ -3252,7 +3252,19 @@ function rcube_elastic_ui()
             .append($('<li>').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
-            .on('click', function() { if (!selection.length) input.focus(); });
+            .on('click', function() { if (!selection.length) input.focus(); })
+            .sortable({
+                appendTo: document.body,
+                items: "> .recipient",
+                connectWith: '.recipient-input',
+                receive: function(event, ui) {
+                    input.parent().appendTo(list);
+                    apply_func();
+                    if (ui.sender) {
+                        ui.sender.find('input').change();
+                    }
+                }
+            });
 
         // Hide the original input/textarea
         // Note: we do not remove the original element, and we do not use
