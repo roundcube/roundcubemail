@@ -106,9 +106,9 @@ importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
 # mysql
-> CREATE DATABASE roundcubemail /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
-    IDENTIFIED BY 'password';
+> CREATE DATABASE roundcubemail CHARACTER SET utf8 COLLATE utf8_general_ci;
+> CREATE USER roundcube@localhost IDENTIFIED BY 'password';
+> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost;
 > quit
 
 # mysql roundcubemail < SQL/mysql.initial.sql
