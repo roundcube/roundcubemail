@@ -70,9 +70,9 @@ $config['support_url'] = '';
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
 
-// this key is used to encrypt the users imap password which is stored
-// in the session record (and the client cookie if remember password is enabled).
-// please provide a string of exactly 24 chars.
+// This key is used to encrypt the users imap password which is stored
+// in the session record. For the default cipher method it must be
+// exactly 24 characters long.
 // YOUR KEY MUST BE DIFFERENT THAN THE SAMPLE VALUE FOR SECURITY REASONS
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
