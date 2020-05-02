@@ -3258,8 +3258,9 @@ function rcube_elastic_ui()
                 items: "> .recipient",
                 connectWith: '.recipient-input',
                 receive: function(event, ui) {
-                    input.parent().appendTo(list);
-                    apply_func();
+                    var recipient = list.text();
+                    list.find('.recipient').remove();
+                    update_func(recipient);
                     if (ui.sender) {
                         ui.sender.find('input').change();
                     }
