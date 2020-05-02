@@ -1013,6 +1013,9 @@ function percent_indicator(obj, data)
 
 function attachment_menu_append(item)
 {
+  if ($(item).is('.no-menu'))
+    return;
+
   $(item).append(
     $('<a class="drop"></a>').on('click keypress', function(e) {
       if (e.type != 'keypress' || e.which == 13) {
