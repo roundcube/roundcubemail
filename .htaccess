@@ -34,8 +34,8 @@ Options -Indexes
 # Disable page indexing
 Header set X-Robots-Tag "noindex, nofollow"
 
-# replace 'append' with 'merge' for Apache version 2.2.9 and later
-#Header append Cache-Control public env=!NO_CACHE
+# replace 'merge' with 'append' for Apache < 2.2.9
+#Header merge Cache-Control public env=!NO_CACHE
 
 # Optional security headers
 # Only provides increased security if the browser supports those features

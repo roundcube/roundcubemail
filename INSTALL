@@ -252,11 +252,6 @@ To enable these features in apache the following modules need to be enabled:
 The optimisation is already included in the .htaccess file in the top 
 directory of your installation.
 
-If you are using Apache version 2.2.9 and later, in the .htaccess file
-change the 'append' word to 'merge' for a more correct response. Keeping
-as 'append' shouldn't cause any problems though changing to merge will 
-eliminate the possibility of duplicate 'public' headers in Cache-control.
-
 Lighttpd:
 ---------
 With Lightty the addition of Expire: tags by mod_expire is incompatible with
