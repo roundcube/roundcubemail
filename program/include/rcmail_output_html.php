@@ -694,6 +694,7 @@ EOF;
     {
         $plugin   = false;
         $realname = $name;
+        $skin_dir = '';
         $plugin_skin_paths = array();
 
         $this->template_name = $realname;
@@ -804,6 +805,7 @@ EOF;
     {
         $out             = '';
         $parent_commands = 0;
+        $parent_prefix   = '';
         $top_commands    = array();
 
         // these should be always on top,
@@ -1439,7 +1441,7 @@ EOF;
                         $key    = 'name';
                         $param  = 'content';
                     }
-                    else if ($object == 'links') {
+                    else {
                         $source = 'link_tags';
                         $tag    = 'link';
                         $key    = 'rel';
@@ -1719,6 +1721,8 @@ EOF;
         }
 
         $out = '';
+        $btn_content = null;
+        $link_attrib = array();
 
         // generate image tag
         if ($attrib['type'] == 'image') {
@@ -1776,7 +1780,7 @@ EOF;
             $out = html::tag($attrib['wrapper'], null, $out);
         }
 
-        if ($menuitem) {
+        if (!empty($menuitem)) {
             $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
             $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
         }
@@ -1967,7 +1971,7 @@ EOF;
         }
 
         // add css files in head, before scripts, for speed up with parallel downloads
-        if (!empty($this->css_files) && !$is_empty
+        if (!empty($this->css_files) && empty($is_empty)
             && (($pos = stripos($output, '<script ')) || ($pos = stripos($output, '</head>')))
         ) {
             $css = '';
@@ -2043,6 +2047,8 @@ EOF;
      */
     public function form_tag($attrib, $content = null)
     {
+        $hidden = '';
+
         if ($this->env['extwin']) {
             $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
             $hidden = $hiddenfield->show();
@@ -2168,6 +2174,7 @@ EOF;
         $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required')
             + $attrib + $pass_attrib);
         $input_host   = null;
+        $hide_host    = false;
 
         if (is_array($default_host) && count($default_host) > 1) {
             $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost'));
@@ -2304,10 +2311,14 @@ EOF;
         }
 
         if (!empty($attrib['wrapper'])) {
-            $header = html::tag($attrib['ariatag'] ?: 'h2', array(
-                    'id'    => 'aria-label-' . $attrib['label'],
-                    'class' => 'voice'
-                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain'])));
+            $options_button = '';
+            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain']);
+            $header_attrs = array(
+                'id'    => 'aria-label-' . $attrib['label'],
+                'class' => 'voice'
+            );
+
+            $header = html::tag($attrib['ariatag'] ?: 'h2', $header_attrs, rcube::Q($header_label));
 
             if ($attrib['options']) {
                 $options_button = $this->button(array(
