@@ -37,7 +37,6 @@ $required_php_exts = array(
 
 $optional_php_exts = array(
     'FileInfo'  => 'fileinfo',
-    'Libiconv'  => 'iconv',
     'Intl'      => 'intl',
     'Exif'      => 'exif',
     'LDAP'      => 'ldap',
@@ -76,7 +75,6 @@ $source_urls = array(
     'Session'   => 'http://www.php.net/manual/en/book.session.php',
     'PCRE'      => 'http://www.php.net/manual/en/book.pcre.php',
     'FileInfo'  => 'http://www.php.net/manual/en/book.fileinfo.php',
-    'Libiconv'  => 'http://www.php.net/manual/en/book.iconv.php',
     'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
     'OpenSSL'   => 'http://www.php.net/manual/en/book.openssl.php',
     'JSON'      => 'http://www.php.net/manual/en/book.json.php',
