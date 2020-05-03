@@ -221,7 +221,7 @@ function rcmail_message_attachments($attrib)
                     'class'       => 'filename',
                 );
 
-                if ($filesize == 0) {
+                if ($mimetype != 'message/rfc822' && empty($attach_prop->size)) {
                     $li_class .= ' no-menu';
                     $link_attrs['onclick'] = sprintf('%s.alert_dialog(%s.get_label(\'emptyattachment\')); return false',
                             rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
