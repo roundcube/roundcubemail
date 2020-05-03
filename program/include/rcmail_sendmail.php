@@ -31,7 +31,8 @@ class rcmail_sendmail
     public $options = array();
 
     protected $parse_data = array();
-    protected $compose_form;
+    protected $message_form;
+    protected $rcmail;
 
     // define constants for message compose mode
     const MODE_REPLY   = 'reply';
@@ -121,6 +122,7 @@ class rcmail_sendmail
         $from          = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST, true, $charset);
         $replyto       = rcube_utils::get_input_value('_replyto', rcube_utils::INPUT_POST, true, $charset);
         $followupto    = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, true, $charset);
+        $from_string   = '';
 
         // Get sender name and address from identity...
         if (is_numeric($from)) {
@@ -177,7 +179,7 @@ class rcmail_sendmail
             'Bcc'              => $mailbcc,
             'Subject'          => trim($subject),
             'Reply-To'         => $this->email_input_format($replyto),
-            'Mail-Reply-To'    => $headers['Reply-To'],
+            'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
             'In-Reply-To'      => $this->data['reply_msgid'],
             'References'       => $this->data['references'],
@@ -370,7 +372,9 @@ class rcmail_sendmail
     public function deliver_message($message, $disconnect = true)
     {
         // Handle Delivery Status Notification request
-        $smtp_opts = array('dsn' => $this->options['dsn_enabled']);
+        $smtp_opts     = array('dsn' => $this->options['dsn_enabled']);
+        $smtp_error    = null;
+        $mailbody_file = null;
 
         $sent = $this->rcmail->deliver_message($message,
             $this->options['from'],
@@ -436,6 +440,10 @@ class rcmail_sendmail
      */
     public function save_message($message)
     {
+        $store_folder = false;
+        $store_target = null;
+        $saved        = false;
+
         // Determine which folder to save message
         if ($this->options['savedraft']) {
             $store_target = $this->rcmail->config->get('drafts_mbox');
@@ -812,8 +820,12 @@ class rcmail_sendmail
     {
         list($form_start,) = $this->form_tags($attrib);
 
-        $out  = '';
-        $part = strtolower($attrib['part']);
+        $out          = '';
+        $part         = strtolower($attrib['part']);
+        $fname        = null;
+        $field_type   = null;
+        $allow_attrib = array();
+        $param        = $part;
 
         switch ($part) {
         case 'from':
@@ -823,7 +835,6 @@ class rcmail_sendmail
         case 'cc':
         case 'bcc':
             $fname  = '_' . $part;
-            $header = $param = $part;
 
             $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
             $field_type   = 'html_textarea';
@@ -833,14 +844,12 @@ class rcmail_sendmail
         case 'reply-to':
             $fname  = '_replyto';
             $param  = 'replyto';
-            $header = 'reply-to';
 
         case 'followupto':
         case 'followup-to':
             if (!$fname) {
                 $fname  = '_followupto';
                 $param  = 'followupto';
-                $header = 'mail-followup-to';
             }
 
             $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');

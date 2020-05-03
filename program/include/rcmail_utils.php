@@ -61,9 +61,10 @@ class rcmail_utils
      */
     public static function db_init($dir)
     {
-        $db = self::db();
+        $db    = self::db();
+        $error = null;
+        $file  = $dir . '/' . $db->db_provider . '.initial.sql';
 
-        $file = $dir . '/' . $db->db_provider . '.initial.sql';
         if (!file_exists($file)) {
             rcube::raise_error("DDL file $file not found", false, true);
         }
@@ -116,7 +117,7 @@ class rcmail_utils
         }
 
         // DB version not found, but release version is specified
-        if (!$version && $ver) {
+        if (empty($version) && $ver) {
             // Map old release version string to DB schema version
             // Note: This is for backward compat. only, do not need to be updated
             $map = array(
