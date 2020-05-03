@@ -8185,19 +8185,25 @@ function rcube_webmail()
     if (options.height)
       popup.height(options.height);
 
-    // resize and center popup
-    var win = $(window), w = win.width(), h = win.height(),
-      width = popup.width(),
-      height = options.height || (popup[0].scrollHeight + 20),
-      dialog = popup.parent(),
-      titlebar_height = $('.ui-dialog-titlebar', dialog).outerHeight() || 0,
-      buttonpane_height = $('.ui-dialog-buttonpane', dialog).outerHeight() || 0,
-      padding = (parseInt(dialog.css('padding-top')) + parseInt(popup.css('padding-top'))) * 2;
+    var dialog = popup.parent();
 
-    popup.dialog('option', {
-      height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
-      width: Math.min(w - 20, width + 24)
-    });
+    if (!options.noresize) {
+      // resize and center popup
+      var win = $(window), w = win.width(), h = win.height(),
+        width = popup.width(),
+        height = options.height || (popup[0].scrollHeight + 20),
+        titlebar_height = $('.ui-dialog-titlebar', dialog).outerHeight() || 0,
+        buttonpane_height = $('.ui-dialog-buttonpane', dialog).outerHeight() || 0,
+        padding = (parseInt(dialog.css('padding-top')) + parseInt(popup.css('padding-top'))) * 2;
+
+      popup.dialog('option', {
+        height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
+        width: Math.min(w - 20, width + 24)
+      });
+    }
+    else {
+      popup.css('width', 'auto');
+    }
 
     // Don't propagate keyboard events to the UI below the dialog (#6055)
     dialog.on('keydown keyup', function(e) { e.stopPropagation(); });
@@ -8246,7 +8252,8 @@ function rcube_webmail()
     options = $.extend(options || {}, {
         cancel_button: 'ok',
         cancel_class: 'save',
-        cancel_func: action
+        cancel_func: action,
+        noresize: true
       });
 
     return this.simple_dialog(content, options.title || 'alerttitle', null, options);
@@ -8258,7 +8265,8 @@ function rcube_webmail()
     var action_func = function(e, ref) { action(e, ref); return true; };
 
     options = $.extend(options || {}, {
-        button: button_label || 'continue'
+        button: button_label || 'continue',
+        noresize: true
       });
 
     return this.simple_dialog(content, options.title || 'confirmationtitle', action_func, options);
