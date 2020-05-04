@@ -393,7 +393,7 @@ function rcube_elastic_ui()
             btn_class = target[0].className + (add_class ? ' ' + add_class : '');
 
         if (!menu_button) {
-            btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
+            btn_class = btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, '').trim()
             btn_class += ' button' + (!always_active ? ' disabled' : '');
         }
         else if (popup = target.data('popup')) {
@@ -2134,7 +2134,7 @@ function rcube_elastic_ui()
                     button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
-                button.contents().filter(function() { if (this.nodeType == 3 && !$.trim(this.nodeValue).length) $(this).remove(); });
+                button.contents().filter(function() { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
 
                 if (button.is('.spacer')) {
                     item.addClass('spacer');
@@ -2984,7 +2984,7 @@ function rcube_elastic_ui()
 
                     if (txt) {
                         txt = txt.replace('<' + contact + '>', '');
-                        contact = '"' + $.trim(txt) + '" <' + contact + '>';
+                        contact = '"' + txt.trim() + '" <' + contact + '>';
                     }
 
                     return rcmail.command('add-contact', contact, this, e.originalEvent);
@@ -3295,7 +3295,7 @@ function rcube_elastic_ui()
     function recipient_input_parser(text)
     {
         // support new-line as a separator, for paste action (#6460)
-        text = $.trim(text.replace(/[,;\s]*[\r\n]+/g, ','));
+        text = text.replace(/[,;\s]*[\r\n]+/g, ',').trim();
 
         var recipients = [],
             address_rx_part = '(\\S+|("[^"]+"))@\\S+',
@@ -3307,7 +3307,7 @@ function rcube_elastic_ui()
         $.each(matches || [], function() {
             if (this.length && (recipient_rx1.test(this) || recipient_rx2.test(this))) {
                 var email = RegExp.$1,
-                    name = $.trim(this.replace(email, ''));
+                    name = this.replace(email, '').trim();
 
                 recipients.push({
                     name: name,

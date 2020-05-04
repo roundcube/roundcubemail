@@ -1669,7 +1669,7 @@ drag_mouse_move: function(e)
 
           if (subject) {
             // remove leading spaces
-            subject = $.trim(subject);
+            subject = subject.trim();
             // truncate line to 50 characters
             subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
 
