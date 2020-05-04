@@ -344,7 +344,7 @@ function rcube_webmail()
                 n.children().remove();
 
                 dt.setData('roundcube-uri', href);
-                dt.setData('roundcube-name', $.trim(n.text()));
+                dt.setData('roundcube-name', n.text().trim());
               }
             });
         }
@@ -3897,7 +3897,7 @@ function rcube_webmail()
     // get recipients
     var recipients = [];
     $.each(['to', 'cc', 'bcc'], function(i,field) {
-      var pos, rcpt, val = $.trim($('[name="_' + field + '"]').val());
+      var pos, rcpt, val = $('[name="_' + field + '"]').val().trim();
       while (val.length && rcube_check_email(val, true)) {
         rcpt = RegExp.$2.replace(/^<+/, '').replace(/>+$/, '');
         recipients.push(rcpt);
@@ -4189,7 +4189,7 @@ function rcube_webmail()
   this.mailvelope_identity_keygen = function()
   {
     var container = $(this.gui_objects.editform).find('.identity-encryption').first();
-    var identity_email = $.trim($(this.gui_objects.editform).find('.ff_email').val());
+    var identity_email = $(this.gui_objects.editform).find('.ff_email').val().trim();
 
     if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
       return;
@@ -4260,7 +4260,7 @@ function rcube_webmail()
   this.mailvelope_show_keygen_container = function(container, identity_email)
   {
     var cid = new Date().getTime();
-    var user_id = {email: identity_email, fullName: $.trim($(ref.gui_objects.editform).find('.ff_name').val())};
+    var user_id = {email: identity_email, fullName: $(ref.gui_objects.editform).find('.ff_name').val().trim()};
     var options = {userIds: [user_id], keySize: 4096};
 
     $('<div>').attr('id', 'mailvelope-keygen-container-' + cid)
@@ -4871,7 +4871,7 @@ function rcube_webmail()
       input_from = $("[name='_from']", form),
       get_recipients = function(fields) {
         fields = $.map(fields, function(v) {
-          v = $.trim(v.val());
+          v = v.val().trim();
           return v.length ? v : null;
         });
         return fields.join(',').replace(/^[\s,;]+/, '').replace(/[\s,;]+$/, '');
@@ -5881,7 +5881,7 @@ function rcube_webmail()
       data = this.ksearch_data;
 
     // trim query string
-    q = $.trim(q);
+    q = q.trim();
 
     // Don't (re-)search if the last results are still active
     if (q == this.ksearch_value)
@@ -10106,7 +10106,7 @@ rcube_webmail.long_subject_title_ex = function(elem)
 {
   if (!elem.title) {
     var $elem = $(elem),
-      txt = $.trim($elem.text()),
+      txt = $elem.text().trim(),
       indent = $('span.branch', $elem).width() || 0,
       tmp = $('<span>').text(txt)
         .css({position: 'absolute', 'float': 'left', visibility: 'hidden',
@@ -10124,7 +10124,7 @@ rcube_webmail.subject_text = function(elem)
 {
   var t = $(elem).clone();
   t.find('.skip-on-drag,.skip-content,.voice').remove();
-  return $.trim(t.text());
+  return t.text().trim();
 };
 
 // set event handlers on all iframe elements (and their contents)
