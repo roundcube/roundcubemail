@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing flag indication on collapsed thread in Larry and Elastic (#7366)
 - Fix default keyservers (use keys.openpgp.org), add note about CORS (#7373, #7367)
 - Password: Fix issue with Modoboa driver (#7372)
+- Mailvelope: Use sender's address to find pubkeys to check signatures (#7348)
 
 RELEASE 1.4.4
 -------------
@@ -38,7 +39,6 @@ RELEASE 1.4.4
 - Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings
 - Security: Fix local file inclusion (and code execution) via crafted 'plugins' option
 - Security: Fix CSRF bypass that could be used to log out an authenticated user (#7302)
-- Mailvelope: Use sender's address to find pubkeys to check signatures (#7348)
 
 RELEASE 1.4.3
 -------------
