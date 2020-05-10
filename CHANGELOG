@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix so the database setup description is compatible with MySQL 8 (#7340)
 - Markasjunk: Fix regression in jsevent driver (#7361)
 - Fix missing flag indication on collapsed thread in Larry and Elastic (#7366)
+- Fix default keyservers (use keys.openpgp.org), add note about CORS (#7373, #7367)
 
 RELEASE 1.4.4
 -------------
