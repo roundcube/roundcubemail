@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix default keyservers (use keys.openpgp.org), add note about CORS (#7373, #7367)
 - Password: Fix issue with Modoboa driver (#7372)
 - Mailvelope: Use sender's address to find pubkeys to check signatures (#7348)
+- Mailvelope: Fix Encrypt button hidden in Elastic (#7353)
 
 RELEASE 1.4.4
 -------------
