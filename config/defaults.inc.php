@@ -846,8 +846,8 @@ $config['compose_responses_static'] = array(
 );
 
 // List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
-// Default: array("keys.fedoraproject.org", "keybase.io")
-$config['keyservers'] = array();
+// Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
+$config['keyservers'] = array('keys.openpgp.org');
 
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
