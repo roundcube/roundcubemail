@@ -953,7 +953,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
         }
 
         if (
-            $part->disposition == 'attachments'
+            $part->disposition == 'attachment'
             || ($part->disposition == 'inline' && $bodyIsHtml)
             || $part->filename
             || $part->mimetype == 'message/rfc822'
