@@ -57,9 +57,23 @@ class rcube_smtp
         // reset error/response var
         $this->error = $this->response = null;
 
+        if (!$host) {
+            $host = $rcube->config->get('smtp_server');
+            if (is_array($host)) {
+                if (array_key_exists($_SESSION['storage_host'], $host)) {
+                    $host = $host[$_SESSION['storage_host']];
+                }
+                else {
+                    $this->response[] = "Connection failed: No SMTP server found for IMAP host " . $_SESSION['storage_host'];
+                    $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => '500'));
+                    return false;
+                }
+            }
+        }
+
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
-            'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
+            'smtp_server'    => $host,
             'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 587),
             'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
             'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
