@@ -263,6 +263,15 @@ else {
   echo "<br/>";
 }
 
+$smtp_hosts = $RCI->get_hostlist('smtp_server');
+if (!empty($smtp_hosts)) {
+  $smtp_host_field = new html_select(array('name' => '_smtp_host', 'id' => 'smtp_server'));
+  $smtp_host_field->add($smtp_hosts);
+}
+else {
+  $smtp_host_field = new html_inputfield(array('name' => '_smtp_host', 'id' => 'smtp_server'));
+}
+
 $user = $RCI->getprop('smtp_user', '(none)');
 $pass = $RCI->getprop('smtp_pass', '(none)');
 
@@ -284,7 +293,7 @@ if ($pass == '%p') {
 <tbody>
   <tr>
     <td><label for="smtp_server">Server</label></td>
-    <td><?php echo rcube_utils::parse_host($RCI->getprop('smtp_server', 'localhost')); ?></td>
+    <td><?php echo $smtp_host_field->show($_POST['_smtp_host']); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_port">Port</label></td>
@@ -310,6 +319,9 @@ $to_field   = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
 if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
+
+  $smtp_host = trim($_POST['_smtp_host']);
+  $smtp_port = $RCI->getprop('smtp_port');
 
   $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
   $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
@@ -340,8 +352,7 @@ if (isset($_POST['sendmail'])) {
     $head         = $mail_object->txtHeaders($send_headers);
 
     $SMTP = new rcube_smtp();
-    $SMTP->connect(rcube_utils::parse_host($RCI->getprop('smtp_server')),
-      $RCI->getprop('smtp_port'), $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
+    $SMTP->connect($smtp_host, $smtp_port, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
     $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
     $smtp_response = $SMTP->get_response();
