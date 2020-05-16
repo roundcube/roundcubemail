@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
