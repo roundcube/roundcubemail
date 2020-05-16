@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Extract RFC2231 attachment name from message headers (#6729, #6783)
 - Archive: Added options to split archive by year or year+month and folder (#7216)
 - Managesieve: Allow display name with email address in vacation :from field (#6760)
+- Managesieve: Improve UX on custom header input (#7207)
 - Password: Added 'pwned' password strength driver (#7274)
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)

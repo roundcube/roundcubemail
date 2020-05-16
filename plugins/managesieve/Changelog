@@ -1,3 +1,4 @@
+- Improve UX on custom header input (#7207)
 - Allow display name with email address in vacation :from field (#6760)
 - Replace "Filter disabled" with "Filter enabled" (#7028)
 - Fix so modifier type select wasn't hidden after hiding modifier select on header change
