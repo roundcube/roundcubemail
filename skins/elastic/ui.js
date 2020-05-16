@@ -3836,7 +3836,7 @@ function rcube_elastic_ui()
 
         // add input rows
         $.each(list, function(i, v) {
-            smart_field_row_add($('.content', area), v, field.name, i, $(field).data('size'));
+            smart_field_row_add($('.content', area), v, i, field);
         });
 
         area.attr('id', id);
@@ -3862,28 +3862,26 @@ function rcube_elastic_ui()
         }
     };
 
-    function smart_field_row_add(area, value, name, idx, size, after)
+    function smart_field_row_add(area, value, idx, field, after)
     {
         // build row element content
-        var input, elem = $('<div class="input-group">'
+        var input,
+            elem = $('<div class="input-group">'
                 + '<input type="text" class="form-control">'
                 + '<span class="input-group-append"><a class="icon reset input-group-text" href="#"></a></span>'
-                + '</div>'),
-            attrs = {value: value, name: name + '[]'};
+                + '</div>');
 
-        if (size) {
-            attrs.size = size;
-        }
-
-        input = $('input', elem).attr(attrs)
+        input = elem.find('input').attr({
+                value: value,
+                name: field.name + '[]',
+                size: $(field).data('size'),
+                title: field.title,
+                placeholder: field.placeholder
+            })
             .keydown(function(e) {
-                var input = $(this);
-
                 // element creation event (on Enter)
                 if (e.which == 13) {
-                    var name = input.attr('name').replace(/\[\]$/, ''),
-                        dt = (new Date()).getTime(),
-                        elem = smart_field_row_add(area, '', name, dt, size, input.parent());
+                    var elem = smart_field_row_add(area, '', (new Date()).getTime(), field, input.parent());
 
                     $('input', elem).focus();
                 }
@@ -3907,7 +3905,7 @@ function rcube_elastic_ui()
             });
 
         // element deletion event
-        $('a.reset', elem).click(function() {
+        elem.find('a.reset').click(function() {
             var record = $(this.parentNode.parentNode);
 
             if (area.children().length > 1) {
@@ -3919,7 +3917,7 @@ function rcube_elastic_ui()
             }
         });
 
-        $(elem).find('input,a')
+        elem.find('input,a')
             .on('focus', function() { area.addClass('focused'); })
             .on('blur', function() { area.removeClass('focused'); });
 
@@ -3944,7 +3942,7 @@ function rcube_elastic_ui()
 
         // add input rows
         $.each(list, function(i, v) {
-            smart_field_row_add(area, v, field.name, i, $(field).data('size'));
+            smart_field_row_add(area, v, i, field);
         });
     };
 

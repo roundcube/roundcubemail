@@ -814,7 +814,7 @@ function smart_field_init(field)
 
   // add input rows
   $.each(list, function(i, v) {
-    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+    area.append(smart_field_row(v, i, field));
   });
 
   area.attr('id', id);
@@ -837,25 +837,26 @@ function smart_field_init(field)
   }
 };
 
-function smart_field_row(value, name, idx, size)
+function smart_field_row(value, idx, field)
 {
   // build row element content
   var input, content = '<span class="listelement">'
       + '<span class="reset"></span><input type="text"></span>',
     elem = $(content),
-    attrs = {value: value, name: name + '[]'};
+    attrs = {
+      value: value,
+      name: field.name + '[]',
+      size: $(field).data('size'),
+      title: field.title,
+      placeholder: $(field).attr('placeholder')
+    };
 
-  if (size)
-    attrs.size = size;
-
-  input = $('input', elem).attr(attrs).keydown(function(e) {
+  input = elem.find('input').attr(attrs).keydown(function(e) {
     var input = $(this);
 
     // element creation event (on Enter)
     if (e.which == 13) {
-      var name = input.attr('name').replace(/\[\]$/, ''),
-        dt = (new Date()).getTime(),
-        elem = smart_field_row('', name, dt, size);
+      var elem = smart_field_row('', (new Date()).getTime(), field);
 
       input.parent().after(elem);
       $('input', elem).focus();
@@ -904,7 +905,7 @@ function smart_field_reset(field, data)
 
   // add input rows
   $.each(list, function(i, v) {
-    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+    area.append(smart_field_row(v, i, field));
   });
 }
 
