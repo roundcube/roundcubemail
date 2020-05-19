@@ -30,6 +30,7 @@ CHANGELOG Roundcube Webmail
 - Password: Fix issue with Modoboa driver (#7372)
 - Mailvelope: Use sender's address to find pubkeys to check signatures (#7348)
 - Mailvelope: Fix Encrypt button hidden in Elastic (#7353)
+- Fix PHP warning: count(): Parameter must be an array or an object... in ID command handler (#7392)
 
 RELEASE 1.4.4
 -------------
