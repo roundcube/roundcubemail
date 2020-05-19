@@ -1742,7 +1742,7 @@ class rcube_imap_generic
      *
      * @param array $items Client identification information key/value hash
      *
-     * @return array Server identification information key/value hash
+     * @return array|false Server identification information key/value hash, False on error
      * @since 0.6
      */
     public function id($items = array())
@@ -1761,10 +1761,12 @@ class rcube_imap_generic
         if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 5); // remove prefix "* ID "
             $items    = $this->tokenizeResponse($response, 1);
-            $result   = null;
+            $result   = array();
 
-            for ($i=0, $len=count($items); $i<$len; $i += 2) {
-                $result[$items[$i]] = $items[$i+1];
+            if (is_array($items)) {
+                for ($i=0, $len=count($items); $i<$len; $i += 2) {
+                    $result[$items[$i]] = $items[$i+1];
+                }
             }
 
             return $result;
