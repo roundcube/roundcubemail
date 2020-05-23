@@ -982,8 +982,9 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
 
             $replace = null;
 
-            // skip inline images when not used in the body
-            if ($part->disposition == 'inline') {
+            // Skip inline images when not used in the body
+            // Note: Apple Mail sends PDF files marked as inline (#7382)
+            if ($part->disposition == 'inline' && $part->mimetype != 'application/pdf') {
                 if (!$bodyIsHtml) {
                     continue;
                 }
