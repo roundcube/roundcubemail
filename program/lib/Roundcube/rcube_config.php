@@ -27,6 +27,8 @@ class rcube_config
 {
     const DEFAULT_SKIN = 'elastic';
 
+    public $system_skin = 'elastic';
+
     private $env       = '';
     private $paths     = array();
     private $prop      = array();
@@ -230,6 +232,8 @@ class rcube_config
         if ($this->prop['skin'] == 'default') {
             $this->prop['skin'] = self::DEFAULT_SKIN;
         }
+
+        $this->system_skin = $this->prop['skin'];
 
         // fix paths
         foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
@@ -454,7 +458,7 @@ class rcube_config
         }
 
         if ($prefs['skin'] == 'default') {
-            $prefs['skin'] = self::DEFAULT_SKIN;
+            $prefs['skin'] = $this->system_skin;
         }
 
         $skins_allowed = $this->get('skins_allowed');
