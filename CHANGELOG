@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Mailvelope: Fix Encrypt button hidden in Elastic (#7353)
 - Fix PHP warning: count(): Parameter must be an array or an object... in ID command handler (#7392)
 - Fix error when user-configured skin does not exist anymore (#7271)
+- Elastic: Fix aspect ratio of a contact photo in mail preview (#7339)
 
 RELEASE 1.4.4
 -------------
