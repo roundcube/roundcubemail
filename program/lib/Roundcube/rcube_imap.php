@@ -148,6 +148,10 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
+            if ($attempt > 0) {
+                usleep(rand(1000, 100000));
+            }
+            rcube::write_log('imap','Connecting to IMAP server attempt:' . $attempt);
             $data = $this->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
@@ -160,7 +164,18 @@ class rcube_imap extends rcube_storage
             rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
 
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
-        } while(!$this->conn->connected() && $data['retry']);
+
+            $nextattempt = !$this->conn->connected();
+            switch ($this->conn->errornum) {
+                case rcube_imap_generic::ERROR_NO:
+                case rcube_imap_generic::ERROR_BAD:
+                case rcube_imap_generic::ERROR_BYE:
+                    $nextattempt = false;
+                    break;
+                default:
+                    $nextattempt &= ($data['attempt'] < 6);
+            }
+        } while($nextattempt);
 
         $config = array(
             'host'     => $data['host'],
