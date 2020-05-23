@@ -360,8 +360,8 @@ $config['oauth_identity_fields'] = null;
 $config['oauth_login_redirect'] = false;
 
 ///// Example config for Gmail
-// Register your service at https://portal.azure.com/
-// use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// Register your service at https://console.developers.google.com/
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 
 // $config['default_host'] = 'ssl://imap.gmail.com';
 // $config['oauth_provider'] = 'google';
@@ -376,7 +376,8 @@ $config['oauth_login_redirect'] = false;
 
 ///// Example config for Outlook.com (Office 365)
 // Register your OAuth client at https://portal.azure.com
-// use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
 
 // $config['default_host'] = 'ssl://outlook.office365.com';
 // $config['smtp_server'] = 'ssl://smtp.office365.com';
@@ -390,7 +391,7 @@ $config['oauth_login_redirect'] = false;
 // $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 // $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
 // $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
-// $config['oauth_scope'] = "openid email offline_access User.Read Mail.ReadWrite Mail.Send";
+// $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
 // $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
 
 // ----------------------------------
