@@ -275,7 +275,9 @@ EOF;
     public function set_skin($skin)
     {
         if (!$this->check_skin($skin)) {
-            $skin = rcube_config::DEFAULT_SKIN;
+            // If the skin does not exist (could be removed or invalid),
+            // fallback to the skin set in the system configuration (#7271)
+            $skin = $this->config->system_skin;
         }
 
         $skin_path = 'skins/' . $skin;
