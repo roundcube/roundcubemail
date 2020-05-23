@@ -77,7 +77,8 @@ if (!empty($auth_code)) {
 
 // error return from oauth login
 else if (!empty($auth_error)) {
-    $OUTPUT->show_message($auth_error, 'warning');
+    $error_message = rcube_utils::get_input_value('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
+    $OUTPUT->show_message($error_message, 'warning');
 }
 
 // login action: redirect to `oauth_auth_uri`
