@@ -482,20 +482,6 @@ function rcube_elastic_ui()
             .addEventListener('clonerow', pretty_checkbox_fix)
             .addEventListener('init', init);
 
-        // Add styling for TinyMCE editor popups
-        // We need to use MutationObserver, as TinyMCE does not provide any events for this
-        if (window.MutationObserver && window.tinymce) {
-            var callback = function(list) {
-                $.each(list, function() {
-                    $.each(this.addedNodes, function() {
-                        tinymce_style(this);
-                    });
-                });
-            };
-
-            (new MutationObserver(callback)).observe(document.body, {childList: true});
-        }
-
         // Create floating action button(s)
         if ((layout.list.length || layout.content.length) && is_mobile()) {
             var fabuttons = [];
@@ -1087,86 +1073,6 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Detects if the element is TinyMCE dialog/menu
-     * and adds Elastic styling to it
-     */
-    function tinymce_style(elem)
-    {
-        // TinyMCE dialog widnows
-        if ($(elem).is('.mce-window')) {
-            var body = $(elem).find('.mce-window-body'),
-                foot = $(elem).find('.mce-foot > .mce-container-body');
-
-            // Apply basic forms style
-            if (body.length) {
-                bootstrap_style(body[0]);
-            }
-
-            body.find('button').filter(function() { return $(this).parent('.mce-btn').length > 0; }).removeClass('btn btn-secondary');
-
-            // Fix icons in Find and Replace dialog footer
-            if (foot.children('.mce-widget').length === 5) {
-                foot.addClass('mce-search-foot');
-            }
-
-            // Apply some form structure fixes and helper classes
-            $(elem).find('.mce-charmap').parent().parent().addClass('mce-charmap-dialog');
-            $(elem).find('.mce-combobox').each(function() {
-                if (!$(this).children('.mce-btn').length) {
-                    $(this).addClass('mce-combobox-fake');
-                }
-            });
-            $(elem).find('.mce-form > .mce-container-body').each(function() {
-                if ($(this).children('.mce-formitem').length > 4) {
-                    $(this).addClass('mce-form-split');
-                }
-            });
-            $(elem).find('.mce-form').next(':not(.mce-formitem)').addClass('mce-form');
-
-            // Fix dialog height (e.g. Table properties dialog)
-            if (!is_mobile()) {
-                var offset, max_height = 0, height = body.height();
-                $(elem).find('.mce-form').each(function() {
-                    max_height = Math.max(max_height, $(this).height());
-                });
-
-                if (height < max_height) {
-                    max_height += (body.find('.mce-tabs').height() || 0) + 25;
-                    body.height(max_height);
-                    $(elem).height($(elem).height() + (max_height - height));
-                    $(elem).css('top', ($(window).height() - $(elem).height())/2 + 'px');
-                }
-            }
-        }
-        // TinyMCE menus on mobile
-        else if ($(elem).is('.mce-menu')) {
-            $(elem).prepend(
-                $('<h3 class="popover-header">').append(
-                    $('<a class="button icon "' + 'cancel' + '">')
-                        .text(rcmail.gettext('close'))
-                        .on('click', function() { $(document.body).click(); })));
-
-            if (window.MutationObserver) {
-                var callback = function() {
-                        if (mode != 'phone') {
-                            return;
-                        }
-                        if (!$('.mce-menu:visible').length) {
-                            $('div.mce-overlay').click();
-                        }
-                        else if (!$('div.mce-overlay').length) {
-                            $('<div>').attr('class', 'popover-overlay mce-overlay')
-                                .appendTo('body')
-                                .click(function() { $(this).remove(); });
-                        }
-                    };
-
-                (new MutationObserver(callback)).observe(elem, {attributes: true});
-            }
-        }
-    };
-
-    /**
      * Initializes popup menus
      */
     function dropdowns_init()
@@ -1368,15 +1274,8 @@ function rcube_elastic_ui()
         o.config.plugins += ' autoresize';
 
         if (is_touch()) {
-            // Make the toolbar icons bigger
-            o.config.toolbar_items_size = null;
-
             // Use minimalistic toolbar
-            o.config.toolbar = 'undo redo | insert | styleselect';
-
-            if (o.config.plugins.match(/emoticons/)) {
-                o.config.toolbar += ' emoticons';
-            }
+            o.config.toolbar = 'undo redo | link image styleselect';
         }
 
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
@@ -1396,8 +1295,8 @@ function rcube_elastic_ui()
 
             // Keep the editor toolbar on top of the screen on scroll
             form.on('scroll', function() {
-                var container = $('.mce-container-body', form),
-                    toolbar = $('.mce-top-part', container),
+                var container = $('.tox-editor-container', form),
+                    toolbar = container.find('.tox-toolbar-overlord'),
                     editor_offset = container.offset(),
                     header_top = form.offset().top;
 
@@ -1410,16 +1309,17 @@ function rcube_elastic_ui()
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
+
         }
 
         if (is_editor) {
             o.config.toolbar = 'plaintext | ' + o.config.toolbar;
             // Use setup_callback, we can't use editor-load event
             o.config.setup_callback = function(ed) {
-                ed.addButton('plaintext', {
+                ed.ui.registry.addButton('plaintext', {
                     tooltip: rcmail.gettext('plaintoggle'),
-                    icon: 'plaintext',
-                    onclick: function(e) {
+                    icon: 'close',
+                    onAction: function(e) {
                         if (rcmail.command('toggle-editor', {id: ed.id, html: false}, '', e.originalEvent)) {
                             $('#' + ed.id).parent().removeClass('ishtml');
                         }
@@ -1427,6 +1327,43 @@ function rcube_elastic_ui()
                 });
             };
         }
+
+        // Add styling for TinyMCE dialogs
+        onload.push(function(ed) {
+            ed.on('OpenWindow', function(e) {
+                var dialog = $('.tox-dialog:last')[0],
+                    callback = function(e) {
+                        var body = $(dialog).find('.tox-dialog__body'),
+                            foot = $(dialog).find('.tox-dialog__footer'),
+                            buttons = foot.find('button');
+
+                        if (!e) {
+                            // Fix icons in Find and Replace dialog footer
+                            if (buttons.length === 4) {
+                                body.closest('.tox-dialog').addClass('tox-search-dialog');
+                            }
+                            // Switch Save and Cancel buttons order
+                            else if (buttons.length == 2) {
+                                buttons.first().insertAfter(buttons[1]);
+                            }
+
+                            // TODO: Styling form elements does not work well because of
+                            // https://github.com/tinymce/tinymce/issues/4867
+                            // also https://github.com/tinymce/tinymce/issues/4869
+                        }
+
+                        body.find('select').each(function() { pretty_select(this); });
+                        body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
+                    };
+
+                // TODO: Maybe some day we'll not have to use MutationObserver
+                // https://github.com/tinymce/tinymce/issues/4869
+                if (window.MutationObserver) {
+                    (new MutationObserver(callback)).observe($('.tox-dialog__body-content', dialog)[0], {childList: true});
+                }
+                callback();
+            });
+        });
 
         rcmail.addEventListener('editor-load', function(e) {
             $.each(onload, function() { this(e.ref.editor); });
