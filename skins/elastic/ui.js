@@ -1322,10 +1322,10 @@ function rcube_elastic_ui()
             o.config.toolbar = 'plaintext | ' + o.config.toolbar;
             // Use setup_callback, we can't use editor-load event
             o.config.setup_callback = function(ed) {
-                ed.addButton('plaintext', {
+                ed.ui.registry.addButton('plaintext', {
                     tooltip: rcmail.gettext('plaintoggle'),
-                    icon: 'plaintext',
-                    onclick: function(e) {
+                    icon: 'close',
+                    onAction: function(e) {
                         if (rcmail.command('toggle-editor', {id: ed.id, html: false}, '', e.originalEvent)) {
                             $('#' + ed.id).parent().removeClass('ishtml');
                         }

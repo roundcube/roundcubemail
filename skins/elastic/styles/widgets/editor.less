@@ -93,7 +93,7 @@ div.tox {
             right: 0;
             height: (@layout-header-height - .7rem);
             width: 2.25em;
-            margin: .25rem;
+            margin-right: .4rem;
 
             &:hover {
                 background: transparent;
@@ -233,9 +233,14 @@ div.tox {
         }
     }
 
+    .tox-color-input span {
+        top: 5px;
+    }
+
     .custom-switch {
         position: relative;
         font-size: 1rem;
+        margin-top: .15rem;
 
         .tox-checkbox__icons {
             display: none;
@@ -415,7 +420,7 @@ div.tox {
         .mce-i-html {
             display: block;
             margin: 2px 2px 2px 4px;
-            width: 32px;
+            width: 34px;
             height: 28px;
             border-radius: .25rem;
             color: #222f3e; // from TinyMCE
@@ -431,7 +436,7 @@ div.tox {
                 &:extend(.font-icon-class);
                 content: @fa-var-image;
                 margin: 0;
-                width: 32px;
+                width: 34px;
                 line-height: 28px;
             }
         }
@@ -439,31 +444,12 @@ div.tox {
 
     // hide toolbar in html mode and in mailvelope mode
     &.mailvelope .editor-toolbar,
-    .mce-tinymce + textarea + .editor-toolbar {
+    .tox-tinymce + .editor-toolbar {
         display: none;
     }
 
-    .mce-i-html:before,
-    .mce-i-plaintext:before {
-        &:extend(.font-icon-class);
-        margin: 0;
-        width: 1em;
-        font-size: 1.2rem;
-    }
-
-    .mce-i-html:before {
-        content: @fa-var-image;
-        line-height: 1.2em;
-    }
-
-    .mce-i-plaintext:before {
-        content: @fa-var-window-close; //@fa-var-align-justify;
-    }
-
     & > .googie_edit_layer,
-    & > .tox-tinymce,
     & > textarea {
-        margin-top: 35px;
         font-family: monospace;
         width: 100% !important;
         padding-top: 48px;
