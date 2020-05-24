@@ -1278,12 +1278,6 @@ function rcube_elastic_ui()
             o.config.toolbar = 'undo redo | link image styleselect';
         }
 
-        if (!is_mobile()) {
-            // Enable autoresize plugin
-            // Note: Disabled in mobile mode because of https://github.com/tinymce/tinymce/issues/4864
-            o.config.plugins += ' autoresize';
-        }
-
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
             var form = $('#compose-content > form'),
                 keypress = function(e) {
@@ -1317,6 +1311,43 @@ function rcube_elastic_ui()
             $(window).resize(function() { form.trigger('scroll'); });
 
         }
+
+        // Add styling for TinyMCE dialogs
+        onload.push(function(ed) {
+            ed.on('OpenWindow', function(e) {
+                var dialog = $('.tox-dialog:last')[0],
+                    callback = function(e) {
+                        var body = $(dialog).find('.tox-dialog__body'),
+                            foot = $(dialog).find('.tox-dialog__footer'),
+                            buttons = foot.find('button');
+
+                        if (!e) {
+                            // Fix icons in Find and Replace dialog footer
+                            if (buttons.length === 4) {
+                                body.closest('.tox-dialog').addClass('tox-search-dialog');
+                            }
+                            // Switch Save and Cancel buttons order
+                            else if (buttons.length == 2) {
+                                buttons.first().insertAfter(buttons[1]);
+                            }
+
+                            // TODO: Styling form elements does not work well because of
+                            // https://github.com/tinymce/tinymce/issues/4867
+                            // also https://github.com/tinymce/tinymce/issues/4869
+                        }
+
+                        body.find('select').each(function() { pretty_select(this); });
+                        body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
+                    };
+
+                // TODO: Maybe some day we'll not have to use MutationObserver
+                // https://github.com/tinymce/tinymce/issues/4869
+                if (window.MutationObserver) {
+                    (new MutationObserver(callback)).observe($('.tox-dialog__body-content', dialog)[0], {childList: true});
+                }
+                callback();
+            });
+        });
 
         if (is_editor) {
             o.config.toolbar = 'plaintext | ' + o.config.toolbar;
@@ -3674,7 +3705,7 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
-            plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
+            plain_btn = $('<a class="plaintext" href="#" tabindex="-1"></a>')
                 .attr('title', rcmail.gettext('htmltoggle'))
                 .on('click', function(e) {
                     if (rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
