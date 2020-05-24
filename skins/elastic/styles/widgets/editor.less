@@ -264,6 +264,10 @@ div.tox {
     .tox-form__controls-h-stack div:not(:last-child) {
         flex: 1;
     }
+
+    .tox-collection__item-label {
+        white-space: nowrap; // fix TinyMCE bug
+    }
 }
 
 @media screen and (max-width: @screen-width-xs) {
