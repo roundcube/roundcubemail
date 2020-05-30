@@ -60,7 +60,16 @@ INSTALLATION
 5. Point your browser to http://url-to-roundcube/installer/
 6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 7. After creating and testing the configuration, remove the installer directory
-8. Check Known Issues section of this file
+   ------------------------------------------
+   IMPORTANT: REMOVE THE INSTALLER DIRECTORY!
+   ------------------------------------------
+8. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 1.5.0):
+   $ cd skins/elastic
+   $ lessc -x styles/styles.less > styles/styles.css
+   $ lessc -x styles/print.less > styles/print.css
+   $ lessc -x styles/embed.less > styles/embed.css
+9. Check Known Issues section of this file
 
 
 CONFIGURATION HINTS
