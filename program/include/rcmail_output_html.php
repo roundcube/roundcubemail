@@ -2134,7 +2134,9 @@ EOF;
             $username = $this->app->user->get_username();
         }
 
-        return rcube_utils::idn_to_utf8($username);
+        $username = rcube_utils::idn_to_utf8($username);
+
+        return html::quote($username);
     }
 
     /**
