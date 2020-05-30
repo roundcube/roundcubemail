@@ -36,6 +36,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where PDF attachments marked as inline could have not been attached on mail forward (#7382)
 - Security: Fix a couple of XSS issues in Installer (#7406)
 - Security: Fix XSS issue in template object 'username' (#7406)
+- Security: Better fix for CVE-2020-12641
 
 RELEASE 1.4.4
 -------------
@@ -63,10 +64,10 @@ RELEASE 1.4.4
 - Make install-jsdeps.sh script working without the 'file' program installed (#7325)
 - Fix performance issue of parsing big HTML messages by disabling HTML5 parser for these (#7331)
 - Fix so Print button for PDF attachments works on Firefox >= 75 (#5125)
-- Security: Fix XSS issue in handling of CDATA in HTML messages
-- Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings
-- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option
-- Security: Fix CSRF bypass that could be used to log out an authenticated user (#7302)
+- Security: Fix XSS issue in handling of CDATA in HTML messages [CVE-2020-12625]
+- Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings [CVE-2020-12641]
+- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option [CVE-2020-12640]
+- Security: Fix CSRF bypass that could be used to log out an authenticated user [CVE-2020-12626] (#7302)
 
 RELEASE 1.4.3
 -------------
