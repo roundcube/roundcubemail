@@ -34,6 +34,7 @@ CHANGELOG Roundcube Webmail
 - Fix error when user-configured skin does not exist anymore (#7271)
 - Elastic: Fix aspect ratio of a contact photo in mail preview (#7339)
 - Fix bug where PDF attachments marked as inline could have not been attached on mail forward (#7382)
+- Security: Fix couple of XSS issues in Installer (#7406)
 
 RELEASE 1.4.4
 -------------
