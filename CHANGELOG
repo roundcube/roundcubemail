@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Security: Fix a couple of XSS issues in Installer (#7406)
 - Security: Fix XSS issue in template object 'username' (#7406)
 - Security: Better fix for CVE-2020-12641
+- Security: Fix cross-site scripting (XSS) via malicious XML attachment
 
 RELEASE 1.4.4
 -------------

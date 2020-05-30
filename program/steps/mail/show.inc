@@ -77,7 +77,7 @@ if ($uid) {
     $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $msg_id, '_mbox' => $mbox_name)));
     $OUTPUT->set_env('has_writeable_addressbook', $_SESSION['writeable_abook']);
     $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
-    $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
+    $OUTPUT->set_env('mimetypes', $CLIENT_MIMETYPES = rcmail_supported_mimetypes());
 
     if ($MESSAGE->headers->get('list-post', false)) {
         $OUTPUT->set_env('list_post', true);
@@ -596,7 +596,7 @@ function rcmail_message_full_headers($attrib)
  */
 function rcmail_message_body($attrib)
 {
-    global $OUTPUT, $MESSAGE, $RCMAIL, $REMOTE_OBJECTS;
+    global $OUTPUT, $MESSAGE, $RCMAIL, $REMOTE_OBJECTS, $CLIENT_MIMETYPES;
 
     if (!is_array($MESSAGE->parts) && empty($MESSAGE->body)) {
         return '';
@@ -707,10 +707,8 @@ function rcmail_message_body($attrib)
     // list images after mail body
     if ($RCMAIL->config->get('inline_images', true) && !empty($MESSAGE->attachments)) {
         $thumbnail_size   = $RCMAIL->config->get('image_thumbnail_size', 240);
-        $client_mimetypes = (array)$RCMAIL->config->get('client_mimetypes');
-
-        $show_label     = rcube::Q($RCMAIL->gettext('showattachment'));
-        $download_label = rcube::Q($RCMAIL->gettext('download'));
+        $show_label       = rcube::Q($RCMAIL->gettext('showattachment'));
+        $download_label   = rcube::Q($RCMAIL->gettext('download'));
 
         foreach ($MESSAGE->attachments as $attach_prop) {
             // skip inline images
@@ -722,7 +720,7 @@ function rcmail_message_body($attrib)
             if ($mimetype = rcmail_part_image_type($attach_prop)) {
                 // display thumbnails
                 if ($thumbnail_size) {
-                    $supported = in_array($mimetype, $client_mimetypes);
+                    $supported = in_array($mimetype, $CLIENT_MIMETYPES);
                     $show_link_attr = array(
                         'href'    => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                         'onclick' => sprintf(
