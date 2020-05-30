@@ -126,7 +126,7 @@ if ($RCI->configured) {
         else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
-            echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
+            echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
         }
     }
     else {
@@ -261,19 +261,19 @@ if ($pass == '%p') {
 <tbody>
   <tr>
     <td><label for="smtp_server">Server</label></td>
-    <td><?php echo rcube_utils::parse_host($RCI->getprop('smtp_server', 'localhost')); ?></td>
+    <td><?php echo rcube::Q(rcube_utils::parse_host($RCI->getprop('smtp_server', 'localhost'))); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_port">Port</label></td>
-    <td><?php echo $RCI->getprop('smtp_port'); ?></td>
+    <td><?php echo rcube::Q($RCI->getprop('smtp_port')); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>
-    <td><?php echo $user; ?></td>
+    <td><?php echo rcube::Q($user); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_pass">Password</label></td>
-    <td><?php echo $pass; ?></td>
+    <td><?php echo rcube::Q($pass); ?></td>
   </tr>
 </tbody>
 </table>
