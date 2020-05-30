@@ -1,11 +1,13 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Security: Fix cross-site scripting (XSS) via malicious XML attachment
+
 RELEASE 1.3.12
 --------------
- - Security: Better fix for CVE-2020-12641
- - Security: Fix XSS issue in template object 'username' (#7406) 
- - Security: Fix couple of XSS issues in Installer (#7406)
+- Security: Better fix for CVE-2020-12641
+- Security: Fix XSS issue in template object 'username' (#7406)
+- Security: Fix couple of XSS issues in Installer (#7406)
 
 RELEASE 1.3.11
 --------------

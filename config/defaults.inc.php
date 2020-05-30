@@ -589,9 +589,12 @@ $config['identities_level'] = 0;
 $config['identity_image_size'] = 64;
 
 // Mimetypes supported by the browser.
-// attachments of these types will open in a preview window
-// either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
-$config['client_mimetypes'] = null;  # null == default
+// Attachments of these types will open in a preview window.
+// Either a comma-separated list or an array. Default list includes:
+//     text/plain,text/html,
+//     image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp,
+//     application/x-javascript,application/pdf,application/x-shockwave-flash
+$config['client_mimetypes'] = null;
 
 // Path to a local mime magic database file for PHPs finfo extension.
 // Set to null if the default path should be used.

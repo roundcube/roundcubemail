@@ -2359,6 +2359,11 @@ function rcmail_supported_mimetypes()
         unset($mimetypes[$key]);
     }
 
+    // We cannot securely preview XML files as we do not have a proper parser
+    if (($key = array_search('text/xml', $mimetypes)) !== false) {
+        unset($mimetypes[$key]);
+    }
+
     foreach (array('tiff', 'webp') as $type) {
         if (empty($_SESSION['browser_caps'][$type]) && ($key = array_search('image/' . $type, $mimetypes)) !== false) {
             // can we convert it to jpeg?

@@ -72,6 +72,8 @@ if ($uid) {
     $OUTPUT->set_env('mailbox', $mbox_name);
     $OUTPUT->set_env('username', $RCMAIL->get_user_name());
     $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $msg_id, '_mbox' => $mbox_name)));
+    $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
+    $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 
     if ($MESSAGE->headers->get('list-post', false)) {
         $OUTPUT->set_env('list_post', true);
