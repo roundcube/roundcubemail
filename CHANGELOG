@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
+- Installer: Fix regression in SMTP test section (#7417)
 
 RELEASE 1.4.5
 -------------
