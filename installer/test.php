@@ -247,9 +247,15 @@ if ($user == '%u') {
     $user_field = new html_inputfield(array('name' => '_smtp_user', 'id' => 'smtp_user'));
     $user = $user_field->show($_POST['_smtp_user']);
 }
+else {
+    $user = html::quote($user);
+}
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(array('name' => '_smtp_pass', 'id' => 'smtp_pass'));
     $pass = $pass_field->show();
+}
+else {
+    $pass = html::quote($pass);
 }
 
 ?>
@@ -269,11 +275,11 @@ if ($pass == '%p') {
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>
-    <td><?php echo rcube::Q($user); ?></td>
+    <td><?php echo $user; ?></td>
   </tr>
   <tr>
     <td><label for="smtp_pass">Password</label></td>
-    <td><?php echo rcube::Q($pass); ?></td>
+    <td><?php echo $pass; ?></td>
   </tr>
 </tbody>
 </table>
