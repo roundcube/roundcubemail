@@ -1255,10 +1255,6 @@ function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
             $attrib['onclick'] = '';
         }
     }
-    else if (empty($attrib['href']) && !isset($attrib['name'])) {
-        $attrib['href']    = './#NOP';
-        $attrib['onclick'] = 'return false';
-    }
     else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
         $attrib['target'] = '_blank';
     }
