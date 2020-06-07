@@ -360,6 +360,7 @@ $config['oauth_identity_fields'] = null;
 $config['oauth_login_redirect'] = false;
 
 ///// Example config for Gmail
+
 // Register your service at https://console.developers.google.com/
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 
@@ -372,9 +373,10 @@ $config['oauth_login_redirect'] = false;
 // $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
 // $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
 // $config['oauth_scope'] = "email profile openid https://mail.google.com/";
-// $config['oauth_auth_parameters'] = ['access_type' => 'offline'];
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
 
 ///// Example config for Outlook.com (Office 365)
+
 // Register your OAuth client at https://portal.azure.com
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 // - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"

@@ -269,8 +269,6 @@ class rcmail_oauth
                     $data['identity'] = $username;
                     $this->mask_auth_data($data);
 
-                    $this->rcmail->write_log('oauth2', 'Auth code success: ' . json_encode($data));
-
                     $this->rcmail->session->remove('oauth_state');
 
                     // return auth data
