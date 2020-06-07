@@ -194,9 +194,13 @@ function rcmail_message_attachments($attrib)
         foreach ($MESSAGE->attachments as $attach_prop) {
             $filename = rcmail_attachment_name($attach_prop, true);
             $filesize = $RCMAIL->message_part_size($attach_prop);
-            $mimetype = $attach_prop->mimetype;
+            $mimetype = rcube_mime::fix_mimetype($attach_prop->mimetype);
             $class    = rcube_utils::file2class($mimetype, $filename);
             $id       = 'attach' . $attach_prop->mime_id;
+
+            if ($mimetype == 'application/octet-stream' && ($type = rcube_mime::file_ext_type($filename))) {
+                $mimetype = $type;
+            }
 
             if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
