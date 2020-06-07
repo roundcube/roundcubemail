@@ -248,25 +248,9 @@ class rcube_sieve_engine
             else if ($list) {
                 $script_name = $list[0];
             }
-            // create a new (initial) script
             else {
-                // if script not exists build default script contents
-                $script_file = $this->rc->config->get('managesieve_default');
-                $script_name = $this->rc->config->get('managesieve_script_name');
-
-                if (empty($script_name)) {
-                    $script_name = 'roundcube';
-                }
-
-                if ($script_file && is_readable($script_file) && !is_dir($script_file)) {
-                    $content = file_get_contents($script_file);
-                }
-
-                // add script and set it active
-                if ($this->sieve->save_script($script_name, $content)) {
-                    $this->activate_script($script_name);
-                    $this->list[] = $script_name;
-                }
+                // if script does not exist create one with default content
+                $this->create_default_script();
             }
         }
 
@@ -3125,5 +3109,136 @@ class rcube_sieve_engine
         }
 
         return $select_comp->show($comparator);
+    }
+
+    /**
+     * Merge a rule into the script
+     */
+    protected function merge_rule($rule, $existing, &$script_name = null)
+    {
+        // if script does not exist create a new one
+        if ($script_name === null || $script_name === false) {
+            $script_name = $this->create_default_script();
+            $this->sieve->load($script_name);
+            $this->init_script();
+        }
+
+        if (!$this->sieve->script) {
+            return false;
+        }
+
+        $script_active   = in_array($script_name, $this->active);
+        $rule_active     = empty($rule['disabled']);
+        $activate_script = false;
+
+        // If the script is not active, but the rule is,
+        // put the rule in an active script if there is one
+        if (!$script_active && $rule_active && !empty($this->active)) {
+            // Remove the rule from current (inactive) script
+            if (isset($existing['idx'])) {
+                unset($this->script[$existing['idx']]);
+                $this->sieve->script->content = $this->script;
+                $this->save_script($script_name);
+            }
+
+            // Load and init the active script, add the rule there
+            $this->sieve->load($script_name = $this->active[0]);
+            $this->init_script();
+            array_unshift($this->script, $rule);
+        }
+        // update original forward rule/script
+        else {
+            // re-order rules if needed
+            if (isset($rule['after']) && $rule['after'] !== '') {
+                // unset the original rule
+                if (isset($existing['idx'])) {
+                    $this->script[$existing['idx']] = null;
+                }
+
+                // add at target position
+                if ($rule['after'] >= count($this->script) - 1) {
+                    $this->script[] = $rule;
+                    $this->script = array_values(array_filter($this->script));
+                    $rule_index = count($this->script);
+                }
+                else {
+                    $script = array();
+
+                    foreach ($this->script as $idx => $r) {
+                        if ($r) {
+                            $script[] = $r;
+                        }
+
+                        if ($idx == $rule['after']) {
+                            $script[] = $rule;
+                            $rule_index = count($script);
+                        }
+                    }
+
+                    $this->script = $script;
+                }
+            }
+            // rule exists, update it "in place"
+            else if (isset($existing['idx'])) {
+                $this->script[$existing['idx']] = $rule;
+                $rule_index = $existing['idx'];
+            }
+            // otherwise put the rule on top
+            else {
+                array_unshift($this->script, $rule);
+                $rule_index = 0;
+            }
+
+            // if the script is not active, but the rule is, we need to de-activate
+            // all rules except the forward rule
+            if (!$script_active && $rule_active) {
+                $activate_script = true;
+                foreach ($this->script as $idx => $r) {
+                    if ($idx !== $rule_index) {
+                        $this->script[$idx]['disabled'] = true;
+                    }
+                }
+            }
+        }
+
+        $this->sieve->script->content = $this->script;
+
+        // save the script
+        $saved = $this->save_script($script_name);
+
+        // activate the script
+        if ($saved && $activate_script) {
+            $this->activate_script($script_name);
+        }
+
+        return $saved;
+    }
+
+    /**
+     * Create default script
+     */
+    protected function create_default_script()
+    {
+        // if script not exists build default script contents
+        $script_file  = $this->rc->config->get('managesieve_default');
+        $script_name  = $this->rc->config->get('managesieve_script_name');
+        $kolab_master = $this->rc->config->get('managesieve_kolab_master');
+        $content      = '';
+
+        if (empty($script_name)) {
+            $script_name = 'roundcube';
+        }
+
+        if ($script_file && !$kolab_master && is_readable($script_file) && !is_dir($script_file)) {
+            $content = file_get_contents($script_file);
+        }
+
+        // add script and set it active
+        if ($this->sieve->save_script($script_name, $content)) {
+            $this->activate_script($script_name);
+            $this->list[] = $script_name;
+        }
+
+        return $script_name;
     }
 }
