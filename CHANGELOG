@@ -19,7 +19,7 @@ CHANGELOG Roundcube Webmail
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
-- Elastic: Support space-separated email addresses in recipient input (#6529)
+- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
 - Templates: Add support for expressions in object attributes (#7237)
