@@ -3,7 +3,6 @@ CHANGELOG Roundcube Webmail
 
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
-- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
 - Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)
@@ -18,7 +17,9 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
+- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Elastic: Support space-separated email addresses in recipient input (#6529)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
 - Templates: Add support for expressions in object attributes (#7237)

@@ -3228,8 +3228,8 @@ function rcube_elastic_ui()
                     apply_func();
                     return false;
                 }
-                // Here we add a recipient box when the separator (,;) or Enter was pressed
-                else if (e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
+                // Here we add a recipient box when the separator (,;\s) or Enter was pressed,
+                else if (e.key == ' ' || e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
                     if (update_func()) {
                         return false;
                     }
@@ -3304,16 +3304,31 @@ function rcube_elastic_ui()
 
         $.each(matches || [], function() {
             if (this.length && (recipient_rx1.test(this) || recipient_rx2.test(this))) {
-                var email = RegExp.$1,
-                    name = this.replace(email, '').trim();
+                var email, str = this;
 
-                recipients.push({
-                    name: name,
-                    email: email.replace(/(^<|>$)/g, ''),
-                    text: this
-                });
+                text = text.replace(str, '');
 
-                text = text.replace(this, '');
+                // Support space-separated email addresses
+                while (str.length && str.indexOf(RegExp.$1) === 0) {
+                    email = RegExp.$1;
+                    recipients.push({
+                        name: '',
+                        email: email.replace(/(^<|>$)/g, '')
+                    });
+
+                    str = str.replace(email, '').trim();
+                    if (!recipient_rx1.test(str) && !recipient_rx2.test(str)) {
+                        break;
+                    }
+                }
+
+                if (email != RegExp.$1) {
+                    email = RegExp.$1;
+                    recipients.push({
+                        name: str.replace(email, '').trim(),
+                        email: email.replace(/(^<|>$)/g, '')
+                    });
+                }
             }
         });
 
