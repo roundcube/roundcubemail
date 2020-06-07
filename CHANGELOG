@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.6
+-------------
 - Installer: Fix regression in SMTP test section (#7417)
 
 RELEASE 1.4.5
