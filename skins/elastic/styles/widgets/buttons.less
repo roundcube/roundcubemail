@@ -150,14 +150,22 @@ button.btn {
         margin-right: .4rem !important; // !important needed for a.btn
     }
 
-    &.oauth.google:before {
+    &.oauth.google:before,
+    &.oauth.outlook:before {
         content: " ";
         display: inline-block !important;
         height: 1.5rem;
         width: 1.5rem;
         margin-right: .8rem !important;
-        background: url('../images/google-icon.svg') top left no-repeat;
         background-size: 100% auto;
+    }
+
+    &.oauth.google:before {
+        background: url('../images/google-icon.svg') top left no-repeat;
+    }
+
+    &.oauth.outlook:before {
+        background: url('../images/microsoft-icon.svg') top left no-repeat;
     }
 }
 

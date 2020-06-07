@@ -1798,6 +1798,31 @@ ul.proplist.simplelist li {
 	border-top: 1px solid #666;
 }
 
+#login-form p.oauthlogin .button.oauth.google,
+#login-form p.oauthlogin .button.oauth.outlook {
+	line-height: 1.5;
+}
+
+#login-form p.oauthlogin .button.oauth.google:before,
+#login-form p.oauthlogin .button.oauth.outlook:before {
+	content: " ";
+	display: inline-block !important;
+	height: 1.6em;
+	width: 1.4em;
+	margin-right: .5em !important;
+	background-size: 100% auto;
+	vertical-align: middle;
+}
+
+#login-form p.oauthlogin .button.oauth.google:before {
+	background: url('./images/google-icon.svg') top left no-repeat;
+}
+
+#login-form p.oauthlogin .button.oauth.outlook:before {
+	background: url('./images/microsoft-icon.svg') top left no-repeat;
+}
+
+
 #login-form #logo {
 	margin-bottom: 20px;
 	border: none;
