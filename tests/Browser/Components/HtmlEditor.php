@@ -84,10 +84,10 @@ class HtmlEditor extends Component
             if ($accept_warning) {
                 $browser->waitForDialog()->acceptDialog();
             }
-            $browser->waitFor('@html-body');
+            $browser->waitFor('@html-body')->waitFor('@html-toolbar');
         }
         else {
-            $browser->click('@html-toolbar .tox-toolbar__primary .tox-toolbar__group:first-child button');
+            $browser->click('.tox-toolbar__primary .tox-toolbar__group:first-child button');
             if ($accept_warning) {
                 $browser->waitForDialog()->acceptDialog();
             }
