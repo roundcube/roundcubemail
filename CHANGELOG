@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where subfolders of special folders could have been duplicated on folder list
+
 RELEASE 1.4.6
 -------------
 - Installer: Fix regression in SMTP test section (#7417)
