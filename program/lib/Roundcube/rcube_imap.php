@@ -4383,10 +4383,17 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_specials($folder, &$list, &$specials, &$out)
     {
-        foreach ($list as $key => $name) {
+        $count = count($list);
+
+        for ($i = 0; $i < $count; $i++) {
+            $name = $list[$i];
+            if ($name === null) {
+                continue;
+            }
+
             if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
                 $out[] = $name;
-                unset($list[$key]);
+                $list[$i] = null;
 
                 if (!empty($specials) && ($found = array_search($name, $specials)) !== false) {
                     unset($specials[$found]);
@@ -4394,8 +4401,6 @@ class rcube_imap extends rcube_storage
                 }
             }
         }
-
-        reset($list);
     }
 
     /**
