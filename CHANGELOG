@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where subfolders of special folders could have been duplicated on folder list
+- Increase maximum size of contact jobtitle and department fields to 128 characters
 
 RELEASE 1.4.6
 -------------
