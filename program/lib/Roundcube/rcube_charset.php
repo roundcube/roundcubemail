@@ -63,6 +63,8 @@ class rcube_charset
         '238'           => 'WINDOWS-1250',
         'MS950'         => 'CP950',
         'WINDOWS949'    => 'UHC',
+        'WINDOWS1257'   => 'ISO-8859-13',
+        'ISO2022JP'     => 'ISO-2022-JP-MS',
     );
 
     /**
@@ -270,7 +272,7 @@ class rcube_charset
      */
     public static function convert($str, $from, $to = null)
     {
-        $to   = empty($to) ? RCUBE_CHARSET : strtoupper($to);
+        $to   = empty($to) ? RCUBE_CHARSET : self::parse_charset($to);
         $from = self::parse_charset($from);
 
         // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
@@ -283,15 +285,6 @@ class rcube_charset
             return $str;
         }
 
-        $aliases = array(
-            'WINDOWS-1257' => 'ISO-8859-13',
-            'US-ASCII'     => 'ASCII',
-            'ISO-2022-JP'  => 'ISO-2022-JP-MS',
-        );
-
-        $mb_from = $aliases[$from] ?: $from;
-        $mb_to   = $aliases[$to] ?: $to;
-
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
         mb_substitute_character('none');
@@ -300,7 +293,7 @@ class rcube_charset
         // using mb_check_encoding() is much slower
         set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
         try {
-            $out = mb_convert_encoding($str, $mb_to, $mb_from);
+            $out = mb_convert_encoding($str, $to, $from);
         }
         catch (ErrorException $e) {
             $out = false;
