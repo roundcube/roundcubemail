@@ -680,6 +680,15 @@ class rcmail_sendmail
      */
     public function email_input_format($mailto, $count = false, $check = true)
     {
+        // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
+        $charset = $this->options['charset'];
+        if ($charset != RCUBE_CHARSET) {
+            $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
+        }
+        if (preg_match('/ISO-2022/i', $charset)) {
+            $use_base64 = true;
+        }
+
         // simplified email regexp, supporting quoted local part
         $email_regexp = '(\S+|("[^"]+"))@\S+';
 
@@ -711,7 +720,16 @@ class rcmail_sendmail
                 if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
                     $name = substr($name, 1, -1);
                 }
-                $name     = stripcslashes($name);
+
+                // encode "name" field
+                if (!empty($use_base64)) {
+                    $name = rcube_charset::convert($name, RCUBE_CHARSET, $charset);
+                    $name = Mail_mimePart::encodeMB($name, $charset, 'base64');
+                }
+                else {
+                    $name = stripcslashes($name);
+                }
+
                 $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
                 $result[] = format_email_recipient($address, $name);
                 $item     = $address;

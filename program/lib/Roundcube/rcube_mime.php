@@ -592,6 +592,7 @@ class rcube_mime
         //       Iconv's substr/strlen are 100x slower (#1489113)
 
         if ($charset && $charset != RCUBE_CHARSET) {
+            $charset = rcube_charset::parse_charset($charset);
             mb_internal_encoding($charset);
         }
 
