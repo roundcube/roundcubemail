@@ -4006,7 +4006,7 @@ function rcube_elastic_ui()
         var list_id = node.find('.scroller .listing').first().attr('id'),
             key = rcmail.env.task + '.' + (list_id || (rcmail.env.action + '.' + node.attr('id'))),
             pos = get_pref(key),
-            reverted = node.is('.sidebar-right'),
+            inverted = node.is('.sidebar-right'),
             set_width = function(width) {
                 node.css({
                     width: Math.max(100, width),
@@ -4016,18 +4016,19 @@ function rcube_elastic_ui()
                 });
             };
 
-        if (!node[reverted ? 'prev' : 'next']().length) {
+        if (!node[inverted ? 'prev' : 'next']().length) {
             return;
         }
 
         $('<div class="column-resizer">')
+            .addClass(inverted ? 'inverted' : null)
             .appendTo(node)
             .on('mousedown', function(e) {
                 var ts, splitter = $(this), offset = node.position().left;
 
                 // Makes col-resize cursor follow the mouse pointer on dragging
                 // and fixes issues related to iframes
-                splitter.width(10000).css(reverted ? 'left' : 'right',  -5000);
+                splitter.addClass('active');
 
                 // Disable selection on document while dragging
                 // It can happen when you move mouse out of window, on top
@@ -4040,11 +4041,11 @@ function rcube_elastic_ui()
                         clearTimeout(ts);
                         ts = setTimeout(function() {
                             // For left-side-splitter we need the current offset
-                            if (reverted) {
+                            if (inverted) {
                                 offset = node.position().left;
                             }
                             var cursor_position = rcube_event.get_mouse_pos(e).x,
-                                width = reverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
+                                width = inverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
 
                             set_width(width);
                         }, 5);
@@ -4056,7 +4057,7 @@ function rcube_elastic_ui()
                         document.body.style.userSelect = 'auto';
 
                         // Set back the splitter width to normal
-                        splitter.width(6).css(reverted ? 'left' : 'right', -3);
+                        splitter.removeClass('active');
 
                         // Save the current position (width)
                         save_pref(key, node.width());
