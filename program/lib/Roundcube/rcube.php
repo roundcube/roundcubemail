@@ -1272,7 +1272,7 @@ class rcube
         // write message with file name when configured to log to STDOUT
         if ($log_driver == 'stdout') {
             $stdout = "php://stdout";
-            $line = "$name: $line";
+            $line = "$name: $line\n";
             return file_put_contents($stdout, $line, FILE_APPEND) !== false;
         }
 
