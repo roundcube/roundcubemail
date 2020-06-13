@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where subfolders of special folders could have been duplicated on folder list
 - Increase maximum size of contact jobtitle and department fields to 128 characters
 - Fix missing newline after the logged line when writing to stdout (#7418)
+- Elastic: Fix context menu (paste) on the recipient input (#7431)
 
 RELEASE 1.4.6
 -------------
