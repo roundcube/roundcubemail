@@ -20,7 +20,6 @@
 @color-success:             #41b849;
 @color-warning:             #ffd452;
 
-@color-link-secondary:      lighten(@color-font, 60%);
 @color-black-shade-text:    tint(@color-black, 40%);
 @color-black-shade-border:  lighten(@color-black, 75%);
 @color-black-shade-bg:      lighten(@color-black, 85%);
@@ -43,20 +42,16 @@
 @color-taskmenu-button:                         #fff;
 @color-taskmenu-button-selected:                @color-taskmenu-button;
 @color-taskmenu-button-action:                  @color-main;
-@color-taskmenu-button-special:                 @color-taskmenu-button;
 
 @color-taskmenu-button-selected-background:     lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background:       transparent;
-@color-taskmenu-button-special-background:      @color-taskmenu-background;
 
 @color-taskmenu-button-hover:                   #fff;
 @color-taskmenu-button-selected-hover:          #fff;
 @color-taskmenu-button-action-hover:            @color-main;
-@color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
 
 @color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background-hover: @color-taskmenu-button-background-hover;
-@color-taskmenu-button-special-background-hover:lighten(@color-taskmenu-button-special-background, 10%);
 @color-taskmenu-button-logout-hover:            @color-error;
 
 
@@ -64,7 +59,6 @@
 @color-toolbar-button:                  @color-font;
 @color-toolbar-button-background-hover: darken(@color-layout-header-background, 3%);
 
-@color-searchbar-icon-active:           green;
 @color-searchbar-background:            #fbfbfb;
 
 // Toolbar menu
@@ -130,8 +124,6 @@
 
 
 // Popovers (menus)
-@color-popover-header:              @color-black-shade-text;
-@color-popover-header-background:   transparent;
 @color-popover-shadow:              @color-black-shade-bg;
 @color-popover-separator:           @color-black-shade-text;
 @color-popover-separator-background: @color-black-shade-bg;
