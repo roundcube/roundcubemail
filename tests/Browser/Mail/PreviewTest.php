@@ -120,7 +120,7 @@ class PreviewTest extends \Tests\Browser\TestCase
                     ->assertVisible('.message-part div.pre .sig');
 
                 $browser->assertMissing('.headers-table')
-                    ->click('a.envelope')
+                    ->click('a.headers-details')
                     ->waitFor('.headers-table')
                     ->assertVisible('.header.cc')
                     ->assertSeeIn('.header.cc', 'test10@domain.tld')
