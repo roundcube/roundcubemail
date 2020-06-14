@@ -721,6 +721,9 @@ function rcube_elastic_ui()
                 $('a').filter('[href^="mailto:"]').each(function() {
                     mailtomenu_append(this);
                 });
+
+                // restore headers view to last state
+                headers_show();
             }
         }
         else if (rcmail.task == 'settings') {
@@ -2691,10 +2694,22 @@ function rcube_elastic_ui()
     /**
      * Show/hide more mail headers (envelope)
      */
-    function headers_show(button)
+    function headers_show(toggle)
     {
-        var headers = $(button).parent().prev();
-        headers[headers.is('.hidden') ? 'removeClass' : 'addClass']('hidden');
+        var key = 'mail.show.envelope',
+            pref = get_pref(key),
+            show = toggle ? !pref : pref,
+            label = rcmail.gettext(show ? 'summary' : 'details'),
+            css = 'headers-' + (show ? 'summary' : 'details'),
+            headers = $('div.header-content');
+
+        $('div.header-toggle > a').removeClass().addClass(css).attr('title', label);
+        headers[show ? 'addClass' : 'removeClass']('details-view');
+
+        if (toggle) {
+            // save new pref
+            save_pref(key, show);
+        }
     };
 
     /**
