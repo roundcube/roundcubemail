@@ -189,7 +189,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // handle oauth login requests
-else if ($RCMAIL->task == 'login' && $RCMAIL->action == 'oauth') {
+else if ($RCMAIL->task == 'login' && $RCMAIL->action == 'oauth' && $RCMAIL->oauth->is_enabled()) {
     include INSTALL_PATH . 'program/steps/login/oauth.inc';
 }
 
