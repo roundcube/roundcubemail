@@ -297,7 +297,7 @@ if ($savedraft) {
     // remember new draft-uid ($saved could be an UID or true/false here)
     if ($saved && is_bool($saved)) {
         $index = $RCMAIL->storage->search_once($drafts_mbox, 'HEADER Message-ID ' . $message_id);
-        $saved = @max($index->get());
+        $saved = $index->max();
     }
 
     if ($saved) {
