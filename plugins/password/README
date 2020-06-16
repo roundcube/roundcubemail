@@ -49,6 +49,7 @@
  2.1.21. Kpasswd
  2.1.22. Modoboa
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ 2.1.24. HTTP-API
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -385,7 +386,24 @@
  Modified version of ldap_simple.
  Password is changed using ldap_exop_passwd operation.
  PHP >= 7.2 required.
- 
+
+ 2.1.24. HTTP-API
+ ----------------
+
+ Driver to change the user's password via any HTTP/HTTPS POST/GET API in a
+ generic manner. It passes any of the username, curpass and newpass variables
+ to the configured POST or GET parameters at the configured URL.
+
+ Any 4xx error code (except 404) is assumed to mean the password change failed.
+ 404 or any other non-2xx error code, or failure to connect, is assumed to be a
+ connection error and is reported as such.
+
+ A 2xx response is generally assumed to mean the password changed succeeded.
+ Optionally, you can configure a regular expression to check the response as
+ well to verify this.
+
+ curl is required by this driver.
+
  
  2.2. Password Strength Drivers
  ------------------------------
