@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Increase maximum size of contact jobtitle and department fields to 128 characters
 - Fix missing newline after the logged line when writing to stdout (#7418)
 - Elastic: Fix context menu (paste) on the recipient input (#7431)
+- Add httpapi password change driver to connect to generic HTTP/HTTPS APIs
 
 RELEASE 1.4.6
 -------------
