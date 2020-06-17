@@ -994,7 +994,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
                 if ($idx && isset($CID_MAP[$idx]) && strpos($message_body, $CID_MAP[$idx]) !== false) {
                     $replace = $CID_MAP[$idx];
                 }
-                else {
+                // Note: Apple Mail send image files marked as inline even if it is not on body message #7414
+                elseif (!isset($part->ctype_parameters['x-apple-part-url'])) {
                     continue;
                 }
             }
