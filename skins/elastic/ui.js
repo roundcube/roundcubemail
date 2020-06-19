@@ -2703,7 +2703,7 @@ function rcube_elastic_ui()
             css = 'headers-' + (show ? 'summary' : 'details'),
             headers = $('div.header-content');
 
-        $('div.header-toggle > a').removeClass().addClass(css).attr('title', label);
+        $("div.header-links > a[data-toggle='headers']").removeClass().addClass(css).text(label);
         headers[show ? 'addClass' : 'removeClass']('details-view');
 
         if (toggle) {
