@@ -740,7 +740,10 @@ EOF;
 
             // apply skin search escalation list to plugin directory
             foreach ($this->skin_paths as $skin_path) {
+                // skin folder in plugin dir
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
+                // plugin folder in skin dir
+                $plugin_skin_paths[] = $skin_path . '/plugins/' . $plugin;
             }
 
             // prepend plugin skin paths to search list
@@ -751,7 +754,7 @@ EOF;
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
             // when requesting a plugin template ignore global skin path(s)
-            if ($plugin && strpos($skin_path, $this->app->plugins->url) !== 0) {
+            if ($plugin && strpos($skin_path, $this->app->plugins->url) === false) {
                 continue;
             }
 
