@@ -1028,7 +1028,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
