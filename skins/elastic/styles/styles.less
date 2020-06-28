@@ -231,6 +231,10 @@ body.task-error-login #layout {
                     .font-icon-regular(@fa-var-envelope);
                 }
 
+                &.headers-all:before {
+                    content: @fa-var-info-circle;
+                }
+
                 &.html:before {
                     content: @fa-var-image;
                 }
@@ -246,8 +250,7 @@ body.task-error-login #layout {
         }
     }
 
-    a.extwin,
-    a.headers {
+    a.extwin {
         text-decoration: none;
     }
 }
@@ -354,7 +357,6 @@ body.task-error-login #layout {
 
 .message-partheaders {
     font-size: 90%;
-    border-bottom: 1px solid @color-list-border;
     color: @color-mail-headers;
 
     .header-title {
