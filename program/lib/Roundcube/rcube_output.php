@@ -306,7 +306,9 @@ abstract class rcube_output
         }
         else if ($type == 'select') {
             $input = new html_select($attrib);
-            $input->add('---', '');
+            if (empty($attrib['skip-empty'])) {
+                $input->add('---', '');
+            }
             $input->add(array_values($attrib['options']), array_keys($attrib['options']));
         }
         else if ($type == 'password' || $attrib['type'] == 'password') {

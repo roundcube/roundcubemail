@@ -1028,7 +1028,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
@@ -3144,9 +3144,6 @@ function rcube_elastic_ui()
     function recipient_input(obj)
     {
         var list, input, selection = '',
-            input_len_update = function() {
-                input.css('width', Math.max(5, input.val().length * 15 + 10));
-            },
             apply_func = function() {
                 // update the original input
                 $(obj).val(list.text() + input.val());
@@ -3192,7 +3189,6 @@ function rcube_elastic_ui()
 
                 input.val(result.text);
                 apply_func();
-                input_len_update();
 
                 return result.recipients.length > 0;
             },
@@ -3234,20 +3230,17 @@ function rcube_elastic_ui()
                         return false;
                     }
                 }
-
-                input_len_update();
             };
 
         // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change', parse_func)
-            .on('input', input_len_update) // only to fix input length after paste
             .on('keydown', keydown_func)
             .on('blur', function() { list.removeClass('focus'); })
             .on('focus mousedown', function() { list.addClass('focus'); });
 
         list = $('<ul>').addClass('form-control recipient-input ac-input rounded-left')
-            .append($('<li>').append(input))
+            .append($('<li class="input">').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
             .on('click', function() { if (!selection.length) input.focus(); })
@@ -4013,7 +4006,7 @@ function rcube_elastic_ui()
         var list_id = node.find('.scroller .listing').first().attr('id'),
             key = rcmail.env.task + '.' + (list_id || (rcmail.env.action + '.' + node.attr('id'))),
             pos = get_pref(key),
-            reverted = node.is('.sidebar-right'),
+            inverted = node.is('.sidebar-right'),
             set_width = function(width) {
                 node.css({
                     width: Math.max(100, width),
@@ -4023,18 +4016,19 @@ function rcube_elastic_ui()
                 });
             };
 
-        if (!node[reverted ? 'prev' : 'next']().length) {
+        if (!node[inverted ? 'prev' : 'next']().length) {
             return;
         }
 
         $('<div class="column-resizer">')
+            .addClass(inverted ? 'inverted' : null)
             .appendTo(node)
             .on('mousedown', function(e) {
                 var ts, splitter = $(this), offset = node.position().left;
 
                 // Makes col-resize cursor follow the mouse pointer on dragging
                 // and fixes issues related to iframes
-                splitter.width(10000).css(reverted ? 'left' : 'right',  -5000);
+                splitter.addClass('active');
 
                 // Disable selection on document while dragging
                 // It can happen when you move mouse out of window, on top
@@ -4047,11 +4041,11 @@ function rcube_elastic_ui()
                         clearTimeout(ts);
                         ts = setTimeout(function() {
                             // For left-side-splitter we need the current offset
-                            if (reverted) {
+                            if (inverted) {
                                 offset = node.position().left;
                             }
                             var cursor_position = rcube_event.get_mouse_pos(e).x,
-                                width = reverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
+                                width = inverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
 
                             set_width(width);
                         }, 5);
@@ -4063,7 +4057,7 @@ function rcube_elastic_ui()
                         document.body.style.userSelect = 'auto';
 
                         // Set back the splitter width to normal
-                        splitter.width(6).css(reverted ? 'left' : 'right', -3);
+                        splitter.removeClass('active');
 
                         // Save the current position (width)
                         save_pref(key, node.width());
