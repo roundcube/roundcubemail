@@ -251,11 +251,21 @@ body {
     width: 6px;
     height: 100%;
 
-    .sidebar-right & {
+    &.inverted {
+        right: auto;
         left: -3px;
     }
-}
 
+    &.active {
+        width: 10000px;
+        right: -5000px;
+
+        &.inverted {
+            right: auto;
+            left: -5000px;
+        }
+    }
+}
 
 @media screen and (max-width: @screen-width-large) {
     #layout-sidebar,
