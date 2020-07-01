@@ -167,8 +167,8 @@ init_row: function(row)
           return true;
       });
 
-    // for IE and Edge differentiate between touch, touch+hold using pointer events rather than touch
-    if ((bw.ie || bw.edge) && bw.pointer) {
+    // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
+    if ((bw.ie || (bw.edge && bw.vendver < 75)) && bw.pointer) {
       $(row).on('pointerdown', function(e) {
           if (e.pointerType == 'touch') {
             self.touch_start_time = new Date().getTime();
