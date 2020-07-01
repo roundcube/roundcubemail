@@ -173,7 +173,7 @@ body.task-error-login #layout {
         }
     }
 
-    .short-header {
+    .headers {
         display: flex;
 
         img.contactphoto {
@@ -189,23 +189,19 @@ body.task-error-login #layout {
             flex: 1;
 
             &:not(.details-view) {
-                .message-partheaders {
+                .headers-table {
                     display: none;
                 }
             }
 
             &.details-view {
-                .header-subject {
+                .header-summary {
                     display: none;
                 }
             }
         }
 
-        div.header-envelope {
-            display: flex;
-        }
-
-        div.header-subject > span {
+        div.header-summary > span {
             display: inline-block;
         }
 
@@ -252,6 +248,41 @@ body.task-error-login #layout {
 
     a.extwin {
         text-decoration: none;
+    }
+}
+
+.message-partheaders {
+    padding: .5rem;
+    margin: .5rem 0 -0.5rem 0;
+    border-top: 1px solid @color-list-border;
+    color: @color-mail-headers;
+    background-color: @color-attachmentlist-background;
+}
+
+#message-header,
+.message-partheaders {
+    table.headers-table {
+        font-size: 90%;
+        color: @color-mail-headers;
+
+        .header-title {
+            .overflow-ellipsis;
+            white-space: nowrap;
+            max-width: 8em;
+            font-weight: bold;
+            padding-right: 1rem;
+            vertical-align: top;
+        }
+
+        .subject {
+            font-weight: bold;
+        }
+
+        & + .message-part,
+        & + .message-htmlpart {
+            border-top: 0;
+            margin: 0;
+        }
     }
 }
 
@@ -352,30 +383,6 @@ body.task-error-login #layout {
     div.pre {
         font-family: monospace;
         font-size: 13px;
-    }
-}
-
-.message-partheaders {
-    font-size: 90%;
-    color: @color-mail-headers;
-
-    .header-title {
-        .overflow-ellipsis;
-        white-space: nowrap;
-        max-width: 8em;
-        font-weight: bold;
-        padding-right: 1rem;
-        vertical-align: top;
-    }
-
-    .subject {
-        font-weight: bold;
-    }
-
-    & + .message-part,
-    & + .message-htmlpart {
-        border-top: 0;
-        margin: 0;
     }
 }
 
