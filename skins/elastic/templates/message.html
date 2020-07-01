@@ -24,15 +24,11 @@
 						label="openinextwin" title="openinextwin" data-hidden="small" />
 				<roundcube:endif />
 			</h2>
-			<div class="short-header">
+			<div class="headers">
 				<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.svg" />
 				<div class="header-content">
-					<div class="header-envelope">
-						<roundcube:object name="messageSummary" addicon="virtual" class="header-subject" />
-						<div class="message-partheaders">
-							<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
-						</div>
-					</div>
+					<roundcube:object name="messageSummary" class="header-summary" addicon="virtual" />
+					<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
 					<div class="header-links">
 						<roundcube:add_label name="details" />
 						<roundcube:add_label name="summary" />
