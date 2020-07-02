@@ -573,6 +573,7 @@ class rcube_db
         $table   = $this->table_name($table, true);
         $columns = array_map(function($i) { return "`$i`"; }, $columns);
         $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
+        $where   = $keys;
 
         array_walk($where, function(&$val, $key) {
             $val = $this->quote_identifier($key) . " = " . $this->quote($val);
