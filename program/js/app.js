@@ -2163,7 +2163,7 @@ function rcube_webmail()
   };
 
   // create a table row in the message list
-  this.add_message_row = function(uid, cols, flags, attop, layout = this.env.layout)
+  this.add_message_row = function(uid, cols, flags, attop, layout)
   {
     if (!this.gui_objects.messagelist || !this.message_list)
       return false;
@@ -2179,6 +2179,10 @@ function rcube_webmail()
 
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
+
+    // If no layout param provided then use UI layout
+    if (!layout)
+      layout = this.env.layout
 
     // merge flags over local message object
     $.extend(this.env.messages[uid], {
