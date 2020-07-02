@@ -161,6 +161,11 @@ class rcmail extends rcube
             $task = asciiwords($task, true) ?: 'mail';
         }
 
+        // Re-initialize plugins if task is changing
+        if (!empty($this->task) && $this->task != $task) {
+            $this->plugins->init($this, $task);
+        }
+
         $this->task      = $task;
         $this->comm_path = $this->url(array('task' => $this->task));
 
