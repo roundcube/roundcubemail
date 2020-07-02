@@ -253,10 +253,9 @@ body.task-error-login #layout {
 
 .message-partheaders {
     padding: .5rem;
-    margin: .5rem 0 -0.5rem 0;
-    border-top: 1px solid @color-list-border;
-    color: @color-mail-headers;
-    background-color: @color-attachmentlist-background;
+    margin: .5rem 0 -.5rem 0;
+    border-top: 1px solid @color-messagepart-border;
+    background-color: @color-messagepart-background;
 }
 
 #message-header,
@@ -309,7 +308,7 @@ body.task-error-login #layout {
     position: relative;
 
     &:not(:first-child) {
-        border-top: 1px solid lighten(@color-mail-headers, 50%);
+        border-top: 1px solid @color-messagepart-border;
         margin-top: .5rem;
     }
 
