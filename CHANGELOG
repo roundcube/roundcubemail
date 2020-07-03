@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv

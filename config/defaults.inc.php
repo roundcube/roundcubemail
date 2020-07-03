@@ -475,6 +475,7 @@ $config['login_username_maxlen'] = 1024;
 $config['login_password_maxlen'] = 1024;
 
 // Logon username filter. Regular expression for use with preg_match().
+// Use special value 'email' if you accept only full email addresses as user logins.
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
