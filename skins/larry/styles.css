@@ -61,6 +61,7 @@ button {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 textarea {
 	margin: 0; /* Safari by default adds a margin */
@@ -70,6 +71,7 @@ textarea {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus,
 button:focus,
 input.button:focus,
@@ -80,6 +82,7 @@ textarea:focus {
 }
 
 input[type="text"]:required,
+input[type="email"]:required,
 input[type="password"]:required {
 	border-color: #4787b1;
 }
@@ -1757,6 +1760,7 @@ ul.proplist.simplelist li {
 }
 
 #login-form input[type="text"],
+#login-form input[type="email"],
 #login-form input[type="password"] {
 	width: 100%;
 	border-color: #666;

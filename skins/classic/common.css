@@ -70,6 +70,7 @@ hr
 }
 
 input[type="text"],
+input[type="email"],
 input[type="button"],
 input[type="password"],
 button,

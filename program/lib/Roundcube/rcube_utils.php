@@ -74,7 +74,7 @@ class rcube_utils
      *
      * @return bool True on success, False if address is invalid
      */
-    public static function check_email($email, $dns_check=true)
+    public static function check_email($email, $dns_check = true)
     {
         // Check for invalid (control) characters
         if (preg_match('/\p{Cc}/u', $email)) {
@@ -96,7 +96,7 @@ class rcube_utils
 
         // quoted-string, make sure all backslashes and quotes are
         // escaped
-        if (substr($local_part,0,1) == '"') {
+        if (substr($local_part, 0, 1) == '"') {
             $local_quoted = preg_replace('/\\\\(\\\\|\")/','', substr($local_part, 1, -1));
             if (preg_match('/\\\\|"/', $local_quoted)) {
                 return false;
