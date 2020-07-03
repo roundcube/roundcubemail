@@ -119,9 +119,9 @@ class PreviewTest extends \Tests\Browser\TestCase
                     ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
                     ->assertVisible('.message-part div.pre .sig');
 
-                $browser->assertMissing('.headers-table')
+                $browser->assertMissing('.header-headers')
                     ->click('a.headers-details')
-                    ->waitFor('.headers-table')
+                    ->waitFor('.header-headers')
                     ->assertVisible('.header.cc')
                     ->assertSeeIn('.header.cc', 'test10@domain.tld')
                     ->assertDontSeeIn('.header.cc', 'test11@domain.tld')
