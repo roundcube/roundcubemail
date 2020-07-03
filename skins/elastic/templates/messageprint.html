@@ -7,12 +7,10 @@
 		<h2 class="subject">
 			<roundcube:object name="messageHeaders" valueOf="subject" />
 		</h2>
-		<div class="short-header">
+		<div class="headers">
 			<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.svg" />
-			<div class="header-content">
-				<div class="message-partheaders">
-					<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
-				</div>
+			<div class="header-content details-view">
+				<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
 			</div>
 		</div>
 	</div>
