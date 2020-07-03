@@ -143,7 +143,7 @@ body.task-error-login #layout {
 #message-header {
     margin-bottom: 1rem;
 
-    .subject {
+    & > .subject {
         font-size: 1.5rem;
         font-weight: bold;
 
@@ -157,6 +157,8 @@ body.task-error-login #layout {
         }
 
         a.extwin {
+            text-decoration: none;
+
             &:before {
                 &:extend(.font-icon-class);
                 float: none;
@@ -173,7 +175,7 @@ body.task-error-login #layout {
         }
     }
 
-    .header {
+    & > .header {
         display: flex;
 
         img.contactphoto {
@@ -183,90 +185,82 @@ body.task-error-login #layout {
             height: @mail-header-photo-height;
             object-fit: cover;
         }
+    }
 
-        .header-content {
-            min-height: @mail-header-photo-height;
-            flex: 1;
+    .header-content {
+        min-height: @mail-header-photo-height;
+        flex: 1;
 
-            &:not(.details-view) {
-                .headers-table {
-                    display: none;
-                }
+        &.details-view {
+            .header-summary {
+                display: none;
             }
-
-            &.details-view {
-                .header-summary {
-                    display: none;
-                }
-                .header-headers {
-                    display: initial;
-                }
-            }
-        }
-
-        .header-summary {
-            margin-top: .25rem;
-
-            & > span {
-                display: inline-block;
-            }
-        }
-
-        .header-headers {
-            display: none;
-
-            .header-title {
-                color: @color-black-shade-text;
-                font-weight: bold;
-                padding-right: 1rem;
-            }
-        }
-
-        .header-links {
-            margin-top: .25rem;
-
-            a {
-                font-size: 90%;
-                margin-right: .5rem;
-                text-decoration: none;
-                white-space: nowrap;
-                display: inline-block;
-
-                &:before {
-                    &:extend(.font-icon-class);
-                    height: 1.5rem;
-                    line-height: 1.3;
-                }
-
-                &.headers-details:before {
-                    content: @fa-var-envelope;
-                }
-
-                &.headers-summary:before {
-                    .font-icon-regular(@fa-var-envelope);
-                }
-
-                &.headers-all:before {
-                    content: @fa-var-info-circle;
-                }
-
-                &.html:before {
-                    content: @fa-var-image;
-                }
-
-                &.plain:before {
-                    content: @fa-var-align-justify;
-                }
-
-                &.zipdownload:before {
-                    content: @fa-var-download;
-                }
+            .header-headers {
+                display: initial;
             }
         }
     }
 
-    a.extwin {
-        text-decoration: none;
+    .header-summary {
+        margin-top: .25rem;
+
+        & > span {
+            display: inline-block;
+        }
+    }
+
+    .header-headers {
+        display: none;
+
+        .header-title {
+            white-space: nowrap;
+            color: @color-black-shade-text;
+            font-weight: bold;
+            padding-right: 1rem;
+            vertical-align: top;
+        }
+    }
+
+    .header-links {
+        margin-top: .25rem;
+
+        a {
+            font-size: 90%;
+            margin-right: .5rem;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-block;
+
+            &:before {
+                &:extend(.font-icon-class);
+                height: 1.5rem;
+                line-height: 1.3;
+            }
+
+            &.headers-details:before {
+                content: @fa-var-envelope;
+            }
+
+            &.headers-summary:before {
+                .font-icon-regular(@fa-var-envelope);
+            }
+
+            &.headers-all:before {
+                content: @fa-var-info-circle;
+            }
+
+            &.html:before {
+                content: @fa-var-image;
+            }
+
+            &.plain:before {
+                content: @fa-var-align-justify;
+            }
+
+            &.zipdownload:before {
+                content: @fa-var-download;
+            }
+        }
     }
 }
 

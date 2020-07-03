@@ -56,7 +56,7 @@ class PrintTest extends \Tests\Browser\TestCase
                 ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
                 ->assertVisible('.message-part div.pre .sig')
                 // Tests "more recipients" link
-                ->with('.headers-table .header.cc', function ($browser) {
+                ->with('.header-headers .header.cc', function ($browser) {
                     $browser->assertSee('test10@domain.tld')
                         ->assertDontSee('test11@domain.tld')
                         ->assertSeeIn('a.morelink', '2 more...')
