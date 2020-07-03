@@ -372,7 +372,7 @@ function rcmail_message_contactphoto($attrib)
 /**
  * Returns table with message headers
  */
-function rcmail_message_headers($attrib, $headers=null)
+function rcmail_message_headers($attrib, $headers = null)
 {
     global $MESSAGE, $PRINT_MODE, $RCMAIL;
     static $sa_attrib;
@@ -616,8 +616,9 @@ function rcmail_message_body($attrib)
         return '';
     }
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmailMsgBody';
+    }
 
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
     $out       = '';

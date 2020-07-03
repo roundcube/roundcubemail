@@ -2699,11 +2699,12 @@ function rcube_elastic_ui()
         var key = 'mail.show.envelope',
             pref = get_pref(key),
             show = toggle ? !pref : pref,
-            label = rcmail.gettext(show ? 'summary' : 'details'),
-            css = 'headers-' + (show ? 'summary' : 'details'),
+            mode = show ? 'summary' : 'details',
             headers = $('div.header-content');
 
-        $("div.header-links > a[data-toggle='headers']").removeClass().addClass(css).text(label);
+        $('div.header-links').find('a.headers-details,a.headers-summary')
+            .removeClass().addClass('headers-' + mode).text(rcmail.gettext(mode));
+
         headers[show ? 'addClass' : 'removeClass']('details-view');
 
         if (toggle) {
