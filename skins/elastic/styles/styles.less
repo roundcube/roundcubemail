@@ -173,7 +173,7 @@ body.task-error-login #layout {
         }
     }
 
-    .headers {
+    .header {
         display: flex;
 
         img.contactphoto {
@@ -184,7 +184,7 @@ body.task-error-login #layout {
             object-fit: cover;
         }
 
-        div.header-content {
+        .header-content {
             min-height: @mail-header-photo-height;
             flex: 1;
 
@@ -198,14 +198,33 @@ body.task-error-login #layout {
                 .header-summary {
                     display: none;
                 }
+                .header-headers {
+                    display: initial;
+                }
             }
         }
 
-        div.header-summary > span {
-            display: inline-block;
+        .header-summary {
+            margin-top: .25rem;
+
+            & > span {
+                display: inline-block;
+            }
         }
 
-        div.header-links {
+        .header-headers {
+            display: none;
+
+            .header-title {
+                color: @color-black-shade-text;
+                font-weight: bold;
+                padding-right: 1rem;
+            }
+        }
+
+        .header-links {
+            margin-top: .25rem;
+
             a {
                 font-size: 90%;
                 margin-right: .5rem;
@@ -251,15 +270,13 @@ body.task-error-login #layout {
     }
 }
 
+
 .message-partheaders {
-    padding: .5rem;
+    padding: .25rem .5rem;
     margin: .5rem 0 -.5rem 0;
     border-top: 1px solid @color-messagepart-border;
     background-color: @color-messagepart-background;
-}
 
-#message-header,
-.message-partheaders {
     table.headers-table {
         font-size: 90%;
         color: @color-mail-headers;
