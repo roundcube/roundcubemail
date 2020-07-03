@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Fix context menu (paste) on the recipient input (#7431)
 - Fix problem with forwarding inline images attached to messages with no HTML part (#7414)
 - Fix problem with handling attached images with same name when using database_attachments/redundant_attachments (#7455)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace
 
 RELEASE 1.4.6
 -------------
