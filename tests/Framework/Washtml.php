@@ -271,6 +271,44 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test SVG cleanup
+     */
+    function test_wash_svg2()
+    {
+        $svg = '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>';
+        $exp = '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>';
+        $exp = '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>';
+        $exp = '<p>Hello victim!<svg /></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
+        $exp = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+    }
+
+    /**
      * Test position:fixed cleanup - (#5264)
      */
     function test_style_wash_position_fixed()
