@@ -17,6 +17,7 @@ function rcube_elastic_ui()
 {
     var prefs, ref = this,
         mode = 'normal', // one of: large, normal, small, phone
+        color_mode = 'light', // 'light' or 'dark'
         touch = false,
         ios = false,
         popups_close_lock,
@@ -448,6 +449,9 @@ function rcube_elastic_ui()
      */
     function layout_init()
     {
+        // Initialize light/dark mode
+        color_mode_init();
+
         // Select current layout element
         env.last_selected = $('#layout > div.selected')[0];
         if (!env.last_selected && layout.content.length) {
@@ -769,6 +773,62 @@ function rcube_elastic_ui()
             $('input.datepicker').each(function() { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
         }
+    };
+
+    /**
+     * Initializes light/dark mode
+     */
+    function color_mode_init()
+    {
+        if (rcmail.env.action == 'print') {
+            return;
+        }
+
+        var pref,
+            color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
+            switch_iframe_color_mode = function() {
+                $('iframe').each(function() {
+                    try {
+                        $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
+                    }
+                    catch(e) { /* ignore */ }
+                });
+            },
+            switch_color_mode = function() {
+                if (color_mode == 'dark') {
+                    $('#taskmenu a.theme').removeClass('dark').addClass('light').find('span').text(rcmail.gettext('lightmode'));
+                    $('html').addClass('dark-mode');
+                }
+                else {
+                    $('#taskmenu a.theme').removeClass('light').addClass('dark').find('span').text(rcmail.gettext('darkmode'));
+                    $('html').removeClass('dark-mode');
+                }
+
+                switch_iframe_color_mode();
+            };
+
+        // Add onclick action to the menu button
+        $('#taskmenu a.theme').on('click', function() {
+            color_mode = $(this).is('.dark') ? 'dark' : 'light';
+            switch_color_mode();
+            save_pref('color.mode', color_mode);
+        });
+
+        // Note: this does not work in IE and Safari
+        color_scheme.addListener(function(e) {
+            color_mode = e.matches ? 'dark' : 'light';
+            switch_color_mode();
+            save_pref('color.mode', null);
+        });
+
+        if (color_scheme.matches) {
+            color_mode = 'dark';
+        }
+        else if (pref = get_pref('color.mode')) {
+            color_mode = pref;
+        }
+
+        switch_color_mode();
     };
 
     /**
@@ -1252,16 +1312,22 @@ function rcube_elastic_ui()
 
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
-            var href = '', show = true;
+            var win, href = '', show = true;
 
             // Reset the scroll position of the iframe-wrapper
             $(this).parent('.iframe-wrapper').scrollTop(0);
 
             try {
-                href = e.target.contentWindow.location.href;
+                win = e.target.contentWindow;
+                href = win.location.href;
                 show = !href.endsWith(rcmail.env.blankpage);
+
+                if (color_mode == 'dark') {
+                    $(win.document).find('html').addClass('dark-mode');
+                }
+
                 // Reset title back to the default
-                $(e.target.contentWindow).on('unload', title_reset);
+                $(win).on('unload', title_reset);
             }
             catch(e) { /* ignore */ }
 
