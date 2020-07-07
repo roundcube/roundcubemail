@@ -29,6 +29,8 @@ $labels['logout'] = 'Logout';
 $labels['mail'] = 'Mail';
 $labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
+$labels['darkmode'] = 'Dark mode';
+$labels['lightmode'] = 'Light mode';
 
 // mailbox names
 $labels['inbox'] = 'Inbox';

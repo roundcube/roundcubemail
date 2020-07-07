@@ -264,7 +264,6 @@ body.task-error-login #layout {
     }
 }
 
-
 .message-partheaders {
     padding: .25rem .5rem;
     margin: .5rem 0 -.5rem 0;
@@ -321,6 +320,10 @@ body.task-error-login #layout {
     &:not(:first-child) {
         border-top: 1px solid @color-messagepart-border;
         margin-top: .5rem;
+    }
+
+    &:last-child {
+        margin-bottom: .5rem;
     }
 
     div.rcmBody {
@@ -426,6 +429,10 @@ body.task-error-login #layout {
     li > a:before {
         content: @fa-var-cog;
     }
+}
+
+& when (@dark-mode-enabled = true) {
+    @import "dark";
 }
 
 @import "_styles";
