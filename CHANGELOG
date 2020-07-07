@@ -20,7 +20,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
-- Elastic: Drak mode (#6709)
+- Elastic: Dark mode (#6709)
 - Elastic: Improve mail header "detailed mode" (#7224)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
