@@ -46,7 +46,7 @@ class userinfo extends rcube_plugin
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-        $table->add('title', html::label('', 'ID'));
+        $table->add('title', html::label('', rcube::Q($this->gettext('userid'))));
         $table->add('', rcube::Q($user->ID));
 
         $table->add('title', html::label('', rcube::Q($this->gettext('username'))));
