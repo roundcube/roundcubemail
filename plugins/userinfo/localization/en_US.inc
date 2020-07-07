@@ -16,6 +16,7 @@
 
 $labels = array();
 $labels['userinfo'] = 'User info';
+$labels['infoforuser'] = 'Info for $user';
 $labels['created'] = 'Created';
 $labels['lastlogin'] = 'Last Login';
 $labels['defaultidentity'] = 'Default Identity';

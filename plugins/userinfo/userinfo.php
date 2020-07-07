@@ -64,7 +64,7 @@ class userinfo extends rcube_plugin
         $table->add('title', html::label('', rcube::Q($this->gettext('defaultidentity'))));
         $table->add('', rcube::Q($identity['name'] . ' <' . $identity['email'] . '>'));
 
-        $legend = rcube::Q('Infos for ' . $user->get_username());
+        $legend = rcube::Q($this->gettext(array('name' => 'infoforuser', 'vars' => array('user' => $user->get_username()))));
         $out    = html::tag('fieldset', '', html::tag('legend', '', $legend) . $table->show());
 
         return html::div(array('class' => 'box formcontent'),
