@@ -787,12 +787,10 @@ function rcube_elastic_ui()
         var pref,
             color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
             switch_iframe_color_mode = function() {
-                $('iframe').each(function() {
-                    try {
-                        $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
-                    }
-                    catch(e) { /* ignore */ }
-                });
+                try {
+                    $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
+                }
+                catch(e) { /* ignore */ }
             },
             switch_color_mode = function() {
                 if (color_mode == 'dark') {
@@ -804,7 +802,7 @@ function rcube_elastic_ui()
                     $('html').removeClass('dark-mode');
                 }
 
-                switch_iframe_color_mode();
+                $('iframe').each(switch_iframe_color_mode);
             };
 
         // Add onclick action to the menu button
@@ -829,6 +827,8 @@ function rcube_elastic_ui()
         }
 
         switch_color_mode();
+
+        $('iframe').on('load', switch_iframe_color_mode);
     };
 
     /**
@@ -1321,10 +1321,6 @@ function rcube_elastic_ui()
                 win = e.target.contentWindow;
                 href = win.location.href;
                 show = !href.endsWith(rcmail.env.blankpage);
-
-                if (color_mode == 'dark') {
-                    $(win.document).find('html').addClass('dark-mode');
-                }
 
                 // Reset title back to the default
                 $(win).on('unload', title_reset);
