@@ -344,11 +344,6 @@ function rcube_elastic_ui()
             // added after page load it also works there.
             $('li.mailbox > a').on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
         });
-
-        // Store default logo path if not already set
-        if (!$('#logo').data('src-default')) {
-            $('#logo').data('src-default', $('#logo').attr('src'));
-        }
     };
 
     /**
@@ -802,6 +797,7 @@ function rcube_elastic_ui()
                     $('html').removeClass('dark-mode');
                 }
 
+                screen_logo(mode);
                 $('iframe').each(switch_iframe_color_mode);
             };
 
@@ -1714,7 +1710,7 @@ function rcube_elastic_ui()
             case 'large': screen_resize_large(); break;
         }
 
-        screen_resize_logo(mode);
+        screen_logo(mode);
         screen_resize_headers();
 
         // On iOS and Android the content frame height is never correct, fix it.
@@ -1759,10 +1755,21 @@ function rcube_elastic_ui()
         }
     };
 
-    function screen_resize_logo(mode)
+    function screen_logo(mode)
     {
+        // Store default logo path if not already set
+        if (!$('#logo').data('src-default')) {
+            $('#logo').data('src-default', $('#logo').attr('src'));
+        }
+
         if (mode == 'phone' && $('#logo').data('src-small')) {
             $('#logo').attr('src', $('#logo').data('src-small'));
+        }
+        else if (mode == 'phone' && color_mode == 'dark' && $('#logo').data('src-small-dark')) {
+            $('#logo').attr('src', $('#logo').data('src-small-dark'));
+        }
+        else if (color_mode == 'dark' && $('#logo').data('src-dark')) {
+            $('#logo').attr('src', $('#logo').data('src-dark'));
         }
         else {
             $('#logo').attr('src', $('#logo').data('src-default'));

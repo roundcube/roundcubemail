@@ -1382,12 +1382,16 @@ EOF;
 
                     // process alternative logos (eg for Elastic small screen)
                     foreach ($attrib as $key => $value) {
-                        if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo($matches[1])) !== null) {
-                                $attrib[$key] = $template_logo;
-                            }
+                        if ($key == 'alt-logos') {
+                            $images = preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY);
+                            foreach ($images as $type) {
+                                $attr = 'data-src-' . $type;
+                                if (($template_logo = $this->get_template_logo($type)) !== null) {
+                                    $attrib[$attr] = $template_logo;
+                                }
 
-                            $attrib[$key] = !empty($attrib[$key]) ? $this->abs_url($attrib[$key]) : null;
+                                $attrib[$attr] = !empty($attrib[$attr]) ? $this->abs_url($attrib[$attr]) : null;
+                            }
                         }
                     }
 
