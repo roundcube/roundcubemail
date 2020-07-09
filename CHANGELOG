@@ -13,33 +13,36 @@ CHANGELOG Roundcube Webmail
 - Added support for INSERT OR REPLACE queries (#6771)
 - Allow skins to define which layout options they support (#7235)
 - Extract RFC2231 attachment name from message headers (#6729, #6783)
+- Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
+- Change folders sorting so shared/other users namespaces are listed last (#5012)
+- Display a warning and do not try to open empty attachments (#7332)
+- Elastic: Dark mode (#6709)
+- Elastic: Improve mail header "detailed mode" (#7224)
+- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
+- Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
+- Templates: Add support for expressions in object attributes (#7237)
+- Templates: Add support for nested if conditions (#6818)
+- Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Archive: Added options to split archive by year or year+month and folder (#7216)
 - Managesieve: Allow display name with email address in vacation :from field (#6760)
 - Managesieve: Improve UX on custom header input (#7207)
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
-- Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
-- Elastic: Dark mode (#6709)
-- Elastic: Improve mail header "detailed mode" (#7224)
-- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
-- Elastic: Display a special icon for other users and shared namespace roots (#5012)
-- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
-- Change folders sorting so shared/other users namespaces are listed last (#5012)
-- Display a warning and do not try to open empty attachments (#7332)
-- Templates: Add support for expressions in object attributes (#7237)
-- Templates: Add support for nested if conditions (#6818)
-- Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+
+RELEASE 1.4.7
+-------------
 - Fix bug where subfolders of special folders could have been duplicated on folder list
 - Increase maximum size of contact jobtitle and department fields to 128 characters
 - Fix missing newline after the logged line when writing to stdout (#7418)
 - Elastic: Fix context menu (paste) on the recipient input (#7431)
 - Fix problem with forwarding inline images attached to messages with no HTML part (#7414)
 - Fix problem with handling attached images with same name when using database_attachments/redundant_attachments (#7455)
-- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace [CVE-2020-15562]
 
 RELEASE 1.4.6
 -------------
