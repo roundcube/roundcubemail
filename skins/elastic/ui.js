@@ -784,6 +784,20 @@ function rcube_elastic_ui()
             switch_iframe_color_mode = function() {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
+
+                    var logos = rcmail.env.additional_logos;
+                    var body  = $(this.contentWindow.document).find('body');
+                    if (logos && body.hasClass('watermark')) {
+                        if (color_mode == 'dark' && logos['watermark-dark']) {
+                           body.css('background-image', 'url(../../' + logos['watermark-dark'] + ')');
+                        }
+                        else if (logos['watermark']) {
+                           body.css('background-image', 'url(../../' + logos['watermark'] + ')');
+                        }
+                        else {
+                            body.css('background-image', '');
+                        }
+                    }
                 }
                 catch(e) { /* ignore */ }
             },
@@ -1757,22 +1771,25 @@ function rcube_elastic_ui()
 
     function screen_logo(mode)
     {
-        // Store default logo path if not already set
-        if (!$('#logo').data('src-default')) {
-            $('#logo').data('src-default', $('#logo').attr('src'));
-        }
+        var logos = rcmail.env.additional_logos;
+        if (logos) {
+            // Store default logo path if not already set
+            if (!$('#logo').data('src-default')) {
+                $('#logo').data('src-default', $('#logo').attr('src'));
+            }
 
-        if (mode == 'phone' && $('#logo').data('src-small')) {
-            $('#logo').attr('src', $('#logo').data('src-small'));
-        }
-        else if (mode == 'phone' && color_mode == 'dark' && $('#logo').data('src-small-dark')) {
-            $('#logo').attr('src', $('#logo').data('src-small-dark'));
-        }
-        else if (color_mode == 'dark' && $('#logo').data('src-dark')) {
-            $('#logo').attr('src', $('#logo').data('src-dark'));
-        }
-        else {
-            $('#logo').attr('src', $('#logo').data('src-default'));
+            if (mode == 'phone' && logos['small']) {
+                $('#logo').attr('src', logos['small']);
+            }
+            else if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
+                $('#logo').attr('src', logos['small-dark']);
+            }
+            else if (color_mode == 'dark' && logos['dark']) {
+                $('#logo').attr('src', logos['dark']);
+            }
+            else {
+                $('#logo').attr('src', $('#logo').data('src-default'));
+            }
         }
     }
 

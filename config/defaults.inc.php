@@ -406,7 +406,8 @@ $config['support_url'] = '';
 // - logo type - it is used for logos used on multiple templates
 //   the available types include '[favicon]' for favicon, '[print]' for logo on all print
 //   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
-//   '[dark]' and '[small-dark]' for dark mode logo in supported skins
+//   '[watermark]' for watermark logo (place holder in content frame) in supported skins
+//   '[dark]', '[small-dark]', and '[watermark-dark]' for dark mode logo in supported skins
 //
 // Example config for skin_logo
 /*

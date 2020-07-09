@@ -1380,14 +1380,16 @@ EOF;
                         $attrib['src'] = $template_logo;
                     }
 
-                    $images = (array) $this->config->get('additional_logo_types');
-                    foreach ($images as $type) {
-                        $attr = 'data-src-' . $type;
+                    $additional_logos = array();
+                    $logo_types       = (array) $this->config->get('additional_logo_types');
+                    foreach ($logo_types as $type) {
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
-                            $attrib[$attr] = $template_logo;
+                            $additional_logos[$type] = $this->abs_url($template_logo);
                         }
+                    }
 
-                        $attrib[$attr] = !empty($attrib[$attr]) ? $this->abs_url($attrib[$attr]) : null;
+                    if (!empty($additional_logos)) {
+                        $this->set_env('additional_logos', $additional_logos);
                     }
 
                     if ($attrib['src']) {
