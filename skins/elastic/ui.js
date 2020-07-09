@@ -784,20 +784,6 @@ function rcube_elastic_ui()
             switch_iframe_color_mode = function() {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
-
-                    var logos = rcmail.env.additional_logos;
-                    var body  = $(this.contentWindow.document).find('body');
-                    if (logos && body.hasClass('watermark')) {
-                        if (color_mode == 'dark' && logos['watermark-dark']) {
-                           body.css('background-image', 'url(../../' + logos['watermark-dark'] + ')');
-                        }
-                        else if (logos['watermark']) {
-                           body.css('background-image', 'url(../../' + logos['watermark'] + ')');
-                        }
-                        else {
-                            body.css('background-image', '');
-                        }
-                    }
                 }
                 catch(e) { /* ignore */ }
             },
