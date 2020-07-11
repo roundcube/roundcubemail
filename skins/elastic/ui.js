@@ -17,6 +17,7 @@ function rcube_elastic_ui()
 {
     var prefs, ref = this,
         mode = 'normal', // one of: large, normal, small, phone
+        color_mode = 'light', // 'light' or 'dark'
         touch = false,
         ios = false,
         popups_close_lock,
@@ -448,6 +449,9 @@ function rcube_elastic_ui()
      */
     function layout_init()
     {
+        // Initialize light/dark mode
+        color_mode_init();
+
         // Select current layout element
         env.last_selected = $('#layout > div.selected')[0];
         if (!env.last_selected && layout.content.length) {
@@ -707,6 +711,9 @@ function rcube_elastic_ui()
                 $('a').filter('[href^="mailto:"]').each(function() {
                     mailtomenu_append(this);
                 });
+
+                // restore headers view to last state
+                headers_show();
             }
         }
         else if (rcmail.task == 'settings') {
@@ -752,6 +759,63 @@ function rcube_elastic_ui()
             $('input.datepicker').each(function() { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
         }
+    };
+
+    /**
+     * Initializes light/dark mode
+     */
+    function color_mode_init()
+    {
+        if (rcmail.env.action == 'print') {
+            return;
+        }
+
+        var pref,
+            color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
+            switch_iframe_color_mode = function() {
+                try {
+                    $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
+                }
+                catch(e) { /* ignore */ }
+            },
+            switch_color_mode = function() {
+                if (color_mode == 'dark') {
+                    $('#taskmenu a.theme').removeClass('dark').addClass('light').find('span').text(rcmail.gettext('lightmode'));
+                    $('html').addClass('dark-mode');
+                }
+                else {
+                    $('#taskmenu a.theme').removeClass('light').addClass('dark').find('span').text(rcmail.gettext('darkmode'));
+                    $('html').removeClass('dark-mode');
+                }
+
+                $('iframe').each(switch_iframe_color_mode);
+            };
+
+        // Add onclick action to the menu button
+        $('#taskmenu a.theme').on('click', function() {
+            color_mode = $(this).is('.dark') ? 'dark' : 'light';
+            switch_color_mode();
+            rcmail.set_cookie('colorMode', color_mode);
+        });
+
+        // Note: this does not work in IE and Safari
+        color_scheme.addListener(function(e) {
+            color_mode = e.matches ? 'dark' : 'light';
+            switch_color_mode();
+            rcmail.set_cookie('colorMode', null);
+        });
+
+        // We deliberately use only cookies here, not local storage
+        if (pref = rcmail.get_cookie('colorMode')) {
+            color_mode = pref;
+        }
+        else if (color_scheme.matches) {
+            color_mode = 'dark';
+        }
+
+        switch_color_mode();
+
+        $('iframe').on('load', switch_iframe_color_mode);
     };
 
     /**
@@ -1003,7 +1067,7 @@ function rcube_elastic_ui()
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
-                    && !$(this).parents('.message-htmlpart,.message-partheaders,.boxinformation,.raw-tables').length;
+                    && !$(this).parents('#message-header,.message-htmlpart,.message-partheaders,.boxinformation,.raw-tables').length;
             })
             .each(function() {
                 // TODO: Consider implementing automatic setting of table-responsive on window resize
@@ -1014,7 +1078,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input, .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
@@ -1155,16 +1219,18 @@ function rcube_elastic_ui()
 
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
-            var href = '', show = true;
+            var win, href = '', show = true;
 
             // Reset the scroll position of the iframe-wrapper
             $(this).parent('.iframe-wrapper').scrollTop(0);
 
             try {
-                href = e.target.contentWindow.location.href;
+                win = e.target.contentWindow;
+                href = win.location.href;
                 show = !href.endsWith(rcmail.env.blankpage);
+
                 // Reset title back to the default
-                $(e.target.contentWindow).on('unload', title_reset);
+                $(win).on('unload', title_reset);
             }
             catch(e) { /* ignore */ }
 
@@ -2628,10 +2694,23 @@ function rcube_elastic_ui()
     /**
      * Show/hide more mail headers (envelope)
      */
-    function headers_show(button)
+    function headers_show(toggle)
     {
-        var headers = $(button).parent().prev();
-        headers[headers.is('.hidden') ? 'removeClass' : 'addClass']('hidden');
+        var key = 'mail.show.envelope',
+            pref = get_pref(key),
+            show = toggle ? !pref : pref,
+            mode = show ? 'summary' : 'details',
+            headers = $('div.header-content');
+
+        $('div.header-links').find('a.headers-details,a.headers-summary')
+            .removeClass().addClass('headers-' + mode).text(rcmail.gettext(mode));
+
+        headers[show ? 'addClass' : 'removeClass']('details-view');
+
+        if (toggle) {
+            // save new pref
+            save_pref(key, show);
+        }
     };
 
     /**
@@ -3081,9 +3160,6 @@ function rcube_elastic_ui()
     function recipient_input(obj)
     {
         var list, input, selection = '',
-            input_len_update = function() {
-                input.css('width', Math.max(5, input.val().length * 15 + 10));
-            },
             apply_func = function() {
                 // update the original input
                 $(obj).val(list.text() + input.val());
@@ -3129,7 +3205,6 @@ function rcube_elastic_ui()
 
                 input.val(result.text);
                 apply_func();
-                input_len_update();
 
                 return result.recipients.length > 0;
             },
@@ -3165,26 +3240,23 @@ function rcube_elastic_ui()
                     apply_func();
                     return false;
                 }
-                // Here we add a recipient box when the separator (,;) or Enter was pressed
-                else if (e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
+                // Here we add a recipient box when the separator (,;\s) or Enter was pressed,
+                else if (e.key == ' ' || e.key == ',' || e.key == ';' || (e.key == 'Enter' && !rcmail.ksearch_visible())) {
                     if (update_func()) {
                         return false;
                     }
                 }
-
-                input_len_update();
             };
 
         // Create the input element and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change', parse_func)
-            .on('input', input_len_update) // only to fix input length after paste
             .on('keydown', keydown_func)
             .on('blur', function() { list.removeClass('focus'); })
             .on('focus mousedown', function() { list.addClass('focus'); });
 
         list = $('<ul>').addClass('form-control recipient-input ac-input rounded-left')
-            .append($('<li>').append(input))
+            .append($('<li class="input">').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
             .on('click', function() { if (!selection.length) input.focus(); })
@@ -3241,16 +3313,31 @@ function rcube_elastic_ui()
 
         $.each(matches || [], function() {
             if (this.length && (recipient_rx1.test(this) || recipient_rx2.test(this))) {
-                var email = RegExp.$1,
-                    name = this.replace(email, '').trim();
+                var email, str = this;
 
-                recipients.push({
-                    name: name,
-                    email: email.replace(/(^<|>$)/g, ''),
-                    text: this
-                });
+                text = text.replace(str, '');
 
-                text = text.replace(this, '');
+                // Support space-separated email addresses
+                while (str.length && str.indexOf(RegExp.$1) === 0) {
+                    email = RegExp.$1;
+                    recipients.push({
+                        name: '',
+                        email: email.replace(/(^<|>$)/g, '')
+                    });
+
+                    str = str.replace(email, '').trim();
+                    if (!recipient_rx1.test(str) && !recipient_rx2.test(str)) {
+                        break;
+                    }
+                }
+
+                if (email != RegExp.$1) {
+                    email = RegExp.$1;
+                    recipients.push({
+                        name: str.replace(email, '').trim(),
+                        email: email.replace(/(^<|>$)/g, '')
+                    });
+                }
             }
         });
 
@@ -3935,7 +4022,7 @@ function rcube_elastic_ui()
         var list_id = node.find('.scroller .listing').first().attr('id'),
             key = rcmail.env.task + '.' + (list_id || (rcmail.env.action + '.' + node.attr('id'))),
             pos = get_pref(key),
-            reverted = node.is('.sidebar-right'),
+            inverted = node.is('.sidebar-right'),
             set_width = function(width) {
                 node.css({
                     width: Math.max(100, width),
@@ -3945,18 +4032,19 @@ function rcube_elastic_ui()
                 });
             };
 
-        if (!node[reverted ? 'prev' : 'next']().length) {
+        if (!node[inverted ? 'prev' : 'next']().length) {
             return;
         }
 
         $('<div class="column-resizer">')
+            .addClass(inverted ? 'inverted' : null)
             .appendTo(node)
             .on('mousedown', function(e) {
                 var ts, splitter = $(this), offset = node.position().left;
 
                 // Makes col-resize cursor follow the mouse pointer on dragging
                 // and fixes issues related to iframes
-                splitter.width(10000).css(reverted ? 'left' : 'right',  -5000);
+                splitter.addClass('active');
 
                 // Disable selection on document while dragging
                 // It can happen when you move mouse out of window, on top
@@ -3969,11 +4057,11 @@ function rcube_elastic_ui()
                         clearTimeout(ts);
                         ts = setTimeout(function() {
                             // For left-side-splitter we need the current offset
-                            if (reverted) {
+                            if (inverted) {
                                 offset = node.position().left;
                             }
                             var cursor_position = rcube_event.get_mouse_pos(e).x,
-                                width = reverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
+                                width = inverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
 
                             set_width(width);
                         }, 5);
@@ -3985,7 +4073,7 @@ function rcube_elastic_ui()
                         document.body.style.userSelect = 'auto';
 
                         // Set back the splitter width to normal
-                        splitter.width(6).css(reverted ? 'left' : 'right', -3);
+                        splitter.removeClass('active');
 
                         // Save the current position (width)
                         save_pref(key, node.width());

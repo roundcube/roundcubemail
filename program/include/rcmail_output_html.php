@@ -2134,7 +2134,9 @@ EOF;
             $username = $this->app->user->get_username();
         }
 
-        return rcube_utils::idn_to_utf8($username);
+        $username = rcube_utils::idn_to_utf8($username);
+
+        return html::quote($username);
     }
 
     /**
@@ -2147,15 +2149,16 @@ EOF;
      */
     protected function login_form($attrib)
     {
-        $default_host = $this->config->get('default_host');
-        $autocomplete = (int) $this->config->get('login_autocomplete');
-
+        $default_host     = $this->config->get('default_host');
+        $autocomplete     = (int) $this->config->get('login_autocomplete');
+        $username_filter  = $this->config->get('login_username_filter');
         $_SESSION['temp'] = true;
 
         // save original url
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
-        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
+        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])) {
             $url = $_SERVER['QUERY_STRING'];
+        }
 
         // Disable autocapitalization on iPad/iPhone (#1488609)
         $attrib['autocapitalize'] = 'off';
@@ -2166,6 +2169,10 @@ EOF;
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $pass_attrib = $autocomplete > 1 ? array() : array('autocomplete' => 'off');
+
+        if ($username_filter && strtolower($username_filter) == 'email') {
+            $user_attrib['type'] = 'email';
+        }
 
         $input_task   = new html_hiddenfield(array('name' => '_task', 'value' => 'login'));
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
@@ -2179,7 +2186,7 @@ EOF;
         $hide_host    = false;
 
         if (is_array($default_host) && count($default_host) > 1) {
-            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost'));
+            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select'));
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
@@ -2197,7 +2204,7 @@ EOF;
                 'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')
+            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control')
                 + $attrib + $host_attrib);
         }
 

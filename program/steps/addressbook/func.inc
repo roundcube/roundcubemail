@@ -29,9 +29,9 @@ $CONTACT_COLTYPES = array(
     'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('nameprefix'), 'category' => 'main'),
     'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('namesuffix'), 'category' => 'main'),
     'nickname'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('nickname'), 'category' => 'main'),
-    'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
+    'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
     'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
-    'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
+    'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
     'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
     'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
     'phone'        => array('type' => 'text', 'size' => 40, 'maxlength' => 20, 'label' => $RCMAIL->gettext('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
@@ -572,7 +572,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
             continue;
         }
 
-        $select_add = new html_select(array('class' => 'addfieldmenu', 'rel' => $section, 'data-compact' => $compact ? "true" : null));
+        $select_add = new html_select(array(
+                'class'        => 'addfieldmenu custom-select',
+                'rel'          => $section,
+                'data-compact' => $compact ? "true" : null
+        ));
         $select_add->add($RCMAIL->gettext('addfield'), '');
 
         // render head section with name fields (not a regular list of rows)

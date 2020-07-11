@@ -1,27 +1,56 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
+- Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
-- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
 - Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)
 - Relaxed domain name validation for extended TLDs support (#5588)
+- Allow opening application/octet-stream attachments according to filename extension (#6821)
 - Added support for INSERT OR REPLACE queries (#6771)
+- Allow skins to define which layout options they support (#7235)
 - Extract RFC2231 attachment name from message headers (#6729, #6783)
-- Archive: Added options to split archive by year or year+month and folder (#7216)
-- Managesieve: Allow display name with email address in vacation :from field (#6760)
-- Managesieve: Improve UX on custom header input (#7207)
-- Password: Added 'pwned' password strength driver (#7274)
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
-- Elastic: Display a special icon for other users and shared namespace roots (#5012)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
+- Elastic: Dark mode (#6709)
+- Elastic: Minimize forms/colors blink on page load
+- Elastic: Improve mail header "detailed mode" (#7224)
+- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
+- Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
 - Templates: Add support for expressions in object attributes (#7237)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Archive: Added options to split archive by year or year+month and folder (#7216)
+- Managesieve: Allow display name with email address in vacation :from field (#6760)
+- Managesieve: Improve UX on custom header input (#7207)
+- Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
+- Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
+- Password: Added 'pwned' password strength driver (#7274)
+- Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
+- Fix so anchor tags without href attribute are not modified (#7413)
+
+RELEASE 1.4.7
+-------------
+- Fix bug where subfolders of special folders could have been duplicated on folder list
+- Increase maximum size of contact jobtitle and department fields to 128 characters
+- Fix missing newline after the logged line when writing to stdout (#7418)
+- Elastic: Fix context menu (paste) on the recipient input (#7431)
+- Fix problem with forwarding inline images attached to messages with no HTML part (#7414)
+- Fix problem with handling attached images with same name when using database_attachments/redundant_attachments (#7455)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace [CVE-2020-15562]
+
+RELEASE 1.4.6
+-------------
+- Installer: Fix regression in SMTP test section (#7417)
+
+RELEASE 1.4.5
+-------------
 - Fix bug in extracting required plugins from composer.json that led to spurious error in log (#7364)
 - Fix so the database setup description is compatible with MySQL 8 (#7340)
 - Markasjunk: Fix regression in jsevent driver (#7361)
@@ -34,6 +63,10 @@ CHANGELOG Roundcube Webmail
 - Fix error when user-configured skin does not exist anymore (#7271)
 - Elastic: Fix aspect ratio of a contact photo in mail preview (#7339)
 - Fix bug where PDF attachments marked as inline could have not been attached on mail forward (#7382)
+- Security: Fix a couple of XSS issues in Installer (#7406)
+- Security: Fix XSS issue in template object 'username' (#7406)
+- Security: Better fix for CVE-2020-12641
+- Security: Fix cross-site scripting (XSS) via malicious XML attachment
 
 RELEASE 1.4.4
 -------------
@@ -61,10 +94,10 @@ RELEASE 1.4.4
 - Make install-jsdeps.sh script working without the 'file' program installed (#7325)
 - Fix performance issue of parsing big HTML messages by disabling HTML5 parser for these (#7331)
 - Fix so Print button for PDF attachments works on Firefox >= 75 (#5125)
-- Security: Fix XSS issue in handling of CDATA in HTML messages
-- Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings
-- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option
-- Security: Fix CSRF bypass that could be used to log out an authenticated user (#7302)
+- Security: Fix XSS issue in handling of CDATA in HTML messages [CVE-2020-12625]
+- Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings [CVE-2020-12641]
+- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option [CVE-2020-12640]
+- Security: Fix CSRF bypass that could be used to log out an authenticated user [CVE-2020-12626] (#7302)
 
 RELEASE 1.4.3
 -------------

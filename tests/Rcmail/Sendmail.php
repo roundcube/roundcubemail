@@ -7,6 +7,62 @@
  */
 class Rcmail_RcmailSendmail extends PHPUnit\Framework\TestCase
 {
+
+    /**
+     * Data for test_convert()
+     */
+    function data_email_input_format()
+    {
+        return array(
+            array(
+                'name <t@domain.jp>',
+                'name <t@domain.jp>',
+                'UTF-8'
+            ),
+            array(
+                '"first last" <t@domain.jp>',
+                'first last <t@domain.jp>',
+                'UTF-8'
+            ),
+            array(
+                '"first last" <t@domain.jp>, test2@domain.tld,',
+                'first last <t@domain.jp>, test2@domain.tld',
+                'UTF-8'
+            ),
+            array(
+                '<test@domain.tld>',
+                'test@domain.tld',
+                'UTF-8'
+            ),
+            array(
+                'test@domain.tld',
+                'test@domain.tld',
+                'UTF-8'
+            ),
+            array(
+                'ö <t@test.com>',
+                'ö <t@test.com>',
+                'UTF-8'
+            ),
+            array(
+                base64_decode('GyRCLWo7M3l1OSk2SBsoQg==') . ' <t@domain.jp>',
+                '=?ISO-2022-JP?B?GyRCLWo7M3l1OSk2SBsoQg==?= <t@domain.jp>',
+                'ISO-2022-JP'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider data_email_input_format
+     */
+    function test_email_input_format($input, $output, $charset)
+    {
+        $sendmail = new rcmail_sendmail();
+        $sendmail->options['charset'] = $charset;
+
+        $this->assertEquals($output, $sendmail->email_input_format($input));
+    }
+
     /**
      * Test rcmail_sendmail::identity_select()
      */

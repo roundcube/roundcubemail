@@ -20,7 +20,6 @@
 @color-success:             #41b849;
 @color-warning:             #ffd452;
 
-@color-link-secondary:      lighten(@color-font, 60%);
 @color-black-shade-text:    tint(@color-black, 40%);
 @color-black-shade-border:  lighten(@color-black, 75%);
 @color-black-shade-bg:      lighten(@color-black, 85%);
@@ -43,20 +42,16 @@
 @color-taskmenu-button:                         #fff;
 @color-taskmenu-button-selected:                @color-taskmenu-button;
 @color-taskmenu-button-action:                  @color-main;
-@color-taskmenu-button-special:                 @color-taskmenu-button;
 
 @color-taskmenu-button-selected-background:     lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background:       transparent;
-@color-taskmenu-button-special-background:      @color-taskmenu-background;
 
 @color-taskmenu-button-hover:                   #fff;
 @color-taskmenu-button-selected-hover:          #fff;
 @color-taskmenu-button-action-hover:            @color-main;
-@color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
 
 @color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background-hover: @color-taskmenu-button-background-hover;
-@color-taskmenu-button-special-background-hover:lighten(@color-taskmenu-button-special-background, 10%);
 @color-taskmenu-button-logout-hover:            @color-error;
 
 
@@ -64,7 +59,6 @@
 @color-toolbar-button:                  @color-font;
 @color-toolbar-button-background-hover: darken(@color-layout-header-background, 3%);
 
-@color-searchbar-icon-active:           green;
 @color-searchbar-background:            #fbfbfb;
 
 // Toolbar menu
@@ -130,8 +124,6 @@
 
 
 // Popovers (menus)
-@color-popover-header:              @color-black-shade-text;
-@color-popover-header-background:   transparent;
 @color-popover-shadow:              @color-black-shade-bg;
 @color-popover-separator:           @color-black-shade-text;
 @color-popover-separator-background: @color-black-shade-bg;
@@ -194,6 +186,9 @@
 @color-mail-signature:              @color-black-shade-text;
 @color-mail-headers:                @color-black-shade-text;
 
+@color-messagepart-border:          #f4f4f4;
+@color-messagepart-background:      #fcfcfc;
+
 @color-spellcheck-link:             @color-error;
 
 @color-table-border:                @color-layout-border;
@@ -218,3 +213,59 @@
 @color-image-tools:                     #fff;
 @color-image-tools-background:          fadeout(@color-main, 60%);
 @color-image-tools-hover:               fadeout(@color-main, 50%);
+
+
+// Dark mode colors
+@color-dark-main:           darken(@color-main, 30%);
+@color-dark-background:     #21292c;
+@color-dark-font:           #c5d1d3;
+@color-dark-border:         #4d6066;
+@color-dark-hint:           darken(@color-dark-font, 20%);
+@color-dark-information:    shade(@color-main, 40%);
+@color-dark-success:        shade(@color-success, 40%);
+@color-dark-warning:        shade(@color-warning, 40%);
+@color-dark-error:          shade(@color-error, 40%);
+
+@color-dark-list-selected:              @color-main;
+@color-dark-list-selected-background:   #374549;
+@color-dark-list-badge:                 lighten(@color-dark-font, 10%);
+@color-dark-list-badge-background:      @color-dark-border;
+@color-dark-list-deleted:               darken(@color-dark-hint, 15%);
+@color-dark-list-droptarget-background: #4d4d00;
+@color-dark-list-border:                #2c373a;
+
+@color-dark-input:                      @color-dark-font;
+@color-dark-input-border:               #7c949c;
+@color-dark-input-background:           @color-dark-background;
+@color-dark-input-focus:                #e2e7e9;
+@color-dark-input-border-focus:         @color-main;
+@color-dark-input-background-focus:     lighten(@color-dark-background, 5%);
+@color-dark-input-addon-background:     #374549;
+@color-dark-checkbox:                   @color-dark-border;
+@color-dark-checkbox-checked:           @color-dark-main;
+
+@color-dark-btn:                        lighten(@color-dark-font, 10%);
+@color-dark-btn-primary-background:     @color-dark-main;
+@color-dark-btn-secondary-background:   @color-dark-border;
+@color-dark-btn-danger-background:      @color-dark-error;
+
+@color-dark-dialog-overlay-background:  fade(black, 70%);
+
+@color-dark-popover-background:         #161b1d;
+@color-dark-popover-border:             lighten(#161b1d, 50%);
+
+@color-dark-message-information:        @color-dark-information;
+@color-dark-message-success:            @color-dark-success;
+@color-dark-message-warning:            @color-dark-warning;
+@color-dark-message-error:              @color-dark-error;
+@color-dark-message-loading:            lighten(@color-dark-background, 10%);
+
+@color-dark-scrollbar-thumb:            @color-dark-main;
+@color-dark-scrollbar-track:            @color-dark-border;
+
+@color-dark-blockquote-0:               lighten(@color-main, 10%);
+@color-dark-blockquote-1:               lighten(@color-success, 10%);
+@color-dark-blockquote-2:               lighten(@color-error, 10%);
+@color-dark-blockquote-0-border:        @color-dark-blockquote-0;
+@color-dark-blockquote-1-border:        @color-dark-blockquote-1;
+@color-dark-blockquote-2-border:        @color-dark-blockquote-2;

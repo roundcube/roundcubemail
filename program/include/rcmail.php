@@ -161,6 +161,11 @@ class rcmail extends rcube
             $task = asciiwords($task, true) ?: 'mail';
         }
 
+        // Re-initialize plugins if task is changing
+        if (!empty($this->task) && $this->task != $task) {
+            $this->plugins->init($this, $task);
+        }
+
         $this->task      = $task;
         $this->comm_path = $this->url(array('task' => $this->task));
 
@@ -525,19 +530,13 @@ class rcmail extends rcube
             return false;
         }
 
-        $username_filter = $this->config->get('login_username_filter');
-        $username_maxlen = $this->config->get('login_username_maxlen', 1024);
-        $password_maxlen = $this->config->get('login_password_maxlen', 1024);
         $default_host    = $this->config->get('default_host');
         $default_port    = $this->config->get('default_port');
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
 
-        // check input for security (#1490500)
-        if (($username_maxlen && strlen($username) > $username_maxlen)
-            || ($username_filter && !preg_match($username_filter, $username))
-            || ($password_maxlen && strlen($password) > $password_maxlen)
-        ) {
+        // check username input validity
+        if (!$this->login_input_checks($username, $password)) {
             $this->login_error = self::ERROR_INVALID_REQUEST;
             return false;
         }
@@ -726,6 +725,43 @@ class rcmail extends rcube
         if ($this->storage && $this->storage->get_error_code() < -1) {
             return self::ERROR_STORAGE;
         }
+    }
+
+    /**
+     * Validate username input
+     *
+     * @param string $username User name
+     * @param string $password User password
+     *
+     * @return bool True if valid, False otherwise
+     */
+    private function login_input_checks($username, $password)
+    {
+        $username_filter = $this->config->get('login_username_filter');
+        $username_maxlen = $this->config->get('login_username_maxlen', 1024);
+        $password_maxlen = $this->config->get('login_password_maxlen', 1024);
+
+        if ($username_maxlen && strlen($username) > $username_maxlen) {
+            return false;
+        }
+
+        if ($password_maxlen && strlen($password) > $password_maxlen) {
+            return false;
+        }
+
+        if ($username_filter) {
+            $is_email = strtolower($username_filter) == 'email';
+
+            if ($is_email && !rcube_utils::check_email($username, false)) {
+                return false;
+            }
+
+            if (!$is_email && !preg_match($username_filter, $username)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -2240,6 +2276,7 @@ class rcmail extends rcube
             'id'   => $attrib['id'] . 'Input',
             'type' => 'file',
             'name' => '_attachments[]',
+            'class' => 'form-control',
         );
 
         $form_attr = array(

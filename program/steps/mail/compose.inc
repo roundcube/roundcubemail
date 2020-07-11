@@ -947,6 +947,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
         $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
     }
 
+    $has_html = $message->has_html_part();
+
     foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
             $messages[] = $part->mime_id;
@@ -984,7 +986,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
 
             // Skip inline images when not used in the body
             // Note: Apple Mail sends PDF files marked as inline (#7382)
-            if ($part->disposition == 'inline' && $part->mimetype != 'application/pdf') {
+            // Note: Apple clients send inline images even if there's no HTML body (#7414)
+            if ($has_html && $part->disposition == 'inline' && $part->mimetype != 'application/pdf') {
                 if (!$bodyIsHtml) {
                     continue;
                 }

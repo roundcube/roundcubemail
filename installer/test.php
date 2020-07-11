@@ -139,7 +139,7 @@ if ($RCI->configured) {
         else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
-            echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
+            echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
         }
     }
     else {
@@ -279,9 +279,15 @@ if ($user == '%u') {
     $user_field = new html_inputfield(array('name' => '_smtp_user', 'id' => 'smtp_user'));
     $user = $user_field->show($_POST['_smtp_user']);
 }
+else {
+    $user = html::quote($user);
+}
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(array('name' => '_smtp_pass', 'id' => 'smtp_pass'));
     $pass = $pass_field->show();
+}
+else {
+    $pass = html::quote($pass);
 }
 
 ?>
@@ -297,7 +303,7 @@ if ($pass == '%p') {
   </tr>
   <tr>
     <td><label for="smtp_port">Port</label></td>
-    <td><?php echo $RCI->getprop('smtp_port'); ?></td>
+    <td><?php echo rcube::Q($RCI->getprop('smtp_port')); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>

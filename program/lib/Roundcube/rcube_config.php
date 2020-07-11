@@ -261,6 +261,9 @@ class rcube_config
             ini_set('error_log', $error_log);
         }
 
+        // set default screen layouts
+        $this->prop['supported_layouts'] = array('widescreen', 'desktop', 'list');
+
         // remove deprecated properties
         unset($this->prop['dst_active']);
     }
@@ -397,12 +400,17 @@ class rcube_config
         }
         else if ($name == 'client_mimetypes') {
             if (!$result && !$def) {
-                $result = 'text/plain,text/html,text/xml'
+                $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
                     . ',application/x-javascript,application/pdf,application/x-shockwave-flash';
             }
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
+            }
+        }
+        else if ($name == 'layout') {
+            if (!in_array($result, $this->prop['supported_layouts'])) {
+                $result = $this->prop['supported_layouts'][0];
             }
         }
 
