@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
 - Elastic: Dark mode (#6709)
+- Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)

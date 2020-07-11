@@ -1344,8 +1344,12 @@ class rcube_sieve_engine
             $this->rc->output->include_script('list.js');
         }
         else {
-            $select = new html_select(array('name' => '_set', 'id' => $attrib['id'],
-                'onchange' => $this->rc->task != 'mail' ? 'rcmail.managesieve_set()' : ''));
+            $select = new html_select(array(
+                    'name'     => '_set',
+                    'id'       => $attrib['id'],
+                    'class'    => 'custom-select',
+                    'onchange' => $this->rc->task != 'mail' ? 'rcmail.managesieve_set()' : ''
+            ));
 
             if ($list) {
                 foreach ($list as $set)
@@ -1427,7 +1431,7 @@ class rcube_sieve_engine
 
         // filter set name input
         $input_name = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30,
-            'class' => ($this->errors['name'] ? 'error' : '')));
+            'class' => ($this->errors['name'] ? 'error form-control' : 'form-control')));
 
         $table->add('title', html::label('_name', rcube::Q($this->plugin->gettext('filtersetname'))));
         $table->add(null, $input_name->show($name));
@@ -1443,7 +1447,7 @@ class rcube_sieve_engine
 
         // filters set list
         $list   = $this->list_scripts();
-        $select = new html_select(array('name' => '_copy', 'id' => '_copy'));
+        $select = new html_select(array('name' => '_copy', 'id' => '_copy', 'class' => 'custom-select'));
 
         if (is_array($list)) {
             asort($list, SORT_LOCALE_STRING);
@@ -1466,7 +1470,7 @@ class rcube_sieve_engine
 
         // script upload box
         $upload = new html_inputfield(array('name' => '_file', 'id' => '_file', 'size' => 30,
-            'type' => 'file', 'class' => ($this->errors['file'] ? 'error' : '')));
+            'type' => 'file', 'class' => ($this->errors['file'] ? 'error form-control' : 'form-control')));
 
         $filters .= '<li>' . html::label('from_file', html::tag('input', array(
                 'type'    => 'radio',
@@ -1534,7 +1538,7 @@ class rcube_sieve_engine
                 'name'  => '_name',
                 'id'    => '_name',
                 'size'  => 30,
-                'class' => ($this->errors['name'] ? ' error' : '')
+                'class' => ($this->errors['name'] ? 'form-control error' : 'form-control')
         ));
 
         if ($this->errors['name']) {
@@ -1567,7 +1571,7 @@ class rcube_sieve_engine
             rcube::Q($this->plugin->gettext('filterenabled')));
 
         if ($compact) {
-            $select = new html_select(array('name' => '_join', 'id' => '_join',
+            $select = new html_select(array('name' => '_join', 'id' => '_join', 'class' => 'custom-select',
                 'onchange' => 'rule_join_radio(this.value)'));
 
             foreach (array('allof', 'anyof', 'any') as $val) {
@@ -1683,7 +1687,7 @@ class rcube_sieve_engine
 
         // headers select
         $select_header = new html_select(array('name' => "_header[$id]", 'id' => 'header'.$id,
-            'onchange' => 'rule_header_select(' .$id .')'));
+            'onchange' => 'rule_header_select(' .$id .')', 'class' => 'custom-select'));
 
         foreach ($this->headers as $index => $header) {
             $header = $this->rc->text_exists($index) ? $this->plugin->gettext($index) : $header;
@@ -1794,9 +1798,11 @@ class rcube_sieve_engine
         if (in_array('date', $this->exts) || in_array('currentdate', $this->exts)) {
             $date_parts = array('date', 'iso8601', 'std11', 'julian', 'time',
                 'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone');
-            $select_dp = new html_select(array('name' => "_rule_date_part[$id]", 'id' => 'rule_date_part'.$id,
-                'style' => in_array($rule['test'], array('currentdate', 'date')) && !preg_match('/^(notcount|count)-/', $test) ? '' : 'display:none',
-                'class' => 'datepart_selector',
+            $select_dp = new html_select(array(
+                    'name'  => "_rule_date_part[$id]",
+                    'id'    => 'rule_date_part'.$id,
+                    'style' => in_array($rule['test'], array('currentdate', 'date')) && !preg_match('/^(notcount|count)-/', $test) ? '' : 'display:none',
+                    'class' => 'datepart_selector custom-select',
             ));
 
             foreach ($date_parts as $part) {
@@ -1808,9 +1814,11 @@ class rcube_sieve_engine
 
         // message test select (e.g. duplicate)
         if (in_array('duplicate', $this->exts)) {
-            $select_msg = new html_select(array('name' => "_rule_message[$id]", 'id' => 'rule_message'.$id,
-                'style' => in_array($rule['test'], array('duplicate')) ? '' : 'display:none',
-                'class' => 'message_selector',
+            $select_msg = new html_select(array(
+                    'name'  => "_rule_message[$id]",
+                    'id'    => 'rule_message'.$id,
+                    'style' => in_array($rule['test'], array('duplicate')) ? '' : 'display:none',
+                    'class' => 'message_selector custom-select',
             ));
 
             $select_msg->add(rcube::Q($this->plugin->gettext('duplicate')), 'duplicate');
@@ -1825,11 +1833,19 @@ class rcube_sieve_engine
                 'class'    => $this->error_class($id, 'test', 'target', 'rule_target')
             )) . "\n";
 
-        $select_size_op = new html_select(array('name' => "_rule_size_op[$id]", 'id' => 'rule_size_op'.$id, 'class' => 'input-group-prepend'));
+        $select_size_op = new html_select(array(
+                'name'  => "_rule_size_op[$id]",
+                'id'    => 'rule_size_op'.$id,
+                'class' => 'input-group-prepend custom-select'
+        ));
         $select_size_op->add(rcube::Q($this->plugin->gettext('filterover')), 'over');
         $select_size_op->add(rcube::Q($this->plugin->gettext('filterunder')), 'under');
 
-        $select_size_item = new html_select(array('name' => "_rule_size_item[$id]", 'id' => 'rule_size_item'.$id, 'class' => 'input-group-append'));
+        $select_size_item = new html_select(array(
+                'name'  => "_rule_size_item[$id]",
+                'id'    => 'rule_size_item'.$id,
+                'class' => 'input-group-append custom-select'
+        ));
         foreach (array('', 'K', 'M', 'G') as $unit) {
             $select_size_item->add($this->plugin->gettext($unit . 'B'), $unit);
         }
@@ -1849,15 +1865,23 @@ class rcube_sieve_engine
         $tout .= '</div>';
 
         // Advanced modifiers (address, envelope)
-        $select_mod = new html_select(array('name' => "_rule_mod[$id]", 'id' => 'rule_mod_op'.$id,
-            'onchange' => 'rule_mod_select(' .$id .')'));
+        $select_mod = new html_select(array(
+                'name'     => "_rule_mod[$id]",
+                'id'       => 'rule_mod_op' . $id,
+                'class'    => 'custom-select',
+                'onchange' => 'rule_mod_select(' .$id .')'
+        ));
         $select_mod->add(rcube::Q($this->plugin->gettext('none')), '');
         $select_mod->add(rcube::Q($this->plugin->gettext('address')), 'address');
         if (in_array('envelope', $this->exts)) {
             $select_mod->add(rcube::Q($this->plugin->gettext('envelope')), 'envelope');
         }
 
-        $select_type = new html_select(array('name' => "_rule_mod_type[$id]", 'id' => 'rule_mod_type'.$id));
+        $select_type = new html_select(array(
+                'name'  => "_rule_mod_type[$id]",
+                'id'    => 'rule_mod_type' . $id,
+                'class' => 'custom-select',
+        ));
         $select_type->add(rcube::Q($this->plugin->gettext('allparts')), 'all');
         $select_type->add(rcube::Q($this->plugin->gettext('domain')), 'domain');
         $select_type->add(rcube::Q($this->plugin->gettext('localpart')), 'localpart');
@@ -1888,8 +1912,12 @@ class rcube_sieve_engine
         if (in_array('mime', $this->exts)) {
             $need_mime   = !$rule || in_array($rule['test'], array('header', 'address', 'exists'));
             $mime_type   = '';
-            $select_mime = new html_select(array('name' => "_rule_mime_type[$id]", 'id' => 'rule_mime_type' . $id,
-                'style' => 'min-width:8em', 'onchange' => 'rule_mime_select(' . $id . ')'));
+            $select_mime = new html_select(array(
+                    'name'  => "_rule_mime_type[$id]",
+                    'id'    => 'rule_mime_type' . $id,
+                    'style' => 'min-width:8em', 'onchange' => 'rule_mime_select(' . $id . ')',
+                    'class' => 'custom-select',
+            ));
             $select_mime->add('-', '');
 
             foreach (array('contenttype', 'type', 'subtype', 'param') as $val) {
@@ -1900,7 +1928,11 @@ class rcube_sieve_engine
                 $select_mime->add(rcube::Q($this->plugin->gettext('mime-' . $val)), $val);
             }
 
-            $select_mime_part = new html_select(array('name' => "_rule_mime_part[$id]", 'id' => 'rule_mime_part' . $id));
+            $select_mime_part = new html_select(array(
+                    'name'  => "_rule_mime_part[$id]",
+                    'id'    => 'rule_mime_part' . $id,
+                    'class' => 'custom-select',
+            ));
             $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-message')), '');
             $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-anychild')), 'anychild');
 
@@ -1918,8 +1950,12 @@ class rcube_sieve_engine
         }
 
         // Advanced modifiers (body transformations)
-        $select_mod = new html_select(array('name' => "_rule_trans[$id]", 'id' => 'rule_trans_op'.$id,
-            'onchange' => 'rule_trans_select(' .$id .')'));
+        $select_mod = new html_select(array(
+                'name'     => "_rule_trans[$id]",
+                'id'       => 'rule_trans_op' . $id,
+                'class'    => 'custom-select',
+                'onchange' => 'rule_trans_select(' .$id .')'
+        ));
         $select_mod->add(rcube::Q($this->plugin->gettext('text')), 'text');
         $select_mod->add(rcube::Q($this->plugin->gettext('undecoded')), 'raw');
         $select_mod->add(rcube::Q($this->plugin->gettext('contenttype')), 'content');
@@ -2110,8 +2146,12 @@ class rcube_sieve_engine
         $out .= '<table class="compact-table"><tr><td class="rowactions">';
 
         // action select
-        $select_action = new html_select(array('name' => "_action_type[$id]", 'id' => 'action_type'.$id,
-            'onchange' => 'action_type_select(' .$id .')'));
+        $select_action = new html_select(array(
+                'name'     => "_action_type[$id]",
+                'id'       => 'action_type' . $id,
+                'class'    => 'custom-select',
+                'onchange' => 'action_type_select(' . $id . ')'
+        ));
         if (in_array('fileinto', $this->exts))
             $select_action->add($this->plugin->gettext('messagemoveto'), 'fileinto');
         if (in_array('fileinto', $this->exts) && in_array('copy', $this->exts))
@@ -2160,7 +2200,11 @@ class rcube_sieve_engine
         if (!empty($domains)) {
             sort($domains);
 
-            $domain_select = new html_select(array('name' => "_action_target_domain[$id]", 'id' => 'action_target_domain'.$id));
+            $domain_select = new html_select(array(
+                    'name'  => "_action_target_domain[$id]",
+                    'id'    => 'action_target_domain' . $id,
+                    'class' => 'custom-select',
+            ));
             $domain_select->add(array_combine($domains, $domains));
 
             if ($action['type'] == 'redirect') {
@@ -2263,7 +2307,10 @@ class rcube_sieve_engine
                 'class' => $this->error_class($id, 'action', 'interval', 'action_interval'),
             ));
         if ($vsec) {
-            $interval_select = new html_select(array('name' => '_action_interval_type[' . $id . ']', 'class' => 'input-group-append'));
+            $interval_select = new html_select(array(
+                    'name' => '_action_interval_type[' . $id . ']',
+                    'class' => 'input-group-append custom-select'
+            ));
             $interval_select->add($this->plugin->gettext('days'), 'days');
             $interval_select->add($this->plugin->gettext('seconds'), 'seconds');
             $out .= $interval_select->show(isset($action['seconds']) ? 'seconds' : 'days');
@@ -2370,7 +2417,7 @@ class rcube_sieve_engine
         $select_method = new html_select(array(
             'name'  => "_action_notifymethod[$id]",
             'id'    => "_action_notifymethod$id",
-            'class' => 'input-group-prepend ' . $this->error_class($id, 'action', 'method', 'action_notifymethod'),
+            'class' => 'input-group-prepend custom-select ' . $this->error_class($id, 'action', 'method', 'action_notifymethod'),
         ));
         foreach ($notify_methods as $m_n) {
             $select_method->add(rcube::Q($this->rc->text_exists('managesieve.notifymethod'.$m_n) ? $this->plugin->gettext('managesieve.notifymethod'.$m_n) : $m_n), $m_n);
@@ -2379,7 +2426,7 @@ class rcube_sieve_engine
         $select_importance = new html_select(array(
             'name'  => "_action_notifyimportance[$id]",
             'id'    => "_action_notifyimportance$id",
-            'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')
+            'class' => 'custom-select ' . $this->error_class($id, 'action', 'importance', 'action_notifyimportance')
         ));
         foreach ($importance_options as $io_v => $io_n) {
             $select_importance->add(rcube::Q($this->plugin->gettext($io_n)), $io_v);
@@ -2432,14 +2479,14 @@ class rcube_sieve_engine
             $pos1_selector = new html_select(array(
                     'name'  => "_action_addheader_pos[$id]",
                     'id'    => "action_addheader_pos$id",
-                    'class' => $this->error_class($id, 'action', 'pos', 'action_addheader_pos')
+                    'class' => 'custom-select ' . $this->error_class($id, 'action', 'pos', 'action_addheader_pos')
             ));
             $pos1_selector->add($this->plugin->gettext('headeratstart'), '');
             $pos1_selector->add($this->plugin->gettext('headeratend'), 'last');
             $pos2_selector = new html_select(array(
                     'name'  => "_action_delheader_pos[$id]",
                     'id'    => "action_delheader_pos$id",
-                    'class' => $this->error_class($id, 'action', 'pos', 'action_delheader_pos')
+                    'class' => 'custom-select ' . $this->error_class($id, 'action', 'pos', 'action_delheader_pos')
             ));
             $pos2_selector->add($this->plugin->gettext('headerfromstart'), '');
             $pos2_selector->add($this->plugin->gettext('headerfromend'), 'last');
@@ -3062,7 +3109,7 @@ class rcube_sieve_engine
                 'name'     => "_{$name}[$id]",
                 'id'       => "{$name}{$id}",
                 'style'    => 'display:' .(!in_array($rule, array('size', 'duplicate')) ? 'inline' : 'none'),
-                'class'    => 'operator_selector col-6',
+                'class'    => 'operator_selector col-6 custom-select',
                 'onchange' => "{$name}_select(this, '{$id}')",
         ));
 
@@ -3100,7 +3147,11 @@ class rcube_sieve_engine
 
     protected function comparator_selector($comparator, $name, $id)
     {
-        $select_comp = new html_select(array('name' => "_{$name}[$id]", 'id' => "{$name}_op{$id}"));
+        $select_comp = new html_select(array(
+                'name'  => "_{$name}[$id]",
+                'id'    => "{$name}_op{$id}",
+                'class' => 'custom-select'
+        ));
         $select_comp->add(rcube::Q($this->plugin->gettext('default')), '');
         $select_comp->add(rcube::Q($this->plugin->gettext('octet')), 'i;octet');
         $select_comp->add(rcube::Q($this->plugin->gettext('asciicasemap')), 'i;ascii-casemap');

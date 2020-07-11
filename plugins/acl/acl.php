@@ -312,9 +312,9 @@ class acl extends rcube_plugin
     function templ_user($attrib)
     {
         // Create username input
-        $attrib['name'] = 'acluser';
         $class = $attrib['class'];
-        unset($attrib['class']);
+        $attrib['name']  = 'acluser';
+        $attrib['class'] = 'form-control';
 
         $textfield = new html_inputfield($attrib);
 

@@ -256,8 +256,8 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
 
         // form elements
-        $status = new html_select(array('name' => 'forward_status', 'id' => 'forward_status'));
-        $action = new html_select(array('name' => 'forward_action', 'id' => 'forward_action'));
+        $status = new html_select(array('name' => 'forward_status', 'id' => 'forward_status', 'class' => 'custom-select'));
+        $action = new html_select(array('name' => 'forward_action', 'id' => 'forward_action', 'class' => 'custom-select'));
 
         $status->add($this->plugin->gettext('forward.on'), 'on');
         $status->add($this->plugin->gettext('forward.off'), 'off');
@@ -274,7 +274,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         if (!empty($domains)) {
             sort($domains);
 
-            $domain_select = new html_select(array('name' => 'action_domain', 'id' => 'action_domain'));
+            $domain_select = new html_select(array('name' => 'action_domain', 'id' => 'action_domain', 'class' => 'custom-select'));
             $domain_select->add(array_combine($domains, $domains));
 
             if ($redirect && $this->forward['target']) {

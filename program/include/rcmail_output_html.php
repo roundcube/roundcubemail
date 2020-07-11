@@ -2186,7 +2186,7 @@ EOF;
         $hide_host    = false;
 
         if (is_array($default_host) && count($default_host) > 1) {
-            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost'));
+            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select'));
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
@@ -2204,7 +2204,7 @@ EOF;
                 'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')
+            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control')
                 + $attrib + $host_attrib);
         }
 

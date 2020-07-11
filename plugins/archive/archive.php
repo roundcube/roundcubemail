@@ -403,6 +403,7 @@ class archive extends rcube_plugin
                         'folder_filter' => 'mail',
                         'folder_rights' => 'w',
                         'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
+                        'class'         => 'custom-select',
                 ));
             }
             else {
@@ -418,7 +419,7 @@ class archive extends rcube_plugin
             // we do not allow archive splitting, for simplicity (#5057)
             if ($rcmail->get_storage()->get_capability(rcube_storage::DUAL_USE_FOLDERS)) {
                 // add option for structuring the archive folder
-                $archive_type = new html_select(array('name' => '_archive_type', 'id' => 'ff_archive_type'));
+                $archive_type = new html_select(array('name' => '_archive_type', 'id' => 'ff_archive_type', 'class' => 'custom-select'));
                 $archive_type->add($this->gettext('none'), '');
                 $archive_type->add($this->gettext('archivetypeyear'), 'year');
                 $archive_type->add($this->gettext('archivetypemonth'), 'month');

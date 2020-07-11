@@ -809,21 +809,22 @@ function rcube_elastic_ui()
         $('#taskmenu a.theme').on('click', function() {
             color_mode = $(this).is('.dark') ? 'dark' : 'light';
             switch_color_mode();
-            save_pref('color.mode', color_mode);
+            rcmail.set_cookie('colorMode', color_mode);
         });
 
         // Note: this does not work in IE and Safari
         color_scheme.addListener(function(e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
-            save_pref('color.mode', null);
+            rcmail.set_cookie('colorMode', null);
         });
 
-        if (color_scheme.matches) {
-            color_mode = 'dark';
-        }
-        else if (pref = get_pref('color.mode')) {
+        // We deliberately use only cookies here, not local storage
+        if (pref = rcmail.get_cookie('colorMode')) {
             color_mode = pref;
+        }
+        else if (color_scheme.matches) {
+            color_mode = 'dark';
         }
 
         switch_color_mode();

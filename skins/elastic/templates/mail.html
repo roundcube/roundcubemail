@@ -62,19 +62,19 @@
 				<div class="input-group-prepend">
 					<label for="searchfilter" class="input-group-text"><roundcube:label name="type" /></label>
 				</div>
-				<roundcube:object name="searchfilter" id="searchfilter" noevent="true" />
+				<roundcube:object name="searchfilter" id="searchfilter" noevent="true" class="custom-select" />
 			</div>
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<label for="s_interval" class="input-group-text"><roundcube:label name="date" /></label>
 				</div>
-				<roundcube:object name="searchinterval" id="s_interval" />
+				<roundcube:object name="searchinterval" id="s_interval" class="custom-select" />
 			</div>
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<label for="s_scope" class="input-group-text"><roundcube:label name="searchscope" /></label>
 				</div>
-				<select name="s_scope" id="s_scope">
+				<select name="s_scope" id="s_scope" class="custom-select">
 					<option value="base"><roundcube:label name="currentfolder" /></option>
 					<option value="sub"><roundcube:label name="subfolders" /></option>
 					<option value="all"><roundcube:label name="allfolders" /></option>

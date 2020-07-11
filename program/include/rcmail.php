@@ -2262,6 +2262,7 @@ class rcmail extends rcube
             'id'   => $attrib['id'] . 'Input',
             'type' => 'file',
             'name' => '_attachments[]',
+            'class' => 'form-control',
         );
 
         $form_attr = array(
