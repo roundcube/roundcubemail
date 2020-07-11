@@ -572,7 +572,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
             continue;
         }
 
-        $select_add = new html_select(array('class' => 'addfieldmenu', 'rel' => $section, 'data-compact' => $compact ? "true" : null));
+        $select_add = new html_select(array(
+                'class'        => 'addfieldmenu custom-select',
+                'rel'          => $section,
+                'data-compact' => $compact ? "true" : null
+        ));
         $select_add->add($RCMAIL->gettext('addfield'), '');
 
         // render head section with name fields (not a regular list of rows)

@@ -609,8 +609,13 @@ class enigma_ui
 
         if (empty($attrib['part']) || $attrib['part'] == 'import') {
             $title  = $this->enigma->gettext('keyimportlabel');
-            $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
-                'id' => 'rcmimportfile', 'size' => 30));
+            $upload = new html_inputfield(array(
+                    'type'  => 'file',
+                    'name'  => '_file',
+                    'id'    => 'rcmimportfile',
+                    'size'  => 30,
+                    'class' => 'form-control'
+            ));
 
             $max_filesize  = $this->rc->upload_init();
             $upload_button = new html_button(array(
@@ -635,7 +640,7 @@ class enigma_ui
         if (empty($attrib['part']) || $attrib['part'] == 'search') {
             $title  = $this->enigma->gettext('keyimportsearchlabel');
             $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
-                'id' => 'rcmimportsearch', 'size' => 30));
+                'id' => 'rcmimportsearch', 'size' => 30, 'class' => 'form-control'));
 
             $search_button = new html_button(array(
                     'class'   => 'button search',
@@ -760,7 +765,7 @@ class enigma_ui
         $table->add(null, html::tag('ul', 'proplist', implode("\n", $identities)));
 
         // Key size
-        $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
+        $select = new html_select(array('name' => 'size', 'id' => 'key-size', 'class' => 'custom-select'));
         $select->add($this->enigma->gettext('key2048'), '2048');
         $select->add($this->enigma->gettext('key4096'), '4096');
 
