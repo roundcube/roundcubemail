@@ -53,8 +53,8 @@ class HtmlEditor extends Component
         return [
             '@plain-toolbar' => '.editor-toolbar',
             '@plain-body' => 'textarea',
-            '@html-editor' => '.mce-tinymce',
-            '@html-toolbar' => '.mce-tinymce .mce-toolbar',
+            '@html-editor' => '.tox-tinymce',
+            '@html-toolbar' => '.tox-tinymce .tox-editor-header',
             '@html-body' => 'iframe',
         ];
     }
@@ -84,10 +84,10 @@ class HtmlEditor extends Component
             if ($accept_warning) {
                 $browser->waitForDialog()->acceptDialog();
             }
-            $browser->waitFor('@html-body');
+            $browser->waitFor('@html-body')->waitFor('@html-toolbar');
         }
         else {
-            $browser->click('@html-toolbar .mce-i-plaintext');
+            $browser->click('.tox-toolbar__group:first-child button');
             if ($accept_warning) {
                 $browser->waitForDialog()->acceptDialog();
             }
