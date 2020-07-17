@@ -141,6 +141,7 @@ div.tox {
                 &:extend(.font-icon-class);
                 width: 1em;
                 content: @fa-var-check;
+                line-height: 1;
             }
 
             // this is redundant, but required because of tinymce styles interference
@@ -191,7 +192,7 @@ div.tox {
     }
 
     .tox-dialog__title {
-        line-height: @layout-header-height;
+        line-height: calc(@layout-header-height - 1px);
         font-size: 1.25rem;
         font-weight: bold;
         padding: 0 0 0 1rem;
@@ -206,6 +207,10 @@ div.tox {
         &:not(.tox-tbtn--select,.tox-split-button__chevron) {
             width: 32px;
         }
+    }
+
+    .tox-button {
+        line-height: 1.5;
     }
 
     .tox-label {
@@ -464,11 +469,6 @@ div.tox {
         border-radius: .3rem;
         border: 1px solid @color-input-border;
         min-height: 30em;
-    }
-
-    & > .tox-tinymce.focused {
-        border-color: @color-input-border-focus;
-        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
     }
 }
 

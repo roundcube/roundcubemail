@@ -233,12 +233,18 @@ html.dark-mode {
     }
 
     #taskmenu a:hover,
+    .popupmenu .listing li > a:not(.disabled):hover,
     .header a.button.icon:not(.disabled):focus,
     .header a.button.icon:not(.disabled):hover,
     .menu.toolbar .dropbutton:not(.disabled):hover,
     .menu a:not(.disabled):focus,
     .menu a:not(.disabled):hover {
         background-color: @color-dark-list-selected-background;
+    }
+
+    .menu.toolbar a.selected {
+        color: @color-success;
+        background: transparent;
     }
 
     .menu.toolbar .dropbutton a.dropdown:hover {
@@ -379,7 +385,7 @@ html.dark-mode {
 
         &:focus,
         &:hover {
-            color: lighten(@color-dark-font, 10%);
+            color: @color-dark-btn;
         }
 
         &:disabled {
@@ -513,22 +519,6 @@ html.dark-mode {
         }
     }
 
-    .html-editor {
-        .editor-toolbar {
-            background-color: @color-dark-input-addon-background;
-            border-color: @color-dark-input-border;
-
-            .mce-i-html {
-                color: unset;
-
-                &:hover {
-                    background-color: lighten(@color-dark-list-selected-background, 15%);
-                    border-color: transparent;
-                }
-            }
-        }
-    }
-
     .file-upload {
         border-color: @color-dark-border;
 
@@ -592,6 +582,214 @@ html.dark-mode {
     .skinselection .skinthumbnail {
         border-color: @color-dark-input-border;
         background: transparent;
+    }
+
+    // ---------------------------------
+    // HTML Editor (TinyMCE)
+    // ---------------------------------
+
+    .html-editor {
+        .editor-toolbar {
+            background-color: @color-dark-input-addon-background;
+            border-color: @color-dark-input-border;
+
+            .mce-i-html {
+                color: unset;
+
+                &:hover,
+                &:focus {
+                    background-color: @color-dark-input-addon-background-focus;
+                    border-color: transparent;
+                }
+            }
+        }
+    }
+
+    .tox {
+        &.tox-tinymce {
+            border-color: @color-dark-input-border;
+        }
+
+        .tox-toolbar {
+            background-color: @color-dark-input-addon-background;
+            border-color: @color-dark-input-border;
+        }
+
+        .tox-toolbar-overlord > div {
+            @color-overlord-border: escape(~"@{color-dark-input-border}");
+            background: url("data:image/svg+xml,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='@{color-overlord-border}'/%3E%3C/svg%3E") @color-dark-input-addon-background;
+        }
+
+        .tox-pop.tox-pop--top {
+            &:before,
+            &:after {
+                border-bottom-color: @color-dark-popover-border;
+            }
+        }
+
+        .tox-pop__dialog {
+            box-shadow: none;
+            border-color: @color-dark-popover-border;
+        }
+
+        .tox-tbtn,
+        .tox-split-button,
+        .tox-swatches__picker-btn {
+            color: @color-dark-font;
+
+            svg {
+                fill: @color-dark-font !important;
+            }
+
+            &:hover,
+            &:focus {
+                color: @color-dark-font;
+                background: @color-dark-input-addon-background-focus;
+                box-shadow: none;
+            }
+        }
+
+        .tox-tbtn--enabled {
+            background: @color-dark-input-addon-background-focus;
+        }
+
+        .tox-button--naked {
+            &:focus:not(:disabled),
+            &.tox-button--icon:hover:not(:disabled) {
+                color: lighten(@color-dark-font, 5%);
+                background-color: @color-dark-input-addon-background-focus;
+                border-color: transparent;
+            }
+
+            &:disabled {
+                background: transparent;
+                border: transparent;
+            }
+        }
+
+        .tox-dialog__header .tox-button--naked:hover {
+            background: transparent !important;
+        }
+
+        .tox-selectfield {
+            select {
+                background: transparent;
+                color: @color-dark-input;
+            }
+
+            svg {
+                fill: @color-dark-input;
+            }
+        }
+
+        .tox-color-input span::before {
+            background-color: @color-dark-font;
+        }
+
+        .tox-toolbar__group:not(:last-of-type) {
+            border-color: @color-dark-input-border;
+        }
+
+        .tox-dialog,
+        .tox-dialog__header,
+        .tox-dialog__body,
+        .tox-dialog__footer,
+        .tox-dialog__title {
+            color: @color-dark-font;
+            border-color: @color-dark-border;
+            background-color: @color-dark-background;
+        }
+
+        .tox-textfield,
+        .tox-color-input > input,
+        .tox-label,
+        .tox-dialog__body-nav-item,
+        .tox-button--naked,
+        .tox-dialog__header .tox-button,
+        .tox-insert-table-picker__label {
+            color: @color-dark-font;
+        }
+
+        .tox-dialog__footer .tox-button {
+            background-color: @color-dark-btn-primary-background;
+            color: @color-dark-btn;
+
+            &:disabled {
+                opacity: .5;
+            }
+
+            @media screen and (max-width: @screen-width-xs) {
+                color: @color-dark-font !important;
+            }
+
+            &:focus:not(:disabled) {
+                background-color: @color-dark-btn-primary-background;
+            }
+
+            &:hover:not(:disabled) {
+                background-color: lighten(@color-dark-btn-primary-background, 5%);
+            }
+
+            &.tox-button--secondary {
+                background-color: @color-dark-btn-secondary-background;
+                color: @color-dark-btn;
+
+                &:focus:not(:disabled) {
+                    background-color: @color-dark-btn-secondary-background;
+                }
+
+                &:hover:not(:disabled) {
+                    background-color: lighten(@color-dark-btn-secondary-background, 5%);
+                }
+
+            }
+        }
+
+        .tox-dialog__body-nav-item--active {
+            color: @color-main;
+        }
+
+        .tox-dialog-wrap__backdrop {
+            background-color: @color-dark-dialog-overlay-background;
+        }
+
+        .tox-menu {
+            scrollbar-width: thin;
+            background-color: @color-dark-popover-background;
+            border-color: @color-dark-popover-border;
+            box-shadow: none;
+        }
+
+        .tox-collection__group {
+            scrollbar-width: thin;
+        }
+
+        .tox-collection__item-caret svg {
+            fill: @color-dark-font;
+        }
+
+        .tox-collection__item {
+            color: @color-dark-font;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid @color-dark-list-border;
+            }
+        }
+
+        .tox-collection--grid .tox-collection__item {
+            border: 0;
+        }
+
+        .tox-collection__item--active,
+        .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
+            color: @color-dark-font;
+            background-color: @color-dark-list-selected-background;
+        }
+
+        .tox-collection__item--enabled {
+            color: @color-dark-list-selected;
+            background-color: @color-dark-list-selected-background;
+        }
     }
 
     // ---------------------------------
@@ -691,10 +889,7 @@ html.dark-mode {
         background-color: @color-dark-dialog-overlay-background;
     }
 
-    .ui-widget-header {
-        background-color: @color-dark-background;
-    }
-
+    .ui-widget-header,
     .ui-widget-content {
         background-color: @color-dark-background;
     }
