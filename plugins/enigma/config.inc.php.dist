@@ -75,3 +75,7 @@ $config['enigma_password_time'] = 5;
 //     - enigma_options_lock = array('sign')
 //     - dont_override       = array('enigma_sign_all')
 $config['enigma_options_lock'] = array();
+
+
+// public key server to use
+$config['keyservers'] = 'keys.gnupg.net';
