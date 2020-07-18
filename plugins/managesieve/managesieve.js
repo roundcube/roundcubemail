@@ -628,6 +628,7 @@ function rule_header_select(id)
   var is_header,
     obj = document.getElementById('header' + id),
     size = document.getElementById('rule_size' + id),
+    spamtest = document.getElementById('rule_spamtest' + id),
     msg = document.getElementById('rule_message' + id),
     op = document.getElementById('rule_op' + id),
     header = document.getElementById('custom_header' + id + '_list'),
@@ -646,7 +647,14 @@ function rule_header_select(id)
   if (h == 'size') {
     if (msg) set.push(msg);
     $.each(set, function() { if (this != window) this.style.display = 'none'; });
+    spamtest.style.display = 'none';
     size.style.display = '';
+  }
+  else if (h == 'spamtest') {
+    if (msg) set.push(msg);
+    $.each(set, function() { if (this != window) this.style.display = 'none'; });
+    spamtest.style.display = '';
+    size.style.display = 'none';
   }
   else if (h == 'message' && msg) {
     $.each(set, function() { if (this != window)  this.style.display = 'none'; });
@@ -657,6 +665,7 @@ function rule_header_select(id)
     header.style.display = h != '...' ? 'none' : '';
     custstr.style.display = h != 'string' ? 'none' : '';
     size.style.display = 'none';
+    spamtest.style.display = 'none';
     op.style.display = '';
     comp.style.display = '';
     mod.style.display = is_header ? '' : 'none';
@@ -692,7 +701,7 @@ function rule_op_select(obj, id, header)
   if (!header)
     header = document.getElementById('header' + id).value;
 
-  target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|message)$/) ? 'none' : '';
+  target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
 };
 
 function rule_trans_select(id)
@@ -719,7 +728,7 @@ function rule_mod_select(id, header, reset)
   target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : '';
 
   if (index)
-    index.style.display = !header.match(/^(body|currentdate|size|message|string)$/) && obj.value != 'envelope'  ? '' : 'none';
+    index.style.display = !header.match(/^(body|currentdate|size|spamtest|message|string)$/) && obj.value != 'envelope'  ? '' : 'none';
 
   if (duplicate)
     duplicate.style.display = header == 'message' ? '' : 'none';
