@@ -632,6 +632,8 @@ class rcube_sieve_engine
             $sizeops        = rcube_utils::get_input_value('_rule_size_op', rcube_utils::INPUT_POST);
             $sizeitems      = rcube_utils::get_input_value('_rule_size_item', rcube_utils::INPUT_POST);
             $sizetargets    = rcube_utils::get_input_value('_rule_size_target', rcube_utils::INPUT_POST);
+            $spamtestops    = rcube_utils::get_input_value('_rule_spamtest_op', rcube_utils::INPUT_POST);
+            $spamtesttargets= rcube_utils::get_input_value('_rule_spamtest_target', rcube_utils::INPUT_POST);
             $targets        = rcube_utils::get_input_value('_rule_target', rcube_utils::INPUT_POST, true);
             $mods           = rcube_utils::get_input_value('_rule_mod', rcube_utils::INPUT_POST);
             $mod_types      = rcube_utils::get_input_value('_rule_mod_type', rcube_utils::INPUT_POST);
@@ -728,6 +730,21 @@ class rcube_sieve_engine
                         }
                         else
                             $this->form['tests'][$i]['arg'] .= $m[1];
+                    }
+                    else if ($header == 'spamtest') {
+                        $spamtestop     = $this->strip_value($spamtestops[$idx]);
+                        $spamtesttarget = $this->strip_value($spamtesttargets[$idx]);
+
+                        $this->form['tests'][$i]['test'] = 'spamtest';
+                        $this->form['tests'][$i]['type'] = $spamtestop;
+                        $this->form['tests'][$i]['arg']  = $spamtesttarget;
+
+                        if ($spamtesttarget == '')
+                            $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('cannotbeempty');
+                        else if (!preg_match('/^([0-9]|10)$/i', $spamtesttarget)) {
+                            $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('forbiddenchars');
+                        }
+                        $comparator = 'i;ascii-numeric';
                     }
                     else if ($header == 'currentdate') {
                         $datepart = $this->strip_value($dateparts[$idx]);
@@ -1698,6 +1715,9 @@ class rcube_sieve_engine
             $select_header->add($this->plugin->gettext('body'), 'body');
         }
         $select_header->add($this->plugin->gettext('size'), 'size');
+        if (in_array('spamtest', $this->exts)) {
+            $select_header->add($this->plugin->gettext('spamtest'), 'spamtest');
+        }
         if (in_array('date', $this->exts)) {
             $select_header->add($this->plugin->gettext('datetest'), 'date');
             $select_header->add($this->plugin->gettext('currdate'), 'currentdate');
@@ -1726,7 +1746,7 @@ class rcube_sieve_engine
                 $matches = !is_array($rule['arg']) && ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
-            else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'string'))) {
+            else if (in_array($rule['test'], array('size', 'spamtest', 'body', 'date', 'currentdate', 'string'))) {
                 $test = $rule['test'];
             }
             else if (in_array($rule['test'], array('duplicate'))) {
@@ -1777,10 +1797,10 @@ class rcube_sieve_engine
         $target = '';
 
         // target(s) input
-        if (in_array($rule['test'], array('header', 'address', 'envelope','string'))) {
+        if (in_array($rule['test'], array('header', 'address', 'envelope', 'string'))) {
             $target = $rule['arg2'];
         }
-        else if (in_array($rule['test'], array('body', 'date', 'currentdate'))) {
+        else if (in_array($rule['test'], array('body', 'date', 'currentdate', 'spamtest'))) {
             $target = $rule['arg'];
         }
         else if ($rule['test'] == 'size') {
@@ -1829,7 +1849,7 @@ class rcube_sieve_engine
 
         $tout .= $this->match_type_selector('rule_op', $id, $test, $rule['test']);
         $tout .= $this->list_input($id, 'rule_target', $target, null, false, array(
-                'disabled' => $rule['test'] == 'size' || $rule['test'] == 'exists' || $rule['test'] == 'duplicate',
+                'disabled' => in_array($rule['test'], array('size', 'exists', 'duplicate', 'spamtest')),
                 'class'    => $this->error_class($id, 'test', 'target', 'rule_target')
             )) . "\n";
 
@@ -1864,6 +1884,34 @@ class rcube_sieve_engine
         $tout .= '</div>';
         $tout .= '</div>';
 
+        if (in_array('relational', $this->exts)) {
+            $select_spamtest_op = new html_select(array('name' => "_rule_spamtest_op[$id]", 'id' => 'rule_spamtest_op'.$id, 'class' => 'input-group-prepend'));
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthan')), 'value-gt');
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthanequal')), 'value-ge');
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestislessthan')), 'value-lt');
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestislessthanequal')), 'value-le');
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestequals')), 'value-eq');
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestnotequals')), 'value-ne');
+
+            $select_spamtest_target = new html_select(array('name' => "_rule_spamtest_target[$id]", 'id' => 'rule_spamtest_target'.$id, 'class' => 'input-group-append'));
+            $select_spamtest_target->add(rcube::Q($this->plugin->gettext('spamnotchecked')), '0');
+            $select_spamtest_target->add(rcube::Q("0%"), '1');
+            $select_spamtest_target->add(rcube::Q("5%"), '2');
+            $select_spamtest_target->add(rcube::Q("20%"), '3');
+            $select_spamtest_target->add(rcube::Q("40%"), '4');
+            $select_spamtest_target->add(rcube::Q("50%"), '5');
+            $select_spamtest_target->add(rcube::Q("60%"), '6');
+            $select_spamtest_target->add(rcube::Q("70%"), '7');
+            $select_spamtest_target->add(rcube::Q("80%"), '8');
+            $select_spamtest_target->add(rcube::Q("90%"), '9');
+            $select_spamtest_target->add(rcube::Q("100%"), '10');
+
+            $tout .= '<div id="rule_spamtest' .$id. '" class="input-group" style="display:' . ($rule['test']=='spamtest' ? 'inline' : 'none') .'">';
+            $tout .= $select_spamtest_op->show($rule['test']=='spamtest' ? $rule['type'] : '');
+            $tout .= $select_spamtest_target->show($rule['test']=='spamtest' ? $target : '');
+
+            $tout .= '</div>';
+        }
         // Advanced modifiers (address, envelope)
         $select_mod = new html_select(array(
                 'name'     => "_rule_mod[$id]",
@@ -1890,7 +1938,7 @@ class rcube_sieve_engine
             $select_type->add(rcube::Q($this->plugin->gettext('detail')), 'detail');
         }
 
-        $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'duplicate', 'string'));
+        $need_mod = !in_array($rule['test'], array('size', 'spamtest', 'body', 'date', 'currentdate', 'duplicate', 'string'));
         $mout = '<div id="rule_mod' .$id. '" class="adv input-group"' . (!$need_mod ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
         $mout .= $select_mod->show($rule['test']);
@@ -1902,7 +1950,7 @@ class rcube_sieve_engine
         $mout .= '</div>';
 
         // Advanced modifiers (comparators)
-        $need_comp = $rule['test'] != 'size' && $rule['test'] != 'duplicate';
+        $need_comp = $rule['test'] != 'size' && $rule['test'] != 'spamtest' && $rule['test'] != 'duplicate';
         $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('comparator'))));
         $mout .= $this->comparator_selector($rule['comparator'], 'rule_comp', $id);
@@ -3038,7 +3086,7 @@ class rcube_sieve_engine
         $this->script = $this->sieve->script->as_array();
 
         $headers    = array();
-        $exceptions = array('date', 'currentdate', 'size', 'body');
+        $exceptions = array('date', 'currentdate', 'size', 'spamtest', 'body');
 
         // find common headers used in script, will be added to the list
         // of available (predefined) headers (#1489271)
@@ -3108,7 +3156,7 @@ class rcube_sieve_engine
         $select_op = new html_select(array(
                 'name'     => "_{$name}[$id]",
                 'id'       => "{$name}{$id}",
-                'style'    => 'display:' .(!in_array($rule, array('size', 'duplicate')) ? 'inline' : 'none'),
+                'style'    => 'display:' .(!in_array($rule, array('size', 'duplicate', 'spamtest')) ? 'inline' : 'none'),
                 'class'    => 'operator_selector col-6 custom-select',
                 'onchange' => "{$name}_select(this, '{$id}')",
         ));
