@@ -510,12 +510,15 @@ EOF;
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
-                if (!empty($vars))
+                if (!empty($vars)) {
                     $vars = array_map(array('rcube','Q'), $vars);
+                }
+
                 $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
-            else
+            else {
                 $msgtext = $message;
+            }
 
             $this->message = $message;
             $this->command('display_message', $msgtext, $type, $timeout * 1000);

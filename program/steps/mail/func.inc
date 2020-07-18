@@ -1460,8 +1460,8 @@ function rcmail_wrap_and_quote($text, $length = 72, $quote = true)
 /**
  * Send the MDN response
  *
- * @param mixed $message    Original message object (rcube_message) or UID
- * @param array $smtp_error SMTP error array (reference)
+ * @param mixed        $message    Original message object (rcube_message) or UID
+ * @param array|string $smtp_error SMTP error array or (deprecated) string
  *
  * @return boolean Send status
  */
