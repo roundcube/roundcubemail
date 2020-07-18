@@ -783,12 +783,16 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        $a_folder_cache[$folder][$mode] = (int)$count;
+        $count = (int) $count;
 
-        // write back to cache
-        $this->update_cache('messagecount', $a_folder_cache);
+        if ($a_folder_cache[$folder][$mode] !== $count) {
+            $a_folder_cache[$folder][$mode] = $count;
 
-        return (int)$count;
+            // write back to cache
+            $this->update_cache('messagecount', $a_folder_cache);
+        }
+
+        return $count;
     }
 
     /**
