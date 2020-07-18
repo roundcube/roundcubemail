@@ -31,7 +31,10 @@ if ($sent) {
     $OUTPUT->set_env('mdn_request', false);
     $OUTPUT->show_message('receiptsent', 'confirmation');
 }
-else if ($smtp_error) {
+else if ($smtp_error && is_string($smtp_error)) {
+    $OUTPUT->show_message($smtp_error, 'error');
+}
+else if ($smtp_error && !empty($smtp_error['label'])) {
     $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
 }
 else {
