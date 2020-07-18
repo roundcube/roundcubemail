@@ -210,17 +210,18 @@ class rcube
     /**
      * Initialize and get user cache object
      *
-     * @param string $name   Cache identifier
-     * @param string $type   Cache type ('db', 'apc', 'memcache', 'redis')
-     * @param string $ttl    Expiration time for cache items
-     * @param bool   $packed Enables/disables data serialization
+     * @param string $name    Cache identifier
+     * @param string $type    Cache type ('db', 'apc', 'memcache', 'redis')
+     * @param string $ttl     Expiration time for cache items
+     * @param bool   $packed  Enables/disables data serialization
+     * @param bool   $indexed Use indexed cache
      *
      * @return rcube_cache User cache object
      */
-    public function get_cache($name, $type='db', $ttl=0, $packed=true)
+    public function get_cache($name, $type = 'db', $ttl = 0, $packed = true, $indexed = false)
     {
         if (!isset($this->caches[$name]) && ($userid = $this->get_user_id())) {
-            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed);
+            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
         }
 
         return $this->caches[$name];
