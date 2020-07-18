@@ -946,6 +946,21 @@ html.dark-mode {
         }
     }
 
+    .ui-menu {
+        scrollbar-width: thin;
+        background-color: @color-dark-popover-background;
+        border-color: @color-dark-popover-border;
+        box-shadow: none;
+
+        .ui-menu-item {
+            border-bottom: 1px solid @color-dark-list-border;
+        }
+
+        .ui-state-active {
+            background-color: @color-dark-list-selected-background !important;
+        }
+    }
+
     .minicolors-panel {
         box-shadow: none;
         border-color: @color-dark-border;
