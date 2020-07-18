@@ -1650,6 +1650,17 @@ drag_mouse_move: function(e)
         return false;
     });
 
+    var row, subject,
+      subject_col = self.subject_column(),
+      subject_func = function(cell) {
+        if (cell) {
+          // remove elements marked with "skip-on-drag" class
+          cell = $(cell).clone();
+          $(cell).find('.skip-on-drag').remove();
+        }
+        return cell ? cell.text() : '';
+      };
+
     // append subject (of every row up to the limit) to the drag layer
     $.each(selection, function(i, uid) {
       if (i > limit) {
@@ -1657,27 +1668,30 @@ drag_mouse_move: function(e)
         return false;
       }
 
-      var subject_col = self.subject_column();
+      row = self.rows[uid].obj;
+      subject = '';
 
-      $('> ' + self.col_tagname(), self.rows[uid].obj).each(function(n, cell) {
+      $(row).children(self.col_tagname()).each(function(n, cell) {
         if (subject_col < 0 || (subject_col >= 0 && subject_col == n)) {
-          // remove elements marked with "skip-on-drag" class
-          cell = $(cell).clone();
-          $(cell).find('.skip-on-drag').remove();
-
-          var subject = cell.text();
-
-          if (subject) {
-            // remove leading spaces
-            subject = subject.trim();
-            // truncate line to 50 characters
-            subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
-
-            self.draglayer.append($('<div>').text(subject));
+          if (subject = subject_func(cell)) {
             return false;
           }
         }
       });
+
+      // Subject column might be wrong, fallback to .subject
+      if (!subject.length) {
+        subject = subject_func($(row).children('.subject').first());
+      }
+
+      if (subject.length) {
+        // remove leading spaces
+        subject = subject.trim();
+        // truncate line to 50 characters
+        subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
+
+        self.draglayer.append($('<div>').text(subject));
+      }
     });
 
     this.draglayer.show();
