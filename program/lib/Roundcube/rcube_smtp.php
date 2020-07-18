@@ -14,6 +14,7 @@
  |   Provide SMTP functionality using socket connections                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ |         Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -22,8 +23,6 @@
  *
  * @package    Framework
  * @subpackage Mail
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_smtp
 {
@@ -58,9 +57,23 @@ class rcube_smtp
         // reset error/response var
         $this->error = $this->response = null;
 
+        if (!$host) {
+            $host = $rcube->config->get('smtp_server');
+            if (is_array($host)) {
+                if (array_key_exists($_SESSION['storage_host'], $host)) {
+                    $host = $host[$_SESSION['storage_host']];
+                }
+                else {
+                    $this->response[] = "Connection failed: No SMTP server found for IMAP host " . $_SESSION['storage_host'];
+                    $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => '500'));
+                    return false;
+                }
+            }
+        }
+
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
-            'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
+            'smtp_server'    => $host,
             'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 587),
             'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
             'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
@@ -350,7 +363,7 @@ class rcube_smtp
             return false;
         }
 
-        $this->response[] = join(': ', $this->conn->getResponse());
+        $this->response[] = implode(': ', $this->conn->getResponse());
         return true;
     }
 
@@ -378,7 +391,7 @@ class rcube_smtp
     /**
      * This is our own debug handler for the SMTP connection
      */
-    public function debug_handler(&$smtp, $message)
+    public function debug_handler($smtp, $message)
     {
         // catch AUTH commands and set anonymization flag for subsequent sends
         if (preg_match('/^Send: AUTH ([A-Z]+)/', $message, $m)) {
@@ -476,7 +489,7 @@ class rcube_smtp
             }
         }
 
-        return array($from, join(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
+        return array($from, implode(self::SMTP_MIME_CRLF, $lines) . self::SMTP_MIME_CRLF);
     }
 
     /**

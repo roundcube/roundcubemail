@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Mime extends PHPUnit_Framework_TestCase
+class Framework_Mime extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -237,6 +237,10 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             array(
                 array("this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row -- this line should be wrapped", 20, "\n"),
                 "this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row\n-- this line should\nbe wrapped",
+            ),
+            array(
+                array(rcube_charset::convert("㈱山﨑工業", 'UTF-8', 'ISO-2022-JP'), 1, "\n", true, 'ISO-2022-JP'),
+                rcube_charset::convert("㈱\n山\n﨑\n工\n業", 'UTF-8', 'ISO-2022-JP'),
             ),
         );
 

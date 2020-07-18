@@ -82,6 +82,7 @@ class rcube_modoboa_password
 
         // Encode json with new password
         $ret['username'] = $decoded[0]->username;
+        $ret['mailbox']  = $decoded[0]->mailbox;
         $ret['role']     = $decoded[0]->role;
         $ret['password'] = $passwd; // new password
         $encoded         = json_encode($ret);

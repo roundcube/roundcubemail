@@ -1,6 +1,6 @@
 <?php
 
-class Enigma_Plugin extends PHPUnit_Framework_TestCase
+class Enigma_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class Enigma_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new enigma($rcube->api);
+        $plugin = new enigma($rcube->plugins);
 
         $this->assertInstanceOf('enigma', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

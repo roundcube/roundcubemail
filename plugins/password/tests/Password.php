@@ -1,6 +1,6 @@
 <?php
 
-class Password_Plugin extends PHPUnit_Framework_TestCase
+class Password_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,10 +14,24 @@ class Password_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new password($rcube->api);
+        $plugin = new password($rcube->plugins);
 
         $this->assertInstanceOf('password', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
+    }
+
+    /**
+     * A dummy test testing PHP syntax on password drivers
+     */
+    function test_all_drivers()
+    {
+        if ($files = glob(__DIR__ . '/../drivers/*.php')) {
+            foreach ($files as $file) {
+                if (preg_match('|/([a-z_]+)\.php$|', $file, $matches)) {
+                    $this->load_driver($matches[1]);
+                }
+            }
+        }
     }
 
     /**

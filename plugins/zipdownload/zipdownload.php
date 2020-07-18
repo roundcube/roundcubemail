@@ -133,7 +133,6 @@ class zipdownload extends rcube_plugin
         // require CSRF protected request
         $rcmail->request_security_check(rcube_utils::INPUT_GET);
 
-        $imap      = $rcmail->get_storage();
         $tmpfname  = rcube_utils::temp_filename('zipdownload');
         $tempfiles = array($tmpfname);
         $message   = new rcube_message(rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET));

@@ -67,9 +67,10 @@ if (window.rcmail) {
           {multiselect:false, draggable:true, keyboard:true});
 
         rcmail.filters_list
-          .addEventListener('select', function(e) { rcmail.managesieve_select(e); })
-          .addEventListener('dragstart', function(e) { rcmail.managesieve_dragstart(e); })
-          .addEventListener('dragend', function(e) { rcmail.managesieve_dragend(e); })
+          .addEventListener('select', function(o) { rcmail.managesieve_select(o); })
+          .addEventListener('keypress', function(o) { rcmail.list_keypress(o, {del: 'plugin.managesieve-del'}); })
+          .addEventListener('dragstart', function(o) { rcmail.managesieve_dragstart(o); })
+          .addEventListener('dragend', function(o) { rcmail.managesieve_dragend(o); })
           .addEventListener('initrow', function(row) {
             row.obj.onmouseover = function() { rcmail.managesieve_focus_filter(row); };
             row.obj.onmouseout = function() { rcmail.managesieve_unfocus_filter(row); };
@@ -103,9 +104,6 @@ if (window.rcmail) {
         $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { rcmail.managesieve_fixdragend(e); });
       }
     }
-
-    if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
-      $('#disabled').attr('checked', true);
   });
 };
 
@@ -275,7 +273,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
         // update row id
         if (rowid > id) {
-          this.uid = rowid - 1;
+          this.uid = String(rowid - 1);
           $(this).attr('id', 'rcmrow' + this.uid);
         }
       });
@@ -294,7 +292,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       else
         row.removeClass('disabled');
 
-      $('#disabled', $('iframe').contents()).prop('checked', o.disabled);
+      $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
       break;
 
@@ -425,13 +423,11 @@ rcube_webmail.prototype.load_managesieveframe = function(add_url, reset)
   if (reset)
     this.reset_filters_list();
 
-  if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading'),
-      target = window.frames[this.env.contentframe];
+  var target = this.get_frame_window(this.env.contentframe),
+    url = this.url('plugin.managesieve-action', '_framed=1' + (add_url ? ('&' + add_url) : ''));
 
-    target.location.href = this.env.comm_path
-      + '&_action=plugin.managesieve-action&_framed=1&_unlock=' + lock
-      + (add_url ? ('&' + add_url) : '');
+  if (target) {
+    this.location_href(url, target, true);
   }
 };
 
@@ -683,7 +679,7 @@ function rule_header_select(id)
     rule.val('contains');
 
   rule_op_select(op, id, h);
-  rule_mod_select(id, h);
+  rule_mod_select(id, h, !is_header);
   rule_mime_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
@@ -707,12 +703,15 @@ function rule_trans_select(id)
   target.style.display = obj.value != 'content' ? 'none' : 'inline';
 };
 
-function rule_mod_select(id, header)
+function rule_mod_select(id, header, reset)
 {
   var obj = document.getElementById('rule_mod_op' + id),
     target = document.getElementById('rule_mod_type' + id),
     duplicate = document.getElementById('rule_duplicate_div' + id),
     index = document.getElementById('rule_index_div' + id);
+
+  if (reset)
+    obj.value = '';
 
   if (!header)
     header = document.getElementById('header' + id).value;
@@ -815,7 +814,7 @@ function smart_field_init(field)
 
   // add input rows
   $.each(list, function(i, v) {
-    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+    area.append(smart_field_row(v, i, field));
   });
 
   area.attr('id', id);
@@ -838,25 +837,26 @@ function smart_field_init(field)
   }
 };
 
-function smart_field_row(value, name, idx, size)
+function smart_field_row(value, idx, field)
 {
   // build row element content
   var input, content = '<span class="listelement">'
       + '<span class="reset"></span><input type="text"></span>',
     elem = $(content),
-    attrs = {value: value, name: name + '[]'};
+    attrs = {
+      value: value,
+      name: field.name + '[]',
+      size: $(field).data('size'),
+      title: field.title,
+      placeholder: $(field).attr('placeholder')
+    };
 
-  if (size)
-    attrs.size = size;
-
-  input = $('input', elem).attr(attrs).keydown(function(e) {
+  input = elem.find('input').attr(attrs).keydown(function(e) {
     var input = $(this);
 
     // element creation event (on Enter)
     if (e.which == 13) {
-      var name = input.attr('name').replace(/\[\]$/, ''),
-        dt = (new Date()).getTime(),
-        elem = smart_field_row('', name, dt, size);
+      var elem = smart_field_row('', (new Date()).getTime(), field);
 
       input.parent().after(elem);
       $('input', elem).focus();
@@ -905,7 +905,7 @@ function smart_field_reset(field, data)
 
   // add input rows
   $.each(list, function(i, v) {
-    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+    area.append(smart_field_row(v, i, field));
   });
 }
 

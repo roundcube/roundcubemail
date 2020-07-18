@@ -138,6 +138,8 @@ class enigma_ui
 
         $this->enigma->include_script('enigma.js');
 
+        $this->rc->output->set_env('keyservers', $this->rc->config->keyservers());
+
         $this->js_loaded = true;
     }
 
@@ -434,6 +436,11 @@ class enigma_ui
         $table->add_header('valid', $this->enigma->gettext('uservalid'));
 
         foreach ($this->data->users as $user) {
+            // Display domains in UTF8
+            if ($email = rcube_utils::idn_to_utf8($user->email)) {
+                $user->email = $email;
+            }
+
             $username = $user->name;
             if ($user->comment) {
                 $username .= ' (' . $user->comment . ')';
@@ -602,8 +609,13 @@ class enigma_ui
 
         if (empty($attrib['part']) || $attrib['part'] == 'import') {
             $title  = $this->enigma->gettext('keyimportlabel');
-            $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
-                'id' => 'rcmimportfile', 'size' => 30));
+            $upload = new html_inputfield(array(
+                    'type'  => 'file',
+                    'name'  => '_file',
+                    'id'    => 'rcmimportfile',
+                    'size'  => 30,
+                    'class' => 'form-control'
+            ));
 
             $max_filesize  = $this->rc->upload_init();
             $upload_button = new html_button(array(
@@ -628,7 +640,7 @@ class enigma_ui
         if (empty($attrib['part']) || $attrib['part'] == 'search') {
             $title  = $this->enigma->gettext('keyimportsearchlabel');
             $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
-                'id' => 'rcmimportsearch', 'size' => 30));
+                'id' => 'rcmimportsearch', 'size' => 30, 'class' => 'form-control'));
 
             $search_button = new html_button(array(
                     'class'   => 'button search',
@@ -744,16 +756,16 @@ class enigma_ui
         $identities = $plugin['identities'];
 
         foreach ($identities as $idx => $ident) {
-            $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
-            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email']);
+            $name = format_email_recipient($ident['email'], $ident['name']);
+            $attr = array('value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email_ascii']);
             $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name)));
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, html::tag('ul', 'proplist', implode($identities, "\n")));
+        $table->add(null, html::tag('ul', 'proplist', implode("\n", $identities)));
 
         // Key size
-        $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
+        $select = new html_select(array('name' => 'size', 'id' => 'key-size', 'class' => 'custom-select'));
         $select->add($this->enigma->gettext('key2048'), '2048');
         $select->add($this->enigma->gettext('key4096'), '4096');
 
@@ -978,10 +990,7 @@ class enigma_ui
             $attrib['id'] = 'enigma-message';
 
             if ($sig instanceof enigma_signature) {
-                $sender = $sig->name ?: '';
-                if ($sig->email) {
-                    $sender .= ' <' . $sig->email . '>';
-                }
+                $sender = $sig->get_sender($engine, $p['message'], $part_id);
 
                 if ($sig->valid === enigma_error::UNVERIFIED) {
                     $attrib['class'] = 'boxwarning enigmawarning signed';
@@ -1254,7 +1263,6 @@ class enigma_ui
         $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
-        $storage = $this->rc->get_storage();
         $engine  = $this->enigma->load_engine();
 
         if ($uid && $mime_id) {

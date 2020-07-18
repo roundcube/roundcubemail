@@ -500,7 +500,6 @@ $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
 $labels['checkallfolders'] = '检查所有邮件夹里的新邮件';
-$labels['displaynext'] = '当邮件删除/移动后显示下一封邮件';
 $labels['defaultfont'] = '默认的 HTML 格式字体';
 $labels['mainoptions'] = '主要选项';
 $labels['browseroptions'] = '浏览器选项';

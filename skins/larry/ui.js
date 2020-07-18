@@ -183,9 +183,7 @@ function rcube_mail_ui()
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
           .addEventListener('aftertoggle-editor', function(e) {
-            window.setTimeout(function() { layout_composeview() }, 200);
-            if (e && e.mode)
-              $("select[name='editorSelector']").val(e.mode);
+            window.setTimeout(function() { layout_composeview(); }, 200);
           })
           .addEventListener('compose-encrypted', function(e) {
             $("select[name='editorSelector']").prop('disabled', e.active);
@@ -602,8 +600,8 @@ function rcube_mail_ui()
     h = body.parent().height() - 8;
     body.width(w).height(h);
 
-    $('#composebodycontainer > div').width(w+8);
-    $('#composebody_ifr').height(h + 4 - $('div.mce-toolbar').height());
+    $('#composebodycontainer > div').width(w+7);
+    $('#composebody_ifr').height(h + 4 - $('div.tox-toolbar').height());
     $('#googie_edit_layer').width(w).height(h);
 //    $('#composebodycontainer')[(btns ? 'addClass' : 'removeClass')]('buttons');
 //    $('#composeformbuttons')[(btns ? 'show' : 'hide')]();
@@ -907,17 +905,26 @@ function rcube_mail_ui()
   {
     item = $(item);
 
-    if (!item.children('.drop').length)
-      var label = rcmail.gettext('options');
-      item.append($('<a>')
-          .attr({'class': 'drop skip-content', tabindex: 0, 'aria-haspopup': true, title: label})
+    if (!item.children('.drop').length && !item.is('.no-menu')) {
+      var label = rcmail.gettext('options'),
+        fname = item.find('a.filename'),
+        tabindex = fname.attr('tabindex') || 0;
+
+      var button = $('<a>')
+          .attr({'class': 'drop skip-content', tabindex: tabindex, 'aria-haspopup': true, title: label})
           .text(label)
           .on('click keypress', function(e) {
             if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
               attachmentmenu(this, e);
               return false;
             }
-          }));
+          });
+
+      if (fname.length)
+        button.insertAfter(fname);
+      else
+        button.appendTo(item);
+    }
   }
 
   /**

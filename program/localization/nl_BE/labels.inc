@@ -378,7 +378,6 @@ $labels['force7bit'] = 'Gebruik MIME codering voor 8-bit karakters';
 $labels['advancedoptions'] = 'Geavanceerde opties';
 $labels['focusonnewmessage'] = 'Focus browserscherm bij nieuw bericht';
 $labels['checkallfolders'] = 'Controleer alle mappen op nieuwe berichten';
-$labels['displaynext'] = 'Na verplaatsen/verwijderen het volgende bericht tonen';
 $labels['mainoptions'] = 'Hoofdopties';
 $labels['section'] = 'Sectie';
 $labels['maintenance'] = 'Onderhoud';

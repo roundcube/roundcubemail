@@ -25,7 +25,9 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'larry';
+    const DEFAULT_SKIN = 'elastic';
+
+    public $system_skin = 'elastic';
 
     private $env       = '';
     private $paths     = array();
@@ -227,10 +229,11 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
         if ($this->prop['skin'] == 'default') {
             $this->prop['skin'] = self::DEFAULT_SKIN;
         }
+
+        $this->system_skin = $this->prop['skin'];
 
         // fix paths
         foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
@@ -257,6 +260,9 @@ class rcube_config
         if ($error_log && $error_log != 'stdout') {
             ini_set('error_log', $error_log);
         }
+
+        // set default screen layouts
+        $this->prop['supported_layouts'] = array('widescreen', 'desktop', 'list');
 
         // remove deprecated properties
         unset($this->prop['dst_active']);
@@ -344,9 +350,11 @@ class rcube_config
         foreach ($this->paths as $basepath) {
             $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
 
-            // check if <file>-env.ini exists
-            if ($realpath && $use_env && !empty($this->env)) {
-                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $realpath);
+            // check if <file>-<env>.inc.php exists
+            if ($use_env && !empty($this->env)) {
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+                $envfile = $abs_path ? $envfile : realpath($basepath . '/' . $envfile);
+
                 if (is_file($envfile)) {
                     $realpath = $envfile;
                 }
@@ -392,12 +400,17 @@ class rcube_config
         }
         else if ($name == 'client_mimetypes') {
             if (!$result && !$def) {
-                $result = 'text/plain,text/html,text/xml'
+                $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
                     . ',application/x-javascript,application/pdf,application/x-shockwave-flash';
             }
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
+            }
+        }
+        else if ($name == 'layout') {
+            if (!in_array($result, $this->prop['supported_layouts'])) {
+                $result = $this->prop['supported_layouts'][0];
             }
         }
 
@@ -452,9 +465,14 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
         if ($prefs['skin'] == 'default') {
-            $prefs['skin'] = self::DEFAULT_SKIN;
+            $prefs['skin'] = $this->system_skin;
+        }
+
+        $skins_allowed = $this->get('skins_allowed');
+
+        if (!empty($prefs['skin']) && !empty($skins_allowed) && !in_array($prefs['skin'], (array) $skins_allowed)) {
+            unset($prefs['skin']);
         }
 
         $this->userprefs = $prefs;
@@ -579,6 +597,26 @@ class rcube_config
     }
 
     /**
+     * Returns list of configured PGP key servers
+     *
+     * @return array|null List of keyservers' URLs
+     */
+    public function keyservers()
+    {
+        $list = (array) $this->prop['keyservers'];
+
+        foreach ($list as $idx => $host) {
+            if (!preg_match('|^[a-z]+://|', $host)) {
+                $host = "https://$host";
+            }
+
+            $list[$idx] = slashify($host);
+        }
+
+        return !empty($list) ? $list : null;
+    }
+
+    /**
      * Return the mail domain configured for the given host
      *
      * @param string  $host   IMAP host
@@ -613,7 +651,7 @@ class rcube_config
      */
     public function get_error()
     {
-        return empty($this->errors) ? false : join("\n", $this->errors);
+        return empty($this->errors) ? false : implode("\n", $this->errors);
     }
 
     /**

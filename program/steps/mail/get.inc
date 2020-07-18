@@ -150,8 +150,8 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
                 $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
             }
 
-            // fix mimetype for images wrongly declared as octet-stream
-            if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension) {
+            // fix mimetype for files wrongly declared as octet-stream
+            if ($mimetype == 'application/octet-stream' && $valid_extension) {
                 $mimetype = $real_mimetype;
             }
             // fix mimetype for images with wrong mimetype
@@ -160,7 +160,7 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             }
 
             // "fix" real mimetype the same way the original is before comparison
-            $real_mimetype = rcmail_fix_mimetype($real_mimetype);
+            $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
 
             $valid = $valid_extension && rcmail_mimetype_compare($real_mimetype, $mimetype);
         }
@@ -289,7 +289,7 @@ exit;
  */
 function rcmail_mimetype_compare($type1, $type2)
 {
-    $regexp = '~/(x-|x-ms-)~';
+    $regexp = '~/(x-ms-|x-)~';
     $type1  = preg_replace($regexp, '/', $type1);
     $type2  = preg_replace($regexp, '/', $type2);
 
@@ -446,7 +446,7 @@ class rcmail_attachment_handler
         // check connection status
         self::check_storage_status();
 
-        $this->mimetype = rcmail_fix_mimetype($this->mimetype);
+        $this->mimetype = rcube_mime::fix_mimetype($this->mimetype);
     }
 
     /**

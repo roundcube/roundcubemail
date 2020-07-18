@@ -37,7 +37,7 @@ if ($RCMAIL->action == 'group-addmembers') {
         $num2add = count($plugin['ids']);
 
         if (!$plugin['abort']) {
-            if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
+            if (($maxnum = $RCMAIL->config->get('max_group_members')) && ($CONTACTS->count()->count + $num2add > $maxnum)) {
                 $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
                 $OUTPUT->send();
             }
@@ -92,8 +92,6 @@ else if ($RCMAIL->action == 'group-create') {
     }
 
     if ($created && $OUTPUT->ajax_call) {
-        $created['name'] = rcube::Q($created['name']);
-
         $OUTPUT->show_message('groupcreated', 'confirmation');
         $OUTPUT->command('insert_contact_group', array('source' => $source) + $created);
     }
@@ -120,7 +118,7 @@ else if ($RCMAIL->action == 'group-rename') {
     if ($newname && $OUTPUT->ajax_call) {
         $OUTPUT->show_message('grouprenamed', 'confirmation');
         $OUTPUT->command('update_contact_group', array(
-            'source' => $source, 'id' => $gid, 'name' => rcube::Q($newname), 'newid' => $newgid));
+            'source' => $source, 'id' => $gid, 'name' => $newname, 'newid' => $newgid));
     }
     else if (!$newname) {
         $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error');

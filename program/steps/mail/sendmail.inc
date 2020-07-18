@@ -82,7 +82,7 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $bstyle       = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
     $message_body = '<html><head>'
         . '<meta http-equiv="Content-Type" content="text/html; charset='
         . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'
@@ -168,7 +168,7 @@ if ($files = rcube_utils::get_input_value('_attachments', rcube_utils::INPUT_POS
         unset($COMPOSE['attachments'][$idx]);
     }
 
-    $COMPOSE['attachments'] = array_merge(array_filter($files), $COMPOSE['attachments']);
+    $COMPOSE['attachments'] = array_merge(array_filter($files), (array) $COMPOSE['attachments']);
 }
 
 // Since we can handle big messages with disk usage, we need more time to work
@@ -297,7 +297,7 @@ if ($savedraft) {
     // remember new draft-uid ($saved could be an UID or true/false here)
     if ($saved && is_bool($saved)) {
         $index = $RCMAIL->storage->search_once($drafts_mbox, 'HEADER Message-ID ' . $message_id);
-        $saved = @max($index->get());
+        $saved = $index->max();
     }
 
     if ($saved) {

@@ -1,6 +1,6 @@
 <?php
 
-class SubscriptionsOption_Plugin extends PHPUnit_Framework_TestCase
+class SubscriptionsOption_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class SubscriptionsOption_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new subscriptions_option($rcube->api);
+        $plugin = new subscriptions_option($rcube->plugins);
 
         $this->assertInstanceOf('subscriptions_option', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

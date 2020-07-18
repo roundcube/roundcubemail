@@ -29,9 +29,9 @@ $CONTACT_COLTYPES = array(
     'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('nameprefix'), 'category' => 'main'),
     'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('namesuffix'), 'category' => 'main'),
     'nickname'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('nickname'), 'category' => 'main'),
-    'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
-    'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
-    'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
+    'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
+    'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
+    'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
     'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
     'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
     'phone'        => array('type' => 'text', 'size' => 40, 'maxlength' => 20, 'label' => $RCMAIL->gettext('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
@@ -44,13 +44,13 @@ $CONTACT_COLTYPES = array(
         ), 'category' => 'main'),
     'birthday'     => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('birthday'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
     'anniversary'  => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('anniversary'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
-    'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
-    'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
+    'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
+    'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
     'notes'        => array('type' => 'textarea', 'size' => 40, 'rows' => 15, 'maxlength' => 500, 'label' => $RCMAIL->gettext('notes'), 'limit' => 1),
     'photo'        => array('type' => 'image', 'limit' => 1, 'category' => 'main'),
-    'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
-    'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
-    'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
+    'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
+    'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
+    'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
     // TODO: define fields for vcards like GEO, KEY
 );
 
@@ -76,14 +76,15 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
         }
     }
 
-    $search_mods = $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT);
-    $OUTPUT->set_env('search_mods', $search_mods);
+    $OUTPUT->set_env('display_next', (bool) $RCMAIL->config->get('display_next'));
+    $OUTPUT->set_env('search_mods', $RCMAIL->config->get('addressbook_search_mods', $SEARCH_MODS_DEFAULT));
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
     $OUTPUT->set_env('contact_move_enabled', $writeable > 1);
     $OUTPUT->set_env('contact_copy_enabled', $writeable > 1 || ($writeable == 1 && count($js_list) > 1));
 
     $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
+
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
@@ -571,7 +572,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
             continue;
         }
 
-        $select_add = new html_select(array('class' => 'addfieldmenu', 'rel' => $section, 'data-compact' => $compact ? "true" : null));
+        $select_add = new html_select(array(
+                'class'        => 'addfieldmenu custom-select',
+                'rel'          => $section,
+                'data-compact' => $compact ? "true" : null
+        ));
         $select_add->add($RCMAIL->gettext('addfield'), '');
 
         // render head section with name fields (not a regular list of rows)
@@ -921,7 +926,9 @@ function rcmail_contact_photo($attrib)
         $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
     }
 
-    $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
+    $photo_img = $RCMAIL->output->asset_url($photo_img);
+
+    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
 
     unset($attrib['placeholder']);
 

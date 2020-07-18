@@ -183,6 +183,10 @@ ul.listing {
                     }
                 }
             }
+
+            html.touch & {
+                height: @listing-touch-line-height;
+            }
         }
     }
 
@@ -474,10 +478,6 @@ ul.treelist {
                 }
             }
 
-            &.recent {
-                color: @color-list-recent;
-            }
-
             .unreadcount {
                 position: absolute;
                 top: 0;
@@ -498,9 +498,15 @@ ul.treelist {
                 }
             }
 
-            &.recent > .unreadcount {
-                background: @color-list-recent-badge-background;
-                color: @color-list-recent-badge;
+            &.recent {
+                & > a {
+                    color: @color-list-recent;
+
+                    & > .unreadcount {
+                        background: @color-list-recent-badge-background;
+                        color: @color-list-recent-badge;
+                    }
+                }
             }
 
             &.root {
@@ -535,6 +541,12 @@ ul.treelist {
         }
         &.archive > a:before {
             .font-icon-solid(@fa-var-archive);
+        }
+        &.ns-shared > a:before {
+            .font-icon-solid(@fa-var-share-alt);
+        }
+        &.ns-other > a:before {
+            .font-icon-solid(@fa-var-user-friends);
         }
     }
 
@@ -715,6 +727,12 @@ table.fixedcopy {
         content: @fa-var-flag;
     }
 
+    tr.flaggedroot:not(:hover) span.unflagged:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-flag;
+        color: @color-list-icon;
+    }
+
     tr:hover span.unflagged:before {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
@@ -807,17 +825,27 @@ html.touch {
     padding: 0;
     margin: 0;
 
+    background-color: @color-attachmentlist-background;
+    border: 1px solid @color-attachmentlist-border;
+
+    &:empty {
+        padding: 0;
+        border: 0;
+    }
+
     li {
         list-style: none;
         display: inline-flex;
         white-space: nowrap;
         line-height: @attachmentslist-item-height;
+        padding: 0 .25em;
         max-width: 100%;
 
         &:before {
             &:extend(.font-icon-class);
             .font-icon-regular(@fa-var-file);
             height: @attachmentslist-item-height;
+            margin: 0;
         }
 
         &.txt:before,
@@ -919,6 +947,11 @@ html.touch {
             content: @fa-var-trash-alt;
             line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
+            margin: 0;
+        }
+
+        a.dropdown:before {
+            margin: 0;
         }
 
         &.uploading:before {
@@ -929,6 +962,7 @@ html.touch {
         a.filename {
             display: flex;
             overflow: hidden;
+            padding: 0 .2em;
         }
 
         .attachment-name {
@@ -938,7 +972,7 @@ html.touch {
 
         .attachment-size {
             color: @color-list-secondary;
-            padding: 0 .25em;
+            padding-left: .25em;
         }
     }
 }

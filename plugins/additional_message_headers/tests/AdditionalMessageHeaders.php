@@ -1,6 +1,6 @@
 <?php
 
-class AdditionalMessageHeaders_Plugin extends PHPUnit_Framework_TestCase
+class AdditionalMessageHeaders_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class AdditionalMessageHeaders_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new additional_message_headers($rcube->api);
+        $plugin = new additional_message_headers($rcube->plugins);
 
         $this->assertInstanceOf('additional_message_headers', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

@@ -77,7 +77,7 @@ if ($uid) {
     $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $msg_id, '_mbox' => $mbox_name)));
     $OUTPUT->set_env('has_writeable_addressbook', $_SESSION['writeable_abook']);
     $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
-    $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
+    $OUTPUT->set_env('mimetypes', $CLIENT_MIMETYPES = rcmail_supported_mimetypes());
 
     if ($MESSAGE->headers->get('list-post', false)) {
         $OUTPUT->set_env('list_post', true);
@@ -118,12 +118,18 @@ if ($uid) {
 
         if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4) && rcmail_contact_exists($MESSAGE->sender['mailto']))) {
             // Send MDN
-            if (rcmail_send_mdn($MESSAGE, $smtp_error))
+            if (rcmail_send_mdn($MESSAGE, $smtp_error)) {
                 $OUTPUT->show_message('receiptsent', 'confirmation');
-            else if ($smtp_error)
+            }
+            else if ($smtp_error && is_string($smtp_error)) {
+                $OUTPUT->show_message($smtp_error, 'error');
+            }
+            else if ($smtp_error && !empty($smtp_error['label'])) {
                 $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-            else
+            }
+            else {
                 $OUTPUT->show_message('errorsendingreceipt', 'error');
+            }
         }
         else if ($mdn_cfg != 2 && $mdn_cfg != 4) {
             // Ask user
@@ -194,9 +200,13 @@ function rcmail_message_attachments($attrib)
         foreach ($MESSAGE->attachments as $attach_prop) {
             $filename = rcmail_attachment_name($attach_prop, true);
             $filesize = $RCMAIL->message_part_size($attach_prop);
-            $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
+            $mimetype = rcube_mime::fix_mimetype($attach_prop->mimetype);
             $class    = rcube_utils::file2class($mimetype, $filename);
             $id       = 'attach' . $attach_prop->mime_id;
+
+            if ($mimetype == 'application/octet-stream' && ($type = rcube_mime::file_ext_type($filename))) {
+                $mimetype = $type;
+            }
 
             if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
@@ -209,20 +219,30 @@ function rcmail_message_attachments($attrib)
             $item = html::span('attachment-name', rcube::Q($filename))
                 . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
 
+            $li_class = $class;
+
             if (!$PRINT_MODE) {
-                $item = html::a(array(
+                $link_attrs = array(
                     'href'        => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                     'onclick'     => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
                     'title'       => $title,
                     'class'       => 'filename',
-                    ), $item);
+                );
 
+                if ($mimetype != 'message/rfc822' && empty($attach_prop->size)) {
+                    $li_class .= ' no-menu';
+                    $link_attrs['onclick'] = sprintf('%s.alert_dialog(%s.get_label(\'emptyattachment\')); return false',
+                            rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
+                    $RCMAIL->output->add_label('emptyattachment');
+                }
+
+                $item = html::a($link_attrs, $item);
                 $attachments[$attach_prop->mime_id] = $mimetype;
             }
 
-            $ol .= html::tag('li', array('class' => $class, 'id' => $id), $item);
+            $ol .= html::tag('li', array('class' => $li_class, 'id' => $id), $item);
         }
 
         $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
@@ -242,8 +262,9 @@ function rcmail_remote_objects_msg()
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: none';
 
-    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources'))) . '&nbsp;'
-        . html::a(array(
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources')));
+
+    $buttons = html::a(array(
             'href'    => "#loadremote",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote')"
         ),
@@ -251,7 +272,7 @@ function rcmail_remote_objects_msg()
 
     // add link to save sender in addressbook and reload message
     if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
-        $msg .= ' ' . html::a(array(
+        $buttons .= ' ' . html::a(array(
                 'href'    => "#loadremotealways",
                 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote', true)",
                 'style'   => "white-space:nowrap"
@@ -261,7 +282,7 @@ function rcmail_remote_objects_msg()
 
     $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
 
-    return html::div($attrib, $msg);
+    return html::div($attrib, $msg . '&nbsp;' . html::span('boxbuttons', $buttons));
 }
 
 function rcmail_message_buttons()
@@ -357,7 +378,7 @@ function rcmail_message_contactphoto($attrib)
 /**
  * Returns table with message headers
  */
-function rcmail_message_headers($attrib, $headers=null)
+function rcmail_message_headers($attrib, $headers = null)
 {
     global $MESSAGE, $PRINT_MODE, $RCMAIL;
     static $sa_attrib;
@@ -493,16 +514,16 @@ function rcmail_message_headers($attrib, $headers=null)
     // single header value is requested
     if (!empty($attrib['valueof'])) {
         $row = $plugin['output'][$attrib['valueof']];
-        return $row['html'] ? $row['value'] : rcube::Q($row['value']);
+        return $row['html'] ? $row['value'] : rcube::SQ($row['value']);
     }
 
     // compose html table
     $table = new html_table(array('cols' => 2));
 
     foreach ($plugin['output'] as $hkey => $row) {
-        $val = $row['html'] ? $row['value'] : rcube::Q($row['value']);
+        $val = $row['html'] ? $row['value'] : rcube::SQ($row['value']);
 
-        $table->add(array('class' => 'header-title'), rcube::Q($row['title']));
+        $table->add(array('class' => 'header-title'), rcube::SQ($row['title']));
         $table->add(array('class' => 'header '.$hkey), $val);
     }
 
@@ -595,14 +616,15 @@ function rcmail_message_full_headers($attrib)
  */
 function rcmail_message_body($attrib)
 {
-    global $OUTPUT, $MESSAGE, $RCMAIL, $REMOTE_OBJECTS;
+    global $OUTPUT, $MESSAGE, $RCMAIL, $REMOTE_OBJECTS, $CLIENT_MIMETYPES;
 
     if (!is_array($MESSAGE->parts) && empty($MESSAGE->body)) {
         return '';
     }
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmailMsgBody';
+    }
 
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
     $out       = '';
@@ -656,7 +678,7 @@ function rcmail_message_body($attrib)
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
-                    array('part' => $part, 'prefix' => ''));
+                    array('part' => $part, 'prefix' => '', 'message' => $MESSAGE));
 
                 // Set attributes of the part container
                 $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
@@ -684,7 +706,7 @@ function rcmail_message_body($attrib)
                     $body = rcmail_html4inline($body, $body_args);
                 }
 
-                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
+                $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
             }
         }
     }
@@ -706,10 +728,8 @@ function rcmail_message_body($attrib)
     // list images after mail body
     if ($RCMAIL->config->get('inline_images', true) && !empty($MESSAGE->attachments)) {
         $thumbnail_size   = $RCMAIL->config->get('image_thumbnail_size', 240);
-        $client_mimetypes = (array)$RCMAIL->config->get('client_mimetypes');
-
-        $show_label     = rcube::Q($RCMAIL->gettext('showattachment'));
-        $download_label = rcube::Q($RCMAIL->gettext('download'));
+        $show_label       = rcube::Q($RCMAIL->gettext('showattachment'));
+        $download_label   = rcube::Q($RCMAIL->gettext('download'));
 
         foreach ($MESSAGE->attachments as $attach_prop) {
             // skip inline images
@@ -721,7 +741,7 @@ function rcmail_message_body($attrib)
             if ($mimetype = rcmail_part_image_type($attach_prop)) {
                 // display thumbnails
                 if ($thumbnail_size) {
-                    $supported = in_array($mimetype, $client_mimetypes);
+                    $supported = in_array($mimetype, $CLIENT_MIMETYPES);
                     $show_link_attr = array(
                         'href'    => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                         'onclick' => sprintf(

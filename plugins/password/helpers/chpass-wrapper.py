@@ -11,12 +11,12 @@ BLACKLIST = (
 
 try:
     username, password = sys.stdin.readline().split(':', 1)
-except ValueError, e:
+except ValueError:
     sys.exit('Malformed input')
 
 try:
     user = pwd.getpwnam(username)
-except KeyError, e:
+except KeyError:
     sys.exit('No such user: %s' % username)
 
 if user.pw_uid < 1000:

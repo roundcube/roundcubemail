@@ -37,5 +37,3 @@ if (empty($opts['package'])) {
 }
 
 rcmail_utils::db_update($opts['dir'], $opts['package'], $opts['version'], array('errors' => true));
-
-?>

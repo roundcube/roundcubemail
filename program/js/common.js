@@ -58,7 +58,7 @@ function roundcube_browser()
   this.dom = document.getElementById ? true : false;
   this.dom2 = document.addEventListener && document.removeEventListener;
 
-  this.edge = this.agent_lc.indexOf(' edge/') > 0;
+  this.edge = this.agent_lc.indexOf(' edge/') > 0 || this.agent_lc.indexOf(' edg/') > 0; // "edg" in Chromium based Edge
   this.webkit = !this.edge && this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
@@ -77,12 +77,25 @@ function roundcube_browser()
   }
 
   if (!this.vendver) {
-    // common version strings
-    this.vendver = /(opera|opr|khtml|chrome|safari|applewebkit|msie)(\s|\/)([0-9\.]+)/.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
+    if (this.ie)
+      pattern = /(msie|rv)(\s|:)([0-9\.]+)/;
+    else if (this.edge)
+      pattern = /(edge?)(\/)([0-9\.]+)/;
+    else if (this.opera)
+      pattern = /(opera|opr)(\/)([0-9\.]+)/;
+    else if (this.konq)
+      pattern = /(konqueror)(\/)([0-9\.]+)/;
+    else if (this.safari)
+      pattern = /(version)(\/)([0-9\.]+)/;
+    else if (this.chrome)
+      pattern = /(chrome)(\/)([0-9\.]+)/;
+    else if (this.mz)
+      pattern = /(firefox)(\/)([0-9\.]+)/;
+    else
+      pattern = /(khtml|safari|applewebkit|rv)(\s|\/|:)([0-9\.]+)/;
 
-    // any other (Mozilla, Camino, IE>=11)
-    if (!this.vendver)
-      this.vendver = /rv:([0-9\.]+)/.test(this.agent) ? parseFloat(RegExp.$1) : 0;
+    // common version strings
+    this.vendver = pattern.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
   }
 
   // get real language out of safari's user agent
@@ -111,6 +124,8 @@ function roundcube_browser()
 
     if (this.ie)
       classname += ' ms ie ie'+parseInt(this.vendver);
+    else if (this.edge && this.vendver > 74)
+      classname += ' chrome';
     else if (this.edge)
       classname += ' ms edge';
     else if (this.opera)
@@ -418,15 +433,15 @@ function rcube_check_email(input, inline, count, strict)
       atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
       quoted_pair = '\\x5c[\\x00-\\x7f]',
       quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
-      ipv4 = '\\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\\]',
+      ipv4 = '\\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\\]',
       ipv6 = '\\[IPv6:[0-9a-f:.]+\\]',
       ip_addr = '(' + ipv4 + ')|(' + ipv6 + ')',
       // Use simplified domain matching, because we need to allow Unicode characters here
       // So, e-mail address should be validated also on server side after idn_to_ascii() use
       //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
       //sub_domain = '('+atom+'|'+domain_literal+')',
-      // allow punycode/unicode top-level domain
-      domain = '(('+ip_addr+')|(([^@\\x2e]+\\x2e)+([^\\x00-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})))',
+      // allow punycode/unicode top-level domain, allow extended domains (#5588)
+      domain = '(('+ip_addr+')|(([^@\\x2e]+\\x2e)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})))',
       // ICANN e-mail test (http://idn.icann.org/E-mail_test)
       icann_domains = [
         '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',
@@ -436,7 +451,7 @@ function rcube_check_email(input, inline, count, strict)
         '\\u0909\\u0926\\u093e\\u0939\\u0930\\u0923\\x2e\\u092a\\u0930\\u0940\\u0915\\u094d\\u0937\\u093e',
         '\\u4f8b\\u3048\\x2e\\u30c6\\u30b9\\u30c8',
         '\\uc2e4\\ub840\\x2e\\ud14c\\uc2a4\\ud2b8',
-        '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0622\\u0632\\u0645\\u0627\\u06cc\\u0634\u06cc',
+        '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0622\\u0632\\u0645\\u0627\\u06cc\\u0634\\u06cc',
         '\\u043f\\u0440\\u0438\\u043c\\u0435\\u0440\\x2e\\u0438\\u0441\\u043f\\u044b\\u0442\\u0430\\u043d\\u0438\\u0435',
         '\\u0b89\\u0ba4\\u0bbe\\u0bb0\\u0ba3\\u0bae\\u0bcd\\x2e\\u0baa\\u0bb0\\u0bbf\\u0b9f\\u0bcd\\u0b9a\\u0bc8',
         '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'

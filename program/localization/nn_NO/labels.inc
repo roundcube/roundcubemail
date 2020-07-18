@@ -371,7 +371,6 @@ $labels['force7bit'] = 'Bruk MIME-enkoding for 8-bit characterer (æøå og slik
 $labels['advancedoptions'] = 'Avanserte val';
 $labels['focusonnewmessage'] = 'Fokuser nettlesarvindauge på ny epost';
 $labels['checkallfolders'] = 'Sjekk alle mappar for nye epostar';
-$labels['displaynext'] = 'Etter sletting/flytting, vis neste epost';
 $labels['defaultfont'] = 'Standard skrifttype i HTML-melding';
 $labels['mainoptions'] = 'Hovudinnstillingar';
 $labels['browseroptions'] = 'Alternativ for nettlesar';

@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache
 {
@@ -188,6 +186,33 @@ class rcube_cache
         $this->index   = null;
         $this->cache   = array();
         $this->updates = array();
+    }
+
+    /**
+     * A helper to build cache key for specified parameters.
+     *
+     * @param string $prefix Key prefix (Max. length 64 characters)
+     * @param array  $params Additional parameters
+     *
+     * @return string Key name
+     */
+    public static function key_name($prefix, $params = array())
+    {
+        $cache_key = $prefix;
+
+        if (!empty($params)) {
+            $func   = function($v) {
+                if (is_array($v)) {
+                    sort($v);
+                }
+                return is_string($v) ? $v : serialize($v);
+            };
+
+            $params = array_map($func, $params);
+            $cache_key .= '.' . md5(implode(':', $params));
+        }
+
+        return $cache_key;
     }
 
     /**

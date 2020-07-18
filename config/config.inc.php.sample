@@ -30,7 +30,8 @@ $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 // The IMAP host chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
@@ -40,8 +41,8 @@ $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 $config['default_host'] = 'localhost';
 
 // SMTP server host (for sending mails).
-// Enter hostname with prefix tls:// to use STARTTLS, or use
-// prefix ssl:// to use the deprecated SSL over SMTP (aka SMTPS)
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -49,10 +50,11 @@ $config['default_host'] = 'localhost';
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// To specify differnt SMTP servers for different IMAP hosts provide an array
+// of IMAP host (no prefix or port) and SMTP server e.g. array('imap.example.com' => 'smtp.example.net')
 $config['smtp_server'] = 'localhost';
 
-// SMTP port (default is 25; use 587 for STARTTLS or 465 for the
-// deprecated SSL over SMTP (aka SMTPS))
+// SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
 $config['smtp_port'] = 587;
 
 // SMTP username (if required) if you use %u as the username Roundcube
@@ -70,9 +72,9 @@ $config['support_url'] = '';
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
 
-// this key is used to encrypt the users imap password which is stored
-// in the session record (and the client cookie if remember password is enabled).
-// please provide a string of exactly 24 chars.
+// This key is used to encrypt the users imap password which is stored
+// in the session record. For the default cipher method it must be
+// exactly 24 characters long.
 // YOUR KEY MUST BE DIFFERENT THAN THE SAMPLE VALUE FOR SECURITY REASONS
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
@@ -83,4 +85,4 @@ $config['plugins'] = array(
 );
 
 // skin name: folder from skins/
-$config['skin'] = 'larry';
+$config['skin'] = 'elastic';

@@ -214,6 +214,7 @@ input.smart-upload {
                 display: flex;
                 flex-wrap: wrap;
                 border-radius: 0;
+                border-left-color: transparent;
 
                 input {
                     border-radius: 0;
@@ -612,7 +613,7 @@ html.ms .propform {
         &:extend(.font-icon-class);
         margin: 0 !important;
         line-height: 1;
-        font-size: 1.1em;
+        font-size: 1.1rem;
     }
     &.user:before {
         content: @fa-var-user;
@@ -623,7 +624,7 @@ html.ms .propform {
     &.host:before {
         content: @fa-var-home;
     }
-    &.language.before {
+    &.language:before {
         content: @fa-var-globe;
     }
     &.cancel:before {
@@ -833,6 +834,7 @@ html.ms .propform {
 
         & > .invalid-feedback {
             display: inline-block;
+            line-height: 1.5;
         }
     }
 }
@@ -867,10 +869,14 @@ html.ms .propform {
     }
 
     .attachmentslist {
+        border: 0;
+        background: transparent;
+
         li {
             position: relative;
             display: flex;
             padding-right: 1.5em;
+            margin: 0.15em 0;
 
             a.filename {
                 flex: 1;
@@ -879,12 +885,12 @@ html.ms .propform {
             a.delete,
             a.cancelupload {
                 position: absolute;
-                right: 0;
+                right: 0.25em;
                 width: auto; // fix button width if the widget is in a .popupmenu
+            }
 
-                &:before {
-                    margin: 0;
-                }
+            a.dropdown {
+                margin-right: .5em;
             }
 
             .inner {
@@ -934,7 +940,7 @@ html.ms .propform {
     .recipient {
         display: flex;
         position: relative;
-        max-width: 50%;
+        max-width: ~"calc(50% - 3px)";
         border: 1px solid @color-recipient-input-border;
         background-color: @color-recipient-input-background;
         border-radius: .25em;
@@ -953,7 +959,6 @@ html.ms .propform {
     .name {
         .overflow-ellipsis;
         flex-grow: 1;
-        display: inline-block;
         line-height: 1.1;
         padding: floor(.25 * @page-font-size);
         vertical-align: middle;
@@ -974,24 +979,31 @@ html.ms .propform {
     a.button.icon {
         font-size: .8em;
         cursor: pointer;
-        padding: 0 0 0 .25em;
+        padding: 0;
 
         &:before {
             float: none;
             display: inline-block;
             width: 1em;
-            margin: 0;
             line-height: 1.5;
         }
     }
 
     li {
         max-width: 100%;
+
+        &:not(.recipient) {
+            user-select: text;
+        }
+
+        &.input {
+            flex: 1;
+            min-width: 100px;
+        }
     }
 
     input {
-        width: 40px;
-        max-width: 100%;
+        width: 100%;
         background: transparent !important;
         border: 0 !important;
         margin-top: @recipient-input-margin-fix;
@@ -1241,6 +1253,12 @@ html.ms .propform {
     }
 
     &::placeholder {
+        color: @color-input-placeholder;
+    }
+
+    // Note: This must be a separate rule
+    &::-ms-input-placeholder,
+    &::-webkit-input-placeholder {
         color: @color-input-placeholder;
     }
 }

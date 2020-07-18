@@ -232,7 +232,6 @@ $labels['2047folding'] = 'முழு RFC 2047 (மற்ற)';
 $labels['advancedoptions'] = 'மேம்பட்ட விருப்பங்கள்';
 $labels['focusonnewmessage'] = 'உலாவி சாளரத்தை புது செய்திக்காக கவனி';
 $labels['checkallfolders'] = 'புது செய்திகளுக்காக எல்லா அடைவுகளையும் சரிபார்';
-$labels['displaynext'] = 'செய்தியை நீக்கு/நகர் பிறகு அடுத்த செய்தியை காட்டு';
 $labels['mainoptions'] = 'முக்கிய விருப்பங்கள்';
 $labels['section'] = 'பிரிவு';
 $labels['maintenance'] = 'பராமரிப்பு';

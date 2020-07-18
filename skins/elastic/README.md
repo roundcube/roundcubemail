@@ -28,7 +28,7 @@ INSTALLATION
 ------------
 
 All styles are written using LESS syntax. Thus it needs to be compiled
-using the `lessc` command line tool. This comes with the `nodejs-less`
+using the `lessc` (>= 1.5.0) command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
 ```
     $ lessc -x styles/styles.less > styles/styles.css
@@ -103,6 +103,11 @@ FOR DEVELOPERS
     frame. We do this e.g. for mail preview or contact preview. Plugins should use
     _action=add* or _action=create* or _nav=hide in the frame URL if the navigation
     should be hidden, which is the case when you create a content object.
+
+- Dark mode:
+    In dark mode html element will have `dark-mode` class assigned.
+    It is possible to disable dark mode using less variable `@dark-mode-enabled`.
+    Option `dark_mode_support` in meta.json controls addition of the mode switch in the menu.
 
 
 KNOWN ISSUES

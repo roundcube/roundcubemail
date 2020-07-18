@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Smtp extends PHPUnit_Framework_TestCase
+class Framework_Smtp extends PHPUnit\Framework\TestCase
 {
 
     /**

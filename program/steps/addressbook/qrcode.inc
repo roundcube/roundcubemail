@@ -44,8 +44,8 @@ function rcmail_contact_qrcode($contact)
     $vcard = new rcube_vcard();
 
     // QR code input is limited, use only common fields
-    $fields = array('firstname', 'surname', 'middlename', 'nickname', 'organization',
-        'prefix', 'suffix', 'phone', 'email', 'jobtitle');
+    $fields = array('name', 'firstname', 'surname', 'middlename', 'nickname',
+         'organization', 'phone', 'email', 'jobtitle', 'prefix', 'suffix');
 
     foreach ($contact as $field => $value) {
         list($field, $section) = explode(':', $field, 2);

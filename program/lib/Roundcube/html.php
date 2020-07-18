@@ -226,7 +226,8 @@ class html
     /**
      * Derrived method to create <iframe></iframe>
      *
-     * @param mixed $attr Hash array with tag attributes or string with frame source (src)
+     * @param mixed  $attr Hash array with tag attributes or string with frame source (src)
+     * @param string $cont Tag content
      *
      * @return string HTML code
      * @see html::tag()
@@ -255,15 +256,21 @@ class html
         if (is_string($attr)) {
             $attr = array('src' => $attr);
         }
+
         if ($cont) {
-            if (self::$doctype == 'xhtml')
-                $cont = "\n/* <![CDATA[ */\n" . $cont . "\n/* ]]> */\n";
-            else
-                $cont = "\n" . $cont . "\n";
+            if (self::$doctype == 'xhtml') {
+                $cont = "/* <![CDATA[ */\n{$cont}\n/* ]]> */";
+            }
+
+            $cont = "\n{$cont}\n";
         }
 
-        return self::tag('script', $attr + array('type' => 'text/javascript', 'nl' => true),
-            $cont, array_merge(self::$common_attrib, array('src','type','charset')));
+        if (self::$doctype == 'xhtml') {
+            $attr += array('type' => 'text/javascript');
+        }
+
+        return self::tag('script', $attr + array('nl' => true), $cont,
+            array_merge(self::$common_attrib, array('src', 'type', 'charset')));
     }
 
     /**
@@ -775,6 +782,10 @@ class html_table extends html
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
+        if (!isset($this->rows[$this->rowindex])) {
+            $this->rows[$this->rowindex] = new stdClass;
+        }
+
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
         $this->colindex += max(1, intval($attr['colspan']));
 
@@ -935,13 +946,14 @@ class html_table extends html
         $this->content = $thead . ($this->tagname == 'table' ? self::tag('tbody', null, $tbody) : $tbody);
 
         unset($this->attrib['cols'], $this->attrib['rowsonly']);
+
         return parent::show();
     }
 
     /**
      * Count number of rows
      *
-     * @return The number of rows
+     * @return int The number of rows
      */
     public function size()
     {

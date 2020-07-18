@@ -666,7 +666,8 @@ class rcube_html2text
      * Callback function for preg_replace_callback use.
      *
      * @param array $matches PREG matches
-     * @return string
+     *
+     * @return string Element content
      */
     public function tags_preg_callback($matches)
     {
@@ -686,7 +687,8 @@ class rcube_html2text
      * Callback function for preg_replace_callback use in PRE content handler.
      *
      * @param array $matches PREG matches
-     * @return string
+     *
+     * @return string PRE content
      */
     public function pre_preg_callback($matches)
     {
@@ -697,6 +699,7 @@ class rcube_html2text
      * Strtoupper function with HTML tags and entities handling.
      *
      * @param string $str Text to convert
+     *
      * @return string Converted text
      */
     private function _toupper($str)
@@ -718,6 +721,7 @@ class rcube_html2text
      * Strtoupper multibyte wrapper function with HTML entities handling.
      *
      * @param string $str Text to convert
+     *
      * @return string Converted text
      */
     private function _strtoupper($str)

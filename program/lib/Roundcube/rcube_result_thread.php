@@ -573,9 +573,9 @@ class rcube_result_thread
             $end = strlen($str);
         }
 
-        // Let's try to store data in max. compacted stracture as a string,
+        // Let's try to store data in max. compacted structure as a string,
         // arrays handling is much more expensive
-        // For the following structure: THREAD (2)(3 6 (4 23)(44 7 96))
+        // For the following structure: THREAD (2)(3 6 (4 23)(44 7 96))((11)(12))
         // -- 2
         // -- 3
         //     \-- 6
@@ -585,8 +585,11 @@ class rcube_result_thread
         //         \-- 44
         //               \-- 7
         //                    \-- 96
+        // -- 11
+        //      \-- 12
         //
-        // The output will be: 2,3^1:6^2:4^3:23^2:44^3:7^4:96
+        // The output will be: 2 3~1:6~2:4~3:23~2:44~3:7~4:96 11~1:12
+        // Note: The "11" thread has no root, we use the first message as root
 
         if ($str[$begin] != '(') {
             // find next bracket
@@ -622,6 +625,7 @@ class rcube_result_thread
                         // @TODO: write error to the log or maybe set $this->raw_data = null;
                         return $node;
                     }
+
                     $p1 = strpos($str, '(', $off);
                     if ($p1 !== false && $p1 < $p) {
                         $off = $p1 + 1;
@@ -633,7 +637,26 @@ class rcube_result_thread
                     }
                 }
 
-                $thread = $this->parse_thread($str, $start + 1, $off - 1, $depth);
+                // Handle threads with missing parent by using first message as root
+                if (substr_compare($str, '((', $start, 2) === 0) {
+                    // Extract the current thread, e.g. "((1)(2))"
+                    $thread = substr($str, $start, $off - $start);
+                    // Length of the first token, e.g. "(1)"
+                    $len = strspn($thread, '(0123456789', 1) + 1;
+                    // Extract the token and modify it to look like a thread root
+                    $token = substr($thread, 1, $len);
+                    // Warning: The order is important
+                    $token = str_replace('(', '', $token);
+                    $token = str_replace(' ', ' (', $token);
+                    $token = str_replace(')', ' ', $token);
+                    $thread  = substr_replace($thread, $token, 1, $len);
+                    // Parse the thread
+                    $thread = $this->parse_thread($thread, 0, 0, $depth);
+                }
+                else {
+                    $thread = $this->parse_thread($str, $start + 1, $off - 1, $depth);
+                }
+
                 if ($thread) {
                     if (!$depth) {
                         if ($node) {

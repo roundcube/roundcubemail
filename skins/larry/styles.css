@@ -61,6 +61,7 @@ button {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 textarea {
 	margin: 0; /* Safari by default adds a margin */
@@ -70,6 +71,7 @@ textarea {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus,
 button:focus,
 input.button:focus,
@@ -80,6 +82,7 @@ textarea:focus {
 }
 
 input[type="text"]:required,
+input[type="email"]:required,
 input[type="password"]:required {
 	border-color: #4787b1;
 }
@@ -1681,11 +1684,6 @@ table.propform td.title {
 	white-space: nowrap;
 }
 
-table.propform .mceLayout td {
-	padding: 0;
-	border-bottom: 0;
-}
-
 ul.proplist {
 	list-style: none;
 	margin: 0;
@@ -1757,6 +1755,7 @@ ul.proplist.simplelist li {
 }
 
 #login-form input[type="text"],
+#login-form input[type="email"],
 #login-form input[type="password"] {
 	width: 100%;
 	border-color: #666;
@@ -3057,51 +3056,45 @@ ul.toolbarmenu li span.copy {
 	padding: 0.5em 1em;
 }
 
-#image-selector-form.droptarget {
+/** Common TinyMCE fixes **/
+
+#image-selector.droptarget {
 	background: url(images/filedrop.png) center bottom no-repeat;
 }
 
-/** Common TinyMCE fixes **/
-.mce-btn-small:not(.mce-active) {
-	background: transparent !important;
+div.tox .tox-toolbar,
+div.tox .tox-toolbar__overflow,
+div.tox .tox-toolbar__primary {
+	background-color: #f0f0f0;
 }
 
-.mce-btn-small:not(.mce-active):hover {
-	background: white !important;
+div.tox .tox-toolbar__primary {
+	border: 0;
 }
 
-.mce-btn-small .mce-ico {
-	display: inline; /* for old Firefox */
+div.tox div.tox-dialog-wrap__backdrop {
+	background: #aaa;
+	opacity: .3;
 }
 
-.mce-btn-small i {
-	line-height: 16px !important;
-	vertical-align: text-top !important;
+div.tox div.tox-dialog {
+	box-shadow: 1px 1px 18px #666;
+	border-width: 0;
 }
 
-_:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
-	line-height: 20px !important;
-}
-
-.mce-top-part::before {
-	box-shadow: none !important;
-}
-
-.mce-textbox {
-	border-radius: 0;
-	box-shadow: none;
-}
-
-button.mce-close,
-.mce-btn button,
-.mce-textbox:focus {
-	box-shadow: none;
-	outline: none;
-}
 
 .mce-menu {
 	z-index: 65537 !important;
 }
+
+.mce-tinymce.mce-container {
+	box-shadow: none;
+}
+
+.mce-toolbar.mce-container {
+	background: #f0f0f0;
+}
+
 
 /** PGP Key import dialog **/
 .pgpkeyimport div.key {

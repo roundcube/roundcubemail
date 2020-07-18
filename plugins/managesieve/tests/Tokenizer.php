@@ -1,6 +1,6 @@
 <?php
 
-class Tokenizer extends PHPUnit_Framework_TestCase
+class Tokenizer extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

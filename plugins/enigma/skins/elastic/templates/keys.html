@@ -17,7 +17,7 @@
 		<roundcube:object name="keyslist" id="keys-table" class="listing" role="listbox" noheader="true"
 		data-list="keys_list" data-label-msg="listempty" />
 	</div>
-	<div class="pagenav menu footer small" role="toolbar">
+	<div class="pagenav menu footer small" role="toolbar" aria-label="<roundcube:label name="arialabellistnav" />">
 		<roundcube:button command="firstpage" type="link" class="firstpage disabled" classAct="firstpage"
 			title="firstpage" label="first" innerclass="inner" />
 		<roundcube:button command="previouspage" type="link" class="prevpage disabled" classAct="prevpage"
@@ -68,7 +68,7 @@
 	<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="enigma.arialabelkeyexportoptions" /></h3>
 	<ul class="menu listing" role="menu" aria-labelledby="aria-label-export-menu">
 		<roundcube:button type="link-menuitem" command="plugin.enigma-key-export" label="exportall" prop="sub" class="export all disabled" classAct="export all active" />
-		<roundcube:button type="link-menuitem" command="plugin.enigma-key-export-selected" label="exportsel" prop="sub" class="export selection disabled" classAct="export selection active" />
+		<roundcube:button type="link-menuitem" command="plugin.enigma-key-export-selected" label="exportsel" prop="sub" class="export select disabled" classAct="export select active" />
 	</ul>
 </div>
 

@@ -15,9 +15,9 @@
 */
 
 $labels['changepasswd']  = 'Parola Değiştirme';
-$labels['curpasswd']  = 'Geçerli Parola:';
-$labels['newpasswd']  = 'Yeni Parola:';
-$labels['confpasswd']  = 'Yeni Parola Onayı:';
+$labels['curpasswd']  = 'Geçerli parola:';
+$labels['newpasswd']  = 'Yeni parola:';
+$labels['confpasswd']  = 'Yeni parola onayı:';
 $messages['nopassword'] = 'Yeni parolayı yazın.';
 $messages['nocurpassword'] = 'Geçerli parolayı yazın.';
 $messages['passwordincorrect'] = 'Geçerli parolayı yanlış yazdınız.';

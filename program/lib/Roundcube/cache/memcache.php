@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache_memcache extends rcube_cache
 {
@@ -91,7 +89,7 @@ class rcube_cache_memcache extends rcube_cache
             if (!$seen["$host:$port"]++) {
                 $available--;
                 rcube::raise_error(array(
-                        'code' => 604, 'type' => 'db',
+                        'code' => 604, 'type' => 'memcache',
                         'line' => __LINE__, 'file' => __FILE__,
                         'message' => "Memcache failure on host $host:$port"),
                     true, false);

@@ -1,6 +1,6 @@
 <?php
 
-class Managesieve_Plugin extends PHPUnit_Framework_TestCase
+class Managesieve_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class Managesieve_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new managesieve($rcube->api);
+        $plugin = new managesieve($rcube->plugins);
 
         $this->assertInstanceOf('managesieve', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

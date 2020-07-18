@@ -363,7 +363,6 @@ $labels['force7bit'] = 'ប្រើ MIME សំរាប់អក្សរទ�
 $labels['advancedoptions'] = 'ការកំណត់ពឹស្តារ';
 $labels['focusonnewmessage'] = 'ផ្តោតលើវីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
 $labels['checkallfolders'] = 'ពិនិត្យសំបុត្រថ្មីនៅគ្រប់ថតទាំងអស់';
-$labels['displaynext'] = 'បន្ទាប់ពីសំបុត្រត្រូវបានលុប​ឬផ្ទេរបង្ហាញសំបុត្របន្ទាប់';
 $labels['mainoptions'] = 'ជំរើសដែលជាគោល';
 $labels['section'] = 'ផ្នែក';
 $labels['maintenance'] = 'ការថែរក្សា';

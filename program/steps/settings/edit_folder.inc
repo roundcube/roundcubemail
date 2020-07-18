@@ -95,7 +95,7 @@ function rcmail_folder_form($attrib)
             $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
         }
 
-        $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
+        $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control'));
         $foldername = '<span class="input-group">' . $foldername->show($folder);
 
         if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {
@@ -237,13 +237,22 @@ function rcmail_folder_form($attrib)
         if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
             $msgcount = $storage->count($mbox, 'ALL', true, false);
 
-            // Size
             if ($msgcount) {
+                // Get the size on servers with supposed-to-be-fast method for that
+                if ($storage->get_capability('STATUS=SIZE')) {
+                    $size = $storage->folder_size($mbox);
+                    if ($size !== false) {
+                        $size = $RCMAIL->show_bytes($size);
+                    }
+                }
+
                 // create link with folder-size command
-                $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox));
-                $size = html::a(array('href' => '#', 'onclick' => $onclick,
-                    'id' => 'folder-size'), $RCMAIL->gettext('getfoldersize'));
+                if (!isset($size) || $size === false) {
+                    $onclick = sprintf("return %s.command('folder-size', '%s', this)",
+                        rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox));
+                    $size = html::a(array('href' => '#', 'onclick' => $onclick,
+                        'id' => 'folder-size'), $RCMAIL->gettext('getfoldersize'));
+                }
             }
             else {
                 // no messages -> zero size

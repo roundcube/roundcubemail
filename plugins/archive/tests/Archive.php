@@ -1,6 +1,6 @@
 <?php
 
-class Archive_Plugin extends PHPUnit_Framework_TestCase
+class Archive_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class Archive_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new archive($rcube->api);
+        $plugin = new archive($rcube->plugins);
 
         $this->assertInstanceOf('archive', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

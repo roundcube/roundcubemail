@@ -27,8 +27,12 @@ $config = array();
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
+// Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
+// Note: Various drivers support various additional arguments for connection,
+//       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
+//       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
+//       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
@@ -130,7 +134,8 @@ $config['redis_debug'] = false;
 // The IMAP host chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
@@ -177,7 +182,7 @@ $config['imap_delimiter'] = null;
 
 // If you know your imap's folder vendor, you can specify it here.
 // Otherwise it will be determined automatically. Use lower-case
-// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+// identifiers, e.g. 'dovecot', 'cyrus', 'gimap', 'hmail', 'uw-imap'.
 $config['imap_vendor'] = null;
 
 // If IMAP server doesn't support NAMESPACE extension, but you're
@@ -253,8 +258,8 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (for sending mails).
-// Enter hostname with prefix tls:// to use STARTTLS, or use
-// prefix ssl:// to use the deprecated SSL over SMTP (aka SMTPS)
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -262,9 +267,11 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// To specify differnt SMTP servers for different IMAP hosts provide an array
+// of IMAP host (no prefix or port) and SMTP server e.g. array('imap.example.com' => 'smtp.example.net')
 $config['smtp_server'] = 'localhost';
 
-// SMTP port (default is 587)
+// SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
 $config['smtp_port'] = 587;
 
 // SMTP username (if required) if you use %u as the username Roundcube
@@ -386,16 +393,37 @@ $config['advanced_prefs'] = array();
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';
 
-// replace Roundcube logo with this image
-// specify an URL relative to the document root of this Roundcube installation
-// an array can be used to specify different logos for specific template files
-// '*' for default logo
-// ':favicon' for favicon
-// ':print' for logo on all print templates (e.g. messageprint, contactprint)
-// ':small' for small screen logo in Elastic
-// different logos can be specified for different skins by prefixing the skin name to the array key
-// config applied in order: <skin>:<template>, <skin>:*, <template>, *
-// for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png", "elastic:*" => "/images/logo.png")
+// Logo image replacement. Specifies location of the image as:
+// - URL relative to the document root of this Roundcube installation
+// - full URL with http:// or https:// prefix
+// - URL relative to the current skin folder (when starts with a '/')
+//
+// An array can be used to specify different logos for specific template files
+// The array key specifies the place(s) the logo should be applied to and
+// is made up of (up to) 3 parts:
+// - skin name prefix (always with colon, can be replaced with *)
+// - template name (or * for all templates)
+// - logo type - it is used for logos used on multiple templates
+//   the available types include '[favicon]' for favicon, '[print]' for logo on all print
+//   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
+//
+// Example config for skin_logo
+/*
+   array(
+     // show the image /images/logo_login_small.png for the Login screen in the Elastic skin on small screens
+     "elastic:login[small]" => "/images/logo_login_small.png",
+     // show the image /images/logo_login.png for the Login screen in the Elastic skin
+     "elastic:login" => "/images/logo_login.png",
+     // show the image /images/logo_small.png in the Elastic skin
+     "elastic:*[small]" => "/images/logo_small.png",
+     // show the image /images/larry.png in the Larry skin
+     "larry:*" => "/images/larry.png",
+     // show the image /images/logo_login.png on the login template in all skins
+     "login" => "/images/logo_login.png",
+     // show the image /images/logo_print.png for all print type logos in all skins
+     "[print]" => "/images/logo_print.png",
+   );
+*/
 $config['skin_logo'] = null;
 
 // automatically create a new Roundcube user when log-in the first time.
@@ -447,6 +475,7 @@ $config['login_username_maxlen'] = 1024;
 $config['login_password_maxlen'] = 1024;
 
 // Logon username filter. Regular expression for use with preg_match().
+// Use special value 'email' if you accept only full email addresses as user logins.
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
@@ -475,6 +504,11 @@ $config['session_auth_name'] = null;
 
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
+
+// Session samesite. Defaults to PHP session.cookie_samesite setting.
+// Requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
+// Possible values: null (default), 'Lax', or 'Strict'
+$config['session_samesite'] = null;
 
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
@@ -511,9 +545,10 @@ $config['x_frame_options'] = 'sameorigin';
 // This key is used for encrypting purposes, like storing of imap password
 // in the session. For historical reasons it's called DES_key, but it's used
 // with any configured cipher_method (see below).
+// For the default cipher_method a required key length is 24 characters.
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// Encryption algorithm. You can use any method supported by openssl.
+// Encryption algorithm. You can use any method supported by OpenSSL.
 // Default is set for backward compatibility to DES-EDE3-CBC,
 // but you can choose e.g. AES-256-CBC which we consider a better choice.
 $config['cipher_method'] = 'DES-EDE3-CBC';
@@ -621,9 +656,12 @@ $config['identities_level'] = 0;
 $config['identity_image_size'] = 64;
 
 // Mimetypes supported by the browser.
-// attachments of these types will open in a preview window
-// either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
-$config['client_mimetypes'] = null;  # null == default
+// Attachments of these types will open in a preview window.
+// Either a comma-separated list or an array. Default list includes:
+//     text/plain,text/html,
+//     image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp,
+//     application/x-javascript,application/pdf,application/x-shockwave-flash
+$config['client_mimetypes'] = null;
 
 // Path to a local mime magic database file for PHPs finfo extension.
 // Set to null if the default path should be used.
@@ -813,6 +851,10 @@ $config['compose_responses_static'] = array(
 //  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
 );
 
+// List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
+// Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
+$config['keyservers'] = array('keys.openpgp.org');
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
@@ -854,6 +896,7 @@ $config['ldap_public']['Verisign'] = array(
   // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
+  // Note: Host can also be a full URI e.g. ldaps://hostname.local:636 (for SSL)
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'       => false,
@@ -1050,10 +1093,11 @@ $config['contact_search_name'] = '{name} <{email}>';
 // Use this charset as fallback for message decoding
 $config['default_charset'] = 'ISO-8859-1';
 
-// skin name: folder from skins/
-$config['skin'] = 'larry';
+// Skin name: folder from skins/
+$config['skin'] = 'elastic';
 
-// limit skins available/shown in the settings section
+// Limit skins available for the user.
+// Note: When not empty, it should include the default skin set in 'skin' option.
 $config['skins_allowed'] = array();
 
 // Enables using standard browser windows (that can be handled as tabs)
@@ -1159,7 +1203,7 @@ $config['refresh_interval'] = 60;
 // If true all folders will be checked for recent messages
 $config['check_all_folders'] = false;
 
-// If true, after message delete/move, the next message will be displayed
+// If true, after message/contact delete/move, the next message/contact will be displayed
 $config['display_next'] = true;
 
 // Default messages listing mode. One of 'threads' or 'list'.
@@ -1206,12 +1250,6 @@ $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'fr
 
 // Defaults of the addressbook search field configuration.
 $config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
-
-// 'Delete always'
-// This setting reflects if mail should be always deleted
-// when moving to Trash fails. This is necessary in some setups
-// when user is over quota and Trash is included in the quota.
-$config['delete_always'] = false;
 
 // Directly delete messages in Junk instead of moving to Trash
 $config['delete_junk'] = false;

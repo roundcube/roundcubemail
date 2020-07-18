@@ -73,7 +73,7 @@ if ($plugin['url']) {
 
 $data = $plugin['data'];
 
-// detect if photo data is an URL
+// detect if photo data is a URL
 if (strlen($data) < 1024 && filter_var($data, FILTER_VALIDATE_URL)) {
     $RCMAIL->output->redirect($data);
 }

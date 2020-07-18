@@ -28,12 +28,11 @@ class rcube_zxcvbn_password
 {
     function strength_rules()
     {
-        $rcmail  = rcmail::get_instance();
-
-        $rules   = array();
-        $rules[] = $rcmail->gettext('password.passwordweak');
-        $rules[] = $rcmail->gettext('password.passwordnoseq');
-        $rules[] = $rcmail->gettext('password.passwordnocommon');
+        $rcmail = rcmail::get_instance();
+        $rules  = array(
+            $rcmail->gettext('password.passwordnoseq'),
+            $rcmail->gettext('password.passwordnocommon'),
+        );
 
         return $rules;
     }
@@ -56,7 +55,6 @@ class rcube_zxcvbn_password
             return;
         }
 
-        $rcmail   = rcmail::get_instance();
         $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
 

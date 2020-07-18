@@ -81,6 +81,8 @@ function rcube_treelist_widget(node, p)
   this.container = container;
   this.expand = expand;
   this.collapse = collapse;
+  this.expand_all = expand_all;
+  this.collapse_all = collapse_all;
   this.select = select;
   this.render = render;
   this.reset = reset;
@@ -210,10 +212,8 @@ function rcube_treelist_widget(node, p)
     });
   }
 
-  /////// private methods
-
   /**
-   * Collaps a the node with the given ID
+   * Collapse a the node with the given ID
    */
   function collapse(id, recursive, set)
   {
@@ -251,6 +251,30 @@ function rcube_treelist_widget(node, p)
     if (node = indexbyid[id]) {
       collapse(id, recursive, !node.collapsed);
     }
+  }
+
+  /**
+   * Collapse all expanded nodes
+   */
+  function collapse_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && !data.collapsed) {
+        collapse(id);
+      }
+    });
+  }
+
+  /**
+   * Expand all collapsed nodes
+   */
+  function expand_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed) {
+        collapse(id, false, false);
+      }
+    });
   }
 
   /**
@@ -344,8 +368,14 @@ function rcube_treelist_widget(node, p)
     // insert as child of an existing node
     if (parent_node) {
       node.level = parent_node.level + 1;
+
       if (!parent_node.children)
         parent_node.children = [];
+      else {
+        // Remove deleted nodes from the parent to make sure re-rendering below
+        // happens when adding a new child to a parent with all nodes removed
+        parent_node.children = parent_node.children.filter(function(node) { return !node.deleted; });
+      }
 
       search_active = false;
       parent_node.children.push(node);
@@ -495,8 +525,12 @@ function rcube_treelist_widget(node, p)
 
       // remove tree-toggle button and children list
       if (!parent.children().length) {
-        parent.parent().find('div.treetoggle').remove();
-        parent.remove();
+        parent.parent('li').find('div.treetoggle').remove();
+
+        // remove parent, but not if it's the list itself
+        if (parent[0] != container[0]) {
+            parent.remove();
+        }
       }
 
       return true;
@@ -1250,7 +1284,7 @@ function rcube_treelist_widget(node, p)
         create: function(e, ui) { ui_draggable = ui; },
         helper: function(e) {
           return $('<div>').attr('id', 'rcmdraglayer')
-            .text($.trim($(e.target).first().text()));
+            .text($(e.target).first().text().trim());
         }
       }, opts);
 

@@ -405,7 +405,6 @@ $labels['force7bit'] = 'Koristi MIME kodiranje za 8-bitne znakove';
 $labels['advancedoptions'] = 'Napredne postavke';
 $labels['focusonnewmessage'] = 'Fokusiraj prozor preglednika pri primitku nove poruke';
 $labels['checkallfolders'] = 'Provjeri nove poruke u svim mapama';
-$labels['displaynext'] = 'Nakon brisanja/micanja poruke, prikaži slijedeću';
 $labels['defaultfont'] = 'Zadani font HTML poruke';
 $labels['mainoptions'] = 'Glavne postavke';
 $labels['browseroptions'] = 'Postavke preglednika';

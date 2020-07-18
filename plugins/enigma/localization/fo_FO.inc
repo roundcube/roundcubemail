@@ -70,6 +70,7 @@ $labels['encryptmsg'] = 'Brongla hesi boð';
 $labels['signmsg'] = 'Undirskriva hesi boð';
 $labels['enterkeypasstitle'] = 'Skriva loyniorð';
 $labels['enterkeypass'] = 'Tað er tørvur á einum loyniorðið fyri at stongja upp loyndar-lykilin ($keyid) hjá brúkara:';
+$labels['keyimportlabel'] = 'Inflyt frá fílu';
 $labels['arialabelkeyexportoptions'] = 'Lykla út flytingar møguleikar';
 $messages['sigvalid'] = 'Váttað undirskrift frá $sender.';
 $messages['siginvalid'] = 'Ógildig undirskrift frá $sender.';

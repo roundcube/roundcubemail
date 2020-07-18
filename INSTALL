@@ -12,9 +12,9 @@ REQUIREMENTS
 * An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.4 or greater including:
-   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
-   - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
+   - Zip, Fileinfo, Intl, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
    - GD, Imagick (optional thumbnails generation, QR-code)
 * PEAR and PEAR packages distributed with Roundcube or external:
@@ -26,6 +26,8 @@ REQUIREMENTS
    - Net_Sieve 1.4.3 or newer (for managesieve plugin)
    - Crypt_GPG 1.6.3 or newer (for enigma plugin)
    - Endroid/QrCode 1.6.0 or newer (https://github.com/endroid/QrCode)
+   - Kolab/Net_LDAP3 1.0.6 or newer (for LDAP addressbook)
+   - Masterminds/HTML5 2.5.x (optional HTML parser)
 * php.ini options:
    - error_reporting E_ALL & ~E_NOTICE & ~E_STRICT
    - memory_limit > 16MB
@@ -42,7 +44,9 @@ REQUIREMENTS
 INSTALLATION
 ============
 
-1. Decompress and put this folder somewhere inside your document root
+1. Decompress and put this folder somewhere inside your document root.
+  Note: Make sure files have proper owner/group for your setup. If you use
+  tar command `--no-same-owner` option might be helpful.
 2. In case you don't use the so-called "complete" release package,
   you have to install PHP and javascript dependencies.
   2.1. Install PHP dependencies using composer:
@@ -61,7 +65,11 @@ INSTALLATION
 5. Point your browser to http://url-to-roundcube/installer/
 6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 7. After creating and testing the configuration, remove the installer directory
-8. If you use git sources compile css files for the Elastic skin:
+   ------------------------------------------
+   IMPORTANT: REMOVE THE INSTALLER DIRECTORY!
+   ------------------------------------------
+8. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 1.5.0):
    $ cd skins/elastic
    $ lessc -x styles/styles.less > styles/styles.css
    $ lessc -x styles/print.less > styles/print.css
@@ -75,7 +83,7 @@ CONFIGURATION HINTS
 IMPORTANT! Read all comments in defaults.inc.php, understand them
 and configure your installation to be not surprised by default behaviour.
 
-Roundcube writes internal errors to the 'errors' log file located in the logs
+Roundcube writes internal errors to the 'errors.log' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
 PHP errors to be logged there as well, set error_log in php.ini or .htaccess file.
 
@@ -101,9 +109,9 @@ importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
 # mysql
-> CREATE DATABASE roundcubemail /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
-    IDENTIFIED BY 'password';
+> CREATE DATABASE roundcubemail CHARACTER SET utf8 COLLATE utf8_general_ci;
+> CREATE USER roundcube@localhost IDENTIFIED BY 'password';
+> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost;
 > quit
 
 # mysql roundcubemail < SQL/mysql.initial.sql
@@ -111,6 +119,11 @@ roundcube user. Here is an example of that procedure:
 Note 1: 'password' is the master password for the roundcube user. It is strongly
 recommended you replace this with a more secure password. Please keep in
 mind: You need to specify this password later in 'config/db.inc.php'.
+
+Note 2: When using MySQL < 5.7.7 or MariaDB < 10.2.2 it is required to configure
+the database engine with:
+    innodb_large_prefix=true
+    innodb_file_format=Barracuda
 
 
 * SQLite
@@ -242,11 +255,6 @@ To enable these features in apache the following modules need to be enabled:
 The optimisation is already included in the .htaccess file in the top 
 directory of your installation.
 
-If you are using Apache version 2.2.9 and later, in the .htaccess file
-change the 'append' word to 'merge' for a more correct response. Keeping
-as 'append' shouldn't cause any problems though changing to merge will 
-eliminate the possibility of duplicate 'public' headers in Cache-control.
-
 Lighttpd:
 ---------
 With Lightty the addition of Expire: tags by mod_expire is incompatible with
@@ -302,3 +310,6 @@ needed to add following MIME Types definitions (via web.config or IIS Manager):
 
     .woff   application/font-woff
     .woff2  application/font-woff2
+
+When installing on Windows be aware we're using symbolic links which may need an additional
+attention. See https://github.com/roundcube/roundcubemail/issues/7151.

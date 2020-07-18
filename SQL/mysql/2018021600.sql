@@ -8,4 +8,4 @@ CREATE TABLE `filestore` (
     CONSTRAINT `user_id_fk_filestore` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE `uniqueness` (`user_id`, `filename`)
-);
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;

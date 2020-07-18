@@ -164,6 +164,14 @@ class rcube_plugin_api
             $plugins_dir = unslashify($dir->path);
         }
 
+        // Validate the plugin name to prevent from path traversal
+        if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
+            rcube::raise_error(array('code' => 520,
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Invalid plugin name: $plugin_name"), true, false);
+            return false;
+        }
+
         // plugin already loaded?
         if (!$this->plugins[$plugin_name]) {
             $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
@@ -237,7 +245,7 @@ class rcube_plugin_api
 
     /**
      * Get information about a specific plugin.
-     * This is either provided my a plugin's info() method or extracted from a package.xml or a composer.json file
+     * This is either provided by a plugin's info() method or extracted from a package.xml or a composer.json file
      *
      * @param string Plugin name
      * @return array Meta information about a plugin or False if plugin was not found
@@ -283,6 +291,14 @@ class rcube_plugin_api
         $fn   = unslashify($dir->path) . "/$plugin_name/$plugin_name.php";
         $info = false;
 
+        // Validate the plugin name to prevent from path traversal
+        if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
+            rcube::raise_error(array('code' => 520,
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Invalid plugin name: $plugin_name"), true, false);
+            return false;
+        }
+
         if (!class_exists($plugin_name, false)) {
             if (is_readable($fn)) {
                 include($fn);
@@ -300,17 +316,29 @@ class rcube_plugin_api
         if (!$info) {
             $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
             if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+                // Build list of plugins required
+                $require = array();
+                foreach (array_keys((array) $json['require']) as $dname) {
+                    if (!preg_match('|^([^/]+)/([a-zA-Z0-9_-]+)$|', $dname, $m)) {
+                        continue;
+                    }
+
+                    $vendor = $m[1];
+                    $name = $m[2];
+
+                    if ($name != 'plugin-installer' && $vendor != 'pear' && $vendor != 'pear-pear') {
+                        $dpath = unslashify($dir->path) . "/$name/$name.php";
+                        if (is_readable($dpath)) {
+                            $require[] = $name;
+                        }
+                    }
+                }
+
                 list($info['vendor'], $info['name']) = explode('/', $json['name']);
                 $info['version'] = $json['version'];
                 $info['license'] = $json['license'];
                 $info['uri']     = $json['homepage'];
-                $info['require'] = array_filter(array_keys((array)$json['require']), function($pname) {
-                    if (strpos($pname, '/') == false) {
-                        return false;
-                    }
-                    list($vendor, $name) = explode('/', $pname);
-                    return !($name == 'plugin-installer' || $vendor == 'pear-pear');
-                });
+                $info['require'] = $require;
             }
 
             // read local composer.lock file (once)

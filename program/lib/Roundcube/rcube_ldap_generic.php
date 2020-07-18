@@ -341,10 +341,10 @@ class rcube_ldap_generic extends Net_LDAP3
             foreach ($attributes as $attr) {
                 $parts[] = "($attr=$wp" . self::quote_string($word) . "$ws)";
             }
-            $groups[] = '(|' . join('', $parts) . ')';
+            $groups[] = '(|' . implode('', $parts) . ')';
         }
 
-        return count($groups) > 1 ? '(&' . join('', $groups) . ')' : join('', $groups);
+        return count($groups) > 1 ? '(&' . implode('', $groups) . ')' : implode('', $groups);
     }
 }
 

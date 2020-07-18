@@ -104,4 +104,3 @@ Please download it from http://getcomposer.org/download/ or with
 }
 
 echo "\n";
-

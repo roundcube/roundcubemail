@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/timezones/
 */
 
-$labels['tz:utc'] = 'UTC';
+$labels['tz:utc'] = 'TUC';
 $labels['tz:africa'] = 'Afrique';
 $labels['tz:africa:abidjan'] = 'Abidjan';
 $labels['tz:africa:accra'] = 'Accra';

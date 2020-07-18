@@ -66,6 +66,7 @@ $labels['keydisable'] = 'Disable';
 $labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
+$labels['keyadd'] = 'Add key';
 
 $labels['newkeyident'] = 'Identity';
 $labels['newkeypass'] = 'Password';
@@ -82,7 +83,6 @@ $labels['sendunencrypted'] = 'Send unencrypted';
 
 $labels['enterkeypasstitle'] = 'Enter key passphrase';
 $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
-$labels['arialabelkeyexportoptions'] = 'Keys export options';
 $labels['attachpubkeymsg'] = 'Attach my public key';
 
 $labels['keyexportprompt'] = 'Do you want to include secret keys in the saved OpenPGP keys file?';
@@ -95,6 +95,10 @@ $labels['keyimportsearchlabel'] = 'Search on key server(s)';
 $labels['managekeys'] = 'Manage PGP keys';
 $labels['identitymatchingprivkeys'] = 'You have $nr matching PGP private keys stored in your keyring:';
 $labels['identitynoprivkeys'] = 'This sender identity doesn\'t yet have a PGP private key stored in your keyring.';
+
+$labels['arialabelkeyexportoptions'] = 'Keys export options';
+$labels['arialabelkeysearchform'] = 'Keys search form';
+$labels['arialabelkeyoptions'] = 'Key options';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';

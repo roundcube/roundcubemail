@@ -91,6 +91,7 @@ $labels['none'] = 'brak';
 $labels['fromset'] = 'ze zbioru';
 $labels['fromfile'] = 'z pliku';
 $labels['filterdisabled'] = 'Filtr wyłączony';
+$labels['filterenabled'] = 'Filtr włączony';
 $labels['countisgreaterthan'] = 'ilość jest większa od';
 $labels['countisgreaterthanequal'] = 'ilość jest równa lub większa od';
 $labels['countislessthan'] = 'ilość jest mniejsza od';

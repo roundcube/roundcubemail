@@ -26,8 +26,6 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
         var selected = list.get_selection().length;
 
         rcmail.enable_command('download', selected > 0);
-        rcmail.enable_command('download-eml', selected == 1);
-        rcmail.enable_command('download-mbox', 'download-maildir', selected > 1);
     });
 
     // hook before default download action
@@ -94,6 +92,11 @@ function rcmail_zipdownload(mode)
 // display download options menu
 function rcmail_zipdownload_menu(e)
 {
+    // Menu option status
+    var selected = rcmail.message_list.get_selection().length;
+    rcmail.enable_command('download-eml', selected == 1);
+    rcmail.enable_command('download-mbox', 'download-maildir', selected > 1);
+
     // show (sub)menu for download selection
     rcmail.command('menu-open', 'zipdownload-menu', e && e.target ? e.target : rcmail.env.download_link, e);
 

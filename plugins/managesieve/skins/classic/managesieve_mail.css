@@ -51,12 +51,10 @@
   font-weight: bold;
 }
 
-#managesieve-tip
-{
+#managesieve-tip {
   z-index: 100000;
 }
 
-span.sieve.error
-{
+span.sieve.error {
   color: red;
 }

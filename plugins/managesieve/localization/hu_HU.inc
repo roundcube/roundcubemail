@@ -91,6 +91,7 @@ $labels['none'] = 'nincs';
 $labels['fromset'] = 'készletből';
 $labels['fromfile'] = 'fájlból';
 $labels['filterdisabled'] = 'Szűrő kikapcsolása';
+$labels['filterenabled'] = 'Szűrő engedélyezve';
 $labels['countisgreaterthan'] = 'a számláló nagyobb mint';
 $labels['countisgreaterthanequal'] = 'a számláló nagyobb vagy egyenlő';
 $labels['countislessthan'] = 'a számláló kissebb mint';

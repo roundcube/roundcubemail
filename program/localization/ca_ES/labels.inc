@@ -467,7 +467,6 @@ $labels['advancedoptions'] = 'Opcions avançades';
 $labels['toggleadvancedoptions'] = 'Commuta les opcions avançades';
 $labels['focusonnewmessage'] = 'Activa la finestra del navegador quan hi hagi un nou missatge';
 $labels['checkallfolders'] = 'Comprova totes les carpetes per missatges nous';
-$labels['displaynext'] = 'Mostra el missatge següent després de suprimir-ne o moure\'n un';
 $labels['defaultfont'] = 'Font de lletra per defecte de missatge en HTML';
 $labels['mainoptions'] = 'Opcions principals';
 $labels['browseroptions'] = 'Opcions del navegador';

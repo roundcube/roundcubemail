@@ -31,7 +31,8 @@ class rcmail_sendmail
     public $options = array();
 
     protected $parse_data = array();
-    protected $compose_form;
+    protected $message_form;
+    protected $rcmail;
 
     // define constants for message compose mode
     const MODE_REPLY   = 'reply';
@@ -121,6 +122,7 @@ class rcmail_sendmail
         $from          = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST, true, $charset);
         $replyto       = rcube_utils::get_input_value('_replyto', rcube_utils::INPUT_POST, true, $charset);
         $followupto    = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, true, $charset);
+        $from_string   = '';
 
         // Get sender name and address from identity...
         if (is_numeric($from)) {
@@ -177,7 +179,7 @@ class rcmail_sendmail
             'Bcc'              => $mailbcc,
             'Subject'          => trim($subject),
             'Reply-To'         => $this->email_input_format($replyto),
-            'Mail-Reply-To'    => $headers['Reply-To'],
+            'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
             'In-Reply-To'      => $this->data['reply_msgid'],
             'References'       => $this->data['references'],
@@ -233,7 +235,7 @@ class rcmail_sendmail
      * Set charset and transfer encoding on the message
      *
      * @param Mail_mime $message Message object
-     * @param bool      $flowed Enable format=flowed
+     * @param bool      $flowed  Enable format=flowed
      */
     public function set_message_encoding($message, $flowed = false)
     {
@@ -248,7 +250,7 @@ class rcmail_sendmail
         else if (preg_match('/[^\x00-\x7F]/', $message->getTXTBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
         }
-        else if ($message_charset == 'UTF-8') {
+        else if ($this->options['charset'] == 'UTF-8') {
             $text_charset = 'US-ASCII';
         }
 
@@ -287,9 +289,9 @@ class rcmail_sendmail
 
         // Check if we have enough memory to handle the message in it
         // It's faster than using files, so we'll do this if we only can
-        if (is_array($attachments) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
+        if (is_array($attachments)) {
             $memory = 0;
-            foreach ($attachments as $id => $attachment) {
+            foreach ($attachments as $attachment) {
                 $memory += $attachment['size'];
             }
 
@@ -362,19 +364,22 @@ class rcmail_sendmail
     /**
      * Message delivery, and setting Replied/Forwarded flag on success
      *
-     * @param Mail_mime $message Message object
+     * @param Mail_mime $message    Message object
+     * @param bool      $disconnect Close SMTP connection after delivery
      *
      * @return bool True on success, False on failure
      */
-    public function deliver_message($message)
+    public function deliver_message($message, $disconnect = true)
     {
         // Handle Delivery Status Notification request
-        $smtp_opts = array('dsn' => $this->options['dsn_enabled']);
+        $smtp_opts     = array('dsn' => $this->options['dsn_enabled']);
+        $smtp_error    = null;
+        $mailbody_file = null;
 
         $sent = $this->rcmail->deliver_message($message,
             $this->options['from'],
             $this->options['mailto'],
-            $smtp_error, $mailbody_file, $smtp_opts, true
+            $smtp_error, $mailbody_file, $smtp_opts, $disconnect
         );
 
         // return to compose page if sending failed
@@ -435,6 +440,10 @@ class rcmail_sendmail
      */
     public function save_message($message)
     {
+        $store_folder = false;
+        $store_target = null;
+        $saved        = false;
+
         // Determine which folder to save message
         if ($this->options['savedraft']) {
             $store_target = $this->rcmail->config->get('drafts_mbox');
@@ -671,6 +680,15 @@ class rcmail_sendmail
      */
     public function email_input_format($mailto, $count = false, $check = true)
     {
+        // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
+        $charset = $this->options['charset'];
+        if ($charset != RCUBE_CHARSET) {
+            $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
+        }
+        if (preg_match('/ISO-2022/i', $charset)) {
+            $use_base64 = true;
+        }
+
         // simplified email regexp, supporting quoted local part
         $email_regexp = '(\S+|("[^"]+"))@\S+';
 
@@ -702,7 +720,16 @@ class rcmail_sendmail
                 if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
                     $name = substr($name, 1, -1);
                 }
-                $name     = stripcslashes($name);
+
+                // encode "name" field
+                if (!empty($use_base64)) {
+                    $name = rcube_charset::convert($name, RCUBE_CHARSET, $charset);
+                    $name = Mail_mimePart::encodeMB($name, $charset, 'base64');
+                }
+                else {
+                    $name = stripcslashes($name);
+                }
+
                 $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
                 $result[] = format_email_recipient($address, $name);
                 $item     = $address;
@@ -775,7 +802,7 @@ class rcmail_sendmail
             $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
         }
 
-        return join('; ', $parts);
+        return implode('; ', $parts);
     }
 
     /**
@@ -811,8 +838,12 @@ class rcmail_sendmail
     {
         list($form_start,) = $this->form_tags($attrib);
 
-        $out  = '';
-        $part = strtolower($attrib['part']);
+        $out          = '';
+        $part         = strtolower($attrib['part']);
+        $fname        = null;
+        $field_type   = null;
+        $allow_attrib = array();
+        $param        = $part;
 
         switch ($part) {
         case 'from':
@@ -822,7 +853,6 @@ class rcmail_sendmail
         case 'cc':
         case 'bcc':
             $fname  = '_' . $part;
-            $header = $param = $part;
 
             $allow_attrib = array('id', 'class', 'style', 'cols', 'rows', 'tabindex');
             $field_type   = 'html_textarea';
@@ -832,14 +862,12 @@ class rcmail_sendmail
         case 'reply-to':
             $fname  = '_replyto';
             $param  = 'replyto';
-            $header = 'reply-to';
 
         case 'followupto':
         case 'followup-to':
             if (!$fname) {
                 $fname  = '_followupto';
                 $param  = 'followupto';
-                $header = 'mail-followup-to';
             }
 
             $allow_attrib = array('id', 'class', 'style', 'size', 'tabindex');
@@ -1477,8 +1505,9 @@ class rcmail_sendmail
                     break;
                 }
             }
+
             // use replied/forwarded message recipients
-            else if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
+            if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
                 // remember first matching identity address
                 if ($found_idx['to'] === null) {
                     $found_idx['to'] = $idx;
@@ -1494,7 +1523,7 @@ class rcmail_sendmail
         // If matching by name+address didn't find any matches,
         // get first found identity (address) if any
         if ($from_idx === null) {
-            $from_idx = $found_idx['from'] !== null ? $found_idx['from'] : $found_idx['to'];
+            $from_idx = $found_idx['to'] !== null ? $found_idx['to'] : $found_idx['from'];
         }
 
         // Try Return-Path

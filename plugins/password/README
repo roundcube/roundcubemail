@@ -51,6 +51,7 @@
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
+ 2.2.2.  Have I been pwned? (pwned)
  3.      Driver API
  4.      Sudo setup
 
@@ -402,6 +403,21 @@
 
  Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
 
+ 2.2.2. Have I been pwned? (pwned)
+ ---------------------------------
+
+ Driver using "Have I been pwned?" (https://haveibeenpwned.com/Passwords) API to
+ check that entered passwords aren't already compromised (i.e., commonly known).
+ The check is performed locally, the actual password is *not* transmitted anywhere else.
+
+ Requires curl (preferred) or allow_url_fopen to work.
+
+ Example configuration:
+
+ $config['password_strength_driver'] = 'pwned';
+ $config['password_minimum_score'] = 3;
+
+ See the driver implementation file for more documentation.
 
  3. Driver API
  -------------

@@ -371,7 +371,7 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_password_time';
-            $select   = new html_select(array('name' => '_enigma_password_time', 'id' => $field_id));
+            $select   = new html_select(array('name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select'));
 
             foreach (array(1, 5, 10, 15, 30) as $m) {
                 $label = $this->gettext(array('name' => 'nminutes', 'vars' => array('m' => $m)));
@@ -455,7 +455,7 @@ class enigma extends rcube_plugin
 
                 if (count($listing)) {
                     $content .= html::p(null, $this->gettext(array('name' => 'identitymatchingprivkeys', 'vars' => array('nr' => count($listing)))));
-                    $content .= html::tag('ul', 'keylist', join('\n', $listing));
+                    $content .= html::tag('ul', 'keylist', implode("\n", $listing));
                 } else {
                     $content .= html::p(null, $this->gettext('identitynoprivkeys'));
                 }

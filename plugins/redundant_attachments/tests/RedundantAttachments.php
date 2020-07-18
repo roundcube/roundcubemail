@@ -1,6 +1,6 @@
 <?php
 
-class RedundantAttachments_Plugin extends PHPUnit_Framework_TestCase
+class RedundantAttachments_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class RedundantAttachments_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new redundant_attachments($rcube->api);
+        $plugin = new redundant_attachments($rcube->plugins);
 
         $this->assertInstanceOf('redundant_attachments', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

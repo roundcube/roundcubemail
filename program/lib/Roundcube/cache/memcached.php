@@ -24,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache_memcached extends rcube_cache
 {
@@ -104,7 +102,7 @@ class rcube_cache_memcached extends rcube_cache
                     if (!$port) $port = 11211;
                 }
                 else {
-                    $host = substr($host, 8);
+                    $host = substr($host, 7);
                     $port = 0;
                 }
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
 <body class="iframe<roundcube:exp expression="env:task != 'mail' ? '' : ' mail'" />">
@@ -17,10 +16,6 @@
 <div id="footer">
 <div class="footerleft">
 <roundcube:button command="plugin.managesieve-save" type="input" class="button mainaction" label="save" />
-</div>
-<div class="footerright">
-<label for="disabled"><roundcube:label name="managesieve.filterdisabled" /></label>
-<input type="checkbox" id="disabled" name="_disabled" value="1" />
 </div>
 </div>
 <roundcube:endif />

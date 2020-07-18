@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Washtml extends PHPUnit_Framework_TestCase
+class Framework_Washtml extends PHPUnit\Framework\TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml
@@ -19,19 +19,21 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     /**
      * Test the elimination of some XSS vulnerabilities
      */
-    function test_html_xss3()
+    function test_html_xss()
     {
         // #1488850
-        $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+        $html = '<a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>'
-            .'<p><A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+            .'<A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
+            .'<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
         $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
         $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+        $this->assertNotRegExp('/data:application/', $washed, "Remove data:application links");
     }
 
     /**
@@ -211,6 +213,26 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test deprecated body attributes (#7109)
+     */
+    function test_style_body_attrs()
+    {
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body bgcolor=\"#fff\" text=\"#000\" background=\"#test\" link=\"#111\" alink=\"#222\" vlink=\"#333\">
+            </body></html>";
+
+        $washer = new rcube_washtml(array('html_elements' => array('body')));
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|bgcolor="#fff"|', $washed, "Body bgcolor attribute");
+        $this->assertRegExp('|text="#000"|', $washed, "Body text attribute");
+        $this->assertRegExp('|background="#test"|', $washed, "Body background attribute");
+        $this->assertRegExp('|link="#111"|', $washed, "Body link attribute");
+        $this->assertRegExp('|alink="#222"|', $washed, "Body alink attribute");
+        $this->assertRegExp('|vlink="#333"|', $washed, "Body vlink attribute");
+    }
+
+    /**
      * Test style item fixes
      */
     function test_style_wash()
@@ -286,6 +308,44 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
   <animate attributeName="onunload" x-washed="to" />
   <animate attributeName="xlink:href" begin="0" x-washed="from" />
 </svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+    }
+
+    /**
+     * Test SVG cleanup
+     */
+    function test_wash_svg2()
+    {
+        $svg = '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>';
+        $exp = '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>';
+        $exp = '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>';
+        $exp = '<p>Hello victim!<svg /></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+
+        $svg = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
+        $exp = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($svg);
@@ -483,5 +543,18 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $washer->wash($html);
 
         $this->assertContains('First line', $washed);
+    }
+
+    /**
+     * Test CDATA cleanup
+     */
+    function test_cdata()
+    {
+        $html = '<p><![CDATA[<script>alert(document.cookie)</script>]]></p>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, '<script>') === false, "CDATA content");
     }
 }

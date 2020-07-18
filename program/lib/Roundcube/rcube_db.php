@@ -55,6 +55,12 @@ class rcube_db
     const DEBUG_LINE_LENGTH = 4096;
     const DEFAULT_QUOTE     = '`';
 
+    const TYPE_SQL    = 'sql';
+    const TYPE_INT    = 'integer';
+    const TYPE_BOOL   = 'bool';
+    const TYPE_STRING = 'string';
+
+
     /**
      * Factory, returns driver-specific instance of the class
      *
@@ -550,6 +556,47 @@ class rcube_db
     }
 
     /**
+     * INSERT ... ON DUPLICATE KEY UPDATE (or equivalent).
+     * When not supported by the engine we do UPDATE and INSERT.
+     *
+     * @param string $table   Table name
+     * @param array  $keys    Hash array (column => value) of the unique constraint
+     * @param array  $columns List of columns to update
+     * @param array  $values  List of values to update (number of elements
+     *                        should be the same as in $columns)
+     *
+     * @return PDOStatement|bool Query handle or False on error
+     * @todo Multi-insert support
+     */
+    public function insert_or_update($table, $keys, $columns, $values)
+    {
+        $table   = $this->table_name($table, true);
+        $columns = array_map(function($i) { return "`$i`"; }, $columns);
+        $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
+        $where   = $keys;
+
+        array_walk($where, function(&$val, $key) {
+            $val = $this->quote_identifier($key) . " = " . $this->quote($val);
+        });
+
+        // First try UPDATE
+        $result = $this->query("UPDATE $table SET " . implode(", ", $sets)
+            . " WHERE " . implode(" AND ", $where), $values);
+
+        // if UPDATE fails use INSERT
+        if ($result && !$this->affected_rows($result)) {
+            $cols  = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
+            $cols .= ', ' . implode(', ', $columns);
+            $vals  = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+            $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+
+            $result = $this->query("INSERT INTO $table ($cols) VALUES ($vals)", $values);
+        }
+
+        return $result;
+    }
+
+    /**
      * Get number of affected rows for the last query
      *
      * @param mixed $result Optional query handle
@@ -813,6 +860,10 @@ class rcube_db
      */
     public function quote($input, $type = null)
     {
+        if ($input instanceof rcube_db_param) {
+            return (string) $input;
+        }
+
         // handle int directly for better performance
         if ($type == 'integer' || $type == 'int') {
             return intval($input);
@@ -914,7 +965,18 @@ class rcube_db
             $name[] = $start . $elem . $end;
         }
 
-        return implode($name, '.');
+        return implode('.', $name);
+    }
+
+    /**
+     * Create query parameter object
+     *
+     * @param mixed  $value Parameter value
+     * @param string $type  Parameter type (one of rcube_db::TYPE_* constants)
+     */
+    public function param($value, $type = null)
+    {
+        return new rcube_db_param($this, $value, $type);
     }
 
     /**
@@ -1010,7 +1072,7 @@ class rcube_db
             $args = $args[0];
         }
 
-        return '(' . join(' || ', $args) . ')';
+        return '(' . implode(' || ', $args) . ')';
     }
 
     /**
@@ -1184,7 +1246,6 @@ class rcube_db
         }
 
         // Find protocol and hostspec
-
         // $dsn => proto(proto_opts)/database
         if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
             $proto       = $match[1];
@@ -1200,9 +1261,9 @@ class rcube_db
                 && strpos($dsn, '/', 2) !== false
                 && $parsed['phptype'] == 'oci8'
             ) {
-                //oracle's "Easy Connect" syntax:
-                //"username/password@[//]host[:port][/service_name]"
-                //e.g. "scott/tiger@//mymachine:1521/oracle"
+                // Oracle's "Easy Connect" syntax:
+                // "username/password@[//]host[:port][/service_name]"
+                // e.g. "scott/tiger@//mymachine:1521/oracle"
                 $proto_opts = $dsn;
                 $pos = strrpos($proto_opts, '/');
                 $dsn = substr($proto_opts, $pos + 1);
@@ -1230,17 +1291,18 @@ class rcube_db
             $parsed['socket'] = $proto_opts;
         }
 
-        // Get dabase if any
+        // Get database if any
         // $dsn => database
         if ($dsn) {
             // /database
             if (($pos = strpos($dsn, '?')) === false) {
                 $parsed['database'] = rawurldecode($dsn);
-            // /database?param1=value1&param2=value2
             }
             else {
+                // /database?param1=value1&param2=value2
                 $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
                 $dsn = substr($dsn, $pos + 1);
+
                 if (strpos($dsn, '&') !== false) {
                     $opts = explode('&', $dsn);
                 }
@@ -1254,6 +1316,19 @@ class rcube_db
                         $parsed[$key] = rawurldecode($value);
                     }
                 }
+            }
+
+            // remove problematic suffix (#7034)
+            $parsed['database'] = preg_replace('/;.*$/', '', $parsed['database']);
+
+            // Resolve relative path to the sqlite database file
+            // so for example it works with Roundcube Installer
+            if (!empty($parsed['phptype']) && !empty($parsed['database'])
+                && stripos($parsed['phptype'], 'sqlite') === 0
+                && $parsed['database'][0] != '/'
+                && strpos($parsed['database'], ':') === false
+            ) {
+                $parsed['database'] = INSTALL_PATH . $parsed['database'];
             }
         }
 
@@ -1369,8 +1444,8 @@ class rcube_db
         }
 
         $sql = preg_replace_callback(
-            '/((TABLE|TRUNCATE|(?<!ON )UPDATE|INSERT INTO|FROM'
-            . '| ON(?! (DELETE|UPDATE))|REFERENCES|CONSTRAINT|FOREIGN KEY|INDEX)'
+            '/((TABLE|TRUNCATE( TABLE)?|(?<!ON )UPDATE|INSERT INTO|FROM'
+            . '| ON(?! (DELETE|UPDATE))|REFERENCES|CONSTRAINT|FOREIGN KEY|INDEX|UNIQUE( INDEX)?)'
             . '\s+(IF (NOT )?EXISTS )?[`"]*)([^`"\( \r\n]+)/',
             array($this, 'fix_table_names_callback'),
             $sql

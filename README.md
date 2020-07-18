@@ -25,9 +25,6 @@ The code designed to run on a webserver is mainly written in PHP and Javascript.
 It includes a custom framework with an IMAP library derived from [IlohaMail][iloha]
 and requires a set of external libraries (see composer.json and jsdeps.json files).
 
-The current default skin 'Larry' was kindly created by FLINT / Büro für
-Gestaltung, Berne, Switzerland.
-
 
 INSTALLATION
 ------------

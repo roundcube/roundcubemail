@@ -1,36 +1,261 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
+- Upgrade to jQuery 3.5.1 (#7464)
+- Allow array in smtp_host config (#7296)
+- Remove use of ext-iconv
+- Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
+- MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
+- Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)
+- Relaxed domain name validation for extended TLDs support (#5588)
+- Allow opening application/octet-stream attachments according to filename extension (#6821)
+- Added support for INSERT OR REPLACE queries (#6771)
+- Allow skins to define which layout options they support (#7235)
+- Extract RFC2231 attachment name from message headers (#6729, #6783)
+- Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
+- Change folders sorting so shared/other users namespaces are listed last (#5012)
+- Display a warning and do not try to open empty attachments (#7332)
+- Elastic: Dark mode (#6709)
+- Elastic: Minimize forms/colors blink on page load
+- Elastic: Improve mail header "detailed mode" (#7224)
+- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
+- Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
+- Templates: Add support for expressions in object attributes (#7237)
+- Templates: Add support for nested if conditions (#6818)
+- Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Archive: Added options to split archive by year or year+month and folder (#7216)
+- Managesieve: Allow display name with email address in vacation :from field (#6760)
+- Managesieve: Improve UX on custom header input (#7207)
+- Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
+- Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
+- Password: Added 'pwned' password strength driver (#7274)
+- Fix ISO-2022-JP-MS encoding issues (#7091)
+- Fix so messages in threads with no root aren't displayed separately (#4999)
+- Fix so anchor tags without href attribute are not modified (#7413)
+- Fix support for an error as a string in message_before_send hook (#7475)
+
+RELEASE 1.4.7
+-------------
+- Fix bug where subfolders of special folders could have been duplicated on folder list
+- Increase maximum size of contact jobtitle and department fields to 128 characters
+- Fix missing newline after the logged line when writing to stdout (#7418)
+- Elastic: Fix context menu (paste) on the recipient input (#7431)
+- Fix problem with forwarding inline images attached to messages with no HTML part (#7414)
+- Fix problem with handling attached images with same name when using database_attachments/redundant_attachments (#7455)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace [CVE-2020-15562]
+
+RELEASE 1.4.6
+-------------
+- Installer: Fix regression in SMTP test section (#7417)
+
+RELEASE 1.4.5
+-------------
+- Fix bug in extracting required plugins from composer.json that led to spurious error in log (#7364)
+- Fix so the database setup description is compatible with MySQL 8 (#7340)
+- Markasjunk: Fix regression in jsevent driver (#7361)
+- Fix missing flag indication on collapsed thread in Larry and Elastic (#7366)
+- Fix default keyservers (use keys.openpgp.org), add note about CORS (#7373, #7367)
+- Password: Fix issue with Modoboa driver (#7372)
+- Mailvelope: Use sender's address to find pubkeys to check signatures (#7348)
+- Mailvelope: Fix Encrypt button hidden in Elastic (#7353)
+- Fix PHP warning: count(): Parameter must be an array or an object... in ID command handler (#7392)
+- Fix error when user-configured skin does not exist anymore (#7271)
+- Elastic: Fix aspect ratio of a contact photo in mail preview (#7339)
+- Fix bug where PDF attachments marked as inline could have not been attached on mail forward (#7382)
+- Security: Fix a couple of XSS issues in Installer (#7406)
+- Security: Fix XSS issue in template object 'username' (#7406)
+- Security: Better fix for CVE-2020-12641
+- Security: Fix cross-site scripting (XSS) via malicious XML attachment
+
+RELEASE 1.4.4
+-------------
+- Fix bug where attachments with Content-Id were attached to the message on reply (#7122)
+- Fix identity selection on reply when both sender and recipient addresses are included in identities (#7211)
+- Elastic: Fix text selection with Shift+PageUp and Shift+PageDown in plain text editor when using Chrome (#7230)
+- Elastic: Fix recipient input bug when using click to select a contact from autocomplete list (#7231)
+- Elastic: Fix color of a folder with recent messages (#7281)
+- Elastic: Restrict logo size in print view (#7275)
+- Fix invalid Content-Type for messages with only html part and inline images - Mail_Mime-1.10.7 (#7261)
+- Fix missing contact display name in QR Code data (#7257)
+- Fix so button label in Select image/media dialogs is "Close" not "Cancel" (#7246)
+- Fix regression in testing database schema on MSSQL (#7227)
+- Fix cursor position after inserting a group to a recipient input using autocompletion (#7267)
+- Fix string literals handling in IMAP STATUS (and various other) responses (#7290)
+- Fix bug where multiple images in a message were replaced by the first one on forward/reply/edit (#7293)
+- Fix handling keyservers configured with protocol prefix (#7295)
+- Markasjunk: Fix marking as spam/ham on moving messages with Move menu (#7189)
+- Markasjunk: Fix bug where moving to Junk was failing on messages selected with Select > All (#7206)
+- Fix so imap error message is displayed to the user on folder create/update (#7245)
+- Fix bug where a special folder couldn't be created if a special-use flag is not supported (#7147)
+- Mailvelope: Fix bug where recipients with name were not handled properly in mail compose (#7312)
+- Fix characters encoding in group rename input after group creation/rename (#7330)
+- Fix bug where some message/rfc822 parts could not be attached on forward (#7323)
+- Make install-jsdeps.sh script working without the 'file' program installed (#7325)
+- Fix performance issue of parsing big HTML messages by disabling HTML5 parser for these (#7331)
+- Fix so Print button for PDF attachments works on Firefox >= 75 (#5125)
+- Security: Fix XSS issue in handling of CDATA in HTML messages [CVE-2020-12625]
+- Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings [CVE-2020-12641]
+- Security: Fix local file inclusion (and code execution) via crafted 'plugins' option [CVE-2020-12640]
+- Security: Fix CSRF bypass that could be used to log out an authenticated user [CVE-2020-12626] (#7302)
+
+RELEASE 1.4.3
+-------------
+- Enigma: Fix so key list selection is reset when opening key creation form (#7154)
+- Enigma: Fix so using list checkbox selection does not load the key preview frame
+- Enigma: Fix generation of key pairs for identities with IDN domains (#7181)
+- Enigma: Display IDN domains of key users and identities in UTF8
+- Enigma: Fix bug where "Send unencrypted" button didn't work in Elastic skin (#7205)
+- Managesieve: Fix bug where it wasn't possible to save flag actions (#7188)
+- Markasjunk: Fix bug where marking as spam/ham didn't work on moving messages with drag-and-drop (#7137)
+- Password: Make chpass-wrapper.py Python 3 compatible (#7135)
+- Elastic: Fix disappearing sidebar in mail compose after clicking Mail button
+- Elastic: Fix incorrect aria-disabled attribute on Mail taskmenu button in mail compose
+- Elastic: Fix bug where it was possible to switch editor mode when 'htmleditor' was in 'dont_override' (#7143)
+- Elastic: Fix text selection in recipient inputs (#7129)
+- Elastic: Fix missing Close button in "more recipients" dialog
+- Elastic: Fix non-working folder subscription checkbox for newly added folders (#7174)
+- Fix regression where "Open in new window" action didn't work (#7155)
+- Fix PHP Warning: array_filter() expects parameter 1 to be array, null given in subscriptions_option plugin (#7165)
+- Fix unexpected error message when mail refresh involves folder auto-unsubscribe (#6923)
+- Fix recipient duplicates in print-view when the recipient list has been expanded (#7169)
+- Fix bug where files in skins/ directory were listed on skins list (#7180)
+- Fix bug where message parts with no Content-Disposition header and no name were not listed on attachments list (#7117)
+- Fix display issues with mail subject that contains line-breaks (#7191)
+- Fix invalid Content-Transfer-Encoding on multipart messages - Mail_Mime fix (#7170)
+- Fix regression where using an absolute path to SQLite database file on Windows didn't work (#7196)
+- Fix using unix:///path/to/socket.file in memcached driver (#7210)
+
+RELEASE 1.4.2
+-------------
+- Add support for PHPUnit 6 and 7 (#6870)
+- Plugin API: Make actionbefore, before<action>, actionafter and after<action> events working with plugin actions (#7106)
+- Managesieve: Replace "Filter disabled" with "Filter enabled" (#7028)
+- Managesieve: Fix so modifier type select wasn't hidden after hiding modifier select on header change
+- Managesieve: Fix filter selection after removing a first filter (#7079)
+- Markasjunk: Fix marking more than one message as spam/ham with email_learn driver (#7121)
+- Password: Fix kpasswd and smb drivers' double-escaping bug (#7092)
+- Enigma: Add script to import keys from filesystem to the db storage (for multihost)
+- Installer: Fix DB Write test on SQLite database ("database is locked" error) (#7064)
+- Installer: Fix so SQLite DSN with a relative path to the database file works in Installer
+- Elastic: Fix contrast of warning toasts (#7058)
+- Elastic: Simple search in pretty selects (#7072)
+- Elastic: Fix hidden list widget on mobile/tablet when selecting folder while search menu is open (#7120)
+- Fix so type attribute on script tags is not used on HTML5 pages (#6975)
+- Fix unread count after purge on a folder that is not currently selected (#7051)
+- Fix bug where Enter key didn't work on messages list in "List" layout (#7052)
+- Fix bug where deleting a saved search in addressbook caused display issue on sources/groups list (#7061)
+- Fix bug where a new saved search added after removing all searches wasn't added to the list (#7061)
+- Fix bug where a new contact group added after removing all groups from addressbook wasn't added to the list
+- Fix bug where Ctype extension wasn't required in Installer and INSTALL file (#7049)
+- Fix so install-jsdeps.sh removes Bootstrap's sourceMappingURL (#7035)
+- Fix so use of Ctrl+A does not scroll the list (#7020)
+- Fix/remove useless keyup event handler on username input in logon form (#6970)
+- Fix bug where cancelling switching from HTML to plain text didn't set the flag properly (#7077)
+- Fix bug where HTML reply could add an empty line with extra indentation above the original message (#7088)
+- Fix matching multiple X-Forwarded-For addresses with 'proxy_whitelist' (#7107)
+- Fix so displayed maximum attachment size depends also on 'max_message_size' (#7105)
+- Fix bug where 'skins_allowed' option didn't enforce user skin preference (#7080)
+- Fix so contact's organization field accepts up to 128 characters (it was 50)
+- Fix bug where listing tables in PostgreSQL database with db_prefix didn't work (#7093)
+- Fix bug where 'text' attribute on body tag was ignored when displaying HTML message (#7109)
+- Fix bug where next message wasn't displayed after delete in List mode (#7096)
+- Fix so number of contacts in a group is not limited to 200 when redirecting to mail composer from Contacts (#6972)
+- Fix malformed characters in HTML message with charset meta tag not in head (#7116)
+
+RELEASE 1.4.1
+-------------
+- Elastic: Change HTML editor widget to improve form flow (#6992)
+- Elastic: Fix position of mobile floating action button (#7038)
+- Managesieve: Fix locked UI after opening filter frame (#7007)
+- Fix PHP warning: "array_merge(): Expected parameter 2 to be an array, null given in sendmail.inc (#7003)
+- Fix bug where cache keys could exceed length limit specified in db schema (#7004)
+- Fix invalid Signature button state after escaping Mailvelope mode (#7015)
+- Fix so 401 error is returned only on failed logon requests (#7010)
+- Fix db_prefix handling in queries with `TRUNCATE TABLE <name>` and `UNIQUE <name>` (#7013)
+- Fix so update.sh script warns about changed defaults (#7011)
+- Fix tables listing routine when DSN contained a database with unsupported suffix (#7034)
+- Fix so Elastic is also a default in jqueryui plugin (#7039)
+- Fix bug where the Installer would not warn about required schema upgrade (#7042)
+
+RELEASE 1.4.0
+-------------
+- Elastic: Resizeable columns (#6929)
+- Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
+- Elastic: Fix initial focus on recipients input in mail compose screen
+- Elastic: Fix inserting responses at cursor position (#6971)
+- Elastic: Fix unread filter icon and search state on folder change (#6978)
+- Elastic: Fix regression where Encrypt button wasn't displayed in mail compose toolbar (#6982)
+- Elastic: Fix regression where recipient input didn't update internal input state (#6988)
+- Enigma: Fix bug where signing option was set to disabled after saving a draft in Elastic skin (#6515)
+- Redis: Improve error handling and phpredis 5.X support (#6888)
+- Archive: Fix bug where next email was not displayed after Archive button use (#6965)
+- Archive: Fix missing Archive icon in folder selector popup in Elastic
+- Fix bug where cache keys were not case-sensitive on MySQL/MSSQL (#6942)
+- Fix so an error is logged when encryption fails (#6948)
+- Fix bug where inline images could have been ignored if Content-Id header contained redundant spaces (#6980)
+- Fix and document skin_logo setup (#6981)
+
+RELEASE 1.4-rc2
+---------------
 - Update to jQuery 3.4.1
 - Clarified 'address_book_type' option behavior (#6680)
 - Added cookie mismatch detection, display an error message informing the user to clear cookies
 - Renamed 'log_session' option to 'session_debug'
+- Removed 'delete_always' option (#6782)
 - Don't log full session identifiers in userlogins log (#6625)
 - Support $HasAttachment/$HasNoAttachment keywords (#6201)
 - Support PECL memcached extension as a session and cache storage driver (experimental)
+- Switch to IDNA2008 variant (#6806)
 - installto.sh: Add possibility to run the update even on the up-to-date installation (#6533)
+- Plugin API: Add 'render_folder_selector' hook
+- Added 'keyservers' option to define list of HKP servers for Enigma/Mailvelope (#6326)
+- Added flag to disable server certificate validation via Mysql DSN argument (#6848)
+- Select all records on the current list page with CTRL + A (#6813)
+- Use Left/Right Arrow keys to faster move over threaded messages list (#6399)
+- Changes in `display_next` setting (#6795):
+    - Move it to Preferences > User Interface > Main Options
+    - Make it apply to Contacts interface too
+    - Make it apply only if deleting/moving a previewed message/contact
 - Redis: Support connection to unix socket
+- Put charset meta specification before a title tag, add page title automatically (#6811)
+- Elastic: Various internal refactorings
 - Elastic: Add Prev/Next buttons on message page toolbar (#6648)
 - Elastic: Close search options on Enter key press in quick-search input (#6660)
+- Elastic: Changed some icons (#6852)
 - Elastic: Changed read/unread icons (#6636)
 - Elastic: Changed "Move to..." icon (#6637)
 - Elastic: Add hide/show for advanced preferences (#6632)
+- Elastic: Add default icon on Settings/Preferences lists for external plugins (#6814)
+- Elastic: Add indicator for popover menu items that open a submenu (#6868)
+- Elastic: Move compose attachments/options to the right side (#6839)
+- Elastic: Add border/background to attachments list widget (#6842)
+- Elastic: Add "Show unread messages" button to the search bar (#6587)
 - Elastic: Fix bug where toolbar disappears on attachment menu use in Chrome (#6677)
 - Elastic: Fix folders list scrolling on touch devices (#6706)
 - Elastic: Fix non-working pretty selects in Chrome browser (#6705)
-- Elastic: Various internal refactorings
 - Elastic: Fix issue with absolute positioned mail content (#6739)
 - Elastic: Fix bug where some menu actions could cause a browser popup warning
 - Elastic: Fix handling mailto: URL parameters in contact menu (#6751)
 - Elastic: Fix keyboard navigation in some menus, e.g. the contact menu
+- Elastic: Fix visual issue with long buttons in .boxwarning (#6797)
+- Elastic: Fix handling new-line in text pasted to a recipient input
+- Elastic: Fix so search is not reset when returning from the message preview page (#6847)
 - Larry: Fix regression where menu actions didn't work with keyboard (#6740)
+- ACL: Display user/group names (from ldap) instead of acl identifier
 - Password: Added ldap_exop driver (#4992)
+- Password: Added support for SSHA512 password algorithm (#6805)
 - Managesieve: Fix bug where global includes were requested for vacation (#6716)
 - Managesieve: Use RFC-compliant line endings, CRLF instead of LF (#6686)
 - Managesieve: Fix so "Create filter" option does not show up when Filters menu is disabled (#6723)
+- Enigma: For verified signatures, display the user id associated with the sender address (#5958)
 - Enigma: Fix bug where revoked users/keys were not greyed out in key info
 - Enigma: Fix error message when trying to encrypt with a revoked key (#6607)
 - Enigma: Fix "decryption oracle" bug [CVE-2019-10740] (#6638)
+- Enigma: Fix bug where signature verification could have been skipped for some message structures (#6838)
+- Fix language selection for spellchecker in html mode (#6915)
+- Fix css styles leak from replied/forwarded message to the rest of the composed text (#6831)
 - Fix invalid path to "add contact" icon when using assets_path setting
 - Fix invalid path to blocked.gif when using assets_path setting (#6752)
 - Fix so advanced search dialog is not automatically displayed on searchonly addressbooks (#6679)
@@ -48,6 +273,17 @@ CHANGELOG Roundcube Webmail
 - Fix bug in parsing vCard data using PHP 7.3 due to an invalid regexp (#6744)
 - Fix bug where bold/strong text was converted to upper-case on html-to-text conversion (6758)
 - Fix bug in rcube_utils::parse_hosts() where %t, %d, %z could return only tld (#6746)
+- Fix bug where Next/Prev button in mail view didn't work with multi-folder search result (#6793)
+- Fix bug where selection of columns on messages list wasn't working
+- Fix bug in converting multi-page Tiff images to Jpeg (#6824)
+- Fix bug where handling multiple messages from multi-folder search result could not work (#6845)
+- Fix bug where unread count wasn't updated after moving multi-folder result (#6846)
+- Fix wrong messages order after returning to a multi-folder search result (#6836)
+- Fix some PHP 7.4 compat. issues (#6884, #6866)
+- Fix bug where it was possible to bypass the position:fixed CSS check in received messages (#6898)
+- Fix bug where some strict remote URIs in url() style were unintentionally blocked (#6899)
+- Fix bug where it was possible to bypass the CSS jail in HTML messages using :root pseudo-class (#6897)
+- Fix bug where it was possible to bypass href URI check with data:application/xhtml+xml URIs (#6896)
 
 RELEASE 1.4-rc1
 ---------------

@@ -6,7 +6,7 @@ $config['jquery_ui_i18n'] = array('datepicker');
 // map Roundcube skins with jquery-ui themes here
 $config['jquery_ui_skin_map'] = array(
   'larry' => 'larry',
-  'default' => 'larry',
+  'default' => 'elastic',
 );
 
 ?>

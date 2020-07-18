@@ -42,40 +42,6 @@
  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- OVERVIEW:
-
- Wahstml take an untrusted HTML and return a safe html string.
-
- SYNOPSIS:
-
- $washer = new washtml($config);
- $washer->wash($html);
- It return a sanityzed string of the $html parameter without html and head tags.
- $html is a string containing the html code to wash.
- $config is an array containing options:
-   $config['allow_remote'] is a boolean to allow link to remote resources (images/css).
-   $config['blocked_src'] string with image-src to be used for blocked remote images
-   $config['show_washed'] is a boolean to include washed out attributes as x-washed
-   $config['cid_map'] is an array where cid urls index urls to replace them.
-   $config['charset'] is a string containing the charset of the HTML document if it is not defined in it.
- $washer->extlinks is a reference to a boolean that is set to true if remote images were removed. (FE: show remote images link)
-
- INTERNALS:
-
- Only tags and attributes in the static lists $html_elements and $html_attributes
- are kept, inline styles are also filtered: all style identifiers matching
- /[a-z\-]/i are allowed. Values matching colors, sizes, /[a-z\-]/i and safe
- urls if allowed and cid urls if mapped are kept.
-
- Roundcube Changes:
- - added $block_elements
- - changed $ignore_elements behaviour
- - added RFC2397 support
- - base URL support
- - invalid HTML comments removal before parsing
- - "fixing" unitless CSS values for XHTML output
- - SVG and MathML support
 */
 
 /**
@@ -86,7 +52,9 @@
  */
 class rcube_washtml
 {
-    /* Allowed HTML elements (default) */
+    /**
+     * @var array Allowed HTML elements (default)
+     */
     static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b',
         'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center',
         'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl',
@@ -121,10 +89,14 @@ class rcube_washtml
         'bvar', 'lowlimit', 'uplimit',
     );
 
-    /* Ignore these HTML tags and their content */
+    /**
+     * @var array Ignore these HTML tags and their content
+     */
     static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
 
-    /* Allowed HTML attributes */
+    /**
+     * @var array Allowed HTML attributes
+     */
     static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height',
         'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing',
         'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight',
@@ -173,7 +145,9 @@ class rcube_washtml
         'fontsize', 'fontweight', 'fontstyle', 'fontfamily', 'groupalign', 'edge', 'side',
     );
 
-    /* Elements which could be empty and be returned in short form (<tag />) */
+    /**
+     * @var array Elements which could be empty and be returned in short form (<tag />)
+     */
     static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
         // MathML
@@ -181,38 +155,57 @@ class rcube_washtml
         'maligngroup', 'none', 'mprescripts',
     );
 
-    /* State for linked objects in HTML */
+    /**
+     * @var array Additional allowed attributes of body element
+     */
+    static $body_attribs = array('alink', 'background', 'bgcolor', 'link', 'text', 'vlink');
+
+    /** @var bool State indicating existence of linked objects in HTML */
     public $extlinks = false;
 
-    /* Current settings */
+    /** @var array Current settings */
     private $config = array();
 
-    /* Registered callback functions for tags */
+    /** @var array Registered callback functions for tags */
     private $handlers = array();
 
-    /* Allowed HTML elements */
+    /** @var array Allowed HTML elements */
     private $_html_elements = array();
 
-    /* Ignore these HTML tags but process their content */
+    /** @var array Ignore these HTML tags but process their content */
     private $_ignore_elements = array();
 
-    /* Elements which could be empty and be returned in short form (<tag />) */
+    /** @var array Elements which could be empty and be returned in short form (<tag />) */
     private $_void_elements = array();
 
-    /* Allowed HTML attributes */
+    /** @var array Allowed HTML attributes */
     private $_html_attribs = array();
 
-    /* A prefix to be added to id/class/for attribute values */
+    /** @var string A prefix to be added to id/class/for attribute values */
     private $_css_prefix;
 
-    /* Max nesting level */
+    /** @var int Max nesting level */
     private $max_nesting_level;
 
+    /** @var bool True if current document is XML */
     private $is_xml = false;
 
 
     /**
      * Class constructor
+     *
+     * @param array $p Configuration options:
+     *         allow_remote: is a boolean to allow link to remote resources (images/css)
+     *         blocked_src: string with image-src to be used for blocked remote images
+     *         show_washed: is a boolean to include washed out attributes as x-washed
+     *         cid_map: is an array where cid urls index urls to replace them
+     *         charset: is a string containing the charset of the HTML document,
+     *                  to be used if the charset is not defined in the document
+     *         css_prefix: A prefix to be added to id/class/for attribute values
+     *         html_elements: Additional allowed HTML elements
+     *         ignore_elements: Additional HTML elements to ignore
+     *         html_attribs: Additional allowed HTML attributes
+     *         void_elements: Elements which could be empty and be returned in short form (<tag />)
      */
     public function __construct($p = array())
     {
@@ -222,21 +215,28 @@ class rcube_washtml
         $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
         $this->_css_prefix      = is_string($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
 
-        unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
+        unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements'], $p['css_prefix']);
 
         $this->config = $p + array('show_washed' => true, 'allow_remote' => false, 'cid_map' => array());
     }
 
     /**
      * Register a callback function for a certain tag
+     *
+     * @param string   $tag      HTML tag name
+     * @param callback $callback Callback function
      */
-    public function add_callback($tagName, $callback)
+    public function add_callback($tag, $callback)
     {
-        $this->handlers[$tagName] = $callback;
+        $this->handlers[$tag] = $callback;
     }
 
     /**
      * Check CSS style
+     *
+     * @param string $style CSS style
+     *
+     * @return string Washed CSS style
      */
     private function wash_style($style)
     {
@@ -291,11 +291,20 @@ class rcube_washtml
 
     /**
      * Take a node and return allowed attributes and check values
+     *
+     * @param DOMNode $node Document element
+     *
+     * @return string Washed element attributes
      */
     private function wash_attribs($node)
     {
         $result = '';
         $washed = array();
+        $additional_attribs = array();
+
+        if ($node->nodeName == 'body') {
+            $additional_attribs = self::$body_attribs;
+        }
 
         foreach ($node->attributes as $name => $attr) {
             $key   = strtolower($name);
@@ -305,7 +314,7 @@ class rcube_washtml
                 // replace double quotes to prevent syntax error and XSS issues (#1490227)
                 $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if (isset($this->_html_attribs[$key])) {
+            else if (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
                 $value = trim($value);
                 $out   = null;
 
@@ -321,7 +330,7 @@ class rcube_washtml
                     $out = $this->wash_uri($value, true);
                 }
                 else if ($this->is_link_attribute($node->nodeName, $key)) {
-                    if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
+                    if (!preg_match('!^(javascript|vbscript|data:)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
                         $out = $value;
@@ -373,6 +382,12 @@ class rcube_washtml
 
     /**
      * Wash URI value
+     *
+     * @param string $uri            URI
+     * @param bool   $blocked_source Block remote source
+     * @param bool   $is_image       URI points to an image
+     *
+     * @return string Washed URI
      */
     private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
@@ -404,6 +419,11 @@ class rcube_washtml
 
     /**
      * Check it the tag/attribute may contain an URI
+     *
+     * @param string $tag  Element name
+     * @param string $attr Attribute name
+     *
+     * @return bool True if attribute may contain an URI, False otherwise
      */
     private function is_link_attribute($tag, $attr)
     {
@@ -412,6 +432,11 @@ class rcube_washtml
 
     /**
      * Check it the tag/attribute may contain an image URI
+     *
+     * @param string $tag  Element name
+     * @param string $attr Attribute name
+     *
+     * @return bool True if attribute may contain an image URI, False otherwise
      */
     private function is_image_attribute($tag, $attr)
     {
@@ -424,6 +449,11 @@ class rcube_washtml
 
     /**
      * Check it the tag/attribute may contain a FUNCIRI value
+     *
+     * @param string $tag  Element name
+     * @param string $attr Attribute name
+     *
+     * @return bool True if attribute may contain a FUNCIRI value, False otherwise
      */
     private function is_funciri_attribute($tag, $attr)
     {
@@ -437,6 +467,8 @@ class rcube_washtml
      *
      * @param DOMNode $node  HTML element
      * @param int     $level Recurrence level (safe initial value found empirically)
+     *
+     * @return string HTML content
      */
     private function dumpHtml($node, $level = 20)
     {
@@ -455,6 +487,7 @@ class rcube_washtml
                     'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"),
                     true, false);
             }
+
             return '<!-- ignored -->';
         }
 
@@ -488,7 +521,10 @@ class rcube_washtml
                         $xpath = new DOMXPath($node->ownerDocument);
                         foreach ($xpath->query('namespace::*') as $ns) {
                             if ($ns->nodeName != 'xmlns:xml') {
-                                $dump .= ' ' . $ns->nodeName . '="' . $ns->nodeValue . '"';
+                                $dump .= sprintf(' %s="%s"',
+                                    $ns->nodeName,
+                                    htmlspecialchars($ns->nodeValue, ENT_QUOTES, $this->config['charset'])
+                                );
                             }
                         }
                     }
@@ -515,9 +551,6 @@ class rcube_washtml
                 break;
 
             case XML_CDATA_SECTION_NODE:
-                $dump .= $node->nodeValue;
-                break;
-
             case XML_TEXT_NODE:
                 $dump .= htmlspecialchars($node->nodeValue, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->config['charset']);
                 break;
@@ -535,6 +568,10 @@ class rcube_washtml
     /**
      * Main function, give it untrusted HTML, tell it if you allow loading
      * remote images and give it a map to convert "cid:" urls.
+     *
+     * @param string $html HTML content
+     *
+     * @return string Washed HTML content
      */
     public function wash($html)
     {
@@ -554,11 +591,15 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // SVG need to be parsed as XML
-        $this->is_xml = stripos($html, '<html') === false && stripos($html, '<svg') !== false;
+        $this->is_xml = !preg_match('/<(html|head|body)/i', $html) && stripos($html, '<svg') !== false;
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
-        if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
+        if (!$this->is_xml && class_exists('Masterminds\HTML5')
+            // HTML5 parser is slow with content that contains a lot of tags
+            // disable it for such cases (https://github.com/Masterminds/html5-php/issues/181)
+            && substr_count($html, '<') < 10000
+        ) {
             try {
                 $html5 = new Masterminds\HTML5();
                 $node  = $html5->loadHTML($this->fix_html5($html));
@@ -579,6 +620,10 @@ class rcube_washtml
 
     /**
      * Getter for config parameters
+     *
+     * @param string $prop Configuration parameter name
+     *
+     * @return mixed Configuration parameter value
      */
     public function get_config($prop)
     {
@@ -587,6 +632,10 @@ class rcube_washtml
 
     /**
      * Clean HTML input
+     *
+     * @param string $html HTML content
+     *
+     * @return string Clean HTML content
      */
     private function cleanup($html)
     {
@@ -667,6 +716,10 @@ class rcube_washtml
 
     /**
      * Callback function for HTML tags fixing
+     *
+     * @param array $matches Matched elements (from preg_replace_callback())
+     *
+     * @return string Replacement string
      */
     public static function html_tag_callback($matches)
     {
@@ -692,6 +745,10 @@ class rcube_washtml
 
     /**
      * Convert all relative URLs according to a <base> in HTML
+     *
+     * @param string $body HTML body
+     *
+     * @return string HTML body
      */
     public static function resolve_base($body)
     {
@@ -706,6 +763,8 @@ class rcube_washtml
 
     /**
      * Fix broken nested lists, they are not handled properly by DOMDocument (#1488768)
+     *
+     * @param string &$html HTML content
      */
     public static function fix_broken_lists(&$html)
     {
@@ -735,8 +794,8 @@ class rcube_washtml
                     // li close tag
                     else if ($tt == '</li' && in_array($html[$p+4], array(' ', '>'))) {
                         $li_pos = $p;
+                        $in_li  = false;
                         $p += 4;
-                        $in_li = false;
                     }
                     // ul/ol closing tag
                     else if ($tt == '</' . $tag && in_array($html[$p+4], array(' ', '>'))) {
@@ -764,8 +823,8 @@ class rcube_washtml
                         $element = substr($html, $p, $len);
 
                         // move element to the end of the last li
-                        $html    = substr_replace($html, '', $p, $len);
-                        $html    = substr_replace($html, $element, $li_pos, 0);
+                        $html = substr_replace($html, '', $p, $len);
+                        $html = substr_replace($html, $element, $li_pos, 0);
 
                         $p = $end;
                     }
@@ -779,6 +838,10 @@ class rcube_washtml
 
     /**
      * Cleanup and workarounds on input to Masterminds/HTML5
+     *
+     * @param string $html HTML content
+     *
+     * @return string HTML content
      */
     protected function fix_html5($html)
     {
@@ -812,6 +875,10 @@ class rcube_washtml
 
     /**
      * Explode css style value
+     *
+     * @param string $style CSS style
+     *
+     * @return array List of CSS rules
      */
     protected function explode_style($style)
     {

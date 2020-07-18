@@ -1,6 +1,6 @@
 <?php
 
-class Parser extends PHPUnit_Framework_TestCase
+class Parser extends PHPUnit\Framework\TestCase
 {
 
     function setUp()

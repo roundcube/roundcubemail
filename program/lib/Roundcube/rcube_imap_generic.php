@@ -144,7 +144,7 @@ class rcube_imap_generic
         $res = 0;
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i=0, $cnt=count($parts); $i<$cnt; $i++) {
-                if (preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
+                if ($i+1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
                     // LITERAL+ support
                     if ($this->prefs['literal+']) {
                         $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
@@ -216,6 +216,38 @@ class rcube_imap_generic
             $line .= $buffer;
         }
         while (substr($buffer, -1) != "\n");
+
+        return $line;
+    }
+
+    /**
+     * Reads a line of data from the connection stream inluding all
+     * string continuation literals.
+     *
+     * @param int $size Buffer size
+     *
+     * @return string Line of text response
+     */
+    protected function readFullLine($size = 1024)
+    {
+        $line = $this->readLine($size);
+
+        // include all string literels untile the real end of "line"
+        while (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
+            $bytes = $m[1];
+            $out   = '';
+
+            while (strlen($out) < $bytes) {
+                $out = $this->readBytes($bytes);
+                if ($out === null) {
+                    break;
+                }
+
+                $line .= $out;
+            }
+
+            $line .= $this->readLine($size);
+        }
 
         return $line;
     }
@@ -299,7 +331,7 @@ class rcube_imap_generic
         while ($line[0] == '*');
 
         if ($untagged) {
-            $untagged = join("\n", $untagged);
+            $untagged = implode("\n", $untagged);
         }
 
         return $line;
@@ -940,7 +972,7 @@ class rcube_imap_generic
 
         // Connected and authenticated
         if (is_resource($result)) {
-            if ($this->prefs['force_caps']) {
+            if (!empty($this->prefs['force_caps'])) {
                 $this->clearCapability();
             }
             $this->logged = true;
@@ -971,11 +1003,11 @@ class rcube_imap_generic
         }
 
         // check for SSL
-        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
+        if (!empty($this->prefs['ssl_mode']) && $this->prefs['ssl_mode'] != 'tls') {
             $host = $this->prefs['ssl_mode'] . '://' . $host;
         }
 
-        if ($this->prefs['timeout'] <= 0) {
+        if (empty($this->prefs['timeout']) || $this->prefs['timeout'] < 0) {
             $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
         }
 
@@ -1505,6 +1537,7 @@ class rcube_imap_generic
             $mailbox = '*';
         }
 
+        $lstatus = false;
         $args = array();
         $rets = array();
 
@@ -1525,7 +1558,7 @@ class rcube_imap_generic
 
         if (!empty($return_opts) && $this->getCapability('LIST-STATUS')) {
             $lstatus     = true;
-            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN');
+            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN', 'SIZE');
             $opts        = array_diff($return_opts, $status_opts);
             $status_opts = array_diff($return_opts, $opts);
 
@@ -1710,7 +1743,7 @@ class rcube_imap_generic
      *
      * @param array $items Client identification information key/value hash
      *
-     * @return array Server identification information key/value hash
+     * @return array|false Server identification information key/value hash, False on error
      * @since 0.6
      */
     public function id($items = array())
@@ -1729,10 +1762,12 @@ class rcube_imap_generic
         if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 5); // remove prefix "* ID "
             $items    = $this->tokenizeResponse($response, 1);
-            $result   = null;
+            $result   = array();
 
-            for ($i=0, $len=count($items); $i<$len; $i += 2) {
-                $result[$items[$i]] = $items[$i+1];
+            if (is_array($items)) {
+                for ($i=0, $len=count($items); $i<$len; $i += 2) {
+                    $result[$items[$i]] = $items[$i+1];
+                }
             }
 
             return $result;
@@ -2397,7 +2432,7 @@ class rcube_imap_generic
         }
 
         do {
-            $line = $this->readLine(4096);
+            $line = $this->readFullLine(4096);
 
             if (!$line) {
                 break;
@@ -2420,27 +2455,6 @@ class rcube_imap_generic
                 $lines   = array();
                 $line    = substr($line, strlen($m[0]) + 2);
                 $ln      = 0;
-
-                // get complete entry
-                while (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
-                    $bytes = $m[1];
-                    $out   = '';
-
-                    while (strlen($out) < $bytes) {
-                        $out = $this->readBytes($bytes);
-                        if ($out === null) {
-                            break;
-                        }
-                        $line .= $out;
-                    }
-
-                    $str = $this->readLine(4096);
-                    if ($str === false) {
-                        break;
-                    }
-
-                    $line .= $str;
-                }
 
                 // Tokenize response and assign to object properties
                 while (list($name, $value) = $this->tokenizeResponse($line, 2)) {
@@ -2653,22 +2667,18 @@ class rcube_imap_generic
      */
     public static function sortHeaders($messages, $field, $flag)
     {
-        // Strategy: First, we'll create an "index" array.
-        // Then, we'll use sort() on that array, and use that to sort the main array.
-
-        $field  = empty($field) ? 'uid' : strtolower($field);
-        $flag   = empty($flag) ? 'ASC' : strtoupper($flag);
-        $index  = array();
-        $result = array();
+        $field = empty($field) ? 'uid' : strtolower($field);
+        $order = empty($flag) ? 'ASC' : strtoupper($flag);
+        $index = array();
 
         reset($messages);
 
+        // Create an index
         foreach ($messages as $key => $headers) {
-            $value = null;
-
             switch ($field) {
             case 'arrival':
                 $field = 'internaldate';
+                // no-break
             case 'date':
             case 'internaldate':
             case 'timestamp':
@@ -2684,33 +2694,26 @@ class rcube_imap_generic
                 $value = $headers->$field;
                 if (is_string($value)) {
                     $value = str_replace('"', '', $value);
+
                     if ($field == 'subject') {
                         $value = preg_replace('/^(Re:\s*|Fwd:\s*|Fw:\s*)+/i', '', $value);
                     }
-
-                    $data = strtoupper($value);
                 }
             }
 
             $index[$key] = $value;
         }
 
-        if (!empty($index)) {
-            // sort index
-            if ($flag == 'ASC') {
-                asort($index);
-            }
-            else {
-                arsort($index);
-            }
+        $sort_order = $flag == 'ASC' ? SORT_ASC : SORT_DESC;
+        $sort_flags = SORT_STRING | SORT_FLAG_CASE;
 
-            // form new array based on index
-            foreach ($index as $key => $val) {
-                $result[$key] = $messages[$key];
-            }
+        if (in_array($field, array('arrival', 'date', 'internaldate', 'timestamp'))) {
+            $sort_flags = SORT_NUMERIC;
         }
 
-        return $result;
+        array_multisort($index, $sort_order, $sort_flags, $messages);
+
+        return $messages;
     }
 
     /**
@@ -3634,6 +3637,7 @@ class rcube_imap_generic
         }
         else {
             $data['type']     = strtolower($part_a[0]);
+            $data['subtype']  = strtolower($part_a[1]);
             $data['encoding'] = strtolower($part_a[5]);
 
             // charset
@@ -3731,10 +3735,9 @@ class rcube_imap_generic
 
         // Parse response
         do {
-            $line = $this->readLine(4096);
+            $line = $this->readFullLine(4096);
 
             if ($response !== null) {
-                // TODO: Better string literals handling with filter
                 if (!$filter || preg_match($filter, $line)) {
                     $response .= $line;
                 }
@@ -4103,7 +4106,7 @@ class rcube_imap_generic
         }
 
         if ($this->debug_handler) {
-            call_user_func_array($this->debug_handler, array(&$this, $message));
+            call_user_func_array($this->debug_handler, array($this, $message));
         }
         else {
             echo "DEBUG: $message\n";

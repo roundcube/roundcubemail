@@ -510,7 +510,6 @@ $labels['advancedoptions'] = 'Dodatne možnosti';
 $labels['toggleadvancedoptions'] = 'Preklopi napredne nastavitve';
 $labels['focusonnewmessage'] = 'Usmeri okno brskalnika na novo sporočilo';
 $labels['checkallfolders'] = 'Preglej nova sporočila za vse mape';
-$labels['displaynext'] = 'Po izbrisu/premikanju sporočila prikaži naslednje sporočilo';
 $labels['defaultfont'] = 'Privzeta pisava HTML sporočil';
 $labels['mainoptions'] = 'Osnovne nastavitve';
 $labels['browseroptions'] = 'Možnosti brskalnika';

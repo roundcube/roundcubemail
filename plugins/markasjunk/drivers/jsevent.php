@@ -34,6 +34,12 @@ class markasjunk_jsevent
 
     public function init()
     {
+        $rcmail = rcmail::get_instance();
+
+        // only execute this code on page load
+        if ($rcmail->output->type != 'html')
+            return;
+
         $js_addition_spam_folders = json_encode($this->addition_spam_folders);
         $js_suspicious_folders    = json_encode($this->suspicious_folders);
 
@@ -44,7 +50,7 @@ rcmail.addEventListener('markasjunk-update', function(props) {
 
     // ignore this special code when in a multifolder listing
     if (rcmail.is_multifolder_listing())
-            return;
+        return;
 
     if ($.inArray(rcmail.env.mailbox, addition_spam_folders) > -1) {
         props.disp.spam = false;
@@ -58,14 +64,13 @@ rcmail.addEventListener('markasjunk-update', function(props) {
         props.objs.spamobj.find('a > span').text('As possibly spam');
     }
     else {
-            props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
+        props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
     }
 
     return props;
 });
 EOL;
 
-        $rcmail = rcmail::get_instance();
         $rcmail->output->add_script($script, 'docready');
     }
 

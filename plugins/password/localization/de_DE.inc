@@ -38,3 +38,5 @@ $messages['samepasswd'] = 'Das neue Passwort muss sich von dem Alten unterscheid
 $messages['passwdexpirewarning'] = 'Achtung! Ihr Passwort läuft am $expirationdatetime ab. Ändern Sie es rechtzeitig.';
 $messages['passwdexpired'] = 'Ihr Passwort ist abgelaufen, ändern Sie es jetzt!';
 $messages['passwdconstraintviolation'] = 'Passwortbeschränkungsverletzung. Passwort wahrscheinlich zu schwach.';
+$messages['pwned_mustnotbedisclosed'] = 'Passwort darf nicht&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">allgemein bekannt</a>&nbsp;sein.';
+$messages['pwned_isdisclosed'] = 'Dieses Passwort ist bereits allgemein bekannt.';

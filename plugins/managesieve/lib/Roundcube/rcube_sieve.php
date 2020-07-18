@@ -476,7 +476,7 @@ class rcube_sieve
     /**
      * This is our own debug handler for connection
      */
-    public function debug_handler(&$sieve, $message)
+    public function debug_handler($sieve, $message)
     {
         rcube::write_log('sieve', preg_replace('/\r\n$/', '', $message));
     }
