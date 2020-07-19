@@ -21,3 +21,7 @@ program/js/jquery.min.js
 program/js/jstz.min.js
 program/js/publickey.js
 program/js/tinymce/
+
+# skin customization files
+skins/elastic/styles/_styles.less
+skins/elastic/styles/_variables.less
