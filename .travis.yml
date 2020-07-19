@@ -18,9 +18,6 @@ matrix:
       env: BROWSER_TESTS=1
       addons:
         chrome: stable
-        apt:
-          packages:
-            - node-less
     - php: 7.4
 
 cache:

@@ -20,3 +20,6 @@ composer remove endroid/qr-code --no-update
 
 # Install PHP dependencies
 composer install --prefer-dist
+
+# Install Less for Elastic CSS compilation
+npm install --force -g less
