@@ -690,6 +690,7 @@ function rule_header_select(id)
   rule_op_select(op, id, h);
   rule_mod_select(id, h, !is_header);
   rule_mime_select(id);
+  rule_spamtest_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
 };
@@ -732,6 +733,15 @@ function rule_mod_select(id, header, reset)
 
   if (duplicate)
     duplicate.style.display = header == 'message' ? '' : 'none';
+};
+
+function rule_spamtest_select(id)
+{
+  var obj = document.getElementById('rule_spamtest_op' + id),
+    target = document.getElementById('rule_spamtest_target' + id);
+
+  target.style.display = obj.value ? '' : 'none';
+  $(obj)[obj.value ? 'removeClass' : 'addClass']('rounded-right');
 };
 
 function rule_join_radio(value)
