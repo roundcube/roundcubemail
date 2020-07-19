@@ -35,7 +35,8 @@ RPM package which depends on nodejs.
     $ lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css
     $ lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css
 ```
-(`--clean-css="--s1 --advanced"` minifies the css, requires the clean-css lessc plugin)
+(`--clean-css="--s1 --advanced"` minifies the css, requires the clean-css Less plugin.
+The can be installed using `npm install less-plugin-clean-css`)
 
 References to image files from the included CSS files can be appended
 with cache-buster marks to avoid browser caching issues after updating.
