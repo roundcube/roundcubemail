@@ -633,7 +633,7 @@ class rcube_sieve_engine
             $sizeitems      = rcube_utils::get_input_value('_rule_size_item', rcube_utils::INPUT_POST);
             $sizetargets    = rcube_utils::get_input_value('_rule_size_target', rcube_utils::INPUT_POST);
             $spamtestops    = rcube_utils::get_input_value('_rule_spamtest_op', rcube_utils::INPUT_POST);
-            $spamtesttargets= rcube_utils::get_input_value('_rule_spamtest_target', rcube_utils::INPUT_POST);
+            $spamtesttargets = rcube_utils::get_input_value('_rule_spamtest_target', rcube_utils::INPUT_POST);
             $targets        = rcube_utils::get_input_value('_rule_target', rcube_utils::INPUT_POST, true);
             $mods           = rcube_utils::get_input_value('_rule_mod', rcube_utils::INPUT_POST);
             $mod_types      = rcube_utils::get_input_value('_rule_mod_type', rcube_utils::INPUT_POST);
@@ -690,11 +690,12 @@ class rcube_sieve_engine
             $this->form['tests']    = array();
             $this->form['actions']  = array();
 
-            if ($name == '')
+            if ($name == '') {
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
+            }
             else {
                 foreach ($this->script as $idx => $rule)
-                    if($rule['name'] == $name && $idx != $fid) {
+                    if ($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
                         break;
                     }
@@ -734,17 +735,22 @@ class rcube_sieve_engine
                     else if ($header == 'spamtest') {
                         $spamtestop     = $this->strip_value($spamtestops[$idx]);
                         $spamtesttarget = $this->strip_value($spamtesttargets[$idx]);
+                        $comparator     = 'i;ascii-numeric';
+
+                        if (!$spamtestop) {
+                            $spamtestop     = 'value-eq';
+                            $spamtesttarget = '0';
+                        }
 
                         $this->form['tests'][$i]['test'] = 'spamtest';
                         $this->form['tests'][$i]['type'] = $spamtestop;
                         $this->form['tests'][$i]['arg']  = $spamtesttarget;
 
-                        if ($spamtesttarget == '')
+                        if ($spamtesttarget === '')
                             $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('cannotbeempty');
                         else if (!preg_match('/^([0-9]|10)$/i', $spamtesttarget)) {
                             $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('forbiddenchars');
                         }
-                        $comparator = 'i;ascii-numeric';
                     }
                     else if ($header == 'currentdate') {
                         $datepart = $this->strip_value($dateparts[$idx]);
@@ -1885,7 +1891,13 @@ class rcube_sieve_engine
         $tout .= '</div>';
 
         if (in_array('relational', $this->exts)) {
-            $select_spamtest_op = new html_select(array('name' => "_rule_spamtest_op[$id]", 'id' => 'rule_spamtest_op'.$id, 'class' => 'input-group-prepend'));
+            $select_spamtest_op = new html_select(array(
+                    'name'     => "_rule_spamtest_op[$id]",
+                    'id'       => 'rule_spamtest_op' . $id,
+                    'class'    => 'input-group-prepend custom-select',
+                    'onchange' => 'rule_spamtest_select(' . $id .')'
+            ));
+            $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisunknown')), '');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthan')), 'value-gt');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthanequal')), 'value-ge');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestislessthan')), 'value-lt');
@@ -1893,11 +1905,14 @@ class rcube_sieve_engine
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestequals')), 'value-eq');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestnotequals')), 'value-ne');
 
-            $select_spamtest_target = new html_select(array('name' => "_rule_spamtest_target[$id]", 'id' => 'rule_spamtest_target'.$id, 'class' => 'input-group-append'));
-            $select_spamtest_target->add(rcube::Q($this->plugin->gettext('spamnotchecked')), '0');
+            $select_spamtest_target = new html_select(array(
+                    'name'  => "_rule_spamtest_target[$id]",
+                    'id'    => 'rule_spamtest_target' . $id,
+                    'class' => 'input-group-append custom-select'
+            ));
             $select_spamtest_target->add(rcube::Q("0%"), '1');
-            $select_spamtest_target->add(rcube::Q("5%"), '2');
-            $select_spamtest_target->add(rcube::Q("20%"), '3');
+            $select_spamtest_target->add(rcube::Q("20%"), '2');
+            $select_spamtest_target->add(rcube::Q("30%"), '3');
             $select_spamtest_target->add(rcube::Q("40%"), '4');
             $select_spamtest_target->add(rcube::Q("50%"), '5');
             $select_spamtest_target->add(rcube::Q("60%"), '6');
@@ -1906,9 +1921,9 @@ class rcube_sieve_engine
             $select_spamtest_target->add(rcube::Q("90%"), '9');
             $select_spamtest_target->add(rcube::Q("100%"), '10');
 
-            $tout .= '<div id="rule_spamtest' .$id. '" class="input-group" style="display:' . ($rule['test']=='spamtest' ? 'inline' : 'none') .'">';
-            $tout .= $select_spamtest_op->show($rule['test']=='spamtest' ? $rule['type'] : '');
-            $tout .= $select_spamtest_target->show($rule['test']=='spamtest' ? $target : '');
+            $tout .= '<div id="rule_spamtest' . $id . '" class="input-group" style="display:' . ($rule['test'] == 'spamtest' ? 'inline' : 'none') .'">';
+            $tout .= $select_spamtest_op->show($rule['test'] == 'spamtest' && $target > 0 ? $rule['type'] : '');
+            $tout .= $select_spamtest_target->show($rule['test'] == 'spamtest' ? $target : '');
 
             $tout .= '</div>';
         }
