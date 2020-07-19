@@ -3031,7 +3031,7 @@ class rcube_sieve_engine
                 'name'     => "_{$name}[$id]",
                 'id'       => "{$name}{$id}",
                 'style'    => 'display:' .(!in_array($rule, array('size', 'duplicate')) ? 'inline' : 'none'),
-                'class'    => 'operator_selector',
+                'class'    => 'operator_selector col-6',
                 'onchange' => "{$name}_select(this, '{$id}')",
         ));
 

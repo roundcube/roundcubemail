@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Fix too-small input field in Elastic when using custom headers (#7498)
 - Fix support for an error as a string in message_before_send hook (#7475)
 
 RELEASE 1.4.7
