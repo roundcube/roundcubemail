@@ -17,6 +17,7 @@ html.dark-mode {
 
     .popover-body,
     .popupmenu,
+    .ui-dialog-content,
     .frame-content,
     .formcontent,
     .table-responsive,
@@ -476,6 +477,11 @@ html.dark-mode {
                 background-color: @color-dark-font;
             }
         }
+    }
+
+    input:disabled,
+    select:disabled {
+        opacity: .5;
     }
 
     .multi-input:not(.is-invalid) > .content {
@@ -964,6 +970,7 @@ html.dark-mode {
     .minicolors-panel {
         box-shadow: none;
         border-color: @color-dark-border;
+        background: @color-dark-popover-background;
     }
 
     // ---------------------------------
