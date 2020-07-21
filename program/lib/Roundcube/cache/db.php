@@ -161,7 +161,7 @@ class rcube_cache_db extends rcube_cache
         }
 
         $result = $this->db->insert_or_update(
-            $this->table, $pkey, array('expires', 'data'), array($expires, $data)
+            $this->table, $pkey, array('expires', 'data'), array($expires, $value)
         );
 
         $count = $this->db->affected_rows($result);
