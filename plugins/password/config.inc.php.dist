@@ -492,3 +492,11 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
+
+// TinyCP
+// --------------
+// TinyCP host, port, user and pass.
+$config["tinycp_host"] = '';
+$config["tinycp_port"] = '';
+$config["tinycp_user"] = '';
+$config["tinycp_pass"] = ''; 

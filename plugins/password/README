@@ -49,6 +49,7 @@
  2.1.21. Kpasswd
  2.1.22. Modoboa
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ 2.1.24. TinyCP
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -385,7 +386,13 @@
  Modified version of ldap_simple.
  Password is changed using ldap_exop_passwd operation.
  PHP >= 7.2 required.
- 
+
+ 2.1.24 TinyCP
+ --------------
+ Download the TinyCPConnector.php from your TinyCP Settings page.
+ Add the TinyCPConnector.php the password/drivers folder.
+ Update/resolve file permissions for www-data/apache for the connector file.
+ Set the tinycp_host, tinycp_port, tinycp_user, and tinycp_pass in config.inc.php.
  
  2.2. Password Strength Drivers
  ------------------------------
