@@ -3,7 +3,8 @@
  * tinycp driver
  *
  * Enable the password driver in Roundcube (https://roundcube.net/) for the TinyCP Lightweight Linux Control Panel (https://tinycp.com/).
- *
+ * See README for install instructions.
+ * 
  * @version 1.1
  * @author Ricky Mendoza (HelloWorld@rickymendoza.dev)
  * 
@@ -44,14 +45,14 @@ class rcube_tinycp_password
 
         try {
             $auth = $tcp->Auth($tinycp_user, $tinycp_pass); 
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             $this->PluginError("Unable to Authenticate:".$th->getMessage());
             return PASSWORD_ERROR;
         }          
 
         try {
             $response = $tcp->mail___mailserver___email_pass_change2($username, $newpass);
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             $this->PluginError("Unable to change password:".$th->getMessage());
             return PASSWORD_ERROR;
         }
