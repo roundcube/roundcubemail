@@ -439,7 +439,7 @@ $config['user_aliases'] = false;
 // This is used by the 'file' log driver.
 $config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
-// use this folder to store temp files
+// Location of temporary saved files such as attachments and cache files
 // must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
