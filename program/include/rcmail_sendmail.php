@@ -277,10 +277,8 @@ class rcmail_sendmail
      */
     public function create_message($headers, $body, $isHtml = false, $attachments = array())
     {
-        // set line length for body wrapping
-        $line_length = $this->rcmail->config->get('line_length', 72);
-        $charset     = $this->options['charset'];
-        $flowed      = $this->options['savedraft'] || $this->rcmail->config->get('send_format_flowed', true);
+        $charset = $this->options['charset'];
+        $flowed  = $this->options['savedraft'] || $this->rcmail->config->get('send_format_flowed', true);
 
         // create PEAR::Mail_mime instance
         $MAIL_MIME = new Mail_mime("\r\n");
@@ -311,16 +309,12 @@ class rcmail_sendmail
             $MAIL_MIME->setHTMLBody($plugin['body']);
 
             $plain_body = $this->rcmail->html2text($plugin['body'], array('width' => 0, 'charset' => $charset));
-            $plain_body = rcube_mime::wordwrap($plain_body, $line_length, "\r\n", false, $charset);
-            $plain_body = wordwrap($plain_body, 998, "\r\n", true);
+            $plain_body = $this->format_plain_body($plain_body, $flowed);
 
             // There's no sense to use multipart/alternative if the text/plain
             // part would be blank. Completely blank text/plain part may confuse
             // some mail clients (#5283)
             if (strlen(trim($plain_body)) > 0) {
-                // make sure all line endings are CRLF (#1486712)
-                $plain_body = preg_replace('/\r?\n/', "\r\n", $plain_body);
-
                 $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', array(
                         'body'    => $plain_body,
                         'type'    => 'alternative',
@@ -335,17 +329,7 @@ class rcmail_sendmail
             $this->extract_inline_images($MAIL_MIME, $this->options['from']);
         }
         else {
-            $body = $plugin['body'];
-
-            // compose format=flowed content if enabled
-            if ($flowed) {
-                $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
-            }
-            else {
-                $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
-            }
-
-            $body = wordwrap($body, 998, "\r\n", true);
+            $body = $this->format_plain_body($plugin['body'], $flowed);
 
             $MAIL_MIME->setTXTBody($body, false, true);
         }
@@ -357,6 +341,35 @@ class rcmail_sendmail
         $MAIL_MIME->headers($headers);
 
         return $MAIL_MIME;
+    }
+
+    /**
+     * Prepare plain text content for the message (format=flowed and wrapping)
+     *
+     * @param string $body   Plain text message body
+     * @param bool   $flowed Enable format=flowed formatting
+     *
+     * @return string Formatted content
+     */
+    protected function format_plain_body($body, $flowed = false)
+    {
+        // set line length for body wrapping
+        $line_length = $this->rcmail->config->get('line_length', 72);
+        $charset     = $this->options['charset'];
+
+        if ($flowed) {
+            $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
+        }
+        else {
+            $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
+        }
+
+        $body = wordwrap($body, 998, "\r\n", true);
+
+        // make sure all line endings are CRLF (#1486712)
+        $body = preg_replace('/\r?\n/', "\r\n", $body);
+
+        return $body;
     }
 
     /**

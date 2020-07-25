@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix too-small input field in Elastic when using custom headers (#7498)
 - Fix support for an error as a string in message_before_send hook (#7475)
 - Elastic: Fix redundant scrollbar in plain text editor on mail reply (#7500)
+- Fix format=flowed formatting on plain text part derived from the HTML content (#7504)
 
 RELEASE 1.4.7
 -------------
