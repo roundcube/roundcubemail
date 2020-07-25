@@ -370,7 +370,7 @@ class rcube_db
      * @param string SQL query to execute
      * @param mixed  Values to be inserted in query
      *
-     * @return number  Query handle identifier
+     * @return PDOStatement|bool  Query handle or False on error
      */
     public function query()
     {
