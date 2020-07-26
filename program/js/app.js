@@ -255,6 +255,9 @@ function rcube_webmail()
         this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
 
         if (this.gui_objects.messagelist) {
+          // setup message list cols
+          this.msglist_setup(this.env.layout);
+
           this.env.widescreen_list_template = [
             {className: 'threads', cells: ['threads']},
             {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
@@ -2031,6 +2034,9 @@ function rcube_webmail()
         this.env.listcols.push(name);
       }
 
+    // update message list setup
+    this.msglist_setup(this.env.layout);
+
     if ((found = $.inArray('flag', this.env.listcols)) >= 0)
       this.env.flagged_col = found;
 
@@ -2038,6 +2044,24 @@ function rcube_webmail()
       this.env.subject_col = found;
 
     this.command('save-pref', { name: 'list_cols', value: this.env.listcols, session: 'list_attrib/columns' });
+  };
+
+  this.msglist_setup = function(layout)
+  {
+    var ret, listcols;
+
+    // allow plugins or skins to override default list layout
+    if (ret = this.triggerEvent('msglist_layout', layout))
+      layout = ret;
+
+    listcols = this.env[layout == 'widescreen' ? 'listcols_widescreen' : 'listcols'];
+
+    if (layout == 'widescreen' && !this.env.threading)
+      listcols = $.grep(listcols, function(value) { return value != 'threads'; });
+
+    // set env vars for message list
+    this.env.msglist_layout = layout;
+    this.env.msglist_cols = listcols;
   };
 
   this.check_droptarget = function(id)
@@ -2163,7 +2187,7 @@ function rcube_webmail()
   };
 
   // create a table row in the message list
-  this.add_message_row = function(uid, cols, flags, attop, layout)
+  this.add_message_row = function(uid, cols, flags, attop)
   {
     if (!this.gui_objects.messagelist || !this.message_list)
       return false;
@@ -2179,10 +2203,6 @@ function rcube_webmail()
 
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
-
-    // If no layout param provided then use UI layout
-    if (!layout)
-      layout = this.env.layout
 
     // merge flags over local message object
     $.extend(this.env.messages[uid], {
@@ -2216,12 +2236,13 @@ function rcube_webmail()
         + (flags.flagged ? ' flagged' : '')
         + (message.selected ? ' selected' : ''),
       row = { cols:[], style:{}, id:'rcmrow'+msg_id, uid:uid },
-      listcols = layout == 'widescreen' ? this.env.listcols_widescreen : this.env.listcols;
+      layout = this.env.msglist_layout,
+      listcols = this.env.msglist_cols;
 
     // widescreen layout does not have a separate status column
     if (layout == 'widescreen')
       this.env.status_col = null;
-    else if ((n = $.inArray('status', this.env.listcols)) >= 0)
+    else if ((n = $.inArray('status', listcols)) >= 0)
       this.env.status_col = n;
 
     // message status icons
@@ -2473,11 +2494,15 @@ function rcube_webmail()
       this.triggerEvent('layout-change', {old_layout: this.env.layout, new_layout: layout});
       update = 1;
       this.env.layout = post_data._layout = layout;
+
+      // update message list setup
+      this.msglist_setup(this.env.layout);
     }
 
     if (cols && cols.length) {
       // make sure new columns are added at the end of the list
       var i, idx, name, newcols = [], oldcols = this.env.listcols;
+
       for (i=0; i<oldcols.length; i++) {
         name = oldcols[i];
         idx = $.inArray(name, cols);
@@ -8339,13 +8364,18 @@ function rcube_webmail()
 
   // for reordering column array (Konqueror workaround)
   // and for setting some message list global variables
-  this.set_message_coltypes = function(listcols, repl, smart_col)
+  this.set_message_coltypes = function(cols, repl, smart_col)
   {
+    // update list mode columns list
+    this.env.listcols = cols;
+
+    // reset message list cols
+    this.msglist_setup(this.env.layout);
+
     var list = this.message_list,
       thead = list ? list.thead : null,
-      repl, cell, col, c, n, len, tr;
-
-    this.env.listcols = listcols;
+      repl, cell, col, c, n, len, tr,
+      listcols = this.env.msglist_cols;
 
     if (!this.env.coltypes)
       this.env.coltypes = {};
@@ -8356,8 +8386,8 @@ function rcube_webmail()
         thead.innerHTML = '';
         tr = document.createElement('tr');
 
-        for (n in this.env.listcols) {
-          c = this.env.listcols[n];
+        for (n in listcols) {
+          c = listcols[n];
           cell = document.createElement('th');
           cell.innerHTML = repl[c].html || '';
           if (repl[c].id) cell.id = repl[c].id;
@@ -8371,8 +8401,8 @@ function rcube_webmail()
         thead.appendChild(tr);
       }
 
-      for (n=0, len=this.env.listcols.length; n<len; n++) {
-        col = this.env.listcols[list.checkbox_selection ? n-1 : n];
+      for (n = 0, len = listcols.length; n < len; n++) {
+        col = listcols[list.checkbox_selection ? n-1 : n];
         if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
           $(cell).attr('rel', col).find('span,a').text(this.get_label(col == 'fromto' ? smart_col : col));
         }
@@ -8386,18 +8416,18 @@ function rcube_webmail()
     if (this.env.coltypes.folder)
       this.env.coltypes.folder.hidden = !(this.env.search_request || this.env.search_id) || this.env.search_scope == 'base';
 
-    if ((n = $.inArray('subject', this.env.listcols)) >= 0) {
+    if ((n = $.inArray('subject', listcols)) >= 0) {
       this.env.subject_col = n;
       if (list)
         list.subject_col = n;
     }
-    if ((n = $.inArray('flag', this.env.listcols)) >= 0)
+    if ((n = $.inArray('flag', listcols)) >= 0)
       this.env.flagged_col = n;
-    if ((n = $.inArray('status', this.env.listcols)) >= 0)
+    if ((n = $.inArray('status', listcols)) >= 0)
       this.env.status_col = n;
 
     if (list) {
-      list.hide_column('folder', (this.env.coltypes.folder && this.env.coltypes.folder.hidden) || $.inArray('folder', this.env.listcols) < 0);
+      list.hide_column('folder', (this.env.coltypes.folder && this.env.coltypes.folder.hidden) || $.inArray('folder', listcols) < 0);
       list.init_header();
     }
   };
