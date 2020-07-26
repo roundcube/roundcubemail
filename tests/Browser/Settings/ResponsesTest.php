@@ -189,6 +189,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->waitFor('#responseslist')
                 ->click('#responseslist li:nth-child(1) a.insertresponse')
                 ->waitUntilMissing('#responses-menu')
+                ->waitUntilMissing('.popover-overlay')
                 ->assertValue('#composebody', 'Body and Response 1')
                 ->waitForMessage('confirmation', 'Response inserted successfully.')
                 ->closeMessage('confirmation');
