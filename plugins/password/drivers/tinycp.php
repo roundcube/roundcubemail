@@ -4,8 +4,8 @@
  *
  * Enable the password driver in Roundcube (https://roundcube.net/) for the TinyCP Lightweight Linux Control Panel (https://tinycp.com/).
  * See README for install instructions.
- * 
- * @version 1.1
+ *
+ * @version 1.2
  * @author Ricky Mendoza (HelloWorld@rickymendoza.dev)
  * 
  * Copyright (C) 2020 Ricky Mendoza
@@ -34,43 +34,30 @@ class rcube_tinycp_password
         $tinycp_port = rcmail::get_instance()->config->get('tinycp_port');
         $tinycp_user = rcmail::get_instance()->config->get('tinycp_user');
         $tinycp_pass = rcmail::get_instance()->config->get('tinycp_pass');
-
-
-        if (!$tinycp_host || !$tinycp_port || !$tinycp_user || !$tinycp_pass){
-            $this->PluginError("Missing configuration value(s). ");
-            return PASSWORD_ERROR;
+        
+        if ($tinycp_host && $tinycp_port && $tinycp_user && $tinycp_pass){
+            try {
+                $tcp = new TinyCPConnector($tinycp_host,$tinycp_port);
+                $tcp->Auth($tinycp_user, $tinycp_pass); 
+                $error_message = $tcp->mail___mailserver___email_pass_change2($username, $newpass);
+            } catch (Exception $th) {
+                $error_message = $th->getMessage();
+            }   
+        }else{
+            $error_message = "Missing configuration value(s). ";
         }
-
-        $tcp = new TinyCPConnector($tinycp_host,$tinycp_port);
-
-        try {
-            $auth = $tcp->Auth($tinycp_user, $tinycp_pass); 
-        } catch (Exception $th) {
-            $this->PluginError("Unable to Authenticate:".$th->getMessage());
-            return PASSWORD_ERROR;
-        }          
-
-        try {
-            $response = $tcp->mail___mailserver___email_pass_change2($username, $newpass);
-        } catch (Exception $th) {
-            $this->PluginError("Unable to change password:".$th->getMessage());
-            return PASSWORD_ERROR;
-        }
-
-        if ($response){
-            $this->PluginError("Error:". $response);
-            return PASSWORD_ERROR;
-        }
-        return PASSWORD_SUCCESS;
-    }
-    
-    public function PluginError($message){
-        rcube::raise_error(array(
+       
+        if ($error_message){
+            rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => $message
+                'message' => $error_message
         ), true, false);
+            echo "error found";
+            return PASSWORD_ERROR;
+        }
+        return PASSWORD_SUCCESS;
     }
 }
 ?>
