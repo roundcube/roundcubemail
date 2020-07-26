@@ -412,6 +412,23 @@ class enigma_driver_gnupg extends enigma_driver
     }
 
     /**
+     * Returns a list of supported features.
+     *
+     * @return array Capabilities list
+     */
+    public function capabilities()
+    {
+        $caps = array(enigma_driver::SUPPORT_RSA);
+        $version = $this->gpg->getVersion();
+
+        if (version_compare($version, '2.1.7', 'ge')) {
+            $caps[] = enigma_driver::SUPPORT_ECC;
+        }
+
+        return $caps;
+    }
+
+    /**
      * Private key deletion.
      */
     protected function delete_privkey($keyid)

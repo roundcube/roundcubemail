@@ -16,6 +16,9 @@
 
 abstract class enigma_driver
 {
+    const SUPPORT_RSA = 'RSA';
+    const SUPPORT_ECC = 'ECC';
+
     /**
      * Class constructor.
      *
@@ -138,4 +141,14 @@ abstract class enigma_driver
      * @return string Hash algorithm name e.g. sha1
      */
     abstract function signature_algorithm();
+
+    /**
+     * Returns a list of supported features.
+     *
+     * @return array Capabilities list
+     */
+    public function capabilities()
+    {
+        return array();
+    }
 }

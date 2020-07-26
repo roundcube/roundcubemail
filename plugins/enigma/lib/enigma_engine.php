@@ -1406,6 +1406,16 @@ class enigma_engine
     }
 
     /**
+     * Check if specified driver feature is supported
+     */
+    public function is_supported($feature)
+    {
+        $this->load_pgp_driver();
+
+        return in_array($feature, $this->pgp_driver->capabilities());
+    }
+
+    /**
      * Raise/log (relevant) errors
      */
     protected static function raise_error($result, $line, $abort = false)

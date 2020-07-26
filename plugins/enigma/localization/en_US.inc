@@ -71,9 +71,10 @@ $labels['keyadd'] = 'Add key';
 $labels['newkeyident'] = 'Identity';
 $labels['newkeypass'] = 'Password';
 $labels['newkeypassconfirm'] = 'Confirm password';
-$labels['newkeysize'] = 'Key size';
-$labels['key2048'] = '2048 bits - default';
-$labels['key4096'] = '4096 bits - more secure';
+$labels['newkeytype'] = 'Key type';
+$labels['rsa2048'] = 'RSA - 2048 bits';
+$labels['rsa4096'] = 'RSA - 4096 bits';
+$labels['ecckeypair'] = 'ECC (Elliptic Curve)';
 $labels['keygenerating'] = 'Generating keys...';
 
 $labels['encryptionoptions'] = 'Encryption options...';
@@ -144,4 +145,7 @@ $messages['noidentselected'] = 'You have to select at least one identity for the
 // removed in 1.3
 $messages['nonameident'] = 'Identity must have a user name defined!';
 
-?>
+// removed in 1.5
+$labels['newkeysize'] = 'Key size';
+$labels['key2048'] = '2048 bits - default';
+$labels['key4096'] = '4096 bits - more secure';

@@ -754,6 +754,7 @@ class enigma_ui
 
         $plugin     = $this->rc->plugins->exec_hook('enigma_user_identities', array('identities' => $identities));
         $identities = $plugin['identities'];
+        $engine     = $this->enigma->load_engine();
 
         foreach ($identities as $idx => $ident) {
             $name = format_email_recipient($ident['email'], $ident['name']);
@@ -765,11 +766,15 @@ class enigma_ui
         $table->add(null, html::tag('ul', 'proplist', implode("\n", $identities)));
 
         // Key size
-        $select = new html_select(array('name' => 'size', 'id' => 'key-size', 'class' => 'custom-select'));
-        $select->add($this->enigma->gettext('key2048'), '2048');
-        $select->add($this->enigma->gettext('key4096'), '4096');
+        $select = new html_select(array('name' => 'type', 'id' => 'key-type', 'class' => 'custom-select'));
+        $select->add($this->enigma->gettext('rsa2048'), 'rsa2048');
+        $select->add($this->enigma->gettext('rsa4096'), 'rsa4096');
 
-        $table->add('title', html::label('key-size', rcube::Q($this->enigma->gettext('newkeysize'))));
+        if ($engine->is_supported(enigma_driver::SUPPORT_ECC)) {
+            $select->add($this->enigma->gettext('ecckeypair'), 'ecc');
+        }
+
+        $table->add('title', html::label('key-type', rcube::Q($this->enigma->gettext('newkeytype'))));
         $table->add(null, $select->show());
 
         // Password and confirm password
