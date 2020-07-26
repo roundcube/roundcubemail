@@ -90,7 +90,8 @@ function rcube_text_editor(config, id)
         + ' | outdent indent charmap hr link unlink image code forecolor'
         + ' | fontselect fontsizeselect',
       file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
-      file_browser_callback_types: 'image'
+      file_browser_callback_types: 'image',
+      invalid_elements: 'embed' // XSS fix (#7507)
     });
   }
   // full-featured editor
