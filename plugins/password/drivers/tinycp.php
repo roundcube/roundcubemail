@@ -3,7 +3,7 @@
  * tinycp driver
  *
  * Enable the password driver in Roundcube (https://roundcube.net/) for the TinyCP Lightweight Linux Control Panel (https://tinycp.com/).
- * See README for install instructions.
+ * See README for instructions, Connector Required.
  *
  * @version 1.2
  * @author Ricky Mendoza (HelloWorld@rickymendoza.dev)
@@ -34,6 +34,7 @@ class rcube_tinycp_password
         $tinycp_port = rcmail::get_instance()->config->get('tinycp_port');
         $tinycp_user = rcmail::get_instance()->config->get('tinycp_user');
         $tinycp_pass = rcmail::get_instance()->config->get('tinycp_pass');
+        $error_message = '';
         
         if ($tinycp_host && $tinycp_port && $tinycp_user && $tinycp_pass){
             try {
