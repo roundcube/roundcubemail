@@ -73,6 +73,8 @@ class enigma_subkey
             return 'ECDSA';
         case 21:
             return 'Diffie-Hellman';
+        case 22:
+            return 'EdDSA';
         }
     }
 }
