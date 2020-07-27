@@ -687,13 +687,27 @@ table.fixedcopy {
         }
 
         &.replied.forwarded:before {
-            .font-icon-solid(@fa-var-reply); // TODO
+            .font-icon-solid(@fa-var-reply);
             font-size: 1rem;
         }
 
-        tr.deleted &:before {
-            .font-icon-solid(@fa-var-ban);
+        &.replied.forwarded:after {
+            &:extend(.font-icon-class);
+            .font-icon-solid(@fa-var-share);
             font-size: 1rem;
+            opacity: .5;
+            margin: 0 -0.1em 0 -1.25em;
+        }
+    }
+
+    tr.deleted td.subject span.msgicon.status {
+        &:before {
+            .font-icon-solid(@fa-var-ban) !important;
+            font-size: 1rem;
+        }
+
+        &:after {
+            display: none !important;
         }
     }
 
