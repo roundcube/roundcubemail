@@ -1376,7 +1376,9 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (($template_logo = $this->get_template_logo($attrib['logo-type'], $attrib['logo-match'])) !== null) {
+                    // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
+                    // check both for backwards compatibility
+                    if (($template_logo = $this->get_template_logo($attrib['logo-type'] ?: $attrib['type'], $attrib['logo-match'])) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
