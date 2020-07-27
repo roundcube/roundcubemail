@@ -40,7 +40,7 @@ class rcube_tinycp_password
             try {
                 $tcp = new TinyCPConnector($tinycp_host,$tinycp_port);
                 $tcp->Auth($tinycp_user, $tinycp_pass); 
-                $error_message = $tcp->mail___mailserver___email_pass_change2($username, $newpass);
+                $tcp->mail___mailserver___email_pass_change2($username, $newpass);
             } catch (Exception $th) {
                 $error_message = $th->getMessage();
             }   
@@ -55,7 +55,6 @@ class rcube_tinycp_password
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => $error_message
         ), true, false);
-            echo "error found";
             return PASSWORD_ERROR;
         }
         return PASSWORD_SUCCESS;
