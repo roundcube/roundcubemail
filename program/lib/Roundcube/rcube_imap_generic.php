@@ -49,6 +49,13 @@ class rcube_imap_generic
         '*'        => '\\*',
     );
 
+    public $imap_id = array(
+        'name'    => 'Roundcube',
+        'version' => RCUBE_VERSION,
+        'php'     => PHP_VERSION,
+        'os'      => PHP_OS,
+    );
+
     protected $fp;
     protected $host;
     protected $cmd_tag;
@@ -911,11 +918,6 @@ class rcube_imap_generic
         // Connect
         if (!$this->_connect($host)) {
             return false;
-        }
-
-        // Send ID info
-        if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
-            $this->data['ID'] = $this->id($this->prefs['ident']);
         }
 
         $auth_method  = $this->prefs['auth_type'];

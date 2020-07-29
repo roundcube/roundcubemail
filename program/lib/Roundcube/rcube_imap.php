@@ -136,14 +136,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->options['debug']) {
             $this->set_debug(true);
-
-            $this->options['ident'] = array(
-                'name'    => 'Roundcube',
-                'version' => RCUBE_VERSION,
-                'php'     => PHP_VERSION,
-                'os'      => PHP_OS,
-                'command' => $_SERVER['REQUEST_URI'],
-            );
+            $this->conn->imap_id['command'] = $_SERVER['REQUEST_URI'];
         }
 
         $attempt = 0;
@@ -178,6 +171,11 @@ class rcube_imap extends rcube_storage
             $session = null;
             if (preg_match('/\s+SESSIONID=([^=\s]+)/', $this->conn->result, $m)) {
                 $session = $m[1];
+            }
+
+            // Send ID info
+            if (!empty($this->conn->imap_id) && $this->conn->getCapability('ID')) {
+                $this->data['ID'] = $this->conn->id($this->conn->imap_id);
             }
 
             // get namespace and delimiter
@@ -632,12 +630,7 @@ class rcube_imap extends rcube_storage
         }
 
         if (($ident = $this->conn->data['ID']) === null && $this->get_capability('ID')) {
-            $ident = $this->conn->id(array(
-                    'name'    => 'Roundcube',
-                    'version' => RCUBE_VERSION,
-                    'php'     => PHP_VERSION,
-                    'os'      => PHP_OS,
-            ));
+            $ident = $this->conn->id($this->conn->imap_id);
         }
 
         $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
