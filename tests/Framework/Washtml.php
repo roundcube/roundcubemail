@@ -37,16 +37,17 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test fixing of invalid href (#1488940)
+     * Test fixing of invalid href
      */
     function test_href()
     {
-        $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a>";
+        $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a><a href=\"domain.com\">Firefox</a>";
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertRegExp('|href="http://test.com">|', $washed, "Link href with newlines (#1488940)");
+        $this->assertRegExp('|href="http://test\.com"|', $washed, "Link href with newlines (#1488940)");
+        $this->assertRegExp('|href="http://domain\.com"|', $washed, "Link href with no protocol (#7454)");
     }
 
     /**
