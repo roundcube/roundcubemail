@@ -199,7 +199,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         $interval_type                   = $interval_type == 'seconds' ? 'seconds' : 'days';
         $vacation_action['type']         = 'vacation';
-        $vacation_action['reason']       = $this->strip_value(str_replace("\r\n", "\n", $reason));
+        $vacation_action['reason']       = $this->strip_value(str_replace("\r\n", "\n", $reason), true);
         $vacation_action['subject']      = trim($subject);
         $vacation_action['from']         = trim($from);
         $vacation_action['addresses']    = $addresses;
@@ -803,7 +803,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $regex_extension = in_array('regex', $this->exts);
 
         $vacation['type']      = 'vacation';
-        $vacation['reason']    = $this->strip_value(str_replace("\r\n", "\n", $data['message']));
+        $vacation['reason']    = $this->strip_value(str_replace("\r\n", "\n", $data['message']), true);
         $vacation['addresses'] = $data['addresses'];
         $vacation['subject']   = trim($data['subject']);
         $vacation['from']      = trim($data['from']);
