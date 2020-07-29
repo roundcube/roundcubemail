@@ -16,6 +16,7 @@ html.dark-mode {
     scrollbar-width: thin;
 
     textarea,
+    select,
     .popover-body,
     .popupmenu,
     .ui-dialog-content,
@@ -94,6 +95,10 @@ html.dark-mode {
             .popover-header {
                 border-bottom: 1px solid @color-dark-border;
             }
+        }
+
+        .special-buttons a:not(:focus) {
+            background: @color-dark-background;
         }
     }
 
@@ -767,6 +772,7 @@ html.dark-mode {
             box-shadow: none;
         }
 
+        .tox-dialog__body-nav,
         .tox-collection__group {
             scrollbar-width: thin;
         }
@@ -915,8 +921,16 @@ html.dark-mode {
         .ui-dialog-buttonpane {
             border-color: @color-dark-border;
 
-            @media screen and (max-width: @screen-width-xs) {
-                .ui-dialog-buttonset {
+            .ui-dialog-buttonset {
+                a.btn-link {
+                    color: @color-dark-font;
+
+                    &:focus {
+                        background: transparent;
+                    }
+                }
+
+                @media screen and (max-width: @screen-width-xs) {
                     button.btn-primary:not(.btn-danger),
                     button.btn-secondary {
                         color: @color-dark-font;
