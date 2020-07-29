@@ -330,15 +330,7 @@ class rcube_washtml
                     $out = $this->wash_uri($value, true);
                 }
                 else if ($this->is_link_attribute($node->nodeName, $key)) {
-                    if (!preg_match('!^(javascript|vbscript|data:)!i', $value)
-                        && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
-                    ) {
-                        if ($value[0] == '#' && $this->_css_prefix !== null) {
-                            $value = '#' . $this->_css_prefix . substr($value, 1);
-                        }
-
-                        $out = $value;
-                    }
+                    $out = $this->wash_link($value);
                 }
                 else if ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $val)) {
@@ -422,6 +414,30 @@ class rcube_washtml
         }
         else if ($is_image && preg_match('/^data:image.+/i', $uri)) { // RFC2397
             return $uri;
+        }
+    }
+
+    /**
+     * Wash Href value
+     *
+     * @param string $href Href attribute value (link)
+     *
+     * @return string Washed href
+     */
+    private function wash_link($href)
+    {
+        if (strlen($href) && !preg_match('!^(javascript|vbscript|data:)!i', $href)) {
+            if ($href[0] == '#' && $this->_css_prefix !== null) {
+                return '#' . $this->_css_prefix . substr($href, 1);
+            }
+
+            if (preg_match('!^[a-zA-Z._-]+$!', $href)) {
+                return 'http://' . $href;
+            }
+
+            if (preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $href)) {
+                return $href;
+            }
         }
     }
 
