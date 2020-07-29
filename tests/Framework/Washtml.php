@@ -483,11 +483,15 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     {
         $washer = new rcube_washtml(array('css_prefix' => 'test'));
 
-        $html   = '<p id="my-id"><label for="my-other-id" class="my-class1 my-class2">test</label></p>';
+        $html   = '<p id="my-id">'
+            . '<label for="my-other-id" class="my-class1 my-class2">test</label>'
+            . '<a href="#my-id">link</a>'
+            . '</p>';
         $washed = $washer->wash($html);
 
         $this->assertContains('id="testmy-id"', $washed);
         $this->assertContains('for="testmy-other-id"', $washed);
+        $this->assertContains('href="#testmy-id"', $washed);
         $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
     }
 

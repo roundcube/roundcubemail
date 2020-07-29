@@ -333,6 +333,10 @@ class rcube_washtml
                     if (!preg_match('!^(javascript|vbscript|data:)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
+                        if ($value[0] == '#' && $this->_css_prefix !== null) {
+                            $value = '#' . $this->_css_prefix . substr($value, 1);
+                        }
+
                         $out = $value;
                     }
                 }
@@ -399,6 +403,10 @@ class rcube_washtml
 
         // allow url(#id) used in SVG
         if ($uri[0] == '#') {
+            if ($this->_css_prefix !== null) {
+                $uri = '#' . $this->_css_prefix . substr($uri, 1);
+            }
+
             return $uri;
         }
 
