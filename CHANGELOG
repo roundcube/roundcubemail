@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix format=flowed formatting on plain text part derived from the HTML content (#7504)
 - Fix incorrect rewriting of internal links in HTML content (#7512)
 - Fix handling links without defined protocol (#7454)
+- Fix paging of search results on IMAP servers with no SORT capability (#7462)
 - Security: Fix potential XSS issue in HTML editor of the identity signature input (#7507)
 
 RELEASE 1.4.7

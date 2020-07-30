@@ -1040,31 +1040,27 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * protected method for listing a set of message headers (search results)
+     * A protected method for listing a set of message headers (search results)
      *
-     * @param   string   $folder   Folder name
-     * @param   int      $page     Current page to list
-     * @param   int      $slice    Number of slice items to extract from result array
+     * @param string $folder Folder name
+     * @param int    $page   Current page to list
+     * @param int    $slice  Number of slice items to extract from the result array
      *
      * @return array Indexed array with message header objects
      */
-    protected function list_search_messages($folder, $page, $slice=0)
+    protected function list_search_messages($folder, $page, $slice = 0)
     {
         if (!strlen($folder) || empty($this->search_set) || $this->search_set->is_empty()) {
             return array();
         }
+
+        $from = ($page-1) * $this->page_size;
 
         // gather messages from a multi-folder search
         if ($this->search_set->multi) {
             $page_size  = $this->page_size;
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
-
-            // prepare paging
-            $cnt   = $search_set->count();
-            $from  = ($page-1) * $page_size;
-            $to    = $from + $page_size;
-            $slice_length = min($page_size, $cnt - $from);
 
             // fetch resultset headers, sort and slice them
             if (!empty($sort_field) && $search_set->get_parameters('SORT') != $sort_field) {
@@ -1093,7 +1089,7 @@ class rcube_imap extends rcube_storage
                 $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
 
                 // only return the requested part of the set
-                $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+                $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $page_size);
             }
             else {
                 if ($this->sort_order != $search_set->get_parameters('ORDER')) {
@@ -1101,7 +1097,7 @@ class rcube_imap extends rcube_storage
                 }
 
                 // slice resultset first...
-                $index = array_slice($search_set->get(), $from, $slice_length);
+                $index = array_slice($search_set->get(), $from, $page_size);
                 $fetch = array();
 
                 foreach ($index as $msg_id) {
@@ -1144,8 +1140,6 @@ class rcube_imap extends rcube_storage
         }
 
         $index = clone $this->search_set;
-        $from  = ($page-1) * $this->page_size;
-        $to    = $from + $this->page_size;
 
         // return empty array if no messages found
         if ($index->is_empty()) {
@@ -1178,7 +1172,7 @@ class rcube_imap extends rcube_storage
             }
 
             // get messages uids for one page
-            $index->slice($from, $to-$from);
+            $index->slice($from, $this->page_size);
 
             if ($slice) {
                 $index->slice(-$slice, $slice);
@@ -1199,7 +1193,7 @@ class rcube_imap extends rcube_storage
             // use memory less expensive (and quick) method for big result set
             $index = clone $this->index('', $this->sort_field, $this->sort_order);
             // get messages uids for one page...
-            $index->slice($from, min($cnt-$from, $this->page_size));
+            $index->slice($from, $this->page_size);
 
             if ($slice) {
                 $index->slice(-$slice, $slice);
@@ -1225,9 +1219,7 @@ class rcube_imap extends rcube_storage
             $a_msg_headers = rcube_imap_generic::sortHeaders(
                 $a_msg_headers, $this->sort_field, $this->sort_order);
 
-            // only return the requested part of the set
-            $slice_length  = min($this->page_size, $cnt - ($to > $cnt ? $from : $to));
-            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $this->page_size);
 
             if ($slice) {
                 $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
