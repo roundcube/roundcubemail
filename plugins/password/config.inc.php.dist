@@ -25,7 +25,7 @@ $config['password_minimum_score'] = 0;
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
 
-// Comma-separated list of login exceptions for which password change
+// Array of login exceptions for which password change
 // will be not available (no Password tab in Settings)
 $config['password_login_exceptions'] = null;
 
