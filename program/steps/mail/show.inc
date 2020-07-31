@@ -85,7 +85,7 @@ if ($uid) {
 
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
-        'skip_deleted', 'display_next', 'forward_attachment'));
+        'skip_deleted', 'display_next', 'forward_attachment', 'mailvelope_main_keyring'));
 
     // set special folders
     foreach (array('drafts', 'trash', 'junk') as $mbox) {
