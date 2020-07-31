@@ -50,6 +50,7 @@ CHANGELOG Roundcube Webmail
 - Fix incorrect rewriting of internal links in HTML content (#7512)
 - Fix handling links without defined protocol (#7454)
 - Fix paging of search results on IMAP servers with no SORT capability (#7462)
+- Fix detecting special folders on servers with both SPECIAL-USE and LIST-STATUS (#7525)
 
 RELEASE 1.4.7
 -------------
