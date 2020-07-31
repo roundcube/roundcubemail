@@ -793,6 +793,8 @@ function rcmail_message_body($attrib)
         $OUTPUT->set_env('blockedobjects', true);
     }
 
+    $OUTPUT->add_gui_object('messagebody', $attrib['id']);
+
     return html::div($attrib, $out);
 }
 

@@ -3735,7 +3735,7 @@ function rcube_webmail()
   // check for mailvelope API
   this.check_mailvelope = function(action)
   {
-    if (typeof window.mailvelope !== 'undefined') {
+    if (window.mailvelope) {
       this.mailvelope_load(action);
     }
     else {
@@ -4068,7 +4068,7 @@ function rcube_webmail()
 
       ref.hide_message(msgid);
       $(selector).children().not('iframe').hide();
-      $('#messagebody').addClass('mailvelope');
+      $(this.gui_objects.messagebody).addClass('mailvelope');
 
       // on success we can remove encrypted part from the attachments list
       if (ref.env.pgp_mime_part)
@@ -10072,7 +10072,7 @@ function rcube_webmail()
   // check for mailvelope API
   this.pgpmime_support_check = function(action)
   {
-    if (typeof window.mailvelope !== 'undefined')
+    if (window.mailvelope)
       return 1;
 
     $(window).on('mailvelope', function() {
