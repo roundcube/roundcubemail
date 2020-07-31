@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Security: Fix potential XSS issue in HTML editor of the identity signature input (#7507)
 - Managesieve: Fix too-small input field in Elastic when using custom headers (#7498)
 - Fix support for an error as a string in message_before_send hook (#7475)
 - Elastic: Fix redundant scrollbar in plain text editor on mail reply (#7500)
@@ -9,7 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix incorrect rewriting of internal links in HTML content (#7512)
 - Fix handling links without defined protocol (#7454)
 - Fix paging of search results on IMAP servers with no SORT capability (#7462)
-- Security: Fix potential XSS issue in HTML editor of the identity signature input (#7507)
+- Fix detecting special folders on servers with both SPECIAL-USE and LIST-STATUS (#7525)
 
 RELEASE 1.4.7
 -------------

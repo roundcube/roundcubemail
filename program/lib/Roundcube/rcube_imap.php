@@ -3444,7 +3444,10 @@ class rcube_imap extends rcube_storage
         $folders = $this->conn->listMailboxes('', '*', array('SUBSCRIBED'), array('SPECIAL-USE'));
 
         if (!empty($folders)) {
-            foreach ($folders as $folder) {
+            foreach ($folders as $idx => $folder) {
+                if (is_array($folder)) {
+                    $folder = $idx;
+                }
                 if ($flags = $this->conn->data['LIST'][$folder]) {
                     foreach ($types as $type) {
                         if (in_array($type, $flags)) {
