@@ -1491,7 +1491,7 @@ class rcube_imap_generic
      * @param array  $return_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
     public function listMailboxes($ref, $mailbox, $return_opts = array(), $select_opts = array())
@@ -1506,7 +1506,7 @@ class rcube_imap_generic
      * @param string $mailbox     Mailbox name
      * @param array  $return_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
     public function listSubscribed($ref, $mailbox, $return_opts = array())
@@ -1527,11 +1527,11 @@ class rcube_imap_generic
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
      *                                      SPECIAL-USE (RFC6154)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
-    protected function _listMailboxes($ref, $mailbox, $subscribed=false,
-        $return_opts=array(), $select_opts=array())
+    protected function _listMailboxes($ref, $mailbox, $subscribed = false,
+        $return_opts = array(), $select_opts = array())
     {
         if (!strlen($mailbox)) {
             $mailbox = '*';
