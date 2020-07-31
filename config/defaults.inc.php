@@ -855,6 +855,14 @@ $config['compose_responses_static'] = array(
 // Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
 $config['keyservers'] = array('keys.openpgp.org');
 
+// Use the Main Keyring in Mailvelope? If not, use (creating if required)
+// a per-site keyring. This is set to false for backwards compatibility.
+$config['mailvelope_main_keyring'] = false;
+
+// Mailvelope RSA bit size for newly generated keys, either 2048 or 4096.
+// It maybe desirable to use 2048 for sites with many mobile users.
+$config['mailvelope_keysize'] = 4096;
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------

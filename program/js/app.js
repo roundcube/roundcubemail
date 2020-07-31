@@ -350,6 +350,8 @@ function rcube_webmail()
                 dt.setData('roundcube-name', n.text().trim());
               }
             });
+
+            this.check_mailvelope(this.env.action);
         }
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
@@ -398,6 +400,8 @@ function rcube_webmail()
 
           // init message compose form
           this.init_messageform();
+
+          this.check_mailvelope(this.env.action);
         }
         else if (this.env.action == 'bounce') {
           this.init_messageform_inputs();
@@ -434,11 +438,12 @@ function rcube_webmail()
                 );
             });
         }
-        // show printing dialog
-        else if (this.env.action == 'print' && this.env.uid
-          && !this.env.is_pgp_content && !this.env.pgp_mime_part
-        ) {
-          this.print_dialog();
+        // show printing dialog unless decryption must be done first
+        else if (this.env.action == 'print' && this.env.uid) {
+          this.check_mailvelope(this.env.action);
+          if (!this.env.is_pgp_content && !this.env.pgp_mime_part) {
+            this.print_dialog();
+          }
         }
 
         // get unread count for each mailbox
@@ -487,8 +492,6 @@ function rcube_webmail()
           }
           this.http_post(postact, postdata);
         }
-
-        this.check_mailvelope(this.env.action);
 
         // detect browser capabilities
         if (!this.is_framed() && !this.env.extwin)
@@ -570,7 +573,9 @@ function rcube_webmail()
           // initialize HTML editor
           this.editor_init(this.env.editor_config, 'rcmfd_signature');
 
-          this.check_mailvelope(this.env.action);
+          if (this.env.action == 'edit-identity') {
+            this.check_mailvelope(this.env.action);
+          }
         }
         else if (this.env.action == 'folders') {
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', true);
@@ -758,7 +763,8 @@ function rcube_webmail()
 
     // check input before leaving compose step
     if (this.task == 'mail' && this.env.action == 'compose' && !this.env.server_error && command != 'save-pref'
-      && $.inArray(command, this.env.compose_commands) < 0 && !this.compose_skip_unsavedcheck
+      && ($.inArray(command, this.env.compose_commands) < 0 || command.startsWith('compose-encrypted') && ref.mailvelope_editor)
+      && !this.compose_skip_unsavedcheck
     ) {
       if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
         this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function() {
@@ -3742,10 +3748,7 @@ function rcube_webmail()
   // Load Mailvelope functionality (and initialize keyring if needed)
   this.mailvelope_load = function(action)
   {
-    if (this.env.browser_capabilities)
-      this.env.browser_capabilities['pgpmime'] = 1;
-
-    var keyring = this.env.user_id,
+    var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
       fn = function(kr) {
         ref.mailvelope_keyring = kr;
         ref.mailvelope_init(action, kr);
@@ -3756,10 +3759,14 @@ function rcube_webmail()
       mailvelope.VERSION_MAJOR = Math.floor(parseFloat(v));
       return mailvelope.getKeyring(keyring);
     }).then(fn, function(err) {
-      // attempt to create a new keyring for this app/user
-      mailvelope.createKeyring(keyring).then(fn, function(err) {
+      if (keyring) {
+        // attempt to create a new keyring for this app/user
+        mailvelope.createKeyring(keyring).then(fn, function(err) {
+          console.error(err);
+        });
+      } else {
         console.error(err);
-      });
+      }
     });
   };
 
@@ -3864,7 +3871,6 @@ function rcube_webmail()
     // remove Mailvelope editor if active
     if (ref.mailvelope_editor) {
       ref.mailvelope_editor = null;
-      ref.compose_skip_unsavedcheck = false;
       ref.set_button('compose-encrypted', 'act');
 
       container.removeClass('mailvelope')
@@ -3902,7 +3908,6 @@ function rcube_webmail()
 
       mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring, options).then(function(editor) {
         ref.mailvelope_editor = editor;
-        ref.compose_skip_unsavedcheck = true;
         ref.set_button('compose-encrypted', 'sel');
 
         container.addClass('mailvelope');
@@ -3912,9 +3917,14 @@ function rcube_webmail()
         ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
         ref.triggerEvent('compose-encrypted', { active:true });
 
-        // notify user about loosing attachments
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
-          ref.alert_dialog(ref.get_label('encryptnoattachments'));
+          // notify user if losing attachments
+          if (ref.env.compose_mode != 'draft'
+            || Object.keys(ref.env.attachments).length != 1
+            || ref.env.attachments[Object.keys(ref.env.attachments)[0]].name != 'encrypted.asc'
+          ) {
+            ref.alert_dialog(ref.get_label('encryptnoattachments'));
+          }
 
           $.each(ref.env.attachments, function(name, attach) {
             ref.remove_from_attachment_list(name);
@@ -4057,7 +4067,8 @@ function rcube_webmail()
       }
 
       ref.hide_message(msgid);
-      $(selector).addClass('mailvelope').children().not('iframe').hide();
+      $(selector).children().not('iframe').hide();
+      $('#messagebody').addClass('mailvelope');
 
       // on success we can remove encrypted part from the attachments list
       if (ref.env.pgp_mime_part)
@@ -4297,7 +4308,7 @@ function rcube_webmail()
   {
     var cid = new Date().getTime();
     var user_id = {email: identity_email, fullName: $(ref.gui_objects.editform).find('.ff_name').val().trim()};
-    var options = {userIds: [user_id], keySize: 4096};
+    var options = {userIds: [user_id], keySize: this.env.mailvelope_keysize};
 
     $('<div>').attr('id', 'mailvelope-keygen-container-' + cid)
       .css({height: '245px', marginBottom: '10px'})
@@ -9949,7 +9960,7 @@ function rcube_webmail()
     if (!this.env.browser_capabilities)
       this.env.browser_capabilities = {};
 
-    $.each(['pdf', 'flash', 'tiff', 'webp'], function() {
+    $.each(['pdf', 'flash', 'tiff', 'webp', 'pgpmime'], function() {
       if (ref.env.browser_capabilities[this] === undefined)
         ref.env.browser_capabilities[this] = ref[this + '_support_check']();
     });
@@ -10054,6 +10065,19 @@ function rcube_webmail()
       }
       catch (e) {}
     }
+
+    return 0;
+  };
+
+  // check for mailvelope API
+  this.pgpmime_support_check = function(action)
+  {
+    if (typeof window.mailvelope !== 'undefined')
+      return 1;
+
+    $(window).on('mailvelope', function() {
+      ref.env.browser_capabilities['pgpmime'] = 1;
+    });
 
     return 0;
   };

@@ -109,6 +109,11 @@ RELEASE 1.4.4
 - Security: Fix remote code execution via crafted 'im_convert_path' or 'im_identify_path' settings [CVE-2020-12641]
 - Security: Fix local file inclusion (and code execution) via crafted 'plugins' option [CVE-2020-12640]
 - Security: Fix CSRF bypass that could be used to log out an authenticated user [CVE-2020-12626] (#7302)
+- Mailvelope: Fix size of iframe for PGP-inlined mail (#7348)
+- Mailvelope: Add config option to use Main Keyring (#7348)
+- Mailvelope: Add config option to set the size for new keys (#7348)
+- Mailvelope: Always ask before discarding email currently being composed (#7348)
+- Mailvelope: Fix unnecessary warning to re-add attachments when restoring a draft (#7348)
 
 RELEASE 1.4.3
 -------------
