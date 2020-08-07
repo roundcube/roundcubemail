@@ -92,7 +92,7 @@ class rcube_washtml
     /**
      * @var array Ignore these HTML tags and their content
      */
-    static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
+    static $ignore_elements = array('script', 'applet', 'embed', 'style');
 
     /**
      * @var array Allowed HTML attributes
