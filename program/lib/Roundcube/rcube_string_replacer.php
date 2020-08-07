@@ -59,10 +59,10 @@ class rcube_string_replacer
         $this->linkref_pattern = '/\[([^\]#]+)\]/';
         $this->link_pattern    = "/$link_prefix($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern  = "/("
-            ."[-\w!\#\$%&\'*+~\/^`|{}=]+(?:\.[-\w!\#\$%&\'*+~\/^`|{}=]+)*"  // local-part
-            ."@$utf_domain"                                                 // domain-part
-            ."(\?[$url1$url2]+)?"                                           // e.g. ?subject=test...
-            .")/";
+            . "[-\w!\#\$%&*+~\/^`|{}=]+(?:\.[-\w!\#\$%&*+~\/^`|{}=]+)*"  // local-part
+            . "@$utf_domain"                                             // domain-part
+            . "(\?[$url1$url2]+)?"                                       // e.g. ?subject=test...
+            . ")/";
     }
 
     /**
