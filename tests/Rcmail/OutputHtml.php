@@ -47,6 +47,18 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
            ));
 
         $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon', 'template'));
+        $this->assertSame('img02', $result);
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon', 'all'));
+        $this->assertSame('img02', $result);
+
+        $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, array('small'));
         $this->assertSame('img01', $result);
 
@@ -62,15 +74,31 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img08', $result);
 
-        $set_template->setValue($output, 'mail');
-        $result = $get_template_logo->invokeArgs($output, array('small'));
-        $this->assertSame('img03', $result);
-
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img08', $result);
 
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print'));
+        $this->assertSame('img07', $result);
+
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print', 'template'));
+        $this->assertSame('img07', $result);
+
         $set_skin->setValue($output, 'larry');
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon', 'template'));
+        $this->assertSame('img06', $result);
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon', 'all'));
+        $this->assertSame('img04', $result);
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, array('small'));
@@ -84,7 +112,23 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img04', $result);
 
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print', 'template'));
+        $this->assertSame('img07', $result);
+
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print'));
+        $this->assertSame('img07', $result);
+
         $set_skin->setValue($output, '_test_');
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('favicon'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('print', 'template'));
+        $this->assertSame('img06', $result);
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, array('small'));
@@ -99,8 +143,20 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $this->assertSame('img07', $result);
 
         $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('_test_'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img08', $result);
+
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print', 'template'));
+        $this->assertSame('img07', $result);
+
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('print'));
+        $this->assertSame('img07', $result);
 
         $rcmail->config->set('skin_logo', array(
              "elastic:login[small]" => "img09",
@@ -138,12 +194,52 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $this->assertSame('img15', $result);
 
         $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('_test_', 'all'));
+        $this->assertSame('img16', $result);
+
+        $set_template->setValue($output, '_test_');
+        $result = $get_template_logo->invokeArgs($output, array('_test_', 'template'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, array('_test_'));
         $this->assertSame(null, $result);
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, array());
         $this->assertSame('img16', $result);
+
+        $rcmail->config->set('skin_logo', array(
+             "elastic:[print]"      => "img17",
+             "elastic:messageprint" => "img18",
+             "elastic:*"            => "img19",
+           ));
+
+        $set_skin->setValue($output, 'elastic');
+
+        $set_template->setValue($output, 'login');
+        $result = $get_template_logo->invokeArgs($output, array('print'));
+        $this->assertSame('img17', $result);
+
+        $set_template->setValue($output, 'messageprint');
+        $result = $get_template_logo->invokeArgs($output, array('_test_', 'template'));
+        $this->assertSame('img18', $result);
+
+        $set_template->setValue($output, 'contactprint');
+        $result = $get_template_logo->invokeArgs($output, array('print', 'template'));
+        $this->assertSame('img17', $result);
+
+        $set_template->setValue($output, 'contactprint');
+        $result = $get_template_logo->invokeArgs($output, array('_test_', 'template'));
+        $this->assertSame(null, $result);
+
+        $set_template->setValue($output, 'contactprint');
+        $result = $get_template_logo->invokeArgs($output, array('_test_', 'all'));
+        $this->assertSame('img19', $result);
+
+        $set_template->setValue($output, 'contactprint');
+        $result = $get_template_logo->invokeArgs($output, array());
+        $this->assertSame('img19', $result);
     }
 
     /**

@@ -1379,22 +1379,22 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo($attrib['type'])) !== null) {
-                        $attrib['src'] = $template_logo;
-                    }
-                    else if (($template_logo = $this->get_template_logo()) !== null) {
+                    // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
+                    // check both for backwards compatibility
+                    if (($template_logo = $this->get_template_logo($attrib['logo-type'] ?: $attrib['type'], $attrib['logo-match'])) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
-                    // process alternative logos (eg for Elastic small screen)
-                    foreach ($attrib as $key => $value) {
-                        if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo($matches[1])) !== null) {
-                                $attrib[$key] = $template_logo;
-                            }
-
-                            $attrib[$key] = !empty($attrib[$key]) ? $this->abs_url($attrib[$key]) : null;
+                    $additional_logos = array();
+                    $logo_types       = (array) $this->config->get('additional_logo_types');
+                    foreach ($logo_types as $type) {
+                        if (($template_logo = $this->get_template_logo($type)) !== null) {
+                            $additional_logos[$type] = $this->abs_url($template_logo);
                         }
+                    }
+
+                    if (!empty($additional_logos)) {
+                        $this->set_env('additional_logos', $additional_logos);
                     }
 
                     if ($attrib['src']) {
@@ -2494,12 +2494,14 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string  $type     Type of the logo to check for (e.g. 'print' or 'small')
-     *                          default is null (no special type)
+     * @param string $type   Type of the logo to check for (e.g. 'print' or 'small')
+     *                       default is null (no special type)
+     * @param string $match  (optional) 'all' = type, template or wildcard, 'template' = type or template
+     *                       Note: when type is specified matches are limited to type only unless $match is defined
      *
      * @return string image URL
      */
-    protected function get_template_logo($type = null)
+    protected function get_template_logo($type = null, $match = null)
     {
         $template_logo = null;
 
@@ -2522,13 +2524,18 @@ EOF;
                     '*',
                 );
 
-                if (!empty($type)) {
-                    // Use strict matching, remove wild card options
-                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+                if (empty($type)) {
+                    // If no type provided then remove those options from the list
+                    $template_names = preg_grep("/\]$/", $template_names, PREG_GREP_INVERT);
                 }
-                else {
-                    // No type set so remove those options from the list
-                    $template_names = preg_grep("/\\[\]$/", $template_names, PREG_GREP_INVERT);
+                elseif ($match === null) {
+                    // Type specified with no special matching requirements so remove all none type specific options from the list
+                    $template_names = preg_grep("/\]$/", $template_names);
+                }
+
+                if ($match == 'template') {
+                    // Match only specific type or template name
+                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
                 }
 
                 foreach ($template_names as $key) {

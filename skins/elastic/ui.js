@@ -344,11 +344,6 @@ function rcube_elastic_ui()
             // added after page load it also works there.
             $('li.mailbox > a').on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
         });
-
-        // Store default logo path if not already set
-        if (!$('#logo').data('src-default')) {
-            $('#logo').data('src-default', $('#logo').attr('src'));
-        }
     };
 
     /**
@@ -788,6 +783,7 @@ function rcube_elastic_ui()
                     $('html').removeClass('dark-mode');
                 }
 
+                screen_logo(mode);
                 $('iframe').each(switch_iframe_color_mode);
             };
 
@@ -1653,7 +1649,7 @@ function rcube_elastic_ui()
             case 'large': screen_resize_large(); break;
         }
 
-        screen_resize_logo(mode);
+        screen_logo(mode);
         screen_resize_headers();
 
         // On iOS and Android the content frame height is never correct, fix it.
@@ -1698,13 +1694,27 @@ function rcube_elastic_ui()
         }
     };
 
-    function screen_resize_logo(mode)
+    function screen_logo(mode)
     {
-        if (mode == 'phone' && $('#logo').data('src-small')) {
-            $('#logo').attr('src', $('#logo').data('src-small'));
-        }
-        else {
-            $('#logo').attr('src', $('#logo').data('src-default'));
+        var logos = rcmail.env.additional_logos;
+        if (logos) {
+            // Store default logo path if not already set
+            if (!$('#logo').data('src-default')) {
+                $('#logo').data('src-default', $('#logo').attr('src'));
+            }
+
+            if (mode == 'phone' && logos['small']) {
+                $('#logo').attr('src', logos['small']);
+            }
+            else if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
+                $('#logo').attr('src', logos['small-dark']);
+            }
+            else if (color_mode == 'dark' && logos['dark']) {
+                $('#logo').attr('src', logos['dark']);
+            }
+            else {
+                $('#logo').attr('src', $('#logo').data('src-default'));
+            }
         }
     }
 
