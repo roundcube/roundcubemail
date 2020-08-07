@@ -1,4 +1,5 @@
 - Replace "Filter disabled" with "Filter enabled" (#7028)
+- Allow angle brackets in out-of-office message body (#7518)
 - Fix so modifier type select wasn't hidden after hiding modifier select on header change
 - Fix filter selection after removing a first filter (#7079)
 - Fix bug where it wasn't possible to save flag actions (#7188)

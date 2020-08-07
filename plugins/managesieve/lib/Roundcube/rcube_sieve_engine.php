@@ -1134,7 +1134,7 @@ class rcube_sieve_engine
                     break;
 
                 case 'vacation':
-                    $reason        = $this->strip_value($reasons[$idx]);
+                    $reason        = $this->strip_value($reasons[$idx], true);
                     $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
 
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
