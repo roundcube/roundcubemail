@@ -39,8 +39,10 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('https://github.com/a/b/compare/3a0f82...1f4b2a after', '<a href="https://github.com/a/b/compare/3a0f82...1f4b2a">https://github.com/a/b/compare/3a0f82...1f4b2a</a> after'),
             array('http://<test>', 'http://<test>'),
             array('http://', 'http://'),
-            array('test@www.test', '<a href="mailto:test@www.test">test@www.test</a>'),
-            array('1@1.com www.domain.tld', '<a href="mailto:1@1.com">1@1.com</a> <a href="http://www.domain.tld">www.domain.tld</a>'),
+            array('test test@www.test test', 'test <a href="mailto:test@www.test">test@www.test</a> test'),
+            array("test 'test@www.test' test", "test '<a href=\"mailto:test@www.test\">test@www.test</a>' test"),
+            array('test "test@www.test" test', 'test "<a href="mailto:test@www.test">test@www.test</a>" test'),
+            array('a 1@1.com www.domain.tld', 'a <a href="mailto:1@1.com">1@1.com</a> <a href="http://www.domain.tld">www.domain.tld</a>'),
             array(' www.domain.tld ', ' <a href="http://www.domain.tld">www.domain.tld</a> '),
             array(' www.domain.tld/#!download|856p1|2 ', ' <a href="http://www.domain.tld/#!download|856p1|2">www.domain.tld/#!download|856p1|2</a> '),
             // #1489898: allow some unicode characters
