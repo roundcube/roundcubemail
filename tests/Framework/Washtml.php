@@ -334,41 +334,166 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test SVG cleanup
+     * Test cases for SVG tests
      */
-    function test_wash_svg2()
+    function data_wash_svg_tests()
     {
-        $svg = '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>';
-        $exp = '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+        $svg1 = "<svg id='x' width='100' height='100'><a xlink:href='javascript:alert(1)'><rect x='0' y='0' width='100' height='100' /></a></svg>";
 
+        return [
+            [
+                '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>',
+                '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+            ],
+            [
+                '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>',
+                '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+            ],
+            [
+                '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
+                '<p>Hello victim!<svg /></p>'
+            ],
+            [
+                '<html><p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
+                '<!-- html ignored --><!-- body ignored --><p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
+            ],
+            [
+                '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
+                '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />'
+            ],
+            [
+                '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
+                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+            ],
+            [
+                '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+            ],
+            [
+                '<html><svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
+                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+            ],
+            [
+                '<svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
+                    . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                '<html><svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
+                    . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml">'
+                    . '<!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                '<svg><animate xlink:href="#xss" attributeName="href" from="javascript:alert(1)" to="1" />'
+                    . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                '<svg><set xlink:href="#xss" attributeName="href" from="?" to="javascript:alert(1)" />'
+                    . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><!-- set blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                '<svg><animate xlink:href="#xss" attributename="href" dur="5s" repeatCount="indefinite" keytimes="0;0;1" values="https://portswigger.net?;javascript:alert(1);0" />'
+                    . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                "<svg><use href=\"data:image/svg+xml,&lt;svg id='x' xmlns='http://www.w3.org/2000/svg' "
+                    . "xmlns:xlink='http://www.w3.org/1999/xlink' width='100' height='100'&gt;&lt;a xlink:href='javascript:alert(1)'&gt;"
+                    . "&lt;rect x='0' y='0' width='100' height='100' /&gt;&lt;/a&gt;&lt;/svg&gt;\"></use></svg>",
+                "<svg><use href=\"data:image/svg+xml;base64,PHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53"
+                    . "My5vcmcvMTk5OS94bGluayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBpZD0ie"
+                    . "CIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxhIHgtd2FzaGVkPSJ4bGluazpocmVmIj48cmVjdC"
+                    . "B4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>"
+            ],
+            [
+                "<svg><use href=\"data:image/svg+xml;base64," . base64_encode($svg1) . "\"></use></svg>",
+                "<svg><use href=\"data:image/svg+xml;base64,PHN2ZyBpZD0ieCIgd2lkdGg9IjEwMCIgaGVpZ2h"
+                    . "0PSIxMDAiPjxhIHgtd2FzaGVkPSJ4bGluazpocmVmIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0"
+                    . "iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>"
+            ],
+            [
+                '<svg><script href="data:text/javascript,alert(1)" /><text x="20" y="20">XSS</text></svg>',
+                '<svg><!-- script not allowed --><text x="20" y="20">XSS</text></svg>'
+            ],
+        ];
+    }
+
+    /**
+     * Test SVG cleanup
+     *
+     * @dataProvider data_wash_svg_tests
+     */
+    function test_wash_svg_tests($input, $expected)
+    {
         $washer = new rcube_washtml;
-        $washed = $washer->wash($svg);
+        $washed = $washer->wash($input);
 
-        $this->assertSame($washed, $exp, "SVG content");
+        $this->assertSame($expected, $washed, "SVG content");
+    }
 
-        $svg = '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>';
-        $exp = '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>';
+    /**
+     * Test cases for various XSS issues
+     */
+    function data_wash_xss_tests()
+    {
+        return [
+            [
+                '<html><base href="javascript:/a/-alert(1)///////"><a href="../lol/safari.html">test</a>',
+                '<!-- html ignored --><body><!-- base ignored --><a x-washed="href">test</a></body>'
+            ],
+            [
+                '<html><math><x href="javascript:alert(1)">blah</x>',
+                '<!-- html ignored --><body><math><!-- x ignored -->blah</math></body>'
+            ],
+            [
+                '<html><a href="j&#x61vascript:alert(1)">XSS</a>',
+                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+            ],
+            [
+                '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
+                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+            ],
+            [
+                '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
+                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+            ],
+            [
+                '<html><body background="javascript:alert(1)">',
+                '<!-- html ignored --><body x-washed="background"></body>'
+            ],
+            [
+                '<html><math href="javascript:alert(location);"><mi>clickme</mi></math>',
+                '<!-- html ignored --><body><math x-washed="href"><mi>clickme</mi></math></body>',
+            ],
+            [
+                '<html><math><mstyle href="javascript:alert(location);"><mi>clickme</mi></mstyle></math>',
+                '<!-- html ignored --><body><math><mstyle x-washed="href"><mi>clickme</mi></mstyle></math></body>',
+            ],
+            [
+                '<html><math><msubsup href="javascript:alert(location);"><mi>clickme</mi></msubsup></math>',
+                '<!-- html ignored --><body><math><msubsup x-washed="href"><mi>clickme</mi></msubsup></math></body>',
+            ],
+            [
+                '<html><math><ms HREF="javascript:alert(location);">clickme</ms></math>',
+                '<!-- html ignored --><body><math><ms x-washed="href">clickme</ms></math></body>',
+            ],
+        ];
+    }
 
-        $washer = new rcube_washtml;
-        $washed = $washer->wash($svg);
+    /**
+     * Test various XSS issues
+     *
+     * @dataProvider data_wash_xss_tests
+     */
+    function test_wash_xss_tests($input, $expected)
+    {
+        $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
+        $washed = $washer->wash($input);
 
-        $this->assertSame($washed, $exp, "SVG content");
-
-        $svg = '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>';
-        $exp = '<p>Hello victim!<svg /></p>';
-
-        $washer = new rcube_washtml;
-        $washed = $washer->wash($svg);
-
-        $this->assertSame($washed, $exp, "SVG content");
-
-        $svg = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
-        $exp = '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />';
-
-        $washer = new rcube_washtml;
-        $washed = $washer->wash($svg);
-
-        $this->assertSame($washed, $exp, "SVG content");
+        $this->assertSame($expected, $washed, "XSS issues");
     }
 
     /**
