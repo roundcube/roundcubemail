@@ -390,7 +390,30 @@ class rcube_washtml
                 return $this->config['blocked_src'];
             }
         }
-        else if (preg_match('/^data:image.+/i', $uri)) { // RFC2397
+        else if (preg_match('/^data:image\/([^,]+),(.+)$/i', $uri, $matches)) { // RFC2397
+            // svg images can be insecure, we'll sanitize them
+            if (stripos($matches[1], 'svg') !== false) {
+                $svg = $matches[2];
+
+                if (stripos($matches[1], ';base64') !== false) {
+                    $svg  = base64_decode($svg);
+                    $type = $matches[1];
+                }
+                else {
+                    $type = $matches[1] . ';base64';
+                }
+
+                $washer = new self($this->config);
+                $svg    = $washer->wash($svg);
+
+                // Invalid svg content
+                if (empty($svg)) {
+                    return null;
+                }
+
+                return 'data:image/' . $type . ',' . base64_encode($svg);
+            }
+
             return $uri;
         }
     }
@@ -400,7 +423,7 @@ class rcube_washtml
      */
     private function is_link_attribute($tag, $attr)
     {
-        return ($tag == 'a' || $tag == 'area') && $attr == 'href';
+        return $attr === 'href';
     }
 
     /**
@@ -412,6 +435,7 @@ class rcube_washtml
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
             || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
+            || ($tag == 'use' && $attr == 'href') // SVG
             || ($tag == 'image' && $attr == 'href'); // SVG
     }
 
@@ -422,6 +446,31 @@ class rcube_washtml
     {
         return in_array($attr, array('fill', 'filter', 'stroke', 'marker-start',
             'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor'));
+    }
+
+    /**
+     * Check if a specified element has an attribute with specified value.
+     * Do it in case-insensitive manner.
+     *
+     * @param DOMElement $node       The element
+     * @param string     $attr_name  The attribute name
+     * @param string     $attr_value The attribute value to find
+     *
+     * @return bool True if the specified attribute exists and has the expected value
+     */
+    private static function attribute_value($node, $attr_name, $attr_value)
+    {
+        $attr_name = strtolower($attr_name);
+
+        foreach ($node->attributes as $name => $attr) {
+            if (strtolower($name) === $attr_name) {
+                if (strtolower($attr_value) === strtolower($attr->nodeValue)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -458,6 +507,15 @@ class rcube_washtml
             switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
                 $tagName = strtolower($node->nodeName);
+
+                if (in_array($tagName, array('animate', 'animatecolor', 'set', 'animatetransform'))
+                    && self::attribute_value($node, 'attributename', 'href')
+                ) {
+                    // Insecure svg tags
+                    $dump .= "<!-- $tagName blocked -->";
+                    break;
+                }
+
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
