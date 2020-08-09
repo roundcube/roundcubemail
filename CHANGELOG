@@ -13,6 +13,8 @@ CHANGELOG Roundcube Webmail
 - Fix handling links without defined protocol (#7454)
 - Fix paging of search results on IMAP servers with no SORT capability (#7462)
 - Fix detecting special folders on servers with both SPECIAL-USE and LIST-STATUS (#7525)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg content [CVE-2020-16145]
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious math content
 
 RELEASE 1.4.7
 -------------
