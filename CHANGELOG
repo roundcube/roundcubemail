@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg content [CVE-2020-16145]
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious math content
+
 RELEASE 1.2.11
 --------------
 - Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace
