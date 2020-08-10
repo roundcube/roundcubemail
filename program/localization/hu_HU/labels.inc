@@ -435,7 +435,7 @@ $labels['importreplace'] = 'A teljes címjegyzék cseréje';
 $labels['importgroups'] = 'Csoport hozzárendelések importálása';
 $labels['importgroupsall'] = 'Mind(csoport létrehozása amennyiben szükséges)';
 $labels['importgroupsexisting'] = 'Csak már létező csoportoknak';
-$labels['importdesc'] = 'Feltölthetsz partnereket már létező címjegyzékből.<br/>Jelenleg a címeket importálni vagy <a href="https://en.wikipedia.org/wiki/VCard">vCard vagy CSV(vesszővel-tagolt) formátumból lehet.';
+$labels['importdesc'] = 'Feltölthetsz partnereket már létező címjegyzékből.<br/>Jelenleg a címeket importálni vagy <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> vagy CSV(vesszővel-tagolt) formátumból lehet.';
 $labels['done'] = 'Kész';
 $labels['settingsfor'] = 'Beállítás';
 $labels['about'] = 'Névjegy';
