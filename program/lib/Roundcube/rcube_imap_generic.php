@@ -769,6 +769,20 @@ class rcube_imap_generic
             $line   = $this->readReply();
             $result = $this->parseResult($line);
         }
+        else if ($type == 'XOAUTH2') {
+            $auth = base64_encode("user=$user\1auth=$pass\1\1");
+            $this->putLine($this->nextTag() . " AUTHENTICATE XOAUTH2 $auth", true, true);
+
+            $line = trim($this->readReply());
+
+            if ($line[0] == '+') {
+                // send empty line
+                $this->putLine('', true, true);
+                $line = $this->readReply();
+            }
+
+            $result = $this->parseResult($line);
+        }
 
         if ($result === self::ERROR_OK) {
             // optional CAPABILITY response
@@ -959,6 +973,7 @@ class rcube_imap_generic
             case 'GSSAPI':
             case 'PLAIN':
             case 'LOGIN':
+            case 'XOAUTH2':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
 

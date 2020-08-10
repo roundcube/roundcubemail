@@ -33,7 +33,7 @@ class rcmail extends rcube
      *
      * @var array
      */
-    static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','dummy');
+    static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','oauth','dummy');
 
     /**
      * Current task.
@@ -139,6 +139,9 @@ class rcmail extends rcube
         else if ($_SERVER['REMOTE_ADDR']) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
         }
+
+        // load oauth manager
+        $this->oauth = rcmail_oauth::get_instance();
 
         // run init method on all the plugins
         $this->plugins->init($this, $this->task);
