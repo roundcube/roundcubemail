@@ -319,6 +319,84 @@ $config['smtp_conn_options'] = null;
 
 
 // ----------------------------------
+// OAuth
+// ----------------------------------
+
+// Enable OAuth2 by defining a provider. Use 'generic' here
+$config['oauth_provider'] = null;
+
+// Provider name to be displayed on the login button
+$config['oauth_provider_name'] = 'Google';
+
+// Mandatory: OAuth client ID for your Roundcube installation
+$config['oauth_client_id'] = null;
+
+// Mandatory: OAuth client secret
+$config['oauth_client_secret'] = null;
+
+// Mandatory: URI for OAuth user authentication (redirect)
+$config['oauth_auth_uri'] = null;
+
+// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+$config['oauth_token_uri'] = null;
+
+// Optional: Endpoint to query user identity if not provided in auth response
+$config['oauth_identity_uri'] = null;
+
+// Optional: disable SSL certificate check on HTTP requests to OAuth server
+// See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
+$config['oauth_verify_peer'] = true;
+
+// Mandatory: OAuth scopes to request (space-separated string)
+$config['oauth_scope'] = null;
+
+// Optional: additional query parameters to send with login request (hash array)
+$config['oauth_auth_parameters'] = [];
+
+// Optional: array of field names used to resolve the username within the identity information
+$config['oauth_identity_fields'] = null;
+
+// Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
+$config['oauth_login_redirect'] = false;
+
+///// Example config for Gmail
+
+// Register your service at https://console.developers.google.com/
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['oauth_provider'] = 'google';
+// $config['oauth_provider_name'] = 'Google';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://accounts.google.com/o/oauth2/auth";
+// $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
+// $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
+// $config['oauth_scope'] = "email profile openid https://mail.google.com/";
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
+
+///// Example config for Outlook.com (Office 365)
+
+// Register your OAuth client at https://portal.azure.com
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
+
+// $config['default_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+// $config['oauth_provider'] = 'outlook';
+// $config['oauth_provider_name'] = 'Outlook.com';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+// $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+// $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
+// $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
+// $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
+// $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
+
+// ----------------------------------
 // LDAP
 // ----------------------------------
 
