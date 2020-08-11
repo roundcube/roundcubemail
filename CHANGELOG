@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
 - Upgrade to TinyMCE 5.4.1
@@ -43,9 +44,13 @@ CHANGELOG Roundcube Webmail
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+
+RELEASE 1.4.8
+-------------
 - Fix support for an error as a string in message_before_send hook (#7475)
 - Elastic: Fix redundant scrollbar in plain text editor on mail reply (#7500)
 - Elastic: Fix deleted and replied+forwarded icons on messages list (#7503)
+- Managesieve: Fix too-small input field in Elastic when using custom headers (#7498)
 - Managesieve: Allow angle brackets in out-of-office message body (#7518)
 - Fix bug in conversion of email addresses to mailto links in plain text messages (#7526)
 - Fix format=flowed formatting on plain text part derived from the HTML content (#7504)
@@ -55,6 +60,7 @@ CHANGELOG Roundcube Webmail
 - Fix detecting special folders on servers with both SPECIAL-USE and LIST-STATUS (#7525)
 - Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg content [CVE-2020-16145]
 - Security: Fix cross-site scripting (XSS) via HTML messages with malicious math content
+- Security: Fix potential XSS issue in HTML editor of the identity signature input (#7507)
 
 RELEASE 1.4.7
 -------------
