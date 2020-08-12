@@ -175,4 +175,16 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertEquals($result['address:home'][0]['zipcode'], 'zip', "ADR with some fields missing (1)");
         $this->assertEquals($result['address:home'][0]['street'], 'street', "ADR with some fields missing (2)");
     }
+
+    /**
+     * Support BDAT in YYYYMMRR format
+     */
+    function test_bday_v4()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:4.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nBDAY:19800202\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("1980-02-02", $vcard['birthday'][0]);
+    }
 }

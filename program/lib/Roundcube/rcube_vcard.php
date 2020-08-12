@@ -240,6 +240,10 @@ class rcube_vcard
                         list(,, $value['street'], $value['locality'], $value['region'], $value['zipcode'], $value['country']) = $raw;
                         $out[$key][] = $value;
                     }
+                    // support vCard v4 date format (YYYYMMDD)
+                    else if ($tag == 'BDAY' && preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $raw[0], $m)) {
+                        $out[$key][] = sprintf('%04d-%02d-%02d', intval($m[1]), intval($m[2]), intval($m[3]));
+                    }
                     else {
                         $out[$key][] = $raw[0];
                     }
