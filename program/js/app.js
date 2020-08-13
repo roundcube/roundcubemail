@@ -58,9 +58,10 @@ function rcube_webmail()
   this.preview_delay_select = 400;
   this.preview_delay_click  = 60;
   this.identifier_expr = /[^0-9a-z_-]/gi;
+  this.uploadTimeout = 0; // 0 = no timeout | ajax call timeout for loading attachment
+
 
   // environment defaults
-  this.uploadTimeout = 0 * 1000; // 0 = no timeout | ajax call timeout for loading attachment
   this.env = {
     request_timeout: 180,  // seconds
     draft_autosave: 0,     // seconds
