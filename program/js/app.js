@@ -58,6 +58,8 @@ function rcube_webmail()
   this.preview_delay_select = 400;
   this.preview_delay_click  = 60;
   this.identifier_expr = /[^0-9a-z_-]/gi;
+  this.uploadTimeout = 0; // 0 = no timeout | ajax call timeout for loading attachment
+
 
   // environment defaults
   this.env = {
@@ -9654,7 +9656,7 @@ function rcube_webmail()
         url: this.url(props.action || 'upload', args),
         contentType: false,
         processData: false,
-        timeout: 0, // disable default timeout set in ajaxSetup()
+        timeout: this.uploadTimeout, // ajax call timeout for loading attachment
         data: formdata,
         headers: {'X-Roundcube-Request': this.env.request_token},
         xhr: function() {
