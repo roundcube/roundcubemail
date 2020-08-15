@@ -240,7 +240,8 @@ class rcube_cache
         if ($this->indexed) {
             return $data !== false ? $this->unserialize($data) : null;
         }
-        else if ($data !== false) {
+
+        if ($data !== false) {
             $timestamp = 0;
             $utc       = new DateTimeZone('UTC');
 

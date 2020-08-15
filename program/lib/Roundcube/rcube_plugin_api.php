@@ -352,7 +352,10 @@ class rcube_plugin_api
             }
 
             // load additional information from local composer.lock file
-            if ($lock = $composer_lock['installed'][$json['name']]) {
+            if (!empty($json['name']) && !empty($composer_lock['installed'])
+                && !empty($composer_lock['installed'][$json['name']])
+            ) {
+                $lock            = $composer_lock['installed'][$json['name']];
                 $info['version'] = $lock['version'];
                 $info['uri']     = $lock['homepage'] ?: $lock['source']['uri'];
                 $info['src_uri'] = $lock['dist']['uri'] ?: $lock['source']['uri'];

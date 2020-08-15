@@ -318,12 +318,12 @@ class rcube_config
                 include($fpath);
                 ob_end_clean();
 
-                if (is_array($config)) {
+                if (isset($config) && is_array($config)) {
                     $this->merge($config);
                     $success = true;
                 }
                 // deprecated name of config variable
-                if (is_array($rcmail_config)) {
+                if (isset($rcmail_config) && is_array($rcmail_config)) {
                     $this->merge($rcmail_config);
                     $success = true;
                 }

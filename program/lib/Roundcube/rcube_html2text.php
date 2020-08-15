@@ -282,6 +282,13 @@ class rcube_html2text
     );
 
     /**
+     * Temp. PRE content
+     *
+     * @var string $pre_content
+     */
+    protected $pre_content = '';
+
+    /**
      * Contains a list of HTML tags to allow in the resulting text.
      *
      * @var string $allowed_tags

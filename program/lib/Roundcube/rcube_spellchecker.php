@@ -28,12 +28,13 @@
 class rcube_spellchecker
 {
     private $matches = array();
+    private $options = array();
+    private $content;
     private $engine;
     private $backend;
     private $lang;
     private $rc;
     private $error;
-    private $options = array();
     private $dict;
     private $have_dict;
 
@@ -73,31 +74,36 @@ class rcube_spellchecker
     {
         // trust configuration
         $configured = $this->rc->config->get('spellcheck_languages');
-        if (!empty($configured) && is_array($configured) && !$configured[0]) {
+        if (!empty($configured) && is_array($configured) && empty($configured[0])) {
             return $configured;
         }
-        else if (!empty($configured)) {
-            $langs = (array)$configured;
+
+        $langs = array();
+        if (!empty($configured)) {
+            $langs = (array) $configured;
         }
         else if ($this->backend) {
             $langs = $this->backend->languages();
         }
 
         // load index
+        $rcube_languages        = array();
+        $rcube_language_aliases = array();
+
         @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
 
         // add correct labels
         $languages = array();
-        foreach ((array) $langs as $lang) {
+        foreach ($langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
-            $alias = $rcube_language_aliases[$langc];
+            $alias = !empty($rcube_language_aliases[$langc]) ? $rcube_language_aliases[$langc] : null;
             if (!$alias) {
                 $alias = $langc.'_'.strtoupper($langc);
             }
-            if ($rcube_languages[$lang]) {
+            if (!empty($rcube_languages[$lang])) {
                 $languages[$lang] = $rcube_languages[$lang];
             }
-            else if ($rcube_languages[$alias]) {
+            else if (!empty($rcube_languages[$alias])) {
                 $languages[$lang] = $rcube_languages[$alias];
             }
             else {
@@ -310,7 +316,7 @@ class rcube_spellchecker
             }
         }
 
-        if ($valid) {
+        if (!empty($valid)) {
             $this->dict = array_unique($this->dict);
             $this->update_dict();
         }
@@ -336,6 +342,7 @@ class rcube_spellchecker
      */
     private function update_dict()
     {
+        $userid = null;
         if (strcasecmp($this->options['dictionary'], 'shared') != 0) {
             $userid = $this->rc->get_user_id();
         }
@@ -382,6 +389,7 @@ class rcube_spellchecker
             return $this->dict;
         }
 
+        $userid = null;
         if (strcasecmp($this->options['dictionary'], 'shared') != 0) {
             $userid = $this->rc->get_user_id();
         }

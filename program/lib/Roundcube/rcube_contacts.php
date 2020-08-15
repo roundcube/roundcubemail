@@ -143,6 +143,8 @@ class rcube_contacts extends rcube_addressbook
             return $results;
         }
 
+        $sql_filter = '';
+
         if ($search) {
             if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $sql_filter = $this->db->ilike('name', $search);
@@ -214,19 +216,25 @@ class rcube_contacts extends rcube_addressbook
 
         $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
         $length    = $subset != 0 ? abs($subset) : $this->page_size;
+        $join      = '';
 
-        if ($this->group_id)
+        if ($this->group_id) {
             $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m".
                 " ON (m.`contact_id` = c.`".$this->primary_key."`)";
+        }
 
-        $order_col  = (in_array($this->sort_col, $this->table_cols) ? $this->sort_col : 'name');
+        $order_col  = in_array($this->sort_col, $this->table_cols) ? $this->sort_col : 'name';
         $order_cols = array("c.`$order_col`");
-        if ($order_col == 'firstname')
+
+        if ($order_col == 'firstname') {
             $order_cols[] = 'c.`surname`';
-        else if ($order_col == 'surname')
+        }
+        else if ($order_col == 'surname') {
             $order_cols[] = 'c.`firstname`';
-        if ($order_col != 'name')
+        }
+        if ($order_col != 'name') {
             $order_cols[] = 'c.`name`';
+        }
         $order_cols[] = 'c.`email`';
 
         $sql_result = $this->db->limitquery(
@@ -236,12 +244,12 @@ class rcube_contacts extends rcube_addressbook
                 " AND c.`user_id` = ?" .
                 ($this->group_id ? " AND m.`contactgroup_id` = ?" : "").
                 ($this->filter ? " AND ".$this->filter : "") .
-            " ORDER BY ". $this->db->concat($order_cols) .
-            " " . $this->sort_order,
+            " ORDER BY ". $this->db->concat($order_cols) . " " . $this->sort_order,
             $start_row,
             $length,
             $this->user_id,
-            $this->group_id);
+            $this->group_id
+        );
 
         // determine whether we have to parse the vcard or if only db cols are requested
         $read_vcard = !$cols || count(array_intersect($cols, $this->table_cols)) < count($cols);
@@ -249,8 +257,9 @@ class rcube_contacts extends rcube_addressbook
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $sql_arr['ID'] = $sql_arr[$this->primary_key];
 
-            if ($read_vcard)
+            if ($read_vcard) {
                 $sql_arr = $this->convert_db_data($sql_arr);
+            }
             else {
                 $sql_arr['email'] = $sql_arr['email'] ? explode(self::SEPARATOR, $sql_arr['email']) : array();
                 $sql_arr['email'] = array_map('trim', $sql_arr['email']);
@@ -262,15 +271,19 @@ class rcube_contacts extends rcube_addressbook
         $cnt = count($this->result->records);
 
         // update counter
-        if ($nocount)
+        if ($nocount) {
             $this->result->count = $cnt;
+        }
         else if ($this->list_page <= 1) {
-            if ($cnt < $this->page_size && $subset == 0)
+            if ($cnt < $this->page_size && $subset == 0) {
                 $this->result->count = $cnt;
-            else if (isset($this->cache['count']))
+            }
+            else if (isset($this->cache['count'])) {
                 $this->result->count = $this->cache['count'];
-            else
+            }
+            else {
                 $this->result->count = $this->_count();
+            }
         }
 
         return $this->result;
@@ -480,9 +493,12 @@ class rcube_contacts extends rcube_addressbook
      */
     private function _count()
     {
-        if ($this->group_id)
+        $join = null;
+
+        if ($this->group_id) {
             $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m".
                 " ON (m.`contact_id` = c.`".$this->primary_key."`)";
+        }
 
         // count contacts for this user
         $sql_result = $this->db->query(
@@ -546,7 +562,7 @@ class rcube_contacts extends rcube_addressbook
             $this->result->add($record);
         }
 
-        return $assoc && $record ? $record : $this->result;
+        return $assoc && !empty($record) ? $record : $this->result;
     }
 
     /**

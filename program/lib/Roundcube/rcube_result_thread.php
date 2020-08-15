@@ -417,11 +417,11 @@ class rcube_result_thread
     /**
      * THREAD=REFS sorting implementation (based on provided index)
      *
-     * @param rcube_result_index $index  Sorted message identifiers
+     * @param rcube_result_index $index Sorted message identifiers
      */
     public function sort($index)
     {
-        $this->sort_order = $index->get_parameters('ORDER');
+        $this->order = $index->get_parameters('ORDER');
 
         if (empty($this->raw_data)) {
             return;

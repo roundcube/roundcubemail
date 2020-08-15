@@ -123,6 +123,8 @@ class rcube_tnef_decoder
     const RTF_UNCOMPRESSED = 0x414c454d;
     const RTF_COMPRESSED   = 0x75465a4c;
 
+    protected $codepage;
+
 
     /**
      * Decompress the data.

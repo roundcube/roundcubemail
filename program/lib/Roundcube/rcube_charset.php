@@ -217,6 +217,8 @@ class rcube_charset
         // allow A-Z and 0-9 only
         $str = preg_replace('/[^A-Z0-9]/', '', $charset);
 
+        $result = $charset;
+
         if (isset(self::$aliases[$str])) {
             $result = self::$aliases[$str];
         }
@@ -251,9 +253,6 @@ class rcube_charset
             else if (!empty($aliases[$m[1]])) {
                 $result = 'ISO-8859-'.$aliases[$m[1]];
             }
-        }
-        else {
-            $result = $charset;
         }
 
         $charsets[$input] = $result;
@@ -398,6 +397,7 @@ class rcube_charset
         }
 
         // Prioritize charsets according to current language (#1485669)
+        $prio = null;
         switch ($language) {
         case 'ja_JP':
             $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
@@ -423,7 +423,7 @@ class rcube_charset
 
         // mb_detect_encoding() is not reliable for some charsets (#1490135)
         // use mb_check_encoding() to make charset priority lists really working
-        if ($prio && function_exists('mb_check_encoding')) {
+        if (!empty($prio) && function_exists('mb_check_encoding')) {
             foreach ($prio as $encoding) {
                 if (mb_check_encoding($string, $encoding)) {
                     return $encoding;
@@ -432,7 +432,7 @@ class rcube_charset
         }
 
         if (function_exists('mb_detect_encoding')) {
-            if (!$prio) {
+            if (empty($prio)) {
                 $prio = array('UTF-8', 'SJIS', 'GB2312',
                     'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
                     'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',

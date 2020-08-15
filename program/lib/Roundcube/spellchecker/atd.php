@@ -115,8 +115,9 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
         // parse HTTP response headers
         if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $headers, $m)) {
             $http_status = $m[1];
-            if ($http_status != '200')
+            if ($http_status != '200') {
                 $this->error = 'HTTP ' . $m[1] . $m[2];
+            }
         }
 
         if (!$response) {
@@ -130,6 +131,8 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $this->error = "Unexpected response from server: " . $response;
             return array();
         }
+
+        $matches = array();
 
         foreach ($result->error as $error) {
             if (strval($error->type) == 'spelling') {
@@ -149,8 +152,9 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
                 $match = array($word, $pos, $len, null, array());
                 foreach ($error->suggestions->option as $option) {
                     $match[4][] = strval($option);
-                    if (++$num == self::MAX_SUGGESTIONS)
+                    if (++$num == self::MAX_SUGGESTIONS) {
                         break;
+                    }
                 }
                 $matches[] = $match;
             }
