@@ -118,6 +118,8 @@ class rcube_imap_search
  */
 class rcube_imap_search_job /* extends Stackable */
 {
+    public $worker;
+
     private $folder;
     private $search;
     private $charset;
@@ -196,7 +198,7 @@ class rcube_imap_search_job /* extends Stackable */
             }
         }
 
-        if (!$messages || $messages->is_error()) {
+        if (empty($messages) || $messages->is_error()) {
             $messages = $imap->search($this->folder,
                 ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
 

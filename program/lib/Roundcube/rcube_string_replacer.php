@@ -101,8 +101,10 @@ class rcube_string_replacer
      */
     public function link_callback($matches)
     {
-        $i = -1;
-        $scheme = strtolower($matches[1]);
+        $i          = -1;
+        $scheme     = strtolower($matches[1]);
+        $url_prefix = '';
+        $prefix     = '';
 
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
@@ -113,7 +115,7 @@ class rcube_string_replacer
             $prefix     = $m[1];
         }
 
-        if ($url) {
+        if (!empty($url)) {
             $suffix = $this->parse_url_brackets($url);
             $attrib = (array)$this->options['link_attribs'];
             $attrib['href'] = $url_prefix . $url;
@@ -235,6 +237,8 @@ class rcube_string_replacer
         // of the link e.g. "[http://example.com]"
         // Yes, this is not perfect handles correctly only paired characters
         // but it should work for common cases
+
+        $suffix = '';
 
         if (preg_match('/(\\[|\\])/', $url)) {
             $in = false;

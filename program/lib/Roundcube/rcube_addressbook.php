@@ -276,7 +276,7 @@ abstract class rcube_addressbook
     function insertMultiple($recset, $check = false)
     {
         $ids = array();
-        if (is_object($recset) && is_a($recset, rcube_result_set)) {
+        if ($recset instanceof rcube_result_set) {
             while ($row = $recset->next()) {
                 if ($insert = $this->insert($row, $check))
                     $ids[] = $insert;

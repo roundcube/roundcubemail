@@ -385,8 +385,9 @@ abstract class rcube_plugin
      */
     public function local_skin_path()
     {
-        $rcube = rcube::get_instance();
-        $skins = array_keys((array)$rcube->output->skins);
+        $rcube     = rcube::get_instance();
+        $skins     = array_keys((array)$rcube->output->skins);
+        $skin_path = '';
 
         if (empty($skins)) {
             $skins = (array) $rcube->config->get('skin');

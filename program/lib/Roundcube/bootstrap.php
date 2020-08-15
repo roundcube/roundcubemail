@@ -146,6 +146,8 @@ function parse_bytes($str)
         return floatval($str);
     }
 
+    $bytes = 0;
+
     if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
         $bytes = floatval($regs[1]);
         switch (strtolower($regs[2])) {

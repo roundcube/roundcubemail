@@ -612,15 +612,17 @@ class rcube_utils
         $z = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $h);
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
+        $s = '';
         if (strpos($name, '%s') !== false) {
             $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;
             }
+            $s = $s[2];
         }
 
-        return str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s[2]), $name);
+        return str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s), $name);
     }
 
     /**

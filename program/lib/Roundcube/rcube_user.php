@@ -705,7 +705,7 @@ class rcube_user
                 'message' => "Failed to create new user"), true, false);
         }
 
-        return $user_id ? $user_instance : null;
+        return !empty($user_instance) ? $user_instance : null;
     }
 
     /**

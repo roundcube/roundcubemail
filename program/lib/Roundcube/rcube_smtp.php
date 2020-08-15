@@ -104,6 +104,7 @@ class rcube_smtp
         }
 
         // remove TLS prefix and set flag for use in Net_SMTP::auth()
+        $use_tls = false;
         if (preg_match('#^tls://#i', $smtp_host)) {
             $smtp_host = preg_replace('#^tls://#i', '', $smtp_host);
             $use_tls   = true;
@@ -164,6 +165,7 @@ class rcube_smtp
         $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
+        $smtp_authz     = null;
 
         if (!empty($CONFIG['smtp_auth_cid'])) {
             $smtp_authz = $smtp_user;
@@ -221,6 +223,7 @@ class rcube_smtp
         }
 
         // prepare message headers as string
+        $text_headers = '';
         if (is_array($headers)) {
             if (!($headerElements = $this->_prepare_headers($headers))) {
                 $this->reset();
@@ -248,7 +251,9 @@ class rcube_smtp
             return false;
         }
 
-        $exts = $this->conn->getServiceExtensions();
+        $exts             = $this->conn->getServiceExtensions();
+        $from_params      = '';
+        $recipient_params = '';
 
         // RFC3461: Delivery Status Notification
         if ($opts['dsn']) {
@@ -321,7 +326,8 @@ class rcube_smtp
             $data = $text_headers . "\r\n" . $body;
 
             // unset old vars to save data and so we can pass into SMTP_CONN->data by reference.
-            unset($text_headers, $body);
+            $text_headers = '';
+            $body         = '';
         }
 
         // Send the message's headers and the body as SMTP data.

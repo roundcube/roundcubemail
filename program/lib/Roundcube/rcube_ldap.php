@@ -309,6 +309,7 @@ class rcube_ldap extends rcube_addressbook
                     list($u, $d) = explode('@', $fu);
                 }
                 else {
+                    $u = '';
                     $d = $this->mail_domain;
                 }
 
@@ -947,6 +948,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         $result = $this->ldap->search($base_dn, $prop['filter'], $prop['scope'], $attrs, $prop, $count);
+        $result_count = 0;
 
         // we have a search result resource, get all entries
         if (!$count && $result) {
@@ -956,7 +958,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // search for groups
-        if ($is_extended_search
+        if (!empty($is_extended_search)
             && is_array($this->prop['group_filters'])
             && !empty($this->prop['groups']['filter'])
         ) {
@@ -991,7 +993,6 @@ class rcube_ldap extends rcube_addressbook
             }
 
             $result['count'] = $result_count;
-            $this->result_entries = $result;
         }
 
         return $result;
@@ -1387,7 +1388,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        return $newdn ?: true;
+        return isset($newdn) ? $newdn : true;
     }
 
     /**

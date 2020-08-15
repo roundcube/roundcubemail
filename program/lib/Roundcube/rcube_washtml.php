@@ -333,12 +333,12 @@ class rcube_washtml
                     $out = $this->wash_link($value);
                 }
                 else if ($this->is_funciri_attribute($node->nodeName, $key)) {
-                    if (preg_match('/^[a-z:]*url\(/i', $val)) {
+                    if (preg_match('/^[a-z:]*url\(/i', $value)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
-                                    . substr($val, strlen($match[0])) . '"';
+                                    . substr($value, strlen($match[0])) . '"';
                                 continue;
                             }
                         }
@@ -553,7 +553,7 @@ class rcube_washtml
 
         if ($this->max_nesting_level > 0 && $level == $this->max_nesting_level - 1) {
             // log error message once
-            if (!$this->max_nesting_level_error) {
+            if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error(array('code' => 500, 'type' => 'php',
                     'line' => __LINE__, 'file' => __FILE__,
@@ -979,9 +979,10 @@ class rcube_washtml
         $style  = trim($style);
         $strlen = strlen($style);
         $result = array();
+        $q      = false;
 
         // explode value
-        for ($p=$i=0; $i < $strlen; $i++) {
+        for ($p = $i = 0; $i < $strlen; $i++) {
             if (($style[$i] == "\"" || $style[$i] == "'") && $style[$i-1] != "\\") {
                 if ($q == $style[$i]) {
                     $q = false;

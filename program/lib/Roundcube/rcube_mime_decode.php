@@ -194,14 +194,15 @@ class rcube_mime_decode
                 unset($obj);
 
                 if ($this->params['include_bodies']) {
-                    $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
+                    $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body) : $body;
                 }
 
                 break;
 
             default:
                 if ($this->params['include_bodies']) {
-                    $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $content_transfer_encoding['value']) : $body;
+                    $encoding = !empty($content_transfer_encoding['value']) ? $content_transfer_encoding['value'] : '7bit';
+                    $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
                 }
 
                 break;
@@ -293,7 +294,8 @@ class rcube_mime_decode
      */
     protected function parseHeaderValue($input)
     {
-        $parts = preg_split('/;\s*/', $input);
+        $parts  = preg_split('/;\s*/', $input);
+        $return = array();
 
         if (!empty($parts)) {
             $return['value'] = trim($parts[0]);
@@ -323,7 +325,8 @@ class rcube_mime_decode
      */
     protected function boundarySplit($input, $boundary)
     {
-        $tmp = explode('--' . $boundary, $input);
+        $tmp   = explode('--' . $boundary, $input);
+        $parts = array();
 
         for ($i = 1; $i < count($tmp)-1; $i++) {
             $parts[] = $tmp[$i];
