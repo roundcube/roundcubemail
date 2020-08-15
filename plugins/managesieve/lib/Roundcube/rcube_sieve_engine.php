@@ -2748,7 +2748,7 @@ class rcube_sieve_engine
             case 'std11':
                 return preg_match('/^((Sun|Mon|Tue|Wed|Thu|Fri|Sat),\s+)?[0-9]{1,2}\s+'
                     . '(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+[0-9]{2,4}\s+'
-                    . '[0-9]{2}:[0-9]{2}(:[0-9]{2})?\s+([+-]*[0-9]{4}|[A-Z]{1,3})$', $value);
+                    . '[0-9]{2}:[0-9]{2}(:[0-9]{2})?\s+([+-]*[0-9]{4}|[A-Z]{1,3})/$', $value);
             case 'julian':
                 return preg_match('/^[0-9]+$/', $value);
             case 'time': // hh:mm:ss

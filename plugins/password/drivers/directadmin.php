@@ -284,8 +284,8 @@ class HTTPSocket
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $array_headers);
 
-        if(!($this->result = curl_exec($ch))) {
-            $this->error[] .= curl_error($ch);
+        if (!($this->result = curl_exec($ch))) {
+            $this->error[] = curl_error($ch);
             $OK = false;
         }
 
