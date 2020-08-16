@@ -216,14 +216,14 @@ class rcube_smtp
      *
      * @return bool  Returns true on success, or false on error
      */
-    public function send_mail($from, $recipients, &$headers, &$body, $opts=null)
+    public function send_mail($from, $recipients, $headers, $body, $opts = null)
     {
         if (!is_object($this->conn)) {
             return false;
         }
 
         // prepare message headers as string
-        $text_headers = '';
+        $text_headers = null;
         if (is_array($headers)) {
             if (!($headerElements = $this->_prepare_headers($headers))) {
                 $this->reset();
@@ -311,27 +311,20 @@ class rcube_smtp
         }
 
         if (is_resource($body)) {
-            // file handle
-            $data = $body;
-
             if ($text_headers) {
                 $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
             }
         }
         else {
-            // Concatenate headers and body so it can be passed by reference to SMTP_CONN->data
-            // so preg_replace in SMTP_CONN->quotedata will store a reference instead of a copy.
-            // We are still forced to make another copy here for a couple ticks so we don't really
-            // get to save a copy in the method call.
-            $data = $text_headers . "\r\n" . $body;
+            if ($text_headers) {
+                $body = $text_headers . "\r\n" . $body;
+            }
 
-            // unset old vars to save data and so we can pass into SMTP_CONN->data by reference.
-            $text_headers = '';
-            $body         = '';
+            $text_headers = null;
         }
 
         // Send the message's headers and the body as SMTP data.
-        $result = $this->conn->data($data, $text_headers);
+        $result = $this->conn->data($body, $text_headers);
         if (is_a($result, 'PEAR_Error')) {
             $err       = $this->conn->getResponse();
             $err_label = 'smtperror';
