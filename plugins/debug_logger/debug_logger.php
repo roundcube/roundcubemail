@@ -63,12 +63,15 @@
  */
 class debug_logger extends rcube_plugin
 {
+    protected $runlog;
+
     function init()
     {
         require_once(__DIR__ . '/runlog/runlog.php');
+
         $this->runlog = new runlog();
 
-        if(!rcmail::get_instance()->config->get('log_dir')){
+        if (!rcmail::get_instance()->config->get('log_dir')){
             rcmail::get_instance()->config->set('log_dir',INSTALL_PATH.'logs');
         }
 
@@ -80,35 +83,39 @@ class debug_logger extends rcube_plugin
 
         $start_string = "";
         $action = rcmail::get_instance()->action;
-        $task = rcmail::get_instance()->task;
-        if($action){
-               $start_string .= "Action: ".$action.". ";
+        $task   = rcmail::get_instance()->task;
+
+        if ($action) {
+            $start_string .= "Action: {$action}. ";
         }
-        if($task){
-               $start_string .= "Task: ".$task.". ";
+
+        if ($task) {
+            $start_string .= "Task: {$task}. ";
         }
+
         $this->runlog->start($start_string);
 
         $this->add_hook('console', array($this, 'console'));
         $this->add_hook('authenticate', array($this, 'authenticate'));
     }
 
-    function authenticate($args){
+    function authenticate($args)
+    {
         $this->runlog->note('Authenticating '.$args['user'].'@'.$args['host']);
         return $args;
     }
 
-    function console($args){
+    function console($args)
+    {
         $note = $args[0];
         $type = $args[1];
 
-
-        if(!isset($args[1])){
+        if (!isset($args[1])){
             // This could be extended to detect types based on the 
             // file which called console. For now only rcube_imap/rcube_storage is supported
             $bt = debug_backtrace();
             $file  = $bt[3]['file'];
-            switch(basename($file)){
+            switch (basename($file)){
                 case 'rcube_imap.php':
                     $type = 'imap';
                     break;
@@ -116,18 +123,18 @@ class debug_logger extends rcube_plugin
                     $type = 'storage';
                     break;
                 default:
-                    $type = FALSE; 
-                    break; 
+                    $type = FALSE;
+                    break;
             }
         }
-        switch($note){
+
+        switch ($note) {
             case 'end':
                 $type = 'end';
                 break;
         }
 
-
-        switch($type){
+        switch ($type) {
             case 'start':
                 $this->runlog->start($note);
                 break;
@@ -138,12 +145,14 @@ class debug_logger extends rcube_plugin
                 $this->runlog->note($note, $type);
                 break;
         }
+
         return $args;
     }
 
     function __destruct()
     {
-        if ($this->runlog)
+        if ($this->runlog) {
             $this->runlog->end();
+        }
     }
 }

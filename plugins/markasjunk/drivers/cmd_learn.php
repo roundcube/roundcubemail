@@ -109,7 +109,7 @@ class markasjunk_cmd_learn
                 rcube::write_log('markasjunk', $tmp_command);
             }
 
-            if (strpos($command, '%f') !== false) {
+            if (isset($tmpfname)) {
                 unlink($tmpfname);
             }
         }

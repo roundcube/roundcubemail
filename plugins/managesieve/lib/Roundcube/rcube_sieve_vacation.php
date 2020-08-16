@@ -137,6 +137,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         // find (first) vacation rule
         foreach ($this->script as $idx => $rule) {
             if (empty($this->vacation) && !empty($rule['actions']) && $rule['actions'][0]['type'] == 'vacation') {
+                $action = 'keep';
+                $target = null;
+
                 foreach ($rule['actions'] as $act) {
                     if ($act['type'] == 'discard' || $act['type'] == 'keep') {
                         $action = $act['type'];
@@ -152,7 +155,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         'disabled' => $rule['disabled'] || !$active,
                         'name'     => $rule['name'],
                         'tests'    => $rule['tests'],
-                        'action'   => $action ?: 'keep',
+                        'action'   => $action,
                         'target'   => $target,
                 ));
             }
@@ -313,7 +316,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
-        if (!$error) {
+        if (empty($error)) {
             $rule               = $this->vacation;
             $rule['type']       = 'if';
             $rule['name']       = $rule['name'] ?: $this->plugin->gettext('vacation');
@@ -521,7 +524,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_status', $this->plugin->gettext('vacation.status')));
         $table->add(null, $status->show(!isset($this->vacation['disabled']) || $this->vacation['disabled'] ? 'off' : 'on'));
 
-        $out .= html::tag('fieldset', $class, html::tag('legend', null, $this->plugin->gettext('vacation.reply')) . $table->show($attrib));
+        $out .= html::tag('fieldset', '', html::tag('legend', null, $this->plugin->gettext('vacation.reply')) . $table->show($attrib));
 
         // Advanced tab
         $table = new html_table(array('cols' => 2));
@@ -541,13 +544,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_action', $this->plugin->gettext('vacation.action')));
         $table->add('vacation input-group input-group-combo', $action->show($this->vacation['action']) . $action_target);
 
-        $out .= html::tag('fieldset', $class, html::tag('legend', null, $this->plugin->gettext('vacation.advanced')) . $table->show($attrib));
+        $out .= html::tag('fieldset', '', html::tag('legend', null, $this->plugin->gettext('vacation.advanced')) . $table->show($attrib));
 
         $out .= '</form>';
 
         $this->rc->output->add_gui_object('sieveform', $form_id);
 
-        if ($time_format) {
+        if (!empty($time_format)) {
             $this->rc->output->set_env('time_format', $time_format);
         }
 
@@ -646,7 +649,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        return $interval ?: '';
+        return !empty($interval) ? $interval : '';
     }
 
     /**
@@ -671,6 +674,10 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         catch (Exception $e) {
             $timezone = new DateTimeZone('GMT');
         }
+
+        $interval = null;
+        $start    = null;
+        $end      = null;
 
         if ($date_extension) {
             $date_value = array();

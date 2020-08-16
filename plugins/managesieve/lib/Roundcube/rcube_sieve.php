@@ -85,10 +85,13 @@ class rcube_sieve
             return $this->_set_error(self::ERROR_CONNECTION);
         }
 
+        $authz = null;
+
         if (!empty($auth_cid)) {
             $authz    = $username;
             $username = $auth_cid;
         }
+
         if (!empty($auth_pw)) {
             $password = $auth_pw;
         }
@@ -447,13 +450,15 @@ class rcube_sieve
     }
 
     /**
-     * Creates empty script or copy of other script
+     * Creates empty script or a copy of another script
      */
     public function copy($name, $copy)
     {
         if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
         }
+
+        $content = '';
 
         if ($copy) {
             $content = $this->sieve->getScript($copy);
@@ -462,7 +467,6 @@ class rcube_sieve
                 return $this->_set_error(self::ERROR_OTHER);
             }
         }
-
 
         return $this->save_script($name, $content);
     }

@@ -137,8 +137,10 @@ class rcube_sieve_forward extends rcube_sieve_engine
         foreach ($this->script as $idx => $rule) {
             if (empty($this->forward) && !empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                 $ignore_rule = false;
-                $target = null;
-                $stop_found = false;
+                $target      = null;
+                $stop_found  = false;
+                $action      = 'keep';
+
                 foreach ($rule['actions'] as $act) {
                     if ($stop_found) {
                         // we might loose information if there rules after the stop
@@ -181,7 +183,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                         'disabled' => $rule['disabled'] || !$active,
                         'name'     => $rule['name'],
                         'tests'    => $rule['tests'],
-                        'action'   => $action ?: 'keep',
+                        'action'   => $action,
                         'target'   => $target,
                     ));
                 }
@@ -215,7 +217,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', array(array('test' => 'true')));
         }
 
-        if (!$error) {
+        if (empty($error)) {
             $rule               = $this->forward;
             $rule['type']       = 'if';
             $rule['name']       = $rule['name'] ?: $this->plugin->gettext('forward');

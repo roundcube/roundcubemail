@@ -64,6 +64,7 @@ class virtuser_query extends rcube_plugin
         $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escape($p['user']), $this->config['email']));
+        $result     = array();
 
         while ($sql_arr = $dbh->fetch_array($sql_result)) {
             if (strpos($sql_arr[0], '@')) {
