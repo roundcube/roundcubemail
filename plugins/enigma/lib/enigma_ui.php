@@ -237,7 +237,9 @@ class enigma_ui
         $search   = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC);
 
         // Get the list
-        $list = $this->enigma->engine->list_keys($search);
+        $list     = $this->enigma->engine->list_keys($search);
+        $size     = 0;
+        $listsize = 0;
 
         if ($list && ($list instanceof enigma_error))
             $this->rc->output->show_message('enigma.keylisterror', 'error');
@@ -369,12 +371,14 @@ class enigma_ui
 
         // Key type
         $keytype = $this->data->get_type();
+        $type    = null;
         if ($keytype == enigma_key::TYPE_KEYPAIR) {
             $type = $this->enigma->gettext('typekeypair');
         }
         else if ($keytype == enigma_key::TYPE_PUBLIC) {
             $type = $this->enigma->gettext('typepublickey');
         }
+
         $table->add('title', html::label(null, $this->enigma->gettext('keytype')));
         $table->add(null, $type);
 
@@ -674,7 +678,7 @@ class enigma_ui
             'action'  => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
             'method'  => 'post',
             'enctype' => 'multipart/form-data') + $attrib,
-            $form
+            isset($form) ? $form : ''
         );
 
         return $out;
@@ -1051,7 +1055,7 @@ class enigma_ui
             }
         }
 
-        if ($attach_scripts) {
+        if (!empty($attach_scripts)) {
             // add css and js script
             $this->add_css();
             $this->add_js();
@@ -1118,7 +1122,7 @@ class enigma_ui
             $attach_scripts = true;
         }
 
-        if ($attach_scripts) {
+        if (!empty($attach_scripts)) {
             // add css and js script
             $this->add_css();
             $this->add_js();
@@ -1158,6 +1162,9 @@ class enigma_ui
             $engine->attach_public_key($p['message']);
         }
 
+        $mode   = null;
+        $status = null;
+
         if ($encrypt_enable) {
             $engine = $this->enigma->load_engine();
             $mode   = !$savedraft && $sign_enable ? enigma_engine::ENCRYPT_MODE_SIGN : null;
@@ -1172,6 +1179,8 @@ class enigma_ui
 
         if ($mode && ($status instanceof enigma_error)) {
             $code = $status->getCode();
+            $vars = array();
+
             if ($code == enigma_error::KEYNOTFOUND) {
                 if ($email = $status->getData('missing')) {
                     $vars = array('email' => $email);
@@ -1188,8 +1197,8 @@ class enigma_ui
                 $msg = 'enigma.' . $mode . 'error';
             }
 
-            if ($msg) {
-                if ($vars && $vars['email']) {
+            if (!empty($msg)) {
+                if (!empty($vars) && $vars['email']) {
                     $this->rc->output->command('enigma_key_not_found', array(
                             'email'  => $vars['email'],
                             'text'   => $this->rc->gettext(array('name' => $msg, 'vars' => $vars)),
@@ -1231,13 +1240,14 @@ class enigma_ui
             if ($status instanceof enigma_error) {
                 $code = $status->getCode();
 
+                if ($code == enigma_error::BADPASS) {
+                    $this->password_prompt($status, array('compose-init' => true));
+                    return $p;
+                }
+
                 if ($code == enigma_error::KEYNOTFOUND) {
                     $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
                         $this->enigma->gettext('decryptnokey')));
-                }
-                else if ($code == enigma_error::BADPASS) {
-                    $this->password_prompt($status, array('compose-init' => true));
-                    return $p;
                 }
                 else {
                     $msg = rcube::Q($this->enigma->gettext('decrypterror'));
@@ -1245,7 +1255,7 @@ class enigma_ui
             }
         }
 
-        if ($msg) {
+        if (!empty($msg)) {
             $this->rc->output->show_message($msg, 'error');
         }
 
@@ -1299,7 +1309,7 @@ class enigma_ui
             }
         }
 
-        if ($part && is_array($result = $engine->import_key($part))) {
+        if (!empty($part) && is_array($result = $engine->import_key($part))) {
             $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                 array('new' => $result['imported'], 'old' => $result['unchanged']));
         }

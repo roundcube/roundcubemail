@@ -562,7 +562,7 @@ class acl extends rcube_plugin
             }
         }
 
-        if (!$error) {
+        if (empty($error)) {
             $this->rc->output->show_message('acl.deletesuccess', 'confirmation');
         }
         else {

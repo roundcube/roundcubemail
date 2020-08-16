@@ -344,6 +344,8 @@ class password extends rcube_plugin
 
     private function _strength_rules()
     {
+        $result = null;
+
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'strength_rules')) {
             $result = $driver->strength_rules();
         }

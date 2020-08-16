@@ -26,6 +26,7 @@ class rcube_sieve_engine
 {
     protected $rc;
     protected $sieve;
+    protected $plugin;
     protected $errors;
     protected $form;
     protected $list;
@@ -93,6 +94,8 @@ class rcube_sieve_engine
 
         // connect to managesieve server
         $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));
+
+        $script_name = null;
 
         // load current/active script
         if (!$error) {
@@ -275,8 +278,10 @@ class rcube_sieve_engine
             if ($action == 'delete' && !$error) {
                 if (!in_array('delete_rule', $this->disabled_actions)) {
                     if (isset($this->script[$fid])) {
-                        if ($this->sieve->script->delete_rule($fid))
+                        $result = false;
+                        if ($this->sieve->script->delete_rule($fid)) {
                             $result = $this->save_script();
+                        }
 
                         if ($result === true) {
                             $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
@@ -611,7 +616,7 @@ class rcube_sieve_engine
                 $this->rc->output->command('parent.managesieve_updatelist', 'setadd',
                     array('name' => $name, 'index' => $index));
             }
-            else if ($msg) {
+            else if (!empty($msg)) {
                 $this->rc->output->command('display_message', $msg, 'error');
             }
             else if ($error) {
@@ -801,6 +806,7 @@ class rcube_sieve_engine
                         $dateheader  = $this->strip_value($dateheaders[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
                         $indexlast   = $this->strip_value($lastindexes[$idx]);
+                        $mod         = $this->strip_value($mods[$idx]);
 
                         if (preg_match('/^not/', $operator)) {
                             $this->form['tests'][$i]['not'] = true;
@@ -927,13 +933,16 @@ class rcube_sieve_engine
                         $mime_param  = $this->strip_value($mime_params[$idx]);
                         $mime_type   = $mime_types[$idx];
                         $mime_part   = $mime_parts[$idx];
+                        $cust_var    = null;
 
                         if ($header == 'string') {
                             $cust_var = $headers = $this->strip_value($cust_vars[$idx]);
                         }
 
-                        if (preg_match('/^not/', $operator))
+                        if (preg_match('/^not/', $operator)) {
                             $this->form['tests'][$i]['not'] = true;
+                        }
+
                         $type = preg_replace('/^not/', '', $operator);
 
                         if (!empty($index) && $mod != 'envelope') {
@@ -942,8 +951,9 @@ class rcube_sieve_engine
                         }
 
                         if ($header == '...' || $header == 'string') {
-                            if (!count($headers))
+                            if (!count($headers)) {
                                 $this->errors['tests'][$i]['header'] = $this->plugin->gettext('cannotbeempty');
+                            }
                             else if ($header == '...') {
                                 foreach ($headers as $hr) {
                                     // RFC2822: printable ASCII except colon
@@ -953,8 +963,9 @@ class rcube_sieve_engine
                                 }
                             }
 
-                            if (empty($this->errors['tests'][$i]['header']))
+                            if (empty($this->errors['tests'][$i]['header'])) {
                                 $cust_header = $cust_var = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
+                            }
                         }
 
                         $test   = $header == 'string' ? 'string' : 'header';
@@ -1258,7 +1269,7 @@ class rcube_sieve_engine
                     $save = $this->save_script();
                 }
 
-                if ($save && $fid !== false) {
+                if (!empty($save) && $fid !== false) {
                     $this->rc->output->show_message('managesieve.filtersaved', 'confirmation');
                     if ($this->rc->task != 'mail') {
                         $this->rc->output->command('parent.managesieve_updatelist',
@@ -1348,6 +1359,8 @@ class rcube_sieve_engine
         if (!empty($attrib['type']) && $attrib['type'] == 'list') {
             // define list of cols to be displayed
             $a_show_cols = array('name');
+            $result      = array();
+            $scripts     = array();
 
             if ($list) {
                 foreach ($list as $idx => $set) {
@@ -1550,11 +1563,10 @@ class rcube_sieve_engine
         $out = $hiddenfields->show();
 
         // 'any' flag
-        if ((!isset($this->form) && empty($scr['tests']) && !empty($scr))
+        $any = (
+            (!isset($this->form) && empty($scr['tests']) && !empty($scr))
             || (is_array($scr['tests']) && count($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
-        ) {
-            $any = true;
-        }
+        );
 
         // filter name input
         $input_name = new html_inputfield(array(
@@ -1735,13 +1747,16 @@ class rcube_sieve_engine
             $select_header->add($this->plugin->gettext('message'), 'message');
         }
 
+        $test = null;
+
         if (isset($rule['test'])) {
             if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
                 if (is_array($rule['arg1']) && count($rule['arg1']) == 1) {
                     $rule['arg1'] = $rule['arg1'][0];
                 }
 
-                $matches = !is_array($rule['arg1']) && ($header = strtolower($rule['arg1'])) && isset($this->headers[$header]);
+                $header  = !is_array($rule['arg1']) ? strtolower($rule['arg1']) : null;
+                $matches = !is_array($rule['arg1']) && $header && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
             else if ($rule['test'] == 'exists') {
@@ -1749,7 +1764,8 @@ class rcube_sieve_engine
                     $rule['arg'] = $rule['arg'][0];
                 }
 
-                $matches = !is_array($rule['arg']) && ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
+                $header  = !is_array($rule['arg']) ? strtolower($rule['arg']) : null;
+                $matches = !is_array($rule['arg']) && $header && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
             else if (in_array($rule['test'], array('size', 'spamtest', 'body', 'date', 'currentdate', 'string'))) {
@@ -1765,6 +1781,9 @@ class rcube_sieve_engine
 
         $tout = '<div class="flexbox">';
         $aout = $select_header->show($test);
+
+        $custom  = null;
+        $customv = null;
 
         // custom headers input
         if (isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope'))) {
@@ -1799,8 +1818,10 @@ class rcube_sieve_engine
                 'class'    => $this->error_class($id, 'test', 'header', 'custom_var')
             )) . "\n";
 
-        $test   = self::rule_test($rule);
-        $target = '';
+        $test       = self::rule_test($rule);
+        $target     = '';
+        $sizetarget = null;
+        $sizeitem   = null;
 
         // target(s) input
         if (in_array($rule['test'], array('header', 'address', 'envelope', 'string'))) {
@@ -2260,6 +2281,7 @@ class rcube_sieve_engine
 
         // force domain selection in redirect email input
         $domains = (array) $this->rc->config->get('managesieve_domains');
+
         if (!empty($domains)) {
             sort($domains);
 
@@ -2268,6 +2290,7 @@ class rcube_sieve_engine
                     'id'    => 'action_target_domain' . $id,
                     'class' => 'custom-select',
             ));
+
             $domain_select->add(array_combine($domains, $domains));
 
             if ($action['type'] == 'redirect') {
@@ -2290,7 +2313,7 @@ class rcube_sieve_engine
                 'size'  => !empty($domains) ? 20 : 35,
                 'class' => $this->error_class($id, 'action', 'target', 'action_target'),
             ));
-        $out .= !empty($domains) ? ' @ ' . $domain_select->show($action['domain']) : '';
+        $out .= isset($domain_select) ? ' @ ' . $domain_select->show($action['domain']) : '';
         $out .= '</span>';
 
         // (e)reject target
@@ -2618,6 +2641,7 @@ class rcube_sieve_engine
         }
 
         // mailbox select
+        $additional = array();
         if ($action['type'] == 'fileinto') {
             // make sure non-existing (or unsubscribed) mailbox is listed (#1489956)
             if ($mailbox = $this->mod_mailbox($action['target'], 'out')) {
@@ -2694,13 +2718,11 @@ class rcube_sieve_engine
         return '';
     }
 
-    protected function add_tip($id, $str, $error=false)
+    protected function add_tip($id, $str, $error = false)
     {
-        if ($error) {
-            $class = 'sieve error';
-        }
+        $class = $error ? 'sieve error' : '';
 
-        $this->tips[] = array($id, $class ?: '', $str);
+        $this->tips[] = array($id, $class, $str);
     }
 
     protected function print_tips()
@@ -2824,7 +2846,7 @@ class rcube_sieve_engine
                     $master_script = $name;
                 else if ($_name == 'MANAGEMENT')
                     $management_script = $name;
-                else if($_name == 'USER')
+                else if ($_name == 'USER')
                     $user_script = $name;
                 else
                     continue;
@@ -2833,7 +2855,7 @@ class rcube_sieve_engine
             }
 
             // get active script(s), read USER script
-            if ($user_script) {
+            if (!empty($user_script)) {
                 $extension = $this->rc->config->get('managesieve_filename_extension', '.sieve');
                 $filename_regex = '/'.preg_quote($extension, '/').'$/';
                 $_SESSION['managesieve_user_script'] = $user_script;
@@ -2932,6 +2954,7 @@ class rcube_sieve_engine
         if ($this->rc->config->get('managesieve_kolab_master')) {
             $extension   = $this->rc->config->get('managesieve_filename_extension', '.sieve');
             $user_script = $_SESSION['managesieve_user_script'];
+            $result      = false;
 
             // if the script is not active...
             if ($user_script && array_search($name, (array) $this->active) === false) {
@@ -2991,8 +3014,9 @@ class rcube_sieve_engine
         }
         else {
             $result = $this->sieve->activate($name);
-            if ($result)
+            if ($result) {
                 $this->active = array($name);
+            }
         }
 
         return $result;
@@ -3011,6 +3035,7 @@ class rcube_sieve_engine
         if ($this->rc->config->get('managesieve_kolab_master')) {
             $extension   = $this->rc->config->get('managesieve_filename_extension', '.sieve');
             $user_script = $_SESSION['managesieve_user_script'];
+            $result      = false;
 
             // if the script is active...
             if ($user_script && ($key = array_search($name, $this->active)) !== false) {
@@ -3018,6 +3043,7 @@ class rcube_sieve_engine
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
                     $name   = $name.$extension;
+                    $rid    = 0;
 
                     foreach ($script as $rid => $rules) {
                         foreach ($rules['actions'] as $action) {
@@ -3243,6 +3269,7 @@ class rcube_sieve_engine
 
         $script_active   = in_array($script_name, $this->active);
         $rule_active     = empty($rule['disabled']);
+        $rule_index      = 0;
         $activate_script = false;
 
         // If the script is not active, but the rule is,

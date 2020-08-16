@@ -888,8 +888,8 @@ class rcube_sieve_script
         // ...and actions block
         $actions = $this->_parse_actions($content, $position);
 
-        if ($tests && $actions) {
-            $result = array(
+        if (!empty($tests) && $actions) {
+            return array(
                 'type'     => $cond,
                 'tests'    => $tests,
                 'actions'  => $actions,
@@ -898,7 +898,7 @@ class rcube_sieve_script
             );
         }
 
-        return $result;
+        return null;
     }
 
     /**
@@ -912,7 +912,7 @@ class rcube_sieve_script
      */
     private function _parse_actions($content, &$position, $end = '}')
     {
-        $result = null;
+        $result = array();
         $length = strlen($content);
 
         while ($position < $length) {
@@ -1040,7 +1040,7 @@ class rcube_sieve_script
             }
         }
 
-        return $result;
+        return !empty($result) ? $result : null;
     }
 
     /**
@@ -1085,7 +1085,7 @@ class rcube_sieve_script
         foreach (array('mime', 'mime-anychild', 'mime-type', 'mime-subtype', 'mime-contenttype', 'mime-param') as $opt) {
             if (!empty($test[$opt])) {
                 $opt_name = str_replace('mime-', '', $opt);
-                if (!$got_mime) {
+                if (empty($got_mime)) {
                     $out .= ' :mime';
                     $got_mime = true;
                     array_push($exts, 'mime');

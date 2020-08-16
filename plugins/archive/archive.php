@@ -16,6 +16,7 @@ class archive extends rcube_plugin
 
     private $archive_folder;
     private $folders;
+    private $result;
 
 
     /**
@@ -129,6 +130,7 @@ class archive extends rcube_plugin
 
         $storage        = $rcmail->get_storage();
         $delimiter      = $storage->get_hierarchy_delimiter();
+        $threading      = (bool) $storage->get_threading();
         $read_on_move   = (bool) $rcmail->config->get('read_on_archive');
         $archive_type   = $rcmail->config->get('archive_type', '');
         $archive_prefix = $this->archive_folder . $delimiter;
@@ -136,11 +138,11 @@ class archive extends rcube_plugin
 
         // count messages before changing anything
         if ($_POST['_from'] != 'show') {
-            $threading = (bool) $storage->get_threading();
             $old_count = $storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
         $count = 0;
+        $uids  = null;
 
         // this way response handler for 'move' action will be executed
         $rcmail->action = 'move';
@@ -239,6 +241,7 @@ class archive extends rcube_plugin
         if (!empty($_POST['_refresh'])) {
             // FIXME: send updated message rows instead of reloading the entire list
             $rcmail->output->command('refresh_list');
+            $addrows = false;
         }
         else {
             $addrows = true;
@@ -269,6 +272,7 @@ class archive extends rcube_plugin
         $nextpage_count = $old_count - $page_size * $page;
         $remaining      = $msg_count - $page_size * ($page - 1);
         $quota_root     = $multifolder ? $this->result['sources'][0] : 'INBOX';
+        $jump_back      = false;
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
