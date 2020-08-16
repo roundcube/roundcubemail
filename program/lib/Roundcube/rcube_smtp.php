@@ -252,8 +252,8 @@ class rcube_smtp
         }
 
         $exts             = $this->conn->getServiceExtensions();
-        $from_params      = '';
-        $recipient_params = '';
+        $from_params      = null;
+        $recipient_params = null;
 
         // RFC3461: Delivery Status Notification
         if ($opts['dsn']) {
