@@ -332,6 +332,7 @@ $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
 $labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Replace the entire address book';
+$labels['importskip'] = 'Skip duplicate contacts';
 $labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';

@@ -432,6 +432,7 @@ $labels['importcontacts'] = 'Contactpersonen importeren';
 $labels['importfromfile'] = 'Importeer van bestand';
 $labels['importtarget'] = 'Contacten toevoegen aan';
 $labels['importreplace'] = 'Vervang het complete adresboek';
+$labels['importskip'] = 'Sla duplicaten over';
 $labels['importgroups'] = 'Importeer groepstoewijzingen';
 $labels['importgroupsall'] = 'Allemaal (maak groepen aan indien nodig)';
 $labels['importgroupsexisting'] = 'Alleen voor bestaande groepen';
