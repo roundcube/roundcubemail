@@ -5290,12 +5290,12 @@ function rcube_webmail()
     if (formdata && typeof formdata == 'object') {
       $.each(formdata, function(k, value) {
         if (k[0] == '_') {
-          var elem = $("*[name='"+k+"']");
+          var elem = $("[name=" + k + "]");
           if (elem[0] && elem[0].type == 'checkbox') {
             elem.prop('checked', value != '');
           }
           else {
-            elem.val(value);
+            elem.val(value).change();
           }
         }
       });
