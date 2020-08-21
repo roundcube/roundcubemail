@@ -598,8 +598,12 @@ function rcmail_prepare_message_body()
         $isHtml = rcmail_compose_editor_mode();
     }
 
-    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
-        array('body' => $body, 'html' => $isHtml, 'mode' => $COMPOSE['mode']));
+    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body', array(
+            'body'    => $body,
+            'html'    => $isHtml,
+            'mode'    => $COMPOSE['mode'],
+            'message' => $MESSAGE,
+    ));
 
     $body = $plugin['body'];
     unset($plugin);
