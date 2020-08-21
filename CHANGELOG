@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
+- Fix restoring Cc/Bcc fields from local storage (#7554)
 
 RELEASE 1.4.8
 -------------
