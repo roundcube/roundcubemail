@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
 - Fix restoring Cc/Bcc fields from local storage (#7554)
+- Fix jstz.min.js installation, bump version to 1.0.7
 
 RELEASE 1.4.8
 -------------
