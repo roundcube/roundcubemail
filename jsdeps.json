@@ -14,13 +14,13 @@
     {
       "lib": "jstz",
       "name": "jsTimezoneDetect",
-      "version": "1.0.6",
-      "url": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.min.js",
+      "version": "1.0.7",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js",
       "dest": "program/js/jstz.min.js",
-      "sha1": "4291cd3b259d2060460c2a6ab99f428d3c0c9537",
+      "sha1": "a858ff12014b232fcc7c4c2e9f014ff852ddb917",
       "license": "MIT",
       "copyright": "Copyright (c) Jon Nylander",
-      "source": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.js"
+      "source": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"
     },
     {
       "lib": "publickey",
