@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
+- Plugin API: Added 'message' argument to 'message_compose_body' hook
 - Elastic: Dark mode (#6709)
 - Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)
