@@ -14,7 +14,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -43,6 +43,7 @@ if (!empty($_POST['submit'])) {
      echo '</p>';
   }
   else {
+    $save_button = '';
     if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
       echo '<iframe name="getconfig" style="display:none"></iframe>';
       echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';

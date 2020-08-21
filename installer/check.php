@@ -14,7 +14,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
