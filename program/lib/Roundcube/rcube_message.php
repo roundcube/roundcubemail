@@ -583,11 +583,16 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
-                list($headers, ) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
+                list($headers, $body) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context == $structure->mime_id) {
                     $this->headers = rcube_message_header::from_array($structure->headers);
+                }
+
+                // For small text messages we can optimize, so an additional FETCH is not needed
+                if ($structure->size < 32768 && count($structure->parts) == 1 && $structure->parts[0]->ctype_primary == 'text') {
+                    $structure->parts[0]->body = $body;
                 }
             }
         }

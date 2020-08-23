@@ -674,6 +674,12 @@ function rcmail_message_body($attrib)
 
                 // message is cached but not exists (#1485443), or other error
                 if ($body === false) {
+                    // Don't bail out if it is only one-of-many part of the message (#6854)
+                    if (strlen($out)) {
+                        $out .= html::span('part-notice', $RCMAIL->gettext('messageopenerror'));
+                        continue;
+                    }
+
                     rcmail_message_error($MESSAGE->uid);
                 }
 
