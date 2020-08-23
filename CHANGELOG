@@ -42,6 +42,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
+- Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
