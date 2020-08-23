@@ -480,7 +480,12 @@ class rcube_config
     }
 
     /**
-     * Getter for all config options
+     * Getter for all config options.
+     *
+     * Unlike get() this method does not resolve any special
+     * values like e.g. 'timezone'.
+     *
+     * It is discouraged to use this method outside of Roundcube core.
      *
      * @return array Hash array containing all config properties
      */
