@@ -862,7 +862,7 @@ function rcube_elastic_ui()
         }
 
         // Forms
-        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=radio],[type=checkbox]),textarea';
+        var supported_controls = 'input:not(.button,.no-bs,[type=button],[type=radio],[type=checkbox],[type=file]),textarea';
         $(supported_controls, $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
 
