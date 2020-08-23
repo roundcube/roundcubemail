@@ -5787,8 +5787,18 @@ function rcube_webmail()
   {
     if (this.import_dialog) {
       this.import_state = state;
-      // activate Import button depending on state
-      $(this.import_dialog).parent().find('.ui-dialog-buttonset > button').first().attr('disabled', state != 'error');
+
+      var button = $(this.import_dialog).parent().find('.ui-dialog-buttonset > button').first();
+
+      if (state != 'error') {
+        // replace Import/Cancel buttons with Close button
+        button.hide();
+        button.next().text(this.gettext('close')).focus();
+      }
+      else {
+        // activate the Import button
+        button.prop('disabled', false);
+      }
     }
   };
 
