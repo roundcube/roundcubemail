@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add missing localization for some label/legend elements in userinfo plugin (#7478)
 - Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
 - Fix restoring Cc/Bcc fields from local storage (#7554)
 - Fix jstz.min.js installation, bump version to 1.0.7
