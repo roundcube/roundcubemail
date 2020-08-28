@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix link to closure compiler in bin/jsshrink.sh script (#7567)
 - Fix bug where some parts of a message could have been missing in a reply/forward body (#7568)
 - Fix empty space on mail printouts in Chrome (#7604)
+- Fix incorrect PDO::lastInsertId() use in sqlsrv driver (#7564)
 
 RELEASE 1.4.8
 -------------
