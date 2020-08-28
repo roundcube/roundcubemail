@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # In 'translator' mode files will contain empty translated texts
 # where translation is not available, we'll remove these later
 
