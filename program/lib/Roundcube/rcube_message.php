@@ -531,7 +531,7 @@ class rcube_message
     public function is_attachment($part)
     {
         foreach ($this->attachments as $att_part) {
-            if ($att_part->mime_id == $part->mime_id) {
+            if ($att_part->mime_id === $part->mime_id) {
                 return true;
             }
 
@@ -586,7 +586,7 @@ class rcube_message
                 list($headers, $body) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
 
-                if ($this->context == $structure->mime_id) {
+                if ($this->context === $structure->mime_id) {
                     $this->headers = rcube_message_header::from_array($structure->headers);
                 }
 
