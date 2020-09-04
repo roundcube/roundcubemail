@@ -38,16 +38,11 @@ class rcube_cache_redis extends rcube_cache
     /**
      * Object constructor.
      *
-     * @param int    $userid User identifier
-     * @param string $prefix Key name prefix
-     * @param string $ttl    Expiration time of memcache/apc items
-     * @param bool   $packed Enables/disabled data serialization.
-     *                       It's possible to disable data serialization if you're sure
-     *                       stored data will be always a safe string
+     * @see rcube_cache::__construct()
      */
-    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true)
+    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        parent::__construct($userid, $prefix, $ttl, $packed);
+        parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $rcube = rcube::get_instance();
 
@@ -197,7 +192,7 @@ class rcube_cache_redis extends rcube_cache
             $data = self::$redis->get($key);
         }
         catch (Exception $e) {
-            raise_error($e, true, false);
+            rcube::raise_error($e, true, false);
             return false;
         }
 
@@ -226,7 +221,7 @@ class rcube_cache_redis extends rcube_cache
             $result = self::$redis->setEx($key, $this->ttl, $data);
         }
         catch (Exception $e) {
-            raise_error($e, true, false);
+            rcube::raise_error($e, true, false);
             return false;
         }
 
@@ -255,7 +250,7 @@ class rcube_cache_redis extends rcube_cache
             $result = self::$redis->$fname($key);
         }
         catch (Exception $e) {
-            raise_error($e, true, false);
+            rcube::raise_error($e, true, false);
             return false;
         }
 

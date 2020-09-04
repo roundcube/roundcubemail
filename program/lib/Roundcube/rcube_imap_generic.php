@@ -51,9 +51,11 @@ class rcube_imap_generic
 
     protected $fp;
     protected $host;
+    protected $user;
     protected $cmd_tag;
     protected $cmd_num = 0;
     protected $resourceid;
+    protected $extensions_enabled;
     protected $prefs             = array();
     protected $logged            = false;
     protected $capability        = array();
@@ -769,6 +771,24 @@ class rcube_imap_generic
             $line   = $this->readReply();
             $result = $this->parseResult($line);
         }
+        else if ($type == 'XOAUTH2') {
+            $auth = base64_encode("user=$user\1auth=$pass\1\1");
+            $this->putLine($this->nextTag() . " AUTHENTICATE XOAUTH2 $auth", true, true);
+
+            $line = trim($this->readReply());
+
+            if ($line[0] == '+') {
+                // send empty line
+                $this->putLine('', true, true);
+                $line = $this->readReply();
+            }
+
+            $result = $this->parseResult($line);
+        }
+        else {
+            $line  = 'not supported';
+            $result = self::ERROR_UNKNOWN;
+        }
 
         if ($result === self::ERROR_OK) {
             // optional CAPABILITY response
@@ -859,7 +879,7 @@ class rcube_imap_generic
             $data     = $this->tokenizeResponse($response);
         }
 
-        if (!is_array($data)) {
+        if (!isset($data) || !is_array($data)) {
             return $code;
         }
 
@@ -959,6 +979,7 @@ class rcube_imap_generic
             case 'GSSAPI':
             case 'PLAIN':
             case 'LOGIN':
+            case 'XOAUTH2':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
 
@@ -1471,7 +1492,7 @@ class rcube_imap_generic
             $res = $this->flag($mailbox, '1:*', 'DELETED');
         }
 
-        if ($res) {
+        if (!empty($res)) {
             if ($this->selected === $mailbox) {
                 $res = $this->close();
             }
@@ -1491,7 +1512,7 @@ class rcube_imap_generic
      * @param array  $return_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
     public function listMailboxes($ref, $mailbox, $return_opts = array(), $select_opts = array())
@@ -1506,7 +1527,7 @@ class rcube_imap_generic
      * @param string $mailbox     Mailbox name
      * @param array  $return_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
     public function listSubscribed($ref, $mailbox, $return_opts = array())
@@ -1527,11 +1548,11 @@ class rcube_imap_generic
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
      *                                      SPECIAL-USE (RFC6154)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.
      */
-    protected function _listMailboxes($ref, $mailbox, $subscribed=false,
-        $return_opts=array(), $select_opts=array())
+    protected function _listMailboxes($ref, $mailbox, $subscribed = false,
+        $return_opts = array(), $select_opts = array())
     {
         if (!strlen($mailbox)) {
             $mailbox = '*';
@@ -1743,7 +1764,7 @@ class rcube_imap_generic
      *
      * @param array $items Client identification information key/value hash
      *
-     * @return array Server identification information key/value hash
+     * @return array|false Server identification information key/value hash, False on error
      * @since 0.6
      */
     public function id($items = array())
@@ -1762,10 +1783,12 @@ class rcube_imap_generic
         if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 5); // remove prefix "* ID "
             $items    = $this->tokenizeResponse($response, 1);
-            $result   = null;
+            $result   = array();
 
-            for ($i=0, $len=count($items); $i<$len; $i += 2) {
-                $result[$items[$i]] = $items[$i+1];
+            if (is_array($items)) {
+                for ($i=0, $len=count($items); $i<$len; $i += 2) {
+                    $result[$items[$i]] = $items[$i+1];
+                }
             }
 
             return $result;
@@ -2014,16 +2037,18 @@ class rcube_imap_generic
     public function fetchHeaderIndex($mailbox, $message_set, $index_field = '', $skip_deleted = true,
         $uidfetch = false, $return_uid = false)
     {
+        // Validate input
         if (is_array($message_set)) {
             if (!($message_set = $this->compressMessageSet($message_set))) {
                 return false;
             }
         }
-        else {
+        else if (empty($message_set)) {
+            return false;
+        }
+        else if (strpos($message_set, ':')) {
             list($from_idx, $to_idx) = explode(':', $message_set);
-            if (empty($message_set) ||
-                (isset($to_idx) && $to_idx != '*' && (int)$from_idx > (int)$to_idx)
-            ) {
+            if ($to_idx != '*' && (int) $from_idx > (int) $to_idx) {
                 return false;
             }
         }
@@ -2786,7 +2811,8 @@ class rcube_imap_generic
             return false;
         }
 
-        $binary = true;
+        $binary    = true;
+        $initiated = false;
 
         do {
             if (!$initiated) {
@@ -3104,7 +3130,7 @@ class rcube_imap_generic
             $fp = fopen($path, 'r');
         }
 
-        if (!$fp) {
+        if (empty($fp)) {
             $this->setError(self::ERROR_UNKNOWN, "Couldn't open $path for reading");
             return false;
         }
@@ -3536,8 +3562,9 @@ class rcube_imap_generic
             $this->escape($mailbox), $entries, $attribs));
 
         if ($code == self::ERROR_OK) {
-            $result = array();
-            $data   = $this->tokenizeResponse($response);
+            $result     = array();
+            $data       = $this->tokenizeResponse($response);
+            $last_entry = null;
 
             // Here we returns only data compatible with METADATA result format
             if (!empty($data) && ($size = count($data))) {
@@ -3581,6 +3608,7 @@ class rcube_imap_generic
                             }
                         }
                     }
+
                     $last_entry = $entry;
                     unset($data[$i]);
                 }

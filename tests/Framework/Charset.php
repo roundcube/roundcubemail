@@ -4,7 +4,6 @@
  * Test class to test rcube_charset class
  *
  * @package Tests
- * @group iconv
  * @group mbstring
  */
 class Framework_Charset extends PHPUnit\Framework\TestCase
@@ -66,11 +65,12 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     {
         return array(
             array('ö', 'ö', 'UTF-8', 'UTF-8'),
-            array('ö', '', 'UTF-8', 'US-ASCII'),
+            array('ö', '', 'UTF-8', 'ASCII'),
             array('aż', 'a', 'UTF-8', 'US-ASCII'),
             array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
             array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
+            array('㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'),
         );
     }
 

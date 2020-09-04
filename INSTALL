@@ -14,7 +14,7 @@ REQUIREMENTS
 * PHP Version 5.4 or greater including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
-   - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
+   - Zip, Fileinfo, Intl, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
    - GD, Imagick (optional thumbnails generation, QR-code)
 * PEAR and PEAR packages distributed with Roundcube or external:
@@ -65,6 +65,9 @@ INSTALLATION
 5. Point your browser to http://url-to-roundcube/installer/
 6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
 7. After creating and testing the configuration, remove the installer directory
+   ------------------------------------------
+   IMPORTANT: REMOVE THE INSTALLER DIRECTORY!
+   ------------------------------------------
 8. If you use git sources compile css files for the Elastic skin (required
    lessc >= 1.5.0):
    $ cd skins/elastic
@@ -106,9 +109,9 @@ importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
 # mysql
-> CREATE DATABASE roundcubemail /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
-> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost
-    IDENTIFIED BY 'password';
+> CREATE DATABASE roundcubemail CHARACTER SET utf8 COLLATE utf8_general_ci;
+> CREATE USER roundcube@localhost IDENTIFIED BY 'password';
+> GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost;
 > quit
 
 # mysql roundcubemail < SQL/mysql.initial.sql
@@ -251,11 +254,6 @@ To enable these features in apache the following modules need to be enabled:
 
 The optimisation is already included in the .htaccess file in the top 
 directory of your installation.
-
-If you are using Apache version 2.2.9 and later, in the .htaccess file
-change the 'append' word to 'merge' for a more correct response. Keeping
-as 'append' shouldn't cause any problems though changing to merge will 
-eliminate the possibility of duplicate 'public' headers in Cache-control.
 
 Lighttpd:
 ---------

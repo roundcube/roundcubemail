@@ -31,6 +31,8 @@ class rcmail_install
     public $is_post           = false;
     public $failures          = 0;
     public $config            = array();
+    public $defaults          = array();
+    public $comments          = array();
     public $configured        = false;
     public $legacy_config     = false;
     public $email_pattern     = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
@@ -133,6 +135,9 @@ class rcmail_install
             return;
         }
 
+        $config        = array();
+        $rcmail_config = array(); // deprecated var name
+
         include $file;
 
         // read comments from config file
@@ -158,12 +163,7 @@ class rcmail_install
             }
         }
 
-        // deprecated name of config variable
-        if (is_array($rcmail_config)) {
-            return $rcmail_config;
-        }
-
-        return $config;
+        return array_merge(array(), (array) $rcmail_config, (array) $config);
     }
 
     /**
@@ -507,9 +507,10 @@ class rcmail_install
      */
     private function db_read_schema($schemafile, &$version = null)
     {
-        $lines    = file($schemafile);
-        $schema   = array();
-        $keywords = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
+        $lines      = file($schemafile);
+        $schema     = array();
+        $keywords   = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
+        $table_name = null;
 
         foreach ($lines as $line) {
             if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
@@ -599,18 +600,33 @@ class rcmail_install
     }
 
     /**
-     * Return a list with all imap hosts configured
+     * Return a list with all imap/smtp hosts configured
      *
-     * @return array Clean list with imap hosts
+     * @return array Clean list with imap/smtp hosts
      */
-    public function get_hostlist()
+    public function get_hostlist($prop = 'default_host')
     {
-        $default_hosts = (array) $this->getprop('default_host');
-        $out           = array();
+        $hosts     = (array) $this->getprop($prop);
+        $out       = array();
+        $imap_host = '';
 
-        foreach ($default_hosts as $key => $name) {
+        if ($prop == 'smtp_server') {
+            // Set the imap host name for the %h macro
+            $default_hosts = $this->get_hostlist();
+            $imap_host = !empty($default_hosts) ? $default_hosts[0] : '';
+        }
+
+        foreach ($hosts as $key => $name) {
             if (!empty($name)) {
-                $out[] = rcube_utils::parse_host(is_numeric($key) ? $name : $key);
+                if ($prop == 'smtp_server') {
+                    // SMTP host array uses `IMAP host => SMTP host` format
+                    $host = $name;
+                }
+                else {
+                    $host = is_numeric($key) ? $name : $key;
+                }
+
+                $out[] = rcube_utils::parse_host($host, $imap_host);
             }
         }
 

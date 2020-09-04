@@ -61,6 +61,7 @@ button {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 textarea {
 	margin: 0; /* Safari by default adds a margin */
@@ -70,6 +71,7 @@ textarea {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus,
 button:focus,
 input.button:focus,
@@ -80,6 +82,7 @@ textarea:focus {
 }
 
 input[type="text"]:required,
+input[type="email"]:required,
 input[type="password"]:required {
 	border-color: #4787b1;
 }
@@ -126,7 +129,8 @@ input.button {
 }
 
 .formbuttons button,
-.formbuttons input.button {
+.formbuttons input.button,
+.oauthlogin .button {
 	color: #ddd;
 	font-size: 110%;
 	padding: 4px 12px;
@@ -1681,11 +1685,6 @@ table.propform td.title {
 	white-space: nowrap;
 }
 
-table.propform .mceLayout td {
-	padding: 0;
-	border-bottom: 0;
-}
-
 ul.proplist {
 	list-style: none;
 	margin: 0;
@@ -1757,18 +1756,19 @@ ul.proplist.simplelist li {
 }
 
 #login-form input[type="text"],
+#login-form input[type="email"],
 #login-form input[type="password"] {
 	width: 100%;
 	border-color: #666;
 }
 
-#login-form button.button {
+#login-form .button {
 	color: #444;
 	border-color: #f9f9f9;
 	background-color: #f9f9f9;
 }
 
-#login-form button.button:active {
+#login-form .button:active {
 	color: #333;
 	background-color: #dcdcdc;
 }
@@ -1789,6 +1789,38 @@ ul.proplist.simplelist li {
 	margin-top: 2em;
 	text-align: center;
 }
+
+#login-form p.oauthlogin {
+	margin-top: 1.5em;
+	padding-top: 1.5em;
+	text-align: center;
+	border-top: 1px solid #666;
+}
+
+#login-form p.oauthlogin .button.oauth.google,
+#login-form p.oauthlogin .button.oauth.outlook {
+	line-height: 1.5;
+}
+
+#login-form p.oauthlogin .button.oauth.google:before,
+#login-form p.oauthlogin .button.oauth.outlook:before {
+	content: " ";
+	display: inline-block !important;
+	height: 1.6em;
+	width: 1.4em;
+	margin-right: .5em !important;
+	background-size: 100% auto;
+	vertical-align: middle;
+}
+
+#login-form p.oauthlogin .button.oauth.google:before {
+	background: url('./images/google-icon.svg') top left no-repeat;
+}
+
+#login-form p.oauthlogin .button.oauth.outlook:before {
+	background: url('./images/microsoft-icon.svg') top left no-repeat;
+}
+
 
 #login-form #logo {
 	margin-bottom: 20px;
@@ -3057,47 +3089,32 @@ ul.toolbarmenu li span.copy {
 	padding: 0.5em 1em;
 }
 
-#image-selector-form.droptarget {
+/** Common TinyMCE fixes **/
+
+#image-selector.droptarget {
 	background: url(images/filedrop.png) center bottom no-repeat;
 }
 
-/** Common TinyMCE fixes **/
-.mce-btn-small:not(.mce-active) {
-	background: transparent !important;
+div.tox .tox-toolbar,
+div.tox .tox-toolbar__overflow,
+div.tox .tox-toolbar__primary {
+	background-color: #f0f0f0;
 }
 
-.mce-btn-small:not(.mce-active):hover {
-	background: white !important;
+div.tox .tox-toolbar__primary {
+	border: 0;
 }
 
-.mce-btn-small .mce-ico {
-	display: inline; /* for old Firefox */
+div.tox div.tox-dialog-wrap__backdrop {
+	background: #aaa;
+	opacity: .3;
 }
 
-.mce-btn-small i {
-	line-height: 16px !important;
-	vertical-align: text-top !important;
+div.tox div.tox-dialog {
+	box-shadow: 1px 1px 18px #666;
+	border-width: 0;
 }
 
-_:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
-	line-height: 20px !important;
-}
-
-.mce-top-part::before {
-	box-shadow: none !important;
-}
-
-.mce-textbox {
-	border-radius: 0;
-	box-shadow: none;
-}
-
-button.mce-close,
-.mce-btn button,
-.mce-textbox:focus {
-	box-shadow: none;
-	outline: none;
-}
 
 .mce-menu {
 	z-index: 65537 !important;

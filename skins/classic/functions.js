@@ -577,7 +577,7 @@ resize_compose_body: function()
     h = div.height() - 2,
     x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.mce-toolbar').height());
+  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.tox-toolbar').height());
   $('#compose-body').width(w-x).height(h);
   $('#googie_edit_layer').width(w).height(h);
 },
@@ -1013,6 +1013,9 @@ function percent_indicator(obj, data)
 
 function attachment_menu_append(item)
 {
+  if ($(item).is('.no-menu'))
+    return;
+
   $(item).append(
     $('<a class="drop"></a>').on('click keypress', function(e) {
       if (e.type != 'keypress' || e.which == 13) {

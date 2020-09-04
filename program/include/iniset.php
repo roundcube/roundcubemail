@@ -38,6 +38,29 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR.'/');
 
+// show basic error message on fatal PHP error
+function roundcube_fatal_error() {
+    $error = error_get_last();
+    if ($error['type'] === E_ERROR || $error['type'] === E_PARSE) {
+        if (php_sapi_name() === 'cli') {
+            echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
+        }
+        elseif (!empty($_REQUEST['_remote'])) {
+            // Ajax request from UI
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode(array('code' => 500, 'message' => 'Internal Server Error'));
+        }
+        else {
+            if (!defined('RCUBE_FATAL_ERROR_MSG')) {
+                define('RCUBE_FATAL_ERROR_MSG', INSTALL_PATH . 'program/resources/error.html');
+            }
+
+            $msg = file_get_contents(RCUBE_FATAL_ERROR_MSG);
+            echo $msg;
+        }
+    }
+}
+register_shutdown_function('roundcube_fatal_error');
 
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
@@ -56,6 +79,16 @@ if (set_include_path($include_path) === false) {
 // include composer autoloader (if available)
 if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
     require INSTALL_PATH . 'vendor/autoload.php';
+}
+
+// translate PATH_INFO to _task and _action GET parameters
+if (!empty($_SERVER['PATH_INFO']) && preg_match('!^/([a-z]+)/([a-z]+)$!', $_SERVER['PATH_INFO'], $m)) {
+    if (!isset($_GET['_task'])) {
+        $_GET['_task'] = $m[1];
+    }
+    if (!isset($_GET['_action'])) {
+        $_GET['_action'] = $m[2];
+    }
 }
 
 // include Roundcube Framework

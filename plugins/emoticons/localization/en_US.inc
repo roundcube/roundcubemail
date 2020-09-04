@@ -17,5 +17,3 @@
 $labels = array();
 $labels['emoticonsdisplay'] = 'Display emoticons in plain text messages';
 $labels['emoticonscompose'] = 'Enable emoticons';
-
-?>

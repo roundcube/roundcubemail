@@ -32,23 +32,26 @@ class rcube_message
      *
      * @var rcube
      */
-    private $app;
+    protected $app;
 
     /**
      * Instance of storage class
      *
      * @var rcube_storage
      */
-    private $storage;
+    protected $storage;
 
     /**
      * Instance of mime class
      *
      * @var rcube_mime
      */
-    private $mime;
-    private $opt = array();
-    private $parse_alternative = false;
+    protected $mime;
+
+    protected $body;
+    protected $opt               = array();
+    protected $parse_alternative = false;
+    protected $got_html_part     = false;
 
     public $uid;
     public $folder;
@@ -61,6 +64,8 @@ class rcube_message
     public $attachments  = array();
     public $subject      = '';
     public $is_safe      = false;
+    public $pgp_mime     = false;
+    public $encrypted_part;
 
     const BODY_MAX_SIZE = 1048576; // 1MB
 
@@ -83,6 +88,7 @@ class rcube_message
             list($uid, $folder) = explode('-', $uid, 2);
         }
 
+        $context = null;
         if (preg_match('/^([0-9]+)\.([0-9.]+)$/', $uid, $matches)) {
             $uid     = $matches[1];
             $context = $matches[2];
@@ -525,7 +531,7 @@ class rcube_message
     public function is_attachment($part)
     {
         foreach ($this->attachments as $att_part) {
-            if ($att_part->mime_id == $part->mime_id) {
+            if ($att_part->mime_id === $part->mime_id) {
                 return true;
             }
 
@@ -577,11 +583,16 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
-                list($headers, ) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
+                list($headers, $body) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
 
-                if ($this->context == $structure->mime_id) {
+                if ($this->context === $structure->mime_id) {
                     $this->headers = rcube_message_header::from_array($structure->headers);
+                }
+
+                // For small text messages we can optimize, so an additional FETCH is not needed
+                if ($structure->size < 32768 && count($structure->parts) == 1 && $structure->parts[0]->ctype_primary == 'text') {
+                    $structure->parts[0]->body = $body;
                 }
             }
         }
@@ -658,16 +669,19 @@ class rcube_message
                 // others as attachments (#1489358)
 
                 // check if sub part is
-                if ($is_multipart)
+                if ($is_multipart) {
                     $related_part = $p;
-                else if ($sub_mimetype == 'text/plain' && !$plain_part)
+                }
+                else if ($sub_mimetype == 'text/plain' && !isset($plain_part)) {
                     $plain_part = $p;
-                else if ($sub_mimetype == 'text/html' && !$html_part) {
+                }
+                else if ($sub_mimetype == 'text/html' && !isset($html_part)) {
                     $html_part = $p;
                     $this->got_html_part = true;
                 }
-                else if ($sub_mimetype == 'text/enriched' && !$enriched_part)
+                else if ($sub_mimetype == 'text/enriched' && !isset($enriched_part)) {
                     $enriched_part = $p;
+                }
                 else {
                     // add unsupported/unrecognized parts to attachments list
                     $this->add_part($sub_part, 'attachment');
@@ -675,7 +689,7 @@ class rcube_message
             }
 
             // parse related part (alternative part could be in here)
-            if ($related_part !== null && !$this->parse_alternative) {
+            if (isset($related_part) && !$this->parse_alternative) {
                 $this->parse_alternative = true;
                 $this->parse_structure($structure->parts[$related_part], true);
                 $this->parse_alternative = false;
@@ -687,13 +701,14 @@ class rcube_message
             }
 
             // choose html/plain part to print
-            if ($html_part !== null && $this->opt['prefer_html']) {
+            $print_part = null;
+            if (isset($html_part) && $this->opt['prefer_html']) {
                 $print_part = $structure->parts[$html_part];
             }
-            else if ($enriched_part !== null) {
+            else if (isset($enriched_part)) {
                 $print_part = $structure->parts[$enriched_part];
             }
-            else if ($plain_part !== null) {
+            else if (isset($plain_part)) {
                 $print_part = $structure->parts[$plain_part];
             }
 
@@ -711,7 +726,7 @@ class rcube_message
                 }
             }
             // show plaintext warning
-            else if ($html_part !== null && empty($this->parts)) {
+            else if (isset($html_part) && empty($this->parts)) {
                 $c = new stdClass;
                 $c->type            = 'content';
                 $c->ctype_primary   = 'text';

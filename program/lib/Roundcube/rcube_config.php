@@ -27,6 +27,8 @@ class rcube_config
 {
     const DEFAULT_SKIN = 'elastic';
 
+    public $system_skin = 'elastic';
+
     private $env       = '';
     private $paths     = array();
     private $prop      = array();
@@ -231,6 +233,8 @@ class rcube_config
             $this->prop['skin'] = self::DEFAULT_SKIN;
         }
 
+        $this->system_skin = $this->prop['skin'];
+
         // fix paths
         foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
             foreach (array($this->prop[$key], '../' . $this->prop[$key], RCUBE_INSTALL_PATH . $dir) as $path) {
@@ -256,6 +260,9 @@ class rcube_config
         if ($error_log && $error_log != 'stdout') {
             ini_set('error_log', $error_log);
         }
+
+        // set default screen layouts
+        $this->prop['supported_layouts'] = array('widescreen', 'desktop', 'list');
 
         // remove deprecated properties
         unset($this->prop['dst_active']);
@@ -311,12 +318,12 @@ class rcube_config
                 include($fpath);
                 ob_end_clean();
 
-                if (is_array($config)) {
+                if (isset($config) && is_array($config)) {
                     $this->merge($config);
                     $success = true;
                 }
                 // deprecated name of config variable
-                if (is_array($rcmail_config)) {
+                if (isset($rcmail_config) && is_array($rcmail_config)) {
                     $this->merge($rcmail_config);
                     $success = true;
                 }
@@ -393,12 +400,17 @@ class rcube_config
         }
         else if ($name == 'client_mimetypes') {
             if (!$result && !$def) {
-                $result = 'text/plain,text/html,text/xml'
+                $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
                     . ',application/x-javascript,application/pdf,application/x-shockwave-flash';
             }
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
+            }
+        }
+        else if ($name == 'layout') {
+            if (!in_array($result, $this->prop['supported_layouts'])) {
+                $result = $this->prop['supported_layouts'][0];
             }
         }
 
@@ -454,7 +466,7 @@ class rcube_config
         }
 
         if ($prefs['skin'] == 'default') {
-            $prefs['skin'] = self::DEFAULT_SKIN;
+            $prefs['skin'] = $this->system_skin;
         }
 
         $skins_allowed = $this->get('skins_allowed');
@@ -468,7 +480,12 @@ class rcube_config
     }
 
     /**
-     * Getter for all config options
+     * Getter for all config options.
+     *
+     * Unlike get() this method does not resolve any special
+     * values like e.g. 'timezone'.
+     *
+     * It is discouraged to use this method outside of Roundcube core.
      *
      * @return array Hash array containing all config properties
      */

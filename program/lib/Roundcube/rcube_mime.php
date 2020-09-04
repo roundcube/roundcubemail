@@ -117,19 +117,25 @@ class rcube_mime
                 $out[$j] = $address;
             }
             else {
-                $name = trim($val['name']);
-                if ($name && $address && $name != $address)
+                $name   = trim($val['name']);
+                $string = '';
+
+                if ($name && $address && $name != $address) {
                     $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
-                else if ($address)
+                }
+                else if ($address) {
                     $string = $address;
-                else if ($name)
+                }
+                else if ($name) {
                     $string = $name;
+                }
 
                 $out[$j] = array('name' => $name, 'mailto' => $address, 'string' => $string);
             }
 
-            if ($max && $j==$max)
+            if ($max && $j == $max) {
                 break;
+            }
         }
 
         return $out;
@@ -592,6 +598,7 @@ class rcube_mime
         //       Iconv's substr/strlen are 100x slower (#1489113)
 
         if ($charset && $charset != RCUBE_CHARSET) {
+            $charset = rcube_charset::parse_charset($charset);
             mb_internal_encoding($charset);
         }
 
@@ -699,7 +706,7 @@ class rcube_mime
      * @param string  $name        File name (with suffix)
      * @param string  $failover    Mime type supplied for failover
      * @param boolean $is_stream   Set to True if $path contains file contents
-     * @param boolean $skip_suffix Set to True if the config/mimetypes.php mappig should be ignored
+     * @param boolean $skip_suffix Set to True if the config/mimetypes.php map should be ignored
      *
      * @return string
      * @author Till Klampaeckel <till@php.net>
@@ -708,22 +715,12 @@ class rcube_mime
      */
     public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false, $skip_suffix = false)
     {
-        static $mime_ext = array();
-
         $mime_type = null;
         $config    = rcube::get_instance()->config;
 
-        if (!$skip_suffix && empty($mime_ext)) {
-            foreach ($config->resolve_paths('mimetypes.php') as $fpath) {
-                $mime_ext = array_merge($mime_ext, (array) @include($fpath));
-            }
-        }
-
-        // use file name suffix with hard-coded mime-type map
-        if (!$skip_suffix && is_array($mime_ext) && $name) {
-            if ($suffix = substr($name, strrpos($name, '.')+1)) {
-                $mime_type = $mime_ext[strtolower($suffix)];
-            }
+        // Detect mimetype using filename extension
+        if (!$skip_suffix) {
+            $mime_type = self::file_ext_type($name);
         }
 
         // try fileinfo extension if available
@@ -756,6 +753,32 @@ class rcube_mime
         }
 
         return $mime_type;
+    }
+
+    /**
+     * File type detection based on file name only.
+     *
+     * @param string $filename Path to the file or file contents
+     *
+     * @return string|null Mimetype label
+     */
+    public static function file_ext_type($filename)
+    {
+        static $mime_ext = array();
+
+        if (empty($mime_ext)) {
+            foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
+                $mime_ext = array_merge($mime_ext, (array) @include($fpath));
+            }
+        }
+
+        // use file name suffix with hard-coded mime-type map
+        if (!empty($mime_ext) && $filename) {
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            if ($ext && !empty($mime_ext[$ext])) {
+                return $mime_ext[$ext];
+            }
+        }
     }
 
     /**
@@ -798,6 +821,11 @@ class rcube_mime
             $file_paths[] = '/usr/local/etc/apache24/mime.types';
         }
 
+        $mime_types      = array();
+        $mime_extensions = array();
+        $lines = array();
+        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
+
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {
                 $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -805,17 +833,17 @@ class rcube_mime
             }
         }
 
-        $mime_types = $mime_extensions = array();
-        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
-        foreach ((array)$lines as $line) {
+        foreach ($lines as $line) {
              // skip comments or mime types w/o any extensions
-            if ($line[0] == '#' || !preg_match($regex, $line, $matches))
+            if ($line[0] == '#' || !preg_match($regex, $line, $matches)) {
                 continue;
+            }
 
             $mime = $matches[1];
+
             foreach (explode(' ', $matches[2]) as $ext) {
                 $ext = trim($ext);
-                $mime_types[$mime][] = $ext;
+                $mime_types[$mime][]   = $ext;
                 $mime_extensions[$ext] = $mime;
             }
         }

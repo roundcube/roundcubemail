@@ -59,6 +59,9 @@ class rcube_image
      */
     public function props()
     {
+        $gd_type  = null;
+        $channels = null;
+
         // use GD extension
         if (function_exists('getimagesize') && ($imsize = @getimagesize($this->image_file))) {
             $width   = $imsize[0];
@@ -69,12 +72,12 @@ class rcube_image
         }
 
         // use ImageMagick
-        if (!$type && ($data = $this->identify())) {
+        if (empty($type) && ($data = $this->identify())) {
             list($type, $width, $height) = $data;
             $channels = null;
         }
 
-        if ($type) {
+        if (!empty($type)) {
             return array(
                 'type'    => $type,
                 'gd_type' => $gd_type,
@@ -99,7 +102,7 @@ class rcube_image
     {
         $result  = false;
         $rcube   = rcube::get_instance();
-        $convert = $rcube->config->get('im_convert_path', false);
+        $convert = self::getCommand('im_convert_path');
         $props   = $this->props();
 
         if (empty($props)) {
@@ -158,7 +161,8 @@ class rcube_image
                             'size'    => $width . 'x' . $height,
                         );
 
-                        $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
+                        $result = rcube::exec($convert
+                            . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
                             . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
                     }
                     // use PHP's Imagick class
@@ -306,7 +310,7 @@ class rcube_image
     public function convert($type, $filename = null)
     {
         $rcube   = rcube::get_instance();
-        $convert = $rcube->config->get('im_convert_path', false);
+        $convert = self::getCommand('im_convert_path');
 
         if (!$filename) {
             $filename = $this->image_file;
@@ -406,7 +410,7 @@ class rcube_image
         $rcube = rcube::get_instance();
 
         // @TODO: check if specified mimetype is really supported
-        return class_exists('Imagick', false) || $rcube->config->get('im_convert_path');
+        return class_exists('Imagick', false) || self::getCommand('im_convert_path');
     }
 
     /**
@@ -417,9 +421,9 @@ class rcube_image
         $rcube = rcube::get_instance();
 
         // use ImageMagick in command line
-        if ($cmd = $rcube->config->get('im_identify_path')) {
+        if ($cmd = self::getCommand('im_identify_path')) {
             $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
-            $id   = rcube::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
+            $id   = rcube::exec($cmd . ' 2>/dev/null -format {format} {in}', $args);
 
             if ($id) {
                 return explode(' ', strtolower($id));
@@ -461,5 +465,40 @@ class rcube_image
         // calculate image size in memory (in bytes)
         $size = $props['width'] * $props['height'] * $multip;
         return rcube_utils::mem_check($size);
+    }
+
+    /**
+     * Get the configured command and make sure it is safe to use.
+     * We cannot trust configuration, and escapeshellcmd() is useless.
+     *
+     * @param string $opt_name Configuration option name
+     *
+     * @return bool|string The command or False if not set or invalid
+     */
+    private static function getCommand($opt_name)
+    {
+        static $error = [];
+
+        $cmd = rcube::get_instance()->config->get($opt_name);
+
+        if (empty($cmd)) {
+            return false;
+        }
+
+        if (preg_match('/^(convert|identify)(\.exe)?$/i', $cmd)) {
+            return $cmd;
+        }
+
+        // Executable must exist, also disallow network shares on Windows
+        if ($cmd[0] != "\\" && file_exists($cmd)) {
+            return $cmd;
+        }
+
+        if (empty($error[$opt_name])) {
+            rcube::raise_error("Invalid $opt_name: $cmd", true, false);
+            $error[$opt_name] = true;
+        }
+
+        return false;
     }
 }

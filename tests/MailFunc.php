@@ -131,7 +131,6 @@ class MailFunc extends PHPUnit\Framework\TestCase
 
     /**
      * Test washtml class on non-unicode characters (#1487813)
-     * @group iconv
      * @group mbstring
      */
     function test_washtml_utf8()
@@ -253,8 +252,7 @@ class MailFunc extends PHPUnit\Framework\TestCase
       $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));
 
       $this->assertNotContains('href="/"', $body);
-      $this->assertContains('<a href="./#NOP"', $body);
-      $this->assertContains('onclick="return false"', $body);
+      $this->assertContains('<a>', $body);
 
       $html = '<a href="https://roundcube.net">test</a>';
       $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));

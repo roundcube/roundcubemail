@@ -600,8 +600,8 @@ function rcube_mail_ui()
     h = body.parent().height() - 8;
     body.width(w).height(h);
 
-    $('#composebodycontainer > div').width(w+8);
-    $('#composebody_ifr').height(h + 4 - $('div.mce-toolbar').height());
+    $('#composebodycontainer > div').width(w+7);
+    $('#composebody_ifr').height(h + 4 - $('div.tox-toolbar').height());
     $('#googie_edit_layer').width(w).height(h);
 //    $('#composebodycontainer')[(btns ? 'addClass' : 'removeClass')]('buttons');
 //    $('#composeformbuttons')[(btns ? 'show' : 'hide')]();
@@ -905,7 +905,7 @@ function rcube_mail_ui()
   {
     item = $(item);
 
-    if (!item.children('.drop').length) {
+    if (!item.children('.drop').length && !item.is('.no-menu')) {
       var label = rcmail.gettext('options'),
         fname = item.find('a.filename'),
         tabindex = fname.attr('tabindex') || 0;

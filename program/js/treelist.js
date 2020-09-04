@@ -1284,7 +1284,7 @@ function rcube_treelist_widget(node, p)
         create: function(e, ui) { ui_draggable = ui; },
         helper: function(e) {
           return $('<div>').attr('id', 'rcmdraglayer')
-            .text($.trim($(e.target).first().text()));
+            .text($(e.target).first().text().trim());
         }
       }, opts);
 

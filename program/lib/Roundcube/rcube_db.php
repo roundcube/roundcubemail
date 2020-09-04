@@ -30,8 +30,11 @@ class rcube_db
 
     protected $db_dsnw;               // DSN for write operations
     protected $db_dsnr;               // DSN for read operations
+    protected $db_dsnw_array;         // DSN for write operations
+    protected $db_dsnr_array;         // DSN for read operations
     protected $db_connected = false;  // Already connected ?
     protected $db_mode;               // Connection mode
+    protected $db_pconn = false;      // Persistent connections flag
     protected $dbh;                   // Connection handle
     protected $dbhs = array();
     protected $table_connections = array();
@@ -370,7 +373,7 @@ class rcube_db
      * @param string SQL query to execute
      * @param mixed  Values to be inserted in query
      *
-     * @return number  Query handle identifier
+     * @return PDOStatement|bool  Query handle or False on error
      */
     public function query()
     {
@@ -573,6 +576,7 @@ class rcube_db
         $table   = $this->table_name($table, true);
         $columns = array_map(function($i) { return "`$i`"; }, $columns);
         $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
+        $where   = $keys;
 
         array_walk($where, function(&$val, $key) {
             $val = $this->quote_identifier($key) . " = " . $this->quote($val);
@@ -987,13 +991,15 @@ class rcube_db
      */
     public function now($interval = 0)
     {
+        $result = 'now()';
+
         if ($interval) {
-            $add = ' ' . ($interval > 0 ? '+' : '-') . ' INTERVAL ';
-            $add .= $interval > 0 ? intval($interval) : intval($interval) * -1;
-            $add .= ' SECOND';
+            $result .= ' ' . ($interval > 0 ? '+' : '-') . ' INTERVAL '
+                . ($interval > 0 ? intval($interval) : intval($interval) * -1)
+                . ' SECOND';
         }
 
-        return "now()" . $add;
+        return $result;
     }
 
     /**
@@ -1278,7 +1284,7 @@ class rcube_db
         }
 
         // process the different protocol options
-        $parsed['protocol'] = $proto ?: 'tcp';
+        $parsed['protocol'] = !empty($proto) ? $proto : 'tcp';
         $proto_opts = rawurldecode($proto_opts);
         if (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);

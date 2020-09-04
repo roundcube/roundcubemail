@@ -197,7 +197,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
 
-            $res     = $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+            $res     = $this->gpg->sign($text, $mode, Crypt_GPG::ARMOR_ASCII, true);
             $sigInfo = $this->gpg->getLastSignatureInfo();
 
             $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
@@ -409,6 +409,23 @@ class enigma_driver_gnupg extends enigma_driver
     public function signature_algorithm()
     {
         return $this->last_sig_algorithm;
+    }
+
+    /**
+     * Returns a list of supported features.
+     *
+     * @return array Capabilities list
+     */
+    public function capabilities()
+    {
+        $caps = array(enigma_driver::SUPPORT_RSA);
+        $version = $this->gpg->getVersion();
+
+        if (version_compare($version, '2.1.7', 'ge')) {
+            $caps[] = enigma_driver::SUPPORT_ECC;
+        }
+
+        return $caps;
     }
 
     /**

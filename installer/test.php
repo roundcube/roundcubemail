@@ -13,7 +13,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -115,7 +115,7 @@ foreach ($dirs as $dir) {
     echo '<br />';
 }
 
-if (!$pass) {
+if (empty($pass)) {
     echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
 }
 
@@ -139,7 +139,7 @@ if ($RCI->configured) {
         else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
-            echo 'DSN: ' . $RCI->config['db_dsnw'] . '</p>';
+            echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
         }
     }
     else {
@@ -158,7 +158,6 @@ if ($db_working && $_POST['initdb']) {
             Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
-
 else if ($db_working && $_POST['updatedb']) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
@@ -224,7 +223,7 @@ if ($db_working) {
 
     // sometimes db and web servers are on separate hosts, so allow a 30 minutes delta
     if (abs($tz_diff) > 1800) {
-        $RCI->fail('DB Time', "Database time differs {$td_ziff}s from PHP time");
+        $RCI->fail('DB Time', "Database time differs {$tz_diff}s from PHP time");
     }
     else {
         $RCI->pass('DB Time');
@@ -263,6 +262,15 @@ else {
   echo "<br/>";
 }
 
+$smtp_hosts = $RCI->get_hostlist('smtp_server');
+if (!empty($smtp_hosts)) {
+  $smtp_host_field = new html_select(array('name' => '_smtp_host', 'id' => 'smtp_server'));
+  $smtp_host_field->add($smtp_hosts);
+}
+else {
+  $smtp_host_field = new html_inputfield(array('name' => '_smtp_host', 'id' => 'smtp_server'));
+}
+
 $user = $RCI->getprop('smtp_user', '(none)');
 $pass = $RCI->getprop('smtp_pass', '(none)');
 
@@ -270,9 +278,15 @@ if ($user == '%u') {
     $user_field = new html_inputfield(array('name' => '_smtp_user', 'id' => 'smtp_user'));
     $user = $user_field->show($_POST['_smtp_user']);
 }
+else {
+    $user = html::quote($user);
+}
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(array('name' => '_smtp_pass', 'id' => 'smtp_pass'));
     $pass = $pass_field->show();
+}
+else {
+    $pass = html::quote($pass);
 }
 
 ?>
@@ -284,11 +298,11 @@ if ($pass == '%p') {
 <tbody>
   <tr>
     <td><label for="smtp_server">Server</label></td>
-    <td><?php echo rcube_utils::parse_host($RCI->getprop('smtp_server', 'localhost')); ?></td>
+    <td><?php echo $smtp_host_field->show($_POST['_smtp_host']); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_port">Port</label></td>
-    <td><?php echo $RCI->getprop('smtp_port'); ?></td>
+    <td><?php echo rcube::Q($RCI->getprop('smtp_port')); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>
@@ -310,6 +324,9 @@ $to_field   = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
 if (isset($_POST['sendmail'])) {
 
   echo '<p>Trying to send email...<br />';
+
+  $smtp_host = trim($_POST['_smtp_host']);
+  $smtp_port = $RCI->getprop('smtp_port');
 
   $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
   $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
@@ -340,8 +357,7 @@ if (isset($_POST['sendmail'])) {
     $head         = $mail_object->txtHeaders($send_headers);
 
     $SMTP = new rcube_smtp();
-    $SMTP->connect(rcube_utils::parse_host($RCI->getprop('smtp_server')),
-      $RCI->getprop('smtp_port'), $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
+    $SMTP->connect($smtp_host, $smtp_port, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
     $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
     $smtp_response = $SMTP->get_response();
@@ -425,6 +441,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
   $imap_host = trim($_POST['_host']);
   $imap_port = $RCI->getprop('default_port');
+  $imap_ssl  = false;
   $a_host    = parse_url($imap_host);
 
   if ($a_host['host']) {
@@ -439,7 +456,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
   $imap_host = rcube_utils::idn_to_ascii($imap_host);
   $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
-  $imap = new rcube_imap(null);
+  $imap = new rcube_imap;
   $imap->set_options(array(
     'auth_type' => $RCI->getprop('imap_auth_type'),
     'debug'     => $RCI->getprop('imap_debug'),

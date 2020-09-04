@@ -49,7 +49,8 @@ class rcube_sieve_script
         'vacation',                 // RFC5230
         'vacation-seconds',         // RFC6131
         'variables',                // RFC5229
-        // @TODO: spamtest+virustest, mailbox
+        'spamtest',                 // RFC3685 (not RFC5235 with :percent argument)
+        // @TODO: virustest, mailbox
     );
 
     /**
@@ -230,6 +231,16 @@ class rcube_sieve_script
                     case 'size':
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
                         $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
+                        break;
+
+                    case 'spamtest':
+                        array_push($exts, 'spamtest');
+                        $tests[$i] .= ($test['not'] ? 'not ' : '');
+                        $tests[$i] .= $test['test'];
+
+                        $this->add_operator($test, $tests[$i], $exts);
+
+                        $tests[$i] .= ' ' . self::escape_string($test['arg']);
                         break;
 
                     case 'true':
@@ -759,6 +770,16 @@ class rcube_sieve_script
                 $tests[] = $test;
                 break;
 
+            case 'spamtest':
+                $test = array('test' => 'spamtest', 'not' => $not);
+
+                $test['arg'] = array_pop($tokens);
+
+                $test += $this->test_tokens($tokens);
+
+                $tests[] = $test;
+                break;
+
             case 'header':
             case 'string':
             case 'address':
@@ -867,8 +888,8 @@ class rcube_sieve_script
         // ...and actions block
         $actions = $this->_parse_actions($content, $position);
 
-        if ($tests && $actions) {
-            $result = array(
+        if (!empty($tests) && $actions) {
+            return array(
                 'type'     => $cond,
                 'tests'    => $tests,
                 'actions'  => $actions,
@@ -877,7 +898,7 @@ class rcube_sieve_script
             );
         }
 
-        return $result;
+        return null;
     }
 
     /**
@@ -891,7 +912,7 @@ class rcube_sieve_script
      */
     private function _parse_actions($content, &$position, $end = '}')
     {
-        $result = null;
+        $result = array();
         $length = strlen($content);
 
         while ($position < $length) {
@@ -1019,7 +1040,7 @@ class rcube_sieve_script
             }
         }
 
-        return $result;
+        return !empty($result) ? $result : null;
     }
 
     /**
@@ -1064,7 +1085,7 @@ class rcube_sieve_script
         foreach (array('mime', 'mime-anychild', 'mime-type', 'mime-subtype', 'mime-contenttype', 'mime-param') as $opt) {
             if (!empty($test[$opt])) {
                 $opt_name = str_replace('mime-', '', $opt);
-                if (!$got_mime) {
+                if (empty($got_mime)) {
                     $out .= ' :mime';
                     $got_mime = true;
                     array_push($exts, 'mime');

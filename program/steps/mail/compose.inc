@@ -93,6 +93,7 @@ $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_l
 $OUTPUT->set_env('is_sent', false);
 $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 $OUTPUT->set_env('keyservers', $RCMAIL->config->keyservers());
+$OUTPUT->set_env('mailvelope_main_keyring', $RCMAIL->config->get('mailvelope_main_keyring'));
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -597,8 +598,12 @@ function rcmail_prepare_message_body()
         $isHtml = rcmail_compose_editor_mode();
     }
 
-    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
-        array('body' => $body, 'html' => $isHtml, 'mode' => $COMPOSE['mode']));
+    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body', array(
+            'body'    => $body,
+            'html'    => $isHtml,
+            'mode'    => $COMPOSE['mode'],
+            'message' => $MESSAGE,
+    ));
 
     $body = $plugin['body'];
     unset($plugin);
@@ -947,13 +952,15 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
         $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
     }
 
+    $has_html = $message->has_html_part();
+
     foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
             $messages[] = $part->mime_id;
         }
 
         if (
-            $part->disposition == 'attachments'
+            $part->disposition == 'attachment'
             || ($part->disposition == 'inline' && $bodyIsHtml)
             || $part->filename
             || $part->mimetype == 'message/rfc822'
@@ -982,8 +989,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml, &$message_body
 
             $replace = null;
 
-            // skip inline images when not used in the body
-            if ($part->disposition == 'inline') {
+            // Skip inline images when not used in the body
+            // Note: Apple Mail sends PDF files marked as inline (#7382)
+            // Note: Apple clients send inline images even if there's no HTML body (#7414)
+            if ($has_html && $part->disposition == 'inline' && $part->mimetype != 'application/pdf') {
                 if (!$bodyIsHtml) {
                     continue;
                 }

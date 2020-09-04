@@ -3,10 +3,10 @@
     {
       "lib": "jquery",
       "name": "jQuery",
-      "version": "3.4.1",
+      "version": "3.5.1",
       "url": "https://code.jquery.com/jquery-$v.min.js",
       "dest": "program/js/jquery.min.js",
-      "sha1": "88523924351bac0b5d560fe0c5781e2556e7693d",
+      "sha1": "c8e1c8b386dc5b7a9184c763c88d19a346eb3342",
       "license": "MIT",
       "copyright": "Copyright JS Foundation and other contributors",
       "source": "https://github.com/jquery/jquery/tree/$v"
@@ -14,13 +14,13 @@
     {
       "lib": "jstz",
       "name": "jsTimezoneDetect",
-      "version": "1.0.6",
-      "url": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.min.js",
+      "version": "1.0.7",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js",
       "dest": "program/js/jstz.min.js",
-      "sha1": "4291cd3b259d2060460c2a6ab99f428d3c0c9537",
+      "sha1": "a858ff12014b232fcc7c4c2e9f014ff852ddb917",
       "license": "MIT",
       "copyright": "Copyright (c) Jon Nylander",
-      "source": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.js"
+      "source": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"
     },
     {
       "lib": "publickey",
@@ -36,28 +36,26 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.8.2",
+      "version": "5.4.1",
       "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
+      "sha1": "1266dcbbc6d13fa789b3443a63acff4b75f5a911",
       "license": "LGPL",
-      "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
+      "copyright": "Copyright (c) Tiny Technologies, Inc. All rights reserved",
       "rm": "program/js/tinymce",
       "map": {
         "js/tinymce": "tinymce"
       },
       "omit": [
         "tinymce/license.txt",
-        "tinymce/jquery.tinymce.min.js"
-      ],
-      "addlicense": [
-        "tinymce/tinymce.min.js"
+        "tinymce/jquery.tinymce.min.js",
+        "tinymce/themes/mobile"
       ]
     },
     {
       "lib": "tinymce-langs",
-      "version": "4.8.2",
-      "url": "https://www.tiny.cloud/docs-4x/language/tinymce4x_languages.zip",
+      "version": "5.4.1",
+      "url": "https://www.tiny.cloud/tinymce-services-azure/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy&v=$v&extension=.zip",
       "dest": "program/js/tinymce"
     },
     {

@@ -14,7 +14,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -43,6 +43,7 @@ if (!empty($_POST['submit'])) {
      echo '</p>';
   }
   else {
+    $save_button = '';
     if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
       echo '<iframe name="getconfig" style="display:none"></iframe>';
       echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';
@@ -104,7 +105,7 @@ $input_support = new html_inputfield(array('name' => '_support_url', 'size' => 5
 echo $input_support->show($RCI->getprop('support_url'));
 
 ?>
-<div>Provide an URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
+<div>Provide a URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
 <p class="hint">Enter an absolute URL (including http://) to a support page/form or a mailto: link.</p>
 </dd>
 

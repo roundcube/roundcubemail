@@ -214,6 +214,7 @@ input.smart-upload {
                 display: flex;
                 flex-wrap: wrap;
                 border-radius: 0;
+                border-left-color: transparent;
 
                 input {
                     border-radius: 0;
@@ -939,7 +940,7 @@ html.ms .propform {
     .recipient {
         display: flex;
         position: relative;
-        max-width: 50%;
+        max-width: ~"calc(50% - 3px)";
         border: 1px solid @color-recipient-input-border;
         background-color: @color-recipient-input-background;
         border-radius: .25em;
@@ -994,11 +995,15 @@ html.ms .propform {
         &:not(.recipient) {
             user-select: text;
         }
+
+        &.input {
+            flex: 1;
+            min-width: 100px;
+        }
     }
 
     input {
-        width: 40px;
-        max-width: 100%;
+        width: 100%;
         background: transparent !important;
         border: 0 !important;
         margin-top: @recipient-input-margin-fix;
@@ -1283,6 +1288,7 @@ html.ms .propform {
 
     .custom-control-input {
         left: 0;
+        opacity: 0 !important; // fixes input in dark mode
 
         &:focus ~ .custom-control-label:before {
             box-shadow: 0 0 0 .2rem @color-checkbox-focus-shadow;

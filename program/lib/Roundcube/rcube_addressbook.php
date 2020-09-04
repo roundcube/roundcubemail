@@ -101,7 +101,7 @@ abstract class rcube_addressbook
      * @param array $cols   List of cols to show
      * @param int   $subset Only return this number of records, use negative values for tail
      *
-     * @return array Indexed list of contact records, each a hash array
+     * @return rcube_result_set Indexed list of contact records, each a hash array
      */
     abstract function list_records($cols=null, $subset=0);
 
@@ -129,7 +129,7 @@ abstract class rcube_addressbook
     /**
      * Return the last result set
      *
-     * @return rcube_result_set Current result set or NULL if nothing selected yet
+     * @return ?rcube_result_set Current result set or NULL if nothing selected yet
      */
     abstract function get_result();
 
@@ -276,7 +276,7 @@ abstract class rcube_addressbook
     function insertMultiple($recset, $check = false)
     {
         $ids = array();
-        if (is_object($recset) && is_a($recset, rcube_result_set)) {
+        if ($recset instanceof rcube_result_set) {
             while ($row = $recset->next()) {
                 if ($insert = $this->insert($row, $check))
                     $ids[] = $insert;
@@ -397,7 +397,7 @@ abstract class rcube_addressbook
      * @param string $newname  New name to set for this group
      * @param string &$newid   New group identifier (if changed, otherwise don't set)
      *
-     * @return boolean New name on success, false if no data was changed
+     * @return boolean|string New name on success, false if no data was changed
      */
     function rename_group($group_id, $newname, &$newid)
     {

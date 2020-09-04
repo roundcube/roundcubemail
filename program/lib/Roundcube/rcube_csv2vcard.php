@@ -133,7 +133,7 @@ class rcube_csv2vcard
 
         // Atmail
         'date_of_birth'         => 'birthday',
-        'email'                 => 'email:pref',
+        // 'email'                 => 'email:pref',
         'home_mobile'           => 'phone:cell',
         'home_zip'              => 'zipcode:home',
         'info'                  => 'notes',

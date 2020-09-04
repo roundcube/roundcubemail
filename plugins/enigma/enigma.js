@@ -156,7 +156,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
     var options, lock, users = [],
         password = $('#key-pass').val(),
         confirm = $('#key-pass-confirm').val(),
-        size = $('#key-size').val();
+        type = $('#key-type').val();
 
     $('[name="identity[]"]:checked').each(function() {
         users.push({name: $(this).data('name') || '', email: $(this).data('email')});
@@ -183,10 +183,16 @@ rcube_webmail.prototype.enigma_key_create_save = function()
     if (window.openpgp && (window.msCrypto || (window.crypto && (window.crypto.getRandomValues || window.crypto.subtle)))) {
         lock = this.set_busy(true, 'enigma.keygenerating');
         options = {
-            numBits: size,
             userIds: users,
             passphrase: password
         };
+
+        if (type == 'ecc')
+            options.curve = 'ed25519';
+        else if (type == 'rsa4096')
+            options.numBits = 4096;
+        else
+            options.numBits = 2048;
 
         openpgp.generateKey(options).then(function(keypair) {
             // success

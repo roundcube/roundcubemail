@@ -33,7 +33,7 @@ function hide_blockquote()
     // from merging lines from different quoting level
     $('blockquote').before(document.createTextNode("\n"));
 
-    text = $.trim(q.text());
+    text = q.text().trim();
     res = text.split(/\n/);
 
     if (res.length <= limit) {

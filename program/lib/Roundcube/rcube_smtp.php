@@ -57,9 +57,23 @@ class rcube_smtp
         // reset error/response var
         $this->error = $this->response = null;
 
+        if (!$host) {
+            $host = $rcube->config->get('smtp_server');
+            if (is_array($host)) {
+                if (array_key_exists($_SESSION['storage_host'], $host)) {
+                    $host = $host[$_SESSION['storage_host']];
+                }
+                else {
+                    $this->response[] = "Connection failed: No SMTP server found for IMAP host " . $_SESSION['storage_host'];
+                    $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => '500'));
+                    return false;
+                }
+            }
+        }
+
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
-            'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
+            'smtp_server'    => $host,
             'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 587),
             'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
             'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
@@ -90,6 +104,7 @@ class rcube_smtp
         }
 
         // remove TLS prefix and set flag for use in Net_SMTP::auth()
+        $use_tls = false;
         if (preg_match('#^tls://#i', $smtp_host)) {
             $smtp_host = preg_replace('#^tls://#i', '', $smtp_host);
             $use_tls   = true;
@@ -150,6 +165,7 @@ class rcube_smtp
         $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
+        $smtp_authz     = null;
 
         if (!empty($CONFIG['smtp_auth_cid'])) {
             $smtp_authz = $smtp_user;
@@ -200,13 +216,14 @@ class rcube_smtp
      *
      * @return bool  Returns true on success, or false on error
      */
-    public function send_mail($from, $recipients, &$headers, &$body, $opts=null)
+    public function send_mail($from, $recipients, $headers, $body, $opts = null)
     {
         if (!is_object($this->conn)) {
             return false;
         }
 
         // prepare message headers as string
+        $text_headers = null;
         if (is_array($headers)) {
             if (!($headerElements = $this->_prepare_headers($headers))) {
                 $this->reset();
@@ -234,7 +251,9 @@ class rcube_smtp
             return false;
         }
 
-        $exts = $this->conn->getServiceExtensions();
+        $exts             = $this->conn->getServiceExtensions();
+        $from_params      = null;
+        $recipient_params = null;
 
         // RFC3461: Delivery Status Notification
         if ($opts['dsn']) {
@@ -292,26 +311,20 @@ class rcube_smtp
         }
 
         if (is_resource($body)) {
-            // file handle
-            $data = $body;
-
             if ($text_headers) {
                 $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
             }
         }
         else {
-            // Concatenate headers and body so it can be passed by reference to SMTP_CONN->data
-            // so preg_replace in SMTP_CONN->quotedata will store a reference instead of a copy.
-            // We are still forced to make another copy here for a couple ticks so we don't really
-            // get to save a copy in the method call.
-            $data = $text_headers . "\r\n" . $body;
+            if ($text_headers) {
+                $body = $text_headers . "\r\n" . $body;
+            }
 
-            // unset old vars to save data and so we can pass into SMTP_CONN->data by reference.
-            unset($text_headers, $body);
+            $text_headers = null;
         }
 
         // Send the message's headers and the body as SMTP data.
-        $result = $this->conn->data($data, $text_headers);
+        $result = $this->conn->data($body, $text_headers);
         if (is_a($result, 'PEAR_Error')) {
             $err       = $this->conn->getResponse();
             $err_label = 'smtperror';

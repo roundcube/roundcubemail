@@ -22,6 +22,7 @@ $labels['username'] = 'Username';
 $labels['password'] = 'Password';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
+$labels['oauthlogin'] = 'Login with $provider';
 
 // taskbar
 $labels['menu'] = 'Menu';
@@ -29,6 +30,8 @@ $labels['logout'] = 'Logout';
 $labels['mail'] = 'Mail';
 $labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
+$labels['darkmode'] = 'Dark mode';
+$labels['lightmode'] = 'Light mode';
 
 // mailbox names
 $labels['inbox'] = 'Inbox';
@@ -338,6 +341,7 @@ $labels['alwaysallow'] = 'Always allow from $sender';
 $labels['isdraft'] = 'This is a draft message.';
 $labels['andnmore'] = '$nr more...';
 $labels['details'] = 'Details';
+$labels['summary'] = 'Summary';
 $labels['headers'] = 'Headers';
 $labels['allheaders'] = 'All headers...';
 $labels['togglemoreheaders'] = 'Show more message headers';

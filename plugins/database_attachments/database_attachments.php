@@ -55,7 +55,7 @@ class database_attachments extends filesystem_attachments
         }
 
         $data   = base64_encode($data);
-        $status = $cache->write($key, $data);
+        $status = $cache->set($key, $data);
 
         if ($status) {
             $args['id']     = $key;
@@ -87,7 +87,7 @@ class database_attachments extends filesystem_attachments
         }
 
         $data   = base64_encode($args['data']);
-        $status = $cache->write($key, $data);
+        $status = $cache->set($key, $data);
 
         if ($status) {
             $args['id'] = $key;
@@ -128,7 +128,7 @@ class database_attachments extends filesystem_attachments
     function get($args)
     {
         $cache = $this->get_cache();
-        $data  = $cache->read($args['id']);
+        $data  = $cache->get($args['id']);
 
         if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
@@ -158,7 +158,7 @@ class database_attachments extends filesystem_attachments
     protected function _key($args)
     {
         $uname = $args['path'] ?: $args['name'];
-        return $args['group'] . md5(time() . $uname . $_SESSION['user_id']);
+        return $args['group'] . md5(microtime() . $uname . $_SESSION['user_id']);
     }
 
     /**
@@ -182,7 +182,7 @@ class database_attachments extends filesystem_attachments
             }
 
             // Init SQL cache (disable cache data serialization)
-            $this->cache = $rcmail->get_cache($prefix, $type, $ttl, false);
+            $this->cache = $rcmail->get_cache($prefix, $type, $ttl, false, true);
         }
 
         return $this->cache;

@@ -3,7 +3,7 @@ PWD=`dirname "$0"`
 JS_DIR="$PWD/../program/js"
 JAR_DIR='/tmp'
 LANG_IN='ECMASCRIPT5'
-CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-latest.zip'
+CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20200719.zip'
 
 do_shrink() {
     rm -f "$2"

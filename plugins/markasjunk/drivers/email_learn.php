@@ -153,10 +153,6 @@ class markasjunk_email_learn
 
             if ($debug) {
                 rcube::write_log('markasjunk', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
-
-                if ($smtp_error['vars']) {
-                    rcube::write_log('markasjunk', $smtp_error['vars']);
-                }
             }
         }
     }

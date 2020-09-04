@@ -91,6 +91,7 @@ class rcube_plesk_password
 class plesk_rpc
 {
     protected $old_version = false;
+    protected $curl;
 
     /**
      * init plesk-rpc via curl
@@ -163,6 +164,7 @@ class plesk_rpc
 
         $dataset->addChild("hosting");
         $packet = $request->asXML();
+        $xml    = null;
 
         // send the request and make it to simple-xml-object
         if ($res = $this->send_request($packet)) {

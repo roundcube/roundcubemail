@@ -267,6 +267,8 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// To specify differnt SMTP servers for different IMAP hosts provide an array
+// of IMAP host (no prefix or port) and SMTP server e.g. array('imap.example.com' => 'smtp.example.net')
 $config['smtp_server'] = 'localhost';
 
 // SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
@@ -315,6 +317,84 @@ $config['smtp_timeout'] = 0;
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
 
+
+// ----------------------------------
+// OAuth
+// ----------------------------------
+
+// Enable OAuth2 by defining a provider. Use 'generic' here
+$config['oauth_provider'] = null;
+
+// Provider name to be displayed on the login button
+$config['oauth_provider_name'] = 'Google';
+
+// Mandatory: OAuth client ID for your Roundcube installation
+$config['oauth_client_id'] = null;
+
+// Mandatory: OAuth client secret
+$config['oauth_client_secret'] = null;
+
+// Mandatory: URI for OAuth user authentication (redirect)
+$config['oauth_auth_uri'] = null;
+
+// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+$config['oauth_token_uri'] = null;
+
+// Optional: Endpoint to query user identity if not provided in auth response
+$config['oauth_identity_uri'] = null;
+
+// Optional: disable SSL certificate check on HTTP requests to OAuth server
+// See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
+$config['oauth_verify_peer'] = true;
+
+// Mandatory: OAuth scopes to request (space-separated string)
+$config['oauth_scope'] = null;
+
+// Optional: additional query parameters to send with login request (hash array)
+$config['oauth_auth_parameters'] = [];
+
+// Optional: array of field names used to resolve the username within the identity information
+$config['oauth_identity_fields'] = null;
+
+// Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
+$config['oauth_login_redirect'] = false;
+
+///// Example config for Gmail
+
+// Register your service at https://console.developers.google.com/
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['oauth_provider'] = 'google';
+// $config['oauth_provider_name'] = 'Google';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://accounts.google.com/o/oauth2/auth";
+// $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
+// $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
+// $config['oauth_scope'] = "email profile openid https://mail.google.com/";
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
+
+///// Example config for Outlook.com (Office 365)
+
+// Register your OAuth client at https://portal.azure.com
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
+
+// $config['default_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+// $config['oauth_provider'] = 'outlook';
+// $config['oauth_provider_name'] = 'Outlook.com';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+// $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+// $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
+// $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
+// $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
+// $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
 
 // ----------------------------------
 // LDAP
@@ -404,6 +484,7 @@ $config['support_url'] = '';
 // - logo type - it is used for logos used on multiple templates
 //   the available types include '[favicon]' for favicon, '[print]' for logo on all print
 //   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
+//   '[dark]' and '[small-dark]' for dark mode logo in supported skins
 //
 // Example config for skin_logo
 /*
@@ -437,7 +518,7 @@ $config['user_aliases'] = false;
 // This is used by the 'file' log driver.
 $config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
-// use this folder to store temp files
+// Location of temporary saved files such as attachments and cache files
 // must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
@@ -473,6 +554,7 @@ $config['login_username_maxlen'] = 1024;
 $config['login_password_maxlen'] = 1024;
 
 // Logon username filter. Regular expression for use with preg_match().
+// Use special value 'email' if you accept only full email addresses as user logins.
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
@@ -542,6 +624,7 @@ $config['x_frame_options'] = 'sameorigin';
 // This key is used for encrypting purposes, like storing of imap password
 // in the session. For historical reasons it's called DES_key, but it's used
 // with any configured cipher_method (see below).
+// For the default cipher_method a required key length is 24 characters.
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
 // Encryption algorithm. You can use any method supported by OpenSSL.
@@ -652,9 +735,12 @@ $config['identities_level'] = 0;
 $config['identity_image_size'] = 64;
 
 // Mimetypes supported by the browser.
-// attachments of these types will open in a preview window
-// either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
-$config['client_mimetypes'] = null;  # null == default
+// Attachments of these types will open in a preview window.
+// Either a comma-separated list or an array. Default list includes:
+//     text/plain,text/html,
+//     image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp,
+//     application/x-javascript,application/pdf,application/x-shockwave-flash
+$config['client_mimetypes'] = null;
 
 // Path to a local mime magic database file for PHPs finfo extension.
 // Set to null if the default path should be used.
@@ -845,8 +931,16 @@ $config['compose_responses_static'] = array(
 );
 
 // List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
-// Default: array("keys.fedoraproject.org", "keybase.io")
-$config['keyservers'] = array();
+// Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
+$config['keyservers'] = array('keys.openpgp.org');
+
+// Enables use of the Main Keyring in Mailvelope? If disabled, a per-site keyring
+// will be used. This is set to false for backwards compatibility.
+$config['mailvelope_main_keyring'] = false;
+
+// Mailvelope RSA bit size for newly generated keys, either 2048 or 4096.
+// It maybe desirable to use 2048 for sites with many mobile users.
+$config['mailvelope_keysize'] = 4096;
 
 // ----------------------------------
 // ADDRESSBOOK SETTINGS

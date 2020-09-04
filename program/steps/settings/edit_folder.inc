@@ -95,7 +95,7 @@ function rcmail_folder_form($attrib)
             $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
         }
 
-        $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
+        $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control'));
         $foldername = '<span class="input-group">' . $foldername->show($folder);
 
         if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {

@@ -7,11 +7,12 @@
  */
 class runlog {
 
-    private $start_time   = FALSE;
-    private $parent_stack = array();
-    private $file_handles = array();
-    private $indent       = 0;
-    private $run_log      = array();
+    private $start_time     = FALSE;
+    private $parent_stack   = array();
+    private $file_handles   = array();
+    private $debug_messages = array();
+    private $indent         = 0;
+    private $run_log        = array();
 
     public $print_to_console = FALSE;
     public $threshold        = 0;
@@ -108,7 +109,7 @@ class runlog {
 
     public function set_file($filename, $tag = 'master')
     {
-        if (!isset($this->file_handle[$tag])) {
+        if (!isset($this->file_handles[$tag])) {
             $this->file_handles[$tag] = fopen($filename, 'a');
             if (!$this->file_handles[$tag]) {
                 trigger_error('Could not open file for writing: '.$filename);
@@ -190,23 +191,6 @@ class runlog {
                     echo "$tag: ";
                 }
                 echo "$msg\n";
-            }
-        }
-    }
-
-    public function print_totals()
-    {
-        $totals = array();
-        foreach ($this->run_log as $entry) {
-            if ($entry['type'] == 'start' && $entry['ended']) {
-                $totals[$entry['value']]['duration'] += $entry['duration'];
-                $totals[$entry['value']]['count'] += 1;
-            }
-        }
-
-        if ($this->file_handle) {
-            foreach ($totals as $name => $details) {
-                fwrite($this->file_handle,$name.": ".number_format($details['duration'],4)."sec,  ".$details['count']." calls \n");
             }
         }
     }

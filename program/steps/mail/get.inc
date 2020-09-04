@@ -150,8 +150,8 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
                 $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
             }
 
-            // fix mimetype for images wrongly declared as octet-stream
-            if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension) {
+            // fix mimetype for files wrongly declared as octet-stream
+            if ($mimetype == 'application/octet-stream' && $valid_extension) {
                 $mimetype = $real_mimetype;
             }
             // fix mimetype for images with wrong mimetype

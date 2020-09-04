@@ -422,6 +422,12 @@ a.toolbar-button {
     &.settings:before {
         content: @fa-var-cog;
     }
+    &.theme.light:before {
+        content: @fa-var-sun;
+    }
+    &.theme.dark:before {
+        content: @fa-var-moon;
+    }
     &.help:before {
         content: @fa-var-life-ring;
     }
@@ -476,7 +482,7 @@ a.toolbar-button {
         content: @fa-var-arrow-left;
     }
     &.check:before {
-        content: "";
+        content: "\00a0"; // just a space
     }
     &.check.selected:before {
         content: @fa-var-check;

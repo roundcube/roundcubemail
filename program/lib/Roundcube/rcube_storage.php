@@ -50,6 +50,13 @@ abstract class rcube_storage
     protected $search_set;
 
     /**
+     * Internal (in-memory) cache
+     *
+     * @var array
+     */
+    protected $icache = array();
+
+    /**
      * All (additional) headers used (in any way) by Roundcube
      * Not listed here: DATE, FROM, TO, CC, REPLY-TO, SUBJECT, CONTENT-TYPE, LIST-POST
      * (used for messages listing) are hardcoded in rcube_imap_generic::fetchHeaders()
@@ -581,6 +588,8 @@ abstract class rcube_storage
      */
     protected function parse_uids($uids)
     {
+        $all = false;
+
         if ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
@@ -604,7 +613,7 @@ abstract class rcube_storage
             }
         }
 
-        return array($uids, (bool) $all);
+        return array($uids, $all);
     }
 
 

@@ -275,7 +275,9 @@ EOF;
     public function set_skin($skin)
     {
         if (!$this->check_skin($skin)) {
-            $skin = rcube_config::DEFAULT_SKIN;
+            // If the skin does not exist (could be removed or invalid),
+            // fallback to the skin set in the system configuration (#7271)
+            $skin = $this->config->system_skin;
         }
 
         $skin_path = 'skins/' . $skin;
@@ -508,12 +510,15 @@ EOF;
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
-                if (!empty($vars))
+                if (!empty($vars)) {
                     $vars = array_map(array('rcube','Q'), $vars);
+                }
+
                 $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
-            else
+            else {
                 $msgtext = $message;
+            }
 
             $this->message = $message;
             $this->command('display_message', $msgtext, $type, $timeout * 1000);
@@ -694,6 +699,7 @@ EOF;
     {
         $plugin   = false;
         $realname = $name;
+        $skin_dir = '';
         $plugin_skin_paths = array();
 
         $this->template_name = $realname;
@@ -804,6 +810,7 @@ EOF;
     {
         $out             = '';
         $parent_commands = 0;
+        $parent_prefix   = '';
         $top_commands    = array();
 
         // these should be always on top,
@@ -1372,22 +1379,22 @@ EOF;
                 else if ($object == 'logo') {
                     $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
 
-                    if (!empty($attrib['type']) && ($template_logo = $this->get_template_logo($attrib['type'])) !== null) {
-                        $attrib['src'] = $template_logo;
-                    }
-                    else if (($template_logo = $this->get_template_logo()) !== null) {
+                    // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
+                    // check both for backwards compatibility
+                    if (($template_logo = $this->get_template_logo($attrib['logo-type'] ?: $attrib['type'], $attrib['logo-match'])) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
-                    // process alternative logos (eg for Elastic small screen)
-                    foreach ($attrib as $key => $value) {
-                        if (preg_match('/data-src-(.*)/', $key, $matches)) {
-                            if (($template_logo = $this->get_template_logo($matches[1])) !== null) {
-                                $attrib[$key] = $template_logo;
-                            }
-
-                            $attrib[$key] = !empty($attrib[$key]) ? $this->abs_url($attrib[$key]) : null;
+                    $additional_logos = array();
+                    $logo_types       = (array) $this->config->get('additional_logo_types');
+                    foreach ($logo_types as $type) {
+                        if (($template_logo = $this->get_template_logo($type)) !== null) {
+                            $additional_logos[$type] = $this->abs_url($template_logo);
                         }
+                    }
+
+                    if (!empty($additional_logos)) {
+                        $this->set_env('additional_logos', $additional_logos);
                     }
 
                     if ($attrib['src']) {
@@ -1439,7 +1446,7 @@ EOF;
                         $key    = 'name';
                         $param  = 'content';
                     }
-                    else if ($object == 'links') {
+                    else {
                         $source = 'link_tags';
                         $tag    = 'link';
                         $key    = 'rel';
@@ -1719,6 +1726,8 @@ EOF;
         }
 
         $out = '';
+        $btn_content = null;
+        $link_attrib = array();
 
         // generate image tag
         if ($attrib['type'] == 'image') {
@@ -1776,7 +1785,7 @@ EOF;
             $out = html::tag($attrib['wrapper'], null, $out);
         }
 
-        if ($menuitem) {
+        if (!empty($menuitem)) {
             $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
             $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
         }
@@ -1967,7 +1976,7 @@ EOF;
         }
 
         // add css files in head, before scripts, for speed up with parallel downloads
-        if (!empty($this->css_files) && !$is_empty
+        if (!empty($this->css_files) && empty($is_empty)
             && (($pos = stripos($output, '<script ')) || ($pos = stripos($output, '</head>')))
         ) {
             $css = '';
@@ -2043,6 +2052,8 @@ EOF;
      */
     public function form_tag($attrib, $content = null)
     {
+        $hidden = '';
+
         if ($this->env['extwin']) {
             $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
             $hidden = $hiddenfield->show();
@@ -2126,7 +2137,9 @@ EOF;
             $username = $this->app->user->get_username();
         }
 
-        return rcube_utils::idn_to_utf8($username);
+        $username = rcube_utils::idn_to_utf8($username);
+
+        return html::quote($username);
     }
 
     /**
@@ -2139,15 +2152,16 @@ EOF;
      */
     protected function login_form($attrib)
     {
-        $default_host = $this->config->get('default_host');
-        $autocomplete = (int) $this->config->get('login_autocomplete');
-
+        $default_host     = $this->config->get('default_host');
+        $autocomplete     = (int) $this->config->get('login_autocomplete');
+        $username_filter  = $this->config->get('login_username_filter');
         $_SESSION['temp'] = true;
 
         // save original url
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
-        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING']))
+        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])) {
             $url = $_SERVER['QUERY_STRING'];
+        }
 
         // Disable autocapitalization on iPad/iPhone (#1488609)
         $attrib['autocapitalize'] = 'off';
@@ -2159,6 +2173,10 @@ EOF;
         $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $pass_attrib = $autocomplete > 1 ? array() : array('autocomplete' => 'off');
 
+        if ($username_filter && strtolower($username_filter) == 'email') {
+            $user_attrib['type'] = 'email';
+        }
+
         $input_task   = new html_hiddenfield(array('name' => '_task', 'value' => 'login'));
         $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
         $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
@@ -2168,9 +2186,10 @@ EOF;
         $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required')
             + $attrib + $pass_attrib);
         $input_host   = null;
+        $hide_host    = false;
 
         if (is_array($default_host) && count($default_host) > 1) {
-            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost'));
+            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select'));
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
@@ -2188,7 +2207,7 @@ EOF;
                 'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost')
+            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control')
                 + $attrib + $host_attrib);
         }
 
@@ -2222,6 +2241,12 @@ EOF;
         if (rcube_utils::get_boolean($attrib['submit'])) {
             $button_attr = array('type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit');
             $out .= html::p('formbuttons', html::tag('button', $button_attr, $this->app->gettext('login')));
+        }
+
+        // add oauth login button
+        if ($this->config->get('oauth_auth_uri') && $this->config->get('oauth_provider')) {
+            $link_attr = array('href' => $this->app->url(array('action' => 'oauth')), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider'));
+            $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(array('name' => 'oauthlogin', 'vars' => array('provider' => $this->config->get('oauth_provider_name', 'OAuth'))))));
         }
 
         // surround html output with a form tag
@@ -2304,10 +2329,14 @@ EOF;
         }
 
         if (!empty($attrib['wrapper'])) {
-            $header = html::tag($attrib['ariatag'] ?: 'h2', array(
-                    'id'    => 'aria-label-' . $attrib['label'],
-                    'class' => 'voice'
-                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain'])));
+            $options_button = '';
+            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain']);
+            $header_attrs = array(
+                'id'    => 'aria-label-' . $attrib['label'],
+                'class' => 'voice'
+            );
+
+            $header = html::tag($attrib['ariatag'] ?: 'h2', $header_attrs, rcube::Q($header_label));
 
             if ($attrib['options']) {
                 $options_button = $this->button(array(
@@ -2471,12 +2500,14 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string  $type     Type of the logo to check for (e.g. 'print' or 'small')
-     *                          default is null (no special type)
+     * @param string $type   Type of the logo to check for (e.g. 'print' or 'small')
+     *                       default is null (no special type)
+     * @param string $match  (optional) 'all' = type, template or wildcard, 'template' = type or template
+     *                       Note: when type is specified matches are limited to type only unless $match is defined
      *
      * @return string image URL
      */
-    protected function get_template_logo($type = null)
+    protected function get_template_logo($type = null, $match = null)
     {
         $template_logo = null;
 
@@ -2499,13 +2530,18 @@ EOF;
                     '*',
                 );
 
-                if (!empty($type)) {
-                    // Use strict matching, remove wild card options
-                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+                if (empty($type)) {
+                    // If no type provided then remove those options from the list
+                    $template_names = preg_grep("/\]$/", $template_names, PREG_GREP_INVERT);
                 }
-                else {
-                    // No type set so remove those options from the list
-                    $template_names = preg_grep("/\\[\]$/", $template_names, PREG_GREP_INVERT);
+                elseif ($match === null) {
+                    // Type specified with no special matching requirements so remove all none type specific options from the list
+                    $template_names = preg_grep("/\]$/", $template_names);
+                }
+
+                if ($match == 'template') {
+                    // Match only specific type or template name
+                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
                 }
 
                 foreach ($template_names as $key) {

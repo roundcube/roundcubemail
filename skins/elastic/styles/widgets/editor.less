@@ -12,758 +12,340 @@
 
 /*** Text Editor widget (and TinyMCE editor) ***/
 
-.mce-tinymce {
-    &.mce-container.mce-panel {
+// use of div.tox instead of just .tox is to have prio over TinyMCE styles
+div.tox {
+    font-size: 1rem;
+
+    &, :not(.svg) {
+        .font-family;
+    }
+
+    &.tox-tinymce {
         border-radius: .25rem;
-        border-color: @color-input-border;
-        overflow: hidden;
-    }
-
-    .mce-btn,
-    .mce-panel {
-        background-color: @color-input-addon-background;
-    }
-
-    .mce-panel {
-        border-color: @color-input-border;
+        border: 1px solid @color-input-border;
     }
 
     &.focused {
         border-color: @color-input-border-focus !important;
         box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
     }
-}
 
-.mce-top-part::before,
-.mce-tinymce,
-.mce-window {
-    box-shadow: none !important;
-}
+    .tox-toolbar-overlord {
+        z-index: 1; // for sticky header feature
 
-.mce-btn {
-    &.mce-active {
-        background: @color-btn-secondary-background !important;
+        & > div {
+            // The svg is copied from TinyMCE with modified height params
+            background: url("data:image/svg+xml;charset=utf8,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E");
+            background-color: @color-input-addon-background;
+        }
     }
-}
 
-.mce-window {
-    &.mce-container {
+    .tox-toolbar__primary {
+        border-top: 0;
+    }
+
+    // This one is for mobile
+    .tox-toolbar {
+        background-color: @color-input-addon-background;
+    }
+
+    .tox-edit-area {
         border: 0;
+    }
 
-        & :not(.mce-ico) {
-            .font-family;
+    .tox-dialog {
+        border-radius: 0;
+        border-color: @color-layout-border;
+        box-shadow: none;
+        align-self: unset !important;
+
+        .tox-form__group {
+            margin-top: 0;
+            margin-bottom: .75rem;
+        }
+
+        .tox-dialog__body-nav-item--active {
+            color: @color-link;
+            border-color: transparent;
+
+            &:hover {
+                color: @color-link-hover;
+            }
         }
     }
 
-    .mce-reset {
-        background: #fff;
+    .tox-dialog__body-content {
+        overflow: unset;
     }
 
-    .mce-container-body {
-        &.mce-abs-layout {
-            overflow: unset;
-        }
-
-        .mce-abs-end {
-            display: none;
-        }
+    .tox-dialog-wrap__backdrop {
+        background-color: @color-dialog-overlay-background;
     }
 
-    .mce-window-head {
-        height: @layout-header-height;
+    .tox-dialog__header {
+        height: (@layout-header-height - 1px);
         border-bottom: 1px solid @color-dialog-header-border;
+        justify-content: flex-end; // fixes close button position when dialog has no title
         padding: 0;
 
-        .mce-title {
-            line-height: @layout-header-height;
-            font-size: 1.25rem;
-            padding: 0 3rem 0 1rem;
+        .tox-button {
             color: @color-dialog-header;
-        }
-
-        .mce-close {
-            border: 0;
-            color: @color-dialog-header;
-            background: transparent;
             right: 0;
-            top: 0;
-            position: absolute;
-            height: (@layout-header-height - .75rem);
-            width: 1.25em;
-            margin: 0 .25rem;
-            padding: .1rem .75rem;
-            cursor: pointer;
-            outline: 0;
+            height: (@layout-header-height - .7rem);
+            width: 2.25em;
+            margin-right: .4rem;
+
+            &:hover {
+                background: transparent;
+                border-color: transparent;
+            }
+
+            .tox-icon {
+                display: none;
+            }
 
             &:before {
                 &:extend(.font-icon-class);
                 content: @fa-var-times;
-                margin: 0;
-            }
-
-            i {
-                display: none;
+                line-height: 1.5rem;
+                margin: 0 !important;
             }
         }
     }
 
-    .mce-foot {
+    .tox-dialog__footer {
+        height: (@layout-footer-height - 1px) !important;
         border: 0;
-        height: @layout-header-height !important;
-        position: relative;
+        margin: 0;
+        padding: 0 1rem;
 
         @media screen and (max-width: @screen-width-xs) {
             border-top: 1px solid @color-dialog-header-border;
         }
 
-        .mce-container-body {
-            height: 100% !important;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; // just 'end' does not work in Chrome
+        & > div {
+            white-space: nowrap;
+            max-height: (@layout-footer-height - 1px);
 
-            .mce-btn {
-                position: initial;
-                margin-right: .5rem;
-                line-height: 1;
-                width: auto !important;
-                height: auto !important;
-
-                &:last-child {
-                    margin-right: 1rem;
-                }
-
-                .mce-txt {
-                    line-height: 1.5;
-                    vertical-align: unset;
-                }
-
-                button:before {
-                    &:extend(.font-icon-class);
-                    display: inline;
-                    float: none;
-                    vertical-align: middle;
-                    margin-right: .4rem;
-                }
-            }
-
-            .mce-abs-end {
-                position: initial;
-                width: 1rem;
-                order: 9;
+            button:first-child {
+                margin: 0;
             }
         }
 
-        .mce-btn {
-            .btn-secondary;
-            border-radius: .3rem;
-            border-color: transparent;
-
-            &:focus {
-                border-color: transparent !important;
-                color: @color-btn-secondary;
-                background: @color-btn-secondary-background;
-            }
-
-            &.mce-primary {
-                .btn-primary;
-            }
-
-            button:hover,
-            button {
-                color: @color-btn-secondary;
-                padding: .5rem .75rem;
-            }
-        }
-
-        .mce-btn:last-child button:before {
-            content: @fa-var-times;
-        }
-
-        .mce-btn.mce-primary button:before {
-            content: @fa-var-check;
-        }
-
-        .mce-search-foot {
-            div:nth-of-type(2) button:before {
-                content: @fa-var-search;
-            }
-            div:nth-of-type(3) button:before,
-            div:nth-of-type(4) button:before {
-                content: @fa-var-pencil-alt;
-            }
-            div:nth-of-type(6) button:before {
-                content: @fa-var-chevron-left;
-            }
-            div:nth-of-type(7) button:before {
-                content: @fa-var-chevron-right;
-            }
-            div:nth-of-type(7) button:after {
-                &:extend(.font-icon-class);
-                display: inline;
-                float: none;
-                margin: 0 0 0 .2rem;
-                content: @fa-var-chevron-right;
-            }
-
-            @media screen and (min-width: (@screen-width-xs + 1px)) {
-                div:nth-of-type(6) {
-                    margin-left: .5rem;
-                }
-                div:nth-of-type(7) button {
-                    &:before {
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    // Form elements, let's keep'em in .mce-window to make overwriting simpler
-
-    .mce-formitem {
-        min-width: 450px;
-        position: unset !important;
-
-        & > .mce-container-body {
-            margin-bottom: .5rem;
-
-            & > * {
-                width: 75% !important;
-                position: unset !important;
-            }
-
-            & > label {
-                max-width: 25%;
-                min-width: 25%;
-                line-height: 2.5 !important;
-            }
-        }
-
-        .mce-widget {
-            border-radius: .25rem;
-        }
-    }
-
-    .mce-form {
-        padding: 1rem;
-        box-sizing: border-box;
-
-        .mce-form {
-            padding: 0;
-            position: unset !important;
-            width: 100% !important;
-
-            & > .mce-container-body {
-                flex-wrap: wrap;
-                height: auto !important;
-            }
-
-            .mce-formitem {
-                min-width: 100%;
-                width: 100% !important;
-            }
-        }
-
-        .mce-container {
-            height: auto !important;
-
-            .mce-container-body {
-                display: flex;
-                height: auto !important;
-
-                & > input:not([size="5"]) {
-                    position: relative;
-                    left: 0 !important;
-                    flex: 1;
-                }
-
-            }
-        }
-
-        & > .mce-container-body {
-            box-sizing: border-box;
-            width: 100% !important;
-        }
-
-        .mce-form-split {
-            .mce-formitem {
-                min-width: auto;
-
-                & > .mce-container-body {
-                    width: 100% !important;
-                }
-            }
-        }
-
-        label {
-            position: unset;
-            line-height: 2.5 !important;
-            height: auto !important;
-        }
-    }
-
-    .mce-colorpicker {
-        & + .mce-form {
-            width: 150px !important;
-            padding: 0;
-
-            .mce-formitem {
-                min-width: unset;
-
-                & + :not(.mce-formitem) {
-                    height: 50px !important;
-                }
-            }
-        }
-    }
-
-    .mce-textbox {
-        padding: .375rem .75rem !important;
-        line-height: 1.5;
-        color: @color-font;
-
-        &:not(textarea) {
-            height: auto !important;
-        }
-
-        &:focus {
-            color: @color-font;
-            border-color: @color-input-border-focus;
-            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
-        }
-
-        &[size="5"] {
-            width: auto !important;
-        }
-
-        &.mce-multiline {
-            line-height: 1.25;
-            width: 100% !important;
-            position: unset;
-            box-sizing: border-box;
-            display: block;
-        }
-    }
-
-    .mce-listbox {
-        button {
-            line-height: 1.5;
-            padding: .375rem .75rem;
-        }
-
-        &:focus {
-            border-color: @color-input-border-focus !important;
-            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
-        }
-    }
-
-    .mce-checkbox {
-        line-height: 2.5;
-
-        i.mce-i-checkbox {
-            border: 0;
-            width: auto;
-            color: @color-checkbox;
-            text-indent: 0;
+        .tox-button {
+            .btn-primary;
+            font-weight: normal;
+            padding: .5rem .75rem;
 
             &:before {
                 &:extend(.font-icon-class);
-                margin: 0;
-                content: @fa-var-toggle-off;
-            }
-        }
-
-        &.mce-checked i.mce-i-checkbox:before {
-            content: @fa-var-toggle-on;
-        }
-
-        &:focus {
-            i.mce-i-checkbox {
-                border: 0;
-            }
-        }
-    }
-
-    .mce-combobox {
-        display: flex;
-
-        input {
-            border-radius: .3rem 0 0 .3rem;
-            flex: 1;
-
-            &:focus {
-                z-index: 1;
-            }
-        }
-
-        &.mce-combobox-fake {
-            input {
-                border-radius: .3rem;
-            }
-        }
-
-        button {
-            padding: .4rem .6rem;
-        }
-
-        .mce-btn {
-            border-radius: 0 .3rem .3rem 0;
-            background: @color-input-addon-background;
-
-            &:focus {
-                background-color: @color-input-border-focus-shadow;
-                border-color: #c5c5c5;
-            }
-        }
-    }
-
-    .mce-tabs {
-        padding-top: 1rem;
-        margin: 0 1rem;
-        border-color: @color-layout-border;
-
-        .mce-tab {
-            border-radius: .25rem .25rem 0 0;
-            padding: .5rem 1rem;
-            height: auto !important;
-            border: 1px solid transparent;
-            color: @color-link;
-            background: transparent;
-            margin-bottom: -1px;
-
-            &.mce-active {
-                border: 1px solid @color-layout-border;
-                border-bottom-color: #fff;
-                color: @color-font !important;
+                width: 1em;
+                content: @fa-var-check;
+                line-height: 1;
             }
 
-            &:not(.mce-active):hover {
-                border: 1px solid @color-list-border;
-                border-bottom-color: transparent;
-                border-bottom: 0;
+            // this is redundant, but required because of tinymce styles interference
+            &:focus:not(:disabled) {
+                background: @color-btn-primary-background;
+                border-color: @color-btn-primary-background;
             }
 
-            &:focus {
-                outline: unset !important;
-            }
-        }
-    }
-
-    .mce-label {
-        text-shadow: none;
-        color: @color-font;
-    }
-}
-
-
-// Menus and popovers, e.g. color selector, emoticons selector, font selector
-.mce-menu,
-.mce-floatpanel.mce-popover {
-    box-shadow: 3px 3px 5px @color-popover-shadow !important;
-    border-color: @color-layout-border !important;
-    border-radius: .3rem;
-}
-
-.mce-menu {
-    .mce-menu-item.mce-active {
-        color: @color-menu-hover;
-        background-color: @color-menu-hover-background;
-    }
-
-    .popover-header {
-        display: none !important;
-    }
-}
-
-div.mce-menubtn.mce-opened {
-    z-index: 65530 !important; // BUG: https://github.com/tinymce/tinymce/issues/4542
-}
-
-#mce-modal-block.mce-in {
-    background-color: @color-dialog-overlay-background;
-    opacity: 1 !important;
-}
-
-@media screen and (max-width: @screen-width-xs) {
-    .mce-window {
-        width: 100% !important;
-        height: 100% !important;
-        left: 0 !important;
-        top: 0 !important;
-        border-width: 0 !important;
-
-        & > .mce-reset {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .mce-window-body {
-            flex: 1;
-            overflow-y: auto !important;
-        }
-
-        & > .mce-reset > div,
-        .mce-container-body {
-            width: 100% !important;
-        }
-
-        .mce-window-head {
-            background-color: @color-layout-mobile-header-background;
-
-            .mce-title {
-                font-size: 1rem;
-                text-align: center;
-                padding: 0 1rem;
-            }
-
-            .mce-close {
-                display: none;
-            }
-        }
-
-        .mce-foot {
-            background-color: @color-layout-mobile-footer-background;
-
-            .mce-container-body {
-                justify-content: space-evenly;
-
-                .mce-btn {
-                    position: initial;
-                    height: 100% !important;
-                    margin: 0;
-                    background: transparent;
-                    border-width: 0;
-
-                    &:focus {
-                        box-shadow: none;
-                    }
-
-                    &:hover {
-                        background: transparent;
-                    }
-
-                    &:last-child {
-                        margin: 0;
-                    }
-
-                    button {
-                        color: @color-font;
-                        padding: .45rem;
-                        font-size: .9rem;
-
-                        &:before {
-                            display: block;
-                            float: none;
-                            width: 100%;
-                            margin: 0;
-                            line-height: 1.75;
-                            height: 1.75rem;
-                        }
-                    }
-                }
-
-                .mce-abs-end {
-                    display: none;
-                }
-            }
-
-            .mce-search-foot {
-                div:nth-of-type(7) button:after {
-                    display: none;
-                }
-            }
-        }
-
-        .mce-form,
-        .mce-form + .mce-container, // for Embed tab in Media dialog
-        .mce-formitem,
-        .mce-combobox,
-        .mce-panel:not(.mce-popover) {
-            width: 100% !important;
-        }
-
-        .mce-formitem {
-            min-width: unset;
-        }
-
-        .mce-form {
-            & > .mce-container-body {
-                display: flex;
-                flex-direction: column;
-                left: 0;
-                right: 0;
-                box-sizing: border-box;
-            }
-
-            .mce-container-body {
-                height: auto !important;
-                flex-direction: column;
-
-                & > label {
-                    position: unset !important;
-                    width: 100% !important;
-                    max-width: 100%;
-                }
-
-                & > label + * {
-                    position: unset !important;
-                    width: auto !important;
-                }
-
-                & > .mce-checkbox {
-                    position: absolute;
-                    left: 0 !important;
-                    top: 3rem !important;
-                }
-            }
-        }
-
-        // FIXME: How to fix the input width in less hacky way?
-        .mce-combobox input {
-            max-width: ~"calc(100% - 4rem)";
-        }
-        .mce-combobox-fake input {
-            max-width: ~"calc(100% - 1.7rem)";
-        }
-    }
-
-    .mce-menu {
-        width: @layout-mobile-menu-width !important;
-        right: 0;
-        top: 0 !important;
-        left: auto !important;
-        height: 100% !important;
-        max-height: unset !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        border-radius: 0;
-        border: 0 !important;
-
-        .popover-header {
-            display: block !important;
-
-            a {
-                font-size: 1.2rem;
-                line-height: @layout-touch-header-height;
+            &.tox-button--secondary {
+                .btn-secondary;
+                color: @color-btn-secondary;
 
                 &:before {
                     content: @fa-var-times;
                 }
-            }
-        }
 
-        .mce-container-body {
-            width: 100% !important;
-        }
-
-        .mce-menu-item {
-            height: @layout-touch-menu-record-height;
-            line-height: @layout-touch-menu-record-height;
-            padding: 0 .5rem;
-            border-left: 0;
-            border-bottom: 1px solid @color-list-border;
-            margin: 0;
-
-            .mce-ico {
-                font-size: 150%;
-                padding: 0 .7rem 0 .25rem;
-                margin-top: -.2rem;
-            }
-
-            .mce-text {
-                font-size: 1.2rem;
-                .font-family;
-                line-height: @layout-touch-menu-record-height;
-                color: @color-font;
-            }
-
-            .mce-caret {
-                display: none;
-            }
-
-            &.mce-menu-item-preview {
-                &.mce-active {
-                    border-left: none;
-                    position: relative;
-
-                    &:after {
-                        .font-icon-class; // :extend() does not work here
-                        content: @fa-var-check;
-                        position: absolute;
-                        right: .5rem;
-                        top: 0;
-                        color: @color-font;
-                    }
+                // this is redundant, but required because of tinymce styles interference
+                &:focus:not(:disabled) {
+                    background: @color-btn-secondary-background;
+                    border-color: @color-btn-secondary-background;
                 }
             }
+        }
+    }
 
-            &.mce-menu-item-expand {
-                position: relative;
+    .tox-search-dialog {
+        .tox-form__group:not(:first-child) {
+            flex: initial !important;
+        }
 
-                &:after {
-                    .font-icon-class; // :extend() does not work here
-                    content: @fa-var-angle-right;
-                    position: absolute;
-                    right: .5rem;
-                    top: 0;
+        .tox-dialog__footer-start {
+            button {
+                padding: .25rem;
+            }
+        }
+
+        .tox-dialog__footer-end {
+            button {
+                &:before {
+                    content: @fa-var-pencil-alt !important;
+                }
+
+                &:nth-of-type(1):before {
+                    content: @fa-var-search !important;
+                }
+            }
+        }
+    }
+
+    .tox-dialog__title {
+        line-height: calc(@layout-header-height - 1px);
+        font-size: 1.25rem;
+        font-weight: bold;
+        padding: 0 0 0 1rem;
+        width: 100%;
+        color: @color-dialog-header;
+    }
+
+    // Make toolbar buttons smaller
+    .tox-tbtn {
+        height: 28px;
+
+        &:not(.tox-tbtn--select,.tox-split-button__chevron) {
+            width: 32px;
+        }
+    }
+
+    .tox-button {
+        line-height: 1.5;
+    }
+
+    .tox-label {
+        color: @color-font;
+        padding-bottom: .25rem;
+    }
+
+    // Adding .form-control does not work with TinyMCE skins,
+    // so we have to overwrite some props here
+    .tox-color-input > input,
+    .tox-selectfield select,
+    .tox-textarea,
+    .tox-textfield {
+        .font-family !important;
+        font-size: @page-font-size;
+        line-height: 1.5;
+        color: @color-font;
+        border-radius: .25rem;
+        min-height: 0;
+        padding: .375rem .75rem;
+
+        &:focus {
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+    }
+
+    .tox-color-input span {
+        top: 5px;
+    }
+
+    .custom-switch {
+        position: relative;
+        font-size: 1rem;
+        margin-top: .15rem;
+
+        .tox-checkbox__icons {
+            display: none;
+        }
+
+        .tox-checkbox__label {
+            margin: 0;
+        }
+    }
+
+    .image-selector {
+        font-size: 1rem;
+        button {
+            .btn-secondary;
+            padding: .5rem .75rem;
+            line-height: 1.5;
+        }
+    }
+
+    // small fix for image dialog
+    .tox-form__controls-h-stack div:not(:last-child) {
+        flex: 1;
+    }
+
+    .tox-collection__item-label {
+        white-space: nowrap; // fix TinyMCE bug
+    }
+}
+
+@media screen and (max-width: @screen-width-xs) {
+    div.tox {
+        .tox-dialog {
+            margin: 0 !important;
+            width: 100% !important;
+            height: 100%;
+            left: 0 !important;
+            top: 0 !important;
+            border-width: 0 !important;
+        }
+
+        .tox-dialog__header {
+            background-color: @color-layout-mobile-header-background;
+
+            .tox-button {
+                display: none;
+            }
+        }
+
+        .tox-dialog__title {
+            font-size: 1rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .tox-dialog__footer {
+            background-color: @color-layout-mobile-footer-background;
+
+            .tox-button {
+                color: @color-font !important;
+                background: transparent !important;
+                padding: .45rem;
+                margin: 0 !important;
+                border: 0;
+                font-size: 90%;
+
+                &:before {
+                    display: block;
+                    float: none;
+                    width: 100%;
+                    margin: 0;
+                    line-height: 1.75;
+                    height: 1.75rem;
+                }
+
+                &:active,
+                &:focus,
+                &:hover {
+                    background: transparent;
+                    border: 0;
+                    box-shadow: none;
                     color: @color-font;
                 }
             }
-        }
-    }
 
-    .mce-menu-item-sep,
-    .mce-menu-shortcut {
-        display: none !important;
-    }
+            & > div {
+                justify-content: space-evenly;
+                display: flex;
+                width: 100%;
 
-    .mce-charmap-dialog {
-        position: unset !important;
-
-        + .mce-container {
-            display: none;
-        }
-    }
-
-    .mce-charmap {
-        display: block;
-
-        tbody {
-            display: block;
-        }
-
-        tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        td {
-            flex: 1;
-            height: auto !important;
-            min-width: 17%;
-            padding: 0 !important;
-            border: 0 !important;
-            border-bottom: 1px solid @color-list-border !important;
-
-            div {
-                font-size: 3rem;
-                line-height: 2;
+                &:empty {
+                    display: none;
+                }
             }
         }
     }
 }
-
-html.touch .mce-grid td {
-    padding: .5rem;
-}
-
 
 /*** Media file selector for TinyMCE ***/
 
 .image-selector {
-    margin: 1rem 1rem 1rem 1rem !important;
     padding: 1rem .5rem 10rem .5rem !important;
 
     &.droptarget {
@@ -774,27 +356,17 @@ html.touch .mce-grid td {
         }
     }
 
-    button {
-        .btn-secondary;
-        padding: .5rem .75rem;
-        line-height: 1.5;
-        position: relative;
-
-        &:before {
-            line-height: 1;
-        }
-    }
-
     form {
         position: absolute;
         top: 0;
     }
 
     .attachmentslist {
-        margin-left: 0;
+        margin: 0;
         overflow-x: hidden;
         overflow-y: auto;
         height: 19.1em;
+        padding: 0 !important;
 
         li {
             padding: .25rem;
@@ -855,60 +427,47 @@ html.touch .mce-grid td {
 
         .mce-i-html {
             display: block;
-            padding: 1px 5px;
-            margin: 2px;
-            width: 2rem;
-            height: 24px;
-            border: 1px solid transparent;
-            color: #595959;
+            margin: 2px 2px 2px 4px;
+            width: 34px;
+            height: 28px;
+            border-radius: .25rem;
+            color: #222f3e; // from TinyMCE
 
             &:focus,
             &:hover {
                 text-decoration: none;
                 border-color: #e2e4e7;
-                background-color: #fff;
+                background-color: #dee0e2; // from TinyMCE
+            }
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-image;
+                margin: 0;
+                width: 34px;
+                line-height: 28px;
             }
         }
     }
 
     // hide toolbar in html mode and in mailvelope mode
     &.mailvelope .editor-toolbar,
-    .mce-tinymce + textarea + .editor-toolbar {
+    .tox-tinymce + .editor-toolbar {
         display: none;
-    }
-
-    .mce-i-html:before,
-    .mce-i-plaintext:before {
-        &:extend(.font-icon-class);
-        margin: 0;
-        width: 1em;
-        font-size: 1.2rem;
-    }
-
-    .mce-i-html:before {
-        content: @fa-var-image;
-        line-height: 1.2em;
-    }
-
-    .mce-i-plaintext:before {
-        content: @fa-var-window-close; //@fa-var-align-justify;
     }
 
     & > .googie_edit_layer,
     & > textarea {
         font-family: monospace;
+        font-size: 13px;
         width: 100% !important;
-        padding-top: 2.5rem;
+        padding-top: 40px;
         resize: none;
     }
 
     & > iframe { // e.g. mailvelope frame
         border-radius: .3rem;
         border: 1px solid @color-input-border;
-        min-height: 30em;
-    }
-
-    #composebody_ifr {
         min-height: 30em;
     }
 }
