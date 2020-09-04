@@ -403,7 +403,7 @@ function rcmail_compose_editor_mode()
         $useHtml = rcmail_message_is_html();
     }
     else if ($compose_mode == rcmail_sendmail::MODE_REPLY) {
-        $useHtml = $html_editor == 1 || ($html_editor >= 2 && rcmail_message_is_html());
+        $useHtml = $html_editor == 1 || $COMPOSE['param']['all'] == 'html' || ($html_editor >= 2 && rcmail_message_is_html());
     }
     else if ($compose_mode == rcmail_sendmail::MODE_FORWARD) {
         $useHtml = $html_editor == 1 || $html_editor == 4
