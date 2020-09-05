@@ -48,7 +48,6 @@ class rcube_message
      */
     protected $mime;
 
-    protected $body;
     protected $opt               = array();
     protected $parse_alternative = false;
     protected $got_html_part     = false;
@@ -58,6 +57,7 @@ class rcube_message
     public $headers;
     public $sender;
     public $context;
+    public $body;
     public $parts        = array();
     public $mime_parts   = array();
     public $inline_parts = array();
