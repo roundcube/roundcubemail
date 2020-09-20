@@ -212,10 +212,11 @@ function rcmail_directory_list($attrib)
 {
     global $RCMAIL, $OUTPUT;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmdirectorylist';
+    }
 
-    $out = '';
+    $out    = '';
     $jsdata = array();
 
     $line_templ = html::tag('li', array(

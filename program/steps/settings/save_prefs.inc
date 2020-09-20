@@ -100,6 +100,8 @@ case 'compose':
 case 'addressbook':
     $a_user_prefs = array(
         'default_addressbook'  => rcube_utils::get_input_value('_default_addressbook', rcube_utils::INPUT_POST, true),
+        'collected_recipients' => rcube_utils::get_input_value('_collected_recipients', rcube_utils::INPUT_POST, true),
+        'collected_senders'    => rcube_utils::get_input_value('_collected_senders', rcube_utils::INPUT_POST, true),
         'autocomplete_single'  => isset($_POST['_autocomplete_single']),
         'addressbook_sort_col' => rcmail_prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
         'addressbook_name_listing' => intval($_POST['_addressbook_name_listing']),

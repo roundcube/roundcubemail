@@ -977,8 +977,9 @@ function rcmail_user_prefs($current = null)
         // Addressbook config
         case 'addressbook':
             $blocks = array(
-                'main'     => array('name' => rcube::Q($RCMAIL->gettext('mainoptions'))),
-                'advanced' => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
+                'main'      => array('name' => rcube::Q($RCMAIL->gettext('mainoptions'))),
+                'collected' => array('name' => rcube::Q($RCMAIL->gettext('collectedaddresses'))),
+                'advanced'  => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
             if (!isset($no_override['default_addressbook'])
@@ -1069,6 +1070,66 @@ function rcmail_user_prefs($current = null)
                     'content' => $checkbox->show($config['autocomplete_single']?1:0),
                 );
             }
+
+            if (!isset($no_override['collected_recipients'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                if (!isset($books)) {
+                    $books = $RCMAIL->get_address_sources(true, true);
+                }
+
+                $field_id = 'rcmfd_collected_recipients';
+                $select   = new html_select(array('name' => '_collected_recipients', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add('---', '');
+                $select->add($RCMAIL->gettext('collectedrecipients'), (string) rcube_addressbook::TYPE_RECIPIENT);
+
+                foreach ($books as $book) {
+                    $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                }
+
+                $selected = $config['collected_recipients'];
+                if (is_bool($selected)) {
+                    $selected = $selected ? rcube_addressbook::TYPE_RECIPIENT : '';
+                }
+
+                $blocks['collected']['options']['collected_recipients'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('collectedrecipientsopt'))),
+                    'content' => $select->show((string) $selected),
+                );
+            }
+
+            if (!isset($no_override['collected_senders'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                if (!isset($books)) {
+                    $books = $RCMAIL->get_address_sources(true, true);
+                }
+
+                $field_id = 'rcmfd_collected_senders';
+                $select   = new html_select(array('name' => '_collected_senders', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add($RCMAIL->gettext('trustedsenders'), (string) rcube_addressbook::TYPE_TRUSTED_SENDER);
+
+                foreach ($books as $book) {
+                    $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                }
+
+                $selected = $config['collected_senders'];
+                if (is_bool($selected)) {
+                    $selected = $selected ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
+                }
+
+                $blocks['collected']['options']['collected_senders'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('collectedsendersopt'))),
+                    'content' => $select->show((string) $elected),
+                );
+            }
+
         break;
 
         // Special IMAP folders

@@ -22,74 +22,60 @@ if (!$OUTPUT->ajax_call) {
     return;
 }
 
-// Get default addressbook
-$CONTACTS = $RCMAIL->get_address_book(-1, true);
+// Get the default addressbook
+$CONTACTS = $RCMAIL->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+$SENDERS  = null;
+$type     = rcube_addressbook::TYPE_DEFAULT;
 
-if (!empty($_POST['_address']) && is_object($CONTACTS)) {
-    $address = rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true);
-    $contact_arr = rcube_mime::decode_address_list($address, 1, false);
+// Get the trusted senders addressbook
+if (!empty($_POST['_reload'])) {
+    $collected_senders = $rcmail->config->get('collected_senders');
 
-    if (!empty($contact_arr[1]['mailto'])) {
-        $contact = array(
-            'email' => $contact_arr[1]['mailto'],
-            'name'  => $contact_arr[1]['name'],
-        );
-
-        // Validity checks
-        if (empty($contact['email'])) {
-            $OUTPUT->show_message('errorsavingcontact', 'error');
-            $OUTPUT->send();
-        }
-
-        $email = rcube_utils::idn_to_ascii($contact['email']);
-        if (!rcube_utils::check_email($email, false)) {
-            $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
-            $OUTPUT->send();
-        }
-
-        $contact['email'] = rcube_utils::idn_to_utf8($contact['email']);
-
-        $contact = $RCMAIL->plugins->exec_hook('contact_displayname', $contact);
-
-        if (empty($contact['firstname']) || empty($contact['surname'])) {
-            $contact['name'] = rcube_addressbook::compose_display_name($contact);
-        }
-
-        // validate contact record
-        if (!$CONTACTS->validate($contact, true)) {
-            $error = $CONTACTS->get_error();
-            // TODO: show dialog to complete record
-            // if ($error['type'] == rcube_addressbook::ERROR_VALIDATE) { }
-
-            $OUTPUT->show_message($error['message'] ?: 'errorsavingcontact', 'error');
-            $OUTPUT->send();
-        }
-
-        // check for existing contacts
-        $existing = $CONTACTS->search('email', $contact['email'], 1, false);
-
-        if ($done = $existing->count) {
-            $OUTPUT->show_message('contactexists', 'warning');
-        }
-        else {
-            $plugin = $RCMAIL->plugins->exec_hook('contact_create', array('record' => $contact, 'source' => null));
-            $contact = $plugin['record'];
-
-            $done = !$plugin['abort'] ? $CONTACTS->insert($contact) : $plugin['result'];
-
-            if ($done) {
-                $OUTPUT->show_message('addedsuccessfully', 'confirmation');
-
-                if (!empty($_POST['_reload'])) {
-                    $OUTPUT->command('command', 'load-remote');
-                }
-            }
+    if (strlen($collected_senders)) {
+        $type |= rcube_addressbook::TYPE_TRUSTED_SENDER;
+        $SENDERS = $RCMAIL->get_address_book($collected_senders);
+        if ($CONTACTS == $SENDERS) {
+            $SENDERS = null;
         }
     }
 }
 
-if (!$done) {
-    $OUTPUT->show_message($plugin['message'] ?: 'errorsavingcontact', 'error');
+$address = rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true);
+$contact = rcube_mime::decode_address_list($address, 1, false);
+
+if (empty($contact[1]['mailto'])) {
+    $OUTPUT->show_message('errorsavingcontact', 'error');
+    $OUTPUT->send();
+}
+
+$contact = array(
+    'email' => $contact[1]['mailto'],
+    'name'  => $contact[1]['name'],
+);
+
+$email = rcube_utils::idn_to_ascii($contact['email']);
+
+if (!rcube_utils::check_email($email, false)) {
+    $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
+    $OUTPUT->send();
+}
+
+if ($RCMAIL->contact_exists($contact['email'], $type)) {
+    $OUTPUT->show_message('contactexists', 'warning');
+    $OUTPUT->send();
+}
+
+$done = $RCMAIL->contact_create($contact, $SENDERS ?: $CONTACTS, $error);
+
+if ($done) {
+    $OUTPUT->show_message('addedsuccessfully', 'confirmation');
+
+    if (!empty($_POST['_reload'])) {
+        $OUTPUT->command('command', 'load-remote');
+    }
+}
+else {
+    $OUTPUT->show_message($error ?: 'errorsavingcontact', 'error');
 }
 
 $OUTPUT->send();

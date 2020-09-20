@@ -116,7 +116,9 @@ if ($uid) {
     ) {
         $mdn_cfg = intval($RCMAIL->config->get('mdn_requests'));
 
-        if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4) && rcmail_contact_exists($MESSAGE->sender['mailto']))) {
+        if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4)
+            && $RCMAIL->contact_exists($MESSAGE->sender['mailto'], rcube_addressbook::TYPE_DEFAULT))
+        ) {
             // Send MDN
             if (rcmail_send_mdn($MESSAGE, $smtp_error)) {
                 $OUTPUT->show_message('receiptsent', 'confirmation');
@@ -330,25 +332,6 @@ function rcmail_message_objects($attrib)
     $content = implode("\n", $plugin['content']);
 
     return html::div($attrib, $content);
-}
-
-function rcmail_contact_exists($email)
-{
-    global $RCMAIL;
-
-    if ($email) {
-        // @TODO: search in all address books?
-        $CONTACTS = $RCMAIL->get_address_book(-1, true);
-
-        if (is_object($CONTACTS)) {
-            $existing = $CONTACTS->search('email', $email, 1, false);
-            if ($existing->count) {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 function rcmail_message_contactphoto($attrib)

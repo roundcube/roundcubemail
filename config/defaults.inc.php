@@ -1173,6 +1173,17 @@ $config['contactlist_fields'] = array('name', 'firstname', 'surname', 'email');
 // See program/steps/addressbook/func.inc for a list
 $config['contact_search_name'] = '{name} <{email}>';
 
+// The addressbook source to store automatically collected recipients in.
+// Default: true (the build-in "Collected recipients" addressbook, source id = '1')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_recipients'] = true;
+
+// The addressbook source to store trusted senders in.
+// Default: true (the build-in "Trusted senders" addressbook, source id = '2')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_senders'] = true;
+
+
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------

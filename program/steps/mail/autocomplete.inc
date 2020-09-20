@@ -12,8 +12,8 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Perform a search on configured address books for the address        |
- |   autocompletion of the message compose screen                        |
+ |   Perform a search on configured address books for the email          |
+ |   address autocompletion                                              |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -41,23 +41,15 @@ if ($RCMAIL->action == 'group-expand') {
     $OUTPUT->send();
 }
 
-
 $MAXNUM = (int) $RCMAIL->config->get('autocomplete_max', 15);
 $mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $single = (bool) $RCMAIL->config->get('autocomplete_single');
 $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
-$source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 $reqid  = rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC);
 
-if (strlen($source)) {
-    $book_types = array($source);
-}
-else {
-    $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
-}
-
 $contacts = array();
-if (!empty($book_types) && strlen($search)) {
+
+if (strlen($search) && ($book_types = rcmail_autocomplete_addressbooks())) {
     $sort_keys = array();
     $books_num = count($book_types);
     $search_lc = mb_strtolower($search);
@@ -148,7 +140,7 @@ if (!empty($book_types) && strlen($search)) {
                             );
 
                             if (count($contacts) >= $MAXNUM) {
-                                break 2;
+                                break 3;
                             }
                         }
                     }
@@ -165,7 +157,7 @@ if (!empty($book_types) && strlen($search)) {
                         );
 
                         if (count($contacts) >= $MAXNUM) {
-                            break;
+                            break 2;
                         }
                     }
                 }
@@ -186,12 +178,43 @@ if (!empty($book_types) && strlen($search)) {
 
 
 // Allow autocomplete result optimization via plugin
-$pluginResult = $RCMAIL->plugins->exec_hook('contacts_autocomplete_after', array(
+$plugin = $RCMAIL->plugins->exec_hook('contacts_autocomplete_after', array(
     'search'   => $search,
     'contacts' => $contacts, // Provide already-found contacts to plugin if they are required
 ));
-$contacts = $pluginResult['contacts'];
 
+$contacts = $plugin['contacts'];
 
 $OUTPUT->command('ksearch_query_results', $contacts, $search, $reqid);
 $OUTPUT->send();
+
+
+/**
+ * Collect addressbook sources used for autocompletion
+ */
+function rcmail_autocomplete_addressbooks()
+{
+    global $RCMAIL;
+
+    $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+
+    if (strlen($source)) {
+        $book_types = array($source);
+    }
+    else {
+        $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
+    }
+
+    $collected_recipients = $RCMAIL->config->get('collected_recipients');
+    $collected_senders    = $RCMAIL->config->get('collected_senders');
+
+    if (strlen($collected_recipients) && !in_array($collected_recipients, $book_types)) {
+        $book_types[] = $collected_recipients;
+    }
+
+    if (strlen($collected_senders) && !in_array($collected_senders, $book_types)) {
+        $book_types[] = $collected_senders;
+    }
+
+    return !empty($book_types) ? $book_types : null;
+}

@@ -208,7 +208,9 @@ class rcmail extends rcube
     /**
      * Return instance of the internal address book class
      *
-     * @param string  $id        Address book identifier (-1 for default addressbook)
+     * @param string  $id        Address book identifier. It accepts also special values:
+     *                           - rcube_addressbook::TYPE_CONTACT (or 'sql') for the SQL addressbook
+     *                           - rcube_addressbook::TYPE_DEFAULT for the default addressbook
      * @param boolean $writeable True if the address book needs to be writeable
      *
      * @return rcube_contacts Address book object
@@ -221,12 +223,14 @@ class rcmail extends rcube
 
         // 'sql' is the alias for '0' used by autocomplete
         if ($id == 'sql') {
-            $id = '0';
+            $id = rcube_addressbook::TYPE_CONTACT;
         }
-        else if ($id == -1) {
+        else if ($id == rcube_addressbook::TYPE_DEFAULT || $id == -1) { // -1 for BC
             $id = $this->config->get('default_addressbook');
             $default = true;
         }
+
+        $id = (string) $id;
 
         // use existing instance
         if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
@@ -236,8 +240,11 @@ class rcmail extends rcube
             $domain   = $this->config->mail_domain($_SESSION['storage_host']);
             $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
         }
-        else if ($id === '0') {
+        else if ($id === (string) rcube_addressbook::TYPE_CONTACT) {
             $contacts = new rcube_contacts($this->db, $this->get_user_id());
+        }
+        else if ($id === (string) rcube_addressbook::TYPE_RECIPIENT || $id === (string) rcube_addressbook::TYPE_TRUSTED_SENDER) {
+            $contacts = new rcube_addresses($this->db, $this->get_user_id(), (int) $id);
         }
         else {
             $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
@@ -325,22 +332,16 @@ class rcmail extends rcube
     {
         $abook_type   = strtolower((string) $this->config->get('address_book_type', 'sql'));
         $ldap_config  = (array) $this->config->get('ldap_public');
-        $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
         $list         = array();
 
         // SQL-based (built-in) address book
         if ($abook_type === 'sql') {
-            if (!isset($this->address_books['0'])) {
-                $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
-            }
-
-            $list['0'] = array(
-                'id'       => '0',
+            $list[rcube_addressbook::TYPE_CONTACT] = array(
+                'id'       => (string) rcube_addressbook::TYPE_CONTACT,
                 'name'     => $this->gettext('personaladrbook'),
-                'groups'   => $this->address_books['0']->groups,
-                'readonly' => $this->address_books['0']->readonly,
-                'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
-                'autocomplete' => in_array_nocase('sql', $autocomplete),
+                'groups'   => true,
+                'readonly' => false,
+                'undelete' => $this->config->get('undo_timeout') > 0,
             );
         }
 
@@ -358,9 +359,33 @@ class rcmail extends rcube
                     'groups'   => !empty($prop['groups']) || !empty($prop['group_filters']),
                     'readonly' => !$prop['writable'],
                     'hidden'   => $prop['hidden'],
-                    'autocomplete' => in_array($id, $autocomplete)
                 );
             }
+        }
+
+        $collected_recipients = $this->config->get('collected_recipients');
+        $collected_senders    = $this->config->get('collected_senders');
+
+        if ($collected_recipients === (string) rcube_addressbook::TYPE_RECIPIENT) {
+            $list[rcube_addressbook::TYPE_RECIPIENT] = array(
+                'id'       => (string) rcube_addressbook::TYPE_RECIPIENT,
+                'name'     => $this->gettext('collectedrecipients'),
+                'groups'   => false,
+                'readonly' => true,
+                'undelete' => false,
+                'deletable' => true,
+            );
+        }
+
+        if ($collected_senders === (string) rcube_addressbook::TYPE_TRUSTED_SENDER) {
+            $list[rcube_addressbook::TYPE_TRUSTED_SENDER] = array(
+                'id'       => (string) rcube_addressbook::TYPE_TRUSTED_SENDER,
+                'name'     => $this->gettext('trustedsenders'),
+                'groups'   => false,
+                'readonly' => true,
+                'undelete' => false,
+                'deletable' => true,
+            );
         }
 
         // Plugins can also add address books, or re-order the list
@@ -368,10 +393,6 @@ class rcmail extends rcube
         $list   = $plugin['sources'];
 
         foreach ($list as $idx => $item) {
-            // register source for shutdown function
-            if (!is_object($this->address_books[$item['id']])) {
-                $this->address_books[$item['id']] = $item;
-            }
             // remove from list if not writeable as requested
             if ($writeable && $item['readonly']) {
                 unset($list[$idx]);
@@ -1167,6 +1188,108 @@ class rcmail extends rcube
                 $this->output->set_env($option, true);
             }
         }
+    }
+
+    /**
+     * Insert a contact to specified addressbook.
+     *
+     * @param array             $contact Contact data
+     * @param rcube_addressbook $source  The addressbook object
+     * @param string            $error   Filled with an error message/label on error
+     *
+     * @return int|bool Contact ID on success, False otherwise
+     */
+    public function contact_create($contact, $source, &$error = null)
+    {
+        $contact['email'] = rcube_utils::idn_to_utf8($contact['email']);
+
+        $contact = $this->plugins->exec_hook('contact_displayname', $contact);
+
+        if (empty($contact['name'])) {
+            $contact['name'] = rcube_addressbook::compose_display_name($contact);
+        }
+
+        // validate the contact
+        if (!$source->validate($contact, true)) {
+            $error = $source->get_error();
+            return false;
+        }
+
+        $plugin = $this->plugins->exec_hook('contact_create', array(
+                'record' => $contact,
+                'source' => $this->get_address_book_id($source),
+        ));
+
+        $contact = $plugin['record'];
+
+        if (!empty($plugin['abort'])) {
+            $error = $plugin['message'];
+            return $plugin['result'];
+        }
+
+        return $source->insert($contact);
+    }
+
+    /**
+     * Find an email address in user addressbook(s)
+     *
+     * @param string $email Email address
+     * @param int    $type  Addressbook type (see rcube_addressbook::TYPE_* consts)
+     *
+     * @return bool True if the address exists in specified addressbook(s), False otherwise
+     */
+    public function contact_exists($email, $type)
+    {
+        if (empty($email) || !is_string($email) || !strpos($email, '@')) {
+            return false;
+        }
+
+        // TODO: Consider using all writeable addressbooks by default
+        // TODO: Support TYPE_DEFAULT, TYPE_WRITEABLE, TYPE_READONLY filter
+
+        if ($default = $this->get_address_book(rcube_addressbook::TYPE_DEFAULT, true)) {
+            $sources = array($this->get_address_book_id($default));
+        }
+
+        if ($type & rcube_addressbook::TYPE_RECIPIENT) {
+            $collected_recipients = $this->config->get('collected_recipients');
+            if (strlen($collected_recipients) && !in_array($collected_recipients, $sources)) {
+                array_unshift($sources, $collected_recipients);
+            }
+        }
+
+        if ($type & rcube_addressbook::TYPE_TRUSTED_SENDER) {
+            $collected_senders = $this->config->get('collected_senders');
+            if (strlen($collected_senders) && !in_array($collected_senders, $sources)) {
+                array_unshift($sources, $collected_senders);
+            }
+        }
+
+        $plugin = $this->plugins->exec_hook('contact_exists', array(
+                'email'   => $email,
+                'type'    => $type,
+                'sources' => $sources,
+        ));
+
+        if (!empty($plugin['abort'])) {
+            return $plugin['result'];
+        }
+
+        foreach ($plugin['sources'] as $source) {
+            $contacts = $this->get_address_book($source);
+
+            if (!$contacts) {
+                continue;
+            }
+
+            $result = $contacts->search('email', $email, rcube_addressbook::SEARCH_STRICT, false);
+
+            if ($result->count) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

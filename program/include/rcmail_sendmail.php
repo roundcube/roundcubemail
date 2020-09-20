@@ -422,6 +422,9 @@ class rcmail_sendmail
             $this->rcmail->user->save_prefs(array('last_message_time' => time()));
         }
 
+        // Collect recipients' addresses
+        $this->collect_recipients($message);
+
         // set replied/forwarded flag
         if ($this->data['reply_uid']) {
             foreach (rcmail::get_uids($this->data['reply_uid'], $this->data['mailbox']) as $mbox => $uids) {
@@ -1572,5 +1575,55 @@ class rcmail_sendmail
 
         // default identity is always first on the list
         return $identities[$selected !== null ? $selected : 0];
+    }
+
+    /**
+     * Collect message recipients' addresses
+     *
+     * @param Mail_Mime $message The email message
+     */
+    public static function collect_recipients($message)
+    {
+        $rcmail = rcube::get_instance();
+
+        // Find the addressbook source
+        $collected_recipients = $rcmail->config->get('collected_recipients');
+
+        if (!strlen($collected_recipients)) {
+            return;
+        }
+
+        $source = $rcmail->get_address_book($collected_recipients);
+
+        if (!$source) {
+            return;
+        }
+
+        $headers = $message->headers();
+
+        // extract recipients
+        $recipients = (array) $headers['To'];
+
+        if (strlen($headers['Cc'])) {
+            $recipients[] = $headers['Cc'];
+        }
+
+        if (strlen($headers['Bcc'])) {
+            $recipients[] = $headers['Bcc'];
+        }
+
+        $addresses = rcube_mime::decode_address_list($recipients);
+        $type      = rcube_addressbook::TYPE_DEFAULT | rcube_addressbook::TYPE_RECIPIENT;
+
+        foreach ($addresses as $address) {
+            $contact = array(
+                'name'  => $address['name'],
+                'email' => $address['mailto'],
+            );
+
+            if (!$rcmail->contact_exists($contact['email'], $type)) {
+                $rcmail->contact_create($contact, $source);
+            }
+        }
     }
 }

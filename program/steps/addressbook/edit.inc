@@ -46,7 +46,7 @@ else {
     }
 
     if (!$CONTACTS || $CONTACTS->readonly) {
-        $CONTACTS = $RCMAIL->get_address_book(-1, true);
+        $CONTACTS = $RCMAIL->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
         $source   = $RCMAIL->get_address_book_id($CONTACTS);
     }
 
@@ -215,13 +215,16 @@ function get_form_tags($attrib)
     if (empty($EDIT_FORM)) {
         $hiddenfields = new html_hiddenfield();
 
-        if ($RCMAIL->action == 'edit')
+        if ($RCMAIL->action == 'edit') {
             $hiddenfields->add(array('name' => '_source', 'value' => $SOURCE_ID));
+        }
+
         $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
         $hiddenfields->add(array('name' => '_search', 'value' => rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC)));
 
-        if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
+        if (($result = $CONTACTS->get_result()) && ($record = $result->first())) {
             $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
+        }
 
         $form_start = $RCMAIL->output->request_form(array(
             'name' => "form", 'method' => "post",
@@ -255,8 +258,9 @@ function rcmail_source_selector($attrib)
 
     $select = new html_select($attrib);
 
-    foreach ($sources_list as $source)
+    foreach ($sources_list as $source) {
         $select->add($source['name'], $source['id']);
+    }
 
     return $select->show($SOURCE_ID);
 }
