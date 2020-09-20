@@ -6198,7 +6198,11 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var id, targets, groupcount = 0, writable = false, copy_writable = false,
+    var id, targets,
+      groupcount = 0,
+      writable = false,
+      deletable = false,
+      copy_writable = false,
       selected = list.get_selection().length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
@@ -6222,16 +6226,20 @@ function rcube_webmail()
       }
 
       $.each(list.get_selection(), function(i, v) {
-        var sid, contact = list.data[v];
+        var book, sid, contact = list.data[v];
         if (!source) {
           sid = String(v).replace(/^[^-]+-/, '');
-          if (sid && ref.env.address_sources[sid]) {
-            writable = writable || (!ref.env.address_sources[sid].readonly && !contact.readonly);
+          book = sid ? ref.env.address_sources[sid] : null;
+
+          if (book) {
+            writable = writable || (!book.readonly && !contact.readonly);
+            deletable = deletable || book.deletable === true;
             ref.env.selection_sources.push(sid);
           }
         }
         else {
           writable = writable || (!source.readonly && !contact.readonly);
+          deletable = deletable || source.deletable === true;
         }
 
         if (contact._type != 'group')
@@ -6254,7 +6262,7 @@ function rcube_webmail()
     this.enable_command('print', 'qrcode', selected == 1);
     this.enable_command('export-selected', selected > 0);
     this.enable_command('edit', id && writable);
-    this.enable_command('delete', 'move', writable);
+    this.enable_command('delete', 'move', writable || deletable);
     this.enable_command('copy', copy_writable);
 
     return false;
@@ -6537,6 +6545,9 @@ function rcube_webmail()
 
     if (!this.env.address_sources[dest] || this.env.address_sources[dest].readonly)
       return;
+
+    if (!cid)
+      cid = this.contact_list.get_selection();
 
     // search result may contain contacts from many sources, but if there is only one...
     if (source == '' && this.env.selection_sources.length == 1)

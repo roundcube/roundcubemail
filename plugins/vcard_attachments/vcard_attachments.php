@@ -281,10 +281,9 @@ class vcard_attachments extends rcube_plugin
         }
 
         $rcmail = rcmail::get_instance();
-        $abook  = $rcmail->config->get('default_addressbook');
 
         // Get configured addressbook
-        $CONTACTS = $rcmail->get_address_book($abook, true);
+        $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
 
         // Get first writeable addressbook if the configured doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)

@@ -38,6 +38,14 @@ abstract class rcube_addressbook
     const SEARCH_PREFIX = 2;
     const SEARCH_GROUPS = 4;
 
+    // contact types, note: some of these are used as addressbook source identifiers
+    const TYPE_CONTACT        = 0;
+    const TYPE_RECIPIENT      = 1;
+    const TYPE_TRUSTED_SENDER = 2;
+    const TYPE_DEFAULT        = 4;
+    const TYPE_WRITEABLE      = 8;
+    const TYPE_READONLY       = 16;
+
     // public properties (mandatory)
     public $primary_key;
     public $groups        = false;

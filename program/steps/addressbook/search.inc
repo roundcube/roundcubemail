@@ -144,7 +144,7 @@ function rcmail_contact_search()
     $search_set = array();
     $records    = array();
     $sort_col   = $RCMAIL->config->get('addressbook_sort_col', 'name');
-    $afields = $RCMAIL->config->get('contactlist_fields');
+    $afields    = $RCMAIL->config->get('contactlist_fields');
 
     foreach ($sources as $s) {
         $source = $RCMAIL->get_address_book($s['id']);

@@ -81,6 +81,35 @@ CREATE TABLE identities (
 CREATE INDEX identities_user_id_idx ON identities (user_id, del);
 CREATE INDEX identities_email_idx ON identities (email, del);
 
+--
+-- Sequence "collected_addresses_seq"
+-- Name: collected_addresses_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE collected_addresses_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+--
+-- Table "collected_addresses"
+-- Name: collected_addresses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE collected_addresses (
+    address_id integer DEFAULT nextval('collected_addresses_seq'::text) PRIMARY KEY,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    name varchar(255) DEFAULT '' NOT NULL,
+    email varchar(255) NOT NULL,
+    "type" integer NOT NULL
+);
+
+CREATE UNIQUE INDEX collected_addresses_user_id_idx ON collected_addresses (user_id, "type", email);
+
 
 --
 -- Sequence "contacts_seq"
@@ -314,4 +343,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2020020101');
+INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2020091000');

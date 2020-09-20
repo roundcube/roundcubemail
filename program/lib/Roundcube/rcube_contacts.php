@@ -36,13 +36,13 @@ class rcube_contacts extends rcube_addressbook
      *
      * @var rcube_db
      */
-    private $db      = null;
-    private $user_id = 0;
-    private $filter  = null;
-    private $result  = null;
-    private $cache;
-    private $table_cols    = array('name', 'email', 'firstname', 'surname');
-    private $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
+    protected $db      = null;
+    protected $user_id = 0;
+    protected $filter  = null;
+    protected $result  = null;
+    protected $cache;
+    protected $table_cols    = array('name', 'email', 'firstname', 'surname');
+    protected $fulltext_cols = array('name', 'firstname', 'surname', 'middlename', 'nickname',
         'jobtitle', 'organization', 'department', 'maidenname', 'email', 'phone',
         'address', 'street', 'locality', 'zipcode', 'region', 'country', 'website', 'im', 'notes');
 
@@ -448,11 +448,10 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Helper method to compose SQL where statements for fulltext searching
      */
-    private function fulltext_sql_where($value, $mode, $col = 'words', $bool = 'AND')
+    protected function fulltext_sql_where($value, $mode, $col = 'words', $bool = 'AND')
     {
-        $WS = ' ';
-        $AS = $col == 'words' ? $WS : self::SEPARATOR;
-        $words = $col == 'words' ? rcube_utils::normalize_string($value, true) : array($value);
+        $AS    = $col == 'words' ? ' ' : self::SEPARATOR;
+        $words = $col == 'words' ? rcube_utils::normalize_string($value, true, 1) : array($value);
 
         $where = array();
         foreach ($words as $word) {
@@ -491,7 +490,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int Contacts count
      */
-    private function _count()
+    protected function _count()
     {
         $join = null;
 
@@ -794,6 +793,8 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param array   $ids   Record identifiers
      * @param boolean $force Remove record(s) irreversible (unsupported)
+     *
+     * @return int Number of removed records
      */
     function delete($ids, $force = true)
     {
@@ -821,6 +822,8 @@ class rcube_contacts extends rcube_addressbook
      * Undelete one or more contact records
      *
      * @param array $ids Record identifiers
+     *
+     * @return int Number of undeleted contact records
      */
     function undelete($ids)
     {
