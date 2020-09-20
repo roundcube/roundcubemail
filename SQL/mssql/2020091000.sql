@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[collected_addresses] (
 GO
 
 ALTER TABLE [dbo].[collected_addresses] WITH NOCHECK ADD 
-	CONSTRAINT [PK_collected_addresses_addres_id] PRIMARY KEY  CLUSTERED 
+	CONSTRAINT [PK_collected_addresses_address_id] PRIMARY KEY  CLUSTERED 
 	(
 		[address_id]
 	) ON [PRIMARY] 
