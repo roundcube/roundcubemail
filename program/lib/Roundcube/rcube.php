@@ -695,13 +695,16 @@ class rcube
      * Read localized texts from an additional location (plugins, skins).
      * Then you can use the result as 2nd arg to load_language().
      *
-     * @param string $dir Directory to search in
+     * @param string      $dir  Directory to search in
+     * @param string|null $lang Language code to read
      *
      * @return array Localization labels/messages
      */
-    public function read_localization($dir)
+    public function read_localization($dir, $lang = null)
     {
-        $lang   = $_SESSION['language'];
+        if ($lang == null) {
+            $lang = $_SESSION['language'];
+        }
         $langs  = array_unique(array('en_US', $lang));
         $locdir = slashify($dir);
         $texts  = array();
