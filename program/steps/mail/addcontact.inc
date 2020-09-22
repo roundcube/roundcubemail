@@ -29,7 +29,7 @@ $type     = rcube_addressbook::TYPE_DEFAULT;
 
 // Get the trusted senders addressbook
 if (!empty($_POST['_reload'])) {
-    $collected_senders = $rcmail->config->get('collected_senders');
+    $collected_senders = $RCMAIL->config->get('collected_senders');
 
     if (strlen($collected_senders)) {
         $type |= rcube_addressbook::TYPE_TRUSTED_SENDER;
