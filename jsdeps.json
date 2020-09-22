@@ -36,10 +36,10 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.8.2",
+      "version": "4.9.11",
       "url": "https://download.tiny.cloud/tinymce/community/tinymce_$v.zip",
       "dest": "program/js",
-      "sha1": "d7fced05acdeeb78299585ea9909b0de2b3d759d",
+      "sha1": "5f5fc32b852e587294a64be8fcb8af60258f9872",
       "license": "LGPL",
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
