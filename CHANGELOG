@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Require PHP >= 5.5
 - Automatically collected recipients and trusted senders (#6904)
     - Added configurable Collected Recipients addressbook source (#4971)
     - Added configurable Trusted Senders addressbook source (#5046)
