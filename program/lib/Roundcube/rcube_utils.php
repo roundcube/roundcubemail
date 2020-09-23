@@ -411,6 +411,9 @@ class rcube_utils
             // Convert position:fixed to position:absolute (#5264)
             $styles = preg_replace('/position[^a-z]*:[\s\r\n]*fixed/i', 'position: absolute', $styles);
 
+            // Remove 'page' attributes (#7604)
+            $styles = preg_replace('/(^|[\n\s;])page:[^;]+;*/im', '', $styles);
+
             // check every line of a style block...
             if ($allow_remote) {
                 $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
