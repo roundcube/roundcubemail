@@ -734,7 +734,8 @@ class rcube_washtml
             // washtml/DOMDocument cannot handle xml namespaces
             '/<html\s[^>]+>/i',
             // washtml/DOMDocument cannot handle xml namespaces
-            '/<\?xml:namespace\s[^>]+>/i',
+            // HTML5 parser cannot handler <?xml
+            '/<\?xml[^>]*>/i',
         );
 
         $html_replace = array(

@@ -6,10 +6,11 @@ CHANGELOG Roundcube Webmail
 - Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
 - Fix restoring Cc/Bcc fields from local storage (#7554)
 - Fix jstz.min.js installation, bump version to 1.0.7
+- Fix incorrect PDO::lastInsertId() use in sqlsrv driver (#7564)
 - Fix link to closure compiler in bin/jsshrink.sh script (#7567)
 - Fix bug where some parts of a message could have been missing in a reply/forward body (#7568)
 - Fix empty space on mail printouts in Chrome (#7604)
-- Fix incorrect PDO::lastInsertId() use in sqlsrv driver (#7564)
+- Fix empty output from HTML5 parser when content contains XML tag (#7624)
 
 RELEASE 1.4.8
 -------------

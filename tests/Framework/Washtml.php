@@ -622,17 +622,23 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test removing xml:namespace tag
+     * Test removing xml tag
      */
-    function test_xml_namespace()
+    function test_xml_tag()
     {
         $html = '<p><?xml:namespace prefix = "xsl" /></p>';
 
         $washer = new rcube_washtml;
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertNotContains('&lt;?xml:namespace"', $washed);
         $this->assertSame($washed, '<p></p>');
+
+        $html = '<?xml encoding="UTF-8"><html><body>HTML</body></html>';
+
+        $washer = new rcube_washtml;
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertSame($washed, 'HTML');
     }
 
     /**
