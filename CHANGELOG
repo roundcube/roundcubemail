@@ -58,6 +58,7 @@ CHANGELOG Roundcube Webmail
 - Fix incorrect PDO::lastInsertId() use in sqlsrv driver (#7564)
 - Fix bug where some parts of a message could have been missing in a reply/forward body (#7568)
 - Fix empty space on mail printouts in Chrome (#7604)
+- Fix empty output from HTML5 parser when content contains XML tag (#7624)
 
 RELEASE 1.4.8
 -------------
