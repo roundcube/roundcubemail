@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix jstz.min.js installation, bump version to 1.0.7
 - Fix link to closure compiler in bin/jsshrink.sh script (#7567)
 - Fix bug where some parts of a message could have been missing in a reply/forward body (#7568)
+- Fix empty space on mail printouts in Chrome (#7604)
 
 RELEASE 1.4.8
 -------------
