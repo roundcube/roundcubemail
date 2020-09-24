@@ -319,12 +319,12 @@ this.prepare = function(ignore, no_indicator)
         return;
     }
 
-    this.createEditLayer(area.width(), area.height());
-    this.createErrorWindow();
-    $('body').append(this.error_window);
+    var height = $(area).css('box-sizing') == 'border-box' ? this.text_area.offsetHeight : $(area).height();
 
-    try { netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead"); }
-    catch (e) { }
+    this.createEditLayer(area.width(), height);
+    this.createErrorWindow();
+
+    $('body').append(this.error_window);
 
     if (this.main_controller)
         $(this.spell_span).off('click');
