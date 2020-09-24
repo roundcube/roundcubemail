@@ -1623,8 +1623,12 @@ EOF;
         }
 
         if (!$attrib['id']) {
-            $attrib['id'] =  sprintf('rcmbtn%d', $s_button_count++);
+            // ensure auto generated IDs are unique between main window and content frame
+            // Elastic skin duplicates buttons between the two on smaller screens (#7618)
+            $prefix       = ($this->framed || $this->env['framed']) ? 'frm' : '';
+            $attrib['id'] = sprintf('rcmbtn%s%d', $prefix, $s_button_count++);
         }
+
         // get localized text for labels and titles
         if ($attrib['title']) {
             $attrib['title'] = html::quote($this->app->gettext($attrib['title'], $attrib['domain']));
