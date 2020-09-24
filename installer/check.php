@@ -108,7 +108,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <h3>Checking PHP version</h3>
 <?php
 
-define('MIN_PHP_VERSION', '5.4.0');
+define('MIN_PHP_VERSION', '5.5.0');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
 } else {
