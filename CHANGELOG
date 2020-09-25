@@ -60,6 +60,7 @@ CHANGELOG Roundcube Webmail
 - Fix empty space on mail printouts in Chrome (#7604)
 - Fix empty output from HTML5 parser when content contains XML tag (#7624)
 - Fix scroll jump on key press in plain text mode of the HTML editor (#7622)
+- Fix so autocompletion list does not hide on scroll inside it (#7592)
 
 RELEASE 1.4.8
 -------------
