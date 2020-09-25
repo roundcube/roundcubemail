@@ -4732,8 +4732,14 @@ function rcube_webmail()
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({autocomplete: 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', role: 'combobox'});
 
+    var callback = function(e) {
+      if (ref.ksearch_pane && e.target === ref.ksearch_pane.get(0)) {
+        return;
+      }
+      ref.ksearch_hide();
+    };
+
     // hide the popup on any click
-    var callback = function() { ref.ksearch_hide(); };
     $(document).on('click', callback);
     // and on scroll (that cannot be jQuery.on())
     document.addEventListener('scroll', callback, true);
