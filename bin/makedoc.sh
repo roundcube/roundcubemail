@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 TITLE="Roundcube Webmail"
 PACKAGES="Webmail"
 
