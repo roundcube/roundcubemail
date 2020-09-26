@@ -135,7 +135,7 @@ if ($uid) {
         }
         else if ($mdn_cfg != 2 && $mdn_cfg != 4) {
             // Ask user
-            $OUTPUT->add_label('mdnrequest');
+            $OUTPUT->add_label('sendreceipt', 'mdnrequest', 'send', 'ignore');
             $OUTPUT->set_env('mdn_request', true);
         }
     }
