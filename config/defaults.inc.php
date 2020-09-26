@@ -508,6 +508,7 @@ $config['skin_logo'] = null;
 // automatically create a new Roundcube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
+// if set to true new users are created just for localy available users, not everyone in the public
 $config['auto_create_user'] = true;
 
 // Enables possibility to log in using email address from user identities
