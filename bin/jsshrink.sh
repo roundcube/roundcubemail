@@ -1,4 +1,7 @@
 #!/bin/sh
+
+set -e
+
 PWD=`dirname "$0"`
 JS_DIR="$PWD/../program/js"
 JAR_DIR='/tmp'
@@ -60,8 +63,7 @@ DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/ski
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.js; do
-        echo "$file" | grep -e '.min.js$' >/dev/null
-        if [ $? -eq 0 ]; then
+        if echo "$file" | grep -q -e '.min.js$'; then
             continue
         fi
         if [ ! -f "$file" ]; then
