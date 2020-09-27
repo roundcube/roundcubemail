@@ -100,6 +100,8 @@ function rcmail_contact_edithead($attrib)
 {
     global $RCMAIL;
 
+    $business_mode = $RCMAIL->config->get('contact_form_mode') === 'business';
+
     // check if we have a valid result
     $record = rcmail_get_edit_record();
     $i_size = $attrib['size'] ?: 20;
@@ -114,11 +116,11 @@ function rcmail_contact_edithead($attrib)
                 'middlename'    => array('size' => $i_size),
                 'surname'       => array('size' => $i_size, 'visible' => true),
                 'suffix'        => array('size' => $i_size),
-                'name'          => array('size' => 2*$i_size),
-                'nickname'      => array('size' => 2*$i_size),
-                'organization'  => array('size' => 2*$i_size),
-                'department'    => array('size' => 2*$i_size),
-                'jobtitle'      => array('size' => 2*$i_size),
+                'name'          => array('size' => $i_size * 2),
+                'nickname'      => array('size' => $i_size * 2),
+                'organization'  => array('size' => $i_size * 2, 'visible' => $business_mode),
+                'department'    => array('size' => $i_size * 2, 'visible' => $business_mode),
+                'jobtitle'      => array('size' => $i_size * 2, 'visible' => $business_mode),
             )
         )
     );
@@ -213,6 +215,15 @@ function get_form_tags($attrib)
     $form_start = $form_end = '';
 
     if (empty($EDIT_FORM)) {
+        $form_attrib = array(
+            'name'    => 'form',
+            'method'  => 'post',
+            'task'    => $RCMAIL->task,
+            'action'  => 'save',
+            'request' => 'save.' . intval($record['ID']),
+            'noclose' => true,
+        );
+
         $hiddenfields = new html_hiddenfield();
 
         if ($RCMAIL->action == 'edit') {
@@ -226,14 +237,10 @@ function get_form_tags($attrib)
             $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));
         }
 
-        $form_start = $RCMAIL->output->request_form(array(
-            'name' => "form", 'method' => "post",
-            'task' => $RCMAIL->task, 'action' => 'save',
-            'request' => 'save.'.intval($record['ID']),
-            'noclose' => true) + $attrib, $hiddenfields->show());
-        $form_end = !strlen($attrib['form']) ? '</form>' : '';
+        $form_start = $RCMAIL->output->request_form($form_attrib + $attrib, $hiddenfields->show());
+        $form_end   = empty($attrib['form']) ? '</form>' : '';
+        $EDIT_FORM  = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
-        $EDIT_FORM = $attrib['form'] ?: 'form';
         $RCMAIL->output->add_gui_object('editform', $EDIT_FORM);
     }
 
@@ -247,8 +254,9 @@ function rcmail_source_selector($attrib)
     $sources_list = $RCMAIL->get_address_sources(true, true);
 
     if (count($sources_list) < 2) {
-        $source = $sources_list[$SOURCE_ID];
+        $source      = $sources_list[$SOURCE_ID];
         $hiddenfield = new html_hiddenfield(array('name' => '_source', 'value' => $SOURCE_ID));
+
         return html::span($attrib, $source['name'] . $hiddenfield->show());
     }
 
@@ -264,7 +272,6 @@ function rcmail_source_selector($attrib)
 
     return $select->show($SOURCE_ID);
 }
-
 
 /**
  * Register container as active area to drop photos onto

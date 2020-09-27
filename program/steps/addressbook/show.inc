@@ -100,23 +100,23 @@ function rcmail_contact_details($attrib)
         'contact' => array(
             'name'    => $RCMAIL->gettext('properties'),
             'content' => array(
-              'email' => array('size' => $i_size, 'render_func' => 'rcmail_render_email_value'),
-              'phone' => array('size' => $i_size),
+              'email'   => array('size' => $i_size, 'render_func' => 'rcmail_render_email_value'),
+              'phone'   => array('size' => $i_size),
               'address' => array(),
               'website' => array('size' => $i_size, 'render_func' => 'rcmail_render_url_value'),
-              'im' => array('size' => $i_size),
+              'im'      => array('size' => $i_size),
             ),
         ),
         'personal' => array(
             'name'    => $RCMAIL->gettext($short_labels ? 'personal' : 'personalinfo'),
             'content' => array(
-                'gender' => array('size' => $i_size),
-                'maidenname' => array('size' => $i_size),
-                'birthday' => array('size' => $i_size),
+                'gender'      => array('size' => $i_size),
+                'maidenname'  => array('size' => $i_size),
+                'birthday'    => array('size' => $i_size),
                 'anniversary' => array('size' => $i_size),
-                'manager' => array('size' => $i_size),
-                'assistant' => array('size' => $i_size),
-                'spouse' => array('size' => $i_size),
+                'manager'     => array('size' => $i_size),
+                'assistant'   => array('size' => $i_size),
+                'spouse'      => array('size' => $i_size),
             ),
         ),
     );
@@ -146,22 +146,27 @@ function rcmail_render_email_value($email)
     global $RCMAIL;
 
     return html::a(array(
-        'href' => 'mailto:' . $email,
-        'onclick' => sprintf("return %s.command('compose','%s',this)", rcmail_output::JS_OBJECT_NAME, rcube::JQ($email)),
-        'title' => $RCMAIL->gettext('composeto'),
-        'class' => 'email',
-    ), rcube::Q($email));
+            'href'    => 'mailto:' . $email,
+            'onclick' => sprintf("return %s.command('compose','%s',this)", rcmail_output::JS_OBJECT_NAME, rcube::JQ($email)),
+            'title'   => $RCMAIL->gettext('composeto'),
+            'class'   => 'email',
+        ),
+        rcube::Q($email)
+    );
 }
 
 
 function rcmail_render_url_value($url)
 {
     $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
+
     return html::a(array(
-        'href' => $prefix . $url,
-        'target' => '_blank',
-        'class' => 'url',
-    ), rcube::Q($url));
+            'href'   => $prefix . $url,
+            'target' => '_blank',
+            'class'  => 'url',
+        ),
+        rcube::Q($url)
+    );
 }
 
 
