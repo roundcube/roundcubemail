@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.9
+-------------
 - Fix HTML editor in latest Chrome 85.0.4183.102, update to TinyMCE 4.9.11 (#7615)
 - Add missing localization for some label/legend elements in userinfo plugin (#7478)
 - Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
