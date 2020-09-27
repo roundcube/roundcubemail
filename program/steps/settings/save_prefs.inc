@@ -106,6 +106,7 @@ case 'addressbook':
         'addressbook_sort_col' => rcmail_prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
         'addressbook_name_listing' => intval($_POST['_addressbook_name_listing']),
         'addressbook_pagesize' => max(2, intval($_POST['_addressbook_pagesize'])),
+        'contact_form_mode'    => rcmail_prefs_input('contact_form_mode', '/^(private|business)$/'),
     );
 
     break;

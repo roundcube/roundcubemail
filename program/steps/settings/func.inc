@@ -1057,6 +1057,25 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['contact_form_mode'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_contact_form_mode';
+                $select   = new html_select(array('name' => '_contact_form_mode', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add($RCMAIL->gettext('privatemode'), 'private');
+                $select->add($RCMAIL->gettext('businessmode'), 'business');
+
+                $mode = $config['contact_form_mode'] == 'business' ? 'business' : 'private';
+
+                $blocks['main']['options']['contact_form_mode'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('contactformmode'))),
+                    'content' => $select->show($mode),
+                );
+            }
+
             if (!isset($no_override['autocomplete_single'])) {
                 if (!$current) {
                     continue 2;
