@@ -18,6 +18,7 @@
 */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -214,7 +215,7 @@ class rcmail_oauth
                     'verify' => $this->options['verify_peer'],
                 ]);
                 $response = $client->post($oauth_token_uri, array(
-                    'body' => array(
+                    'form_params' => array(
                         'code' => $auth_code,
                         'client_id' => $oauth_client_id,
                         'client_secret' => $oauth_client_secret,
@@ -222,7 +223,7 @@ class rcmail_oauth
                         'grant_type' => 'authorization_code',
                     ),
                 ));
-                $data = $response->json();
+                $data = \GuzzleHttp\json_decode($response->getBody(), true);
 
                 // auth success
                 if (!empty($data['access_token'])) {
@@ -282,8 +283,9 @@ class rcmail_oauth
                 }
             } catch (RequestException $e) {
                 $this->last_error = "OAuth token request failed: " . $e->getMessage();
+                $formatter = new MessageFormatter();
                 rcube::raise_error(array(
-                    'message' => $this->last_error . '; ' . $e->getResponse(),
+                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                 ), true, false);
@@ -357,8 +359,9 @@ class rcmail_oauth
             }
         } catch (RequestException $e) {
             $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
+            $formatter = new MessageFormatter();
             rcube::raise_error(array(
-                'message' => $this->last_error . '; ' . $e->getResponse(),
+                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ), true, false);
