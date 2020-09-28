@@ -253,12 +253,14 @@ class rcmail_oauth
 
                     // request user identity (email)
                     if (empty($username) && !empty($oauth_identity_uri)) {
-                        $identity = $client->get($oauth_identity_uri, array(
+                        $identity_response = $client->get($oauth_identity_uri, array(
                             'headers' => array(
                                 'Authorization' => $authorization,
                                 'Accept' => 'application/json',
                             ),
-                        ))->json();
+                        ));
+                        $identity = \GuzzleHttp\json_decode($identity_response->getBody(), true);
+
                         foreach ($this->options['identity_fields'] as $field) {
                             if (isset($identity[$field])) {
                                 $username = $identity[$field];
@@ -332,14 +334,14 @@ class rcmail_oauth
                 'verify' => $this->options['verify_peer'],
             ]);
             $response = $client->post($oauth_token_uri, array(
-                'body' => array(
+                'form_params' => array(
                     'client_id' => $oauth_client_id,
                     'client_secret' => $oauth_client_secret,
                     'refresh_token' => $this->rcmail->decrypt($token['refresh_token']),
                     'grant_type' => 'refresh_token',
                 ),
             ));
-            $data = $response->json();
+            $data = \GuzzleHttp\json_decode($response->getBody(), true);
 
             // auth success
             if (!empty($data['access_token'])) {
