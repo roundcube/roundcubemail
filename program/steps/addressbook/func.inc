@@ -32,7 +32,7 @@ $CONTACT_COLTYPES = array(
     'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
     'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
     'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 128, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
-    'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
+    'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female'), 'other' => $RCMAIL->gettext('genderother')), 'category' => 'personal'),
     'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
     'phone'        => array('type' => 'text', 'size' => 40, 'maxlength' => 20, 'label' => $RCMAIL->gettext('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
     'address'      => array('type' => 'composite', 'label' => $RCMAIL->gettext('address'), 'subtypes' => array('home','work','other'), 'childs' => array(
