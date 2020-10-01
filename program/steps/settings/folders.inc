@@ -224,8 +224,9 @@ function rcmail_folder_subscriptions($attrib)
         $folder        = $STORAGE->mod_folder($folder);
         $foldersplit   = explode($delimiter, $folder);
         $name          = rcube_charset::convert(array_pop($foldersplit), 'UTF7-IMAP');
-        $parent_folder = join($delimiter, $foldersplit);
-        $level         = count($foldersplit);
+        $special       = $folder_id == 'INBOX' || isset($special_folders[$folder_id]);
+        $parent_folder = $special ? '' : join($delimiter, $foldersplit);
+        $level         = $special ? 0 : count($foldersplit);
 
         // add any necessary "virtual" parent folders
         if ($parent_folder && !isset($seen[$parent_folder])) {
