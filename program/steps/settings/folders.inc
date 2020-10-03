@@ -224,9 +224,9 @@ function rcmail_folder_subscriptions($attrib)
         $folder        = $STORAGE->mod_folder($folder);
         $foldersplit   = explode($delimiter, $folder);
         $name          = rcube_charset::convert(array_pop($foldersplit), 'UTF7-IMAP');
-        $special       = isset($special_folders[$folder_id]);
-        $parent_folder = $special ? '' : join($delimiter, $foldersplit);
-        $level         = $special ? 0 : count($foldersplit);
+        $is_special       = isset($special_folders[$folder_id]);
+        $parent_folder = $is_special ? '' : join($delimiter, $foldersplit);
+        $level         = $is_special ? 0 : count($foldersplit);
 
         // add any necessary "virtual" parent folders
         if ($parent_folder && !isset($seen[$parent_folder])) {
@@ -274,13 +274,13 @@ function rcmail_folder_subscriptions($attrib)
     foreach ($list_folders as $i => $folder) {
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
-        $special    = isset($special_folders[$folder['id']]);
+        $is_special    = isset($special_folders[$folder['id']]);
         $protected  = $folder['id'] == 'INBOX' || ($protect_default && $special);
         $noselect   = false;
         $classes    = array();
 
         $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
-        $display_folder = rcube::Q($special ? $RCMAIL->localize_foldername($folder['id'], false, true) : $folder['name']);
+        $display_folder = rcube::Q($is_special ? $RCMAIL->localize_foldername($folder['id'], false, true) : $folder['name']);
 
         if ($folder['virtual']) {
             $classes[] = 'virtual';
