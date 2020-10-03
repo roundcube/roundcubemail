@@ -27,6 +27,49 @@
  */
 class rcube_db_sqlsrv extends rcube_db_mssql
 {
+
+    /**
+     * Get last inserted record ID
+     *
+     * @param string $table Table name (to find the incremented sequence)
+     *
+     * @return string|false The ID or False on failure
+     */
+    public function insert_id($table = '')
+    {
+        if (!$this->db_connected || $this->db_mode == 'r') {
+            return false;
+        }
+
+        if ($table) {
+            // For some unknown reason the constant described in the driver docs
+            // might not exist, we'll fallback to PDO::ATTR_CLIENT_VERSION (#7564)
+            if (defined('PDO::ATTR_DRIVER_VERSION')) {
+                $driver_version = $this->dbh->getAttribute(PDO::ATTR_DRIVER_VERSION);
+            }
+            else if (defined('PDO::ATTR_CLIENT_VERSION')) {
+                $client_version = $this->dbh->getAttribute(PDO::ATTR_CLIENT_VERSION);
+                $driver_version = $client_version['ExtensionVer'];
+            }
+            else {
+                $driver_version = 5;
+            }
+
+            // Starting from version 5 of the driver lastInsertId() method expects
+            // a sequence name instead of a table name. We'll unset the argument
+            // to get the last insert sequence (#7564)
+            if (version_compare($driver_version, '5', '>=')) {
+                $table = null;
+            }
+            else {
+                // resolve table name
+                $table = $this->table_name($table);
+            }
+        }
+
+        return $this->dbh->lastInsertId($table);
+    }
+
     /**
      * Returns PDO DSN string from DSN array
      */

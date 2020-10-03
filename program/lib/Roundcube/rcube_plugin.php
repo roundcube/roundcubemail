@@ -256,7 +256,7 @@ abstract class rcube_plugin
     /**
      * Wrapper for rcube::gettext() adding the plugin ID as domain
      *
-     * @param string $p Message identifier
+     * @param mixed $p Named parameters array or label name
      *
      * @return string Localized text
      * @see rcube::gettext()
@@ -385,8 +385,9 @@ abstract class rcube_plugin
      */
     public function local_skin_path()
     {
-        $rcube = rcube::get_instance();
-        $skins = array_keys((array)$rcube->output->skins);
+        $rcube     = rcube::get_instance();
+        $skins     = array_keys((array)$rcube->output->skins);
+        $skin_path = '';
 
         if (empty($skins)) {
             $skins = (array) $rcube->config->get('skin');

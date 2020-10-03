@@ -62,19 +62,19 @@
 				<div class="input-group-prepend">
 					<label for="searchfilter" class="input-group-text"><roundcube:label name="type" /></label>
 				</div>
-				<roundcube:object name="searchfilter" id="searchfilter" noevent="true" />
+				<roundcube:object name="searchfilter" id="searchfilter" noevent="true" class="custom-select" />
 			</div>
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<label for="s_interval" class="input-group-text"><roundcube:label name="date" /></label>
 				</div>
-				<roundcube:object name="searchinterval" id="s_interval" />
+				<roundcube:object name="searchinterval" id="s_interval" class="custom-select" />
 			</div>
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<label for="s_scope" class="input-group-text"><roundcube:label name="searchscope" /></label>
 				</div>
-				<select name="s_scope" id="s_scope">
+				<select name="s_scope" id="s_scope" class="custom-select">
 					<option value="base"><roundcube:label name="currentfolder" /></option>
 					<option value="sub"><roundcube:label name="subfolders" /></option>
 					<option value="all"><roundcube:label name="allfolders" /></option>
@@ -138,7 +138,7 @@
 	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul class="menu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
 		<roundcube:button type="link-menuitem" label="selection" class="selection disabled" classAct="selection active"
-			name="list-toggle-button" id="list-toggle-button" onclick="UI.toggle_list_selection(this, 'messagelist');" />
+			name="list-toggle-button" id="list-toggle-button" onclick="UI.toggle_list_selection(this, 'messagelist')" />
 		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all disabled" classAct="select all active" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page disabled" classAct="select page active" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread disabled" classAct="select unread active" />

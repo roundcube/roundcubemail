@@ -184,7 +184,7 @@ function rcmail_user_prefs($current = null)
                 asort($a_lang);
 
                 $field_id = 'rcmfd_lang';
-                $select   = new html_select(array('name' => '_language', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_language', 'id' => $field_id, 'class' => 'custom-select'));
                 $select->add(array_values($a_lang), array_keys($a_lang));
 
                 $blocks['main']['options']['language'] = array(
@@ -200,7 +200,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_timezone';
-                $select   = new html_select(array('name' => '_timezone', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_timezone', 'id' => $field_id, 'class' => 'custom-select'));
                 $select->add($RCMAIL->gettext('autodetect'), 'auto');
 
                 $zones = array();
@@ -233,7 +233,7 @@ function rcmail_user_prefs($current = null)
                 $defaults = array('G:i', 'H:i', 'g:i a', 'h:i A');
                 $formats  = (array)$RCMAIL->config->get('time_formats', $defaults);
                 $field_id = 'rcmfd_time_format';
-                $select   = new html_select(array('name' => '_time_format', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_time_format', 'id' => $field_id, 'class' => 'custom-select'));
 
                 foreach ($formats as $choice) {
                     $select->add(date($choice, $reftime), $choice);
@@ -254,7 +254,7 @@ function rcmail_user_prefs($current = null)
                 $defaults = array('Y-m-d','d-m-Y','Y/m/d','m/d/Y','d/m/Y','d.m.Y','j.n.Y');
                 $formats  = (array)$RCMAIL->config->get('date_formats', $defaults);
                 $field_id = 'rcmfd_date_format';
-                $select   = new html_select(array('name' => '_date_format', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_date_format', 'id' => $field_id, 'class' => 'custom-select'));
 
                 foreach ($formats as $choice) {
                     $select->add(date($choice, $refdate), $choice);
@@ -302,7 +302,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_refresh_interval';
-                $select   = new html_select(array('name' => '_refresh_interval', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_refresh_interval', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('never'), 0);
                 foreach (array(1, 3, 5, 10, 15, 30, 60) as $min) {
@@ -410,7 +410,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_layout';
-                $select   = new html_select(array('name' => '_layout', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_layout', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $layouts = array(
                     'widescreen' => 'layoutwidescreendesc',
@@ -439,7 +439,7 @@ function rcmail_user_prefs($current = null)
                 $config['mail_read_time'] = intval($RCMAIL->config->get('mail_read_time'));
 
                 $field_id = 'rcmfd_mail_read_time';
-                $select   = new html_select(array('name' => '_mail_read_time', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_mail_read_time', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('never'), -1);
                 $select->add($RCMAIL->gettext('immediately'), 0);
@@ -461,7 +461,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_mdn_requests';
-                $select   = new html_select(array('name' => '_mdn_requests', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_mdn_requests', 'id' => $field_id, 'class' => 'custom-select'));
                 $select->add($RCMAIL->gettext('askuser'), 0);
                 $select->add($RCMAIL->gettext('autosend'), 1);
                 $select->add($RCMAIL->gettext('autosendknown'), 3);
@@ -484,7 +484,7 @@ function rcmail_user_prefs($current = null)
 
                 if ($supported) {
                     $field_id = 'rcmfd_autoexpand_threads';
-                    $select   = new html_select(array('name' => '_autoexpand_threads', 'id' => $field_id));
+                    $select   = new html_select(array('name' => '_autoexpand_threads', 'id' => $field_id, 'class' => 'custom-select'));
                     $select->add($RCMAIL->gettext('never'), 0);
                     $select->add($RCMAIL->gettext('do_expand'), 1);
                     $select->add($RCMAIL->gettext('expand_only_unread'), 2);
@@ -503,7 +503,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_mail_pagesize';
-                $input    = new html_inputfield(array('name' => '_mail_pagesize', 'id' => $field_id, 'size' => 5));
+                $input    = new html_inputfield(array('name' => '_mail_pagesize', 'id' => $field_id, 'size' => 5, 'class' => 'form-control'));
                 $size     = intval($config['mail_pagesize'] ?: $config['pagesize']);
 
                 $blocks['main']['options']['pagesize'] = array(
@@ -590,8 +590,12 @@ function rcmail_user_prefs($current = null)
                 $blocks['advanced']['options']['default_charset'] = array(
                     'title' => html::label($field_id, rcube::Q($RCMAIL->gettext('defaultcharset'))),
                     'content' => $RCMAIL->output->charset_selector(array(
-                        'id' => $field_id, 'name' => '_default_charset', 'selected' => $config['default_charset']
-                )));
+                            'id'       => $field_id,
+                            'name'     => '_default_charset',
+                            'selected' => $config['default_charset'],
+                            'class'    => 'custom-select',
+                    ))
+                );
             }
 
             if (!isset($no_override['show_images'])) {
@@ -600,8 +604,12 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_show_images';
-                $input    = new html_select(array('name' => '_show_images', 'id' => $field_id,
-                    'disabled' => !$config['prefer_html']));
+                $input    = new html_select(array(
+                        'name'     => '_show_images',
+                        'id'       => $field_id,
+                        'class'    => 'custom-select',
+                        'disabled' => !$config['prefer_html']
+                ));
 
                 $input->add($RCMAIL->gettext('never'), 0);
                 $input->add($RCMAIL->gettext('fromknownsenders'), 1);
@@ -658,7 +666,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_htmleditor';
-                $select   = new html_select(array('name' => '_htmleditor', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_htmleditor', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('never'), 0);
                 $select->add($RCMAIL->gettext('htmlonreply'), 2);
@@ -678,7 +686,12 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_autosave';
-                $select   = new html_select(array('name' => '_draft_autosave', 'id' => $field_id, 'disabled' => empty($config['drafts_mbox'])));
+                $select   = new html_select(array(
+                        'name'     => '_draft_autosave',
+                        'id'       => $field_id,
+                        'class'    => 'custom-select',
+                        'disabled' => empty($config['drafts_mbox'])
+                ));
 
                 $select->add($RCMAIL->gettext('never'), 0);
                 foreach (array(1, 3, 5, 10) as $i => $min) {
@@ -698,7 +711,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_param_folding';
-                $select   = new html_select(array('name' => '_mime_param_folding', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_mime_param_folding', 'id' => $field_id, 'class' => 'custom-select',));
 
                 $select->add($RCMAIL->gettext('2231folding'), 0);
                 $select->add($RCMAIL->gettext('miscfolding'), 1);
@@ -772,7 +785,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_reply_mode';
-                $select   = new html_select(array('name' => '_reply_mode', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_reply_mode', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('replyempty'), -1);
                 $select->add($RCMAIL->gettext('replybottomposting'), 0);
@@ -823,7 +836,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_show_sig';
-                $select   = new html_select(array('name' => '_show_sig', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_show_sig', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('never'), 0);
                 $select->add($RCMAIL->gettext('always'), 1);
@@ -884,7 +897,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_forward_attachment';
-                $select = new html_select(array('name' => '_forward_attachment', 'id' => $field_id));
+                $select = new html_select(array('name' => '_forward_attachment', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('inline'), 0);
                 $select->add($RCMAIL->gettext('asattachment'), 1);
@@ -902,27 +915,29 @@ function rcmail_user_prefs($current = null)
 
                 // Default font size
                 $field_id = 'rcmfd_default_font_size';
-                $select_default_font_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id));
+                $select_size = new html_select(array('name' => '_default_font_size', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $fontsizes = array('', '8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt');
                 foreach ($fontsizes as $size) {
-                    $select_default_font_size->add($size, $size);
+                    $select_size->add($size, $size);
                 }
 
                 // Default font
                 $field_id = 'rcmfd_default_font';
-                $select_default_font = new html_select(array('name' => '_default_font', 'id' => $field_id));
-                $select_default_font->add('', '');
+                $select_font = new html_select(array('name' => '_default_font', 'id' => $field_id, 'class' => 'custom-select'));
+                $select_font->add('', '');
 
                 $fonts = rcmail::font_defs();
                 foreach (array_keys($fonts) as $fname) {
-                    $select_default_font->add($fname, $fname);
+                    $select_font->add($fname, $fname);
                 }
 
                 $blocks['main']['options']['default_font'] = array(
                     'title' => html::label($field_id, rcube::Q($RCMAIL->gettext('defaultfont'))),
-                    'content' => html::div('input-group', $select_default_font->show($RCMAIL->config->get('default_font', 1)) .
-                        $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1)))
+                    'content' => html::div('input-group',
+                        $select_font->show($RCMAIL->config->get('default_font', 1)) .
+                        $select_size->show($RCMAIL->config->get('default_font_size', 1))
+                    )
                 );
             }
 
@@ -932,7 +947,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_reply_all_mode';
-                $select   = new html_select(array('name' => '_reply_all_mode', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_reply_all_mode', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('replyalldefault'), 0);
                 $select->add($RCMAIL->gettext('replyalllist'), 1);
@@ -962,8 +977,9 @@ function rcmail_user_prefs($current = null)
         // Addressbook config
         case 'addressbook':
             $blocks = array(
-                'main'     => array('name' => rcube::Q($RCMAIL->gettext('mainoptions'))),
-                'advanced' => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
+                'main'      => array('name' => rcube::Q($RCMAIL->gettext('mainoptions'))),
+                'collected' => array('name' => rcube::Q($RCMAIL->gettext('collectedaddresses'))),
+                'advanced'  => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
             if (!isset($no_override['default_addressbook'])
@@ -974,7 +990,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_default_addressbook';
-                $select   = new html_select(array('name' => '_default_addressbook', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_default_addressbook', 'id' => $field_id, 'class' => 'custom-select'));
 
                 foreach ($books as $book) {
                     $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
@@ -993,7 +1009,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_addressbook_name_listing';
-                $select   = new html_select(array('name' => '_addressbook_name_listing', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_addressbook_name_listing', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('name'), 0);
                 $select->add($RCMAIL->gettext('firstname') . ' '  . $RCMAIL->gettext('surname'), 1);
@@ -1013,7 +1029,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_addressbook_sort_col';
-                $select   = new html_select(array('name' => '_addressbook_sort_col', 'id' => $field_id));
+                $select   = new html_select(array('name' => '_addressbook_sort_col', 'id' => $field_id, 'class' => 'custom-select'));
 
                 $select->add($RCMAIL->gettext('name'), 'name');
                 $select->add($RCMAIL->gettext('firstname'), 'firstname');
@@ -1032,12 +1048,31 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $field_id = 'rcmfd_addressbook_pagesize';
-                $input    = new html_inputfield(array('name' => '_addressbook_pagesize', 'id' => $field_id, 'size' => 5));
+                $input    = new html_inputfield(array('name' => '_addressbook_pagesize', 'id' => $field_id, 'size' => 5, 'class' => 'form-control'));
                 $size     = intval($config['addressbook_pagesize'] ?: $config['pagesize']);
 
                 $blocks['main']['options']['pagesize'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('pagesize'))),
                     'content' => $input->show($size ?: 50),
+                );
+            }
+
+            if (!isset($no_override['contact_form_mode'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_contact_form_mode';
+                $select   = new html_select(array('name' => '_contact_form_mode', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add($RCMAIL->gettext('privatemode'), 'private');
+                $select->add($RCMAIL->gettext('businessmode'), 'business');
+
+                $mode = $config['contact_form_mode'] == 'business' ? 'business' : 'private';
+
+                $blocks['main']['options']['contact_form_mode'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('contactformmode'))),
+                    'content' => $select->show($mode),
                 );
             }
 
@@ -1054,6 +1089,66 @@ function rcmail_user_prefs($current = null)
                     'content' => $checkbox->show($config['autocomplete_single']?1:0),
                 );
             }
+
+            if (!isset($no_override['collected_recipients'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                if (!isset($books)) {
+                    $books = $RCMAIL->get_address_sources(true, true);
+                }
+
+                $field_id = 'rcmfd_collected_recipients';
+                $select   = new html_select(array('name' => '_collected_recipients', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add('---', '');
+                $select->add($RCMAIL->gettext('collectedrecipients'), (string) rcube_addressbook::TYPE_RECIPIENT);
+
+                foreach ($books as $book) {
+                    $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                }
+
+                $selected = $config['collected_recipients'];
+                if (is_bool($selected)) {
+                    $selected = $selected ? rcube_addressbook::TYPE_RECIPIENT : '';
+                }
+
+                $blocks['collected']['options']['collected_recipients'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('collectedrecipientsopt'))),
+                    'content' => $select->show((string) $selected),
+                );
+            }
+
+            if (!isset($no_override['collected_senders'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                if (!isset($books)) {
+                    $books = $RCMAIL->get_address_sources(true, true);
+                }
+
+                $field_id = 'rcmfd_collected_senders';
+                $select   = new html_select(array('name' => '_collected_senders', 'id' => $field_id, 'class' => 'custom-select'));
+
+                $select->add($RCMAIL->gettext('trustedsenders'), (string) rcube_addressbook::TYPE_TRUSTED_SENDER);
+
+                foreach ($books as $book) {
+                    $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                }
+
+                $selected = $config['collected_senders'];
+                if (is_bool($selected)) {
+                    $selected = $selected ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
+                }
+
+                $blocks['collected']['options']['collected_senders'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('collectedsendersopt'))),
+                    'content' => $select->show((string) $elected),
+                );
+            }
+
         break;
 
         // Special IMAP folders
@@ -1086,6 +1181,7 @@ function rcmail_user_prefs($current = null)
                     'maxlength'     => 30,
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
+                    'class'         => 'custom-select',
                 ));
 
                 // #1486114, #1488279, #1489219

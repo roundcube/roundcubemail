@@ -86,10 +86,20 @@ Post-Upgrade Activities
    in configured temp_dir are removed. Since this version we use constant filename
    prefix and do not remove files not starting with "RCMTEMP".
 
+
 SQLite database upgrade
 -----------------------
+
 Versions older than 0.9 were supporting SQLite v2 only. Newer versions require
 database in v3 format. The best what you can do is to convert database file
 to the new format using command line tools:
 
 sqlite OLD.DB .dump | sqlite3 NEW.DB
+
+
+Other tools
+-----------
+In case you need to only update the database schema you can use updatedb.sh script.
+For example, to update the Roundcube core database run:
+
+  ./bin/updatedb.sh --package=roundcube --dir=SQL

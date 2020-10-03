@@ -31,6 +31,7 @@
 class managesieve extends rcube_plugin
 {
     public $task = 'mail|settings';
+
     private $rc;
     private $engine;
 
@@ -77,7 +78,7 @@ class managesieve extends rcube_plugin
      */
     function init_ui()
     {
-        if ($this->ui_initialized) {
+        if (!empty($this->ui_initialized)) {
             return;
         }
 
@@ -189,7 +190,7 @@ class managesieve extends rcube_plugin
     function mail_headers($args)
     {
         // this hook can be executed many times
-        if ($this->mail_headers_done) {
+        if (!empty($this->mail_headers_done)) {
             return $args;
         }
 

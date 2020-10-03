@@ -129,13 +129,15 @@ class rcube_db_pgsql extends rcube_db
      */
     public function now($interval = 0)
     {
+        $result = 'now()';
+
         if ($interval) {
-            $add = ' ' . ($interval > 0 ? '+' : '-') . " interval '";
-            $add .= $interval > 0 ? intval($interval) : intval($interval) * -1;
-            $add .= " seconds'";
+            $result .= ' ' . ($interval > 0 ? '+' : '-') . " interval '"
+                . ($interval > 0 ? intval($interval) : intval($interval) * -1)
+                . " seconds'";
         }
 
-        return "now()" . $add;
+        return $result;
     }
 
     /**

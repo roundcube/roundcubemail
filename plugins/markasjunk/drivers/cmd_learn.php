@@ -73,7 +73,7 @@ class markasjunk_cmd_learn
                 $storage->check_connection();
                 $storage->conn->select($src_mbox);
 
-                preg_match_all('/%h:([\w-_]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
+                preg_match_all('/%h:([\w_-]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
                     $val = null;
                     if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, array($header[1]))) {
@@ -109,7 +109,7 @@ class markasjunk_cmd_learn
                 rcube::write_log('markasjunk', $tmp_command);
             }
 
-            if (strpos($command, '%f') !== false) {
+            if (isset($tmpfname)) {
                 unlink($tmpfname);
             }
         }

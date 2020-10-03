@@ -146,7 +146,7 @@ class rcube_vcard
         }
 
         // make the pref e-mail address the first entry in $this->email
-        $pref_index = $this->get_type_index('EMAIL', 'pref');
+        $pref_index = $this->get_type_index('EMAIL');
         if ($pref_index > 0) {
             $tmp = $this->email[0];
             $this->email[0] = $this->email[$pref_index];
@@ -239,6 +239,10 @@ class rcube_vcard
                     if ($tag == 'ADR') {
                         list(,, $value['street'], $value['locality'], $value['region'], $value['zipcode'], $value['country']) = $raw;
                         $out[$key][] = $value;
+                    }
+                    // support vCard v4 date format (YYYYMMDD)
+                    else if ($tag == 'BDAY' && preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $raw[0], $m)) {
+                        $out[$key][] = sprintf('%04d-%02d-%02d', intval($m[1]), intval($m[2]), intval($m[3]));
                     }
                     else {
                         $out[$key][] = $raw[0];
@@ -599,7 +603,7 @@ class rcube_vcard
     {
         // chunk_split string and avoid lines breaking multibyte characters
         $c = 71;
-        $out .= substr($matches[1], 0, $c);
+        $out = substr($matches[1], 0, $c);
 
         for ($n = $c; $c < strlen($matches[1]); $c++) {
             // break if length > 75 or mutlibyte character starts after position 71
@@ -762,6 +766,8 @@ class rcube_vcard
      */
     static function vcard_encode($data)
     {
+        $vcard = '';
+
         foreach ((array)$data as $type => $entries) {
             // valid N has 5 properties
             while ($type == "N" && is_array($entries[0]) && count($entries[0]) < 5) {
@@ -848,7 +854,7 @@ class rcube_vcard
      * @param string $str vCard string to split
      * @param string $sep Separator char/string
      *
-     * @return array List with splited values
+     * @return string|array Unquoted string or a list of strings if $sep was found
      */
     private static function vcard_unquote($str, $sep = ';')
     {
@@ -859,6 +865,7 @@ class rcube_vcard
             $rep2 = array("\007" => "\\$sep", "\010" => "\\\\");
 
             if (count($parts = explode($sep, strtr($str, $rep1))) > 1) {
+                $result = array();
                 foreach ($parts as $s) {
                     $result[] = self::vcard_unquote(strtr($s, $rep2));
                 }

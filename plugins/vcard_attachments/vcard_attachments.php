@@ -200,7 +200,7 @@ class vcard_attachments extends rcube_plugin
 
         $error_msg = $this->gettext('vcardsavefailed');
 
-        if ($part && ($vcards = rcube_vcard::import($part))
+        if (!empty($part) && ($vcards = rcube_vcard::import($part))
             && ($vcard = $vcards[$index]) && $vcard->displayname && $vcard->email
         ) {
             $CONTACTS = $this->get_address_book();
@@ -276,15 +276,14 @@ class vcard_attachments extends rcube_plugin
      */
     private function get_address_book()
     {
-        if ($this->abook) {
+        if (!empty($this->abook)) {
             return $this->abook;
         }
 
         $rcmail = rcmail::get_instance();
-        $abook  = $rcmail->config->get('default_addressbook');
 
         // Get configured addressbook
-        $CONTACTS = $rcmail->get_address_book($abook, true);
+        $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
 
         // Get first writeable addressbook if the configured doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)

@@ -85,7 +85,7 @@ if ($uid) {
 
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
-        'skip_deleted', 'display_next', 'forward_attachment'));
+        'skip_deleted', 'display_next', 'forward_attachment', 'mailvelope_main_keyring'));
 
     // set special folders
     foreach (array('drafts', 'trash', 'junk') as $mbox) {
@@ -116,14 +116,22 @@ if ($uid) {
     ) {
         $mdn_cfg = intval($RCMAIL->config->get('mdn_requests'));
 
-        if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4) && rcmail_contact_exists($MESSAGE->sender['mailto']))) {
+        if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4)
+            && $RCMAIL->contact_exists($MESSAGE->sender['mailto'], rcube_addressbook::TYPE_DEFAULT))
+        ) {
             // Send MDN
-            if (rcmail_send_mdn($MESSAGE, $smtp_error))
+            if (rcmail_send_mdn($MESSAGE, $smtp_error)) {
                 $OUTPUT->show_message('receiptsent', 'confirmation');
-            else if ($smtp_error)
+            }
+            else if ($smtp_error && is_string($smtp_error)) {
+                $OUTPUT->show_message($smtp_error, 'error');
+            }
+            else if ($smtp_error && !empty($smtp_error['label'])) {
                 $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-            else
+            }
+            else {
                 $OUTPUT->show_message('errorsendingreceipt', 'error');
+            }
         }
         else if ($mdn_cfg != 2 && $mdn_cfg != 4) {
             // Ask user
@@ -326,25 +334,6 @@ function rcmail_message_objects($attrib)
     return html::div($attrib, $content);
 }
 
-function rcmail_contact_exists($email)
-{
-    global $RCMAIL;
-
-    if ($email) {
-        // @TODO: search in all address books?
-        $CONTACTS = $RCMAIL->get_address_book(-1, true);
-
-        if (is_object($CONTACTS)) {
-            $existing = $CONTACTS->search('email', $email, 1, false);
-            if ($existing->count) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
 function rcmail_message_contactphoto($attrib)
 {
     global $RCMAIL, $MESSAGE;
@@ -372,7 +361,7 @@ function rcmail_message_contactphoto($attrib)
 /**
  * Returns table with message headers
  */
-function rcmail_message_headers($attrib, $headers=null)
+function rcmail_message_headers($attrib, $headers = null)
 {
     global $MESSAGE, $PRINT_MODE, $RCMAIL;
     static $sa_attrib;
@@ -616,8 +605,9 @@ function rcmail_message_body($attrib)
         return '';
     }
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmailMsgBody';
+    }
 
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
     $out       = '';
@@ -667,6 +657,12 @@ function rcmail_message_body($attrib)
 
                 // message is cached but not exists (#1485443), or other error
                 if ($body === false) {
+                    // Don't bail out if it is only one-of-many part of the message (#6854)
+                    if (strlen($out)) {
+                        $out .= html::span('part-notice', $RCMAIL->gettext('messageopenerror'));
+                        continue;
+                    }
+
                     rcmail_message_error($MESSAGE->uid);
                 }
 
@@ -785,6 +781,8 @@ function rcmail_message_body($attrib)
     if ($REMOTE_OBJECTS && !$safe_mode) {
         $OUTPUT->set_env('blockedobjects', true);
     }
+
+    $OUTPUT->add_gui_object('messagebody', $attrib['id']);
 
     return html::div($attrib, $out);
 }

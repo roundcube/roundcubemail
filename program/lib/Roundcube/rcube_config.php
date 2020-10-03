@@ -318,12 +318,12 @@ class rcube_config
                 include($fpath);
                 ob_end_clean();
 
-                if (is_array($config)) {
+                if (isset($config) && is_array($config)) {
                     $this->merge($config);
                     $success = true;
                 }
                 // deprecated name of config variable
-                if (is_array($rcmail_config)) {
+                if (isset($rcmail_config) && is_array($rcmail_config)) {
                     $this->merge($rcmail_config);
                     $success = true;
                 }
@@ -413,6 +413,18 @@ class rcube_config
                 $result = $this->prop['supported_layouts'][0];
             }
         }
+        else if ($name == 'collected_senders') {
+            if (is_bool($result)) {
+                $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
+            }
+            $result = (string) $result;
+        }
+        else if ($name == 'collected_recipients') {
+            if (is_bool($result)) {
+                $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
+            }
+            $result = (string) $result;
+        }
 
         $plugin = $rcube->plugins->exec_hook('config_get', array(
             'name' => $name, 'default' => $def, 'result' => $result));
@@ -480,7 +492,12 @@ class rcube_config
     }
 
     /**
-     * Getter for all config options
+     * Getter for all config options.
+     *
+     * Unlike get() this method does not resolve any special
+     * values like e.g. 'timezone'.
+     *
+     * It is discouraged to use this method outside of Roundcube core.
      *
      * @return array Hash array containing all config properties
      */

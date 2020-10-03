@@ -38,6 +38,14 @@ abstract class rcube_addressbook
     const SEARCH_PREFIX = 2;
     const SEARCH_GROUPS = 4;
 
+    // contact types, note: some of these are used as addressbook source identifiers
+    const TYPE_CONTACT        = 0;
+    const TYPE_RECIPIENT      = 1;
+    const TYPE_TRUSTED_SENDER = 2;
+    const TYPE_DEFAULT        = 4;
+    const TYPE_WRITEABLE      = 8;
+    const TYPE_READONLY       = 16;
+
     // public properties (mandatory)
     public $primary_key;
     public $groups        = false;
@@ -101,7 +109,7 @@ abstract class rcube_addressbook
      * @param array $cols   List of cols to show
      * @param int   $subset Only return this number of records, use negative values for tail
      *
-     * @return array Indexed list of contact records, each a hash array
+     * @return rcube_result_set Indexed list of contact records, each a hash array
      */
     abstract function list_records($cols=null, $subset=0);
 
@@ -129,7 +137,7 @@ abstract class rcube_addressbook
     /**
      * Return the last result set
      *
-     * @return rcube_result_set Current result set or NULL if nothing selected yet
+     * @return ?rcube_result_set Current result set or NULL if nothing selected yet
      */
     abstract function get_result();
 
@@ -276,7 +284,7 @@ abstract class rcube_addressbook
     function insertMultiple($recset, $check = false)
     {
         $ids = array();
-        if (is_object($recset) && is_a($recset, rcube_result_set)) {
+        if ($recset instanceof rcube_result_set) {
             while ($row = $recset->next()) {
                 if ($insert = $this->insert($row, $check))
                     $ids[] = $insert;
@@ -397,7 +405,7 @@ abstract class rcube_addressbook
      * @param string $newname  New name to set for this group
      * @param string &$newid   New group identifier (if changed, otherwise don't set)
      *
-     * @return boolean New name on success, false if no data was changed
+     * @return boolean|string New name on success, false if no data was changed
      */
     function rename_group($group_id, $newname, &$newid)
     {

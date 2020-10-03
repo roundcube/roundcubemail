@@ -18,7 +18,7 @@ tasks:
 
 REQUIREMENTS
 ------------
-PHP Version 5.4 or greater including:
+PHP Version 5.5 or greater including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Zip, Fileinfo, Intl, Exif (recommended)
@@ -29,15 +29,7 @@ INSTALLATION
 ------------
 Copy all files of this directory to your project or install it in the default
 include_path directory of your webserver. Some classes of the framework require
-following [PEAR][pear] libraries:
-
-- Mail_Mime 1.8.1 or newer
-- Net_SMTP 1.8.1 or newer
-- Net_Socket 1.0.12 or newer
-- Net_IDNA2 0.1.1 or newer
-- Auth_SASL 1.0.6 or newer
-- Kolab/Net_LDAP3 1.0.6 or newer (for LDAP addressbook)
-- Masterminds/HTML5 2.5.x (optional HTML parser)
+external libraries. See composer.json-dist for the list of required packages.
 
 
 USAGE

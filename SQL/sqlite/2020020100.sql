@@ -34,8 +34,6 @@ CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
 
 DROP TABLE tmp_users;
 
-DROP TABLE users;
-
 CREATE TABLE tmp_dictionary (
     user_id integer DEFAULT NULL,
    language varchar(16) NOT NULL,
@@ -43,6 +41,8 @@ CREATE TABLE tmp_dictionary (
 );
 
 INSERT INTO tmp_dictionary (user_id, language, data) SELECT user_id, language, data FROM dictionary;
+
+DROP TABLE dictionary;
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL,

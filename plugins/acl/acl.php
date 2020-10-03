@@ -312,9 +312,9 @@ class acl extends rcube_plugin
     function templ_user($attrib)
     {
         // Create username input
-        $attrib['name'] = 'acluser';
         $class = $attrib['class'];
-        unset($attrib['class']);
+        $attrib['name']  = 'acluser';
+        $attrib['class'] = 'form-control';
 
         $textfield = new html_inputfield($attrib);
 
@@ -359,7 +359,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    private function list_rights($attrib=array())
+    private function list_rights($attrib = array())
     {
         // Get ACL for the folder
         $acl = $this->rc->storage->get_acl($this->mbox);
@@ -421,7 +421,9 @@ class acl extends rcube_plugin
 
         // Create the table
         $attrib['noheader'] = true;
-        $table = new html_table($attrib);
+        $table    = new html_table($attrib);
+        $self     = $this->rc->get_user_name();
+        $js_table = array();
 
         // Create table header
         $table->add_header('user', $this->gettext('identifier'));
@@ -430,9 +432,8 @@ class acl extends rcube_plugin
             $table->add_header(array('class' => 'acl'.$key, 'title' => $label), $label);
         }
 
-        $js_table = array();
         foreach ($acl as $user => $rights) {
-            if ($this->rc->storage->conn->user == $user) {
+            if ($user === $self) {
                 continue;
             }
 
@@ -486,6 +487,7 @@ class acl extends rcube_plugin
         $acl    = array_intersect(str_split($acl), $this->rights_supported());
         $users  = $oldid ? array($user) : explode(',', $user);
         $result = 0;
+        $self   = $this->rc->get_user_name();
 
         foreach ($users as $user) {
             $user   = trim($user);
@@ -518,7 +520,7 @@ class acl extends rcube_plugin
             $user     = $this->mod_login($user);
             $username = $this->mod_login($username);
 
-            if ($user != $_SESSION['username'] && $username != $_SESSION['username']) {
+            if ($user != $self && $username != $self) {
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $display = $this->resolve_acl_identifier($username, $title);
                     $this->rc->output->command('acl_update', array(
@@ -562,7 +564,7 @@ class acl extends rcube_plugin
             }
         }
 
-        if (!$error) {
+        if (empty($error)) {
             $this->rc->output->show_message('acl.deletesuccess', 'confirmation');
         }
         else {
@@ -696,8 +698,10 @@ class acl extends rcube_plugin
             return $_SESSION['acl_username_realm'];
         }
 
+        $self = $this->rc->get_user_name();
+
         // find realm in username of logged user (?)
-        list($name, $domain) = explode('@', $_SESSION['username']);
+        list($name, $domain) = explode('@', $self);
 
         // Use (always existent) ACL entry on the INBOX for the user to determine
         // whether or not the user ID in ACL entries need to be qualified and how
@@ -705,7 +709,7 @@ class acl extends rcube_plugin
         if (empty($domain)) {
             $acl = $this->rc->storage->get_acl('INBOX');
             if (is_array($acl)) {
-                $regexp = '/^' . preg_quote($_SESSION['username'], '/') . '@(.*)$/';
+                $regexp = '/^' . preg_quote($self, '/') . '@(.*)$/';
                 foreach (array_keys($acl) as $name) {
                     if (preg_match($regexp, $name, $matches)) {
                         $domain = $matches[1];

@@ -53,7 +53,7 @@ foreach ($cids as $source => $source_cids) {
         break;
     }
 
-    if (!$CONTACTS || !$CONTACTS->ready || $CONTACTS->readonly) {
+    if (!$CONTACTS || !$CONTACTS->ready || ($CONTACTS->readonly && empty($CONTACTS->deletable))) {
         continue;
     }
 

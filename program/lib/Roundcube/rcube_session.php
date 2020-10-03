@@ -31,10 +31,12 @@ abstract class rcube_session
     protected $config;
     protected $key;
     protected $ip;
+    protected $cookie;
     protected $changed;
     protected $start;
     protected $vars;
     protected $now;
+    protected $lifetime;
     protected $time_diff    = 0;
     protected $reloaded     = false;
     protected $appends      = array();
@@ -209,8 +211,11 @@ abstract class rcube_session
      */
     protected function _fixvars($vars, $oldvars)
     {
+        $newvars = '';
+
         if ($oldvars !== null) {
             $a_oldvars = $this->unserialize($oldvars);
+
             if (is_array($a_oldvars)) {
                 // remove unset keys on oldvars
                 foreach ((array)$this->unsets as $var) {
@@ -234,6 +239,7 @@ abstract class rcube_session
         }
 
         $this->unsets = array();
+
         return $newvars;
     }
 
@@ -428,7 +434,7 @@ abstract class rcube_session
             $data = $this->read($this->key);
         }
 
-        if ($data) {
+        if (!empty($data)) {
             session_decode($data);
 
             // apply appends and unsets to reloaded data
@@ -659,7 +665,9 @@ abstract class rcube_session
     function check_auth()
     {
         $this->cookie = $_COOKIE[$this->cookiename];
+
         $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
+        $prev   = null;
 
         if (!$result) {
             $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . rcube_utils::remote_addr());

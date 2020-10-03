@@ -121,8 +121,7 @@
 	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul class="menu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
 		<roundcube:button type="link-menuitem" label="selection" class="selection" classAct="selection active"
-			name="list-toggle-button" id="list-toggle-button"
-			onclick="if ($(this).is('.active')) $('#contacts-table').toggleClass('withselection');" />
+			name="list-toggle-button" id="list-toggle-button" onclick="UI.toggle_list_selection(this, 'contacts-table')" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page disabled" classAct="select page active" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="select invert disabled" classAct="select invert active" />
 		<roundcube:button command="select-none" type="link-menuitem" label="none" class="select none disabled" classAct="select none active" />

@@ -319,6 +319,84 @@ $config['smtp_conn_options'] = null;
 
 
 // ----------------------------------
+// OAuth
+// ----------------------------------
+
+// Enable OAuth2 by defining a provider. Use 'generic' here
+$config['oauth_provider'] = null;
+
+// Provider name to be displayed on the login button
+$config['oauth_provider_name'] = 'Google';
+
+// Mandatory: OAuth client ID for your Roundcube installation
+$config['oauth_client_id'] = null;
+
+// Mandatory: OAuth client secret
+$config['oauth_client_secret'] = null;
+
+// Mandatory: URI for OAuth user authentication (redirect)
+$config['oauth_auth_uri'] = null;
+
+// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+$config['oauth_token_uri'] = null;
+
+// Optional: Endpoint to query user identity if not provided in auth response
+$config['oauth_identity_uri'] = null;
+
+// Optional: disable SSL certificate check on HTTP requests to OAuth server
+// See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
+$config['oauth_verify_peer'] = true;
+
+// Mandatory: OAuth scopes to request (space-separated string)
+$config['oauth_scope'] = null;
+
+// Optional: additional query parameters to send with login request (hash array)
+$config['oauth_auth_parameters'] = [];
+
+// Optional: array of field names used to resolve the username within the identity information
+$config['oauth_identity_fields'] = null;
+
+// Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
+$config['oauth_login_redirect'] = false;
+
+///// Example config for Gmail
+
+// Register your service at https://console.developers.google.com/
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['oauth_provider'] = 'google';
+// $config['oauth_provider_name'] = 'Google';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://accounts.google.com/o/oauth2/auth";
+// $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
+// $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
+// $config['oauth_scope'] = "email profile openid https://mail.google.com/";
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
+
+///// Example config for Outlook.com (Office 365)
+
+// Register your OAuth client at https://portal.azure.com
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
+
+// $config['default_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+// $config['oauth_provider'] = 'outlook';
+// $config['oauth_provider_name'] = 'Outlook.com';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+// $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+// $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
+// $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
+// $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
+// $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
+
+// ----------------------------------
 // LDAP
 // ----------------------------------
 
@@ -406,6 +484,7 @@ $config['support_url'] = '';
 // - logo type - it is used for logos used on multiple templates
 //   the available types include '[favicon]' for favicon, '[print]' for logo on all print
 //   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
+//   '[dark]' and '[small-dark]' for dark mode logo in supported skins
 //
 // Example config for skin_logo
 /*
@@ -426,9 +505,10 @@ $config['support_url'] = '';
 */
 $config['skin_logo'] = null;
 
-// automatically create a new Roundcube user when log-in the first time.
-// a new user will be created once the IMAP login succeeds.
-// set to false if only registered users can use this service
+// Automatically register user in Roundcube database on successful (IMAP) logon.
+// Set to false if only registered users should be allowed to the webmail.
+// Note: If disabled you have to create records in Roundcube users table by yourself.
+// Note: Roundcube does not manage/create users on a mail server.
 $config['auto_create_user'] = true;
 
 // Enables possibility to log in using email address from user identities
@@ -439,7 +519,7 @@ $config['user_aliases'] = false;
 // This is used by the 'file' log driver.
 $config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
-// use this folder to store temp files
+// Location of temporary saved files such as attachments and cache files
 // must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
@@ -475,6 +555,7 @@ $config['login_username_maxlen'] = 1024;
 $config['login_password_maxlen'] = 1024;
 
 // Logon username filter. Regular expression for use with preg_match().
+// Use special value 'email' if you accept only full email addresses as user logins.
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
@@ -854,6 +935,14 @@ $config['compose_responses_static'] = array(
 // Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
 $config['keyservers'] = array('keys.openpgp.org');
 
+// Enables use of the Main Keyring in Mailvelope? If disabled, a per-site keyring
+// will be used. This is set to false for backwards compatibility.
+$config['mailvelope_main_keyring'] = false;
+
+// Mailvelope RSA bit size for newly generated keys, either 2048 or 4096.
+// It maybe desirable to use 2048 for sites with many mobile users.
+$config['mailvelope_keysize'] = 4096;
+
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
@@ -1084,6 +1173,22 @@ $config['contactlist_fields'] = array('name', 'firstname', 'surname', 'email');
 // You can use contact fields as: name, email, organization, department, etc.
 // See program/steps/addressbook/func.inc for a list
 $config['contact_search_name'] = '{name} <{email}>';
+
+// Contact mode. If your contacts are mostly business, switch it to 'business'.
+// This will prioritize form fields related to 'work' (instead of 'home').
+// Default: 'private'.
+$config['contact_form_mode'] = 'private';
+
+// The addressbook source to store automatically collected recipients in.
+// Default: true (the built-in "Collected recipients" addressbook, source id = '1')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_recipients'] = true;
+
+// The addressbook source to store trusted senders in.
+// Default: true (the built-in "Trusted senders" addressbook, source id = '2')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_senders'] = true;
+
 
 // ----------------------------------
 // USER PREFERENCES

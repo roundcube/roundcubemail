@@ -13,7 +13,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -115,7 +115,7 @@ foreach ($dirs as $dir) {
     echo '<br />';
 }
 
-if (!$pass) {
+if (empty($pass)) {
     echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
 }
 
@@ -158,7 +158,6 @@ if ($db_working && $_POST['initdb']) {
             Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
-
 else if ($db_working && $_POST['updatedb']) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
@@ -224,7 +223,7 @@ if ($db_working) {
 
     // sometimes db and web servers are on separate hosts, so allow a 30 minutes delta
     if (abs($tz_diff) > 1800) {
-        $RCI->fail('DB Time', "Database time differs {$td_ziff}s from PHP time");
+        $RCI->fail('DB Time', "Database time differs {$tz_diff}s from PHP time");
     }
     else {
         $RCI->pass('DB Time');
@@ -442,6 +441,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
   $imap_host = trim($_POST['_host']);
   $imap_port = $RCI->getprop('default_port');
+  $imap_ssl  = false;
   $a_host    = parse_url($imap_host);
 
   if ($a_host['host']) {
@@ -456,7 +456,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
   $imap_host = rcube_utils::idn_to_ascii($imap_host);
   $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
-  $imap = new rcube_imap(null);
+  $imap = new rcube_imap;
   $imap->set_options(array(
     'auth_type' => $RCI->getprop('imap_auth_type'),
     'debug'     => $RCI->getprop('imap_debug'),

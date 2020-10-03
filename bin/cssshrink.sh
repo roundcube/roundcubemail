@@ -1,4 +1,7 @@
 #!/bin/sh
+
+set -e
+
 PWD=`dirname "$0"`
 JAR_DIR='/tmp'
 VERSION='2.4.8'
@@ -47,8 +50,7 @@ DIRS="$PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.css; do
-        echo "$file" | grep -e '.min.css$' >/dev/null
-        if [ $? -eq 0 ]; then
+        if echo "$file" | grep -q -e '.min.css$'; then
             continue
         fi
         if [ ! -f "$file" ]; then

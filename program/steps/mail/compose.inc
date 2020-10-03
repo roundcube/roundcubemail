@@ -93,6 +93,7 @@ $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_l
 $OUTPUT->set_env('is_sent', false);
 $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 $OUTPUT->set_env('keyservers', $RCMAIL->config->keyservers());
+$OUTPUT->set_env('mailvelope_main_keyring', $RCMAIL->config->get('mailvelope_main_keyring'));
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -597,8 +598,12 @@ function rcmail_prepare_message_body()
         $isHtml = rcmail_compose_editor_mode();
     }
 
-    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body',
-        array('body' => $body, 'html' => $isHtml, 'mode' => $COMPOSE['mode']));
+    $plugin = $RCMAIL->plugins->exec_hook('message_compose_body', array(
+            'body'    => $body,
+            'html'    => $isHtml,
+            'mode'    => $COMPOSE['mode'],
+            'message' => $MESSAGE,
+    ));
 
     $body = $plugin['body'];
     unset($plugin);

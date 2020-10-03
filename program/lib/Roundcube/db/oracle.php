@@ -452,7 +452,7 @@ class rcube_db_oracle extends rcube_db
         $sql = parent::fix_table_names($sql);
 
         // replace sequence names, and other Oracle-specific commands
-        $sql = preg_replace_callback('/((SEQUENCE ["]?)([^" \r\n]+)/',
+        $sql = preg_replace_callback('/(SEQUENCE ["]?)([^" \r\n]+)/',
             array($this, 'fix_table_names_callback'),
             $sql
         );

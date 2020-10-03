@@ -1,7 +1,7 @@
 <div id="layout-menu">
 	<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
 	<div class="popover-header">
-		<roundcube:object name="logo" src="/images/logo.svg" data-src-small="0" id="logo" alt="Logo" />
+		<roundcube:object name="logo" src="/images/logo.svg" id="logo" alt="Logo" />
 		<a class="button icon cancel"><span class="inner"><roundcube:label name="close" /></span></a>
 	</div>
 	<div id="taskmenu" class="menu toolbar" role="navigation" aria-labelledby="aria-label-tasknav">
@@ -28,6 +28,11 @@
 		<roundcube:button command="settings" label="settings" type="link" innerClass="inner"
 			class="settings" classSel="settings selected" />
 		<span class="special-buttons">
+			<roundcube:if condition="config:dark_mode_support" />
+				<roundcube:add_label name="darkmode" />
+				<roundcube:add_label name="lightmode" />
+				<roundcube:button name="theme" label="darkmode" type="link" innerClass="inner" class="theme dark" />
+			<roundcube:endif />
 			<roundcube:button name="about" label="about" type="link"
 				class="about" innerClass="inner" onclick="UI.about_dialog(this)" />
 			<roundcube:button command="logout" label="logout" type="link"

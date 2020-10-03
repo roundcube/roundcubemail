@@ -798,12 +798,9 @@ function rcmail_check_safe($message)
     ) {
         switch ($show_images) {
         case 1: // known senders only
-            // get default addressbook, like in addcontact.inc
-            $CONTACTS = $RCMAIL->get_address_book(-1, true);
-
-            if ($CONTACTS && $message->sender['mailto']) {
-                $result = $CONTACTS->search('email', $message->sender['mailto'], 1, false);
-                if ($result->count) {
+            if (!empty($message->sender['mailto'])) {
+                $type = rcube_addressbook::TYPE_DEFAULT | rcube_addressbook::TYPE_TRUSTED_SENDER;
+                if ($RCMAIL->contact_exists($message->sender['mailto'], $type)) {
                     $message->set_safe(true);
                 }
             }
@@ -1456,8 +1453,8 @@ function rcmail_wrap_and_quote($text, $length = 72, $quote = true)
 /**
  * Send the MDN response
  *
- * @param mixed $message    Original message object (rcube_message) or UID
- * @param array $smtp_error SMTP error array (reference)
+ * @param mixed        $message    Original message object (rcube_message) or UID
+ * @param array|string $smtp_error SMTP error array or (deprecated) string
  *
  * @return boolean Send status
  */

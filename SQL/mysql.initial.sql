@@ -102,6 +102,22 @@ CREATE TABLE `cache_messages` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
 
+-- Table structure for table `collected_addresses`
+
+CREATE TABLE `collected_addresses` (
+ `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `name` varchar(255) NOT NULL DEFAULT '',
+ `email` varchar(255) NOT NULL,
+ `user_id` int(10) UNSIGNED NOT NULL,
+ `type` int(10) UNSIGNED NOT NULL,
+ PRIMARY KEY(`address_id`),
+ CONSTRAINT `user_id_fk_collected_addresses` FOREIGN KEY (`user_id`)
+   REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ UNIQUE INDEX `user_email_collected_addresses_index` (`user_id`, `type`, `email`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+
 -- Table structure for table `contacts`
 
 CREATE TABLE `contacts` (
@@ -121,6 +137,7 @@ CREATE TABLE `contacts` (
  INDEX `user_contacts_index` (`user_id`,`del`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
+
 -- Table structure for table `contactgroups`
 
 CREATE TABLE `contactgroups` (
@@ -134,6 +151,9 @@ CREATE TABLE `contactgroups` (
     REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   INDEX `contactgroups_user_index` (`user_id`,`del`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+
+-- Table structure for table `contactgroupmembers`
 
 CREATE TABLE `contactgroupmembers` (
   `contactgroup_id` int(10) UNSIGNED NOT NULL,
@@ -223,4 +243,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020020101');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020091000');

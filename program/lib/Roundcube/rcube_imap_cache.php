@@ -73,6 +73,9 @@ class rcube_imap_cache
 
     private $skip_deleted = false;
     private $mode;
+    private $index_table;
+    private $thread_table;
+    private $messages_table;
 
     /**
      * List of known flags. Thanks to this we can handle flag changes
@@ -207,6 +210,7 @@ class rcube_imap_cache
         // Entry exists, check cache status
         if (!empty($index)) {
             $exists = true;
+            $modseq = isset($index['modseq']) ? $index['modseq'] : null;
 
             if ($sort_field == 'ANY') {
                 $sort_field = $index['sort_field'];
@@ -231,12 +235,15 @@ class rcube_imap_cache
             if ($existing) {
                 return null;
             }
-            else if ($sort_field == 'ANY') {
+
+            if ($sort_field == 'ANY') {
                 $sort_field = '';
             }
 
             // Got it in internal cache, so the row already exist
             $exists = array_key_exists('index', $this->icache[$mailbox]);
+
+            $modseq = null;
         }
 
         // Index not found, not valid or sort field changed, get index from IMAP server
@@ -245,15 +252,19 @@ class rcube_imap_cache
             $mbox_data = $this->imap->folder_data($mailbox);
             $data      = $this->get_index_data($mailbox, $sort_field, $sort_order, $mbox_data);
 
+            if (isset($mbox_data['HIGHESTMODSEQ'])) {
+                $modseq = $mbox_data['HIGHESTMODSEQ'];
+            }
+
             // insert/update
-            $this->add_index_row($mailbox, $sort_field, $data, $mbox_data, $exists, $index['modseq']);
+            $this->add_index_row($mailbox, $sort_field, $data, $mbox_data, $exists, $modseq);
         }
 
         $this->icache[$mailbox]['index'] = array(
             'validated'  => true,
             'object'     => $data,
             'sort_field' => $sort_field,
-            'modseq'     => !empty($index['modseq']) ? $index['modseq'] : $mbox_data['HIGHESTMODSEQ']
+            'modseq'     => $modseq
         );
 
         return $data;
@@ -306,7 +317,7 @@ class rcube_imap_cache
             $index['object'] = $this->get_thread_data($mailbox, $mbox_data);
 
             // insert/update
-            $this->add_thread_row($mailbox, $index['object'], $mbox_data, $exists);
+            $this->add_thread_row($mailbox, $index['object'], $mbox_data, !empty($exists));
         }
 
         $this->icache[$mailbox]['thread'] = $index;
@@ -398,6 +409,9 @@ class rcube_imap_cache
         ) {
             return $this->icache['__message']['object'];
         }
+
+        $message = null;
+        $found   = false;
 
         if ($this->mode & self::MODE_MESSAGE) {
             $sql_result = $this->db->query(

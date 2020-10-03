@@ -92,7 +92,7 @@ class rcube_washtml
     /**
      * @var array Ignore these HTML tags and their content
      */
-    static $ignore_elements = array('script', 'applet', 'embed', 'object', 'style');
+    static $ignore_elements = array('script', 'applet', 'embed', 'style');
 
     /**
      * @var array Allowed HTML attributes
@@ -330,19 +330,15 @@ class rcube_washtml
                     $out = $this->wash_uri($value, true);
                 }
                 else if ($this->is_link_attribute($node->nodeName, $key)) {
-                    if (!preg_match('!^(javascript|vbscript|data:)!i', $value)
-                        && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
-                    ) {
-                        $out = $value;
-                    }
+                    $out = $this->wash_link($value);
                 }
                 else if ($this->is_funciri_attribute($node->nodeName, $key)) {
-                    if (preg_match('/^[a-z:]*url\(/i', $val)) {
+                    if (preg_match('/^[a-z:]*url\(/i', $value)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
-                                    . substr($val, strlen($match[0])) . '"';
+                                    . substr($value, strlen($match[0])) . '"';
                                 continue;
                             }
                         }
@@ -399,6 +395,10 @@ class rcube_washtml
 
         // allow url(#id) used in SVG
         if ($uri[0] == '#') {
+            if ($this->_css_prefix !== null) {
+                $uri = '#' . $this->_css_prefix . substr($uri, 1);
+            }
+
             return $uri;
         }
 
@@ -412,8 +412,55 @@ class rcube_washtml
                 return $this->config['blocked_src'];
             }
         }
-        else if ($is_image && preg_match('/^data:image.+/i', $uri)) { // RFC2397
+        else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/i', $uri, $matches)) { // RFC2397
+            // svg images can be insecure, we'll sanitize them
+            if (stripos($matches[1], 'svg') !== false) {
+                $svg = $matches[2];
+
+                if (stripos($matches[1], ';base64') !== false) {
+                    $svg  = base64_decode($svg);
+                    $type = $matches[1];
+                }
+                else {
+                    $type = $matches[1] . ';base64';
+                }
+
+                $washer = new self($this->config);
+                $svg    = $washer->wash($svg);
+
+                // Invalid svg content
+                if (empty($svg)) {
+                    return null;
+                }
+
+                return 'data:image/' . $type . ',' . base64_encode($svg);
+            }
+
             return $uri;
+        }
+    }
+
+    /**
+     * Wash Href value
+     *
+     * @param string $href Href attribute value (link)
+     *
+     * @return string Washed href
+     */
+    private function wash_link($href)
+    {
+        if (strlen($href) && !preg_match('!^(javascript|vbscript|data:)!i', $href)) {
+            if ($href[0] == '#' && $this->_css_prefix !== null) {
+                return '#' . $this->_css_prefix . substr($href, 1);
+            }
+
+            if (preg_match('!^[a-zA-Z._-]+$!', $href)) {
+                return 'http://' . $href;
+            }
+
+            if (preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $href)) {
+                return $href;
+            }
         }
     }
 
@@ -427,7 +474,7 @@ class rcube_washtml
      */
     private function is_link_attribute($tag, $attr)
     {
-        return ($tag == 'a' || $tag == 'area') && $attr == 'href';
+        return $attr === 'href';
     }
 
     /**
@@ -444,6 +491,7 @@ class rcube_washtml
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
             || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
+            || ($tag == 'use' && $attr == 'href') // SVG
             || ($tag == 'image' && $attr == 'href'); // SVG
     }
 
@@ -459,6 +507,31 @@ class rcube_washtml
     {
         return in_array($attr, array('fill', 'filter', 'stroke', 'marker-start',
             'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor'));
+    }
+
+    /**
+     * Check if a specified element has an attribute with specified value.
+     * Do it in case-insensitive manner.
+     *
+     * @param DOMElement $node       The element
+     * @param string     $attr_name  The attribute name
+     * @param string     $attr_value The attribute value to find
+     *
+     * @return bool True if the specified attribute exists and has the expected value
+     */
+    private static function attribute_value($node, $attr_name, $attr_value)
+    {
+        $attr_name = strtolower($attr_name);
+
+        foreach ($node->attributes as $name => $attr) {
+            if (strtolower($name) === $attr_name) {
+                if (strtolower($attr_value) === strtolower($attr->nodeValue)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -480,7 +553,7 @@ class rcube_washtml
 
         if ($this->max_nesting_level > 0 && $level == $this->max_nesting_level - 1) {
             // log error message once
-            if (!$this->max_nesting_level_error) {
+            if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error(array('code' => 500, 'type' => 'php',
                     'line' => __LINE__, 'file' => __FILE__,
@@ -508,6 +581,13 @@ class rcube_washtml
 
                     $node->setAttribute('href', (string) $uri);
                 }
+                else if (in_array($tagName, array('animate', 'animatecolor', 'set', 'animatetransform'))
+                    && self::attribute_value($node, 'attributename', 'href')
+                ) {
+                    // Insecure svg tags
+                    $dump .= "<!-- $tagName blocked -->";
+                    break;
+                }
 
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
@@ -521,7 +601,10 @@ class rcube_washtml
                         $xpath = new DOMXPath($node->ownerDocument);
                         foreach ($xpath->query('namespace::*') as $ns) {
                             if ($ns->nodeName != 'xmlns:xml') {
-                                $dump .= ' ' . $ns->nodeName . '="' . $ns->nodeValue . '"';
+                                $dump .= sprintf(' %s="%s"',
+                                    $ns->nodeName,
+                                    htmlspecialchars($ns->nodeValue, ENT_QUOTES, $this->config['charset'])
+                                );
                             }
                         }
                     }
@@ -588,7 +671,7 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // SVG need to be parsed as XML
-        $this->is_xml = stripos($html, '<html') === false && stripos($html, '<svg') !== false;
+        $this->is_xml = !preg_match('/<(html|head|body)/i', $html) && stripos($html, '<svg') !== false;
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
@@ -651,7 +734,8 @@ class rcube_washtml
             // washtml/DOMDocument cannot handle xml namespaces
             '/<html\s[^>]+>/i',
             // washtml/DOMDocument cannot handle xml namespaces
-            '/<\?xml:namespace\s[^>]+>/i',
+            // HTML5 parser cannot handler <?xml
+            '/<\?xml[^>]*>/i',
         );
 
         $html_replace = array(
@@ -896,9 +980,10 @@ class rcube_washtml
         $style  = trim($style);
         $strlen = strlen($style);
         $result = array();
+        $q      = false;
 
         // explode value
-        for ($p=$i=0; $i < $strlen; $i++) {
+        for ($p = $i = 0; $i < $strlen; $i++) {
             if (($style[$i] == "\"" || $style[$i] == "'") && $style[$i-1] != "\\") {
                 if ($q == $style[$i]) {
                     $q = false;

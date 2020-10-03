@@ -212,10 +212,11 @@ function rcmail_directory_list($attrib)
 {
     global $RCMAIL, $OUTPUT;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmdirectorylist';
+    }
 
-    $out = '';
+    $out    = '';
     $jsdata = array();
 
     $line_templ = html::tag('li', array(
@@ -460,13 +461,15 @@ function rcmail_rowcount_display($attrib)
 {
     global $RCMAIL;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmcountdisplay';
+    }
 
     $RCMAIL->output->add_gui_object('countdisplay', $attrib['id']);
 
-    if ($attrib['label'])
-      $_SESSION['contactcountdisplay'] = $attrib['label'];
+    if ($attrib['label']) {
+        $_SESSION['contactcountdisplay'] = $attrib['label'];
+    }
 
     return html::span($attrib, $RCMAIL->gettext('loading'));
 }
@@ -481,18 +484,17 @@ function rcmail_get_rowcount_text($result=null)
         $result = $CONTACTS->get_result();
     }
 
-    if ($result->count == 0)
-        $out = $RCMAIL->gettext('nocontactsfound');
-    else
-        $out = $RCMAIL->gettext(array(
+    if ($result->count == 0) {
+        return $RCMAIL->gettext('nocontactsfound');
+    }
+
+    return $RCMAIL->gettext(array(
             'name'  => $_SESSION['contactcountdisplay'] ?: 'contactsfromto',
             'vars'  => array(
             'from'  => $result->first + 1,
             'to'    => min($result->count, $result->first + $PAGE_SIZE),
             'count' => $result->count)
-        ));
-
-    return $out;
+    ));
 }
 
 
@@ -500,13 +502,19 @@ function rcmail_get_type_label($type)
 {
     global $RCMAIL;
 
-    $label = 'type'.$type;
-    if ($RCMAIL->text_exists($label, '*', $domain))
+    $label = 'type' . $type;
+
+    if ($RCMAIL->text_exists($label, '*', $domain)) {
         return $RCMAIL->gettext($label, $domain);
-    else if (preg_match('/\w+(\d+)$/', $label, $m)
-            && ($label = preg_replace('/(\d+)$/', '', $label))
-            && $RCMAIL->text_exists($label, '*', $domain))
+    }
+
+    if (
+        preg_match('/\w+(\d+)$/', $label, $m)
+        && ($label = preg_replace('/(\d+)$/', '', $label))
+        && $RCMAIL->text_exists($label, '*', $domain)
+    ) {
         return $RCMAIL->gettext($label, $domain) . ' ' . $m[1];
+    }
 
     return ucfirst($type);
 }
@@ -550,19 +558,38 @@ function rcmail_contact_form($form, $record, $attrib = null)
     unset($attrib['deleteicon']);
 
     // get default coltypes
-    $coltypes = $GLOBALS['CONTACT_COLTYPES'];
+    $coltypes       = $GLOBALS['CONTACT_COLTYPES'];
     $coltype_labels = array();
+    $business_mode  = $RCMAIL->config->get('contact_form_mode') === 'business';
 
     foreach ($coltypes as $col => $prop) {
-        if ($prop['subtypes']) {
-            $subtype_names = array_map('rcmail_get_type_label', $prop['subtypes']);
-            $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype custom-select', 'title' => $prop['label'] . ' ' . $RCMAIL->gettext('type')));
+        if (!empty($prop['subtypes'])) {
+            // re-order subtypes, so 'work' is before 'home'
+            if ($business_mode) {
+                $work_opts = array_filter($prop['subtypes'], function($var) { return strpos($var, 'work') !== false; });
+                if (!empty($work_opts)) {
+                    $coltypes[$col]['subtypes'] = $prop['subtypes'] = array_merge(
+                        $work_opts,
+                        array_diff($prop['subtypes'], $work_opts)
+                    );
+                }
+            }
+
+            $subtype_names  = array_map('rcmail_get_type_label', $prop['subtypes']);
+            $select_subtype = new html_select(array(
+                    'name'  => "_subtype_{$col}[]",
+                    'class' => 'contactselectsubtype custom-select',
+                    'title' => $prop['label'] . ' ' . $RCMAIL->gettext('type')
+            ));
             $select_subtype->add($subtype_names, $prop['subtypes']);
+
             $coltypes[$col]['subtypes_select'] = $select_subtype->show();
         }
+
         if ($prop['childs']) {
-            foreach ($prop['childs'] as $childcol => $cp)
+            foreach ($prop['childs'] as $childcol => $cp) {
                 $coltype_labels[$childcol] = array('label' => $cp['label']);
+            }
         }
     }
 
@@ -572,7 +599,11 @@ function rcmail_contact_form($form, $record, $attrib = null)
             continue;
         }
 
-        $select_add = new html_select(array('class' => 'addfieldmenu', 'rel' => $section, 'data-compact' => $compact ? "true" : null));
+        $select_add = new html_select(array(
+                'class'        => 'addfieldmenu custom-select',
+                'rel'          => $section,
+                'data-compact' => $compact ? "true" : null
+        ));
         $select_add->add($RCMAIL->gettext('addfield'), '');
 
         // render head section with name fields (not a regular list of rows)
@@ -680,8 +711,10 @@ function rcmail_contact_form($form, $record, $attrib = null)
             foreach ($fieldset['content'] as $col => $colprop) {
                 // remove subtype part of col name
                 list($field, $subtype) = explode(':', $col);
-                if (!$subtype) $subtype = 'home';
-                $fullkey = $col.':'.$subtype;
+
+                if (!$subtype) {
+                    $subtype = $business_mode ? 'work' : 'home';
+                }
 
                 // skip cols unknown to the backend
                 if (!$coltypes[$field] && empty($colprop['value'])) {
@@ -697,49 +730,24 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                 // prepare subtype selector in edit mode
                 if ($edit_mode && is_array($colprop['subtypes'])) {
-                    $subtype_names = array_map('rcmail_get_type_label', $colprop['subtypes']);
-                    $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype', 'title' => $colprop['label'] . ' ' . $RCMAIL->gettext('type')));
+                    $subtype_names  = array_map('rcmail_get_type_label', $colprop['subtypes']);
+                    $select_subtype = new html_select(array(
+                            'name'  => "_subtype_{$col}[]",
+                            'class' => 'contactselectsubtype custom-select',
+                            'title' => $colprop['label'] . ' ' . $RCMAIL->gettext('type')
+                    ));
                     $select_subtype->add($subtype_names, $colprop['subtypes']);
                 }
                 else {
                     $select_subtype = null;
                 }
 
-                if (!empty($colprop['value'])) {
-                    $values = (array)$colprop['value'];
-                }
-                else {
-                    // iterate over possible subtypes and collect values with their subtype
-                    if (is_array($colprop['subtypes'])) {
-                        $values = $subtypes = array();
-                        foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
-                            foreach ((array)$vals as $value) {
-                                $i = count($values);
-                                $subtypes[$i] = $st;
-                                $values[$i] = $value;
-                            }
-                            // TODO: add $st to $select_subtype if missing ?
-                        }
-                    }
-                    else {
-                        $values   = $record[$fullkey] ?: $record[$field];
-                        $subtypes = null;
-                    }
-                }
-
-                // hack: create empty values array to force this field to be displayed
-                if (empty($values) && $colprop['visible']) {
-                    $values = array('');
-                }
-
-                if (!is_array($values)) {
-                    // $values can be an object, don't use (array)$values syntax
-                    $values = !empty($values) ? array($values) : array();
-                }
-
                 $rows = '';
+
+                list($values, $subtypes) = rcmail_contact_field_values($record, "$field:$subtype", $colprop);
+
                 foreach ($values as $i => $val) {
-                    if ($subtypes[$i]) {
+                    if (!empty($subtypes[$i])) {
                         $subtype = $subtypes[$i];
                     }
 
@@ -906,6 +914,57 @@ function rcmail_contact_form($form, $record, $attrib = null)
     return $out;
 }
 
+function rcmail_contact_field_values($record, $field_name, $colprop)
+{
+    list($field, $subtype) = explode(':', $field_name);
+
+    $subtypes = array();
+    $values   = array();
+
+    if (!empty($colprop['value'])) {
+        $values = (array) $colprop['value'];
+    }
+    else if (is_array($colprop['subtypes'])) {
+        // iterate over possible subtypes and collect values with their subtype
+        $c_values = rcube_addressbook::get_col_values($field, $record);
+
+        foreach ($colprop['subtypes'] as $st) {
+            if (isset($c_values[$st])) {
+                foreach ((array)$c_values[$st] as $value) {
+                    $i = count($values);
+                    $subtypes[$i] = $st;
+                    $values[$i]   = $value;
+                }
+
+                $c_values[$st] = null;
+            }
+        }
+
+        // TODO: add $st to $select_subtype if missing ?
+        foreach ($c_values as $st => $vals) {
+            foreach ((array)$vals as $value) {
+                $i = count($values);
+                $subtypes[$i] = $st;
+                $values[$i]   = $value;
+            }
+        }
+    }
+    else {
+        $values = isset($record[$field_name]) ? $record[$field_name] : $record[$field];
+    }
+
+    // hack: create empty values array to force this field to be displayed
+    if (empty($values) && $colprop['visible']) {
+        $values = array('');
+    }
+
+    if (!is_array($values)) {
+        // $values can be an object, don't use (array)$values syntax
+        $values = !empty($values) ? array($values) : array();
+    }
+
+    return array($values, $subtypes);
+}
 
 function rcmail_contact_photo($attrib)
 {

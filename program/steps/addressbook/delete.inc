@@ -32,7 +32,7 @@ $RCMAIL->session->remove('contact_undo');
 foreach ($cids as $source => $cid) {
     $CONTACTS = rcmail_contact_source($source);
 
-    if ($CONTACTS->readonly) {
+    if ($CONTACTS->readonly && empty($CONTACTS->deletable)) {
         // more sources? do nothing, probably we have search results from
         // more than one source, some of these sources can be readonly
         if (count($cids) == 1) {

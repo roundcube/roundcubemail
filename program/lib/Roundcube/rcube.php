@@ -210,17 +210,18 @@ class rcube
     /**
      * Initialize and get user cache object
      *
-     * @param string $name   Cache identifier
-     * @param string $type   Cache type ('db', 'apc', 'memcache', 'redis')
-     * @param string $ttl    Expiration time for cache items
-     * @param bool   $packed Enables/disables data serialization
+     * @param string $name    Cache identifier
+     * @param string $type    Cache type ('db', 'apc', 'memcache', 'redis')
+     * @param string $ttl     Expiration time for cache items
+     * @param bool   $packed  Enables/disables data serialization
+     * @param bool   $indexed Use indexed cache
      *
      * @return rcube_cache User cache object
      */
-    public function get_cache($name, $type='db', $ttl=0, $packed=true)
+    public function get_cache($name, $type = 'db', $ttl = 0, $packed = true, $indexed = false)
     {
         if (!isset($this->caches[$name]) && ($userid = $this->get_user_id())) {
-            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed);
+            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
         }
 
         return $this->caches[$name];
@@ -658,32 +659,23 @@ class rcube
 
         // load localized texts
         if (empty($this->texts) || $lang != $_SESSION['language']) {
-            $this->texts = array();
-
-            // handle empty lines after closing PHP tag in localization files
-            ob_start();
-
             // get english labels (these should be complete)
-            @include(RCUBE_LOCALIZATION_DIR . 'en_US/labels.inc');
-            @include(RCUBE_LOCALIZATION_DIR . 'en_US/messages.inc');
-
-            if (is_array($labels))
-                $this->texts = $labels;
-            if (is_array($messages))
-                $this->texts = array_merge($this->texts, $messages);
+            $files = array(
+                RCUBE_LOCALIZATION_DIR . 'en_US/labels.inc',
+                RCUBE_LOCALIZATION_DIR . 'en_US/messages.inc',
+            );
 
             // include user language files
             if ($lang != 'en' && $lang != 'en_US' && is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
-                include_once(RCUBE_LOCALIZATION_DIR . $lang . '/labels.inc');
-                include_once(RCUBE_LOCALIZATION_DIR . $lang . '/messages.inc');
-
-                if (is_array($labels))
-                    $this->texts = array_merge($this->texts, $labels);
-                if (is_array($messages))
-                    $this->texts = array_merge($this->texts, $messages);
+                $files[] = RCUBE_LOCALIZATION_DIR . $lang . '/labels.inc';
+                $files[] = RCUBE_LOCALIZATION_DIR . $lang . '/messages.inc';
             }
 
-            ob_end_clean();
+            $this->texts = array();
+
+            foreach ($files as $file) {
+                $this->texts = self::read_localization_file($file, $this->texts);
+            }
 
             $_SESSION['language'] = $lang;
         }
@@ -703,13 +695,16 @@ class rcube
      * Read localized texts from an additional location (plugins, skins).
      * Then you can use the result as 2nd arg to load_language().
      *
-     * @param string $dir Directory to search in
+     * @param string      $dir  Directory to search in
+     * @param string|null $lang Language code to read
      *
-     * @return array Localization texts
+     * @return array Localization labels/messages
      */
-    public function read_localization($dir)
+    public function read_localization($dir, $lang = null)
     {
-        $lang   = $_SESSION['language'];
+        if ($lang == null) {
+            $lang = $_SESSION['language'];
+        }
         $langs  = array_unique(array('en_US', $lang));
         $locdir = slashify($dir);
         $texts  = array();
@@ -724,17 +719,15 @@ class rcube
             'zh_CN' => 'zh_TW',
         );
 
-        // use buffering to handle empty lines/spaces after closing PHP tag
-        ob_start();
-
         foreach ($langs as $lng) {
             $fpath = $locdir . $lng . '.inc';
-            if (is_file($fpath) && is_readable($fpath)) {
-                include $fpath;
-                $texts = (array) $labels + (array) $messages + (array) $texts;
+            $_texts = self::read_localization_file($fpath);
+
+            if (!empty($_texts)) {
+                $texts = array_merge($texts, $_texts);
             }
+            // Fallback to a localization in similar language (#1488401)
             else if ($lng != 'en_US') {
-                // Find localization in similar language (#1488401)
                 $alias = null;
                 if (!empty($aliases[$lng])) {
                     $alias = $aliases[$lng];
@@ -745,15 +738,39 @@ class rcube
 
                 if (!empty($alias)) {
                     $fpath = $locdir . $alias . '.inc';
-                    if (is_file($fpath) && is_readable($fpath)) {
-                        include $fpath;
-                        $texts = (array) $labels + (array) $messages + (array) $texts;
-                    }
+                    $texts = self::read_localization_file($fpath, $texts);
                 }
             }
         }
 
-        ob_end_clean();
+        return $texts;
+    }
+
+
+    /**
+     * Load localization file
+     *
+     * @param string $file  File location
+     * @param array  $texts Additional texts to merge with
+     *
+     * @return array Localization labels/messages
+     */
+    public static function read_localization_file($file, $texts = array())
+    {
+        if (is_file($file) && is_readable($file)) {
+            // use buffering to handle empty lines/spaces after closing PHP tag
+            ob_start();
+            include $file;
+            ob_end_clean();
+
+            if (isset($labels) && is_array($labels)) {
+                $texts = array_merge($texts, $labels);
+            }
+
+            if (isset($messages) && is_array($messages)) {
+                $texts = array_merge($texts, $messages);
+            }
+        }
 
         return $texts;
     }
@@ -826,10 +843,11 @@ class rcube
                         continue;
                     }
 
-                    if ($label = $rcube_languages[$name]) {
-                        $sa_languages[$name] = $label;
+                    if (isset($rcube_languages[$name])) {
+                        $sa_languages[$name] = $rcube_languages[$name];
                     }
                 }
+
                 closedir($dh);
             }
         }
@@ -1398,9 +1416,11 @@ class rcube
     public static function log_bug($arg_arr)
     {
         $program = strtoupper($arg_arr['type'] ?: 'php');
+        $uri     = $_SERVER['REQUEST_URI'];
 
         // write error to local log file
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post_query = array();
             foreach (array('_task', '_action') as $arg) {
                 if ($_POST[$arg] && !$_GET[$arg]) {
                     $post_query[$arg] = $_POST[$arg];
@@ -1408,7 +1428,7 @@ class rcube
             }
 
             if (!empty($post_query)) {
-                $post_query = (strpos($_SERVER['REQUEST_URI'], '?') != false ? '&' : '?')
+                $uri .= (strpos($uri, '?') != false ? '&' : '?')
                     . http_build_query($post_query, '', '&');
             }
         }
@@ -1418,7 +1438,7 @@ class rcube
             $arg_arr['message'],
             $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
             $_SERVER['REQUEST_METHOD'],
-            $_SERVER['REQUEST_URI'] . $post_query);
+            $uri);
 
         if (!self::write_log('errors', $log_entry)) {
             // send error to PHPs error handler if write_log didn't succeed
@@ -1549,7 +1569,7 @@ class rcube
      */
     public function get_user_password()
     {
-        if ($this->password) {
+        if (!empty($this->password)) {
             return $this->password;
         }
         else if ($_SESSION['password']) {
@@ -1626,8 +1646,8 @@ class rcube
      * @param string       $from        Sender address string
      * @param array|string $mailto      Either a comma-separated list of recipients (RFC822 compliant),
      *                                  or an array of recipients, each RFC822 valid
-     * @param array        &$error      SMTP error array (reference)
-     * @param string       &$body_file  Location of file with saved message body (reference),
+     * @param array|string &$error      SMTP error array or (deprecated) string
+     * @param string       &$body_file  Location of file with saved message body,
      *                                  used when delay_file_io is enabled
      * @param array        $options     SMTP options (e.g. DSN request)
      * @param bool         $disconnect  Close SMTP connection ASAP

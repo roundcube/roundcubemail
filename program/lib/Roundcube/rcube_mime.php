@@ -117,19 +117,25 @@ class rcube_mime
                 $out[$j] = $address;
             }
             else {
-                $name = trim($val['name']);
-                if ($name && $address && $name != $address)
+                $name   = trim($val['name']);
+                $string = '';
+
+                if ($name && $address && $name != $address) {
                     $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
-                else if ($address)
+                }
+                else if ($address) {
                     $string = $address;
-                else if ($name)
+                }
+                else if ($name) {
                     $string = $name;
+                }
 
                 $out[$j] = array('name' => $name, 'mailto' => $address, 'string' => $string);
             }
 
-            if ($max && $j==$max)
+            if ($max && $j == $max) {
                 break;
+            }
         }
 
         return $out;
@@ -815,6 +821,11 @@ class rcube_mime
             $file_paths[] = '/usr/local/etc/apache24/mime.types';
         }
 
+        $mime_types      = array();
+        $mime_extensions = array();
+        $lines = array();
+        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
+
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {
                 $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -822,17 +833,17 @@ class rcube_mime
             }
         }
 
-        $mime_types = $mime_extensions = array();
-        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
-        foreach ((array)$lines as $line) {
+        foreach ($lines as $line) {
              // skip comments or mime types w/o any extensions
-            if ($line[0] == '#' || !preg_match($regex, $line, $matches))
+            if ($line[0] == '#' || !preg_match($regex, $line, $matches)) {
                 continue;
+            }
 
             $mime = $matches[1];
+
             foreach (explode(' ', $matches[2]) as $ext) {
                 $ext = trim($ext);
-                $mime_types[$mime][] = $ext;
+                $mime_types[$mime][]   = $ext;
                 $mime_extensions[$ext] = $mime;
             }
         }

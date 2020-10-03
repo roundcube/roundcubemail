@@ -33,6 +33,8 @@ if (($_GET['_iid'] || $_POST['_iid']) && $RCMAIL->action=='edit-identity') {
         $RCMAIL->overwrite_action('identities');
         return;
     }
+    $OUTPUT->set_env('mailvelope_main_keyring', $RCMAIL->config->get('mailvelope_main_keyring'));
+    $OUTPUT->set_env('mailvelope_keysize', $RCMAIL->config->get('mailvelope_keysize'));
 }
 // add-identity
 else {

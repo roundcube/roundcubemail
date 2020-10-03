@@ -59,6 +59,9 @@ class rcube_image
      */
     public function props()
     {
+        $gd_type  = null;
+        $channels = null;
+
         // use GD extension
         if (function_exists('getimagesize') && ($imsize = @getimagesize($this->image_file))) {
             $width   = $imsize[0];
@@ -69,12 +72,12 @@ class rcube_image
         }
 
         // use ImageMagick
-        if (!$type && ($data = $this->identify())) {
+        if (empty($type) && ($data = $this->identify())) {
             list($type, $width, $height) = $data;
             $channels = null;
         }
 
-        if ($type) {
+        if (!empty($type)) {
             return array(
                 'type'    => $type,
                 'gd_type' => $gd_type,

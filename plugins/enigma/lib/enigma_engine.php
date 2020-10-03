@@ -213,7 +213,9 @@ class enigma_engine
         // replace message body
         if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
             $message->setTXTBody($body);
-            $message->setParam('text_charset', $text_charset);
+            if (!empty($text_charset)) {
+                $message->setParam('text_charset', $text_charset);
+            }
         }
         else {
             $mime->addPGPSignature($body, $this->pgp_driver->signature_algorithm());
@@ -236,6 +238,9 @@ class enigma_engine
 
         // always use sender's key
         $from = $mime->getFromAddress();
+
+        $sign_key = null;
+        $keys     = array();
 
         // check senders key for signing
         if ($mode & self::ENCRYPT_MODE_SIGN) {
@@ -1189,7 +1194,7 @@ class enigma_engine
             }
         }
 
-        if ($modified) {
+        if (!empty($modified)) {
             $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
         }
 
@@ -1221,7 +1226,7 @@ class enigma_engine
             $body    = $storage->get_message_part($msg->uid, $part->mime_id, $part,
                 null, null, true, 0, false);
 
-            if ($reset) {
+            if (!empty($reset)) {
                 $part->size = 0;
             }
         }
@@ -1403,6 +1408,16 @@ class enigma_engine
         }
 
         return true;
+    }
+
+    /**
+     * Check if specified driver feature is supported
+     */
+    public function is_supported($feature)
+    {
+        $this->load_pgp_driver();
+
+        return in_array($feature, $this->pgp_driver->capabilities());
     }
 
     /**

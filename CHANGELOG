@@ -1,6 +1,17 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Require PHP >= 5.5
+- Automatically collected recipients and trusted senders (#6904)
+    - Added configurable Collected Recipients addressbook source (#4971)
+    - Added configurable Trusted Senders addressbook source (#5046)
+    - Added 'contact_exists' hook
+- Contact form mode: private/business (#7630)
+- OAuth/XOauth support (#7425, #6933)
+- Cache refactoring (#6312)
+- Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
+- Upgrade to TinyMCE 5.4.1
+- Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
@@ -11,29 +22,79 @@ CHANGELOG Roundcube Webmail
 - Added support for INSERT OR REPLACE queries (#6771)
 - Allow skins to define which layout options they support (#7235)
 - Extract RFC2231 attachment name from message headers (#6729, #6783)
+- Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
+- Change folders sorting so shared/other users namespaces are listed last (#5012)
+- Display a warning and do not try to open empty attachments (#7332)
+- Plugin API: Added 'message' argument to 'message_compose_body' hook
+- Elastic: Dark mode (#6709)
+- Elastic: Minimize forms/colors blink on page load
+- Elastic: Improve mail header "detailed mode" (#7224)
+- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
+- Elastic: Display a special icon for other users and shared namespace roots (#5012)
+- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
+- Elastic: Remember list checkbox selection state (#7148)
+- Templates: Add support for expressions in object attributes (#7237)
+- Templates: Add support for nested if conditions (#6818)
+- Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Mailvelope: Fix size of iframe for PGP-inlined mail (#7348)
+- Mailvelope: Add config option to use Main Keyring (#7348)
+- Mailvelope: Add config option to set the size for new keys (#7348)
+- Mailvelope: Always ask before discarding email currently being composed (#7348)
+- Mailvelope: Fix unnecessary warning to re-add attachments when restoring a draft (#7348)
 - Archive: Added options to split archive by year or year+month and folder (#7216)
+- Enigma: Support ECC key generation - when using GnuPG >= 2.1.7 (#6853)
+- Managesieve: Add support for 'spamtest' extension - RFC3685 (#6950)
 - Managesieve: Allow display name with email address in vacation :from field (#6760)
 - Managesieve: Improve UX on custom header input (#7207)
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
-- Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
-- Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
-- Elastic: Display a special icon for other users and shared namespace roots (#5012)
-- Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
-- Change folders sorting so shared/other users namespaces are listed last (#5012)
-- Display a warning and do not try to open empty attachments (#7332)
-- Templates: Add support for expressions in object attributes (#7237)
-- Templates: Add support for nested if conditions (#6818)
-- Templates: Make [space][slash] ending of condition objects optional (#6954)
+- Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+
+RELEASE 1.4.9
+-------------
+- Fix HTML editor in latest Chrome 85.0.4183.102, update to TinyMCE 4.9.11 (#7615)
+- Add missing localization for some label/legend elements in userinfo plugin (#7478)
+- Fix importing birthday dates from Gmail vCards (BDAY:YYYYMMDD)
+- Fix restoring Cc/Bcc fields from local storage (#7554)
+- Fix jstz.min.js installation, bump version to 1.0.7
+- Fix link to closure compiler in bin/jsshrink.sh script (#7567)
+- Fix incorrect PDO::lastInsertId() use in sqlsrv driver (#7564)
+- Fix bug where some parts of a message could have been missing in a reply/forward body (#7568)
+- Fix empty space on mail printouts in Chrome (#7604)
+- Fix empty output from HTML5 parser when content contains XML tag (#7624)
+- Fix scroll jump on key press in plain text mode of the HTML editor (#7622)
+- Fix so autocompletion list does not hide on scroll inside it (#7592)
+
+RELEASE 1.4.8
+-------------
+- Fix support for an error as a string in message_before_send hook (#7475)
+- Elastic: Fix redundant scrollbar in plain text editor on mail reply (#7500)
+- Elastic: Fix deleted and replied+forwarded icons on messages list (#7503)
+- Managesieve: Fix too-small input field in Elastic when using custom headers (#7498)
+- Managesieve: Allow angle brackets in out-of-office message body (#7518)
+- Fix bug in conversion of email addresses to mailto links in plain text messages (#7526)
+- Fix format=flowed formatting on plain text part derived from the HTML content (#7504)
+- Fix incorrect rewriting of internal links in HTML content (#7512)
+- Fix handling links without defined protocol (#7454)
+- Fix paging of search results on IMAP servers with no SORT capability (#7462)
+- Fix detecting special folders on servers with both SPECIAL-USE and LIST-STATUS (#7525)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg content [CVE-2020-16145]
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious math content
+- Security: Fix potential XSS issue in HTML editor of the identity signature input (#7507)
+
+RELEASE 1.4.7
+-------------
 - Fix bug where subfolders of special folders could have been duplicated on folder list
 - Increase maximum size of contact jobtitle and department fields to 128 characters
 - Fix missing newline after the logged line when writing to stdout (#7418)
 - Elastic: Fix context menu (paste) on the recipient input (#7431)
 - Fix problem with forwarding inline images attached to messages with no HTML part (#7414)
+- Fix problem with handling attached images with same name when using database_attachments/redundant_attachments (#7455)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious svg/namespace [CVE-2020-15562]
 
 RELEASE 1.4.6
 -------------

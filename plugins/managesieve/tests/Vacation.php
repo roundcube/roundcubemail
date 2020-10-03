@@ -40,6 +40,7 @@ class Managesieve_Vacation extends PHPUnit\Framework\TestCase
 
     function test_build_regexp_tests()
     {
+        $error = null;
         $tests = $this->invokePrivateMethod('build_regexp_tests', array('2014-02-20', '2014-03-05', &$error));
 
         $this->assertCount(2, $tests);

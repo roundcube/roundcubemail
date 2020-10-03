@@ -55,6 +55,9 @@ class rcube_text2html
         'nobr_end'   => '</span>',
     );
 
+    /** @var bool Internal state */
+    protected $_converted = false;
+
 
     /**
      * Constructor.
@@ -156,11 +159,12 @@ class rcube_text2html
         $text        = preg_split('/\r?\n/', $text);
         $quote_level = 0;
         $last        = null;
+        $length      = 0;
 
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $flowed = false;
-            if ($this->config['flowed'] && ord($text[$n][0]) == $flowed_char) {
+            if (isset($flowed_char) && ord($text[$n][0]) == $flowed_char) {
                 $flowed   = true;
                 $text[$n] = substr($text[$n], 1);
             }
@@ -233,7 +237,7 @@ class rcube_text2html
         $sig_sep       = "--" . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($text, $sig_sep, $sp ? -$len+$sp-1 : 0)) !== false) {
+        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len+$sp-1 : 0)) !== false) {
             if ($sp == 0 || $text[$sp-1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
