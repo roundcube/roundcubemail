@@ -272,12 +272,12 @@ function rcmail_folder_subscriptions($attrib)
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
-        $sub_key    = array_search($folder['id'], $a_subscribed);
-        $subscribed = $sub_key !== false;
-        $is_special = isset($special_folders[$folder['id']]);
-        $protected  = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
-        $noselect   = false;
-        $classes    = array();
+        $sub_key       = array_search($folder['id'], $a_subscribed);
+        $is_subscribed = $sub_key !== false;
+        $is_special    = isset($special_folders[$folder['id']]);
+        $protected     = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
+        $noselect      = false;
+        $classes       = array();
 
         $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
         $display_folder = rcube::Q($is_special ? $RCMAIL->localize_foldername($folder['id'], false, true) : $folder['name']);
@@ -292,13 +292,13 @@ function rcmail_folder_subscriptions($attrib)
             $noselect = in_array_nocase('\\Noselect', $attrs);
         }
 
-        $disabled = (($protected && $subscribed) || $noselect);
+        $disabled = (($protected && $is_subscribed) || $noselect);
 
         // Below we will disable subscription option for "virtual" folders
         // according to namespaces, but only if they aren't already subscribed.
         // User should be able to unsubscribe from the folder
         // even if it doesn't exists or is not accessible (OTRS:1000059)
-        if (!$subscribed && !$disabled && !empty($namespace) && $folder['virtual']) {
+        if (!$is_subscribed && !$disabled && !empty($namespace) && $folder['virtual']) {
             // check if the folder is a namespace prefix, then disable subscription option on it
             if (!$disabled && $folder['level'] == 0) {
                 $fname = $folder['id'] . $delimiter;
@@ -350,11 +350,11 @@ function rcmail_folder_subscriptions($attrib)
             'display'     => $display_folder,
             'protected'   => $protected || $folder['virtual'],
             'class'       => join(' ', $classes),
-            'subscribed'  => $subscribed,
+            'subscribed'  => $is_subscribed,
             'level'       => $folder['level'],
             'collapsed'   => $is_collapsed,
             'content'     => html::a(array('href' => '#'), $display_folder)
-                . $checkbox_subscribe->show(($subscribed ? $folder['id'] : ''),
+                . $checkbox_subscribe->show(($is_subscribed ? $folder['id'] : ''),
                     array('value' => $folder['id'], 'disabled' => $disabled ? 'disabled' : ''))
         );
     }
