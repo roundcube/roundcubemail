@@ -275,7 +275,7 @@ function rcmail_folder_subscriptions($attrib)
         $sub_key       = array_search($folder['id'], $a_subscribed);
         $is_subscribed = $sub_key !== false;
         $is_special    = isset($special_folders[$folder['id']]);
-        $protected     = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
+        $is_protected  = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
         $noselect      = false;
         $classes       = array();
 
@@ -287,12 +287,12 @@ function rcmail_folder_subscriptions($attrib)
         }
 
         // Check \Noselect flag (of existing folder)
-        if (!$protected && in_array($folder['id'], $a_unsubscribed)) {
+        if (!$is_protected && in_array($folder['id'], $a_unsubscribed)) {
             $attrs = $STORAGE->folder_attributes($folder['id']);
             $noselect = in_array_nocase('\\Noselect', $attrs);
         }
 
-        $disabled = (($protected && $is_subscribed) || $noselect);
+        $disabled = (($is_protected && $is_subscribed) || $noselect);
 
         // Below we will disable subscription option for "virtual" folders
         // according to namespaces, but only if they aren't already subscribed.
@@ -348,7 +348,7 @@ function rcmail_folder_subscriptions($attrib)
             'folder_imap' => $folder['id'],
             'folder'      => $folder_utf8,
             'display'     => $display_folder,
-            'protected'   => $protected || $folder['virtual'],
+            'protected'   => $is_protected || $folder['virtual'],
             'class'       => join(' ', $classes),
             'subscribed'  => $is_subscribed,
             'level'       => $folder['level'],
