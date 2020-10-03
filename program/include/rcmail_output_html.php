@@ -1665,8 +1665,9 @@ EOF;
             $attrib['role'] = 'button';
         }
         if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
-            if (array_key_exists('tabindex', $attrib))
+            if (array_key_exists('tabindex', $attrib)) {
                 $attrib['data-tabindex'] = $attrib['tabindex'];
+            }
             $attrib['tabindex'] = '-1';  // disable button by default
             $attrib['aria-disabled'] = 'true';
         }

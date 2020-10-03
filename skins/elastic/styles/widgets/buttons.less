@@ -139,6 +139,9 @@ button.btn {
     &.sso:before {
         content: @fa-var-sign-in-alt;
     }
+    &.extwin:before {
+        content: @fa-var-external-link-square-alt;
+    }
 }
 
 a.btn,
@@ -234,6 +237,10 @@ html.touch {
     &:focus {
         box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 30%);
     }
+}
+
+.btn-link {
+    color: @color-link;
 }
 
 .btn-secondary {
