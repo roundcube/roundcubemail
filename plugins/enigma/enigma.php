@@ -242,13 +242,11 @@ class enigma extends rcube_plugin
      */
     function preferences_list($p)
     {
-        if ($p['section'] != 'enigma') {
+        if ($p['section'] != 'encryption') {
             return $p;
         }
 
         $no_override = array_flip((array)$this->rc->config->get('dont_override'));
-
-        $p['blocks']['main']['name'] = $this->gettext('mainoptions');
 
         if (!isset($no_override['enigma_encryption'])) {
             if (!$p['current']) {
@@ -398,7 +396,7 @@ class enigma extends rcube_plugin
      */
     function preferences_save($p)
     {
-        if ($p['section'] == 'enigma') {
+        if ($p['section'] == 'encryption') {
             $p['prefs'] = array(
                 'enigma_signatures'    => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
                 'enigma_decryption'    => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
