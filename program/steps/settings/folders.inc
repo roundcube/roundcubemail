@@ -275,7 +275,7 @@ function rcmail_folder_subscriptions($attrib)
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
         $is_special    = isset($special_folders[$folder['id']]);
-        $protected  = $folder['id'] == 'INBOX' || ($protect_default && $special);
+        $protected  = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
         $noselect   = false;
         $classes    = array();
 
