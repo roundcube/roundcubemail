@@ -224,7 +224,7 @@ function rcmail_folder_subscriptions($attrib)
         $folder        = $STORAGE->mod_folder($folder);
         $foldersplit   = explode($delimiter, $folder);
         $name          = rcube_charset::convert(array_pop($foldersplit), 'UTF7-IMAP');
-        $special       = $folder_id == 'INBOX' || isset($special_folders[$folder_id]);
+        $special       = isset($special_folders[$folder_id]);
         $parent_folder = $special ? '' : join($delimiter, $foldersplit);
         $level         = $special ? 0 : count($foldersplit);
 
@@ -274,7 +274,7 @@ function rcmail_folder_subscriptions($attrib)
     foreach ($list_folders as $i => $folder) {
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
-        $special    = $folder['id'] == 'INBOX' || isset($special_folders[$folder['id']]);
+        $special    = isset($special_folders[$folder['id']]);
         $protected  = $folder['id'] == 'INBOX' || ($protect_default && $special);
         $noselect   = false;
         $classes    = array();
