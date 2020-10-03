@@ -292,21 +292,21 @@ function rcmail_folder_subscriptions($attrib)
             $noselect = in_array_nocase('\\Noselect', $attrs);
         }
 
-        $disabled = (($is_protected && $is_subscribed) || $noselect);
+        $is_disabled = (($is_protected && $is_subscribed) || $noselect);
 
         // Below we will disable subscription option for "virtual" folders
         // according to namespaces, but only if they aren't already subscribed.
         // User should be able to unsubscribe from the folder
         // even if it doesn't exists or is not accessible (OTRS:1000059)
-        if (!$is_subscribed && !$disabled && !empty($namespace) && $folder['virtual']) {
+        if (!$is_subscribed && !$is_disabled && !empty($namespace) && $folder['virtual']) {
             // check if the folder is a namespace prefix, then disable subscription option on it
-            if (!$disabled && $folder['level'] == 0) {
+            if (!$is_disabled && $folder['level'] == 0) {
                 $fname = $folder['id'] . $delimiter;
                 foreach ($namespace as $ns) {
                     if (is_array($ns)) {
                         foreach ($ns as $item) {
                             if ($item[0] === $fname) {
-                                $disabled = true;
+                                $is_disabled = true;
                                 break 2;
                             }
                         }
@@ -314,22 +314,22 @@ function rcmail_folder_subscriptions($attrib)
                 }
             }
             // check if the folder is an other users virtual-root folder, then disable subscription option on it
-            if (!$disabled && $folder['level'] == 1 && !empty($namespace['other'])) {
+            if (!$is_disabled && $folder['level'] == 1 && !empty($namespace['other'])) {
                 $parts = explode($delimiter, $folder['id']);
                 $fname = $parts[0] . $delimiter;
                 foreach ($namespace['other'] as $item) {
                     if ($item[0] === $fname) {
-                        $disabled = true;
+                        $is_disabled = true;
                         break;
                     }
                 }
             }
             // check if the folder is shared, then disable subscription option on it (if not subscribed already)
-            if (!$disabled) {
+            if (!$is_disabled) {
                 $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
                 foreach ($tmp_ns as $item) {
                     if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
-                        $disabled = true;
+                        $is_disabled = true;
                         break;
                     }
                 }
@@ -355,7 +355,7 @@ function rcmail_folder_subscriptions($attrib)
             'collapsed'   => $is_collapsed,
             'content'     => html::a(array('href' => '#'), $display_folder)
                 . $checkbox_subscribe->show(($is_subscribed ? $folder['id'] : ''),
-                    array('value' => $folder['id'], 'disabled' => $disabled ? 'disabled' : ''))
+                    array('value' => $folder['id'], 'disabled' => $is_disabled ? 'disabled' : ''))
         );
     }
 
