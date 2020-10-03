@@ -657,6 +657,10 @@ $labels['encryptioncreatekey'] = 'Create a new key pair';
 $labels['openmailvelopesettings'] = 'Open Mailvelope Settings';
 $labels['encryptionprivkeysinmailvelope'] = 'You have $nr matching private keys stored in your Mailvelope keyring:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'This sender identity doesn\'t yet have a PGP private key stored in your Mailvelope extension. Would you like to create one in order to enable encrypted messaging?';
+$labels['encryption'] = 'Encryption';
+$labels['mailvelopeoptions'] = 'Mailvelope options';
+$labels['mailvelopemainkeyring'] = 'Use Mailvelope main keyring';
+$labels['mailvelopenotfound'] = 'Mailvelope extension is not enabled/installed in your browser.';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';

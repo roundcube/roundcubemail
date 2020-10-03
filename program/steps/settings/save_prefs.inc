@@ -135,6 +135,13 @@ case 'folders':
     };
 
     break;
+
+case 'encryption':
+    $a_user_prefs = array(
+        'mailvelope_main_keyring' => isset($_POST['_mailvelope_main_keyring']),
+    );
+
+    break;
 }
 
 $plugin = rcmail::get_instance()->plugins->exec_hook('preferences_save',

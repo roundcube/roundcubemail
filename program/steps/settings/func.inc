@@ -145,6 +145,7 @@ function rcmail_user_prefs($current = null)
     $sections['addressbook'] = array('id' => 'addressbook','section' => $RCMAIL->gettext('contacts'));
     $sections['folders']     = array('id' => 'folders', 'section' => $RCMAIL->gettext('specialfolders'));
     $sections['server']      = array('id' => 'server',  'section' => $RCMAIL->gettext('serversettings'));
+    $sections['encryption']  = array('id' => 'encryption', 'section' => $RCMAIL->gettext('encryption'));
 
     // hook + define list cols
     $plugin = $RCMAIL->plugins->exec_hook('preferences_sections_list',
@@ -1331,6 +1332,43 @@ function rcmail_user_prefs($current = null)
                     'content' => $input->show($config['logout_expunge']?1:0),
                 );
             }
+
+            break;
+
+        // Server settings
+        case 'encryption':
+            $blocks = array(
+                'main'       => array('name' => rcube::Q($RCMAIL->gettext('mainoptions'))),
+                'mailvelope' => array('name' => rcube::Q($RCMAIL->gettext('mailvelopeoptions'))),
+                'advanced'   => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
+            );
+
+            if (!isset($no_override['mailvelope_main_keyring'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_mailvelope_main_keyring';
+                $input    = new html_checkbox(array('name' => '_mailvelope_main_keyring', 'id' => $field_id, 'value' => 1));
+
+                $blocks['mailvelope']['options']['mailvelope_status'] = array(
+                    'content' => html::div(
+                        array('style' => 'display:none', 'class' => 'boxwarning', 'id' => 'mailvelope-warning'),
+                        str_replace(
+                            'Mailvelope', '<a href="https://www.mailvelope.com" target="_blank">Mailvelope</a>',
+                            rcube::Q($RCMAIL->gettext('mailvelopenotfound'))
+                        )
+                        . html::script([], "if (!parent.mailvelope) \$('#mailvelope-warning').show()")
+                    )
+                );
+
+                $blocks['mailvelope']['options']['mailvelope_main_keyring'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('mailvelopemainkeyring'))),
+                    'content' => $input->show(!empty($config['mailvelope_main_keyring']) ? 1 : 0),
+                );
+            }
+
+            break;
         }
 
         $found = false;
@@ -1362,10 +1400,12 @@ function rcmail_user_prefs($current = null)
             $data['blocks']['advanced'] = $adv;
         }
 
-        if (!$found)
+        if (!$found) {
             unset($sections[$idx]);
-        else
+        }
+        else {
             $sections[$idx]['blocks'] = $data['blocks'];
+        }
 
         // allow plugins to add a header to each section
         $data = $RCMAIL->plugins->exec_hook('preferences_section_header',
