@@ -505,9 +505,10 @@ $config['support_url'] = '';
 */
 $config['skin_logo'] = null;
 
-// automatically create a new Roundcube user when log-in the first time.
-// a new user will be created once the IMAP login succeeds.
-// set to false if only registered users can use this service
+// Automatically register user in Roundcube database on successful (IMAP) logon.
+// Set to false if only registered users should be allowed to the webmail.
+// Note: If disabled you have to create records in Roundcube users table by yourself.
+// Note: Roundcube does not manage/create users on a mail server.
 $config['auto_create_user'] = true;
 
 // Enables possibility to log in using email address from user identities
