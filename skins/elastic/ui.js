@@ -540,6 +540,10 @@ function rcube_elastic_ui()
                 // Enable checkbox selection on list widgets
                 rcmail[list].enable_checkbox_selection();
 
+                if (get_pref('list-selection-' + table.attr('id')) === true) {
+                    table.addClass('withselection');
+                }
+
                 // Add Select button to the list navigation bar
                 if (!button) {
                     button = $('<a>').attr({'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select')})
@@ -1499,7 +1503,10 @@ function rcube_elastic_ui()
     function toggle_list_selection(obj, list_id)
     {
         if ($(obj).is('.active')) {
-            $('#' + list_id).toggleClass('withselection');
+            set_pref(
+                'list-selection-' + list_id,
+                $('#' + list_id).toggleClass('withselection').is('.withselection')
+            );
         }
     };
 
@@ -2721,7 +2728,7 @@ function rcube_elastic_ui()
 
         if (toggle) {
             // save new pref
-            save_pref(key, show);
+            set_pref(key, show);
         }
     };
 
@@ -4095,7 +4102,7 @@ function rcube_elastic_ui()
                         splitter.removeClass('active');
 
                         // Save the current position (width)
-                        save_pref(key, node.width());
+                        set_pref(key, node.width());
                     });
             });
 
@@ -4202,7 +4209,7 @@ function rcube_elastic_ui()
     /**
      * Saves preference value to browser storage
      */
-    function save_pref(key, val)
+    function set_pref(key, val)
     {
         prefs[key] = val;
 

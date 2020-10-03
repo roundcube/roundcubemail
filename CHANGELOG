@@ -32,6 +32,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
 - Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
+- Elastic: Remember list checkbox selection state (#7148)
 - Templates: Add support for expressions in object attributes (#7237)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
