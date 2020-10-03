@@ -186,7 +186,7 @@ function rcube_elastic_ui()
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
-        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).children().each(function() {
+        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).find('button').each(function() {
             var target = $(this);
 
             // skip non-content buttons
