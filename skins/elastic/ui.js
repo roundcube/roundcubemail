@@ -540,7 +540,7 @@ function rcube_elastic_ui()
                 // Enable checkbox selection on list widgets
                 rcmail[list].enable_checkbox_selection();
 
-                if (get_pref('list-selection-' + table.attr('id')) === true) {
+                if (get_pref('list-selection') === true) {
                     table.addClass('withselection');
                 }
 
@@ -1504,7 +1504,7 @@ function rcube_elastic_ui()
     {
         if ($(obj).is('.active')) {
             set_pref(
-                'list-selection-' + list_id,
+                'list-selection',
                 $('#' + list_id).toggleClass('withselection').is('.withselection')
             );
         }
