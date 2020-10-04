@@ -1244,11 +1244,22 @@ class rcmail extends rcube
             return false;
         }
 
-        // TODO: Consider using all writeable addressbooks by default
-        // TODO: Support TYPE_DEFAULT, TYPE_WRITEABLE, TYPE_READONLY filter
+        // TODO: Support TYPE_READONLY filter
+        $sources = [];
 
-        if ($default = $this->get_address_book(rcube_addressbook::TYPE_DEFAULT, true)) {
-            $sources = array($this->get_address_book_id($default));
+        if ($type & rcube_addressbook::TYPE_WRITEABLE) {
+            foreach ($this->get_address_sources(true, true) as $book) {
+                $sources[] = $book['id'];
+            }
+        }
+
+        if ($type & rcube_addressbook::TYPE_DEFAULT) {
+            if ($default = $this->get_address_book(rcube_addressbook::TYPE_DEFAULT, true)) {
+                $book_id = $this->get_address_book_id($default);
+                if (!in_array($book_id, $sources)) {
+                    $sources[] = $book_id;
+                }
+            }
         }
 
         if ($type & rcube_addressbook::TYPE_RECIPIENT) {

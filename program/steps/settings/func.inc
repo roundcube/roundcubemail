@@ -595,7 +595,8 @@ function rcmail_user_prefs($current = null)
                 ));
 
                 $input->add($RCMAIL->gettext('never'), 0);
-                $input->add($RCMAIL->gettext('fromknownsenders'), 1);
+                $input->add($RCMAIL->gettext('frommycontacts'), 3);
+                $input->add($RCMAIL->gettext('fromtrustedsenders'), 1);
                 $input->add($RCMAIL->gettext('always'), 2);
 
                 $blocks['main']['options']['show_images'] = array(

@@ -6,6 +6,8 @@ CHANGELOG Roundcube Webmail
     - Added configurable Collected Recipients addressbook source (#4971)
     - Added configurable Trusted Senders addressbook source (#5046)
     - Added 'contact_exists' hook
+    - In "Allow remote resources" rename "from known senders" to "from my contacts" (#7614)
+    - In "Allow remote resources" add option "from trusted senders" (#7614)
 - Contact form mode: private/business (#7630)
 - OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)

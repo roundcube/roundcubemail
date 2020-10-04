@@ -797,9 +797,15 @@ function rcmail_check_safe($message)
         && $message->has_html_part()
     ) {
         switch ($show_images) {
-        case 1: // known senders only
+        case 1: // all my contacts
+        case 3: // trusted senders only
             if (!empty($message->sender['mailto'])) {
-                $type = rcube_addressbook::TYPE_DEFAULT | rcube_addressbook::TYPE_TRUSTED_SENDER;
+                $type = rcube_addressbook::TYPE_TRUSTED_SENDER;
+
+                if ($show_images == 1) {
+                    $type |= rcube_addressbook::TYPE_RECIPIENT | rcube_addressbook::TYPE_WRITEABLE;
+                }
+
                 if ($RCMAIL->contact_exists($message->sender['mailto'], $type)) {
                     $message->set_safe(true);
                 }
