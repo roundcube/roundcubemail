@@ -623,7 +623,14 @@ function rcube_treelist_widget(node, p)
             // append all elements like links and inputs, but not sub-trees
             .append(li.children(':not(div.treetoggle,ul)').clone(true, true))
             .appendTo(container);
-            hits.push(node.id);
+          
+          // let skins to do their magic, e.g. Elastic will fix pretty checkbox
+          rcmail.triggerEvent('clonerow', {
+            id: node.id,
+            row: sli.get(0)
+          });
+
+          hits.push(node.id);
         }
 
         if (node.children && node.children.length) {
