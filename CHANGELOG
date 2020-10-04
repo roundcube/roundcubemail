@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
+- Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
 - Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)

@@ -456,25 +456,6 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['mdn_requests'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_mdn_requests';
-                $select   = new html_select(array('name' => '_mdn_requests', 'id' => $field_id, 'class' => 'custom-select'));
-                $select->add($RCMAIL->gettext('askuser'), 0);
-                $select->add($RCMAIL->gettext('autosend'), 1);
-                $select->add($RCMAIL->gettext('autosendknown'), 3);
-                $select->add($RCMAIL->gettext('autosendknownignore'), 4);
-                $select->add($RCMAIL->gettext('ignorerequest'), 2);
-
-                $blocks['main']['options']['mdn_requests'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('mdnrequests'))),
-                    'content' => $select->show($config['mdn_requests']),
-                );
-            }
-
             if (!isset($no_override['autoexpand_threads'])) {
                 if (!$current) {
                     continue 2;
@@ -526,6 +507,7 @@ function rcmail_user_prefs($current = null)
                     'content' => $input->show($config['check_all_folders']?1:0),
                 );
             }
+
         break;
 
         // Message viewing
@@ -619,6 +601,25 @@ function rcmail_user_prefs($current = null)
                 $blocks['main']['options']['show_images'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('allowremoteresources'))),
                     'content' => $input->show($config['prefer_html'] ? $config['show_images'] : 0),
+                );
+            }
+
+            if (!isset($no_override['mdn_requests'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_mdn_requests';
+                $select   = new html_select(array('name' => '_mdn_requests', 'id' => $field_id, 'class' => 'custom-select'));
+                $select->add($RCMAIL->gettext('askuser'), 0);
+                $select->add($RCMAIL->gettext('autosend'), 1);
+                $select->add($RCMAIL->gettext('autosendknown'), 3);
+                $select->add($RCMAIL->gettext('autosendknownignore'), 4);
+                $select->add($RCMAIL->gettext('ignorerequest'), 2);
+
+                $blocks['main']['options']['mdn_requests'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('mdnrequests'))),
+                    'content' => $select->show($config['mdn_requests']),
                 );
             }
 
