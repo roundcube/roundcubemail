@@ -1232,10 +1232,11 @@ $config['timezone'] = 'auto';
 // prefer displaying HTML messages
 $config['prefer_html'] = true;
 
-// display remote resources (inline images, styles)
+// Display remote resources (inline images, styles) in HTML messages
 // 0 - Never, always ask
-// 1 - Ask if sender is not in address book
+// 1 - Allow from my contacts (all writeable addressbooks + collected senders and recipients)
 // 2 - Always allow
+// 3 - Allow from trusted senders
 $config['show_images'] = 0;
 
 // open messages in new window
