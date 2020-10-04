@@ -50,7 +50,6 @@ case 'mailbox':
         'layout'               => rcmail_prefs_input('layout', '/^[a-z]+$/'),
         'mail_read_time'       => intval($_POST['_mail_read_time']),
         'autoexpand_threads'   => intval($_POST['_autoexpand_threads']),
-        'mdn_requests'         => intval($_POST['_mdn_requests']),
         'check_all_folders'    => isset($_POST['_check_all_folders']),
         'mail_pagesize'        => max(2, intval($_POST['_mail_pagesize'])),
     );
@@ -59,12 +58,13 @@ case 'mailbox':
 
 case 'mailview':
     $a_user_prefs = array(
-        'message_extwin'  => intval($_POST['_message_extwin']),
+        'message_extwin'     => intval($_POST['_message_extwin']),
         'message_show_email' => isset($_POST['_message_show_email']),
-        'prefer_html'     => isset($_POST['_prefer_html']),
-        'inline_images'   => isset($_POST['_inline_images']),
-        'show_images'     => intval($_POST['_show_images']),
-        'default_charset' => rcmail_prefs_input('default_charset', '/^[a-zA-Z0-9-]+$/'),
+        'prefer_html'        => isset($_POST['_prefer_html']),
+        'inline_images'      => isset($_POST['_inline_images']),
+        'show_images'        => intval($_POST['_show_images']),
+        'mdn_requests'       => intval($_POST['_mdn_requests']),
+        'default_charset'    => rcmail_prefs_input('default_charset', '/^[a-zA-Z0-9-]+$/'),
     );
 
     break;
