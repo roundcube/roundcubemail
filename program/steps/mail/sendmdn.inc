@@ -41,4 +41,14 @@ else {
     $OUTPUT->show_message('errorsendingreceipt', 'error');
 }
 
+// Redirect to 'addcontact' action to save the sender address
+if (!empty($_POST['_save'])) {
+    if ($_POST['_save'] == 5) {
+        $_POST['_source'] = rcube_addressbook::TYPE_TRUSTED_SENDER;
+    }
+
+    $RCMAIL->action = 'addcontact';
+    return;
+}
+
 $OUTPUT->send();
