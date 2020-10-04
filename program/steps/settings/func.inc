@@ -616,6 +616,8 @@ function rcmail_user_prefs($current = null)
                 $select->add($RCMAIL->gettext('autosend'), 1);
                 $select->add($RCMAIL->gettext('autosendknown'), 3);
                 $select->add($RCMAIL->gettext('autosendknownignore'), 4);
+                $select->add($RCMAIL->gettext('autosendtrusted'), 5);
+                $select->add($RCMAIL->gettext('autosendtrustedignore'), 6);
                 $select->add($RCMAIL->gettext('ignorerequest'), 2);
 
                 $blocks['main']['options']['mdn_requests'] = array(

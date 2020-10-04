@@ -106,39 +106,7 @@ if ($uid) {
     }
 
     // check for unset disposition notification
-    if ($MESSAGE->headers->mdn_to
-        && $MESSAGE->context === null
-        && empty($MESSAGE->headers->flags['MDNSENT'])
-        && empty($MESSAGE->headers->flags['SEEN'])
-        && ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*'))
-        && $mbox_name != $RCMAIL->config->get('drafts_mbox')
-        && $mbox_name != $RCMAIL->config->get('sent_mbox')
-    ) {
-        $mdn_cfg = intval($RCMAIL->config->get('mdn_requests'));
-
-        if ($mdn_cfg == 1 || (($mdn_cfg == 3 || $mdn_cfg ==  4)
-            && $RCMAIL->contact_exists($MESSAGE->sender['mailto'], rcube_addressbook::TYPE_DEFAULT))
-        ) {
-            // Send MDN
-            if (rcmail_send_mdn($MESSAGE, $smtp_error)) {
-                $OUTPUT->show_message('receiptsent', 'confirmation');
-            }
-            else if ($smtp_error && is_string($smtp_error)) {
-                $OUTPUT->show_message($smtp_error, 'error');
-            }
-            else if ($smtp_error && !empty($smtp_error['label'])) {
-                $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-            }
-            else {
-                $OUTPUT->show_message('errorsendingreceipt', 'error');
-            }
-        }
-        else if ($mdn_cfg != 2 && $mdn_cfg != 4) {
-            // Ask user
-            $OUTPUT->add_label('sendreceipt', 'mdnrequest', 'send', 'ignore');
-            $OUTPUT->set_env('mdn_request', true);
-        }
-    }
+    rcmail_mdn_request_handler($MESSAGE);
 
     if (empty($MESSAGE->headers->flags['SEEN']) && $MESSAGE->context === null) {
         $v = intval($RCMAIL->config->get('mail_read_time'));
@@ -806,4 +774,62 @@ function rcmail_part_too_big_message($MESSAGE, $part_id)
     ));
 
     return html::span('part-notice', $RCMAIL->gettext('messagetoobig') . '&nbsp;' . html::a($url, $RCMAIL->gettext('download')));
+}
+
+/**
+ * Handle disposition notification requests
+ */
+function rcmail_mdn_request_handler($message)
+{
+    global $RCMAIL;
+
+    if ($message->headers->mdn_to
+        && $message->context === null
+        && !empty($message->sender['mailto'])
+        && empty($message->headers->flags['MDNSENT'])
+        && empty($message->headers->flags['SEEN'])
+        && ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*'))
+        && $message->folder != $RCMAIL->config->get('drafts_mbox')
+        && $message->folder != $RCMAIL->config->get('sent_mbox')
+    ) {
+        $mdn_cfg = intval($RCMAIL->config->get('mdn_requests'));
+        $exists  = $mdn_cfg == 1;
+
+        // Check sender existence in contacts
+        // 3 and 4 = my contacts, 5 and 6 = trusted senders
+        if ($mdn_cfg == 3 || $mdn_cfg == 4 || $mdn_cfg == 5 || $mdn_cfg == 6) {
+            $type = rcube_addressbook::TYPE_TRUSTED_SENDER;
+
+            if ($mdn_cfg == 3 || $mdn_cfg == 4) {
+                $type |= rcube_addressbook::TYPE_WRITEABLE | rcube_addressbook::TYPE_RECIPIENT;
+            }
+
+            if ($RCMAIL->contact_exists($message->sender['mailto'], $type)) {
+                $exists = 1;
+            }
+        }
+
+        if ($exists) {
+            // Send MDN
+            if (rcmail_send_mdn($message, $smtp_error)) {
+                $RCMAIL->output->show_message('receiptsent', 'confirmation');
+            }
+            else if ($smtp_error && is_string($smtp_error)) {
+                $RCMAIL->output->show_message($smtp_error, 'error');
+            }
+            else if ($smtp_error && !empty($smtp_error['label'])) {
+                $RCMAIL->output->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
+            }
+            else {
+                $RCMAIL->output->show_message('errorsendingreceipt', 'error');
+            }
+        }
+        else if ($mdn_cfg != 2 && $mdn_cfg != 4 && $mdn_cfg != 6) {
+            // Ask the user
+            $RCMAIL->output->add_label('sendreceipt', 'mdnrequest', 'send', 'sendalwaysto', 'ignore');
+            $RCMAIL->output->set_env('mdn_request_save', $mdn_cfg == 3 || $mdn_cfg == 5 ? $mdn_cfg : 0);
+            $RCMAIL->output->set_env('mdn_request_sender', $message->sender);
+            $RCMAIL->output->set_env('mdn_request', true);
+        }
+    }
 }

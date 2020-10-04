@@ -22,13 +22,21 @@ if (!$OUTPUT->ajax_call) {
     return;
 }
 
+$address = rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true);
+$source  = rcube_utils::get_input_value('_source', rcube_utils::INPUT_POST);
+
 // Get the default addressbook
-$CONTACTS = $RCMAIL->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+$CONTACTS = null;
 $SENDERS  = null;
-$type     = rcube_addressbook::TYPE_DEFAULT;
+$type     = 0;
+
+if ($source != rcube_addressbook::TYPE_TRUSTED_SENDER) {
+    $CONTACTS = $RCMAIL->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+    $type     = rcube_addressbook::TYPE_DEFAULT;
+}
 
 // Get the trusted senders addressbook
-if (!empty($_POST['_reload'])) {
+if (!empty($_POST['_reload']) || $source == rcube_addressbook::TYPE_TRUSTED_SENDER) {
     $collected_senders = $RCMAIL->config->get('collected_senders');
 
     if (strlen($collected_senders)) {
@@ -40,11 +48,10 @@ if (!empty($_POST['_reload'])) {
     }
 }
 
-$address = rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true);
 $contact = rcube_mime::decode_address_list($address, 1, false);
 
 if (empty($contact[1]['mailto'])) {
-    $OUTPUT->show_message('errorsavingcontact', 'error');
+    $OUTPUT->show_message('errorsavingcontact', 'error', null, false);
     $OUTPUT->send();
 }
 
@@ -56,7 +63,7 @@ $contact = array(
 $email = rcube_utils::idn_to_ascii($contact['email']);
 
 if (!rcube_utils::check_email($email, false)) {
-    $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
+    $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']), false);
     $OUTPUT->send();
 }
 
@@ -75,7 +82,7 @@ if ($done) {
     }
 }
 else {
-    $OUTPUT->show_message($error ?: 'errorsavingcontact', 'error');
+    $OUTPUT->show_message($error ?: 'errorsavingcontact', 'error', null, false);
 }
 
 $OUTPUT->send();

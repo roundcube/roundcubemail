@@ -364,6 +364,7 @@ $labels['mdnrequest'] = 'The sender of this message has asked to be notified whe
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
+$labels['sendalwaysto'] = 'Always send to $email';
 
 $labels['zoomin'] = 'Zoom In';
 $labels['zoomout'] = 'Zoom Out';
@@ -543,6 +544,8 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
+$labels['autosendtrusted'] = 'send receipt to trusted senders, otherwise ask me';
+$labels['autosendtrustedignore'] = 'send receipt to trusted senders, otherwise ignore';
 $labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
