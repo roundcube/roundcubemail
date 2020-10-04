@@ -486,13 +486,36 @@ function rcube_webmail()
 
         // ask user to send MDN
         if (this.env.mdn_request && this.env.uid) {
-          var postact = 'sendmdn',
-            postdata = {_uid: this.env.uid, _mbox: this.env.mailbox};
-          if (!confirm(this.get_label('mdnrequest'))) {
-            postdata._flag = 'mdnsent';
-            postact = 'mark';
-          }
-          this.http_post(postact, postdata);
+            this.env.mdn_props = {
+                'action': 'mark',
+                'data': { _uid: this.env.uid, _mbox: this.env.mailbox, _flag: 'mdnsent' }
+            };
+
+            var buttons = [{
+                text: this.get_label('send'),
+                'class': 'mainaction send',
+                click: function(e, ui, dialog) {
+                    delete ref.env.mdn_props['data']['_flag'];
+                    ref.env.mdn_props['action'] = 'sendmdn';
+                    (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
+                }
+            },
+            {
+                text: this.get_label('ignore'),
+                'class': 'cancel',
+                click: function(e, ui, dialog){
+                    (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
+                }
+            }],
+            mdn_func = function(event, ui) {
+                var props = ref.env.mdn_props;
+                ref.http_post(props.action, props.data);
+
+                // from default close function
+                $(this).remove();
+            };
+
+            this.show_popup_dialog(this.get_label('mdnrequest'), this.get_label('sendreceipt'), buttons, { close: mdn_func });
         }
 
         // detect browser capabilities
