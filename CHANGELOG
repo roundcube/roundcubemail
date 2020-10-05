@@ -11,7 +11,7 @@ CHANGELOG Roundcube Webmail
 - OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
-- Upgrade to TinyMCE 5.4.1
+- Upgrade to TinyMCE 5.5.1
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
