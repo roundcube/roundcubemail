@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
+
 RELEASE 1.4.9
 -------------
 - Fix HTML editor in latest Chrome 85.0.4183.102, update to TinyMCE 4.9.11 (#7615)

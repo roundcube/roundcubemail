@@ -246,7 +246,7 @@ else {
 
     // apply mailto: URL parameters
     if (!empty($COMPOSE['param']['in-reply-to'])) {
-        $COMPOSE['reply_msgid'] = '<' . $COMPOSE['param']['in-reply-to'] . '>';
+        $COMPOSE['reply_msgid'] = '<' . trim($COMPOSE['param']['in-reply-to'], '<> ') . '>';
     }
 
     if (!empty($COMPOSE['param']['references'])) {
