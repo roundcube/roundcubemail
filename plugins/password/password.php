@@ -135,6 +135,7 @@ class password extends rcube_plugin
         $confirm         = $this->rc->config->get('password_confirm_current');
         $required_length = intval($this->rc->config->get('password_minimum_length'));
         $force_save      = $this->rc->config->get('password_force_save');
+        $trim_password = $this->rc->config->get('password_trim', false);
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -157,6 +158,11 @@ class password extends rcube_plugin
             // We're doing this for consistence with Roundcube core
             $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
             $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
+
+            if ($trim_password) {
+                $newpwd = trim($newpwd);
+                $conpwd = trim($conpwd);
+            }
 
             if ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
                 $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');

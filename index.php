@@ -104,16 +104,22 @@ $RCMAIL->action = $startup['action'];
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
     $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
+    $trim_password = $RCMAIL->config->get('password_trim', false);
 
     // purge the session in case of new login when a session already exists
     if ($request_valid) {
         $RCMAIL->kill_session();
     }
 
+    $password = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset);
+    if ($trim_password) {
+        $password = trim($password);
+    }
+
     $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
             'host'  => $RCMAIL->autoselect_host(),
             'user'  => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
-            'pass'  => trim(rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset)),
+            'pass'  => $password,
             'valid' => $request_valid,
             'cookiecheck' => true,
     ));
