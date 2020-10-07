@@ -1412,4 +1412,4 @@ $config['reply_all_mode'] = 0;
 
 // Enables the trim of leading and trailing spaces in passwords during login and password plugin
 // If enabled and existing users did use spaces in front or end of passwords, they cannot login
-$config['password_trim'] = false;
+$config['trim_password'] = false;

@@ -135,7 +135,7 @@ class password extends rcube_plugin
         $confirm         = $this->rc->config->get('password_confirm_current');
         $required_length = intval($this->rc->config->get('password_minimum_length'));
         $force_save      = $this->rc->config->get('password_force_save');
-        $trim_password   = $this->rc->config->get('password_trim', false);
+        $trim_password   = $this->rc->config->get('trim_password', false);
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
