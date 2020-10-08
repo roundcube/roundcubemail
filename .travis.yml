@@ -1,12 +1,13 @@
 language: php
 
-dist: trusty #
+dist: xenial
 sudo: false
 
 matrix:
   fast_finish: true
   include:
     - php: 5.5
+      dist: trusty
     - php: 5.6
     - php: 7.0
     - php: 7.1
