@@ -302,13 +302,14 @@ function rcube_webmail()
 
         this.set_button_titles();
 
-        this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list',
+        this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-all-as-html', 'reply-list',
           'move', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'bounce',
           'print', 'load-attachment', 'download-attachment', 'show-headers', 'hide-headers', 'download',
           'forward', 'forward-inline', 'forward-attachment', 'change-format'];
 
         if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
+          this.enable_command('reply-all-as-html', this.env.html_message);
           this.enable_command('reply-list', this.env.list_post);
 
           if (this.env.action == 'show') {
@@ -420,6 +421,7 @@ function rcube_webmail()
           if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
               'forward', 'forward-inline', 'forward-attachment', 'bounce', true);
+            this.enable_command('reply-all-as-html', this.env.html_message);
             if (this.env.list_post)
               this.enable_command('reply-list', true);
           }
@@ -1289,13 +1291,14 @@ function rcube_webmail()
         break;
 
       case 'reply-all':
+      case 'reply-all-as-html':
       case 'reply-list':
       case 'reply':
         if (uid = this.get_single_uid()) {
           url = {_reply_uid: uid, _mbox: this.get_message_mailbox(uid), _search: this.env.search_request};
-          if (command == 'reply-all')
+          if (command == 'reply-all' || command == 'reply-all-as-html')
             // do reply-list, when list is detected and popup menu wasn't used
-            url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : 'all');
+            url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : (command = 'reply-all' ? 'all' : 'html'));
           else if (command == 'reply-list')
             url._all = 'list';
 
@@ -1947,10 +1950,11 @@ function rcube_webmail()
     if (selected) {
       // Hide certain command buttons when Drafts folder is selected
       if (this.get_message_mailbox(selected) == this.env.drafts_mailbox)
-        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', 'forward-inline', false);
+        this.enable_command('reply', 'reply-all', 'reply-list', 'reply-all-as-html', 'forward', 'forward-attachment', 'forward-inline', false);
       // Disable reply-list when List-Post header is not set
       else {
         var msg = this.env.messages[selected];
+        this.enable_command('reply-all-as-html', msg.ctype !== 'text/plain');
         if (!msg.ml)
           this.enable_command('reply-list', false);
       }
@@ -9245,6 +9249,7 @@ function rcube_webmail()
           this.enable_command(this.env.message_commands, true);
           if (!this.env.list_post)
             this.enable_command('reply-list', false);
+          this.enable_command('reply-all-as-html', this.env.html_message);
         }
         else if (this.task == 'addressbook') {
           this.triggerEvent('listupdate', { list:this.contact_list, folder:this.env.source, rowcount:this.contact_list.rowcount });

@@ -79,6 +79,7 @@ if ($uid) {
     $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
     $OUTPUT->set_env('mimetypes', $CLIENT_MIMETYPES = rcmail_supported_mimetypes());
 
+
     if ($MESSAGE->headers->get('list-post', false)) {
         $OUTPUT->set_env('list_post', true);
     }
@@ -97,6 +98,9 @@ if ($uid) {
     if ($MESSAGE->has_html_part()) {
         $prefer_html = $RCMAIL->config->get('prefer_html');
         $OUTPUT->set_env('optional_format', $prefer_html ? 'text' : 'html');
+        $OUTPUT->set_env('html_message', true);
+    } else {
+        $OUTPUT->set_env('html_message', false);
     }
 
     if (!$OUTPUT->ajax_call) {

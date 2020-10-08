@@ -109,6 +109,7 @@ $labels['reply'] = 'Odpowiedz';
 $labels['replytomessage'] = 'Odpowiedz nadawcy';
 $labels['replytoallmessage'] = 'Odpowiedz wszystkim';
 $labels['replyall'] = 'Odpowiedz wszystkim';
+$labels['replyallashtml'] = 'Odpowiedz wszystkim w HTML';
 $labels['replylist'] = 'Odpowiedz na listę';
 $labels['forward'] = 'Przekaż';
 $labels['forwardinline'] = 'Prześlij w treści';
