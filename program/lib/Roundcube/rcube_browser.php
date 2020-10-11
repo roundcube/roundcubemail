@@ -67,7 +67,7 @@ class rcube_browser
      */
     public function __construct()
     {
-        $HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $HTTP_USER_AGENT = !empty($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
 
         // Operating system detection
         $this->win   = strpos($HTTP_USER_AGENT, 'win') != false;

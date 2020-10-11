@@ -96,7 +96,7 @@ class rcube_plugin_api
 
         foreach ($this->plugins as $plugin) {
             // ... task, request type and framed mode
-            if (!$this->plugins_initialized[$plugin->ID] && !$this->filter($plugin)) {
+            if (empty($this->plugins_initialized[$plugin->ID]) && !$this->filter($plugin)) {
                 $plugin->init();
                 $this->plugins_initialized[$plugin->ID] = $plugin;
             }
@@ -173,7 +173,7 @@ class rcube_plugin_api
         }
 
         // plugin already loaded?
-        if (!$this->plugins[$plugin_name]) {
+        if (!isset($this->plugins[$plugin_name])) {
             $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
 
             if (!is_readable($fn)) {

@@ -64,7 +64,7 @@ class rcmail_sendmail
             $this->options['error_handler'] = function() { return false; };
         }
 
-        if ($this->options['message']) {
+        if (!empty($this->options['message'])) {
             $this->compose_init($this->options['message']);
         }
     }
@@ -1501,7 +1501,7 @@ class rcmail_sendmail
         // decode From: address
         $from = rcube_mime::decode_address_list($message->headers->from, null, true, $message->headers->charset);
         $from = array_shift($from);
-        $from['mailto'] = strtolower($from['mailto']);
+        $from['mailto'] = strtolower($from ? $from['mailto'] : '');
 
         $from_idx   = null;
         $found_idx  = array('to' => null, 'from' => null);
@@ -1543,7 +1543,8 @@ class rcmail_sendmail
         }
 
         // Try Return-Path
-        if ($from_idx === null && ($return_path = $message->headers->others['return-path'])) {
+        if ($from_idx === null && !empty($message->headers->others['return-path'])) {
+            $return_path = $message->headers->others['return-path'];
             $return_path = array_map('strtolower', (array) $return_path);
 
             foreach ($identities as $idx => $ident) {
@@ -1574,7 +1575,11 @@ class rcmail_sendmail
         $selected = $plugin['selected'];
 
         // default identity is always first on the list
-        return $identities[$selected !== null ? $selected : 0];
+        if ($selected === null) {
+            $selected = 0;
+        }
+
+        return isset($identities[$selected]) ? $identities[$selected] : null;
     }
 
     /**

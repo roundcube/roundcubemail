@@ -82,12 +82,12 @@ class rcmail_output_html extends rcmail_output
 
         $this->set_env('task', $task);
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
-        $this->set_env('locale', $_SESSION['language']);
+        $this->set_env('locale', !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US');
         $this->set_env('devel_mode', $this->devel_mode);
 
         // Version number e.g. 1.4.2 will be 10402
         $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
-        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + $version[2]);
+        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + (isset($version[2]) ? $version[2] : 0));
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -340,7 +340,7 @@ EOF;
         $path_elements = explode('/', $skin_path);
         $skin_id       = end($path_elements);
 
-        if (!$meta['name']) {
+        if (empty($meta['name'])) {
             $meta['name'] = $skin_id;
         }
 
@@ -349,7 +349,7 @@ EOF;
         // Keep skin config for ajax requests (#6613)
         $_SESSION['skin_config'] = array();
 
-        if ($meta['extends']) {
+        if (!empty($meta['extends'])) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
                 $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
@@ -374,8 +374,12 @@ EOF;
         }
 
         // Use array_merge() here to allow for global default and extended skins
-        $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
-        $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        if (!empty($meta['meta'])) {
+            $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
+        }
+        if (!empty($meta['links'])) {
+            $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        }
 
         return $_SESSION['skin_config'];
     }
@@ -1810,7 +1814,7 @@ EOF;
             $file = $this->file_mod($this->scripts_path . $file);
         }
 
-        if (!is_array($this->script_files[$position])) {
+        if (!isset($this->script_files[$position]) || !is_array($this->script_files[$position])) {
             $this->script_files[$position] = array();
         }
 

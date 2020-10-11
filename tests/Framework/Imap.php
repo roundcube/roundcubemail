@@ -31,7 +31,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
         ];
 
         foreach (array('drafts', 'sent', 'junk', 'trash') as $mbox) {
-            rcube::get_instance()->config->set("$mbox_mbox", ucfirst($mbox));
+            rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 
         $object = new rcube_imap;

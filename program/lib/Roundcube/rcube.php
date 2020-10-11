@@ -567,20 +567,29 @@ class rcube
         $name = (string) $attrib['name'];
 
         // attrib contain text values: use them from now
-        if (($setval = $attrib[strtolower($_SESSION['language'])]) || ($setval = $attrib['en_us'])) {
-            $this->texts[$name] = $setval;
+        $slang = !empty($_SESSION['language']) ? strtolower($_SESSION['language']) : 'en_us';
+        if (isset($attrib[$slang])) {
+            $this->texts[$name] = $attrib[$slang];
+        }
+        if ($slang != 'en_us' && isset($attrib['en_us'])) {
+            $this->texts[$name] = $attrib['en_us'];
         }
 
         // check for text with domain
-        if ($domain && ($text = $this->texts[$domain.'.'.$name])) {
+        if ($domain && isset($this->texts["$domain.$name"])) {
+            $text = $this->texts["$domain.$name"];
         }
+        else if (isset($this->texts[$name])) {
+            $text = $this->texts[$name];
+        }
+
         // text does not exist
-        else if (!($text = $this->texts[$name])) {
+        if (!isset($text)) {
             return "[$name]";
         }
 
         // replace vars in text
-        if (is_array($attrib['vars'])) {
+        if (!empty($attrib['vars']) && is_array($attrib['vars'])) {
             foreach ($attrib['vars'] as $var_key => $var_value) {
                 $text = str_replace($var_key[0] != '$' ? '$'.$var_key : $var_key, $var_value, $text);
             }
@@ -590,13 +599,13 @@ class rcube
         $text = strtr($text, array('\n' => "\n"));
 
         // case folding
-        if (($attrib['uppercase'] && strtolower($attrib['uppercase']) == 'first') || $attrib['ucfirst']) {
+        if ((!empty($attrib['uppercase']) && strtolower($attrib['uppercase']) == 'first') || !empty($attrib['ucfirst'])) {
             $case_mode = MB_CASE_TITLE;
         }
-        else if ($attrib['uppercase']) {
+        else if (!empty($attrib['uppercase'])) {
             $case_mode = MB_CASE_UPPER;
         }
-        else if ($attrib['lowercase']) {
+        else if (!empty($attrib['lowercase'])) {
             $case_mode = MB_CASE_LOWER;
         }
 
@@ -655,10 +664,11 @@ class rcube
      */
     public function load_language($lang = null, $add = array(), $merge = array())
     {
-        $lang = $this->language_prop($lang ?: $_SESSION['language']);
+        $sess_lang = !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US';
+        $lang      = $this->language_prop($lang ?: $sess_lang);
 
         // load localized texts
-        if (empty($this->texts) || $lang != $_SESSION['language']) {
+        if (empty($this->texts) || $lang != $sess_lang) {
             // get english labels (these should be complete)
             $files = array(
                 RCUBE_LOCALIZATION_DIR . 'en_US/labels.inc',
@@ -1044,7 +1054,7 @@ class rcube
         // closing database connection, don't do this before
         // registered shutdown functions, they may need the session
         // Note: this will run registered gc handlers (ie. cache gc)
-        if ($_SERVER['REMOTE_ADDR'] && is_object($this->session)) {
+        if (!empty($_SERVER['REMOTE_ADDR']) && is_object($this->session)) {
             $this->session->write_close();
         }
 

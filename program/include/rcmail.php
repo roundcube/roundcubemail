@@ -113,7 +113,9 @@ class rcmail extends rcube
         $this->default_skin = $this->config->get('skin');
 
         // create user object
-        $this->set_user(new rcube_user($_SESSION['user_id']));
+        if (!empty($_SESSION['user_id'])) {
+            $this->set_user(new rcube_user($_SESSION['user_id']));
+        }
 
         // set task and action properties
         $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
@@ -136,7 +138,7 @@ class rcmail extends rcube
         if (!empty($_REQUEST['_remote'])) {
             $GLOBALS['OUTPUT'] = $this->json_init();
         }
-        else if ($_SERVER['REMOTE_ADDR']) {
+        else if (!empty($_SERVER['REMOTE_ADDR'])) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
         }
 
@@ -191,7 +193,8 @@ class rcmail extends rcube
     {
         parent::set_user($user);
 
-        $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
+        $session_lang = isset($_SESSION['language']) ? $_SESSION['language'] : null;
+        $lang = $this->language_prop($this->config->get('language', $session_lang));
         $_SESSION['language'] = $this->user->language = $lang;
 
         // set localization
@@ -525,7 +528,7 @@ class rcmail extends rcube
         parent::session_init();
 
         // set initial session vars
-        if (!$_SESSION['user_id']) {
+        if (empty($_SESSION['user_id'])) {
             $_SESSION['temp'] = true;
         }
     }
@@ -933,11 +936,17 @@ class rcmail extends rcube
             $p = array('_action' => @func_get_arg(0));
         }
 
-        $pre = array();
-        $task = $p['_task'] ?: ($p['task'] ?: $this->task);
-        $pre['_task'] = $task;
+        $task = $this->task;
+        if (!empty($p['_task'])) {
+            $task = $p['_task'];
+        }
+        else if (!empty($p['task'])) {
+            $task = $p['task'];
+        }
+
         unset($p['task'], $p['_task']);
 
+        $pre  = array('_task' => $task);
         $url  = $this->filename;
         $delm = '?';
 
@@ -949,7 +958,13 @@ class rcmail extends rcube
             }
         }
 
-        $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
+        $base_path = '';
+        if (!empty($_SERVER['REDIRECT_SCRIPT_URL'])) {
+            $base_path = $_SERVER['REDIRECT_SCRIPT_URL'];
+        }
+        else if (!empty($_SERVER['SCRIPT_NAME'])) {
+            $base_path = $_SERVER['SCRIPT_NAME'];
+        }
         $base_path = preg_replace('![^/]+$!', '', $base_path);
 
         if ($secure && ($token = $this->get_secure_url_token(true))) {

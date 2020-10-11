@@ -117,7 +117,7 @@ class rcube_string_replacer
 
         if (!empty($url)) {
             $suffix = $this->parse_url_brackets($url);
-            $attrib = (array)$this->options['link_attribs'];
+            $attrib = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
             $attrib['href'] = $url_prefix . $url;
 
             $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
@@ -152,13 +152,14 @@ class rcube_string_replacer
     public function linkref_callback($matches)
     {
         $i = 0;
-        if ($url = $this->linkrefs[$matches[1]]) {
-            $attrib = (array)$this->options['link_attribs'];
+        if (!empty($this->linkrefs[$matches[1]])) {
+            $url    = $this->linkrefs[$matches[1]];
+            $attrib = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
             $attrib['href'] = $url;
             $i = $this->add(html::a($attrib, rcube::Q($matches[1])));
         }
 
-        return $i > 0 ? '['.$this->get_replacement($i).']' : $matches[0];
+        return $i > 0 ? '[' . $this->get_replacement($i) . ']' : $matches[0];
     }
 
     /**

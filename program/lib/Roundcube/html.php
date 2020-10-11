@@ -78,11 +78,11 @@ class html
         }
 
         $inline_tags = array('a','span','img');
-        $suffix = $attrib['nl'] || ($content && $attrib['nl'] !== false && !in_array($tagname, $inline_tags)) ? "\n" : '';
+        $suffix = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
         if (isset($content) || in_array($tagname, self::$containers)) {
-            $suffix = $attrib['noclose'] ? $suffix : '</' . $tagname . '>' . $suffix;
+            $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
             return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }

@@ -98,8 +98,8 @@ class rcube_base_replacer
         }
 
         // $path is absolute
-        if ($path[0] == '/') {
-            $abs_path = $host_url.$path;
+        if ($path && $path[0] == '/') {
+            $abs_path = $host_url . $path;
         }
         else {
             // strip './' because its the same as ''

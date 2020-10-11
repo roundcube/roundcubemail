@@ -443,7 +443,7 @@ class rcube_db
 
         if (count($params)) {
             while ($pos = strpos($query, '?', $pos)) {
-                if ($query[$pos+1] == '?') {  // skip escaped '?'
+                if (isset($query[$pos+1]) && $query[$pos+1] == '?') {  // skip escaped '?'
                     $pos += 2;
                 }
                 else {

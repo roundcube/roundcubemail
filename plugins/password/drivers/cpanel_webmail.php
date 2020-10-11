@@ -85,11 +85,11 @@ class rcube_cpanel_webmail_password
         $result = json_decode($response);
 
         // The UAPI may return HTML instead of JSON on missing authentication
-        if ($result && $result->status === 1) {
+        if ($result && isset($result->status) && $result->status === 1) {
             return PASSWORD_SUCCESS;
         }
 
-        if ($result && is_array($result->errors) && count($result->errors) > 0) {
+        if ($result && isset($result->errors) && is_array($result->errors) && count($result->errors) > 0) {
             return array(
                 'code'    => PASSWORD_ERROR,
                 'message' => $result->errors[0],

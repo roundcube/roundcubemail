@@ -209,15 +209,24 @@ class rcube_washtml
      */
     public function __construct($p = array())
     {
-        $this->_html_elements   = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements);
-        $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
-        $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
-        $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
-        $this->_css_prefix      = is_string($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
+        $p['html_elements']   = isset($p['html_elements']) ? (array) $p['html_elements'] : [];
+        $p['html_attribs']    = isset($p['html_attribs']) ? (array) $p['html_attribs'] : [];
+        $p['ignore_elements'] = isset($p['ignore_elements']) ? (array) $p['ignore_elements'] : [];
+        $p['void_elements']   = isset($p['void_elements']) ? (array) $p['void_elements'] : [];
+
+        $this->_html_elements   = array_flip($p['html_elements']) + array_flip(self::$html_elements);
+        $this->_html_attribs    = array_flip($p['html_attribs']) + array_flip(self::$html_attribs);
+        $this->_ignore_elements = array_flip($p['ignore_elements']) + array_flip(self::$ignore_elements);
+        $this->_void_elements   = array_flip($p['void_elements']) + array_flip(self::$void_elements);
+        $this->_css_prefix      = isset($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements'], $p['css_prefix']);
 
-        $this->config = $p + array('show_washed' => true, 'allow_remote' => false, 'cid_map' => array());
+        $this->config = $p + ['show_washed' => true, 'allow_remote' => false, 'cid_map' => [], 'base_url' => ''];
+
+        if (!isset($this->config['charset'])) {
+            $this->config['charset'] = RCUBE_CHARSET;
+        }
     }
 
     /**
@@ -387,10 +396,13 @@ class rcube_washtml
      */
     private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
-        if (($src = $this->config['cid_map'][$uri])
-            || ($src = $this->config['cid_map'][$this->config['base_url'].$uri])
-        ) {
-            return $src;
+        if (!empty($this->config['cid_map'][$uri])) {
+            return $this->config['cid_map'][$uri];
+        }
+
+        $key = $this->config['base_url'] . $uri;
+        if (!empty($this->config['cid_map'][$key])) {
+            return $this->config['cid_map'][$key];
         }
 
         // allow url(#id) used in SVG
@@ -403,12 +415,12 @@ class rcube_washtml
         }
 
         if (preg_match('/^(http|https|ftp):.+/i', $uri)) {
-            if ($this->config['allow_remote']) {
+            if (!empty($this->config['allow_remote'])) {
                 return $uri;
             }
 
             $this->extlinks = true;
-            if ($is_image && $blocked_source && $this->config['blocked_src']) {
+            if ($is_image && !empty($this->config['blocked_src'])) {
                 return $this->config['blocked_src'];
             }
         }
@@ -589,7 +601,8 @@ class rcube_washtml
                     break;
                 }
 
-                if ($callback = $this->handlers[$tagName]) {
+                if (!empty($this->handlers[$tagName])) {
+                    $callback = $this->handlers[$tagName];
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                 }
@@ -707,7 +720,7 @@ class rcube_washtml
      */
     public function get_config($prop)
     {
-        return $this->config[$prop];
+        return isset($this->config[$prop]) ? $this->config[$prop] : null;
     }
 
     /**
@@ -928,6 +941,7 @@ class rcube_washtml
     {
         // There might be content before html/body tag, we'll move it to the body
         // We'll wrap it by a div container, it's an invalid HTML anyway
+        $prefix = '';
         if (strpos($html, '<')) {
             $pos     = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
             $prefix  = '<div>' . substr($html, 0, $pos) . '</div>';
@@ -936,7 +950,7 @@ class rcube_washtml
 
         // HTML5 requires <head> or <body> (#6713)
         // https://github.com/Masterminds/html5-php/issues/166
-        if (isset($prefix) || !preg_match('/<(head|body)/i', $html)) {
+        if (strlen($prefix) > 0 || !preg_match('/<(head|body)/i', $html)) {
             $body_pos = stripos($html, '<body');
             $pos      = $body_pos !== false ? $body_pos : stripos($html, '<html');
 

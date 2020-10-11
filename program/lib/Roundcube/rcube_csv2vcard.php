@@ -459,7 +459,7 @@ class rcube_csv2vcard
                 }
 
                 $last_element = $elements[count($elements)-1];
-                if ($last_element[0] == '"') {
+                if (isset($last_element[0]) && $last_element[0] == '"') {
                     $elements[count($elements)-1] = substr($last_element, 1);
                     $prev_line = $elements;
                     continue;
@@ -526,9 +526,11 @@ class rcube_csv2vcard
 
         // check English labels
         for ($i = 0; $i < $size; $i++) {
-            $label = $this->label_map[$elements[$i]];
-            if ($label && !empty($this->csv2vcard_map[$label])) {
-                $map1[$i] = $this->csv2vcard_map[$label];
+            if (!empty($this->label_map[$elements[$i]])) {
+                $label = $this->label_map[$elements[$i]];
+                if ($label && !empty($this->csv2vcard_map[$label])) {
+                    $map1[$i] = $this->csv2vcard_map[$label];
+                }
             }
         }
 
@@ -610,8 +612,9 @@ class rcube_csv2vcard
                 $value = $data[$item_idx];
                 if ($value !== null && $value !== '') {
                     foreach (array($type, '*') as $_type) {
-                        if ($data_idx = $this->gmail_label_map[$key][$item_key][$_type]) {
-                            $value = explode(' ::: ', $value);
+                        if (!empty($this->gmail_label_map[$key][$item_key][$_type])) {
+                            $data_idx = $this->gmail_label_map[$key][$item_key][$_type];
+                            $value    = explode(' ::: ', $value);
 
                             if (!empty($contact[$data_idx])) {
                                 $contact[$data_idx]   = array_merge((array) $contact[$data_idx], $value);
@@ -679,11 +682,11 @@ class rcube_csv2vcard
             $name = explode(':', $name);
             if (is_array($value) && $name[0] != 'address') {
                 foreach ((array) $value as $val) {
-                    $vcard->set($name[0], $val, $name[1]);
+                    $vcard->set($name[0], $val, isset($name[1]) ? $name[1] : null);
                 }
             }
             else {
-                $vcard->set($name[0], $value, $name[1]);
+                $vcard->set($name[0], $value, isset($name[1]) ? $name[1] : null);
             }
         }
 
