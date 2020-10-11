@@ -124,7 +124,9 @@ class rcmail extends rcube
             // we reset list page when switching to another task
             // but only to the main task interface - empty action (#1489076, #1490116)
             // this will prevent from unintentional page reset on cross-task requests
-            if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
+            if ($this->session && empty($this->action)
+                && (empty($_SESSION['task']) || $_SESSION['task'] != $this->task)
+            ) {
                 $this->session->remove('page');
 
                 // set current task to session
@@ -1605,10 +1607,10 @@ class rcmail extends rcube
 
         $attrib += array('maxlength' => 100, 'realnames' => false, 'unreadwrap' => ' (%s)');
 
-        $type = $attrib['type'] ? $attrib['type'] : 'ul';
+        $type = !empty($attrib['type']) ? $attrib['type'] : 'ul';
         unset($attrib['type']);
 
-        if ($type == 'ul' && !$attrib['id']) {
+        if ($type == 'ul' && empty($attrib['id'])) {
             $attrib['id'] = 'rcmboxlist';
         }
 
@@ -1624,9 +1626,12 @@ class rcmail extends rcube
         // build the folders tree
         if (empty($a_mailboxes)) {
             // get mailbox list
-            $a_folders = $storage->list_folders_subscribed(
-                '', $attrib['folder_name'], $attrib['folder_filter']);
             $a_mailboxes = array();
+            $a_folders   = $storage->list_folders_subscribed(
+                '',
+                $attrib['folder_name'],
+                isset($attrib['folder_filter']) ? $attrib['folder_filter'] : null
+            );
 
             foreach ($a_folders as $folder) {
                 $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
@@ -1649,12 +1654,16 @@ class rcmail extends rcube
             $select = new html_select($attrib);
 
             // add no-selection option
-            if ($attrib['noselection']) {
+            if (!empty($attrib['noselection'])) {
                 $select->add(html::quote($this->gettext($attrib['noselection'])), '');
             }
 
-            $this->render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
-            $out = $select->show($attrib['default']);
+            $maxlength = isset($attrib['maxlength']) ? $attrib['maxlength'] : null;
+            $realnames = isset($attrib['realnames']) ? $attrib['realnames'] : null;
+            $default   = isset($attrib['default']) ? $attrib['default'] : null;
+
+            $this->render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
+            $out = $select->show($default);
         }
         else {
             $out = '';
@@ -1666,7 +1675,7 @@ class rcmail extends rcube
 
                 $this->output->include_script('treelist.js');
                 $this->output->add_gui_object('mailboxlist', $attrib['id']);
-                $this->output->set_env('unreadwrap', $attrib['unreadwrap']);
+                $this->output->set_env('unreadwrap', isset($attrib['unreadwrap']) ? $attrib['unreadwrap'] : false);
                 $this->output->set_env('collapsed_folders', (string) $this->config->get('collapsed_folders'));
             }
 
@@ -1990,7 +1999,7 @@ class rcmail extends rcube
             }
         }
 
-        return $classes[$folder_id];
+        return !empty($classes[$folder_id]) ? $classes[$folder_id] : null;
     }
 
     /**
@@ -2079,7 +2088,7 @@ class rcmail extends rcube
     {
         $rcmail = rcmail::get_instance();
 
-        if (!$attrib['id']) {
+        if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmquotadisplay';
         }
 
@@ -2124,10 +2133,10 @@ class rcmail extends rcube
 
             $quota_result['title'] = $title;
 
-            if ($attrib['width']) {
+            if (!empty($attrib['width'])) {
                 $quota_result['width'] = $attrib['width'];
             }
-            if ($attrib['height']) {
+            if (!empty($attrib['height'])) {
                 $quota_result['height'] = $attrib['height'];
             }
 
@@ -2411,7 +2420,7 @@ class rcmail extends rcube
 
         $hint = html::div('hint', $this->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
 
-        if ($attrib['mode'] == 'hint') {
+        if (!empty($attrib['mode']) && $attrib['mode'] == 'hint') {
             return $hint;
         }
 
@@ -2436,7 +2445,7 @@ class rcmail extends rcube
             'enctype' => 'multipart/form-data'
         );
 
-        if ($attrib['mode'] == 'smart') {
+        if (!empty($attrib['mode']) && $attrib['mode'] == 'smart') {
             unset($attrib['buttons']);
             $form_attr['class'] = 'smart-upload';
             $input_attr = array_merge($input_attr, array(
@@ -2451,7 +2460,7 @@ class rcmail extends rcube
         $input   = new html_inputfield($input_attr);
         $content = $attrib['prefix'] . $input->show();
 
-        if ($attrib['mode'] != 'smart') {
+        if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
             $content = html::div(null, $content . $hint);
         }
 
@@ -2606,11 +2615,11 @@ class rcmail extends rcube
     public function show_bytes($bytes, &$unit = null)
     {
         // Plugins may want to display different units
-        $plugin = $this->plugins->exec_hook('show_bytes', array('bytes' => $bytes));
+        $plugin = $this->plugins->exec_hook('show_bytes', array('bytes' => $bytes, 'unit' => null));
 
         $unit = $plugin['unit'];
 
-        if ($plugin['result'] !== null) {
+        if (isset($plugin['result'])) {
             return $plugin['result'];
         }
 

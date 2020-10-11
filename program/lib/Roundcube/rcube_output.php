@@ -99,7 +99,7 @@ abstract class rcube_output
      */
     public function get_env($name)
     {
-        return $this->env[$name];
+        return isset($this->env[$name]) ? $this->env[$name] : null;
     }
 
     /**

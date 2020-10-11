@@ -165,7 +165,12 @@ class markasjunk extends rcube_plugin
 
     public function set_flags($p)
     {
-        $p['message_flags'] = array_merge((array) $p['message_flags'], $this->flags);
+        if (!empty($p['message_flags'])) {
+            $p['message_flags'] = array_merge((array) $p['message_flags'], $this->flags);
+        }
+        else {
+            $p['message_flags'] = $this->flags;
+        }
 
         return $p;
     }

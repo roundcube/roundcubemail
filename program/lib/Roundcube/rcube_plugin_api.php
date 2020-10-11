@@ -474,7 +474,7 @@ class rcube_plugin_api
                     $args = $ret + $args;
                 }
 
-                if ($args['break']) {
+                if (!empty($args['break'])) {
                     break;
                 }
             }
@@ -603,7 +603,7 @@ class rcube_plugin_api
      */
     public function is_plugin_task($task)
     {
-        return $this->tasks[$task] ? true : false;
+        return !empty($this->tasks[$task]) ? true : false;
     }
 
     /**
@@ -678,6 +678,10 @@ class rcube_plugin_api
      */
     public function add_content($html, $container)
     {
+        if (!isset($this->template_contents[$container])) {
+            $this->template_contents[$container] = '';
+        }
+
         $this->template_contents[$container] .= $html . "\n";
     }
 
@@ -694,11 +698,11 @@ class rcube_plugin_api
     /**
      * Returns loaded plugin
      *
-     * @return rcube_plugin Plugin instance
+     * @return rcube_plugin|null Plugin instance
      */
     public function get_plugin($name)
     {
-        return $this->plugins[$name];
+        return !empty($this->plugins[$name]) ? $this->plugins[$name] : null;
     }
 
     /**
@@ -709,8 +713,14 @@ class rcube_plugin_api
      */
     protected function template_container_hook($attrib)
     {
-        $container = $attrib['name'];
-        return array('content' => $attrib['content'] . $this->template_contents[$container]);
+        $container     = $attrib['name'];
+        $content       = isset($attrib['content']) ? $attrib['content'] : '';
+
+        if (isset($this->template_contents[$container])) {
+            $content .= $this->template_contents[$container];
+        }
+
+        return ['content' => $content];
     }
 
     /**
