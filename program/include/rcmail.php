@@ -209,6 +209,70 @@ class rcmail extends rcube
     }
 
     /**
+     * Handle the request. All request pre-checks are NOT done here.
+     */
+    public function action_handler()
+    {
+        // we're ready, user is authenticated and the request is safe
+        $plugin = $this->plugins->exec_hook('ready', ['task' => $this->task, 'action' => $this->action]);
+
+        $this->set_task($plugin['task']);
+        $this->action = $plugin['action'];
+
+        // handle special actions
+        if ($this->action == 'keep-alive') {
+            $this->output->reset();
+            $this->plugins->exec_hook('keep_alive', []);
+            $this->output->send();
+        }
+
+        // allow 5 "redirects" to another action
+        $redirects = 0;
+        while ($redirects < 5) {
+            // execute a plugin action
+            if (preg_match('/^plugin\./', $this->action)) {
+                $this->plugins->exec_action($this->action);
+                break;
+            }
+
+            // execute action registered to a plugin task
+            if ($this->plugins->is_plugin_task($this->task)) {
+                if (!$this->action) $this->action = 'index';
+                $this->plugins->exec_action("{$this->task}.{$this->action}");
+                break;
+            }
+
+            $task   = $this->action == 'save-pref' ? 'utils' : $this->task;
+            $action = str_replace('-', '_', $this->action);
+            $class  = "rcmail_action_{$task}_{$action}";
+
+            // try to include the step file
+            if (class_exists($class)) {
+                $handler = new $class;
+                $handler->run();
+                $redirects++;
+            }
+            else {
+                break;
+            }
+        }
+
+        if ($this->action == 'refresh') {
+            $last = intval(rcube_utils::get_input_value('_last', rcube_utils::INPUT_GPC));
+            $this->plugins->exec_hook('refresh', ['last' => $last]);
+        }
+/*
+        // parse main template (default)
+        if ($this->output->template_exists($this->task)) {
+            $this->output->send($this->task);
+        }
+*/
+        // if we arrive here, something went wrong
+        $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => "Invalid request"];
+        rcmail::raise_error($error, true, true);
+    }
+
+    /**
      * Return instance of the internal address book class
      *
      * @param string  $id        Address book identifier. It accepts also special values:
