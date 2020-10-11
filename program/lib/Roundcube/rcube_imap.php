@@ -706,11 +706,11 @@ class rcube_imap extends rcube_storage
         $a_folder_cache = $this->get_cache('messagecount');
 
         // return cached value
-        if (!$force && is_array($a_folder_cache[$folder]) && isset($a_folder_cache[$folder][$mode])) {
+        if (!$force && isset($a_folder_cache[$folder][$mode])) {
             return $a_folder_cache[$folder][$mode];
         }
 
-        if (!is_array($a_folder_cache[$folder])) {
+        if (!isset($a_folder_cache[$folder]) || !is_array($a_folder_cache[$folder])) {
             $a_folder_cache[$folder] = array();
         }
 
@@ -781,7 +781,7 @@ class rcube_imap extends rcube_storage
 
         $count = (int) $count;
 
-        if ($a_folder_cache[$folder][$mode] !== $count) {
+        if (!isset($a_folder_cache[$folder][$mode]) || $a_folder_cache[$folder][$mode] !== $count) {
             $a_folder_cache[$folder][$mode] = $count;
 
             // write back to cache
@@ -1369,7 +1369,7 @@ class rcube_imap extends rcube_storage
      */
     protected function get_folder_stats($folder)
     {
-        if ($_SESSION['folders'][$folder]) {
+        if (isset($_SESSION['folders'][$folder])) {
             return (array) $_SESSION['folders'][$folder];
         }
 
@@ -3491,7 +3491,7 @@ class rcube_imap extends rcube_storage
 
         $key = $subscription ? 'subscribed' : 'existing';
 
-        if (is_array($this->icache[$key]) && in_array($folder, $this->icache[$key])) {
+        if (!empty($this->icache[$key]) && in_array($folder, (array) $this->icache[$key])) {
             return true;
         }
 
@@ -3825,7 +3825,7 @@ class rcube_imap extends rcube_storage
             $headers = array();
         }
 
-        if ($this->messages_caching || $this->options['all_headers']) {
+        if ($this->messages_caching || !empty($this->options['all_headers'])) {
             $headers = array_merge($headers, $this->all_headers);
         }
 

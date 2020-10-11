@@ -144,7 +144,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             }
 
             // prevent redirect to compose with specified ID (#1488226)
-            if ($query['_action'] == 'compose' && !empty($query['_id'])) {
+            if (!empty($query['_action']) && $query['_action'] == 'compose' && !empty($query['_id'])) {
                 $query = array('_action' => 'compose');
             }
         }
@@ -220,7 +220,11 @@ else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
 
 // not logged in -> show login page
 if (empty($RCMAIL->user->ID)) {
-    if ($session_error || $_REQUEST['_err'] === 'session' || ($session_error = $RCMAIL->session_error())) {
+    if (
+        !empty($session_error)
+        || (!empty($_REQUEST['_err']) && $_REQUEST['_err'] === 'session')
+        || ($session_error = $RCMAIL->session_error())
+    ) {
         $OUTPUT->show_message($session_error ?: 'sessionerror', 'error', null, true, -1);
     }
 

@@ -150,15 +150,15 @@ class rcube_db_mssql extends rcube_db
         $params = array();
         $result = $dsn['phptype'] . ':';
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $host = $dsn['hostspec'];
-            if ($dsn['port']) {
+            if (isset($dsn['port'])) {
                 $host .= ',' . $dsn['port'];
             }
             $params[] = 'host=' . $host;
         }
 
-        if ($dsn['database']) {
+        if (isset($dsn['database'])) {
             $params[] = 'dbname=' . $dsn['database'];
         }
 

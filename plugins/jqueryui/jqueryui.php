@@ -44,7 +44,7 @@ class jqueryui extends rcube_plugin
         $skins[]  = 'elastic';
 
         foreach ($skins as $skin) {
-            self::$ui_theme = $ui_theme = $ui_map[$skin] ?: $skin;
+            self::$ui_theme = $ui_theme = !empty($ui_map[$skin]) ? $ui_map[$skin] : $skin;
 
             if (self::asset_exists("themes/$ui_theme/jquery-ui.css")) {
                 $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");

@@ -39,7 +39,7 @@ if (!empty($a_folders)) {
         // after possible message status change when opening a message
         // not in preview frame
         if ($unseen || $unseen_old === null || $mbox == $current) {
-            $OUTPUT->command('set_unread_count', $mbox, $unseen, $inbox && $mbox_row == 'INBOX');
+            $OUTPUT->command('set_unread_count', $mbox, $unseen, $inbox && $mbox == 'INBOX');
         }
 
         rcmail_set_unseen_count($mbox, $unseen);

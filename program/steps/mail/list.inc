@@ -23,6 +23,7 @@ if (!$OUTPUT->ajax_call) {
 
 $save_arr      = array();
 $dont_override = (array) $RCMAIL->config->get('dont_override');
+$cols          = null;
 
 // is there a sort type for this request?
 if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
@@ -51,7 +52,9 @@ if ($layout = rcube_utils::get_input_value('_layout', rcube_utils::INPUT_GET)) {
     $OUTPUT->set_env('layout', $layout);
     $save_arr['layout'] = $layout;
     // force header replace on layout change
-    $cols = $_SESSION['list_attrib']['columns'];
+    if (!empty($_SESSION['list_attrib']['columns'])) {
+        $cols = $_SESSION['list_attrib']['columns'];
+    }
 }
 
 if (!empty($save_arr)) {
@@ -75,6 +78,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 ) {
     $search_request = $_REQUEST['_search'];
     $_SESSION['search'] = $RCMAIL->storage->get_search_set();
+    $multifolder = !empty($_SESSION['search']) && !empty($_SESSION['search'][1]->multi);
 }
 // remove old search data
 else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
@@ -109,7 +113,7 @@ if (!empty($_REQUEST['_clear'])) {
 rcmail_js_message_list($a_headers, false, $cols);
 
 if (isset($a_headers) && count($a_headers)) {
-    if ($search_request) {
+    if (!empty($search_request)) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
     }
 
@@ -139,7 +143,7 @@ if ($mbox_name === $RCMAIL->config->get('trash_mbox')) {
 }
 
 if ($page == 1) {
-    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? 'INBOX' : $mbox_name));
+    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, !empty($multifolder) ? 'INBOX' : $mbox_name));
 }
 
 // send response

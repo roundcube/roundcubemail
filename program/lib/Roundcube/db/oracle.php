@@ -481,9 +481,9 @@ class rcube_db_oracle extends rcube_db
     {
         $params = array();
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $host = $dsn['hostspec'];
-            if ($dsn['port']) {
+            if (isset($dsn['port'])) {
                 $host .= ':' . $dsn['port'];
             }
 

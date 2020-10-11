@@ -760,7 +760,7 @@ class rcube_utils
         if (!empty($headers)) {
             $headers = array_change_key_case($headers, CASE_UPPER);
 
-            return $headers[$key];
+            return isset($headers[$key]) ? $headers[$key] : null;
         }
     }
 

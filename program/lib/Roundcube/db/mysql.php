@@ -74,23 +74,23 @@ class rcube_db_mysql extends rcube_db
         $params = array();
         $result = 'mysql:';
 
-        if ($dsn['database']) {
+        if (isset($dsn['database'])) {
             $params[] = 'dbname=' . $dsn['database'];
         }
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
         }
 
-        if ($dsn['port']) {
+        if (isset($dsn['port'])) {
             $params[] = 'port=' . $dsn['port'];
         }
 
-        if ($dsn['socket']) {
+        if (isset($dsn['socket'])) {
             $params[] = 'unix_socket=' . $dsn['socket'];
         }
 
-        $params[] = 'charset=' . ($dsn['charset'] ?: 'utf8mb4');
+        $params[] = 'charset=' . (!empty($dsn['charset']) ? $dsn['charset'] : 'utf8mb4');
 
         if (!empty($params)) {
             $result .= implode(';', $params);

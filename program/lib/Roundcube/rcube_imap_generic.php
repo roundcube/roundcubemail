@@ -1689,9 +1689,11 @@ class rcube_imap_generic
         }
 
         // Check internal cache
-        $cache = $this->data['STATUS:'.$mailbox];
-        if (!empty($cache) && isset($cache['MESSAGES'])) {
-            return (int) $cache['MESSAGES'];
+        if (!empty($this->data['STATUS:'.$mailbox])) {
+            $cache = $this->data['STATUS:'.$mailbox];
+            if (isset($cache['MESSAGES'])) {
+                return (int) $cache['MESSAGES'];
+            }
         }
 
         // Try STATUS (should be faster than SELECT)
@@ -1741,9 +1743,11 @@ class rcube_imap_generic
     public function countUnseen($mailbox)
     {
         // Check internal cache
-        $cache = $this->data['STATUS:'.$mailbox];
-        if (!empty($cache) && isset($cache['UNSEEN'])) {
-            return (int) $cache['UNSEEN'];
+        if (!empty($this->data['STATUS:'.$mailbox])) {
+            $cache = $this->data['STATUS:'.$mailbox];
+            if (isset($cache['UNSEEN'])) {
+                return (int) $cache['UNSEEN'];
+            }
         }
 
         // Try STATUS (should be faster than SELECT+SEARCH)
@@ -2238,8 +2242,8 @@ class rcube_imap_generic
             return null;
         }
 
-        if ($uid = $this->data['UID-MAP'][$id]) {
-            return $uid;
+        if (!empty($this->data['UID-MAP'][$id])) {
+            return $this->data['UID-MAP'][$id];
         }
 
         if (isset($this->data['EXISTS']) && $id > $this->data['EXISTS']) {
@@ -2482,7 +2486,8 @@ class rcube_imap_generic
                 $ln      = 0;
 
                 // Tokenize response and assign to object properties
-                while (list($name, $value) = $this->tokenizeResponse($line, 2)) {
+                while (($tokens = $this->tokenizeResponse($line, 2)) && count($tokens) == 2) {
+                    list($name, $value) = $tokens;
                     if ($name == 'UID') {
                         $result[$id]->uid = intval($value);
                     }
@@ -3824,6 +3829,11 @@ class rcube_imap_generic
             // remove spaces from the beginning of the string
             $str = ltrim($str);
 
+            // empty string
+            if ($str === '' || $str === null) {
+                break;
+            }
+
             switch ($str[0]) {
 
             // String literal
@@ -3871,22 +3881,18 @@ class rcube_imap_generic
 
             // String atom, number, astring, NIL, *, %
             default:
-                // empty string
-                if ($str === '' || $str === null) {
-                    break 2;
-                }
-
                 // excluded chars: SP, CTL, ), DEL
                 // we do not exclude [ and ] (#1489223)
                 if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
                     $result[] = $m[1] == 'NIL' ? null : $m[1];
                     $str      = substr($str, strlen($m[1]));
                 }
+
                 break;
             }
         }
 
-        return $num == 1 ? $result[0] : $result;
+        return $num == 1 ? (isset($result[0]) ? $result[0] : '') : $result;
     }
 
     /**

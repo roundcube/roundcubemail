@@ -64,7 +64,11 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (empty($RCMAIL->action)) {
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
-        $scope = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET) ?: $_SESSION['search_scope'];
+        $scope = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
+        if (!$scope && isset($_SESSION['search_scope'])) {
+            $scope = $_SESSION['search_scope'];
+        }
+
         if ($scope && preg_match('/^(all|sub)$/i', $scope)) {
             $OUTPUT->set_env('search_scope', strtolower($scope));
         }
@@ -167,8 +171,9 @@ function rcmail_init_env()
     // we handle 'page' argument on 'list' and 'getunread' to prevent from
     // race condition and unintentional page overwrite in session
     if ($RCMAIL->action == 'list' || $RCMAIL->action == 'getunread') {
-        if (!($page = intval($_GET['_page']))) {
-            $page = $_SESSION['page'] ?: 1;
+        $page = isset($_GET['_page']) ? intval($_GET['_page']) : 0;
+        if (!$page) {
+            $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
         }
 
         $_SESSION['page'] = $page;
@@ -371,7 +376,7 @@ function rcmail_message_list($attrib)
 
     $table = new html_table($attrib);
 
-    if (!$attrib['noheader']) {
+    if (empty($attrib['noheader'])) {
         $allcols = array_merge($listcols, array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment'));
         $allcols = array_unique($allcols);
 
@@ -445,7 +450,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $allcols = array_merge($a_show_cols, array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment'));
     $allcols = array_unique($allcols);
 
-    $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $allcols) : NULL;
+    $thead = !empty($head_replace) ? rcmail_message_list_head($_SESSION['list_attrib'], $allcols) : NULL;
 
     // get name of smart From/To column in folder context
     $smart_col = rcmail_message_list_smart_column_name();
@@ -520,21 +525,21 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         }
 
         $a_msg_flags = array_change_key_case(array_map('intval', (array) $header->flags));
-        if ($header->depth)
+        if (!empty($header->depth))
             $a_msg_flags['depth'] = $header->depth;
-        else if ($header->has_children)
+        else if (!empty($header->has_children))
             $roots[] = $header->uid;
-        if ($header->parent_uid)
+        if (!empty($header->parent_uid))
             $a_msg_flags['parent_uid'] = $header->parent_uid;
-        if ($header->has_children)
+        if (!empty($header->has_children))
             $a_msg_flags['has_children'] = $header->has_children;
-        if ($header->unread_children)
+        if (!empty($header->unread_children))
             $a_msg_flags['unread_children'] = $header->unread_children;
-        if ($header->flagged_children)
+        if (!empty($header->flagged_children))
             $a_msg_flags['flagged_children'] = $header->flagged_children;
-        if ($header->others['list-post'])
+        if (!empty($header->others['list-post']))
             $a_msg_flags['ml'] = 1;
-        if ($header->priority)
+        if (!empty($header->priority))
             $a_msg_flags['prio'] = (int) $header->priority;
 
         $a_msg_flags['ctype'] = rcube::Q($header->ctype);
@@ -614,7 +619,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
-            $col_name = (string) $list_menu;
+            $col_name = !empty($list_menu) ? $list_menu : '';
             break;
         case 'fromto':
             $label    = $RCMAIL->gettext($smart_col);
@@ -635,7 +640,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
                     'title' => $RCMAIL->gettext('sortby')
                 ), $col_name);
         }
-        else if ($col_name[0] != '<') {
+        else if (empty($col_name) || $col_name[0] != '<') {
             $col_name = '<span class="' . $col .'">' . $col_name . '</span>';
         }
 
@@ -655,18 +660,23 @@ function rcmail_options_menu_link($attrib = array())
 {
     global $RCMAIL;
 
-    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', '" . ($attrib['ref'] ?: 'messagelistmenu') ."', this, event)";
-    $inner   = $title = $RCMAIL->gettext($attrib['label'] ?: 'listoptions');
+    $title   = $RCMAIL->gettext(!empty($attrib['label']) ? $attrib['label'] : 'listoptions');
+    $inner   = $title;
+    $onclick = sprintf(
+        "return %s.command('menu-open', '%s', this, event)",
+        rcmail_output::JS_OBJECT_NAME,
+        !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu'
+    );
 
     // Backwards compatibility, attribute renamed in v1.5
     if (isset($attrib['optionsmenuicon'])) {
         $attrib['icon'] = $attrib['optionsmenuicon'];
     }
 
-    if (is_string($attrib['icon']) && $attrib['icon'] != 'true') {
+    if (isset($attrib['icon']) && $attrib['icon'] != 'true') {
         $inner = html::img(array('src' => $RCMAIL->output->asset_url($attrib['icon'], true), 'alt' => $title));
     }
-    else if ($attrib['innerclass']) {
+    else if (!empty($attrib['innerclass'])) {
         $inner = html::span($attrib['innerclass'], $inner);
     }
 
@@ -684,7 +694,7 @@ function rcmail_messagecount_display($attrib)
 {
     global $RCMAIL;
 
-    if (!$attrib['id']) {
+    if (empty($attrib['id'])) {
         $attrib['id'] = 'rcmcountdisplay';
     }
 
@@ -1365,7 +1375,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
         $address = html::span('adr', $address);
         $allvalues[] = $address;
 
-        if (!$moreadrs) {
+        if (empty($moreadrs)) {
             $out .= ($out ? ', ' : '') . $address;
             $shown_addresses[] = $address;
         }
@@ -1381,7 +1391,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
         }
     }
 
-    if ($moreadrs) {
+    if (!empty($moreadrs)) {
         $label = rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs))));
 
         if ($PRINT_MODE) {
@@ -1629,7 +1639,7 @@ function rcmail_search_filter($attrib)
 
     $selected = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 
-    if (!$selected && $_REQUEST['_search']) {
+    if (!$selected && !empty($_REQUEST['_search'])) {
         $selected = $_SESSION['search_filter'];
     }
 
@@ -1653,7 +1663,7 @@ function rcmail_search_interval($attrib)
 
     $RCMAIL->output->add_gui_object('search_interval', $attrib['id']);
 
-    return $select->show($_REQUEST['_search'] ? $_SESSION['search_interval'] : '');
+    return $select->show(!empty($_REQUEST['_search']) ? $_SESSION['search_interval'] : '');
 }
 
 function rcmail_message_error()
