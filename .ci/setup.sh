@@ -17,9 +17,9 @@ sudo chmod 777 temp logs
 bin/install-jsdeps.sh
 
 # Compile Elastic's styles
-lessc skins/elastic/styles/styles.less > skins/elastic/styles/styles.css
-lessc skins/elastic/styles/print.less > skins/elastic/styles/print.css
-lessc skins/elastic/styles/embed.less > skins/elastic/styles/embed.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/styles.less > skins/elastic/styles/styles.min.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/print.less > skins/elastic/styles/print.min.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/embed.less > skins/elastic/styles/embed.min.css
 
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
