@@ -2356,11 +2356,14 @@ EOF;
         $label   = html::label(array('for' => $attrib['id'], 'class' => 'voice'), rcube::Q($this->app->gettext('arialabelsearchterms')));
         $input_q = new html_inputfield($attrib);
         $out     = $label . $input_q->show();
+        $name    = 'qsearchbox';
 
         // Support for multiple searchforms on the same page
         if (isset($attrib['gui-object']) && $attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
-            $this->add_gui_object($attrib['gui-object'] ?: 'qsearchbox', $attrib['id']);
+            $name = $attrib['gui-object'];
         }
+
+        $this->add_gui_object($name, $attrib['id']);
 
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
