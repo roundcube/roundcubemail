@@ -113,9 +113,7 @@ class rcmail extends rcube
         $this->default_skin = $this->config->get('skin');
 
         // create user object
-        if (!empty($_SESSION['user_id'])) {
-            $this->set_user(new rcube_user($_SESSION['user_id']));
-        }
+        $this->set_user(new rcube_user(isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null));
 
         // set task and action properties
         $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
