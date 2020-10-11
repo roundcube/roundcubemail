@@ -350,11 +350,11 @@ class rcube_sieve_script
                     case 'duplicate':
                         array_push($exts, 'duplicate');
 
-                        $tests[$i] .= ($test['not'] ? 'not ' : '') . $test['test'];
+                        $tests[$i] .= (!empty($test['not']) ? 'not ' : '') . $test['test'];
 
                         $tokens = array('handle', 'uniqueid', 'header');
                         foreach ($tokens as $token)
-                            if ($test[$token] !== null && $test[$token] !== '') {
+                            if (isset($test[$token]) && $test[$token] !== '') {
                                 $tests[$i] .= " :$token " . self::escape_string($test[$token]);
                             }
 
@@ -403,7 +403,7 @@ class rcube_sieve_script
                     case 'fileinto':
                         array_push($exts, 'fileinto');
                         $action_script .= 'fileinto ';
-                        if ($action['copy']) {
+                        if (!empty($action['copy'])) {
                             $action_script .= ':copy ';
                             array_push($exts, 'copy');
                         }
@@ -412,7 +412,7 @@ class rcube_sieve_script
 
                     case 'redirect':
                         $action_script .= 'redirect ';
-                        if ($action['copy']) {
+                        if (!empty($action['copy'])) {
                             $action_script .= ':copy ';
                             array_push($exts, 'copy');
                         }
@@ -445,7 +445,7 @@ class rcube_sieve_script
                             $action_script .= " :last";
                         }
                         if ($action['type'] == 'deleteheader') {
-                            $action['type'] = $action['match-type'];
+                            $action['type'] = isset($action['match-type']) ? $action['match-type'] : null;
                             $this->add_operator($action, $action_script, $exts);
                         }
                         $action_script .= " " . self::escape_string($action['name']);
@@ -503,10 +503,12 @@ class rcube_sieve_script
 
                         // Here we support draft-martin-sieve-notify-01 used by Cyrus
                         if ($notify == 'notify') {
-                            switch ($action['importance']) {
-                                case 1: $action_script .= " :high"; break;
-                                //case 2: $action_script .= " :normal"; break;
-                                case 3: $action_script .= " :low"; break;
+                            if (!empty($action['importance'])) {
+                                switch ($action['importance']) {
+                                    case 1: $action_script .= " :high"; break;
+                                    //case 2: $action_script .= " :normal"; break;
+                                    case 3: $action_script .= " :low"; break;
+                                }
                             }
 
                             // Old-draft way: :method "mailto" :options "email@address"
@@ -626,7 +628,7 @@ class rcube_sieve_script
             $rulename = '';
 
             // Comments
-            while ($script[$position] === '#') {
+            while (isset($script[$position]) && $script[$position] === '#') {
                 $endl = strpos($script, "\n", $position) ?: $length;
                 $line = substr($script, $position, $endl - $position);
 
@@ -953,7 +955,7 @@ class rcube_sieve_script
             case 'addheader':
             case 'deleteheader':
                 $args = $this->test_tokens($tokens);
-                if ($token == 'deleteheader') {
+                if ($token == 'deleteheader' && !empty($args['type'])) {
                     $args['match-type'] = $args['type'];
                 }
                 if (($index = array_search(':last', $tokens)) !== false) {
@@ -1020,7 +1022,7 @@ class rcube_sieve_script
                     }
                 }
 
-                $action['options'] = (array) $action['options'];
+                $action['options'] = isset($action['options']) ? (array) $action['options'] : [];
 
                 // Old-draft way: :method "mailto" :options "email@address"
                 if (!empty($action['method']) && !empty($action['options'])) {
@@ -1073,7 +1075,7 @@ class rcube_sieve_script
     {
         if (!empty($test['index'])) {
             array_push($exts, 'index');
-            $out .= ' :index ' . intval($test['index']) . ($test['last'] ? ' :last' : '');
+            $out .= ' :index ' . intval($test['index']) . (!empty($test['last']) ? ' :last' : '');
         }
     }
 

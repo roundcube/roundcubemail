@@ -174,7 +174,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         );
 
         foreach ($data as $expected => $value) {
-            $result = format_email_recipient($value[0], $value[1]);
+            $result = format_email_recipient($value[0], isset($value[1]) ? $value[1] : null);
             $this->assertEquals($expected, $result, "Invalid format_email_recipient()");
         }
 

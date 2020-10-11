@@ -41,7 +41,7 @@ define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR.'/');
 // show basic error message on fatal PHP error
 function roundcube_fatal_error() {
     $error = error_get_last();
-    if ($error['type'] === E_ERROR || $error['type'] === E_PARSE) {
+    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
         if (php_sapi_name() === 'cli') {
             echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
         }

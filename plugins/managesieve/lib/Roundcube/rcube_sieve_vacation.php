@@ -608,7 +608,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             if ($test['test'] == 'header' && $test['type'] == 'regex' && $test['arg1'] == 'received') {
                 $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
 
-                if (!$result['from'] && preg_match($rx_from, $textexp, $matches)) {
+                if (empty($result['from']) && preg_match($rx_from, $textexp, $matches)) {
                     $result['from'] = $matches[1]." ".$matches[2]." ".$matches[3];
                 }
 

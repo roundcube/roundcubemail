@@ -343,11 +343,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return [
             [
                 '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>',
-                '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>',
-                '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                'Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
@@ -355,7 +355,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
-                '<!-- html ignored --><!-- body ignored --><p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
+                '<p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
             ],
             [
                 '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
@@ -363,7 +363,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
@@ -371,7 +371,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
             ],
             [
                 '<svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
@@ -381,7 +381,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             [
                 '<html><svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
                     . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml">'
+                '<svg xmlns="http://www.w3.org/1999/xhtml">'
                     . '<!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
             ],
             [
@@ -416,7 +416,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<svg><script href="data:text/javascript,alert(1)" /><text x="20" y="20">XSS</text></svg>',
-                '<svg><!-- script not allowed --><text x="20" y="20">XSS</text></svg>'
+                '<svg><text x="20" y="20">XSS</text></svg>'
             ],
         ];
     }
@@ -431,7 +431,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washer = new rcube_washtml;
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $washed, "SVG content");
+        $this->assertSame($expected, $this->cleanupResult($washed), "SVG content");
     }
 
     /**
@@ -442,43 +442,43 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return [
             [
                 '<html><base href="javascript:/a/-alert(1)///////"><a href="../lol/safari.html">test</a>',
-                '<!-- html ignored --><body><!-- base ignored --><a x-washed="href">test</a></body>'
+                '<body><a x-washed="href">test</a></body>'
             ],
             [
                 '<html><math><x href="javascript:alert(1)">blah</x>',
-                '<!-- html ignored --><body><math><!-- x ignored -->blah</math></body>'
+                '<body><math>blah</math></body>'
             ],
             [
                 '<html><a href="j&#x61vascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><body background="javascript:alert(1)">',
-                '<!-- html ignored --><body x-washed="background"></body>'
+                '<body x-washed="background"></body>'
             ],
             [
                 '<html><math href="javascript:alert(location);"><mi>clickme</mi></math>',
-                '<!-- html ignored --><body><math x-washed="href"><mi>clickme</mi></math></body>',
+                '<body><math x-washed="href"><mi>clickme</mi></math></body>',
             ],
             [
                 '<html><math><mstyle href="javascript:alert(location);"><mi>clickme</mi></mstyle></math>',
-                '<!-- html ignored --><body><math><mstyle x-washed="href"><mi>clickme</mi></mstyle></math></body>',
+                '<body><math><mstyle x-washed="href"><mi>clickme</mi></mstyle></math></body>',
             ],
             [
                 '<html><math><msubsup href="javascript:alert(location);"><mi>clickme</mi></msubsup></math>',
-                '<!-- html ignored --><body><math><msubsup x-washed="href"><mi>clickme</mi></msubsup></math></body>',
+                '<body><math><msubsup x-washed="href"><mi>clickme</mi></msubsup></math></body>',
             ],
             [
                 '<html><math><ms HREF="javascript:alert(location);">clickme</ms></math>',
-                '<!-- html ignored --><body><math><ms x-washed="href">clickme</ms></math></body>',
+                '<body><math><ms x-washed="href">clickme</ms></math></body>',
             ],
         ];
     }
@@ -493,7 +493,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $washed, "XSS issues");
+        $this->assertSame($expected, $this->cleanupResult($washed), "XSS issues");
     }
 
     /**

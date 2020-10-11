@@ -664,7 +664,7 @@ class rcube_html2text
     public function blockquote_citation_callback($m)
     {
         $line  = ltrim($m[2]);
-        $space = $line[0] == '>' ? '' : ' ';
+        $space = isset($line[0]) && $line[0] == '>' ? '' : ' ';
 
         return $m[1] . '>' . $space . $line;
     }

@@ -164,12 +164,15 @@ class rcube_text2html
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $flowed = false;
-            if (isset($flowed_char) && ord($text[$n][0]) == $flowed_char) {
+            $first  = isset($text[$n][0]) ? $text[$n][0] : '';
+
+            if (isset($flowed_char) && ord($first) == $flowed_char) {
                 $flowed   = true;
                 $text[$n] = substr($text[$n], 1);
+                $first    = isset($text[$n][0]) ? $text[$n][0] : '';
             }
 
-            if ($text[$n][0] == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
+            if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
                 $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);

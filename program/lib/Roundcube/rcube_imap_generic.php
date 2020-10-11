@@ -429,8 +429,10 @@ class rcube_imap_generic
      */
     protected function closeSocket()
     {
-        @fclose($this->fp);
-        $this->fp = null;
+        if ($this->fp) {
+            fclose($this->fp);
+            $this->fp = null;
+        }
     }
 
     /**
@@ -3985,11 +3987,18 @@ class rcube_imap_generic
 
         foreach ($messages as $idx => $part) {
             $items = explode(':', $part);
-            $max   = max($items[0], $items[1]);
 
-            for ($x=$items[0]; $x<=$max; $x++) {
-                $result[] = (int)$x;
+            if (!empty($items[1]) && $items[1] > $items[0]) {
+                $max = $items[1];
             }
+            else {
+                $max = $items[0];
+            }
+
+            for ($x = $items[0]; $x <= $max; $x++) {
+                $result[] = (int) $x;
+            }
+
             unset($messages[$idx]);
         }
 
