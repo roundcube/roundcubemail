@@ -39,22 +39,27 @@ abstract class rcmail_action
     /**
      * Deprecated action aliases.
      *
-     * @todo Get rid of these (it will be a big BC break)
+     * @todo Get rid of these (but it will be a big BC break)
      * @var array
      */
     public static $aliases = [
         'settings/rename-folder'    => 'settings/folder-rename',
-        'settings/delete-folder'    => 'settings/folder-delete',
         'settings/subscribe'        => 'settings/folder-subscribe',
         'settings/unsubscribe'      => 'settings/folder-unsubscribe',
         'settings/purge'            => 'settings/folder-purge',
         'settings/add-folder'       => 'settings/folder-create',
         'settings/add-identity'     => 'settings/identity-create',
         'settings/add-response'     => 'settings/response-create',
-        'settings/save-response'    => 'settings/response-save',
-        'settings/delete-response'  => 'settings/response-delete',
+        'settings/delete-folder'    => 'settings/folder-delete',
         'settings/delete-identity'  => 'settings/identity-delete',
-        'settings/upload-display'   => 'settings/upload-display', // ???
+        'settings/delete-response'  => 'settings/response-delete',
+        'settings/edit-folder'      => 'settings/folder-edit',
+        'settings/edit-identity'    => 'settings/identity-edit',
+        'settings/edit-response'    => 'settings/response-edit',
+        'settings/save-folder'      => 'settings/folder-save',
+        'settings/save-identity'    => 'settings/identity-save',
+        'settings/save-prefs'       => 'settings/prefs-save',
+        'settings/save-response'    => 'settings/response-save',
     ];
 
     /**
@@ -72,6 +77,10 @@ abstract class rcmail_action
         $rcmail = rcmail::get_instance();
 
         if (!(static::$mode & self::MODE_HTTP) && empty($rcmail->output->ajax_call)) {
+            return false;
+        }
+
+        if (!(static::$mode & self::MODE_AJAX) && !empty($rcmail->output->ajax_call)) {
             return false;
         }
 
