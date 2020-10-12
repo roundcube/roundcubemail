@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
+- Fix folder list issue whan special folder is a subfolder (#7647)
 
 RELEASE 1.4.9
 -------------
