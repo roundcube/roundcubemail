@@ -224,8 +224,9 @@ function rcmail_folder_subscriptions($attrib)
         $folder        = $STORAGE->mod_folder($folder);
         $foldersplit   = explode($delimiter, $folder);
         $name          = rcube_charset::convert(array_pop($foldersplit), 'UTF7-IMAP');
-        $parent_folder = join($delimiter, $foldersplit);
-        $level         = count($foldersplit);
+        $is_special    = isset($special_folders[$folder_id]);
+        $parent_folder = $is_special ? '' : join($delimiter, $foldersplit);
+        $level         = $is_special ? 0 : count($foldersplit);
 
         // add any necessary "virtual" parent folders
         if ($parent_folder && !isset($seen[$parent_folder])) {
@@ -271,41 +272,41 @@ function rcmail_folder_subscriptions($attrib)
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
-        $sub_key    = array_search($folder['id'], $a_subscribed);
-        $subscribed = $sub_key !== false;
-        $special    = $folder['id'] == 'INBOX' || isset($special_folders[$folder['id']]);
-        $protected  = $folder['id'] == 'INBOX' || ($protect_default && $special);
-        $noselect   = false;
-        $classes    = array();
+        $sub_key       = array_search($folder['id'], $a_subscribed);
+        $is_subscribed = $sub_key !== false;
+        $is_special    = isset($special_folders[$folder['id']]);
+        $is_protected  = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
+        $noselect      = false;
+        $classes       = array();
 
         $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
-        $display_folder = rcube::Q($special ? $RCMAIL->localize_foldername($folder['id'], false, true) : $folder['name']);
+        $display_folder = rcube::Q($is_special ? $RCMAIL->localize_foldername($folder['id'], false, true) : $folder['name']);
 
         if ($folder['virtual']) {
             $classes[] = 'virtual';
         }
 
         // Check \Noselect flag (of existing folder)
-        if (!$protected && in_array($folder['id'], $a_unsubscribed)) {
+        if (!$is_protected && in_array($folder['id'], $a_unsubscribed)) {
             $attrs = $STORAGE->folder_attributes($folder['id']);
             $noselect = in_array_nocase('\\Noselect', $attrs);
         }
 
-        $disabled = (($protected && $subscribed) || $noselect);
+        $is_disabled = (($is_protected && $is_subscribed) || $noselect);
 
         // Below we will disable subscription option for "virtual" folders
         // according to namespaces, but only if they aren't already subscribed.
         // User should be able to unsubscribe from the folder
         // even if it doesn't exists or is not accessible (OTRS:1000059)
-        if (!$subscribed && !$disabled && !empty($namespace) && $folder['virtual']) {
+        if (!$is_subscribed && !$is_disabled && !empty($namespace) && $folder['virtual']) {
             // check if the folder is a namespace prefix, then disable subscription option on it
-            if (!$disabled && $folder['level'] == 0) {
+            if (!$is_disabled && $folder['level'] == 0) {
                 $fname = $folder['id'] . $delimiter;
                 foreach ($namespace as $ns) {
                     if (is_array($ns)) {
                         foreach ($ns as $item) {
                             if ($item[0] === $fname) {
-                                $disabled = true;
+                                $is_disabled = true;
                                 break 2;
                             }
                         }
@@ -313,22 +314,22 @@ function rcmail_folder_subscriptions($attrib)
                 }
             }
             // check if the folder is an other users virtual-root folder, then disable subscription option on it
-            if (!$disabled && $folder['level'] == 1 && !empty($namespace['other'])) {
+            if (!$is_disabled && $folder['level'] == 1 && !empty($namespace['other'])) {
                 $parts = explode($delimiter, $folder['id']);
                 $fname = $parts[0] . $delimiter;
                 foreach ($namespace['other'] as $item) {
                     if ($item[0] === $fname) {
-                        $disabled = true;
+                        $is_disabled = true;
                         break;
                     }
                 }
             }
             // check if the folder is shared, then disable subscription option on it (if not subscribed already)
-            if (!$disabled) {
+            if (!$is_disabled) {
                 $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
                 foreach ($tmp_ns as $item) {
                     if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
-                        $disabled = true;
+                        $is_disabled = true;
                         break;
                     }
                 }
@@ -347,14 +348,14 @@ function rcmail_folder_subscriptions($attrib)
             'folder_imap' => $folder['id'],
             'folder'      => $folder_utf8,
             'display'     => $display_folder,
-            'protected'   => $protected || $folder['virtual'],
+            'protected'   => $is_protected || $folder['virtual'],
             'class'       => join(' ', $classes),
-            'subscribed'  => $subscribed,
+            'subscribed'  => $is_subscribed,
             'level'       => $folder['level'],
             'collapsed'   => $is_collapsed,
             'content'     => html::a(array('href' => '#'), $display_folder)
-                . $checkbox_subscribe->show(($subscribed ? $folder['id'] : ''),
-                    array('value' => $folder['id'], 'disabled' => $disabled ? 'disabled' : ''))
+                . $checkbox_subscribe->show(($is_subscribed ? $folder['id'] : ''),
+                    array('value' => $folder['id'], 'disabled' => $is_disabled ? 'disabled' : ''))
         );
     }
 
