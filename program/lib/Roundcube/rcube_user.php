@@ -364,8 +364,21 @@ class rcube_user
         $query_cols = $query_params = array();
 
         foreach ((array)$data as $col => $value) {
-            $query_cols[]   = $this->db->quote_identifier($col) . ' = ?';
-            $query_params[] = $value;
+            // filter to allowed columns
+            if (in_array($col, [
+                'name',
+                'organization',
+                'email',
+                'reply-to',
+                'bcc',
+                'signature',
+                'html_signature',
+                'standard'
+                ]))
+            {
+                $query_cols[]   = $this->db->quote_identifier($col) . ' = ?';
+                $query_params[] = $value;
+            }
         }
         $query_params[] = $iid;
         $query_params[] = $this->ID;
@@ -405,8 +418,21 @@ class rcube_user
         $insert_values = array();
 
         foreach ((array)$data as $col => $value) {
-            $insert_cols[]   = $this->db->quote_identifier($col);
-            $insert_values[] = $value;
+            // filter to allowed columns
+            if (in_array($col, [
+                'name',
+                'organization',
+                'email',
+                'reply-to',
+                'bcc',
+                'signature',
+                'html_signature',
+                'standard'
+                ]))
+            {
+                $insert_cols[]   = $this->db->quote_identifier($col);
+                $insert_values[] = $value;
+            }
         }
 
         $insert_cols[]   = $this->db->quote_identifier('user_id');
@@ -469,6 +495,10 @@ class rcube_user
      * Make this identity the default one for this user
      *
      * @param int $iid The identity ID
+     *
+     * This function only sets the `standard` column of all identities
+     * *except* the one passed via $iid to 0, relying on `standard` being
+     * set to 1 for the $iid identity.
      */
     function set_default($iid)
     {
@@ -486,13 +516,19 @@ class rcube_user
 
     /**
      * Update user's last_login timestamp
+     *
+     * @param string $last_login The timestamps (null for now)
      */
-    function touch()
+    function touch($last_login = null)
     {
         if ($this->ID) {
+            if ($last_login === null)
+            {
+                $last_login = $this->db->now();
+            }
             $this->db->query(
                 "UPDATE ".$this->db->table_name('users', true).
-                " SET `last_login` = ".$this->db->now().
+                " SET `last_login` = ".$last_login.
                 " WHERE `user_id` = ?",
                 $this->ID);
         }
