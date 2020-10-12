@@ -59,6 +59,7 @@ CHANGELOG Roundcube Webmail
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
 - Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
+- Fix folder list issue whan special folder is a subfolder (#7647)
 
 RELEASE 1.4.9
 -------------
