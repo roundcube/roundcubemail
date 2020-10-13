@@ -278,7 +278,7 @@ function rcmail_check_message_size($filesize, $filetype)
     $size  += $filesize * $multip;
 
     if ($size > $limit) {
-        $limit = $RCMAIL->show_bytes($limit);
+        $limit = $RCMAIL->show_bytes($limit / 1.33);
         return $RCMAIL->gettext(array('name' => 'msgsizeerror', 'vars' => array('size' => $limit)));
     }
 }
