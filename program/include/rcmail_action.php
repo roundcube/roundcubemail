@@ -55,6 +55,7 @@ abstract class rcmail_action
         'settings/delete-response'  => 'settings/response-delete',
         'settings/edit-folder'      => 'settings/folder-edit',
         'settings/edit-identity'    => 'settings/identity-edit',
+        'settings/edit-prefs'       => 'settings/prefs-edit',
         'settings/edit-response'    => 'settings/response-edit',
         'settings/save-folder'      => 'settings/folder-save',
         'settings/save-identity'    => 'settings/identity-save',

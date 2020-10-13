@@ -154,7 +154,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         unset($redir['abort'], $redir['_err']);
 
         // send redirect
-        $OUTPUT->redirect($redir, 0, true);
+        $RCMAIL->output->redirect($redir, 0, true);
     }
     else {
         if (!$auth['valid']) {
@@ -174,7 +174,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
 
-        $OUTPUT->show_message($error_message, 'warning');
+        $RCMAIL->output->show_message($error_message, 'warning');
 
         // log failed login
         $RCMAIL->log_login($auth['user'], true, $error_code);
@@ -203,7 +203,7 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
         'lang' => $RCMAIL->user->language,
     );
 
-    $OUTPUT->show_message('loggedout');
+    $RCMAIL->output->show_message('loggedout');
 
     $RCMAIL->logout_actions();
     $RCMAIL->kill_session();
@@ -225,17 +225,17 @@ if (empty($RCMAIL->user->ID)) {
         || (!empty($_REQUEST['_err']) && $_REQUEST['_err'] === 'session')
         || ($session_error = $RCMAIL->session_error())
     ) {
-        $OUTPUT->show_message($session_error ?: 'sessionerror', 'error', null, true, -1);
+        $RCMAIL->output->show_message($session_error ?: 'sessionerror', 'error', null, true, -1);
     }
 
-    if ($OUTPUT->ajax_call || $OUTPUT->get_env('framed')) {
-        $OUTPUT->command('session_error', $RCMAIL->url(array('_err' => 'session')));
-        $OUTPUT->send('iframe');
+    if ($RCMAIL->output->ajax_call || $RCMAIL->output->get_env('framed')) {
+        $RCMAIL->output->command('session_error', $RCMAIL->url(array('_err' => 'session')));
+        $RCMAIL->output->send('iframe');
     }
 
     // check if installer is still active
     if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
-        $OUTPUT->add_footer(html::div(array('id' => 'login-addon', 'style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
+        $RCMAIL->output->add_footer(html::div(array('id' => 'login-addon', 'style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
             html::tag('h2', array('style' => "margin-top:0.2em"), "Installer script is still accessible") .
             html::p(null, "The install script of your Roundcube installation is still stored in its default location!") .
             html::p(null, "Please <b>remove</b> the whole <tt>installer</tt> folder from the Roundcube directory because
@@ -257,7 +257,7 @@ if (empty($RCMAIL->user->ID)) {
         header('HTTP/1.0 401 Unauthorized');
     }
 
-    $OUTPUT->send($plugin['task']);
+    $RCMAIL->output->send($plugin['task']);
 }
 else {
     // CSRF prevention

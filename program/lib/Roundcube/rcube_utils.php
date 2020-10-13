@@ -297,8 +297,6 @@ class rcube_utils
      */
     public static function parse_input_value($value, $allow_html = false, $charset = null)
     {
-        global $OUTPUT;
-
         if (empty($value)) {
             return $value;
         }
@@ -307,6 +305,7 @@ class rcube_utils
             foreach ($value as $idx => $val) {
                 $value[$idx] = self::parse_input_value($val, $allow_html, $charset);
             }
+
             return $value;
         }
 
@@ -315,7 +314,8 @@ class rcube_utils
             $value = strip_tags($value);
         }
 
-        $output_charset = is_object($OUTPUT) ? $OUTPUT->get_charset() : null;
+        $rcube          = rcube::get_instance();
+        $output_charset = is_object($rcube->output) ? $rcube->output->get_charset() : null;
 
         // remove invalid characters (#1488124)
         if ($output_charset == 'UTF-8') {

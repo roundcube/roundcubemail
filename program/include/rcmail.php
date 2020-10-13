@@ -250,7 +250,7 @@ class rcmail extends rcube
                 list($task, $action) = explode('/', rcmail_action::$aliases["$task/$action"]);
             }
 
-            $action = str_replace('-', '_', $this->action);
+            $action = str_replace('-', '_', $action);
             $class  = "rcmail_action_{$task}_{$action}";
 
             // try to include the step file
@@ -271,12 +271,10 @@ class rcmail extends rcube
             $last = intval(rcube_utils::get_input_value('_last', rcube_utils::INPUT_GPC));
             $this->plugins->exec_hook('refresh', ['last' => $last]);
         }
-/*
+
         // parse main template (default)
-        if ($this->output->template_exists($this->task)) {
-            $this->output->send($this->task);
-        }
-*/
+        $this->output->send($this->task);
+
         // if we arrive here, something went wrong
         $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => "Invalid request"];
         rcmail::raise_error($error, true, true);

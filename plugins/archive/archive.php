@@ -387,8 +387,6 @@ class archive extends rcube_plugin
      */
     function prefs_table($args)
     {
-        global $CURR_SECTION;
-
         $this->add_texts('localization');
 
         $rcmail        = rcmail::get_instance();
@@ -399,7 +397,7 @@ class archive extends rcube_plugin
             $type = $rcmail->config->get('archive_type');
 
             // load folders list when needed
-            if ($CURR_SECTION) {
+            if ($args['current']) {
                 $select = $rcmail->folder_selector(array(
                         'noselection'   => '---',
                         'realnames'     => true,
