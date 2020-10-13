@@ -226,6 +226,15 @@ class rcmail extends rcube
             $this->output->send();
         }
 
+        $task       = $this->action == 'save-pref' ? 'utils' : $this->task;
+        $task_class = "rcmail_action_{$task}_index";
+
+        // execute the action index handler
+        if (class_exists($task_class)) {
+            $task_handler = new $task_class;
+            $task_handler->run();
+        }
+
         // allow 5 "redirects" to another action
         $redirects = 0;
         while ($redirects < 5) {
@@ -242,19 +251,18 @@ class rcmail extends rcube
                 break;
             }
 
-            $task   = $this->action == 'save-pref' ? 'utils' : $this->task;
             $action = !empty($this->action) ? $this->action : 'index';
 
             // handle deprecated action names
-            if (!empty(rcmail_action::$aliases["$task/$action"])) {
-                list($task, $action) = explode('/', rcmail_action::$aliases["$task/$action"]);
+            if (!empty($task_handler) && !empty($task_handler::$aliases[$action])) {
+                $action = $task_handler::$aliases[$action];
             }
 
             $action = str_replace('-', '_', $action);
             $class  = "rcmail_action_{$task}_{$action}";
 
-            // try to include the step file
-            if (class_exists($class)) {
+            // Run the action (except the index)
+            if ($class != $task_class && class_exists($class)) {
                 $handler = new $class;
                 if (!$handler->checks()) {
                     break;

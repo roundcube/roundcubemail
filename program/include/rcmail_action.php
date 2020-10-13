@@ -42,26 +42,7 @@ abstract class rcmail_action
      * @todo Get rid of these (but it will be a big BC break)
      * @var array
      */
-    public static $aliases = [
-        'settings/rename-folder'    => 'settings/folder-rename',
-        'settings/subscribe'        => 'settings/folder-subscribe',
-        'settings/unsubscribe'      => 'settings/folder-unsubscribe',
-        'settings/purge'            => 'settings/folder-purge',
-        'settings/add-folder'       => 'settings/folder-create',
-        'settings/add-identity'     => 'settings/identity-create',
-        'settings/add-response'     => 'settings/response-create',
-        'settings/delete-folder'    => 'settings/folder-delete',
-        'settings/delete-identity'  => 'settings/identity-delete',
-        'settings/delete-response'  => 'settings/response-delete',
-        'settings/edit-folder'      => 'settings/folder-edit',
-        'settings/edit-identity'    => 'settings/identity-edit',
-        'settings/edit-prefs'       => 'settings/prefs-edit',
-        'settings/edit-response'    => 'settings/response-edit',
-        'settings/save-folder'      => 'settings/folder-save',
-        'settings/save-identity'    => 'settings/identity-save',
-        'settings/save-prefs'       => 'settings/prefs-save',
-        'settings/save-response'    => 'settings/response-save',
-    ];
+    public static $aliases = [];
 
     /**
      * Request handler. The only abstract method.
@@ -860,5 +841,39 @@ abstract class rcmail_action
         }
 
         return file_get_contents($name, false);
+    }
+
+    public static function get_form_tags($attrib, $action, $id = null, $hidden = null)
+    {
+        static $edit_form;
+
+        $rcmail = rcmail::get_instance();
+
+        $form_start = $form_end = '';
+
+        if (empty($edit_form)) {
+            $request_key = $action . (isset($id) ? '.'.$id : '');
+            $form_start = $rcmail->output->request_form([
+                    'name'    => 'form',
+                    'method'  => 'post',
+                    'task'    => $rcmail->task,
+                    'action'  => $action,
+                    'request' => $request_key,
+                    'noclose' => true
+                ] + $attrib
+            );
+
+            if (is_array($hidden)) {
+                $hiddenfields = new html_hiddenfield($hidden);
+                $form_start .= $hiddenfields->show();
+            }
+
+            $form_end  = !strlen($attrib['form']) ? '</form>' : '';
+            $edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
+
+            $rcmail->output->add_gui_object('editform', $edit_form);
+        }
+
+        return array($form_start, $form_end);
     }
 }
