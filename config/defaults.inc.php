@@ -1409,3 +1409,7 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+
+// Enables the trim of leading and trailing spaces in passwords during login and password plugin
+// If enabled and existing users did use spaces in front or end of passwords, they cannot login
+$config['trim_password'] = false;
