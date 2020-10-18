@@ -876,4 +876,501 @@ abstract class rcmail_action
 
         return array($form_start, $form_end);
     }
+
+    /**
+     * Return folders list in HTML
+     *
+     * @param array $attrib Named parameters
+     *
+     * @return string HTML code for the gui object
+     */
+    public static function folder_list($attrib)
+    {
+        static $a_mailboxes;
+
+        $attrib += ['maxlength' => 100, 'realnames' => false, 'unreadwrap' => ' (%s)'];
+
+        $type = !empty($attrib['type']) ? $attrib['type'] : 'ul';
+        unset($attrib['type']);
+
+        if ($type == 'ul' && empty($attrib['id'])) {
+            $attrib['id'] = 'rcmboxlist';
+        }
+
+        if (empty($attrib['folder_name'])) {
+            $attrib['folder_name'] = '*';
+        }
+
+        // get current folder
+        $rcmail    = rcmail::get_instance();
+        $storage   = $rcmail->get_storage();
+        $mbox_name = $storage->get_folder();
+        $delimiter = $storage->get_hierarchy_delimiter();
+
+        // build the folders tree
+        if (empty($a_mailboxes)) {
+            // get mailbox list
+            $a_mailboxes = array();
+            $a_folders   = $storage->list_folders_subscribed(
+                '',
+                $attrib['folder_name'],
+                isset($attrib['folder_filter']) ? $attrib['folder_filter'] : null
+            );
+
+            foreach ($a_folders as $folder) {
+                self::build_folder_tree($a_mailboxes, $folder, $delimiter);
+            }
+        }
+
+        // allow plugins to alter the folder tree or to localize folder names
+        $hook = $rcmail->plugins->exec_hook('render_mailboxlist', [
+                'list'      => $a_mailboxes,
+                'delimiter' => $delimiter,
+                'type'      => $type,
+                'attribs'   => $attrib,
+        ]);
+
+        $a_mailboxes = $hook['list'];
+        $attrib      = $hook['attribs'];
+
+        if ($type == 'select') {
+            $attrib['is_escaped'] = true;
+            $select = new html_select($attrib);
+
+            // add no-selection option
+            if (!empty($attrib['noselection'])) {
+                $select->add(html::quote($this->gettext($attrib['noselection'])), '');
+            }
+
+            $maxlength = isset($attrib['maxlength']) ? $attrib['maxlength'] : null;
+            $realnames = isset($attrib['realnames']) ? $attrib['realnames'] : null;
+            $default   = isset($attrib['default']) ? $attrib['default'] : null;
+
+            self::render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
+            $out = $select->show($default);
+        }
+        else {
+            $out = '';
+            $js_mailboxlist = [];
+            $tree = self::render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
+
+            if ($type != 'js') {
+                $out = html::tag('ul', $attrib, $tree, html::$common_attrib);
+
+                $rcmail->output->include_script('treelist.js');
+                $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
+                $rcmail->output->set_env('unreadwrap', isset($attrib['unreadwrap']) ? $attrib['unreadwrap'] : false);
+                $rcmail->output->set_env('collapsed_folders', (string) $rcmail->config->get('collapsed_folders'));
+            }
+
+            $rcmail->output->set_env('mailboxes', $js_mailboxlist);
+
+            // we can't use object keys in javascript because they are unordered
+            // we need sorted folders list for folder-selector widget
+            $rcmail->output->set_env('mailboxes_list', array_keys($js_mailboxlist));
+        }
+
+        // add some labels to client
+        $rcmail->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
+
+        return $out;
+    }
+
+    /**
+     * Return folders list as html_select object
+     *
+     * @param array $p Named parameters
+     *
+     * @return html_select HTML drop-down object
+     */
+    public static function folder_selector($p = [])
+    {
+        $rcmail    = rcmail::get_instance();
+        $storage   = $rcmail->get_storage();
+        $realnames = $rcmail->config->get('show_real_foldernames');
+        $p += ['maxlength' => 100, 'realnames' => $realnames, 'is_escaped' => true];
+        $a_mailboxes = [];
+
+        if (empty($p['folder_name'])) {
+            $p['folder_name'] = '*';
+        }
+
+        if ($p['unsubscribed']) {
+            $list = $storage->list_folders('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+        }
+        else {
+            $list = $storage->list_folders_subscribed('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+        }
+
+        $delimiter = $storage->get_hierarchy_delimiter();
+
+        if (!empty($p['exceptions'])) {
+            $list = array_diff($list, (array) $p['exceptions']);
+        }
+
+        if (!empty($p['additional'])) {
+            foreach ($p['additional'] as $add_folder) {
+                $add_items = explode($delimiter, $add_folder);
+                $folder    = '';
+                while (count($add_items)) {
+                    $folder .= array_shift($add_items);
+
+                    // @TODO: sorting
+                    if (!in_array($folder, $list)) {
+                        $list[] = $folder;
+                    }
+
+                    $folder .= $delimiter;
+                }
+            }
+        }
+
+        foreach ($list as $folder) {
+            self::build_folder_tree($a_mailboxes, $folder, $delimiter);
+        }
+
+        // allow plugins to alter the folder tree or to localize folder names
+        $hook = $rcmail->plugins->exec_hook('render_folder_selector', [
+                'list'      => $a_mailboxes,
+                'delimiter' => $delimiter,
+                'attribs'   => $p,
+        ]);
+
+        $a_mailboxes = $hook['list'];
+        $p           = $hook['attribs'];
+
+        $select = new html_select($p);
+
+        if ($p['noselection']) {
+            $select->add(html::quote($p['noselection']), '');
+        }
+
+        self::render_folder_tree_select($a_mailboxes, $mbox, $p['maxlength'], $select, $p['realnames'], 0, $p);
+
+        return $select;
+    }
+
+    /**
+     * Create a hierarchical array of the mailbox list
+     */
+    public static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+    {
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+
+        // Handle namespace prefix
+        $prefix = '';
+
+        if (!$path) {
+            $n_folder = $folder;
+            $folder   = $storage->mod_folder($folder);
+
+            if ($n_folder != $folder) {
+                $prefix = substr($n_folder, 0, -strlen($folder));
+            }
+        }
+
+        $pos = strpos($folder, $delm);
+
+        if ($pos !== false) {
+            $subFolders    = substr($folder, $pos+1);
+            $currentFolder = substr($folder, 0, $pos);
+
+            // sometimes folder has a delimiter as the last character
+            if (!strlen($subFolders)) {
+                $virtual = false;
+            }
+            else if (!isset($arrFolders[$currentFolder])) {
+                $virtual = true;
+            }
+            else {
+                $virtual = $arrFolders[$currentFolder]['virtual'];
+            }
+        }
+        else {
+            $subFolders    = false;
+            $currentFolder = $folder;
+            $virtual       = false;
+        }
+
+        $path .= $prefix . $currentFolder;
+
+        if (!isset($arrFolders[$currentFolder])) {
+            $arrFolders[$currentFolder] = [
+                'id'      => $path,
+                'name'    => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
+                'virtual' => $virtual,
+                'folders' => []
+            ];
+        }
+        else {
+            $arrFolders[$currentFolder]['virtual'] = $virtual;
+        }
+
+        if (strlen($subFolders)) {
+            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
+        }
+    }
+
+    /**
+     * Return html for a structured list &lt;ul&gt; for the mailbox tree
+     */
+    public static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
+    {
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+
+        $maxlength = intval($attrib['maxlength']);
+        $realnames = (bool)$attrib['realnames'];
+        $msgcounts = $storage->get_cache('messagecount');
+        $collapsed = $rcmail->config->get('collapsed_folders');
+        $realnames = $rcmail->config->get('show_real_foldernames');
+
+        $out = '';
+        foreach ($arrFolders as $folder) {
+            $title        = null;
+            $folder_class = self::folder_classname($folder['id']);
+            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $unread       = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
+
+            if ($folder_class && !$realnames && $rcmail->text_exists($folder_class)) {
+                $foldername = $rcmail->gettext($folder_class);
+            }
+            else {
+                $foldername = $folder['name'];
+
+                // shorten the folder name to a given length
+                if ($maxlength && $maxlength > 1) {
+                    $fname = abbreviate_string($foldername, $maxlength);
+                    if ($fname != $foldername) {
+                        $title = $foldername;
+                    }
+                    $foldername = $fname;
+                }
+            }
+
+            // make folder name safe for ids and class names
+            $folder_id = rcube_utils::html_identifier($folder['id'], true);
+            $classes   = ['mailbox'];
+
+            // set special class for Sent, Drafts, Trash and Junk
+            if ($folder_class) {
+                $classes[] = $folder_class;
+            }
+
+            if ($folder['id'] == $mbox_name) {
+                $classes[] = 'selected';
+            }
+
+            if ($folder['virtual']) {
+                $classes[] = 'virtual';
+            }
+            else if ($unread) {
+                $classes[] = 'unread';
+            }
+
+            $js_name     = rcube::JQ($folder['id']);
+            $html_name   = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
+            $link_attrib = $folder['virtual'] ? [] : [
+                'href'    => $rcmail->url(['_mbox' => $folder['id']]),
+                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'rel'     => $folder['id'],
+                'title'   => $title,
+            ];
+
+            $out .= html::tag('li', [
+                    'id'      => "rcmli" . $folder_id,
+                    'class'   => implode(' ', $classes),
+                    'noclose' => true
+                ],
+                html::a($link_attrib, $html_name)
+            );
+
+            if (!empty($folder['folders'])) {
+                $out .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
+            }
+
+            $jslist[$folder['id']] = [
+                'id'      => $folder['id'],
+                'name'    => $foldername,
+                'virtual' => $folder['virtual'],
+            ];
+
+            if (!empty($folder_class)) {
+                $jslist[$folder['id']]['class'] = $folder_class;
+            }
+
+            if (!empty($folder['folders'])) {
+                $out .= html::tag('ul', array('style' => ($is_collapsed ? "display:none;" : null)),
+                    self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
+            }
+
+            $out .= "</li>\n";
+        }
+
+        return $out;
+    }
+
+    /**
+     * Return html for a flat list <select> for the mailbox tree
+     */
+    public static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
+    {
+        $out     = '';
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+
+        foreach ($arrFolders as $folder) {
+            // skip exceptions (and its subfolders)
+            if (!empty($opts['exceptions']) && in_array($folder['id'], $opts['exceptions'])) {
+                continue;
+            }
+
+            // skip folders in which it isn't possible to create subfolders
+            if (!empty($opts['skip_noinferiors'])) {
+                $attrs = $storage->folder_attributes($folder['id']);
+                if ($attrs && in_array_nocase('\\Noinferiors', $attrs)) {
+                    continue;
+                }
+            }
+
+            if (!$realnames && ($folder_class = self::folder_classname($folder['id'])) && $rcmail->text_exists($folder_class)) {
+                $foldername = $rcmail->gettext($folder_class);
+            }
+            else {
+                $foldername = $folder['name'];
+
+                // shorten the folder name to a given length
+                if ($maxlength && $maxlength > 1) {
+                    $foldername = abbreviate_string($foldername, $maxlength);
+                }
+            }
+
+            $select->add(str_repeat('&nbsp;', $nestLevel*4) . html::quote($foldername), $folder['id']);
+
+            if (!empty($folder['folders'])) {
+                $out .= self::render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
+                    $select, $realnames, $nestLevel+1, $opts);
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Returns class name for the given folder if it is a special folder
+     * (including shared/other users namespace roots).
+     *
+     * @param string $folder_id IMAP Folder name
+     *
+     * @return string|null CSS class name
+     */
+    public static function folder_classname($folder_id)
+    {
+        static $classes;
+
+        if ($classes === null) {
+            $rcmail  = rcmail::get_instance();
+            $storage = $rcmail->get_storage();
+            $classes = ['INBOX' => 'inbox'];
+
+            // for these mailboxes we have css classes
+            foreach (['sent', 'drafts', 'trash', 'junk'] as $type) {
+                if (($mbox = $rcmail->config->get($type . '_mbox')) && !isset($classes[$mbox])) {
+                    $classes[$mbox] = $type;
+                }
+            }
+
+            // add classes for shared/other user namespace roots
+            foreach (['other', 'shared'] as $ns_name) {
+                if ($ns = $storage->get_namespace($ns_name)) {
+                    foreach ($ns as $root) {
+                        $root = substr($root[0], 0, -1);
+                        if (strlen($root) && !isset($classes[$root])) {
+                            $classes[$root] = "ns-$ns_name";
+                        }
+                    }
+                }
+            }
+        }
+
+        return !empty($classes[$folder_id]) ? $classes[$folder_id] : null;
+    }
+
+    /**
+     * Try to localize the given IMAP folder name.
+     * UTF-7 decode it in case no localized text was found
+     *
+     * @param string $name        Folder name
+     * @param bool   $with_path   Enable path localization
+     * @param bool   $path_remove Remove the path
+     *
+     * @return string Localized folder name in UTF-8 encoding
+     */
+    public static function localize_foldername($name, $with_path = false, $path_remove = false)
+    {
+        $rcmail    = rcmail::get_instance();
+        $realnames = $rcmail->config->get('show_real_foldernames');
+
+        if (!$realnames && ($folder_class = self::folder_classname($name)) && $rcmail->text_exists($folder_class)) {
+            return $rcmail->gettext($folder_class);
+        }
+
+        $storage   = $rcmail->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
+
+        // Remove the path
+        if ($path_remove) {
+            if (strpos($name, $delimiter)) {
+                $path = explode($delimiter, $name);
+                $name = array_pop($path);
+            }
+        }
+        // try to localize path of the folder
+        else if ($with_path && !$realnames) {
+            $path  = explode($delimiter, $name);
+            $count = count($path);
+
+            if ($count > 1) {
+                for ($i = 1; $i < $count; $i++) {
+                    $folder       = implode($delimiter, array_slice($path, 0, -$i));
+                    $folder_class = self::folder_classname($folder);
+
+                    if ($folder_class && $rcmail->text_exists($folder_class)) {
+                        $name = implode($delimiter, array_slice($path, $count - $i));
+                        $name = rcube_charset::convert($name, 'UTF7-IMAP');
+
+                        return $rcmail->gettext($folder_class) . $delimiter . $name;
+                    }
+                }
+            }
+        }
+
+        return rcube_charset::convert($name, 'UTF7-IMAP');
+    }
+
+    /**
+     * Localize folder path
+     */
+    public static function localize_folderpath($path)
+    {
+        $rcmail          = rcmail::get_instance();
+        $protect_folders = $rcmail->config->get('protect_default_folders');
+        $delimiter       = $rcmail->storage->get_hierarchy_delimiter();
+        $path            = explode($delimiter, $path);
+        $result          = [];
+
+        foreach ($path as $idx => $dir) {
+            $directory = implode($delimiter, array_slice($path, 0, $idx+1));
+            if ($protect_folders && $rcmail->storage->is_special_folder($directory)) {
+                unset($result);
+                $result[] = self::localize_foldername($directory);
+            }
+            else {
+                $result[] = rcube_charset::convert($dir, 'UTF7-IMAP');
+            }
+        }
+
+        return implode($delimiter, $result);
+    }
 }

@@ -901,13 +901,13 @@ EOF;
      */
     public function raise_error($code, $message)
     {
-        global $__page_content, $ERROR_CODE, $ERROR_MESSAGE;
+        $args = [
+            'code'    => $code,
+            'message' => $message,
+        ];
 
-        $ERROR_CODE    = $code;
-        $ERROR_MESSAGE = $message;
-
-        include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
-        exit;
+        $page = new rcmail_action_utils_error;
+        $page->run($args);
     }
 
     /**

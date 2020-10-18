@@ -710,4 +710,21 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
 
         $this->assertTrue(strpos($washed, '<script>') === false, "CDATA content");
     }
+
+    /**
+     * Test URI base resolving in HTML messages
+     */
+    function test_resolve_base()
+    {
+        $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
+        $html = rcube_washtml::resolve_base($html);
+
+        $this->assertRegExp('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
+        $this->assertRegExp('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");
+        $this->assertRegExp('|src="http://alec\.pl/img3\.gif"|', $html, "URI base resolving [3]");
+
+        // base resolving exceptions
+        $this->assertRegExp('|src="cid:theCID"|', $html, "URI base resolving exception [1]");
+        $this->assertRegExp('|src="http://other\.domain\.tld/img3\.gif"|', $html, "URI base resolving exception [2]");
+    }
 }
