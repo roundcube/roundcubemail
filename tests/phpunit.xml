@@ -5,7 +5,7 @@
         <testsuite name="Framework">
             <directory suffix=".php">Framework</directory>
         </testsuite>
-        <testsuite name="Rcmail">
+        <testsuite name="Roundcube">
             <directory suffix=".php">Rcmail</directory>
         </testsuite>
         <testsuite name="Actions">
