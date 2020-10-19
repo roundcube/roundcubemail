@@ -208,7 +208,7 @@ class rcube_mime
                 // aggregation as a whole.
 
                 $tmp[] = $text;
-                if ($next_match = $matches[$idx+1]) {
+                if (!empty($matches[$idx+1]) && ($next_match = $matches[$idx+1])) {
                     if ($next_match[0][1] == $start
                         && $next_match[1][0] == $charset
                         && $next_match[2][0] == $encoding
@@ -507,11 +507,15 @@ class rcube_mime
                 }
                 else {
                     // remove space-stuffing
-                    if ($line[0] === ' ') $line = substr($line, 1);
+                    if (isset($line[0]) && $line[0] === ' ') {
+                        $line = substr($line, 1);
+                    }
 
-                    if (isset($text[$last]) && $line && !$q_level
-                        && $text[$last] != '-- '
-                        && $text[$last][strlen($text[$last])-1] == ' '
+                    $last_len = isset($text[$last]) ? strlen($text[$last]) : 0;
+
+                    if (
+                        $last_len && $line && !$q_level && $text[$last] != '-- '
+                        && isset($text[$last][$last_len-1]) && $text[$last][$last_len-1] == ' '
                     ) {
                         if ($delsp) {
                             $text[$last] = substr($text[$last], 0, -1);
@@ -561,7 +565,9 @@ class rcube_mime
                     $line = substr($line, $level);
                     // remove (optional) space-staffing and spaces before the line end
                     $line = rtrim($line, ' ');
-                    if ($line[0] === ' ') $line = substr($line, 1);
+                    if (isset($line[0]) && $line[0] === ' ') {
+                        $line = substr($line, 1);
+                    }
 
                     $prefix = str_repeat('>', $level) . ' ';
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);

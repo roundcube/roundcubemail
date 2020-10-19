@@ -63,11 +63,25 @@ class rcube_message_part
     public $size = 0;
 
     /**
+     * Part body
+     *
+     * @var string|null
+     */
+    public $body;
+
+    /**
      * Part headers
      *
      * @var array
      */
     public $headers = array();
+
+    /**
+     * Sub-Parts
+     *
+     * @var array
+     */
+    public $parts = array();
 
     public $disposition  = '';
     public $filename     = '';

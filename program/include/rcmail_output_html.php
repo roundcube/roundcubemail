@@ -82,12 +82,12 @@ class rcmail_output_html extends rcmail_output
 
         $this->set_env('task', $task);
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
-        $this->set_env('locale', $_SESSION['language']);
+        $this->set_env('locale', !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US');
         $this->set_env('devel_mode', $this->devel_mode);
 
         // Version number e.g. 1.4.2 will be 10402
         $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
-        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + $version[2]);
+        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + (isset($version[2]) ? $version[2] : 0));
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -340,7 +340,7 @@ EOF;
         $path_elements = explode('/', $skin_path);
         $skin_id       = end($path_elements);
 
-        if (!$meta['name']) {
+        if (empty($meta['name'])) {
             $meta['name'] = $skin_id;
         }
 
@@ -349,7 +349,7 @@ EOF;
         // Keep skin config for ajax requests (#6613)
         $_SESSION['skin_config'] = array();
 
-        if ($meta['extends']) {
+        if (!empty($meta['extends'])) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
                 $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
@@ -374,8 +374,12 @@ EOF;
         }
 
         // Use array_merge() here to allow for global default and extended skins
-        $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
-        $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        if (!empty($meta['meta'])) {
+            $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
+        }
+        if (!empty($meta['links'])) {
+            $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        }
 
         return $_SESSION['skin_config'];
     }
@@ -588,8 +592,10 @@ EOF;
      */
     public function redirect($p = array(), $delay = 1, $secure = false)
     {
-        if ($this->env['extwin'])
+        if (!empty($this->env['extwin'])) {
             $p['extwin'] = 1;
+        }
+
         $location = $this->app->url($p, false, false, $secure);
         header('Location: ' . $location);
         exit;
@@ -678,7 +684,7 @@ EOF;
         }
 
         // allow (legal) iframe content to be loaded
-        $framed = $this->framed || $this->env['framed'];
+        $framed = $this->framed || !empty($this->env['framed']);
         if ($framed && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             if (strtolower($xopt) === 'deny') {
                 header('X-Frame-Options: sameorigin', true);
@@ -823,7 +829,7 @@ EOF;
         }
 
         // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
+        $unlock = isset($_REQUEST['_unlock']) ? preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']) : 0;
         if ($this->framed) {
             $top_commands[] = array('iframe_loaded', $unlock);
         }
@@ -1154,12 +1160,12 @@ EOF;
                 '/template:name/i',
             ),
             array(
-                "\$_SESSION['\\1']",
+                "(isset(\$_SESSION['\\1']) ? \$_SESSION['\\1'] : null)",
                 "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$this->env['\\1']",
+                "(isset(\$this->env['\\1']) ? \$this->env['\\1'] : null)",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
-                "\$_COOKIE['\\1']",
-                "\$this->browser->{'\\1'}",
+                "(isset(\$_COOKIE['\\1']) ? \$_COOKIE['\\1'] : null)",
+                "(isset(\$this->browser->{'\\1'}) ? \$this->browser->{'\\1'} : null)",
                 "'{$this->template_name}'",
             ),
             $expression
@@ -1254,7 +1260,7 @@ EOF;
         switch ($command) {
             // return a button
             case 'button':
-                if ($attrib['name'] || $attrib['command']) {
+                if (!empty($attrib['name']) || !empty($attrib['command'])) {
                     return $this->button($attrib);
                 }
                 break;
@@ -1266,18 +1272,26 @@ EOF;
 
             // show a label
             case 'label':
-                if ($attrib['expression'])
+                if (!empty($attrib['expression'])) {
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
+                }
 
-                if ($attrib['name'] || $attrib['command']) {
+                if (!empty($attrib['name']) || !empty($attrib['command'])) {
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
 
                     $label   = $this->app->gettext($attrib + array('vars' => $vars));
-                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
+                    $quoting = null;
+
+                    if (!empty($attrib['quoting'])) {
+                        $quoting = strtolower($attrib['quoting']);
+                    }
+                    else if (isset($attrib['html'])) {
+                        $quoting = rcube_utils::get_boolean((string) $attrib['html']) ? 'no' : '';
+                    }
 
                     // 'noshow' can be used in skins to define new labels
-                    if ($attrib['noshow']) {
+                    if (!empty($attrib['noshow'])) {
                         return '';
                     }
 
@@ -1304,7 +1318,7 @@ EOF;
 
             // include a file
             case 'include':
-                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                if (!empty($attrib['condition']) && !$this->check_condition($attrib['condition'])) {
                     break;
                 }
 
@@ -1312,14 +1326,15 @@ EOF;
                     $attrib['file'] = '/templates/' . $attrib['file'];
                 }
 
-                $old_base_path    = $this->base_path;
-                $include          = '';
+                $old_base_path   = $this->base_path;
+                $include         = '';
+                $attr_skin_path = !empty($attrib['skinpath']) ? $attrib['skinpath'] : null;
 
                 if (!empty($attrib['skin_path'])) {
-                    $attrib['skinpath'] = $attrib['skin_path'];
+                    $attr_skin_path = $attrib['skin_path'];
                 }
 
-                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
+                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attr_skin_path)) {
                     // set base_path to core skin directory (not plugin's skin)
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                     $path = realpath(RCUBE_INSTALL_PATH . $path);
@@ -1355,13 +1370,16 @@ EOF;
             case 'object':
                 $object  = strtolower($attrib['name']);
                 $content = '';
+                $handler = null;
 
                 // correct deprecated object names
-                if ($this->deprecated_template_objects[$object]) {
+                if (!empty($this->deprecated_template_objects[$object])) {
                     $object = $this->deprecated_template_objects[$object];
                 }
 
-                $handler = $this->object_handlers[$object];
+                if (!empty($this->object_handlers[$object])) {
+                    $handler = $this->object_handlers[$object];
+                }
 
                 // execute object handler function
                 if (is_callable($handler)) {
@@ -1381,12 +1399,19 @@ EOF;
 
                     // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
                     // check both for backwards compatibility
-                    if (($template_logo = $this->get_template_logo($attrib['logo-type'] ?: $attrib['type'], $attrib['logo-match'])) !== null) {
+                    $logo_type  = !empty($attrib['logo-type']) ? $attrib['logo-type'] : null;
+                    $logo_match = !empty($attrib['logo-match']) ? $attrib['logo-match'] : null;
+                    if (!empty($attrib['type']) && empty($logo_type)) {
+                        $logo_type = $attrib['type'];
+                    }
+
+                    if (($template_logo = $this->get_template_logo($logo_type, $logo_match)) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
                     $additional_logos = array();
                     $logo_types       = (array) $this->config->get('additional_logo_types');
+
                     foreach ($logo_types as $type) {
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
@@ -1397,7 +1422,7 @@ EOF;
                         $this->set_env('additional_logos', $additional_logos);
                     }
 
-                    if ($attrib['src']) {
+                    if (!empty($attrib['src'])) {
                         $content = html::img($attrib);
                     }
                 }
@@ -1602,26 +1627,14 @@ EOF;
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
 
-        if (!($attrib['command'] || $attrib['name'] || $attrib['href'])) {
+        if (empty($attrib['command']) && empty($attrib['name']) && empty($attrib['href'])) {
             return '';
         }
 
-        // try to find out the button type
-        if ($attrib['type']) {
-            $attrib['type'] = strtolower($attrib['type']);
-            if (strpos($attrib['type'], '-menuitem')) {
-                $attrib['type'] = substr($attrib['type'], 0, -9);
-                $menuitem = true;
-            }
-        }
-        else {
-            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'button';
-        }
+        $command = !empty($attrib['command']) ? $attrib['command'] : null;
+        $action  = $command ?: (!empty($attrib['name']) ? $attrib['name'] : null);
 
-        $command = $attrib['command'];
-        $action = $command ?: $attrib['name'];
-
-        if ($attrib['task']) {
+        if (!empty($attrib['task'])) {
             $command = $attrib['task'] . '.' . $command;
             $element = $attrib['task'] . '.' . $action;
         }
@@ -1638,42 +1651,63 @@ EOF;
             return '';
         }
 
-        if (!$attrib['image']) {
-            $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
+        // try to find out the button type
+        if (!empty($attrib['type'])) {
+            $attrib['type'] = strtolower($attrib['type']);
+            if (strpos($attrib['type'], '-menuitem')) {
+                $attrib['type'] = substr($attrib['type'], 0, -9);
+                $menuitem = true;
+            }
+        }
+        else if (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
+            $attrib['type'] = 'image';
+        }
+        else {
+            $attrib['type'] = 'button';
         }
 
-        if (!$attrib['id']) {
+        if (empty($attrib['image'])) {
+            if (!empty($attrib['imagepas'])) {
+                $attrib['image'] = $attrib['imagepas'];
+            }
+            else if (!empty($attrib['imageact'])) {
+                $attrib['image'] = $attrib['imageact'];
+            }
+        }
+
+        if (empty($attrib['id'])) {
             // ensure auto generated IDs are unique between main window and content frame
             // Elastic skin duplicates buttons between the two on smaller screens (#7618)
-            $prefix       = ($this->framed || $this->env['framed']) ? 'frm' : '';
+            $prefix       = ($this->framed || !empty($this->env['framed'])) ? 'frm' : '';
             $attrib['id'] = sprintf('rcmbtn%s%d', $prefix, $s_button_count++);
         }
 
         // get localized text for labels and titles
-        if ($attrib['title']) {
-            $attrib['title'] = html::quote($this->app->gettext($attrib['title'], $attrib['domain']));
+        $domain = !empty($attrib['domain']) ? $attrib['domain'] : null;
+        if (!empty($attrib['title'])) {
+            $attrib['title'] = html::quote($this->app->gettext($attrib['title'], $domain));
         }
-        if ($attrib['label']) {
-            $attrib['label'] = html::quote($this->app->gettext($attrib['label'], $attrib['domain']));
+        if (!empty($attrib['label'])) {
+            $attrib['label'] = html::quote($this->app->gettext($attrib['label'], $domain));
         }
-        if ($attrib['alt']) {
-            $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
+        if (!empty($attrib['alt'])) {
+            $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $domain));
         }
 
         // set accessibility attributes
-        if (!$attrib['role']) {
+        if (empty($attrib['role'])) {
             $attrib['role'] = 'button';
         }
         if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
             if (array_key_exists('tabindex', $attrib)) {
                 $attrib['data-tabindex'] = $attrib['tabindex'];
             }
-            $attrib['tabindex'] = '-1';  // disable button by default
+            $attrib['tabindex']      = '-1';  // disable button by default
             $attrib['aria-disabled'] = 'true';
         }
 
         // set title to alt attribute for IE browsers
-        if ($this->browser->ie && !$attrib['title'] && $attrib['alt']) {
+        if ($this->browser->ie && empty($attrib['title']) && !empty($attrib['alt'])) {
             $attrib['title'] = $attrib['alt'];
         }
 
@@ -1683,16 +1717,16 @@ EOF;
         }
 
         // register button in the system
-        if ($attrib['command']) {
+        if (!empty($attrib['command'])) {
             $this->add_script(sprintf(
                 "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
                 self::JS_OBJECT_NAME,
                 $command,
                 $attrib['id'],
                 $attrib['type'],
-                $attrib['imageact'] ? $this->abs_url($attrib['imageact']) : $attrib['classact'],
-                $attrib['imagesel'] ? $this->abs_url($attrib['imagesel']) : $attrib['classsel'],
-                $attrib['imageover'] ? $this->abs_url($attrib['imageover']) : ''
+                !empty($attrib['imageact']) ? $this->abs_url($attrib['imageact']) : (!empty($attrib['classact']) ? $attrib['classact'] : ''),
+                !empty($attrib['imagesel']) ? $this->abs_url($attrib['imagesel']) : (!empty($attrib['classsel']) ? $attrib['classsel'] : ''),
+                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : ''
             ));
 
             // make valid href to specific buttons
@@ -1700,7 +1734,7 @@ EOF;
                 $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
                 $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
             }
-            else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
+            else if (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
             }
             else if (in_array($attrib['command'], $a_static_commands)) {
@@ -1712,25 +1746,25 @@ EOF;
         }
 
         // overwrite attributes
-        if (!$attrib['href']) {
+        if (empty($attrib['href'])) {
             $attrib['href'] = '#';
         }
 
-        if ($attrib['task']) {
-            if ($attrib['classact']) {
+        if (!empty($attrib['task'])) {
+            if (!empty($attrib['classact'])) {
                 $attrib['class'] = $attrib['classact'];
             }
         }
-        else if ($command && !$attrib['onclick']) {
+        else if ($command && empty($attrib['onclick'])) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
                 self::JS_OBJECT_NAME,
                 $command,
-                $attrib['prop']
+                !empty($attrib['prop']) ? $attrib['prop'] : ''
             );
         }
 
-        $out = '';
+        $out         = '';
         $btn_content = null;
         $link_attrib = array();
 
@@ -1744,35 +1778,35 @@ EOF;
                 )
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $btn_content .= ' '.$attrib['label'];
             }
             $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target');
         }
         else if ($attrib['type'] == 'link') {
-            $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
+            $btn_content = isset($attrib['content']) ? $attrib['content'] : (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target', 'rel'));
-            if ($attrib['innerclass']) {
+            if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
         }
         else if ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
 
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
             }
-            if ($attrib['command']) {
+            if (!empty($attrib['command'])) {
                 $attrib['disabled'] = 'disabled';
             }
 
             $out = html::tag('input', $attrib, null, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
         }
         else {
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
             }
-            if ($attrib['command']) {
+            if (!empty($attrib['command'])) {
                 $attrib['disabled'] = 'disabled';
             }
 
@@ -1786,12 +1820,12 @@ EOF;
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
-        if ($attrib['wrapper']) {
+        if (!empty($attrib['wrapper'])) {
             $out = html::tag($attrib['wrapper'], null, $out);
         }
 
         if (!empty($menuitem)) {
-            $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
+            $class = !empty($attrib['menuitem-class']) ? ' class="' . $attrib['menuitem-class'] . '"' : '';
             $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
         }
 
@@ -1810,7 +1844,7 @@ EOF;
             $file = $this->file_mod($this->scripts_path . $file);
         }
 
-        if (!is_array($this->script_files[$position])) {
+        if (!isset($this->script_files[$position]) || !is_array($this->script_files[$position])) {
             $this->script_files[$position] = array();
         }
 
@@ -1934,9 +1968,13 @@ EOF;
         $page_header .= $this->header . "\n";
         $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
 
-        $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
+        if (!empty($this->script_files['foot'])) {
+            $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
+        }
         $page_footer .= $this->footer . "\n";
-        $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
+        if (!empty($this->scripts['foot'])) {
+            $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
+        }
 
         // find page header
         if ($hpos = stripos($output, '</head>')) {
@@ -2029,16 +2067,16 @@ EOF;
     {
         static $idcount = 0;
 
-        if (!$attrib['id']) {
+        if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmframe' . ++$idcount;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'about:blank';
+        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
-        if ($is_contentframe || $attrib['contentframe']) {
-            $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
+        if ($is_contentframe || !empty($attrib['contentframe'])) {
+            $this->set_env('contentframe', !empty($attrib['contentframe']) ? $attrib['contentframe'] : $attrib['name']);
         }
 
         return html::iframe($attrib);
@@ -2059,11 +2097,11 @@ EOF;
     {
         $hidden = '';
 
-        if ($this->env['extwin']) {
+        if (!empty($this->env['extwin'])) {
             $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
             $hidden = $hiddenfield->show();
         }
-        else if ($this->framed || $this->env['framed']) {
+        else if ($this->framed || !empty($this->env['framed'])) {
             $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
             $hidden = $hiddenfield->show();
         }
@@ -2303,12 +2341,12 @@ EOF;
         $this->add_label('searching');
 
         $attrib['name']  = '_q';
-        $attrib['class'] = trim($attrib['class'] . ' no-bs');
+        $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' no-bs');
 
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmqsearchbox';
         }
-        if ($attrib['type'] == 'search' && !$this->browser->khtml) {
+        if (isset($attrib['type']) && $attrib['type'] == 'search' && !$this->browser->khtml) {
             unset($attrib['type'], $attrib['results']);
         }
         if (empty($attrib['placeholder'])) {
@@ -2318,30 +2356,42 @@ EOF;
         $label   = html::label(array('for' => $attrib['id'], 'class' => 'voice'), rcube::Q($this->app->gettext('arialabelsearchterms')));
         $input_q = new html_inputfield($attrib);
         $out     = $label . $input_q->show();
+        $name    = 'qsearchbox';
 
         // Support for multiple searchforms on the same page
-        if ($attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
-            $this->add_gui_object($attrib['gui-object'] ?: 'qsearchbox', $attrib['id']);
+        if (isset($attrib['gui-object']) && $attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
+            $name = $attrib['gui-object'];
         }
+
+        $this->add_gui_object($name, $attrib['id']);
 
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag(array(
-                    'name'     => $attrib['form-name'] ?: 'rcmqsearchform',
-                    'onsubmit' => sprintf("%s.command('%s'); return false", self::JS_OBJECT_NAME, $attrib['command'] ?: 'search'),
+                    'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
+                    'onsubmit' => sprintf(
+                        "%s.command('%s'); return false",
+                        self::JS_OBJECT_NAME,
+                        !empty($attrib['command']) ? $attrib['command'] : 'search'
+                    ),
                     // 'style'    => "display:inline"
                 ), $out);
         }
 
         if (!empty($attrib['wrapper'])) {
             $options_button = '';
-            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain']);
+
+            $ariatag = !empty($attrib['ariatag']) ? $attrib['ariatag'] : 'h2';
+            $domain  = !empty($attrib['label-domain']) ? $attrib['label-domain'] : null;
+            $options = !empty($attrib['options']) ? $attrib['options'] : null;
+
+            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $domain);
             $header_attrs = array(
                 'id'    => 'aria-label-' . $attrib['label'],
                 'class' => 'voice'
             );
 
-            $header = html::tag($attrib['ariatag'] ?: 'h2', $header_attrs, rcube::Q($header_label));
+            $header = html::tag($ariatag, $header_attrs, rcube::Q($header_label));
 
             if ($attrib['options']) {
                 $options_button = $this->button(array(
@@ -2352,7 +2402,7 @@ EOF;
                         'title'      => 'options',
                         'tabindex'   => '0',
                         'innerclass' => 'inner',
-                        'data-target' => $attrib['options']
+                        'data-target' => $options
                 ));
             }
 
@@ -2368,7 +2418,7 @@ EOF;
 
             $reset_button = $this->button(array(
                     'type'       => 'link',
-                    'command'    => $attrib['reset-command'] ?: 'reset-search',
+                    'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
                     'class'      => 'button reset',
                     'label'      => 'resetsearch',
                     'title'      => 'resetsearch',
@@ -2378,7 +2428,7 @@ EOF;
 
             $out = html::div(array(
                     'role'            => 'search',
-                    'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
+                    'aria-labelledby' => !empty($attrib['label']) ? 'aria-label-' . $attrib['label'] : null,
                     'class'           => $attrib['wrapper'],
                 ), "$header$out\n$reset_button\n$options_button\n$search_button");
         }

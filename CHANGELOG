@@ -11,10 +11,11 @@ CHANGELOG Roundcube Webmail
 - OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
-- Upgrade to TinyMCE 5.4.1
+- Upgrade to TinyMCE 5.5.1
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
+- Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
 - Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
@@ -36,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
 - Elastic: Remember list checkbox selection state (#7148)
 - Elastic: Add "Open in new window" in mail compose (#7260)
+- Elastic: Make custom less files optional (#7497)
 - Templates: Add support for expressions in object attributes (#7237)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
@@ -56,6 +58,8 @@ CHANGELOG Roundcube Webmail
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+- Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
+- Fix folder list issue whan special folder is a subfolder (#7647)
 
 RELEASE 1.4.9
 -------------

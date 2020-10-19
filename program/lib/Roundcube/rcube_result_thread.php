@@ -110,8 +110,9 @@ class rcube_result_thread
      */
     public function count()
     {
-        if ($this->meta['count'] !== null)
+        if (isset($this->meta['count'])) {
             return $this->meta['count'];
+        }
 
         if (empty($this->raw_data)) {
             $this->meta['count'] = 0;
@@ -120,8 +121,9 @@ class rcube_result_thread
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
         }
 
-        if (!$this->meta['count'])
+        if (!$this->meta['count']) {
             $this->meta['messages'] = 0;
+        }
 
         return $this->meta['count'];
     }
@@ -133,8 +135,9 @@ class rcube_result_thread
      */
     public function count_messages()
     {
-        if ($this->meta['messages'] !== null)
+        if (isset($this->meta['messages'])) {
             return $this->meta['messages'];
+        }
 
         if (empty($this->raw_data)) {
             $this->meta['messages'] = 0;
@@ -145,8 +148,9 @@ class rcube_result_thread
                 + substr_count($this->raw_data, self::SEPARATOR_ITEM);
         }
 
-        if ($this->meta['messages'] == 0 || $this->meta['messages'] == 1)
+        if ($this->meta['messages'] == 0 || $this->meta['messages'] == 1) {
             $this->meta['count'] = $this->meta['messages'];
+        }
 
         return $this->meta['messages'];
     }
@@ -161,6 +165,7 @@ class rcube_result_thread
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = (int) @max($this->get());
         }
+
         return $this->meta['max'];
     }
 
@@ -174,6 +179,7 @@ class rcube_result_thread
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = (int) @min($this->get());
         }
+
         return $this->meta['min'];
     }
 
@@ -208,8 +214,9 @@ class rcube_result_thread
         $this->meta          = array();
         $this->meta['count'] = 0;
 
-        while (($pos = @strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start))
-            || ($start < $datalen && ($pos = $datalen))
+        while ($start < $datalen
+            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false
+                || ($pos = $datalen))
         ) {
             $len   = $pos - $start;
             $elem  = substr($this->raw_data, $start, $len);
@@ -494,8 +501,9 @@ class rcube_result_thread
         $result  = array();
         $start   = 0;
 
-        while (($pos = @strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start))
-            || ($start < $datalen && ($pos = $datalen))
+        while ($start < $datalen
+            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false
+                || ($pos = $datalen))
         ) {
             $len   = $pos - $start;
             $elem  = substr($this->raw_data, $start, $len);
@@ -603,7 +611,12 @@ class rcube_result_thread
             foreach ($messages as $msg) {
                 if ($msg) {
                     $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
-                    $this->meta['messages']++;
+                    if (isset($this->meta['messages'])) {
+                        $this->meta['messages']++;
+                    }
+                    else {
+                        $this->meta['messages'] = 1;
+                    }
                     $depth++;
                 }
             }

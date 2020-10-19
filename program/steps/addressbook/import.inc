@@ -20,14 +20,23 @@
 
 /** The import process **/
 
+const UPLOAD_ERR_CSV_FIELDS = 101;
+
 $importstep = 'rcmail_import_form';
 
-if (is_array($_FILES['_file'])) {
+if (is_array($_FILES['_file']) || is_array($_POST['_map'])) {
     $replace      = (bool)rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC);
     $target       = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
     $with_groups  = intval(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC));
 
+    // reload params for CSV field mapping screen
+    if (is_array($_POST['_map']) && $params = $_SESSION['contactcsvimport']['params']) {
+        list('replace' => $replace, 'target' => $target, 'with_groups' => $with_groups) = $params;
+    }
+
     $vcards       = array();
+    $csvs         = array();
+    $map          = array();
     $upload_error = null;
 
     $CONTACTS = $RCMAIL->get_address_book($target, true);
@@ -40,54 +49,102 @@ if (is_array($_FILES['_file'])) {
         $OUTPUT->show_message('addresswriterror', 'error');
     }
     else {
-        foreach ((array)$_FILES['_file']['tmp_name'] as $i => $filepath) {
-            // Process uploaded file if there is no error
-            $err = $_FILES['_file']['error'][$i];
-
-            if ($err) {
-                $upload_error = $err;
-            }
-            else {
-                $file_content = file_get_contents($filepath);
-
-                // let rcube_vcard do the hard work :-)
-                $vcard_o = new rcube_vcard();
-                $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
-                $v_list = $vcard_o->import($file_content);
-
-                if (!empty($v_list)) {
-                    $vcards = array_merge($vcards, $v_list);
-                    continue;
-                }
-
-                // no vCards found, try CSV
-                $csv = new rcube_csv2vcard($_SESSION['language']);
-                $csv->import($file_content);
-                $v_list = $csv->export();
-
-                if (!empty($v_list)) {
-                    $vcards = array_merge($vcards, $v_list);
-                }
-            }
-        }
-    }
-
-    // no vcards detected
-    if (!count($vcards)) {
-        if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-            $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
-            $OUTPUT->show_message('filesizeerror', 'error', array('size' => $size));
-        }
-        else if ($upload_error) {
-            $OUTPUT->show_message('fileuploaderror', 'error');
+        $filepaths = array();
+        if (is_array($_POST['_map'])) {
+            $filepaths = $_SESSION['contactcsvimport']['files'];
         }
         else {
-            $OUTPUT->show_message('importformaterror', 'error');
+            foreach ((array)$_FILES['_file']['tmp_name'] as $i => $filepath) {
+                // Process uploaded file if there is no error
+                $err = $_FILES['_file']['error'][$i];
+
+                if ($err) {
+                    $upload_error = $err;
+                }
+                else {
+                    $filepaths[] = $filepath;
+                }
+            }
         }
 
+        foreach ($filepaths as $filepath) {
+            $file_content = file_get_contents($filepath);
+
+            // let rcube_vcard do the hard work :-)
+            $vcard_o = new rcube_vcard();
+            $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
+            $v_list = $vcard_o->import($file_content);
+
+            if (!empty($v_list)) {
+                $vcards = array_merge($vcards, $v_list);
+                continue;
+            }
+
+            // no vCards found, try CSV
+            $csv = new rcube_csv2vcard($_SESSION['language']);
+
+            if (is_array($_POST['_map'])) {
+                $skip_head = isset($_POST['_skip_header']);
+                $map       = rcube_utils::get_input_value('_map', rcube_utils::INPUT_GPC);
+                $map       = array_filter($map);
+
+                $csv->set_map($map);
+                $csv->import($file_content, false, $skip_head);
+
+                unlink($filepath);
+            }
+            else {
+                // save uploaded file for the real import in the next step
+                $temp_csv = rcube_utils::temp_filename('csvimpt');
+                if (move_uploaded_file($filepath, $temp_csv) && file_exists($temp_csv)) {
+                    $fields = $csv->get_fields();
+                    $last_map = $map;
+                    $map = $csv->import($file_content, true);
+
+                    // when multiple CSV files are uploaded check they all have the same structure
+                    if ($last_map && $last_map !== $map) {
+                        $csvs = array();
+                        $upload_error = UPLOAD_ERR_CSV_FIELDS;
+                        break;
+                    }
+
+                    $csvs[] = $temp_csv;
+                }
+                else {
+                    $upload_error = UPLOAD_ERR_CANT_WRITE;
+                }
+
+                continue;
+            }
+
+            $v_list = $csv->export();
+
+            if (!empty($v_list)) {
+                $vcards = array_merge($vcards, $v_list);
+            }
+        }
+    }
+
+    if (count($csvs) > 0) {
+        // csv import, show field mapping options
+        $importstep = 'rcmail_import_map';
+
+        $_SESSION['contactcsvimport']['files'] = $csvs;
+        $_SESSION['contactcsvimport']['params'] = array(
+                'replace'     => $replace,
+                'target'      => $target,
+                'with_groups' => $with_groups,
+                'fields'      => $fields
+            );
+
+        // Stored separately due to nested array limitations in session
+        $_SESSION['contactcsvimport']['map'] = $map;
+
+        // Re-enable the import button
         $OUTPUT->command('parent.import_state_set', 'error');
     }
-    else {
+    elseif (count($vcards) > 0) {
+        // import vcards
         $IMPORT_STATS = new stdClass;
         $IMPORT_STATS->names = array();
         $IMPORT_STATS->skipped_names = array();
@@ -172,8 +229,27 @@ if (is_array($_FILES['_file'])) {
         }
 
         $importstep = 'rcmail_import_confirm';
+        $_SESSION['contactcsvimport'] = null;
 
         $OUTPUT->command('parent.import_state_set', $IMPORT_STATS->inserted ? 'reload' : 'ok');
+    }
+    else {
+        // no data to import
+        if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
+            $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
+            $OUTPUT->show_message('filesizeerror', 'error', array('size' => $size));
+        }
+        else if ($upload_error == UPLOAD_ERR_CSV_FIELDS) {
+            $OUTPUT->show_message('csvfilemismatch', 'error');
+        }
+        else if ($upload_error) {
+            $OUTPUT->show_message('fileuploaderror', 'error');
+        }
+        else {
+            $OUTPUT->show_message('importformaterror', 'error');
+        }
+
+        $OUTPUT->command('parent.import_state_set', 'error');
     }
 }
 
@@ -268,6 +344,65 @@ function rcmail_import_form($attrib)
             'action'  => $RCMAIL->url('import'),
             'method'  => 'post',
             'enctype' => 'multipart/form-data') + $attrib,
+            $form);
+
+    // remove any info left over info from previous import attempts
+    $_SESSION['contactcsvimport'] = null;
+
+    return $out;
+}
+
+/**
+ * Render the field mapping page for the CSV import process
+ */
+function rcmail_import_map($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    $params = $_SESSION['contactcsvimport']['params'];
+
+    // hide groups field from list when group import disabled
+    if ($params['with_groups'] == 0) {
+        unset($params['fields']['groups']);
+    }
+
+    $fieldlist = new html_select(array('name' => '_map[]'));
+    $fieldlist->add($RCMAIL->gettext('fieldnotmapped'), '');
+    foreach ($params['fields'] as $id => $name) {
+        $fieldlist->add($name, $id);
+    }
+
+    $field_table = new html_table(array('cols' => 2) + $attrib);
+
+    if ($classes = $attrib['table-header-class']) {
+        $field_table->set_header_attribs($classes);
+    }
+
+    $field_table->add_header($attrib['table-col-source-class'] ?: null, $RCMAIL->gettext('source'));
+    $field_table->add_header($attrib['table-col-destination-class'] ?: null, $RCMAIL->gettext('destination'));
+
+    $map = $_SESSION['contactcsvimport']['map'];
+    foreach ($map['source'] as $i => $name) {
+        $field_table->add('title', html::label('rcmimportmap' . $i, rcube::Q($name)));
+        $field_table->add(null, $fieldlist->show(array_key_exists($i, $map['destination']) ? $map['destination'][$i] : '', array('id' => 'rcmimportmap' . $i)));
+    }
+
+    $form = '';
+    $form .= html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''));
+
+    // show option to import data from first line of the file
+    $check_header = new html_checkbox(array('name' => '_skip_header', 'value' => 1, 'id' => 'rcmskipheader'));
+    $form .= html::p(null, html::label('rcmskipheader', $check_header->show(1) . $RCMAIL->gettext('skipheader')));
+
+    $form .= $field_table->show();
+
+    $attrib += array('id' => "rcmImportFormMap");
+    $OUTPUT->add_gui_object('importformmap', $attrib['id']);
+
+    $out = html::p(null, rcube::Q($RCMAIL->gettext('importmapdesc'), 'show'))
+        . $OUTPUT->form_tag(array(
+            'action'  => $RCMAIL->url('import'),
+            'method'  => 'post') + $attrib,
             $form);
 
     return $out;

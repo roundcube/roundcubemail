@@ -137,7 +137,7 @@ class rcube_db
         $this->db_error_msg = null;
 
         // return existing handle
-        if ($this->dbhs[$mode]) {
+        if (!empty($this->dbhs[$mode])) {
             $this->dbh = $this->dbhs[$mode];
             $this->db_mode = $mode;
             return $this->dbh;
@@ -443,7 +443,7 @@ class rcube_db
 
         if (count($params)) {
             while ($pos = strpos($query, '?', $pos)) {
-                if ($query[$pos+1] == '?') {  // skip escaped '?'
+                if (isset($query[$pos+1]) && $query[$pos+1] == '?') {  // skip escaped '?'
                     $pos += 2;
                 }
                 else {

@@ -78,11 +78,11 @@ class html
         }
 
         $inline_tags = array('a','span','img');
-        $suffix = $attrib['nl'] || ($content && $attrib['nl'] !== false && !in_array($tagname, $inline_tags)) ? "\n" : '';
+        $suffix = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
         if (isset($content) || in_array($tagname, self::$containers)) {
-            $suffix = $attrib['noclose'] ? $suffix : '</' . $tagname . '>' . $suffix;
+            $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
             return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
@@ -416,7 +416,7 @@ class html_inputfield extends html
             $this->attrib = $attrib;
         }
 
-        if ($attrib['type']) {
+        if (!empty($attrib['type'])) {
             $this->type = $attrib['type'];
         }
     }
@@ -745,7 +745,7 @@ class html_table extends html
     protected $allowed = array('id','class','style','width','summary',
         'cellpadding','cellspacing','border');
 
-    private $header   = array();
+    private $header   = null;
     private $rows     = array();
     private $rowindex = 0;
     private $colindex = 0;
@@ -784,12 +784,13 @@ class html_table extends html
 
         if (!isset($this->rows[$this->rowindex])) {
             $this->rows[$this->rowindex] = new stdClass;
+            $this->rows[$this->rowindex]->attrib = [];
         }
 
         $this->rows[$this->rowindex]->cells[$this->colindex] = $cell;
-        $this->colindex += max(1, intval($attr['colspan']));
+        $this->colindex += max(1, isset($attr['colspan']) ? intval($attr['colspan']) : 0);
 
-        if ($this->attrib['cols'] && $this->colindex >= $this->attrib['cols']) {
+        if (!empty($this->attrib['cols']) && $this->colindex >= $this->attrib['cols']) {
             $this->add_row();
         }
     }
@@ -807,9 +808,15 @@ class html_table extends html
         }
 
         $cell = new stdClass;
-        $cell->attrib   = $attr;
-        $cell->content  = $cont;
-        $this->header[] = $cell;
+        $cell->attrib  = $attr;
+        $cell->content = $cont;
+
+        if (empty($this->header)) {
+            $this->header = new stdClass;
+            $this->header->attrib = [];
+        }
+
+        $this->header->cells[] = $cell;
     }
 
     /**
@@ -821,17 +828,17 @@ class html_table extends html
     public function remove_column($class)
     {
         // Remove the header
-        foreach ($this->header as $index => $header){
-            if ($header->attrib['class'] == $class){
+        foreach ($this->header->cells as $index => $header) {
+            if ($header->attrib['class'] == $class) {
                 unset($this->header[$index]);
                 break;
             }
         }
 
         // Remove cells from rows
-        foreach ($this->rows as $i => $row){
-            foreach ($row->cells as $j => $cell){
-                if ($cell->attrib['class'] == $class){
+        foreach ($this->rows as $i => $row) {
+            foreach ($row->cells as $j => $cell) {
+                if ($cell->attrib['class'] == $class) {
                     unset($this->rows[$i]->cells[$j]);
                     break;
                 }
@@ -854,6 +861,24 @@ class html_table extends html
     }
 
     /**
+     * Set header attributes
+     *
+     * @param array $attr  Row attributes
+     */
+    public function set_header_attribs($attr = array())
+    {
+        if (is_string($attr)) {
+            $attr = array('class' => $attr);
+        }
+
+        if (empty($this->header)) {
+            $this->header = new stdClass;
+        }
+
+        $this->header->attrib = $attr;
+    }
+
+    /**
      * Set row attributes
      *
      * @param array $attr  Row attributes
@@ -870,7 +895,7 @@ class html_table extends html
         }
 
         // make sure row object exists (#1489094)
-        if (!$this->rows[$index]) {
+        if (empty($this->rows[$index])) {
             $this->rows[$index] = new stdClass;
         }
 
@@ -890,7 +915,7 @@ class html_table extends html
             $index = $this->rowindex;
         }
 
-        return $this->rows[$index] ? $this->rows[$index]->attrib : null;
+        return !empty($this->rows[$index]) ? $this->rows[$index]->attrib : null;
     }
 
     /**
@@ -915,10 +940,10 @@ class html_table extends html
         // include <thead>
         if (!empty($this->header)) {
             $rowcontent = '';
-            foreach ($this->header as $c => $col) {
+            foreach ($this->header->cells as $c => $col) {
                 $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
-            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib)) :
                 self::tag($row_tagname, array('class' => 'thead'), $rowcontent, parent::$common_attrib);
         }
 
@@ -938,7 +963,7 @@ class html_table extends html
             }
         }
 
-        if ($this->attrib['rowsonly']) {
+        if (!empty($this->attrib['rowsonly'])) {
             return $tbody;
         }
 

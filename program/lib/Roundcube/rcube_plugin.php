@@ -340,7 +340,7 @@ abstract class rcube_plugin
         if ($this->api->output->type == 'html') {
             // fix relative paths
             foreach (array('imagepas', 'imageact', 'imagesel') as $key) {
-                if ($p[$key]) {
+                if (!empty($p[$key])) {
                     $p[$key] = $this->api->url . $this->resource_url($p[$key]);
                 }
             }

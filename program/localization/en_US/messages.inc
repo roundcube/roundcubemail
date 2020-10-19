@@ -125,6 +125,7 @@ $messages['converting'] = 'Removing formatting...';
 $messages['messageopenerror'] = 'Could not load message from server.';
 $messages['filelinkerror'] = 'Attaching the file failed.';
 $messages['fileuploaderror'] = 'File upload failed.';
+$messages['csvfilemismatch'] = 'Import of multiple CSV files with different fields is not supported.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';

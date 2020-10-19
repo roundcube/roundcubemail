@@ -1175,8 +1175,8 @@ class enigma_engine
      */
     function get_passwords()
     {
-        if ($config = $_SESSION['enigma_pass']) {
-            $config = $this->rc->decrypt($config);
+        if (!empty($_SESSION['enigma_pass'])) {
+            $config = $this->rc->decrypt($_SESSION['enigma_pass']);
             $config = @unserialize($config);
         }
 
@@ -1184,13 +1184,15 @@ class enigma_engine
         $keys      = array();
 
         // delete expired passwords
-        foreach ((array) $config as $key => $value) {
-            if ($threshold && $value[1] < $threshold) {
-                unset($config[$key]);
-                $modified = true;
-            }
-            else {
-                $keys[$key] = $value[0];
+        if (!empty($config)) {
+            foreach ($config as $key => $value) {
+                if ($threshold && $value[1] < $threshold) {
+                    unset($config[$key]);
+                    $modified = true;
+                }
+                else {
+                    $keys[$key] = $value[0];
+                }
             }
         }
 

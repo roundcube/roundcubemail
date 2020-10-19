@@ -98,7 +98,7 @@ class rcube_mime_decode
      */
     protected function do_decode($headers, $body, $default_ctype = 'text/plain')
     {
-        $return  = new stdClass;
+        $return  = new rcube_message_part;
         $headers = $this->parseHeaders($headers);
 
         foreach ($headers as $value) {
@@ -370,17 +370,24 @@ class rcube_mime_decode
         $struct->ctype_secondary  = $part->ctype_secondary;
         $struct->ctype_parameters = $part->ctype_parameters;
 
-        if ($part->headers['content-transfer-encoding']) {
+        if (!empty($part->headers['content-transfer-encoding'])) {
             $struct->encoding = $part->headers['content-transfer-encoding'];
         }
 
-        if ($part->ctype_parameters['charset']) {
+        if (!empty($part->ctype_parameters['charset'])) {
             $struct->charset = $part->ctype_parameters['charset'];
         }
 
         // determine filename
-        if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
-            if (!$this->params['decode_headers']) {
+        if (!empty($part->d_parameters['filename'])) {
+            $filename = $part->d_parameters['filename'];
+        }
+        else if (!empty($part->ctype_parameters['name'])) {
+            $filename = $part->ctype_parameters['name'];
+        }
+
+        if (!empty($filename)) {
+            if (empty($this->params['decode_headers'])) {
                 $filename = $this->decodeHeader($filename);
             }
 

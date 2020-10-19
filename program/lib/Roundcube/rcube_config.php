@@ -477,7 +477,7 @@ class rcube_config
             }
         }
 
-        if ($prefs['skin'] == 'default') {
+        if (isset($prefs['skin']) && $prefs['skin'] == 'default') {
             $prefs['skin'] = $this->system_skin;
         }
 

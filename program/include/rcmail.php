@@ -113,7 +113,7 @@ class rcmail extends rcube
         $this->default_skin = $this->config->get('skin');
 
         // create user object
-        $this->set_user(new rcube_user($_SESSION['user_id']));
+        $this->set_user(new rcube_user(isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null));
 
         // set task and action properties
         $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
@@ -124,7 +124,9 @@ class rcmail extends rcube
             // we reset list page when switching to another task
             // but only to the main task interface - empty action (#1489076, #1490116)
             // this will prevent from unintentional page reset on cross-task requests
-            if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
+            if ($this->session && empty($this->action)
+                && (empty($_SESSION['task']) || $_SESSION['task'] != $this->task)
+            ) {
                 $this->session->remove('page');
 
                 // set current task to session
@@ -136,7 +138,7 @@ class rcmail extends rcube
         if (!empty($_REQUEST['_remote'])) {
             $GLOBALS['OUTPUT'] = $this->json_init();
         }
-        else if ($_SERVER['REMOTE_ADDR']) {
+        else if (!empty($_SERVER['REMOTE_ADDR'])) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
         }
 
@@ -191,7 +193,8 @@ class rcmail extends rcube
     {
         parent::set_user($user);
 
-        $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
+        $session_lang = isset($_SESSION['language']) ? $_SESSION['language'] : null;
+        $lang = $this->language_prop($this->config->get('language', $session_lang));
         $_SESSION['language'] = $this->user->language = $lang;
 
         // set localization
@@ -525,7 +528,7 @@ class rcmail extends rcube
         parent::session_init();
 
         // set initial session vars
-        if (!$_SESSION['user_id']) {
+        if (empty($_SESSION['user_id'])) {
             $_SESSION['temp'] = true;
         }
     }
@@ -933,11 +936,17 @@ class rcmail extends rcube
             $p = array('_action' => @func_get_arg(0));
         }
 
-        $pre = array();
-        $task = $p['_task'] ?: ($p['task'] ?: $this->task);
-        $pre['_task'] = $task;
+        $task = $this->task;
+        if (!empty($p['_task'])) {
+            $task = $p['_task'];
+        }
+        else if (!empty($p['task'])) {
+            $task = $p['task'];
+        }
+
         unset($p['task'], $p['_task']);
 
+        $pre  = array('_task' => $task);
         $url  = $this->filename;
         $delm = '?';
 
@@ -949,7 +958,13 @@ class rcmail extends rcube
             }
         }
 
-        $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
+        $base_path = '';
+        if (!empty($_SERVER['REDIRECT_SCRIPT_URL'])) {
+            $base_path = $_SERVER['REDIRECT_SCRIPT_URL'];
+        }
+        else if (!empty($_SERVER['SCRIPT_NAME'])) {
+            $base_path = $_SERVER['SCRIPT_NAME'];
+        }
         $base_path = preg_replace('![^/]+$!', '', $base_path);
 
         if ($secure && ($token = $this->get_secure_url_token(true))) {
@@ -1592,10 +1607,10 @@ class rcmail extends rcube
 
         $attrib += array('maxlength' => 100, 'realnames' => false, 'unreadwrap' => ' (%s)');
 
-        $type = $attrib['type'] ? $attrib['type'] : 'ul';
+        $type = !empty($attrib['type']) ? $attrib['type'] : 'ul';
         unset($attrib['type']);
 
-        if ($type == 'ul' && !$attrib['id']) {
+        if ($type == 'ul' && empty($attrib['id'])) {
             $attrib['id'] = 'rcmboxlist';
         }
 
@@ -1611,9 +1626,12 @@ class rcmail extends rcube
         // build the folders tree
         if (empty($a_mailboxes)) {
             // get mailbox list
-            $a_folders = $storage->list_folders_subscribed(
-                '', $attrib['folder_name'], $attrib['folder_filter']);
             $a_mailboxes = array();
+            $a_folders   = $storage->list_folders_subscribed(
+                '',
+                $attrib['folder_name'],
+                isset($attrib['folder_filter']) ? $attrib['folder_filter'] : null
+            );
 
             foreach ($a_folders as $folder) {
                 $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
@@ -1636,12 +1654,16 @@ class rcmail extends rcube
             $select = new html_select($attrib);
 
             // add no-selection option
-            if ($attrib['noselection']) {
+            if (!empty($attrib['noselection'])) {
                 $select->add(html::quote($this->gettext($attrib['noselection'])), '');
             }
 
-            $this->render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
-            $out = $select->show($attrib['default']);
+            $maxlength = isset($attrib['maxlength']) ? $attrib['maxlength'] : null;
+            $realnames = isset($attrib['realnames']) ? $attrib['realnames'] : null;
+            $default   = isset($attrib['default']) ? $attrib['default'] : null;
+
+            $this->render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
+            $out = $select->show($default);
         }
         else {
             $out = '';
@@ -1653,7 +1675,7 @@ class rcmail extends rcube
 
                 $this->output->include_script('treelist.js');
                 $this->output->add_gui_object('mailboxlist', $attrib['id']);
-                $this->output->set_env('unreadwrap', $attrib['unreadwrap']);
+                $this->output->set_env('unreadwrap', isset($attrib['unreadwrap']) ? $attrib['unreadwrap'] : false);
                 $this->output->set_env('collapsed_folders', (string) $this->config->get('collapsed_folders'));
             }
 
@@ -1977,7 +1999,7 @@ class rcmail extends rcube
             }
         }
 
-        return $classes[$folder_id];
+        return !empty($classes[$folder_id]) ? $classes[$folder_id] : null;
     }
 
     /**
@@ -2066,7 +2088,7 @@ class rcmail extends rcube
     {
         $rcmail = rcmail::get_instance();
 
-        if (!$attrib['id']) {
+        if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmquotadisplay';
         }
 
@@ -2111,10 +2133,10 @@ class rcmail extends rcube
 
             $quota_result['title'] = $title;
 
-            if ($attrib['width']) {
+            if (!empty($attrib['width'])) {
                 $quota_result['width'] = $attrib['width'];
             }
-            if ($attrib['height']) {
+            if (!empty($attrib['height'])) {
                 $quota_result['height'] = $attrib['height'];
             }
 
@@ -2398,7 +2420,7 @@ class rcmail extends rcube
 
         $hint = html::div('hint', $this->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
 
-        if ($attrib['mode'] == 'hint') {
+        if (!empty($attrib['mode']) && $attrib['mode'] == 'hint') {
             return $hint;
         }
 
@@ -2423,7 +2445,7 @@ class rcmail extends rcube
             'enctype' => 'multipart/form-data'
         );
 
-        if ($attrib['mode'] == 'smart') {
+        if (!empty($attrib['mode']) && $attrib['mode'] == 'smart') {
             unset($attrib['buttons']);
             $form_attr['class'] = 'smart-upload';
             $input_attr = array_merge($input_attr, array(
@@ -2438,7 +2460,7 @@ class rcmail extends rcube
         $input   = new html_inputfield($input_attr);
         $content = $attrib['prefix'] . $input->show();
 
-        if ($attrib['mode'] != 'smart') {
+        if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
             $content = html::div(null, $content . $hint);
         }
 
@@ -2593,11 +2615,11 @@ class rcmail extends rcube
     public function show_bytes($bytes, &$unit = null)
     {
         // Plugins may want to display different units
-        $plugin = $this->plugins->exec_hook('show_bytes', array('bytes' => $bytes));
+        $plugin = $this->plugins->exec_hook('show_bytes', array('bytes' => $bytes, 'unit' => null));
 
         $unit = $plugin['unit'];
 
-        if ($plugin['result'] !== null) {
+        if (isset($plugin['result'])) {
             return $plugin['result'];
         }
 

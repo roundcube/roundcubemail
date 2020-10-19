@@ -283,23 +283,23 @@ class rcube_db_pgsql extends rcube_db
         $params = array();
         $result = 'pgsql:';
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
         }
-        else if ($dsn['socket']) {
+        else if (isset($dsn['socket'])) {
             $params[] = 'host=' . $dsn['socket'];
         }
 
-        if ($dsn['port']) {
+        if (isset($dsn['port'])) {
             $params[] = 'port=' . $dsn['port'];
         }
 
-        if ($dsn['database']) {
+        if (isset($dsn['database'])) {
             $params[] = 'dbname=' . $dsn['database'];
         }
 
         foreach (self::$libpq_connect_params as $param) {
-            if ($dsn[$param]) {
+            if (isset($dsn[$param])) {
                 $params[] = $param . '=' . $dsn[$param];
             }
         }

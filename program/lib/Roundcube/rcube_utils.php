@@ -403,8 +403,9 @@ class rcube_utils
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
             $nested = strpos($source, '{', $pos+1);
-            if ($nested && $nested < $pos2)  // when dealing with nested blocks (e.g. @media), take the inner one
+            if ($nested && $nested < $pos2) { // when dealing with nested blocks (e.g. @media), take the inner one
                 $pos = $nested;
+            }
             $length = $pos2 - $pos - 1;
             $styles = substr($source, $pos+1, $length);
 
@@ -419,6 +420,10 @@ class rcube_utils
                 $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
 
                 for ($i=0, $len=count($a_styles); $i < $len; $i++) {
+                    if (!isset($a_styles[$i])) {
+                        continue;
+                    }
+
                     $line     = $a_styles[$i];
                     $stripped = preg_replace('/[^a-z\(:;]/i', '', $line);
 
@@ -501,11 +506,16 @@ class rcube_utils
         $mimetype = strtolower($mimetype);
         $filename = strtolower($filename);
 
-        list($primary, $secondary) = explode('/', $mimetype);
+        if (strpos($mimetype, '/')) {
+            list($primary, $secondary) = explode('/', $mimetype);
+        }
+        else {
+            $primary = $mimetype;
+        }
 
         $classes = array($primary ?: 'unknown');
 
-        if ($secondary) {
+        if (!empty($secondary)) {
             $classes[] = $secondary;
         }
 
@@ -609,7 +619,7 @@ class rcube_utils
         // %d - domain name without first part (up to domain.tld)
         $d = preg_replace('/^[^.]+\.(?![^.]+$)/', '', self::server_name('HTTP_HOST'));
         // %h - IMAP host
-        $h = $_SESSION['storage_host'] ?: $host;
+        $h = !empty($_SESSION['storage_host']) ? $_SESSION['storage_host'] : $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
         // If %h=domain.tld then %z=domain.tld as well (remains valid)
         $z = preg_replace('/^[^.]+\.(?![^.]+$)/', '', $h);
@@ -640,7 +650,11 @@ class rcube_utils
      */
     public static function server_name($type = null, $strip_port = true)
     {
-        $name     = $_SERVER[$type ?: 'SERVER_NAME'];
+        if (!$type) {
+            $type = 'SERVER_NAME';
+        }
+
+        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : null;
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
@@ -746,7 +760,7 @@ class rcube_utils
         if (!empty($headers)) {
             $headers = array_change_key_case($headers, CASE_UPPER);
 
-            return $headers[$key];
+            return isset($headers[$key]) ? $headers[$key] : null;
         }
     }
 
@@ -896,11 +910,11 @@ class rcube_utils
             $mdy   = $m[2] > 12 && $m[1] <= 12;
             $day   = $mdy ? $m[2] : $m[1];
             $month = $mdy ? $m[1] : $m[2];
-            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?: ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, isset($m[4]) ? $m[4]: ' 00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
         else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
-            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?: ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], isset($m[4]) ? $m[4]: ' 00:00:00');
         }
 
         return $date;
@@ -1238,7 +1252,7 @@ class rcube_utils
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
 
-        return $path[0] == '/';
+        return isset($path[0]) && $path[0] == '/';
     }
 
     /**
