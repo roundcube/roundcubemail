@@ -27,7 +27,7 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
         self::init();
 
         $rcmail     = rcmail::get_instance();
-        $attachment = self::get_attachment()
+        $attachment = self::get_attachment();
 
         if (is_array($attachment)) {
             $attachment = $rcmail->plugins->exec_hook('attachment_delete', $attachment);

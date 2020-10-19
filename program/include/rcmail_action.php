@@ -70,7 +70,7 @@ abstract class rcmail_action
     }
 
     /**
-     * Set environment variables for specified config options
+     * Set environment variables for specified config boolean options
      *
      * @param array $options List of configuration option names
      */

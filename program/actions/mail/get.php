@@ -198,7 +198,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $rcmail->output->register_inline_warning(
                             $rcmail->gettext([
                                     'name' => 'attachmentvalidationerror',
-                                    'vars' => a[
+                                    'vars' => [
                                         'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
                                         'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
                                     ]

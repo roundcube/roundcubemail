@@ -123,7 +123,7 @@ class rcmail_action_utils_error extends rcmail_action
         if ($rcmail->output && $rcmail->output->template_exists('error')) {
             $GLOBALS['__page_content'] = $__page_content;
 
-            $task = empty($rcmail->user) || empty($rcmail->user->ID ? '-login' : '';
+            $task = empty($rcmail->user) || empty($rcmail->user->ID) ? '-login' : '';
 
             $rcmail->output->reset();
             $rcmail->output->set_env('error_task', 'error' . $task);
