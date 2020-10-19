@@ -687,6 +687,9 @@ $config['max_group_members'] = 0;
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
 
+// Change the seperator between product name and page title. This is displayed in the window title.
+$config['pagetitle_seperator'] = '::';
+
 // Add this user-agent to message headers when sending
 $config['useragent'] = 'Roundcube Webmail/'.RCUBE_VERSION;
 
