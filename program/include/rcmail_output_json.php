@@ -66,7 +66,7 @@ class rcmail_output_json extends rcmail_output
             $name = $this->config->get('product_name');
         }
 
-        $this->command('set_pagetitle', empty($name) ? $title : $name . ' :: ' . $title);
+        $this->command('set_pagetitle', empty($name) ? $title : $name . ' ' . $this->config->get('pagetitle_seperator') . ' ' . $title);
     }
 
     /**
