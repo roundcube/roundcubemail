@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -11,32 +11,28 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Environment initialization script for unit tests                    |
+ |   Convert HTML message to plain text                                  |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+class rcmail_action_utils_html2text extends rcmail_action
+{
+    // only process ajax requests
+    protected static $mode = self::MODE_AJAX;
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+    function run()
+    {
+        $html = stream_get_contents(fopen('php://input', 'r'));
 
-define('TESTS_DIR', __DIR__ . '/');
+        $params['links'] = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
+        $params['width'] = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
 
-if (@is_dir(TESTS_DIR . 'config')) {
-    define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
+        $text = rcmail::get_instance()->html2text($html, $params);
+
+        header('Content-Type: text/plain; charset=' . RCUBE_CHARSET);
+        print $text;
+        exit;
+    }
 }
-
-require_once(INSTALL_PATH . 'program/include/iniset.php');
-
-rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
-
-// Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
-if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
-}
-
-require_once(TESTS_DIR . 'ActionTestCase.php');

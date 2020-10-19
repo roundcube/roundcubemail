@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -11,32 +11,34 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Environment initialization script for unit tests                    |
+ |   Provide functionality of folders management                         |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+class rcmail_action_settings_folder_size extends rcmail_action
+{
+    static $mode = self::MODE_AJAX;
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+    public function run()
+    {
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+        $name    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
 
-define('TESTS_DIR', __DIR__ . '/');
+        $size = $storage->folder_size($name);
 
-if (@is_dir(TESTS_DIR . 'config')) {
-    define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
+        // @TODO: check quota and show percentage usage of specified mailbox?
+
+        if ($size !== false) {
+            $rcmail->output->command('folder_size_update', $rcmail->show_bytes($size));
+        }
+        else {
+            $rcmail->display_server_error();
+        }
+
+        $rcmail->output->send();
+    }
 }
-
-require_once(INSTALL_PATH . 'program/include/iniset.php');
-
-rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
-
-// Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
-if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
-}
-
-require_once(TESTS_DIR . 'ActionTestCase.php');

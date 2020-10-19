@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -11,32 +11,18 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Environment initialization script for unit tests                    |
+ |   Upload, remove, display attachments in compose form                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
-
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
-
-define('TESTS_DIR', __DIR__ . '/');
-
-if (@is_dir(TESTS_DIR . 'config')) {
-    define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
+class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachment_upload
+{
+    public function run()
+    {
+        self::init();
+        self::display_uploaded_file(self::get_attachment());
+        exit;
+    }
 }
-
-require_once(INSTALL_PATH . 'program/include/iniset.php');
-
-rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
-
-// Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
-if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
-}
-
-require_once(TESTS_DIR . 'ActionTestCase.php');

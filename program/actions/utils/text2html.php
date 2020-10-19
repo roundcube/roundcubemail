@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -11,32 +11,25 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Environment initialization script for unit tests                    |
+ |   Convert plain text to HTML                                          |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+class rcmail_action_utils_text2html extends rcmail_action
+{
+    // only process ajax requests
+    protected static $mode = self::MODE_AJAX;
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+    public function run()
+    {
+        $text = stream_get_contents(fopen('php://input', 'r'));
 
-define('TESTS_DIR', __DIR__ . '/');
+        $converter = new rcube_text2html($text, false, ['wrap' => true]);
 
-if (@is_dir(TESTS_DIR . 'config')) {
-    define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
+        header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
+        print $converter->get_html();
+        exit;
+    }
 }
-
-require_once(INSTALL_PATH . 'program/include/iniset.php');
-
-rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
-
-// Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
-if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
-}
-
-require_once(TESTS_DIR . 'ActionTestCase.php');
