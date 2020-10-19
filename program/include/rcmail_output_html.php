@@ -249,10 +249,10 @@ EOF;
 
         if ($full) {
             if ($this->devel_mode && !empty($_SESSION['username'])) {
-                $title = $_SESSION['username'] . ' :: ' . $title;
+                $title = $_SESSION['username'] . ' ' . $this->config->get('pagetitle_seperator') . ' ' . $title;
             }
             else if ($prod_name = $this->config->get('product_name')) {
-                $title = $prod_name . ' :: ' . $title;
+                $title = $prod_name . ' ' . $this->config->get('pagetitle_seperator') . ' ' . $title;
             }
         }
 
