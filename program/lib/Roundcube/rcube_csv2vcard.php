@@ -635,7 +635,6 @@ class rcube_csv2vcard
 
         if (!empty($contact['groups'])) {
             // categories/groups separator in vCard is ',' not ';'
-            $contact['groups'] = str_replace(',', '', $contact['groups']);
             $contact['groups'] = str_replace(';', ',', $contact['groups']);
 
             // remove "* " added by GMail
