@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Upload, remove, display attachments in compose form                 |
+ |   Rename attachments in compose form                                  |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

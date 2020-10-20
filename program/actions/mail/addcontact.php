@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Add the submitted contact to the users address book                 |
+ |   Add the submitted contact to the user's address book                |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+

@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Handles image uploads                                               |
+ |   Displaying uploaded images                                          |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+

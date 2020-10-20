@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Provide functionality to create/edit a folder                       |
+ |   Handler for saving the create/edit folder form                      |
  +-----------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
