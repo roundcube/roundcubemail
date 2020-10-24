@@ -22,7 +22,12 @@ class rcmail_action_utils_spell_html extends rcmail_action
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $method = rcube_utils::get_input_value('method', rcube_utils::INPUT_POST);

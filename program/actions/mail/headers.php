@@ -24,7 +24,12 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
 
     protected static $source;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $uid    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GP);

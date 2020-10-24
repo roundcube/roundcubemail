@@ -23,7 +23,12 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $MAXNUM = (int) $rcmail->config->get('autocomplete_max', 15);

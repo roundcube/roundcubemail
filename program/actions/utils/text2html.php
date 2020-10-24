@@ -22,7 +22,12 @@ class rcmail_action_utils_text2html extends rcmail_action
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $text = stream_get_contents(fopen('php://input', 'r'));
 

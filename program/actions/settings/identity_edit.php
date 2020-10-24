@@ -21,7 +21,12 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 {
     protected static $record;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

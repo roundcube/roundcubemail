@@ -21,7 +21,12 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
         $search        = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC, true);

@@ -20,13 +20,18 @@
 
 class rcmail_action_settings_about extends rcmail_action
 {
-    const RC_COPYRIGHT = "Copyright &copy; 2005-2020, The Roundcube Dev Team";
+    const RC_COPYRIGHT = 'Copyright &copy; 2005-2020, The Roundcube Dev Team';
     const RC_LICENSE   = 'This program is free software; you can redistribute it and/or modify it under the terms of the '
             . '<a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
             . 'as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.'
             . '<br/>Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> for skins &amp; plugins apply.';
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

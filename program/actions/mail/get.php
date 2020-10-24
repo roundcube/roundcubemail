@@ -22,7 +22,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 {
     protected static $attachment;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

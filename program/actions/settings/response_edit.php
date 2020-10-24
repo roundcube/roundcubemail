@@ -22,7 +22,12 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
     protected static $response;
     protected static $responses;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $title  = $rcmail->gettext($rcmail->action == 'add-response' ? 'addresponse' : 'editresponse');

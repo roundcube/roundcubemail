@@ -46,8 +46,10 @@ abstract class rcmail_action
 
     /**
      * Request handler. The only abstract method.
+     *
+     * @param array $args Arguments from the previous step(s)
      */
-    abstract public function run();
+    abstract public function run($args = []);
 
     /**
      * Request sanity checks, e.g. supported request mode

@@ -27,7 +27,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     protected static $HTML_MODE = false;
     protected static $SENDMAIL;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

@@ -45,7 +45,12 @@ class rcmail_action_settings_index extends rcmail_action
         'save-response'    => 'response-save',
     ];
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

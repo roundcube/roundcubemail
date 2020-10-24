@@ -20,7 +20,12 @@
 
 class rcmail_action_utils_modcss extends rcmail_action
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $url = preg_replace('![^a-z0-9.-]!i', '', $_GET['_u']);
 

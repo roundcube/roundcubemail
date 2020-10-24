@@ -23,7 +23,12 @@ class rcmail_action_mail_bounce extends rcmail_action
     // only process ajax requests
     protected static $mode = self::MODE_HTTP;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail     = rcmail::get_instance();
         $msg_uid    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GP);

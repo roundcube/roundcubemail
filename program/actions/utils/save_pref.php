@@ -22,7 +22,12 @@ class rcmail_action_utils_save_pref extends rcmail_action
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail   = rcmail::get_instance();
         $name     = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST);

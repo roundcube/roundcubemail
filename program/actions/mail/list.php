@@ -21,7 +21,12 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
         $save_arr      = [];

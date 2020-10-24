@@ -22,7 +22,12 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
     protected static $section;
     protected static $sections;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

@@ -22,7 +22,12 @@ class rcmail_action_settings_folder_purge extends rcmail_action
 {
     static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail       = rcmail::get_instance();
         $storage      = $rcmail->get_storage();

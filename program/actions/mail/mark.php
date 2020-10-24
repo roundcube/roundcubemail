@@ -21,7 +21,12 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $_uids   = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $flag    = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST);

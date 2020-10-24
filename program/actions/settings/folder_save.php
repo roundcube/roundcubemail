@@ -19,7 +19,12 @@
 
 class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_edit
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
 

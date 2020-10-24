@@ -22,7 +22,12 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 {
     static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail  = rcmail::get_instance();
         $name    = trim(rcube_utils::get_input_value('_folder_newname', rcube_utils::INPUT_POST, true));

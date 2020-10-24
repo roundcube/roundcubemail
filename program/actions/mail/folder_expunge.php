@@ -22,7 +22,12 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);

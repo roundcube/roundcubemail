@@ -24,7 +24,12 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
     protected static $COMPOSE;
     protected static $COMPOSE_ID;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

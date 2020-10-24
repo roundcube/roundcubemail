@@ -19,7 +19,12 @@
 
 class rcmail_action_utils_killcache extends rcmail_action
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

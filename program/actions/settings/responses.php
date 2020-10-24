@@ -21,7 +21,12 @@ class rcmail_action_settings_responses extends rcmail_action
 {
     protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

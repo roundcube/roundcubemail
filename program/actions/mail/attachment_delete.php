@@ -22,7 +22,12 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         self::init();
 

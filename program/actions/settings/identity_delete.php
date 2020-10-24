@@ -21,7 +21,12 @@ class rcmail_action_settings_identity_delete extends rcmail_action
 {
     static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $iid    = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);

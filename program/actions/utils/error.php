@@ -19,6 +19,11 @@
 
 class rcmail_action_utils_error extends rcmail_action
 {
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

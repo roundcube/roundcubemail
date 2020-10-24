@@ -19,7 +19,12 @@
 
 class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachment_upload
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         self::init();
         self::display_uploaded_file(self::get_attachment());

@@ -22,7 +22,12 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
 
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail       = rcmail::get_instance();
         $delimiter    = $rcmail->storage->get_hierarchy_delimiter();

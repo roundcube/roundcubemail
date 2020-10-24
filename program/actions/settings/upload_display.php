@@ -19,7 +19,12 @@
 
 class rcmail_action_settings_upload_display extends rcmail_action
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
         $from   = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);

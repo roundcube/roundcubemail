@@ -53,8 +53,9 @@ class rcmail extends rcube
     public $default_skin;
     public $login_error;
 
-    private $address_books = array();
-    private $action_map    = array();
+    private $address_books = [];
+    private $action_map    = [];
+    private $action_args   = [];
 
 
     const ERROR_STORAGE          = -2;
@@ -227,6 +228,7 @@ class rcmail extends rcube
         }
 
         $task       = $this->action == 'save-pref' ? 'utils' : $this->task;
+        $task       = $task == 'addressbook' ? 'contacts' : $task;
         $task_class = "rcmail_action_{$task}_index";
 
         // execute the action index handler
@@ -267,7 +269,7 @@ class rcmail extends rcube
                 if (!$handler->checks()) {
                     break;
                 }
-                $handler->run();
+                $handler->run($this->action_args);
                 $redirects++;
             }
             else {
@@ -1236,10 +1238,12 @@ class rcmail extends rcube
      * Overwrite action variable
      *
      * @param string $action New action value
+     * @param array  $args   Arguments to be passed to the next action
      */
-    public function overwrite_action($action)
+    public function overwrite_action($action, $args = [])
     {
-        $this->action = $action;
+        $this->action      = $action;
+        $this->action_args = array_merge($this->action_args, $args);
         $this->output->set_env('action', $action);
     }
 

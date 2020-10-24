@@ -19,7 +19,12 @@
 
 class rcmail_action_settings_response_save extends rcmail_action_settings_response_edit
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
 

@@ -20,7 +20,12 @@
 
 class rcmail_action_settings_folders extends rcmail_action_settings_index
 {
-    public function run()
+    /**
+     * Request handler.
+     *
+     * @param array $args Arguments from the previous step(s)
+     */
+    public function run($args = [])
     {
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
