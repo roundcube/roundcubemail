@@ -94,7 +94,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         // Location (name)
         if ($options['protected']) {
-            $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($rcmail->localize_foldername($mbox, false, true)));
+            $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q(self::localize_foldername($mbox, false, true)));
         }
         else if ($options['norename']) {
             $foldername = rcube::Q($folder);
@@ -107,7 +107,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $foldername = new html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
             $foldername = '<span class="input-group">' . $foldername->show($folder);
 
-            if ($options['special'] && ($sname = $rcmail->localize_foldername($mbox, false, true)) != $folder) {
+            if ($options['special'] && ($sname = self::localize_foldername($mbox, false, true)) != $folder) {
                 $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) .')</span></span>';
             }
 
@@ -140,7 +140,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 $exceptions[] = substr($prefix, 0, -1);
             }
 
-            $select = $rcmail->folder_selector([
+            $select = self::folder_selector([
                     'id'          => '_parent',
                     'name'        => '_parent',
                     'noselection' => '---',

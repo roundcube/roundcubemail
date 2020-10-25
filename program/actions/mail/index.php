@@ -134,7 +134,7 @@ class rcmail_action_mail_index extends rcmail_action
             }
 
             // set configuration
-            $rcmail->set_env_config(['delete_junk', 'flag_for_deletion', 'read_when_deleted',
+            self::set_env_config(['delete_junk', 'flag_for_deletion', 'read_when_deleted',
                 'skip_deleted', 'display_next', 'message_extwin', 'forward_attachment']);
 
             if (!$rcmail->output->ajax_call) {
@@ -242,7 +242,7 @@ class rcmail_action_mail_index extends rcmail_action
         else {
             $mbox_name = $rcmail->output->get_env('mailbox') ?: $rcmail->storage->get_folder();
             $delimiter = $rcmail->storage->get_hierarchy_delimiter();
-            $pagetitle = $rcmail->localize_foldername($mbox_name, true);
+            $pagetitle = self::localize_foldername($mbox_name, true);
             $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
         }
 
@@ -530,7 +530,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $cont = rcube::SQ($cont);
                 }
                 else if ($col == 'size') {
-                    $cont = $rcmail->show_bytes($header->$col);
+                    $cont = self::show_bytes($header->$col);
                 }
                 else if ($col == 'date') {
                     $cont = $rcmail->format_date($sort_col == 'arrival' ? $header->internaldate : $header->date);
@@ -538,7 +538,7 @@ class rcmail_action_mail_index extends rcmail_action
                 else if ($col == 'folder') {
                     if ($last_folder !== $header->folder) {
                         $last_folder      = $header->folder;
-                        $last_folder_name = $rcmail->localize_foldername($last_folder, true);
+                        $last_folder_name = self::localize_foldername($last_folder, true);
                         $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
                     }
 
@@ -801,7 +801,7 @@ class rcmail_action_mail_index extends rcmail_action
             $mbox = $rcmail->storage->get_folder();
         }
 
-        return $rcmail->localize_foldername($mbox);
+        return self::localize_foldername($mbox);
     }
 
     public static function send_unread_count($mbox_name, $force = false, $count = null, $mark = '')
@@ -1685,7 +1685,7 @@ class rcmail_action_mail_index extends rcmail_action
             . html::tag('input', ['type' => 'hidden', 'name' => '_framed', 'value' => '1'])
             . html::p(null, $description);
 
-        return $rcmail->upload_form($attrib, 'importform', 'import-messages', $input_attr);
+        return self::upload_form($attrib, 'importform', 'import-messages', $input_attr);
     }
 
     /**

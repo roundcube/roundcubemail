@@ -38,10 +38,10 @@ class rcmail_action_settings_folder_size extends rcmail_action
         // @TODO: check quota and show percentage usage of specified mailbox?
 
         if ($size !== false) {
-            $rcmail->output->command('folder_size_update', $rcmail->show_bytes($size));
+            $rcmail->output->command('folder_size_update', self::show_bytes($size));
         }
         else {
-            $rcmail->display_server_error();
+            self::display_server_error();
         }
 
         $rcmail->output->send();

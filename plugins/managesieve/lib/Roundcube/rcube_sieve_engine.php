@@ -594,7 +594,7 @@ class rcube_sieve_engine
                     if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
                         $msg = $this->rc->gettext(array('name' => 'filesizeerror',
                             'vars' => array('size' =>
-                                $this->rc->show_bytes(rcube_utils::max_upload_size()))));
+                                rcmail_action::show_bytes(rcube_utils::max_upload_size()))));
                     }
                     else {
                         $this->errors['file'] = $this->plugin->gettext('fileuploaderror');
@@ -1329,8 +1329,8 @@ class rcube_sieve_engine
 
         $result = $this->list_rules();
 
-        // create XHTML table
-        $out = $this->rc->table_output($attrib, $result, $a_show_cols, 'id');
+        // create the table
+        $out = rcmail_action::table_output($attrib, $result, $a_show_cols, 'id');
 
         // set client env
         $this->rc->output->add_gui_object('filterslist', $attrib['id']);
@@ -2652,7 +2652,7 @@ class rcube_sieve_engine
             $mailbox = '';
         }
 
-        $select = $this->rc->folder_selector(array(
+        $select = rcmail_action::folder_selector(array(
             'maxlength'  => 100,
             'id'         => 'action_mailbox' . $id,
             'name'       => "_action_mailbox[$id]",

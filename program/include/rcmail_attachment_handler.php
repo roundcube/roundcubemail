@@ -171,7 +171,7 @@ class rcmail_attachment_handler
     public function size()
     {
         $part = $this->part ?: ((object) ['size' => $this->size, 'exact_size' => true]);
-        return rcube::get_instance()->message_part_size($part);
+        return rcmail_action::message_part_size($part);
     }
 
     /**

@@ -148,10 +148,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('draft_id', $msg_uid);
             $rcmail->storage->set_folder($drafts_mbox);
         }
-        else if ($msg_uid = $COMPOSE['param']['reply_uid']) {
+        else if ($msg_uid = self::$COMPOSE['param']['reply_uid']) {
             $compose_mode = rcmail_sendmail::MODE_REPLY;
         }
-        else if ($msg_uid = $COMPOSE['param']['forward_uid']) {
+        else if ($msg_uid = self::$COMPOSE['param']['forward_uid']) {
             $compose_mode = rcmail_sendmail::MODE_FORWARD;
             self::$COMPOSE['forward_uid']   = $msg_uid;
             self::$COMPOSE['as_attachment'] = !empty(self::$COMPOSE['param']['attachment']);
@@ -220,16 +220,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 if ($compose_mode == rcmail_sendmail::MODE_REPLY) {
                     self::$COMPOSE['reply_uid'] = self::$MESSAGE->context === null ? $msg_uid : null;
 
-                    if (!empty($COMPOSE['param']['all'])) {
-                        self::$MESSAGE->reply_all = $COMPOSE['param']['all'];
+                    if (!empty(self::$COMPOSE['param']['all'])) {
+                        self::$MESSAGE->reply_all = self::$COMPOSE['param']['all'];
                     }
                 }
                 else {
                     self::$COMPOSE['forward_uid'] = $msg_uid;
                 }
 
-                $COMPOSE['reply_msgid'] = self::$MESSAGE->headers->messageID;
-                $COMPOSE['references']  = trim(self::$MESSAGE->headers->references . " " . self::$MESSAGE->headers->messageID);
+                self::$COMPOSE['reply_msgid'] = self::$MESSAGE->headers->messageID;
+                self::$COMPOSE['references']  = trim(self::$MESSAGE->headers->references . " " . self::$MESSAGE->headers->messageID);
 
                 // Save the sent message in the same folder of the message being replied to
                 if (
@@ -550,8 +550,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::write_forward_attachments();
         }
         // reply/edit/draft/forward
-        else if (self::$COMPOSE['mode']
-            && ($COMPOSE['mode'] != rcmail_sendmail::MODE_REPLY || intval($rcmail->config->get('reply_mode')) != -1)
+        else if (!empty(self::$COMPOSE['mode'])
+            && (self::$COMPOSE['mode'] != rcmail_sendmail::MODE_REPLY || intval($rcmail->config->get('reply_mode')) != -1)
         ) {
             $isHtml   = self::compose_editor_mode();
             $messages = [];
@@ -655,7 +655,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // add blocked.gif attachment (#1486516)
         $regexp = '/ src="' . preg_quote($rcmail->output->asset_url('program/resources/blocked.gif'), '/') . '"/';
         if ($isHtml && preg_match($regexp, $body)) {
-            $content = $rcmail->get_resource_content('blocked.gif');
+            $content = self::get_resource_content('blocked.gif');
 
             if ($content && ($attachment = self::save_image('blocked.gif', 'image/gif', $content))) {
                 self::$COMPOSE['attachments'][$attachment['id']] = $attachment;
@@ -1144,7 +1144,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::$COMPOSE['forward_uid'] = explode(',', self::$COMPOSE['forward_uid']);
         }
 
-        foreach ((array) $COMPOSE['forward_uid'] as $uid) {
+        foreach ((array) self::$COMPOSE['forward_uid'] as $uid) {
             $message = new rcube_message($uid);
 
             if (empty($message->headers)) {
@@ -1279,7 +1279,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::$COMPOSE['icon_pos'] = 'left';
         }
 
-        if (!empty($COMPOSE['attachments'])) {
+        if (!empty(self::$COMPOSE['attachments'])) {
             if (!empty($attrib['deleteicon'])) {
                 $button = html::img([
                         'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
@@ -1380,7 +1380,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // Limit attachment size according to message size limit
         $limit = parse_bytes($rcmail->config->get('max_message_size')) / 1.33;
 
-        return $rcmail->upload_form($attrib, 'uploadform', 'send-attachment', ['multiple' => true], $limit);
+        return self::upload_form($attrib, 'uploadform', 'send-attachment', ['multiple' => true], $limit);
     }
 
     /**

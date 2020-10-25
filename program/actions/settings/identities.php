@@ -61,8 +61,7 @@ class rcmail_action_settings_identities extends rcmail_action
         ]);
 
         // @TODO: use <UL> instead of <TABLE> for identities list
-        // create XHTML table
-        $out = $rcmail->table_output($attrib, $plugin['list'], $plugin['cols'], 'identity_id');
+        $out = self::table_output($attrib, $plugin['list'], $plugin['cols'], 'identity_id');
 
         // set client env
         $rcmail->output->add_gui_object('identitieslist', $attrib['id']);

@@ -399,7 +399,7 @@ class archive extends rcube_plugin
 
             // load folders list when needed
             if ($args['current']) {
-                $select = $rcmail->folder_selector(array(
+                $select = rcmail_action::folder_selector(array(
                         'noselection'   => '---',
                         'realnames'     => true,
                         'maxlength'     => 30,

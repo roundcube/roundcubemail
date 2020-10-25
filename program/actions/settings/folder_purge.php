@@ -52,7 +52,7 @@ class rcmail_action_settings_folder_purge extends rcmail_action
 
             if ($delete) {
                 $rcmail->output->show_message('folderpurged', 'confirmation');
-                $rcmail->output->command('set_quota', $rcmail->quota_content(null, $mbox));
+                $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
             }
             else {
                 $rcmail->output->show_message('messagemoved', 'confirmation');
@@ -62,7 +62,7 @@ class rcmail_action_settings_folder_purge extends rcmail_action
             $rcmail->output->command('show_folder', $mbox, null, true);
         }
         else {
-            $rcmail->display_server_error('errorsaving');
+            self::display_server_error('errorsaving');
         }
 
         $rcmail->output->send();

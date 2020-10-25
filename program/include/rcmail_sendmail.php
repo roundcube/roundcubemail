@@ -910,7 +910,7 @@ class rcmail_sendmail
         }
 
         // configure autocompletion
-        $this->rcmail->autocomplete_init();
+        rcmail_action::autocomplete_init();
 
         return $out;
     }
@@ -1272,7 +1272,7 @@ class rcmail_sendmail
     public function folder_selector($attrib)
     {
         $attrib['name'] = '_store_target';
-        $select = $this->rcmail->folder_selector(array_merge($attrib, array(
+        $select = rcmail_action::folder_selector(array_merge($attrib, array(
                 'noselection'   => '- ' . $this->rcmail->gettext('dontsave') . ' -',
                 'folder_filter' => 'mail',
                 'folder_rights' => 'w',

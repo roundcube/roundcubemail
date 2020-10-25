@@ -135,7 +135,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $classes       = [];
 
             $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
-            $display_folder = rcube::Q($is_special ? $rcmail->localize_foldername($folder['id'], false, true) : $folder['name']);
+            $display_folder = rcube::Q($is_special ? self::localize_foldername($folder['id'], false, true) : $folder['name']);
 
             if ($folder['virtual']) {
                 $classes[] = 'virtual';
@@ -194,7 +194,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $folder_id    = rcube_utils::html_identifier($folder['id'], true);
 
-            if ($folder_class = $rcmail->folder_classname($folder['id'])) {
+            if ($folder_class = self::folder_classname($folder['id'])) {
                 $classes[] = $folder_class;
             }
 
@@ -348,7 +348,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $class_name  = trim($class_name . ' mailbox');
 
         if (!empty($options['protected'])) {
-            $display_name = $rcmail->localize_foldername($name);
+            $display_name = self::localize_foldername($name);
         }
         else {
             $display_name = rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');

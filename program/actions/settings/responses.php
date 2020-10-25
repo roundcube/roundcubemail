@@ -86,7 +86,7 @@ class rcmail_action_settings_responses extends rcmail_action
                 'cols' => ['name']
         ]);
 
-        $out = $rcmail->table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
+        $out = self::table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
 
         $readonly_responses = [];
         foreach ($plugin['list'] as $item) {

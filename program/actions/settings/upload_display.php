@@ -26,9 +26,8 @@ class rcmail_action_settings_upload_display extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $from   = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
-        $type   = preg_replace('/(add|edit)-/', '', $from);
+        $from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
+        $type = preg_replace('/(add|edit)-/', '', $from);
 
         // Plugins in Settings may use this file for some uploads (#5694)
         // Make sure it does not contain a dot, which is a special character
@@ -41,7 +40,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
             $id = $regs[1];
         }
 
-        $rcmail->display_uploaded_file($_SESSION[$type]['files'][$id]);
+        self::display_uploaded_file($_SESSION[$type]['files'][$id]);
 
         exit;
     }

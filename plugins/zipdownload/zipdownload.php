@@ -295,7 +295,7 @@ class zipdownload extends rcube_plugin
 
                     $msg = $this->gettext(array(
                             'name' => 'sizelimiterror',
-                            'vars' => array('$size' => $rcmail->show_bytes($limit))
+                            'vars' => array('$size' => rcmail_action::show_bytes($limit))
                     ));
 
                     $rcmail->output->show_message($msg, 'error');

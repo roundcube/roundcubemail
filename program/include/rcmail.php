@@ -1639,34 +1639,6 @@ class rcmail extends rcube
     }
 
     /**
-     * Create a hierarchical array of the mailbox list
-     * @deprecated since 1.5-beta, use rcmail_action::build_folder_tree()
-     */
-    public function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
-    {
-        return rcmail_action::build_folder_tree($arrFolders, $folder, $delm, $path);
-    }
-
-    /**
-     * Return html for a structured list &lt;ul&gt; for the mailbox tree
-     *
-     * @deprecated since 1.5-beta, use rcmail_action::render_folder_tree_html()
-     */
-    public function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
-    {
-        return rcmail_action::render_folder_tree_html($arrFolders, $mbox_name, $jslist, $attrib, $nestLevel);
-    }
-
-    /**
-     * Return html for a flat list <select> for the mailbox tree
-     * @deprecated since 1.5-beta, use rcmail_action::render_folder_tree_select()
-     */
-    public function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
-    {
-        return rcmail_action::render_folder_tree_select($arrFolders, $mbox_name, $maxlength, $select, $realnames, $nestLevel, $opts);
-    }
-
-    /**
      * Returns class name for the given folder if it is a special folder
      * (including shared/other users namespace roots).
      *

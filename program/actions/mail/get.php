@@ -190,7 +190,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     if (empty($_REQUEST['_mimewarning']) && strpos($mimetype, 'image/') === 0) {
                         // Do not cache. Failure might be the result of a misconfiguration,
                         // thus real content should be returned once fixed.
-                        $content = $rcmail->get_resource_content('blocked.gif');
+                        $content = self::get_resource_content('blocked.gif');
                         $rcmail->output->nocacheing_headers();
                         header("Content-Type: image/gif");
                         header("Content-Transfer-Encoding: binary");

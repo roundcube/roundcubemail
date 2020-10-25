@@ -75,7 +75,7 @@ class rcmail_action_settings_index extends rcmail_action
         list($list, $cols) = self::user_prefs();
 
         // create XHTML table
-        $out = $rcmail->table_output($attrib, $list, $cols, 'id');
+        $out = self::table_output($attrib, $list, $cols, 'id');
 
         // set client env
         $rcmail->output->add_gui_object('sectionslist', $attrib['id']);
@@ -1264,7 +1264,7 @@ class rcmail_action_settings_index extends rcmail_action
                 // Configure special folders
                 $set = ['drafts_mbox', 'sent_mbox', 'junk_mbox', 'trash_mbox'];
                 if ($current && count(array_intersect($no_override, $set)) < 4) {
-                    $select = $rcmail->folder_selector([
+                    $select = self::folder_selector([
                             'noselection'   => '---',
                             'realnames'     => true,
                             'maxlength'     => 30,

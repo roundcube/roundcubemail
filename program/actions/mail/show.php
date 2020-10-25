@@ -103,7 +103,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             // set configuration
-            $rcmail->set_env_config(['delete_junk', 'flag_for_deletion', 'read_when_deleted',
+            self::set_env_config(['delete_junk', 'flag_for_deletion', 'read_when_deleted',
                 'skip_deleted', 'display_next', 'forward_attachment', 'mailvelope_main_keyring']);
 
             // set special folders
@@ -189,7 +189,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         foreach (self::$MESSAGE->attachments as $attach_prop) {
             $filename = self::attachment_name($attach_prop, true);
-            $filesize = $rcmail->message_part_size($attach_prop);
+            $filesize = self::message_part_size($attach_prop);
             $mimetype = rcube_mime::fix_mimetype($attach_prop->mimetype);
             $class    = rcube_utils::file2class($mimetype, $filename);
             $id       = 'attach' . $attach_prop->mime_id;
@@ -749,7 +749,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                 ])
                             ) .
                             html::span('image-filename', rcube::Q($attach_prop->filename)) .
-                            html::span('image-filesize', rcube::Q($rcmail->message_part_size($attach_prop))) .
+                            html::span('image-filesize', rcube::Q(self::message_part_size($attach_prop))) .
                             html::span('attachment-links', ($supported ? $show_link . '&nbsp;' : '') . $download_link) .
                             html::br(['style' => 'clear:both'])
                         );

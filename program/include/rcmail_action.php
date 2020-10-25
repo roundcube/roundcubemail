@@ -160,10 +160,9 @@ abstract class rcmail_action
 
         $_SESSION['quota_display'] = !empty($attrib['display']) ? $attrib['display'] : 'text';
 
+        $quota = self::quota_content($attrib);
+
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-
-        $quota = $rcmail->quota_content($attrib);
-
         $rcmail->output->add_script('rcmail.set_quota('.rcube_output::json_serialize($quota).');', 'docready');
 
         return html::span($attrib, '&nbsp;');
@@ -193,8 +192,8 @@ abstract class rcmail_action
             }
 
             $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
-                $rcmail->show_bytes($quota['used'] * 1024),
-                $rcmail->show_bytes($quota['total'] * 1024),
+                self::show_bytes($quota['used'] * 1024),
+                self::show_bytes($quota['total'] * 1024),
                 $quota_result['percent']
             );
 
@@ -224,8 +223,8 @@ abstract class rcmail_action
                         $percent = min(100, round(($storage['used']/max(1,$storage['total']))*100));
 
                         $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
-                        $table->add(null, $rcmail->show_bytes($storage['total'] * 1024));
-                        $table->add(null, sprintf('%s (%.0f%%)', $rcmail->show_bytes($storage['used'] * 1024), $percent));
+                        $table->add(null, self::show_bytes($storage['total'] * 1024));
+                        $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
                     }
                     if ($message = $data['message']) {
                         $percent = min(100, round(($message['used']/max(1,$message['total']))*100));
@@ -459,7 +458,7 @@ abstract class rcmail_action
             $max_filesize = $max_size;
         }
 
-        $max_filesize_txt = $rcmail->show_bytes($max_filesize);
+        $max_filesize_txt = self::show_bytes($max_filesize);
         $rcmail->output->set_env('max_filesize', $max_filesize);
         $rcmail->output->set_env('filesizeerror', $rcmail->gettext(array(
             'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize_txt))));
@@ -1055,7 +1054,7 @@ abstract class rcmail_action
     /**
      * Create a hierarchical array of the mailbox list
      */
-    public static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+    protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
     {
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
@@ -1117,7 +1116,7 @@ abstract class rcmail_action
     /**
      * Return html for a structured list &lt;ul&gt; for the mailbox tree
      */
-    public static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
+    protected static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
     {
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
@@ -1216,7 +1215,7 @@ abstract class rcmail_action
     /**
      * Return html for a flat list <select> for the mailbox tree
      */
-    public static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
+    protected static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
     {
         $out     = '';
         $rcmail  = rcmail::get_instance();
