@@ -40,7 +40,7 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
             if ($attachment['status']) {
                 if (!empty(self::$COMPOSE['attachments'][self::$file_id])) {
                     $rcmail->session->remove(self::$SESSION_KEY . '.attachments.' . self::$file_id);
-                    $rcmail->output->command('remove_from_attachment_list', "rcmfile{self::$file_id}");
+                    $rcmail->output->command('remove_from_attachment_list', 'rcmfile' . self::$file_id);
                 }
             }
         }

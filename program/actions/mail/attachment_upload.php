@@ -19,10 +19,13 @@
 
 class rcmail_action_mail_attachment_upload extends rcmail_action
 {
+    // only process ajax requests
+    protected static $mode = self::MODE_AJAX;
+
     protected static $SESSION_KEY;
-    protected static $file_id;
     protected static $COMPOSE;
     protected static $COMPOSE_ID;
+    protected static $file_id;
 
     /**
      * Request handler.
@@ -107,11 +110,11 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
                     }
 
                     $attachment = $rcmail->plugins->exec_hook('attachment_upload', [
-                        'path'     => $filepath,
-                        'name'     => $filename,
-                        'size'     => $filesize,
-                        'mimetype' => $filetype,
-                        'group'    => self::$COMPOSE_ID,
+                            'path'     => $filepath,
+                            'name'     => $filename,
+                            'size'     => $filesize,
+                            'mimetype' => $filetype,
+                            'group'    => self::$COMPOSE_ID,
                     ]);
                 }
 
@@ -133,13 +136,13 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
                     else {
                         $msg = $rcmail->gettext('fileuploaderror');
                     }
-                }
 
-                if (!empty($attachment['error']) || $err != UPLOAD_ERR_NO_FILE) {
-                    if (!in_array($msg, $errors)) {
-                        $rcmail->output->command('display_message', $msg, 'error');
-                        $rcmail->output->command('remove_from_attachment_list', $uploadid);
-                        $errors[] = $msg;
+                    if (!empty($attachment['error']) || $err != UPLOAD_ERR_NO_FILE) {
+                        if (!in_array($msg, $errors)) {
+                            $rcmail->output->command('display_message', $msg, 'error');
+                            $rcmail->output->command('remove_from_attachment_list', $uploadid);
+                            $errors[] = $msg;
+                        }
                     }
                 }
             }
@@ -168,12 +171,12 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
 
     public static function init()
     {
-        self::$COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
-        self::$COMPOSE    = null;
+        self::$COMPOSE_ID  = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+        self::$COMPOSE     = null;
+        self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
 
-        if ($COMPOSE_ID && !empty($_SESSION['compose_data_' . self::$COMPOSE_ID])) {
-            self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
-            self::$COMPOSE =& $_SESSION[$SESSION_KEY];
+        if (self::$COMPOSE_ID && !empty($_SESSION[self::$SESSION_KEY])) {
+            self::$COMPOSE =& $_SESSION[self::$SESSION_KEY];
         }
 
         if (!self::$COMPOSE) {
@@ -181,7 +184,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
         }
 
         self::$file_id = rcube_utils::get_input_value('_file', rcube_utils::INPUT_GPC);
-        self::$file_id = preg_replace('/^rcmfile/', '', $file_id) ?: 'unknown';
+        self::$file_id = preg_replace('/^rcmfile/', '', self::$file_id) ?: 'unknown';
     }
 
     public static function get_attachment()
@@ -234,7 +237,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
                 'aria-label' => $rcmail->gettext('delete') . ' ' . $attachment['name'],
             ], $button);
 
-        if (!empty($COMPOSE['icon_pos']) && $COMPOSE['icon_pos'] == 'left') {
+        if (!empty(self::$COMPOSE['icon_pos']) && self::$COMPOSE['icon_pos'] == 'left') {
             $content = $delete_link . $content_link;
         }
         else {
@@ -272,7 +275,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
         }
 
         // add size of already attached files
-        if (!empty($self::$COMPOE['attachments'])) {
+        if (!empty(self::$COMPOSE['attachments'])) {
             foreach ((array) self::$COMPOSE['attachments'] as $att) {
                 // All attachments are base64-encoded except message/rfc822 (see sendmail.inc)
                 $multip = $att['mimetype'] == 'message/rfc822' ? 1 : 1.33;
