@@ -101,7 +101,7 @@ class rcube_addresses extends rcube_contacts
             $start_row,
             $length,
             $this->user_id,
-            $this->type,
+            $this->type
         );
 
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
