@@ -20,6 +20,9 @@
 
 class rcmail_action_mail_import extends rcmail_action
 {
+    // only process ajax requests
+    protected static $mode = self::MODE_AJAX;
+
     /**
      * Request handler.
      *
@@ -30,7 +33,7 @@ class rcmail_action_mail_import extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // clear all stored output properties (like scripts and env vars)
-        $OUTPUT->reset();
+        $rcmail->output->reset();
 
         if (!empty($_FILES['_file']) && is_array($_FILES['_file'])) {
             $imported = 0;

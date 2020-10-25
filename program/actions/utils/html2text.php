@@ -19,9 +19,6 @@
 
 class rcmail_action_utils_html2text extends rcmail_action
 {
-    // only process ajax requests
-    protected static $mode = self::MODE_AJAX;
-
     /**
      * Request handler.
      *

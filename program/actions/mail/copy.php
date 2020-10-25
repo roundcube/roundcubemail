@@ -33,7 +33,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
 
         // copy messages
         if (empty($_POST['_uid']) || !isset($_POST['_target_mbox']) || !strlen($_POST['_target_mbox'])) {
-            $OUTPUT->show_message('internalerror', 'error');
+            $rcmail->output->show_message('internalerror', 'error');
         }
 
         $uids    = self::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);

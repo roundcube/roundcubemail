@@ -31,7 +31,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
     {
         $rcmail = rcmail::get_instance();
 
-        $PRINT_MODE = $rcmail->action == 'print';
+        self::$PRINT_MODE = $rcmail->action == 'print';
 
         // Read browser capabilities and store them in session
         if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {

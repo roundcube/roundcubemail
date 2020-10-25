@@ -310,7 +310,7 @@ class vcard_attachments extends rcube_plugin
             );
 
             if ($vcard) {
-                $args['attachment'] = rcmail_save_attachment($vcard, null, $args['compose_id'], $params);
+                $args['attachment'] = rcmail_action_mail_index::save_attachment($vcard, null, $args['compose_id'], $params);
             }
         }
 

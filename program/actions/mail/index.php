@@ -1462,7 +1462,7 @@ class rcmail_action_mail_index extends rcmail_action
             $label = rcube::Q($rcmail->gettext(['name' => 'andnmore', 'vars' => ['nr' => $moreadrs]]));
 
             if (self::$PRINT_MODE) {
-                $out .= ' ' . html::a([
+                $out .= ', ' . html::a([
                         'href'    => '#more',
                         'class'   => 'morelink',
                         'onclick' => '$(this).hide().next().show()',
@@ -1470,7 +1470,7 @@ class rcmail_action_mail_index extends rcmail_action
                     . html::span(['style' => 'display:none'], join(', ', array_diff($allvalues, $shown_addresses)));
             }
             else {
-                $out .= ' ' . html::a([
+                $out .= ', ' . html::a([
                         'href'    => '#more',
                         'class'   => 'morelink',
                         'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",

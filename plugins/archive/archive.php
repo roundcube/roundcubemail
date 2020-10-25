@@ -141,8 +141,10 @@ class archive extends rcube_plugin
             $old_count = $storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
-        $count = 0;
-        $uids  = null;
+        $sort_col = rcmail_action_mail_index::sort_column();
+        $sort_ord = rcmail_action_mail_index::sort_order();
+        $count    = 0;
+        $uids     = null;
 
         // this way response handler for 'move' action will be executed
         $rcmail->action = 'move';
@@ -173,7 +175,7 @@ class archive extends rcube_plugin
             }
             else {
                 if ($uids == '*') {
-                    $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
+                    $index = $storage->index(null, $sort_col, $sort_ord);
                     $uids  = $index->get();
                 }
 
@@ -284,7 +286,7 @@ class archive extends rcube_plugin
 
         // update unread messages counts for all involved folders
         foreach ($this->result['sources'] as $folder) {
-            rcmail_send_unread_count($folder, true);
+            rcmail_action_mail_index::send_unread_count($folder, true);
         }
 
         // update message count display
@@ -292,8 +294,8 @@ class archive extends rcube_plugin
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_quota', $rcmail->quota_content(null, $quota_root));
-        $rcmail->output->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
+        $rcmail->output->command('set_quota', rcmail_action::quota_content(null, $quota_root));
+        $rcmail->output->command('set_rowcount', rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
             $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
@@ -304,10 +306,9 @@ class archive extends rcube_plugin
             // #5862: Don't add more rows than it was on the next page
             $count = $jump_back ? null : min($nextpage_count, $count);
 
-            $a_headers = $storage->list_messages($mbox, null,
-                rcmail_sort_column(), rcmail_sort_order(), $count);
+            $a_headers = $storage->list_messages($mbox, null, $sort_col, $sort_ord, $count);
 
-            rcmail_js_message_list($a_headers, false);
+            rcmail_action_mail_index::js_message_list($a_headers, false);
         }
 
         if ($this->result['reload']) {
@@ -318,7 +319,7 @@ class archive extends rcube_plugin
 
             if (!$read_on_move) {
                 foreach ($this->result['destinations'] as $folder) {
-                    rcmail_send_unread_count($folder, true);
+                    rcmail_action_mail_index::send_unread_count($folder, true);
                 }
             }
         }
