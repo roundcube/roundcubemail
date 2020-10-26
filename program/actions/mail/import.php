@@ -99,14 +99,8 @@ class rcmail_action_mail_import extends rcmail_action
                         }
                     }
                 }
-                else if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                    $size = self::show_bytes(rcube_utils::max_upload_size());
-                    $msg  = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
-
-                    $rcmail->output->command('display_message', $msg, 'error');
-                }
-                else if ($err) {
-                    $rcmail->output->show_message('fileuploaderror', 'error');
+                else {
+                    self::upload_error($err);
                 }
             }
 
@@ -118,17 +112,8 @@ class rcmail_action_mail_import extends rcmail_action
                 $rcmail->output->show_message('importmessageerror', 'error');
             }
         }
-        else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // If filesize exceeds post_max_size then $_FILES array is empty,
-            // show filesizeerror instead of fileuploaderror
-            if ($maxsize = ini_get('post_max_size')) {
-                $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]]);
-            }
-            else {
-                $msg = $rcmail->gettext('fileuploaderror');
-            }
-
-            $rcmail->output->command('display_message', $msg, 'error');
+        else {
+            self::upload_failure();
         }
 
         // send html page with JS calls as response

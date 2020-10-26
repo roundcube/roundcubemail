@@ -78,34 +78,13 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
                 $_SESSION['contacts']['files'][$file_id] = $attachment;
                 $rcmail->output->command('replace_contact_photo', $file_id);
             }
-            else {  // upload failed
-                $err  = $_FILES['_photo']['error'];
-                $size = self::show_bytes(rcube_utils::max_upload_size());
-
-                if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                    $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
-                }
-                else if (!empty($attachment['error'])) {
-                    $msg = $attachment['error'];
-                }
-                else {
-                    $msg = $rcmail->gettext('fileuploaderror');
-                }
-
-                $rcmail->output->command('display_message', $msg, 'error');
+            else {
+                // upload failed
+                self::upload_error($_FILES['_photo']['error'], $attachment);
             }
         }
-        else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // if filesize exceeds post_max_size then $_FILES array is empty,
-            // show filesizeerror instead of fileuploaderror
-            if ($maxsize = ini_get('post_max_size')) {
-                $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]]);
-            }
-            else {
-                $msg = $rcmail->gettext('fileuploaderror');
-            }
-
-            $rcmail->output->command('display_message', $msg, 'error');
+        else {
+            self::upload_failure();
         }
 
         $rcmail->output->command('photo_upload_end');

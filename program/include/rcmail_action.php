@@ -553,6 +553,64 @@ abstract class rcmail_action
     }
 
     /**
+     * Common file upload error handler
+     *
+     * @param int    $php_error  PHP error from $_FILES
+     * @param array  $attachment Attachment data from attachment_upload hook
+     * @param string $add_error  Additional error label (highest prio)
+     */
+    public static function upload_error($php_error, $attachment = null, $add_error = null)
+    {
+        $rcmail = rcmail::get_instance();
+
+        if ($add_error) {
+            $msg = $rcmail->gettext($add_error);
+        }
+        else if ($attachment && !empty($attachment['error'])) {
+            $msg = $attachment['error'];
+        }
+        else if ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
+            $post_size = self::show_bytes(rcube_utils::max_upload_size());
+            $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
+        }
+        else {
+            $msg = $rcmail->gettext('fileuploaderror');
+        }
+
+        $rcmail->output->command('display_message', $msg, 'error');
+    }
+
+    /**
+     * Common POST file upload error handler
+     *
+     * @return bool True if it was a POST request, False otherwise
+     */
+    public static function upload_failure()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            return false;
+        }
+
+        $rcmail = rcmail::get_instance();
+
+        // if filesize exceeds post_max_size then $_FILES array is empty,
+        // show filesizeerror instead of fileuploaderror
+        if ($maxsize = ini_get('post_max_size')) {
+            $msg = $rcmail->gettext([
+                    'name' => 'filesizeerror',
+                    'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]
+            ]);
+        }
+        else {
+            $msg = $rcmail->gettext('fileuploaderror');
+        }
+
+        $rcmail->output->command('display_message', $msg, 'error');
+
+        return true;
+    }
+
+    /**
      * Outputs uploaded file content (with image thumbnails support
      *
      * @param array $file Upload file data

@@ -44,9 +44,8 @@ class rcmail_action_settings_upload extends rcmail_action
         // clear all stored output properties (like scripts and env vars)
         $rcmail->output->reset();
 
-        $max_size  = $rcmail->config->get($type . '_image_size', 64) * 1024;
-        $post_size = self::show_bytes(rcube_utils::max_upload_size());
-        $uploadid  = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
+        $max_size = $rcmail->config->get($type . '_image_size', 64) * 1024;
+        $uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
 
         if (is_array($_FILES['_file']['tmp_name'])) {
             $multiple = count($_FILES['_file']['tmp_name']) > 1;
@@ -101,40 +100,19 @@ class rcmail_action_settings_upload extends rcmail_action
                     );
                 }
                 else {
+                    $error_label = null;
                     if ($err == 'type_error') {
-                        $msg = $rcmail->gettext('invalidimageformat');
+                        $error_label = 'invalidimageformat';
                     }
                     else if ($err == 'size_error') {
-                        $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $max_size]]);
-                    }
-                    else if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                        $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
-                    }
-                    else if (!empty($attachment['error'])) {
-                        $msg = $attachment['error'];
-                    }
-                    else {
-                        $msg = $rcmail->gettext('fileuploaderror');
+                        $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => $max_size]];
                     }
 
-                    $rcmail->output->command('display_message', $msg, 'error');
+                    self::upload_error($err, $attachment, $error_label);
                 }
             }
         }
-        else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // if filesize exceeds post_max_size then $_FILES array is empty,
-            // show filesizeerror instead of fileuploaderror
-            if ($maxsize = ini_get('post_max_size')) {
-                $msg = $rcmail->gettext([
-                    'name' => 'filesizeerror',
-                    'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]
-                ]);
-            }
-            else {
-                $msg = $rcmail->gettext('fileuploaderror');
-            }
-
-            $rcmail->output->command('display_message', $msg, 'error');
+        else if (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 

@@ -147,20 +147,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action
                 }
             }
         }
-        else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // if filesize exceeds post_max_size then $_FILES array is empty,
-            // show filesizeerror instead of fileuploaderror
-            if ($maxsize = ini_get('post_max_size')) {
-                $msg = $rcmail->gettext([
-                        'name' => 'filesizeerror',
-                        'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]
-                ]);
-            }
-            else {
-                $msg = $rcmail->gettext('fileuploaderror');
-            }
-
-            $rcmail->output->command('display_message', $msg, 'error');
+        else if (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 

@@ -588,17 +588,9 @@ class rcube_sieve_engine
                         $this->errors['file'] = $this->plugin->gettext('setcreateerror');
                     }
                 }
-                else {  // upload failed
-                    $err = $_FILES['_file']['error'];
-
-                    if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                        $msg = $this->rc->gettext(array('name' => 'filesizeerror',
-                            'vars' => array('size' =>
-                                rcmail_action::show_bytes(rcube_utils::max_upload_size()))));
-                    }
-                    else {
-                        $this->errors['file'] = $this->plugin->gettext('fileuploaderror');
-                    }
+                else {
+                    // upload failed
+                    rcmail_action::upload_error($_FILES['_file']['error']);
                 }
             }
             else if (!$this->sieve->copy($name, $from == 'set' ? $copy : '')) {

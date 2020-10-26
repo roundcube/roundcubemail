@@ -575,13 +575,7 @@ class enigma_ui
             $this->rc->output->send('iframe');
         }
         else if ($err = $_FILES['_file']['error']) {
-            if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                $this->rc->output->show_message('filesizeerror', 'error',
-                    array('size' => rcmail_action::show_bytes(rcube_utils::max_upload_size())));
-            } else {
-                $this->rc->output->show_message('fileuploaderror', 'error');
-            }
-
+            rcmail_action::upload_error($err);
             $this->rc->output->send('iframe');
         }
 
