@@ -1145,7 +1145,11 @@ function rcmail_write_forward_attachments()
     }
 
     if ($size_errors) {
-        $limit = $RCMAIL->show_bytes($size_limit);
+        if ($RCMAIL->config->get('show_message_size_by_attachment')) {
+            $limit = $RCMAIL->show_bytes($size_limit/1.33);
+        } else {
+            $limit = $RCMAIL->show_bytes($size_limit);
+        }
         $error = $RCMAIL->gettext(array('name' => 'msgsizeerrorfwd', 'vars' => array('num' => $size_errors, 'size' => $limit)));
         $RCMAIL->output->add_script(sprintf("%s.display_message('%s', 'error');", rcmail_output::JS_OBJECT_NAME, rcube::JQ($error)), 'docready');
     }
