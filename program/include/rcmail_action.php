@@ -31,10 +31,11 @@ abstract class rcmail_action
 
     /**
      * Mode of operation supported by the action. Use MODE_* constants.
+     * By default all modes are allowed.
      *
      * @var int
      */
-    protected static $mode = self::MODE_HTTP;
+    protected static $mode;
 
     /**
      * Deprecated action aliases.
@@ -60,12 +61,14 @@ abstract class rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if (!(static::$mode & self::MODE_HTTP) && empty($rcmail->output->ajax_call)) {
-            return false;
-        }
+        if (static::$mode) {
+            if (!(static::$mode & self::MODE_HTTP) && empty($rcmail->output->ajax_call)) {
+                return false;
+            }
 
-        if (!(static::$mode & self::MODE_AJAX) && !empty($rcmail->output->ajax_call)) {
-            return false;
+            if (!(static::$mode & self::MODE_AJAX) && !empty($rcmail->output->ajax_call)) {
+                return false;
+            }
         }
 
         return true;

@@ -19,8 +19,6 @@
 
 class rcmail_action_contacts_index extends rcmail_action
 {
-    protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
-
     public static $aliases = [
         'add' => 'edit',
     ];

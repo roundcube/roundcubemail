@@ -21,8 +21,6 @@
 
 class rcmail_action_contacts_search extends rcmail_action_contacts_index
 {
-    protected static $mode = self::MODE_AJAX | self::MODE_HTTP;
-
     /**
      * Request handler.
      *

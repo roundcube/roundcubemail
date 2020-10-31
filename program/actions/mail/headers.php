@@ -19,9 +19,6 @@
 
 class rcmail_action_mail_headers extends rcmail_action_mail_index
 {
-    // only process ajax requests
-    protected static $mode = self::MODE_AJAX | self::MODE_HTTP;
-
     protected static $source;
 
     /**
