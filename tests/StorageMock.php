@@ -11,31 +11,44 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Convert plain text to HTML                                          |
+ |   A class for easier testing of code utilizing rcube_storage          |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_text2html extends rcmail_action
+/**
+ * A class for easier testing of code utilizing rcube_storage
+ *
+ * @package Tests
+ */
+class StorageMock
 {
-    public static $source = 'php://input';
+    protected $mocks = [];
+
+    public function registerFunction($name, $result = null)
+    {
+        $this->mocks[] = [$name, $result];
+    }
+
+    public function __call($name, $arguments)
+    {
+        foreach ($this->mocks as $idx => $mock) {
+            if ($mock[0] == $name) {
+                $result = $mock[1];
+                unset($this->mocks[$idx]);
+                return $result;
+            }
+        }
+
+        throw new Exception("Unhandled function call for '$name' in StorageMock");
+    }
 
     /**
-     * Request handler.
-     *
-     * @param array $args Arguments from the previous step(s)
+     * Close connection. Usually done on script shutdown
      */
-    public function run($args = [])
+    public function close()
     {
-        $text = file_get_contents(self::$source);
-
-        $converter = new rcube_text2html($text, false, ['wrap' => true]);
-
-        $rcmail = rcmail::get_instance();
-
-        $html = $converter->get_html();
-
-        $rcmail->output->sendExit($html, ['Content-Type: text/html; charset=' . RCUBE_CHARSET]);
+        // do nothing
     }
 }

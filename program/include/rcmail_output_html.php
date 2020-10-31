@@ -597,7 +597,7 @@ EOF;
         }
 
         $location = $this->app->url($p, false, false, $secure);
-        header('Location: ' . $location);
+        $this->header('Location: ' . $location);
         exit;
     }
 
@@ -687,7 +687,7 @@ EOF;
         $framed = $this->framed || !empty($this->env['framed']);
         if ($framed && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             if (strtolower($xopt) === 'deny') {
-                header('X-Frame-Options: sameorigin', true);
+                $this->header('X-Frame-Options: sameorigin', true);
             }
         }
     }
@@ -1937,14 +1937,14 @@ EOF;
             $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
 
             if (!headers_sent()) {
-                header('Content-Language: ' . $lang);
+                $this->header('Content-Language: ' . $lang);
             }
         }
 
         // include meta tag with charset
         if (!empty($this->charset)) {
             if (!headers_sent()) {
-                header('Content-Type: text/html; charset=' . $this->charset);
+                $this->header('Content-Type: text/html; charset=' . $this->charset);
             }
 
             $meta .= html::tag('meta', array(

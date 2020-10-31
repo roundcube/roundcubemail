@@ -16,4 +16,28 @@ class Actions_Utils_Text2html extends ActionTestCase
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
+
+    /**
+     * Test for run()
+     */
+    function test_run()
+    {
+        $object = new rcmail_action_utils_text2html;
+        $input = "test plain text input";
+        $object::$source = $this->createTempFile($input);
+
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'text2html');
+
+        $this->assertTrue($object->checks());
+
+        try {
+            $object->run();
+        }
+        catch (Exception $e) {
+            $this->assertSame(OutputHtmlMock::E_EXIT, $e->getCode());
+        }
+
+        $this->assertSame('<div class="pre">test plain text input</div>', $output->output);
+        $this->assertSame(['Content-Type: text/html; charset=UTF-8'], $output->headers);
+    }
 }

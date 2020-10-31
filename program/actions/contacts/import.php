@@ -253,19 +253,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
             }
             else {
-                // no data to import
-                if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                    $size = self::show_bytes(rcube_utils::max_upload_size());
-                    $rcmail->output->show_message('filesizeerror', 'error', ['size' => $size]);
-                }
-                else if ($upload_error == UPLOAD_ERR_CSV_FIELDS) {
+                if ($upload_error == UPLOAD_ERR_CSV_FIELDS) {
                     $rcmail->output->show_message('csvfilemismatch', 'error');
                 }
-                else if ($upload_error) {
-                    $rcmail->output->show_message('fileuploaderror', 'error');
-                }
                 else {
-                    $rcmail->output->show_message('importformaterror', 'error');
+                    self::upload_error($upload_error);
                 }
 
                 $rcmail->output->command('parent.import_state_set', 'error');

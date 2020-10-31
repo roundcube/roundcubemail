@@ -136,7 +136,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 unset($records);
             }
         }
-        else {
+        else if (isset($CONTACTS)) {
             // count contacts for this user
             $result = $CONTACTS->count();
             $pages  = ceil(($result->count + $delcnt) / $page_size);
@@ -155,7 +155,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
         // update message count display
         $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
-        $rcmail->output->command('set_rowcount', $rowcount ?: self::get_rowcount_text($result));
+        $rcmail->output->command('set_rowcount', isset($rowcount) ? $rowcount : self::get_rowcount_text($result));
 
         // add new rows from next page (if any)
         if (!empty($records)) {

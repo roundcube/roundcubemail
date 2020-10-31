@@ -19,6 +19,8 @@
 
 class rcmail_action_utils_html2text extends rcmail_action
 {
+    public static $source = 'php://input';
+
     /**
      * Request handler.
      *
@@ -26,15 +28,14 @@ class rcmail_action_utils_html2text extends rcmail_action
      */
     public function run($args = [])
     {
-        $html = stream_get_contents(fopen('php://input', 'r'));
+        $html = file_get_contents(self::$source);
 
         $params['links'] = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
         $params['width'] = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
 
-        $text = rcmail::get_instance()->html2text($html, $params);
+        $rcmail = rcmail::get_instance();
+        $text   = $rcmail->html2text($html, $params);
 
-        header('Content-Type: text/plain; charset=' . RCUBE_CHARSET);
-        print $text;
-        exit;
+        $rcmail->output->sendExit($text, ['Content-Type: text/plain; charset=' . RCUBE_CHARSET]);
     }
 }

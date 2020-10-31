@@ -19,6 +19,8 @@
 
 class rcmail_action_settings_index extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
+
     /**
      * Deprecated action aliases.
      *

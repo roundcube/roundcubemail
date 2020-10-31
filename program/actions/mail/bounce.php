@@ -20,9 +20,6 @@
 
 class rcmail_action_mail_bounce extends rcmail_action
 {
-    // only process ajax requests
-    protected static $mode = self::MODE_HTTP;
-
     /**
      * Request handler.
      *

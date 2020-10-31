@@ -18,8 +18,9 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+if (php_sapi_name() != 'cli') {
+    die("Not in shell mode (php-cli)");
+}
 
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
@@ -40,3 +41,8 @@ if (set_include_path($include_path) === false) {
 }
 
 require_once(TESTS_DIR . 'ActionTestCase.php');
+require_once(TESTS_DIR . 'OutputHtmlMock.php');
+require_once(TESTS_DIR . 'OutputJsonMock.php');
+
+// Initialize database and environment
+ActionTestCase::init();

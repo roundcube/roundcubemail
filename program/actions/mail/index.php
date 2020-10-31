@@ -20,6 +20,8 @@
 
 class rcmail_action_mail_index extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
+
     public static $aliases = [
         'refresh'            => 'check-recent',
         'preview'            => 'show',

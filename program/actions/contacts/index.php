@@ -19,6 +19,8 @@
 
 class rcmail_action_contacts_index extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
+
     public static $aliases = [
         'add' => 'edit',
     ];
@@ -324,9 +326,10 @@ class rcmail_action_contacts_index extends rcmail_action
         if ($undo = $_SESSION['contact_undo']) {
             // ...after timeout
             $undo_time = $rcmail->config->get('undo_timeout', 0);
-            if ($undo['ts'] < time() - $undo_time)
+            if ($undo['ts'] < time() - $undo_time) {
                 $rcmail->session->remove('contact_undo');
             }
+        }
 
         // register UI objects
         $rcmail->output->add_handlers([
@@ -652,7 +655,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             // format each col
             foreach ($a_show_cols as $col) {
-                $val = '';
+                $val = null;
                 switch ($col) {
                     case 'name':
                         $val = rcube::Q(rcube_addressbook::compose_list_name($row));
@@ -677,7 +680,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             );
                         }
                         else {
-                            $val = '';
+                            $val = null;
                         }
                         break;
 
@@ -686,7 +689,9 @@ class rcmail_action_contacts_index extends rcmail_action
                         break;
                 }
 
-                $a_row_cols[$col] = $val;
+                if ($val !== null) {
+                    $a_row_cols[$col] = $val;
+                }
             }
 
             if (!empty($row['readonly'])) {
@@ -733,18 +738,18 @@ class rcmail_action_contacts_index extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // read nr of contacts
-        if (empty($result)) {
+        if (empty($result) && !empty(self::$CONTACTS)) {
             $result = self::$CONTACTS->get_result();
         }
 
-        if ($result->count == 0) {
+        if (empty($result) || $result->count == 0) {
             return $rcmail->gettext('nocontactsfound');
         }
 
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
 
         return $rcmail->gettext([
-                'name'  => $_SESSION['contactcountdisplay'] ?: 'contactsfromto',
+                'name'  => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
                 'vars'  => [
                     'from'  => $result->first + 1,
                     'to'    => min($result->count, $result->first + $page_size),

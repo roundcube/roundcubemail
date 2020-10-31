@@ -30,6 +30,7 @@ class rcmail_output_json extends rcmail_output
     protected $commands  = array();
     protected $callbacks = array();
     protected $message   = null;
+    protected $header_sent = false;
 
     public $type      = 'js';
     public $ajax_call = true;
@@ -195,7 +196,7 @@ class rcmail_output_json extends rcmail_output
     public function raise_error($code, $message)
     {
         if ($code == 403) {
-            header('HTTP/1.1 403 Forbidden');
+            $this->header('HTTP/1.1 403 Forbidden');
             die("Invalid Request");
         }
 
@@ -211,12 +212,10 @@ class rcmail_output_json extends rcmail_output
      */
     protected function remote_response($add = '')
     {
-        static $s_header_sent = false;
-
-        if (!$s_header_sent) {
-            $s_header_sent = true;
+        if (!$this->header_sent) {
+            $this->header_sent = true;
             $this->nocacheing_headers();
-            header('Content-Type: application/json; charset=' . $this->get_charset());
+            $this->header('Content-Type: application/json; charset=' . $this->get_charset());
         }
 
         // unset default env vars
