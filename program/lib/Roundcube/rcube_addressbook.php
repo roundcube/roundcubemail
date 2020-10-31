@@ -195,7 +195,7 @@ abstract class rcube_addressbook
      */
     function set_pagesize($size)
     {
-        $this->page_size = (int)$size;
+        $this->page_size = (int) $size;
     }
 
     /**
@@ -206,7 +206,7 @@ abstract class rcube_addressbook
      */
     function set_sort_order($sort_col, $sort_order = null)
     {
-        if ($sort_col != null && ($this->coltypes[$sort_col] || in_array($sort_col, $this->coltypes))) {
+        if ($sort_col != null && in_array($sort_col, $this->coltypes)) {
             $this->sort_col = $sort_col;
         }
         if ($sort_order != null) {

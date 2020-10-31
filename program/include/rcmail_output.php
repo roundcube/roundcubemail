@@ -41,7 +41,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         parent::__construct();
 

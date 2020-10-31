@@ -52,11 +52,11 @@ class rcmail extends rcube
     public $filename  = '';
     public $default_skin;
     public $login_error;
+    public $oauth;
 
     private $address_books = [];
     private $action_map    = [];
     private $action_args   = [];
-
 
     const ERROR_STORAGE          = -2;
     const ERROR_INVALID_REQUEST  = 1;
@@ -596,7 +596,7 @@ class rcmail extends rcube
     public function json_init()
     {
         if (!($this->output instanceof rcmail_output_json)) {
-            $this->output = new rcmail_output_json($this->task);
+            $this->output = new rcmail_output_json();
         }
 
         return $this->output;

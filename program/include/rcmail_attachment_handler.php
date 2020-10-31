@@ -243,7 +243,7 @@ class rcmail_attachment_handler
             }
         }
 
-        return $result;
+        return isset($result) ? $result : null;
     }
 
     /**
@@ -259,7 +259,7 @@ class rcmail_attachment_handler
             $this->body(0, $fp);
             $this->body_file = $filename;
             fclose($fp);
-            @chmod(filename, 0600);
+            @chmod($filename, 0600);
 
             return true;
         }

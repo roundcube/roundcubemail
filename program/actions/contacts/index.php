@@ -291,7 +291,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     $writeable++;
                 }
                 // unset hidden sources
-                if ($s['hidden']) {
+                if (!empty($s['hidden'])) {
                     unset($js_list[$sid]);
                 }
             }
@@ -323,8 +323,9 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         // remove undo information...
-        if ($undo = $_SESSION['contact_undo']) {
+        if (!empty($_SESSION['contact_undo'])) {
             // ...after timeout
+            $undo      = $_SESSION['contact_undo'];
             $undo_time = $rcmail->config->get('undo_timeout', 0);
             if ($undo['ts'] < time() - $undo_time) {
                 $rcmail->session->remove('contact_undo');

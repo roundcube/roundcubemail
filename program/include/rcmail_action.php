@@ -186,7 +186,7 @@ abstract class rcmail_action
         $quota_result['type']   = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
-        if ($quota['total'] > 0) {
+        if (!empty($quota['total']) && $quota['total'] > 0) {
             if (!isset($quota['percent'])) {
                 $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
             }
@@ -216,7 +216,7 @@ abstract class rcmail_action
 
                 foreach ($quota_result['all'] as $root => $data) {
                     if ($root_cnt > 1 && $root) {
-                        $table->add(['colspan' => 3, 'class' => 'root'], self::Q($root));
+                        $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
                     }
 
                     if ($storage = $data['storage']) {
@@ -229,7 +229,7 @@ abstract class rcmail_action
                     if ($message = $data['message']) {
                         $percent = min(100, round(($message['used']/max(1,$message['total']))*100));
 
-                        $table->add('name', self::Q($rcmail->gettext('quotamessage')));
+                        $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
                         $table->add(null, intval($message['total']));
                         $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
                     }
@@ -998,7 +998,7 @@ abstract class rcmail_action
 
             // add no-selection option
             if (!empty($attrib['noselection'])) {
-                $select->add(html::quote($this->gettext($attrib['noselection'])), '');
+                $select->add(html::quote($rcmail->gettext($attrib['noselection'])), '');
             }
 
             $maxlength = isset($attrib['maxlength']) ? $attrib['maxlength'] : null;
