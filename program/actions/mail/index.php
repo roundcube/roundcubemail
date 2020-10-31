@@ -536,7 +536,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $cont = $rcmail->format_date($sort_col == 'arrival' ? $header->internaldate : $header->date);
                 }
                 else if ($col == 'folder') {
-                    if ($last_folder !== $header->folder) {
+                    if (!isset($last_folder) || !isset($last_folder_name) || $last_folder !== $header->folder) {
                         $last_folder      = $header->folder;
                         $last_folder_name = self::localize_foldername($last_folder, true);
                         $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
@@ -593,7 +593,8 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if ($rcmail->storage->get_threading()) {
-            $rcmail->output->command('init_threads', (array) $roots, $mbox);
+            $roots = isset($roots) ? (array) $roots : [];
+            $rcmail->output->command('init_threads', $roots, $mbox);
         }
     }
 
@@ -637,6 +638,7 @@ class rcmail_action_mail_index extends rcmail_action
         $cells = $coltypes = [];
 
         // get name of smart From/To column in folder context
+        $smart_col = null;
         if (array_search('fromto', $a_show_cols) !== false) {
             $smart_col = self::message_list_smart_column_name();
         }
@@ -1072,6 +1074,8 @@ class rcmail_action_mail_index extends rcmail_action
      */
     public static function washtml_callback($tagname, $attrib, $content, $washtml)
     {
+        $out = '';
+
         switch ($tagname) {
         case 'form':
             $out = html::div('form', $content);
@@ -1081,7 +1085,6 @@ class rcmail_action_mail_index extends rcmail_action
             // Crazy big styles may freeze the browser (#1490539)
             // remove content with more than 5k lines
             if (substr_count($content, "\n") > 5000) {
-                $out = '';
                 break;
             }
 
@@ -1097,11 +1100,7 @@ class rcmail_action_mail_index extends rcmail_action
                 else {
                     $out = html::tag('style', ['type' => 'text/css'], $decoded);
                 }
-                break;
             }
-
-        default:
-            $out = '';
         }
 
         return $out;
@@ -1741,104 +1740,6 @@ class rcmail_action_mail_index extends rcmail_action
         $abook->set_group(0);
 
         return $jsresult;
-    }
-
-    public static function save_attachment($message, $pid, $compose_id, $params = [])
-    {
-        global $COMPOSE;
-
-        $rcmail  = rcmail::get_instance();
-        $storage = $rcmail->get_storage();
-
-        if ($pid) {
-            // attachment requested
-            $part     = $message->mime_parts[$pid];
-            $size     = $part->size;
-            $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-            $filename = $params['filename'] ?: self::attachment_name($part);
-        }
-        else if (is_object($message)) {
-            // the whole message requested
-            $size     = $message->size;
-            $mimetype = 'message/rfc822';
-            $filename = $params['filename'] ?: 'message_rfc822.eml';
-        }
-        else if (is_string($message)) {
-            // the whole message requested
-            $size     = strlen($message);
-            $data     = $message;
-            $mimetype = $params['mimetype'];
-            $filename = $params['filename'];
-        }
-
-        if (!isset($data)) {
-            // don't load too big attachments into memory
-            if (!rcube_utils::mem_check($size)) {
-                $path = rcube_utils::temp_filename('attmnt');
-
-                if ($fp = fopen($path, 'w')) {
-                    if ($pid) {
-                        // part body
-                        $message->get_part_body($pid, false, 0, $fp);
-                    }
-                    else {
-                        // complete message
-                        $storage->get_raw_body($message->uid, $fp);
-                    }
-
-                    fclose($fp);
-                }
-                else {
-                    return false;
-                }
-            }
-            else if ($pid) {
-                // part body
-                $data = $message->get_part_body($pid);
-            }
-            else {
-                // complete message
-                $data = $storage->get_raw_body($message->uid);
-            }
-        }
-
-        $attachment = [
-            'group'      => $compose_id,
-            'name'       => $filename,
-            'mimetype'   => $mimetype,
-            'content_id' => $part ? $part->content_id : null,
-            'data'       => $data,
-            'path'       => $path,
-            'size'       => $path ? filesize($path) : strlen($data),
-            'charset'    => $part ? $part->charset : $params['charset'],
-        ];
-
-        $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
-
-        if ($attachment['status']) {
-            unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-
-            // rcube_session::append() replaces current session data with the old values
-            // (in rcube_session::reload()). This is a problem in 'compose' action, because before
-            // the first append() use we set some important data in the session.
-            // It also overwrites attachments list. Fixing reload() is not so simple if possible
-            // as we don't really know what has been added and what removed in meantime.
-            // So, for now we'll do not use append() on 'compose' action (#1490608).
-
-            if ($rcmail->action == 'compose') {
-                $COMPOSE['attachments'][$attachment['id']] = $attachment;
-            }
-            else {
-                $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
-            }
-
-            return $attachment;
-        }
-        else if ($path) {
-            @unlink($path);
-        }
-
-        return false;
     }
 
     // Return mimetypes supported by the browser

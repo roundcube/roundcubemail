@@ -37,7 +37,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
             $rename = self::rename_folder($oldname, $name);
         }
 
-        if ($rename) {
+        if (!empty($rename)) {
             self::update_folder_row($name, $oldname);
         }
         else {

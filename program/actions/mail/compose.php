@@ -470,11 +470,15 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         // Set language list
         if ($rcmail->config->get('enable_spellcheck')) {
-            $spellchecker     = new rcube_spellchecker();
-            $spellcheck_langs = $spellchecker->languages();
+            $spellchecker = new rcube_spellchecker();
+        }
+        else {
+            return;
         }
 
-        if (!empty($spellchecker) && empty($spellcheck_langs)) {
+        $spellcheck_langs = $spellchecker->languages();
+
+        if (empty($spellcheck_langs)) {
             if ($err = $spellchecker->error()) {
                 rcube::raise_error(['code' => 500,
                     'file' => __FILE__, 'line' => __LINE__,
@@ -483,16 +487,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 );
             }
         }
-        else if (!empty($spellchecker)) {
+        else {
             $dictionary = (bool) $rcmail->config->get('spellcheck_dictionary');
             $lang       = $_SESSION['language'];
 
             // if not found in the list, try with two-letter code
-            if (!$spellcheck_langs[$lang]) {
+            if (empty($spellcheck_langs[$lang])) {
                 $lang = strtolower(substr($lang, 0, 2));
             }
 
-            if (!$spellcheck_langs[$lang]) {
+            if (empty($spellcheck_langs[$lang])) {
                 $lang = 'en';
             }
 
@@ -532,6 +536,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     public static function prepare_message_body()
     {
         $rcmail = rcmail::get_instance();
+        $body   = '';
 
         // use posted message body
         if (!empty($_POST['_message'])) {
@@ -545,7 +550,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // forward as attachment
         else if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD && !empty(self::$COMPOSE['as_attachment'])) {
             $isHtml = self::compose_editor_mode();
-            $body   = '';
 
             self::write_forward_attachments();
         }
@@ -566,7 +570,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             // set is_safe flag (before HTML body washing)
             if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
                 self::$MESSAGE->is_safe = true;
-           }
+            }
             else {
                 self::check_safe(self::$MESSAGE);
             }
@@ -970,7 +974,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $len    = strlen($body);
         $sig_max_lines = $rcmail->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
+        while (($sp = strrpos($body, "-- \n", !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
             if ($sp == 0 || $body[$sp-1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($body, "\n", $sp) < $sig_max_lines) {
@@ -1211,6 +1215,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function save_image($path, $mimetype = '', $data = null)
     {
+        $is_file = false;
+
         // handle attachments in memory
         if (empty($data)) {
             $data    = file_get_contents($path);
@@ -1522,5 +1528,107 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $rcmail->output->add_gui_object('responseslist', $attrib['id']);
 
         return $list->show();
+    }
+
+    public static function save_attachment($message, $pid, $compose_id, $params = [])
+    {
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+
+        if ($pid) {
+            // attachment requested
+            $part     = $message->mime_parts[$pid];
+            $size     = $part->size;
+            $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
+            $filename = $params['filename'] ?: self::attachment_name($part);
+        }
+        else if (is_object($message)) {
+            // the whole message requested
+            $size     = $message->size;
+            $mimetype = 'message/rfc822';
+            $filename = $params['filename'] ?: 'message_rfc822.eml';
+        }
+        else if (is_string($message)) {
+            // the whole message requested
+            $size     = strlen($message);
+            $data     = $message;
+            $mimetype = $params['mimetype'];
+            $filename = $params['filename'];
+        }
+        else {
+            return;
+        }
+
+        if (!isset($data)) {
+            $data = null;
+            $path = null;
+
+            // don't load too big attachments into memory
+            if (!rcube_utils::mem_check($size)) {
+                $path = rcube_utils::temp_filename('attmnt');
+
+                if ($fp = fopen($path, 'w')) {
+                    if ($pid) {
+                        // part body
+                        $message->get_part_body($pid, false, 0, $fp);
+                    }
+                    else {
+                        // complete message
+                        $storage->get_raw_body($message->uid, $fp);
+                    }
+
+                    fclose($fp);
+                }
+                else {
+                    return false;
+                }
+            }
+            else if ($pid) {
+                // part body
+                $data = $message->get_part_body($pid);
+            }
+            else {
+                // complete message
+                $data = $storage->get_raw_body($message->uid);
+            }
+        }
+
+        $attachment = [
+            'group'      => $compose_id,
+            'name'       => $filename,
+            'mimetype'   => $mimetype,
+            'content_id' => !empty($part) ? $part->content_id : null,
+            'data'       => $data,
+            'path'       => isset($path) ? $path : null,
+            'size'       => isset($path) ? filesize($path) : strlen($data),
+            'charset'    => !empty($part) ? $part->charset : $params['charset'],
+        ];
+
+        $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
+
+        if ($attachment['status']) {
+            unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
+
+            // rcube_session::append() replaces current session data with the old values
+            // (in rcube_session::reload()). This is a problem in 'compose' action, because before
+            // the first append() use we set some important data in the session.
+            // It also overwrites attachments list. Fixing reload() is not so simple if possible
+            // as we don't really know what has been added and what removed in meantime.
+            // So, for now we'll do not use append() on 'compose' action (#1490608).
+
+            if ($rcmail->action == 'compose') {
+                self::$COMPOSE['attachments'][$attachment['id']] = $attachment;
+            }
+            else {
+                $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
+            }
+
+            return $attachment;
+        }
+        else if (!empty($path)) {
+            @unlink($path);
+        }
+
+        return false;
     }
 }

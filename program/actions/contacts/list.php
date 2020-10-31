@@ -40,7 +40,8 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
         $_SESSION['page'] = $page;
 
-        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $page_size  = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $group_data = [];
 
         // Use search result
         if (($records = self::search_update(true)) !== false) {

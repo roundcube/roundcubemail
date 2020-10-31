@@ -591,10 +591,9 @@ class rcmail_action_contacts_index extends rcmail_action
             }
         }
 
-        $args['out'] .= html::tag('ul',
-            ['class' => 'groups', 'style' => ($is_collapsed || empty($groups) ? "display:none;" : null)],
-            $groups_html
-        );
+        $style = !empty($is_collapsed) || empty($groups) ? 'display:none;' : null;
+
+        $args['out'] .= html::tag('ul', ['class' => 'groups', 'style' => $style], $groups_html);
 
         return $args;
     }
@@ -993,7 +992,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     // prepare subtype selector in edit mode
                     if ($edit_mode && is_array($colprop['subtypes'])) {
-                        $subtype_names  = array_map('self::get_type_label', $colprop['subtypes']);
+                        $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $colprop['subtypes']);
                         $select_subtype = new html_select([
                                 'name'  => "_subtype_{$col}[]",
                                 'class' => 'contactselectsubtype custom-select',
@@ -1251,6 +1250,9 @@ class rcmail_action_contacts_index extends rcmail_action
         if ($result = self::$CONTACTS->get_result()) {
             $record = $result->first();
         }
+        else {
+            $record = ['photo' => null, '_type' => 'contact'];
+        }
 
         $rcmail = rcmail::get_instance();
 
@@ -1280,6 +1282,8 @@ class rcmail_action_contacts_index extends rcmail_action
             }
         }
 
+        $ff_value = '';
+
         if (!empty($plugin['url'])) {
             $photo_img = $plugin['url'];
         }
@@ -1288,7 +1292,7 @@ class rcmail_action_contacts_index extends rcmail_action
         }
         else if (!empty($record['photo'])) {
             $url = ['_action' => 'photo', '_cid' => $record['ID'], '_source' => self::$SOURCE_ID];
-            if ($file_id) {
+            if (!empty($file_id)) {
                 $url['_photo'] = $ff_value = $file_id;
             }
             $photo_img = $rcmail->url($url);

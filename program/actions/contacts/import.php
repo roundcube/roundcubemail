@@ -149,7 +149,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'replace'     => $replace,
                     'target'      => $target,
                     'with_groups' => $with_groups,
-                    'fields'      => $fields
+                    'fields'      => !empty($fields) ? $fields : [],
                 ];
 
                 // Stored separately due to nested array limitations in session

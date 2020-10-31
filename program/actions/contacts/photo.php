@@ -33,7 +33,6 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         $cids    = self::get_cids();
         $source  = key($cids);
         $cid     = $cids ? array_shift($cids[$source]) : null;
-
         $file_id = rcube_utils::get_input_value('_photo', rcube_utils::INPUT_GPC);
 
         // read the referenced file
@@ -82,8 +81,11 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         // let plugins do fancy things with contact photos
-        $plugin = $rcmail->plugins->exec_hook('contact_photo',
-            ['record' => $record, 'email' => $email, 'data' => $data]);
+        $plugin = $rcmail->plugins->exec_hook('contact_photo', [
+                'record' => isset($record) ? $record : null,
+                'email'  => isset($email) ? $email : null,
+                'data'   => isset($data) ? $data : null,
+        ]);
 
         // redirect to url provided by a plugin
         if (!empty($plugin['url'])) {
@@ -98,7 +100,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         // cache for one day if requested by email
-        if (!$cid && $email) {
+        if (!$cid && !empty($email)) {
             $rcmail->output->future_expire_header(86400);
         }
 

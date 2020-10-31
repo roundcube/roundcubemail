@@ -72,7 +72,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         foreach ($a_mailboxes as $mbox_name) {
             $is_current = $mbox_name == $current
                 || (
-                    $search_request
+                    !empty($search_request)
                     && is_object($_SESSION['search'][1])
                     && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX'))
                 );
@@ -102,7 +102,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
 
             if ($status && $is_current) {
                 // refresh saved search set
-                if ($search_request && isset($_SESSION['search'])) {
+                if (!empty($search_request) && isset($_SESSION['search'])) {
                     unset($search_request);  // only do this once
                     $_SESSION['search'] = $rcmail->storage->refresh_search();
                     if ($_SESSION['search'][1]->multi) {

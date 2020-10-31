@@ -49,7 +49,7 @@ class rcmail_action_settings_folder_delete extends rcmail_action
             }
         }
 
-        if ($deleted) {
+        if (!empty($deleted)) {
             // Remove folder and subfolders rows
             $rcmail->output->command('remove_folder_row', $mbox);
             $rcmail->output->show_message('folderdeleted', 'confirmation');

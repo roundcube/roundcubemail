@@ -44,7 +44,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         $skip_deleted = (bool) $rcmail->config->get('skip_deleted');
         $read_deleted = (bool) $rcmail->config->get('read_when_deleted');
 
-        $a_flags_map  = [
+        $flags_map  = [
             'undelete'  => 'UNDELETED',
             'delete'    => 'DELETED',
             'read'      => 'SEEN',
@@ -53,11 +53,12 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             'unflagged' => 'UNFLAGGED',
         ];
 
-        $flag = !empty($a_flags_map[$flag]) ? $a_flags_map[$flag] : strtoupper($flag);
+        $flag      = self::imap_flag($flag);
+        $old_count = 0;
 
         if ($flag == 'DELETED' && $skip_deleted && $_POST['_from'] != 'show') {
             // count messages before changing anything
-            $old_count = $rcmail->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
+            $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
             $old_pages = ceil($old_count / $rcmail->storage->get_pagesize());
         }
 
@@ -77,6 +78,10 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         else {
             $input = self::get_uids(null, null, $dummy, rcube_utils::INPUT_POST);
         }
+
+        $marked = 0;
+        $count  = 0;
+        $read   = 0;
 
         foreach ($input as $mbox => $uids) {
             $marked += (int) $rcmail->storage->set_flag($uids, $flag, $mbox);
@@ -176,5 +181,19 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         }
 
         $rcmail->output->send();
+    }
+
+    public static function imap_flag($flag)
+    {
+        $flags_map  = [
+            'undelete'  => 'UNDELETED',
+            'delete'    => 'DELETED',
+            'read'      => 'SEEN',
+            'unread'    => 'UNSEEN',
+            'flagged'   => 'FLAGGED',
+            'unflagged' => 'UNFLAGGED',
+        ];
+
+        return !empty($flags_map[$flag]) ? $flags_map[$flag] : strtoupper($flag);
     }
 }

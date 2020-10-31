@@ -153,9 +153,13 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             }
         }
 
+        if (!isset($rowcount)) {
+            $rowcount = isset($result) ? self::get_rowcount_text($result) : '';
+        }
+
         // update message count display
-        $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
-        $rcmail->output->command('set_rowcount', isset($rowcount) ? $rowcount : self::get_rowcount_text($result));
+        $rcmail->output->set_env('pagecount', isset($result) ? ceil($result->count / $page_size) : 0);
+        $rcmail->output->command('set_rowcount', $rowcount);
 
         // add new rows from next page (if any)
         if (!empty($records)) {

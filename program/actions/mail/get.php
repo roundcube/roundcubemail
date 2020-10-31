@@ -237,6 +237,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
+                $out = '';
 
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body

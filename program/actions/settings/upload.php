@@ -51,9 +51,11 @@ class rcmail_action_settings_upload extends rcmail_action
             $multiple = count($_FILES['_file']['tmp_name']) > 1;
 
             foreach ($_FILES['_file']['tmp_name'] as $i => $filepath) {
-                // Process uploaded attachment if there is no error
-                $err = $_FILES['_file']['error'][$i];
+                $err        = $_FILES['_file']['error'][$i];
+                $imageprop  = null;
+                $attachment = null;
 
+                // Process uploaded attachment if there is no error
                 if (!$err) {
                     if ($max_size < $_FILES['_file']['size'][$i]) {
                         $err = 'size_error';
@@ -70,7 +72,7 @@ class rcmail_action_settings_upload extends rcmail_action
                 }
 
                 // save uploaded image in storage backend
-                if (!$err) {
+                if (!empty($imageprop)) {
                     $attachment = $rcmail->plugins->exec_hook('attachment_upload', [
                         'path'     => $filepath,
                         'size'     => $_FILES['_file']['size'][$i],
@@ -80,7 +82,7 @@ class rcmail_action_settings_upload extends rcmail_action
                     ]);
                 }
 
-                if (!$err && $attachment['status'] && !$attachment['abort']) {
+                if (!$err && !empty($attachment['status']) && empty($attachment['abort'])) {
                     $id = $attachment['id'];
 
                     // store new file in session

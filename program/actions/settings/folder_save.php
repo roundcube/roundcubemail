@@ -58,7 +58,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             $error = $rcmail->gettext('forbiddencharacter') . " ($char)";
         }
 
-        if ($error) {
+        if (!empty($error)) {
             $rcmail->output->command('display_message', $error, 'error');
         }
         else {
@@ -77,7 +77,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         $acl_supported      = $storage->get_capability('ACL');
 
         // Check access rights to the parent folder
-        if (!$error && $acl_supported && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap)) {
+        if (empty($error) && $acl_supported && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap)) {
             $parent_opts = $storage->folder_info($path);
             if ($parent_opts['namespace'] != 'personal'
                 && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode($parent_opts['rights'])))
@@ -86,8 +86,9 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             }
         }
 
-        if ($error) {
+        if (!empty($error)) {
             $rcmail->output->command('display_message', $error, 'error');
+            $folder = null;
         }
         else {
             $folder['name']     = $name_imap;
@@ -103,7 +104,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         }
 
         // create a new mailbox
-        if (!$error && !strlen($old_imap)) {
+        if (empty($error) && !strlen($old_imap)) {
             $folder['subscribe'] = true;
 
             // Server does not support both sub-folders and messages in a folder
@@ -154,7 +155,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             }
         }
         // update a mailbox
-        else if (!$error) {
+        else if (empty($error)) {
             $plugin = $rcmail->plugins->exec_hook('folder_update', ['record' => $folder]);
 
             $folder = $plugin['record'];

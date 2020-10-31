@@ -29,6 +29,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
+        $source        = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
         $afields       = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
@@ -37,9 +38,10 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         // Use search result
         if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
-            $search = (array) $_SESSION['search'][$_REQUEST['_search']];
-            $sparam = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : [];
-            $mode   = (int) $rcmail->config->get('addressbook_search_mode');
+            $search  = (array) $_SESSION['search'][$_REQUEST['_search']];
+            $sparam  = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : [];
+            $mode    = (int) $rcmail->config->get('addressbook_search_mode');
+            $records = [];
 
             // get records from all sources
             foreach ($search as $s => $set) {
@@ -83,7 +85,6 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
         }
         // list contacts from selected source
         else {
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
             $CONTACTS = $rcmail->get_address_book($source);
 
             if ($CONTACTS && $CONTACTS->ready) {
@@ -113,7 +114,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $name = rcube_addressbook::compose_list_name($row);
 
                 // add record for every email address of the contact
-                $emails = $CONTACTS->get_col_values('email', $row, true);
+                $emails = rcube_addressbook::get_col_values('email', $row, true);
                 foreach ($emails as $i => $email) {
                     $source = $row['sourceid'] ?: $source;
                     $row_id = $source.'-'.$row['ID'].'-'.$i;
@@ -138,7 +139,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         // update env
         $rcmail->output->set_env('contactdata', $jsresult);
-        $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
+        $rcmail->output->set_env('pagecount', isset($result) ? ceil($result->count / $page_size) : 1);
         $rcmail->output->command('set_page_buttons');
 
         // send response

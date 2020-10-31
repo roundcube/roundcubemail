@@ -45,7 +45,7 @@ class Actions_Contacts_List extends ActionTestCase
         $commands = explode("\n", trim($result['exec']));
 
         $this->assertCount(8, $commands);
-        $this->assertSame('this.set_group_prop(null);', $commands[0]);
+        $this->assertSame('this.set_group_prop([]);', $commands[0]);
         $this->assertSame('this.set_rowcount("Contacts 1 to 6 of 6");', $commands[1]);
         $this->assertStringMatchesFormat(
             'this.add_contact_row("%i",{"name":"George Bush"},"person",'

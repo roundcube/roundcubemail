@@ -176,6 +176,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $rcmail->output->send('iframe');
                 }
 
+                $newcid = null;
+
                 // LDAP DN change
                 if (is_string($result) && strlen($result) > 1) {
                     $newcid = $result;

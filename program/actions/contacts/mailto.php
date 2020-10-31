@@ -67,7 +67,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
 
         foreach ($sources as $source) {
             while (is_object($source) && ($rec = $source->iterate())) {
-                $emails = $contacts->get_col_values('email', $rec, true);
+                $emails = rcube_addressbook::get_col_values('email', $rec, true);
 
                 if (!empty($emails)) {
                     $mailto[] = format_email_recipient($emails[0], $rec['name']);

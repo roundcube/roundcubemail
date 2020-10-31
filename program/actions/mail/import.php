@@ -155,6 +155,8 @@ class rcmail_action_mail_import extends rcmail_action
 
     public static function save_message($folder, &$message)
     {
+        $date = null;
+
         if (strncmp($message, 'From ', 5) === 0) {
             // Extract the mbox from_line
             $pos     = strpos($message, "\n");

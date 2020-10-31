@@ -76,8 +76,9 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $rcmail->storage->folder_sync($mbox_name);
 
         // fetch message headers
+        $a_headers = [];
         if ($count = $rcmail->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh']))) {
-            $a_headers = $rcmail->storage->list_messages($mbox_name, NULL, self::sort_column(), self::sort_order());
+            $a_headers = $rcmail->storage->list_messages($mbox_name, null, self::sort_column(), self::sort_order());
         }
 
         // update search set (possible change of threading mode)
@@ -120,7 +121,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         // add message rows
         self::js_message_list($a_headers, false, $cols);
 
-        if (isset($a_headers) && count($a_headers)) {
+        if (!empty($a_headers)) {
             if (!empty($search_request)) {
                 $rcmail->output->show_message('searchsuccessful', 'confirmation', ['nr' => $count]);
             }
@@ -137,7 +138,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             if ($err_code = $rcmail->storage->get_error_code()) {
                 self::display_server_error();
             }
-            else if ($search_request) {
+            else if (!empty($search_request)) {
                 $rcmail->output->show_message('searchnomatch', 'notice');
             }
             else {

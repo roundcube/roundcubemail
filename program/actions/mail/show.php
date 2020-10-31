@@ -166,7 +166,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         // mark message as read
         if (!empty($set_seen_flag)) {
-            if ($rcmail->storage->set_flag($MESSAGE->uid, 'SEEN', $mbox_name)) {
+            if ($rcmail->storage->set_flag(self::$MESSAGE->uid, 'SEEN', $mbox_name)) {
                 if ($count = self::get_unseen_count($mbox_name)) {
                     self::set_unseen_count($mbox_name, $count - 1);
                 }
@@ -389,6 +389,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $output_headers  = [];
 
         foreach ($standard_headers as $hkey) {
+            $value = null;
             if (!empty($headers[$hkey])) {
                 $value = $headers[$hkey];
             }

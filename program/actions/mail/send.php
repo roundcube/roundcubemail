@@ -203,7 +203,7 @@ class rcmail_action_mail_send extends rcmail_action
         }
 
         // compose PGP/Mime message
-        if ($pgp_mime) {
+        if (!empty($pgp_mime)) {
             $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
                     'content_type' => 'application/pgp-encrypted',
                     'description'  => 'PGP/MIME version identification',
@@ -246,7 +246,7 @@ class rcmail_action_mail_send extends rcmail_action
         $drafts_mbox = $rcmail->config->get('drafts_mbox');
         $old_id      = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST);
 
-        if ($old_id && ($sent || $saved)) {
+        if ($old_id && (!empty($sent) || $saved)) {
             $deleted = $rcmail->storage->delete_message($old_id, $drafts_mbox);
 
             // raise error if deletion of old draft failed
@@ -292,7 +292,8 @@ class rcmail_action_mail_send extends rcmail_action
         else {
             // Collect folders which could contain the composed message,
             // we'll refresh the list if currently opened folder is one of them (#1490238)
-            $folders = [];
+            $folders    = [];
+            $save_error = false;
 
             if (!$saveonly) {
                 if (in_array($COMPOSE['mode'], ['reply', 'forward', 'draft'])) {
@@ -341,6 +342,7 @@ class rcmail_action_mail_send extends rcmail_action
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = $rcmail->plugins->exec_hook('attachment_get', $attachment);
             $is_inline  = false;
+            $dispurl    = null;
 
             if ($isHtml) {
                 $dispurl      = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
@@ -360,15 +362,18 @@ class rcmail_action_mail_send extends rcmail_action
                     $cid .= '@localhost';
                 }
 
-                $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
+                if ($dispurl && !empty($message_body)) {
+                    $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
-                rcube_utils::preg_error([
-                        'line'    => __LINE__,
-                        'file'    => __FILE__,
-                        'message' => "Could not replace an image reference!"
-                    ], true);
+                    rcube_utils::preg_error([
+                            'line'    => __LINE__,
+                            'file'    => __FILE__,
+                            'message' => "Could not replace an image reference!"
+                        ], true
+                    );
 
-                $message->setHTMLBody($message_body);
+                    $message->setHTMLBody($message_body);
+                }
 
                 if (!empty($attachment['data'])) {
                     $message->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false, $cid);

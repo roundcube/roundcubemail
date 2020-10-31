@@ -140,9 +140,9 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         }
 
         // add new rows from next page (if any)
-        if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+        if ($addrows && $count && $_POST['_uid'] != '*' && (!empty($jump_back) || $nextpage_count > 0)) {
             // #5862: Don't add more rows than it was on the next page
-            $count = $jump_back ? null : min($nextpage_count, $count);
+            $count = !empty($jump_back) ? null : min($nextpage_count, $count);
 
             $a_headers = $rcmail->storage->list_messages($mbox, NULL,
                 self::sort_column(), self::sort_order(), $count);

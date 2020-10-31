@@ -67,8 +67,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $hidden_fields = ['name' => '_mbox', 'value' => $mbox];
         }
         else {
-            $options = [];
-            $path    = $parent;
+            $options       = [];
+            $path          = $parent;
+            $folder        = '';
+            $hidden_fields = [];
 
             // allow creating subfolders of INBOX folder
             if ($path == 'INBOX') {
@@ -77,6 +79,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
 
         // remove personal namespace prefix
+        $path_id = null;
         if (strlen($path)) {
             $path_id = $path;
             $path    = $storage->mod_folder($path . $delimiter);
@@ -185,7 +188,9 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         // Settings: threading
         if ($threading_supported && ($mbox == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
+            $value  = 0;
             $select = new html_select(['name' => '_viewmode', 'id' => '_viewmode']);
+
             $select->add($rcmail->gettext('list'), 0);
             $select->add($rcmail->gettext('threads'), 1);
 
@@ -302,7 +307,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         $out .= "\n$form_end";
 
-        $rcmail->output->set_env('messagecount', (int) $msgcount);
+        $rcmail->output->set_env('messagecount', isset($msgcount) ? (int) $msgcount : 0);
         $rcmail->output->set_env('folder', $mbox);
 
         if ($mbox !== null && empty($_POST)) {

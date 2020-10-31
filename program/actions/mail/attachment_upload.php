@@ -46,6 +46,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
         // handle dropping a reference to an attachment part of some message
         if ($uri) {
+            $attachment = null;
+
             $url = parse_url($uri);
             parse_str($url['query'], $params);
 
@@ -63,7 +65,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     $message = new rcube_message($params['_uid'], $params['_mbox']);
 
                     if ($message && !empty($message->headers)) {
-                        $attachment = self::save_attachment($message, $params['_part'], self::$COMPOSE_ID);
+                        $attachment = rcmail_action_mail_compose::save_attachment($message, $params['_part'], self::$COMPOSE_ID);
                     }
                 }
             }

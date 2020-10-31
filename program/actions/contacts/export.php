@@ -127,7 +127,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
         header('Content-Disposition: attachment; filename="contacts.vcf"');
 
         while ($result && ($row = $result->next())) {
-            if ($CONTACTS) {
+            if (!empty($CONTACTS)) {
                 self::prepare_for_export($row, $CONTACTS);
             }
 

@@ -92,7 +92,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_index
 
                 // add record for every email address of the contact
                 // (same as in list_contacts.inc)
-                $emails = $source->get_col_values('email', $row, true);
+                $emails = rcube_addressbook::get_col_values('email', $row, true);
 
                 foreach ($emails as $i => $email) {
                     $row_id = $row['sourceid'].'-'.$row['ID'].'-'.$i;

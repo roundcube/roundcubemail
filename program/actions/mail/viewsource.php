@@ -62,7 +62,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 header("Content-Type: text/plain; charset={$charset}");
             }
 
-            if (isset($message)) {
+            if (isset($part_id) && isset($message)) {
                 $message->get_part_body($part_id, empty($_GET['_save']), 0, -1);
             }
             else {

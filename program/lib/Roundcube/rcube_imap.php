@@ -926,7 +926,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return rcube_imap_thread Thread data object
+     * @return rcube_result_thread Thread data object
      */
     function threads($folder)
     {
@@ -953,7 +953,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return rcube_imap_thread Thread data object
+     * @return rcube_result_thread Thread data object
      */
     function threads_direct($folder)
     {
@@ -4080,7 +4080,7 @@ class rcube_imap extends rcube_storage
         }
 
         if (isset($res)) {
-            if (!$force) {
+            if (!$force && !empty($cache_key)) {
                 $this->update_cache($cache_key, $res);
             }
 

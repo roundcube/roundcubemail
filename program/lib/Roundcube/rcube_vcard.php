@@ -587,7 +587,7 @@ class rcube_vcard
         // convert Apple X-ABRELATEDNAMES into X-* fields for better compatibility
         $vcard = preg_replace_callback(
             '/item(\d+)\.(X-ABRELATEDNAMES)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./s',
-            array('self', 'x_abrelatednames_callback'),
+            array('rcube_vcard', 'x_abrelatednames_callback'),
             $vcard);
 
         // Cleanup
@@ -664,7 +664,7 @@ class rcube_vcard
      */
     public static function rfc2425_fold($val)
     {
-        return preg_replace_callback('/([^\n]{72,})/', array('self', 'rfc2425_fold_callback'), $val);
+        return preg_replace_callback('/([^\n]{72,})/', array('rcube_vcard', 'rfc2425_fold_callback'), $val);
     }
 
     /**

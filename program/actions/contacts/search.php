@@ -43,6 +43,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
         $adv    = isset($_POST['_adv']);
         $sid    = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_GET);
+        $search = null;
 
         // get search criteria from saved search
         if ($sid && ($search = $rcmail->user->get_search($sid))) {
@@ -129,7 +130,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // get contacts count
             $result = $source->search($fields, $search, $mode, false);
 
-            if (!$result->count) {
+            if (empty($result) || !$result->count) {
                 continue;
             }
 

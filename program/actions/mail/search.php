@@ -55,7 +55,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
         // Parse input
-        list($subject, $srch) = self::search_input($str, $headers, $scope);
+        list($subject, $srch) = self::search_input($str, $headers, $scope, $mbox);
 
         $search = isset($srch) ? trim($srch) : trim($str);
 
@@ -85,6 +85,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
         // execute IMAP search
         if ($search_str) {
+            $mboxes = [];
+
             // search all, current or subfolders folders
             if ($scope == 'all') {
                 $mboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail', null, true);
@@ -122,7 +124,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['search_filter']   = $filter;
 
         // Get the headers
-        if (!$result->incomplete) {
+        if (!empty($result) && empty($result->incomplete)) {
             $result_h = $rcmail->storage->list_messages($mbox, 1, $sort_column, $sort_order);
         }
 
@@ -152,7 +154,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             self::display_server_error();
         }
         // advice the client to re-send the (cross-folder) search request
-        else if ($result->incomplete) {
+        else if (!empty($result) && !empty($result->incomplete)) {
             $count = 0;  // keep UI locked
             $rcmail->output->command('continue_search', $search_request);
         }
@@ -160,9 +162,9 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $count = 0;
 
             $rcmail->output->show_message('searchnomatch', 'notice');
-            $rcmail->output->set_env('multifolder_listing', (bool) $result->multi);
+            $rcmail->output->set_env('multifolder_listing', isset($result) ? (bool) $result->multi : false);
 
-            if ($result->multi && $scope == 'all') {
+            if (isset($result) && !empty($result->multi) && $scope == 'all') {
                 $rcmail->output->command('select_folder', '');
             }
         }
@@ -182,8 +184,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             self::send_unread_count($mbox, false, empty($result_h) ? 0 : null);
         }
 
-        if (!$result->incomplete) {
-            $rcmail->output->command('set_quota', self::quota_content(null, $result->multi ? 'INBOX' : $mbox));
+        if (isset($result) && empty($result->incomplete)) {
+            $rcmail->output->command('set_quota', self::quota_content(null, !empty($result->multi) ? 'INBOX' : $mbox));
         }
 
         $rcmail->output->send();
@@ -215,7 +217,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         return $search . ' ' . $date->format('j-M-Y');
     }
 
-    public static function search_input($str, $headers, $scope)
+    public static function search_input($str, $headers, $scope, $mbox)
     {
         $rcmail  = rcmail::get_instance();
         $subject = [];

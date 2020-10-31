@@ -46,21 +46,21 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
         }
 
         // Set UIDs and activate navigation buttons
-        if ($prev) {
+        if (!empty($prev)) {
             $rcmail->output->set_env('prev_uid', $prev);
             $rcmail->output->command('enable_command', 'previousmessage', 'firstmessage', true);
         }
 
-        if ($next) {
+        if (!empty($next)) {
             $rcmail->output->set_env('next_uid', $next);
             $rcmail->output->command('enable_command', 'nextmessage', 'lastmessage', true);
         }
 
-        if ($first) {
+        if (!empty($first)) {
             $rcmail->output->set_env('first_uid', $first);
         }
 
-        if ($last) {
+        if (!empty($last)) {
             $rcmail->output->set_env('last_uid', $last);
         }
 
@@ -70,7 +70,7 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
         // Set rowcount text
         $rcmail->output->command('set_rowcount', $rcmail->gettext([
                 'name' => 'messagenrof',
-                'vars' => ['nr'  => $pos + 1, 'count' => $cnt]
+                'vars' => ['nr'  => isset($pos) ? $pos + 1 : 1, 'count' => $cnt]
         ]));
 
         $rcmail->output->send();

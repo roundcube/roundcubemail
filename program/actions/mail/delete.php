@@ -35,6 +35,8 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         $trash     = $rcmail->config->get('trash_mbox');
         $sources   = [];
         $old_count = 0;
+        $deleted   = 0;
+        $count     = 0;
 
         if (empty($_POST['_from']) || $_POST['_from'] != 'show') {
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
@@ -46,12 +48,12 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
-            $del      += (int) $rcmail->storage->delete_message($uids, $mbox);
+            $deleted  += (int) $rcmail->storage->delete_message($uids, $mbox);
             $count    += is_array($uids) ? count($uids) : 1;
             $sources[] = $mbox;
         }
 
-        if (empty($del)) {
+        if (empty($deleted)) {
             // send error message
             if ($_POST['_from'] != 'show') {
                 $rcmail->output->command('list_mailbox');
@@ -118,7 +120,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         // add new rows from next page (if any)
-        if (!empty($count) && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+        if (!empty($count) && $_POST['_uid'] != '*' && ($jump_back || $nextpage_count > 0)) {
             // #5862: Don't add more rows than it was on the next page
             $count = $jump_back ? null : min($nextpage_count, $count);
 

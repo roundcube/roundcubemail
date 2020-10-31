@@ -310,8 +310,9 @@ class rcmail_action_settings_index extends rcmail_action
                     $skins = self::get_skins();
 
                     if (count($skins) > 1) {
-                        $field_id = 'rcmfd_skin';
-                        $input    = new html_radiobutton(['name' => '_skin']);
+                        $field_id   = 'rcmfd_skin';
+                        $input      = new html_radiobutton(['name' => '_skin']);
+                        $skinnames = [];
 
                         foreach ($skins as $skin) {
                             $skinname    = ucfirst($skin);
@@ -850,12 +851,12 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     foreach (['syms', 'nums', 'caps'] as $key) {
-                        $key = 'spellcheck_ignore_'.$key;
+                        $key = 'spellcheck_ignore_' . $key;
                         if (!isset($no_override[$key])) {
-                            $input = new html_checkbox(['name' => '_'.$key, 'id' => 'rcmfd_'.$key, 'value' => 1]);
+                            $input = new html_checkbox(['name' => '_' . $key, 'id' => 'rcmfd_' . $key, 'value' => 1]);
 
                             $blocks['spellcheck']['options'][$key] = [
-                                'title'   => html::label($field_id, rcube::Q($rcmail->gettext(str_replace('_', '', $key)))),
+                                'title'   => html::label('rcmfd_' . $key, rcube::Q($rcmail->gettext(str_replace('_', '', $key)))),
                                 'content' => $input->show($config[$key]?1:0),
                             ];
                         }
@@ -1057,8 +1058,10 @@ class rcmail_action_settings_index extends rcmail_action
                             'class' => 'custom-select'
                     ]);
 
-                    foreach ($books as $book) {
-                        $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                    if (!empty($books)) {
+                        foreach ($books as $book) {
+                            $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                        }
                     }
 
                     $blocks['main']['options']['default_addressbook'] = [
@@ -1263,6 +1266,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                 // Configure special folders
                 $set = ['drafts_mbox', 'sent_mbox', 'junk_mbox', 'trash_mbox'];
+
                 if ($current && count(array_intersect($no_override, $set)) < 4) {
                     $select = self::folder_selector([
                             'noselection'   => '---',
@@ -1275,6 +1279,10 @@ class rcmail_action_settings_index extends rcmail_action
 
                     // #1486114, #1488279, #1489219
                     $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+                }
+                else {
+                    $onchange = null;
+                    $select   = new html_select();
                 }
 
                 if (!isset($no_override['drafts_mbox'])) {

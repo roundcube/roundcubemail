@@ -179,7 +179,7 @@ class rcube_config
      * @param mixed  $default_value Default value to return if necessary
      * @param string $type          Type of value to return
      *
-     * @return Value of the environment variable or default if not found.
+     * @return mixed Value of the environment variable or default if not found.
      */
     private function getenv_default($varname, $default_value, $type = null)
     {

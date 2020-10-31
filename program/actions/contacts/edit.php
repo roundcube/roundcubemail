@@ -60,7 +60,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                 $CONTACTS = $rcmail->get_address_book($source, true);
             }
 
-            if (!$CONTACTS || $CONTACTS->readonly) {
+            if (empty($CONTACTS) || $CONTACTS->readonly) {
                 $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
                 $source   = $rcmail->get_address_book_id($CONTACTS);
             }
