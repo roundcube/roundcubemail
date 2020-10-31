@@ -15,6 +15,7 @@ vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
 
 if [ $? != 0 ]
 then
+    cat logs/errors.log
     exit 1
 fi
 
