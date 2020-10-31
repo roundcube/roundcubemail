@@ -24,3 +24,6 @@ composer install --prefer-dist
 # Install Less for Elastic CSS compilation
 npm install --force -g less
 npm install --force -g less-plugin-clean-css
+
+# Roundcube tests and instance configuration
+cp .ci/config-test.inc.php config/config-test.inc.php

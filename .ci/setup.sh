@@ -7,9 +7,6 @@ GMV=1.5.11
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
 GMARGS="-Dgreenmail.setup.all -Dgreenmail.users=test:test -Dgreenmail.startup.timeout=3000"
 
-# Roundcube tests and instance configuration
-cp .ci/config-test.inc.php config/config-test.inc.php
-
 # Make temp and logs writeable
 sudo chmod 777 temp logs
 
