@@ -187,7 +187,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
             else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
-                $rcmil->output->show_message($error, 'error', null, false);
+                $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('edit-identity');
                 return;
             }

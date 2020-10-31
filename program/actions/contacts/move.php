@@ -172,7 +172,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 $count  = count($records);
                 $first  = ($page-1) * $page_size;
                 $result = new rcube_result_set($count, $first);
-                $pages  = ceil((count($records) + $delcnt) / $page_size);
+                $pages  = ceil((count($records) + $deleted) / $page_size);
 
                 // last page and it's empty, display previous one
                 if ($result->count && $result->count <= ($page_size * ($page - 1))) {

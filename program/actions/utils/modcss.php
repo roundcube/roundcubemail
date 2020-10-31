@@ -84,7 +84,7 @@ class rcmail_action_utils_modcss extends rcmail_action
 
         if ($source !== false && preg_match($ctype_regexp, $headers)) {
             header('Content-Type: text/css');
-            echo rcube_utils::mod_css_styles($source, $container, false, $css_prefix);
+            echo rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix);
             exit;
         }
 

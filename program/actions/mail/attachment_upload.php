@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_attachment_upload extends rcmail_action
+class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;

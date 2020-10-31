@@ -55,7 +55,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
                 $_POST['_source'] = rcube_addressbook::TYPE_TRUSTED_SENDER;
             }
 
-            $rcrmail->action = 'addcontact';
+            $rcmail->action = 'addcontact';
             return;
         }
 

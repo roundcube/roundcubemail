@@ -1236,7 +1236,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                     $blocks['collected']['options']['collected_senders'] = [
                         'title'   => html::label($field_id, rcube::Q($rcmail->gettext('collectedsendersopt'))),
-                        'content' => $select->show((string) $elected),
+                        'content' => $select->show((string) $selected),
                     ];
                 }
 

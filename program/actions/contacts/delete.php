@@ -121,7 +121,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 // sort the records
                 ksort($records, SORT_LOCALE_STRING);
 
-                $first += $PAGE_SIZE;
+                $first += $page_size;
                 // create resultset object
                 $res = new rcube_result_set($count, $first - $delcnt);
 

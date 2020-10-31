@@ -75,7 +75,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 'id'      => self::$COMPOSE_ID,
                 'param'   => $params,
                 'mailbox' => isset($params['mbox']) && strlen($params['mbox'])
-                    ? $patams['mbox'] : $rcmail->storage->get_folder(),
+                    ? $params['mbox'] : $rcmail->storage->get_folder(),
             ];
 
             self::$COMPOSE =& $_SESSION['compose_data_' . self::$COMPOSE_ID];

@@ -147,7 +147,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             ];
         }
 
-        if ($CONTACTS->groups) {
+        if (self::$CONTACTS->groups) {
             $form['groups'] = [
                 'name'    => $rcmail->gettext('groups'),
                 'content' => self::contact_record_groups(self::$contact['ID']),

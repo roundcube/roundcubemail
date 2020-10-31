@@ -42,6 +42,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
             ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST))
             && ($name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true)))
         ) {
+            $newgid = null;
             $plugin = $rcmail->plugins->exec_hook('group_rename', [
                     'group_id' => $gid,
                     'name'     => $name,

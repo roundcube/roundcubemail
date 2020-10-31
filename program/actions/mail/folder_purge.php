@@ -36,6 +36,8 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
         $junk_regexp  = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
 
+        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+
         // we should only be purging trash and junk (or their subfolders)
         if ($mbox == $trash_mbox || $mbox == $junk_mbox
             || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox)

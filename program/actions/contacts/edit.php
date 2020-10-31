@@ -43,7 +43,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             }
 
             // editing not allowed here
-            if ($CONTACTS->readonly || $record['readonly']) {
+            if ($CONTACTS->readonly || self::$contact['readonly']) {
                 $rcmail->output->show_message('sourceisreadonly');
                 $rcmail->overwrite_action('show');
                 return;

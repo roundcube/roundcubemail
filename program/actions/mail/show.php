@@ -66,7 +66,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             // if message not found (wrong UID)...
             if (empty($MESSAGE->headers)) {
-                self::message_error($uid);
+                self::message_error();
             }
 
             self::$CLIENT_MIMETYPES = self::supported_mimetypes();
@@ -655,7 +655,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                             continue;
                         }
 
-                        self::message_error(self::$MESSAGE->uid);
+                        self::message_error();
                     }
 
                     $plugin = $rcmail->plugins->exec_hook('message_body_prefix',

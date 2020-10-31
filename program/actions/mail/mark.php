@@ -28,6 +28,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
+        $rcmail  = rcmail::get_instance();
         $_uids   = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $flag    = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST);
         $folders = rcube_utils::get_input_value('_folders', rcube_utils::INPUT_POST);

@@ -145,7 +145,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 $rcmail->output->command('message_list.clear', $all_count ? false : true);
 
                 if ($all_count) {
-                    $a_headers = $rcmail->storage->list_messages($mbox_name, null, rcmail_sort_column(), rcmail_sort_order());
+                    $a_headers = $rcmail->storage->list_messages($mbox_name, null, self::sort_column(), self::sort_order());
                     // add message rows
                     self::js_message_list($a_headers, false);
                     // remove messages that don't exists from list selection array
