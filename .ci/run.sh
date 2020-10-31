@@ -13,7 +13,12 @@ fi
 
 vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
 
-if [ "$BROWSER_TESTS" = 1 ] && [ $? = 0 ]
+if [ $? != 0 ]
+then
+    exit 1
+fi
+
+if [ "$BROWSER_TESTS" = 1 ]
 then
     .ci/setup.sh \
     && echo "TESTS_MODE: DESKTOP" \
