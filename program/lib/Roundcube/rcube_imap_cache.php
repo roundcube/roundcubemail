@@ -289,6 +289,8 @@ class rcube_imap_cache
             return $this->icache[$mailbox]['thread']['object'];
         }
 
+        $index = null;
+
         // Get thread from DB (if DB wasn't already queried)
         if (empty($this->icache[$mailbox]['thread_queried'])) {
             $index = $this->get_thread_row($mailbox);

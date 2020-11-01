@@ -209,7 +209,7 @@ class enigma_ui
         $a_show_cols = array('name');
 
         // create XHTML table
-        $out = $this->rc->table_output($attrib, array(), $a_show_cols, 'id');
+        $out = rcmail_action::table_output($attrib, array(), $a_show_cols, 'id');
 
         // set client env
         $this->rc->output->add_gui_object('keyslist', $attrib['id']);
@@ -575,13 +575,7 @@ class enigma_ui
             $this->rc->output->send('iframe');
         }
         else if ($err = $_FILES['_file']['error']) {
-            if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                $this->rc->output->show_message('filesizeerror', 'error',
-                    array('size' => $this->rc->show_bytes(rcube_utils::max_upload_size())));
-            } else {
-                $this->rc->output->show_message('fileuploaderror', 'error');
-            }
-
+            rcmail_action::upload_error($err);
             $this->rc->output->send('iframe');
         }
 
@@ -621,7 +615,7 @@ class enigma_ui
                     'class' => 'form-control'
             ));
 
-            $max_filesize  = $this->rc->upload_init();
+            $max_filesize  = rcmail_action::upload_init();
             $upload_button = new html_button(array(
                     'class'   => 'button import',
                     'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",

@@ -105,7 +105,6 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             '1d'    => 1 * 60 * 60 * 24,
             '1w'    => 1 * 60 * 60 * 24 * 7,
             '1y'    => (int) '1y',
-            100     => 100,
             '100'   => 100,
         );
 

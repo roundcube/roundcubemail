@@ -332,7 +332,8 @@ class rcube_sieve
                 return $this->_set_error(self::ERROR_INTERNAL);
             }
 
-            $list = $this->sieve->listScripts($active);
+            $active = null;
+            $list   = $this->sieve->listScripts($active);
 
             if (is_a($list, 'PEAR_Error')) {
                 return $this->_set_error(self::ERROR_OTHER);

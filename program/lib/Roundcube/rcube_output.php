@@ -292,9 +292,9 @@ abstract class rcube_output
     {
         static $colcounts = array();
 
-        $fname = '_'.$col;
-        $attrib['name']  = $fname . ($attrib['array'] ? '[]' : '');
-        $attrib['class'] = trim($attrib['class'] . ' ff_' . $col);
+        $fname           = '_' . $col;
+        $attrib['name']  = $fname . (!empty($attrib['array']) ? '[]' : '');
+        $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' ff_' . $col);
 
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
@@ -311,11 +311,11 @@ abstract class rcube_output
             }
             $input->add(array_values($attrib['options']), array_keys($attrib['options']));
         }
-        else if ($type == 'password' || $attrib['type'] == 'password') {
+        else if ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
         }
         else {
-            if ($attrib['type'] != 'text' && $attrib['type'] != 'hidden') {
+            if (!isset($attrib['type']) || ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')) {
                 $attrib['type'] = 'text';
             }
             $input = new html_inputfield($attrib);
@@ -324,12 +324,10 @@ abstract class rcube_output
         // use value from post
         if (isset($_POST[$fname])) {
             $postvalue = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
-            $value = $attrib['array'] ? $postvalue[intval($colcounts[$col]++)] : $postvalue;
+            $value = !empty($attrib['array']) ? $postvalue[intval($colcounts[$col]++)] : $postvalue;
         }
 
-        $out = $input->show($value);
-
-        return $out;
+        return $input->show($value);
     }
 
     /**

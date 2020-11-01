@@ -101,7 +101,7 @@ class rcube_addresses extends rcube_contacts
             $start_row,
             $length,
             $this->user_id,
-            $this->type,
+            $this->type
         );
 
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
@@ -300,7 +300,8 @@ class rcube_addresses extends rcube_contacts
 
         // check validity of the email address
         if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-            $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+            $rcube = rcube::get_instance();
+            $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
             $this->set_error(self::ERROR_VALIDATE, $error);
             return false;
         }

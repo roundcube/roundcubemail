@@ -343,9 +343,8 @@ class rcube_smtp
 
                     if ($limit) {
                         $msg .= " (Limit: $limit)";
-                        $rcube = rcube::get_instance();
-                        if (method_exists($rcube, 'show_bytes')) {
-                            $limit = $rcube->show_bytes($limit);
+                        if (class_exists('rcmail_action')) {
+                            $limit = rcmail_action::show_bytes($limit);
                         }
 
                         $err_vars['limit'] = $limit;

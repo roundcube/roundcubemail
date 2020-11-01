@@ -457,7 +457,7 @@ class rcube_ldap extends rcube_addressbook
         if (!is_resource($this->ldap->conn)) {
             rcube::raise_error(array('code' => 100, 'type' => 'ldap',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Could not connect to any LDAP server, last tried $host"), true);
+                'message' => "Could not connect to any LDAP server"), true);
 
             return false;
         }
@@ -1312,12 +1312,13 @@ class rcube_ldap extends rcube_addressbook
         if (!empty($replacedata)) {
             // Handle RDN change
             if ($replacedata[$this->prop['LDAP_rdn']]) {
-                $newdn = $this->prop['LDAP_rdn'].'='
-                    .rcube_ldap_generic::quote_string($replacedata[$this->prop['LDAP_rdn']], true)
-                    .','.$this->base_dn;
+                $newdn = $this->prop['LDAP_rdn'] . '='
+                    . rcube_ldap_generic::quote_string($replacedata[$this->prop['LDAP_rdn']], true)
+                    . ',' . $this->base_dn;
+
                 if ($dn != $newdn) {
-                    $newrdn = $this->prop['LDAP_rdn'].'='
-                    .rcube_ldap_generic::quote_string($replacedata[$this->prop['LDAP_rdn']], true);
+                    $newrdn = $this->prop['LDAP_rdn'] . '='
+                        . rcube_ldap_generic::quote_string($replacedata[$this->prop['LDAP_rdn']], true);
                     unset($replacedata[$this->prop['LDAP_rdn']]);
                 }
             }
@@ -1355,7 +1356,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // Handle RDN change
-        if (!empty($newrdn)) {
+        if (!empty($newrdn) && !empty($newdn)) {
             if (!$this->ldap->rename($dn, $newrdn, null, true)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
                 return false;
@@ -1794,12 +1795,12 @@ class rcube_ldap extends rcube_addressbook
         $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
         $sort_attrs = $this->prop['groups']['sort'] ? (array)$this->prop['groups']['sort'] : array($name_attr);
         $sort_attr  = $sort_attrs[0];
+        $page_size  = 200;
 
         $ldap = $this->ldap;
 
         // use vlv to list groups
         if ($this->prop['groups']['vlv']) {
-            $page_size = 200;
             if (!$this->prop['groups']['sort']) {
                 $this->prop['groups']['sort'] = $sort_attrs;
             }
@@ -1837,8 +1838,10 @@ class rcube_ldap extends rcube_addressbook
         $group_count     = $ldap_data->count();
 
         foreach ($ldap_data as $entry) {
-            if (!$entry['dn'])  // DN is mandatory
+            // DN is mandatory
+            if (!$entry['dn']) {
                 $entry['dn'] = $ldap_data->get_dn();
+            }
 
             $group_name = is_array($entry[$name_attr]) ? $entry[$name_attr][0] : $entry[$name_attr];
             $group_id = self::dn_encode($entry['dn']);

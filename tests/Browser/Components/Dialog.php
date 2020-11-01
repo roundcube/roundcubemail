@@ -77,7 +77,7 @@ class Dialog extends Component
     public function assertButton($browser, $name, $label)
     {
         $selector = "@footer button.{$name}";
-        $browser->assertVisible($selector, $title)
+        $browser->assertVisible($selector)
             ->assertSeeIn($selector, $label);
     }
 

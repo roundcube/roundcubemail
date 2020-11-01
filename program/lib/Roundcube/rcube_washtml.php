@@ -187,6 +187,9 @@ class rcube_washtml
     /** @var int Max nesting level */
     private $max_nesting_level;
 
+    /** @var bool Indicates that a nesting level error was logged */
+    private $max_nesting_level_error = false;
+
     /** @var bool True if current document is XML */
     private $is_xml = false;
 

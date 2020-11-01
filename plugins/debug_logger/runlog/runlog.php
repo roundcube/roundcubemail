@@ -46,7 +46,9 @@ class runlog {
 
     public function end()
     {
-        $name = array_pop($this->parent_stack);
+        $name  = array_pop($this->parent_stack);
+        $lastk = 0;
+
         foreach ($this->run_log as $k => $entry) {
             if ($entry['value'] == $name && $entry['type'] == 'start' && !$entry['ended']) {
                 $lastk = $k;

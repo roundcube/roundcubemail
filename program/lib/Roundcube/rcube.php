@@ -768,16 +768,19 @@ class rcube
     public static function read_localization_file($file, $texts = array())
     {
         if (is_file($file) && is_readable($file)) {
+            $labels   = [];
+            $messages = [];
+
             // use buffering to handle empty lines/spaces after closing PHP tag
             ob_start();
             include $file;
             ob_end_clean();
 
-            if (isset($labels) && is_array($labels)) {
+            if (!empty($labels)) {
                 $texts = array_merge($texts, $labels);
             }
 
-            if (isset($messages) && is_array($messages)) {
+            if (!empty($messages)) {
                 $texts = array_merge($texts, $messages);
             }
         }
