@@ -14,9 +14,6 @@ cp composer.json-dist composer.json
 # Add laravel/dusk for Browser tests
 if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.9.1" --no-update; fi
 
-# Force phpunit 7 on PHP8
-if [ `php -r "echo PHP_MAJOR_VERSION;"` = 8 ]; then composer require "phpunit/phpunit:^7" --dev --no-update; fi
-
 # Remove qr-code as it requires php-gd which is not always available on Travis
 # and we don't really need it for tests
 composer remove endroid/qr-code --no-update
