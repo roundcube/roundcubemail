@@ -30,12 +30,7 @@ class Actions_Utils_Text2html extends ActionTestCase
 
         $this->assertTrue($object->checks());
 
-        try {
-            $object->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputHtmlMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($object, OutputHtmlMock::E_EXIT);
 
         $this->assertSame('<div class="pre">test plain text input</div>', $output->output);
         $this->assertSame(['Content-Type: text/html; charset=UTF-8'], $output->headers);

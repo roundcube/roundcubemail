@@ -47,7 +47,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new \Exception("Location: $location", self::E_REDIRECT);
+        throw new ExitException("Location: $location", self::E_REDIRECT);
     }
 
     /**
@@ -60,7 +60,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new \Exception("Output sent", self::E_EXIT);
+        throw new ExitException("Output sent", self::E_EXIT);
     }
 
     /**
@@ -77,7 +77,7 @@ class OutputJsonMock extends rcmail_output_json
 
         $this->output = $body;
 
-        throw new \Exception("Output sent", self::E_EXIT);
+        throw new ExitException("Output sent", self::E_EXIT);
     }
 
     /**
@@ -89,7 +89,7 @@ class OutputJsonMock extends rcmail_output_json
     public function raise_error($code, $message)
     {
         if ($code == 403) {
-            throw new \Exception("403 Forbidden", self::E_EXIT);
+            throw new ExitException("403 Forbidden", self::E_EXIT);
         }
 
         $this->show_message("Application Error ($code): $message", 'error');
@@ -99,7 +99,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new \Exception("Error $code raised", self::E_EXIT);
+        throw new ExitException("Error $code raised", self::E_EXIT);
     }
 
     /**

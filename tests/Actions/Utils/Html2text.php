@@ -30,12 +30,7 @@ class Actions_Utils_Html2text extends ActionTestCase
 
         $this->assertTrue($object->checks());
 
-        try {
-            $object->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputHtmlMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($object, OutputHtmlMock::E_EXIT);
 
         $this->assertSame('test', $output->output);
         $this->assertSame(['Content-Type: text/plain; charset=UTF-8'], $output->headers);

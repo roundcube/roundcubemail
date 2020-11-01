@@ -34,12 +34,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $storage->registerFunction('expunge_folder', true);
         $storage->registerFunction('get_quota', false);
 
-        try {
-            $action->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -102,12 +97,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $storage->registerFunction('get_error_code', -1);
         $storage->registerFunction('get_response_code', rcube_storage::READONLY);
 
-        try {
-            $action->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

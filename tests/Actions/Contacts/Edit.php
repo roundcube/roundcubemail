@@ -38,12 +38,7 @@ class Actions_Contacts_Edit extends ActionTestCase
             '_source' => '0'
         ];
 
-        try {
-            $action->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputHtmlMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

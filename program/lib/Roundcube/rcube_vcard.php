@@ -217,7 +217,8 @@ class rcube_vcard
                         }
 
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
-                            $subtype = $typemap[$raw['type'][++$k]] ?: $raw['type'][$k];
+                            $k++;
+                            $subtype = !empty($typemap[$raw['type'][$k]]) ? $typemap[$raw['type'][$k]] : $raw['type'][$k];
                         }
                     }
 

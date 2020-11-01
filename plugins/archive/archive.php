@@ -137,6 +137,7 @@ class archive extends rcube_plugin
         $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
 
         // count messages before changing anything
+        $old_count = 0;
         if ($_POST['_from'] != 'show') {
             $old_count = $storage->count(null, $threading ? 'THREADS' : 'ALL');
         }

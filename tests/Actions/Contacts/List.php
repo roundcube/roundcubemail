@@ -29,12 +29,7 @@ class Actions_Contacts_List extends ActionTestCase
 
         self::initDB('contacts');
 
-        try {
-            $action->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

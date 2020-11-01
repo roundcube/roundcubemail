@@ -305,19 +305,22 @@ class zipdownload extends rcube_plugin
             }
         }
 
+        if ($mode == 'mbox') {
+            $tmpfp = fopen($tmpfname . '.mbox', 'w');
+            if (!$tmpfp) {
+                exit;
+            }
+        }
+
         // open zip file
         $zip = new ZipArchive();
         $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
-
-        if ($mode == 'mbox') {
-            $tmpfp = fopen($tmpfname . '.mbox', 'w');
-        }
 
         foreach ($messages as $key => $value) {
             list($uid, $mbox) = explode(':', $key, 2);
             $imap->set_folder($mbox);
 
-            if ($mode == 'mbox') {
+            if (!empty($tmpfp)) {
                 fwrite($tmpfp, $value);
 
                 // Use stream filter to quote "From " in the message body
@@ -329,17 +332,17 @@ class zipdownload extends rcube_plugin
             }
             else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
-                $tmpfp = fopen($tmpfn, 'w');
-                $imap->get_raw_body($uid, $tmpfp);
+                $fp = fopen($tmpfn, 'w');
+                $imap->get_raw_body($uid, $fp);
                 $tempfiles[] = $tmpfn;
-                fclose($tmpfp);
+                fclose($fp);
                 $zip->addFile($tmpfn, $value);
             }
         }
 
         $filename = $folders ? 'messages' : $imap->get_folder();
 
-        if ($mode == 'mbox') {
+        if ($tmpfp) {
             $tempfiles[] = $tmpfname . '.mbox';
             fclose($tmpfp);
             $zip->addFile($tmpfname . '.mbox', $filename . '.mbox');

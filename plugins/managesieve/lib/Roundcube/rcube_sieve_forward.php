@@ -236,7 +236,11 @@ class rcube_sieve_forward extends rcube_sieve_engine
             }
         }
 
-        $this->rc->output->show_message($error ?: 'managesieve.saveerror', 'error');
+        if (empty($error)) {
+            $error = 'managesieve.saveerror';
+        }
+
+        $this->rc->output->show_message($error, 'error');
         $this->rc->output->send();
     }
 
@@ -292,8 +296,8 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $action_target = '<span id="action_target_span" class="input-group">'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
-            . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
-            . (!empty($domains) ? ' <span class="input-group-prepend input-group-append"><span class="input-group-text">@</span></span> '
+            . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
+            . (!empty($domain_select) ? ' <span class="input-group-prepend input-group-append"><span class="input-group-text">@</span></span> '
                 . $domain_select->show($this->forward['domain']) : '')
             . '</span>';
 

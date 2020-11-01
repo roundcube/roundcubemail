@@ -34,6 +34,8 @@ class managesieve extends rcube_plugin
 
     private $rc;
     private $engine;
+    private $ui_initialized    = false;
+    private $mail_headers_done = false;
 
     function init()
     {

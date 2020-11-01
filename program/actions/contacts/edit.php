@@ -43,7 +43,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             }
 
             // editing not allowed here
-            if ($CONTACTS->readonly || self::$contact['readonly']) {
+            if ($CONTACTS->readonly || !empty(self::$contact['readonly'])) {
                 $rcmail->output->show_message('sourceisreadonly');
                 $rcmail->overwrite_action('show');
                 return;
@@ -143,10 +143,10 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             $rcmail->output->set_env('address_template', $templ);
         }
 
-        $i_size       = $attrib['size'] ?: 40;
-        $t_rows       = $attrib['textarearows'] ?: 10;
-        $t_cols       = $attrib['textareacols'] ?: 40;
-        $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
+        $i_size       = !empty($attrib['size']) ? $attrib['size'] : 40;
+        $t_rows       = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 10;
+        $t_cols       = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+        $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'contact' => [

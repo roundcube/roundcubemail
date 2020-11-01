@@ -41,6 +41,7 @@ if (set_include_path($include_path) === false) {
 }
 
 require_once(TESTS_DIR . 'ActionTestCase.php');
+require_once(TESTS_DIR . 'ExitException.php');
 require_once(TESTS_DIR . 'OutputHtmlMock.php');
 require_once(TESTS_DIR . 'OutputJsonMock.php');
 require_once(TESTS_DIR . 'StorageMock.php');

@@ -476,7 +476,12 @@ abstract class rcube_addressbook
                 }
                 else {
                     list(, $type) = explode(':', $c);
-                    $out[$type] = array_merge((array)$out[$type], (array)$values);
+                    if (isset($out[$type])) {
+                        $out[$type] = array_merge((array) $out[$type], (array) $values);
+                    }
+                    else {
+                        $out[$type] = (array) $values;
+                    }
                 }
             }
         }
@@ -517,8 +522,9 @@ abstract class rcube_addressbook
 
         // default display name composition according to vcard standard
         if (!$fn) {
-            $fn = implode(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
-            $fn = trim(preg_replace('/\s+/u', ' ', $fn));
+            $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
+            $fn   = trim(preg_replace('/\s+/u', ' ', $fn));
         }
 
         // use email address part for name
@@ -527,14 +533,18 @@ abstract class rcube_addressbook
 
         if ($email && (empty($fn) || $fn == $email)) {
             // return full email
-            if ($full_email)
+            if ($full_email) {
                 return $email;
+            }
 
             list($emailname) = explode('@', $email);
-            if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match))
+
+            if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
                 $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
-            else
+            }
+            else {
                 $fn = ucfirst($emailname);
+            }
         }
 
         return $fn;

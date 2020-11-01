@@ -312,11 +312,11 @@ abstract class rcmail_action
 
             $msg = $rcmail->gettext(array('name' => $error, 'vars' => $args));
 
-            if ($params['prefix'] && $fallback) {
+            if (!empty($params['prefix']) && $fallback) {
                 $msg = $rcmail->gettext(array('name' => $fallback, 'vars' => $fallback_args)) . ' ' . $msg;
             }
 
-            $rcmail->output->show_message($msg, $params['type'] ?: 'error');
+            $rcmail->output->show_message($msg, !empty($params['type']) ? $params['type'] : 'error');
         }
     }
 
@@ -541,7 +541,7 @@ abstract class rcmail_action
             $content = html::div(null, $content . $hint);
         }
 
-        if (rcube_utils::get_boolean($attrib['buttons'])) {
+        if (self::get_bool_attr($attrib, 'buttons')) {
             $button   = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
                 $button->show($rcmail->gettext('close'), ['class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()"])
@@ -859,12 +859,15 @@ abstract class rcmail_action
             }
 
             // create a per-folder UIDs array
-            foreach ((array)$_uid as $uid) {
-                list($uid, $mbox) = explode('-', $uid, 2);
-                if (!strlen($mbox)) {
+            foreach ((array) $_uid as $uid) {
+                $tokens = explode('-', $uid, 2);
+                $uid    = $tokens[0];
+
+                if (!isset($tokens[1]) || !strlen($tokens[1])) {
                     $mbox = $_mbox;
                 }
                 else {
+                    $mbox = $tokens[1];
                     $is_multifolder = true;
                 }
 
@@ -1434,5 +1437,20 @@ abstract class rcmail_action
         }
 
         return implode($delimiter, $result);
+    }
+
+    /**
+     * Gets a value of a boolean attribute from template object attributes
+     *
+     * @param array  $attributes Template object attributes
+     * @param string $name       Attribute name
+     */
+    public static function get_bool_attr($attributes, $name)
+    {
+        if (!isset($attributes[$name])) {
+            return false;
+        }
+
+        return rcube_utils::get_boolean($attributes[$name]);
     }
 }

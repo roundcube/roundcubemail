@@ -38,12 +38,7 @@ class Actions_Contacts_Delete extends ActionTestCase
             '_source' => '0'
         ];
 
-        try {
-            $action->run();
-        }
-        catch (Exception $e) {
-            $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        }
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -416,7 +416,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // get address book name (for display)
-        if ($abook && $_SESSION['addressbooks_count'] > 1) {
+        if ($abook && !empty($_SESSION['addressbooks_count']) && $_SESSION['addressbooks_count'] > 1) {
             $name = $abook->get_name();
             if (!$name) {
                 $name = $rcmail->gettext('personaladrbook');
@@ -425,7 +425,6 @@ class rcmail_action_contacts_index extends rcmail_action
             $rcmail->output->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));
         }
     }
-
 
     public static function directory_list($attrib)
     {
@@ -640,10 +639,10 @@ class rcmail_action_contacts_index extends rcmail_action
             $emails       = rcube_addressbook::get_col_values('email', $row, true);
             $row['CID']   = $row['ID'];
             $row['email'] = reset($emails);
-
             $source_id  = $rcmail->output->get_env('source');
             $a_row_cols = [];
-            $classes    = [$row['_type'] ?: 'person'];
+            $type       = !empty($row['_type']) ? $row['_type'] : 'person';
+            $classes    = [$type];
 
             // build contact ID with source ID
             if (isset($row['sourceid'])) {
@@ -660,7 +659,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         break;
 
                     case 'action':
-                        if ($row['_type'] == 'group') {
+                        if ($type == 'group') {
                             $val = html::a([
                                     'href'    => '#list',
                                     'rel'     => $row['ID'],
@@ -802,12 +801,12 @@ class rcmail_action_contacts_index extends rcmail_action
         $record      = $plugin['record'];
         $head_fields = $plugin['head_fields'];
         $edit_mode   = $rcmail->action != 'show' && $rcmail->action != 'print';
-        $compact     = rcube_utils::get_boolean($attrib['compact-form']);
-        $use_labels  = rcube_utils::get_boolean($attrib['use-labels']);
-        $with_source = rcube_utils::get_boolean($attrib['with-source']);
+        $compact     = self::get_bool_attr($attrib, 'compact-form');
+        $use_labels  = self::get_bool_attr($attrib, 'use-labels');
+        $with_source = self::get_bool_attr($attrib, 'with-source');
         $out         = '';
 
-        if ($attrib['deleteicon']) {
+        if (!empty($attrib['deleteicon'])) {
             $del_button = html::img([
                     'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
                     'alt' => $rcmail->gettext('delete')
@@ -866,6 +865,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     'rel'          => $section,
                     'data-compact' => $compact ? "true" : null
             ]);
+            $select_add->_count = 0;
             $select_add->add($rcmail->gettext('addfield'), '');
 
             // render head section with name fields (not a regular list of rows)
@@ -908,7 +908,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         }
 
                         // only string values are expected here
-                        if (is_array($record[$col])) {
+                        if (isset($record[$col]) && is_array($record[$col])) {
                             $record[$col] = join(' ', $record[$col]);
                         }
 
@@ -925,7 +925,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $colprop['id'] = 'ff_' . $col;
                             }
 
-                            if (empty($record[$col]) && !$colprop['visible']) {
+                            if (empty($record[$col]) && empty($colprop['visible'])) {
                                 $visible          = false;
                                 $colprop['style'] = $use_labels ? null : 'display:none';
                                 $select_add->add($colprop['label'], $col);
@@ -935,7 +935,8 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $input = self::source_selector(['id' => $colprop['id']]);
                             }
                             else {
-                                $input = rcube_output::get_edit_field($col, $record[$col], $colprop, $colprop['type']);
+                                $val   = isset($record[$col]) ? $record[$col] : null;
+                                $input = rcube_output::get_edit_field($col, $val, $colprop);
                             }
 
                             if ($use_labels) {
@@ -972,10 +973,14 @@ class rcmail_action_contacts_index extends rcmail_action
             if (is_array($fieldset['content'])) {
                 foreach ($fieldset['content'] as $col => $colprop) {
                     // remove subtype part of col name
-                    list($field, $subtype) = explode(':', $col);
+                    $tokens = explode(':', $col);
+                    $field  = $tokens[0];
 
-                    if (!$subtype) {
+                    if (empty($tokens[1])) {
                         $subtype = $business_mode ? 'work' : 'home';
+                    }
+                    else {
+                        $subtype = $tokens[1];
                     }
 
                     // skip cols unknown to the backend
@@ -988,10 +993,14 @@ class rcmail_action_contacts_index extends rcmail_action
                         $colprop += $coltypes[$field];
                     }
 
+                    if (!isset($colprop['type'])) {
+                        $colprop['type'] = 'text';
+                    }
+
                     $label = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
 
                     // prepare subtype selector in edit mode
-                    if ($edit_mode && is_array($colprop['subtypes'])) {
+                    if ($edit_mode && isset($colprop['subtypes']) && is_array($colprop['subtypes'])) {
                         $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $colprop['subtypes']);
                         $select_subtype = new html_select([
                                 'name'  => "_subtype_{$col}[]",
@@ -1013,7 +1022,8 @@ class rcmail_action_contacts_index extends rcmail_action
                             $subtype = $subtypes[$i];
                         }
 
-                        $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
+                        $fc            = isset($coltypes[$field]['count']) ? intval($coltypes[$field]['count']) : 0;
+                        $colprop['id'] = 'ff_' . $col . $fc;
                         $row_class     = 'row';
 
                         // render composite field
@@ -1036,7 +1046,8 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $cp['array'] = true;
                                     }
 
-                                    $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp['type']) . ' ';
+                                    $cp_type = isset($cp['type']) ? $cp['type'] : null;
+                                    $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 }
                                 else {
                                     if (!empty($cp['render_func'])) {
@@ -1053,7 +1064,14 @@ class rcmail_action_contacts_index extends rcmail_action
                             }
 
                             $coltypes[$field] += (array) $colprop;
-                            $coltypes[$field]['count']++;
+
+                            if (isset($coltypes[$field]['count'])) {
+                                $coltypes[$field]['count']++;
+                            }
+                            else {
+                                $coltypes[$field]['count'] = 1;
+                            }
+
                             $val = preg_replace('/\{\w+\}/', '', strtr($template, $composite));
 
                             if ($compact) {
@@ -1068,25 +1086,31 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             $coltypes[$field] = (array) $colprop + $coltypes[$field];
 
-                            if ($colprop['subtypes'] || $colprop['limit'] != 1) {
+                            if (!empty($colprop['subtypes']) || $colprop['limit'] != 1) {
                                 $colprop['array'] = true;
                             }
 
                             // load jquery UI datepicker for date fields
-                            if ($colprop['type'] == 'date') {
-                                $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
+                            if (isset($colprop['type']) && $colprop['type'] == 'date') {
+                                $colprop['class'] = (!empty($colprop['class']) ? $colprop['class'] . ' ' : '') . 'datepicker';
                                 if (empty($colprop['render_func'])) {
                                     $val = self::format_date_col($val);
                                 }
                             }
 
                             $val = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
-                            $coltypes[$field]['count']++;
+
+                            if (empty($coltypes[$field]['count'])) {
+                                $coltypes[$field]['count'] = 1;
+                            }
+                            else {
+                                $coltypes[$field]['count']++;
+                            }
                         }
                         else if (!empty($colprop['render_func'])) {
                             $val = call_user_func($colprop['render_func'], $val, $col);
                         }
-                        else if (is_array($colprop['options']) && isset($colprop['options'][$val])) {
+                        else if (isset($colprop['options']) && isset($colprop['options'][$val])) {
                             $val = $colprop['options'][$val];
                         }
                         else {
@@ -1146,18 +1170,20 @@ class rcmail_action_contacts_index extends rcmail_action
                     }
 
                     // add option to the add-field menu
-                    if (!$colprop['limit'] || $coltypes[$field]['count'] < $colprop['limit']) {
+                    if (empty($colprop['limit']) || empty($coltypes[$field]['count']) || $coltypes[$field]['count'] < $colprop['limit']) {
                         $select_add->add($colprop['label'], $col);
                         $select_add->_count++;
                     }
 
                     // wrap rows in fieldgroup container
                     if ($rows) {
-                        $c_class    = 'contactfieldgroup ' . ($colprop['subtypes'] ? 'contactfieldgroupmulti ' : '') . 'contactcontroller' . $col;
-                        $with_label = $colprop['subtypes'] && $rcmail->action != 'print';
+                        $c_class    = 'contactfieldgroup '
+                            . (!empty($colprop['subtypes']) ? 'contactfieldgroupmulti ' : '')
+                            . 'contactcontroller' . $col;
+                        $with_label = !empty($colprop['subtypes']) && $rcmail->action != 'print';
                         $content   .= html::tag(
                             'fieldset',
-                            ['class' => $c_class, 'style' => ($rows ? null : 'display:none')],
+                            ['class' => $c_class],
                             ($with_label ? html::tag('legend', null, rcube::Q($colprop['label'])) : ' ') . $rows
                         );
                     }
@@ -1203,7 +1229,7 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($colprop['value'])) {
             $values = (array) $colprop['value'];
         }
-        else if (is_array($colprop['subtypes'])) {
+        else if (!empty($colprop['subtypes'])) {
             // iterate over possible subtypes and collect values with their subtype
             $c_values = rcube_addressbook::get_col_values($field, $record);
 
@@ -1228,12 +1254,15 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
             }
         }
-        else {
-            $values = isset($record[$field_name]) ? $record[$field_name] : $record[$field];
+        else if (isset($record[$field_name])) {
+            $values = $record[$field_name];
+        }
+        else if (isset($record[$field])) {
+            $values = $record[$field];
         }
 
         // hack: create empty values array to force this field to be displayed
-        if (empty($values) && $colprop['visible']) {
+        if (empty($values) && !empty($colprop['visible'])) {
             $values = [''];
         }
 
@@ -1256,7 +1285,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $rcmail = rcmail::get_instance();
 
-        if ($record['_type'] == 'group' && !empty($attrib['placeholdergroup'])) {
+        if (!empty($record['_type']) && $record['_type'] == 'group' && !empty($attrib['placeholdergroup'])) {
             $photo_img = $rcmail->output->abs_url($attrib['placeholdergroup'], true);
         }
         else {
@@ -1269,16 +1298,20 @@ class rcmail_action_contacts_index extends rcmail_action
 
         unset($attrib['placeholder']);
 
-        $plugin = $rcmail->plugins->exec_hook('contact_photo', ['record' => $record, 'data' => $record['photo']]);
+        $plugin = $rcmail->plugins->exec_hook('contact_photo', [
+                'record' => $record,
+                'data'   => isset($record['photo']) ? $record['photo'] : null
+        ]);
 
         // check if we have photo data from contact form
         if (!empty(self::$contact)) {
-            $rec = self::$contact;
-            if ($rec['photo'] == '-del-') {
-                $record['photo'] = '';
-            }
-            else if ($_SESSION['contacts']['files'][$rec['photo']]) {
-                $record['photo'] = $file_id = $rec['photo'];
+            if (!empty(self::$contact['photo'])) {
+                if (self::$contact['photo'] == '-del-') {
+                    $record['photo'] = '';
+                }
+                else if ($_SESSION['contacts']['files'][self::$contact['photo']]) {
+                    $record['photo'] = $file_id = self::$contact['photo'];
+                }
             }
         }
 
@@ -1287,7 +1320,7 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($plugin['url'])) {
             $photo_img = $plugin['url'];
         }
-        else if (preg_match('!^https?://!i', $record['photo'])) {
+        else if (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
             $photo_img = $record['photo'];
         }
         else if (!empty($record['photo'])) {
@@ -1329,46 +1362,52 @@ class rcmail_action_contacts_index extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
-            $search   = (array) $_SESSION['search'][$search_request];
-            $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
-            $afields  = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
-            $records  = [];
-
-            foreach ($search as $s => $set) {
-                $source = $rcmail->get_address_book($s);
-
-                // reset page
-                $source->set_page(1);
-                $source->set_pagesize(9999);
-                $source->set_search_set($set);
-
-                // get records
-                $result = $source->list_records($afields);
-
-                if (!$result->count) {
-                    unset($search[$s]);
-                    continue;
-                }
-
-                if ($return) {
-                    while ($row = $result->next()) {
-                        $row['sourceid'] = $s;
-                        $key = rcube_addressbook::compose_contact_key($row, $sort_col);
-                        $records[$key] = $row;
-                    }
-                    unset($result);
-                }
-
-                $search[$s] = $source->get_search_set();
-            }
-
-            $_SESSION['search'][$search_request] = $search;
-
-            return $records;
+        if (empty($_REQUEST['_search'])) {
+            return false;
         }
 
-        return false;
+        $search_request = $_REQUEST['_search'];
+
+        if (!isset($_SESSION['search'][$search_request])) {
+            return false;
+        }
+
+        $search   = (array) $_SESSION['search'][$search_request];
+        $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
+        $afields  = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
+        $records  = [];
+
+        foreach ($search as $s => $set) {
+            $source = $rcmail->get_address_book($s);
+
+            // reset page
+            $source->set_page(1);
+            $source->set_pagesize(9999);
+            $source->set_search_set($set);
+
+            // get records
+            $result = $source->list_records($afields);
+
+            if (!$result->count) {
+                unset($search[$s]);
+                continue;
+            }
+
+            if ($return) {
+                while ($row = $result->next()) {
+                    $row['sourceid'] = $s;
+                    $key = rcube_addressbook::compose_contact_key($row, $sort_col);
+                    $records[$key] = $row;
+                }
+                unset($result);
+            }
+
+            $search[$s] = $source->get_search_set();
+        }
+
+        $_SESSION['search'][$search_request] = $search;
+
+        return $records;
     }
 
     /**

@@ -47,7 +47,7 @@ class OutputHtmlMock extends rcmail_output_html
         $location = $this->app->url($p, false, false, $secure);
 
         // header('Location: ' . $location);
-        throw new \Exception("Location: $location", self::E_REDIRECT);
+        throw new ExitException("Location: $location", self::E_REDIRECT);
     }
 
     /**
@@ -64,7 +64,7 @@ class OutputHtmlMock extends rcmail_output_html
         parent::send($templ, false);
 
         if ($exit) {
-            throw new \Exception("Output sent", self::E_EXIT);
+            throw new ExitException("Output sent", self::E_EXIT);
         }
     }
 
@@ -82,7 +82,7 @@ class OutputHtmlMock extends rcmail_output_html
 
         $this->output = $body;
 
-        throw new \Exception("Output sent", self::E_EXIT);
+        throw new ExitException("Output sent", self::E_EXIT);
     }
 
     /**
@@ -115,7 +115,7 @@ class OutputHtmlMock extends rcmail_output_html
         //ob_end_clean();
 
         if ($exit) {
-            throw new \Exception("Output sent", self::E_EXIT);
+            throw new ExitException("Output sent", self::E_EXIT);
         }
     }
 

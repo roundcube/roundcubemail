@@ -340,7 +340,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        $this->rc->output->show_message($error ?: 'managesieve.saveerror', 'error');
+        if (empty($error)) {
+            $error = 'managesieve.saveerror';
+        }
+
+        $this->rc->output->show_message($error, 'error');
         $this->rc->output->send();
     }
 
@@ -436,17 +440,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 html::span('input-group-text', $this->plugin->gettext('days')));
         }
 
+        $date_format = $this->rc->config->get('date_format', 'Y-m-d');
+        $time_format = $this->rc->config->get('time_format', 'H:i');
+
         if ($date_extension || $regex_extension) {
-            $date_from   = new html_inputfield(array('name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker form-control', 'size' => 12));
-            $date_to     = new html_inputfield(array('name' => 'vacation_dateto', 'id' => 'vacation_dateto', 'class' => 'datepicker form-control', 'size' => 12));
-            $date_format = $this->rc->config->get('date_format', 'Y-m-d');
+            $date_from = new html_inputfield(array('name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker form-control', 'size' => 12));
+            $date_to   = new html_inputfield(array('name' => 'vacation_dateto', 'id' => 'vacation_dateto', 'class' => 'datepicker form-control', 'size' => 12));
         }
 
         if ($date_extension) {
-            $time_from   = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7, 'class' => 'form-control'));
-            $time_to     = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7, 'class' => 'form-control'));
-            $time_format = $this->rc->config->get('time_format', 'H:i');
-            $date_value  = array();
+            $time_from  = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7, 'class' => 'form-control'));
+            $time_to    = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7, 'class' => 'form-control'));
+            $date_value = array();
 
             foreach ((array) $this->vacation['tests'] as $test) {
                 if ($test['test'] == 'currentdate') {
@@ -501,8 +506,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $action_target = ' <span id="action_target_span" class="input-group"' . (!$redirect ? ' style="display:none"' : '') . '>'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
-            . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
-            . (!empty($domains) ? ' <span class="input-group-append input-group-prepend"><span class="input-group-text">@</span></span>'
+            . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
+            . (!empty($domain_select) ? ' <span class="input-group-append input-group-prepend"><span class="input-group-text">@</span></span>'
                 . $domain_select->show($this->vacation['domain']) : '')
             . '</span>';
 
@@ -514,11 +519,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_reason', $this->plugin->gettext('vacation.body')));
         $table->add(null, $reason->show($this->vacation['reason']));
 
-        if ($date_extension || $regex_extension) {
+        if (!empty($date_from)) {
             $table->add('title', html::label('vacation_datefrom', $this->plugin->gettext('vacation.start')));
-            $table->add(null, $date_from->show($date_value['from']) . ($time_from ? ' ' . $time_from->show($date_value['time_from']) : ''));
+            $table->add(null, $date_from->show($date_value['from']) . (!empty($time_from) ? ' ' . $time_from->show($date_value['time_from']) : ''));
             $table->add('title', html::label('vacation_dateto', $this->plugin->gettext('vacation.end')));
-            $table->add(null, $date_to->show($date_value['to']) . ($time_to ? ' ' . $time_to->show($date_value['time_to']) : ''));
+            $table->add(null, $date_to->show($date_value['to']) . (!empty($time_to) ? ' ' . $time_to->show($date_value['time_to']) : ''));
         }
 
         $table->add('title', html::label('vacation_status', $this->plugin->gettext('vacation.status')));

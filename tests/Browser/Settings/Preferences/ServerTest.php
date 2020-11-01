@@ -6,6 +6,8 @@ use Tests\Browser\Components\App;
 
 class ServerTest extends \Tests\Browser\TestCase
 {
+    private $settings;
+
     public static function setUpBeforeClass()
     {
         \bootstrap::init_db();

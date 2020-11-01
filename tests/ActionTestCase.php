@@ -47,7 +47,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->action = $action;
 
         if ($mode == rcmail_action::MODE_AJAX) {
-            return $rcmail->output = new OutputJsonMock($task);
+            return $rcmail->output = new OutputJsonMock();
         }
 
         $rcmail->output = new OutputHtmlMock($task, $framed);
@@ -166,6 +166,19 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
             if ($db->is_error($result)) {
                 rcube::raise_error($db->is_error(), false, true);
             }
+        }
+    }
+
+    /**
+     * Call the action's run() method and handle exit exception
+     */
+    protected function runAndAssert($action, $expected_code)
+    {
+        try {
+            $action->run();
+        }
+        catch (ExitException $e) {
+            $this->assertSame($expected_code, $e->getCode());
         }
     }
 }
