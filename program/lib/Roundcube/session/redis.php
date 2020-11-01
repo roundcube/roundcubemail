@@ -95,7 +95,7 @@ class rcube_session_redis extends rcube_session {
             }
 
             if ($this->debug) {
-                $this->debug('delete', $key, null, $result);
+                $this->debug('delete', $key, null, isset($result) ? $result : false);
             }
         }
 
@@ -111,6 +111,8 @@ class rcube_session_redis extends rcube_session {
      */
     public function read($key)
     {
+        $value = null;
+
         try {
             $value = $this->redis->get($key);
         }
@@ -147,7 +149,8 @@ class rcube_session_redis extends rcube_session {
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $result = false;
 
             try {
                 $result = $this->redis->setex($key, $this->lifetime + 60, $data);
@@ -179,6 +182,9 @@ class rcube_session_redis extends rcube_session {
         if ($this->ignore_write) {
             return true;
         }
+
+        $result = false;
+        $data   = null;
 
         try {
             $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));

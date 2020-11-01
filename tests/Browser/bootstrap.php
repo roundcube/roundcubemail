@@ -131,7 +131,7 @@ class bootstrap
 
         $imap_host = $rcmail->config->get('default_host');
         $a_host = parse_url($imap_host);
-        if ($a_host['host']) {
+        if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
             $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'));
             $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);

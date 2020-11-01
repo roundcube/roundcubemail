@@ -841,7 +841,7 @@ class rcube_imap_generic
      */
     public function getHierarchyDelimiter()
     {
-        if ($this->prefs['delimiter']) {
+        if (!empty($this->prefs['delimiter'])) {
             return $this->prefs['delimiter'];
         }
 
@@ -1088,7 +1088,7 @@ class rcube_imap_generic
         }
 
         // TLS connection
-        if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
+        if (isset($this->prefs['ssl_mode']) && $this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
             $res = $this->execute('STARTTLS');
 
             if ($res[0] != self::ERROR_OK) {

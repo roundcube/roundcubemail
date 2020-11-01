@@ -18,8 +18,9 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+if (php_sapi_name() != 'cli') {
+    die("Not in shell mode (php-cli)");
+}
 
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
@@ -38,3 +39,12 @@ $include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
 if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
+
+require_once(TESTS_DIR . 'ActionTestCase.php');
+require_once(TESTS_DIR . 'ExitException.php');
+require_once(TESTS_DIR . 'OutputHtmlMock.php');
+require_once(TESTS_DIR . 'OutputJsonMock.php');
+require_once(TESTS_DIR . 'StorageMock.php');
+
+// Initialize database and environment
+ActionTestCase::init();

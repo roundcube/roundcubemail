@@ -588,17 +588,9 @@ class rcube_sieve_engine
                         $this->errors['file'] = $this->plugin->gettext('setcreateerror');
                     }
                 }
-                else {  // upload failed
-                    $err = $_FILES['_file']['error'];
-
-                    if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                        $msg = $this->rc->gettext(array('name' => 'filesizeerror',
-                            'vars' => array('size' =>
-                                $this->rc->show_bytes(rcube_utils::max_upload_size()))));
-                    }
-                    else {
-                        $this->errors['file'] = $this->plugin->gettext('fileuploaderror');
-                    }
+                else {
+                    // upload failed
+                    rcmail_action::upload_error($_FILES['_file']['error']);
                 }
             }
             else if (!$this->sieve->copy($name, $from == 'set' ? $copy : '')) {
@@ -1329,8 +1321,8 @@ class rcube_sieve_engine
 
         $result = $this->list_rules();
 
-        // create XHTML table
-        $out = $this->rc->table_output($attrib, $result, $a_show_cols, 'id');
+        // create the table
+        $out = rcmail_action::table_output($attrib, $result, $a_show_cols, 'id');
 
         // set client env
         $this->rc->output->add_gui_object('filterslist', $attrib['id']);
@@ -1789,19 +1781,19 @@ class rcube_sieve_engine
         if (isset($rule['test']) && in_array($rule['test'], array('header', 'address', 'envelope'))) {
             $custom = (array) $rule['arg1'];
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
-                unset($custom);
+                $custom = null;
             }
         }
         else if (isset($rule['test']) && $rule['test'] == 'string') {
             $customv = (array) $rule['arg1'];
             if (count($customv) == 1 && isset($this->headers[strtolower($customv[0])])) {
-                unset($customv);
+                $customv = null;
             }
         }
         else if (isset($rule['test']) && $rule['test'] == 'exists') {
             $custom = (array) $rule['arg'];
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
-                unset($custom);
+                $custom = null;
             }
         }
 
@@ -2652,7 +2644,7 @@ class rcube_sieve_engine
             $mailbox = '';
         }
 
-        $select = $this->rc->folder_selector(array(
+        $select = rcmail_action::folder_selector(array(
             'maxlength'  => 100,
             'id'         => 'action_mailbox' . $id,
             'name'       => "_action_mailbox[$id]",
@@ -2770,7 +2762,7 @@ class rcube_sieve_engine
             case 'std11':
                 return preg_match('/^((Sun|Mon|Tue|Wed|Thu|Fri|Sat),\s+)?[0-9]{1,2}\s+'
                     . '(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+[0-9]{2,4}\s+'
-                    . '[0-9]{2}:[0-9]{2}(:[0-9]{2})?\s+([+-]*[0-9]{4}|[A-Z]{1,3})/$', $value);
+                    . '[0-9]{2}:[0-9]{2}(:[0-9]{2})?\s+([+-]*[0-9]{4}|[A-Z]{1,3})$/', $value);
             case 'julian':
                 return preg_match('/^[0-9]+$/', $value);
             case 'time': // hh:mm:ss

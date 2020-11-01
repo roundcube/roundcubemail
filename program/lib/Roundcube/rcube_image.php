@@ -61,6 +61,8 @@ class rcube_image
     {
         $gd_type  = null;
         $channels = null;
+        $width    = null;
+        $height   = null;
 
         // use GD extension
         if (function_exists('getimagesize') && ($imsize = @getimagesize($this->image_file))) {
@@ -388,7 +390,7 @@ class rcube_image
                 $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
             }
 
-            if ($result) {
+            if (!empty($result)) {
                 @chmod($filename, 0600);
                 return true;
             }

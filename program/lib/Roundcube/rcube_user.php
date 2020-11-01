@@ -202,7 +202,7 @@ class rcube_user
         // don't save prefs with default values if they haven't been changed yet
         // Warning: we use result of rcube_config::all() here instead of just get() (#5782)
         foreach ($a_user_prefs as $key => $value) {
-            if ($value === null || (!isset($old_prefs[$key]) && $value === $defaults[$key])) {
+            if ($value === null || (!isset($old_prefs[$key]) && isset($defaults[$key]) && $value === $defaults[$key])) {
                 unset($save_prefs[$key]);
             }
         }

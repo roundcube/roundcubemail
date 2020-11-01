@@ -510,7 +510,7 @@ class rcube_imap extends rcube_storage
         if ($imap_delimiter) {
             $this->delimiter = $imap_delimiter;
         }
-        if (empty($this->delimiter)) {
+        if (empty($this->delimiter) && !empty($this->namespace['personal'][0][1])) {
             $this->delimiter = $this->namespace['personal'][0][1];
         }
         if (empty($this->delimiter)) {
@@ -612,7 +612,7 @@ class rcube_imap extends rcube_storage
      */
     public function get_vendor()
     {
-        if ($_SESSION['imap_vendor'] !== null) {
+        if (isset($_SESSION['imap_vendor'])) {
             return $_SESSION['imap_vendor'];
         }
 
@@ -627,13 +627,19 @@ class rcube_imap extends rcube_storage
             return;
         }
 
-        if (($ident = $this->conn->data['ID']) === null && $this->get_capability('ID')) {
+        if (isset($this->conn->data['ID'])) {
+            $ident = $this->conn->data['ID'];
+        }
+        else if ($this->get_capability('ID')) {
             $ident = $this->conn->id(array(
                     'name'    => 'Roundcube',
                     'version' => RCUBE_VERSION,
                     'php'     => PHP_VERSION,
                     'os'      => PHP_OS,
             ));
+        }
+        else {
+            $ident = null;
         }
 
         $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
@@ -926,7 +932,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return rcube_imap_thread Thread data object
+     * @return rcube_result_thread Thread data object
      */
     function threads($folder)
     {
@@ -953,7 +959,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return rcube_imap_thread Thread data object
+     * @return rcube_result_thread Thread data object
      */
     function threads_direct($folder)
     {
@@ -4080,7 +4086,7 @@ class rcube_imap extends rcube_storage
         }
 
         if (isset($res)) {
-            if (!$force) {
+            if (!$force && !empty($cache_key)) {
                 $this->update_cache($cache_key, $res);
             }
 
@@ -4499,7 +4505,11 @@ class rcube_imap extends rcube_storage
         $mode = strtoupper($mode);
         $a_folder_cache = $this->get_cache('messagecount');
 
-        if (!is_array($a_folder_cache[$folder]) || !isset($a_folder_cache[$folder][$mode])) {
+        if (
+            !isset($a_folder_cache[$folder])
+            || !is_array($a_folder_cache[$folder])
+            || !isset($a_folder_cache[$folder][$mode])
+        ) {
             return false;
         }
 
@@ -4524,7 +4534,7 @@ class rcube_imap extends rcube_storage
     {
         $a_folder_cache = $this->get_cache('messagecount');
 
-        if (is_array($a_folder_cache[$folder])) {
+        if (isset($a_folder_cache[$folder]) && is_array($a_folder_cache[$folder])) {
             if (!empty($mode)) {
                 foreach ((array) $mode as $key) {
                     unset($a_folder_cache[$folder][$key]);

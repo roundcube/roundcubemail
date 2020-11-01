@@ -597,7 +597,7 @@ EOF;
         }
 
         $location = $this->app->url($p, false, false, $secure);
-        header('Location: ' . $location);
+        $this->header('Location: ' . $location);
         exit;
     }
 
@@ -687,7 +687,7 @@ EOF;
         $framed = $this->framed || !empty($this->env['framed']);
         if ($framed && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             if (strtolower($xopt) === 'deny') {
-                header('X-Frame-Options: sameorigin', true);
+                $this->header('X-Frame-Options: sameorigin', true);
             }
         }
     }
@@ -901,13 +901,13 @@ EOF;
      */
     public function raise_error($code, $message)
     {
-        global $__page_content, $ERROR_CODE, $ERROR_MESSAGE;
+        $args = [
+            'code'    => $code,
+            'message' => $message,
+        ];
 
-        $ERROR_CODE    = $code;
-        $ERROR_MESSAGE = $message;
-
-        include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
-        exit;
+        $page = new rcmail_action_utils_error;
+        $page->run($args);
     }
 
     /**
@@ -1937,14 +1937,14 @@ EOF;
             $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
 
             if (!headers_sent()) {
-                header('Content-Language: ' . $lang);
+                $this->header('Content-Language: ' . $lang);
             }
         }
 
         // include meta tag with charset
         if (!empty($this->charset)) {
             if (!headers_sent()) {
-                header('Content-Type: text/html; charset=' . $this->charset);
+                $this->header('Content-Type: text/html; charset=' . $this->charset);
             }
 
             $meta .= html::tag('meta', array(
@@ -1966,12 +1966,17 @@ EOF;
         $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         $page_header .= array_reduce(array($this->scripts['head_top'] . $this->scripts['head']), $merge_scripts);
         $page_header .= $this->header . "\n";
-        $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
+
+        if (!empty($this->script_files['head_bottom'])) {
+            $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
+        }
 
         if (!empty($this->script_files['foot'])) {
             $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
         }
+
         $page_footer .= $this->footer . "\n";
+
         if (!empty($this->scripts['foot'])) {
             $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
         }
@@ -2129,16 +2134,18 @@ EOF;
     public function request_form($attrib, $content = '')
     {
         $hidden = new html_hiddenfield();
-        if ($attrib['task']) {
+
+        if (!empty($attrib['task'])) {
             $hidden->add(array('name' => '_task', 'value' => $attrib['task']));
         }
-        if ($attrib['action']) {
+
+        if (!empty($attrib['action'])) {
             $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
         }
 
         // we already have a <form> tag
-        if ($attrib['form']) {
-            if ($this->framed || $this->env['framed']) {
+        if (!empty($attrib['form'])) {
+            if ($this->framed || !empty($this->env['framed'])) {
                 $hidden->add(array('name' => '_framed', 'value' => '1'));
             }
 

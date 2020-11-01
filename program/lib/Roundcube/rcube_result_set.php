@@ -31,14 +31,14 @@ class rcube_result_set implements Iterator, ArrayAccess
     public $count      = 0;
     public $first      = 0;
     public $searchonly = false;
-    public $records    = array();
+    public $records    = [];
 
     private $current = 0;
 
-    function __construct($c=0, $f=0)
+    function __construct($count = 0, $first = 0)
     {
-        $this->count = (int)$c;
-        $this->first = (int)$f;
+        $this->count = (int) $count;
+        $this->first = (int) $first;
     }
 
     function add($rec)
@@ -48,13 +48,17 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     function iterate()
     {
-        return $this->records[$this->current++];
+        $current = $this->current();
+
+        $this->current++;
+
+        return $current;
     }
 
     function first()
     {
         $this->current = 0;
-        return $this->records[$this->current];
+        return $this->current();
     }
 
     function seek($i)
@@ -99,7 +103,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     function current()
     {
-        return $this->records[$this->current];
+        return isset($this->records[$this->current]) ? $this->records[$this->current] : null;
     }
 
     function key()

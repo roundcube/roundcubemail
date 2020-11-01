@@ -490,8 +490,9 @@ class acl extends rcube_plugin
         $self   = $this->rc->get_user_name();
 
         foreach ($users as $user) {
-            $user   = trim($user);
-            $prefix = $this->rc->config->get('acl_groups') ? $this->rc->config->get('acl_group_prefix') : '';
+            $user     = trim($user);
+            $username = '';
+            $prefix   = $this->rc->config->get('acl_groups') ? $this->rc->config->get('acl_group_prefix') : '';
 
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;

@@ -169,7 +169,10 @@ class rcube_db
 
             $this->conn_prepare($dsn);
 
-            $this->dbh = new PDO($dsn_string, $dsn['username'], $dsn['password'], $dsn_options);
+            $username = isset($dsn['username']) ? $dsn['username'] : null;
+            $password = isset($dsn['password']) ? $dsn['password'] : null;
+
+            $this->dbh = new PDO($dsn_string, $username, $password, $dsn_options);
 
             // don't throw exceptions or warnings
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);

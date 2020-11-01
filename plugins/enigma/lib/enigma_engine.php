@@ -1194,10 +1194,10 @@ class enigma_engine
                     $keys[$key] = $value[0];
                 }
             }
-        }
 
-        if (!empty($modified)) {
-            $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
+            if (!empty($modified)) {
+                $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
+            }
         }
 
         return $keys;

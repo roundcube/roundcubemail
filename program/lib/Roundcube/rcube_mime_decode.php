@@ -257,6 +257,8 @@ class rcube_mime_decode
      */
     protected function parseHeaders($input)
     {
+        $return = array();
+
         if ($input !== '') {
             // Unfold the input
             $input   = preg_replace('/' . $this->params['crlf'] . "(\t| )/", ' ', $input);
@@ -275,9 +277,6 @@ class rcube_mime_decode
                     'value' => $this->params['decode_headers'] ? $this->decodeHeader($hdr_value) : $hdr_value,
                 );
             }
-        }
-        else {
-            $return = array();
         }
 
         return $return;

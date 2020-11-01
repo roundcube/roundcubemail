@@ -26,7 +26,8 @@
  */
 class rcube_db_oracle extends rcube_db
 {
-    public $db_provider = 'oracle';
+    public $db_provider    = 'oracle';
+    public $in_transaction = false;
 
 
     /**

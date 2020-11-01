@@ -30,7 +30,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         parent::__construct();
     }
