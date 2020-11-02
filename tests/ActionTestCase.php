@@ -28,6 +28,13 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->shutdown();
     }
 
+    public function setUp()
+    {
+        $_GET     = [];
+        $_POST    = [];
+        $_REQUEST = [];
+    }
+
     /**
      * Initialize the testing suite
      */
@@ -182,10 +189,19 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->output->reset(true);
 
         try {
+            StderrMock::start();
             $action->run();
+            StderrMock::stop();
         }
         catch (ExitException $e) {
             $this->assertSame($expected_code, $e->getCode());
+        }
+        catch (Exception $e) {
+            if ($e->getMessage() == 'Error raised' && $expected_code == OutputHtmlMock::E_EXIT) {
+                return;
+            }
+
+            throw $e;
         }
     }
 }

@@ -119,12 +119,12 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
         $result = $plugin['result'];
 
         if ($plugin['abort']) {
-            exit;
+            $rcmail->output->sendExit();
         }
 
         // send downlaod headers
-        header('Content-Type: text/vcard; charset=' . RCUBE_CHARSET);
-        header('Content-Disposition: attachment; filename="contacts.vcf"');
+        $rcmail->output->header('Content-Type: text/vcard; charset=' . RCUBE_CHARSET);
+        $rcmail->output->header('Content-Disposition: attachment; filename="contacts.vcf"');
 
         while ($result && ($row = $result->next())) {
             if (!empty($CONTACTS)) {
@@ -138,7 +138,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             echo rcube_vcard::rfc2425_fold($row['vcard']) . rcube_vcard::$eol;
         }
 
-        exit;
+        $rcmail->output->sendExit();
     }
 
     /**

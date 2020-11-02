@@ -335,7 +335,7 @@ class rcmail extends rcube
             $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
 
             // plugin returned instance of a rcube_addressbook
-            if ($plugin['instance'] instanceof rcube_addressbook) {
+            if (!empty($plugin['instance']) && $plugin['instance'] instanceof rcube_addressbook) {
                 $contacts = $plugin['instance'];
             }
         }
@@ -483,7 +483,7 @@ class rcmail extends rcube
                 unset($list[$idx]);
             }
             // remove from list if hidden as requested
-            else if ($skip_hidden && $item['hidden']) {
+            else if ($skip_hidden && !empty($item['hidden'])) {
                 unset($list[$idx]);
             }
         }

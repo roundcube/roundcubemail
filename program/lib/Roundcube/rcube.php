@@ -1019,10 +1019,9 @@ class rcube
         }
 
         // default method of securing requests
-        $token   = rcube_utils::get_input_value('_token', $mode);
-        $sess_id = $_COOKIE[ini_get('session.name')];
+        $token = rcube_utils::get_input_value('_token', $mode);
 
-        if (empty($sess_id) || $token !== $sess_tok) {
+        if (empty($_COOKIE[ini_get('session.name')]) || $token !== $sess_tok) {
             $this->request_status = self::REQUEST_ERROR_TOKEN;
             return false;
         }
@@ -1416,6 +1415,9 @@ class rcube
 
         // terminate script
         if ($terminate) {
+            if (defined('ROUNDCUBE_TEST_MODE') && ROUNDCUBE_TEST_MODE) {
+                throw new Exception('Error raised');
+            }
             exit(1);
         }
     }

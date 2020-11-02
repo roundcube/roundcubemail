@@ -2,6 +2,9 @@
     backupGlobals="false"
     bootstrap="bootstrap.php"
     colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="true"
 >
     <testsuites>
         <testsuite name="Framework">

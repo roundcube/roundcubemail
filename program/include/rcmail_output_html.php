@@ -537,8 +537,8 @@ EOF;
     public function reset($all = false)
     {
         $framed = $this->framed;
-        $task   = $this->env['task'];
-        $env    = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $task   = isset($this->env['task']) ? $this->env['task'] : '';
+        $env    = $all ? null : array_intersect_key($this->env, array('extwin' => 1, 'framed' => 1));
 
         // keep jQuery-UI files
         $css_files = $script_files = array();
