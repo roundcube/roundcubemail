@@ -7,6 +7,15 @@
  */
 class Framework_Utils extends PHPUnit\Framework\TestCase
 {
+    /**
+     * Test for rcube_utils::explode()
+     */
+    function test_explode()
+    {
+        $this->assertSame(['test', null], rcube_utils::explode(':', 'test'));
+        $this->assertSame(['test1', 'test2'], rcube_utils::explode(':', 'test1:test2'));
+        $this->assertSame(['', 'test1', 'test2'], rcube_utils::explode(':', ':test1:test2'));
+    }
 
     /**
      * Valid email addresses for test_valid_email()
