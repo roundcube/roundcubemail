@@ -35,12 +35,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
         // reset list_page and old search results
         $rcmail->storage->set_page(1);
-        $rcmail->storage->set_search_set(NULL);
+        $rcmail->storage->set_search_set(null);
         $_SESSION['page'] = 1;
-
-        // using encodeURI with javascript "should" give us
-        // a correctly encoded query string
-        $imap_charset = RCUBE_CHARSET;
 
         // get search string
         $str      = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
@@ -105,11 +101,11 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 $rcmail->output->set_env('mailbox', $mbox);
             }
 
-            $result = $rcmail->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
+            $result = $rcmail->storage->search($mboxes, $search_str, RCUBE_CHARSET, $sort_column);
         }
 
         // save search results in session
-        if (!is_array($_SESSION['search'])) {
+        if (!isset($_SESSION['search']) || !is_array($_SESSION['search'])) {
             $_SESSION['search'] = [];
         }
 
@@ -124,7 +120,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['search_filter']   = $filter;
 
         // Get the headers
-        if (!empty($result) && empty($result->incomplete)) {
+        if (!isset($result) || empty($result->incomplete)) {
             $result_h = $rcmail->storage->list_messages($mbox, 1, $sort_column, $sort_order);
         }
 
@@ -162,7 +158,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $count = 0;
 
             $rcmail->output->show_message('searchnomatch', 'notice');
-            $rcmail->output->set_env('multifolder_listing', isset($result) ? (bool) $result->multi : false);
+            $rcmail->output->set_env('multifolder_listing', isset($result) ? !empty($result->multi) : false);
 
             if (isset($result) && !empty($result->multi) && $scope == 'all') {
                 $rcmail->output->command('select_folder', '');
@@ -180,7 +176,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         self::list_pagetitle();
 
         // update unseen messages count
-        if (empty($search_str)) {
+        if ($search_str === '') {
             self::send_unread_count($mbox, false, empty($result_h) ? 0 : null);
         }
 
