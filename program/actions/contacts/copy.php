@@ -64,7 +64,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 $a_record = $CONTACTS->get_record($cid, true);
 
                 // avoid copying groups
-                if ($a_record['_type'] == 'group') {
+                if (isset($a_record['_type']) && $a_record['_type'] == 'group') {
                     continue;
                 }
 

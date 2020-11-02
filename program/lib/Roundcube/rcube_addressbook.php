@@ -518,7 +518,7 @@ abstract class rcube_addressbook
     public static function compose_display_name($contact, $full_email = false)
     {
         $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
-        $fn = $contact['name'];
+        $fn      = isset($contact['name']) ? $contact['name'] : '';
 
         // default display name composition according to vcard standard
         if (!$fn) {

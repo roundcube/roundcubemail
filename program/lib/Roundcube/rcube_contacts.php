@@ -656,7 +656,7 @@ class rcube_contacts extends rcube_addressbook
             $a_insert_values[] = $this->db->quote($value);
         }
 
-        if (!$existing->count && !empty($a_insert_cols)) {
+        if ((empty($existing) || empty($existing->count)) && !empty($a_insert_cols)) {
             $this->db->query(
                 "INSERT INTO " . $this->db->table_name($this->db_name, true)
                 . " (`user_id`, `changed`, `del`, " . implode(', ', $a_insert_cols) . ")"
@@ -735,11 +735,21 @@ class rcube_contacts extends rcube_addressbook
      */
     private function convert_save_data($save_data, $record = array())
     {
-        $out = array();
+        $out   = array();
         $words = '';
 
+        if (!empty($record['vcard'])) {
+            $vcard = $record['vcard'];
+        }
+        else if (!empty($save_data['vcard'])) {
+            $vcard = $save_data['vcard'];
+        }
+        else {
+            $vcard = '';
+        }
+
         // copy values into vcard object
-        $vcard = new rcube_vcard($record['vcard'] ?: $save_data['vcard'], RCUBE_CHARSET, false, $this->vcard_fieldmap);
+        $vcard = new rcube_vcard($vcard, RCUBE_CHARSET, false, $this->vcard_fieldmap);
         $vcard->reset();
 
         // don't store groups in vCard (#1490277)
@@ -747,8 +757,15 @@ class rcube_contacts extends rcube_addressbook
         unset($save_data['groups']);
 
         foreach ($save_data as $key => $values) {
-            list($field, $section) = explode(':', $key);
+            $field   = $key;
+            $section = '';
+
+            if (strpos($field, ':') > 0) {
+                list($field, $section) = explode(':', $field);
+            }
+
             $fulltext = in_array($field, $this->fulltext_cols);
+
             // avoid casting DateTime objects to array
             if (is_object($values) && is_a($values, 'DateTime')) {
                 $values = array(0 => $values);

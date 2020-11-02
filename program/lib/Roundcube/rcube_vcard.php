@@ -309,11 +309,11 @@ class rcube_vcard
             unset($this->raw[$f]);
         }
 
-        if (!$this->raw['N']) {
+        if (empty($this->raw['N'])) {
             $this->raw['N'] = array(array('','','','',''));
         }
 
-        if (!$this->raw['FN']) {
+        if (empty($this->raw['FN'])) {
             $this->raw['FN'] = array();
         }
 
