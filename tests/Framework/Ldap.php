@@ -13,11 +13,16 @@ class Framework_Ldap extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        // skip this test as we don't want to connect to ldap here
-        $this->markTestSkipped('We do not connect to LDAP');
+        // skip test if Net_LDAP3 does not exist
+        if (!class_exists('Net_LDAP3')) {
+            $this->markTestSkipped('The Net_LDAP3 package not available.');
+        }
 
-        $object = new rcube_ldap(array());
+        StdErrMock::start();
+        $object = new rcube_ldap([]);
+        StdErrMock::stop();
 
         $this->assertInstanceOf('rcube_ldap', $object, "Class constructor");
+        $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
     }
 }

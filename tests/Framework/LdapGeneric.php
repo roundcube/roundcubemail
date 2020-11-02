@@ -14,11 +14,11 @@ class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
     function test_class()
     {
         // skip test if Net_LDAP3 does not exist
-        if (!@class_exists('Net_LDAP3')) {
+        if (!class_exists('Net_LDAP3')) {
             $this->markTestSkipped('The Net_LDAP3 package not available.');
         }
 
-        $object = new rcube_ldap_generic(array());
+        $object = new rcube_ldap_generic([]);
 
         $this->assertInstanceOf('rcube_ldap_generic', $object, "Class constructor");
     }

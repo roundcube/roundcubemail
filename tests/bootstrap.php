@@ -44,6 +44,7 @@ require_once(TESTS_DIR . 'ActionTestCase.php');
 require_once(TESTS_DIR . 'ExitException.php');
 require_once(TESTS_DIR . 'OutputHtmlMock.php');
 require_once(TESTS_DIR . 'OutputJsonMock.php');
+require_once(TESTS_DIR . 'StderrMock.php');
 require_once(TESTS_DIR . 'StorageMock.php');
 
 // Initialize database and environment
