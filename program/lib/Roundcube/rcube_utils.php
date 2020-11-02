@@ -36,6 +36,24 @@ class rcube_utils
 
 
     /**
+     * A wrapper for PHP's explode() that does not throw a warning
+     * when the separator does not exist in the string
+     *
+     * @param string $separator Separator string
+     * @param string $string    The string to explode
+     *
+     * @return array Exploded string. Still an array if there's no separator in the string
+     */
+    public static function explode($separator, $string)
+    {
+        if (strpos($string, $separator) !== false) {
+            return explode($separator, $string);
+        }
+
+        return [$string, null];
+    }
+
+    /**
      * Helper method to set a cookie with the current path and host settings
      *
      * @param string $name      Cookie name

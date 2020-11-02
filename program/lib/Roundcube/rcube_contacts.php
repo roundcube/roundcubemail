@@ -757,12 +757,7 @@ class rcube_contacts extends rcube_addressbook
         unset($save_data['groups']);
 
         foreach ($save_data as $key => $values) {
-            $field   = $key;
-            $section = '';
-
-            if (strpos($field, ':') > 0) {
-                list($field, $section) = explode(':', $field);
-            }
+            list($field, $section) = rcube_utils::explode(':', $key);
 
             $fulltext = in_array($field, $this->fulltext_cols);
 
