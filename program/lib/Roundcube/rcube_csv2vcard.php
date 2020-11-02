@@ -140,7 +140,7 @@ class rcube_csv2vcard
         'user_photo'            => 'photo',
         'url'                   => 'website:homepage',
         'work_company'          => 'organization',
-        'work_dept'             => 'departament',
+        'work_dept'             => 'department',
         'work_fax'              => 'phone:work,fax',
         'work_mobile'           => 'phone:work,cell',
         'work_title'            => 'jobtitle',
