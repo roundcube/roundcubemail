@@ -125,7 +125,10 @@ class OutputHtmlMock extends rcmail_output_html
     public function reset($all = false)
     {
         parent::reset($all);
-        $this->output = '';
+
+        $this->headers  = [];
+        $this->output   = null;
+        $this->template = null;
     }
 
     /**

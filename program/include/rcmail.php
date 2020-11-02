@@ -321,7 +321,7 @@ class rcmail extends rcube
         if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
             $contacts = $this->address_books[$id];
         }
-        else if ($id && $ldap_config[$id]) {
+        else if ($id && !empty($ldap_config[$id])) {
             $domain   = $this->config->mail_domain($_SESSION['storage_host']);
             $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
         }
@@ -1094,6 +1094,8 @@ class rcmail extends rcube
                 $book->close();
             }
         }
+
+        $this->address_books = [];
 
         // write performance stats to logs/console
         if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {

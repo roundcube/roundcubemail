@@ -108,7 +108,10 @@ class OutputJsonMock extends rcmail_output_json
     public function reset()
     {
         parent::reset();
-        $this->output;
+
+        $this->headers     = [];
+        $this->output      = null;
+        $this->header_sent = false;
     }
 
     /**

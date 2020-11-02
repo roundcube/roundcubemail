@@ -561,7 +561,7 @@ EOF;
 
         // let some env variables survive
         $this->env          = $this->js_env = $env;
-        $this->framed       = $framed || $this->env['framed'];
+        $this->framed       = $framed || !empty($this->env['framed']);
         $this->js_labels    = array();
         $this->js_commands  = array();
         $this->scripts      = array();
@@ -646,7 +646,7 @@ EOF;
         }
 
         // Fix assets path on blankpage
-        if ($this->js_env['blankpage']) {
+        if (!empty($this->js_env['blankpage'])) {
             $this->js_env['blankpage'] = $this->asset_url($this->abs_url($this->js_env['blankpage'], true));
         }
 
@@ -1639,7 +1639,7 @@ EOF;
             $element = $attrib['task'] . '.' . $action;
         }
         else {
-            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $action;
+            $element = (!empty($this->env['task']) ? $this->env['task'] . '.' : '') . $action;
         }
 
         if ($disabled_actions === null) {
@@ -1963,7 +1963,10 @@ EOF;
         }
 
         // include scripts into header/footer
-        $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
+        if (!empty($this->script_files['head'])) {
+            $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
+        }
+
         $page_header .= array_reduce(array($this->scripts['head_top'] . $this->scripts['head']), $merge_scripts);
         $page_header .= $this->header . "\n";
 

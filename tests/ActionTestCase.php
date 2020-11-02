@@ -23,6 +23,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         }
 
         self::$files = [];
+
+        $rcmail = rcmail::get_instance();
+        $rcmail->shutdown();
     }
 
     /**
@@ -174,6 +177,10 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
      */
     protected function runAndAssert($action, $expected_code)
     {
+        // Reset output in case we execute the method multiple times in a single test
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->reset(true);
+
         try {
             $action->run();
         }

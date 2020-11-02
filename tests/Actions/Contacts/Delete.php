@@ -32,9 +32,10 @@ class Actions_Contacts_Delete extends ActionTestCase
         $db     = rcmail::get_instance()->get_dbh();
         $query  = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $result = $db->fetch_assoc($query);
+        $cid    = $result['contact_id'];
 
         $_POST = [
-            '_cid'    => $result['contact_id'],
+            '_cid'    => $cid,
             '_source' => '0'
         ];
 
@@ -47,5 +48,18 @@ class Actions_Contacts_Delete extends ActionTestCase
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Contact(s) deleted successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 5 of 5")') !== false);
+
+        $query  = $db->query('SELECT * FROM `contacts` WHERE `contact_id` = ?', $cid);
+        $result = $db->fetch_assoc($query);
+
+        $this->assertTrue(!empty($result['del']));
+    }
+
+    /**
+     * Test deleting from a search result (with multiple sources)
+     */
+    function test_delete_from_search()
+    {
+        $this->markTestIncomplete();
     }
 }
