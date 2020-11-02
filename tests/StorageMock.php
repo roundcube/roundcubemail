@@ -29,6 +29,8 @@ class StorageMock
     public function registerFunction($name, $result = null)
     {
         $this->mocks[] = [$name, $result];
+
+        return $this;
     }
 
     public function __call($name, $arguments)
@@ -50,5 +52,15 @@ class StorageMock
     public function close()
     {
         // do nothing
+    }
+
+    public function get_hierarchy_delimiter()
+    {
+        return '/';
+    }
+
+    public function get_namespace()
+    {
+        return null;
     }
 }
