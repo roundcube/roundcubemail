@@ -24,6 +24,7 @@ if (php_sapi_name() != 'cli') {
 
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
+define('ROUNDCUBE_TEST_MODE', true);
 define('TESTS_DIR', __DIR__ . '/');
 
 if (@is_dir(TESTS_DIR . 'config')) {

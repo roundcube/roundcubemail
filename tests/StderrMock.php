@@ -24,6 +24,7 @@
  */
 class StderrMock extends php_user_filter
 {
+    public static $registered = false;
     public static $redirect;
     public static $output = '';
 
@@ -40,7 +41,11 @@ class StderrMock extends php_user_filter
 
     public static function start()
     {
-        stream_filter_register("redirect", "StderrMock") or die("Failed to register filter");
+        if (!self::$registered) {
+            stream_filter_register("redirect", "StderrMock") or die("Failed to register filter");
+            self::$registered = true;
+        }
+
         self::$output = '';
         self::$redirect = stream_filter_prepend(STDERR, "redirect", STREAM_FILTER_WRITE);
     }

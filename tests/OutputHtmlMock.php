@@ -74,7 +74,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param string $body    The output body
      * @param array  $headers Headers
      */
-    public function sendExit($body, $headers = [])
+    public function sendExit($body = '', $headers = [])
     {
         foreach ($headers as $header) {
             $this->header($header);

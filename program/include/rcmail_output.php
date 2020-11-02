@@ -132,7 +132,7 @@ abstract class rcmail_output extends rcube_output
      * @param string $body    The output body
      * @param array  $headers Headers
      */
-    public function sendExit($body, $headers = [])
+    public function sendExit($body = '', $headers = [])
     {
         foreach ($headers as $header) {
             header($header);

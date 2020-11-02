@@ -67,6 +67,11 @@ abstract class rcube_addressbook
         'email'     => array('limit'=>1)
     );
 
+    /**
+     * vCard additional fields mapping
+     */
+    public $vcard_map = [];
+
     protected $error;
 
     /**
