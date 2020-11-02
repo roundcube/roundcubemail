@@ -85,49 +85,59 @@ class rcube_ldap extends rcube_addressbook
         $fetch_attributes = array('objectClass');
 
         // check if groups are configured
-        if (is_array($p['groups']) && count($p['groups'])) {
+        if (!empty($p['groups']) && is_array($p['groups'])) {
             $this->groups = true;
             // set member field
-            if (!empty($p['groups']['member_attr']))
+            if (!empty($p['groups']['member_attr'])) {
                 $this->prop['member_attr'] = strtolower($p['groups']['member_attr']);
-            else if (empty($p['member_attr']))
+            }
+            else if (empty($p['member_attr'])) {
                 $this->prop['member_attr'] = 'member';
+            }
             // set default name attribute to cn
-            if (empty($this->prop['groups']['name_attr']))
+            if (empty($this->prop['groups']['name_attr'])) {
                 $this->prop['groups']['name_attr'] = 'cn';
-            if (empty($this->prop['groups']['scope']))
+            }
+            if (empty($this->prop['groups']['scope'])) {
                 $this->prop['groups']['scope'] = 'sub';
+            }
             // extend group objectclass => member attribute mapping
-            if (!empty($this->prop['groups']['class_member_attr']))
+            if (!empty($this->prop['groups']['class_member_attr'])) {
                 $this->group_types = array_merge($this->group_types, $this->prop['groups']['class_member_attr']);
+            }
 
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
         }
-        if (is_array($p['group_filters'])) {
-            $this->groups = $this->groups || count($p['group_filters']);
+        if (isset($p['group_filters']) && is_array($p['group_filters'])) {
+            $this->groups = $this->groups || count($p['group_filters']) > 0;
 
             foreach ($p['group_filters'] as $k => $group_filter) {
                 // set default name attribute to cn
-                if (empty($group_filter['name_attr']) && empty($this->prop['groups']['name_attr']))
+                if (empty($group_filter['name_attr']) && empty($this->prop['groups']['name_attr'])) {
                     $this->prop['group_filters'][$k]['name_attr'] = $group_filter['name_attr'] = 'cn';
+                }
 
-                if ($group_filter['name_attr'])
+                if (!empty($group_filter['name_attr'])) {
                     $fetch_attributes[] = $group_filter['name_attr'];
+                }
             }
         }
 
         // fieldmap property is given
-        if (is_array($p['fieldmap'])) {
+        if (isset($p['fieldmap']) && is_array($p['fieldmap'])) {
             $p['fieldmap'] = array_filter($p['fieldmap']);
-            foreach ($p['fieldmap'] as $rf => $lf)
+            foreach ($p['fieldmap'] as $rf => $lf) {
                 $this->fieldmap[$rf] = $this->_attr_name($lf);
+            }
         }
         else if (!empty($p)) {
             // read deprecated *_field properties to remain backwards compatible
-            foreach ($p as $prop => $value)
-                if (!empty($value) && preg_match('/^(.+)_field$/', $prop, $matches))
+            foreach ($p as $prop => $value) {
+                if (!empty($value) && preg_match('/^(.+)_field$/', $prop, $matches)) {
                     $this->fieldmap[$matches[1]] = $this->_attr_name($value);
+                }
+            }
         }
 
         // use fieldmap to advertise supported coltypes to the application
@@ -168,7 +178,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // support for composite address
-        if ($this->coltypes['street'] && $this->coltypes['locality']) {
+        if (!empty($this->coltypes['street']) && !empty($this->coltypes['locality'])) {
             $this->coltypes['address'] = array(
                'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
                'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], (array)$this->coltypes['locality']['subtypes']),
@@ -189,11 +199,11 @@ class rcube_ldap extends rcube_addressbook
                 $this->coltypes['address']['subtypes'] = array('home');
             }
         }
-        else if ($this->coltypes['address']) {
+        else if (!empty($this->coltypes['address'])) {
             $this->coltypes['address'] += array('type' => 'textarea', 'childs' => null, 'size' => 40);
 
             // 'serialized' means the UI has to present a composite address field
-            if ($this->coltypes['address']['serialized']) {
+            if (!empty($this->coltypes['address']['serialized'])) {
                 $childprop = array('type' => 'text');
                 $this->coltypes['address']['type'] = 'composite';
                 $this->coltypes['address']['childs'] = array('street' => $childprop, 'locality' => $childprop, 'zipcode' => $childprop, 'country' => $childprop);
@@ -201,7 +211,10 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // make sure 'required_fields' is an array
-        if (!is_array($this->prop['required_fields'])) {
+        if (!isset($this->prop['required_fields'])) {
+            $this->prop['required_fields'] = [];
+        }
+        else if (!is_array($this->prop['required_fields'])) {
             $this->prop['required_fields'] = (array) $this->prop['required_fields'];
         }
 
@@ -229,7 +242,10 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        $this->sort_col    = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
+        if (!empty($p['sort'])) {
+            $this->sort_col = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
+        }
+
         $this->debug       = $debug;
         $this->mail_domain = $this->prop['mail_domain'] = $mail_domain;
 
@@ -237,14 +253,15 @@ class rcube_ldap extends rcube_addressbook
         $rcube = rcube::get_instance();
         if ($cache_type = $rcube->config->get('ldap_cache', 'db')) {
             $cache_ttl  = $rcube->config->get('ldap_cache_ttl', '10m');
-            $cache_name = 'LDAP.' . asciiwords($this->prop['name']);
+            $cache_name = 'LDAP.' . (!empty($this->prop['name']) ? asciiwords($this->prop['name']) : 'unnamed');
 
             $this->cache = $rcube->get_cache($cache_name, $cache_type, $cache_ttl);
         }
 
         // determine which attributes to fetch
         $this->prop['list_attributes'] = array_unique($fetch_attributes);
-        $this->prop['attributes'] = array_merge(array_values($this->fieldmap), $fetch_attributes);
+        $this->prop['attributes']      = array_merge(array_values($this->fieldmap), $fetch_attributes);
+
         foreach ($rcube->config->get('contactlist_fields') as $col) {
             $this->prop['list_attributes'] = array_merge($this->prop['list_attributes'], $this->_map_field($col));
         }
@@ -267,14 +284,14 @@ class rcube_ldap extends rcube_addressbook
             return true;
         }
 
-        if (!is_array($this->prop['hosts'])) {
-            $this->prop['hosts'] = array($this->prop['hosts']);
+        if (empty($this->prop['hosts'])) {
+            $this->prop['hosts'] = [];
         }
 
         // try to connect + bind for every host configured
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
         // see http://www.php.net/manual/en/function.ldap-connect.php
-        foreach ($this->prop['hosts'] as $host) {
+        foreach ((array) $this->prop['hosts'] as $host) {
             // skip host if connection failed
             if (!$this->ldap->connect($host)) {
                 continue;
@@ -1587,7 +1604,11 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _map_field($field)
     {
-        return (array)$this->coltypes[$field]['attributes'];
+        if (isset($this->coltypes[$field]['attributes'])) {
+            return (array) $this->coltypes[$field]['attributes'];
+        }
+
+        return [];
     }
 
     /**
