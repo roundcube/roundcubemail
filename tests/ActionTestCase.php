@@ -201,6 +201,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 return;
             }
 
+            echo StderrMock::$output;
             throw $e;
         }
     }
