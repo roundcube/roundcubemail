@@ -38,10 +38,11 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
             $rcmail->output->send();
         }
 
-        if (
-            ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST))
-            && ($ids = self::get_cids($source))
-        ) {
+        $gid    = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST);
+        $ids    = self::get_cids($source);
+        $result = false;
+
+        if ($gid && $ids) {
             $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                     'group_id' => $gid,
                     'ids'      => $ids,
@@ -65,18 +66,18 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
             else {
                 $result = $plugin['result'];
             }
+        }
 
-            if ($result) {
-                $rcmail->output->show_message('contactaddedtogroup', 'confirmation');
-            }
-            else if (!empty($plugin['abort']) || $contacts->get_error()) {
-                $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
-                $rcmail->output->show_message($error, 'error');
-            }
-            else {
-                $message = !empty($plugin['message']) ? $plugin['message'] : 'nogroupassignmentschanged';
-                $rcmail->output->show_message($message);
-            }
+        if ($result) {
+            $rcmail->output->show_message('contactaddedtogroup', 'confirmation');
+        }
+        else if (!empty($plugin['abort']) || $contacts->get_error()) {
+            $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+            $rcmail->output->show_message($error, 'error');
+        }
+        else {
+            $message = !empty($plugin['message']) ? $plugin['message'] : 'nogroupassignmentschanged';
+            $rcmail->output->show_message($message);
         }
 
         // send response
