@@ -570,8 +570,12 @@ $config['skin_include_php'] = false;
 // 0 - hide product name and version number, 1 - show product name only, 2 - show product name and version number
 $config['display_product_info'] = 1;
 
-// Session lifetime in minutes
+// Session lifetime in minutes (server side)
 $config['session_lifetime'] = 10;
+
+// Cookie lifetime in minutes for session id and auth cookies
+// 0 - session cookies (expire on browser exit)
+$config['cookie_lifetime'] = 0;
 
 // Session domain: .example.org
 $config['session_domain'] = '';
