@@ -48,7 +48,8 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
 
             if (
                 in_array(strtolower($imageprop['type']), self::$IMAGE_TYPES)
-                && $imageprop['width'] && $imageprop['height']
+                && $imageprop['width']
+                && $imageprop['height']
             ) {
                 $maxsize   = intval($rcmail->config->get('contact_photo_size', 160));
                 $tmpfname  = rcube_utils::temp_filename('imgconvert');

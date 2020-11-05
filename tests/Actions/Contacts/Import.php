@@ -8,12 +8,36 @@
 class Actions_Contacts_Import extends ActionTestCase
 {
     /**
-     * Class constructor
+     * Test run() method
      */
-    function test_class()
+    function test_run_init()
     {
-        $object = new rcmail_action_contacts_import;
+        $action = new rcmail_action_contacts_import;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'import');
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertTrue($action->checks());
+
+        self::initDB('contacts');
+
+        $_GET = [];
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame('contactimport', $output->template);
+        $this->assertSame('Import contacts', $output->getProperty('pagetitle'));
+        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(strpos($result, "rcmail.gui_object('importform', 'rcmImportForm');") !== false);
+    }
+
+    /**
+     * Test run() method
+     */
+    function test_run_steps()
+    {
+        // TODO: Test all import steps
+        $this->markTestIncomplete();
     }
 }

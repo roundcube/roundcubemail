@@ -534,7 +534,7 @@ abstract class rcube_addressbook
 
         // use email address part for name
         $email = self::get_col_values('email', $contact, true);
-        $email = $email[0];
+        $email = isset($email[0]) ? $email[0] : null;
 
         if ($email && (empty($fn) || $fn == $email)) {
             // return full email

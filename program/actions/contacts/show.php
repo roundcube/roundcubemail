@@ -19,6 +19,8 @@
 
 class rcmail_action_contacts_show extends rcmail_action_contacts_index
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -204,7 +206,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
 
         foreach ($groups as $group) {
             $gid   = $group['ID'];
-            $input = $checkbox->show($members[$gid] ? $gid : null, ['value' => $gid]);
+            $input = $checkbox->show(!empty($members[$gid]) ? $gid : null, ['value' => $gid]);
             $table->add(null, html::label(null, $input . rcube::Q($group['name'])));
         }
 

@@ -20,6 +20,8 @@
 
 class rcmail_action_contacts_photo extends rcmail_action_contacts_index
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -105,17 +107,13 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         if ($data) {
-            header('Content-Type: ' . rcube_mime::image_content_type($data));
-            echo $data;
-        }
-        else if (!empty($_GET['_error'])) {
-            header('HTTP/1.0 404 Photo not found');
-        }
-        else {
-            header('Content-Type: image/gif');
-            echo base64_decode(rcmail_output::BLANK_GIF);
+            $rcmail->output->sendExit($data, ['Content-Type: ' . rcube_mime::image_content_type($data)]);
         }
 
-        exit;
+        if (!empty($_GET['_error'])) {
+            $rcmail->output->sendExit('', ['HTTP/1.0 404 Photo not found']);
+        }
+
+        $rcmail->output->sendExit(base64_decode(rcmail_output::BLANK_GIF), ['Content-Type: image/gif']);
     }
 }

@@ -8,16 +8,6 @@
 class Actions_Contacts_Export extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_contacts_export;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test exporting all contacts
      */
     function test_export_all()
@@ -25,6 +15,7 @@ class Actions_Contacts_Export extends ActionTestCase
         $action = new rcmail_action_contacts_export;
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
 
+        $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

@@ -8,16 +8,6 @@
 class Actions_Contacts_Delete extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_contacts_delete;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test deleting of a single existing contact
      */
     function test_delete_single_existing_contact()
@@ -25,6 +15,7 @@ class Actions_Contacts_Delete extends ActionTestCase
         $action = new rcmail_action_contacts_delete;
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'delete');
 
+        $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

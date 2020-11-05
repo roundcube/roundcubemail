@@ -19,6 +19,8 @@
 
 class rcmail_action_contacts_save extends rcmail_action_contacts_index
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -27,7 +29,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
-        $CONTACTS      = self::contact_source(null, true, true);
+        $contacts      = self::contact_source(null, true);
         $cid           = rcube_utils::get_input_value('_cid', rcube_utils::INPUT_POST);
         $source        = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
         $return_action = empty($cid) ? 'add' : 'edit';
@@ -39,14 +41,193 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         }
 
         // cannot edit record
-        if ($CONTACTS->readonly) {
+        if (!$contacts || $contacts->readonly) {
             $rcmail->output->show_message('contactreadonly', 'error');
             $rcmail->overwrite_action($return_action);
             return;
         }
 
         // read POST values into hash array
-        $a_record = [];
+        $a_record = self::process_input();
+
+        // do input checks (delegated to $contacts instance)
+        if (!$contacts->validate($a_record)) {
+            $err = (array) $contacts->get_error();
+            $rcmail->output->show_message(!empty($err['message']) ? rcube::Q($err['message']) : 'formincomplete', 'warning');
+            $rcmail->overwrite_action($return_action, ['contact' => $a_record]);
+            return;
+        }
+
+        // get raw photo data if changed
+        if (isset($a_record['photo'])) {
+            if ($a_record['photo'] == '-del-') {
+                $a_record['photo'] = '';
+            }
+            else if (!empty($_SESSION['contacts']['files'][$a_record['photo']])) {
+                $tempfile = $_SESSION['contacts']['files'][$a_record['photo']];
+                $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
+                if ($tempfile['status']) {
+                    $a_record['photo'] = $tempfile['data'] ?: @file_get_contents($tempfile['path']);
+                }
+            }
+            else {
+                unset($a_record['photo']);
+            }
+
+            // cleanup session data
+            $rcmail->plugins->exec_hook('attachments_cleanup', ['group' => 'contact']);
+            $rcmail->session->remove('contacts');
+        }
+
+        // update an existing contact
+        if (!empty($cid)) {
+            $plugin = $rcmail->plugins->exec_hook('contact_update', [
+                    'id'     => $cid,
+                    'record' => $a_record,
+                    'source' => $source
+            ]);
+
+            $a_record = $plugin['record'];
+
+            if (!$plugin['abort']) {
+                $result = $contacts->update($cid, $a_record);
+            }
+            else {
+                $result = $plugin['result'];
+            }
+
+            if ($result) {
+                // show confirmation
+                $rcmail->output->show_message('successfullysaved', 'confirmation', null, false);
+
+                // in search mode, just reload the list (#1490015)
+                if (!empty($_REQUEST['_search'])) {
+                    $rcmail->output->command('parent.command', 'list');
+                    $rcmail->output->send('iframe');
+                }
+
+                $newcid = null;
+
+                // LDAP DN change
+                if (is_string($result) && strlen($result) > 1) {
+                    $newcid = $result;
+                    // change cid in POST for 'show' action
+                    $_POST['_cid'] = $newcid;
+                }
+
+                // refresh contact data for list update and 'show' action
+                $contact = $contacts->get_record($newcid ?: $cid, true);
+
+                // Plugins can decide to remove the contact on edit, e.g. automatic_addressbook
+                // Best we can do is to refresh the list (#5522)
+                if (empty($contact)) {
+                    $rcmail->output->command('parent.command', 'list');
+                    $rcmail->output->send('iframe');
+                }
+
+                // Update contacts list
+                $a_js_cols = [];
+                $record    = $contact;
+                $record['email'] = reset($contacts->get_col_values('email', $record, true));
+                $record['name']  = rcube_addressbook::compose_list_name($record);
+
+                foreach (['name'] as $col) {
+                    $a_js_cols[] = rcube::Q((string) $record[$col]);
+                }
+
+                // performance: unset some big data items we don't need here
+                $record = array_intersect_key($record, ['ID' => 1,'email' => 1,'name' => 1]);
+                $record['_type'] = 'person';
+
+                // update the changed col in list
+                $rcmail->output->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
+
+                $rcmail->overwrite_action('show', ['contact' => $contact]);
+            }
+            else {
+                // show error message
+                $error = self::error_str($contacts, $plugin);
+
+                $rcmail->output->show_message($error, 'error', null, false);
+                $rcmail->overwrite_action('show');
+            }
+        }
+        // insert a new contact
+        else {
+            // Name of the addressbook already selected on the list
+            $orig_source = rcube_utils::get_input_value('_orig_source', rcube_utils::INPUT_GPC);
+
+            if (!strlen($source)) {
+                $source = $orig_source;
+            }
+
+            // show notice if existing contacts with same e-mail are found
+            foreach ($contacts->get_col_values('email', $a_record, true) as $email) {
+                if ($email && ($res = $contacts->search('email', $email, 1, false, true)) && $res->count) {
+                    $rcmail->output->show_message('contactexists', 'notice', null, false);
+                    break;
+                }
+            }
+
+            $plugin = $rcmail->plugins->exec_hook('contact_create', [
+                    'record' => $a_record,
+                    'source' => $source
+            ]);
+
+            $a_record = $plugin['record'];
+
+            // insert record and send response
+            if (!$plugin['abort']) {
+                $insert_id = $contacts->insert($a_record);
+            }
+            else {
+                $insert_id = $plugin['result'];
+            }
+
+            if ($insert_id) {
+                $contacts->reset();
+
+                // add new contact to the specified group
+                if ($contacts->groups && $contacts->group_id) {
+                    $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
+                            'group_id' => $contacts->group_id,
+                            'ids'      => $insert_id,
+                            'source'   => $source
+                    ]);
+
+                    if (!$plugin['abort']) {
+                        if (($maxnum = $rcmail->config->get('max_group_members', 0)) && ($contacts->count()->count + 1 > $maxnum)) {
+                            // @FIXME: should we remove the contact?
+                            $msgtext = $rcmail->gettext(['name' => 'maxgroupmembersreached', 'vars' => ['max' => $maxnum]]);
+                            $rcmail->output->command('parent.display_message', $msgtext, 'warning');
+                        }
+                        else {
+                            $contacts->add_to_group($plugin['group_id'], $plugin['ids']);
+                        }
+                    }
+                }
+
+                // show confirmation
+                $rcmail->output->show_message('successfullysaved', 'confirmation', null, false);
+
+                $rcmail->output->command('parent.set_rowcount', $rcmail->gettext('loading'));
+                $rcmail->output->command('parent.list_contacts');
+
+                $rcmail->output->send('iframe');
+            }
+            else {
+                // show error message
+                $error = self::error_str($contacts, $plugin);
+                $rcmail->output->show_message($error, 'error', null, false);
+                $rcmail->overwrite_action('add');
+            }
+        }
+    }
+
+    public static function process_input()
+    {
+        $record = [];
+
         foreach (rcmail_action_contacts_index::$CONTACT_COLTYPES as $col => $colprop) {
             if (!empty($colprop['composite'])) {
                 continue;
@@ -74,7 +255,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 foreach ($subtypes as $i => $subtype) {
                     $suffix = $subtype ? ":$subtype" : '';
                     if ($values[$i]) {
-                        $a_record[$col . $suffix][] = $values[$i];
+                        $record[$col . $suffix][] = $values[$i];
                     }
                 }
             }
@@ -93,205 +274,36 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     }
 
                     $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
-                    $a_record[$col.$subtype][] = $val;
+                    $record[$col.$subtype][] = $val;
                 }
             }
             else if (isset($_POST[$fname])) {
-                $a_record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings
                 if ($colprop['type'] == 'date') {
-                    if ($a_record[$col] && ($dt = rcube_utils::anytodatetime($a_record[$col]))) {
-                        $a_record[$col] = $dt->format('Y-m-d');
+                    if ($record[$col] && ($dt = rcube_utils::anytodatetime($record[$col]))) {
+                        $record[$col] = $dt->format('Y-m-d');
                     }
                     else {
-                        unset($a_record[$col]);
+                        unset($record[$col]);
                     }
                 }
             }
         }
 
         // Generate contact's display name (must be before validation)
-        if (empty($a_record['name'])) {
-            $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
+        if (empty($record['name'])) {
+            $record['name'] = rcube_addressbook::compose_display_name($record, true);
 
             // Reset it if equals to email address (from compose_display_name())
-            $email = rcube_addressbook::get_col_values('email', $a_record, true);
-            if ($a_record['name'] == $email[0]) {
-                $a_record['name'] = '';
+            $email = rcube_addressbook::get_col_values('email', $record, true);
+            if (isset($email[0]) && $record['name'] == $email[0]) {
+                $record['name'] = '';
             }
         }
 
-        // do input checks (delegated to $CONTACTS instance)
-        if (!$CONTACTS->validate($a_record)) {
-            $err = (array) $CONTACTS->get_error();
-            $rcmail->output->show_message(!empty($err['message']) ? rcube::Q($err['message']) : 'formincomplete', 'warning');
-            $rcmail->overwrite_action($return_action, ['contact' => $a_record]);
-            return;
-        }
-
-        // get raw photo data if changed
-        if (isset($a_record['photo'])) {
-            if ($a_record['photo'] == '-del-') {
-                $a_record['photo'] = '';
-            }
-            else if ($tempfile = $_SESSION['contacts']['files'][$a_record['photo']]) {
-                $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
-                if ($tempfile['status'])
-                    $a_record['photo'] = $tempfile['data'] ?: @file_get_contents($tempfile['path']);
-            }
-            else {
-                unset($a_record['photo']);
-            }
-
-            // cleanup session data
-            $rcmail->plugins->exec_hook('attachments_cleanup', ['group' => 'contact']);
-            $rcmail->session->remove('contacts');
-        }
-
-        // update an existing contact
-        if (!empty($cid)) {
-            $plugin = $rcmail->plugins->exec_hook('contact_update', [
-                    'id'     => $cid,
-                    'record' => $a_record,
-                    'source' => $source
-            ]);
-
-            $a_record = $plugin['record'];
-
-            if (!$plugin['abort']) {
-                $result = $CONTACTS->update($cid, $a_record);
-            }
-            else {
-                $result = $plugin['result'];
-            }
-
-            if ($result) {
-                // show confirmation
-                $rcmail->output->show_message('successfullysaved', 'confirmation', null, false);
-
-                // in search mode, just reload the list (#1490015)
-                if (!empty($_REQUEST['_search'])) {
-                    $rcmail->output->command('parent.command', 'list');
-                    $rcmail->output->send('iframe');
-                }
-
-                $newcid = null;
-
-                // LDAP DN change
-                if (is_string($result) && strlen($result) > 1) {
-                    $newcid = $result;
-                    // change cid in POST for 'show' action
-                    $_POST['_cid'] = $newcid;
-                }
-
-                // refresh contact data for list update and 'show' action
-                $contact = $CONTACTS->get_record($newcid ?: $cid, true);
-
-                // Plugins can decide to remove the contact on edit, e.g. automatic_addressbook
-                // Best we can do is to refresh the list (#5522)
-                if (empty($contact)) {
-                    $rcmail->output->command('parent.command', 'list');
-                    $rcmail->output->send('iframe');
-                }
-
-                // Update contacts list
-                $a_js_cols = [];
-                $record    = $contact;
-                $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
-                $record['name']  = rcube_addressbook::compose_list_name($record);
-
-                foreach (['name'] as $col) {
-                    $a_js_cols[] = rcube::Q((string) $record[$col]);
-                }
-
-                // performance: unset some big data items we don't need here
-                $record = array_intersect_key($record, ['ID' => 1,'email' => 1,'name' => 1]);
-                $record['_type'] = 'person';
-
-                // update the changed col in list
-                $rcmail->output->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
-
-                $rcmail->overwrite_action('show', ['contact' => $contact]);
-            }
-            else {
-                // show error message
-                $error = self::error_str($CONTACTS, $plugin);
-
-                $rcmail->output->show_message($error, 'error', null, false);
-                $rcmail->overwrite_action('show');
-            }
-        }
-        // insert a new contact
-        else {
-            // Name of the addressbook already selected on the list
-            $orig_source = rcube_utils::get_input_value('_orig_source', rcube_utils::INPUT_GPC);
-
-            if (!strlen($source)) {
-                $source = $orig_source;
-            }
-
-            // show notice if existing contacts with same e-mail are found
-            foreach ($CONTACTS->get_col_values('email', $a_record, true) as $email) {
-                if ($email && ($res = $CONTACTS->search('email', $email, 1, false, true)) && $res->count) {
-                    $rcmail->output->show_message('contactexists', 'notice', null, false);
-                    break;
-                }
-            }
-
-            $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                    'record' => $a_record,
-                    'source' => $source
-            ]);
-
-            $a_record = $plugin['record'];
-
-            // insert record and send response
-            if (!$plugin['abort']) {
-                $insert_id = $CONTACTS->insert($a_record);
-            }
-            else {
-                $insert_id = $plugin['result'];
-            }
-
-            if ($insert_id) {
-                $CONTACTS->reset();
-
-                // add new contact to the specified group
-                if ($CONTACTS->groups && $CONTACTS->group_id) {
-                    $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                            'group_id' => $CONTACTS->group_id,
-                            'ids'      => $insert_id,
-                            'source'   => $source
-                    ]);
-
-                    if (!$plugin['abort']) {
-                        if (($maxnum = $rcmail->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum)) {
-                            // @FIXME: should we remove the contact?
-                            $msgtext = $rcmail->gettext(['name' => 'maxgroupmembersreached', 'vars' => ['max' => $maxnum]]);
-                            $rcmail->output->command('parent.display_message', $msgtext, 'warning');
-                        }
-                        else {
-                            $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
-                        }
-                    }
-                }
-
-                // show confirmation
-                $rcmail->output->show_message('successfullysaved', 'confirmation', null, false);
-
-                $rcmail->output->command('parent.set_rowcount', $rcmail->gettext('loading'));
-                $rcmail->output->command('parent.list_contacts');
-
-                $rcmail->output->send('iframe');
-            }
-            else {
-                // show error message
-                $error = self::error_str($CONTACTS, $plugin);
-                $rcmail->output->show_message($error, 'error', null, false);
-                $rcmail->overwrite_action('add');
-            }
-        }
+        return $record;
     }
 
     public static function error_str($contacts, $plugin)

@@ -19,6 +19,8 @@
 
 class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -30,6 +32,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         $cids   = self::get_cids();
         $source = key($cids);
         $cid    = $cids ? array_shift($cids[$source]) : null;
+        $rcmail = rcmail::get_instance();
 
         // read contact record
         $abook   = self::contact_source($source, true);
@@ -37,19 +40,23 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 
         // generate QR code image
         if ($data = self::contact_qrcode($contact)) {
-            header('Content-Type: image/png');
-            header('Content-Length: ' . strlen($data));
-            echo $data;
-        }
-        else {
-            header('HTTP/1.0 404 Contact not found');
+            $headers = [
+                'Content-Type: image/png',
+                'Content-Length: ' . strlen($data)
+            ];
+
+            $rcmail->output->sendExit($data, $headers);
         }
 
-        exit;
+        $rcmail->output->sendExit('', ['HTTP/1.0 404 Contact not found']);
     }
 
     public static function contact_qrcode($contact)
     {
+        if (empty($contact)) {
+            return null;
+        }
+
         $vcard = new rcube_vcard();
 
         // QR code input is limited, use only common fields
@@ -57,7 +64,13 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
             'organization', 'phone', 'email', 'jobtitle', 'prefix', 'suffix'];
 
         foreach ($contact as $field => $value) {
-            list($field, $section) = explode(':', $field, 2);
+            if (strpos($field, ':') !== false) {
+                list($field, $section) = explode(':', $field, 2);
+            }
+            else {
+                $section = null;
+            }
+
             if (in_array($field, $fields)) {
                 foreach ((array) $value as $v) {
                     $vcard->set($field, $v, $section);

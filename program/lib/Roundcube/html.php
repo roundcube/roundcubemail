@@ -1000,7 +1000,7 @@ class html_table extends html
     private function _row_tagname()
     {
         static $row_tagnames = array('table' => 'tr', 'ul' => 'li', '*' => 'div');
-        return $row_tagnames[$this->tagname] ?: $row_tagnames['*'];
+        return !empty($row_tagnames[$this->tagname]) ? $row_tagnames[$this->tagname] : $row_tagnames['*'];
     }
 
     /**
@@ -1009,7 +1009,7 @@ class html_table extends html
     private function _head_tagname()
     {
         static $head_tagnames = array('table' => 'th', '*' => 'span');
-        return $head_tagnames[$this->tagname] ?: $head_tagnames['*'];
+        return !empty($head_tagnames[$this->tagname]) ? $head_tagnames[$this->tagname] : $head_tagnames['*'];
     }
 
     /**
@@ -1018,6 +1018,6 @@ class html_table extends html
     private function _col_tagname()
     {
         static $col_tagnames = array('table' => 'td', '*' => 'span');
-        return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
+        return !empty($col_tagnames[$this->tagname]) ? $col_tagnames[$this->tagname] : $col_tagnames['*'];
     }
 }

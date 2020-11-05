@@ -590,7 +590,7 @@ abstract class rcmail_action
      */
     public static function upload_failure()
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] != 'POST') {
             return false;
         }
 

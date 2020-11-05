@@ -69,10 +69,10 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
             $ids = [];
 
             foreach ($source_cids as $idx => $cid) {
-                $a_record = $CONTACTS->get_record($cid, true);
+                $record = $CONTACTS->get_record($cid, true);
 
                 // avoid moving groups
-                if ($a_record['_type'] == 'group') {
+                if (isset($record['_type']) && $record['_type'] == 'group') {
                     unset($source_cids[$idx]);
                     continue;
                 }
@@ -80,13 +80,13 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 // Check if contact exists, if so, we'll need it's ID
                 // Note: Some addressbooks allows empty email address field
                 // @TODO: should we check all email addresses?
-                $email = $CONTACTS->get_col_values('email', $a_record, true);
+                $email = $CONTACTS->get_col_values('email', $record, true);
 
                 if (!empty($email)) {
                     $result = $TARGET->search('email', $email[0], 1, true, true);
                 }
-                else if (!empty($a_record['name'])) {
-                    $result = $TARGET->search('name', $a_record['name'], 1, true, true);
+                else if (!empty($record['name'])) {
+                    $result = $TARGET->search('name', $record['name'], 1, true, true);
                 }
                 else {
                     $result = new rcube_result_set();
@@ -95,7 +95,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 // insert contact record
                 if (!$result->count) {
                     $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                            'record' => $a_record,
+                            'record' => $record,
                             'source' => $target,
                             'group'  => $target_group
                     ]);
