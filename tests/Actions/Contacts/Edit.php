@@ -8,16 +8,6 @@
 class Actions_Contacts_Edit extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_contacts_edit;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test run() method in edit mode
      */
     function test_run_edit_mode()
@@ -25,6 +15,7 @@ class Actions_Contacts_Edit extends ActionTestCase
         $action = new rcmail_action_contacts_edit;
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
 
+        $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

@@ -33,14 +33,17 @@ class rcmail_action_contacts_search_delete extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
         $id     = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_POST);
+        $result = false;
 
-        $plugin = $rcmail->plugins->exec_hook('saved_search_delete', ['id' => $id]);
+        if (!empty($id)) {
+            $plugin = $rcmail->plugins->exec_hook('saved_search_delete', ['id' => $id]);
 
-        if (empty($plugin['abort'])) {
-            $result = $rcmail->user->delete_search($id);
-        }
-        else {
-            $result = $plugin['result'];
+            if (empty($plugin['abort'])) {
+                $result = $rcmail->user->delete_search($id);
+            }
+            else {
+                $result = $plugin['result'];
+            }
         }
 
         if ($result) {

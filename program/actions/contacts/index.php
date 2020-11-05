@@ -359,6 +359,11 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // Get object
         $contacts = $rcmail->get_address_book($source, $writable);
+
+        if (!$contacts) {
+            return null;
+        }
+
         $contacts->set_pagesize($page_size);
 
         // set list properties and session vars
@@ -406,7 +411,7 @@ class rcmail_action_contacts_index extends rcmail_action
             }
         }
 
-        $rcmail->output->set_env('photocol', is_array(self::$CONTACT_COLTYPES['photo']));
+        $rcmail->output->set_env('photocol', !empty(self::$CONTACT_COLTYPES['photo']));
 
         return $contacts;
     }
@@ -1413,6 +1418,9 @@ class rcmail_action_contacts_index extends rcmail_action
     /**
      * Returns contact ID(s) and source(s) from GET/POST data
      *
+     * @param string $filter       Return contact identifier for this specific source
+     * @param int    $request_type Type of the input var (rcube_utils::INPUT_*)
+     *
      * @return array List of contact IDs per-source
      */
     public static function get_cids($filter = null, $request_type = rcube_utils::INPUT_GPC)
@@ -1460,6 +1468,13 @@ class rcmail_action_contacts_index extends rcmail_action
         return $filter !== null ? $result[$filter] : $result;
     }
 
+    /**
+     * Returns HTML code for an addressbook selector
+     *
+     * @param array $attrib Template object attributes
+     *
+     * @return string HTML code of a <select> element, or <span> if there's only one writeable source
+     */
     public static function source_selector($attrib)
     {
         $rcmail       = rcmail::get_instance();

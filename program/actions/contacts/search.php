@@ -30,7 +30,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
     {
         $rcmail = rcmail::get_instance();
 
-        if (!isset($_GET['_form'])) {
+        if (empty($_GET['_form'])) {
             self::contact_search();
         }
 
@@ -68,13 +68,13 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         // quick-search
         else {
             $search = trim(rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true));
-            $fields = explode(',', rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET));
+            $fields = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
             }
             else {
-                $fields = array_filter($fields);
+                $fields = array_filter(explode(',', $fields));
             }
 
             // update search_mods setting
@@ -255,14 +255,17 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // build form fields list
         foreach ($coltypes as $col => $colprop) {
-            if ($colprop['type'] != 'image' && !$colprop['nosearch']) {
+            if (!isset($colprop['type'])) {
+                $colprop['type'] = 'text';
+            }
+            if ($colprop['type'] != 'image' && empty($colprop['nosearch'])) {
                 $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
                 $label    = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
                 $category = !empty($colprop['category']) ? $colprop['category'] : 'other';
 
                 // load jquery UI datepicker for date fields
                 if ($colprop['type'] == 'date') {
-                    $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
+                    $colprop['class'] = (!empty($colprop['class']) ? $colprop['class'] . ' ' : '') . 'datepicker';
                 }
                 else if ($ftype == 'text') {
                     $colprop['size'] = $i_size;

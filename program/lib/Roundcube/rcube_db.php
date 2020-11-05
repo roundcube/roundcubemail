@@ -513,7 +513,7 @@ class rcube_db
         $in  = false;
 
         while ($pos = strpos($query, $quote, $pos)) {
-            if ($query[$pos+1] == $quote) {  // skip escaped quote
+            if (isset($query[$pos+1]) && $query[$pos+1] == $quote) {  // skip escaped quote
                 $pos += 2;
             }
             else {

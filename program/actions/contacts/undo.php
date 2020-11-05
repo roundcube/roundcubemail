@@ -29,35 +29,38 @@ class rcmail_action_contacts_undo extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $undo   = $_SESSION['contact_undo'];
         $delcnt = 0;
 
-        foreach ((array) $undo['data'] as $source => $cid) {
-            $contacts = self::contact_source($source);
+        if (!empty($_SESSION['contact_undo']) && !empty($_SESSION['contact_undo']['data'])) {
+            foreach ((array) $_SESSION['contact_undo']['data'] as $source => $cid) {
+                $contacts = self::contact_source($source);
 
-            $plugin = $rcmail->plugins->exec_hook('contact_undelete', [
-                    'id'     => $cid,
-                    'source' => $source
-            ]);
+                $plugin = $rcmail->plugins->exec_hook('contact_undelete', [
+                        'id'     => $cid,
+                        'source' => $source
+                ]);
 
-            $restored = empty($plugin['abort']) ? $contacts->undelete($cid) : $plugin['result'];
+                $restored = empty($plugin['abort']) ? $contacts->undelete($cid) : $plugin['result'];
 
-            if (!$restored) {
-                $error = !empty($plugin['message']) ? $plugin['message'] : 'contactrestoreerror';
+                if (!$restored) {
+                    $error = !empty($plugin['message']) ? $plugin['message'] : 'contactrestoreerror';
 
-                $rcmail->output->show_message($error, 'error');
-                $rcmail->output->command('list_contacts');
-                $rcmail->output->send();
-            }
-            else {
-                $delcnt += $restored;
+                    $rcmail->output->show_message($error, 'error');
+                    $rcmail->output->command('list_contacts');
+                    $rcmail->output->send();
+                }
+                else {
+                    $delcnt += $restored;
+                }
             }
         }
 
         $rcmail->session->remove('contact_undo');
 
-        $rcmail->output->show_message('contactrestored', 'confirmation');
-        $rcmail->output->command('list_contacts');
+        if ($delcnt) {
+            $rcmail->output->show_message('contactrestored', 'confirmation');
+            $rcmail->output->command('list_contacts');
+        }
 
         // send response
         $rcmail->output->send();

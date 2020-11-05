@@ -379,7 +379,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $params = $_SESSION['contactcsvimport']['params'];
 
         // hide groups field from list when group import disabled
-        if ($params['with_groups'] == 0) {
+        if (empty($params['with_groups'])) {
             unset($params['fields']['groups']);
         }
 
@@ -456,11 +456,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
     /**
      * Returns the matching group id. If group doesn't exist, it'll be created if allowed.
      */
-    public static function import_group_id($group_name, $CONTACTS, $create, &$import_groups)
+    public static function import_group_id($group_name, $contacts, $create, &$import_groups)
     {
         $group_id = 0;
         foreach ($import_groups as $group) {
-            if (strtolower($group['name']) == strtolower($group_name)) {
+            if (strtolower($group['name']) === strtolower($group_name)) {
                 $group_id = $group['ID'];
                 break;
             }
@@ -468,9 +468,9 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
         // create a new group
         if (!$group_id && $create) {
-            $new_group = $CONTACTS->create_group($group_name);
+            $new_group = $contacts->create_group($group_name);
 
-            if (!$new_group['ID']) {
+            if (empty($new_group['ID'])) {
                 $new_group['ID'] = $new_group['id'];
             }
 

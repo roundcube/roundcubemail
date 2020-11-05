@@ -237,14 +237,19 @@ EOF;
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
         }
-        else if ($this->env['task'] == 'login') {
-            $title = $this->app->gettext(array(
-                'name' => 'welcome',
-                'vars' => array('product' => $this->config->get('product_name')
-            )));
+        else if (isset($this->env['task'])) {
+            if ($this->env['task'] == 'login') {
+                $title = $this->app->gettext(array(
+                        'name' => 'welcome',
+                        'vars' => array('product' => $this->config->get('product_name')
+                )));
+            }
+            else {
+                $title = ucfirst($this->env['task']);
+            }
         }
         else {
-            $title = ucfirst($this->env['task']);
+            $title = '';
         }
 
         if ($full) {
@@ -1967,7 +1972,9 @@ EOF;
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $page_header .= array_reduce(array($this->scripts['head_top'] . $this->scripts['head']), $merge_scripts);
+        $head = $this->scripts['head_top'] . (isset($this->scripts['head']) ? $this->scripts['head'] : '');
+
+        $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";
 
         if (!empty($this->script_files['head_bottom'])) {

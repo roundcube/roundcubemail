@@ -8,16 +8,6 @@
 class Actions_Contacts_List extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_contacts_list;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test listing contacts
      */
     function test_list()
@@ -25,6 +15,7 @@ class Actions_Contacts_List extends ActionTestCase
         $action = new rcmail_action_contacts_list;
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');
 
+        $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

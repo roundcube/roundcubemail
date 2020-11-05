@@ -8,16 +8,6 @@
 class Actions_Contacts_Group_Addmembers extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_contacts_group_addmembers;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test error handling
      */
     function test_group_addmembers_errors()
@@ -25,6 +15,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         $action = new rcmail_action_contacts_group_addmembers;
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
 
+        $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         // Invalid group id

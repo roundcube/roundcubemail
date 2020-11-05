@@ -610,12 +610,15 @@ class rcube_contacts extends rcube_addressbook
         $valid = parent::validate($save_data, $autofix);
 
         // require at least some name or email
-        if ($valid
-            && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name'])
-            && !count(array_filter($this->get_col_values('email', $save_data, true)))
-        ) {
-            $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
-            $valid = false;
+        if ($valid) {
+            $name = (isset($save_data['firstname']) ? $save_data['firstname'] : '')
+                . (isset($save_data['surname']) ? $save_data['surname'] : '')
+                . (isset($save_data['name']) ? $save_data['name'] : '');
+
+            if (!strlen($name) && !count(array_filter($this->get_col_values('email', $save_data, true)))) {
+                $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
+                $valid = false;
+            }
         }
 
         return $valid;
