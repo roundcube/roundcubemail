@@ -49,7 +49,10 @@ class rcmail_action_mail_bounce extends rcmail_action
 
             // Initialize helper class to build the UI
             $SENDMAIL = new rcmail_sendmail(
-                ['mode' => rcmail_sendmail::MODE_FORWARD],
+                [
+                    'mode'  => rcmail_sendmail::MODE_FORWARD,
+                    'param' => ['sent_mbox' => $rcmail->config->get('bounce_save_mbox')]
+                ],
                 ['message' => $MESSAGES[0]]
             );
 
@@ -84,6 +87,7 @@ class rcmail_action_mail_bounce extends rcmail_action
                 'Resent-Date'       => $input_headers['Date'],
         ]);
 
+        $save_error = false;
 
         foreach ($MESSAGES as $MESSAGE) {
             $headers['Resent-Message-ID'] = $rcmail->gen_message_id($headers['Resent-From']);
@@ -105,7 +109,12 @@ class rcmail_action_mail_bounce extends rcmail_action
 
             if (!$saved && strlen($SENDMAIL->options['store_target'])) {
                 self::display_server_error('errorsaving');
+                $save_error = true;
             }
+        }
+
+        if (!$save_error) {
+            $rcmail->user->save_prefs(['bounce_save_mbox' => $SENDMAIL->options['store_target']]);
         }
 
         $rcmail->output->show_message('messagesent', 'confirmation', null, false);
