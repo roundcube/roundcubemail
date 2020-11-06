@@ -28,29 +28,33 @@ class rcmail_action_mail_bounce extends rcmail_action
     public function run($args = [])
     {
         $rcmail     = rcmail::get_instance();
-        $msg_uid    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GP);
+        $msg_uids   = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_GP);
         $msg_folder = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GP, true);
-        $MESSAGE    = new rcube_message($msg_uid, $msg_folder);
+        $MESSAGES   = [];
 
-        if (!$MESSAGE->headers) {
+        foreach(explode(',', $msg_uids) as $uid) {
+            array_push($MESSAGES, new rcube_message($uid, $msg_folder));
+        }
+
+        if (count($MESSAGES) == 0 || !$MESSAGES[0]->headers) {
             $rcmail->output->show_message('messageopenerror', 'error');
             $rcmail->output->send('iframe');
         }
 
         // Display Bounce form
         if (empty($_POST)) {
-            if (!empty($MESSAGE->headers->charset)) {
-                $rcmail->storage->set_charset($MESSAGE->headers->charset);
+            if (!empty($MESSAGES[0]->headers->charset)) {
+                $rcmail->storage->set_charset($MESSAGES[0]->headers->charset);
             }
 
             // Initialize helper class to build the UI
             $SENDMAIL = new rcmail_sendmail(
                 ['mode' => rcmail_sendmail::MODE_FORWARD],
-                ['message' => $MESSAGE]
+                ['message' => $MESSAGES[0]]
             );
 
             $rcmail->output->set_env('mailbox', $msg_folder);
-            $rcmail->output->set_env('uid', $msg_uid);
+            $rcmail->output->set_env('uids', $msg_uids);
 
             $rcmail->output->send('bounce');
         }
@@ -78,23 +82,30 @@ class rcmail_action_mail_bounce extends rcmail_action
                 'Resent-Cc'         => $input_headers['Cc'],
                 'Resent-Bcc'        => $input_headers['Bcc'],
                 'Resent-Date'       => $input_headers['Date'],
-                'Resent-Message-ID' => $input_headers['Message-ID'],
         ]);
 
-        // Create the bounce message
-        $BOUNCE = new rcmail_resend_mail([
-                'bounce_message' => $MESSAGE,
-                'bounce_headers' => $headers,
-        ]);
 
-        // Send the bounce message
-        $SENDMAIL->deliver_message($BOUNCE);
+        foreach ($MESSAGES as $MESSAGE) {
+            $headers['Resent-Message-ID'] = $rcmail->gen_message_id($headers['Resent-From']);
 
-        // Save in Sent (if requested)
-        $saved = $SENDMAIL->save_message($BOUNCE);
+            // Create the bounce message
+            $BOUNCE = new rcmail_resend_mail([
+                    'bounce_message' => $MESSAGE,
+                    'bounce_headers' => $headers,
+            ]);
 
-        if (!$saved && strlen($SENDMAIL->options['store_target'])) {
-            self::display_server_error('errorsaving');
+            // Send the bounce message
+            //
+            // Do not disconnect from the server after sending, otherwise any
+            // following bounced messages will fail to be sent.
+            $SENDMAIL->deliver_message($BOUNCE, false);
+
+            // Save in Sent (if requested)
+            $saved = $SENDMAIL->save_message($BOUNCE);
+
+            if (!$saved && strlen($SENDMAIL->options['store_target'])) {
+                self::display_server_error('errorsaving');
+            }
         }
 
         $rcmail->output->show_message('messagesent', 'confirmation', null, false);

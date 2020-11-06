@@ -1962,7 +1962,7 @@ function rcube_webmail()
     }
 
     // Multi-message commands
-    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', selected_count > 0);
+    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', 'bounce', selected_count > 0);
 
     // reset all-pages-selection
     if (selected || (selected_count && selected_count != list.rowcount))
@@ -4538,8 +4538,8 @@ function rcube_webmail()
   this.bounce = function(props, obj, event)
   {
     // get message uid and folder
-    var uid = this.get_single_uid(),
-      url = this.url('bounce', {_framed: 1, _uid: uid, _mbox: this.get_message_mailbox(uid)}),
+    var uids = this.env.uid ? [this.env.uid] : (this.message_list ? this.message_list.get_selection() : []),
+      url = this.url('bounce', {_framed: 1, _uids: this.uids_to_list(uids), _mbox: this.env.mailbox}),
       dialog = $('<iframe>').attr('src', url),
       get_form = function() {
         var rc = $('iframe', dialog)[0].contentWindow.rcmail;
@@ -4550,7 +4550,7 @@ function rcube_webmail()
 
         $.each($(form.form).serializeArray(), function() { post[this.name] = this.value; });
 
-        post._uid = form.rc.env.uid;
+        post._uids = form.rc.env.uids;
         post._mbox = form.rc.env.mailbox;
         delete post._action;
         delete post._task;
