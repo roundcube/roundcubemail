@@ -18,14 +18,6 @@ class Actions_Contacts_Copy extends ActionTestCase
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        /*
-        self::initDB('contacts');
-
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
-        $result = $db->fetch_assoc($query);
-        */
-
         // Missing target addressbook
         $_POST = [
             '_cid'    => 1,

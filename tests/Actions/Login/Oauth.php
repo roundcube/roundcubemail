@@ -8,12 +8,21 @@
 class Actions_Login_Oauth extends ActionTestCase
 {
     /**
-     * Class constructor
+     * Test run
      */
-    function test_class()
+    function test_run_login_redirect()
     {
-        $object = new rcmail_action_login_oauth;
+        $action = new rcmail_action_login_oauth;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertTrue($action->checks());
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame("ERROR: Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", trim(StderrMock::$output));
+        $this->assertSame(null, $output->getOutput());
     }
 }
