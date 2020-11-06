@@ -16,7 +16,7 @@ if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~5.9.1" --no-up
 
 # Remove qr-code as it requires php-gd which is not always available on Travis
 # and we don't really need it for tests
-composer remove endroid/qr-code --no-update
+# composer remove endroid/qr-code --no-update
 
 # Install PHP dependencies
 composer install --prefer-dist
