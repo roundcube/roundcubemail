@@ -39,7 +39,7 @@ class Actions_Contacts_Qrcode extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: image/png', 'Content-Length: 1293'], $output->headers);
+        $this->assertSame('Content-Type: image/png', $output->headers[0]);
         $this->assertRegExp('/^\x89\x50\x4E\x47/', $result);
     }
 }
