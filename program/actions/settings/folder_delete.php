@@ -20,7 +20,7 @@
 
 class rcmail_action_settings_folder_delete extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    protected static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.

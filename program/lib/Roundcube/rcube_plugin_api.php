@@ -337,8 +337,11 @@ class rcube_plugin_api
                 list($info['vendor'], $info['name']) = explode('/', $json['name']);
                 $info['version'] = $json['version'];
                 $info['license'] = $json['license'];
-                $info['uri']     = $json['homepage'];
                 $info['require'] = $require;
+
+                if (!empty($json['homepage'])) {
+                    $info['uri'] = $json['homepage'];
+                }
             }
 
             // read local composer.lock file (once)

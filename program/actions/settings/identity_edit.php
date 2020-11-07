@@ -19,6 +19,7 @@
 
 class rcmail_action_settings_identity_edit extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP;
     protected static $record;
 
     /**

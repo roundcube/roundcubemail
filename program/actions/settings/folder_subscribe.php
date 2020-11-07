@@ -20,7 +20,7 @@
 
 class rcmail_action_settings_folder_subscribe extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    protected static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.
@@ -47,19 +47,19 @@ class rcmail_action_settings_folder_subscribe extends rcmail_action
                     // @TODO: remove 'virtual' class of folder's row
                 }
             }
+        }
 
-            if ($result) {
-                // Handle subscription of protected folder (#1487656)
-                if ($rcmail->config->get('protect_default_folders') && $storage->is_special_folder($mbox)) {
-                    $rcmail->output->command('disable_subscription', $mbox);
-                }
+        if (!empty($result)) {
+            // Handle subscription of protected folder (#1487656)
+            if ($rcmail->config->get('protect_default_folders') && $storage->is_special_folder($mbox)) {
+                $rcmail->output->command('disable_subscription', $mbox);
+            }
 
-                $rcmail->output->show_message('foldersubscribed', 'confirmation');
-            }
-            else {
-                self::display_server_error('errorsaving');
-                $rcmail->output->command('reset_subscription', $mbox, false);
-            }
+            $rcmail->output->show_message('foldersubscribed', 'confirmation');
+        }
+        else {
+            self::display_server_error('errorsaving');
+            $rcmail->output->command('reset_subscription', $mbox, false);
         }
 
         $rcmail->output->send();

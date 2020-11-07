@@ -933,7 +933,7 @@ abstract class rcmail_action
                 $form_start .= $hiddenfields->show();
             }
 
-            $form_end  = !strlen($attrib['form']) ? '</form>' : '';
+            $form_end  = empty($attrib['form']) ? '</form>' : '';
             $edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
             $rcmail->output->add_gui_object('editform', $edit_form);
@@ -1060,11 +1060,14 @@ abstract class rcmail_action
             $p['folder_name'] = '*';
         }
 
+        $f_filter = isset($p['folder_filter']) ? $p['folder_filter'] : null;
+        $f_rights = isset($p['folder_rights']) ? $p['folder_rights'] : null;
+
         if ($p['unsubscribed']) {
-            $list = $storage->list_folders('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+            $list = $storage->list_folders('', $p['folder_name'], $f_filter, $f_rights);
         }
         else {
-            $list = $storage->list_folders_subscribed('', $p['folder_name'], $p['folder_filter'], $p['folder_rights']);
+            $list = $storage->list_folders_subscribed('', $p['folder_name'], $f_filter, $f_rights);
         }
 
         $delimiter = $storage->get_hierarchy_delimiter();

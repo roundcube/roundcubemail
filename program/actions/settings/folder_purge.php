@@ -20,7 +20,7 @@
 
 class rcmail_action_settings_folder_purge extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    protected static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.
@@ -39,15 +39,15 @@ class rcmail_action_settings_folder_purge extends rcmail_action
         // we should only be purging trash (or their subfolders)
         if (!strlen($trash_mbox) || $mbox === $trash_mbox || preg_match($trash_regexp, $mbox)) {
             $success = $storage->delete_message('*', $mbox);
-            $delete = true;
+            $delete  = true;
         }
         // move to Trash
         else {
             $success = $storage->move_message('1:*', $trash_mbox, $mbox);
-            $delete = false;
+            $delete  = false;
         }
 
-        if ($success) {
+        if (!empty($success)) {
             $rcmail->output->set_env('messagecount', 0);
 
             if ($delete) {

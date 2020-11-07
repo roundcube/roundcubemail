@@ -1195,7 +1195,7 @@ EOF;
 
         switch ($type) {
             case 'env':
-                $value = $this->env[$name];
+                $value = isset($this->env[$name]) ? $this->env[$name] : null;
                 break;
             case 'config':
                 $value = $this->config->get($name);
