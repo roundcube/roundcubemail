@@ -19,6 +19,8 @@
 
 class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -36,7 +38,6 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         $rcmail->output->send('folderedit');
     }
-
 
     public static function folder_form($attrib)
     {
@@ -96,10 +97,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         ];
 
         // Location (name)
-        if ($options['protected']) {
+        if (!empty($options['protected'])) {
             $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q(self::localize_foldername($mbox, false, true)));
         }
-        else if ($options['norename']) {
+        else if (!empty($options['norename'])) {
             $foldername = rcube::Q($folder);
         }
         else {
@@ -110,7 +111,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $foldername = new html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
             $foldername = '<span class="input-group">' . $foldername->show($folder);
 
-            if ($options['special'] && ($sname = self::localize_foldername($mbox, false, true)) != $folder) {
+            if (!empty($options['special']) && ($sname = self::localize_foldername($mbox, false, true)) != $folder) {
                 $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) .')</span></span>';
             }
 
@@ -127,7 +128,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             ],
         ];
 
-        if (!empty($options) && ($options['norename'] || $options['protected'])) {
+        if (!empty($options) && (!empty($options['norename']) || !empty($options['protected']))) {
             // prevent user from moving folder
             $hidden_path = new html_hiddenfield(['name' => '_parent', 'value' => $path]);
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
@@ -187,7 +188,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
 
         // Settings: threading
-        if ($threading_supported && ($mbox == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
+        if ($threading_supported && ($mbox == 'INBOX' || (empty($options['noselect']) && empty($options['is_root'])))) {
             $value  = 0;
             $select = new html_select(['name' => '_viewmode', 'id' => '_viewmode']);
 

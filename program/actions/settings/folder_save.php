@@ -19,6 +19,8 @@
 
 class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_edit
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -42,7 +44,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         $options   = strlen($old_imap) ? self::folder_options($old_imap) : [];
 
         // Folder name checks
-        if ($options['protected'] || $options['norename']) {
+        if (!empty($options['protected']) || !empty($options['norename'])) {
             // do nothing
         }
         else if (!strlen($name)) {
@@ -54,7 +56,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         else if ($name[0] == '.' && $rcmail->config->get('imap_skip_hidden_folders')) {
             $error = $rcmail->gettext('namedotforbidden');
         }
-        else if (!$storage->folder_validate($name, $char)) {
+        else if (!$storage->folder_validate($name, $char = null)) {
             $error = $rcmail->gettext('forbiddencharacter') . " ($char)";
         }
 
@@ -62,7 +64,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             $rcmail->output->command('display_message', $error, 'error');
         }
         else {
-            if ($options['protected'] || $options['norename']) {
+            if (!empty($options['protected']) || !empty($options['norename'])) {
                 $name_imap = $old_imap;
             }
             else if (strlen($path)) {
@@ -91,21 +93,24 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             $folder = null;
         }
         else {
-            $folder['name']     = $name_imap;
-            $folder['oldname']  = $old_imap;
-            $folder['class']    = '';
-            $folder['options']  = $options;
-            $folder['settings'] = [
-                // List view mode: 0-list, 1-threads
-                'view_mode'   => (int) rcube_utils::get_input_value('_viewmode', rcube_utils::INPUT_POST),
-                'sort_column' => rcube_utils::get_input_value('_sortcol', rcube_utils::INPUT_POST),
-                'sort_order'  => rcube_utils::get_input_value('_sortord', rcube_utils::INPUT_POST),
+            $folder = [
+                'name'     => $name_imap,
+                'oldname'  => $old_imap,
+                'class'    => '',
+                'options'  => $options,
+                'settings' => [
+                    // List view mode: 0-list, 1-threads
+                    'view_mode'   => (int) rcube_utils::get_input_value('_viewmode', rcube_utils::INPUT_POST),
+                    'sort_column' => rcube_utils::get_input_value('_sortcol', rcube_utils::INPUT_POST),
+                    'sort_order'  => rcube_utils::get_input_value('_sortord', rcube_utils::INPUT_POST),
+                ]
             ];
         }
 
         // create a new mailbox
         if (empty($error) && !strlen($old_imap)) {
             $folder['subscribe'] = true;
+            $folder['noselect']  = false;
 
             // Server does not support both sub-folders and messages in a folder
             // For folders that are supposed to contain other folders we will:
@@ -159,7 +164,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             $plugin = $rcmail->plugins->exec_hook('folder_update', ['record' => $folder]);
 
             $folder = $plugin['record'];
-            $rename = ($folder['oldname'] != $folder['name']);
+            $rename = $folder['oldname'] != $folder['name'];
 
             if (!$plugin['abort']) {
                 if ($rename) {
@@ -178,7 +183,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                 if (isset($_POST['_viewmode'])) {
                     $a_threaded = (array) $rcmail->config->get('message_threading', []);
 
-                    // In case of name change update names of childrens in settings
+                    // In case of name change update names of children in settings
                     if ($rename) {
                         $oldprefix  = '/^' . preg_quote($folder['oldname'] . $delimiter, '/') . '/';
                         foreach ($a_threaded as $key => $val) {
@@ -202,7 +207,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
 
                 if ($rename) {
                     // #1488692: update session
-                    if ($_SESSION['mbox'] === $folder['oldname']) {
+                    if (isset($_SESSION['mbox']) && $_SESSION['mbox'] === $folder['oldname']) {
                         $_SESSION['mbox'] = $folder['name'];
                     }
                     self::update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);

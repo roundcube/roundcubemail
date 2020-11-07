@@ -20,6 +20,8 @@
 
 class rcmail_action_settings_prefs_save extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *

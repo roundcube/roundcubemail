@@ -19,6 +19,8 @@
 
 class rcmail_action_settings_response_save extends rcmail_action_settings_response_edit
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *

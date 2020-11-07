@@ -20,6 +20,8 @@
 
 class rcmail_action_settings_folders extends rcmail_action_settings_index
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *
@@ -104,7 +106,12 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 continue;
             }
 
-            $seen[$folder]++;
+            if (isset($seen[$folder])) {
+                $seen[$folder]++;
+            }
+            else {
+                $seen[$folder] = 1;
+            }
 
             $list_folders[] = [
                 'id'    => $folder_id,
@@ -137,7 +144,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
             $display_folder = rcube::Q($is_special ? self::localize_foldername($folder['id'], false, true) : $folder['name']);
 
-            if ($folder['virtual']) {
+            if (!empty($folder['virtual'])) {
                 $classes[] = 'virtual';
             }
 
@@ -203,7 +210,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 'folder_imap' => $folder['id'],
                 'folder'      => $folder_utf8,
                 'display'     => $display_folder,
-                'protected'   => $is_protected || $folder['virtual'],
+                'protected'   => $is_protected || !empty($folder['virtual']),
                 'class'       => join(' ', $classes),
                 'subscribed'  => $is_subscribed,
                 'level'       => $folder['level'],
@@ -258,14 +265,17 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         ];
 
         $children = [];
-        while ($folders[$key+1] && $folders[$key+1]['level'] > $data['level']) {
+        while (
+            isset($folders[$key+1]['level'])
+            && (!isset($data['level']) || $folders[$key+1]['level'] > $data['level'])
+        ) {
             $key++;
             $children[] = self::folder_tree_element($folders, $key, $js_folders);
         }
 
         if (!empty($children)) {
-            $content .= html::div('treetoggle ' . ($data['collapsed'] ? 'collapsed' : 'expanded'), '&nbsp;')
-                . html::tag('ul', ['style' => $data['collapsed'] ? "display:none" : null],
+            $content .= html::div('treetoggle ' . (!empty($data['collapsed']) ? 'collapsed' : 'expanded'), '&nbsp;')
+                . html::tag('ul', ['style' => !empty($data['collapsed']) ? "display:none" : null],
                     implode("\n", $children));
         }
 
@@ -321,9 +331,9 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
     {
         $rcmail  = rcmail::get_instance();
         $options = $rcmail->get_storage()->folder_info($mailbox);
-        $options['protected'] = $options['is_root']
+        $options['protected'] = !empty($options['is_root'])
             || strtoupper($mailbox) === 'INBOX'
-            || ($options['special'] && $rcmail->config->get('protect_default_folders'));
+            || (!empty($options['special']) && $rcmail->config->get('protect_default_folders'));
 
         return $options;
     }
@@ -354,13 +364,15 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $display_name = rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');
         }
 
+        $protected = !empty($options['protected']) || !empty($options['noselect']);
+
         if ($oldname === null) {
             $rcmail->output->command('add_folder_row', $name, $name_utf8, $display_name,
-                $options['protected'] || $options['noselect'], $subscribe, $class_name);
+                $protected, $subscribe, $class_name);
         }
         else {
             $rcmail->output->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
-                $options['protected'] || $options['noselect'], $class_name);
+                $protected, $class_name);
         }
     }
 }

@@ -20,7 +20,7 @@
 
 class rcmail_action_settings_folder_unsubscribe extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    protected static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.
@@ -35,14 +35,14 @@ class rcmail_action_settings_folder_unsubscribe extends rcmail_action
 
         if (strlen($mbox)) {
             $result = $storage->unsubscribe([$mbox]);
+        }
 
-            if ($result) {
-                $rcmail->output->show_message('folderunsubscribed', 'confirmation');
-            }
-            else {
-                self::display_server_error('errorsaving');
-                $rcmail->output->command('reset_subscription', $mbox, true);
-            }
+        if (!empty($result)) {
+            $rcmail->output->show_message('folderunsubscribed', 'confirmation');
+        }
+        else {
+            self::display_server_error('errorsaving');
+            $rcmail->output->command('reset_subscription', $mbox, true);
         }
 
         $rcmail->output->send();

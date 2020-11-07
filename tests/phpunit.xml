@@ -60,6 +60,7 @@
             <directory suffix=".php">../program/lib</directory>
             <directory suffix=".php">../program/include</directory>
             <directory suffix=".php">../program/actions</directory>
+            <directory suffix=".php">../plugins</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -3606,7 +3606,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Options list
      */
-    public function folder_attributes($folder, $force=false)
+    public function folder_attributes($folder, $force = false)
     {
         // get attributes directly from LIST command
         if (!empty($this->conn->data['LIST']) && is_array($this->conn->data['LIST'][$folder])) {
@@ -3702,7 +3702,7 @@ class rcube_imap extends rcube_storage
 
         $acl       = $this->get_capability('ACL');
         $namespace = $this->get_namespace();
-        $options   = array();
+        $options   = ['is_root' => false];
 
         // check if the folder is a namespace prefix
         if (!empty($namespace)) {
@@ -3719,7 +3719,7 @@ class rcube_imap extends rcube_storage
             }
         }
         // check if the folder is other user virtual-root
-        if (!$options['is_root'] && !empty($namespace) && !empty($namespace['other'])) {
+        if ($options['is_root'] && !empty($namespace) && !empty($namespace['other'])) {
             $parts = explode($this->delimiter, $folder);
             if (count($parts) == 2) {
                 $mbox = $parts[0] . $this->delimiter;
@@ -3736,6 +3736,7 @@ class rcube_imap extends rcube_storage
         $options['attributes'] = $this->folder_attributes($folder, true);
         $options['namespace']  = $this->folder_namespace($folder);
         $options['special']    = $this->is_special_folder($folder);
+        $options['noselect']   = false;
 
         // Set 'noselect' flag
         if (is_array($options['attributes'])) {

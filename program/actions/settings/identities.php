@@ -19,6 +19,8 @@
 
 class rcmail_action_settings_identities extends rcmail_action
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *

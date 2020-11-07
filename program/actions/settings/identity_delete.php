@@ -19,7 +19,7 @@
 
 class rcmail_action_settings_identity_delete extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    protected static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.

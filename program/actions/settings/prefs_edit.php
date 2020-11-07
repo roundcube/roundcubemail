@@ -19,6 +19,7 @@
 
 class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 {
+    protected static $mode = self::MODE_HTTP;
     protected static $section;
     protected static $sections;
 
