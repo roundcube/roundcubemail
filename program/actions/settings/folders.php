@@ -106,12 +106,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 continue;
             }
 
-            if (isset($seen[$folder])) {
-                $seen[$folder]++;
-            }
-            else {
-                $seen[$folder] = 1;
-            }
+            $seen[$folder] = 1;
 
             $list_folders[] = [
                 'id'    => $folder_id,
@@ -264,11 +259,12 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             'class' => trim($data['class'] . ' mailbox')
         ];
 
+        if (!isset($data['level'])) {
+            $data['level'] = 0;
+        }
+
         $children = [];
-        while (
-            isset($folders[$key+1]['level'])
-            && (!isset($data['level']) || $folders[$key+1]['level'] > $data['level'])
-        ) {
+        while (!empty($folders[$key+1]) && ($folders[$key+1]['level'] > $data['level'])) {
             $key++;
             $children[] = self::folder_tree_element($folders, $key, $js_folders);
         }
