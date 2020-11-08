@@ -359,7 +359,7 @@ class rcube_tnef_decoder
 
             case self::MAPI_ATTACH_MIME_TAG:
                 // Is this ever set, and what is format?
-                $value = explode('/', $value);
+                $value = explode('/', trim($value));
                 $result['type']    = $value[0];
                 $result['subtype'] = $value[1];
                 break;
