@@ -16,8 +16,15 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         $oauth = rcmail_oauth::get_instance();
 
-        $this->expectException(RuntimeException::class);
+        // We can't use expectException until we drop support for phpunit 4.8 (i.e. PHP 5.4)
+        // $this->expectException(RuntimeException::class);
 
-        $result = $oauth->jwt_decode($jwt);
+        try {
+            $oauth->jwt_decode($jwt);
+        }
+        catch (RuntimeException $e) {
+        }
+
+        $this->assertTrue(isset($e));
     }
 }
