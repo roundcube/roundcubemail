@@ -42,6 +42,10 @@ class rcmail_resend_mail extends Mail_mime
         $params['delay_file_io'] = true;
         $params['eol']           = "\r\n";
 
+        if (!isset($params['bounce_headers'])) {
+            $params['bounce_headers'] = [];
+        }
+
         parent::__construct($params);
     }
 

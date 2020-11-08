@@ -74,8 +74,8 @@ class rcmail_install
      */
     public function __construct()
     {
-        $this->step    = intval($_REQUEST['_step']);
-        $this->is_post = $_SERVER['REQUEST_METHOD'] == 'POST';
+        $this->step    = isset($_REQUEST['_step']) ? intval($_REQUEST['_step']) : 0;
+        $this->is_post = isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST';
     }
 
     /**
@@ -176,7 +176,7 @@ class rcmail_install
      */
     public function getprop($name, $default = '')
     {
-        $value = $this->config[$name];
+        $value = isset($this->config[$name]) ? $this->config[$name] : null;
 
         if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"])) {
             $value = rcube_utils::random_bytes(24);

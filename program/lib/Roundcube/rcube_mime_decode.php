@@ -82,6 +82,8 @@ class rcube_mime_decode
             $struct = $this->structure_part($struct);
         }
 
+        $struct->size = strlen($input);
+
         return $struct;
     }
 
