@@ -75,7 +75,7 @@ $config['db_max_allowed_packet'] = null;
 $config['log_driver'] = 'file';
 
 // date format for log entries
-// (read http://php.net/manual/en/function.date.php for all format characters)  
+// (read http://php.net/manual/en/function.date.php for all format characters)
 $config['log_date_format'] = 'd-M-Y H:i:s O';
 
 // length of the session ID to prepend each log line with
@@ -292,9 +292,9 @@ $config['smtp_auth_cid'] = null;
 // Optional SMTP authentication password to be used for smtp_auth_cid
 $config['smtp_auth_pw'] = null;
 
-// SMTP HELO host 
-// Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages 
-// Leave this blank and you will get the server variable 'server_name' or 
+// SMTP HELO host
+// Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages
+// Leave this blank and you will get the server variable 'server_name' or
 // localhost if that isn't defined.
 $config['smtp_helo_host'] = '';
 
@@ -795,6 +795,11 @@ $config['assets_path'] = '';
 // PHP code about the location of asset files in filesystem
 $config['assets_dir'] = '';
 
+// options passed when creating Guzzle http_client, used to fetch remote content
+$config['http_client'] = array(
+//  'timeout' => 10,
+//  'proxy' => 'tcp://localhost:8125',
+);
 
 // ----------------------------------
 // PLUGINS
@@ -807,7 +812,7 @@ $config['plugins'] = array();
 // USER INTERFACE
 // ----------------------------------
 
-// default messages sort column. Use empty value for default server's sorting, 
+// default messages sort column. Use empty value for default server's sorting,
 // or 'arrival', 'date', 'subject', 'from', 'to', 'fromto', 'size', 'cc'
 $config['message_sort_col'] = '';
 
@@ -869,7 +874,7 @@ $config['protect_default_folders'] = true;
 // Disable localization of the default folder names listed above
 $config['show_real_foldernames'] = false;
 
-// if in your system 0 quota means no limit set this option to true 
+// if in your system 0 quota means no limit set this option to true
 $config['quota_zero_as_unlimited'] = false;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
@@ -959,7 +964,7 @@ $config['address_book_type'] = 'sql';
 // Array key must contain only safe characters, ie. a-zA-Z0-9_
 $config['ldap_public'] = array();
 
-// If you are going to use LDAP for individual address books, you will need to 
+// If you are going to use LDAP for individual address books, you will need to
 // set 'user_specific' to true and use the variables to generate the appropriate DNs to access it.
 //
 // The recommended directory structure for LDAP is to store all the address book entries
@@ -972,7 +977,7 @@ $config['ldap_public'] = array();
 //
 // So the base_dn would be uid=%fu,ou=people,o=root
 // The bind_dn would be the same as based_dn or some super user login.
-/* 
+/*
  * example config for Verisign directory
  *
 $config['ldap_public']['Verisign'] = array(
@@ -1078,7 +1083,7 @@ $config['ldap_public']['Verisign'] = array(
   'sub_fields' => array(),
   // Generate values for the following LDAP attributes automatically when creating a new record
   'autovalues' => array(
-  // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed 
+  // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed
   // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
   ),
   'sort'           => 'cn',         // The field to sort the listing by.
@@ -1279,7 +1284,7 @@ $config['logout_purge'] = false;
 // Compact INBOX on logout
 $config['logout_expunge'] = false;
 
-// Display attached images below the message body 
+// Display attached images below the message body
 $config['inline_images'] = true;
 
 // Encoding of long/non-ascii attachment names:
