@@ -44,8 +44,11 @@ $config['password_force_new_user'] = false;
 
 // Default password hashing/crypting algorithm.
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
-// sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, ssha512, samba, ad, dovecot, clear.
+// sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, ssha512, samba, ad, dovecot, password-hash, clear.
 // For details see password::hash_password() method.
+// Note: password-hash uses PHP's password_hash function
+// see https://www.php.net/manual/en/function.password-hash.php for details
+// and also password_php_hash_algorithm and password_php_hash_options configs
 $config['password_algorithm'] = 'clear';
 
 // Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
@@ -91,6 +94,17 @@ $config['password_disabled'] = false;
 // Note: This may no apply to some drivers implementing their own rules, e.g. sql.
 $config['password_username_format'] = '%u';
 
+// Password hashing algorithm used by password-hash
+// See https://www.php.net/manual/en/function.password-hash.php for more information
+// and supported values
+// Note: provide the password algorithm constant as a string
+$config['password_php_hash_algorithm'] = 'PASSWORD_DEFAULT';
+
+// Password hashing options used by password-hash
+// See https://www.php.net/manual/en/function.password-hash.php for more information
+// and supported options
+// $config['password_hash_options'] = array('cost' => 12);
+$config['password_php_hash_options'] = null;
 
 // SQL Driver options
 // ------------------

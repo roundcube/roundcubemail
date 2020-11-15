@@ -520,7 +520,7 @@ class password extends rcube_plugin
         $method  = strtolower($method);
         $rcmail  = rcmail::get_instance();
         $prefix  = '';
-        $crypted = '';
+        $crypted = null;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
@@ -537,6 +537,70 @@ class password extends rcube_plugin
         }
 
         switch ($method) {
+        case 'ad':
+            $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
+            break;
+
+        case 'blowfish': // for BC
+        case 'blowfish-crypt':
+            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
+            $prefix = sprintf('$2a$%02d$', $cost);
+
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'clear':
+            $crypted = $password;
+            break;
+
+        case 'cram-md5': // deprecated
+            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
+            $crypted = dovecot_hmacmd5($password);
+            $prefix  = '{CRAM-MD5}';
+            break;
+
+        case 'dovecot':
+            if (!($dovecotpw = $rcmail->config->get('password_dovecotpw'))) {
+                $dovecotpw = 'dovecotpw';
+            }
+            if (!($method = $rcmail->config->get('password_dovecotpw_method'))) {
+                $method = 'CRAM-MD5';
+            }
+
+            $spec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a'));
+            $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
+
+            if (!is_resource($pipe)) {
+                return false;
+            }
+
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
+            usleep(1000);
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
+
+            $crypted = trim(stream_get_contents($pipes[1]), "\n");
+
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            proc_close($pipe);
+
+            if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
+                return false;
+            }
+
+            if (!$prefixed) {
+                $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
+            }
+
+            if (!$prefixed) {
+                $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
+            }
+
+            $prefixed = false;
+            break;
+
         case 'des':
         case 'des-crypt':
             $crypted = crypt($password, rcube_utils::random_bytes(2));
@@ -549,10 +613,103 @@ class password extends rcube_plugin
             $prefix  = '{CRYPT}';
             break;
 
+        case 'hash': // deprecated
+            if (!extension_loaded('hash')) {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: 'hash' extension not loaded!"
+                ), true, true);
+            }
+
+            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
+                $hash_algo = 'sha1';
+            }
+
+            $crypted = hash($hash_algo, $password);
+
+            if ($rcmail->config->get('password_hash_base64')) {
+                $crypted = base64_encode(pack('H*', $crypted));
+            }
+
+            break;
+
+        case 'md5':
+            $crypted = base64_encode(pack('H*', md5($password)));
+            $prefix  = '{MD5}';
+            break;
+
         case 'md5crypt': // for BC
         case 'md5-crypt':
             $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
             $prefix  = '{CRYPT}';
+            break;
+
+        case 'password-hash':
+            $algo = $rcmail->config->get('password_php_hash_algorithm');
+            if (!defined($algo)) {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Unknown hashing algorithm '". $algo ."'."
+                ), true, true);
+            }
+
+            $options = (array) $rcmail->config->get('password_php_hash_options', array());
+            $crypted = password_hash($password, constant($algo), $options);
+            break;
+
+        case 'samba':
+            if (function_exists('hash')) {
+                $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
+                $crypted = strtoupper($crypted);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have hash() function"
+                ), true, true);
+            }
+
+            break;
+
+        case 'smd5':
+            $salt = rcube_utils::random_bytes(8);
+
+            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
+                $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
+                $crypted = mhash(MHASH_MD5, $password . $salt);
+            }
+            else if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('md5', $salt . $password)), 0, 4);
+                $crypted = hash('md5', $password . $salt, true);
+            }
+            else {
+                $salt    = substr(pack("H*", md5($salt . $password)), 0, 4);
+                $crypted = md5($password . $salt, true);
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SMD5}';
+            break;
+
+        case 'sha':
+            if (function_exists('sha1')) {
+                $crypted = pack('H*', sha1($password));
+            }
+            else if (function_exists('hash')) {
+                $crypted = hash('sha1', $password, true);
+            }
+            else if (function_exists('mhash')) {
+                $crypted = mhash(MHASH_SHA1, $password);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
+                ), true, true);
+            }
+
+            $crypted = base64_encode($crypted);
+            $prefix = '{SHA}';
             break;
 
         case 'sha256-crypt':
@@ -577,42 +734,6 @@ class password extends rcube_plugin
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
             $prefix  = '{CRYPT}';
-            break;
-
-        case 'blowfish': // for BC
-        case 'blowfish-crypt':
-            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
-            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
-            $prefix = sprintf('$2a$%02d$', $cost);
-
-            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
-            $prefix  = '{CRYPT}';
-            break;
-
-        case 'md5':
-            $crypted = base64_encode(pack('H*', md5($password)));
-            $prefix  = '{MD5}';
-            break;
-
-        case 'sha':
-            if (function_exists('sha1')) {
-                $crypted = pack('H*', sha1($password));
-            }
-            else if (function_exists('hash')) {
-                $crypted = hash('sha1', $password, true);
-            }
-            else if (function_exists('mhash')) {
-                $crypted = mhash(MHASH_SHA1, $password);
-            }
-            else {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
-                ), true, true);
-            }
-
-            $crypted = base64_encode($crypted);
-            $prefix = '{SHA}';
             break;
 
         case 'ssha':
@@ -662,113 +783,6 @@ class password extends rcube_plugin
             $crypted = base64_encode($crypted . $salt);
             $prefix  = '{SSHA512}';
             break;
-
-        case 'smd5':
-            $salt = rcube_utils::random_bytes(8);
-
-            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
-                $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
-                $crypted = mhash(MHASH_MD5, $password . $salt);
-            }
-            else if (function_exists('hash')) {
-                $salt    = substr(pack("H*", hash('md5', $salt . $password)), 0, 4);
-                $crypted = hash('md5', $password . $salt, true);
-            }
-            else {
-                $salt    = substr(pack("H*", md5($salt . $password)), 0, 4);
-                $crypted = md5($password . $salt, true);
-            }
-
-            $crypted = base64_encode($crypted . $salt);
-            $prefix  = '{SMD5}';
-            break;
-
-        case 'samba':
-            if (function_exists('hash')) {
-                $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
-                $crypted = strtoupper($crypted);
-            }
-            else {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Your PHP install does not have hash() function"
-                ), true, true);
-            }
-            break;
-
-        case 'ad':
-            $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
-            break;
-
-        case 'cram-md5': // deprecated
-            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
-            $crypted = dovecot_hmacmd5($password);
-            $prefix  = '{CRAM-MD5}';
-            break;
-
-        case 'dovecot':
-            if (!($dovecotpw = $rcmail->config->get('password_dovecotpw'))) {
-                $dovecotpw = 'dovecotpw';
-            }
-            if (!($method = $rcmail->config->get('password_dovecotpw_method'))) {
-                $method = 'CRAM-MD5';
-            }
-
-            $spec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a'));
-            $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
-
-            if (!is_resource($pipe)) {
-                return false;
-            }
-
-            fwrite($pipes[0], $password . "\n", 1+strlen($password));
-            usleep(1000);
-            fwrite($pipes[0], $password . "\n", 1+strlen($password));
-
-            $crypted = trim(stream_get_contents($pipes[1]), "\n");
-
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            proc_close($pipe);
-
-            if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
-                return false;
-            }
-
-            if (!$prefixed) {
-                $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
-            }
-
-            if (!$prefixed) {
-                $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
-            }
-
-            $prefixed = false;
-
-            break;
-
-        case 'hash': // deprecated
-            if (!extension_loaded('hash')) {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: 'hash' extension not loaded!"
-                ), true, true);
-            }
-
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
-                $hash_algo = 'sha1';
-            }
-
-            $crypted = hash($hash_algo, $password);
-
-            if ($rcmail->config->get('password_hash_base64')) {
-                $crypted = base64_encode(pack('H*', $crypted));
-            }
-
-            break;
-
-        case 'clear':
-            $crypted = $password;
         }
 
         if ($crypted === null || $crypted === false) {
