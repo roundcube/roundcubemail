@@ -81,8 +81,10 @@ class rcmail_action_settings_identity_save extends rcmail_action
         // Validate e-mail addresses
         $email_checks = [rcube_utils::idn_to_ascii($save_data['email'])];
         foreach (['reply-to', 'bcc'] as $item) {
-            foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
-                $email_checks[] = rcube_utils::idn_to_ascii($rcpt['mailto']);
+            if (!empty($save_data[$item])) {
+                foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
+                    $email_checks[] = rcube_utils::idn_to_ascii($rcpt['mailto']);
+                }
             }
         }
 
@@ -146,7 +148,8 @@ class rcmail_action_settings_identity_save extends rcmail_action
             }
             else {
                 // show error message
-                $rcmail->output->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
+                $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+                $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('edit-identity');
                 return;
             }
@@ -199,7 +202,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
         }
 
         // mark all other identities as 'not-default'
-        if ($default_id) {
+        if (!empty($default_id)) {
             $rcmail->user->set_default($default_id);
         }
 
@@ -220,7 +223,8 @@ class rcmail_action_settings_identity_save extends rcmail_action
             $file_id  = $matches[2];
             $data_uri = ' ';
 
-            if ($file_id && ($file = $_SESSION['identity']['files'][$file_id])) {
+            if ($file_id && !empty($_SESSION['identity']['files'][$file_id])) {
+                $file = $_SESSION['identity']['files'][$file_id];
                 $file = $rcmail->plugins->exec_hook('attachment_get', $file);
 
                 $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';

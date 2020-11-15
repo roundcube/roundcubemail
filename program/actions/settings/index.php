@@ -63,6 +63,13 @@ class rcmail_action_settings_index extends rcmail_action
         ]);
     }
 
+    /**
+     * Render and initialize the settings sections table
+     *
+     * @param array $attrib Template object attributes
+     *
+     * @return string HTML content
+     */
     public static function sections_list($attrib)
     {
         $rcmail = rcmail::get_instance();
@@ -108,7 +115,7 @@ class rcmail_action_settings_index extends rcmail_action
         $no_override = array_flip((array) $rcmail->config->get('dont_override'));
 
         foreach ($sections as $idx => $sect) {
-            $sections[$idx]['class'] = $sect['class'] ?: $idx;
+            $sections[$idx]['class'] = !empty($sect['class']) ? $sect['class'] : $idx;
 
             if ($current && $sect['id'] != $current) {
                 continue;
@@ -310,19 +317,21 @@ class rcmail_action_settings_index extends rcmail_action
                     $skins = self::get_skins();
 
                     if (count($skins) > 1) {
-                        $field_id   = 'rcmfd_skin';
-                        $input      = new html_radiobutton(['name' => '_skin']);
-                        $skinnames = [];
+                        sort($skins);
+
+                        $field_id = 'rcmfd_skin';
+                        $input    = new html_radiobutton(['name' => '_skin']);
 
                         foreach ($skins as $skin) {
-                            $skinname    = ucfirst($skin);
-                            $author_link = $license_link = '';
-                            $meta        = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
+                            $skinname     = ucfirst($skin);
+                            $author_link  = '';
+                            $license_link = '';
+                            $meta         = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
 
                             if (is_array($meta) && !empty($meta['name'])) {
                                 $skinname     = $meta['name'];
-                                $author_link  = $meta['url'] ? html::a(['href' => $meta['url'], 'target' => '_blank'], rcube::Q($meta['author'])) : rcube::Q($meta['author']);
-                                $license_link = $meta['license-url'] ? html::a(['href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($meta['license'])) : rcube::Q($meta['license']);
+                                $author_link  = !empty($meta['url']) ? html::a(['href' => $meta['url'], 'target' => '_blank'], rcube::Q($meta['author'])) : rcube::Q($meta['author']);
+                                $license_link = !empty($meta['license-url']) ? html::a(['href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                             }
 
                             $img = html::img([
@@ -334,7 +343,6 @@ class rcmail_action_settings_index extends rcmail_action
                                     'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif'); this.onerror = null",
                             ]);
 
-                            $skinnames[] = mb_strtolower($skinname);
                             $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
                                 html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id.$skin])) .
                                 html::span('skinitem', $img) .
@@ -343,7 +351,6 @@ class rcmail_action_settings_index extends rcmail_action
                                     html::span('skinlicense', $license_link ? $rcmail->gettext('license').':&nbsp;' . $license_link : ''))
                             );
                         }
-                        array_multisort($blocks['skin']['options'], SORT_ASC, SORT_STRING, $skinnames);
                     }
                 }
 
@@ -1519,7 +1526,11 @@ class rcmail_action_settings_index extends rcmail_action
         return [$sections, $plugin['cols']];
     }
 
-
+    /**
+     * Get list of installed skins
+     *
+     * @return array List of skin names
+     */
     public static function get_skins()
     {
         $rcmail = rcmail::get_instance();
@@ -1549,6 +1560,10 @@ class rcmail_action_settings_index extends rcmail_action
 
     /**
      * Render the list of settings sections (AKA tabs)
+     *
+     * @param array $attrib Template object attributes
+     *
+     * @return string HTML content
      */
     public static function settings_tabs($attrib)
     {
@@ -1578,18 +1593,18 @@ class rcmail_action_settings_index extends rcmail_action
         $tabs     = [];
 
         foreach ($plugin['actions'] as $action) {
-            if (!$action['command'] && $action['action']) {
+            if (empty($action['command']) && !empty($action['action'])) {
                 $action['prop'] = $action['action'];
                 $action['command'] = 'show';
             }
-            else if ($action['command'] != 'show') {
+            else if (empty($action['command']) || $action['command'] != 'show') {
                 // Backwards compatibility, show command added in 1.4
-                $action['prop'] = $action['command'];
+                $action['prop']    = !empty($action['command']) ? $action['command'] : null;
                 $action['command'] = 'show';
             }
 
-            $cmd = $action['prop'] ?: $action['action'];
-            $id  = $action['id'] ?: $cmd;
+            $cmd = !empty($action['prop']) ? $action['prop'] : $action['action'];
+            $id  = !empty($action['id']) ? $action['id'] : $cmd;
 
             if (in_array('settings.' . $cmd, $disabled_actions)) {
                 continue;
@@ -1606,14 +1621,17 @@ class rcmail_action_settings_index extends rcmail_action
                 $attr['id'] = preg_replace('/[^a-z0-9]/i', '', $attrib['idprefix'] . $id);
             }
 
-            $classnames = [$attrib['class']];
+            $classnames = [];
+            if (!empty($attrib['class'])) {
+                $classnames[] = $attrib['class'];
+            }
             if (!empty($action['class'])) {
                 $classnames[] = $action['class'];
             }
             else if (!empty($cmd)) {
                 $classnames[] = $cmd;
             }
-            if ($cmd == $selected) {
+            if ($cmd == $selected && !empty($attrib['selclass'])) {
                 $classnames[] = $attrib['selclass'];
             }
 
@@ -1626,6 +1644,10 @@ class rcmail_action_settings_index extends rcmail_action
 
     /**
      * Localize timezone identifiers
+     *
+     * @param string $tz Timezone name
+     *
+     * @return string Localized timezone name
      */
     public static function timezone_label($tz)
     {

@@ -400,8 +400,9 @@ EOF;
     {
         foreach ($this->skin_paths as $skin_path) {
             $filename = RCUBE_INSTALL_PATH . $skin_path . '/templates/' . $name . '.html';
-            if ((is_file($filename) && is_readable($filename))
-                || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]))
+            if (
+                (is_file($filename) && is_readable($filename))
+                || (!empty($this->deprecated_templates[$name]) && $this->template_exists($this->deprecated_templates[$name]))
             ) {
                 return true;
             }
@@ -1137,7 +1138,7 @@ EOF;
         $out    = $matches[0];
         $attrib = html::parse_attrib_string($matches[1]);
 
-        if (strtolower($attrib['method']) == 'post') {
+        if (!empty($attrib['method']) && strtolower($attrib['method']) == 'post') {
             $hidden = new html_hiddenfield(array('name' => '_token', 'value' => $this->app->get_request_token()));
             $out .= "\n" . $hidden->show();
         }

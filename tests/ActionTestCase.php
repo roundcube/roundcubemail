@@ -188,6 +188,12 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail = rcmail::get_instance();
         $rcmail->output->reset(true);
 
+        // reset some static props
+        $class = new ReflectionClass('rcmail_action');
+        $property = $class->getProperty('edit_form');
+        $property->setAccessible(true);
+        $property->setValue($action, null);
+
         try {
             StderrMock::start();
             $action->run();
