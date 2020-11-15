@@ -34,7 +34,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
         // edit-identity
-        if (($_GET['_iid'] || $_POST['_iid']) && $rcmail->action == 'edit-identity') {
+        if ((!empty($_GET['_iid']) || !empty($_POST['_iid'])) && $rcmail->action == 'edit-identity') {
             $id = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_GPC);
             self::$record = $rcmail->user->get_identity($id);
 
@@ -63,7 +63,6 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             }
         }
 
-        $rcmail->output->include_script('list.js');
         $rcmail->output->add_handler('identityform', [$this, 'identity_form']);
         $rcmail->output->set_env('identities_level', $IDENTITIES_LEVEL);
         $rcmail->output->add_label('deleteidentityconfirm', 'generate',
@@ -91,9 +90,9 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         // add some labels to client
         $rcmail->output->add_label('noemailwarning', 'converting', 'editorwarning');
 
-        $i_size = $attrib['size'] ?: 40;
-        $t_rows = $attrib['textarearows'] ?: 6;
-        $t_cols = $attrib['textareacols'] ?: 40;
+        $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
+        $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
+        $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
 
         // list of available cols
         $form = [
@@ -133,7 +132,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         ];
 
         // Enable TinyMCE editor
-        if (self::$record['html_signature']) {
+        if (!empty(self::$record['html_signature'])) {
             $form['signature']['content']['signature']['class']      = 'mce_editor';
             $form['signature']['content']['signature']['is_escaped'] = true;
 
@@ -159,7 +158,9 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             }
         }
 
-        self::$record['email'] = rcube_utils::idn_to_utf8(self::$record['email']);
+        if (!empty(self::$record['email'])) {
+            self::$record['email'] = rcube_utils::idn_to_utf8(self::$record['email']);
+        }
 
         // Allow plugins to modify identity form content
         $plugin = $rcmail->plugins->exec_hook('identity_form', [
@@ -172,8 +173,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
         // Set form tags and hidden fields
         list($form_start, $form_end) = self::get_form_tags($attrib, 'save-identity',
-            intval(self::$record['identity_id']),
-            ['name' => '_iid', 'value' => self::$record['identity_id']]
+            isset(self::$record['identity_id']) ? intval(self::$record['identity_id']) : 0,
+            ['name' => '_iid', 'value' => isset(self::$record['identity_id']) ? self::$record['identity_id'] : 0]
         );
 
         unset($plugin);
@@ -194,8 +195,20 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 foreach ($fieldset['content'] as $col => $colprop) {
                     $colprop['id'] = 'rcmfd_'.$col;
 
-                    $label = $colprop['label'] ?: $rcmail->gettext(str_replace('-', '', $col));
-                    $value = $colprop['value'] ?: rcube_output::get_edit_field($col, self::$record[$col], $colprop, $colprop['type']);
+                    if (!empty($colprop['label'])) {
+                        $label = $colprop['label'];
+                    }
+                    else {
+                        $label = $rcmail->gettext(str_replace('-', '', $col));
+                    }
+
+                    if (!empty($colprop['value'])) {
+                        $value = $colprop['value'];
+                    }
+                    else {
+                        $val = isset(self::$record[$col]) ? self::$record[$col] : '';
+                        $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
+                    }
 
                     $table->add('title', html::label($colprop['id'], rcube::Q($label)));
                     $table->add(null, $value);
@@ -208,7 +221,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             }
 
             $content = html::tag('legend', null, rcube::Q($fieldset['name'])) . $content;
-            $out .= html::tag('fieldset', $fieldset['attrs'], $content) . "\n";
+            $out .= html::tag('fieldset', !empty($fieldset['attrs']) ? $fieldset['attrs'] : [], $content) . "\n";
         }
 
         $out .= $form_end;

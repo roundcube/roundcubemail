@@ -38,6 +38,13 @@ abstract class rcmail_action
     protected static $mode;
 
     /**
+     * A name of a initialized common form
+     *
+     * @var string
+     */
+    protected static $edit_form;
+
+    /**
      * Deprecated action aliases.
      *
      * @todo Get rid of these (but it will be a big BC break)
@@ -107,7 +114,7 @@ abstract class rcmail_action
         $table  = new html_table($attrib);
 
         // add table header
-        if (!$attrib['noheader']) {
+        if (empty($attrib['noheader'])) {
             foreach ($show_cols as $col) {
                 $table->add_header($col, rcube::Q($rcmail->gettext($col)));
             }
@@ -908,15 +915,23 @@ abstract class rcmail_action
         return file_get_contents($name, false);
     }
 
-    public static function get_form_tags($attrib, $action, $id = null, $hidden = null)
+    /**
+     * Prepare a common edit form.
+     *
+     * @param array  $attrib Form attributes
+     * @param string $action Action name
+     * @param string $id     An extra index for the form key
+     * @param array  $hidden Additional hidden fields
+     *
+     * @return array Start and end tags, Empty if the farm was initialized before
+     */
+    public static function get_form_tags($attrib, $action, $id = null, $hidden = [])
     {
-        static $edit_form;
-
         $rcmail = rcmail::get_instance();
 
         $form_start = $form_end = '';
 
-        if (empty($edit_form)) {
+        if (empty(self::$edit_form)) {
             $request_key = $action . (isset($id) ? '.'.$id : '');
             $form_start = $rcmail->output->request_form([
                     'name'    => 'form',
@@ -928,15 +943,15 @@ abstract class rcmail_action
                 ] + $attrib
             );
 
-            if (is_array($hidden)) {
+            if (!empty($hidden) && is_array($hidden)) {
                 $hiddenfields = new html_hiddenfield($hidden);
                 $form_start .= $hiddenfields->show();
             }
 
             $form_end  = empty($attrib['form']) ? '</form>' : '';
-            $edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
+            self::$edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
-            $rcmail->output->add_gui_object('editform', $edit_form);
+            $rcmail->output->add_gui_object('editform', self::$edit_form);
         }
 
         return array($form_start, $form_end);
