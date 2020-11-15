@@ -19,7 +19,7 @@
 
 class rcmail_action_settings_responses extends rcmail_action
 {
-    protected static $mode = self::MODE_HTTP;
+    protected static $mode = self::MODE_HTTP | self::MODE_AJAX;
 
     /**
      * Request handler.
