@@ -36,8 +36,6 @@ class Actions_Settings_IdentitySave extends ActionTestCase
 
         $action->run();
 
-        $result = $output->getOutput();
-
         $this->assertSame('edit-identity', rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 

@@ -46,7 +46,7 @@ class rcmail_action_settings_upload extends rcmail_action
         $max_size = $rcmail->config->get($type . '_image_size', 64) * 1024;
         $uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
 
-        if (is_array($_FILES['_file']['tmp_name'])) {
+        if (!empty($_FILES['_file']['tmp_name']) && is_array($_FILES['_file']['tmp_name'])) {
             $multiple = count($_FILES['_file']['tmp_name']) > 1;
 
             foreach ($_FILES['_file']['tmp_name'] as $i => $filepath) {

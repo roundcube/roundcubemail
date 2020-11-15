@@ -41,6 +41,11 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $rcmail->output->send('responseedit');
     }
 
+    /**
+     * Set internal data for a requested response item
+     *
+     * @param array|null Response data
+     */
     public static function set_response()
     {
         $rcmail = rcmail::get_instance();
@@ -61,13 +66,20 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         return self::$response;
     }
 
+    /**
+     * Get content of a response editing/adding form
+     *
+     * @param array $attrib Template object attributes
+     *
+     * @return string HTML content
+     */
     public static function response_form($attrib)
     {
         $rcmail = rcmail::get_instance();
 
         // Set form tags and hidden fields
         $disabled = !empty(self::$response['static']);
-        $key      = self::$response['key'];
+        $key      = isset(self::$response['key']) ? self::$response['key'] : null;
         $hidden   = ['name' => '_key', 'value' => $key];
 
         list($form_start, $form_end) = self::get_form_tags($attrib, 'save-response', $key, $hidden);
@@ -75,13 +87,26 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
 
         $table = new html_table(['cols' => 2]);
 
+        $name = isset(self::$response['name']) ? self::$response['name'] : '';
+        $name_attr = [
+            'id'       => 'ffname',
+            'size'     => !empty($attrib['size']) ? $attrib['size'] : null,
+            'disabled' => $disabled
+        ];
+
         $table->add('title', html::label('ffname', rcube::Q($rcmail->gettext('responsename'))));
-        $table->add(null, rcube_output::get_edit_field('name', self::$response['name'],
-            ['id' => 'ffname', 'size' => $attrib['size'], 'disabled' => $disabled], 'text'));
+        $table->add(null, rcube_output::get_edit_field('name', $name, $name_attr, 'text'));
+
+        $text = isset(self::$response['text']) ? self::$response['text'] : '';
+        $text_attr = [
+            'id'       => 'fftext',
+            'size'     => !empty($attrib['textareacols']) ? $attrib['textareacols'] : null,
+            'rows'     => !empty($attrib['textarearows']) ? $attrib['textarearows'] : null,
+            'disabled' => $disabled
+        ];
 
         $table->add('title', html::label('fftext', rcube::Q($rcmail->gettext('responsetext'))));
-        $table->add(null, rcube_output::get_edit_field('text', self::$response['text'],
-            ['id' => 'fftext', 'size' => $attrib['textareacols'], 'rows' => $attrib['textarearows'], 'disabled' => $disabled], 'textarea'));
+        $table->add(null, rcube_output::get_edit_field('text', $text, $text_attr, 'textarea'));
 
         // return the complete edit form as table
         return "$form_start\n" . $table->show($attrib) . $form_end;

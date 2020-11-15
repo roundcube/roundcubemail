@@ -8,12 +8,35 @@
 class Actions_Settings_PrefsSave extends ActionTestCase
 {
     /**
-     * Class constructor
+     * Test run() method
      */
-    function test_class()
+    function test_run()
     {
-        $object = new rcmail_action_settings_prefs_save;
+        $action = new rcmail_action_settings_prefs_save;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertTrue($action->checks());
+
+        // TODO: Test all sections
+        $_POST['_section'] = 'general';
+
+        $action->run();
+
+        $this->assertSame('edit-prefs', rcmail::get_instance()->action);
+        $this->assertSame('successfullysaved', $output->getProperty('message'));
+    }
+
+    /**
+     * Test prefs_input() method
+     */
+    function test_prefs_input()
+    {
+        $action = new rcmail_action_settings_prefs_save;
+
+        $_POST = ['_test' => 'test'];
+        $this->assertSame(null, $action->prefs_input('unset', '/test/'));
+        $this->assertSame('test', $action->prefs_input('test', '/^test/'));
+        $this->assertSame(null, $action->prefs_input('test', '/^a/'));
     }
 }
