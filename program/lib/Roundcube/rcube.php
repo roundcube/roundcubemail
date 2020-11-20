@@ -216,7 +216,7 @@ class rcube
      * @param bool   $packed  Enables/disables data serialization
      * @param bool   $indexed Use indexed cache
      *
-     * @return rcube_cache User cache object
+     * @return rcube_cache|null User cache object
      */
     public function get_cache($name, $type = 'db', $ttl = 0, $packed = true, $indexed = false)
     {
