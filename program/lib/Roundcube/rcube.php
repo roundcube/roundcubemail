@@ -215,7 +215,7 @@ class rcube
      * @param string $ttl    Expiration time for cache items
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache User cache object
+     * @return rcube_cache|null User cache object
      */
     public function get_cache($name, $type='db', $ttl=0, $packed=true)
     {
