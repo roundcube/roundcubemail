@@ -264,7 +264,7 @@ class rcube_utils
      * @param bool   $allow_html Allow HTML tags in field value
      * @param string $charset    Charset to convert into
      *
-     * @return string Field value or NULL if not available
+     * @return string|null Field value or NULL if not available
      */
     public static function get_input_value($fname, $source, $allow_html = false, $charset = null)
     {
