@@ -387,4 +387,10 @@ class rcmail_utils
             }
         }
     }
+
+    public static function get_http_client($options = [])
+    {
+      $rc = rcube::get_instance();
+      return new \GuzzleHttp\Client($options + $rc->config->get('http_client'));
+    }
 }
