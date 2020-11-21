@@ -621,6 +621,7 @@ class rcube_user
             'user_email' => $user_email,
             'email_list' => $email_list,
             'language'   =>  $_SESSION['language'],
+            'preferences'   => array(),
         ));
 
         // plugin aborted this operation
@@ -630,12 +631,13 @@ class rcube_user
 
         $insert = $dbh->query(
             "INSERT INTO ".$dbh->table_name('users', true).
-            " (`created`, `last_login`, `username`, `mail_host`, `language`)".
-            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
+            " (`created`, `last_login`, `username`, `mail_host`, `language`, `preferences`)".
+            " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?, ?)",
             $data['user'],
             $data['host'],
-            $data['language']);
-
+            $data['language'],
+            serialize($data['preferences']));
+        
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new rcube_user($user_id, array(
@@ -643,6 +645,7 @@ class rcube_user
                 'username'  => $data['user'],
                 'mail_host' => $data['host'],
                 'language'  => $data['language'],
+                'preferences'  => serialize($data['preferences'])
             ));
             $rcube->user = $user_instance;
             $mail_domain = $rcube->config->mail_domain($data['host']);
