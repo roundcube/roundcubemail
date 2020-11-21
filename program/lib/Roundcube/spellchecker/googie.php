@@ -26,8 +26,7 @@
  */
 class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {
-    const GOOGIE_HOST = 'ssl://spell.roundcube.net';
-    const GOOGIE_PORT = 443;
+    const GOOGIE_HOST = 'https://spell.roundcube.net';
 
     private $matches = array();
     private $content;
@@ -55,74 +54,58 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     function check($text)
     {
         $this->content = $text;
+        $matches = array();
 
         if (empty($text)) {
-            return $this->matches = array();
+            return $this->matches = $matches;
         }
 
         // spell check uri is configured
         $url = rcube::get_instance()->config->get('spellcheck_uri');
 
-        if ($url) {
-            $a_uri = parse_url($url);
-            $ssl   = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
-            $port  = $a_uri['port'] ? $a_uri['port'] : ($ssl ? 443 : 80);
-            $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
-            $path  = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $this->lang;
+        if (!$url) {
+            $url = self::GOOGIE_HOST . '/tbproxy/spell?lang=';
         }
-        else {
-            $host = self::GOOGIE_HOST;
-            $port = self::GOOGIE_PORT;
-            $path = '/tbproxy/spell?lang=' . $this->lang;
-        }
-
-        $path .= sprintf('&key=%06d', $_SESSION['user_id']);
+        $url .= $this->lang;
+        $url .= sprintf('&key=%06d', $_SESSION['user_id']);
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
             .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
             .'<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
             .'</spellrequest>';
 
-        $store = '';
-        if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
-            $out = "POST $path HTTP/1.0\r\n";
-            $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
-            $out .= "User-Agent: Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)\r\n";
-            $out .= "Content-Length: " . strlen($gtext) . "\r\n";
-            $out .= "Content-Type: text/xml\r\n";
-            $out .= "Connection: Close\r\n\r\n";
-            $out .= $gtext;
-            fwrite($fp, $out);
+        $client = rcmail_utils::get_http_client();
+        $response = $client->post($url, [
+              'headers' => [
+                  'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
+                  'Content-type' => 'text/xml'
+              ],
+              'body' => $gtext
+            ]
+        );
 
-            while (!feof($fp))
-                $store .= fgets($fp, 128);
-            fclose($fp);
-        }
-
-        // parse HTTP response
-        if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
-            $http_status = $m[1];
-            if ($http_status != '200') {
-                $this->error = 'HTTP ' . $m[1] . rtrim($m[2]);
-            }
-        }
-
-        if (!$store) {
+        if (empty($response)) {
             $this->error = "Empty result from spelling engine";
         }
-        else if (preg_match('/<spellresult error="([^"]+)"/', $store, $m) && $m[1]) {
-            $this->error = "Error code $m[1] returned";
-            $this->error .= preg_match('/<errortext>([^<]+)/', $store, $m) ? ": " . html_entity_decode($m[1]) : '';
+        else if ($response->getStatusCode() != 200) {
+            $this->error = 'HTTP ' . $response->getReasonPhrase();
         }
+        else {
+            $response_body = $response->getBody();
+            if (preg_match('/<spellresult error="([^"]+)"/', $response_body, $m) && $m[1]) {
+                $this->error = "Error code $m[1] returned";
+                $this->error .= preg_match('/<errortext>([^<]+)/', $response_body, $m) ? ": " . html_entity_decode($m[1]) : '';
+            }
 
-        preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $store, $matches, PREG_SET_ORDER);
+            preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $response_body, $matches, PREG_SET_ORDER);
 
-        // skip exceptions (if appropriate options are enabled)
-        foreach ($matches as $idx => $m) {
-            $word = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
-            // skip  exceptions
-            if ($this->dictionary->is_exception($word)) {
-                unset($matches[$idx]);
+            // skip exceptions (if appropriate options are enabled)
+            foreach ($matches as $idx => $m) {
+                $word = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
+                // skip  exceptions
+                if ($this->dictionary->is_exception($word)) {
+                    unset($matches[$idx]);
+                }
             }
         }
 
