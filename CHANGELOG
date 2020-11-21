@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
 - Remove use of ext-iconv
+- Support proxy for server-side HTTP requests (#7658)
 - Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
 - Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
@@ -29,6 +30,7 @@ CHANGELOG Roundcube Webmail
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
 - Plugin API: Added 'message' argument to 'message_compose_body' hook
+- Plugin API: Added 'preferences' parameter to 'user_create' hook (#7692)
 - Elastic: Dark mode (#6709)
 - Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)

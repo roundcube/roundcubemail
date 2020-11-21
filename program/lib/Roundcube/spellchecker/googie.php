@@ -60,8 +60,11 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             return $this->matches = $matches;
         }
 
+        $rcube = rcube::get_instance();
+        $client = $rcube->get_http_client();
+
         // spell check uri is configured
-        $url = rcube::get_instance()->config->get('spellcheck_uri');
+        $url = $rcube->config->get('spellcheck_uri');
 
         if (!$url) {
             $url = self::GOOGIE_HOST . '/tbproxy/spell?lang=';
@@ -74,7 +77,6 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             .'<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
             .'</spellrequest>';
 
-        $client = rcmail_utils::get_http_client();
         $response = $client->post($url, [
               'headers' => [
                   'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
