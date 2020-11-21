@@ -63,7 +63,7 @@ class Actions_Mail_Index extends ActionTestCase
         $this->assertRegExp('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, "Allow external images in HTML (safe mode)");
         $this->assertRegExp("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html, "Allow external images in CSS (safe mode)");
         $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
-        $this->assertRegExp('#'.$css.'#Ui', $html, "Filter (anonymized) external styleseehts with utils/modcss.inc");
+        $this->assertRegExp('#'.$css.'#Ui', $html, "Filter (anonymized) external styleseehts with utils/modcss.php");
     }
 
     /**

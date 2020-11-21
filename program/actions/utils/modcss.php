@@ -40,15 +40,14 @@ class rcmail_action_utils_modcss extends rcmail_action
             exit("Invalid URL");
         }
 
-        $client = rcmail_utils::get_http_client();
+        $client   = rcube::get_instance()->get_http_client();
         $response = $client->get($url);
+        $headers  = false;
+        $source   = false;
+
         if (!empty($response)) {
             $headers = $response->getHeaders();
             $source  = $response->getBody();
-        }
-        else {
-            $headers = false;
-            $source  = false;
         }
 
         $ctype_regexp = '~Content-Type:\s+text/(css|plain)~i';

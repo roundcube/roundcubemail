@@ -36,6 +36,7 @@ $required_php_exts = array(
 );
 
 $optional_php_exts = array(
+    'cURL'      => 'curl',
     'FileInfo'  => 'fileinfo',
     'Intl'      => 'intl',
     'Exif'      => 'exif',
@@ -51,6 +52,7 @@ $required_libs = array(
     'Net_SMTP'  => 'pear.php.net',
     'Net_IDNA2' => 'pear.php.net',
     'Mail_mime' => 'pear.php.net',
+    'GuzzleHttp\Client' => 'github.com/guzzle/guzzle',
 );
 
 $optional_libs = array(
@@ -65,40 +67,39 @@ $ini_checks = array(
 );
 
 $optional_checks = array(
-    // required for utils/modcss.inc, should we require this?
-    'allow_url_fopen'  => 1,
     'date.timezone'    => '-VALID-',
 );
 
 $source_urls = array(
-    'Sockets'   => 'http://www.php.net/manual/en/book.sockets.php',
-    'Session'   => 'http://www.php.net/manual/en/book.session.php',
-    'PCRE'      => 'http://www.php.net/manual/en/book.pcre.php',
-    'FileInfo'  => 'http://www.php.net/manual/en/book.fileinfo.php',
-    'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
-    'OpenSSL'   => 'http://www.php.net/manual/en/book.openssl.php',
-    'JSON'      => 'http://www.php.net/manual/en/book.json.php',
-    'DOM'       => 'http://www.php.net/manual/en/book.dom.php',
-    'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
-    'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
-    'oci8'      => 'http://www.php.net/manual/en/book.oci8.php',
-    'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
-    'LDAP'      => 'http://www.php.net/manual/en/book.ldap.php',
-    'GD'        => 'http://www.php.net/manual/en/book.image.php',
-    'Imagick'   => 'http://www.php.net/manual/en/book.imagick.php',
-    'Zip'       => 'http://www.php.net/manual/en/book.zip.php',
-    'Filter'    => 'http://www.php.net/manual/en/book.filter.php',
-    'Ctype'     => 'http://www.php.net/manual/en/book.ctype.php',
-    'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
-    'pdo_pgsql'   => 'http://www.php.net/manual/en/ref.pdo-pgsql.php',
-    'pdo_sqlite'  => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'pdo_sqlite2' => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'pdo_sqlsrv'  => 'http://www.php.net/manual/en/ref.pdo-sqlsrv.php',
-    'pdo_dblib'   => 'http://www.php.net/manual/en/ref.pdo-dblib.php',
-    'PEAR'      => 'http://pear.php.net',
-    'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
-    'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
-    'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
+    'cURL'      => 'https://www.php.net/manual/en/book.curl.php',
+    'Sockets'   => 'https://www.php.net/manual/en/book.sockets.php',
+    'Session'   => 'https://www.php.net/manual/en/book.session.php',
+    'PCRE'      => 'https://www.php.net/manual/en/book.pcre.php',
+    'FileInfo'  => 'https://www.php.net/manual/en/book.fileinfo.php',
+    'Multibyte' => 'https://www.php.net/manual/en/book.mbstring.php',
+    'OpenSSL'   => 'https://www.php.net/manual/en/book.openssl.php',
+    'JSON'      => 'https://www.php.net/manual/en/book.json.php',
+    'DOM'       => 'https://www.php.net/manual/en/book.dom.php',
+    'Intl'      => 'https://www.php.net/manual/en/book.intl.php',
+    'Exif'      => 'https://www.php.net/manual/en/book.exif.php',
+    'oci8'      => 'https://www.php.net/manual/en/book.oci8.php',
+    'PDO'       => 'https://www.php.net/manual/en/book.pdo.php',
+    'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
+    'GD'        => 'https://www.php.net/manual/en/book.image.php',
+    'Imagick'   => 'https://www.php.net/manual/en/book.imagick.php',
+    'Zip'       => 'https://www.php.net/manual/en/book.zip.php',
+    'Filter'    => 'https://www.php.net/manual/en/book.filter.php',
+    'Ctype'     => 'https://www.php.net/manual/en/book.ctype.php',
+    'pdo_mysql'   => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
+    'pdo_pgsql'   => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
+    'pdo_sqlite'  => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'pdo_sqlite2' => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'pdo_sqlsrv'  => 'https://www.php.net/manual/en/ref.pdo-sqlsrv.php',
+    'pdo_dblib'   => 'https://www.php.net/manual/en/ref.pdo-dblib.php',
+    'PEAR'      => 'https://pear.php.net',
+    'Net_SMTP'  => 'https://pear.php.net/package/Net_SMTP',
+    'Mail_mime' => 'https://pear.php.net/package/Mail_mime',
+    'Net_IDNA2' => 'https://pear.php.net/package/Net_IDNA2',
     'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
 );
 

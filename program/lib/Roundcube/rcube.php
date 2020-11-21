@@ -260,6 +260,18 @@ class rcube
     }
 
     /**
+     * Initialize HTTP client
+     *
+     * @param array $options Configuration options
+     *
+     * @return \GuzzleHttp\Client HTTP client
+     */
+    public function get_http_client($options = [])
+    {
+        return new \GuzzleHttp\Client($options + $this->config->get('http_client'));
+    }
+
+    /**
      * Create SMTP object and connect to server
      *
      * @param boolean $connect True if connection should be established
