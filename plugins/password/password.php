@@ -28,6 +28,7 @@ define('PASSWORD_IN_HISTORY', 4);
 define('PASSWORD_CONSTRAINT_VIOLATION', 5);
 define('PASSWORD_COMPARE_CURRENT', 6);
 define('PASSWORD_COMPARE_NEW', 7);
+define('PASSWORD_HASH_NOT_SUPPORTED', 8);
 define('PASSWORD_SUCCESS', 0);
 
 /**
@@ -409,6 +410,9 @@ class password extends rcube_plugin
             case PASSWORD_CONSTRAINT_VIOLATION:
                 $reason = $this->gettext('passwdconstraintviolation');
                 break;
+            case PASSWORD_HASH_NOT_SUPPORTED:
+                $reason = $this->gettext('passwdhashnotsupported');
+                break;
             case PASSWORD_ERROR:
             default:
                 $reason = $this->gettext('internalerror');
@@ -520,7 +524,7 @@ class password extends rcube_plugin
         $method  = strtolower($method);
         $rcmail  = rcmail::get_instance();
         $prefix  = '';
-        $crypted = '';
+        $crypted = null;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
@@ -769,6 +773,14 @@ class password extends rcube_plugin
 
         case 'clear':
             $crypted = $password;
+            break;
+        default:
+            rcube::raise_error(array(
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Hash method not supported."
+                ), true, true);
+            $result = PASSWORD_HASH_NOT_SUPPORTED;
+            return false;
         }
 
         if ($crypted === null || $crypted === false) {
