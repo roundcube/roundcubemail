@@ -256,7 +256,7 @@ abstract class rcube_plugin
     /**
      * Wrapper for rcube::gettext() adding the plugin ID as domain
      *
-     * @param mixed $p Named parameters array or label name
+     * @param string|array $p Named parameters array or label name
      *
      * @return string Localized text
      * @see rcube::gettext()
