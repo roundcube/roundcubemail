@@ -51,11 +51,15 @@ class rcmail_string_replacer extends rcube_string_replacer
             return $matches[1];
         }
 
-        $i = $this->add(html::a(array(
+        $attribs = [
             'href'    => 'mailto:' . $href,
-            'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('compose','".rcube::JQ($href)."',this)",
+            'onclick' => sprintf("return %s.command('compose','%s',this)",
+                rcmail_output::JS_OBJECT_NAME,
+                rcube::JQ($href)
             ),
-            rcube::Q($href)) . $suffix);
+        ];
+
+        $i = $this->add(html::a($attribs, rcube::Q($href)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
     }

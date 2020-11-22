@@ -38,29 +38,8 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR.'/');
 
-// show basic error message on fatal PHP error
-function roundcube_fatal_error() {
-    $error = error_get_last();
-    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
-        if (php_sapi_name() === 'cli') {
-            echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
-        }
-        elseif (!empty($_REQUEST['_remote'])) {
-            // Ajax request from UI
-            header('Content-Type: application/json; charset=UTF-8');
-            echo json_encode(array('code' => 500, 'message' => 'Internal Server Error'));
-        }
-        else {
-            if (!defined('RCUBE_FATAL_ERROR_MSG')) {
-                define('RCUBE_FATAL_ERROR_MSG', INSTALL_PATH . 'program/resources/error.html');
-            }
-
-            $msg = file_get_contents(RCUBE_FATAL_ERROR_MSG);
-            echo $msg;
-        }
-    }
-}
-register_shutdown_function('roundcube_fatal_error');
+// Show basic error message on fatal PHP error
+register_shutdown_function('rcmail_fatal_error');
 
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
@@ -117,4 +96,30 @@ function rcmail_autoload($classname)
     }
 
     return false;
+}
+
+/**
+ * Show basic error message on fatal PHP error
+ */
+function rcmail_fatal_error()
+{
+    $error = error_get_last();
+
+    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
+        if (php_sapi_name() === 'cli') {
+            echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
+        }
+        elseif (!empty($_REQUEST['_remote'])) {
+            // Ajax request from UI
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode(['code' => 500, 'message' => "Internal Server Error"]);
+        }
+        else {
+            if (!defined('RCUBE_FATAL_ERROR_MSG')) {
+                define('RCUBE_FATAL_ERROR_MSG', INSTALL_PATH . 'program/resources/error.html');
+            }
+
+            echo file_get_contents(RCUBE_FATAL_ERROR_MSG);
+        }
+    }
 }

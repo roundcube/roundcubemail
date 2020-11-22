@@ -34,7 +34,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
         $rcmail = rcmail::get_instance();
         $id     = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
         $name   = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
-rcube::console($_SESSION['search_params']);
+
         if (
             !empty($_SESSION['search_params'])
             && ($params = $_SESSION['search_params'])

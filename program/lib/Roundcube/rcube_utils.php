@@ -1292,9 +1292,12 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
-            if ($_SERVER['SERVER_PORT'] != $default_port && $_SERVER['SERVER_PORT'] != 80) {
-                $prefix .= ':' . $_SERVER['SERVER_PORT'];
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
+
+            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
+            if ($port != $default_port && $port != 80) {
+                $prefix .= ':' . $port;
             }
 
             $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;

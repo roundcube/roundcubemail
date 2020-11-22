@@ -27,4 +27,48 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         $this->assertTrue(isset($e));
     }
+
+    /**
+     * Test is_enabled() method
+     */
+    function test_is_enabled()
+    {
+        $oauth = rcmail_oauth::get_instance();
+
+        $this->assertFalse($oauth->is_enabled());
+    }
+
+    /**
+     * Test get_redirect_uri() method
+     */
+    function test_get_redirect_uri()
+    {
+        $oauth = rcmail_oauth::get_instance();
+
+        $this->assertSame('http://:/./phpunit/index.php/login/oauth', $oauth->get_redirect_uri());
+    }
+
+    /**
+     * Test login_redirect() method
+     */
+    function test_login_redirect()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test request_access_token() method
+     */
+    function test_request_access_token()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test refresh_access_token() method
+     */
+    function test_refresh_access_token()
+    {
+        $this->markTestIncomplete();
+    }
 }
