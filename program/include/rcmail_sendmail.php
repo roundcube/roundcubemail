@@ -35,6 +35,7 @@ class rcmail_sendmail
     protected $rcmail;
 
     // define constants for message compose mode
+    const MODE_NONE    = 'none';
     const MODE_REPLY   = 'reply';
     const MODE_FORWARD = 'forward';
     const MODE_DRAFT   = 'draft';
@@ -65,7 +66,7 @@ class rcmail_sendmail
         }
 
         if (empty($this->data['mode'])) {
-            $this->data['mode'] = self::MODE_REPLY;
+            $this->data['mode'] = self::MODE_NONE;
         }
 
         if (!empty($this->options['message'])) {
