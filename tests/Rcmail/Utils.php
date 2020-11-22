@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Rcmail_RcmailUtils extends PHPUnit\Framework\TestCase
+class Rcmail_RcmailUtils extends ActionTestCase
 {
     /**
      * Test for db() method
@@ -22,7 +22,7 @@ class Rcmail_RcmailUtils extends PHPUnit\Framework\TestCase
      */
     function test_db_version()
     {
-        // It breaks the test suite for some reason
+        // FIXME: It breaks the test suite for some reason
         $this->markTestIncomplete();
 
         $v = rcmail_utils::db_version();
@@ -35,7 +35,12 @@ class Rcmail_RcmailUtils extends PHPUnit\Framework\TestCase
      */
     function test_db_clean()
     {
-        $this->markTestIncomplete();
+        ob_start();
+        rcmail_utils::db_clean(7);
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertTrue(strpos($output, '0 records deleted') !== false);
     }
 
     /**
@@ -43,7 +48,14 @@ class Rcmail_RcmailUtils extends PHPUnit\Framework\TestCase
      */
     function test_indexcontacts()
     {
-        $this->markTestIncomplete();
+        self::initDB('contacts');
+
+        ob_start();
+        rcmail_utils::indexcontacts();
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertTrue(strpos($output, 'Indexing contacts for user') === 0);
     }
 
     /**
@@ -51,6 +63,26 @@ class Rcmail_RcmailUtils extends PHPUnit\Framework\TestCase
      */
     function test_mod_pref()
     {
+        // FIXME: The test hangs for some reason, probably related with the extra DB connection
         $this->markTestIncomplete();
+
+        self::initDB('init');
+
+        $db = rcmail::get_instance()->get_dbh();
+
+        ob_start();
+        rcmail_utils::mod_pref('test', []);
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertTrue(strpos($output, 'Updating prefs for user 1') !== false);
+        $this->assertTrue(strpos($output, 'saved') !== false);
+
+        $query  = $db->query('SELECT preferences FROM `users` WHERE `user_id` = 1');
+        $result = $db->fetch_assoc($query);
+
+        $prefs = unserialize($result['preferences']);
+
+        $this->assertSame([], $prefs['test']);
     }
 }

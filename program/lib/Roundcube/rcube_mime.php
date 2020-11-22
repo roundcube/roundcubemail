@@ -882,7 +882,12 @@ class rcube_mime
         );
 
         foreach ($aliases as $mime => $exts) {
-            $mime_types[$mime] = array_unique(array_merge((array) $mime_types[$mime], $exts));
+            if (isset($mime_types[$mime])) {
+                $mime_types[$mime] = array_unique(array_merge((array) $mime_types[$mime], $exts));
+            }
+            else {
+                $mime_types[$mime] = $exts;
+            }
 
             foreach ($exts as $ext) {
                 if (!isset($mime_extensions[$ext])) {

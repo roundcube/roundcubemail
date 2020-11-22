@@ -123,7 +123,7 @@ abstract class rcmail_action
         if (!is_array($table_data)) {
             $db = $rcmail->get_dbh();
             while ($table_data && ($sql_arr = $db->fetch_assoc($table_data))) {
-                $table->add_row(array('id' => 'rcmrow' . rcube_utils::html_identifier($sql_arr[$id_col])));
+                $table->add_row(['id' => 'rcmrow' . rcube_utils::html_identifier($sql_arr[$id_col])]);
 
                 // format each col
                 foreach ($show_cols as $col) {
@@ -218,7 +218,7 @@ abstract class rcmail_action
 
             // build a table of quota types/roots info
             if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
-                $table = new html_table(array('cols' => 3, 'class' => 'quota-info'));
+                $table = new html_table(['cols' => 3, 'class' => 'quota-info']);
 
                 $table->add_header(null, rcube::Q($rcmail->gettext('quotatype')));
                 $table->add_header(null, rcube::Q($rcmail->gettext('quotatotal')));
@@ -300,7 +300,7 @@ abstract class rcmail_action
             }
             else {
                 $error = 'servererrormsg';
-                $args  = array('msg' => rcube::Q($err_str));
+                $args  = ['msg' => rcube::Q($err_str)];
             }
         }
         else if ($err_code < 0) {
@@ -317,10 +317,10 @@ abstract class rcmail_action
                 $error .= $suffix;
             }
 
-            $msg = $rcmail->gettext(array('name' => $error, 'vars' => $args));
+            $msg = $rcmail->gettext(['name' => $error, 'vars' => $args]);
 
             if (!empty($params['prefix']) && $fallback) {
-                $msg = $rcmail->gettext(array('name' => $fallback, 'vars' => $fallback_args)) . ' ' . $msg;
+                $msg = $rcmail->gettext(['name' => $fallback, 'vars' => $fallback_args]) . ' ' . $msg;
             }
 
             $rcmail->output->show_message($msg, !empty($params['type']) ? $params['type'] : 'error');
@@ -334,6 +334,7 @@ abstract class rcmail_action
     {
         $rcmail   = rcmail::get_instance();
         $err_code = $rcmail->storage->get_error_code();
+
         switch ($err_code) {
         // Not all are really fatal, but these should catch
         // connection/authentication errors the best we can
@@ -470,13 +471,13 @@ abstract class rcmail_action
 
         $max_filesize_txt = self::show_bytes($max_filesize);
         $rcmail->output->set_env('max_filesize', $max_filesize);
-        $rcmail->output->set_env('filesizeerror', $rcmail->gettext(array(
-            'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize_txt))));
+        $rcmail->output->set_env('filesizeerror', $rcmail->gettext([
+            'name' => 'filesizeerror', 'vars' => ['size' => $max_filesize_txt]]));
 
         if ($max_filecount = ini_get('max_file_uploads')) {
             $rcmail->output->set_env('max_filecount', $max_filecount);
-            $rcmail->output->set_env('filecounterror', $rcmail->gettext(array(
-                'name' => 'filecounterror', 'vars' => array('count' => $max_filecount))));
+            $rcmail->output->set_env('filecounterror', $rcmail->gettext([
+                'name' => 'filecounterror', 'vars' => ['count' => $max_filecount]]));
         }
 
         $rcmail->output->add_label('uploadprogress', 'GB', 'MB', 'KB', 'B');
@@ -623,7 +624,7 @@ abstract class rcmail_action
     /**
      * Outputs uploaded file content (with image thumbnails support
      *
-     * @param array $file Upload file data
+     * @param array $file Uploaded file data
      */
     public static function display_uploaded_file($file)
     {
@@ -635,9 +636,9 @@ abstract class rcmail_action
 
         $file = $rcmail->plugins->exec_hook('attachment_display', $file);
 
-        if ($file['status']) {
+        if (!empty($file['status'])) {
             if (empty($file['size'])) {
-                $file['size'] = $file['data'] ? strlen($file['data']) : @filesize($file['path']);
+                $file['size'] = !empty($file['data']) ? strlen($file['data']) : @filesize($file['path']);
             }
 
             // generate image thumbnail for file browser in HTML editor
@@ -819,7 +820,7 @@ abstract class rcmail_action
             $size = self::show_bytes($size);
         }
 
-        if (!$part->exact_size) {
+        if (empty($part->exact_size)) {
             $size = '~' . $size;
         }
 
@@ -899,7 +900,7 @@ abstract class rcmail_action
      */
     public static function get_resource_content($name)
     {
-        if (!strpos($name, '/')) {
+        if (strpos($name, '/') !== 0) {
             $name = "program/resources/$name";
         }
 
@@ -910,6 +911,9 @@ abstract class rcmail_action
             if (@file_exists($path)) {
                 $name = $path;
             }
+        }
+        else {
+            $name = INSTALL_PATH . $name;
         }
 
         return file_get_contents($name, false);
@@ -954,7 +958,7 @@ abstract class rcmail_action
             $rcmail->output->add_gui_object('editform', self::$edit_form);
         }
 
-        return array($form_start, $form_end);
+        return [$form_start, $form_end];
     }
 
     /**
@@ -990,7 +994,7 @@ abstract class rcmail_action
         // build the folders tree
         if (empty($a_mailboxes)) {
             // get mailbox list
-            $a_mailboxes = array();
+            $a_mailboxes = [];
             $a_folders   = $storage->list_folders_subscribed(
                 '',
                 $attrib['folder_name'],
@@ -1284,7 +1288,7 @@ abstract class rcmail_action
             }
 
             if (!empty($folder['folders'])) {
-                $out .= html::tag('ul', array('style' => ($is_collapsed ? "display:none;" : null)),
+                $out .= html::tag('ul', ['style' => $is_collapsed ? "display:none;" : null],
                     self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
             }
 
@@ -1297,7 +1301,7 @@ abstract class rcmail_action
     /**
      * Return html for a flat list <select> for the mailbox tree
      */
-    protected static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = array())
+    protected static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = [])
     {
         $out     = '';
         $rcmail  = rcmail::get_instance();

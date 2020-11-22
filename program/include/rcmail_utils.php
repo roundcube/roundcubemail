@@ -99,11 +99,11 @@ class rcmail_utils
      *
      * @return True on success, False on failure
      */
-    public static function db_update($dir, $package, $ver = null, $opts = array())
+    public static function db_update($dir, $package, $ver = null, $opts = [])
     {
         // Check if directory exists
         if (!file_exists($dir)) {
-            if ($opts['errors']) {
+            if (!empty($opts['errors'])) {
                 rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
             }
             return false;
@@ -120,7 +120,7 @@ class rcmail_utils
         if (empty($version) && $ver) {
             // Map old release version string to DB schema version
             // Note: This is for backward compat. only, do not need to be updated
-            $map = array(
+            $map = [
                 '0.1-stable' => 1,
                 '0.1.1'      => 2008030300,
                 '0.2-alpha'  => 2008040500,
@@ -158,7 +158,7 @@ class rcmail_utils
                 '0.8.5'      => 2011121400,
                 '0.8.6'      => 2011121400,
                 '0.9-beta'   => 2012080700,
-            );
+            ];
 
             $version = $map[$ver];
         }
@@ -177,7 +177,7 @@ class rcmail_utils
         }
 
         $dh     = opendir($dir);
-        $result = array();
+        $result = [];
 
         while ($file = readdir($dh)) {
             if (preg_match('/^([0-9]+)\.sql$/', $file, $m) && $m[1] > $version) {
@@ -187,7 +187,7 @@ class rcmail_utils
         sort($result, SORT_NUMERIC);
 
         foreach ($result as $v) {
-            if (!$opts['quiet']) {
+            if (empty($opts['quiet'])) {
                 echo "Updating database schema ($v)... ";
             }
 
@@ -197,15 +197,15 @@ class rcmail_utils
             $db->set_option('ignore_errors', false);
 
             if ($error) {
-                if (!$opts['quiet']) {
+                if (empty($opts['quiet'])) {
                     echo "[FAILED]\n";
                 }
-                if ($opts['errors']) {
+                if (!empty($opts['errors'])) {
                     rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
                 }
                 return false;
             }
-            else if (!$opts['quiet']) {
+            else if (empty($opts['quiet'])) {
                 echo "[OK]\n";
             }
         }
@@ -278,16 +278,16 @@ class rcmail_utils
     public static function db_clean($days)
     {
         // mapping for table name => primary key
-        $primary_keys = array(
+        $primary_keys = [
             'contacts'      => 'contact_id',
             'contactgroups' => 'contactgroup_id',
-        );
+        ];
 
         $db = self::db();
 
         $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
-        foreach (array('contacts','contactgroups','identities') as $table) {
+        foreach (['contacts','contactgroups','identities'] as $table) {
             $sqltable = $db->table_name($table, true);
 
             // also delete linked records

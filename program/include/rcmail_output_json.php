@@ -26,9 +26,9 @@
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts     = array();
-    protected $commands  = array();
-    protected $callbacks = array();
+    protected $texts     = [];
+    protected $commands  = [];
+    protected $callbacks = [];
     protected $message   = null;
     protected $header_sent = false;
 
@@ -127,25 +127,26 @@ class rcmail_output_json extends rcmail_output
     /**
      * Invoke display_message command
      *
-     * @param string  $message  Message to display
-     * @param string  $type     Message type [notice|confirm|error]
-     * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param boolean $override Override last set message
-     * @param int     $timeout  Message displaying time in seconds
+     * @param string $message  Message to display
+     * @param string $type     Message type [notice|confirm|error]
+     * @param array  $vars     Key-value pairs to be replaced in localized text
+     * @param bool   $override Override last set message
+     * @param int    $timeout  Message displaying time in seconds
      *
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
+    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars)) {
-                    $vars = array_map(array('rcmail', 'Q'), $vars);
+                    $vars = array_map(['rcmail', 'Q'], $vars);
                 }
-                $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
+                $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
             }
-            else
+            else {
                 $msgtext = $message;
+            }
 
             $this->message = $message;
             $this->command('display_message', $msgtext, $type, $timeout * 1000);
@@ -158,8 +159,8 @@ class rcmail_output_json extends rcmail_output
     public function reset()
     {
         parent::reset();
-        $this->texts    = array();
-        $this->commands = array();
+        $this->texts    = [];
+        $this->commands = [];
     }
 
     /**
@@ -170,7 +171,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @see rcmail::url()
      */
-    public function redirect($p = array(), $delay = 1)
+    public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
         $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
@@ -228,20 +229,23 @@ class rcmail_output_json extends rcmail_output
             $response['unlock'] = $unlock;
         }
 
-        if (!empty($this->env))
+        if (!empty($this->env)) {
             $response['env'] = $this->env;
+        }
 
-        if (!empty($this->texts))
+        if (!empty($this->texts)) {
             $response['texts'] = $this->texts;
+        }
 
         // send function calls
         $response['exec'] = $this->get_js_commands() . $add;
 
-        if (!empty($this->callbacks))
+        if (!empty($this->callbacks)) {
             $response['callbacks'] = $this->callbacks;
+        }
 
         // trigger generic hook where plugins can put additional content to the response
-        $hook = $this->app->plugins->exec_hook("render_response", array('response' => $response));
+        $hook = $this->app->plugins->exec_hook("render_response", ['response' => $response]);
 
         // save some memory
         $response = $hook['response'];

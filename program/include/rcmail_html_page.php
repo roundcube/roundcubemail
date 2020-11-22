@@ -27,6 +27,11 @@ class rcmail_html_page extends rcmail_output_html
 {
     protected $inline_warning;
 
+    /**
+     * Process the page content and write to stdOut
+     *
+     * @param string $contents HTML page content
+     */
     public function write($contents = '')
     {
         self::reset(true);
@@ -37,7 +42,7 @@ class rcmail_html_page extends rcmail_output_html
             $this->include_css($embed_css);
         }
         else {  // set default styles for warning blocks inside the attachment part frame
-            $this->add_header(html::tag('style', array('type' => 'text/css'),
+            $this->add_header(html::tag('style', ['type' => 'text/css'],
                 ".rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;"
                                         . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n" .
                 ".rcmail-inline-buttons { margin-bottom:0 }"
@@ -73,10 +78,10 @@ class rcmail_html_page extends rcmail_output_html
 
         if ($button_label) {
             $onclick = "location.href = '$button_url'";
-            $button  = html::tag('button', array('onclick' => $onclick), rcube::Q($button_label));
-            $text   .= html::p(array('class' => 'rcmail-inline-buttons'), $button);
+            $button  = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
+            $text   .= html::p(['class' => 'rcmail-inline-buttons'], $button);
         }
 
-        $this->inline_warning = html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'), $text);
+        $this->inline_warning = html::div(['class' => 'rcmail-inline-message rcmail-inline-warning'], $text);
     }
 }

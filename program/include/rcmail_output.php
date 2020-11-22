@@ -34,7 +34,7 @@ abstract class rcmail_output extends rcube_output
     public $framed    = false;
 
     protected $pagetitle       = '';
-    protected $object_handlers = array();
+    protected $object_handlers = [];
     protected $devel_mode      = false;
 
 
@@ -73,7 +73,7 @@ abstract class rcmail_output extends rcube_output
     {
         parent::reset();
 
-        $this->object_handlers = array();
+        $this->object_handlers = [];
         $this->pagetitle = '';
     }
 
@@ -120,6 +120,8 @@ abstract class rcmail_output extends rcube_output
      *
      * @param string $header  The header string
      * @param bool   $replace Replace previously set header?
+     *
+     * @return void
      */
     public function header($header, $replace = true)
     {
@@ -131,6 +133,8 @@ abstract class rcmail_output extends rcube_output
      *
      * @param string $body    The output body
      * @param array  $headers Headers
+     *
+     * @return void
      */
     public function sendExit($body = '', $headers = [])
     {
