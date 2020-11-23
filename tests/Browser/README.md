@@ -14,10 +14,10 @@ INSTALLATION
 
 Installation:
 
-0. Note that the suite has been tested with PHP 7.3 and 7.4.
+0. Note that the suite requires PHP >= 7.2 and PHPUnit >= 7.5.
 1. Install Laravel Dusk with all dependencies.
 ```
-composer require "laravel/dusk:~5.7.0"
+composer require "laravel/dusk:~6.9.0"
 ```
 2. Install Chrome WebDriver for the version of Chrome/Chromium in your system. Yes,
    you have to have Chrome/Chromium installed.
