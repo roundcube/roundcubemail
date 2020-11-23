@@ -1401,7 +1401,9 @@ class rcube
         $arg['terminate'] = $terminate;
 
         // send error to external error tracking tool
-        $arg = self::$instance->plugins->exec_hook('raise_error', $arg);
+        if (self::$instance) {
+            $arg = self::$instance->plugins->exec_hook('raise_error', $arg);
+        }
 
         // installer
         if (!$cli && class_exists('rcmail_install', false)) {
