@@ -520,7 +520,7 @@ class password extends rcube_plugin
         $method  = strtolower($method);
         $rcmail  = rcmail::get_instance();
         $prefix  = '';
-        $crypted = '';
+        $crypted = null;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
@@ -769,6 +769,12 @@ class password extends rcube_plugin
 
         case 'clear':
             $crypted = $password;
+            break;
+        default:
+            rcube::raise_error(array(
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Hash method not supported."
+                ), true, true);
         }
 
         if ($crypted === null || $crypted === false) {
