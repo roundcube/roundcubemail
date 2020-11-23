@@ -61,21 +61,21 @@
     {
       "lib": "openpgp",
       "name": "OpenPGP.js",
-      "version": "4.4.6",
+      "version": "4.10.9",
       "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v$v/dist/openpgp.min.js",
       "api_url": "https://api.github.com/repos/openpgpjs/openpgpjs/contents/dist/openpgp.min.js?ref=v$v",
       "dest": "plugins/enigma/openpgp.min.js",
-      "sha1": "e142168db8e666a40fcb4c48ef89c9d774134f8b",
+      "sha1": "c6374455612b2dbb2acfc2d7c85d4b762c9605eb",
       "license": "LGPL",
       "copyright": "Copyright (c) OpenPGP Development Team",
       "source": "https://github.com/openpgpjs/openpgpjs/blob/v$v/dist/openpgp.js"
     },
     {
       "lib": "codemirror",
-      "version": "5.46.0",
+      "version": "5.58.3",
       "url": "https://codemirror.net/codemirror-$v.zip",
       "dest": "plugins/managesieve/codemirror",
-      "sha1": "c11fcb9b63cee2b276e3b9f24a8ad6d7c374c624",
+      "sha1": "9dffee4cda2d2f94f80e9ed282cfb152285dfef9",
       "license": "MIT",
       "map": {
         "lib": "lib",
@@ -86,10 +86,10 @@
     {
       "lib": "bootstrap",
       "name": "Bootstrap",
-      "version": "4.3.1",
+      "version": "4.5.3",
       "url": "https://github.com/twbs/bootstrap/releases/download/v$v/bootstrap-$v-dist.zip",
       "dest": "skins/elastic/deps",
-      "sha1": "ee9e9d6bbbb6181dc519778af2b38804a6aa62a4",
+      "sha1": "754b94b6d4fface5c0876b13d739dbe920c79ac4",
       "license": "MIT",
       "flat": true,
       "sourcemap": false,
@@ -101,11 +101,11 @@
     {
       "lib": "less",
       "name": "LessJS",
-      "version": "2.7.3",
+      "version": "3.13.0",
       "url": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.min.js",
       "api_url": "https://api.github.com/repos/less/less.js/contents/dist/less.min.js?ref=v$v",
       "dest": "skins/elastic/deps/less.min.js",
-      "sha1": "45ea4f9fed6c0568ec11faba048c3e3cb7612e9e",
+      "sha1": "43a33274a059825253a61b1ad158c9c380bf736b",
       "license": "Apache-2.0",
       "source": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.js"
     }
