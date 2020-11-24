@@ -177,7 +177,7 @@ class rcmail_sendmail
         $this->options['mailto']      = $mailto;
 
         // compose headers array
-        $headers = array(
+        $headers = [
             'Received'         => $this->header_received(),
             'Date'             => $this->rcmail->user_date(),
             'From'             => $from_string,
@@ -193,7 +193,7 @@ class rcmail_sendmail
             'User-Agent'       => $this->rcmail->config->get('useragent'),
             'Message-ID'       => $message_id,
             'X-Sender'         => $from,
-        );
+        ];
 
         if (!empty($identity_arr['organization'])) {
             $headers['Organization'] = $identity_arr['organization'];
@@ -1072,7 +1072,7 @@ class rcmail_sendmail
                 // Reply to message sent by yourself (#1487074, #1489230, #1490439)
                 // Reply-To address need to be unset (#1490233)
                 if (!empty($message->compose['ident']) && empty($replyto)) {
-                    foreach (array($fvalue, $message->headers->from) as $sender) {
+                    foreach ([$fvalue, $message->headers->from] as $sender) {
                         $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
 
                         if (in_array($message->compose['ident']['email_ascii'], $senders)) {
@@ -1133,7 +1133,7 @@ class rcmail_sendmail
         if (!empty($fvalue) && in_array($header, ['to', 'cc', 'bcc'])) {
             $from_email   = @mb_strtolower($message->compose['ident']['email']);
             $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $charset);
-            $fvalue       = array();
+            $fvalue       = [];
 
             foreach ($to_addresses as $addr_part) {
                 if (empty($addr_part['mailto'])) {
@@ -1269,7 +1269,7 @@ class rcmail_sendmail
         }
 
         $form_end  = ($this->message_form && empty($attrib['form'])) ? '</form>' : '';
-        $form_name = !empty($attrib['form']) ?: 'form';
+        $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
         if (!$this->message_form) {
             $this->rcmail->output->add_gui_object('messageform', $form_name);
@@ -1277,7 +1277,7 @@ class rcmail_sendmail
 
         $this->message_form = $form_name;
 
-        return array($form_start, $form_end);
+        return [$form_start, $form_end];
     }
 
     /**
