@@ -1031,7 +1031,7 @@ class rcmail extends rcube
                 return $p;
             }
 
-            $p = ['_action' => @func_get_arg(0)];
+            $p = ['_action' => $p];
         }
 
         $task = $this->task;
