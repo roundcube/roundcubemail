@@ -66,13 +66,13 @@ class rcube_cache_redis extends rcube_cache
         if (!class_exists('Redis')) {
             self::$redis = false;
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Failed to find Redis. Make sure php-redis is included"
-                ),
+                ],
                 true, true);
         }
 
@@ -81,25 +81,25 @@ class rcube_cache_redis extends rcube_cache
 
         // host config is wrong
         if (!is_array($hosts) || empty($hosts)) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Redis host not configured"
-                ),
+                ],
                 true, true);
         }
 
         // only allow 1 host for now until we support clustering
         if (count($hosts) > 1) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Redis cluster not yet supported"
-                ),
+                ],
                 true, true);
         }
 
@@ -209,7 +209,7 @@ class rcube_cache_redis extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -237,7 +237,7 @@ class rcube_cache_redis extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {

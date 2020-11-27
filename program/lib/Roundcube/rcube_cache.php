@@ -35,9 +35,9 @@ class rcube_cache
     protected $indexed;
     protected $index;
     protected $index_update;
-    protected $cache        = array();
-    protected $updates      = array();
-    protected $exp_records  = array();
+    protected $cache        = [];
+    protected $updates      = [];
+    protected $exp_records  = [];
     protected $refresh_time = 0.5; // how often to refresh/save the index and cache entries
     protected $debug        = false;
     protected $max_packet   = -1;
@@ -70,10 +70,13 @@ class rcube_cache
         $class  = "rcube_cache_$driver";
 
         if (!$driver || !class_exists($class)) {
-            rcube::raise_error(array('code' => 600, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => "Configuration error. Unsupported cache driver: $driver"),
-                true, true);
+            rcube::raise_error([
+                    'code' => 600, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Configuration error. Unsupported cache driver: $driver"
+                ],
+                true, true
+            );
         }
 
         return new $class($userid, $prefix, $ttl, $packed, $indexed);
@@ -124,7 +127,7 @@ class rcube_cache
      * @param string $key  Cache key name
      * @param mixed  $data Cache data
      *
-     * @return boolean True on success, False on failure
+     * @return bool True on success, False on failure
      */
     public function set($key, $data)
     {
@@ -150,9 +153,9 @@ class rcube_cache
     /**
      * Clears the cache.
      *
-     * @param string  $key         Cache key name or pattern
-     * @param boolean $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     public function remove($key = null, $prefix_mode = false)
     {
@@ -184,8 +187,8 @@ class rcube_cache
     {
         $this->write_index(true);
         $this->index   = null;
-        $this->cache   = array();
-        $this->updates = array();
+        $this->cache   = [];
+        $this->updates = [];
     }
 
     /**
@@ -196,12 +199,12 @@ class rcube_cache
      *
      * @return string Key name
      */
-    public static function key_name($prefix, $params = array())
+    public static function key_name($prefix, $params = [])
     {
         $cache_key = $prefix;
 
         if (!empty($params)) {
-            $func   = function($v) {
+            $func = function($v) {
                 if (is_array($v)) {
                     sort($v);
                 }
@@ -291,7 +294,7 @@ class rcube_cache
      * @param string $key  Cache key name
      * @param mixed  $data Serialized cache data
      *
-     * @return boolean True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function write_record($key, $data)
     {
@@ -338,7 +341,7 @@ class rcube_cache
         if ($key === null) {
             $ts = new DateTime('now', new DateTimeZone('UTC'));
             $this->add_item($this->ekey('*'), $ts->format(self::DATE_FORMAT));
-            $this->cache = array();
+            $this->cache = [];
         }
         // "Remove" keys by name prefix
         else if ($prefix_mode) {
@@ -376,7 +379,7 @@ class rcube_cache
                 }
             }
 
-            $this->index = array();
+            $this->index = [];
         }
         // Remove keys by name prefix
         else if ($prefix_mode) {
@@ -425,7 +428,7 @@ class rcube_cache
                     }
                 }
 
-                $this->updates = array();
+                $this->updates = [];
             }
         }
         // Write index entry when needed
@@ -457,7 +460,7 @@ class rcube_cache
         }
 
         $data        = $this->get_item($this->ikey());
-        $this->index = $data ? unserialize($data) : array();
+        $this->index = $data ? unserialize($data) : [];
     }
 
     /**
@@ -504,7 +507,7 @@ class rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -516,7 +519,7 @@ class rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {

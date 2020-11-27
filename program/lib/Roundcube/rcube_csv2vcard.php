@@ -30,7 +30,7 @@ class rcube_csv2vcard
      *
      * @var array
      */
-    protected $csv2vcard_map = array(
+    protected $csv2vcard_map = [
         // MS Outlook 2010
         'anniversary'           => 'anniversary',
         'assistants_name'       => 'assistant',
@@ -168,14 +168,14 @@ class rcube_csv2vcard
         'phone1'                => 'phone:home',
         'phone'                 => 'phone:work',
         'email'                 => 'email:home',
-    );
+    ];
 
     /**
      * CSV label to text mapping for English
      *
      * @var array
      */
-    protected $label_map = array(
+    protected $label_map = [
         // MS Outlook 2010
         'anniversary'       => "Anniversary",
         'assistants_name'   => "Assistant's Name",
@@ -302,24 +302,24 @@ class rcube_csv2vcard
         'name'              => "Name",
         'name_prefix'       => "Name Prefix",
         'name_suffix'       => "Name Suffix",
-    );
+    ];
 
     /**
      * Special fields map for GMail format
      *
      * @var array
      */
-    protected $gmail_label_map = array(
-        'E-mail' => array(
-            'Value' => array(
+    protected $gmail_label_map = [
+        'E-mail' => [
+            'Value' => [
                 'home'  => 'email:home',
                 'work'  => 'email:work',
                 'other' => 'email:other',
                 ''      => 'email:other',
-            ),
-        ),
-        'Phone' => array(
-            'Value' => array(
+            ],
+        ],
+        'Phone' => [
+            'Value' => [
                 'home'    => 'phone:home',
                 'homefax' => 'phone:homefax',
                 'main'    => 'phone:pref',
@@ -327,60 +327,60 @@ class rcube_csv2vcard
                 'mobile'  => 'phone:cell',
                 'work'    => 'phone:work',
                 'workfax' => 'phone:workfax',
-            ),
-        ),
-        'Relation' => array(
-            'Value' => array(
+            ],
+        ],
+        'Relation' => [
+            'Value' => [
                 'spouse' => 'spouse',
-            ),
-        ),
-        'Website' => array(
-            'Value' => array(
+            ],
+        ],
+        'Website' => [
+            'Value' => [
                 'profile'  => 'website:profile',
                 'blog'     => 'website:blog',
                 'homepage' => 'website:homepage',
                 'work'     => 'website:work',
-            ),
-        ),
-        'Address' => array(
-            'Street' => array(
+            ],
+        ],
+        'Address' => [
+            'Street' => [
                 'home' => 'street:home',
                 'work' => 'street:work',
-            ),
-            'City' => array(
+            ],
+            'City' => [
                 'home' => 'locality:home',
                 'work' => 'locality:work',
-            ),
-            'Region' => array(
+            ],
+            'Region' => [
                 'home' => 'region:home',
                 'work' => 'region:work',
-            ),
-            'Postal Code' => array(
+            ],
+            'Postal Code' => [
                 'home' => 'zipcode:home',
                 'work' => 'zipcode:work',
-            ),
-            'Country' => array(
+            ],
+            'Country' => [
                 'home' => 'country:home',
                 'work' => 'country:work',
-            ),
-        ),
-        'Organization' => array(
-            'Name' => array(
+            ],
+        ],
+        'Organization' => [
+            'Name' => [
                 '' => 'organization',
-            ),
-            'Title' => array(
+            ],
+            'Title' => [
                 '' => 'jobtitle',
-            ),
-            'Department' => array(
+            ],
+            'Department' => [
                 '' => 'department',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
 
-    protected $local_label_map = array();
-    protected $vcards          = array();
-    protected $map             = array();
+    protected $local_label_map = [];
+    protected $vcards          = [];
+    protected $map             = [];
 
 
     /**
@@ -408,10 +408,10 @@ class rcube_csv2vcard
     /**
      * Import contacts from CSV file
      *
-     * @param  string  $csv     Content of the CSV file
-     * @param  boolean $dry_run Generate automatic field mapping
+     * @param string $csv     Content of the CSV file
+     * @param bool   $dry_run Generate automatic field mapping
      *
-     * @return array   Field mapping info (dry run only)
+     * @return array Field mapping info (dry run only)
      */
     public function import($csv, $dry_run = false, $skip_head = true)
     {
@@ -419,7 +419,7 @@ class rcube_csv2vcard
         $head      = substr($csv, 0, 4096);
         $charset   = rcube_charset::detect($head, RCUBE_CHARSET);
         $csv       = rcube_charset::convert($csv, $charset);
-        $csv       = preg_replace(array('/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'), '', $csv); // also remove BOM
+        $csv       = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
         $head      = '';
 
         // Split CSV file into lines
@@ -436,7 +436,7 @@ class rcube_csv2vcard
             $elements = $this->parse_line($line);
 
             if ($dry_run) {
-                return array('source' => $elements, 'destination' => $this->map);
+                return ['source' => $elements, 'destination' => $this->map];
             }
 
             if (empty($elements)) {
@@ -473,12 +473,12 @@ class rcube_csv2vcard
     public function get_fields()
     {
         // get all vcard fields
-        $fields = array_unique($this->csv2vcard_map);
+        $fields            = array_unique($this->csv2vcard_map);
         $local_field_names = $this->local_label_map ?: $this->label_map;
         $local_field_names = array_flip($local_field_names);
 
         // translate with the local map
-        $map = array();
+        $map = [];
         foreach ($fields as $csv => $vcard) {
             if ($vcard == '_auto_') {
                 continue;
@@ -516,7 +516,7 @@ class rcube_csv2vcard
     {
         $line = trim($line);
         if (empty($line)) {
-            return array();
+            return [];
         }
 
         $fields = str_getcsv($line);
@@ -538,8 +538,8 @@ class rcube_csv2vcard
             $contents = $this->parse_line($lines[1]);
         }
 
-        $map1 = array();
-        $map2 = array();
+        $map1 = [];
+        $map2 = [];
         $size = count($elements);
 
         // check English labels
@@ -607,10 +607,12 @@ class rcube_csv2vcard
      */
     protected function csv_to_vcard($data)
     {
-        $contact = array();
+        $contact = [];
+
         foreach ($this->map as $idx => $name) {
-            if ($name == '_auto_')
+            if ($name == '_auto_') {
                 continue;
+            }
 
             $value = $data[$idx];
             if ($value !== null && $value !== '') {
@@ -655,7 +657,7 @@ class rcube_csv2vcard
         }
 
         if (!empty($contact['gender']) && ($gender = strtolower($contact['gender']))) {
-            if (!in_array($gender, array('male', 'female'))) {
+            if (!in_array($gender, ['male', 'female'])) {
                 unset($contact['gender']);
             }
         }
@@ -663,7 +665,7 @@ class rcube_csv2vcard
         // Convert address(es) to rcube_vcard data
         foreach ($contact as $idx => $value) {
             $name = explode(':', $idx);
-            if (in_array($name[0], array('street', 'locality', 'region', 'zipcode', 'country'))) {
+            if (in_array($name[0], ['street', 'locality', 'region', 'zipcode', 'country'])) {
                 $contact['address:'.$name[1]][$name[0]] = $value;
                 unset($contact[$idx]);
             }
