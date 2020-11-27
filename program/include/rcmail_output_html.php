@@ -608,7 +608,7 @@ EOF;
      */
     public function redirect($p = [], $delay = 1, $secure = false)
     {
-        if (!empty($this->env['extwin'])) {
+        if (!empty($this->env['extwin']) && is_array($p)) {
             $p['extwin'] = 1;
         }
 
