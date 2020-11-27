@@ -60,12 +60,12 @@ class rcube_base_replacer
      */
     public function replace($body)
     {
-        $regexp = array(
+        $regexp = [
             '/(src|background|href)=(["\']?)([^"\'\s>]+)(\2|\s|>)/i',
             '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/i',
-        );
+        ];
 
-        return preg_replace_callback($regexp, array($this, 'callback'), $body);
+        return preg_replace_callback($regexp, [$this, 'callback'], $body);
     }
 
     /**

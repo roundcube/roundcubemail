@@ -14,11 +14,11 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_clean()
     {
-        return array(
-            array('', ''),
-            array("\xC1", ""),
-            array("Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"),
-        );
+        return [
+            ['', ''],
+            ["\xC1", ""],
+            ["Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"],
+        ];
     }
 
     /**
@@ -44,10 +44,10 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_parse_charset()
     {
-        return array(
-            array('UTF8', 'UTF-8'),
-            array('WIN1250', 'WINDOWS-1250'),
-        );
+        return [
+            ['UTF8', 'UTF-8'],
+            ['WIN1250', 'WINDOWS-1250'],
+        ];
     }
 
     /**
@@ -63,15 +63,15 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_convert()
     {
-        return array(
-            array('ö', 'ö', 'UTF-8', 'UTF-8'),
-            array('ö', '', 'UTF-8', 'ASCII'),
-            array('aż', 'a', 'UTF-8', 'US-ASCII'),
-            array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
-            array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
-            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
-            array('㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'),
-        );
+        return [
+            ['ö', 'ö', 'UTF-8', 'UTF-8'],
+            ['ö', '', 'UTF-8', 'ASCII'],
+            ['aż', 'a', 'UTF-8', 'US-ASCII'],
+            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'],
+            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'],
+            [base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'],
+            ['㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'],
+        ];
     }
 
     /**
@@ -87,9 +87,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_utf7_to_utf8()
     {
-        return array(
-            array('+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'),
-        );
+        return [
+            ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
+        ];
     }
 
     /**
@@ -105,9 +105,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_utf7imap_to_utf8()
     {
-        return array(
-            array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'),
-        );
+        return [
+            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
+        ];
     }
 
     /**
@@ -123,9 +123,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_utf8_to_utf7imap()
     {
-        return array(
-            array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'),
-        );
+        return [
+            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
+        ];
     }
 
     /**
@@ -141,9 +141,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_utf16_to_utf8()
     {
-        return array(
-            array(base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'),
-        );
+        return [
+            [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
+        ];
     }
 
     /**
@@ -159,10 +159,10 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_detect()
     {
-        return array(
-            array('', '', 'UTF-8'),
-            array('a', 'UTF-8', 'UTF-8'),
-        );
+        return [
+            ['', '', 'UTF-8'],
+            ['a', 'UTF-8', 'UTF-8'],
+        ];
     }
 
     /**
@@ -178,9 +178,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_detect_with_lang()
     {
-        return array(
-            array(base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'),
-        );
+        return [
+            [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
+        ];
     }
 
     /**
@@ -190,5 +190,4 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     {
         $this->assertEquals($output, rcube_charset::detect($input, $output, $lang));
     }
-
 }
