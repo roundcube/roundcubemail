@@ -26,9 +26,9 @@
  */
 class rcube_imap_search
 {
-    public $options = array();
+    public $options = [];
 
-    protected $jobs      = array();
+    protected $jobs      = [];
     protected $timelimit = 0;
     protected $results;
     protected $conn;
@@ -49,9 +49,9 @@ class rcube_imap_search
      * @param  string  $str        Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
-     * @param  boolean $threading  True if threaded listing is active
+     * @param  bool    $threading  True if threaded listing is active
      */
-    public function exec($folders, $str, $charset = null, $sort_field = null, $threading=null)
+    public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
     {
         $start   = floor(microtime(true));
         $results = new rcube_result_multifolder($folders);
@@ -127,7 +127,7 @@ class rcube_imap_search_job /* extends Stackable */
     private $threading;
     private $result;
 
-    public function __construct($folder, $str, $charset = null, $sort_field = null, $threading=false)
+    public function __construct($folder, $str, $charset = null, $sort_field = null, $threading = false)
     {
         $this->folder     = $folder;
         $this->search     = $str;
@@ -214,13 +214,13 @@ class rcube_imap_search_job /* extends Stackable */
 
     public function get_search_set()
     {
-        return array(
+        return [
             $this->search,
             $this->result,
             $this->charset,
             $this->sort_field,
             $this->threading,
-        );
+        ];
     }
 
     public function get_result()

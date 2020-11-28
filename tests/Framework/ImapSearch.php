@@ -13,7 +13,7 @@ class Framework_ImapSearch extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_imap_search(array(), true);
+        $object = new rcube_imap_search([], true);
 
         $this->assertInstanceOf('rcube_imap_search', $object, "Class constructor");
     }
