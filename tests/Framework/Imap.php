@@ -30,7 +30,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
             'shared' => [['Shared.', '.']],
         ];
 
-        foreach (array('drafts', 'sent', 'junk', 'trash') as $mbox) {
+        foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {
             rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 

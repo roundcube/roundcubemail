@@ -133,9 +133,9 @@ class rcube_db_sqlite extends rcube_db
      */
     public function list_cols($table)
     {
-        $q = $this->query('SELECT p.name FROM pragma_table_info(?) p', $table);
+        $q = $this->query('PRAGMA table_info(?)', $table);
 
-        return $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+        return $q ? $q->fetchAll(PDO::FETCH_COLUMN, 1) : [];
     }
 
     /**
