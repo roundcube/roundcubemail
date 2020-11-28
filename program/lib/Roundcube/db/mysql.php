@@ -55,7 +55,7 @@ class rcube_db_mysql extends rcube_db
     {
         $args = func_get_args();
 
-        if (is_array($args[0])) {
+        if (!empty($args) && is_array($args[0])) {
             $args = $args[0];
         }
 
@@ -71,7 +71,7 @@ class rcube_db_mysql extends rcube_db
      */
     protected function dsn_string($dsn)
     {
-        $params = array();
+        $params = [];
         $result = 'mysql:';
 
         if (isset($dsn['database'])) {
@@ -156,7 +156,7 @@ class rcube_db_mysql extends rcube_db
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
                 . " ORDER BY TABLE_NAME", $this->db_dsnw_array['database']);
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -179,7 +179,7 @@ class rcube_db_mysql extends rcube_db
             return $q->fetchAll(PDO::FETCH_COLUMN, 0);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -193,7 +193,7 @@ class rcube_db_mysql extends rcube_db
     public function get_variable($varname, $default = null)
     {
         if (!isset($this->variables)) {
-            $this->variables = array();
+            $this->variables = [];
         }
 
         if (array_key_exists($varname, $this->variables)) {
@@ -246,5 +246,4 @@ class rcube_db_mysql extends rcube_db
         return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
             . " ON DUPLICATE KEY UPDATE $update", $values);
     }
-
 }
