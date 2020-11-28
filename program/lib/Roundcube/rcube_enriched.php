@@ -36,14 +36,18 @@ class rcube_enriched
 
         for ($i=0; $i<$len; $i++) {
             $c = $body[$i];
-            if (ord($c) == 10)
+            if (ord($c) == 10) {
                 $nl++;
-            if ($nl && ord($c) != 10)
+            }
+            if ($nl && ord($c) != 10) {
                 $nl = 0;
-            if ($nl != 1)
+            }
+            if ($nl != 1) {
                 $out .= $c;
-            else
+            }
+            else {
                 $out .= ' ';
+            }
         }
 
         return $out;
@@ -51,7 +55,7 @@ class rcube_enriched
 
     protected static function convert_formatting($body)
     {
-        $replace = array(
+        $replace = [
             '<bold>'        => '<b>',            '</bold>'   => '</b>',
             '<italic>'      => '<i>',            '</italic>' => '</i>',
             '<fixed>'       => '<tt>',           '</fixed>'  => '</tt>',
@@ -63,7 +67,7 @@ class rcube_enriched
             '<flushboth>'   => '<span style="text-align: justified">',      '</flushboth>'   => '</span>',
             '<indent>'      => '<span style="padding-left: 20px">',         '</indent>'      => '</span>',
             '<indentright>' => '<span style="padding-right: 20px">',        '</indentright>' => '</span>',
-        );
+        ];
 
         return str_ireplace(array_keys($replace), array_values($replace), $body);
     }
@@ -73,8 +77,9 @@ class rcube_enriched
         $pattern = '/(.*)\<fontfamily\>\<param\>(.*)\<\/param\>(.*)\<\/fontfamily\>(.*)/ims';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 5)
+            if (count($a) != 5) {
                 continue;
+            }
 
             $body = $a[1].'<span style="font-family: '.$a[2].'">'.$a[3].'</span>'.$a[4];
         }
@@ -87,15 +92,17 @@ class rcube_enriched
         $pattern = '/(.*)\<color\>\<param\>(.*)\<\/param\>(.*)\<\/color\>(.*)/ims';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 5)
+            if (count($a) != 5) {
                 continue;
+            }
 
             // extract color (either by name, or ####,####,####)
             if (strpos($a[2],',')) {
-                $rgb   = explode(',',$a[2]);
+                $rgb   = explode(',', $a[2]);
                 $color = '#';
-                for ($i=0; $i<3; $i++)
+                for ($i=0; $i<3; $i++) {
                     $color .= substr($rgb[$i], 0, 2); // just take first 2 bytes
+                }
             }
             else {
                 $color = $a[2];
@@ -113,14 +120,16 @@ class rcube_enriched
         $pattern = '/(.*)\<excerpt\>(.*)\<\/excerpt\>(.*)/i';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 4)
+            if (count($a) != 4) {
                 continue;
+            }
 
             $quoted = '';
             $lines  = explode('<br>', $a[2]);
 
-            foreach ($lines as $line)
+            foreach ($lines as $line) {
                 $quoted .= '&gt;'.$line.'<br>';
+            }
 
             $body = $a[1].'<span class="quotes">'.$quoted.'</span>'.$a[3];
         }

@@ -95,7 +95,7 @@ class rcube_db_mssql extends rcube_db
     {
         $args = func_get_args();
 
-        if (is_array($args[0])) {
+        if (!empty($args) && is_array($args[0])) {
             $args = $args[0];
         }
 
@@ -147,7 +147,7 @@ class rcube_db_mssql extends rcube_db
      */
     protected function dsn_string($dsn)
     {
-        $params = array();
+        $params = [];
         $result = $dsn['phptype'] . ':';
 
         if (isset($dsn['hostspec'])) {
@@ -182,7 +182,7 @@ class rcube_db_mssql extends rcube_db
         $sql = preg_replace_callback(
             '/((TABLE|(?<!ON )UPDATE|INSERT INTO|FROM(?! deleted)| ON(?! (DELETE|UPDATE|\[PRIMARY\]))'
             . '|REFERENCES|CONSTRAINT|TRIGGER|INDEX)\s+(\[dbo\]\.)?[\[\]]*)([^\[\]\( \r\n]+)/',
-            array($this, 'fix_table_names_callback'),
+            [$this, 'fix_table_names_callback'],
             $sql
         );
 

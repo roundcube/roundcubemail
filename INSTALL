@@ -28,7 +28,7 @@ REQUIREMENTS
    - mbstring.func_overload disabled
    - pcre.backtrack_limit >= 100000
 * A MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
-  or SQLite support in PHP - with permission to create tables
+  or SQLite (3.16 or newer) support in PHP - with permission to create tables
 * Composer installed either locally or globally (https://getcomposer.org)
 
 
@@ -119,7 +119,7 @@ the database engine with:
 
 * SQLite
 --------
-Versions of sqlite database engine older than 3 aren't supported.
+Versions of sqlite database engine older than 3.16 aren't supported.
 Database file and structure is created automatically by Roundcube.
 Make sure your configuration points to some file location and that the
 webserver can write to the file and the directory containing the file.
