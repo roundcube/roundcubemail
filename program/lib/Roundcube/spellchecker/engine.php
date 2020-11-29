@@ -52,7 +52,7 @@ abstract class rcube_spellchecker_engine
     /**
      * Set content and check spelling
      *
-     * @param string $text    Text content for spellchecking
+     * @param string $text Text content for spellchecking
      *
      * @return bool True when no mispelling found, otherwise false
      */
