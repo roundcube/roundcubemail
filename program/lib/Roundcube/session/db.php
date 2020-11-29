@@ -50,7 +50,7 @@ class rcube_session_db extends rcube_session
         $this->register_session_handler();
 
         // register db gc handler
-        $this->register_gc_handler(array($this, 'gc_db'));
+        $this->register_gc_handler([$this, 'gc_db']);
     }
 
     /**
@@ -103,7 +103,8 @@ class rcube_session_db extends rcube_session
     {
         $sql_result = $this->db->query(
             "SELECT `vars`, `ip`, `changed`, " . $this->db->now() . " AS ts"
-            . " FROM {$this->table_name} WHERE `sess_id` = ?", $key);
+            . " FROM {$this->table_name} WHERE `sess_id` = ?", $key
+        );
 
         if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $this->time_diff = time() - strtotime($sql_arr['ts']);
@@ -139,7 +140,8 @@ class rcube_session_db extends rcube_session
         $this->db->query("INSERT INTO {$this->table_name}"
             . " (`sess_id`, `vars`, `ip`, `changed`)"
             . " VALUES (?, ?, ?, $now)",
-            $key, base64_encode($vars), (string)$this->ip);
+            $key, base64_encode($vars), (string)$this->ip
+        );
 
         return true;
     }
