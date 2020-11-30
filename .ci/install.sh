@@ -14,9 +14,8 @@ cp composer.json-dist composer.json
 # Add laravel/dusk for Browser tests
 if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~6.9.0" --no-update; fi
 
-# Remove qr-code as it requires php-gd which is not always available on Travis
-# and we don't really need it for tests
-# composer remove endroid/qr-code --no-update
+# Add suggested dependencies required for tests
+composer require "kolab/net_ldap3:~1.1.1" --no-update
 
 # Install PHP dependencies
 composer install --prefer-dist
