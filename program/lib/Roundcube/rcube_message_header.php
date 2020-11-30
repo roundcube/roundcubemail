@@ -178,17 +178,17 @@ class rcube_message_header
      *
      * @var array
      */
-    public $others = array();
+    public $others = [];
 
     /**
      * Message flags
      *
      * @var array
      */
-    public $flags = array();
+    public $flags = [];
 
     // map header to rcube_message_header object property
-    private $obj_headers = array(
+    private $obj_headers = [
         'date'      => 'date',
         'from'      => 'from',
         'to'        => 'to',
@@ -208,23 +208,24 @@ class rcube_message_header
         'x-confirm-reading-to'      => 'mdn_to',
         'message-id'                => 'messageID',
         'x-priority'                => 'priority',
-    );
+    ];
 
     /**
      * Returns header value
      */
     public function get($name, $decode = true)
     {
-        $name = strtolower($name);
+        $name  = strtolower($name);
+        $value = null;
 
         if (isset($this->obj_headers[$name])) {
             $value = $this->{$this->obj_headers[$name]};
         }
-        else {
+        else if (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
-        if ($decode) {
+        if ($decode && $value !== null) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
                     $val         = rcube_mime::decode_header($val, $this->charset);
@@ -255,18 +256,19 @@ class rcube_message_header
         }
     }
 
-
     /**
      * Factory method to instantiate headers from a data array
      *
-     * @param array Hash array with header values
-     * @return object rcube_message_header instance filled with headers values
+     * @param array  $arr Hash array with header values
+     *
+     * @return rcube_message_header instance filled with headers values
      */
     public static function from_array($arr)
     {
         $obj = new rcube_message_header;
-        foreach ($arr as $k => $v)
+        foreach ($arr as $k => $v) {
             $obj->set($k, $v);
+        }
 
         return $obj;
     }
@@ -278,11 +280,10 @@ class rcube_message_header
  *
  * @package    Framework
  * @subpackage Storage
- * @author  Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header_sorter
 {
-    private $uids = array();
+    private $uids = [];
 
 
     /**
@@ -304,7 +305,7 @@ class rcube_message_header_sorter
      */
     function sort_headers(&$headers)
     {
-        uksort($headers, array($this, "compare_uids"));
+        uksort($headers, [$this, "compare_uids"]);
     }
 
     /**
