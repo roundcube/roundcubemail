@@ -28,14 +28,14 @@
 class rcube_result_multifolder
 {
     public $multi      = true;
-    public $sets       = array();
+    public $sets       = [];
     public $incomplete = false;
     public $folder;
 
-    protected $meta    = array();
-    protected $index   = array();
-    protected $folders = array();
-    protected $sdata   = array();
+    protected $meta    = [];
+    protected $index   = [];
+    protected $folders = [];
+    protected $sdata   = [];
     protected $order   = 'ASC';
     protected $sorting;
 
@@ -43,10 +43,10 @@ class rcube_result_multifolder
     /**
      * Object constructor.
      */
-    public function __construct($folders = array())
+    public function __construct($folders = [])
     {
         $this->folders = $folders;
-        $this->meta    = array('count' => 0);
+        $this->meta    = ['count' => 0];
     }
 
     /**
@@ -85,13 +85,13 @@ class rcube_result_multifolder
      */
     public function set_message_index($headers, $sort_field, $sort_order)
     {
-        $this->index = array();
+        $this->sorting = $sort_field;
+        $this->order   = $sort_order;
+        $this->index   = [];
+
         foreach ($headers as $header) {
             $this->index[] = $header->uid . '-' . $header->folder;
         }
-
-        $this->sorting = $sort_field;
-        $this->order   = $sort_order;
     }
 
     /**
@@ -181,7 +181,7 @@ class rcube_result_multifolder
      * @param array  $ids    List of IDs to remove.
      * @param string $folder IMAP folder
      */
-    public function filter($ids = array(), $folder = null)
+    public function filter($ids = [], $folder = null)
     {
         $this->meta['count'] = 0;
         foreach ($this->sets as $set) {
@@ -212,7 +212,7 @@ class rcube_result_multifolder
      *
      * @param array $ids List of IDs to keep.
      */
-    public function intersect($ids = array())
+    public function intersect($ids = [])
     {
         // not implemented
     }
@@ -249,7 +249,7 @@ class rcube_result_multifolder
         switch ($idx) {
             case 'FIRST': return $this->index[0];
             case 'LAST':  return end($this->index);
-            default:      return $this->index[$idx];
+            default:      return isset($this->index[$idx]) ? $this->index[$idx] : null;
         }
     }
 
@@ -263,11 +263,11 @@ class rcube_result_multifolder
      */
     public function get_parameters($param=null)
     {
-        $params = array(
+        $params = [
             'SORT'    => $this->sorting,
             'ORDER'   => $this->order,
             'MAILBOX' => $this->folders,
-        );
+        ];
 
         if ($param !== null) {
             return $params[$param];
@@ -281,7 +281,7 @@ class rcube_result_multifolder
      *
      * @param string $folder Folder name
      *
-     * @return false|object rcube_result_* instance of false if none found
+     * @return false|rcube_result_* instance of false if none found
      */
     public function get_set($folder)
     {
@@ -309,7 +309,7 @@ class rcube_result_multifolder
 
     public function __sleep()
     {
-        $this->sdata = array('incomplete' => array(), 'error' => array());
+        $this->sdata = ['incomplete' => [], 'error' => []];
 
         foreach ($this->sets as $set) {
             if ($set->incomplete) {
@@ -320,16 +320,16 @@ class rcube_result_multifolder
             }
         }
 
-        return array('sdata', 'index', 'folders', 'sorting', 'order');
+        return ['sdata', 'index', 'folders', 'sorting', 'order'];
     }
 
     public function __wakeup()
     {
-        $this->meta       = array('count' => count($this->index));
+        $this->meta       = ['count' => count($this->index)];
         $this->incomplete = count($this->sdata['incomplete']) > 0;
 
         // restore result sets from saved index
-        $data = array();
+        $data = [];
         foreach ($this->index as $item) {
             list($uid, $folder) = explode('-', $item, 2);
             $data[$folder] .= ' ' . $uid;
