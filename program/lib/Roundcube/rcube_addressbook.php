@@ -206,12 +206,12 @@ abstract class rcube_addressbook
     /**
      * Set internal sort settings
      *
-     * @param string $sort_col   Sort column
-     * @param string $sort_order Sort order
+     * @param ?string $sort_col   Sort column
+     * @param ?string $sort_order Sort order
      */
     function set_sort_order($sort_col, $sort_order = null)
     {
-        if ($sort_col && in_array($sort_col, $this->coltypes)) {
+        if ($sort_col && (key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
             $this->sort_col = $sort_col;
         }
 
