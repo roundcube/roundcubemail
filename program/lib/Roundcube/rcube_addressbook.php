@@ -321,6 +321,8 @@ abstract class rcube_addressbook
      *
      * @param array $ids   Record identifiers
      * @param bool  $force Remove records irreversible (see self::undelete)
+     *
+     * @return int|false Number of removed records, False on failure
      */
     function delete($ids, $force = true)
     {

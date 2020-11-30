@@ -7,7 +7,6 @@
  */
 class Framework_Message extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Test format_part_body() method
      */

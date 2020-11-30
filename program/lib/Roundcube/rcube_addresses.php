@@ -366,7 +366,7 @@ class rcube_addresses extends rcube_contacts
      * @param array $ids   Record identifiers
      * @param bool  $force Remove record(s) irreversible (unsupported)
      *
-     * @return int Number of removed records
+     * @return int|false Number of removed records
      */
     function delete($ids, $force = true)
     {

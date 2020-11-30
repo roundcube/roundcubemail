@@ -33,13 +33,13 @@ class rcube_mime_decode
      *
      * @var array
      */
-    protected $params = array(
+    protected $params = [
         'include_bodies'  => true,
         'decode_bodies'   => true,
         'decode_headers'  => true,
         'crlf'            => "\r\n",
         'default_charset' => RCUBE_CHARSET,
-    );
+    ];
 
 
     /**
@@ -57,7 +57,7 @@ class rcube_mime_decode
      *              decode_headers - Whether to decode headers
      *              crlf           - CRLF type to use (CRLF/LF/CR)
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         if (!empty($params)) {
             $this->params = array_merge($this->params, (array) $params);
@@ -247,7 +247,7 @@ class rcube_mime_decode
             $body = substr($body, 0, -$crlf_len);
         }
 
-        return array($header, $body);
+        return [$header, $body];
     }
 
     /**
@@ -259,7 +259,7 @@ class rcube_mime_decode
      */
     protected function parseHeaders($input)
     {
-        $return = array();
+        $return = [];
 
         if ($input !== '') {
             // Unfold the input
@@ -268,16 +268,16 @@ class rcube_mime_decode
 
             foreach ($headers as $value) {
                 $hdr_name  = substr($value, 0, $pos = strpos($value, ':'));
-                $hdr_value = substr($value, $pos+1);
+                $hdr_value = substr($value, $pos + 1);
 
-                if ($hdr_value[0] == ' ') {
+                if (isset($hdr_value[0]) && $hdr_value[0] == ' ') {
                     $hdr_value = substr($hdr_value, 1);
                 }
 
-                $return[] = array(
+                $return[] = [
                     'name'  => $hdr_name,
                     'value' => $this->params['decode_headers'] ? $this->decodeHeader($hdr_value) : $hdr_value,
-                );
+                ];
             }
         }
 
@@ -296,7 +296,7 @@ class rcube_mime_decode
     protected function parseHeaderValue($input)
     {
         $parts  = preg_split('/;\s*/', $input);
-        $return = array();
+        $return = [];
 
         if (!empty($parts)) {
             $return['value'] = trim($parts[0]);
@@ -327,7 +327,7 @@ class rcube_mime_decode
     protected function boundarySplit($input, $boundary)
     {
         $tmp   = explode('--' . $boundary, $input);
-        $parts = array();
+        $parts = [];
 
         for ($i = 1; $i < count($tmp)-1; $i++) {
             $parts[] = $tmp[$i];

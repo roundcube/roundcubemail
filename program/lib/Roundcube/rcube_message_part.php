@@ -74,21 +74,21 @@ class rcube_message_part
      *
      * @var array
      */
-    public $headers = array();
+    public $headers = [];
 
     /**
      * Sub-Parts
      *
      * @var array
      */
-    public $parts = array();
+    public $parts = [];
 
     public $disposition  = '';
     public $filename     = '';
     public $encoding     = '8bit';
     public $charset      = '';
-    public $d_parameters = array();
-    public $ctype_parameters = array();
+    public $d_parameters = [];
+    public $ctype_parameters = [];
 
 
     /**
