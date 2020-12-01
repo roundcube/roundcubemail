@@ -211,7 +211,7 @@ abstract class rcube_addressbook
      */
     function set_sort_order($sort_col, $sort_order = null)
     {
-        if ($sort_col && (key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
+        if ($sort_col && (array_key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
             $this->sort_col = $sort_col;
         }
 
