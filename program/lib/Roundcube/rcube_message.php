@@ -875,7 +875,7 @@ class rcube_message
                     }
 
                     if ($mail_part->headers['content-id']) {
-                        $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
+                        $mail_part->content_id = preg_replace(['/^</', '/>$/'], '', $mail_part->headers['content-id']);
                     }
 
                     if ($mail_part->headers['content-location']) {
@@ -924,7 +924,7 @@ class rcube_message
             // if this is a related part try to resolve references
             // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
             if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype) && count($this->inline_parts)) {
-                $a_replaces = array();
+                $a_replaces = [];
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
                 foreach ($this->inline_parts as $inline_object) {

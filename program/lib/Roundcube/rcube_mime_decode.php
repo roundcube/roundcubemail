@@ -107,7 +107,7 @@ class rcube_mime_decode
             $header_name = strtolower($value['name']);
 
             if (isset($return->headers[$header_name]) && !is_array($return->headers[$header_name])) {
-                $return->headers[$header_name]   = array($return->headers[$header_name]);
+                $return->headers[$header_name]   = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
             }
             else if (isset($return->headers[$header_name])) {

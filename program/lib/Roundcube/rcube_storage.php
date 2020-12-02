@@ -613,7 +613,7 @@ abstract class rcube_storage
             }
         }
 
-        return array($uids, $all);
+        return [$uids, $all];
     }
 
 

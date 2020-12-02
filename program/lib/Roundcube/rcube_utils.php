@@ -161,7 +161,7 @@ class rcube_utils
 
             // Check DNS record(s)
             // Note: We can't use ANY (#6581)
-            foreach (array('A', 'MX', 'CNAME', 'AAAA') as $type) {
+            foreach (['A', 'MX', 'CNAME', 'AAAA'] as $type) {
                 if (checkdnsrr($domain_part, $type)) {
                     return true;
                 }
@@ -233,7 +233,7 @@ class rcube_utils
 
         // if the replace tables for XML and JS are not yet defined
         if ($js_rep_table === false) {
-            $js_rep_table = $xml_rep_table = array();
+            $js_rep_table = $xml_rep_table = [];
             $xml_rep_table['&'] = '&amp;';
 
             // can be increased to support more charsets
@@ -252,7 +252,7 @@ class rcube_utils
 
         // encode for javascript use
         if ($enctype == 'js') {
-            return preg_replace(array("/\r?\n/", "/\r/", '/<\\//'), array('\n', '\n', '<\\/'), strtr($str, $js_rep_table));
+            return preg_replace(["/\r?\n/", "/\r/", '/<\\//'], ['\n', '\n', '<\\/'], strtr($str, $js_rep_table));
         }
 
         // encode for plaintext
@@ -360,7 +360,7 @@ class rcube_utils
      */
     public static function request2param($mode = null, $ignore = 'task|action', $allow_html = false)
     {
-        $out = array();
+        $out = [];
         $src = $mode == self::INPUT_GET ? $_GET : ($mode == self::INPUT_POST ? $_POST : $_REQUEST);
 
         foreach (array_keys($src) as $key) {
@@ -452,7 +452,7 @@ class rcube_utils
                     }
                     // allow strict url() values only
                     else if (stripos($stripped, 'url(') && !preg_match($strict_url_regexp, $line)) {
-                        $a_styles = array('/* evil! */');
+                        $a_styles = ['/* evil! */'];
                         break;
                     }
                 }
@@ -483,7 +483,7 @@ class rcube_utils
                 }
 
                 if ($prefix) {
-                    $replace = str_replace(array('.', '#'), array(".$prefix", "#$prefix"), $replace);
+                    $replace = str_replace(['.', '#'], [".$prefix", "#$prefix"], $replace);
                 }
 
                 if ($container_id) {
@@ -524,14 +524,9 @@ class rcube_utils
         $mimetype = strtolower($mimetype);
         $filename = strtolower($filename);
 
-        if (strpos($mimetype, '/')) {
-            list($primary, $secondary) = explode('/', $mimetype);
-        }
-        else {
-            $primary = $mimetype;
-        }
+        list($primary, $secondary) = rcube_utils::explode('/', $mimetype);
 
-        $classes = array($primary ?: 'unknown');
+        $classes = [$primary ?: 'unknown'];
 
         if (!empty($secondary)) {
             $classes[] = $secondary;
@@ -571,7 +566,7 @@ class rcube_utils
     /**
      * Check if we can process not exceeding memory_limit
      *
-     * @param integer $need Required amount of memory
+     * @param int $need Required amount of memory
      *
      * @return bool True if memory won't be exceeded, False otherwise
      */
@@ -599,12 +594,12 @@ class rcube_utils
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
-            && in_array($_SERVER['REMOTE_ADDR'], rcube::get_instance()->config->get('proxy_whitelist', array()))
+            && in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []))
         ) {
             return true;
         }
 
-        if ($port && $_SERVER['SERVER_PORT'] == $port) {
+        if ($port && isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $port) {
             return true;
         }
 
@@ -653,7 +648,7 @@ class rcube_utils
             $s = $s[2];
         }
 
-        return str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s), $name);
+        return str_replace(['%n', '%t', '%d', '%h', '%z', '%s'], [$n, $t, $d, $h, $z, $s], $name);
     }
 
     /**
@@ -691,8 +686,12 @@ class rcube_utils
                 }
             }
 
-            $rcube->raise_error(array('file' => __FILE__, 'line' => __LINE__,
-                'message' => "Specified host is not trusted. Using 'localhost'."), true, false);
+            $rcube->raise_error([
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Specified host is not trusted. Using 'localhost'."
+                ]
+                , true, false
+            );
         }
 
         return 'localhost';
@@ -733,7 +732,7 @@ class rcube_utils
     {
         // Check if any of the headers are set first to improve performance
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
-            $proxy_whitelist = rcube::get_instance()->config->get('proxy_whitelist', array());
+            $proxy_whitelist = (array) rcube::get_instance()->config->get('proxy_whitelist', []);
             if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
@@ -792,7 +791,7 @@ class rcube_utils
      */
     public static function explode_quoted_string($delimiter, $string)
     {
-        $result = array();
+        $result = [];
         $strlen = strlen($string);
 
         for ($q=$p=$i=0; $i < $strlen; $i++) {
@@ -908,18 +907,20 @@ class rcube_utils
 
         // Clean malformed data
         $date = preg_replace(
-            array(
+            [
                 '/\(.*\)/',                                 // remove RFC comments
                 '/GMT\s*([+-][0-9]+)/',                     // support non-standard "GMTXXXX" literal
                 '/[^a-z0-9\x20\x09:\/\.+-]/i',              // remove any invalid characters
                 '/\s*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*/i',   // remove weekday names
-            ),
-            array(
+            ],
+            [
                 '',
                 '\\1',
                 '',
                 '',
-            ), $date);
+            ],
+            $date
+        );
 
         $date = trim($date);
 
@@ -1053,8 +1054,8 @@ class rcube_utils
      */
     public static function tokenize_string($str, $minlen = 2)
     {
-        $expr = array('/[\s;,"\'\/+-]+/ui', '/(\d)[-.\s]+(\d)/u');
-        $repl = array(' ', '\\1\\2');
+        $expr = ['/[\s;,"\'\/+-]+/ui', '/(\d)[-.\s]+(\d)/u'];
+        $repl = [' ', '\\1\\2'];
 
         if ($minlen > 1) {
             $minlen--;
@@ -1096,7 +1097,7 @@ class rcube_utils
             preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
-            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+            $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
         }
         else if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
             // ISO-8859-2
@@ -1104,7 +1105,7 @@ class rcube_utils
             preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
-            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+            $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
         }
 
         foreach ($arr as $i => $part) {
@@ -1156,10 +1157,10 @@ class rcube_utils
      *
      * @return array Argument values hash
      */
-    public static function get_opt($aliases = array())
+    public static function get_opt($aliases = [])
     {
-        $args = array();
-        $bool = array();
+        $args = [];
+        $bool = [];
 
         // find boolean (no value) options
         foreach ($aliases as $key => $alias) {
@@ -1190,7 +1191,7 @@ class rcube_utils
                     $value = $_SERVER['argv'][++$i];
                 }
 
-                $args[$key] = is_string($value) ? preg_replace(array('/^["\']/', '/["\']$/'), '', $value) : $value;
+                $args[$key] = is_string($value) ? preg_replace(['/^["\']/', '/["\']$/'], '', $value) : $value;
             }
             else {
                 $args[] = $arg;
@@ -1254,7 +1255,7 @@ class rcube_utils
     {
         $str = strtolower($str);
 
-        return !in_array($str, array('false', '0', 'no', 'off', 'nein', ''), true);
+        return !in_array($str, ['false', '0', 'no', 'off', 'nein', ''], true);
     }
 
     /**
@@ -1444,7 +1445,7 @@ class rcube_utils
      *
      * @return bool True on error, False otherwise
      */
-    public static function preg_error($error = array(), $terminate = false)
+    public static function preg_error($error = [], $terminate = false)
     {
         if (($preg_error = preg_last_error()) != PREG_NO_ERROR) {
             $errstr = "PCRE Error: $preg_error.";
@@ -1456,7 +1457,7 @@ class rcube_utils
                 $errstr .= " Consider raising pcre.recursion_limit!";
             }
 
-            $error = array_merge(array('code' => 620, 'line' => __LINE__, 'file' => __FILE__), $error);
+            $error = array_merge(['code' => 620, 'line' => __LINE__, 'file' => __FILE__], $error);
 
             if (!empty($error['message'])) {
                 $error['message'] .= ' ' . $errstr;

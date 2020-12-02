@@ -647,7 +647,7 @@ class rcube_csv2vcard
         }
 
         // Empty dates, e.g. "0/0/00", "0000-00-00 00:00:00"
-        foreach (array('birthday', 'anniversary') as $key) {
+        foreach (['birthday', 'anniversary'] as $key) {
             if (!empty($contact[$key])) {
                 $date = preg_replace('/[0[:^word:]]/', '', $contact[$key]);
                 if (empty($date)) {

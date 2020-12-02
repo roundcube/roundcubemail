@@ -246,7 +246,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             $rcmail->output->add_gui_object('editform', $edit_form);
         }
 
-        return array($form_start, $form_end);
+        return [$form_start, $form_end];
     }
 
     /**

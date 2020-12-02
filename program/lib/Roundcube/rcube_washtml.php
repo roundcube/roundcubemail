@@ -55,7 +55,7 @@ class rcube_washtml
     /**
      * @var array Allowed HTML elements (default)
      */
-    static $html_elements = array('a', 'abbr', 'acronym', 'address', 'area', 'b',
+    static $html_elements = ['a', 'abbr', 'acronym', 'address', 'area', 'b',
         'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center',
         'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl',
         'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i',
@@ -87,17 +87,17 @@ class rcube_washtml
         'infinity', 'matrix', 'matrixrow', 'ci', 'cn', 'sep', 'apply',
         'plus', 'minus', 'eq', 'power', 'times', 'divide', 'csymbol', 'root',
         'bvar', 'lowlimit', 'uplimit',
-    );
+    ];
 
     /**
      * @var array Ignore these HTML tags and their content
      */
-    static $ignore_elements = array('script', 'applet', 'embed', 'style');
+    static $ignore_elements = ['script', 'applet', 'embed', 'style'];
 
     /**
      * @var array Allowed HTML attributes
      */
-    static $html_attribs = array('name', 'class', 'title', 'alt', 'width', 'height',
+    static $html_attribs = ['name', 'class', 'title', 'alt', 'width', 'height',
         'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing',
         'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight',
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
@@ -143,43 +143,43 @@ class rcube_washtml
         'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator',
         'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset',
         'fontsize', 'fontweight', 'fontstyle', 'fontfamily', 'groupalign', 'edge', 'side',
-    );
+    ];
 
     /**
      * @var array Elements which could be empty and be returned in short form (<tag />)
      */
-    static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
+    static $void_elements = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
         // MathML
         'sep', 'infinity', 'in', 'plus', 'eq', 'power', 'times', 'divide', 'root',
         'maligngroup', 'none', 'mprescripts',
-    );
+    ];
 
     /**
      * @var array Additional allowed attributes of body element
      */
-    static $body_attribs = array('alink', 'background', 'bgcolor', 'link', 'text', 'vlink');
+    static $body_attribs = ['alink', 'background', 'bgcolor', 'link', 'text', 'vlink'];
 
     /** @var bool State indicating existence of linked objects in HTML */
     public $extlinks = false;
 
     /** @var array Current settings */
-    private $config = array();
+    private $config = [];
 
     /** @var array Registered callback functions for tags */
-    private $handlers = array();
+    private $handlers = [];
 
     /** @var array Allowed HTML elements */
-    private $_html_elements = array();
+    private $_html_elements = [];
 
     /** @var array Ignore these HTML tags but process their content */
-    private $_ignore_elements = array();
+    private $_ignore_elements = [];
 
     /** @var array Elements which could be empty and be returned in short form (<tag />) */
-    private $_void_elements = array();
+    private $_void_elements = [];
 
     /** @var array Allowed HTML attributes */
-    private $_html_attribs = array();
+    private $_html_attribs = [];
 
     /** @var string A prefix to be added to id/class/for attribute values */
     private $_css_prefix;
@@ -210,7 +210,7 @@ class rcube_washtml
      *         html_attribs: Additional allowed HTML attributes
      *         void_elements: Elements which could be empty and be returned in short form (<tag />)
      */
-    public function __construct($p = array())
+    public function __construct($p = [])
     {
         $p['html_elements']   = isset($p['html_elements']) ? (array) $p['html_elements'] : [];
         $p['html_attribs']    = isset($p['html_attribs']) ? (array) $p['html_attribs'] : [];
@@ -252,7 +252,7 @@ class rcube_washtml
      */
     private function wash_style($style)
     {
-        $result = array();
+        $result = [];
 
         // Remove unwanted white-space characters so regular expressions below work better
         $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
@@ -311,8 +311,8 @@ class rcube_washtml
     private function wash_attribs($node)
     {
         $result = '';
-        $washed = array();
-        $additional_attribs = array();
+        $washed = [];
+        $additional_attribs = [];
 
         if ($node->nodeName == 'body') {
             $additional_attribs = self::$body_attribs;
@@ -362,7 +362,7 @@ class rcube_washtml
                         $out = $value;
                     }
                 }
-                else if ($this->_css_prefix !== null && in_array($key, array('id', 'class', 'for'))) {
+                else if ($this->_css_prefix !== null && in_array($key, ['id', 'class', 'for'])) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
                 else if ($key) {
@@ -409,7 +409,7 @@ class rcube_washtml
         }
 
         // allow url(#id) used in SVG
-        if ($uri[0] == '#') {
+        if (isset($uri[0]) && $uri[0] == '#') {
             if ($this->_css_prefix !== null) {
                 $uri = '#' . $this->_css_prefix . substr($uri, 1);
             }
@@ -520,8 +520,8 @@ class rcube_washtml
      */
     private function is_funciri_attribute($tag, $attr)
     {
-        return in_array($attr, array('fill', 'filter', 'stroke', 'marker-start',
-            'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor'));
+        return in_array($attr, ['fill', 'filter', 'stroke', 'marker-start',
+            'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor']);
     }
 
     /**
@@ -570,10 +570,12 @@ class rcube_washtml
             // log error message once
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
-                rcube::raise_error(array('code' => 500, 'type' => 'php',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"),
-                    true, false);
+                rcube::raise_error([
+                        'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"
+                    ],
+                    true, false
+                );
             }
 
             return '<!-- ignored -->';
@@ -596,7 +598,7 @@ class rcube_washtml
 
                     $node->setAttribute('href', (string) $uri);
                 }
-                else if (in_array($tagName, array('animate', 'animatecolor', 'set', 'animatetransform'))
+                else if (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
                     && self::attribute_value($node, 'attributename', 'href')
                 ) {
                     // Insecure svg tags
@@ -738,7 +740,7 @@ class rcube_washtml
         $html = trim($html);
 
         // special replacements (not properly handled by washtml class)
-        $html_search = array(
+        $html_search = [
             // space(s) between <NOBR>
             '/(<\/nobr>)(\s+)(<nobr>)/i',
             // PHP bug #32547 workaround: remove title tag
@@ -752,42 +754,42 @@ class rcube_washtml
             // washtml/DOMDocument cannot handle xml namespaces
             // HTML5 parser cannot handler <?xml
             '/<\?xml[^>]*>/i',
-        );
+        ];
 
-        $html_replace = array(
+        $html_replace = [
             '\\1'.' &nbsp; '.'\\3',
             '',
             '',
             '',
             '<html>',
             '',
-        );
+        ];
 
         $html = preg_replace($html_search, $html_replace, $html);
 
-        $err = array('line' => __LINE__, 'file' => __FILE__, 'message' => "Could not clean up HTML!");
+        $err = ['line' => __LINE__, 'file' => __FILE__, 'message' => "Could not clean up HTML!"];
         if ($html === null && rcube_utils::preg_error($err)) {
             return '';
         }
 
         // Replace all of those weird MS Word quotes and other high characters
-        $badwordchars = array(
+        $badwordchars = [
             "\xe2\x80\x98", // left single quote
             "\xe2\x80\x99", // right single quote
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
             "\xe2\x80\xa6"  // elipses
-        );
+        ];
 
-        $fixedwordchars = array(
+        $fixedwordchars = [
             "'",
             "'",
             '"',
             '"',
             '&mdash;',
             '...'
-        );
+        ];
 
         $html = str_replace($badwordchars, $fixedwordchars, $html);
 
@@ -795,7 +797,7 @@ class rcube_washtml
         //        we should probably do not modify content inside comments at all.
 
         // fix (unknown/malformed) HTML tags before "wash"
-        $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', array($this, 'html_tag_callback'), $html);
+        $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', [$this, 'html_tag_callback'], $html);
 
         // Remove invalid HTML comments (#1487759)
         // Note: We don't want to remove valid comments, conditional comments
@@ -827,10 +829,11 @@ class rcube_washtml
         }
 
         $tagname = $matches[2];
-        $tagname = preg_replace(array(
-            '/:.*$/',                // Microsoft's Smart Tags <st1:xxxx>
-            '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
-        ), '', $tagname);
+        $tagname = preg_replace([
+                '/:.*$/',                // Microsoft's Smart Tags <st1:xxxx>
+                '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
+            ], '', $tagname
+        );
 
         // fix invalid closing tags - remove any attributes (#1489446)
         if ($matches[1] == '</') {
@@ -866,13 +869,13 @@ class rcube_washtml
     public static function fix_broken_lists(&$html)
     {
         // do two rounds, one for <ol>, one for <ul>
-        foreach (array('ol', 'ul') as $tag) {
+        foreach (['ol', 'ul'] as $tag) {
             $pos = 0;
             while (($pos = stripos($html, '<' . $tag, $pos)) !== false) {
                 $pos++;
 
                 // make sure this is an ol/ul tag
-                if (!in_array($html[$pos+2], array(' ', '>'))) {
+                if (!in_array($html[$pos+2], [' ', '>'])) {
                     continue;
                 }
 
@@ -889,13 +892,13 @@ class rcube_washtml
                         $p += 4;
                     }
                     // li close tag
-                    else if ($tt == '</li' && in_array($html[$p+4], array(' ', '>'))) {
+                    else if ($tt == '</li' && in_array($html[$p+4], [' ', '>'])) {
                         $li_pos = $p;
                         $in_li  = false;
                         $p += 4;
                     }
                     // ul/ol closing tag
-                    else if ($tt == '</' . $tag && in_array($html[$p+4], array(' ', '>'))) {
+                    else if ($tt == '</' . $tag && in_array($html[$p+4], [' ', '>'])) {
                         break;
                     }
                     // nested ol/ul element out of li
@@ -996,7 +999,7 @@ class rcube_washtml
 
         $style  = trim($style);
         $strlen = strlen($style);
-        $result = array();
+        $result = [];
         $q      = false;
 
         // explode value

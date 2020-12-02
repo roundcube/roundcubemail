@@ -438,8 +438,8 @@ class rcube_plugin_api
     /**
      * Allows a plugin object to register a callback for a certain hook
      *
-     * @param string $hook Hook name
-     * @param mixed  $callback String with global function name or array($obj, 'methodname')
+     * @param string   $hook     Hook name
+     * @param callback $callback A callback function
      */
     public function register_hook($hook, $callback)
     {
@@ -468,8 +468,8 @@ class rcube_plugin_api
     /**
      * Allow a plugin object to unregister a callback.
      *
-     * @param string $hook Hook name
-     * @param mixed  $callback String with global function name or array($obj, 'methodname')
+     * @param string   $hook     Hook name
+     * @param callback $callback A callback function
      */
     public function unregister_hook($hook, $callback)
     {
@@ -526,18 +526,20 @@ class rcube_plugin_api
     /**
      * Let a plugin register a handler for a specific request
      *
-     * @param string $action   Action name (_task=mail&_action=plugin.foo)
-     * @param string $owner    Plugin name that registers this action
-     * @param mixed  $callback Callback: string with global function name or array($obj, 'methodname')
-     * @param string $task     Task name registered by this plugin
+     * @param string   $action   Action name (_task=mail&_action=plugin.foo)
+     * @param string   $owner    Plugin name that registers this action
+     * @param callback $callback A callback function
+     * @param string   $task     Task name registered by this plugin
      */
     public function register_action($action, $owner, $callback, $task = null)
     {
         // check action name
-        if ($task)
+        if ($task) {
             $action = $task.'.'.$action;
-        else if (strpos($action, 'plugin.') !== 0)
+        }
+        else if (strpos($action, 'plugin.') !== 0) {
             $action = 'plugin.'.$action;
+        }
 
         // can register action only if it's not taken or registered by myself
         if (!isset($this->actionmap[$action]) || $this->actionmap[$action] == $owner) {
@@ -545,10 +547,12 @@ class rcube_plugin_api
             $this->actionmap[$action] = $owner;
         }
         else {
-            rcube::raise_error(array('code' => 523, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Cannot register action $action;"
-                    ." already taken by another plugin"), true, false);
+            rcube::raise_error([
+                    'code' => 523, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Cannot register action $action; already taken by another plugin"
+                ],
+                true, false
+            );
         }
     }
 
@@ -576,9 +580,9 @@ class rcube_plugin_api
     /**
      * Register a handler function for template objects
      *
-     * @param string $name     Object name
-     * @param string $owner    Plugin name that registers this action
-     * @param mixed  $callback Callback: string with global function name or array($obj, 'methodname')
+     * @param string   $name     Object name
+     * @param string   $owner    Plugin name that registers this action
+     * @param callback $callback A callback function
      */
     public function register_handler($name, $owner, $callback)
     {

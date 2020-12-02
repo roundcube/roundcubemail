@@ -212,8 +212,8 @@ class rcube_db_pgsql extends rcube_db
         }
 
         $table   = $this->table_name($table, true);
-        $columns = array_map(array($this, 'quote_identifier'), $columns);
-        $target  = implode(', ', array_map(array($this, 'quote_identifier'), array_keys($keys)));
+        $columns = array_map([$this, 'quote_identifier'], $columns);
+        $target  = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
         $cols    = $target . ', ' . implode(', ', $columns);
         $vals    = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
         $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');

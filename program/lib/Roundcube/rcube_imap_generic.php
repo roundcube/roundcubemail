@@ -2158,7 +2158,7 @@ class rcube_imap_generic
 
                 if ($mode == 1 && $index_field == 'DATE') {
                     if (preg_match('/BODY\[HEADER\.FIELDS \("*DATE"*\)\] (.*)/', $line, $matches)) {
-                        $value = preg_replace(array('/^"*[a-z]+:/i'), '', $matches[1]);
+                        $value = preg_replace(['/^"*[a-z]+:/i'], '', $matches[1]);
                         $value = trim($value);
                         $result[$id] = rcube_utils::strtotime($value);
                     }

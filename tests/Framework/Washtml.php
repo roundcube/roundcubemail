@@ -156,36 +156,36 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_lists()
     {
-        $data = array(
-            array(
+        $data = [
+            [
                 "<ol><li>First</li><li>Second</li><ul><li>First sub</li></ul><li>Third</li></ol>",
                 "<ol><li>First</li><li>Second<ul><li>First sub</li></ul></li><li>Third</li></ol>"
-            ),
-            array(
+            ],
+            [
                 "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
                 "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
-            ),
-            array(
+            ],
+            [
                 "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
                 "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
-            ),
-            array(
+            ],
+            [
                 "<ul><li>First</li><ul><li>First sub</li><ul><li>sub sub</li></ul></ul><li></li></ul>",
                 "<ul><li>First<ul><li>First sub<ul><li>sub sub</li></ul></li></ul></li><li></li></ul>",
-            ),
-            array(
+            ],
+            [
                 "<ul><li>First</li><li>second</li><ul><ul><li>sub sub</li></ul></ul></ul>",
                 "<ul><li>First</li><li>second<ul><ul><li>sub sub</li></ul></ul></li></ul>",
-            ),
-            array(
+            ],
+            [
                 "<ol><ol><ol></ol></ol></ol>",
                 "<ol><ol><ol></ol></ol></ol>",
-            ),
-            array(
+            ],
+            [
                 "<div><ol><ol><ol></ol></ol></ol></div>",
                 "<div><ol><ol><ol></ol></ol></ol></div>",
-            ),
-        );
+            ],
+        ];
 
         foreach ($data as $element) {
             rcube_washtml::fix_broken_lists($element[0]);
@@ -239,7 +239,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             <body bgcolor=\"#fff\" text=\"#000\" background=\"#test\" link=\"#111\" alink=\"#222\" vlink=\"#333\">
             </body></html>";
 
-        $washer = new rcube_washtml(array('html_elements' => array('body')));
+        $washer = new rcube_washtml(['html_elements' => ['body']]);
         $washed = $washer->wash($html);
 
         $this->assertRegExp('|bgcolor="#fff"|', $washed, "Body bgcolor attribute");
@@ -585,13 +585,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_extlinks()
     {
-        $html = array(
-            array("<link href=\"http://TRACKING_URL/\">", true),
-            array("<link href=\"src:abc\">", false),
-            array("<img src=\"http://TRACKING_URL/\">", true),
-            array("<img src=\"data:image\">", false),
-            array('<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true),
-        );
+        $html = [
+            ["<link href=\"http://TRACKING_URL/\">", true],
+            ["<link href=\"src:abc\">", false],
+            ["<img src=\"http://TRACKING_URL/\">", true],
+            ["<img src=\"data:image\">", false],
+            ['<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true],
+        ];
 
         foreach ($html as $item) {
             $washer = new rcube_washtml;
@@ -601,7 +601,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         }
 
         foreach ($html as $item) {
-            $washer = new rcube_washtml(array('allow_remote' => true));
+            $washer = new rcube_washtml(['allow_remote' => true]);
             $washed = $washer->wash($item[0]);
 
             $this->assertFalse($washer->extlinks);
@@ -624,7 +624,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_css_prefix()
     {
-        $washer = new rcube_washtml(array('css_prefix' => 'test'));
+        $washer = new rcube_washtml(['css_prefix' => 'test']);
 
         $html   = '<p id="my-id">'
             . '<label for="my-other-id" class="my-class1 my-class2">test</label>'

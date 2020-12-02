@@ -839,7 +839,7 @@ class rcmail_install
             }
 
             if ($isnum) {
-                return '[' . implode(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ']';
+                return '[' . implode(', ', array_map(['rcmail_install', '_dump_var'], $var)) . ']';
             }
         }
 

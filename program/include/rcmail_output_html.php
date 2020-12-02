@@ -98,7 +98,7 @@ class rcmail_output_html extends rcmail_output
         if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
             if ($this->check_skin($_GET['skin'])) {
                 $this->set_skin($_GET['skin']);
-                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
+                $this->app->user->save_prefs(['skin' => $_GET['skin']]);
             }
         }
 
@@ -1877,7 +1877,7 @@ EOF;
         }
 
         if (!isset($this->script_files[$position]) || !is_array($this->script_files[$position])) {
-            $this->script_files[$position] = array();
+            $this->script_files[$position] = [];
         }
 
         if (!in_array($file, $this->script_files[$position])) {
@@ -2332,7 +2332,7 @@ EOF;
 
         // add oauth login button
         if ($this->config->get('oauth_auth_uri') && $this->config->get('oauth_provider')) {
-            $link_attr = array('href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider'));
+            $link_attr = ['href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider')];
             $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $this->config->get('oauth_provider_name', 'OAuth')]])));
         }
 

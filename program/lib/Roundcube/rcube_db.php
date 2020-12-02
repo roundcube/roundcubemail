@@ -1326,7 +1326,7 @@ class rcube_db
                     $opts = explode('&', $dsn);
                 }
                 else { // database?param1=value1
-                    $opts = array($dsn);
+                    $opts = [$dsn];
                 }
                 foreach ($opts as $opt) {
                     list($key, $value) = explode('=', $opt);

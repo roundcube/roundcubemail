@@ -292,7 +292,7 @@ class rcube_charset
 
         // throw an exception if mbstring reports an illegal character in input
         // using mb_check_encoding() is much slower
-        set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
+        set_error_handler(['rcube_charset', 'error_handler'], E_WARNING);
         try {
             $out = mb_convert_encoding($str, $to, $from);
         }

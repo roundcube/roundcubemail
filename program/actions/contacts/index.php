@@ -535,7 +535,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $js_id = rcube::JQ($id);
 
             // set class name(s)
-            $classes = array('contactsearch');
+            $classes = ['contactsearch'];
             if (!empty($source['class_name'])) {
                 $classes[] = $source['class_name'];
             }

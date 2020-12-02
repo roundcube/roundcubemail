@@ -2186,7 +2186,7 @@ class rcube_imap extends rcube_storage
 
         // get message/rfc822's child-parts
         if (is_array($part[8]) && $di != 8) {
-            $struct->parts = array();
+            $struct->parts = [];
             for ($i=0, $count=0; $i<count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
                     break;
@@ -3681,7 +3681,7 @@ class rcube_imap extends rcube_storage
         if (!isset($data['HIGHESTMODSEQ']) && empty($data['NOMODSEQ'])
             && ($this->get_capability('QRESYNC') || $this->get_capability('CONDSTORE'))
         ) {
-            if ($add_data = $this->conn->status($folder, array('HIGHESTMODSEQ'))) {
+            if ($add_data = $this->conn->status($folder, ['HIGHESTMODSEQ'])) {
                 $data = array_merge($data, $add_data);
             }
         }

@@ -22,26 +22,26 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_valid_email()
     {
-        return array(
-            array('email@domain.com', 'Valid email'),
-            array('firstname.lastname@domain.com', 'Email contains dot in the address field'),
-            array('email@subdomain.domain.com', 'Email contains dot with subdomain'),
-            array('firstname+lastname@domain.com', 'Plus sign is considered valid character'),
-            array('email@[123.123.123.123]', 'Square bracket around IP address'),
-            array('email@[IPv6:::1]', 'Square bracket around IPv6 address (1)'),
-            array('email@[IPv6:::1.2.3.4]', 'Square bracket around IPv6 address (2)'),
-            array('email@[IPv6:2001:2d12:c4fe:5afe::1]', 'Square bracket around IPv6 address (3)'),
-            array('"email"@domain.com', 'Quotes around email is considered valid'),
-            array('1234567890@domain.com', 'Digits in address are valid'),
-            array('email@domain-one.com', 'Dash in domain name is valid'),
-            array('_______@domain.com', 'Underscore in the address field is valid'),
-            array('email@domain.name', '.name is valid Top Level Domain name'),
-            array('email@domain.co.jp', 'Dot in Top Level Domain name also considered valid (use co.jp as example here)'),
-            array('firstname-lastname@domain.com', 'Dash in address field is valid'),
-            array('test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'),
-            array('あいうえお@domain.com', 'Unicode char as address'),
-            array('test@domain.2legit2quit', 'Extended TLD'),
-        );
+        return [
+            ['email@domain.com', 'Valid email'],
+            ['firstname.lastname@domain.com', 'Email contains dot in the address field'],
+            ['email@subdomain.domain.com', 'Email contains dot with subdomain'],
+            ['firstname+lastname@domain.com', 'Plus sign is considered valid character'],
+            ['email@[123.123.123.123]', 'Square bracket around IP address'],
+            ['email@[IPv6:::1]', 'Square bracket around IPv6 address (1)'],
+            ['email@[IPv6:::1.2.3.4]', 'Square bracket around IPv6 address (2)'],
+            ['email@[IPv6:2001:2d12:c4fe:5afe::1]', 'Square bracket around IPv6 address (3)'],
+            ['"email"@domain.com', 'Quotes around email is considered valid'],
+            ['1234567890@domain.com', 'Digits in address are valid'],
+            ['email@domain-one.com', 'Dash in domain name is valid'],
+            ['_______@domain.com', 'Underscore in the address field is valid'],
+            ['email@domain.name', '.name is valid Top Level Domain name'],
+            ['email@domain.co.jp', 'Dot in Top Level Domain name also considered valid (use co.jp as example here)'],
+            ['firstname-lastname@domain.com', 'Dash in address field is valid'],
+            ['test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'],
+            ['あいうえお@domain.com', 'Unicode char as address'],
+            ['test@domain.2legit2quit', 'Extended TLD'],
+        ];
     }
 
     /**
@@ -49,32 +49,32 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_invalid_email()
     {
-        return array(
-            array('plainaddress', 'Missing @ sign and domain'),
-            array('#@%^%#$@#$@#.com', 'Garbage'),
-            array('@domain.com', 'Missing username'),
-            array('Joe Smith <email@domain.com>', 'Encoded html within email is invalid'),
-            array('email.domain.com', 'Missing @'),
-            array('email@domain@domain.com', 'Two @ sign'),
-            array('.email@domain.com', 'Leading dot in address is not allowed'),
-            array('email.@domain.com', 'Trailing dot in address is not allowed'),
-            array('email..email@domain.com', 'Multiple dots'),
-            array('email@domain.com (Joe Smith)', 'Text followed email is not allowed'),
-            array('email@domain', 'Missing top level domain (.com/.net/.org/etc)'),
-            array('email@-domain.com', 'Leading dash in front of domain is invalid'),
-//            array('email@domain.web', '.web is not a valid top level domain'),
-            array('email@123.123.123.123', 'IP address without brackets'),
-            array('email@2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets'),
-            array('email@IPv6:2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets (2)'),
-            array('email@[111.222.333.44444]', 'Invalid IP format'),
-            array('email@[111.222.255.257]', 'Invalid IP format (2)'),
-            array('email@[.222.255.257]', 'Invalid IP format (3)'),
-            array('email@[::1]', 'Invalid IPv6 format (1)'),
-            array('email@[IPv6:2001:23x2:1]', 'Invalid IPv6 format (2)'),
-            array('email@[IPv6:1111:2222:33333::4444:5555]', 'Invalid IPv6 format (3)'),
-            array('email@[IPv6:1111::3333::4444:5555]', 'Invalid IPv6 format (4)'),
-            array('email@domain..com', 'Multiple dot in the domain portion is invalid'),
-        );
+        return [
+            ['plainaddress', 'Missing @ sign and domain'],
+            ['#@%^%#$@#$@#.com', 'Garbage'],
+            ['@domain.com', 'Missing username'],
+            ['Joe Smith <email@domain.com>', 'Encoded html within email is invalid'],
+            ['email.domain.com', 'Missing @'],
+            ['email@domain@domain.com', 'Two @ sign'],
+            ['.email@domain.com', 'Leading dot in address is not allowed'],
+            ['email.@domain.com', 'Trailing dot in address is not allowed'],
+            ['email..email@domain.com', 'Multiple dots'],
+            ['email@domain.com (Joe Smith)', 'Text followed email is not allowed'],
+            ['email@domain', 'Missing top level domain (.com/.net/.org/etc)'],
+            ['email@-domain.com', 'Leading dash in front of domain is invalid'],
+//            ['email@domain.web', '.web is not a valid top level domain'],
+            ['email@123.123.123.123', 'IP address without brackets'],
+            ['email@2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets'],
+            ['email@IPv6:2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets (2)'],
+            ['email@[111.222.333.44444]', 'Invalid IP format'],
+            ['email@[111.222.255.257]', 'Invalid IP format (2)'],
+            ['email@[.222.255.257]', 'Invalid IP format (3)'],
+            ['email@[::1]', 'Invalid IPv6 format (1)'],
+            ['email@[IPv6:2001:23x2:1]', 'Invalid IPv6 format (2)'],
+            ['email@[IPv6:1111:2222:33333::4444:5555]', 'Invalid IPv6 format (3)'],
+            ['email@[IPv6:1111::3333::4444:5555]', 'Invalid IPv6 format (4)'],
+            ['email@domain..com', 'Multiple dot in the domain portion is invalid'],
+        ];
     }
 
     /**
@@ -98,16 +98,16 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_valid_ip()
     {
-        return array(
-            array('0.0.0.0'),
-            array('123.123.123.123'),
-            array('::'),
-            array('::1'),
-            array('::1.2.3.4'),
-            array('2001:2d12:c4fe:5afe::1'),
-            array('2001::'),
-            array('2001::1'),
-        );
+        return [
+            ['0.0.0.0'],
+            ['123.123.123.123'],
+            ['::'],
+            ['::1'],
+            ['::1.2.3.4'],
+            ['2001:2d12:c4fe:5afe::1'],
+            ['2001::'],
+            ['2001::1'],
+        ];
     }
 
     /**
@@ -115,18 +115,18 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_invalid_ip()
     {
-        return array(
-            array(''),
-            array(0),
-            array('123.123.123.1234'),
-            array('1.1.1.1.1'),
-            array('::1.2.3.260'),
-            array('::1.0'),
-            array(':::1'),
-            array('2001:::1'),
-            array('2001::c4fe:5afe::1'),
-            array(':c4fe:5afe:1'),
-        );
+        return [
+            [''],
+            [0],
+            ['123.123.123.1234'],
+            ['1.1.1.1.1'],
+            ['::1.2.3.260'],
+            ['::1.0'],
+            [':::1'],
+            ['2001:::1'],
+            ['2001::c4fe:5afe::1'],
+            [':c4fe:5afe:1'],
+        ];
     }
 
     /**
@@ -150,17 +150,17 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_rep_specialchars_output()
     {
-        return array(
-            array('', '', 'abc', 'abc'),
-            array('', '', '?', '?'),
-            array('', '', '"', '&quot;'),
-            array('', '', '<', '&lt;'),
-            array('', '', '>', '&gt;'),
-            array('', '', '&', '&amp;'),
-            array('', '', '&amp;', '&amp;amp;'),
-            array('', '', '<a>', '&lt;a&gt;'),
-            array('', 'remove', '<a>', ''),
-        );
+        return [
+            ['', '', 'abc', 'abc'],
+            ['', '', '?', '?'],
+            ['', '', '"', '&quot;'],
+            ['', '', '<', '&lt;'],
+            ['', '', '>', '&gt;'],
+            ['', '', '&', '&amp;'],
+            ['', '', '&amp;', '&amp;amp;'],
+            ['', '', '<a>', '&lt;a&gt;'],
+            ['', 'remove', '<a>', ''],
+        ];
     }
 
     /**
@@ -306,11 +306,11 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_explode_quoted_string()
     {
-        $data = array(
-            '"a,b"' => array('"a,b"'),
-            '"a,b","c,d"' => array('"a,b"','"c,d"'),
-            '"a,\\"b",d' => array('"a,\\"b"', 'd'),
-        );
+        $data = [
+            '"a,b"' => ['"a,b"'],
+            '"a,b","c,d"' => ['"a,b"','"c,d"'],
+            '"a,\\"b",d' => ['"a,\\"b"', 'd'],
+        ];
 
         foreach ($data as $text => $res) {
             $result = rcube_utils::explode_quoted_string(',', $text);
@@ -323,7 +323,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_explode_quoted_string_compat()
     {
-        $data = array('', 'a,b,c', 'a', ',', ',a');
+        $data = ['', 'a,b,c', 'a', ',', ',a'];
 
         foreach ($data as $text) {
             $result = rcube_utils::explode_quoted_string(',', $text);
@@ -336,17 +336,17 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_get_boolean()
     {
-        $input = array(
+        $input = [
             false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
-        );
+        ];
 
         foreach ($input as $idx => $value) {
             $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
 
-        $input = array(
+        $input = [
             true, 'true', '1', 1, 'yes', 'anything', 1000,
-        );
+        ];
 
         foreach ($input as $idx => $value) {
             $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
@@ -358,11 +358,11 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_file2class()
     {
-        $test = array(
-            array('', '', 'unknown'),
-            array('text', 'text', 'text'),
-            array('image/png', 'image.png', 'image png'),
-        );
+        $test = [
+            ['', '', 'unknown'],
+            ['text', 'text', 'text'],
+            ['image/png', 'image.png', 'image png'],
+        ];
 
         foreach ($test as $v) {
             $result = rcube_utils::file2class($v[0], $v[1]);
@@ -378,7 +378,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         // this test depends on system timezone if not set
         date_default_timezone_set('UTC');
 
-        $test = array(
+        $test = [
             '1' => 1,
             '' => 0,
             'abc-555' => 0,
@@ -392,7 +392,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             '20130422'   => 1366588800,
             '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
-        );
+        ];
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::strtotime($datetime);
@@ -405,7 +405,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_anytodatetime()
     {
-        $test = array(
+        $test = [
             '2013-04-22' => '2013-04-22',
             '2013/04/22' => '2013-04-22',
             '2013.04.22' => '2013-04-22',
@@ -419,26 +419,26 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             '01-01-1900' => '1900-01-01',
             '01/30/1960' => '1960-01-30',
             '1960.12.11 01:02:00' => '1960-12-11',
-        );
+        ];
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
         }
 
-        $test = array(
+        $test = [
             '12/11/2013 01:02:00' => '2013-11-12 01:02:00',
             '1960.12.11 01:02:00' => '1960-12-11 01:02:00',
-        );
+        ];
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
         }
 
-        $test = array(
+        $test = [
             'Sun, 4 Mar 2018 03:32:08 +0300 (MSK)' => '2018-03-04 03:32:08 +0300',
-        );
+        ];
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
@@ -452,13 +452,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_anytodatetime_timezone()
     {
         $tz = new DateTimeZone('Europe/Helsinki');
-        $test = array(
+        $test = [
             'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
             'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
             'Jan 1st 2014 UK'    => '2014-01-01 00:00',
             '1520587800'         => '2018-03-09 11:30',  // unix timestamp conversion
             'Invalid date'       => false,
-        );
+        ];
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime, $tz);
@@ -472,12 +472,12 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_format_datestr()
     {
-        $test = array(
-            array('abc-555', 'abc', 'abc-555'),
-            array('2013-04-22', 'Y-m-d', '2013-04-22'),
-            array('22/04/2013', 'd/m/Y', '2013-04-22'),
-            array('4.22.2013', 'm.d.Y', '2013-04-22'),
-        );
+        $test = [
+            ['abc-555', 'abc', 'abc-555'],
+            ['2013-04-22', 'Y-m-d', '2013-04-22'],
+            ['22/04/2013', 'd/m/Y', '2013-04-22'],
+            ['4.22.2013', 'm.d.Y', '2013-04-22'],
+        ];
 
         foreach ($test as $data) {
             $result = rcube_utils::format_datestr($data[0], $data[1]);
@@ -490,13 +490,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_tokenize_string()
     {
-        $test = array(
-            ''        => array(),
-            'abc d'   => array('abc'),
-            'abc de'  => array('abc','de'),
-            'äàé;êöü-xyz' => array('äàé','êöü','xyz'),
-            '日期格式' => array('日期格式'),
-        );
+        $test = [
+            ''        => [],
+            'abc d'   => ['abc'],
+            'abc de'  => ['abc','de'],
+            'äàé;êöü-xyz' => ['äàé','êöü','xyz'],
+            '日期格式' => ['日期格式'],
+        ];
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::tokenize_string($input);
@@ -509,7 +509,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_normalize_string()
     {
-        $test = array(
+        $test = [
             ''        => '',
             'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
@@ -519,7 +519,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             'Xoe' => 'xo',
             'Xue' => 'xu',
             '项目' => '项目',
-        );
+        ];
 
         // this test fails on PHP 5.3.3
         if (PHP_VERSION_ID > 50303) {
@@ -538,17 +538,17 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_words_match()
     {
-        $test = array(
-            array('', 'test', false),
-            array('test', 'test', true),
-            array('test', 'none', false),
-            array('test', 'test xyz', false),
-            array('test xyz', 'test xyz', true),
-            array('this is test', 'test', true),
+        $test = [
+            ['', 'test', false],
+            ['test', 'test', true],
+            ['test', 'none', false],
+            ['test', 'test xyz', false],
+            ['test xyz', 'test xyz', true],
+            ['this is test', 'test', true],
             // try some binary content
-            array('this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'test', true),
-            array('this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'none', false),
-        );
+            ['this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'test', true],
+            ['this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'none', false],
+        ];
 
         foreach ($test as $idx => $params) {
             $result = rcube_utils::words_match($params[0], $params[1]);
@@ -562,18 +562,18 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_is_absolute_path()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-            $test = array(
+            $test = [
                 '' => false,
                 "C:\\" => true,
                 'some/path' => false,
-            );
+            ];
         }
         else {
-            $test = array(
+            $test = [
                 '' => false,
                 '/path' => true,
                 'some/path' => false,
-            );
+            ];
         }
 
         foreach ($test as $input => $output) {
@@ -605,26 +605,26 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
          * and https://github.com/true/php-punycode/blob/master/tests/PunycodeTest.php for more Test-Data
          */
 
-        return array(
-            array('test@vermögensberater', 'test@xn--vermgensberater-ctb'),
-            array('test@vermögensberatung', 'test@xn--vermgensberatung-pwb'),
-            array('test@グーグル', 'test@xn--qcka1pmc'),
-            array('test@谷歌', 'test@xn--flw351e'),
-            array('test@中信', 'test@xn--fiq64b'),
-            array('test@рф.ru', 'test@xn--p1ai.ru'),
-            array('test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'),
-            array('test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'),
-            array('рф.ru@рф.ru', 'рф.ru@xn--p1ai.ru'),
-            array('vermögensberater', 'xn--vermgensberater-ctb'),
-            array('vermögensberatung', 'xn--vermgensberatung-pwb'),
-            array('グーグル', 'xn--qcka1pmc'),
-            array('谷歌', 'xn--flw351e'),
-            array('中信', 'xn--fiq64b'),
-            array('рф.ru', 'xn--p1ai.ru'),
-            array('δοκιμή.gr', 'xn--jxalpdlp.gr'),
-            array('gwóźdź.pl', 'xn--gwd-hna98db.pl'),
-            array('fußball.de', 'xn--fuball-cta.de'),
-        );
+        return [
+            ['test@vermögensberater', 'test@xn--vermgensberater-ctb'],
+            ['test@vermögensberatung', 'test@xn--vermgensberatung-pwb'],
+            ['test@グーグル', 'test@xn--qcka1pmc'],
+            ['test@谷歌', 'test@xn--flw351e'],
+            ['test@中信', 'test@xn--fiq64b'],
+            ['test@рф.ru', 'test@xn--p1ai.ru'],
+            ['test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'],
+            ['test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'],
+            ['рф.ru@рф.ru', 'рф.ru@xn--p1ai.ru'],
+            ['vermögensberater', 'xn--vermgensberater-ctb'],
+            ['vermögensberatung', 'xn--vermgensberatung-pwb'],
+            ['グーグル', 'xn--qcka1pmc'],
+            ['谷歌', 'xn--flw351e'],
+            ['中信', 'xn--fiq64b'],
+            ['рф.ru', 'xn--p1ai.ru'],
+            ['δοκιμή.gr', 'xn--jxalpdlp.gr'],
+            ['gwóźdź.pl', 'xn--gwd-hna98db.pl'],
+            ['fußball.de', 'xn--fuball-cta.de'],
+        ];
     }
 
     /**
@@ -665,12 +665,12 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_parse_host()
     {
-        return array(
-            array('%z', 'hostname', 'hostname'),
-            array('%z', 'domain.tld', 'domain.tld'),
-            array('%z', 'host.domain.tld', 'domain.tld'),
-            array('%z', 'host1.host2.domain.tld', 'host2.domain.tld'),
-        );
+        return [
+            ['%z', 'hostname', 'hostname'],
+            ['%z', 'domain.tld', 'domain.tld'],
+            ['%z', 'host.domain.tld', 'domain.tld'],
+            ['%z', 'host1.host2.domain.tld', 'host2.domain.tld'],
+        ];
     }
 
     /**
