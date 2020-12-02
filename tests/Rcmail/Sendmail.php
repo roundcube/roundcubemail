@@ -61,11 +61,11 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     function test_get_identity()
     {
         self::initDB('identities');
+        self::initUser();
 
         $db       = rcmail::get_instance()->get_dbh();
         $query    = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
-
         $sendmail = new rcmail_sendmail();
 
         $result = $sendmail->get_identity($identity['identity_id']);
@@ -88,43 +88,43 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function data_email_input_format()
     {
-        return array(
-            array(
+        return [
+            [
                 'name <t@domain.jp>',
                 'name <t@domain.jp>',
                 'UTF-8'
-            ),
-            array(
+            ],
+            [
                 '"first last" <t@domain.jp>',
                 'first last <t@domain.jp>',
                 'UTF-8'
-            ),
-            array(
+            ],
+            [
                 '"first last" <t@domain.jp>, test2@domain.tld,',
                 'first last <t@domain.jp>, test2@domain.tld',
                 'UTF-8'
-            ),
-            array(
+            ],
+            [
                 '<test@domain.tld>',
                 'test@domain.tld',
                 'UTF-8'
-            ),
-            array(
+            ],
+            [
                 'test@domain.tld',
                 'test@domain.tld',
                 'UTF-8'
-            ),
-            array(
+            ],
+            [
                 'ö <t@test.com>',
                 'ö <t@test.com>',
                 null
-            ),
-            array(
+            ],
+            [
                 base64_decode('GyRCLWo7M3l1OSk2SBsoQg==') . ' <t@domain.jp>',
                 '=?ISO-2022-JP?B?GyRCLWo7M3l1OSk2SBsoQg==?= <t@domain.jp>',
                 'ISO-2022-JP'
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -352,23 +352,23 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_identity_select_return_path()
     {
-        $identities = array(
-            array(
+        $identities = [
+            [
                 'name' => 'Test',
                 'email_ascii' => 'addr@domain.tld',
                 'ident' => 'Test <addr@domain.tld>',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Test',
                 'email_ascii' => 'thing@domain.tld',
                 'ident' => 'Test <thing@domain.tld>',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Test',
                 'email_ascii' => 'other@domain.tld',
                 'ident' => 'Test <other@domain.tld>',
-            ),
-        );
+            ],
+        ];
 
         $message = new stdClass;
         $message->headers = new rcube_message_header;
@@ -388,28 +388,28 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_identity_select_more()
     {
-        $identities = array(
-            array(
+        $identities = [
+            [
                 'name' => 'Test 1',
                 'email_ascii' => 'addr1@domain.tld',
                 'ident' => 'Test 1 <addr1@domain.tld>',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Test 2',
                 'email_ascii' => 'addr2@domain.tld',
                 'ident' => 'Test 2 <addr2@domain.tld>',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Test 3',
                 'email_ascii' => 'addr3@domain.tld',
                 'ident' => 'Test 3 <addr3@domain.tld>',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Test 4',
                 'email_ascii' => 'addr2@domain.tld',
                 'ident' => 'Test 4 <addr2@domain.tld>',
-            ),
-        );
+            ],
+        ];
 
         $message = new stdClass;
         $message->headers = new rcube_message_header;

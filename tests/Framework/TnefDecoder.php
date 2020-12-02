@@ -7,7 +7,6 @@
  */
 class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Test TNEF decoding
      */
@@ -24,5 +23,29 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         $this->assertSame('AUTHORS', $result['attachments'][0]['name']);
         $this->assertSame(244, $result['attachments'][0]['size']);
         $this->assertRegExp('/Mark Simpson/', $result['attachments'][0]['stream']);
+    }
+
+    /**
+     * Test rtf2text()
+     */
+    function test_rtf2text()
+    {
+        $body = file_get_contents(TESTS_DIR . 'src/sample.rtf');
+        $text = rcube_tnef_decoder::rtf2text($body);
+
+        $this->assertRegExp('/^[a-zA-Z1-6!&<,> \n\.]+$/', $text);
+        $this->assertTrue(strpos($text, 'Alex Skolnick') !== false);
+        $this->assertTrue(strpos($text, 'Heading 1') !== false);
+        $this->assertTrue(strpos($text, 'Heading 2') !== false);
+        $this->assertTrue(strpos($text, 'Heading 3') !== false);
+        $this->assertTrue(strpos($text, 'Heading 4') !== false);
+        $this->assertTrue(strpos($text, 'Heading 5') !== false);
+        $this->assertTrue(strpos($text, 'Heading 6') !== false);
+        $this->assertTrue(strpos($text, 'This is the first normal paragraph!') !== false);
+        $this->assertTrue(strpos($text, 'This is a chunk of normal text.') !== false);
+        $this->assertTrue(strpos($text, 'This is a chunk of normal text with specials, &, <, and >.') !== false);
+        $this->assertTrue(strpos($text, 'This is a second paragraph.') !== false);
+        $this->assertTrue(strpos($text, 'This is text with embedded  bold,  italic, and  underline styles.') !== false);
+        $this->assertTrue(strpos($text, 'Here is the  anchor style. And here is the  Image style.') !== false);
     }
 }

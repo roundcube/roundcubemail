@@ -294,7 +294,7 @@ class rcube_ldap_generic extends Net_LDAP3
             if ($entry[$attr]['count'] == 1) {
                 switch ($attr) {
                     case 'objectclass':
-                        $rec[$attr] = array(strtolower($entry[$attr][0]));
+                        $rec[$attr] = [strtolower($entry[$attr][0])];
                         break;
                     default:
                         $rec[$attr] = $entry[$attr][0];

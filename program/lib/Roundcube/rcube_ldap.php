@@ -179,12 +179,12 @@ class rcube_ldap extends rcube_addressbook
 
         // support for composite address
         if (!empty($this->coltypes['street']) && !empty($this->coltypes['locality'])) {
-            $this->coltypes['address'] = array(
+            $this->coltypes['address'] = [
                'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
                'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], (array)$this->coltypes['locality']['subtypes']),
                'childs'   => [],
                'attributes' => [],
-               ) + (array)$this->coltypes['address'];
+               ] + (array)$this->coltypes['address'];
 
             foreach (['street','locality','zipcode','region','country'] as $childcol) {
                 if ($this->coltypes[$childcol]) {
@@ -676,7 +676,7 @@ class rcube_ldap extends rcube_addressbook
             $attrs = [];
 
             foreach ((array) $entry['objectclass'] as $objectclass) {
-                if (($member_attr = $this->get_group_member_attr(array($objectclass), ''))
+                if (($member_attr = $this->get_group_member_attr([$objectclass], ''))
                     && ($member_attr = strtolower($member_attr)) && !in_array($member_attr, $attrs)
                 ) {
                     $members       = $this->_list_group_members($dn, $entry, $member_attr, $count);
@@ -1036,7 +1036,7 @@ class rcube_ldap extends rcube_addressbook
 
             $name_attr  = $this->prop['groups']['name_attr'];
             $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
-            $attrs      = array_unique(array('dn', 'objectClass', $name_attr, $email_attr));
+            $attrs      = array_unique(['dn', 'objectClass', $name_attr, $email_attr]);
 
             $res = $this->ldap->search($this->groups_base_dn, $filter, $this->prop['groups']['scope'], $attrs, $prop, $count);
 
@@ -1349,7 +1349,7 @@ class rcube_ldap extends rcube_addressbook
                         if (!in_array($fld, $this->prop['required_fields'])) {
                             // ...It is not, safe to clear.
                             // #1488420: Workaround "ldap_mod_del(): Modify: Inappropriate matching in..."
-                            // jpegPhoto attribute require an array() here. It looks to me that it works for other attribs too
+                            // jpegPhoto attribute require an array here. It looks to me that it works for other attribs too
                             $deletedata[$fld] = [];
                             //$deletedata[$fld] = $old_data[$fld];
                         }
@@ -1691,7 +1691,7 @@ class rcube_ldap extends rcube_addressbook
                foreach ($colprop['serialized'] as $subtype => $delim) {
                   $key = $col.':'.$subtype;
                   foreach ((array)$save_cols[$key] as $i => $val) {
-                     $values = array($val['street'], $val['locality'], $val['zipcode'], $val['country']);
+                     $values = [$val['street'], $val['locality'], $val['zipcode'], $val['country']];
                      $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
                  }
                }

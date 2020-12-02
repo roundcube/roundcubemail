@@ -658,13 +658,13 @@ class html_textarea extends html
  * Builder for HTML drop-down menus
  * Syntax:<pre>
  * // create instance. arguments are used to set attributes of select-tag
- * $select = new html_select(array('name' => 'fieldname'));
+ * $select = new html_select(['name' => 'fieldname']);
  *
  * // add one option
  * $select->add('Switzerland', 'CH');
  *
  * // add multiple options
- * $select->add(array('Switzerland','Germany'), array('CH','DE'));
+ * $select->add(['Switzerland','Germany'], ['CH','DE']);
  *
  * // generate pulldown with selection 'Switzerland'  and return html-code
  * // as second argument the same attributes available to instantiate can be used

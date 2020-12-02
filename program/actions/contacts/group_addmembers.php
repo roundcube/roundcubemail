@@ -57,7 +57,7 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
                     ($maxnum = $rcmail->config->get('max_group_members'))
                     && ($contacts->count()->count + $num2add > $maxnum)
                 ) {
-                    $rcmail->output->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
+                    $rcmail->output->show_message('maxgroupmembersreached', 'warning', ['max' => $maxnum]);
                     $rcmail->output->send();
                 }
 

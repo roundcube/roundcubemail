@@ -31,10 +31,10 @@ class rcube_string_replacer
     public $linkref_index;
     public $linkref_pattern;
 
-    protected $values   = array();
-    protected $options  = array();
-    protected $linkrefs = array();
-    protected $urls     = array();
+    protected $values   = [];
+    protected $options  = [];
+    protected $linkrefs = [];
+    protected $urls     = [];
     protected $noword   = '[^\w@.#-]';
 
 
@@ -43,7 +43,7 @@ class rcube_string_replacer
      *
      * @param array $options Configuration options
      */
-    function __construct($options = array())
+    function __construct($options = [])
     {
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
@@ -201,11 +201,11 @@ class rcube_string_replacer
     public function replace($str)
     {
         // search for patterns like links and e-mail addresses
-        $str = preg_replace_callback($this->link_pattern, array($this, 'link_callback'), $str);
-        $str = preg_replace_callback($this->mailto_pattern, array($this, 'mailto_callback'), $str);
+        $str = preg_replace_callback($this->link_pattern, [$this, 'link_callback'], $str);
+        $str = preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $str);
         // resolve link references
-        $str = preg_replace_callback($this->linkref_index, array($this, 'linkref_addindex'), $str);
-        $str = preg_replace_callback($this->linkref_pattern, array($this, 'linkref_callback'), $str);
+        $str = preg_replace_callback($this->linkref_index, [$this, 'linkref_addindex'], $str);
+        $str = preg_replace_callback($this->linkref_pattern, [$this, 'linkref_callback'], $str);
 
         return $str;
     }
@@ -219,7 +219,7 @@ class rcube_string_replacer
      */
     public function resolve($str)
     {
-        return preg_replace_callback(self::$pattern, array($this, 'replace_callback'), $str);
+        return preg_replace_callback(self::$pattern, [$this, 'replace_callback'], $str);
     }
 
     /**
@@ -245,13 +245,15 @@ class rcube_string_replacer
             $in = false;
             for ($i=0, $len=strlen($url); $i<$len; $i++) {
                 if ($url[$i] == '[') {
-                    if ($in)
+                    if ($in) {
                         break;
+                    }
                     $in = true;
                 }
                 else if ($url[$i] == ']') {
-                    if (!$in)
+                    if (!$in) {
                         break;
+                    }
                     $in = false;
                 }
             }
@@ -267,13 +269,15 @@ class rcube_string_replacer
             $in = false;
             for ($i=0, $len=strlen($url); $i<$len; $i++) {
                 if ($url[$i] == '(') {
-                    if ($in)
+                    if ($in) {
                         break;
+                    }
                     $in = true;
                 }
                 else if ($url[$i] == ')') {
-                    if (!$in)
+                    if (!$in) {
                         break;
+                    }
                     $in = false;
                 }
             }

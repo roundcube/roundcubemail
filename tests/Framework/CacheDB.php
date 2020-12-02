@@ -17,7 +17,7 @@ class Framework_CacheDB extends PHPUnit\Framework\TestCase
         $db->query('DELETE FROM cache');
 
         $cache = new rcube_cache_db(1, 'test', 60);
-rcube::write_log('sql', '>>>>>>>>>>>>>>>>>>>>>>>>');
+
         // Set and get cache record
         $data =  ['data'];
 
