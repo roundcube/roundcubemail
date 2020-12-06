@@ -24,9 +24,14 @@ class enigma_driver_gnupg extends enigma_driver
     protected $user;
     protected $last_sig_algorithm;
     protected $debug    = false;
-    protected $db_files = array('pubring.gpg', 'secring.gpg', 'pubring.kbx');
+    protected $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
 
 
+    /**
+     * Class constructor
+     *
+     * @param rcube_user $user User object
+     */
     function __construct($user)
     {
         $this->rc   = rcmail::get_instance();
@@ -37,7 +42,7 @@ class enigma_driver_gnupg extends enigma_driver
      * Driver initialization and environment checking.
      * Should only return critical errors.
      *
-     * @return mixed NULL on success, enigma_error on failure
+     * @return enigma_error|null NULL on success, enigma_error on failure
      */
     function init()
     {
@@ -81,10 +86,10 @@ class enigma_driver_gnupg extends enigma_driver
         $this->debug   = $debug;
         $this->homedir = $homedir;
 
-        $options = array('homedir' => $this->homedir);
+        $options = ['homedir' => $this->homedir];
 
         if ($debug) {
-            $options['debug'] = array($this, 'debug');
+            $options['debug'] = [$this, 'debug'];
         }
         if ($binary) {
             $options['binary'] = $binary;
@@ -113,11 +118,11 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Encryption (and optional signing).
      *
-     * @param string     Message body
-     * @param array      List of keys (enigma_key objects)
-     * @param enigma_key Optional signing Key ID
+     * @param string     $text     Message body
+     * @param array      $keys     List of keys (enigma_key objects)
+     * @param enigma_key $sign_key Optional signing Key ID
      *
-     * @return mixed Encrypted message or enigma_error on failure
+     * @return string|enigma_error Encrypted message or enigma_error on failure
      */
     function encrypt($text, $keys, $sign_key = null)
     {
@@ -147,13 +152,13 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Decrypt a message (and verify if signature found)
      *
-     * @param string           Encrypted message
-     * @param array            List of key-password mapping
-     * @param enigma_signature Signature information (if available)
+     * @param string           $text       Encrypted message
+     * @param array            $keys       List of key-password mapping
+     * @param enigma_signature &$signature Signature information (if available)
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    function decrypt($text, $keys = array(), &$signature = null)
+    function decrypt($text, $keys = [], &$signature = null)
     {
         try {
             foreach ($keys as $key => $password) {
@@ -186,9 +191,9 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Signing.
      *
-     * @param string     Message body
-     * @param enigma_key The key
-     * @param int        Signing mode (enigma_engine::SIGN_*)
+     * @param string     $text Message body
+     * @param enigma_key $key  The key
+     * @param int        $mode Signing mode (enigma_engine::SIGN_*)
      *
      * @return mixed True on success or enigma_error on failure
      */
@@ -212,10 +217,10 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Signature verification.
      *
-     * @param string Message body
-     * @param string Signature, if message is of type PGP/MIME and body doesn't contain it
+     * @param string $text      Message body
+     * @param string $signature Signature, if message is of type PGP/MIME and body doesn't contain it
      *
-     * @return mixed Signature information (enigma_signature) or enigma_error
+     * @return enigma_signature|enigma_error Signature information or enigma_error
      */
     function verify($text, $signature)
     {
@@ -231,13 +236,13 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key file import.
      *
-     * @param string File name or file content
-     * @param bolean True if first argument is a filename
-     * @param array  Optional key => password map
+     * @param string $content  File name or file content
+     * @param bool   $isfile   True if first argument is a filename
+     * @param array  $password Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    public function import($content, $isfile = false, $passwords = array())
+    public function import($content, $isfile = false, $passwords = [])
     {
         try {
             // GnuPG 2.1 requires secret key passphrases on import
@@ -264,13 +269,13 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key export.
      *
-     * @param string Key ID
-     * @param bool   Include private key
-     * @param array  Optional key => password map
+     * @param string $keyid        Key ID
+     * @param bool   $with_private Include private key
+     * @param array  $passwords    Optional key => password map
      *
-     * @return mixed Key content or enigma_error
+     * @return string|enigma_error Key content or enigma_error
      */
-    public function export($keyid, $with_private = false, $passwords = array())
+    public function export($keyid, $with_private = false, $passwords = [])
     {
         try {
             $key = $this->gpg->exportPublicKey($keyid, true);
@@ -295,19 +300,18 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Keys listing.
      *
-     * @param string Optional pattern for key ID, user ID or fingerprint
+     * @param string $patter Optional pattern for key ID, user ID or fingerprint
      *
-     * @return mixed Array of enigma_key objects or enigma_error
+     * @return enigma_key[]|enigma_error Array of keys or enigma_error
      */
     public function list_keys($pattern = '')
     {
         try {
-            $keys = $this->gpg->getKeys($pattern);
-            $result = array();
+            $keys   = $this->gpg->getKeys($pattern);
+            $result = [];
 
             foreach ($keys as $idx => $key) {
                 $result[] = $this->parse_key($key);
-                unset($keys[$idx]);
             }
 
             return $result;
@@ -320,9 +324,9 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Single key information.
      *
-     * @param string Key ID, user ID or fingerprint
+     * @param string $keyid Key ID, user ID or fingerprint
      *
-     * @return mixed Key (enigma_key) object or enigma_error
+     * @return enigma_key|enigma_error Key object or enigma_error
      */
     public function get_key($keyid)
     {
@@ -339,7 +343,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key pair generation.
      *
-     * @param array Key/User data (user, email, password, size)
+     * @param array $data Key/User data (user, email, password, size)
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
@@ -347,11 +351,11 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $debug  = $this->rc->config->get('enigma_debug');
-            $keygen = new Crypt_GPG_KeyGenerator(array(
+            $keygen = new Crypt_GPG_KeyGenerator([
                     'homedir' => $this->homedir,
                     // 'binary'  => '/usr/bin/gpg2',
-                    'debug'   => $debug ? array($this, 'debug') : false,
-            ));
+                    'debug'   => $debug ? [$this, 'debug'] : false,
+            ]);
 
             $key = $keygen
                 ->setExpirationDate(0)
@@ -368,7 +372,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key deletion.
      *
-     * @param string Key ID
+     * @param string $keyid Key ID
      *
      * @return mixed True on success or enigma_error
      */
@@ -418,7 +422,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     public function capabilities()
     {
-        $caps = array(enigma_driver::SUPPORT_RSA);
+        $caps = [enigma_driver::SUPPORT_RSA];
         $version = $this->gpg->getVersion();
 
         if (version_compare($version, '2.1.7', 'ge')) {
@@ -459,13 +463,13 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Converts Crypt_GPG exception into Enigma's error object
      *
-     * @param mixed Exception object
+     * @param mixed $e Exception object
      *
      * @return enigma_error Error object
      */
     protected function get_error_from_exception($e)
     {
-        $data = array();
+        $data = [];
 
         if ($e instanceof Crypt_GPG_KeyNotFoundException) {
             $error = enigma_error::KEYNOTFOUND;
@@ -494,7 +498,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Converts Crypt_GPG_Signature object into Enigma's signature object
      *
-     * @param Crypt_GPG_Signature Signature object
+     * @param Crypt_GPG_Signature $sig Signature object
      *
      * @return enigma_signature Signature object
      */
@@ -521,7 +525,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Converts Crypt_GPG_Key object into Enigma's key object
      *
-     * @param Crypt_GPG_Key Key object
+     * @param Crypt_GPG_Key $key Key object
      *
      * @return enigma_key Key object
      */
@@ -576,11 +580,12 @@ class enigma_driver_gnupg extends enigma_driver
 
         $db    = $this->rc->get_dbh();
         $table = $db->table_name('filestore', true);
-        $files = array();
+        $files = [];
 
         $result = $db->query(
             "SELECT `file_id`, `filename`, `mtime` FROM $table WHERE `user_id` = ? AND `context` = ?",
-            $this->rc->user->ID, 'enigma');
+            $this->rc->user->ID, 'enigma'
+        );
 
         while ($record = $db->fetch_assoc($result)) {
             $file  = $this->homedir . '/' . $record['filename'];
@@ -589,16 +594,17 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($mtime < $record['mtime']) {
                 $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
-                    . " WHERE `file_id` = ?", $record['file_id']);
+                    . " WHERE `file_id` = ?", $record['file_id']
+                );
 
                 $record = $db->fetch_assoc($data_result);
                 $data   = $record ? base64_decode($record['data']) : null;
 
                 if ($data === null || $data === false) {
-                    rcube::raise_error(array(
+                    rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                             'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error."
-                        ), true, false);
+                        ], true, false);
 
                     continue;
                 }
@@ -617,10 +623,10 @@ class enigma_driver_gnupg extends enigma_driver
                     // error
                     @unlink($tmpfile);
 
-                    rcube::raise_error(array(
+                    rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                             'message' => "Enigma: Failed to sync $file."
-                        ), true, false);
+                        ], true, false);
                 }
             }
         }
@@ -655,7 +661,7 @@ class enigma_driver_gnupg extends enigma_driver
 
         $db      = $this->rc->get_dbh();
         $table   = $db->table_name('filestore', true);
-        $records = array();
+        $records = [];
 
         if (!$is_empty) {
             $result = $db->query(
@@ -672,7 +678,7 @@ class enigma_driver_gnupg extends enigma_driver
             $file  = $this->homedir . '/' . $filename;
             $mtime = @filemtime($file);
 
-            $existing = $records[$filename];
+            $existing = !empty($records[$filename]) ? $records[$filename] : null;
             unset($records[$filename]);
 
             if ($mtime && (empty($existing) || $mtime > $existing['mtime'])) {
@@ -685,22 +691,22 @@ class enigma_driver_gnupg extends enigma_driver
                 }
 
                 if ($datasize > $maxsize) {
-                    rcube::raise_error(array(
+                    rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                             'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
-                        ), true, false);
+                        ], true, false);
 
                     continue;
                 }
 
-                $unique = array('user_id' => $this->rc->user->ID, 'context' => 'enigma', 'filename' => $filename);
+                $unique = ['user_id' => $this->rc->user->ID, 'context' => 'enigma', 'filename' => $filename];
                 $result = $db->insert_or_update($table, $unique, array('mtime', 'data'), array($mtime, $data));
 
                 if ($db->is_error($result)) {
-                    rcube::raise_error(array(
+                    rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                             'message' => "Enigma: Failed to save $file into database."
-                        ), true, false);
+                        ], true, false);
 
                     break;
                 }
@@ -715,13 +721,14 @@ class enigma_driver_gnupg extends enigma_driver
         foreach (array_keys($records) as $filename) {
             $file   = $this->homedir . '/' . $filename;
             $result = $db->query("DELETE FROM $table WHERE `user_id` = ? AND `context` = ? AND `filename` = ?",
-                $this->rc->user->ID, 'enigma', $filename);
+                $this->rc->user->ID, 'enigma', $filename
+            );
 
             if ($db->is_error($result)) {
-                rcube::raise_error(array(
+                rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                         'message' => "Enigma: Failed to delete $file from database."
-                    ), true, false);
+                    ], true, false);
 
                 break;
             }
@@ -737,7 +744,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     protected function db_files_list()
     {
-        $files = array();
+        $files = [];
 
         foreach ($this->db_files as $file) {
             if (file_exists($this->homedir . '/' . $file)) {

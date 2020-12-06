@@ -71,17 +71,17 @@ class debug_logger extends rcube_plugin
 
         $this->runlog = new runlog();
 
-        if (!rcmail::get_instance()->config->get('log_dir')){
-            rcmail::get_instance()->config->set('log_dir',INSTALL_PATH.'logs');
+        if (!rcmail::get_instance()->config->get('log_dir')) {
+            rcmail::get_instance()->config->set('log_dir', INSTALL_PATH . 'logs');
         }
 
-        $log_config = rcmail::get_instance()->config->get('debug_logger',array());
+        $log_config = rcmail::get_instance()->config->get('debug_logger', []);
 
-        foreach ($log_config as $type => $file){
+        foreach ($log_config as $type => $file) {
             $this->runlog->set_file(rcmail::get_instance()->config->get('log_dir').'/'.$file, $type);
         }
 
-        $start_string = "";
+        $start_string = '';
         $action = rcmail::get_instance()->action;
         $task   = rcmail::get_instance()->task;
 
@@ -95,8 +95,8 @@ class debug_logger extends rcube_plugin
 
         $this->runlog->start($start_string);
 
-        $this->add_hook('console', array($this, 'console'));
-        $this->add_hook('authenticate', array($this, 'authenticate'));
+        $this->add_hook('console', [$this, 'console']);
+        $this->add_hook('authenticate', [$this, 'authenticate']);
     }
 
     function authenticate($args)
@@ -110,12 +110,13 @@ class debug_logger extends rcube_plugin
         $note = $args[0];
         $type = $args[1];
 
-        if (!isset($args[1])){
+        if (!isset($args[1])) {
             // This could be extended to detect types based on the 
             // file which called console. For now only rcube_imap/rcube_storage is supported
-            $bt = debug_backtrace();
-            $file  = $bt[3]['file'];
-            switch (basename($file)){
+            $bt   = debug_backtrace();
+            $file = $bt[3]['file'];
+
+            switch (basename($file)) {
                 case 'rcube_imap.php':
                     $type = 'imap';
                     break;
@@ -123,7 +124,7 @@ class debug_logger extends rcube_plugin
                     $type = 'storage';
                     break;
                 default:
-                    $type = FALSE;
+                    $type = false;
                     break;
             }
         }

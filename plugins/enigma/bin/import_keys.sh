@@ -26,14 +26,14 @@ require INSTALL_PATH . 'program/include/clisetup.php';
 $rcmail = rcube::get_instance();
 
 // get arguments
-$args = rcube_utils::get_opt(array(
+$args = rcube_utils::get_opt([
         'u' => 'user',
         'h' => 'host',
         'd' => 'dir',
         'x' => 'dry-run',
-));
+]);
 
-if ($_SERVER['argv'][1] == 'help') {
+if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
@@ -43,7 +43,7 @@ if (empty($args['dir'])) {
 }
 
 $host = get_host($args);
-$dirs = array();
+$dirs = [];
 
 // Read the homedir and iterate over all subfolders (as users)
 if (empty($args['user'])) {
@@ -58,7 +58,7 @@ if (empty($args['user'])) {
 }
 // a single user
 else {
-    $dirs = array($args['dir'] => $args['user']);
+    $dirs = [$args['dir'] => $args['user']];
 }
 
 foreach ($dirs as $dir => $user) {
@@ -99,7 +99,7 @@ function get_host($args)
 
         // host can be a URL like tls://192.168.12.44
         $host_url = parse_url($args['host']);
-        if ($host_url['host']) {
+        if (!empty($host_url['host'])) {
             $args['host'] = $host_url['host'];
         }
     }
@@ -144,7 +144,7 @@ function import_dir($user_id, $dir, $dry_run = false)
 
     $db       = $rcmail->get_dbh();
     $table    = $db->table_name('filestore', true);
-    $db_files = array('pubring.gpg', 'secring.gpg', 'pubring.kbx');
+    $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
     $maxsize  = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
 
     foreach (glob("$dir/private-keys-v1.d/*.key") as $file) {
@@ -158,10 +158,10 @@ function import_dir($user_id, $dir, $dry_run = false)
             $datasize = strlen($data);
 
             if ($datasize > $maxsize) {
-                rcube::raise_error(array(
+                rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                         'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
-                    ), true, false);
+                    ], true, false);
 
                 continue;
             }
@@ -178,10 +178,10 @@ function import_dir($user_id, $dir, $dry_run = false)
                 $user_id, $file, $mtime, $data);
 
             if ($db->is_error($result)) {
-                rcube::raise_error(array(
+                rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                         'message' => "Enigma: Failed to save $file into database."
-                    ), true, false);
+                    ], true, false);
             }
         }
     }

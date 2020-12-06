@@ -18,6 +18,10 @@ class Autologon_Plugin extends PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('autologon', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
+
+        // TODO
+        $plugin->startup([]);
+        $plugin->authenticate([]);
     }
 }
 

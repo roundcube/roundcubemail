@@ -8,7 +8,7 @@ $config['help_source'] = 'http://docs.roundcube.net/doc/help/1.1/%l/';
 // Map task/action combinations to deep-links
 // Use '<task>/<action>' or only '<task>' strings as keys
 // The values will be appended to the 'help_source' URL
-$config['help_index_map'] = array(
+$config['help_index_map'] = [
     'login'                => 'login.html',
     'mail'                 => 'mail/index.html',
     'mail/compose'         => 'mail/compose.html',
@@ -17,11 +17,11 @@ $config['help_index_map'] = array(
     'settings/preferences' => 'settings/preferences.html',
     'settings/folders'     => 'settings/folders.html',
     'settings/identities'  => 'settings/identities.html',
-);
+];
 
 // Map to translate Roundcube language codes into help document languages
 // The '*' entry will be used as default
-$config['help_language_map'] = array('*' => 'en_US');
+$config['help_language_map'] = ['*' => 'en_US'];
 
 // Enter an absolute URL to a page displaying information about this webmail
 // Alternatively, create a HTML file under <this-plugin-dir>/content/about.html

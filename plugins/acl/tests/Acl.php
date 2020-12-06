@@ -1,6 +1,6 @@
 <?php
 
-class Acl_Plugin extends PHPUnit\Framework\TestCase
+class Acl_Plugin extends ActionTestCase
 {
 
     function setUp()
@@ -18,6 +18,8 @@ class Acl_Plugin extends PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('acl', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
+
+        $plugin->init();
     }
 }
 
