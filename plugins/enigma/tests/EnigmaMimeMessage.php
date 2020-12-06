@@ -88,8 +88,6 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
 
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $result = $message->get();
-
         $expected = "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)\r\n"
             ."\r\n"
             . "--=_%x\r\n"
@@ -105,14 +103,21 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
             . " protocol=\"application/pgp-signature\";\r\n"
             . " boundary=\"=_%x\"\r\n";
 
-        $this->assertStringMatchesFormat($expected, $result);
-        $this->assertStringMatchesFormat($signed_headers, $message->txtHeaders());
+        // Note: The str_replace() below is for phpunit <= 6.5
+
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $expected),
+            str_replace("\r\n", "\n", $message->get())
+        );
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $signed_headers),
+            str_replace("\r\n", "\n", $message->txtHeaders())
+        );
 
         $mime = new Mail_mime();
         $mime->setTXTBody('test body');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
         $message->addPGPSignature('signature', 'algorithm');
-        $result = $message->get();
 
         $signed = "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)\r\n"
             ."\r\n"
@@ -139,14 +144,21 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
             . " boundary=\"=_%x\";\r\n"
             . " micalg=pgp-algorithm\r\n";
 
-        $this->assertStringMatchesFormat($signed, $result);
-        $this->assertStringMatchesFormat($signed_headers, $message->txtHeaders());
+        // Note: The str_replace() below is for phpunit <= 6.5
+
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $signed),
+            str_replace("\r\n", "\n", $message->get())
+        );
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $signed_headers),
+            str_replace("\r\n", "\n", $message->txtHeaders())
+        );
 
         $mime = new Mail_mime();
         $mime->setTXTBody('test body');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_ENCRYPTED);
         $message->setPGPEncryptedBody('encrypted body');
-        $result = $message->get();
 
         $encrypted = "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)\r\n"
             ."\r\n"
@@ -171,7 +183,15 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
             . " protocol=\"application/pgp-encrypted\";\r\n"
             . " boundary=\"=_%x\"\r\n";
 
-        $this->assertStringMatchesFormat($encrypted, $result);
-        $this->assertStringMatchesFormat($encrypted_headers, $message->txtHeaders());
+        // Note: The str_replace() below is for phpunit <= 6.5
+
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $encrypted),
+            str_replace("\r\n", "\n", $message->get())
+        );
+        $this->assertStringMatchesFormat(
+            str_replace("\r\n", "\n", $encrypted_headers),
+            str_replace("\r\n", "\n", $message->txtHeaders())
+        );
     }
 }
