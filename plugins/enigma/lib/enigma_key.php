@@ -18,8 +18,8 @@ class enigma_key
 {
     public $id;
     public $name;
-    public $users   = array();
-    public $subkeys = array();
+    public $users   = [];
+    public $subkeys = [];
     public $reference;
     public $password;
 
@@ -43,10 +43,12 @@ class enigma_key
 
     /**
      * Returns key type
+     *
+     * @return int One of self::TYPE_* constant values
      */
     function get_type()
     {
-        if ($this->subkeys[0]->has_private) {
+        if (!empty($this->subkeys[0]) && $this->subkeys[0]->has_private) {
             return enigma_key::TYPE_KEYPAIR;
         }
         else if (!empty($this->subkeys[0])) {
@@ -57,7 +59,9 @@ class enigma_key
     }
 
     /**
-     * Returns true if all user IDs are revoked
+     * Returns true if all subkeys are revoked
+     *
+     * @return bool
      */
     function is_revoked()
     {
@@ -67,11 +71,13 @@ class enigma_key
             }
         }
 
-        return true;
+        return !empty($this->subkeys);
     }
 
     /**
      * Returns true if any user ID is valid
+     *
+     * @return bool
      */
     function is_valid()
     {
@@ -86,6 +92,8 @@ class enigma_key
 
     /**
      * Returns true if any of subkeys is not expired
+     *
+     * @return bool
      */
     function is_expired()
     {
@@ -102,6 +110,8 @@ class enigma_key
 
     /**
      * Returns true if any of subkeys is a private key
+     *
+     * @return bool
      */
     function is_private()
     {
@@ -116,6 +126,11 @@ class enigma_key
 
     /**
      * Get key ID by user email
+     *
+     * @param string $email Email address
+     * @param int    $mode  Key mode (see self::CAN_* constants)
+     *
+     * @return enigma_subkey|null Subkey object
      */
     function find_subkey($email, $mode)
     {
@@ -138,7 +153,8 @@ class enigma_key
      * Converts long ID or Fingerprint to short ID
      * Crypt_GPG uses internal, but e.g. Thunderbird's Enigmail displays short ID
      *
-     * @param string Key ID or fingerprint
+     * @param string $id Key ID or fingerprint
+     *
      * @return string Key short ID
      */
     static function format_id($id)
@@ -151,7 +167,7 @@ class enigma_key
     /**
      * Formats fingerprint string
      *
-     * @param string Key fingerprint
+     * @param string $fingerprint Key fingerprint
      *
      * @return string Formatted fingerprint (with spaces)
      */

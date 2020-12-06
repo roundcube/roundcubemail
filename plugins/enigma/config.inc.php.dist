@@ -72,6 +72,6 @@ $config['enigma_password_time'] = 5;
 // For example, to force your users to sign every email,
 // you should set:
 //     - enigma_sign_all     = true
-//     - enigma_options_lock = array('sign')
-//     - dont_override       = array('enigma_sign_all')
-$config['enigma_options_lock'] = array();
+//     - enigma_options_lock = ['sign']
+//     - dont_override       = ['enigma_sign_all']
+$config['enigma_options_lock'] = [];
