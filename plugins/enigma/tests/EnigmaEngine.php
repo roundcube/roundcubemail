@@ -4,7 +4,7 @@ class Enigma_EnigmaEngine extends PHPUnit\Framework\TestCase
 {
     static function setUpBeforeClass()
     {
-        include_once __DIR__ . '/../lib/enigma.php';
+        include_once __DIR__ . '/../enigma.php';
         include_once __DIR__ . '/../lib/enigma_engine.php';
     }
 
