@@ -22,9 +22,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
      */
     function test_prepare_headers()
     {
-        $smtp   = new rcube_smtp;
-        $method = new ReflectionMethod('rcube_smtp', '_prepare_headers');
-        $method->setAccessible(true);
+        $smtp = new rcube_smtp;
 
         $headers = [
             'Subject' => 'Test',
@@ -33,7 +31,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
                 . ' for <john@domain.tld>; Sat, 28 Nov 2020 22:45:44 -0800 (PST)',
         ];
 
-        $result = $method->invoke($smtp, $headers);
+        $result = invokeMethod($smtp, '_prepare_headers', [$headers]);
 
         $this->assertCount(2, $result);
         $this->assertSame('john@domain.tld', $result[0]);
@@ -52,11 +50,8 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
     function test_parse_rfc822()
     {
         $smtp   = new rcube_smtp;
-        $method = new ReflectionMethod('rcube_smtp', '_parse_rfc822');
-        $method->setAccessible(true);
-
         $input  = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
-        $result = $method->invoke($smtp, $input);
+        $result = invokeMethod($smtp, '_parse_rfc822', [$input]);
 
         $this->assertSame(['test@test1.com', 'test@test2.pl', 'test@test3.uk'], $result);
     }

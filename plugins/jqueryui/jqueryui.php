@@ -13,16 +13,19 @@
  */
 class jqueryui extends rcube_plugin
 {
-    public $noajax = true;
+    public $noajax  = true;
     public $version = '1.12.0';
 
-    private static $features = array();
+    private static $features = [];
     private static $ui_theme;
-    private static $skin_map = array(
-        'larry' => 'larry',
+    private static $skin_map = [
+        'larry'   => 'larry',
         'default' => 'elastic',
-    );
+    ];
 
+    /**
+     * Plugin initialization
+     */
     public function init()
     {
         $rcmail = rcmail::get_instance();
@@ -53,7 +56,7 @@ class jqueryui extends rcube_plugin
         }
 
         // jquery UI localization
-        $jquery_ui_i18n = $rcmail->config->get('jquery_ui_i18n', array('datepicker'));
+        $jquery_ui_i18n = $rcmail->config->get('jquery_ui_i18n', ['datepicker']);
         if (count($jquery_ui_i18n) > 0) {
             $lang_l = str_replace('_', '-', substr($_SESSION['language'], 0, 5));
             $lang_s = substr($_SESSION['language'], 0, 2);
@@ -70,16 +73,16 @@ class jqueryui extends rcube_plugin
 
         // Date format for datepicker
         $date_format = $date_format_localized = $rcmail->config->get('date_format', 'Y-m-d');
-        $date_format = strtr($date_format, array(
+        $date_format = strtr($date_format, [
                 'y' => 'y',
                 'Y' => 'yy',
                 'm' => 'mm',
                 'n' => 'm',
                 'd' => 'dd',
                 'j' => 'd',
-        ));
+        ]);
 
-        $replaces = array('Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm');
+        $replaces = ['Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm'];
 
         foreach (array_keys($replaces) as $key) {
             if ($rcmail->text_exists("dateformat$key")) {
@@ -93,6 +96,9 @@ class jqueryui extends rcube_plugin
         $rcmail->output->set_env('date_format_localized', $date_format_localized);
     }
 
+    /**
+     * Initialize and include miniColors widget
+     */
     public static function miniColors()
     {
         if (in_array('miniColors', self::$features)) {
@@ -111,7 +117,7 @@ class jqueryui extends rcube_plugin
         }
 
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
-        $config       = array('theme' => $colors_theme);
+        $config       = ['theme' => $colors_theme];
         $config_str   = rcube_output::json_serialize($config);
 
         $rcube->output->include_css('plugins/jqueryui/' . $css);
@@ -120,6 +126,9 @@ class jqueryui extends rcube_plugin
         $rcube->output->set_env('minicolors_config', $config);
     }
 
+    /**
+     * Initialize and include tagedit widget
+     */
     public static function tagedit()
     {
         if (in_array('tagedit', self::$features)) {
