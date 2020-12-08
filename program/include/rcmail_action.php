@@ -1082,7 +1082,7 @@ abstract class rcmail_action
         $f_filter = isset($p['folder_filter']) ? $p['folder_filter'] : null;
         $f_rights = isset($p['folder_rights']) ? $p['folder_rights'] : null;
 
-        if ($p['unsubscribed']) {
+        if (!empty($p['unsubscribed'])) {
             $list = $storage->list_folders('', $p['folder_name'], $f_filter, $f_rights);
         }
         else {
@@ -1128,7 +1128,7 @@ abstract class rcmail_action
 
         $select = new html_select($p);
 
-        if ($p['noselection']) {
+        if (!empty($p['noselection'])) {
             $select->add(html::quote($p['noselection']), '');
         }
 

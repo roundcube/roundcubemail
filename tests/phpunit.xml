@@ -36,10 +36,7 @@
             <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
             <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
             <file>./../plugins/krb_authentication/tests/KrbAuthentication.php</file>
-            <file>./../plugins/managesieve/tests/Managesieve.php</file>
-            <file>./../plugins/managesieve/tests/Parser.php</file>
-            <file>./../plugins/managesieve/tests/Tokenizer.php</file>
-            <file>./../plugins/managesieve/tests/Vacation.php</file>
+            <directory suffix=".php">./../plugins/managesieve/tests</directory>
             <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
             <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
             <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>

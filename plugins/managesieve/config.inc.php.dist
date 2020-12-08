@@ -31,13 +31,13 @@ $config['managesieve_usetls'] = false;
 // Connection scket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
-//$config['managesieve_conn_options'] = array(
-//  'ssl'         => array(
+//$config['managesieve_conn_options'] = [
+//  'ssl'         => [
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ),
-// );
+//   ],
+// ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['managesieve_conn_options'] = null;
 
@@ -61,7 +61,7 @@ $config['managesieve_replace_delimiter'] = '';
 // mailbox, mboxmetadata, regex, reject, relational, servermetadata,
 // spamtest, spamtestplus, subaddress, vacation, variables, virustest, etc.
 // Note: not all extensions are implemented
-$config['managesieve_disabled_extensions'] = array();
+$config['managesieve_disabled_extensions'] = [];
 
 // Enables debugging of conversation with sieve server. Logs it into <log_dir>/sieve
 $config['managesieve_debug'] = false;
@@ -75,14 +75,14 @@ $config['managesieve_filename_extension'] = '.sieve';
 
 // List of reserved script names (without extension).
 // Scripts listed here will be not presented to the user.
-$config['managesieve_filename_exceptions'] = array();
+$config['managesieve_filename_exceptions'] = [];
 
 // List of domains limiting destination emails in redirect action
 // If not empty, user will need to select domain from a list
-$config['managesieve_domains'] = array();
+$config['managesieve_domains'] = [];
 
 // Default list of entries in header selector
-$config['managesieve_default_headers'] = array('Subject', 'From', 'To');
+$config['managesieve_default_headers'] = ['Subject', 'From', 'To'];
 
 // Enables separate management interface for vacation responses (out-of-office)
 // 0 - no separate section (default),
@@ -111,7 +111,7 @@ $config['managesieve_vacation_addresses_init'] = false;
 $config['managesieve_vacation_from_init'] = false;
 
 // Supported methods of notify extension. Default: 'mailto'
-$config['managesieve_notify_methods'] = array('mailto');
+$config['managesieve_notify_methods'] = ['mailto'];
 
 // Enables scripts RAW editor feature
 $config['managesieve_raw_editor'] = true;
@@ -121,9 +121,9 @@ $config['managesieve_raw_editor'] = true;
 // list_sets, enable_disable_set, delete_set, new_set, download_set, new_rule, delete_rule
 // Note: disabling list_sets removes the Filter sets widget from the UI and means
 //       the set defined in managesieve_script_name will always be used (and activated)
-$config['managesieve_disabled_actions'] = array();
+$config['managesieve_disabled_actions'] = [];
 
 // List of hosts that support managesieve.
 // Activate managesieve for selected hosts only. If this is not set all hosts are allowed.
-// Example: $config['managesieve_allowed_hosts'] = array('host1.mydomain.com','host2.mydomain.com');
+// Example: $config['managesieve_allowed_hosts'] = ['host1.mydomain.com', 'host2.mydomain.com'];
 $config['managesieve_allowed_hosts'] = null;
