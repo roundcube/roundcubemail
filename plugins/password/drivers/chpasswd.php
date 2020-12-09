@@ -40,12 +40,13 @@ class rcube_chpasswd_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error(array(
+        rcube::raise_error([
                 'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $cmd"
-            ), true, false);
+            ], true, false
+        );
 
         return PASSWORD_ERROR;
     }

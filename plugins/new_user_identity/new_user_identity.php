@@ -20,8 +20,8 @@ class new_user_identity extends rcube_plugin
     {
         $this->rc = rcmail::get_instance();
 
-        $this->add_hook('user_create', array($this, 'lookup_user_name'));
-        $this->add_hook('login_after', array($this, 'login_after'));
+        $this->add_hook('user_create', [$this, 'lookup_user_name']);
+        $this->add_hook('login_after', [$this, 'login_after']);
     }
 
     function lookup_user_name($args)
@@ -34,9 +34,9 @@ class new_user_identity extends rcube_plugin
                 $user_email = is_array($results->records[0]['email']) ? $results->records[0]['email'][0] : $results->records[0]['email'];
 
                 $args['user_name']  = $user_name;
-                $args['email_list'] = array();
+                $args['email_list'] = [];
 
-                if (!$args['user_email'] && strpos($user_email, '@')) {
+                if (empty($args['user_email']) && strpos($user_email, '@')) {
                     $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
                 }
 
@@ -67,10 +67,10 @@ class new_user_identity extends rcube_plugin
         }
 
         $identities = $this->rc->user->list_emails();
-        $ldap_entry = $this->lookup_user_name(array(
+        $ldap_entry = $this->lookup_user_name([
                 'user' => $this->rc->user->data['username'],
                 'host' => $this->rc->user->data['mail_host'],
-        ));
+        ]);
 
         foreach ((array) $ldap_entry['email_list'] as $email) {
             foreach ($identities as $identity) {
@@ -79,17 +79,17 @@ class new_user_identity extends rcube_plugin
                 }
             }
 
-            $plugin = $this->rc->plugins->exec_hook('identity_create', array(
+            $plugin = $this->rc->plugins->exec_hook('identity_create', [
                 'login'  => true,
-                'record' => array(
+                'record' => [
                     'user_id'  => $this->rc->user->ID,
                     'standard' => 0,
                     'email'    => $email,
                     'name'     => $ldap_entry['user_name']
-                ),
-            ));
+                ],
+            ]);
 
-            if (!$plugin['abort'] && $plugin['record']['email']) {
+            if (!$plugin['abort'] && !empty($plugin['record']['email'])) {
                 $this->rc->user->insert_identity($plugin['record']);
             }
         }

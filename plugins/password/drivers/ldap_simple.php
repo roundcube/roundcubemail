@@ -126,12 +126,13 @@ class rcube_ldap_simple_password
         if (!$ds = ldap_connect($ldap_host, $ldap_port)) {
             $this->_debug("S: NOT OK");
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Could not connect to LDAP server"
-                ),
-                true);
+                ],
+                true
+            );
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -151,8 +152,9 @@ class rcube_ldap_simple_password
         }
 
         // other plugins might want to modify user DN
-        $plugin = $rcmail->plugins->exec_hook('password_ldap_bind', array(
-            'user_dn' => '', 'conn' => $ds));
+        $plugin = $rcmail->plugins->exec_hook('password_ldap_bind',
+            ['user_dn' => '', 'conn' => $ds]
+        );
 
         // Build user DN
         if (!empty($plugin['user_dn'])) {
@@ -234,7 +236,7 @@ class rcube_ldap_simple_password
         $this->_debug("C: Search $search_base for $search_filter");
 
         // Search for the DN
-        if (!$sr = ldap_search($ds, $search_base, $search_filter)) {
+        if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
             $this->_debug("S: ".ldap_error($ds));
             return false;
         }
@@ -263,7 +265,7 @@ class rcube_ldap_simple_password
         $parts = explode('@', $_SESSION['username']);
 
         if (count($parts) == 2) {
-            $dc = 'dc='.strtr($parts[1], array('.' => ',dc=')); // hierarchal domain string
+            $dc = 'dc='.strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
 
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
@@ -271,7 +273,7 @@ class rcube_ldap_simple_password
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
         }
-        else if ( count($parts) == 1) {
+        else if (count($parts) == 1) {
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
         }
