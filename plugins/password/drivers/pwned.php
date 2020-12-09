@@ -74,7 +74,8 @@ class rcube_pwned_password
     function strength_rules()
     {
         $rc = rcmail::get_instance();
-        return array($rc->gettext('password.pwned_mustnotbedisclosed'));
+
+        return [$rc->gettext('password.pwned_mustnotbedisclosed')];
     }
 
     /**
@@ -90,7 +91,7 @@ class rcube_pwned_password
      */
     function check_strength($passwd)
     {
-        $score = $this->check_pwned($passwd);
+        $score   = $this->check_pwned($passwd);
         $message = null;
 
         if ($score !== self::SCORE_NOT_LISTED) {
@@ -103,7 +104,7 @@ class rcube_pwned_password
             }
         }
 
-        return array($score, $message);
+        return [$score, $message];
     }
 
     /**
@@ -141,7 +142,7 @@ class rcube_pwned_password
         $prefix = substr($hash, 0, 5);
         $suffix = substr($hash, 5);
 
-        return array($prefix, $suffix);
+        return [$prefix, $suffix];
     }
 
     function can_retrieve()
@@ -218,6 +219,7 @@ class rcube_pwned_password
                 return self::SCORE_ERROR;
             }
         }
+
         return $result;
     }
 }

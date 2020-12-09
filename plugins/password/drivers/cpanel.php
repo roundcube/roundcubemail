@@ -82,7 +82,7 @@ class rcube_cpanel_password
             list($data['email'], $data['domain']) = explode('@', $address);
         }
         else {
-            list($data['email'], $data['domain']) = array($address, '');
+            list($data['email'], $data['domain']) = [$address, ''];
         }
 
         $data['password'] = $password;
@@ -90,7 +90,8 @@ class rcube_cpanel_password
         // Get the cPanel user
         $query = $this->xmlapi->listaccts('domain', $data['domain']);
         $query = json_decode($query, true);
-        if ($query['status'] != 1) {
+
+        if (empty($query['status']) || $query['status'] != 1) {
             return false;
         }
 
@@ -104,11 +105,11 @@ class rcube_cpanel_password
             return PASSWORD_SUCCESS;
         }
 
-        if ($result['reason']) {
-            return array(
+        if (!empty($result['reason'])) {
+            return [
                 'code'    => PASSWORD_ERROR,
                 'message' => $result['reason'],
-            );
+            ];
         }
 
         return PASSWORD_ERROR;

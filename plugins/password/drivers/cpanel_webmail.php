@@ -42,10 +42,10 @@ class rcube_cpanel_webmail_password
         $url     = self::url();
         $user    = password::username();
         $userpwd = "$user:$curpas";
-        $data    = array(
+        $data    = [
             'email'    => password::username('%l'),
             'password' => $newpass
-        );
+        ];
 
         $response = $this->curl_auth_post($userpwd, $url, $data);
 
@@ -90,10 +90,10 @@ class rcube_cpanel_webmail_password
         }
 
         if ($result && isset($result->errors) && is_array($result->errors) && count($result->errors) > 0) {
-            return array(
+            return [
                 'code'    => PASSWORD_ERROR,
                 'message' => $result->errors[0],
-            );
+            ];
         }
 
         return PASSWORD_ERROR;

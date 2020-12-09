@@ -73,6 +73,25 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
 }
 
 /**
+ * Get value of a protected/private property of a object.
+ *
+ * @param rcube_sieve_vacation $object Object
+ * @param string               $name   Property name
+ * @param string $class        Object  class
+ *
+ * @return mixed Property value
+ */
+function getProperty($object, $name, $class = null)
+{
+    $reflection = new ReflectionClass($class ?: get_class($object));
+
+    $property = $reflection->getProperty($name);
+    $property->setAccessible(true);
+
+    return $property->getValue($object);
+}
+
+/**
  * Set protected/private property of a object.
  *
  * @param rcube_sieve_vacation $object Object

@@ -105,11 +105,11 @@ class plesk_rpc
      */
     function init($host, $port, $path, $user, $pass)
     {
-        $headers = array(
+        $headers = [
             sprintf("HTTP_AUTH_LOGIN: %s", $user),
             sprintf("HTTP_AUTH_PASSWD: %s", $pass),
             "Content-Type: text/xml"
-        );
+        ];
 
         $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
         $this->curl = curl_init();
@@ -246,11 +246,12 @@ class plesk_rpc
             $res = strval($xml->mail->update->set->result->status);
 
             if ($res != "ok") {
-                $res = array(
+                $res = [
                     'code' => PASSWORD_ERROR,
                     'message' => strval($xml->mail->update->set->result->errtext)
-                );
+                ];
             }
+
             return $res;
         }
 

@@ -32,24 +32,24 @@ class rcube_domainfactory_password
     {
         if ($ch = curl_init()) {
             // initial login
-            curl_setopt_array($ch, array(
+            curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
                 CURLOPT_POST       => true,
-                CURLOPT_POSTFIELDS => http_build_query(array(
+                CURLOPT_POSTFIELDS => http_build_query([
                     'login'  => $username,
                     'pwd'    => $curpass,
                     'action' => 'change'
-                ))
-            ));
+                ])
+            ]);
 
             if ($result = curl_exec($ch)) {
                 // login successful, get token!
-                $postfields = array(
+                $postfields = [
                     'pwd1'           => $passwd,
                     'pwd2'           => $passwd,
                     'action[update]' => 'Speichern'
-                );
+                ];
 
                 preg_match_all('~<input name="(.+?)" type="hidden" value="(.+?)">~i', $result, $fields);
                 foreach ($fields[1] as $field_key => $field_name) {
@@ -71,9 +71,9 @@ class rcube_domainfactory_password
                         if (isset($errors[1])) {
                             $error_message = '';
                             foreach ($errors[1] as $error) {
-                                $error_message .= trim(mb_convert_encoding( $error, 'UTF-8', 'ISO-8859-15' )).' ';
+                                $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')).' ';
                             }
-                            return array('code' => PASSWORD_ERROR, 'message' => $error_message);
+                            return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                         }
                     }
                 }
