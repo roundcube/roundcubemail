@@ -176,7 +176,7 @@ class rcube_pwned_password
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         if (self::ENHANCED_PRIVACY_CURL == 1) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Add-Padding: true'));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Add-Padding: true']);
         }
         $output = curl_exec($ch);
         curl_close($ch);

@@ -91,7 +91,8 @@ class redundant_attachments extends filesystem_attachments
      */
     private function _key($args)
     {
-        $uname = $args['path'] ?: $args['name'];
+        $uname = !empty($args['path']) ? $args['path'] : $args['name'];
+
         return $args['group'] . md5(microtime() . $uname . $_SESSION['user_id']);
     }
 
@@ -130,7 +131,7 @@ class redundant_attachments extends filesystem_attachments
 
         $this->_load_drivers();
 
-        $data = $args['path'] ? file_get_contents($args['path']) : $args['data'];
+        $data = !empty($args['path']) ? file_get_contents($args['path']) : $args['data'];
 
         $args['data'] = null;
 
@@ -193,8 +194,9 @@ class redundant_attachments extends filesystem_attachments
         // attempt to get file from local file system
         $args = parent::get($args);
 
-        if ($args['path'] && ($args['status'] = file_exists($args['path'])))
-          return $args;
+        if (!empty($args['path']) && ($args['status'] = file_exists($args['path']))) {
+            return $args;
+        }
 
         $this->_load_drivers();
 

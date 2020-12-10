@@ -700,7 +700,7 @@ class enigma_driver_gnupg extends enigma_driver
                 }
 
                 $unique = ['user_id' => $this->rc->user->ID, 'context' => 'enigma', 'filename' => $filename];
-                $result = $db->insert_or_update($table, $unique, array('mtime', 'data'), array($mtime, $data));
+                $result = $db->insert_or_update($table, $unique, ['mtime', 'data'], [$mtime, $data]);
 
                 if ($db->is_error($result)) {
                     rcube::raise_error([

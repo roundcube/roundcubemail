@@ -597,7 +597,7 @@ class acl extends rcube_plugin
 
         $out = $this->list_rights();
 
-        $out = preg_replace(array('/^<table[^>]+>/', '/<\/table>$/'), '', $out);
+        $out = preg_replace(['/^<table[^>]+>/', '/<\/table>$/'], '', $out);
 
         $this->rc->output->command('acl_list_update', $out);
     }
