@@ -12,9 +12,9 @@ $config['krb_authentication_host'] = '';
 // GSSAPI security context.
 // Single value or an array with per-protocol values. Example:
 //
-//   $config['krb_authentication_context'] = array(
+//   $config['krb_authentication_context'] = [
 //       'imap'  => 'imap/host.fqdn@REALM.NAME',
 //       'smtp'  => 'smtp/host.fqdn@REALM.NAME',
 //       'sieve' => 'sieve/host.fqdn@REALM.NAME',
-//   );
+//   ];
 $config['krb_authentication_context'] = 'principal@REALM.NAME';

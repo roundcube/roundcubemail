@@ -105,10 +105,10 @@ class rcube_cpanel_webmail_password
      * Example:
      *
      * <code>
-     * curl_auth_post('john:Secr3t', 'https://example.org', array(
+     * curl_auth_post('john:Secr3t', 'https://example.org', [
      *     'param' => 'value',
      *     'param' => 'value'
-     * ));
+     * ]);
      * </code>
      *
      * @param string $userpwd  user name and password separated by a colon

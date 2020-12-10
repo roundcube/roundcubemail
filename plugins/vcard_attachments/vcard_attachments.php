@@ -13,9 +13,12 @@ class vcard_attachments extends rcube_plugin
 
     private $abook;
     private $message;
-    private $vcard_parts  = array();
-    private $vcard_bodies = array();
+    private $vcard_parts  = [];
+    private $vcard_bodies = [];
 
+    /**
+     * Plugin initialization
+     */
     function init()
     {
         $rcmail = rcmail::get_instance();
@@ -25,25 +28,25 @@ class vcard_attachments extends rcube_plugin
             $this->add_texts('localization', !$rcmail->output->ajax_call);
             $this->include_stylesheet($skin_path . '/style.css');
             $this->include_script('vcardattach.js');
-            $this->add_button(
-                array(
+            $this->add_button([
                     'type'     => 'link-menuitem',
                     'label'    => 'vcard_attachments.forwardvcard',
                     'command'  => 'attach-vcard',
                     'class'    => 'icon vcard',
                     'classact' => 'icon vcard active',
                     'innerclass' => 'icon vcard',
-                ),
-                'contactmenu');
+                ],
+                'contactmenu'
+            );
         }
         else {
             if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
-                $this->add_hook('message_load', array($this, 'message_load'));
-                $this->add_hook('message_objects', array($this, 'message_objects'));
-                $this->add_hook('template_object_messagebody', array($this, 'html_output'));
+                $this->add_hook('message_load', [$this, 'message_load']);
+                $this->add_hook('message_objects', [$this, 'message_objects']);
+                $this->add_hook('template_object_messagebody', [$this, 'html_output']);
             }
             else if ($rcmail->action == 'upload') {
-                $this->add_hook('attachment_from_uri', array($this, 'attach_vcard'));
+                $this->add_hook('attachment_from_uri', [$this, 'attach_vcard']);
             }
             else if ($rcmail->action == 'compose' && !$rcmail->output->framed) {
                 $skin_path = $this->local_skin_path();
@@ -52,8 +55,7 @@ class vcard_attachments extends rcube_plugin
                 $this->add_texts('localization', true);
                 $this->include_stylesheet($skin_path . '/style.css');
                 $this->include_script('vcardattach.js');
-                $this->add_button(
-                    array(
+                $this->add_button([
                         'type'     => 'link',
                         'label'    => 'vcard_attachments.vcard',
                         'command'  => 'attach-vcard',
@@ -61,10 +63,11 @@ class vcard_attachments extends rcube_plugin
                         'classact' => $btn_class . ' vcard',
                         'title'    => 'vcard_attachments.attachvcard',
                         'innerclass' => 'inner',
-                    ),
-                    'compose-contacts-toolbar');
+                    ],
+                    'compose-contacts-toolbar'
+                );
 
-                $this->add_hook('message_compose', array($this, 'message_compose'));
+                $this->add_hook('message_compose', [$this, 'message_compose']);
             }
             else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
                 $skin_path = $this->local_skin_path();
@@ -73,7 +76,7 @@ class vcard_attachments extends rcube_plugin
             }
         }
 
-        $this->register_action('plugin.savevcard', array($this, 'save_vcard'));
+        $this->register_action('plugin.savevcard', [$this, 'save_vcard']);
     }
 
     /**
@@ -129,13 +132,14 @@ class vcard_attachments extends rcube_plugin
                 $vid     = rcube::JQ($part.':'.$idx);
 
                 // add box below message body
-                $p['content'][] = html::p(array('class' => 'vcardattachment aligned-buttons boxinformation'),
-                    html::span(null, rcube::Q($display)) .
-                    html::tag('button', array(
+                $p['content'][] = html::p(['class' => 'vcardattachment aligned-buttons boxinformation'],
+                    html::span(null, rcube::Q($display))
+                    . html::tag('button', [
                             'onclick' => "return plugin_vcard_save_contact('$vid')",
                             'title'   => $this->gettext('addvcardmsg'),
                             'class'   => 'import',
-                        ), rcube::Q($rcmail->gettext('import')))
+                        ], rcube::Q($rcmail->gettext('import'))
+                    )
                 );
             }
 
@@ -155,8 +159,11 @@ class vcard_attachments extends rcube_plugin
      */
     function message_compose($p)
     {
-        if (rcube_utils::get_input_value('_attach_vcard', rcube_utils::INPUT_GET) == '1' && ($uri = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_GET))) {
-            if ($attachment = $this->attach_vcard(array('compose_id' => $p['compose_id'], 'uri' => $uri))) {
+        if (
+            rcube_utils::get_input_value('_attach_vcard', rcube_utils::INPUT_GET) == '1'
+            && ($uri = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_GET))
+        ) {
+            if ($attachment = $this->attach_vcard(['compose_id' => $p['compose_id'], 'uri' => $uri])) {
                 $p['attachments'][] = $attachment;
             };
         }
@@ -195,7 +202,7 @@ class vcard_attachments extends rcube_plugin
         $message = new rcube_message($uid, $mbox);
 
         if ($uid && $mime_id) {
-            list($mime_id, $index) = explode(':', $mime_id);
+            list($mime_id, $index) = rcube_utils::explode(':', $mime_id);
             $part = $message->get_part_content($mime_id, null, true);
         }
 
@@ -220,6 +227,7 @@ class vcard_attachments extends rcube_plugin
 
                 // compare e-mail address
                 $existing = $CONTACTS->search('email', $email, 1, false);
+
                 // compare display name
                 if (!$existing->count && $vcard->displayname) {
                     $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
@@ -232,7 +240,7 @@ class vcard_attachments extends rcube_plugin
             }
 
             if ($valid) {
-                $plugin = $rcmail->plugins->exec_hook('contact_create', array('record' => $contact, 'source' => null));
+                $plugin = $rcmail->plugins->exec_hook('contact_create', ['record' => $contact, 'source' => null]);
                 $contact = $plugin['record'];
 
                 if (!$plugin['abort'] && $CONTACTS->insert($contact))
@@ -253,9 +261,9 @@ class vcard_attachments extends rcube_plugin
      *
      * @param rcube_message_part Part object
      *
-     * @return boolean True if part is of type vcard
+     * @return bool True if part is of type vcard
      */
-    function is_vcard($part)
+    private static function is_vcard($part)
     {
         return (
             // Content-Type: text/vcard;
@@ -264,10 +272,9 @@ class vcard_attachments extends rcube_plugin
             $part->mimetype == 'text/x-vcard' ||
             // Content-Type: text/directory; profile=vCard;
             ($part->mimetype == 'text/directory' && (
-                ($part->ctype_parameters['profile'] &&
-                    strtolower($part->ctype_parameters['profile']) == 'vcard')
+                    (!empty($part->ctype_parameters['profile']) && strtolower($part->ctype_parameters['profile']) == 'vcard')
             // Content-Type: text/directory; (with filename=*.vcf)
-                    || ($part->filename && preg_match('/\.vcf$/i', $part->filename))
+                    || (!empty($part->filename) && preg_match('/\.vcf$/i', $part->filename))
                 )
             )
         );
@@ -305,13 +312,14 @@ class vcard_attachments extends rcube_plugin
         if (preg_match('|^vcard://(.+)$|', $args['uri'], $m)) {
             list($source, $cid, $email) = explode('-', $m[1]);
 
-            $vcard  = $this->get_contact_vcard($source, $cid, $filename);
-            $params = array(
-                'filename' => $filename,
-                'mimetype' => 'text/vcard',
-            );
+            $vcard = $this->get_contact_vcard($source, $cid, $filename);
 
             if ($vcard) {
+                $params = [
+                    'filename' => $filename,
+                    'mimetype' => 'text/vcard',
+                ];
+
                 $args['attachment'] = rcmail_action_mail_compose::save_attachment($vcard, null, $args['compose_id'], $params);
             }
         }
@@ -336,11 +344,11 @@ class vcard_attachments extends rcube_plugin
                 $vcard->reset();
 
                 foreach ($contact as $key => $values) {
-                    list($field, $section) = explode(':', $key);
+                    list($field, $section) = rcube_utils::explode(':', $key);
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())
                     if (is_object($values) && is_a($values, 'DateTime')) {
-                        $values = array($values);
+                        $values = [$values];
                     }
 
                     foreach ((array) $values as $value) {

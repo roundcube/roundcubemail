@@ -10,7 +10,7 @@
  * Add it to the plugins list in config.inc.php to enable the user option
  * The user option can be hidden and set globally by adding 'use_subscriptions'
  * to the 'dont_override' configure line:
- * $config['dont_override'] = array('use_subscriptions');
+ * $config['dont_override'] = ['use_subscriptions'];
  * and then set the global preference
  * $config['use_subscriptions'] = true; // or false
  *
@@ -26,35 +26,54 @@ class subscriptions_option extends rcube_plugin
 {
     public $task = 'mail|settings';
 
+    /**
+     * Plugin initialization
+     */
     function init()
     {
-        $dont_override = rcmail::get_instance()->config->get('dont_override', array());
+        $dont_override = rcmail::get_instance()->config->get('dont_override', []);
+
         if (!in_array('use_subscriptions', $dont_override)) {
-            $this->add_hook('preferences_list', array($this, 'settings_blocks'));
-            $this->add_hook('preferences_save', array($this, 'save_prefs'));
+            $this->add_hook('preferences_list', [$this, 'prefs_list']);
+            $this->add_hook('preferences_save', [$this, 'prefs_save']);
         }
-        $this->add_hook('storage_folders', array($this, 'mailboxes_list'));
-        $this->add_hook('folders_list', array($this, 'folders_list'));
+
+        $this->add_hook('storage_folders', [$this, 'mailboxes_list']);
+        $this->add_hook('folders_list', [$this, 'folders_list']);
     }
 
-    function settings_blocks($args)
+    /**
+     * Hook to inject plugin-specific user settings
+     *
+     * @param array $args Hook arguments
+     *
+     * @return array Modified hook arguments
+     */
+    function prefs_list($args)
     {
         if ($args['section'] == 'server') {
             $this->add_texts('localization/', false);
             $use_subscriptions = rcmail::get_instance()->config->get('use_subscriptions', true);
             $field_id = 'rcmfd_use_subscriptions';
-            $checkbox = new html_checkbox(array('name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1));
+            $checkbox = new html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
 
-            $args['blocks']['main']['options']['use_subscriptions'] = array(
-                'title' => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
-                'content' => $checkbox->show($use_subscriptions?1:0),
-            );
+            $args['blocks']['main']['options']['use_subscriptions'] = [
+                'title'   => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
+                'content' => $checkbox->show($use_subscriptions ? 1 : 0),
+            ];
         }
 
         return $args;
     }
 
-    function save_prefs($args)
+    /**
+     * Hook to save plugin-specific user settings
+     *
+     * @param array $args Hook arguments
+     *
+     * @return array Modified hook arguments
+     */
+    function prefs_save($args)
     {
         if ($args['section'] == 'server') {
             $rcmail = rcmail::get_instance();
@@ -63,10 +82,12 @@ class subscriptions_option extends rcube_plugin
             $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']);
 
             // if the use_subscriptions preference changes, flush the folder cache
-            if (($use_subscriptions && !isset($_POST['_use_subscriptions'])) ||
-                (!$use_subscriptions && isset($_POST['_use_subscriptions']))) {
-                    $storage = $rcmail->get_storage();
-                    $storage->clear_cache('mailboxes');
+            if (
+                ($use_subscriptions && !isset($_POST['_use_subscriptions']))
+                || (!$use_subscriptions && isset($_POST['_use_subscriptions']))
+            ) {
+                $storage = $rcmail->get_storage();
+                $storage->clear_cache('mailboxes');
             }
         }
 

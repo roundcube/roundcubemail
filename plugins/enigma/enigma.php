@@ -78,7 +78,7 @@ class enigma extends rcube_plugin
 
             // register handler for keys/certs management
             $this->register_action('plugin.enigmakeys', [$this, 'preferences_ui']);
-//            $this->register_action('plugin.enigmacerts', array($this, 'preferences_ui'));
+//            $this->register_action('plugin.enigmacerts', [$this, 'preferences_ui']);
 
             $this->load_ui();
 
@@ -371,7 +371,7 @@ class enigma extends rcube_plugin
             $field_id = 'rcmfd_enigma_password_time';
             $select   = new html_select(['name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select']);
 
-            foreach (array(1, 5, 10, 15, 30) as $m) {
+            foreach ([1, 5, 10, 15, 30] as $m) {
                 $label = $this->gettext(['name' => 'nminutes', 'vars' => ['m' => $m]]);
                 $select->add($label, $m);
             }
