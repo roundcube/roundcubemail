@@ -58,7 +58,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
                     $abook = $rcmail->get_address_book($s['id']);
                     $result = $abook->search(['email'], $email, 1, true, true, 'photo');
                     while ($result && ($record = $result->iterate())) {
-                        if ($record['photo']) {
+                        if (!empty($record['photo'])) {
                             break 2;
                         }
                     }

@@ -332,7 +332,7 @@ class rcube_result_multifolder
         $data = [];
         foreach ($this->index as $item) {
             list($uid, $folder) = explode('-', $item, 2);
-            $data[$folder] .= ' ' . $uid;
+            $data[$folder] = (isset($data[$folder]) ? $data[$folder] : '') . ' ' . $uid;
         }
 
         foreach ($this->folders as $folder) {
@@ -340,7 +340,7 @@ class rcube_result_multifolder
                 $data_str = null;
             }
             else {
-                $data_str = '* SORT' . $data[$folder];
+                $data_str = '* SORT' . (isset($data[$folder]) ? $data[$folder] : '');
             }
 
             $set = new rcube_result_index($folder, $data_str, strtoupper($this->order));

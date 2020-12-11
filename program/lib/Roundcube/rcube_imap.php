@@ -335,11 +335,11 @@ class rcube_imap extends rcube_storage
     {
         $set = (array) $set;
 
-        $this->search_string     = $set[0];
-        $this->search_set        = $set[1];
-        $this->search_charset    = $set[2];
-        $this->search_sort_field = $set[3];
-        $this->search_sorted     = $set[4];
+        $this->search_string     = isset($set[0]) ? $set[0] : null;
+        $this->search_set        = isset($set[1]) ? $set[1] : null;
+        $this->search_charset    = isset($set[2]) ? $set[2] : null;
+        $this->search_sort_field = isset($set[3]) ? $set[3] : null;
+        $this->search_sorted     = isset($set[4]) ? $set[4] : null;
         $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
 
         if (is_a($this->search_set, 'rcube_result_multifolder')) {
@@ -1045,8 +1045,10 @@ class rcube_imap extends rcube_storage
 
             array_push($parents, $uid);
 
-            $headers[$uid]->depth = $depth;
-            $headers[$uid]->has_children = $msg_children[$uid];
+            $headers[$uid]->depth            = $depth;
+            $headers[$uid]->has_children     = $msg_children[$uid];
+            $headers[$uid]->unread_children  = 0;
+            $headers[$uid]->flagged_children = 0;
         }
     }
 
@@ -1068,7 +1070,7 @@ class rcube_imap extends rcube_storage
         $from = ($page-1) * $this->page_size;
 
         // gather messages from a multi-folder search
-        if ($this->search_set->multi) {
+        if (!empty($this->search_set->multi)) {
             $page_size  = $this->page_size;
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
@@ -2205,7 +2207,7 @@ class rcube_imap extends rcube_storage
         }
 
         // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
-        if ($struct->ctype_primary == 'message' || ($struct->ctype_parameters['name'] && !$struct->content_id)) {
+        if ($struct->ctype_primary == 'message' || (!empty($struct->ctype_parameters['name']) && !$struct->content_id)) {
             if (empty($mime_headers)) {
                 $mime_headers = $this->conn->fetchPartHeader(
                     $this->folder, $this->msg_uid, true, $struct->mime_id);
@@ -2267,7 +2269,9 @@ class rcube_imap extends rcube_storage
                 $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $part->headers;
             }
 
-            $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type'] . ';' . $headers['content-disposition']);
+            $ctype       = isset($headers['content-type']) ? $headers['content-type'] : '';
+            $disposition = isset($headers['content-disposition']) ? $headers['content-disposition'] : '';
+            $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype. ';' . $disposition);
 
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header

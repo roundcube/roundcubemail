@@ -254,7 +254,7 @@ class markasjunk extends rcube_plugin
             $this->driver->ham($uids, $source_mbox, $dest_mbox);
         }
 
-        return $this->driver->is_error ? false : true;
+        return empty($this->driver->is_error);
     }
 
     private function _messageset_to_uids($messageset, $multifolder)

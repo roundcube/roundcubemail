@@ -83,6 +83,8 @@ class rcube_message_part
      */
     public $parts = [];
 
+    public $type;
+    public $replaces     = [];
     public $disposition  = '';
     public $filename     = '';
     public $encoding     = '8bit';

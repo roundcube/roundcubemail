@@ -186,9 +186,9 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $id     = $attachment['id'];
 
-        if (($icon = self::$COMPOSE['deleteicon']) && is_file($icon)) {
+        if (!empty(self::$COMPOSE['deleteicon']) && is_file(self::$COMPOSE['deleteicon'])) {
             $button = html::img([
-                    'src' => $icon,
+                    'src' => self::$COMPOSE['deleteicon'],
                     'alt' => $rcmail->gettext('delete')
             ]);
         }

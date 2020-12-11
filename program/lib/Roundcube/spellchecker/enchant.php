@@ -40,7 +40,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         $this->init();
 
         if (!$this->enchant_broker) {
-            return;
+            return [];
         }
 
         $langs = [];

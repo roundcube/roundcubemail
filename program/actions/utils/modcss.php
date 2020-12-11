@@ -35,26 +35,33 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         // don't allow any other connections than http(s)
-        if (!preg_match('~^(https?)://~i', $realurl, $matches)) {
+        if (!preg_match('~^https?://~i', $realurl, $matches)) {
             header('HTTP/1.1 403 Forbidden');
             exit("Invalid URL");
         }
 
-        $client   = rcube::get_instance()->get_http_client();
-        $response = $client->get($url);
-        $headers  = false;
-        $source   = false;
+        $source = false;
+        $ctype  = null;
 
-        if (!empty($response)) {
-            $headers = $response->getHeaders();
-            $source  = $response->getBody();
+        try {
+            $client   = rcube::get_instance()->get_http_client();
+            $response = $client->get($realurl);
+
+            if (!empty($response)) {
+                $ctype  = $response->getHeader('Content-Type');
+                $ctype  = !empty($ctype) ? $ctype[0] : '';
+                $source = $response->getBody();
+            }
+        }
+        catch (Exception $e) {
+            rcube::raise_error($e, true, false);
         }
 
-        $ctype_regexp = '~Content-Type:\s+text/(css|plain)~i';
-        $container_id = preg_replace('/[^a-z0-9]/i', '', $_GET['_c']);
-        $css_prefix   = preg_replace('/[^a-z0-9]/i', '', $_GET['_p']);
+        $ctype_regexp = '~^text/(css|plain)~i';
+        $container_id = isset($_GET['_c']) ? preg_replace('/[^a-z0-9]/i', '', $_GET['_c']) : '';
+        $css_prefix   = isset($_GET['_p']) ? preg_replace('/[^a-z0-9]/i', '', $_GET['_p']) : '';
 
-        if ($source !== false && preg_match($ctype_regexp, $headers)) {
+        if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
             header('Content-Type: text/css');
             echo rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix);
             exit;

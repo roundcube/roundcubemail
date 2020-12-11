@@ -110,7 +110,7 @@ class rcube_message
             return;
         }
 
-        $this->set_safe($is_safe || $_SESSION['safe_messages'][$this->folder.':'.$uid]);
+        $this->set_safe($is_safe || !empty($_SESSION['safe_messages'][$this->folder.':'.$uid]));
         $this->opt = [
             'safe'        => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),

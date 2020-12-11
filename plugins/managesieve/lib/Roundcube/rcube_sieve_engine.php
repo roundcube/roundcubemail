@@ -193,7 +193,9 @@ class rcube_sieve_engine
                 'debug'          => $this->rc->config->get('managesieve_debug', false),
                 'auth_cid'       => $this->rc->config->get('managesieve_auth_cid'),
                 'auth_pw'        => $this->rc->config->get('managesieve_auth_pw'),
-                'socket_options' => $this->rc->config->get('managesieve_conn_options')
+                'socket_options' => $this->rc->config->get('managesieve_conn_options'),
+                'gssapi_context' => null,
+                'gssapi_cn'      => null,
         ]);
 
         // Handle per-host socket options
@@ -921,11 +923,11 @@ class rcube_sieve_engine
                         $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
                         $mod         = $this->strip_value($mods[$idx]);
                         $mod_type    = $this->strip_value($mod_types[$idx]);
-                        $index       = $this->strip_value($indexes[$idx]);
-                        $indexlast   = $this->strip_value($lastindexes[$idx]);
-                        $mime_param  = $this->strip_value($mime_params[$idx]);
-                        $mime_type   = $mime_types[$idx];
-                        $mime_part   = $mime_parts[$idx];
+                        $index       = isset($indexes[$idx]) ? $this->strip_value($indexes[$idx]) : null;
+                        $indexlast   = isset($lastindexes[$idx]) ? $this->strip_value($lastindexes[$idx]) : null;
+                        $mime_param  = isset($mime_params[$idx]) ? $this->strip_value($mime_params[$idx]) : null;
+                        $mime_type   = isset($mime_types[$idx]) ? $mime_types[$idx] : null;
+                        $mime_part   = isset($mime_parts[$idx]) ? $mime_parts[$idx] : null;
                         $cust_var    = null;
 
                         if ($header == 'string') {
@@ -1736,10 +1738,10 @@ class rcube_sieve_engine
 
     function rule_div($fid, $id, $div = true, $compact = false)
     {
-        if ($id && isset($this->form)) {
+        if (isset($id) && isset($this->form)) {
             $rule = $this->form['tests'][$id];
         }
-        else if ($id && isset($this->script[$fid]['tests'][$id])) {
+        else if (isset($id) && isset($this->script[$fid]['tests'][$id])) {
             $rule = $this->script[$fid]['tests'][$id];
         }
         else {
@@ -2257,9 +2259,10 @@ class rcube_sieve_engine
 
     function action_div($fid, $id, $div = true)
     {
-        if ($id && isset($this->form)) {
+        if (isset($id) && isset($this->form)) {
             $action = $this->form['actions'][$id];
-        } else if ($id && isset($this->script[$fid]['actions'][$id])) {
+        }
+        else if (isset($id) && isset($this->script[$fid]['actions'][$id])) {
             $action = $this->script[$fid]['actions'][$id];
         }
         else {

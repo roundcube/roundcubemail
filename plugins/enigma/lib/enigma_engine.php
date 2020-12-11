@@ -400,7 +400,7 @@ class enigma_engine
             $got_content = true;
         }
         else {
-            $got_content = $p['structure']->type === 'content';
+            $got_content = !empty($p['structure']->type) && $p['structure']->type === 'content';
         }
 
         return $p;
