@@ -114,7 +114,7 @@ class rcmail_action_mail_index extends rcmail_action
             // set current mailbox and some other vars in client environment
             $rcmail->output->set_env('mailbox', $mbox_name);
             $rcmail->output->set_env('pagesize', $rcmail->storage->get_pagesize());
-            $rcmail->output->set_env('current_page', max(1, $_SESSION['page']));
+            $rcmail->output->set_env('current_page', isset($_SESSION['page']) ? max(1, (int) $_SESSION['page']) : 1);
             $rcmail->output->set_env('delimiter', $delimiter);
             $rcmail->output->set_env('threading', $threading);
             $rcmail->output->set_env('threads', $threading || $rcmail->storage->get_capability('THREAD'));
@@ -504,8 +504,8 @@ class rcmail_action_mail_index extends rcmail_action
             if ($multifolder) {
                 $header->uid .= '-' . $header->folder;
                 $header->flags['skip_mbox_check'] = true;
-                if ($header->parent_uid) {
-                    $header->parent_uid .= '-'.$header->folder;
+                if (!empty($header->parent_uid)) {
+                    $header->parent_uid .= '-' . $header->folder;
                 }
             }
 
@@ -990,15 +990,17 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // trigger plugin hook
-        $data = $rcmail->plugins->exec_hook('message_part_before', [
+        $data = $rcmail->plugins->exec_hook('message_part_before',
+            [
                 'type' => $part->ctype_secondary,
                 'body' => $body,
-                'id' => $part->mime_id
+                'id'   => $part->mime_id
             ] + $p + [
-                'safe' => false,
+                'safe'  => false,
                 'plain' => false,
                 'inline_html' => true
-        ]);
+            ]
+        );
 
         // convert html to text/plain
         if ($data['plain'] && ($data['type'] == 'html' || $data['type'] == 'enriched')) {

@@ -110,7 +110,7 @@ class enigma_mime_message extends Mail_mime
         $_headers = $this->message->headers();
         $headers  = [];
 
-        if ($_headers['Content-Transfer-Encoding']
+        if (!empty($_headers['Content-Transfer-Encoding'])
             && stripos($_headers['Content-Type'], 'multipart') === false
         ) {
             $headers[] = 'Content-Transfer-Encoding: ' . $_headers['Content-Transfer-Encoding'];

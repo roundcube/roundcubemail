@@ -143,25 +143,30 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $msg_uid      = null;
 
         // get reference message and set compose mode
-        if ($msg_uid = self::$COMPOSE['param']['draft_uid']) {
+        if (!empty(self::$COMPOSE['param']['draft_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['draft_uid'];
             $compose_mode = rcmail_sendmail::MODE_DRAFT;
             $rcmail->output->set_env('draft_id', $msg_uid);
             $rcmail->storage->set_folder($drafts_mbox);
         }
-        else if ($msg_uid = self::$COMPOSE['param']['reply_uid']) {
+        else if (!empty(self::$COMPOSE['param']['reply_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['reply_uid'];
             $compose_mode = rcmail_sendmail::MODE_REPLY;
         }
-        else if ($msg_uid = self::$COMPOSE['param']['forward_uid']) {
+        else if (!empty(self::$COMPOSE['param']['forward_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['forward_uid'];
             $compose_mode = rcmail_sendmail::MODE_FORWARD;
             self::$COMPOSE['forward_uid']   = $msg_uid;
             self::$COMPOSE['as_attachment'] = !empty(self::$COMPOSE['param']['attachment']);
         }
-        else if ($msg_uid = self::$COMPOSE['param']['uid']) {
+        else if (!empty(self::$COMPOSE['param']['uid'])) {
+            $msg_uid = self::$COMPOSE['param']['uid'];
             $compose_mode = rcmail_sendmail::MODE_EDIT;
         }
 
+        self::$COMPOSE['mode'] = $compose_mode;
+
         if ($compose_mode) {
-            self::$COMPOSE['mode'] = $compose_mode;
             $rcmail->output->set_env('compose_mode', $compose_mode);
         }
 
@@ -326,7 +331,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     // process compose request parameters
     public static function process_compose_params(&$COMPOSE)
     {
-        if ($COMPOSE['param']['to']) {
+        if (!empty($COMPOSE['param']['to'])) {
             $mailto = explode('?', $COMPOSE['param']['to'], 2);
 
             // #1486037: remove "mailto:" prefix
@@ -365,7 +370,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         // resolve _forward_uid=* to an absolute list of messages from a search result
-        if ($COMPOSE['param']['forward_uid'] == '*' && is_object($_SESSION['search'][1])) {
+        if (
+            !empty($COMPOSE['param']['forward_uid'])
+            && $COMPOSE['param']['forward_uid'] == '*'
+            && !empty($_SESSION['search'][1])
+            && is_object($_SESSION['search'][1])
+        ) {
             $COMPOSE['param']['forward_uid'] = $_SESSION['search'][1]->get();
         }
 
@@ -388,7 +398,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
 
         // add attachments listed by message_compose hook
-        if (is_array($plugin['attachments'])) {
+        if (!empty($plugin['attachments'])) {
             foreach ($plugin['attachments'] as $attach) {
                 // we have structured data
                 if (is_array($attach)) {
@@ -434,7 +444,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $html_editor  = intval($rcmail->config->get('htmleditor'));
         $compose_mode = self::$COMPOSE['mode'];
 
-        if (is_bool(self::$COMPOSE['param']['html'])) {
+        if (isset(self::$COMPOSE['param']['html']) && is_bool(self::$COMPOSE['param']['html'])) {
             $useHtml = self::$COMPOSE['param']['html'];
         }
         else if (isset($_POST['_is_html'])) {
@@ -1281,7 +1291,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $button = '';
         $jslist = [];
 
-        if ($attrib['icon_pos'] == 'left') {
+        if (!empty($attrib['icon_pos']) && $attrib['icon_pos'] == 'left') {
             self::$COMPOSE['icon_pos'] = 'left';
         }
 
@@ -1292,7 +1302,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'alt' => $rcmail->gettext('delete')
                 ]);
             }
-            else if (rcube_utils::get_boolean($attrib['textbuttons'])) {
+            else if (self::get_bool_attr($attrib, 'textbuttons')) {
                 $button = rcube::Q($rcmail->gettext('delete'));
             }
 
@@ -1458,7 +1468,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // set class name(s)
             $class_name = 'addressbook';
-            if ($source['class_name']) {
+            if (!empty($source['class_name'])) {
                 $class_name .= ' ' . $source['class_name'];
             }
 

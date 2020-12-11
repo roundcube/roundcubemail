@@ -450,7 +450,8 @@ class rcube_result_thread
         // in memory at a time
 
         // Assign roots
-        while (($pos = @strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start))
+        while (
+            ($start < $datalen && ($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)))
             || ($start < $datalen && ($pos = $datalen))
         ) {
             $len   = $pos - $start;
@@ -477,7 +478,8 @@ class rcube_result_thread
         $result = array_fill_keys($result, null);
         $start = 0;
 
-        while (($pos = @strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start))
+        while (
+            ($start < $datalen && ($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)))
             || ($start < $datalen && ($pos = $datalen))
         ) {
             $len   = $pos - $start;

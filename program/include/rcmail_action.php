@@ -543,7 +543,7 @@ abstract class rcmail_action
         }
 
         $input   = new html_inputfield($input_attr);
-        $content = $attrib['prefix'] . $input->show();
+        $content = (isset($attrib['prefix']) ? $attrib['prefix'] : '') . $input->show();
 
         if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
             $content = html::div(null, $content . $hint);

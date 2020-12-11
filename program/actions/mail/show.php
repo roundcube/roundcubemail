@@ -60,7 +60,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $rcmail->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
             }
 
-            $MESSAGE = new rcube_message($msg_id, $mbox_name, intval($_GET['_safe']));
+            $MESSAGE = new rcube_message($msg_id, $mbox_name, !empty($_GET['_safe']));
 
             self::$MESSAGE = $MESSAGE;
 
@@ -388,6 +388,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $exclude_headers = !empty($attrib['exclude']) ? explode(',', $attrib['exclude']) : [];
         $output_headers  = [];
 
+        $attr_max     = isset($attrib['max']) ? $attrib['max'] : null;
+        $attr_addicon = isset($attrib['addicon']) ? $attrib['addicon'] : null;
+
         foreach ($standard_headers as $hkey) {
             $value = null;
             if (!empty($headers[$hkey])) {
@@ -422,8 +425,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else if ($hkey == 'replyto') {
                 if ($headers['replyto'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true,
+                        $attr_addicon, $headers['charset'], $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -431,11 +434,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-reply-to') {
-                if ($headers['mail-replyto'] != $headers['replyto']
+                if ($value && $headers['mail-replyto'] != $headers['replyto']
                     && $headers['replyto'] != $headers['from']
                 ) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true,
+                        $attr_addicon, $headers['charset'], $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -443,9 +446,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'sender') {
-                if ($headers['sender'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                if ($value && $headers['sender'] != $headers['from']) {
+                    $header_value = self::address_string($value, $attr_max, true,
+                        $attr_addicon, $headers['charset'], $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -453,13 +456,13 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-followup-to') {
-                $header_value = self::address_string($value, $attrib['max'], true,
-                    $attrib['addicon'], $headers['charset'], $header_title);
+                $header_value = self::address_string($value, $attr_max, true,
+                    $attr_addicon, $headers['charset'], $header_title);
                 $ishtml = true;
             }
             else if (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
-                $header_value = self::address_string($value, $attrib['max'], true,
-                    $attrib['addicon'], $headers['charset'], $header_title);
+                $header_value = self::address_string($value, $attr_max, true,
+                    $attr_addicon, $headers['charset'], $header_title);
                 $ishtml = true;
             }
             else if ($hkey == 'subject' && empty($value)) {
@@ -599,7 +602,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $rcmail    = rcmail::get_instance();
-        $safe_mode = self::$MESSAGE->is_safe || intval($_GET['_safe']);
+        $safe_mode = self::$MESSAGE->is_safe || !empty($_GET['_safe']);
         $out       = '';
         $part_no   = 0;
 
@@ -617,7 +620,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
                 else if ($part->type == 'content') {
                     // unsupported (e.g. encrypted)
-                    if ($part->realtype) {
+                    if (!empty($part->realtype)) {
                         if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
                             if (
                                 !empty($_SESSION['browser_caps']['pgpmime'])

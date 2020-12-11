@@ -371,7 +371,7 @@ abstract class rcube_session
         $this->appends[] = $path;
 
         // when overwriting a previously unset variable
-        if ($this->unsets[$path]) {
+        if (array_key_exists($path, $this->unsets)) {
             unset($this->unsets[$path]);
         }
     }

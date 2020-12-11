@@ -62,6 +62,10 @@ class rcmail_action_mail_send extends rcmail_action
                 }
         ]);
 
+        if (!isset($COMPOSE['attachments'])) {
+            $COMPOSE['attachments'] = [];
+        }
+
         // Collect input for message headers
         $headers = $SENDMAIL->headers_input();
 
