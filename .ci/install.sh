@@ -17,8 +17,9 @@ if [ "$BROWSER_TESTS" = 1 ]; then composer require "laravel/dusk:~6.9.0" --no-up
 # Add suggested dependencies required for tests
 composer require "kolab/net_ldap3:~1.1.1" --no-update
 
-# Force phpunit version on PHP 8.0 for some reason composer chooses v4.8 which isn't compatible
-if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" ]]; then composer require "phpunit/phpunit:^7" --no-update; fi
+# phpunit v7 is working fine on PHP8, but composer installs an older version,
+# so we'll emulate PHP 7.4 platform to get phpunit v7
+if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" ]]; then composer config platform.php 7.4; fi
 
 # Install PHP dependencies
 composer install --prefer-dist
