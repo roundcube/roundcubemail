@@ -190,9 +190,9 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         if (type == 'ecc')
             options.curve = 'ed25519';
         else if (type == 'rsa4096')
-            options.numBits = 4096;
+            options.rsaBits = 4096;
         else
-            options.numBits = 2048;
+            options.rsaBits = 2048;
 
         openpgp.generateKey(options).then(function(keypair) {
             // success
