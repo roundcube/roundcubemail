@@ -48,6 +48,9 @@ jobs:
           max_attempts: 5
           command: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Roundcube configuration
+        run: cp .ci/config-test.inc.php config/config-test.inc.php
+
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml --verbose
 
@@ -94,6 +97,9 @@ jobs:
           timeout_minutes: 5
           max_attempts: 5
           command: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Roundcube configuration
+        run: copy .ci/config-test.inc.php config/config-test.inc.php
 
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml --verbose
