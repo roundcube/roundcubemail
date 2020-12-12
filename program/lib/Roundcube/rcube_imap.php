@@ -147,7 +147,14 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
-            $data = ['host' => $host, 'user' => $user, 'attempt' => ++$attempt, 'socket_options' => []];
+            $data = [
+                'host'           => $host,
+                'user'           => $user,
+                'attempt'        => ++$attempt,
+                'socket_options' => [],
+                'retry'          => false
+            ];
+
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
 
             if (!empty($data['pass'])) {

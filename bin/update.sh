@@ -23,10 +23,10 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(array('v' => 'version', 'y' => 'accept:bool'));
+$opts = rcube_utils::get_opt(['v' => 'version', 'y' => 'accept:bool']);
 
 // ask user if no version is specified
-if (!$opts['version']) {
+if (empty($opts['version'])) {
     echo "What version are you upgrading from? Type '?' if you don't know.\n";
 
     if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
@@ -48,7 +48,7 @@ if ($RCI->configured) {
         $err = 0;
 
         // list old/replaced config options
-        if (is_array($messages['replaced'])) {
+        if (!empty($messages['replaced'])) {
             echo "WARNING: Replaced config options:\n";
             echo "(These config options have been replaced or renamed)\n";
 
@@ -59,7 +59,7 @@ if ($RCI->configured) {
         }
 
         // list obsolete config options (just a notice)
-        if (is_array($messages['obsolete'])) {
+        if (!empty($messages['obsolete'])) {
             echo "NOTICE: Obsolete config options:\n";
             echo "(You still have some obsolete or inexistent properties set."
                 . " This isn't a problem but should be noticed)\n";
@@ -79,18 +79,18 @@ if ($RCI->configured) {
 
         // ask user to update config files
         if ($err) {
-            if (!$opts['accept']) {
+            if (empty($opts['accept'])) {
                 echo "Do you want me to fix your local configuration? (y/N)\n";
                 $input = trim(fgets(STDIN));
             }
 
             // positive: merge the local config with the defaults
-            if ($opts['accept'] || strtolower($input) == 'y') {
+            if (!empty($opts['accept']) || strtolower($input) == 'y') {
                 $error = $written = false;
 
                 echo ". backing up the current config file(s)...\n";
 
-                foreach (array('config', 'main', 'db') as $file) {
+                foreach (['config', 'main', 'db'] as $file) {
                     if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php')) {
                         if (!copy(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php', RCMAIL_CONFIG_DIR . '/' . $file . '.old.php')) {
                             $error = true;
@@ -109,7 +109,7 @@ if ($RCI->configured) {
                     echo "Done.\n";
                     echo "Your configuration files are now up-to-date!\n";
 
-                    if ($messages['missing']) {
+                    if (!empty($messages['missing'])) {
                         echo "But you still need to add the following missing options:\n";
                         foreach ($messages['missing'] as $msg) {
                             echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
@@ -117,7 +117,7 @@ if ($RCI->configured) {
                     }
 
                     if ($RCI->legacy_config) {
-                        foreach (array('main', 'db') as $file) {
+                        foreach (['main', 'db'] as $file) {
                             @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
                         }
                     }
@@ -143,7 +143,7 @@ if ($RCI->configured) {
         }
 
         // check dependencies based on the current configuration
-        if (is_array($messages['dependencies'])) {
+        if (!empty($messages['dependencies'])) {
             echo "WARNING: Dependency check failed!\n";
             echo "(Some of your configuration settings require other options to be configured "
                 . "or additional PHP modules to be installed)\n";
@@ -168,10 +168,9 @@ if ($RCI->configured) {
     }
 
     // check database schema
-    if ($RCI->config['db_dsnw']) {
+    if (!empty($RCI->config['db_dsnw'])) {
         echo "Executing database schema update.\n";
-        $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'],
-            array('errors' => true));
+        $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true]);
     }
 
     // update composer dependencies
@@ -181,11 +180,11 @@ if ($RCI->configured) {
         $comsposer_json    = null;
 
         // update the require section with the new dependencies
-        if (is_array($composer_data['require']) && is_array($composer_template['require'])) {
+        if (!empty($composer_data['require']) && !empty($composer_template['require'])) {
             $composer_data['require'] = array_merge($composer_data['require'], $composer_template['require']);
 
             // remove obsolete packages
-            $old_packages = array(
+            $old_packages = [
                 'pear-pear.php.net/net_socket',
                 'pear-pear.php.net/auth_sasl',
                 'pear-pear.php.net/net_idna2',
@@ -196,7 +195,7 @@ if ($RCI->configured) {
                 'pear/mail_mime-decode',
                 'roundcube/net_sieve',
                 'endroid/qrcode',
-            );
+            ];
 
             foreach ($old_packages as $pkg) {
                 if (array_key_exists($pkg, $composer_data['require'])) {
@@ -206,9 +205,9 @@ if ($RCI->configured) {
         }
 
         // update the repositories section with the new dependencies
-        if (is_array($composer_template['repositories'])) {
-            if (!is_array($composer_data['repositories'])) {
-                $composer_data['repositories'] = array();
+        if (!empty($composer_template['repositories'])) {
+            if (empty($composer_data['repositories'])) {
+                $composer_data['repositories'] = [];
             }
 
             foreach ($composer_template['repositories'] as $repo) {
@@ -242,19 +241,7 @@ if ($RCI->configured) {
             $composer_data['repositories'] = array_values($composer_data['repositories']);
         }
 
-        // use the JSON encoder from the Composer package
-        if (is_file('composer.phar')) {
-            include 'phar://composer.phar/src/Composer/Json/JsonFile.php';
-            $comsposer_json = \Composer\Json\JsonFile::encode($composer_data);
-        }
-        // PHP 5.4's json_encode() does the job, too
-        else if (defined('JSON_PRETTY_PRINT')) {
-            $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        }
-        else {
-            $success        = false;
-            $comsposer_json = null;
-        }
+        $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         // write updated composer.json back to disk
         if ($comsposer_json && is_writeable(INSTALL_PATH . 'composer.json')) {

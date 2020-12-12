@@ -704,7 +704,7 @@ class rcube_utils
      */
     public static function remote_ip()
     {
-        $address = $_SERVER['REMOTE_ADDR'];
+        $address = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
 
         // append the NGINX X-Real-IP header, if set
         if (!empty($_SERVER['HTTP_X_REAL_IP']) && $_SERVER['HTTP_X_REAL_IP'] != $address) {
@@ -1197,7 +1197,8 @@ class rcube_utils
                 $args[] = $arg;
             }
 
-            if ($alias = $aliases[$key]) {
+            if (!empty($aliases[$key])) {
+                $alias = $aliases[$key];
                 $args[$alias] = $args[$key];
             }
         }
