@@ -10,16 +10,20 @@ matrix:
       dist: trusty
     - php: 5.6
     - php: 7.0
-    - php: 7.1
       env: CODE_COVERAGE=1
-    - php: 7.2
-    - php: 7.3
+    #- php: 7.1
+    #- php: 7.2
+    #- php: 7.3
+    #  dist: bionic # for proper node-less version
+    #  env: BROWSER_TESTS=1
+    #  addons:
+    #    chrome: stable
+    #- php: 7.4
+    - php: 8.0
       dist: bionic # for proper node-less version
       env: BROWSER_TESTS=1
       addons:
         chrome: stable
-    - php: 7.4
-    - php: 8.0
 
 cache:
   directories:
