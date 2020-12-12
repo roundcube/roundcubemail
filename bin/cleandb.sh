@@ -21,9 +21,11 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require INSTALL_PATH.'program/include/clisetup.php';
 
-if (!empty($_SERVER['argv'][1]))
+if (!empty($_SERVER['argv'][1])) {
     $days = intval($_SERVER['argv'][1]);
-else
+}
+else {
     $days = 7;
+}
 
 rcmail_utils::db_clean($days);
