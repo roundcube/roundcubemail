@@ -326,20 +326,26 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
     public static function message_contactphoto($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail        = rcmail::get_instance();
+        $error_handler = false;
+        $placeholder   = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
 
-        $placeholder = $attrib['placeholder'] ? $rcmail->output->abs_url($attrib['placeholder'], true) : null;
-        $placeholder = $rcmail->output->asset_url($placeholder ?: 'program/resources/blank.gif');
+        if (!empty($attrib['placeholder'])) {
+            $placeholder = $rcmail->output->abs_url($attrib['placeholder'], true);
+            $placeholder = $rcmail->output->asset_url($placeholder);
+
+            // set error handler on <img>
+            $error_handler     = true;
+            $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
+        }
 
         if (self::$MESSAGE->sender) {
             $photo_img = $rcmail->url([
                     '_task'   => 'addressbook',
                     '_action' => 'photo',
                     '_email'  => self::$MESSAGE->sender['mailto'],
-                    '_error'  => strpos($placeholder, 'blank.gif') === false ? 1 : null,
+                    '_error'  => $error_handler ? 1 : null,
             ]);
-
-            $attrib['onerror'] = "this.src = '$placeholder'; this.onerror = null";
         }
         else {
             $photo_img = $placeholder;
