@@ -1412,7 +1412,7 @@ class rcube_sieve_engine
     {
         $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GP);
         $script      = $this->sieve->get_script($script_name);
-        $script_post = $_POST['rawsetcontent'];
+        $script_post = !empty($_POST['rawsetcontent']) ? $_POST['rawsetcontent'] : null;
         $framed      = !empty($_POST['_framed']) || !empty($_GET['_framed']);
 
         $hiddenfields = new html_hiddenfield();

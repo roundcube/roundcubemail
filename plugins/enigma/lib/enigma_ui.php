@@ -798,7 +798,7 @@ class enigma_ui
         $table->add('title', html::label('key-pass', rcube::Q($this->enigma->gettext('newkeypass'))));
         $table->add(null, rcube_output::get_edit_field('password', '', [
                 'id'           => 'key-pass',
-                'size'         => $attrib['size'],
+                'size'         => isset($attrib['size']) ? $attrib['size'] : null,
                 'required'     => true,
                 'autocomplete' => 'new-password',
                 'oninput'      => "this.type = this.value.length ? 'password' : 'text'",
@@ -808,7 +808,7 @@ class enigma_ui
         $table->add('title', html::label('key-pass-confirm', rcube::Q($this->enigma->gettext('newkeypassconfirm'))));
         $table->add(null, rcube_output::get_edit_field('password-confirm', '', [
                 'id'           => 'key-pass-confirm',
-                'size'         => $attrib['size'],
+                'size'         => isset($attrib['size']) ? $attrib['size'] : null,
                 'required'     => true,
                 'autocomplete' => 'new-password',
                 'oninput'      => "this.type = this.value.length ? 'password' : 'text'",

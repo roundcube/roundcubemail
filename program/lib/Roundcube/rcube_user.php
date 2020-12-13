@@ -795,7 +795,6 @@ class rcube_user
         );
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $sql_arr['data'] = unserialize($sql_arr['data']);
             $result[$sql_arr['id']] = $sql_arr;
         }
 

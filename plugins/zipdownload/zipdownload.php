@@ -195,7 +195,7 @@ class zipdownload extends rcube_plugin
     /**
      * Create and get display name of attachment part to add on zip file
      *
-     * @param $part stdClass Part of attachment on message
+     * @param rcube_message_part $part Part of attachment on message
      *
      * @return string Display name of attachment part
      */

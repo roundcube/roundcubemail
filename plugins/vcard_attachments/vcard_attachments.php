@@ -163,7 +163,7 @@ class vcard_attachments extends rcube_plugin
             rcube_utils::get_input_value('_attach_vcard', rcube_utils::INPUT_GET) == '1'
             && ($uri = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_GET))
         ) {
-            if ($attachment = $this->attach_vcard(['compose_id' => $p['compose_id'], 'uri' => $uri])) {
+            if ($attachment = $this->attach_vcard(['compose_id' => $p['id'], 'uri' => $uri])) {
                 $p['attachments'][] = $attachment;
             };
         }

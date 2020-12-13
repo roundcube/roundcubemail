@@ -59,7 +59,7 @@ class rcmail_attachment_handler
         // similar code as in program/steps/mail/show.inc
         if (!empty($uid)) {
             $rcube->config->set('prefer_html', true);
-            $this->message = new rcube_message($uid, null, intval($_GET['_safe']));
+            $this->message = new rcube_message($uid, null, !empty($_GET['_safe']));
 
             if ($this->part = $this->message->mime_parts[$part_id]) {
                 $this->filename = rcmail_action_mail_index::attachment_name($this->part);
@@ -85,7 +85,7 @@ class rcmail_attachment_handler
                     // overwrite modified vars from plugin
                     $this->mimetype = $plugin['mimetype'];
 
-                    if ($plugin['body']) {
+                    if (!empty($plugin['body'])) {
                         $this->body = $plugin['body'];
                         $this->size = strlen($this->body);
                     }
@@ -102,7 +102,7 @@ class rcmail_attachment_handler
                 $this->mimetype = $this->upload['mimetype'];
                 $this->size     = $this->upload['size'];
                 $this->ident    = sprintf('%s:%s%s', $compose_id, $file_id, $this->size);
-                $this->charset  = $this->upload['charset'] ?: RCUBE_CHARSET;
+                $this->charset  = !empty($this->upload['charset']) ? $this->upload['charset'] : RCUBE_CHARSET;
             }
         }
 

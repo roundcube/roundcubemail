@@ -84,6 +84,8 @@ class rcube_smtp
             'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
             'smtp_conn_options'   => $rcube->config->get('smtp_conn_options'),
             'smtp_auth_callbacks' => [],
+            'gssapi_context'      => null,
+            'gssapi_cn'           => null,
         ]);
 
         $smtp_host = rcube_utils::parse_host($CONFIG['smtp_server']);
@@ -216,7 +218,7 @@ class rcube_smtp
      *
      * @return bool True on success, or False on error
      */
-    public function send_mail($from, $recipients, $headers, $body, $opts = null)
+    public function send_mail($from, $recipients, $headers, $body, $opts = [])
     {
         if (!is_object($this->conn)) {
             return false;
@@ -256,7 +258,7 @@ class rcube_smtp
         $recipient_params = null;
 
         // RFC3461: Delivery Status Notification
-        if ($opts['dsn']) {
+        if (!empty($opts['dsn'])) {
             if (isset($exts['DSN'])) {
                 $from_params      = 'RET=HDRS';
                 $recipient_params = 'NOTIFY=SUCCESS,FAILURE';

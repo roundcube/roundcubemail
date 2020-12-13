@@ -1604,7 +1604,8 @@ class rcube
         if (!empty($this->password)) {
             return $this->password;
         }
-        else if ($_SESSION['password']) {
+
+        if (isset($_SESSION['password'])) {
             return $this->decrypt($_SESSION['password']);
         }
     }
@@ -1716,10 +1717,10 @@ class rcube
         // generate list of recipients
         $a_recipients = (array) $mailto;
 
-        if (strlen($headers['Cc'])) {
+        if (!empty($headers['Cc'])) {
             $a_recipients[] = $headers['Cc'];
         }
-        if (strlen($headers['Bcc'])) {
+        if (!empty($headers['Bcc'])) {
             $a_recipients[] = $headers['Bcc'];
         }
 

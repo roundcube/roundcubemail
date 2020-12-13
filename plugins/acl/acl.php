@@ -339,8 +339,8 @@ class acl extends rcube_plugin
         // Create list with radio buttons
         if (count($fields) > 1) {
             $ul = '';
-            $radio = new html_radiobutton(['name' => 'usertype']);
             foreach ($fields as $key => $val) {
+                $radio = new html_radiobutton(['name' => 'usertype']);
                 $radio = $radio->show($key == 'user' ? 'user' : '', ['value' => $key, 'id' => 'id' . $key]);
                 $ul .= html::tag('li', null, $radio . $val);
             }

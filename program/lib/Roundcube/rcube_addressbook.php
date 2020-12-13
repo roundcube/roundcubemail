@@ -484,8 +484,8 @@ abstract class rcube_addressbook
                     $out = array_merge($out, (array) $values);
                 }
                 else {
-                    list(, $type) = explode(':', $c);
-                    if (isset($out[$type])) {
+                    list(, $type) = rcube_utils::explode(':', $c);
+                    if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
                     }
                     else {
@@ -567,17 +567,20 @@ abstract class rcube_addressbook
             $fn = implode(' ', [$contact['surname'] . ',', $contact['firstname'], $contact['middlename']]);
             break;
         case 2:
-            $fn = implode(' ', [$contact['surname'], $contact['firstname'], $contact['middlename']]);
+            $keys = ['surname', 'firstname', 'middlename'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
             break;
         case 1:
-            $fn = implode(' ', [$contact['firstname'], $contact['middlename'], $contact['surname']]);
+            $keys = ['firstname', 'middlename', 'surname'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
             break;
         case 0:
             if (!empty($contact['name'])) {
                 $fn = $contact['name'];
             }
             else {
-                $fn = implode(' ', [$contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']]);
+                $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+                $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
             }
             break;
         default:
@@ -595,7 +598,7 @@ abstract class rcube_addressbook
                 $fn = $name;
             }
             // ... organization
-            else if ($org = trim($contact['organization'])) {
+            else if (isset($contact['organization']) && ($org = trim($contact['organization']))) {
                 $fn = $org;
             }
             // ... email address
@@ -654,7 +657,7 @@ abstract class rcube_addressbook
 
                 if (empty($value)) {
                     $value = strpos($key, ':') ? $contact[$key] : self::get_col_values($key, $contact, true);
-                    if (is_array($value)) {
+                    if (is_array($value) && isset($value[0])) {
                         $value = $value[0];
                     }
                 }

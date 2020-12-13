@@ -505,7 +505,7 @@ class rcmail_sendmail
             // append message to sent box
             if ($store_folder) {
                 // message body in file
-                if ($message->mailbody_file || $message->getParam('delay_file_io')) {
+                if (!empty($message->mailbody_file) || $message->getParam('delay_file_io')) {
                     $headers = $message->txtHeaders();
 
                     // file already created
@@ -1155,8 +1155,9 @@ class rcmail_sendmail
                 $mailto    = format_email(rcube_utils::idn_to_utf8($addr_part['mailto']));
                 $mailto_lc = mb_strtolower($addr_part['mailto']);
 
-                if (($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
-                    && !in_array($mailto_lc, (array) $message->recipients)
+                if (
+                    ($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
+                    && (empty($message->recipients) || !in_array($mailto_lc, (array) $message->recipients))
                 ) {
                     if ($addr_part['name'] && $mailto != $addr_part['name']) {
                         $mailto = format_email_recipient($mailto, $addr_part['name']);
@@ -1676,11 +1677,11 @@ class rcmail_sendmail
         // extract recipients
         $recipients = (array) $headers['To'];
 
-        if (strlen($headers['Cc'])) {
+        if (!empty($headers['Cc'])) {
             $recipients[] = $headers['Cc'];
         }
 
-        if (strlen($headers['Bcc'])) {
+        if (!empty($headers['Bcc'])) {
             $recipients[] = $headers['Bcc'];
         }
 

@@ -418,8 +418,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                 // save attachment if valid
                 if (
-                    ($attachment['data'] && $attachment['name'])
-                    || ($attachment['path'] && file_exists($attachment['path']))
+                    (!empty($attachment['data']) && !empty($attachment['name']))
+                    || (!empty($attachment['path']) && file_exists($attachment['path']))
                 ) {
                     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
                 }
@@ -594,7 +594,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 foreach (self::$MESSAGE->parts as $part) {
-                    if ($part->realtype == 'multipart/encrypted') {
+                    if (!empty($part->realtype) && $part->realtype == 'multipart/encrypted') {
                         // find the encrypted message payload part
                         if ($pgp_mime_part = self::$MESSAGE->get_multipart_encrypted_part()) {
                             $rcmail->output->set_env('pgp_mime_message', [
@@ -1294,6 +1294,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['icon_pos']) && $attrib['icon_pos'] == 'left') {
             self::$COMPOSE['icon_pos'] = 'left';
         }
+        $icon_pos = isset(self::$COMPOSE['icon_pos']) ? self::$COMPOSE['icon_pos'] : null;
 
         if (!empty(self::$COMPOSE['attachments'])) {
             if (!empty($attrib['deleteicon'])) {
@@ -1350,7 +1351,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'id'    => 'rcmfile' . $id,
                         'class' => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                     ],
-                    self::$COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
+                    $icon_pos == 'left' ? $delete_link.$content_link : $content_link.$delete_link
                 );
 
                 $jslist['rcmfile'.$id] = [
@@ -1364,7 +1365,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['deleteicon'])) {
             self::$COMPOSE['deleteicon'] = $rcmail->output->asset_url($attrib['deleteicon'], true);
         }
-        else if (rcube_utils::get_boolean($attrib['textbuttons'])) {
+        else if (self::get_bool_attr($attrib, 'textbuttons')) {
             self::$COMPOSE['textbuttons'] = true;
         }
         if (!empty($attrib['cancelicon'])) {
@@ -1611,7 +1612,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'data'       => $data,
             'path'       => isset($path) ? $path : null,
             'size'       => isset($path) ? filesize($path) : strlen($data),
-            'charset'    => !empty($part) ? $part->charset : $params['charset'],
+            'charset'    => !empty($part) ? $part->charset : (isset($params['charset']) ? $params['charset'] : null),
         ];
 
         $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);

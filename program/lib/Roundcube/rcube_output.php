@@ -233,7 +233,7 @@ abstract class rcube_output
             $params['type'] .= '; charset=' . ($params['type_charset'] ?: $this->charset);
         }
 
-        header("Content-Type: " . ($params['type'] ?: "application/octet-stream"));
+        header("Content-Type: " . (!empty($params['type']) ? $params['type'] : "application/octet-stream"));
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
             header("Content-Type: application/force-download");
