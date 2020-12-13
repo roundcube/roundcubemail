@@ -19,9 +19,9 @@ tasks:
 REQUIREMENTS
 ------------
 PHP Version 5.5 or greater including:
-   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype (required)
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype, Intl (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
-   - Zip, Fileinfo, Intl, Exif (recommended)
+   - Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
 
 
