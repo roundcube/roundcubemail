@@ -18,59 +18,54 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
-?>
-<form action="index.php" method="get">
-<?php
-
-$required_php_exts = array(
+$required_php_exts = [
     'PCRE'      => 'pcre',
     'DOM'       => 'dom',
     'Session'   => 'session',
     'XML'       => 'xml',
+    'Intl'      => 'intl',
     'JSON'      => 'json',
     'PDO'       => 'PDO',
     'Multibyte' => 'mbstring',
     'OpenSSL'   => 'openssl',
     'Filter'    => 'filter',
     'Ctype'     => 'ctype',
-);
+];
 
-$optional_php_exts = array(
+$optional_php_exts = [
     'cURL'      => 'curl',
     'FileInfo'  => 'fileinfo',
-    'Intl'      => 'intl',
     'Exif'      => 'exif',
     'LDAP'      => 'ldap',
     'GD'        => 'gd',
     'Imagick'   => 'imagick',
     'Zip'       => 'zip',
-);
+];
 
-$required_libs = array(
+$required_libs = [
     'PEAR'      => 'pear.php.net',
     'Auth_SASL' => 'pear.php.net',
     'Net_SMTP'  => 'pear.php.net',
-    'Net_IDNA2' => 'pear.php.net',
     'Mail_mime' => 'pear.php.net',
     'GuzzleHttp\Client' => 'github.com/guzzle/guzzle',
-);
+];
 
-$optional_libs = array(
+$optional_libs = [
     'Net_LDAP3' => 'git.kolab.org',
-);
+];
 
-$ini_checks = array(
-    'file_uploads'                  => 1,
-    'session.auto_start'            => 0,
-    'mbstring.func_overload'        => 0,
-    'suhosin.session.encrypt'       => 0,
-);
+$ini_checks = [
+    'file_uploads'            => 1,
+    'session.auto_start'      => 0,
+    'mbstring.func_overload'  => 0,
+    'suhosin.session.encrypt' => 0,
+];
 
-$optional_checks = array(
-    'date.timezone'    => '-VALID-',
-);
+$optional_checks = [
+    'date.timezone' => '-VALID-',
+];
 
-$source_urls = array(
+$source_urls = [
     'cURL'      => 'https://www.php.net/manual/en/book.curl.php',
     'Sockets'   => 'https://www.php.net/manual/en/book.sockets.php',
     'Session'   => 'https://www.php.net/manual/en/book.session.php',
@@ -99,10 +94,13 @@ $source_urls = array(
     'PEAR'      => 'https://pear.php.net',
     'Net_SMTP'  => 'https://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'https://pear.php.net/package/Mail_mime',
-    'Net_IDNA2' => 'https://pear.php.net/package/Net_IDNA2',
     'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
-);
+];
 
+?>
+<form action="index.php" method="get">
+
+<?php
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
 ?>
 
@@ -112,7 +110,8 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 define('MIN_PHP_VERSION', '5.5.0');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
-} else {
+}
+else {
     $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . PHP_VERSION . ' detected');
 }
 ?>
@@ -124,11 +123,12 @@ if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
 // get extensions location
 $ext_dir = ini_get('extension_dir');
 
-$prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
+$prefix = PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($required_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    } else {
+    }
+    else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
@@ -155,13 +155,12 @@ foreach ($optional_php_exts as $name => $ext) {
 
 ?>
 
-
 <h3>Checking available databases</h3>
 <p class="hint">Check which of the supported extensions are installed. At least one of them is required.</p>
 
 <?php
 
-$prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
+$prefix = PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
@@ -179,7 +178,6 @@ if (empty($found_db_driver)) {
 }
 
 ?>
-
 
 <h3>Check for required 3rd party libs</h3>
 <p class="hint">This also checks if the include path is set correctly.</p>
@@ -242,7 +240,8 @@ foreach ($optional_checks as $var => $val) {
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
             $RCI->optfail($var, "Could be set");
-        } else {
+        }
+        else {
             $RCI->pass($var);
         }
         echo '<br />';
@@ -275,7 +274,7 @@ foreach ($optional_checks as $var => $val) {
 <?php
 
 if ($RCI->failures) {
-  echo '<p class="warning">Sorry but your webserver does not meet the requirements for Roundcube!<br />
+    echo '<p class="warning">Sorry but your webserver does not meet the requirements for Roundcube!<br />
             Please install the missing modules or fix the php.ini settings according to the above check results.<br />
             Hint: only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
 }

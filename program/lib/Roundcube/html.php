@@ -332,7 +332,7 @@ class html
 
             // attributes with no value
             if (in_array($key, self::$bool_attrib)) {
-                if ($value) {
+                if (!empty($value)) {
                     $value = $key;
                     if (self::$doctype == 'xhtml') {
                         $value .= '="' . $value . '"';
@@ -342,7 +342,7 @@ class html
                 }
             }
             else {
-                $attrib_arr[] = $key . '="' . self::quote($value) . '"';
+                $attrib_arr[] = $key . '="' . self::quote((string) $value) . '"';
             }
         }
 
@@ -385,6 +385,11 @@ class html
      */
     public static function quote($str)
     {
+        // PHP8 does not like e.g. an array as htmlspecialchars() argument
+        if (!is_string($str)) {
+            return (string) $str;
+        }
+
         return @htmlspecialchars($str, ENT_COMPAT | ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
@@ -692,7 +697,10 @@ class html_select extends html
     {
         if (is_array($names)) {
             foreach ($names as $i => $text) {
-                $this->options[] = ['text' => $text, 'value' => $values[$i]] + $attrib;
+                $this->options[] = [
+                    'text'  => $text,
+                    'value' => isset($values[$i]) ? $values[$i] : ''
+                ] + $attrib;
             }
         }
         else {
