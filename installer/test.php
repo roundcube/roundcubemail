@@ -24,73 +24,74 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
 <?php
 
 if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
-  $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php');
-  if (!empty($config)) {
-    $RCI->pass('defaults.inc.php');
-  }
-  else {
-    $RCI->fail('defaults.inc.php', 'Syntax error');
-  }
+    $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php');
+    if (!empty($config)) {
+        $RCI->pass('defaults.inc.php');
+    }
+    else {
+        $RCI->fail('defaults.inc.php', 'Syntax error');
+    }
 }
 else {
-  $RCI->fail('defaults.inc.php', 'Unable to read default config file?');
+    $RCI->fail('defaults.inc.php', 'Unable to read default config file?');
 }
+
 echo '<br />';
 
 if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'config.inc.php')) {
-  $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php');
-  if (!empty($config)) {
-    $RCI->pass('config.inc.php');
-  }
-  else {
-    $RCI->fail('config.inc.php', 'Syntax error');
-  }
+    $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php');
+    if (!empty($config)) {
+        $RCI->pass('config.inc.php');
+    }
+    else {
+        $RCI->fail('config.inc.php', 'Syntax error');
+    }
 }
 else {
-  $RCI->fail('config.inc.php', 'Unable to read file. Did you create the config file?');
+    $RCI->fail('config.inc.php', 'Unable to read file. Did you create the config file?');
 }
+
 echo '<br />';
 
-
 if ($RCI->configured && ($messages = $RCI->check_config())) {
-  if (is_array($messages['replaced'])) {
-    echo '<h3 class="warning">Replaced config options</h3>';
-    echo '<p class="hint">The following config options have been replaced or renamed. ';
-    echo 'Please update them accordingly in your config files.</p>';
+    if (is_array($messages['replaced'])) {
+        echo '<h3 class="warning">Replaced config options</h3>';
+        echo '<p class="hint">The following config options have been replaced or renamed. ';
+        echo 'Please update them accordingly in your config files.</p>';
 
-    echo '<ul class="configwarings">';
-    foreach ($messages['replaced'] as $msg) {
-      echo html::tag('li', null, html::span('propname', $msg['prop']) .
-        ' was replaced by ' . html::span('propname', $msg['replacement']));
+        echo '<ul class="configwarings">';
+        foreach ($messages['replaced'] as $msg) {
+            echo html::tag('li', null, html::span('propname', $msg['prop']) .
+                ' was replaced by ' . html::span('propname', $msg['replacement']));
+        }
+        echo '</ul>';
     }
-    echo '</ul>';
-  }
 
-  if (is_array($messages['obsolete'])) {
-    echo '<h3>Obsolete config options</h3>';
-    echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
+    if (is_array($messages['obsolete'])) {
+        echo '<h3>Obsolete config options</h3>';
+        echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
 
-    echo '<ul class="configwarings">';
-    foreach ($messages['obsolete'] as $msg) {
-      echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
+        echo '<ul class="configwarings">';
+        foreach ($messages['obsolete'] as $msg) {
+            echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
+        }
+        echo '</ul>';
     }
-    echo '</ul>';
-  }
 
-  echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
-  echo html::a(array('href' => './?_mergeconfig=1'), 'config.inc.php') . ' &nbsp;';
-  echo "</p>";
+    echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
+    echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
+    echo "</p>";
 
-  if (is_array($messages['dependencies'])) {
-    echo '<h3 class="warning">Dependency check failed</h3>';
-    echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
+    if (is_array($messages['dependencies'])) {
+        echo '<h3 class="warning">Dependency check failed</h3>';
+        echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
 
-    echo '<ul class="configwarings">';
-    foreach ($messages['dependencies'] as $msg) {
-      echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
+        echo '<ul class="configwarings">';
+        foreach ($messages['dependencies'] as $msg) {
+            echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
+        }
+        echo '</ul>';
     }
-    echo '</ul>';
-  }
 }
 
 ?>
@@ -99,9 +100,10 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 <p>Roundcube may need to write/save files into these directories</p>
 <?php
 
-$dirs[] = $RCI->config['temp_dir'] ? $RCI->config['temp_dir'] : 'temp';
-if ($RCI->config['log_driver'] != 'syslog')
+$dirs[] = !empty($RCI->config['temp_dir']) ? $RCI->config['temp_dir'] : 'temp';
+if ($RCI->config['log_driver'] != 'syslog') {
     $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
+}
 
 foreach ($dirs as $dir) {
     $dirpath = rcube_utils::is_absolute_path($dir) ? $dir : INSTALL_PATH . $dir;
@@ -151,14 +153,14 @@ else {
 }
 
 // initialize db with schema found in /SQL/*
-if ($db_working && $_POST['initdb']) {
+if ($db_working && !empty($_POST['initdb'])) {
     if (!$RCI->init_db($DB)) {
         $db_working = false;
         echo '<p class="warning">Please try to inizialize the database manually as described in the INSTALL guide.
             Make sure that the configured database extists and that the user as write privileges</p>';
     }
 }
-else if ($db_working && $_POST['updatedb']) {
+else if ($db_working && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
@@ -175,7 +177,7 @@ if ($db_working) {
     else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
-        $select = $RCI->versions_select(array('name' => 'version'));
+        $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
         echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show('') . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
         $db_working = false;
@@ -199,12 +201,12 @@ if ($db_working) {
         . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
-      $RCI->pass('DB Write');
-      $DB->query("DELETE FROM " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-        . " WHERE `sess_id` = ?", $insert_id);
+        $RCI->pass('DB Write');
+        $DB->query("DELETE FROM " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
+            . " WHERE `sess_id` = ?", $insert_id);
     }
     else {
-      $RCI->fail('DB Write', $RCI->get_error());
+        $RCI->fail('DB Write', $RCI->get_error());
     }
     echo '<br />';
 
@@ -237,52 +239,52 @@ if ($db_working) {
 <?php
 
 if ($errors = $RCI->check_mime_detection()) {
-  $RCI->fail('Fileinfo/mime_content_type configuration');
-  if (!empty($RCI->config['mime_magic'])) {
-    echo '<p class="hint">Try setting the <tt>mime_magic</tt> config option to <tt>null</tt>.</p>';
-  }
-  else {
-    echo '<p class="hint">Check the <a href="http://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
-    echo 'The path to the magic.mime file can be set using the <tt>mime_magic</tt> config option in Roundcube.</p>';
-  }
+    $RCI->fail('Fileinfo/mime_content_type configuration');
+    if (!empty($RCI->config['mime_magic'])) {
+        echo '<p class="hint">Try setting the <tt>mime_magic</tt> config option to <tt>null</tt>.</p>';
+    }
+    else {
+        echo '<p class="hint">Check the <a href="http://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
+        echo 'The path to the magic.mime file can be set using the <tt>mime_magic</tt> config option in Roundcube.</p>';
+    }
 }
 else {
-  $RCI->pass('Fileinfo/mime_content_type configuration');
-  echo "<br/>";
+    $RCI->pass('Fileinfo/mime_content_type configuration');
+    echo "<br/>";
 }
 
 
 if ($errors = $RCI->check_mime_extensions()) {
-  $RCI->fail('Mimetype to file extension mapping');
-  echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
-  echo 'If you can\'t find such a file, download it from <a href="http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
+    $RCI->fail('Mimetype to file extension mapping');
+    echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
+    echo 'If you can\'t find such a file, download it from <a href="http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
 }
 else {
-  $RCI->pass('Mimetype to file extension mapping');
-  echo "<br/>";
+    $RCI->pass('Mimetype to file extension mapping');
+    echo "<br/>";
 }
 
 $smtp_hosts = $RCI->get_hostlist('smtp_server');
 if (!empty($smtp_hosts)) {
-  $smtp_host_field = new html_select(array('name' => '_smtp_host', 'id' => 'smtp_server'));
-  $smtp_host_field->add($smtp_hosts);
+    $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_server']);
+    $smtp_host_field->add($smtp_hosts);
 }
 else {
-  $smtp_host_field = new html_inputfield(array('name' => '_smtp_host', 'id' => 'smtp_server'));
+    $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_server']);
 }
 
 $user = $RCI->getprop('smtp_user', '(none)');
 $pass = $RCI->getprop('smtp_pass', '(none)');
 
 if ($user == '%u') {
-    $user_field = new html_inputfield(array('name' => '_smtp_user', 'id' => 'smtp_user'));
-    $user = $user_field->show($_POST['_smtp_user']);
+    $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
+    $user = $user_field->show(isset($_POST['_smtp_user']) ? $_POST['_smtp_user'] : '');
 }
 else {
     $user = html::quote($user);
 }
 if ($pass == '%p') {
-    $pass_field = new html_passwordfield(array('name' => '_smtp_pass', 'id' => 'smtp_pass'));
+    $pass_field = new html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
     $pass = $pass_field->show();
 }
 else {
@@ -298,7 +300,7 @@ else {
 <tbody>
   <tr>
     <td><label for="smtp_server">Server</label></td>
-    <td><?php echo $smtp_host_field->show($_POST['_smtp_host']); ?></td>
+    <td><?php echo $smtp_host_field->show(isset($_POST['_smtp_host']) ? $_POST['_smtp_host'] : ''); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_port">Port</label></td>
@@ -318,62 +320,63 @@ else {
 
 <?php
 
-$from_field = new html_inputfield(array('name' => '_from', 'id' => 'sendmailfrom'));
-$to_field   = new html_inputfield(array('name' => '_to', 'id' => 'sendmailto'));
+$from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
+$to_field   = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
 
-  echo '<p>Trying to send email...<br />';
+    echo '<p>Trying to send email...<br />';
 
-  $smtp_host = trim($_POST['_smtp_host']);
-  $smtp_port = $RCI->getprop('smtp_port');
+    $smtp_host = trim($_POST['_smtp_host']);
+    $smtp_port = $RCI->getprop('smtp_port');
 
-  $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
-  $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
+    $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
+    $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
-  if (preg_match('/^' . $RCI->email_pattern . '$/i', $from) &&
-      preg_match('/^' . $RCI->email_pattern . '$/i', $to)
-  ) {
-    $headers = array(
-      'From'    => $from,
-      'To'      => $to,
-      'Subject' => 'Test message from Roundcube',
-    );
+    if (
+        preg_match('/^' . $RCI->email_pattern . '$/i', $from)
+        && preg_match('/^' . $RCI->email_pattern . '$/i', $to)
+    ) {
+        $headers = [
+            'From'    => $from,
+            'To'      => $to,
+            'Subject' => 'Test message from Roundcube',
+        ];
 
-    $body = 'This is a test to confirm that Roundcube can send email.';
+        $body = 'This is a test to confirm that Roundcube can send email.';
 
-    // send mail using configured SMTP server
-    $CONFIG = $RCI->config;
+        // send mail using configured SMTP server
+        $CONFIG = $RCI->config;
 
-    if (!empty($_POST['_smtp_user'])) {
-      $CONFIG['smtp_user'] = $_POST['_smtp_user'];
-    }
-    if (!empty($_POST['_smtp_pass'])) {
-      $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
-    }
+        if (!empty($_POST['_smtp_user'])) {
+            $CONFIG['smtp_user'] = $_POST['_smtp_user'];
+        }
+        if (!empty($_POST['_smtp_pass'])) {
+            $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
+        }
 
-    $mail_object  = new Mail_mime();
-    $send_headers = $mail_object->headers($headers);
-    $head         = $mail_object->txtHeaders($send_headers);
+        $mail_object  = new Mail_mime();
+        $send_headers = $mail_object->headers($headers);
+        $head         = $mail_object->txtHeaders($send_headers);
 
-    $SMTP = new rcube_smtp();
-    $SMTP->connect($smtp_host, $smtp_port, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
+        $SMTP = new rcube_smtp();
+        $SMTP->connect($smtp_host, $smtp_port, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
-    $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
-    $smtp_response = $SMTP->get_response();
+        $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
+        $smtp_response = $SMTP->get_response();
 
-    if ($status) {
-        $RCI->pass('SMTP send');
+        if ($status) {
+            $RCI->pass('SMTP send');
+        }
+        else {
+            $RCI->fail('SMTP send', join('; ', $smtp_response));
+        }
     }
     else {
-        $RCI->fail('SMTP send', join('; ', $smtp_response));
+        $RCI->fail('SMTP send', 'Invalid sender or recipient');
     }
-  }
-  else {
-    $RCI->fail('SMTP send', 'Invalid sender or recipient');
-  }
 
-  echo '</p>';
+    echo '</p>';
 }
 
 ?>
@@ -382,11 +385,11 @@ if (isset($_POST['sendmail'])) {
 <tbody>
   <tr>
     <td><label for="sendmailfrom">Sender</label></td>
-    <td><?php echo $from_field->show($_POST['_from']); ?></td>
+    <td><?php echo $from_field->show(isset($_POST['_from']) ? $_POST['_from'] : ''); ?></td>
   </tr>
   <tr>
     <td><label for="sendmailto">Recipient</label></td>
-    <td><?php echo $to_field->show($_POST['_to']); ?></td>
+    <td><?php echo $to_field->show(isset($_POST['_to']) ? $_POST['_to'] : ''); ?></td>
   </tr>
 </tbody>
 </table>
@@ -400,15 +403,15 @@ if (isset($_POST['sendmail'])) {
 
 $default_hosts = $RCI->get_hostlist();
 if (!empty($default_hosts)) {
-  $host_field = new html_select(array('name' => '_host', 'id' => 'imaphost'));
-  $host_field->add($default_hosts);
+    $host_field = new html_select(['name' => '_host', 'id' => 'imaphost']);
+    $host_field->add($default_hosts);
 }
 else {
-  $host_field = new html_inputfield(array('name' => '_host', 'id' => 'imaphost'));
+    $host_field = new html_inputfield(['name' => '_host', 'id' => 'imaphost']);
 }
 
-$user_field = new html_inputfield(array('name' => '_user', 'id' => 'imapuser'));
-$pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'));
+$user_field = new html_inputfield(['name' => '_user', 'id' => 'imapuser']);
+$pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 
 ?>
 
@@ -416,7 +419,7 @@ $pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'
 <tbody>
   <tr>
     <td><label for="imaphost">Server</label></td>
-    <td><?php echo $host_field->show($_POST['_host']); ?></td>
+    <td><?php echo $host_field->show(isset($_POST['_host']) ? $_POST['_host'] : ''); ?></td>
   </tr>
   <tr>
     <td>Port</td>
@@ -424,7 +427,7 @@ $pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'
   </tr>
     <tr>
       <td><label for="imapuser">Username</label></td>
-      <td><?php echo $user_field->show($_POST['_user']); ?></td>
+      <td><?php echo $user_field->show(isset($_POST['_user']) ? $_POST['_user'] : ''); ?></td>
     </tr>
     <tr>
       <td><label for="imappass">Password</label></td>
@@ -437,39 +440,41 @@ $pass_field = new html_passwordfield(array('name' => '_pass', 'id' => 'imappass'
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
 
-  echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
+    echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
 
-  $imap_host = trim($_POST['_host']);
-  $imap_port = $RCI->getprop('default_port');
-  $imap_ssl  = false;
-  $a_host    = parse_url($imap_host);
+    $imap_host = trim($_POST['_host']);
+    $imap_port = $RCI->getprop('default_port');
+    $imap_ssl  = false;
+    $a_host    = parse_url($imap_host);
 
-  if ($a_host['host']) {
-    $imap_host = $a_host['host'];
-    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
-    if (isset($a_host['port']))
-      $imap_port = $a_host['port'];
-    else if ($imap_ssl && $imap_ssl != 'tls' && (!$imap_port || $imap_port == 143))
-      $imap_port = 993;
-  }
+    if ($a_host['host']) {
+        $imap_host = $a_host['host'];
+        $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls'])) ? $a_host['scheme'] : null;
+        if (isset($a_host['port'])) {
+            $imap_port = $a_host['port'];
+        }
+        else if ($imap_ssl && $imap_ssl != 'tls' && (!$imap_port || $imap_port == 143)) {
+            $imap_port = 993;
+        }
+    }
 
-  $imap_host = rcube_utils::idn_to_ascii($imap_host);
-  $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
+    $imap_host = rcube_utils::idn_to_ascii($imap_host);
+    $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
-  $imap = new rcube_imap;
-  $imap->set_options(array(
-    'auth_type' => $RCI->getprop('imap_auth_type'),
-    'debug'     => $RCI->getprop('imap_debug'),
-    'socket_options' => $RCI->getprop('imap_conn_options'),
-  ));
+    $imap = new rcube_imap;
+    $imap->set_options([
+        'auth_type'      => $RCI->getprop('imap_auth_type'),
+        'debug'          => $RCI->getprop('imap_debug'),
+        'socket_options' => $RCI->getprop('imap_conn_options'),
+    ]);
 
-  if ($imap->connect($imap_host, $imap_user, $_POST['_pass'], $imap_port, $imap_ssl)) {
-    $RCI->pass('IMAP connect', 'SORT capability: ' . ($imap->get_capability('SORT') ? 'yes' : 'no'));
-    $imap->close();
-  }
-  else {
-    $RCI->fail('IMAP connect', $RCI->get_error());
-  }
+    if ($imap->connect($imap_host, $imap_user, $_POST['_pass'], $imap_port, $imap_ssl)) {
+        $RCI->pass('IMAP connect', 'SORT capability: ' . ($imap->get_capability('SORT') ? 'yes' : 'no'));
+        $imap->close();
+    }
+    else {
+        $RCI->fail('IMAP connect', $RCI->get_error());
+    }
 }
 
 ?>

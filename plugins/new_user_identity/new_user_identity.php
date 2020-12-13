@@ -72,6 +72,10 @@ class new_user_identity extends rcube_plugin
                 'host' => $this->rc->user->data['mail_host'],
         ]);
 
+        if (empty($ldap_entry['email_list'])) {
+            return $args;
+        }
+
         foreach ((array) $ldap_entry['email_list'] as $email) {
             foreach ($identities as $identity) {
                 if ($identity['email'] == $email) {
@@ -93,6 +97,7 @@ class new_user_identity extends rcube_plugin
                 $this->rc->user->insert_identity($plugin['record']);
             }
         }
+
         return $args;
     }
 

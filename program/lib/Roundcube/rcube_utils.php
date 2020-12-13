@@ -1024,7 +1024,6 @@ class rcube_utils
 
         // Because php-intl extension lowercases domains and return false
         // on invalid input (#6224), we skip conversion when not needed
-        // for compatibility with our Net_IDNA2 wrappers in bootstrap.php
 
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {

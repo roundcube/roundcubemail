@@ -34,7 +34,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
 
         $a_save_cols    = ['name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature'];
         $a_boolean_cols = ['standard', 'html_signature'];
-        $updated = $default_id = false;
+        $updated        = false;
 
         // check input
         if (empty($_POST['_email']) && ($IDENTITIES_LEVEL == 0 || $IDENTITIES_LEVEL == 2)) {

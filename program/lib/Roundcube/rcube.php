@@ -1291,13 +1291,14 @@ class rcube
         // trigger logging hook
         if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
             $log = self::$instance->plugins->exec_hook('write_log',
-                ['name' => $name, 'date' => $date, 'line' => $line]);
+                ['name' => $name, 'date' => $date, 'line' => $line]
+            );
 
             $name = $log['name'];
             $line = $log['line'];
             $date = $log['date'];
 
-            if ($log['abort']) {
+            if (!empty($log['abort'])) {
                 return true;
             }
         }
