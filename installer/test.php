@@ -18,7 +18,6 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
 }
 
 ?>
-<form action="index.php?_step=3" method="post">
 
 <h3>Check config file</h3>
 <?php
@@ -267,7 +266,7 @@ else {
 $smtp_hosts = $RCI->get_hostlist('smtp_server');
 if (!empty($smtp_hosts)) {
     $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_server']);
-    $smtp_host_field->add($smtp_hosts);
+    $smtp_host_field->add($smtp_hosts, $smtp_hosts);
 }
 else {
     $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_server']);
@@ -292,6 +291,8 @@ else {
 }
 
 ?>
+
+<form action="index.php?_step=3" method="post">
 
 <h3>Test SMTP config</h3>
 
@@ -396,6 +397,9 @@ if (isset($_POST['sendmail'])) {
 
 <p><input type="submit" name="sendmail" value="Send test mail" /></p>
 
+</form>
+
+<form action="index.php?_step=3" method="post">
 
 <h3>Test IMAP config</h3>
 
@@ -404,7 +408,7 @@ if (isset($_POST['sendmail'])) {
 $default_hosts = $RCI->get_hostlist();
 if (!empty($default_hosts)) {
     $host_field = new html_select(['name' => '_host', 'id' => 'imaphost']);
-    $host_field->add($default_hosts);
+    $host_field->add($default_hosts, $default_hosts);
 }
 else {
     $host_field = new html_inputfield(['name' => '_host', 'id' => 'imaphost']);

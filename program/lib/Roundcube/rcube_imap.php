@@ -2156,7 +2156,7 @@ class rcube_imap extends rcube_storage
         }
 
         // #1487700: workaround for lack of charset in malformed structure
-        if (empty($struct->charset) && !empty($mime_headers) && $mime_headers->charset) {
+        if (empty($struct->charset) && !empty($mime_headers) && !empty($mime_headers->charset)) {
             $struct->charset = $mime_headers->charset;
         }
 
@@ -2214,7 +2214,10 @@ class rcube_imap extends rcube_storage
         }
 
         // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
-        if ($struct->ctype_primary == 'message' || (!empty($struct->ctype_parameters['name']) && !$struct->content_id)) {
+        if (
+            $struct->ctype_primary == 'message'
+            || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
+        ) {
             if (empty($mime_headers)) {
                 $mime_headers = $this->conn->fetchPartHeader(
                     $this->folder, $this->msg_uid, true, $struct->mime_id);
@@ -3478,11 +3481,11 @@ class rcube_imap extends rcube_storage
         }
 
         $folders = $this->get_special_folders(true);
-        $old     = (array) $this->icache['special-use'];
+        $old     = isset($this->icache['special-use']) ? (array) $this->icache['special-use'] : [];
 
         foreach ($specials as $type => $folder) {
             if (in_array($type, rcube_storage::$folder_types)) {
-                $old_folder = $old[$type];
+                $old_folder = isset($old[$type]) ? $old[$type] : null;
                 if ($old_folder !== $folder) {
                     // unset old-folder metadata
                     if ($old_folder !== null) {
@@ -3598,7 +3601,7 @@ class rcube_imap extends rcube_storage
      */
     public function mod_folder($folder, $mode = 'out')
     {
-        $prefix = $this->namespace['prefix_' . $mode]; // see set_env()
+        $prefix = isset($this->namespace['prefix_' . $mode]) ? $this->namespace['prefix_' . $mode] : null;
 
         if ($prefix === null || $prefix === ''
             || !($prefix_len = strlen($prefix)) || !strlen($folder)

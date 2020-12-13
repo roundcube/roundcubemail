@@ -54,6 +54,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (
             !empty($_REQUEST['_search'])
             && isset($_SESSION['search'])
+            && isset($_SESSION['search_request'])
             && $_SESSION['search_request'] == $_REQUEST['_search']
         ) {
             $rcmail->storage->set_search_set($_SESSION['search']);
@@ -1702,8 +1703,8 @@ class rcmail_action_mail_index extends rcmail_action
             $abook->set_group($group['ID']);
 
             // group (distribution list) with email address(es)
-            if ($group['email']) {
-                foreach ((array)$group['email'] as $email) {
+            if (!empty($group['email'])) {
+                foreach ((array) $group['email'] as $email) {
                     $row_id = 'G'.$group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $rcmail->output->command('add_contact_row', $row_id, [

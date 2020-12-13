@@ -431,7 +431,7 @@ class password extends rcube_plugin
             $driver = $this->rc->config->get('password_driver', 'sql');
         }
 
-        if (!$this->drivers[$type]) {
+        if (empty($this->drivers[$type])) {
             $class  = "rcube_{$driver}_password";
             $file = $this->home . "/drivers/$driver.php";
 

@@ -155,7 +155,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             // according to namespaces, but only if they aren't already subscribed.
             // User should be able to unsubscribe from the folder
             // even if it doesn't exists or is not accessible (OTRS:1000059)
-            if (!$is_subscribed && !$is_disabled && !empty($namespace) && $folder['virtual']) {
+            if (!$is_subscribed && !$is_disabled && !empty($namespace) && !empty($folder['virtual'])) {
                 // check if the folder is a namespace prefix, then disable subscription option on it
                 if (!$is_disabled && $folder['level'] == 0) {
                     $fname = $folder['id'] . $delimiter;

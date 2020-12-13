@@ -250,7 +250,7 @@ class rcube_sieve_script
                     switch ($test['test']) {
                     case 'size':
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
-                        $tests[$i] .= 'size :' . ($test['type']=='under' ? 'under ' : 'over ') . $test['arg'];
+                        $tests[$i] .= 'size :' . ($test['type'] == 'under' ? 'under ' : 'over ') . $test['arg'];
                         break;
 
                     case 'spamtest':
@@ -264,11 +264,11 @@ class rcube_sieve_script
                         break;
 
                     case 'true':
-                        $tests[$i] .= ($test['not'] ? 'false' : 'true');
+                        $tests[$i] .= !empty($test['not']) ? 'false' : 'true';
                         break;
 
                     case 'exists':
-                        $tests[$i] .= ($test['not'] ? 'not ' : '') . 'exists';
+                        $tests[$i] .= (!empty($test['not']) ? 'not ' : '') . 'exists';
 
                         $this->add_mime($test, $tests[$i], $exts);
 

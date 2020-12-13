@@ -612,8 +612,8 @@ class rcube_message
         if ($recursive && is_array($structure->headers) &&
             (isset($structure->headers['subject']) || $structure->headers['from'] || $structure->headers['to'])
         ) {
-            $c = new stdClass;
-            $c->type = 'headers';
+            $c = new rcube_message_part();
+            $c->type    = 'headers';
             $c->headers = $structure->headers;
             $this->add_part($c);
         }
@@ -741,7 +741,7 @@ class rcube_message
             }
             // show plaintext warning
             else if (isset($html_part) && empty($this->parts)) {
-                $c = new stdClass;
+                $c = new rcube_message_part();
                 $c->type            = 'content';
                 $c->ctype_primary   = 'text';
                 $c->ctype_secondary = 'plain';
@@ -753,7 +753,7 @@ class rcube_message
         }
         // this is an ecrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'multipart/encrypted') {
-            $p = new stdClass;
+            $p = new rcube_message_part();
             $p->type            = 'content';
             $p->ctype_primary   = 'text';
             $p->ctype_secondary = 'plain';
@@ -775,7 +775,7 @@ class rcube_message
         }
         // this is an S/MIME ecrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'application/pkcs7-mime') {
-            $p = new stdClass;
+            $p = new rcube_message_part();
             $p->type            = 'content';
             $p->ctype_primary   = 'text';
             $p->ctype_secondary = 'plain';

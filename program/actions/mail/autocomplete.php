@@ -76,7 +76,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             if (empty($contacts[$index])) {
                                 $contact = [
                                     'name'   => $contact,
-                                    'type'   => $record['_type'],
+                                    'type'   => isset($record['_type']) ? $record['_type'] : null,
                                     'id'     => $record['ID'],
                                     'source' => $abook_id,
                                 ];
@@ -88,12 +88,13 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                 }
 
                                 // groups with defined email address will not be expanded to its members' addresses
-                                if ($record['_type'] == 'group') {
+                                if ($contact['type'] == 'group') {
                                     $contact['email'] = $email;
                                 }
 
+                                $name              = !empty($contact['display']) ? $contact['display'] : $name;
                                 $contacts[$index]  = $contact;
-                                $sort_keys[$index] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
+                                $sort_keys[$index] = sprintf('%s %03d', $name, $idx++);
 
                                 if (count($contacts) >= $MAXNUM) {
                                     break 2;

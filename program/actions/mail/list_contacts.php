@@ -116,13 +116,13 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 // add record for every email address of the contact
                 $emails = rcube_addressbook::get_col_values('email', $row, true);
                 foreach ($emails as $i => $email) {
-                    $source = $row['sourceid'] ?: $source;
-                    $row_id = $source.'-'.$row['ID'].'-'.$i;
+                    $source    = !empty($row['sourceid']) ? $row['sourceid'] : $source;
+                    $row_id    = $source.'-'.$row['ID'].'-'.$i;
+                    $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                    $classname = $is_group ? 'group' : 'person';
+                    $keyname   = $is_group ? 'contactgroup' : 'contact';
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
-
-                    $classname = $row['_type'] == 'group' ? 'group' : 'person';
-                    $keyname   = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
 
                     $rcmail->output->command('add_contact_row', $row_id, [
                             $keyname => html::a(

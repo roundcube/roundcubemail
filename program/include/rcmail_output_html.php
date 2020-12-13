@@ -2437,7 +2437,7 @@ EOF;
 
             $header = html::tag($ariatag, $header_attrs, rcube::Q($header_label));
 
-            if ($attrib['options']) {
+            if (!empty($attrib['options'])) {
                 $options_button = $this->button([
                         'type'       => 'link',
                         'href'       => '#search-filter',

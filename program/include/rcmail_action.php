@@ -813,7 +813,7 @@ abstract class rcmail_action
                 $part->exact_size = true;
             }
 
-            if ($part->encoding == 'base64') {
+            if (isset($part->encoding) && $part->encoding == 'base64') {
                 $size = $size / 1.33;
             }
 
