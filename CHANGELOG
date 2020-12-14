@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix some PHP warnings in the main index.php that can clutter the error.log
+  file on failed user authentication
 - Require PHP >= 5.5
 - Require php-intl
 - Remove use of ext-iconv
