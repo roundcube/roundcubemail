@@ -59,7 +59,7 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
         }
         system(sprintf("php %s/deluser.sh --host=%s %s", INSTALL_PATH . 'bin', $user['mail_host'], $user['username']));
     }
-    exit(1);
+    exit(0);
 }
 
 $username = trim($args[0]);
@@ -142,3 +142,5 @@ else {
         echo "Successfully deleted user $user->ID\n";
     }
 }
+
+exit(0);
