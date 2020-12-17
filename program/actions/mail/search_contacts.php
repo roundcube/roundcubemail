@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_search_contacts extends rcmail_action_mail_index
+class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contacts
 {
     protected static $mode = self::MODE_AJAX;
 
