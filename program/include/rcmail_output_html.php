@@ -908,7 +908,7 @@ EOF;
      */
     public function abs_url($str, $search_path = false)
     {
-        if ($str[0] == '/') {
+        if (isset($str[0]) && $str[0] == '/') {
             if ($search_path && ($file_url = $this->get_skin_file($str))) {
                 return $file_url;
             }

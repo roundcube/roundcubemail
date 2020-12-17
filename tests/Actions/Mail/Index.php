@@ -8,6 +8,315 @@
 class Actions_Mail_Index extends ActionTestCase
 {
     /**
+     * Test run() method in HTTP mode
+     */
+    function test_run_http()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
+        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertTrue($action->checks());
+
+        $_GET = ['_uid' => 10];
+
+        // Set expected storage function calls/results
+        rcmail::get_instance()->storage
+            ->registerFunction('set_options')
+            ->registerFunction('get_pagesize', 10)
+            ->registerFunction('set_charset')
+            ->registerFunction('is_connected', true)
+            ->registerFunction('set_folder')
+            ->registerFunction('get_folder', 'INBOX')
+            ->registerFunction('get_folder', 'INBOX')
+            ->registerFunction('get_threading', false)
+            ->registerFunction('get_pagesize', 10)
+            ->registerFunction('get_capability', false)
+            ->registerFunction('get_capability', false)
+            ->registerFunction('set_folder')
+            ->registerFunction('set_page')
+            ->registerFunction('set_threading');
+
+        $action->run();
+
+        $this->assertSame([], $output->headers);
+        $this->assertNull($output->getOutput());
+        $this->assertSame('Inbox', $output->getProperty('pagetitle'));
+        $this->assertSame('INBOX', $output->get_env('mailbox'));
+        $this->assertSame(10, $output->get_env('pagesize'));
+        $this->assertSame('/', $output->get_env('delimiter'));
+        $this->assertSame('widescreen', $output->get_env('layout'));
+        $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
+        $this->assertSame('Trash', $output->get_env('trash_mailbox'));
+        $this->assertSame('Junk', $output->get_env('junk_mailbox'));
+        $this->assertSame(10, $output->get_env('list_uid'));
+    }
+
+    /**
+     * Test run() method in AJAX mode
+     */
+    function test_run_ajax()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
+
+        $this->assertTrue($action->checks());
+
+        // Set expected storage function calls/results
+        rcmail::get_instance()->storage
+            ->registerFunction('set_options')
+            ->registerFunction('get_pagesize')
+            ->registerFunction('set_charset')
+            ->registerFunction('is_connected', true)
+            ->registerFunction('set_folder')
+            ->registerFunction('get_folder', 'INBOX')
+            ->registerFunction('get_threading', false)
+            ->registerFunction('get_pagesize')
+            ->registerFunction('get_capability', false)
+            ->registerFunction('get_capability', false)
+            ->registerFunction('set_folder')
+            ->registerFunction('set_page')
+            ->registerFunction('set_threading');
+
+        $action->run();
+
+        $this->assertSame([], $output->headers);
+        $this->assertNull($output->getOutput());
+        $this->assertSame('', $output->getProperty('pagetitle'));
+        $this->assertSame('INBOX', $output->get_env('mailbox'));
+        $this->assertSame(10, $output->get_env('pagesize'));
+        $this->assertSame(1, $output->get_env('current_page'));
+        $this->assertSame('/', $output->get_env('delimiter'));
+        $this->assertSame('widescreen', $output->get_env('layout'));
+        $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
+        $this->assertSame('Trash', $output->get_env('trash_mailbox'));
+        $this->assertSame('Junk', $output->get_env('junk_mailbox'));
+    }
+
+    /**
+     * Test message_list_smart_column_name() method
+     */
+    function test_message_list_smart_column_name()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
+
+        $output->set_env('mailbox', 'INBOX');
+        $this->assertSame('from', $action->message_list_smart_column_name());
+
+        $output->set_env('mailbox', 'Drafts');
+        $this->assertSame('to', $action->message_list_smart_column_name());
+
+        $output->set_env('mailbox', 'Drafts/Subfolder');
+        $this->assertSame('to', $action->message_list_smart_column_name());
+
+        $output->set_env('mailbox', 'Sent');
+        $this->assertSame('to', $action->message_list_smart_column_name());
+
+        $output->set_env('mailbox', 'Sent/Subfolder');
+        $this->assertSame('to', $action->message_list_smart_column_name());
+    }
+
+    /**
+     * Test message_list() method
+     */
+    function test_message_list()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'list');
+
+        rcmail::get_instance()->storage->registerFunction('get_folder', 'INBOX');
+
+        $result = $action->message_list([]);
+
+        $this->assertRegExp('/^<table id="rcubemessagelist".*<\/table>$/', $result);
+        $listcols = ['threads', 'subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment'];
+        $this->assertSame($listcols, $output->get_env('listcols'));
+    }
+
+    /**
+     * Test js_message_list() method
+     */
+    function test_js_message_list()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
+
+        rcmail::get_instance()->storage
+            ->registerFunction('get_search_set', null)
+            ->registerFunction('get_threading', true)
+            ->registerFunction('get_folder', 'INBOX')
+            ->registerFunction('get_folder', 'INBOX');
+
+        $action->js_message_list([]);
+
+        $this->assertSame(false, $output->get_env('multifolder_listing'));
+        $commands = $output->getProperty('commands');
+        $this->assertCount(1, $commands);
+        $this->assertSame('set_message_coltypes', $commands[0][0]);
+    }
+
+    /**
+     * Test options_menu_link() method
+     */
+    function test_options_menu_link()
+    {
+        $action = new rcmail_action_mail_index;
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
+        $link = $action->options_menu_link(['icon' => 'ico.png']);
+
+        $expected = '<a href="#list-options" onclick="return rcmail.command(\'menu-open\', \'messagelistmenu\', this, event)"'
+            . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
+
+        $this->assertSame($expected, $link);
+    }
+
+    /**
+     * Test messagecount_display() method
+     */
+    function test_messagecount_display()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test get_messagecount_text() method
+     */
+    function test_get_messagecount_text()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test send_unread_count() method
+     */
+    function test_send_unread_count()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test check_safe() method
+     */
+    function test_check_safe()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test part_image_type() method
+     */
+    function test_part_image_type()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test address_string() method
+     */
+    function test_address_string()
+    {
+        $action = new rcmail_action_mail_index;
+
+        $this->assertSame('', $action->address_string(''));
+
+        $result = $action->address_string('test@domain.com');
+        $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
+
+        $this->assertSame($expected, $result);
+
+        $result = $action->address_string('test@domain.com', null, true, true);
+        $expected = '<span class="adr"><a href="mailto:test@domain.com" class="rcmContactAddress" '
+            . 'onclick="return rcmail.command(\'compose\',\'test@domain.com\',this)" title="test@domain.com">'
+            . 'test@domain.com</a><a href="#add" title="Add to address book" class="rcmaddcontact" '
+            . 'onclick="return rcmail.command(\'add-contact\',\'test@domain.com\',this)"></a></span>';
+
+        $this->assertSame($expected, $result);
+
+        setProperty($action, 'PRINT_MODE', true);
+
+        $result = $action->address_string('test@domain.com');
+        $expected = '<span class="adr">&lt;test@domain.com&gt;</span>';
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * Test wrap_and_quote() method
+     */
+    function test_wrap_and_quote()
+    {
+        $action = new rcmail_action_mail_index;
+
+        $this->assertSame('', $action->address_string(''));
+
+        $this->assertSame('> ', $action->wrap_and_quote(''));
+        $this->assertSame('', $action->wrap_and_quote('', 72, false));
+
+        $result = $action->wrap_and_quote("test1\ntest2");
+        $expected = "> test1\n> test2";
+
+        $this->assertSame($expected, $result);
+
+        $result = $action->wrap_and_quote("> test1\n> test2");
+        $expected = ">> test1\n>> test2";
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * Test attachment_name() method
+     */
+    function test_attachment_name()
+    {
+        $action = new rcmail_action_mail_index;
+        $part = new rcube_message_part();
+        $part->mime_id = 1;
+
+        $part->mimetype = 'text/html';
+        $this->assertSame('HTML Message', $action->attachment_name($part));
+
+        $part->mimetype = 'application/pdf';
+        $this->assertSame('Part 1.pdf', $action->attachment_name($part));
+
+        $part->filename = 'test.pdf';
+        $this->assertSame('test.pdf', $action->attachment_name($part));
+    }
+
+    /**
+     * Test search_filter() method
+     */
+    function test_search_filter()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test search_interval() method
+     */
+    function test_search_interval()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test message_error() method
+     */
+    function test_message_error()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test message_import_form() method
+     */
+    function test_message_import_form()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
      * Helper method to create a HTML message part object
      */
     protected function get_html_part($body = null)
@@ -36,6 +345,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_html()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part = $this->get_html_part('src/htmlbody.txt');
         $part->replaces = ['ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg'];
 
@@ -71,6 +382,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_html_xss()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part   = $this->get_html_part('src/htmlxss.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
@@ -91,6 +404,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_html_xss2()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part   = $this->get_html_part('src/BID-26800.txt');
         $params = ['container_id' => 'dabody', 'safe' => true];
         $body   = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
@@ -105,6 +420,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_html_xss3()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         // #1488850
         $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
@@ -136,6 +453,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_washtml_utf8()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part   = $this->get_html_part('src/invalidchars.html');
         $washed = rcmail_action_mail_index::print_body($part->body, $part);
 
@@ -147,6 +466,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_meta_insertion()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
         $args = [
             'html_elements' => ['html', 'body', 'meta', 'head'],
@@ -184,6 +505,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_plaintext()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part = new rcube_message_part;
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'plain';
@@ -200,6 +523,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_mailto()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part   = $this->get_html_part('src/mailto.txt');
         $params = ['container_id' => 'foo'];
 
@@ -218,6 +543,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_html_comments()
     {
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
+
         $part = $this->get_html_part('src/htmlcom.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
@@ -232,20 +559,22 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_html_links()
     {
-      // disable relative links
-      $html = '<a href="/">test</a>';
-      $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-      $this->assertNotContains('href="/"', $body);
-      $this->assertContains('<a>', $body);
+        // disable relative links
+        $html = '<a href="/">test</a>';
+        $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
-      $html = '<a href="https://roundcube.net">test</a>';
-      $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
+        $this->assertNotContains('href="/"', $body);
+        $this->assertContains('<a>', $body);
 
-      // allow external links, add target and noreferrer
-      $this->assertContains('<a href="https://roundcube.net"', $body);
-      $this->assertContains(' target="_blank"', $body);
-      $this->assertContains(' rel="noreferrer"', $body);
+        $html = '<a href="https://roundcube.net">test</a>';
+        $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
+
+        // allow external links, add target and noreferrer
+        $this->assertContains('<a href="https://roundcube.net"', $body);
+        $this->assertContains(' target="_blank"', $body);
+        $this->assertContains(' rel="noreferrer"', $body);
     }
 
     /**
@@ -253,10 +582,20 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_html_link_xss()
     {
-      $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
-      $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
+        $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-      $this->assertNotContains('onerror=alert(1)//">test', $body);
-      $this->assertContains('<a style="x: &gt;"', $body);
+        $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
+        $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
+
+        $this->assertNotContains('onerror=alert(1)//">test', $body);
+        $this->assertContains('<a style="x: &gt;"', $body);
+    }
+
+    /**
+     * Test supported_mimetypes() method
+     */
+    function test_supported_mimetypes()
+    {
+        $this->markTestIncomplete();
     }
 }
