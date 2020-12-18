@@ -662,6 +662,10 @@ abstract class rcube_addressbook
                     }
                 }
 
+                if (!is_string($value)) {
+                    $value = '';
+                }
+
                 $result = str_replace('{' . $key . '}', $value, $result);
             }
         }

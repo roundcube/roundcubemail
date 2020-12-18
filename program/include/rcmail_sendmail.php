@@ -1310,7 +1310,12 @@ class rcmail_sendmail
      */
     public function folder_selector($attrib)
     {
-        $mbox = isset($_POST['_store_target']) ? $_POST['_store_target'] : $this->data['param']['sent_mbox'];
+        if (isset($_POST['_store_target'])) {
+            $mbox = $_POST['_store_target'];
+        }
+        else {
+            $mbox = isset($this->data['param']['sent_mbox']) ? $this->data['param']['sent_mbox'] : null;
+        }
 
         $params = [
             'noselection'   => '- ' . $this->rcmail->gettext('dontsave') . ' -',

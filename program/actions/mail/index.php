@@ -1167,9 +1167,12 @@ class rcmail_action_mail_index extends rcmail_action
     public static function html4inline($body, &$args)
     {
         $last_pos = 0;
-        $cont_id  = $args['container_id'] . (!empty($args['body_class']) ? ' div.' . $args['body_class'] : '');
         $is_safe  = !empty($args['safe']);
         $prefix   = isset($args['css_prefix']) ? $args['css_prefix'] : null;
+        $cont_id  = trim(
+            (!empty($args['container_id']) ? $args['container_id'] : '')
+            . (!empty($args['body_class']) ? ' div.' . $args['body_class'] : '')
+        );
 
         // find STYLE tags
         while (($pos = stripos($body, '<style', $last_pos)) !== false && ($pos2 = stripos($body, '</style>', $pos+1))) {
