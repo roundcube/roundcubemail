@@ -198,7 +198,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $mimetype = $type;
             }
 
-            if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
+            if (!empty($attrib['maxlength']) && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
                 $filename = abbreviate_string($filename, $attrib['maxlength']);
             }
@@ -390,6 +390,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $attr_max     = isset($attrib['max']) ? $attrib['max'] : null;
         $attr_addicon = isset($attrib['addicon']) ? $attrib['addicon'] : null;
+        $charset      = !empty($headers['charset']) ? $headers['charset'] : null;
 
         foreach ($standard_headers as $hkey) {
             $value = null;
@@ -425,8 +426,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else if ($hkey == 'replyto') {
                 if ($headers['replyto'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attr_max, true,
-                        $attr_addicon, $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -437,8 +437,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 if ($value && $headers['mail-replyto'] != $headers['replyto']
                     && $headers['replyto'] != $headers['from']
                 ) {
-                    $header_value = self::address_string($value, $attr_max, true,
-                        $attr_addicon, $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -447,8 +446,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else if ($hkey == 'sender') {
                 if ($value && $headers['sender'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attr_max, true,
-                        $attr_addicon, $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -456,13 +454,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-followup-to') {
-                $header_value = self::address_string($value, $attr_max, true,
-                    $attr_addicon, $headers['charset'], $header_title);
+                $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
             }
             else if (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
-                $header_value = self::address_string($value, $attr_max, true,
-                    $attr_addicon, $headers['charset'], $header_title);
+                $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
             }
             else if ($hkey == 'subject' && empty($value)) {
@@ -470,7 +466,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else {
                 $value        = is_array($value) ? implode(' ', $value) : $value;
-                $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
+                $header_value = trim(rcube_mime::decode_header($value, $charset));
             }
 
             $output_headers[$hkey] = [
@@ -523,10 +519,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $date   = $rcmail->format_date(self::$MESSAGE->headers->date, $rcmail->config->get('date_long', 'x'));
         $user   = self::$MESSAGE->headers->$header;
 
-        if (!$user && $header == 'to') {
+        if (!$user && $header == 'to' && !empty(self::$MESSAGE->headers->cc)) {
             $user = self::$MESSAGE->headers->cc;
         }
-        if (!$user && $header == 'to') {
+        if (!$user && $header == 'to' && !empty(self::$MESSAGE->headers->bcc)) {
             $user = self::$MESSAGE->headers->bcc;
         }
 
@@ -718,7 +714,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             foreach (self::$MESSAGE->attachments as $attach_prop) {
                 // skip inline images
-                if ($attach_prop->content_id && $attach_prop->disposition == 'inline') {
+                if (!empty($attach_prop->content_id) && $attach_prop->disposition == 'inline') {
                     continue;
                 }
 

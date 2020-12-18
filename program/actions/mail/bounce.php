@@ -71,15 +71,12 @@ class rcmail_action_mail_bounce extends rcmail_action
         $input_headers = $SENDMAIL->headers_input();
 
         // Set Resent-* headers, these will be added on top of the bounced message
-        $headers = array_filter([
-        //        'Received'          => $input_headers['Received'],
-                'Resent-From'       => $input_headers['From'],
-                'Resent-To'         => $input_headers['To'],
-                'Resent-Cc'         => $input_headers['Cc'],
-                'Resent-Bcc'        => $input_headers['Bcc'],
-                'Resent-Date'       => $input_headers['Date'],
-                'Resent-Message-ID' => $input_headers['Message-ID'],
-        ]);
+        $headers = [];
+        foreach (['From', 'To', 'Cc', 'Bcc', 'Date', 'Message-ID'] as $name) {
+            if (!empty($input_headers[$name])) {
+                $headers['Resent-' . $name] = $input_headers[$name];
+            }
+        }
 
         // Create the bounce message
         $BOUNCE = new rcmail_resend_mail([

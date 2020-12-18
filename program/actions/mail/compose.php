@@ -190,7 +190,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('show_sig', true);
         }
 
-        if (!empty($msg_uid) && empty(self::$COMPOSE['as_attachment'])) {
+        if (!empty($msg_uid) && (empty(self::$COMPOSE['as_attachment']) || $compose_mode == rcmail_sendmail::MODE_DRAFT)) {
             $mbox_name = $rcmail->storage->get_folder();
 
             // set format before rcube_message construction
@@ -631,7 +631,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
                 $body = self::create_reply_body($body, $isHtml);
 
-                if (self::$MESSAGE->pgp_mime) {
+                if (!empty(self::$MESSAGE->pgp_mime)) {
                     $rcmail->output->set_env('compose_reply_header', self::get_reply_header(self::$MESSAGE));
                 }
             }
@@ -999,7 +999,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function write_compose_attachments(&$message, $bodyIsHtml, &$message_body)
     {
-        if ($message->pgp_mime || !empty(self::$COMPOSE['forward_attachments'])) {
+        if (!empty($message->pgp_mime) || !empty(self::$COMPOSE['forward_attachments'])) {
             return;
         }
 
@@ -1037,7 +1037,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 // skip version.txt parts of multipart/encrypted messages
-                if ($message->pgp_mime && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
+                if (!empty($message->pgp_mime) && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
                     continue;
                 }
 
@@ -1072,9 +1072,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     continue;
                 }
 
-                if (($attachment = $loaded_attachments[self::attachment_name($part) . $part->mimetype])
-                    || ($attachment = self::save_attachment($message, $pid, self::$COMPOSE['id']))
-                ) {
+                $key = self::attachment_name($part) . $part->mimetype;
+
+                if (!empty($loaded_attachments[$key])) {
+                    $attachment = $loaded_attachments[$key];
+                }
+                else {
+                    $attachment = self::save_attachment($message, $pid, self::$COMPOSE['id']);
+                }
+
+                if ($attachment) {
                     if ($replace) {
                         $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                             $rcmail->comm_path, self::$COMPOSE['id'], $attachment['id']);
@@ -1093,7 +1100,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function cid_map($message)
     {
-        if ($message->pgp_mime) {
+        if (!empty($message->pgp_mime)) {
             return [];
         }
 
@@ -1105,7 +1112,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $messages[] = $part->mime_id;
             }
 
-            if ($part->content_id || $part->content_location) {
+            if (!empty($part->content_id) || !empty($part->content_location)) {
                 // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
                 foreach ($messages as $mimeid) {
                     if (strpos($part->mime_id, $mimeid . '.') === 0) {
@@ -1114,7 +1121,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 $url = sprintf('RCMAP%s', md5($message->folder . '/' . $message->uid . '/' . $pid));
-                $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
+                $idx = !empty($part->content_id) ? ('cid:' . $part->content_id) : $part->content_location;
 
                 $map[$idx] = $url;
             }
@@ -1126,7 +1133,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     // Creates attachment(s) from the forwarded message(s)
     public static function write_forward_attachments()
     {
-        if (self::$MESSAGE->pgp_mime) {
+        if (!empty(self::$MESSAGE->pgp_mime)) {
             return;
         }
 
@@ -1551,13 +1558,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $part     = $message->mime_parts[$pid];
             $size     = $part->size;
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-            $filename = $params['filename'] ?: self::attachment_name($part);
+            $filename = !empty($params['filename']) ? $params['filename'] : self::attachment_name($part);
         }
-        else if (is_object($message)) {
+        else if ($message instanceof rcube_message) {
             // the whole message requested
-            $size     = $message->size;
+            $size     = isset($message->size) ? $message->size : null;
             $mimetype = 'message/rfc822';
-            $filename = $params['filename'] ?: 'message_rfc822.eml';
+            $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         }
         else if (is_string($message)) {
             // the whole message requested
@@ -1608,7 +1615,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'group'      => $compose_id,
             'name'       => $filename,
             'mimetype'   => $mimetype,
-            'content_id' => !empty($part) ? $part->content_id : null,
+            'content_id' => !empty($part) && isset($part->content_id) ? $part->content_id : null,
             'data'       => $data,
             'path'       => isset($path) ? $path : null,
             'size'       => isset($path) ? filesize($path) : strlen($data),

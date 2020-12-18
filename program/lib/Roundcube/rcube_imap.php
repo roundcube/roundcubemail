@@ -2286,7 +2286,8 @@ class rcube_imap extends rcube_storage
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header
                 if (preg_match('/^(name|filename)\*([0-9]*)\*?="*([^"]+)"*/i', $token, $matches)) {
-                    $rfc2231_params[strtolower($matches[1])] .= $matches[3];
+                    $key = strtolower($matches[1]);
+                    $rfc2231_params[$key] = (isset($rfc2231_params[$key]) ? $rfc2231_params[$key] : '') . $matches[3];
                 }
             }
         }

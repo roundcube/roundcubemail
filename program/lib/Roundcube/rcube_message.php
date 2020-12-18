@@ -387,7 +387,7 @@ class rcube_message
                     }
 
                     $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
-                    $last      = $parent->real_mimetype ?: $parent->mimetype;
+                    $last      = !empty($parent->real_mimetype) ? $parent->real_mimetype : $parent->mimetype;
 
                     if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
                         || ($last == 'multipart/mixed' && $parent_depth < $max_delta)
@@ -586,7 +586,7 @@ class rcube_message
     private function parse_structure($structure, $recursive = false)
     {
         // real content-type of message/rfc822 part
-        if ($structure->mimetype == 'message/rfc822' && $structure->real_mimetype) {
+        if ($structure->mimetype == 'message/rfc822' && !empty($structure->real_mimetype)) {
             $mimetype = $structure->real_mimetype;
 
             // parse headers from message/rfc822 part
@@ -609,8 +609,14 @@ class rcube_message
         }
 
         // show message headers
-        if ($recursive && is_array($structure->headers) &&
-            (isset($structure->headers['subject']) || $structure->headers['from'] || $structure->headers['to'])
+        if (
+            $recursive
+            && is_array($structure->headers)
+            && (
+                isset($structure->headers['subject'])
+                || !empty($structure->headers['from'])
+                || !empty($structure->headers['to'])
+            )
         ) {
             $c = new rcube_message_part();
             $c->type    = 'headers';
