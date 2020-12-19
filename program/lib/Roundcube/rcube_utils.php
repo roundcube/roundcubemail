@@ -795,7 +795,7 @@ class rcube_utils
         $strlen = strlen($string);
 
         for ($q=$p=$i=0; $i < $strlen; $i++) {
-            if ($string[$i] == "\"" && $string[$i-1] != "\\") {
+            if ($string[$i] == "\"" && (!isset($string[$i-1]) || $string[$i-1] != "\\")) {
                 $q = $q ? false : true;
             }
             else if (!$q && preg_match("/$delimiter/", $string[$i])) {
