@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Require PHP >= 5.5
+- Support PHP 8.0 (#7625)
 - Require php-intl
 - Remove use of ext-iconv
 - Remove use of Net_IDNA2 package
