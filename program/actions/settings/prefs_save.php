@@ -39,7 +39,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
         switch ($CURR_SECTION) {
         case 'general':
             $a_user_prefs = [
-                'language'     => self::prefs_input('language', '/^[a-zA-Z_-]+$/'),
+                'language'     => self::prefs_input('language', '/^[a-zA-Z0-9_-]+$/'),
                 'timezone'     => self::prefs_input('timezone', '/^[a-zA-Z_\/-]+$/'),
                 'date_format'  => self::prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
                 'time_format'  => self::prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
