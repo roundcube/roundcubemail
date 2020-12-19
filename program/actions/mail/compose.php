@@ -716,6 +716,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             && self::$COMPOSE['mode'] != rcmail_sendmail::MODE_EDIT
             && $rcmail->config->get('strip_existing_sig', true);
 
+        $flowed = !empty($part->ctype_parameters['format']) && $part->ctype_parameters['format'] == 'flowed';
+        $delsp  = $flowed && !empty($part->ctype_parameters['delsp']) && $part->ctype_parameters['delsp'] == 'yes';
+
         if ($isHtml) {
             if ($part->ctype_secondary == 'html') {
                 $body = self::prepare_html_body($body);
@@ -730,10 +733,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 // add HTML formatting
-                $body = self::plain_body($body,
-                    $part->ctype_parameters['format'] == 'flowed',
-                    $part->ctype_parameters['delsp'] == 'yes'
-                );
+                $body = self::plain_body($body, $flowed, $delsp);
             }
         }
         else {
@@ -752,8 +752,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $body = $rcmail->html2text($body, ['width' => $len]);
             }
             else {
-                if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-                    $body = rcube_mime::unfold_flowed($body, null, $part->ctype_parameters['delsp'] == 'yes');
+                if ($part->ctype_secondary == 'plain' && $flowed) {
+                    $body  = rcube_mime::unfold_flowed($body, null, $delsp);
                 }
 
                 // try to remove the signature
@@ -861,7 +861,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     public static function get_reply_header($message)
     {
         $rcmail = rcmail::get_instance();
-        $from   = array_pop(rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset));
+        $list   = rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset);
+        $from   = array_pop($list);
 
         return $rcmail->gettext([
                 'name' => 'mailreplyintro',

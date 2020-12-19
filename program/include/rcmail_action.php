@@ -853,7 +853,7 @@ abstract class rcmail_action
         $result = [];
 
         // special case: *
-        if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
+        if ($_uid == '*' && !empty($_SESSION['search'][1]) && !empty($_SESSION['search'][1]->multi)) {
             $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {
