@@ -878,7 +878,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 $content = '';
 
                 // unset display name if it is composed from name parts
-                if ($record['name'] == rcube_addressbook::compose_display_name(['name' => ''] + (array) $record)) {
+                $dname = rcube_addressbook::compose_display_name(['name' => ''] + (array) $record);
+                if (isset($record['name']) && $record['name'] == $dname) {
                     unset($record['name']);
                 }
 
@@ -923,8 +924,16 @@ class rcmail_action_contacts_index extends rcmail_action
                             }
                         }
                         else {
-                            $colprop = (array) $fieldset['content'][$col] + (array) $coltypes[$col];
                             $visible = true;
+                            $colprop = [];
+
+                            if (!empty($fieldset['content'][$col])) {
+                                $colprop += (array) $fieldset['content'][$col];
+                            }
+
+                            if (!empty($coltypes[$col])) {
+                                $colprop += (array) $coltypes[$col];
+                            }
 
                             if (empty($colprop['id'])) {
                                 $colprop['id'] = 'ff_' . $col;
@@ -1040,7 +1049,12 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
                                 if (!empty($val) && is_array($val)) {
-                                    $childvalue = $val[$childcol] ?: $val[$j];
+                                    if (!empty($val[$childcol])) {
+                                        $childvalue = $val[$childcol];
+                                    }
+                                    else {
+                                        $childvalue =  isset($val[$j]) ? $val[$j] : null;
+                                    }
                                 }
                                 else {
                                     $childvalue = '';

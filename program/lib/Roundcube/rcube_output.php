@@ -331,7 +331,16 @@ abstract class rcube_output
         // use value from post
         if (isset($_POST[$fname])) {
             $postvalue = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
-            $value = !empty($attrib['array']) ? $postvalue[intval($colcounts[$name]++)] : $postvalue;
+            if (!empty($attrib['array'])) {
+                if (!isset($colcounts[$name])) {
+                    $colcounts[$name] = 0;
+                }
+                $idx   = intval($colcounts[$name]++);
+                $value = isset($postvalue[$idx]) ? $postvalue[$idx] : null;
+            }
+            else {
+                $value = $postvalue;
+            }
         }
 
         return $input->show($value);
