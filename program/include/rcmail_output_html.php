@@ -1999,7 +1999,8 @@ EOF;
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head = $this->scripts['head_top'] . (isset($this->scripts['head']) ? $this->scripts['head'] : '');
+        $head  = isset($this->scripts['head_top']) ? $this->scripts['head_top'] : '';
+        $head .= isset($this->scripts['head']) ? $this->scripts['head'] : '';
 
         $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";

@@ -325,7 +325,7 @@ function extract_zipfile($package, $srcfile)
  */
 function delete_destfile($package)
 {
-    $destdir = INSTALL_PATH . ($package['rm'] ?: $package['dest']);
+    $destdir = INSTALL_PATH . (!empty($package['rm']) ? $package['rm'] : $package['dest']);
 
     if (file_exists($destdir)) {
         if (PHP_OS === 'Windows') {
