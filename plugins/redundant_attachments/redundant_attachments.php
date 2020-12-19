@@ -223,12 +223,14 @@ class redundant_attachments extends filesystem_attachments
     {
         $this->_load_drivers();
 
+        $group = isset($args['group']) ? $args['group'] : null;
+
         if ($this->cache) {
-            $this->cache->remove($args['group'], true);
+            $this->cache->remove($group, true);
         }
 
         if ($this->mem_cache) {
-            $this->mem_cache->remove($args['group'], true);
+            $this->mem_cache->remove($group, true);
         }
 
         parent::cleanup($args);
