@@ -57,7 +57,7 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
             printf("%s (%s)\n", $user['username'], $user['mail_host']);
             continue;
         }
-        system(sprintf("php %s/deluser.sh --host=%s %s", INSTALL_PATH . 'bin', $user['mail_host'], $user['username']));
+        system(sprintf("php %s/deluser.sh --host=%s %s", INSTALL_PATH . 'bin', escapeshellarg($user['mail_host']), escapeshellarg($user['username'])));
     }
     exit(1);
 }
