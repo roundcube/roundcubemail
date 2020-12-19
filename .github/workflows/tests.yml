@@ -7,11 +7,14 @@ on:
 jobs:
   linux_tests:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
       fail-fast: true
       matrix:
         php: [7.1, 7.2, 7.3, 7.4, 8.0]
+
+    name: PHP ${{matrix.php}}/Linux
 
     steps:
       - name: Checkout code
