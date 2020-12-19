@@ -1092,7 +1092,7 @@ class rcube_imap_cache
                 $mbox_data = $this->imap->folder_data($mailbox);
 
                 // Removed messages found
-                $uids = rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']);
+                $uids = isset($mbox_data['VANISHED']) ? rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']) : null;
                 if (!empty($uids)) {
                     $removed = array_merge($removed, $uids);
                     // Invalidate index
@@ -1189,7 +1189,7 @@ class rcube_imap_cache
         if (isset($msg->body)) {
             $length = strlen($msg->body);
 
-            if ($msg->body_modified || $size + $length > $this->threshold * 1024) {
+            if (!empty($msg->body_modified) || $size + $length > $this->threshold * 1024) {
                 unset($msg->body);
             }
             else {
@@ -1200,17 +1200,17 @@ class rcube_imap_cache
         // Fix mimetype which might be broken by some code when message is displayed
         // Another solution would be to use object's copy in rcube_message class
         // to prevent related issues, however I'm not sure which is better
-        if ($msg->mimetype) {
+        if (!empty($msg->mimetype)) {
             list($msg->ctype_primary, $msg->ctype_secondary) = explode('/', $msg->mimetype);
         }
 
         unset($msg->replaces);
 
-        if (is_object($msg->structure)) {
+        if (!empty($msg->structure) && is_object($msg->structure)) {
             $this->message_object_prepare($msg->structure, $size);
         }
 
-        if (is_array($msg->parts)) {
+        if (!empty($msg->parts) && is_array($msg->parts)) {
             foreach ($msg->parts as $part) {
                 $this->message_object_prepare($part, $size);
             }
