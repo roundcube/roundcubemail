@@ -14,7 +14,7 @@ jobs:
       matrix:
         php: [7.1, 7.2, 7.3, 7.4, 8.0]
 
-    name: PHP ${{matrix.php}}/Linux
+    name: PHP ${{ matrix.php }}/Linux
 
     steps:
       - name: Checkout code
