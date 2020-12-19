@@ -880,11 +880,11 @@ class rcube_message
                         continue;
                     }
 
-                    if ($mail_part->headers['content-id']) {
+                    if (!empty($mail_part->headers['content-id'])) {
                         $mail_part->content_id = preg_replace(['/^</', '/>$/'], '', $mail_part->headers['content-id']);
                     }
 
-                    if ($mail_part->headers['content-location']) {
+                    if (!empty($mail_part->headers['content-location'])) {
                         $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
                     }
 
@@ -892,7 +892,7 @@ class rcube_message
                     // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
                     if (
                         preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)
-                        && ($mail_part->content_id || $mail_part->content_location)
+                        && (!empty($mail_part->content_id) || !empty($mail_part->content_location))
                     ) {
                         $this->add_part($mail_part, 'inline');
                     }
@@ -938,7 +938,7 @@ class rcube_message
                     if (isset($inline_object->content_id)) {
                         $a_replaces['cid:'.$inline_object->content_id] = $part_url;
                     }
-                    if ($inline_object->content_location) {
+                    if (!empty($inline_object->content_location)) {
                         $a_replaces[$inline_object->content_location] = $part_url;
                     }
 
