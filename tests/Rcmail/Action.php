@@ -160,7 +160,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     function test_get_resource_content()
     {
-        $result = rcmail_action::get_resource_content('blank.gif');
+        $result = rcmail_action::get_resource_content('blocked.gif');
         $this->assertTrue(strpos($result, 'GIF89') === 0);
     }
 

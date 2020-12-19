@@ -220,8 +220,8 @@ class Rcmail_Rcmail extends ActionTestCase
         $result = $rcmail->find_asset('non-existing.js');
         $this->assertNull($result);
 
-        $result = $rcmail->find_asset('program/resources/blank.gif');
-        $this->assertSame('program/resources/blank.gif', $result);
+        $result = $rcmail->find_asset('program/resources/blocked.gif');
+        $this->assertSame('program/resources/blocked.gif', $result);
     }
 
     /**
