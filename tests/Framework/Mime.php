@@ -306,10 +306,10 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      */
     function test_file_content_type()
     {
-        $file = INSTALL_PATH . 'program/resources/blank.gif';
-        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blank.gif'));
+        $file = INSTALL_PATH . 'program/resources/blocked.gif';
+        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif'));
 
-        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blank.gif', 'application/octet-stream', false, true));
+        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif', 'application/octet-stream', false, true));
     }
 
     /**
@@ -328,7 +328,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      */
     function test_image_content_type()
     {
-        $file = file_get_contents(INSTALL_PATH . 'program/resources/blank.gif');
+        $file = file_get_contents(INSTALL_PATH . 'program/resources/blocked.gif');
         $this->assertSame('image/gif', rcube_mime::image_content_type($file));
     }
 

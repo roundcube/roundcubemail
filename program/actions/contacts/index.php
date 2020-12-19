@@ -1306,12 +1306,16 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($record['_type']) && $record['_type'] == 'group' && !empty($attrib['placeholdergroup'])) {
             $photo_img = $rcmail->output->abs_url($attrib['placeholdergroup'], true);
+            $photo_img = $rcmail->output->asset_url($photo_img);
+        }
+        elseif (!empty($attrib['placeholder'])) {
+            $photo_img = $rcmail->output->abs_url($attrib['placeholder'], true);
+            $photo_img = $rcmail->output->asset_url($photo_img);
         }
         else {
-            $photo_img = $attrib['placeholder'] ? $rcmail->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+            $photo_img = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
         }
 
-        $photo_img = $rcmail->output->asset_url($photo_img);
 
         $rcmail->output->set_env('photo_placeholder', $photo_img);
 
@@ -1356,7 +1360,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $content = html::div($attrib, html::img([
                 'src'     => $photo_img,
                 'alt'     => $rcmail->gettext('contactphoto'),
-                'onerror' => 'this.src = rcmail.env.photo_placeholder; this.onerror = null',
+                'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
         ]));
 
         if (!empty(self::$CONTACT_COLTYPES['photo']) && ($rcmail->action == 'edit' || $rcmail->action == 'add')) {

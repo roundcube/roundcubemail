@@ -111,7 +111,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         if (!empty($_GET['_error'])) {
-            $rcmail->output->sendExit('', ['HTTP/1.0 404 Photo not found']);
+            $rcmail->output->sendExit('', ['HTTP/1.0 204 Photo not found']);
         }
 
         $rcmail->output->sendExit(base64_decode(rcmail_output::BLANK_GIF), ['Content-Type: image/gif']);

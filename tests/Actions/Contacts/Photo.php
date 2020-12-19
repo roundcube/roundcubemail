@@ -31,7 +31,7 @@ class Actions_Contacts_Photo extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['HTTP/1.0 404 Photo not found'], $output->headers);
+        $this->assertSame(['HTTP/1.0 204 Photo not found'], $output->headers);
         $this->assertSame('', $result);
     }
 
