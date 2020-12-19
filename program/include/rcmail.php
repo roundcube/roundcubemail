@@ -1588,7 +1588,7 @@ class rcmail extends rcube
             }
 
             // write char "as-is"
-            if ($format[$i] == ' ' || $format[$i-1] == "\\") {
+            if ($format[$i] == ' ' || ($i > 0 && $format[$i-1] == "\\")) {
                 $out .= $format[$i];
             }
             // weekday (short)

@@ -1004,7 +1004,7 @@ class rcube_washtml
 
         // explode value
         for ($p = $i = 0; $i < $strlen; $i++) {
-            if (($style[$i] == "\"" || $style[$i] == "'") && $style[$i-1] != "\\") {
+            if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i-1] != "\\")) {
                 if ($q == $style[$i]) {
                     $q = false;
                 }
@@ -1013,7 +1013,7 @@ class rcube_washtml
                 }
             }
 
-            if (!$q && $style[$i] == ' ' && !preg_match('/[,\(]/', $style[$i-1])) {
+            if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i-1]))) {
                 $result[] = substr($style, $p, $i - $p);
                 $p = $i + 1;
             }
