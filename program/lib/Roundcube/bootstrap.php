@@ -26,7 +26,7 @@
  */
 
 $config = [
-    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
+//    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
     'display_errors'  => false,
     'log_errors'      => true,
     // Some users are not using Installer, so we'll check some

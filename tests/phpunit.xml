@@ -3,7 +3,7 @@
     bootstrap="bootstrap.php"
     colors="true"
     convertErrorsToExceptions="true"
-    convertNoticesToExceptions="false"
+    convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
 >
     <testsuites>
