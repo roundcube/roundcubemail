@@ -1593,8 +1593,8 @@ class rcmail_action_mail_index extends rcmail_action
             $attrib['id'] = 'rcmlistfilter';
         }
 
-        if (!rcube_utils::get_boolean($attrib['noevent'])) {
-            $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
+        if (!self::get_bool_attr($attrib, 'noevent')) {
+            $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.filter_mailbox(this.value)';
         }
 
         // Content-Type values of messages with attachments

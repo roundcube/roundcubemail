@@ -1151,7 +1151,9 @@ class rcmail_action_contacts_index extends rcmail_action
                         );
 
                         // add delete button/link
-                        if (!$compact && $edit_mode && !($colprop['visible'] && $colprop['limit'] == 1)) {
+                        if (!$compact && $edit_mode
+                            && (empty($colprop['visible']) || empty($colprop['limit']) || $colprop['limit'] > 1)
+                        ) {
                             $val .= $_del_btn;
                         }
 
@@ -1224,8 +1226,9 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             if ($content) {
-                $out .= html::tag('fieldset', ['class' => $attrib['fieldset-class']],
-                    html::tag('legend', null, rcube::Q($fieldset['name'])) . $content) . "\n";
+                $fattribs = !empty($attrib['fieldset-class']) ? ['class' => $attrib['fieldset-class']] : null;
+                $fcontent = html::tag('legend', null, rcube::Q($fieldset['name'])) . $content;
+                $out .= html::tag('fieldset', $fattribs, $fcontent) . "\n";
             }
         }
 

@@ -213,7 +213,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
     {
         $rcmail       = rcmail::get_instance();
         $i_size       = !empty($attrib['size']) ? $attrib['size'] : 30;
-        $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
+        $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'main' => [

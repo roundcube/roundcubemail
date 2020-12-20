@@ -113,7 +113,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         }
 
         $i_size       = !empty($attrib['size']) ? $attrib['size'] : 40;
-        $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
+        $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'contact' => [
