@@ -385,14 +385,14 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail->output->set_env('sort_order', $_SESSION['sort_order']);
         $rcmail->output->set_env('messages', []);
         $rcmail->output->set_env('listcols', $listcols);
-        $rcmail->output->set_env('listcols_widescreen', ['threads', 'subject', 'fromto', 'date', 'flag', 'attachment']);
+        $rcmail->output->set_env('listcols_widescreen', ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment']);
 
         $rcmail->output->include_script('list.js');
 
         $table = new html_table($attrib);
 
         if (empty($attrib['noheader'])) {
-            $allcols = array_merge($listcols, ['threads', 'subject', 'fromto', 'date', 'flag', 'attachment']);
+            $allcols = array_merge($listcols, ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment']);
             $allcols = array_unique($allcols);
 
             foreach (self::message_list_head($attrib, $allcols) as $col => $cell) {
@@ -467,7 +467,7 @@ class rcmail_action_mail_index extends rcmail_action
         $a_headers   = $plugin['messages'];
 
         // make sure minimum required columns are present (needed for widescreen layout)
-        $allcols = array_merge($a_show_cols, ['threads', 'subject', 'fromto', 'date', 'flag', 'attachment']);
+        $allcols = array_merge($a_show_cols, ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment']);
         $allcols = array_unique($allcols);
 
         $thead = !empty($head_replace) ? self::message_list_head($_SESSION['list_attrib'], $allcols) : null;

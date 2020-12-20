@@ -36,6 +36,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added 'message' argument to 'message_compose_body' hook
 - Plugin API: Added 'preferences' parameter to 'user_create' hook (#7692)
 - Elastic: Dark mode (#6709)
+- Elastic: Display email size on the list of messages (#7162)
 - Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
