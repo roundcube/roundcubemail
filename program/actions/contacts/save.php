@@ -125,12 +125,10 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $rcmail->output->send('iframe');
                 }
 
-                $emails = $contacts->get_col_values('email', $record, true);
-
                 // Update contacts list
                 $a_js_cols = [];
                 $record    = $contact;
-                $record['email'] = reset($email);
+                $record['email'] = array_first($contacts->get_col_values('email', $record, true));
                 $record['name']  = rcube_addressbook::compose_list_name($record);
 
                 foreach (['name'] as $col) {

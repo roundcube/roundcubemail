@@ -292,7 +292,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $attrib['id'] = 'rcmfolderfilter';
         }
 
-        if (!rcube_utils::get_boolean($attrib['noevent'])) {
+        if (!self::get_bool_attr($attrib, 'noevent')) {
             $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
         }
 
