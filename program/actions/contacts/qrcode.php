@@ -31,7 +31,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         // Get contact ID and source ID from request
         $cids   = self::get_cids();
         $source = key($cids);
-        $cid    = $cids ? array_shift($cids[$source]) : null;
+        $cid    = $cids ? array_first($cids[$source]) : null;
         $rcmail = rcmail::get_instance();
 
         // read contact record

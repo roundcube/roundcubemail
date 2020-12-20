@@ -147,6 +147,21 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * bootstrap.php: array_first()
+     */
+    function test_array_first()
+    {
+        $this->assertSame(null, array_first([]));
+        $this->assertSame(null, array_first(false));
+        $this->assertSame(null, array_first('test'));
+        $this->assertSame('test', array_first(['test']));
+
+        $input = ['test1', 'test2'];
+        next($input);
+        $this->assertSame('test1', array_first($input));
+    }
+
+    /**
      * bootstrap.php: abbreviate_string()
      */
     function test_abbreviate_string()

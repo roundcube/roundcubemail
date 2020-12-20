@@ -32,7 +32,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             // Get contact ID and source ID from request
             $cids   = self::get_cids();
             $source = key($cids);
-            $cid    = array_shift($cids[$source]);
+            $cid    = array_first($cids[$source]);
 
             // Initialize addressbook
             $CONTACTS = self::contact_source($source, true);

@@ -34,7 +34,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         // Get contact ID and source ID from request
         $cids    = self::get_cids();
         $source  = key($cids);
-        $cid     = $cids ? array_shift($cids[$source]) : null;
+        $cid     = $cids ? array_first($cids[$source]) : null;
         $file_id = rcube_utils::get_input_value('_photo', rcube_utils::INPUT_GPC);
 
         // read the referenced file

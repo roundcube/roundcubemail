@@ -75,7 +75,7 @@ class rcube_result_thread
             return;
         }
 
-        $data = array_shift($data);
+        $data = array_first($data);
         $data = trim($data);
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);

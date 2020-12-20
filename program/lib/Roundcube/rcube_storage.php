@@ -289,7 +289,7 @@ abstract class rcube_storage
             $methods = ['REFS', 'REFERENCES', 'ORDEREDSUBJECT'];
             $methods = array_intersect($methods, $caps);
 
-            $this->threading = array_shift($methods);
+            $this->threading = array_first($methods);
         }
 
         return $this->threading;

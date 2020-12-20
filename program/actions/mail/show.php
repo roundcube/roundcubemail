@@ -440,7 +440,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-reply-to') {
-                if ($value && $headers['mail-replyto'] != $headers['replyto']
+                if ($value
+                    && (!isset($headers['mail-replyto']) || $headers['mail-replyto'] != $headers['replyto'])
                     && $headers['replyto'] != $headers['from']
                 ) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
@@ -451,7 +452,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'sender') {
-                if ($value && $headers['sender'] != $headers['from']) {
+                if ($value && (!isset($headers['sender']) || $headers['sender'] != $headers['from'])) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }

@@ -336,7 +336,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
             $content = $table->show($attrib);
         }
-        else {
+        else if (isset($form['content'])) {
             $content = $form['content'];
         }
 

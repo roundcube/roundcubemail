@@ -294,6 +294,23 @@ function array_keys_recursive($array)
 }
 
 /**
+ * Get first element from an array
+ *
+ * @param array $array Input array
+ *
+ * @return mixed First element if found, Null otherwise
+ */
+function array_first($array)
+{
+    if (is_array($array)) {
+        reset($array);
+        foreach ($array as $element) {
+            return $element;
+        }
+    }
+}
+
+/**
  * Remove all non-ascii and non-word chars except ., -, _
  *
  * @param string $str          A string
