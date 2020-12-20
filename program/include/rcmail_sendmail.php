@@ -1535,7 +1535,6 @@ class rcmail_sendmail
     {
         $a_recipients = [];
         $a_names      = [];
-        $charset      = $message->headers->charset;
 
         if ($identities === null) {
             $identities = rcmail::get_instance()->user->list_identities(null, true);
@@ -1546,30 +1545,34 @@ class rcmail_sendmail
         }
 
         // extract all recipients of the reply-message
-        if (!empty($message->headers) && in_array($mode, [self::MODE_REPLY, self::MODE_FORWARD])) {
-            $a_to = rcube_mime::decode_address_list($message->headers->to, null, true, $charset);
-            foreach ($a_to as $addr) {
-                if (!empty($addr['mailto'])) {
-                    $a_recipients[] = strtolower($addr['mailto']);
-                    $a_names[]      = $addr['name'];
-                }
-            }
+        if (!empty($message->headers)) {
+            $charset = $message->headers->charset;
 
-            if (!empty($message->headers->cc)) {
-                $a_cc = rcube_mime::decode_address_list($message->headers->cc, null, true, $charset);
-                foreach ($a_cc as $addr) {
+            if (in_array($mode, [self::MODE_REPLY, self::MODE_FORWARD])) {
+                $a_to = rcube_mime::decode_address_list($message->headers->to, null, true, $charset);
+                foreach ($a_to as $addr) {
                     if (!empty($addr['mailto'])) {
                         $a_recipients[] = strtolower($addr['mailto']);
                         $a_names[]      = $addr['name'];
                     }
                 }
-            }
-        }
 
-        // decode From: address
-        if (!empty($message->headers)) {
-            $from = array_first(rcube_mime::decode_address_list($message->headers->from, null, true, $charset));
-            $from['mailto'] = isset($from['mailto']) ? strtolower($from['mailto']) : '';
+                if (!empty($message->headers->cc)) {
+                    $a_cc = rcube_mime::decode_address_list($message->headers->cc, null, true, $charset);
+                    foreach ($a_cc as $addr) {
+                        if (!empty($addr['mailto'])) {
+                            $a_recipients[] = strtolower($addr['mailto']);
+                            $a_names[]      = $addr['name'];
+                        }
+                    }
+                }
+            }
+
+            // decode From: address
+            if (!empty($message->headers)) {
+                $from = array_first(rcube_mime::decode_address_list($message->headers->from, null, true, $charset));
+                $from['mailto'] = isset($from['mailto']) ? strtolower($from['mailto']) : '';
+            }
         }
 
         if (empty($from)) {

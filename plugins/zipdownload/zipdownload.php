@@ -350,7 +350,7 @@ class zipdownload extends rcube_plugin
 
         $filename = $folders ? 'messages' : $imap->get_folder();
 
-        if ($tmpfp) {
+        if (!empty($tmpfp)) {
             $tempfiles[] = $tmpfname . '.mbox';
             fclose($tmpfp);
             $zip->addFile($tmpfname . '.mbox', $filename . '.mbox');
