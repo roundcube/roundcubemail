@@ -262,7 +262,7 @@ function rcube_webmail()
 
           this.env.widescreen_list_template = [
             {className: 'threads', cells: ['threads']},
-            {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
+            {className: 'subject', cells: ['fromto', 'date', 'size', 'status', 'subject']},
             {className: 'flags', cells: ['flag', 'attachment']}
           ];
 
@@ -2069,6 +2069,13 @@ function rcube_webmail()
     // set env vars for message list
     this.env.msglist_layout = layout;
     this.env.msglist_cols = listcols;
+
+    // Set sort-* class on the list element
+    var list = this.gui_objects.messagelist,
+      classes = list.className.split(' ').filter(function(v) { return !v.startsWith('sort-'); });
+
+    classes.push('sort-' + (this.env.sort_col || 'none'));
+    list.className = classes.join(' ');
   };
 
   this.check_droptarget = function(id)

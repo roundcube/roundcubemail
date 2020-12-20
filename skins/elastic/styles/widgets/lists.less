@@ -587,6 +587,7 @@ table.fixedcopy {
         span {
             line-height: 2em;
 
+            &.size,
             &.date {
                 font-size: 90%;
                 color: @color-list-secondary;
@@ -751,6 +752,37 @@ table.fixedcopy {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
     }
+
+    span.size {
+        display: none;
+    }
+
+    tr:hover {
+        span.date {
+            display: none;
+        }
+        span.size {
+            display: inline;
+        }
+    }
+
+    &.sort-size {
+        span.date {
+            display: none;
+        }
+        span.size {
+            display: inline;
+        }
+
+        tr:hover {
+            span.date {
+                display: inline;
+            }
+            span.size {
+                display: none;
+            }
+        }
+    }
 }
 
 // On touch devices hide flag icon, but do it in a way
@@ -762,6 +794,7 @@ html.touch {
             position: relative;
         }
         td.flags {
+            position: absolute;
             top: .25rem;
             right: 0;
             bottom: 0;
