@@ -1494,6 +1494,10 @@ body.status-flagged .flag-icon {
 	color: #666;
 }
 
+.widescreen .messagelist td.subject span.size {
+	display: none;
+}
+
 .widescreen .messagelist tr.flagged td.subject span.date,
 .widescreen .messagelist tr.flagged td.subject span.fromto {
 	color: #ff5c33;
