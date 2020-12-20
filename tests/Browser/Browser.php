@@ -194,7 +194,7 @@ class Browser extends \Laravel\Dusk\Browser
         $callback($this);
 
         $after_handles = $this->driver->getWindowHandles();
-        $new_window = reset(array_diff($after_handles, $before_handles));
+        $new_window    = array_first(array_diff($after_handles, $before_handles));
 
         return [$current_window, $new_window];
     }

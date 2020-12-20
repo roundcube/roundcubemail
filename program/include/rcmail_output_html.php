@@ -2247,7 +2247,11 @@ EOF;
 
         // save original url
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
-        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])) {
+        if (
+            empty($url)
+            && !empty($_SERVER['QUERY_STRING'])
+            && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])
+        ) {
             $url = $_SERVER['QUERY_STRING'];
         }
 

@@ -1567,8 +1567,7 @@ class rcmail_action_mail_index extends rcmail_action
                 $filename = $rcmail->gettext('htmlmessage');
             }
             else {
-                $ext      = (array) rcube_mime::get_mime_extensions($attachment->mimetype);
-                $ext      = array_shift($ext);
+                $ext      = array_first((array) rcube_mime::get_mime_extensions($attachment->mimetype));
                 $filename = $rcmail->gettext('messagepart') . ' ' . $attachment->mime_id;
                 if ($ext) {
                     $filename .= '.' . $ext;

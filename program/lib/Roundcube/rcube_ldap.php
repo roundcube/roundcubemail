@@ -1187,7 +1187,7 @@ class rcube_ldap extends rcube_addressbook
                 // from vCard we have email:other only defined
                 if ($mail_field && $missing[$mail_field]) {
                     $emails = $this->get_col_values('email', $save_data, true);
-                    if (!empty($emails) && ($email = array_shift($emails))) {
+                    if (!empty($emails) && ($email = array_first($emails))) {
                         $save_data['email'] = $email;
                         unset($missing[$mail_field]);
                     }

@@ -163,8 +163,10 @@ class bootstrap
             rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
+        $file = file_get_contents($filename);
         $imap = rcmail::get_instance()->get_storage();
-        $imap->save_message($mailbox, file_get_contents($filename));
+
+        $imap->save_message($mailbox, $file);
     }
 
     /**

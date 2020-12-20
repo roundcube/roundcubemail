@@ -753,7 +753,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
             else {
                 if ($part->ctype_secondary == 'plain' && $flowed) {
-                    $body  = rcube_mime::unfold_flowed($body, null, $delsp);
+                    $body = rcube_mime::unfold_flowed($body, null, $delsp);
                 }
 
                 // try to remove the signature
