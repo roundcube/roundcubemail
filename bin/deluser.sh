@@ -142,5 +142,3 @@ else {
         echo "Successfully deleted user $user->ID\n";
     }
 }
-
-exit(0);
