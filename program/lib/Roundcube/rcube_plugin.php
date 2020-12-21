@@ -41,7 +41,7 @@ abstract class rcube_plugin
     public $api;
 
     /**
-     * Regular expression defining task(s) to bind with 
+     * Regular expression defining task(s) to bind with
      *
      * @var string
      */
@@ -372,7 +372,8 @@ abstract class rcube_plugin
      */
     private function resource_url($fn)
     {
-        if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
+        // pattern "skins/[a-z0-9-_]+/plugins/$this->ID/" used to identify plugin resources loaded from the core skin folder
+        if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/$this->ID/)#i", $fn)) {
             return $this->ID . '/' . $fn;
         }
         else {
@@ -384,9 +385,11 @@ abstract class rcube_plugin
      * Provide path to the currently selected skin folder within the plugin directory
      * with a fallback to the default skin folder.
      *
-     * @return string Skin path relative to plugins directory
+     * @param  string $extra_dir Additional directory to search in (optional)
+     * @param  mixed  $skin_name Specific skin name(s) to look for, string or array (optional)
+     * @return string            Skin path relative to plugins directory
      */
-    public function local_skin_path()
+    public function local_skin_path($extra_dir = null, $skin_name = null)
     {
         $rcube     = rcube::get_instance();
         $skins     = array_keys((array)$rcube->output->skins);
@@ -396,10 +399,30 @@ abstract class rcube_plugin
             $skins = (array) $rcube->config->get('skin');
         }
 
+        $dirs = ['skins'];
+        if (!empty($extra_dir)) {
+            array_unshift($dirs, $extra_dir);
+        }
+
+        if (!empty($skin_name)) {
+            $skins = (array) $skin_name;
+        }
+
         foreach ($skins as $skin) {
-            $skin_path = 'skins/' . $skin;
-            if (is_dir(realpath(slashify($this->home) . $skin_path))) {
-                break;
+            foreach ($dirs as $dir) {
+                // skins folder in the plugins dir
+                $skin_path = $dir . '/' . $skin;
+
+                if (!is_dir(realpath(slashify($this->home) . $skin_path))) {
+                    // plugins folder in the skins dir
+                    $skin_path .= '/plugins/' . $this->ID;
+                    if (is_dir(realpath(slashify(RCUBE_INSTALL_PATH) . $skin_path))) {
+                        break 2;
+                    }
+                }
+                else {
+                    break 2;
+                }
             }
         }
 
