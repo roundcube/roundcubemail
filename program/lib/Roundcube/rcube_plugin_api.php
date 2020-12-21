@@ -700,22 +700,23 @@ class rcube_plugin_api
                 $devel_mode = $rcube->config->get('devel_mode');
                 $assets_dir = $rcube->config->get('assets_dir');
                 $path       = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
+                $dir        = $path . (strpos($fn, "plugins/") === false ? '/plugins' : '');
 
                 // Prefer .less files in devel_mode (assume less.js is loaded)
                 if ($devel_mode) {
                     $less = preg_replace('/\.css$/i', '.less', $fn);
-                    if ($less != $fn && is_file("$path/plugins/$less")) {
+                    if ($less != $fn && is_file("$dir/$less")) {
                         $fn = $less;
                     }
                 }
                 else if (!preg_match('/\.min\.css$/', $fn)) {
                     $min = preg_replace('/\.css$/i', '.min.css', $fn);
-                    if (is_file("$path/plugins/$min")) {
+                    if (is_file("$dir/$min")) {
                         $fn = $min;
                     }
                 }
 
-                if (!is_file("$path/plugins/$fn")) {
+                if (!is_file("$dir/$fn")) {
                     return;
                 }
             }
@@ -788,7 +789,8 @@ class rcube_plugin_api
      */
     protected function resource_url($fn)
     {
-        if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
+        // pattern "skins/" used to identify plugin resources loaded from the core skin folder
+        if ($fn[0] != '/' && !preg_match('#^(https?://|skins/)#i', $fn)) {
             return $this->url . $fn;
         }
         else {
