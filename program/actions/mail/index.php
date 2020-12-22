@@ -268,6 +268,22 @@ class rcmail_action_mail_index extends rcmail_action
             }
         }
 
+        // Validate the search mods
+        $invalid_search_mod_found = false;
+
+        foreach ($mods as $mbox => $mbox_mods) {
+            foreach ($mbox_mods as $mod => $value) {
+                if (!rcube_utils::check_search_mod($mod)) {
+                    $invalid_search_mod_found = true;
+                    unset($mods[$mbox][$mod]);
+                }
+            }
+        }
+
+        if ($invalid_search_mod_found) {
+            $rcmail->user->save_prefs(array('search_mods' => $mods));
+        }
+
         return $mods;
     }
 

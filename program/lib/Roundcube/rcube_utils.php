@@ -172,6 +172,23 @@ class rcube_utils
     }
 
     /**
+     * Search mod validation.
+     *
+     * @param string $mod Search mod to validate (e.g. "INBOX")
+     *
+     * @return bool True if the search mod is valid
+     */
+    public static function check_search_mod($mod)
+    {
+        // US-ASCII characters 33 to 57 + 59 to 126
+        if (preg_match('/^[\x21-\x39\x3b-\x7e]+$/', $mod)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Validates IPv4 or IPv6 address
      *
      * @param string $ip IP address in v4 or v6 format
