@@ -41,7 +41,7 @@ class rcube_cache_db extends rcube_cache
      */
     protected $table;
 
-    protected $existing = array();
+    protected $existing = [];
 
 
     /**
@@ -129,7 +129,7 @@ class rcube_cache_db extends rcube_cache
      * @param mixed    $data Serialized cache data
      * @param DateTime $ts   Timestamp
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function store_record($key, $data, $ts = null)
     {
@@ -156,14 +156,14 @@ class rcube_cache_db extends rcube_cache
         }
 
         $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
-        $pkey    = array('cache_key' => $db_key);
+        $pkey    = ['cache_key' => $db_key];
 
         if ($this->userid) {
             $pkey['user_id'] = $this->userid;
         }
 
         $result = $this->db->insert_or_update(
-            $this->table, $pkey, array('expires', 'data'), array($expires, $value)
+            $this->table, $pkey, ['expires', 'data'], [$expires, $value]
         );
 
         $count = $this->db->affected_rows($result);
@@ -174,16 +174,16 @@ class rcube_cache_db extends rcube_cache
     /**
      * Deletes the cache record(s).
      *
-     * @param string  $key         Cache key name or pattern
-     * @param boolean $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     protected function remove_record($key = null, $prefix_mode = false)
     {
         // Remove all keys (in specified cache)
         if ($key === null) {
             $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.%');
-            $this->cache = array();
+            $this->cache = [];
         }
         // Remove keys by name prefix
         else if ($prefix_mode) {

@@ -340,7 +340,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     'alt'     => $skin,
                                     'width'   => 64,
                                     'height'  => 64,
-                                    'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif'); this.onerror = null",
+                                    'onerror' => "this.onerror = null; this.src = 'data:image/gif;base64," . rcmail_output::BLANK_GIF ."';",
                             ]);
 
                             $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],

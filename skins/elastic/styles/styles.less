@@ -282,7 +282,7 @@ body.task-error-login #layout {
         color: @color-mail-headers;
 
         .header-title {
-            .overflow-ellipsis;
+            .overflow-ellipsis();
             white-space: nowrap;
             max-width: 8em;
             font-weight: bold;
@@ -337,7 +337,7 @@ body.task-error-login #layout {
     }
 
     blockquote {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         color: @color-blockquote-0;
         border-left: 2px solid @color-blockquote-0-border;
         border-right: 2px solid @color-blockquote-0-border;
@@ -370,7 +370,7 @@ body.task-error-login #layout {
             border: 1px solid @color-black-shade-border;
             border-radius: .3rem;
             line-height: 1;
-            .font-family; // don't inherit monospace font
+            .font-family(); // don't inherit monospace font
 
             &:after {
                 &:extend(.font-icon-class);

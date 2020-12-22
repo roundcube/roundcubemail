@@ -30,7 +30,16 @@ class rcube_db_pgsql extends rcube_db
     public $db_provider = 'postgres';
 
     // See https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
-    private static $libpq_connect_params = array("application_name", "sslmode", "sslcert", "sslkey", "sslrootcert", "sslcrl", "sslcompression", "service");
+    private static $libpq_connect_params = [
+        'application_name',
+        'sslmode',
+        'sslcert',
+        'sslkey',
+        'sslrootcert',
+        'sslcrl',
+        'sslcompression',
+        'service'
+    ];
 
     /**
      * Object constructor
@@ -59,7 +68,7 @@ class rcube_db_pgsql extends rcube_db
         $dbh->query("SET DATESTYLE TO ISO");
 
         // if ?schema= is set in dsn, set the search_path
-        if ($dsn['schema']) {
+        if (!empty($dsn['schema'])) {
             $dbh->query("SET search_path TO " . $this->quote($dsn['schema']));
         }
     }
@@ -81,9 +90,7 @@ class rcube_db_pgsql extends rcube_db
             $table = $this->sequence_name($table);
         }
 
-        $id = $this->dbh->lastInsertId($table);
-
-        return $id;
+        return $this->dbh->lastInsertId($table);
     }
 
     /**
@@ -172,7 +179,7 @@ class rcube_db_pgsql extends rcube_db
         $this->variables[$varname] = rcube::get_instance()->config->get('db_' . $varname);
 
         if (!isset($this->variables)) {
-            $this->variables = array();
+            $this->variables = [];
 
             $result = $this->query('SHOW ALL');
 
@@ -205,8 +212,8 @@ class rcube_db_pgsql extends rcube_db
         }
 
         $table   = $this->table_name($table, true);
-        $columns = array_map(array($this, 'quote_identifier'), $columns);
-        $target  = implode(', ', array_map(array($this, 'quote_identifier'), array_keys($keys)));
+        $columns = array_map([$this, 'quote_identifier'], $columns);
+        $target  = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
         $cols    = $target . ', ' . implode(', ', $columns);
         $vals    = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
         $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
@@ -236,7 +243,7 @@ class rcube_db_pgsql extends rcube_db
                 . " WHERE TABLE_TYPE = 'BASE TABLE'" . $add
                 . " ORDER BY TABLE_NAME");
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -251,7 +258,7 @@ class rcube_db_pgsql extends rcube_db
      */
     public function list_cols($table)
     {
-        $args = array($table);
+        $args = [$table];
 
         if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
             $add    = " AND TABLE_SCHEMA = ?";
@@ -268,7 +275,7 @@ class rcube_db_pgsql extends rcube_db
             return $q->fetchAll(PDO::FETCH_COLUMN, 0);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -280,7 +287,7 @@ class rcube_db_pgsql extends rcube_db
      */
     protected function dsn_string($dsn)
     {
-        $params = array();
+        $params = [];
         $result = 'pgsql:';
 
         if (isset($dsn['hostspec'])) {
@@ -325,7 +332,7 @@ class rcube_db_pgsql extends rcube_db
         // replace sequence names, and other postgres-specific commands
         $sql = preg_replace_callback(
             '/((SEQUENCE |RENAME TO |nextval\()["\']*)([^"\' \r\n]+)/',
-            array($this, 'fix_table_names_callback'),
+            [$this, 'fix_table_names_callback'],
             $sql
         );
 

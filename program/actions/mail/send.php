@@ -62,6 +62,10 @@ class rcmail_action_mail_send extends rcmail_action
                 }
         ]);
 
+        if (!isset($COMPOSE['attachments'])) {
+            $COMPOSE['attachments'] = [];
+        }
+
         // Collect input for message headers
         $headers = $SENDMAIL->headers_input();
 
@@ -184,8 +188,10 @@ class rcmail_action_mail_send extends rcmail_action
             $files = explode(',', $files);
             $files = array_flip($files);
             foreach ($files as $idx => $val) {
-                $files[$idx] = $COMPOSE['attachments'][$idx];
-                unset($COMPOSE['attachments'][$idx]);
+                if (!empty($COMPOSE['attachments'][$idx])) {
+                    $files[$idx] = $COMPOSE['attachments'][$idx];
+                    unset($COMPOSE['attachments'][$idx]);
+                }
             }
 
             $COMPOSE['attachments'] = array_merge(array_filter($files), (array) $COMPOSE['attachments']);
@@ -393,7 +399,7 @@ class rcmail_action_mail_send extends rcmail_action
                     $attachment['data'] ? false : true,
                     $ctype == 'message/rfc822' ? '8bit' : 'base64',
                     'attachment',
-                    $attachment['charset'],
+                    isset($attachment['charset']) ? $attachment['charset'] : null,
                     '', '',
                     $folding ? 'quoted-printable' : null,
                     $folding == 2 ? 'quoted-printable' : null,

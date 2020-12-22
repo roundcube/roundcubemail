@@ -42,6 +42,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         $storage   = $rcmail->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
         $options   = strlen($old_imap) ? self::folder_options($old_imap) : [];
+        $char      = null;
 
         // Folder name checks
         if (!empty($options['protected']) || !empty($options['norename'])) {
@@ -56,7 +57,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         else if ($name[0] == '.' && $rcmail->config->get('imap_skip_hidden_folders')) {
             $error = $rcmail->gettext('namedotforbidden');
         }
-        else if (!$storage->folder_validate($name, $char = null)) {
+        else if (!$storage->folder_validate($name, $char)) {
             $error = $rcmail->gettext('forbiddencharacter') . " ($char)";
         }
 

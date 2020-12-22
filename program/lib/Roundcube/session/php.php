@@ -71,6 +71,5 @@ class rcube_session_php extends rcube_session {
         $this->key     = session_id();
         $this->ip      = $_SESSION['__IP'];
         $this->changed = $_SESSION['__MTIME'];
-
     }
 }

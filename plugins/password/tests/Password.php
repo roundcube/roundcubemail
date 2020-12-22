@@ -61,10 +61,10 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
                 . 'tus":0,"metadata":{},"messages":null}';
         $error_message   = 'Execution of Email::passwdpop (api version:3) is no'
                 . 't permitted inside of webmail';
-        $expected_result = array(
+        $expected_result = [
             'code'    => PASSWORD_ERROR,
             'message' => $error_message
-        );
+        ];
         $fail_result     = $driver_class::decode_response($fail_response);
         $this->assertEquals($expected_result, $fail_result);
 
@@ -87,5 +87,25 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
         $driver_class = "rcube_${driver}_password";
         $this->assertTrue(class_exists($driver_class));
         return $driver_class;
+    }
+
+    /**
+     * Test hash_password()
+     */
+    function test_hash_password()
+    {
+        $pass = password::hash_password('test', 'clear');
+        $this->assertSame('test', $pass);
+
+        $pass = password::hash_password('test', 'ad');
+        $this->assertSame("\"\0t\0e\0s\0t\0\"\0", $pass);
+
+        $pass = password::hash_password('test', 'ssha');
+        $this->assertRegExp('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
+
+        $pass = password::hash_password('test', 'sha256-crypt');
+        $this->assertRegExp('/^\{CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
+
+        // TODO: Test all algos
     }
 }

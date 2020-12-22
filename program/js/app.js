@@ -262,7 +262,7 @@ function rcube_webmail()
 
           this.env.widescreen_list_template = [
             {className: 'threads', cells: ['threads']},
-            {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
+            {className: 'subject', cells: ['fromto', 'date', 'size', 'status', 'subject']},
             {className: 'flags', cells: ['flag', 'attachment']}
           ];
 
@@ -2069,6 +2069,13 @@ function rcube_webmail()
     // set env vars for message list
     this.env.msglist_layout = layout;
     this.env.msglist_cols = listcols;
+
+    // Set sort-* class on the list element
+    var list = this.gui_objects.messagelist,
+      classes = list.className.split(' ').filter(function(v) { return !v.startsWith('sort-'); });
+
+    classes.push('sort-' + (this.env.sort_col || 'none'));
+    list.className = classes.join(' ');
   };
 
   this.check_droptarget = function(id)
@@ -7802,19 +7809,27 @@ function rcube_webmail()
 
   this.subscribe = function(folder)
   {
-    if (folder) {
-      var lock = this.display_message('foldersubscribing', 'loading');
-      this.http_post('subscribe', {_mbox: folder}, lock);
-    }
+    this.change_subscription_state(folder, true);
   };
 
   this.unsubscribe = function(folder)
   {
+    this.change_subscription_state(folder, false);
+  };
+
+  this.change_subscription_state = function(folder, state)
+  {
     if (folder) {
-      var lock = this.display_message('folderunsubscribing', 'loading');
-      this.http_post('unsubscribe', {_mbox: folder}, lock);
+      var prefix = state ? '' : 'un',
+        lock = this.display_message('folder' + prefix + 'subscribing', 'loading');
+
+      this.http_post(prefix + 'subscribe', {_mbox: folder}, lock);
+
+      // in case this was a list of search results, update also the main list
+      $(this.gui_objects.subscriptionlist).find('input[value="' + folder + '"]').prop('checked', state);
     }
   };
+
 
   // when user select a folder in manager
   this.show_folder = function(folder, path, force)

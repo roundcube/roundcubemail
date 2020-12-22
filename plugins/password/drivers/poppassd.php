@@ -29,7 +29,7 @@ class rcube_poppassd_password
     function format_error_result($code, $line)
     {
         if (preg_match('/^\d\d\d\s+(\S.*)\s*$/', $line, $matches)) {
-            return array('code' => $code, 'message' => $matches[1]);
+            return ['code' => $code, 'message' => $matches[1]];
         }
 
         return $code;

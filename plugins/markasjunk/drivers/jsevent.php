@@ -29,16 +29,17 @@
 
 class markasjunk_jsevent
 {
-    private $addition_spam_folders = array('spam2', 'spam3');
-    private $suspicious_folders    = array('unknown1', 'unknown2');
+    private $addition_spam_folders = ['spam2', 'spam3'];
+    private $suspicious_folders    = ['unknown1', 'unknown2'];
 
     public function init()
     {
         $rcmail = rcmail::get_instance();
 
         // only execute this code on page load
-        if ($rcmail->output->type != 'html')
+        if ($rcmail->output->type != 'html') {
             return;
+        }
 
         $js_addition_spam_folders = json_encode($this->addition_spam_folders);
         $js_suspicious_folders    = json_encode($this->suspicious_folders);

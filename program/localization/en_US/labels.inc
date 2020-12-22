@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-$labels = array();
+$labels = [];
 
 // login page
 $labels['welcome'] = 'Welcome to $product';

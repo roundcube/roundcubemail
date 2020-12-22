@@ -158,7 +158,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                 // avoid unwanted casting of DateTime objects to an array
                 // (same as in rcube_contacts::convert_save_data())
                 if (is_object($values) && is_a($values, 'DateTime')) {
-                    $values = array($values);
+                    $values = [$values];
                 }
 
                 foreach ((array) $values as $value) {

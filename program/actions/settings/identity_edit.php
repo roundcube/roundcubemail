@@ -206,7 +206,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         $value = $colprop['value'];
                     }
                     else {
-                        $val = isset(self::$record[$col]) ? self::$record[$col] : '';
+                        $val   = isset(self::$record[$col]) ? self::$record[$col] : '';
                         $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
                     }
 

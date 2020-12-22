@@ -19,6 +19,8 @@
 
 class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachment_upload
 {
+    protected static $mode = self::MODE_HTTP;
+
     /**
      * Request handler.
      *

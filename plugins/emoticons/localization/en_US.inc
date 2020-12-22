@@ -14,6 +14,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-emoticons/
 */
 
-$labels = array();
+$labels = [];
 $labels['emoticonsdisplay'] = 'Display emoticons in plain text messages';
 $labels['emoticonscompose'] = 'Enable emoticons';

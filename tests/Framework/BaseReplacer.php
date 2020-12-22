@@ -37,15 +37,15 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
      */
     function data_absolute_url()
     {
-        return array(
-            array('', 'http://test', 'http://test/'),
-            array('http://test', 'http://anything', 'http://test'),
-            array('cid:test', 'http://anything', 'cid:test'),
-            array('/test', 'http://test', 'http://test/test'),
-            array('./test', 'http://test', 'http://test/test'),
-            array('../test1', 'http://test/test2', 'http://test1'),
-            array('../test1', 'http://test/test2/', 'http://test/test1'),
-        );
+        return [
+            ['', 'http://test', 'http://test/'],
+            ['http://test', 'http://anything', 'http://test'],
+            ['cid:test', 'http://anything', 'cid:test'],
+            ['/test', 'http://test', 'http://test/test'],
+            ['./test', 'http://test', 'http://test/test'],
+            ['../test1', 'http://test/test2', 'http://test1'],
+            ['../test1', 'http://test/test2/', 'http://test/test1'],
+        ];
     }
 
     /**

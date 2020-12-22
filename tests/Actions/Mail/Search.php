@@ -33,6 +33,7 @@ class Actions_Mail_Search extends ActionTestCase
         ];
 
         // Set expected storage function calls/results
+        self::initStorage();
         rcmail::get_instance()->storage
             ->registerFunction('set_page')
             ->registerFunction('set_search_set')

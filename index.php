@@ -40,7 +40,7 @@
 require_once 'program/include/iniset.php';
 
 // init application, start session, init output class, etc.
-$RCMAIL = rcmail::get_instance(0, $GLOBALS['env']);
+$RCMAIL = rcmail::get_instance(0, isset($GLOBALS['env']) ? $GLOBALS['env'] : null);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
@@ -111,6 +111,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             'user'  => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
             'pass'  => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
             'valid' => $request_valid,
+            'error' => null,
             'cookiecheck' => true,
     ]);
 
@@ -168,7 +169,12 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             rcmail::ERROR_RATE_LIMIT       => 'accountlocked',
         ];
 
-        $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
+        if (!empty($auth['error']) && !is_numeric($auth['error'])) {
+            $error_message = $auth['error'];
+        }
+        else {
+            $error_message = !empty($error_labels[$error_code]) ? $error_labels[$error_code] : 'loginfailed';
+        }
 
         $RCMAIL->output->show_message($error_message, 'warning');
 
@@ -176,7 +182,10 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         $RCMAIL->log_login($auth['user'], true, $error_code);
 
         $RCMAIL->plugins->exec_hook('login_failed', [
-            'code' => $error_code, 'host' => $auth['host'], 'user' => $auth['user']]);
+                'code' => $error_code,
+                'host' => $auth['host'],
+                'user' => $auth['user'],
+        ]);
 
         if (!isset($_SESSION['user_id'])) {
             $RCMAIL->kill_session();

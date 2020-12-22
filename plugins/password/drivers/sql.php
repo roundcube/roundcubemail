@@ -120,7 +120,7 @@ class rcube_sql_password
         }
 
         // Handle clear text passwords securely (#1487034)
-        $sql_vars = array();
+        $sql_vars = [];
         if (preg_match_all('/%[p|o]/', $sql, $m)) {
             foreach ($m[0] as $var) {
                 if ($var == '%p') {

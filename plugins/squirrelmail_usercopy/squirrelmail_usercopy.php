@@ -12,12 +12,12 @@ class squirrelmail_usercopy extends rcube_plugin
 
     private $prefs            = null;
     private $identities_level = 0;
-    private $abook            = array();
+    private $abook            = [];
 
     public function init()
     {
-        $this->add_hook('user_create', array($this, 'create_user'));
-        $this->add_hook('identity_create', array($this, 'create_identity'));
+        $this->add_hook('user_create', [$this, 'create_user']);
+        $this->add_hook('identity_create', [$this, 'create_identity']);
     }
 
     public function create_user($p)
@@ -29,9 +29,11 @@ class squirrelmail_usercopy extends rcube_plugin
 
         // read prefs and add email address
         $this->read_squirrel_prefs($p['user']);
-        if (($this->identities_level == 0 || $this->identities_level == 2)
+
+        if (
+            ($this->identities_level == 0 || $this->identities_level == 2)
             && $rcmail->config->get('squirrelmail_set_alias')
-            && $this->prefs['email_address']
+            && !empty($this->prefs['email_address'])
         ) {
             $p['user_email'] = $this->prefs['email_address'];
         }
@@ -45,45 +47,49 @@ class squirrelmail_usercopy extends rcube_plugin
 
         // prefs are set in create_user()
         if ($this->prefs) {
-            if ($this->prefs['full_name']) {
+            if (!empty($this->prefs['full_name'])) {
                 $p['record']['name'] = $this->prefs['full_name'];
             }
 
-            if (($this->identities_level == 0 || $this->identities_level == 2) && $this->prefs['email_address']) {
+            if (
+                ($this->identities_level == 0 || $this->identities_level == 2)
+                && !empty($this->prefs['email_address'])
+            ) {
                 $p['record']['email'] = $this->prefs['email_address'];
             }
 
-            if ($this->prefs['___signature___']) {
+            if (!empty($this->prefs['___signature___'])) {
                 $p['record']['signature'] = $this->prefs['___signature___'];
             }
 
-            if ($this->prefs['reply_to']) {
+            if (!empty($this->prefs['reply_to'])) {
                 $p['record']['reply-to'] = $this->prefs['reply_to'];
             }
 
-            if (($this->identities_level == 0 || $this->identities_level == 1)
+            if (
+                ($this->identities_level == 0 || $this->identities_level == 1)
                 && isset($this->prefs['identities']) && $this->prefs['identities'] > 1
             ) {
                 for ($i = 1; $i < $this->prefs['identities']; $i++) {
                     unset($ident_data);
-                    $ident_data = array('name' => '', 'email' => ''); // required data
+                    $ident_data = ['name' => '', 'email' => '']; // required data
 
-                    if ($this->prefs['full_name'.$i]) {
+                    if (!empty($this->prefs['full_name'.$i])) {
                         $ident_data['name'] = $this->prefs['full_name'.$i];
                     }
 
-                    if ($this->identities_level == 0 && $this->prefs['email_address'.$i]) {
+                    if ($this->identities_level == 0 && !empty($this->prefs['email_address'.$i])) {
                         $ident_data['email'] = $this->prefs['email_address'.$i];
                     }
                     else {
                         $ident_data['email'] = $p['record']['email'];
                     }
 
-                    if ($this->prefs['reply_to'.$i]) {
+                    if (!empty($this->prefs['reply_to'.$i])) {
                         $ident_data['reply-to'] = $this->prefs['reply_to'.$i];
                     }
 
-                    if ($this->prefs['___sig'.$i.'___']) {
+                    if (!empty($this->prefs['___sig'.$i.'___'])) {
                         $ident_data['signature'] = $this->prefs['___sig'.$i.'___'];
                     }
 
@@ -94,8 +100,8 @@ class squirrelmail_usercopy extends rcube_plugin
 
             // copy address book
             $contacts  = $rcmail->get_address_book(null, true);
-            $addresses = array();
-            $groups    = array();
+            $addresses = [];
+            $groups    = [];
 
             if ($contacts && !empty($this->abook)) {
                 foreach ($this->abook as $rec) {
@@ -106,25 +112,31 @@ class squirrelmail_usercopy extends rcube_plugin
 
                     // create group for addresses
                     if (count($emails) > 1) {
-                        if (!($group_id = $groups[$rec['name']])) {
-                            if ($group = $contacts->create_group($rec['name'])) {
-                                $group_id = $group['id'];
-                                $groups[$rec['name']] = $group_id;
-                            }
+                        if (!empty($groups[$rec['name']])) {
+                            $group_id = $groups[$rec['name']];
+                        }
+                        else if ($group = $contacts->create_group($rec['name'])) {
+                            $group_id = $group['id'];
+                            $groups[$rec['name']] = $group_id;
                         }
                     }
 
                     // create contacts
                     foreach ($emails as $email) {
-                        if (!($contact_id = $addresses[$email]) && rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+                        $contact_id = null;
+
+                        if (!empty($addresses[$email])) {
+                            $contact_id = $addresses[$email];
+                        }
+                        else if (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
                             $rec['email'] = rcube_utils::idn_to_utf8($email);
                             if ($contact_id = $contacts->insert($rec, true)) {
                                 $addresses[$email] = $contact_id;
                             }
                         }
 
-                        if ($group_id && $contact_id) {
-                            $contacts->add_to_group($group_id, array($contact_id));
+                        if (!empty($group_id) && !empty($contact_id)) {
+                            $contacts->add_to_group($group_id, [$contact_id]);
                         }
                     }
                 }
@@ -169,9 +181,9 @@ class squirrelmail_usercopy extends rcube_plugin
             $sigbase   = slashify($srcdir) . $uname . '.si';
 
             if (is_readable($prefsfile)) {
-                $this->prefs = array();
+                $this->prefs = [];
                 foreach (file($prefsfile) as $line) {
-                    list($key, $value) = explode('=', $line);
+                    list($key, $value) = rcube_utils::explode('=', $line);
                     $this->prefs[$key] = $this->convert_charset(rtrim($value), $file_charset);
                 }
 
@@ -193,19 +205,17 @@ class squirrelmail_usercopy extends rcube_plugin
 
                 // parse address book file
                 if (filesize($abookfile)) {
-
                     foreach (file($abookfile) as $line) {
-
                         $line = $this->convert_charset(rtrim($line), $file_charset);
                         $line = str_getcsv($line, "|");
 
-                        $rec = array(
+                        $rec = [
                             'name'      => $line[0],
                             'firstname' => $line[1],
                             'surname'   => $line[2],
                             'email'     => $line[3],
                             'notes'     => $line[4],
-                        );
+                        ];
 
                         if ($rec['name'] && $rec['email']) {
                             $this->abook[] = $rec;
@@ -215,8 +225,8 @@ class squirrelmail_usercopy extends rcube_plugin
             }
         }
         // Database backend
-        else if ($rcmail->config->get('squirrelmail_driver') == 'sql') { 
-            $this->prefs = array();
+        else if ($rcmail->config->get('squirrelmail_driver') == 'sql') {
+            $this->prefs = [];
 
             // connect to squirrelmail database
             $db = rcube_db::factory($rcmail->config->get('squirrelmail_dsn'));
@@ -230,7 +240,7 @@ class squirrelmail_usercopy extends rcube_plugin
             $db_charset      = $rcmail->config->get('squirrelmail_db_charset');
 
             if ($db_charset) {
-                $db->query('SET NAMES '.$db_charset);
+                $db->query('SET NAMES ' . $db_charset);
             }
 
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($userprefs_table)

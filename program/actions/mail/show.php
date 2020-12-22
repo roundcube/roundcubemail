@@ -60,7 +60,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $rcmail->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
             }
 
-            $MESSAGE = new rcube_message($msg_id, $mbox_name, intval($_GET['_safe']));
+            $MESSAGE = new rcube_message($msg_id, $mbox_name, !empty($_GET['_safe']));
 
             self::$MESSAGE = $MESSAGE;
 
@@ -198,7 +198,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $mimetype = $type;
             }
 
-            if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
+            if (!empty($attrib['maxlength']) && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
                 $filename = abbreviate_string($filename, $attrib['maxlength']);
             }
@@ -326,26 +326,32 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
     public static function message_contactphoto($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail        = rcmail::get_instance();
+        $error_handler = false;
+        $placeholder   = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
 
-        $placeholder = $attrib['placeholder'] ? $rcmail->output->abs_url($attrib['placeholder'], true) : null;
-        $placeholder = $rcmail->output->asset_url($placeholder ?: 'program/resources/blank.gif');
+        if (!empty($attrib['placeholder'])) {
+            $placeholder = $rcmail->output->abs_url($attrib['placeholder'], true);
+            $placeholder = $rcmail->output->asset_url($placeholder);
+
+            // set error handler on <img>
+            $error_handler     = true;
+            $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
+        }
 
         if (self::$MESSAGE->sender) {
             $photo_img = $rcmail->url([
                     '_task'   => 'addressbook',
                     '_action' => 'photo',
                     '_email'  => self::$MESSAGE->sender['mailto'],
-                    '_error'  => strpos($placeholder, 'blank.gif') === false ? 1 : null,
+                    '_error'  => $error_handler ? 1 : null,
             ]);
-
-            $attrib['onerror'] = "this.src = '$placeholder'; this.onerror = null";
         }
         else {
             $photo_img = $placeholder;
         }
 
-        return html::img(array('src' => $photo_img, 'alt' => $rcmail->gettext('contactphoto')) + $attrib);
+        return html::img(['src' => $photo_img, 'alt' => $rcmail->gettext('contactphoto')] + $attrib);
     }
 
     /**
@@ -388,6 +394,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $exclude_headers = !empty($attrib['exclude']) ? explode(',', $attrib['exclude']) : [];
         $output_headers  = [];
 
+        $attr_max     = isset($attrib['max']) ? $attrib['max'] : null;
+        $attr_addicon = isset($attrib['addicon']) ? $attrib['addicon'] : null;
+        $charset      = !empty($headers['charset']) ? $headers['charset'] : null;
+
         foreach ($standard_headers as $hkey) {
             $value = null;
             if (!empty($headers[$hkey])) {
@@ -422,8 +432,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else if ($hkey == 'replyto') {
                 if ($headers['replyto'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -431,11 +440,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-reply-to') {
-                if ($headers['mail-replyto'] != $headers['replyto']
+                if ($value
+                    && (!isset($headers['mail-replyto']) || $headers['mail-replyto'] != $headers['replyto'])
                     && $headers['replyto'] != $headers['from']
                 ) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -443,9 +452,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'sender') {
-                if ($headers['sender'] != $headers['from']) {
-                    $header_value = self::address_string($value, $attrib['max'], true,
-                        $attrib['addicon'], $headers['charset'], $header_title);
+                if ($value && (!isset($headers['sender']) || $headers['sender'] != $headers['from'])) {
+                    $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
                 else {
@@ -453,13 +461,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
             }
             else if ($hkey == 'mail-followup-to') {
-                $header_value = self::address_string($value, $attrib['max'], true,
-                    $attrib['addicon'], $headers['charset'], $header_title);
+                $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
             }
-            else if (in_array($hkey, array('from', 'to', 'cc', 'bcc'))) {
-                $header_value = self::address_string($value, $attrib['max'], true,
-                    $attrib['addicon'], $headers['charset'], $header_title);
+            else if (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
+                $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
             }
             else if ($hkey == 'subject' && empty($value)) {
@@ -467,7 +473,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
             else {
                 $value        = is_array($value) ? implode(' ', $value) : $value;
-                $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
+                $header_value = trim(rcube_mime::decode_header($value, $charset));
             }
 
             $output_headers[$hkey] = [
@@ -520,10 +526,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $date   = $rcmail->format_date(self::$MESSAGE->headers->date, $rcmail->config->get('date_long', 'x'));
         $user   = self::$MESSAGE->headers->$header;
 
-        if (!$user && $header == 'to') {
+        if (!$user && $header == 'to' && !empty(self::$MESSAGE->headers->cc)) {
             $user = self::$MESSAGE->headers->cc;
         }
-        if (!$user && $header == 'to') {
+        if (!$user && $header == 'to' && !empty(self::$MESSAGE->headers->bcc)) {
             $user = self::$MESSAGE->headers->bcc;
         }
 
@@ -599,7 +605,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $rcmail    = rcmail::get_instance();
-        $safe_mode = self::$MESSAGE->is_safe || intval($_GET['_safe']);
+        $safe_mode = self::$MESSAGE->is_safe || !empty($_GET['_safe']);
         $out       = '';
         $part_no   = 0;
 
@@ -617,7 +623,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 }
                 else if ($part->type == 'content') {
                     // unsupported (e.g. encrypted)
-                    if ($part->realtype) {
+                    if (!empty($part->realtype)) {
                         if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
                             if (
                                 !empty($_SESSION['browser_caps']['pgpmime'])
@@ -665,7 +671,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     // Set attributes of the part container
                     $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
                     $container_id     = $container_class . (++$part_no);
-                    $container_attrib = array('class' => $container_class, 'id' => $container_id);
+                    $container_attrib = ['class' => $container_class, 'id' => $container_id];
 
                     $body_args = [
                         'safe'         => $safe_mode,
@@ -715,7 +721,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             foreach (self::$MESSAGE->attachments as $attach_prop) {
                 // skip inline images
-                if ($attach_prop->content_id && $attach_prop->disposition == 'inline') {
+                if (!empty($attach_prop->content_id) && $attach_prop->disposition == 'inline') {
                     continue;
                 }
 

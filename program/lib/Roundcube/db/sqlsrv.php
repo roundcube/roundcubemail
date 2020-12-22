@@ -75,7 +75,7 @@ class rcube_db_sqlsrv extends rcube_db_mssql
      */
     protected function dsn_string($dsn)
     {
-        $params = array();
+        $params = [];
         $result = 'sqlsrv:';
 
         if (isset($dsn['hostspec'])) {

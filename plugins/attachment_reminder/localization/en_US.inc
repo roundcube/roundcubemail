@@ -13,7 +13,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages = array();
 $messages['missingattachment'] = "Missing attachment?";
 $messages['forgotattachment'] = "Did you forget to attach a file?";
 $messages['reminderoption'] = "Remind about forgotten attachments";

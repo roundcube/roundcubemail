@@ -143,25 +143,30 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $msg_uid      = null;
 
         // get reference message and set compose mode
-        if ($msg_uid = self::$COMPOSE['param']['draft_uid']) {
+        if (!empty(self::$COMPOSE['param']['draft_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['draft_uid'];
             $compose_mode = rcmail_sendmail::MODE_DRAFT;
             $rcmail->output->set_env('draft_id', $msg_uid);
             $rcmail->storage->set_folder($drafts_mbox);
         }
-        else if ($msg_uid = self::$COMPOSE['param']['reply_uid']) {
+        else if (!empty(self::$COMPOSE['param']['reply_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['reply_uid'];
             $compose_mode = rcmail_sendmail::MODE_REPLY;
         }
-        else if ($msg_uid = self::$COMPOSE['param']['forward_uid']) {
+        else if (!empty(self::$COMPOSE['param']['forward_uid'])) {
+            $msg_uid      = self::$COMPOSE['param']['forward_uid'];
             $compose_mode = rcmail_sendmail::MODE_FORWARD;
             self::$COMPOSE['forward_uid']   = $msg_uid;
             self::$COMPOSE['as_attachment'] = !empty(self::$COMPOSE['param']['attachment']);
         }
-        else if ($msg_uid = self::$COMPOSE['param']['uid']) {
+        else if (!empty(self::$COMPOSE['param']['uid'])) {
+            $msg_uid = self::$COMPOSE['param']['uid'];
             $compose_mode = rcmail_sendmail::MODE_EDIT;
         }
 
+        self::$COMPOSE['mode'] = $compose_mode;
+
         if ($compose_mode) {
-            self::$COMPOSE['mode'] = $compose_mode;
             $rcmail->output->set_env('compose_mode', $compose_mode);
         }
 
@@ -185,7 +190,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('show_sig', true);
         }
 
-        if (!empty($msg_uid) && empty(self::$COMPOSE['as_attachment'])) {
+        if (!empty($msg_uid) && (empty(self::$COMPOSE['as_attachment']) || $compose_mode == rcmail_sendmail::MODE_DRAFT)) {
             $mbox_name = $rcmail->storage->get_folder();
 
             // set format before rcube_message construction
@@ -326,7 +331,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     // process compose request parameters
     public static function process_compose_params(&$COMPOSE)
     {
-        if ($COMPOSE['param']['to']) {
+        if (!empty($COMPOSE['param']['to'])) {
             $mailto = explode('?', $COMPOSE['param']['to'], 2);
 
             // #1486037: remove "mailto:" prefix
@@ -365,7 +370,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         // resolve _forward_uid=* to an absolute list of messages from a search result
-        if ($COMPOSE['param']['forward_uid'] == '*' && is_object($_SESSION['search'][1])) {
+        if (
+            !empty($COMPOSE['param']['forward_uid'])
+            && $COMPOSE['param']['forward_uid'] == '*'
+            && !empty($_SESSION['search'][1])
+            && is_object($_SESSION['search'][1])
+        ) {
             $COMPOSE['param']['forward_uid'] = $_SESSION['search'][1]->get();
         }
 
@@ -388,7 +398,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
 
         // add attachments listed by message_compose hook
-        if (is_array($plugin['attachments'])) {
+        if (!empty($plugin['attachments'])) {
             foreach ($plugin['attachments'] as $attach) {
                 // we have structured data
                 if (is_array($attach)) {
@@ -408,8 +418,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                 // save attachment if valid
                 if (
-                    ($attachment['data'] && $attachment['name'])
-                    || ($attachment['path'] && file_exists($attachment['path']))
+                    (!empty($attachment['data']) && !empty($attachment['name']))
+                    || (!empty($attachment['path']) && file_exists($attachment['path']))
                 ) {
                     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
                 }
@@ -434,7 +444,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $html_editor  = intval($rcmail->config->get('htmleditor'));
         $compose_mode = self::$COMPOSE['mode'];
 
-        if (is_bool(self::$COMPOSE['param']['html'])) {
+        if (isset(self::$COMPOSE['param']['html']) && is_bool(self::$COMPOSE['param']['html'])) {
             $useHtml = self::$COMPOSE['param']['html'];
         }
         else if (isset($_POST['_is_html'])) {
@@ -584,7 +594,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 foreach (self::$MESSAGE->parts as $part) {
-                    if ($part->realtype == 'multipart/encrypted') {
+                    if (!empty($part->realtype) && $part->realtype == 'multipart/encrypted') {
                         // find the encrypted message payload part
                         if ($pgp_mime_part = self::$MESSAGE->get_multipart_encrypted_part()) {
                             $rcmail->output->set_env('pgp_mime_message', [
@@ -621,7 +631,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
                 $body = self::create_reply_body($body, $isHtml);
 
-                if (self::$MESSAGE->pgp_mime) {
+                if (!empty(self::$MESSAGE->pgp_mime)) {
                     $rcmail->output->set_env('compose_reply_header', self::get_reply_header(self::$MESSAGE));
                 }
             }
@@ -706,6 +716,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             && self::$COMPOSE['mode'] != rcmail_sendmail::MODE_EDIT
             && $rcmail->config->get('strip_existing_sig', true);
 
+        $flowed = !empty($part->ctype_parameters['format']) && $part->ctype_parameters['format'] == 'flowed';
+        $delsp  = $flowed && !empty($part->ctype_parameters['delsp']) && $part->ctype_parameters['delsp'] == 'yes';
+
         if ($isHtml) {
             if ($part->ctype_secondary == 'html') {
                 $body = self::prepare_html_body($body);
@@ -720,10 +733,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 // add HTML formatting
-                $body = self::plain_body($body,
-                    $part->ctype_parameters['format'] == 'flowed',
-                    $part->ctype_parameters['delsp'] == 'yes'
-                );
+                $body = self::plain_body($body, $flowed, $delsp);
             }
         }
         else {
@@ -742,8 +752,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $body = $rcmail->html2text($body, ['width' => $len]);
             }
             else {
-                if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-                    $body = rcube_mime::unfold_flowed($body, null, $part->ctype_parameters['delsp'] == 'yes');
+                if ($part->ctype_secondary == 'plain' && $flowed) {
+                    $body = rcube_mime::unfold_flowed($body, null, $delsp);
                 }
 
                 // try to remove the signature
@@ -851,7 +861,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     public static function get_reply_header($message)
     {
         $rcmail = rcmail::get_instance();
-        $from   = array_pop(rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset));
+        $list   = rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset);
+        $from   = array_pop($list);
 
         return $rcmail->gettext([
                 'name' => 'mailreplyintro',
@@ -989,7 +1000,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function write_compose_attachments(&$message, $bodyIsHtml, &$message_body)
     {
-        if ($message->pgp_mime || !empty(self::$COMPOSE['forward_attachments'])) {
+        if (!empty($message->pgp_mime) || !empty(self::$COMPOSE['forward_attachments'])) {
             return;
         }
 
@@ -1027,7 +1038,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 // skip version.txt parts of multipart/encrypted messages
-                if ($message->pgp_mime && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
+                if (!empty($message->pgp_mime) && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
                     continue;
                 }
 
@@ -1062,9 +1073,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     continue;
                 }
 
-                if (($attachment = $loaded_attachments[self::attachment_name($part) . $part->mimetype])
-                    || ($attachment = self::save_attachment($message, $pid, self::$COMPOSE['id']))
-                ) {
+                $key = self::attachment_name($part) . $part->mimetype;
+
+                if (!empty($loaded_attachments[$key])) {
+                    $attachment = $loaded_attachments[$key];
+                }
+                else {
+                    $attachment = self::save_attachment($message, $pid, self::$COMPOSE['id']);
+                }
+
+                if ($attachment) {
                     if ($replace) {
                         $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                             $rcmail->comm_path, self::$COMPOSE['id'], $attachment['id']);
@@ -1083,7 +1101,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function cid_map($message)
     {
-        if ($message->pgp_mime) {
+        if (!empty($message->pgp_mime)) {
             return [];
         }
 
@@ -1095,7 +1113,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $messages[] = $part->mime_id;
             }
 
-            if ($part->content_id || $part->content_location) {
+            if (!empty($part->content_id) || !empty($part->content_location)) {
                 // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
                 foreach ($messages as $mimeid) {
                     if (strpos($part->mime_id, $mimeid . '.') === 0) {
@@ -1104,7 +1122,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 $url = sprintf('RCMAP%s', md5($message->folder . '/' . $message->uid . '/' . $pid));
-                $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
+                $idx = !empty($part->content_id) ? ('cid:' . $part->content_id) : $part->content_location;
 
                 $map[$idx] = $url;
             }
@@ -1116,7 +1134,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     // Creates attachment(s) from the forwarded message(s)
     public static function write_forward_attachments()
     {
-        if (self::$MESSAGE->pgp_mime) {
+        if (!empty(self::$MESSAGE->pgp_mime)) {
             return;
         }
 
@@ -1281,9 +1299,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $button = '';
         $jslist = [];
 
-        if ($attrib['icon_pos'] == 'left') {
+        if (!empty($attrib['icon_pos']) && $attrib['icon_pos'] == 'left') {
             self::$COMPOSE['icon_pos'] = 'left';
         }
+        $icon_pos = isset(self::$COMPOSE['icon_pos']) ? self::$COMPOSE['icon_pos'] : null;
 
         if (!empty(self::$COMPOSE['attachments'])) {
             if (!empty($attrib['deleteicon'])) {
@@ -1292,7 +1311,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'alt' => $rcmail->gettext('delete')
                 ]);
             }
-            else if (rcube_utils::get_boolean($attrib['textbuttons'])) {
+            else if (self::get_bool_attr($attrib, 'textbuttons')) {
                 $button = rcube::Q($rcmail->gettext('delete'));
             }
 
@@ -1340,7 +1359,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'id'    => 'rcmfile' . $id,
                         'class' => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                     ],
-                    self::$COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
+                    $icon_pos == 'left' ? $delete_link.$content_link : $content_link.$delete_link
                 );
 
                 $jslist['rcmfile'.$id] = [
@@ -1354,7 +1373,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['deleteicon'])) {
             self::$COMPOSE['deleteicon'] = $rcmail->output->asset_url($attrib['deleteicon'], true);
         }
-        else if (rcube_utils::get_boolean($attrib['textbuttons'])) {
+        else if (self::get_bool_attr($attrib, 'textbuttons')) {
             self::$COMPOSE['textbuttons'] = true;
         }
         if (!empty($attrib['cancelicon'])) {
@@ -1458,7 +1477,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // set class name(s)
             $class_name = 'addressbook';
-            if ($source['class_name']) {
+            if (!empty($source['class_name'])) {
                 $class_name .= ' ' . $source['class_name'];
             }
 
@@ -1540,13 +1559,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $part     = $message->mime_parts[$pid];
             $size     = $part->size;
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-            $filename = $params['filename'] ?: self::attachment_name($part);
+            $filename = !empty($params['filename']) ? $params['filename'] : self::attachment_name($part);
         }
-        else if (is_object($message)) {
+        else if ($message instanceof rcube_message) {
             // the whole message requested
-            $size     = $message->size;
+            $size     = isset($message->size) ? $message->size : null;
             $mimetype = 'message/rfc822';
-            $filename = $params['filename'] ?: 'message_rfc822.eml';
+            $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         }
         else if (is_string($message)) {
             // the whole message requested
@@ -1597,11 +1616,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'group'      => $compose_id,
             'name'       => $filename,
             'mimetype'   => $mimetype,
-            'content_id' => !empty($part) ? $part->content_id : null,
+            'content_id' => !empty($part) && isset($part->content_id) ? $part->content_id : null,
             'data'       => $data,
             'path'       => isset($path) ? $path : null,
             'size'       => isset($path) ? filesize($path) : strlen($data),
-            'charset'    => !empty($part) ? $part->charset : $params['charset'],
+            'charset'    => !empty($part) ? $part->charset : (isset($params['charset']) ? $params['charset'] : null),
         ];
 
         $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);

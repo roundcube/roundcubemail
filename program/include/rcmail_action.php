@@ -543,7 +543,7 @@ abstract class rcmail_action
         }
 
         $input   = new html_inputfield($input_attr);
-        $content = $attrib['prefix'] . $input->show();
+        $content = (isset($attrib['prefix']) ? $attrib['prefix'] : '') . $input->show();
 
         if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
             $content = html::div(null, $content . $hint);
@@ -813,7 +813,7 @@ abstract class rcmail_action
                 $part->exact_size = true;
             }
 
-            if ($part->encoding == 'base64') {
+            if (isset($part->encoding) && $part->encoding == 'base64') {
                 $size = $size / 1.33;
             }
 
@@ -853,7 +853,7 @@ abstract class rcmail_action
         $result = [];
 
         // special case: *
-        if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
+        if ($_uid == '*' && !empty($_SESSION['search'][1]) && !empty($_SESSION['search'][1]->multi)) {
             $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {
@@ -1082,7 +1082,7 @@ abstract class rcmail_action
         $f_filter = isset($p['folder_filter']) ? $p['folder_filter'] : null;
         $f_rights = isset($p['folder_rights']) ? $p['folder_rights'] : null;
 
-        if ($p['unsubscribed']) {
+        if (!empty($p['unsubscribed'])) {
             $list = $storage->list_folders('', $p['folder_name'], $f_filter, $f_rights);
         }
         else {
@@ -1128,7 +1128,7 @@ abstract class rcmail_action
 
         $select = new html_select($p);
 
-        if ($p['noselection']) {
+        if (!empty($p['noselection'])) {
             $select->add(html::quote($p['noselection']), '');
         }
 

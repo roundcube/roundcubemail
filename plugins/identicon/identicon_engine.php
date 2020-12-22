@@ -14,18 +14,18 @@ class identicon_engine
     private $color;
     private $bgcolor  = '#F9F9F9';
     private $mimetype = 'image/png';
-    private $palette  = array(
+    private $palette  = [
         '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3',
         '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
         '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#607D8B',
-    );
-    private $grid = array(
+    ];
+    private $grid = [
          0,  1,  2,  1,  0,
          3,  4,  5,  4,  3,
          6,  7,  8,  7,  6,
          9, 10, 11, 10,  9,
         12, 13, 14, 13, 12,
-    );
+    ];
 
     const GRID_SIZE = 5;
     const ICON_SIZE = 150;
@@ -96,7 +96,7 @@ class identicon_engine
         // set icon color
         $div         = intval(255/count($this->palette));
         $index       = intval(ord($ident[0]) / $div);
-        $this->color = $this->palette[$index] ?: $this->palette[0];
+        $this->color = isset($this->palette[$index]) ? $this->palette[$index] : $this->palette[0];
 
         // set cell size
         $cell_width  = ($this->width - $this->margin * 2) / self::GRID_SIZE;
@@ -107,13 +107,13 @@ class identicon_engine
             $row_num    = intval($i / self::GRID_SIZE);
             $cell_num_h = $i - $row_num * self::GRID_SIZE;
 
-            $this->grid[$i] = array(
+            $this->grid[$i] = [
                 'active' => ord($ident[$idx]) % 2 > 0,
                 'x1'     => $cell_width * $cell_num_h + $this->margin,
                 'y1'     => $cell_height * $row_num + $this->margin,
                 'x2'     => $cell_width * ($cell_num_h + 1) + $this->margin,
                 'y2'     => $cell_height * ($row_num + 1) + $this->margin,
-            );
+            ];
         }
 
         // really generate the image using supported methods
@@ -122,10 +122,10 @@ class identicon_engine
         }
         else {
             // log an error
-            $error = array(
+            $error = [
                 'code'    => 500,
                 'message' => "PHP-GD module not found. It's required by identicon plugin.",
-            );
+            ];
 
             rcube::raise_error($error, true, false);
         }
@@ -148,7 +148,7 @@ class identicon_engine
 
         // draw the grid created in self::generate()
         foreach ($this->grid as $item) {
-            if ($item['active']) {
+            if (!empty($item['active'])) {
                 imagefilledrectangle($image, $item['x1'], $item['y1'], $item['x2'], $item['y2'], $color);
             }
         }
@@ -170,6 +170,6 @@ class identicon_engine
     {
         preg_match('/^#?([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})/i', $color, $m);
 
-        return array(hexdec($m[1]), hexdec($m[2]), hexdec($m[3]));
+        return [hexdec($m[1]), hexdec($m[2]), hexdec($m[3])];
     }
 }

@@ -24,6 +24,8 @@
  */
 class StorageMock
 {
+    public $methodCalls = [];
+
     protected $mocks = [];
 
     public function registerFunction($name, $result = null)
@@ -38,6 +40,7 @@ class StorageMock
         foreach ($this->mocks as $idx => $mock) {
             if ($mock[0] == $name) {
                 $result = $mock[1];
+                $this->methodCalls[] = ['name' => $name, 'args' => $arguments];
                 unset($this->mocks[$idx]);
                 return $result;
             }

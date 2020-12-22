@@ -49,13 +49,19 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             $attachment = null;
 
             $url = parse_url($uri);
-            parse_str($url['query'], $params);
 
-            if (strlen($params['_mbox']) && $params['_uid'] && $params['_part']) {
+            if (!empty($url['query'])) {
+                parse_str($url['query'], $params);
+            }
+
+            if (
+                !empty($params) && isset($params['_mbox']) && strlen($params['_mbox'])
+                && !empty($params['_uid']) && !empty($params['_part'])
+            ) {
                 // @TODO: at some point we might support drag-n-drop between
                 // two different accounts on the same server, for now make sure
                 // this is the same server and the same user
-                list($host, $port) = explode(':', $_SERVER['HTTP_HOST']);
+                list($host, $port) = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
 
                 if (
                     $host == $url['host']
@@ -186,9 +192,9 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $id     = $attachment['id'];
 
-        if (($icon = self::$COMPOSE['deleteicon']) && is_file($icon)) {
+        if (!empty(self::$COMPOSE['deleteicon']) && is_file(self::$COMPOSE['deleteicon'])) {
             $button = html::img([
-                    'src' => $icon,
+                    'src' => self::$COMPOSE['deleteicon'],
                     'alt' => $rcmail->gettext('delete')
             ]);
         }

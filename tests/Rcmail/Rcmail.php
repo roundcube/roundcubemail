@@ -131,23 +131,23 @@ class Rcmail_Rcmail extends ActionTestCase
         );
         $this->assertEquals(
             './?_task=cli&_action=test&_a=AA',
-            $rcmail->url(array('action' => 'test', 'a' => 'AA')),
+            $rcmail->url(['action' => 'test', 'a' => 'AA']),
             "Unprefixed parameters"
         );
         $this->assertEquals(
             './?_task=cli&_action=test&_b=BB',
-            $rcmail->url(array('_action' => 'test', '_b' => 'BB', '_c' => null)),
+            $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             "Prefixed parameters (skip empty)"
         );
         $this->assertEquals(
             '/sub/?_task=cli&_action=test&_mode=ABS',
-            $rcmail->url(array('_action' => 'test', '_mode' => 'ABS'), true),
+            $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL"
         );
 
         $this->assertEquals(
             'https://mail.example.org/sub/?_task=calendar&_action=test&_mode=FQ',
-            $rcmail->url(array('task' => 'calendar', '_action' => 'test', '_mode' => 'FQ'), true, true),
+            $rcmail->url(['task' => 'calendar', '_action' => 'test', '_mode' => 'FQ'], true, true),
             "Fully Qualified URL"
         );
 
@@ -155,13 +155,13 @@ class Rcmail_Rcmail extends ActionTestCase
         $_SERVER['SCRIPT_NAME'] = 'index.php';
         $this->assertEquals(
             '/?_task=cli&_action=test&_mode=ABS',
-            $rcmail->url(array('_action' => 'test', '_mode' => 'ABS'), true),
+            $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
         $_SERVER['SCRIPT_NAME'] = '';
         $this->assertEquals(
             '/?_task=cli&_action=test&_mode=ABS',
-            $rcmail->url(array('_action' => 'test', '_mode' => 'ABS'), true),
+            $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
 
@@ -169,7 +169,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $_SERVER['SERVER_PORT'] = '8080';
         $this->assertEquals(
             'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
-            $rcmail->url(array('_action' => 'test', '_mode' => 'ABS'), true, true),
+            $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true, true),
             "Full URL with port"
         );
     }
@@ -220,8 +220,8 @@ class Rcmail_Rcmail extends ActionTestCase
         $result = $rcmail->find_asset('non-existing.js');
         $this->assertNull($result);
 
-        $result = $rcmail->find_asset('program/resources/blank.gif');
-        $this->assertSame('program/resources/blank.gif', $result);
+        $result = $rcmail->find_asset('program/resources/blocked.gif');
+        $this->assertSame('program/resources/blocked.gif', $result);
     }
 
     /**

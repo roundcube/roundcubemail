@@ -42,8 +42,8 @@ class rcmail_action_mail_group_expand extends rcmail_action
             $members = [];
 
             while ($result && ($record = $result->iterate())) {
-                $emails = (array) $abook->get_col_values('email', $record, true);
-                if (!empty($emails) && ($email = array_shift($emails))) {
+                $email = array_first((array) $abook->get_col_values('email', $record, true));
+                if (!empty($email)) {
                     $members[] = format_email_recipient($email, rcube_addressbook::compose_list_name($record));
                 }
             }

@@ -26,7 +26,7 @@
  */
 
 $config = [
-    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
+//    'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
     'display_errors'  => false,
     'log_errors'      => true,
     // Some users are not using Installer, so we'll check some
@@ -294,6 +294,23 @@ function array_keys_recursive($array)
 }
 
 /**
+ * Get first element from an array
+ *
+ * @param array $array Input array
+ *
+ * @return mixed First element if found, Null otherwise
+ */
+function array_first($array)
+{
+    if (is_array($array)) {
+        reset($array);
+        foreach ($array as $element) {
+            return $element;
+        }
+    }
+}
+
+/**
  * Remove all non-ascii and non-word chars except ., -, _
  *
  * @param string $str          A string
@@ -382,70 +399,6 @@ function version_parse($version)
         ['.0', '.99'],
         $version
     );
-}
-
-// intl replacement functions
-
-if (!function_exists('idn_to_utf8'))
-{
-    /**
-     * Convert domain name from IDNA ASCII to Unicode
-     *
-     * @param string $domain Domain to convert in an IDNA ASCII-compatible format.
-     *
-     * @return string|false Unicode domain, False on failure
-     */
-    function idn_to_utf8($domain)
-    {
-        static $idn, $loaded;
-
-        if (!$loaded) {
-            $idn    = new Net_IDNA2(['version' => '2008']);
-            $loaded = true;
-        }
-
-        if ($idn && $domain && preg_match('/(^|\.)xn--/i', $domain)) {
-            try {
-                $domain = $idn->decode($domain);
-            }
-            catch (Exception $e) {
-                return false;
-            }
-        }
-
-        return $domain;
-    }
-}
-
-if (!function_exists('idn_to_ascii'))
-{
-    /**
-     * Convert domain name to IDNA ASCII-compatible form Unicode
-     *
-     * @param string $domain The domain to convert, which must be UTF-8 encoded
-     *
-     * @return string|false The domain name encoded in ASCII-compatible form, False on failure
-     */
-    function idn_to_ascii($domain)
-    {
-        static $idn, $loaded;
-
-        if (!$loaded) {
-            $idn    = new Net_IDNA2(['version' => '2008']);
-            $loaded = true;
-        }
-
-        if ($idn && $domain && preg_match('/[^\x20-\x7E]/', $domain)) {
-            try {
-                $domain = $idn->encode($domain);
-            }
-            catch (Exception $e) {
-                return false;
-            }
-        }
-
-        return $domain;
-    }
 }
 
 /**

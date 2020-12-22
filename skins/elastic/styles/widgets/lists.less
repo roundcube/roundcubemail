@@ -29,7 +29,7 @@
     }
 
     tbody td {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         outline: none;
 
         a {
@@ -65,7 +65,7 @@
     }
 
     td.name {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
     }
 
     td.action {
@@ -151,7 +151,7 @@ ul.listing {
     }
 
     li {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         white-space: nowrap;
         position: relative;
         list-style: none;
@@ -381,7 +381,7 @@ html.ie11 .listing.iconized li a:before {
     }
 
     td {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
     }
 }
 
@@ -408,7 +408,7 @@ ul.treelist {
         }
 
         & > a {
-            .overflow-ellipsis;
+            .overflow-ellipsis();
             padding-left: @listing-treetoggle-width;
         }
 
@@ -587,13 +587,14 @@ table.fixedcopy {
         span {
             line-height: 2em;
 
+            &.size,
             &.date {
                 font-size: 90%;
                 color: @color-list-secondary;
             }
 
             &.fromto {
-                .overflow-ellipsis;
+                .overflow-ellipsis();
                 flex: 1;
                 font-size: 90%;
                 color: @color-list-secondary;
@@ -602,7 +603,7 @@ table.fixedcopy {
             }
 
             &.subject {
-                .overflow-ellipsis;
+                .overflow-ellipsis();
                 width: 100%;
             }
         }
@@ -751,6 +752,37 @@ table.fixedcopy {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
     }
+
+    span.size {
+        display: none;
+    }
+
+    tr:hover {
+        span.date {
+            display: none;
+        }
+        span.size {
+            display: inline;
+        }
+    }
+
+    &.sort-size {
+        span.date {
+            display: none;
+        }
+        span.size {
+            display: inline;
+        }
+
+        tr:hover {
+            span.date {
+                display: inline;
+            }
+            span.size {
+                display: none;
+            }
+        }
+    }
 }
 
 // On touch devices hide flag icon, but do it in a way
@@ -762,6 +794,7 @@ html.touch {
             position: relative;
         }
         td.flags {
+            position: absolute;
             top: .25rem;
             right: 0;
             bottom: 0;
@@ -969,7 +1002,7 @@ html.touch {
         }
 
         &.uploading:before {
-            .animated-icon-class;
+            .animated-icon-class();
             .font-icon-solid(@fa-var-circle-notch);
         }
 
@@ -980,7 +1013,7 @@ html.touch {
         }
 
         .attachment-name {
-            .overflow-ellipsis;
+            .overflow-ellipsis();
             color: @color-font;
         }
 

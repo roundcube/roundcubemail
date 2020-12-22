@@ -350,7 +350,9 @@ class rcmail extends rcube
         // Get first addressbook from the list if configured default doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)
         if (!$contacts && (!$id || $default)) {
-            $source = reset($this->get_address_sources($writeable, !$default));
+            $source = $this->get_address_sources($writeable, !$default);
+            $source = reset($source);
+
             if (!empty($source)) {
                 $contacts = $this->get_address_book($source['id']);
                 if ($contacts) {
@@ -1031,7 +1033,7 @@ class rcmail extends rcube
                 return $p;
             }
 
-            $p = ['_action' => @func_get_arg(0)];
+            $p = ['_action' => $p];
         }
 
         $task = $this->task;
@@ -1586,7 +1588,7 @@ class rcmail extends rcube
             }
 
             // write char "as-is"
-            if ($format[$i] == ' ' || $format[$i-1] == "\\") {
+            if ($format[$i] == ' ' || ($i > 0 && $format[$i-1] == "\\")) {
                 $out .= $format[$i];
             }
             // weekday (short)

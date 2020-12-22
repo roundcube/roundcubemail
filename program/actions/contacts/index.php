@@ -535,7 +535,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $js_id = rcube::JQ($id);
 
             // set class name(s)
-            $classes = array('contactsearch');
+            $classes = ['contactsearch'];
             if (!empty($source['class_name'])) {
                 $classes[] = $source['class_name'];
             }
@@ -878,7 +878,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 $content = '';
 
                 // unset display name if it is composed from name parts
-                if ($record['name'] == rcube_addressbook::compose_display_name(['name' => ''] + (array) $record)) {
+                $dname = rcube_addressbook::compose_display_name(['name' => ''] + (array) $record);
+                if (isset($record['name']) && $record['name'] == $dname) {
                     unset($record['name']);
                 }
 
@@ -923,8 +924,16 @@ class rcmail_action_contacts_index extends rcmail_action
                             }
                         }
                         else {
-                            $colprop = (array) $fieldset['content'][$col] + (array) $coltypes[$col];
                             $visible = true;
+                            $colprop = [];
+
+                            if (!empty($fieldset['content'][$col])) {
+                                $colprop += (array) $fieldset['content'][$col];
+                            }
+
+                            if (!empty($coltypes[$col])) {
+                                $colprop += (array) $coltypes[$col];
+                            }
 
                             if (empty($colprop['id'])) {
                                 $colprop['id'] = 'ff_' . $col;
@@ -1040,7 +1049,12 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
                                 if (!empty($val) && is_array($val)) {
-                                    $childvalue = $val[$childcol] ?: $val[$j];
+                                    if (!empty($val[$childcol])) {
+                                        $childvalue = $val[$childcol];
+                                    }
+                                    else {
+                                        $childvalue =  isset($val[$j]) ? $val[$j] : null;
+                                    }
                                 }
                                 else {
                                     $childvalue = '';
@@ -1137,7 +1151,9 @@ class rcmail_action_contacts_index extends rcmail_action
                         );
 
                         // add delete button/link
-                        if (!$compact && $edit_mode && !($colprop['visible'] && $colprop['limit'] == 1)) {
+                        if (!$compact && $edit_mode
+                            && (empty($colprop['visible']) || empty($colprop['limit']) || $colprop['limit'] > 1)
+                        ) {
                             $val .= $_del_btn;
                         }
 
@@ -1210,8 +1226,9 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             if ($content) {
-                $out .= html::tag('fieldset', ['class' => $attrib['fieldset-class']],
-                    html::tag('legend', null, rcube::Q($fieldset['name'])) . $content) . "\n";
+                $fattribs = !empty($attrib['fieldset-class']) ? ['class' => $attrib['fieldset-class']] : null;
+                $fcontent = html::tag('legend', null, rcube::Q($fieldset['name'])) . $content;
+                $out .= html::tag('fieldset', $fattribs, $fcontent) . "\n";
             }
         }
 
@@ -1292,12 +1309,16 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($record['_type']) && $record['_type'] == 'group' && !empty($attrib['placeholdergroup'])) {
             $photo_img = $rcmail->output->abs_url($attrib['placeholdergroup'], true);
+            $photo_img = $rcmail->output->asset_url($photo_img);
+        }
+        elseif (!empty($attrib['placeholder'])) {
+            $photo_img = $rcmail->output->abs_url($attrib['placeholder'], true);
+            $photo_img = $rcmail->output->asset_url($photo_img);
         }
         else {
-            $photo_img = $attrib['placeholder'] ? $rcmail->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
+            $photo_img = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
         }
 
-        $photo_img = $rcmail->output->asset_url($photo_img);
 
         $rcmail->output->set_env('photo_placeholder', $photo_img);
 
@@ -1342,7 +1363,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $content = html::div($attrib, html::img([
                 'src'     => $photo_img,
                 'alt'     => $rcmail->gettext('contactphoto'),
-                'onerror' => 'this.src = rcmail.env.photo_placeholder; this.onerror = null',
+                'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
         ]));
 
         if (!empty(self::$CONTACT_COLTYPES['photo']) && ($rcmail->action == 'edit' || $rcmail->action == 'add')) {

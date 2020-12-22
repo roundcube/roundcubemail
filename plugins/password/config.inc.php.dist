@@ -31,7 +31,7 @@ $config['password_login_exceptions'] = null;
 
 // Array of hosts that support password changing.
 // Listed hosts will feature a Password option in Settings; others will not.
-// Example: array('mail.example.com', 'mail2.example.org');
+// Example: ['mail.example.com', 'mail2.example.org'];
 // Default is NULL (all hosts supported).
 $config['password_hosts'] = null;
 
@@ -175,7 +175,7 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
-// Exemple: array('ldap1.exemple.com', 'ldap2.exemple.com');
+// Exemple: ['ldap1.exemple.com', 'ldap2.exemple.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
 
@@ -411,11 +411,11 @@ $config['xmail_port'] = 6017;
 // false: Hmailserver is on same box as PHP
 $config['hmailserver_remote_dcom'] = false;
 // Windows credentials
-$config['hmailserver_server'] = array(
+$config['hmailserver_server'] = [
     'Server'   => 'localhost',      // hostname or ip address
     'Username' => 'administrator',  // windows username
     'Password' => 'password'        // windows user password
-);
+];
 
 
 // pw_usermod Driver options

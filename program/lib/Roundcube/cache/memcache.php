@@ -65,13 +65,13 @@ class rcube_cache_memcache extends rcube_cache
         if (!class_exists('Memcache')) {
             self::$memcache = false;
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'memcache',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Failed to find Memcache. Make sure php-memcache is included"
-                ),
+                ],
                 true, true);
         }
 
@@ -80,7 +80,7 @@ class rcube_cache_memcache extends rcube_cache
         $pconnect       = $rcube->config->get('memcache_pconnect', true);
         $timeout        = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
-        $seen           = array();
+        $seen           = [];
         $available      = 0;
 
         // Callback for memcache failure
@@ -88,10 +88,11 @@ class rcube_cache_memcache extends rcube_cache
             // only report once
             if (!$seen["$host:$port"]++) {
                 $available--;
-                rcube::raise_error(array(
+                rcube::raise_error([
                         'code' => 604, 'type' => 'memcache',
                         'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Memcache failure on host $host:$port"),
+                        'message' => "Memcache failure on host $host:$port"
+                    ],
                     true, false);
             }
         };
@@ -165,7 +166,7 @@ class rcube_cache_memcache extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -191,7 +192,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {

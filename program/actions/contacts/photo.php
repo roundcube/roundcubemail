@@ -34,7 +34,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         // Get contact ID and source ID from request
         $cids    = self::get_cids();
         $source  = key($cids);
-        $cid     = $cids ? array_shift($cids[$source]) : null;
+        $cid     = $cids ? array_first($cids[$source]) : null;
         $file_id = rcube_utils::get_input_value('_photo', rcube_utils::INPUT_GPC);
 
         // read the referenced file
@@ -56,9 +56,9 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             if ($email = rcube_utils::get_input_value('_email', rcube_utils::INPUT_GPC)) {
                 foreach ($rcmail->get_address_sources() as $s) {
                     $abook = $rcmail->get_address_book($s['id']);
-                    $result = $abook->search(array('email'), $email, 1, true, true, 'photo');
+                    $result = $abook->search(['email'], $email, 1, true, true, 'photo');
                     while ($result && ($record = $result->iterate())) {
-                        if ($record['photo']) {
+                        if (!empty($record['photo'])) {
                             break 2;
                         }
                     }
@@ -111,7 +111,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         if (!empty($_GET['_error'])) {
-            $rcmail->output->sendExit('', ['HTTP/1.0 404 Photo not found']);
+            $rcmail->output->sendExit('', ['HTTP/1.0 204 Photo not found']);
         }
 
         $rcmail->output->sendExit(base64_decode(rcmail_output::BLANK_GIF), ['Content-Type: image/gif']);

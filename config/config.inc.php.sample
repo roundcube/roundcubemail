@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$config = array();
+$config = [];
 
 // Database connection string (DSN) for read+write operations
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
@@ -51,7 +51,7 @@ $config['default_host'] = 'localhost';
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
 // To specify differnt SMTP servers for different IMAP hosts provide an array
-// of IMAP host (no prefix or port) and SMTP server e.g. array('imap.example.com' => 'smtp.example.net')
+// of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
 $config['smtp_server'] = 'localhost';
 
 // SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
@@ -79,10 +79,10 @@ $config['product_name'] = 'Roundcube Webmail';
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = array(
+$config['plugins'] = [
     'archive',
     'zipdownload',
-);
+];
 
 // skin name: folder from skins/
 $config['skin'] = 'elastic';

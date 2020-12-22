@@ -73,7 +73,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
             $_SESSION['search'] = $rcmail->storage->refresh_search();
         }
 
-        if ($_POST['_from'] == 'show') {
+        if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             }

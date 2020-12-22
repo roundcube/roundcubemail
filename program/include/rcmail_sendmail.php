@@ -166,9 +166,11 @@ class rcmail_sendmail
         }
 
         $from_string = rcube_charset::convert($from_string, RCUBE_CHARSET, $charset);
-        $message_id  = $this->data['param']['message-id'];
 
-        if (!$message_id) {
+        if (!empty($this->data['param']['message-id'])) {
+            $message_id  = $this->data['param']['message-id'];
+        }
+        else {
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
@@ -188,8 +190,8 @@ class rcmail_sendmail
             'Reply-To'         => $this->email_input_format($replyto),
             'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
-            'In-Reply-To'      => $this->data['reply_msgid'],
-            'References'       => $this->data['references'],
+            'In-Reply-To'      => isset($this->data['reply_msgid']) ? $this->data['reply_msgid'] : null,
+            'References'       => isset($this->data['references']) ? $this->data['references'] : null,
             'User-Agent'       => $this->rcmail->config->get('useragent'),
             'Message-ID'       => $message_id,
             'X-Sender'         => $from,
@@ -216,7 +218,11 @@ class rcmail_sendmail
         // remember reply/forward UIDs in special headers
         if (!empty($this->options['savedraft'])) {
             // Note: We ignore <UID>.<PART> forwards/replies here
-            if (($uid = $this->data['reply_uid']) && !preg_match('/^\d+\.[0-9.]+$/', $uid)) {
+            if (
+                !empty($this->data['reply_uid'])
+                && ($uid = $this->data['reply_uid'])
+                && !preg_match('/^\d+\.[0-9.]+$/', $uid)
+            ) {
                 $headers['X-Draft-Info'] = $this->draftinfo_encode([
                         'type'   => 'reply',
                         'uid'    => $uid,
@@ -499,11 +505,11 @@ class rcmail_sendmail
             // append message to sent box
             if ($store_folder) {
                 // message body in file
-                if ($message->mailbody_file || $message->getParam('delay_file_io')) {
+                if (!empty($message->mailbody_file) || $message->getParam('delay_file_io')) {
                     $headers = $message->txtHeaders();
 
                     // file already created
-                    if ($message->mailbody_file) {
+                    if (!empty($message->mailbody_file)) {
                         $msg = $message->mailbody_file;
                     }
                     else {
@@ -540,7 +546,7 @@ class rcmail_sendmail
             }
         }
 
-        if ($message->mailbody_file) {
+        if (!empty($message->mailbody_file)) {
             unlink($message->mailbody_file);
             unset($message->mailbody_file);
         }
@@ -704,6 +710,10 @@ class rcmail_sendmail
      */
     public function email_input_format($mailto, $count = false, $check = true)
     {
+        if (!isset($this->parse_data['RECIPIENT_COUNT'])) {
+            $this->parse_data['RECIPIENT_COUNT'] = 0;
+        }
+
         // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
         $charset = $this->options['charset'];
         if ($charset != RCUBE_CHARSET) {
@@ -1013,7 +1023,7 @@ class rcmail_sendmail
         $fvalue        = '';
         $decode_header = true;
         $message       = $this->options['message'];
-        $charset       = $message->headers->charset;
+        $charset       = !empty($message->headers) ? $message->headers->charset : RCUBE_CHARSET;
         $separator     = ', ';
 
         // we have a set of recipients stored is session
@@ -1145,8 +1155,9 @@ class rcmail_sendmail
                 $mailto    = format_email(rcube_utils::idn_to_utf8($addr_part['mailto']));
                 $mailto_lc = mb_strtolower($addr_part['mailto']);
 
-                if (($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
-                    && !in_array($mailto_lc, (array) $message->recipients)
+                if (
+                    ($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
+                    && (empty($message->recipients) || !in_array($mailto_lc, (array) $message->recipients))
                 ) {
                     if ($addr_part['name'] && $mailto != $addr_part['name']) {
                         $mailto = format_email_recipient($mailto, $addr_part['name']);
@@ -1299,7 +1310,12 @@ class rcmail_sendmail
      */
     public function folder_selector($attrib)
     {
-        $mbox = isset($_POST['_store_target']) ? $_POST['_store_target'] : $this->data['param']['sent_mbox'];
+        if (isset($_POST['_store_target'])) {
+            $mbox = $_POST['_store_target'];
+        }
+        else {
+            $mbox = isset($this->data['param']['sent_mbox']) ? $this->data['param']['sent_mbox'] : null;
+        }
 
         $params = [
             'noselection'   => '- ' . $this->rcmail->gettext('dontsave') . ' -',
@@ -1529,30 +1545,39 @@ class rcmail_sendmail
         }
 
         // extract all recipients of the reply-message
-        if (is_object($message->headers) && in_array($mode, [self::MODE_REPLY, self::MODE_FORWARD])) {
-            $a_to = rcube_mime::decode_address_list($message->headers->to, null, true, $message->headers->charset);
-            foreach ($a_to as $addr) {
-                if (!empty($addr['mailto'])) {
-                    $a_recipients[] = strtolower($addr['mailto']);
-                    $a_names[]      = $addr['name'];
-                }
-            }
+        if (!empty($message->headers)) {
+            $charset = $message->headers->charset;
 
-            if (!empty($message->headers->cc)) {
-                $a_cc = rcube_mime::decode_address_list($message->headers->cc, null, true, $message->headers->charset);
-                foreach ($a_cc as $addr) {
+            if (in_array($mode, [self::MODE_REPLY, self::MODE_FORWARD])) {
+                $a_to = rcube_mime::decode_address_list($message->headers->to, null, true, $charset);
+                foreach ($a_to as $addr) {
                     if (!empty($addr['mailto'])) {
                         $a_recipients[] = strtolower($addr['mailto']);
                         $a_names[]      = $addr['name'];
                     }
                 }
+
+                if (!empty($message->headers->cc)) {
+                    $a_cc = rcube_mime::decode_address_list($message->headers->cc, null, true, $charset);
+                    foreach ($a_cc as $addr) {
+                        if (!empty($addr['mailto'])) {
+                            $a_recipients[] = strtolower($addr['mailto']);
+                            $a_names[]      = $addr['name'];
+                        }
+                    }
+                }
+            }
+
+            // decode From: address
+            if (!empty($message->headers)) {
+                $from = array_first(rcube_mime::decode_address_list($message->headers->from, null, true, $charset));
+                $from['mailto'] = isset($from['mailto']) ? strtolower($from['mailto']) : '';
             }
         }
 
-        // decode From: address
-        $from = rcube_mime::decode_address_list($message->headers->from, null, true, $message->headers->charset);
-        $from = array_shift($from);
-        $from['mailto'] = strtolower($from ? $from['mailto'] : '');
+        if (empty($from)) {
+            $from = ['mailto' => ''];
+        }
 
         $from_idx   = null;
         $found_idx  = ['to' => null, 'from' => null];
@@ -1660,11 +1685,11 @@ class rcmail_sendmail
         // extract recipients
         $recipients = (array) $headers['To'];
 
-        if (strlen($headers['Cc'])) {
+        if (!empty($headers['Cc'])) {
             $recipients[] = $headers['Cc'];
         }
 
-        if (strlen($headers['Bcc'])) {
+        if (!empty($headers['Bcc'])) {
             $recipients[] = $headers['Bcc'];
         }
 

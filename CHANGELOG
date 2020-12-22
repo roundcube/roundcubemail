@@ -2,6 +2,10 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Require PHP >= 5.5
+- Support PHP 8.0 (#7625)
+- Require php-intl
+- Remove use of ext-iconv
+- Remove use of Net_IDNA2 package
 - Automatically collected recipients and trusted senders (#6904)
     - Added configurable Collected Recipients addressbook source (#4971)
     - Added configurable Trusted Senders addressbook source (#5046)
@@ -14,7 +18,6 @@ CHANGELOG Roundcube Webmail
 - Upgrade to TinyMCE 5.5.1
 - Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
-- Remove use of ext-iconv
 - Support proxy for server-side HTTP requests (#7658)
 - Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
 - Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
@@ -29,9 +32,11 @@ CHANGELOG Roundcube Webmail
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
+- Return 204 rather than 404 on missing contact photo (#7777)
 - Plugin API: Added 'message' argument to 'message_compose_body' hook
 - Plugin API: Added 'preferences' parameter to 'user_create' hook (#7692)
 - Elastic: Dark mode (#6709)
+- Elastic: Display email size on the list of messages (#7162)
 - Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
@@ -56,12 +61,15 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
+- Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
 - Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
 - Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
 - Fix folder list issue whan special folder is a subfolder (#7647)
+- Fix Elastic's folder subscription toggle in search result (#7653)
+- Fix state of subscription toggle on folders list after changing folder state from the search result (#7653)
 
 RELEASE 1.4.9
 -------------

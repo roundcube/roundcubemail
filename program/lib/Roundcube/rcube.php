@@ -815,7 +815,7 @@ class rcube
         static $rcube_languages, $rcube_language_aliases;
 
         // user HTTP_ACCEPT_LANGUAGE if no language is specified
-        if (empty($lang) || $lang == 'auto') {
+        if ((empty($lang) || $lang == 'auto') && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $lang         = $accept_langs[0];
 
@@ -1194,7 +1194,7 @@ class rcube
      *
      * @return string Output of command. Shell errors not detectable
      */
-    public static function exec(/* $cmd, $values1 = array(), ... */)
+    public static function exec(/* $cmd, $values1 = [], ... */)
     {
         $args   = func_get_args();
         $cmd    = array_shift($args);
@@ -1291,13 +1291,14 @@ class rcube
         // trigger logging hook
         if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
             $log = self::$instance->plugins->exec_hook('write_log',
-                ['name' => $name, 'date' => $date, 'line' => $line]);
+                ['name' => $name, 'date' => $date, 'line' => $line]
+            );
 
             $name = $log['name'];
             $line = $log['line'];
             $date = $log['date'];
 
-            if ($log['abort']) {
+            if (!empty($log['abort'])) {
                 return true;
             }
         }
@@ -1603,7 +1604,8 @@ class rcube
         if (!empty($this->password)) {
             return $this->password;
         }
-        else if ($_SESSION['password']) {
+
+        if (isset($_SESSION['password'])) {
             return $this->decrypt($_SESSION['password']);
         }
     }
@@ -1658,7 +1660,7 @@ class rcube
 
         // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
         if (!preg_match('/\.[a-z0-9-]+$/i', $domain_part)) {
-            foreach (array($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']) as $host) {
+            foreach ([$_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']] as $host) {
                 $host = preg_replace('/:[0-9]+$/', '', $host);
                 if ($host && preg_match('/\.[a-z]+$/i', $host)) {
                     $domain_part = $host;
@@ -1715,10 +1717,10 @@ class rcube
         // generate list of recipients
         $a_recipients = (array) $mailto;
 
-        if (strlen($headers['Cc'])) {
+        if (!empty($headers['Cc'])) {
             $a_recipients[] = $headers['Cc'];
         }
-        if (strlen($headers['Bcc'])) {
+        if (!empty($headers['Bcc'])) {
             $a_recipients[] = $headers['Bcc'];
         }
 

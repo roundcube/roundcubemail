@@ -116,13 +116,13 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 // add record for every email address of the contact
                 $emails = rcube_addressbook::get_col_values('email', $row, true);
                 foreach ($emails as $i => $email) {
-                    $source = $row['sourceid'] ?: $source;
-                    $row_id = $source.'-'.$row['ID'].'-'.$i;
+                    $source    = !empty($row['sourceid']) ? $row['sourceid'] : $source;
+                    $row_id    = $source.'-'.$row['ID'].'-'.$i;
+                    $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                    $classname = $is_group ? 'group' : 'person';
+                    $keyname   = $is_group ? 'contactgroup' : 'contact';
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
-
-                    $classname = $row['_type'] == 'group' ? 'group' : 'person';
-                    $keyname   = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
 
                     $rcmail->output->command('add_contact_row', $row_id, [
                             $keyname => html::a(
@@ -145,4 +145,60 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
         // send response
         $rcmail->output->send();
     }
+
+    /**
+     * Add groups from the given address source to the address book widget
+     */
+    public static function compose_contact_groups($abook, $source_id, $search = null, $search_mode = 0)
+    {
+        $rcmail   = rcmail::get_instance();
+        $jsresult = [];
+
+        foreach ($abook->list_groups($search, $search_mode) as $group) {
+            $abook->reset();
+            $abook->set_group($group['ID']);
+
+            // group (distribution list) with email address(es)
+            if (!empty($group['email'])) {
+                foreach ((array) $group['email'] as $email) {
+                    $row_id = 'G'.$group['ID'];
+                    $jsresult[$row_id] = format_email_recipient($email, $group['name']);
+                    $rcmail->output->command('add_contact_row', $row_id, [
+                            'contactgroup' => html::span(['title' => $email], rcube::Q($group['name']))
+                        ], 'group');
+                }
+            }
+            // make virtual groups clickable to list their members
+            else if (!empty($group['virtual'])) {
+                $row_id = 'G'.$group['ID'];
+                $rcmail->output->command('add_contact_row', $row_id, [
+                        'contactgroup' => html::a([
+                                'href' => '#list',
+                                'rel' => $group['ID'],
+                                'title' => $rcmail->gettext('listgroup'),
+                                'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)",
+                                    rcmail_output::JS_OBJECT_NAME, $source_id, $group['ID']),
+                            ],
+                            rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;')
+                    )],
+                    'group',
+                    ['ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true]
+                );
+            }
+            // show group with count
+            else if (($result = $abook->count()) && $result->count) {
+                $row_id = 'E'.$group['ID'];
+                $jsresult[$row_id] = $group['name'];
+                $rcmail->output->command('add_contact_row', $row_id, [
+                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')
+                    ], 'group');
+            }
+        }
+
+        $abook->reset();
+        $abook->set_group(0);
+
+        return $jsresult;
+    }
+
 }

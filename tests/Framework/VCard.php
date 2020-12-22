@@ -112,6 +112,9 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         // https://github.com/roundcube/roundcubemail/issues/1934
         $vcards2 = rcube_vcard::import(file_get_contents($this->_srcpath('thebat.vcf')));
         $this->assertEquals("Iksiñski", $vcards2[0]->surname, "Detect charset in encoded values");
+
+        $vcards[0]->reset();
+        // TODO: Test reset() method
     }
 
     function test_import_photo_encoding()

@@ -158,7 +158,7 @@ class rcmail_install
                     }
                 }
                 else if ($in_config && $token[0] == T_COMMENT) {
-                    $buffer .= strtr($token[1], ['\n' => "\n"]);
+                    $buffer .= strtr($token[1], ['\n' => "\n"]) . "\n";
                 }
             }
         }
@@ -172,7 +172,7 @@ class rcmail_install
      * @param string $name    Property name
      * @param string $default Default value
      *
-     * @return string The property value
+     * @return mixed The property value
      */
     public function getprop($name, $default = '')
     {
@@ -839,7 +839,7 @@ class rcmail_install
             }
 
             if ($isnum) {
-                return '[' . implode(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ']';
+                return '[' . implode(', ', array_map(['rcmail_install', '_dump_var'], $var)) . ']';
             }
         }
 

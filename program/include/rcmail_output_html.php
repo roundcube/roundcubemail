@@ -98,7 +98,7 @@ class rcmail_output_html extends rcmail_output
         if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
             if ($this->check_skin($_GET['skin'])) {
                 $this->set_skin($_GET['skin']);
-                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
+                $this->app->user->save_prefs(['skin' => $_GET['skin']]);
             }
         }
 
@@ -740,7 +740,10 @@ EOF;
 
             // apply skin search escalation list to plugin directory
             foreach ($this->skin_paths as $skin_path) {
+                // skin folder in plugin dir
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
+                // plugin folder in skin dir
+                $plugin_skin_paths[] = $skin_path . '/plugins/' . $plugin;
             }
 
             // prepend plugin skin paths to search list
@@ -751,7 +754,7 @@ EOF;
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
             // when requesting a plugin template ignore global skin path(s)
-            if ($plugin && strpos($skin_path, $this->app->plugins->url) !== 0) {
+            if ($plugin && strpos($skin_path, $this->app->plugins->url) === false) {
                 continue;
             }
 
@@ -908,7 +911,7 @@ EOF;
      */
     public function abs_url($str, $search_path = false)
     {
-        if ($str[0] == '/') {
+        if (isset($str[0]) && $str[0] == '/') {
             if ($search_path && ($file_url = $this->get_skin_file($str))) {
                 return $file_url;
             }
@@ -1877,7 +1880,7 @@ EOF;
         }
 
         if (!isset($this->script_files[$position]) || !is_array($this->script_files[$position])) {
-            $this->script_files[$position] = array();
+            $this->script_files[$position] = [];
         }
 
         if (!in_array($file, $this->script_files[$position])) {
@@ -1999,7 +2002,8 @@ EOF;
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head = $this->scripts['head_top'] . (isset($this->scripts['head']) ? $this->scripts['head'] : '');
+        $head  = isset($this->scripts['head_top']) ? $this->scripts['head_top'] : '';
+        $head .= isset($this->scripts['head']) ? $this->scripts['head'] : '';
 
         $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";
@@ -2246,7 +2250,11 @@ EOF;
 
         // save original url
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
-        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])) {
+        if (
+            empty($url)
+            && !empty($_SERVER['QUERY_STRING'])
+            && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])
+        ) {
             $url = $_SERVER['QUERY_STRING'];
         }
 
@@ -2332,7 +2340,7 @@ EOF;
 
         // add oauth login button
         if ($this->config->get('oauth_auth_uri') && $this->config->get('oauth_provider')) {
-            $link_attr = array('href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider'));
+            $link_attr = ['href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider')];
             $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $this->config->get('oauth_provider_name', 'OAuth')]])));
         }
 
@@ -2437,7 +2445,7 @@ EOF;
 
             $header = html::tag($ariatag, $header_attrs, rcube::Q($header_label));
 
-            if ($attrib['options']) {
+            if (!empty($attrib['options'])) {
                 $options_button = $this->button([
                         'type'       => 'link',
                         'href'       => '#search-filter',
