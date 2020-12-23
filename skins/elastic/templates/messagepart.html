@@ -2,25 +2,13 @@
 
 <h1 class="voice"><roundcube:var name="env:filename" /></h1>
 
-<div id="layout-sidebar" class="listbox">
-	<div class="header">
-		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
-		<span class="header-title" id="aria-label-contentinfo"><roundcube:label name="properties" /></span>
-	</div>
-	<div class="scroller">
-		<roundcube:object name="messagePartControls" class="listing props-table" role="contentinfo"
-			aria-labelledby="aria-label-contentinfo" />
-	</div>
-</div>
-
 <div id="layout-content" class="selected">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
-		<a class="button icon properties" id="properties-button" href="#properties" onclick="UI.show_sidebar()" data-hidden="big">
-			<span class="inner"><roundcube:label name="properties"></span>
-		</a>
 		<span class="header-title constant"><roundcube:var name="env:filename" /></span>
 		<div id="messagetoolbar" class="toolbar menu">
+			<roundcube:button type="link" name="info" label="properties" title="properties"
+				class="info" innerclass="inner" onclick="UI.props_dialog()" />
 			<roundcube:button command="download" type="link" label="download" title="download"
 				class="download disabled" classAct="download" innerclass="inner" />
 			<roundcube:button command="print" type="link" label="print" title="print"
@@ -50,6 +38,7 @@
 					innerclass="inner" data-hidden="small" />
 			<roundcube:endif />
 			<roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
+				<span class="spacer"></span>
 				<roundcube:button command="image-scale" type="link" prop="+" data-hidden="small"
 					class="zoomin disabled" classAct="zoomin"
 					label="zoomin" title="increaseimage" innerclass="inner" />
@@ -117,5 +106,14 @@
 		</ul>
 	</div>
 <roundcube:endif />
+
+<roundcube:add_label name="properties" />
+<div id="properties-menu" class="popupmenu" role="dialog" aria-labelledby="aria-label-contentinfo">
+	<h3 id="aria-label-contentinfo" class="voice"><roundcube:label name="properties" /></h3>
+	<div class="scroller">
+		<roundcube:object name="messagePartControls" class="listing props-table" role="contentinfo"
+			aria-labelledby="aria-label-contentinfo" />
+	</div>
+</div>
 
 <roundcube:include file="includes/footer.html" />
