@@ -63,6 +63,7 @@ function rcube_elastic_ui()
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
     this.import_dialog = import_dialog;
+    this.props_dialog = props_dialog;
     this.headers_show = headers_show;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
@@ -2747,6 +2748,19 @@ function rcube_elastic_ui()
     };
 
     /**
+     * Attachment properties dialog
+     */
+    function props_dialog()
+    {
+        var dialog = $('#properties-menu').clone();
+
+        rcmail.simple_dialog(dialog, rcmail.gettext('properties'), null, {
+            cancel_button: 'close',
+            height: 400
+        });
+    };
+
+    /**
      * Mail import dialog
      */
     function import_dialog()
@@ -4115,11 +4129,17 @@ function rcube_elastic_ui()
      * Wrapper for rcmail.open_window to intercept window opening
      * and display a dialog with an iframe instead of a real window.
      */
-    function window_open(url)
+    function window_open(url, small, toolbar, force_window)
     {
         // Use 4th argument to bypass the dialog-mode e.g. for external windows
-        if (!is_mobile() || arguments[3] === true) {
-            return env.open_window.apply(rcmail, arguments);
+        if (!is_mobile() || force_window === true) {
+            // On attachment preview page we do not display the properties sidebar
+            // so we can use a smaller window, as we do for print pages
+            if (/_task=mail/.test(url) && /_action=get/.test(url)) {
+                small = true;
+            }
+
+            return env.open_window.call(rcmail, url, small, toolbar);
         }
 
         // _extwin=1, _framed=1 are required to display attachment preview
