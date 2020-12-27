@@ -451,12 +451,12 @@ class rcube_utils
         // remove html comments
         $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
 
-        // add #container to each tag selector
+        // add #container to each tag selector and prefix to id/class identifiers
         if ($container_id) {
-            // (?!##str) below is to not match with ##str_replacement_0##
-            // from rcube_string_replacer used above, this is needed for
-            // cases like @media { body { position: fixed; } } (#5811)
-            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str):?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            // Exclude rcube_string_replacer pattern matches, this is needed
+            // for cases like @media { body { position: fixed; } } (#5811)
+            $excl     = '(?!' . substr($replacements->pattern, 1, -1) . ')';
+            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = function($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 
