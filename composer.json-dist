@@ -22,7 +22,7 @@
         "pear/net_smtp": "~1.7.1",
         "pear/crypt_gpg": "~1.6.3",
         "pear/net_sieve": "~1.4.0",
-        "roundcube/plugin-installer": "~0.1.6",
+        "roundcube/plugin-installer": "~0.2.0",
         "endroid/qr-code": "~1.6.5"
     },
     "require-dev": {
