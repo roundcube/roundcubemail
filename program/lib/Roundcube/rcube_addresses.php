@@ -219,6 +219,9 @@ class rcube_addresses extends rcube_contacts
                 $this->result = $this->count();
             }
         }
+        else {
+            $this->result = new rcube_result_set();
+        }
 
         return $this->result;
     }
