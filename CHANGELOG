@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix folder list issue whan special folder is a subfolder (#7647)
 - Fix Elastic's folder subscription toggle in search result (#7653)
 - Fix state of subscription toggle on folders list after changing folder state from the search result (#7653)
+- Security: Fix cross-site scripting (XSS) via HTML or Plain text messages with malicious content [CVE-2020-35730]
 
 RELEASE 1.4.9
 -------------

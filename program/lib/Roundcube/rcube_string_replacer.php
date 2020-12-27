@@ -25,7 +25,7 @@
  */
 class rcube_string_replacer
 {
-    public static $pattern = '/##str_replacement_(\d+)##/';
+    public $pattern;
     public $mailto_pattern;
     public $link_pattern;
     public $linkref_index;
@@ -45,6 +45,10 @@ class rcube_string_replacer
      */
     function __construct($options = array())
     {
+        // Create hard-to-guess replacement string
+        $uniq_ident    = sprintf('%010d%010d', mt_rand(), mt_rand());
+        $this->pattern = '/##' . $uniq_ident . '##(\d+)##/';
+
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
         $utf_domain = '[^?&@"\'\\/()<>\s\r\t\n]+\\.?([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
@@ -55,7 +59,7 @@ class rcube_string_replacer
         $link_prefix = "([\w]+:\/\/|{$this->noword}[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)";
 
         $this->options         = $options;
-        $this->linkref_index   = '/\[([^\]#]+)\](:?\s*##str_replacement_(\d+)##)/';
+        $this->linkref_index   = '/\[([^\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^\]#]+)\]/';
         $this->link_pattern    = "/$link_prefix($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern  = "/("
@@ -88,7 +92,7 @@ class rcube_string_replacer
      */
     public function get_replacement($i)
     {
-        return '##str_replacement_' . $i . '##';
+        return str_replace('(\d+)', $i, substr($this->pattern, 1, -1));
     }
 
     /**
@@ -135,7 +139,7 @@ class rcube_string_replacer
     public function linkref_addindex($matches)
     {
         $key = $matches[1];
-        $this->linkrefs[$key] = $this->urls[$matches[3]];
+        $this->linkrefs[$key] = isset($this->urls[$matches[3]]) ? $this->urls[$matches[3]] : null;
 
         return $this->get_replacement($this->add('['.$key.']')) . $matches[2];
     }
@@ -185,7 +189,7 @@ class rcube_string_replacer
      */
     public function replace_callback($matches)
     {
-        return $this->values[$matches[1]];
+        return isset($this->values[$matches[1]]) ? $this->values[$matches[1]] : null;
     }
 
     /**
@@ -216,7 +220,7 @@ class rcube_string_replacer
      */
     public function resolve($str)
     {
-        return preg_replace_callback(self::$pattern, array($this, 'replace_callback'), $str);
+        return preg_replace_callback($this->pattern, array($this, 'replace_callback'), $str);
     }
 
     /**

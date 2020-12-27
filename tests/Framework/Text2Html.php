@@ -120,4 +120,21 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($output, $html);
     }
+
+    /**
+     * Test XSS issue
+     */
+    function test_text2html_xss()
+    {
+        $input = "\n[<script>evil</script>]:##str_replacement_0##\n";
+        $t2h = new rcube_text2html($input);
+
+        $html = $t2h->get_html();
+
+        $expected = "<div class=\"pre\"><br>\n"
+            . "[&lt;script&gt;evil&lt;/script&gt;]:##str_replacement_0##<br>\n"
+            . "</div>";
+
+        $this->assertEquals($expected, $html);
+    }
 }
