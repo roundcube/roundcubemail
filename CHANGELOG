@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
 - Upgrade to TinyMCE 5.5.1
 - Upgrade to jQuery 3.5.1 (#7464)
+- Use google-closure-compiler and yuicompressor from npm in jsshrink.sh and cssshrink.sh scripts (#7800)
 - Allow array in smtp_host config (#7296)
 - Support proxy for server-side HTTP requests (#7658)
 - By default do not set the User-Agent header (#7731)
