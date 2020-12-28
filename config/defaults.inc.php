@@ -687,8 +687,8 @@ $config['max_group_members'] = 0;
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
 
-// Add this user-agent to message headers when sending
-$config['useragent'] = 'Roundcube Webmail/'.RCUBE_VERSION;
+// Add this user-agent to message headers when sending. Default: not set.
+$config['useragent'] = null;
 
 // try to load host-specific configuration
 // see https://github.com/roundcube/roundcubemail/wiki/Configuration:-Multi-Domain-Setup
