@@ -11,7 +11,7 @@ REQUIREMENTS
 
 * An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
-* PHP Version 5.4 or greater including:
+* PHP Version 5.4 or greater, but not PHP8 including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Iconv, Zip, Fileinfo, Intl, Exif (recommended)

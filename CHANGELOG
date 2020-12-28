@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display an nice error informing about no PHP8 support
+
 RELEASE 1.4.10
 --------------
 - Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
