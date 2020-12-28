@@ -204,11 +204,6 @@ class rcmail_install
                 $value = false;
             }
 
-            // reset useragent to default (keeps version up-to-date)
-            if ($prop == 'useragent' && stripos($value, 'Roundcube Webmail/') !== false) {
-                $value = $this->defaults[$prop];
-            }
-
             // generate new encryption key, never use the default value
             if ($prop == 'des_key' && $value == $this->defaults[$prop]) {
                 $value = rcube_utils::random_bytes(24);
@@ -802,7 +797,8 @@ class rcmail_install
         // special values
         switch ($name) {
         case 'syslog_facility':
-            $list = [32 => 'LOG_AUTH', 80 => 'LOG_AUTHPRIV', 72 => ' LOG_CRON',
+            $list = [
+                32 => 'LOG_AUTH', 80 => 'LOG_AUTHPRIV', 72 => ' LOG_CRON',
                 24 => 'LOG_DAEMON', 0 => 'LOG_KERN', 128 => 'LOG_LOCAL0',
                 136 => 'LOG_LOCAL1', 144 => 'LOG_LOCAL2', 152 => 'LOG_LOCAL3',
                 160 => 'LOG_LOCAL4', 168 => 'LOG_LOCAL5', 176 => 'LOG_LOCAL6',
@@ -815,14 +811,6 @@ class rcmail_install
             }
 
             break;
-/*
-        // RCMAIL_VERSION is undefined here
-        case 'useragent':
-            if (preg_match('|^(.*)/('.preg_quote(RCMAIL_VERSION, '|').')$|i', $var, $m)) {
-                return '"' . addcslashes($var, '"') . '/" . RCMAIL_VERSION';
-            }
-            break;
-*/
         }
 
         if (is_array($var)) {
