@@ -15,7 +15,7 @@ do_shrink() {
 if which google-closure-compiler > /dev/null 2>&1; then
     :
 else
-    echo "google-closure-compiler not found. Please install e.g. 'npm install google-closure-compiler'."
+    echo "google-closure-compiler not found. Please install e.g. 'npm install -g google-closure-compiler'."
     exit 1
 fi
 
