@@ -12,7 +12,7 @@ do_shrink() {
 if which yuicompressor > /dev/null 2>&1; then
     :
 else
-    echo "yuicompressor not found. Please install e.g. 'npm install yuicompressor'."
+    echo "yuicompressor not found. Please install e.g. 'npm install -g yuicompressor'."
     exit 1
 fi
 
