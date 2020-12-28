@@ -3,50 +3,24 @@
 set -e
 
 PWD=`dirname "$0"`
-JS_DIR="$PWD/../program/js"
-JAR_DIR='/tmp'
 LANG_IN='ECMASCRIPT5'
-CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20200719.zip'
 
 do_shrink() {
     rm -f "$2"
     # copy the first comment block with license information for LibreJS
     grep -q '@lic' $1 && sed -n '/\/\*/,/\*\// { p; /\*\//q; }' $1 > $2
-    java -jar $JAR_DIR/compiler.jar --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --language_in="$3" >> $2
+    google-closure-compiler --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --language_in="$3" >> $2
 }
 
-if [ ! -d "$JS_DIR" ]; then
-    echo "Directory $JS_DIR not found."
-    exit 1
-fi
-
-if [ ! -w "$JAR_DIR" ]; then
-    JAR_DIR=$PWD
-fi
-
-if java -version >/dev/null 2>&1; then
+if which google-closure-compiler > /dev/null 2>&1; then
     :
 else
-    echo "Java not found. Please ensure that the 'java' program is in your PATH."
+    echo "google-closure-compiler not found. Please install e.g. 'npm install google-closure-compiler'."
     exit 1
-fi
-
-if [ ! -r "$JAR_DIR/compiler.jar" ]; then
-    if which wget >/dev/null 2>&1 && which unzip >/dev/null 2>&1; then
-        wget "$CLOSURE_COMPILER_URL" -O "/tmp/$$.zip"
-    elif which curl >/dev/null 2>&1 && which unzip >/dev/null 2>&1; then
-        curl "$CLOSURE_COMPILER_URL" -o "/tmp/$$.zip"
-    else
-        echo "Please download $CLOSURE_COMPILER_URL and extract compiler.jar to $JAR_DIR/."
-        exit 1
-    fi
-    unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar"
-    rm -f "/tmp/$$.zip"
 fi
 
 # compress single file from argument
 if [ $# -gt 0 ]; then
-    JS_DIR=`dirname "$1"`
     JS_FILE="$1"
 
     if [ $# -gt 1 ]; then
