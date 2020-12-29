@@ -243,4 +243,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020091000');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020122900');
