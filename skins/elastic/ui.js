@@ -521,8 +521,7 @@ function rcube_elastic_ui()
     {
         // Additional functionality on list widgets
         $('[data-list]').filter('ul,table').each(function() {
-            var button,
-                table = $(this),
+            var table = $(this),
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
@@ -602,44 +601,41 @@ function rcube_elastic_ui()
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
             $('[data-label-msg]').filter('ul,table').each(function() {
-                var fn, observer, callback,
-                    info = $('<div class="listing-info hidden">').insertAfter(this),
+                var info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
+                    fn = function() {
+                        var ext, command,
+                            msg = table.data('label-msg'),
+                            list = table.is('ul') ? table : table.children('tbody');
 
-                fn = function() {
-                    var ext, command,
-                        msg = table.data('label-msg'),
-                        list = table.is('ul') ? table : table.children('tbody');
+                        if (!rcmail.env.search_request && !rcmail.env.qsearch
+                            && msg && !list.children(':visible').length
+                        ) {
+                            ext = table.data('label-ext');
+                            command = table.data('create-command');
 
-                    if (!rcmail.env.search_request && !rcmail.env.qsearch
-                        && msg && !list.children(':visible').length
-                    ) {
-                        ext = table.data('label-ext');
-                        command = table.data('create-command');
+                            if (ext && (!command || rcmail.commands[command])) {
+                                msg += ' ' + ext;
+                            }
 
-                        if (ext && (!command || rcmail.commands[command])) {
-                            msg += ' ' + ext;
+                            info.text(msg).removeClass('hidden');
+                            return;
                         }
 
-                        info.text(msg).removeClass('hidden');
-                        return;
-                    }
+                        info.addClass('hidden');
+                    },
+                    callback = function() {
+                        // wait until the UI stops loading and the list is visible
+                        if (rcmail.busy || !table.is(':visible')) {
+                            return setTimeout(callback, 250);
+                        }
 
-                    info.addClass('hidden');
-                };
-
-                callback = function() {
-                    // wait until the UI stops loading and the list is visible
-                    if (rcmail.busy || !table.is(':visible')) {
-                        return setTimeout(callback, 250);
-                    }
-
-                    clearTimeout(env.list_timer);
-                    env.list_timer = setTimeout(fn, 50);
-                };
+                        clearTimeout(env.list_timer);
+                        env.list_timer = setTimeout(fn, 50);
+                    };
 
                 // show/hide the message when something changes on the list
-                observer = new MutationObserver(callback);
+                var observer = new MutationObserver(callback);
                 observer.observe(table[0], {childList: true, subtree: true, attributes: true, attributeFilter: ['style']});
 
                 // initialize the message
@@ -2151,8 +2147,9 @@ function rcube_elastic_ui()
             list_items = [],
             meta = layout_metadata(),
             button_func = function(button, items, cloned) {
-                var item = $('<li role="menuitem">'),
-                    button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
+                var item = $('<li role="menuitem">');
+
+                button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
                 button.contents().filter(function() { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
@@ -3512,7 +3509,9 @@ function rcube_elastic_ui()
      */
     function pretty_checkbox(checkbox)
     {
-        var label, parent, id, checkbox = $(checkbox);
+        var label, parent, id;
+
+        checkbox = $(checkbox);
 
         if (checkbox.is('.custom-control-input')) {
             return;
