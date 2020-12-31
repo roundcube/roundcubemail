@@ -1528,11 +1528,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         foreach ($rcmail->get_compose_responses(true) as $response) {
             $key  = $response['key'];
             $item = html::a([
-                    'href'          => '#' . urlencode($response['name']),
-                    'class'         => rtrim('insertresponse ' . $attrib['itemclass']),
-                    'unselectable'  => 'on',
-                    'tabindex'      => '0',
-                    'rel'           => $key,
+                    'href'         => '#' . urlencode($response['name']),
+                    'class'        => rtrim('insertresponse ' . $attrib['itemclass']),
+                    'unselectable' => 'on',
+                    'tabindex'     => '0',
+                    'rel'          => $key,
                 ],
                 rcube::Q($response['name'])
             );
@@ -1540,6 +1540,18 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $jsenv[$key] = $response;
 
             $list->add([], $item);
+        }
+
+        // add placeholder text when there are no responses available
+        if ($list->size() == 0) {
+            $list->add([], html::a([
+                    'href'         => '#',
+                    'class'        => rtrim('insertresponse placeholder disabled'),
+                    'unselectable' => 'on',
+                    'tabindex'     => '0',
+                ],
+                rcube::Q($rcmail->gettext('noresponsesavailable'))
+            ));
         }
 
         // set client env
