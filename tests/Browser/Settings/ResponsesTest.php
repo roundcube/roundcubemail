@@ -197,7 +197,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
             // FIXME: The next assertion fails in Travis environment
             if ($browser->isPhone() && getenv('TRAVIS') === 'true') {
-                $this->markTestSkipped();
+                // $this->markTestSkipped();
             }
 
             $browser->waitUntilMissing('.popover-overlay')
