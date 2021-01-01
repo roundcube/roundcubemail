@@ -78,7 +78,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
             if ($browser->isPhone()) {
                 // FIXME: The next assertion fails in Travis environment
                 if (getenv('TRAVIS') === 'true') {
-                    $this->markTestSkipped();
+                    // $this->markTestSkipped();
                 }
 
                 $browser->assertVisible('#layout-content .header a.back-list-button')
