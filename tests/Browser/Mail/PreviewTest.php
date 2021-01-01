@@ -108,7 +108,7 @@ class PreviewTest extends \Tests\Browser\TestCase
 
             $browser->waitFor('#messagelist tbody tr:last-child')
                 ->click('#messagelist tbody tr:last-child')
-                ->waitForMessage('loading', 'Loading...')
+                //->waitForMessage('loading', 'Loading...')
                 ->waitFor('#messagecontframe')
                 ->waitUntilMissing('#messagestack');
 
