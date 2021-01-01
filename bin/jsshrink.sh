@@ -9,13 +9,13 @@ do_shrink() {
     rm -f "$2"
     # copy the first comment block with license information for LibreJS
     grep -q '@lic' $1 && sed -n '/\/\*/,/\*\// { p; /\*\//q; }' $1 > $2
-    google-closure-compiler --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --language_in="$3" >> $2
+    uglifyjs --compress --mangle -- $1 >> $2
 }
 
-if which google-closure-compiler > /dev/null 2>&1; then
+if which uglifyjs > /dev/null 2>&1; then
     :
 else
-    echo "google-closure-compiler not found. Please install e.g. 'npm install -g google-closure-compiler'."
+    echo "uglifyjs not found. Please install e.g. 'npm install -g uglify-js'."
     exit 1
 fi
 
