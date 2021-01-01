@@ -24,9 +24,13 @@ if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" ]]; then composer config platform.php 7.4
 # Install PHP dependencies
 composer install --prefer-dist
 
-# Install Less for Elastic CSS compilation
-npm install --force -g less
-npm install --force -g less-plugin-clean-css
+# Install Less for Elastic CSS compilation, and UglifyJS for JS files minification
+if [ "$BROWSER_TESTS" = 1 ]
+then
+    npm install --force -g less
+    npm install --force -g less-plugin-clean-css
+    npm install --force -g uglify-js
+fi
 
 # Roundcube tests and instance configuration
 cp .ci/config-test.inc.php config/config-test.inc.php
