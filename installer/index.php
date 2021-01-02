@@ -166,7 +166,7 @@ include $include_steps[$RCI->step];
 </div>
 
 <div id="footer">
-  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2020 – Published under the GNU Public License;&nbsp;
+  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2021 – Published under the GNU Public License;&nbsp;
   Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>
