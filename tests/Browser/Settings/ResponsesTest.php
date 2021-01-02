@@ -43,7 +43,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
     /**
      * Test response creation
      *
-     * @group failsontravis
+     * @group failsontravis-phone
      */
     public function testResponseCreate()
     {
@@ -121,7 +121,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response deletion
      *
      * @depends testResponseCreate
-     * @group failsontravis
+     * @group failsontravis-phone
      */
     public function testResponseDelete()
     {
@@ -156,7 +156,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test responses in mail composer
      *
      * @depends testResponseDelete
-     * @group failsontravis
+     * @group failsontravis-phone
      */
     public function testResponsesInComposer()
     {
@@ -207,7 +207,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response update
      *
      * @depends testResponsesInComposer
-     * @group failsontravis
+     * @group failsontravis-phone
      */
     public function testResponseUpdate()
     {

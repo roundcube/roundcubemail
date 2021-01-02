@@ -68,7 +68,7 @@ class FoldersTest extends \Tests\Browser\TestCase
     /**
      * Test folder creation
      *
-     * @group failsontravis
+     * @group failsontravis-phone
      */
     public function testFolderCreate()
     {

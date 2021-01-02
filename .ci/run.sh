@@ -25,7 +25,7 @@ then
     && echo "TESTS_MODE: DESKTOP" \
     && TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsontravis \
     && echo "TESTS_MODE: PHONE" \
-    && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsontravis \
+    && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsontravis-phone \
     && echo "TESTS_MODE: TABLET" \
-    && TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsontravis
+    && TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsontravis-tablet
 fi
