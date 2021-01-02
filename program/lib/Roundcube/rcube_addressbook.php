@@ -121,14 +121,36 @@ abstract class rcube_addressbook
     /**
      * Search records
      *
-     * @param string|string[] $fields   List of fields to search in
-     * @param string|string[] $value    Search value
+     * Depending on the given parameters the search() function operates in different modes (in the order listed):
+     *
+     * Mode "Direct ID search" - when $fields is either 'ID' or $this->primary_key
+     *       $values is either: a string of contact IDs separated by self::SEPARATOR (,)
+     *                          an array of contact IDs
+     *       - Any contact with one of the given IDs is returned
+     *
+     * Mode "Advanced search" - when $value is an array
+     *       - Each value in $values is the search value for the field in $fields at the same index
+     *       - All fields must match their value to be included in the result ("AND" semantics)
+     *
+     * Mode "Search all fields" - when $fields is '*' (note: $value is a single string)
+     *       - Any field must match the value to be included in the result ("OR" semantics)
+     *
+     * Mode "Search given fields" - if none of the above matches
+     *       - Any of the given fields must match the value to be included in the result ("OR" semantics)
+     *
+     * All matching is done case insensitive.
+     *
+     * The search settings are remembered until reset using the reset() function. They can be retrieved using
+     * get_search_set(). The remembered search settings must be considered by list_records() and count().
+     *
+     * @param string|string[] $fields   The field name or array of field names to search in
+     * @param string|string[] $value    Search value (or array of values when $fields is array)
      * @param int             $mode     Search mode. Sum of self::SEARCH_*.
      * @param bool            $select   True if results are requested, False if count only
      * @param bool            $nocount  True to skip the count query (select only)
      * @param string|string[] $required List of fields that cannot be empty
      *
-     * @return object rcube_result_set List of contact records and 'count' value
+     * @return rcube_result_set List of contact records and 'count' value
      */
     abstract function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
 
