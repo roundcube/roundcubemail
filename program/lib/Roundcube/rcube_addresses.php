@@ -143,7 +143,7 @@ class rcube_addresses extends rcube_contacts
      * @param bool  $nocount  True to skip the count query (select only)
      * @param array $required List of fields that cannot be empty
      *
-     * @return object rcube_result_set Contact records and 'count' value
+     * @return rcube_result_set Contact records and 'count' value
      */
     public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
