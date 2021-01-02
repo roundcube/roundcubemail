@@ -123,9 +123,9 @@ abstract class rcube_addressbook
      *
      * @param string|string[] $fields   List of fields to search in
      * @param string|string[] $value    Search value
-     * @param int    $mode    Search mode. Sum of self::SEARCH_*.
-     * @param bool   $select  True if results are requested, False if count only
-     * @param bool   $nocount True to skip the count query (select only)
+     * @param int             $mode     Search mode. Sum of self::SEARCH_*.
+     * @param bool            $select   True if results are requested, False if count only
+     * @param bool            $nocount  True to skip the count query (select only)
      * @param string|string[] $required List of fields that cannot be empty
      *
      * @return object rcube_result_set List of contact records and 'count' value
