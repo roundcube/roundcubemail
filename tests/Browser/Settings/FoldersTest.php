@@ -67,6 +67,8 @@ class FoldersTest extends \Tests\Browser\TestCase
 
     /**
      * Test folder creation
+     *
+     * @group failsontravis
      */
     public function testFolderCreate()
     {
@@ -107,11 +109,6 @@ class FoldersTest extends \Tests\Browser\TestCase
             });
 
             if ($browser->isPhone()) {
-                // FIXME: The next assertion fails in Travis environment
-                if (getenv('TRAVIS') === 'true') {
-                    $this->markTestSkipped();
-                }
-
                 $browser->assertVisible('#layout-content .header a.back-list-button')
                     ->assertVisible('#layout-content .footer .buttons a.button.submit')
                     ->click('#layout-content .footer .buttons a.button.submit')

@@ -42,6 +42,8 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
     /**
      * Test response creation
+     *
+     * @group failsontravis
      */
     public function testResponseCreate()
     {
@@ -76,11 +78,6 @@ class ResponsesTest extends \Tests\Browser\TestCase
             });
 
             if ($browser->isPhone()) {
-                // FIXME: The next assertion fails in Travis environment
-                if (getenv('TRAVIS') === 'true') {
-                    // $this->markTestSkipped();
-                }
-
                 $browser->assertVisible('#layout-content .header a.back-list-button')
                     ->waitFor('#layout-content .footer .buttons')
                     ->click('#layout-content .footer .buttons a.button.submit');
@@ -124,6 +121,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response deletion
      *
      * @depends testResponseCreate
+     * @group failsontravis
      */
     public function testResponseDelete()
     {
@@ -158,6 +156,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test responses in mail composer
      *
      * @depends testResponseDelete
+     * @group failsontravis
      */
     public function testResponsesInComposer()
     {
@@ -195,11 +194,6 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->click('#responseslist li:nth-child(1) a.insertresponse')
                 ->waitUntilMissing('#responses-menu');
 
-            // FIXME: The next assertion fails in Travis environment
-            if ($browser->isPhone() && getenv('TRAVIS') === 'true') {
-                // $this->markTestSkipped();
-            }
-
             $browser->waitUntilMissing('.popover-overlay')
                 ->assertValue('#composebody', 'Body and Response 1')
                 ->waitForMessage('confirmation', 'Response inserted successfully.')
@@ -213,6 +207,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response update
      *
      * @depends testResponsesInComposer
+     * @group failsontravis
      */
     public function testResponseUpdate()
     {
