@@ -35,11 +35,11 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * cpanel_webmail driver test
+     * cpanel driver test
      */
-    function test_driver_cpanel_webmail()
+    function test_driver_cpanel()
     {
-        $driver_class = $this->load_driver('cpanel_webmail');
+        $driver_class = $this->load_driver('cpanel');
 
         $error_result = $driver_class::decode_response(false);
         $this->assertEquals($error_result, PASSWORD_CONNECT_ERROR);
