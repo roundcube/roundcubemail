@@ -175,7 +175,7 @@ input.smart-upload {
             flex-wrap: nowrap;
 
             & > *:first-child {
-                .overflow-ellipsis;
+                .overflow-ellipsis();
                 min-width: 8rem;
 
                 &:not(select) {
@@ -774,7 +774,7 @@ html.ms .propform {
         border: 1px solid @color-input-border;
 
         &.focused {
-            .style-input-focus;
+            .style-input-focus();
         }
 
         // TODO: style button focus
@@ -933,7 +933,7 @@ html.ms .propform {
     height: auto; // reset .form-control height
 
     &.focus {
-        .style-input-focus;
+        .style-input-focus();
     }
 
     .recipient {
@@ -956,7 +956,7 @@ html.ms .propform {
     }
 
     .name {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         flex-grow: 1;
         line-height: 1.1;
         padding: floor(.25 * @page-font-size);
@@ -1030,7 +1030,7 @@ html.ms .propform {
     }
 
     &[tabindex="-1"] {
-        .style-input-focus;
+        .style-input-focus();
     }
 
     li.tagedit-listelement-new {
@@ -1078,7 +1078,7 @@ html.ms .propform {
         }
 
         span {
-            .overflow-ellipsis;
+            .overflow-ellipsis();
             flex-grow: 1;
             display: inline-block;
             line-height: 1.4;
@@ -1377,7 +1377,7 @@ html.ms .propform {
 
     .custom-file-label {
         white-space: nowrap;
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         padding-right: 100px;
         line-height: 1.5 !important;
     }
