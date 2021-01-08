@@ -26,6 +26,7 @@
  */
 class rcube_db
 {
+	/** @var string Database implementation (mysql, postgres, etc.) */
     public $db_provider;
 
     protected $db_dsnw;               // DSN for write operations
