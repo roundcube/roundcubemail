@@ -51,52 +51,52 @@ abstract class rcube_addressbook
     /** @var string Name of the primary key field of this addressbook. Used to search for previously retrieved IDs. */
     public $primary_key;
 
-    /** @var bool   True if the addressbook supports contact groups. */
-    public $groups        = false;
+    /** @var bool True if the addressbook supports contact groups. */
+    public $groups = false;
 
     /**
-     * @var bool    True if the addressbook supports exporting contact groups. Requires the implementation of
+     * @var bool True if the addressbook supports exporting contact groups. Requires the implementation of
      *              get_record_groups().
      */
     public $export_groups = true;
 
-    /** @var bool   True if the addressbook is read-only. */
-    public $readonly      = true;
+    /** @var bool True if the addressbook is read-only. */
+    public $readonly = true;
 
     /**
-     * @var bool    True if the addressbook does not support listing all records but needs use of the search function.
+     * @var bool True if the addressbook does not support listing all records but needs use of the search function.
      */
-    public $searchonly    = false;
+    public $searchonly = false;
 
-    /** @var bool   True if the addressbook supports restoring deleted contacts. */
-    public $undelete      = false;
+    /** @var bool True if the addressbook supports restoring deleted contacts. */
+    public $undelete = false;
 
-    /** @var bool   True if the addressbook is ready to be used. See rcmail_action_contacts_index::$CONTACT_COLTYPES */
-    public $ready         = false;
+    /** @var bool True if the addressbook is ready to be used. See rcmail_action_contacts_index::$CONTACT_COLTYPES */
+    public $ready = false;
 
     /**
      * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
-    public $group_id      = null;
+    public $group_id = null;
 
-    /** @var int    The current page of the listing. Numbering starts at 1. */
-    public $list_page     = 1;
+    /** @var int The current page of the listing. Numbering starts at 1. */
+    public $list_page = 1;
 
-    /** @var int    The maximum number of records shown on a page. */
-    public $page_size     = 10;
+    /** @var int The maximum number of records shown on a page. */
+    public $page_size = 10;
 
     /** @var string Contact field by which to order listed records. */
-    public $sort_col      = 'name';
+    public $sort_col = 'name';
 
     /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
-    public $sort_order    = 'ASC';
+    public $sort_order = 'ASC';
 
     /** @var string[] A list of record fields that contain dates. */
-    public $date_cols     = [];
+    public $date_cols = [];
 
     /** @var array Definition of the contact fields supported by the addressbook. */
-    public $coltypes      = [
+    public $coltypes = [
         'name'      => ['limit' => 1],
         'firstname' => ['limit' => 1],
         'surname'   => ['limit' => 1],
