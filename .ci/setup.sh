@@ -18,6 +18,9 @@ lessc --clean-css="--s1 --advanced" skins/elastic/styles/styles.less > skins/ela
 lessc --clean-css="--s1 --advanced" skins/elastic/styles/print.less > skins/elastic/styles/print.min.css
 lessc --clean-css="--s1 --advanced" skins/elastic/styles/embed.less > skins/elastic/styles/embed.min.css
 
+# Use minified javascript files
+bin/jsshrink.sh
+
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION
 

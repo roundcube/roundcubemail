@@ -6,6 +6,13 @@ CHANGELOG Roundcube Webmail
 - Require php-intl
 - Remove use of ext-iconv
 - Remove use of Net_IDNA2 package
+- Require GuzzleHttp\Client
+- Upgrade to TinyMCE 5.5.1
+- Upgrade to jQuery 3.5.1 (#7464)
+- Update build tools (#7800, #7804, #7497):
+    - jsshrink.sh: Replace google-closure-compiler with UglifyJS
+    - cssshrink.sh: Replace yuicompressor with csso
+    - require lessc >= 2.5.2 (and add support for v4) with less-plugin-clean-css for Less files compilation
 - Automatically collected recipients and trusted senders (#6904)
     - Added configurable Collected Recipients addressbook source (#4971)
     - Added configurable Trusted Senders addressbook source (#5046)
@@ -15,9 +22,6 @@ CHANGELOG Roundcube Webmail
 - OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
-- Upgrade to TinyMCE 5.5.1
-- Upgrade to jQuery 3.5.1 (#7464)
-- Use google-closure-compiler and yuicompressor from npm in jsshrink.sh and cssshrink.sh scripts (#7800)
 - Allow array in smtp_host config (#7296)
 - Support proxy for server-side HTTP requests (#7658)
 - By default do not set the User-Agent header (#7731)
@@ -65,6 +69,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
+- Password: Removed old 'cpanel' driver, 'cpanel_webmail' driver renamed to 'cpanel' (#7780)
 - Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
 - Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)

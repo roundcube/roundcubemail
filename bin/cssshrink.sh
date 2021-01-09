@@ -6,13 +6,13 @@ PWD=`dirname "$0"`
 
 do_shrink() {
     rm -f "$2"
-    yuicompressor -v -o "$2" "$1"
+    csso $1 -o $2 --no-restructure
 }
 
-if which yuicompressor > /dev/null 2>&1; then
+if which csso > /dev/null 2>&1; then
     :
 else
-    echo "yuicompressor not found. Please install e.g. 'npm install -g yuicompressor'."
+    echo "csso not found. Please install e.g. 'npm install -g csso-cli'."
     exit 1
 fi
 

@@ -352,33 +352,12 @@ $config['password_vpopmaild_timeout'] = 10;
 
 
 // cPanel Driver options
-// --------------------------
+// ---------------------
 // The cPanel Host name
 $config['password_cpanel_host'] = 'host.domain.com';
 
-// The cPanel admin username
-$config['password_cpanel_username'] = 'username';
-
-// The cPanel admin password
-$config['password_cpanel_password'] = 'password';
-
-// The cPanel admin hash
-// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
-// Hash takes precedence over password auth.
-// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
-$config['password_cpanel_hash'] = '';
-
 // The cPanel port to use
-$config['password_cpanel_port'] = 2087;
-
-
-// cPanel Webmail Driver options
-// -----------------------------
-// The cPanel Host name
-$config['password_cpanel_webmail_host'] = 'host.domain.com';
-
-// The cPanel port to use
-$config['password_cpanel_webmail_port'] = 2096;
+$config['password_cpanel_port'] = 2096;
 
 
 // XIMSS (Communigate server) Driver options

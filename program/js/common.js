@@ -556,7 +556,7 @@ function setCookie(name, value, expires, path, domain, secure)
       (expires ? "; expires=" + expires.toGMTString() : "") +
       (path ? "; path=" + path : "") +
       (domain ? "; domain=" + domain : "") +
-      (secure ? "; secure" : "");
+      (secure ? "; secure" : "") + '; SameSite=Lax';
 
   document.cookie = curCookie;
 };
