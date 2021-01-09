@@ -5141,7 +5141,7 @@ function rcube_webmail()
         });
 
       // remove the placeholder item if its there
-      $('a.insertresponse.placeholder').remove();
+      $(this.gui_objects.responseslist).find('li > a.insertresponse.placeholder').parent().remove();
     }
   };
 
