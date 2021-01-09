@@ -47,20 +47,56 @@ abstract class rcube_addressbook
     const TYPE_READONLY       = 16;
 
     // public properties (mandatory)
+
+    /** @var string Name of the primary key field of this addressbook. Used to search for previously retrieved IDs. */
     public $primary_key;
-    public $groups        = false;
+
+    /** @var bool True if the addressbook supports contact groups. */
+    public $groups = false;
+
+    /**
+     * @var bool True if the addressbook supports exporting contact groups. Requires the implementation of
+     *              get_record_groups().
+     */
     public $export_groups = true;
-    public $readonly      = true;
-    public $searchonly    = false;
-    public $undelete      = false;
-    public $ready         = false;
-    public $group_id      = null;
-    public $list_page     = 1;
-    public $page_size     = 10;
-    public $sort_col      = 'name';
-    public $sort_order    = 'ASC';
-    public $date_cols     = [];
-    public $coltypes      = [
+
+    /** @var bool True if the addressbook is read-only. */
+    public $readonly = true;
+
+    /**
+     * @var bool True if the addressbook does not support listing all records but needs use of the search function.
+     */
+    public $searchonly = false;
+
+    /** @var bool True if the addressbook supports restoring deleted contacts. */
+    public $undelete = false;
+
+    /** @var bool True if the addressbook is ready to be used. See rcmail_action_contacts_index::$CONTACT_COLTYPES */
+    public $ready = false;
+
+    /**
+     * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
+     *                      contact searches will be limited to contacts that belong to this group.
+     */
+    public $group_id = null;
+
+    /** @var int The current page of the listing. Numbering starts at 1. */
+    public $list_page = 1;
+
+    /** @var int The maximum number of records shown on a page. */
+    public $page_size = 10;
+
+    /** @var string Contact field by which to order listed records. */
+    public $sort_col = 'name';
+
+    /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
+    public $sort_order = 'ASC';
+
+    /** @var string[] A list of record fields that contain dates. */
+    public $date_cols = [];
+
+    /** @var array Definition of the contact fields supported by the addressbook. */
+    public $coltypes = [
         'name'      => ['limit' => 1],
         'firstname' => ['limit' => 1],
         'surname'   => ['limit' => 1],
@@ -68,7 +104,7 @@ abstract class rcube_addressbook
     ];
 
     /**
-     * vCard additional fields mapping
+     * @var string[] vCard additional fields mapping
      */
     public $vcard_map = [];
 
@@ -76,6 +112,7 @@ abstract class rcube_addressbook
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
+     * @return string
      */
     abstract function get_name();
 
@@ -83,11 +120,14 @@ abstract class rcube_addressbook
      * Save a search string for future listings
      *
      * @param mixed $filter Search params to use in listing method, obtained by get_search_set()
+     * @return void
      */
     abstract function set_search_set($filter);
 
     /**
-     * Getter for saved search properties
+     * Getter for saved search properties.
+     *
+     * The filter representation is opaque to roundcube, but can be set again using set_search_set().
      *
      * @return mixed Search properties used by this class
      */
@@ -95,6 +135,7 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
+     * @return void
      */
     abstract function reset();
 
@@ -121,14 +162,36 @@ abstract class rcube_addressbook
     /**
      * Search records
      *
-     * @param array  $fields   List of fields to search in
-     * @param string $value    Search value
-     * @param int    $mode     Search mode. Sum of self::SEARCH_*.
-     * @param bool   $select   True if results are requested, False if count only
-     * @param bool   $nocount  True to skip the count query (select only)
-     * @param array  $required List of fields that cannot be empty
+     * Depending on the given parameters the search() function operates in different ways (in the order listed):
      *
-     * @return object rcube_result_set List of contact records and 'count' value
+     * "Direct ID search" - when $fields is either 'ID' or $this->primary_key
+     *     - $values is either a string of contact IDs separated by self::SEPARATOR (,) or an array of contact IDs
+     *     - Any contact with one of the given IDs is returned
+     *
+     * "Advanced search" - when $value is an array
+     *     - Each value in $values is the search value for the field in $fields at the same index
+     *     - All fields must match their value to be included in the result ("AND" semantics)
+     *
+     * "Search all fields" - when $fields is '*' (note: $value is a single string)
+     *     - Any field must match the value to be included in the result ("OR" semantics)
+     *
+     * "Search given fields" - if none of the above matches
+     *     - Any of the given fields must match the value to be included in the result ("OR" semantics)
+     *
+     * All matching is done case insensitive. The matching supports exact match, prefix match or infix match as
+	 * determined by the $mode parameter.
+     *
+     * The search settings are remembered until reset using the reset() function. They can be retrieved using
+     * get_search_set(). The remembered search settings must be considered by list_records() and count().
+     *
+     * @param string|string[] $fields   The field name or array of field names to search in
+     * @param string|string[] $value    Search value (or array of values when $fields is array)
+     * @param int             $mode     Search mode. Sum of self::SEARCH_*.
+     * @param bool            $select   True if results are requested, False if count only
+     * @param bool            $nocount  True to skip the count query (select only)
+     * @param string|string[] $required List of fields that cannot be empty
+     *
+     * @return rcube_result_set List of contact records and 'count' value
      */
     abstract function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
 
