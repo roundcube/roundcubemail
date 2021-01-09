@@ -26,6 +26,7 @@
  */
 class rcube_db
 {
+	/** @var string Database implementation (mysql, postgres, etc.) */
     public $db_provider;
 
     protected $db_dsnw;               // DSN for write operations
@@ -386,7 +387,7 @@ class rcube_db
      * @param string SQL query to execute
      * @param mixed  Values to be inserted in query
      *
-     * @return PDOStatement|bool  Query handle or False on error
+     * @return PDOStatement|false  Query handle or False on error
      */
     public function query()
     {
@@ -409,7 +410,7 @@ class rcube_db
      * @param int    Number of rows for LIMIT statement
      * @param mixed  Values to be inserted in query
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return PDOStatement|false Query handle or False on error
      */
     public function limitquery()
     {
@@ -429,7 +430,7 @@ class rcube_db
      * @param int    $numrows Number of rows for LIMIT statement
      * @param array  $params  Values to be inserted in query
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return PDOStatement|false Query handle or False on error
      */
     protected function _query($query, $offset, $numrows, $params)
     {
