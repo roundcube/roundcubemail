@@ -362,9 +362,6 @@ function rcube_webmail()
             'insert-response', 'save-response', 'menu-open', 'menu-close', 'load-attachment',
             'download-attachment', 'open-attachment', 'rename-attachment'];
 
-          if (Object.keys(this.env.textresponses).length > 0)
-            this.env.compose_commands.push('edit-responses');
-
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
 
@@ -3891,7 +3888,6 @@ function rcube_webmail()
 
       // re-enable commands that operate on the compose body
       ref.enable_command('toggle-editor', 'insert-response', 'save-response', true);
-      ref.enable_command('edit-responses', Object.keys(this.env.textresponses).length > 0);
       ref.enable_command('spellcheck', !!window.googie);
       ref.enable_command('insert-sig', !!(ref.env.signatures && ref.env.identity && ref.env.signatures[ref.env.identity]));
 
@@ -3926,7 +3922,7 @@ function rcube_webmail()
         $('#' + ref.env.composebody).hide();
 
         // disable commands that operate on the compose body
-        ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', 'edit-responses', false);
+        ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
         ref.triggerEvent('compose-encrypted', { active:true });
 
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
@@ -5120,7 +5116,6 @@ function rcube_webmail()
   {
     var key = response.key;
     this.env.textresponses[key] = response;
-    this.enable_command('edit-responses', true);
 
     // append to responses list
     if (this.gui_objects.responseslist) {
@@ -5148,8 +5143,6 @@ function rcube_webmail()
   this.edit_responses = function()
   {
     // TODO: implement inline editing of responses
-    // for now redirect to responses setting screen
-    this.command('switch-task', 'settings/responses');
   };
 
   this.delete_response = function(key)
