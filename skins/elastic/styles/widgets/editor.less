@@ -51,7 +51,7 @@
         border: 0;
 
         & :not(.mce-ico) {
-            .font-family;
+            .font-family();
         }
     }
 
@@ -155,7 +155,7 @@
         }
 
         .mce-btn {
-            .btn-secondary;
+            .btn-secondary();
             border-radius: .3rem;
             border-color: transparent;
 
@@ -166,7 +166,7 @@
             }
 
             &.mce-primary {
-                .btn-primary;
+                .btn-primary();
             }
 
             button:hover,
@@ -674,7 +674,7 @@ div.mce-menubtn.mce-opened {
 
             .mce-text {
                 font-size: 1.2rem;
-                .font-family;
+                .font-family();
                 line-height: @layout-touch-menu-record-height;
                 color: @color-font;
             }
@@ -689,7 +689,7 @@ div.mce-menubtn.mce-opened {
                     position: relative;
 
                     &:after {
-                        .font-icon-class; // :extend() does not work here
+                        .font-icon-class(); // :extend() does not work here
                         content: @fa-var-check;
                         position: absolute;
                         right: .5rem;
@@ -703,7 +703,7 @@ div.mce-menubtn.mce-opened {
                 position: relative;
 
                 &:after {
-                    .font-icon-class; // :extend() does not work here
+                    .font-icon-class(); // :extend() does not work here
                     content: @fa-var-angle-right;
                     position: absolute;
                     right: .5rem;
@@ -775,7 +775,7 @@ html.touch .mce-grid td {
     }
 
     button {
-        .btn-secondary;
+        .btn-secondary();
         padding: .5rem .75rem;
         line-height: 1.5;
         position: relative;
@@ -813,7 +813,7 @@ html.touch .mce-grid td {
                 flex: 1;
                 margin: auto;
                 padding-left: 1rem;
-                .overflow-ellipsis;
+                .overflow-ellipsis();
             }
 
             span.img {
