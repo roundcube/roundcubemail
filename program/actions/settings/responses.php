@@ -80,7 +80,7 @@ class rcmail_action_settings_responses extends rcmail_action
         $attrib += ['id' => 'rcmresponseslist', 'tagname' => 'table'];
 
         $plugin = $rcmail->plugins->exec_hook('responses_list', [
-               'list'  => $rcmail->get_compose_responses(true),
+                'list' => $rcmail->get_compose_responses(true),
                 'cols' => ['name']
         ]);
 
