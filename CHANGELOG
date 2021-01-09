@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Display an nice error informing about no PHP8 support
+- Elastic: Fix compatibility with Less v3 and v4 (#7813)
 
 RELEASE 1.4.10
 --------------
