@@ -1545,10 +1545,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // add placeholder text when there are no responses available
         if (!empty($attrib['list-placeholder']) && $list->size() == 0) {
             $list->add([], html::a([
-                    'href'         => '#',
-                    'class'        => rtrim('insertresponse placeholder disabled'),
-                    'unselectable' => 'on',
-                    'tabindex'     => '0',
+                    'href'          => '#',
+                    'class'         => rtrim('insertresponse placeholder disabled'),
+                    'unselectable'  => 'on',
+                    'tabindex'      => '0',
+                    'aria-disabled' => 'true',
                 ],
                 rcube::Q($rcmail->gettext($attrib['list-placeholder']))
             ));
