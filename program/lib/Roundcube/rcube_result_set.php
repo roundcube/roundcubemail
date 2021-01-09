@@ -29,7 +29,7 @@
 class rcube_result_set implements Iterator, ArrayAccess
 {
     /**
-     * @var int The number of total records. Note that when only a subset of records of records is requested,
+     * @var int The number of total records. Note that when only a subset of records is requested,
      *          this number may be higher than the number of data records in this result set.
      */
     public $count = 0;
