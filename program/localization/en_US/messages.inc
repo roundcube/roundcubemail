@@ -26,6 +26,7 @@ $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['accountlocked'] = 'Too many failed login attempts. Try again later.';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['dbconnerror'] = 'Unable to connect to the database!';
 $messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
