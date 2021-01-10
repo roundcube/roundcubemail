@@ -608,8 +608,12 @@ EOF;
      */
     public function redirect($p = [], $delay = 1, $secure = false)
     {
-        if (!empty($this->env['extwin'])) {
-            $p['extwin'] = 1;
+        if (!empty($this->env['extwin']) && !(is_string($p) && preg_match('#^https?://#', $p))) {
+            if (!is_array($p)) {
+                $p = ['_action' => $p];
+            }
+
+            $p['_extwin'] = 1;
         }
 
         $location = $this->app->url($p, false, false, $secure);

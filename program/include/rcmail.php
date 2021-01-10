@@ -1032,7 +1032,7 @@ class rcmail extends rcube
     public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
-            if (strpos($p, 'http') === 0) {
+            if (preg_match('#^https?://#', $p)) {
                 return $p;
             }
 
