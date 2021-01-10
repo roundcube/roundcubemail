@@ -51,9 +51,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
         // Parse input
-        list($subject, $srch) = self::search_input($str, $headers, $scope, $mbox);
-
-        $search = isset($srch) ? trim($srch) : trim($str);
+        list($subject, $search) = self::search_input($str, $headers, $scope, $mbox);
 
         // add list filter string
         $search_str = $filter && $filter != 'ALL' ? $filter : '';
@@ -213,11 +211,22 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         return $search . ' ' . $date->format('j-M-Y');
     }
 
+    /**
+     * Parse search input.
+     *
+     * @param string $str     Search string
+     * @param string $headers Comma-separated list of headers/fields to search in
+     * @param string $scope   Search scope (all | base | sub)
+     * @param string $mbox    Folder name
+     *
+     * @return array Search criteria (1st element) and search value (2nd element)
+     */
     public static function search_input($str, $headers, $scope, $mbox)
     {
-        $rcmail  = rcmail::get_instance();
-        $subject = [];
-        $srch    = null;
+        $rcmail    = rcmail::get_instance();
+        $subject   = [];
+        $srch      = null;
+        $supported = ['subject', 'from', 'to', 'cc', 'bcc'];
 
         // Check the search string for type of search
         if (preg_match("/^from:.*/i", $str)) {
@@ -247,22 +256,30 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         else if (strlen(trim($str))) {
             if ($headers) {
                 foreach (explode(',', $headers) as $header) {
-                    if ($header == 'text') {
+                    switch ($header) {
+                    case 'text':
                         // #1488208: get rid of other headers when searching by "TEXT"
                         $subject = ['text' => 'TEXT'];
+                        break 2;
+                    case 'body':
+                        $subject['body'] = 'BODY';
                         break;
-                    }
-                    else {
-                        $subject[$header] = ($header != 'body' ? 'HEADER ' : '') . strtoupper($header);
+                    default:
+                        if (in_array_nocase($header, $supported)) {
+                            $subject[$header] = 'HEADER ' . strtoupper($header);
+                        }
                     }
                 }
 
                 // save search modifiers for the current folder to user prefs
-                $mkey               = $scope == 'all' ? '*' : $mbox;
-                $search_mods        = self::search_mods();
-                $search_mods[$mkey] = array_fill_keys(array_keys($subject), 1);
+                $mkey              = $scope == 'all' ? '*' : $mbox;
+                $search_mods       = self::search_mods();
+                $search_mods_value = array_fill_keys(array_keys($subject), 1);
 
-                $rcmail->user->save_prefs(['search_mods' => $search_mods]);
+                if (!isset($search_mods[$mkey]) || $search_mods[$mkey] != $search_mods_value) {
+                    $search_mods[$mkey] = $search_mods_value;
+                    $rcmail->user->save_prefs(['search_mods' => $search_mods]);
+                }
             }
             else {
                 // search in subject by default
@@ -270,6 +287,6 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             }
         }
 
-        return [$subject, $srch];
+        return [$subject, isset($srch) ? trim($srch) : trim($str)];
     }
 }
