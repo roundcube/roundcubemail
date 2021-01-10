@@ -215,12 +215,6 @@ function rcube_webmail()
     var n;
     this.task = this.env.task;
 
-    // check browser capabilities (never use version checks here)
-    if (this.env.server_error != 409 && (!bw.dom || !bw.xmlhttp_test())) {
-      this.goto_url('error', '_code=0x199');
-      return;
-    }
-
     if (!this.env.blankpage)
       this.env.blankpage = 'about:blank';
 

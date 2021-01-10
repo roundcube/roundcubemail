@@ -33,8 +33,8 @@ class rcmail_action_utils_error extends rcmail_action
 
         // authorization error
         if ($ERROR_CODE == 401) {
-            $__error_title = mb_strtoupper($rcmail->gettext('errauthorizationfailed'));
-            $__error_text  = nl2br($rcmail->gettext('errunauthorizedexplain')
+            $error_title = $rcmail->gettext('errauthorizationfailed');
+            $error_text  = nl2br($rcmail->gettext('errunauthorizedexplain')
                 . "\n" . $rcmail->gettext('errcontactserveradmin'));
         }
         // forbidden due to request check
@@ -47,67 +47,60 @@ class rcmail_action_utils_error extends rcmail_action
                 $add = $rcmail->gettext('errcontactserveradmin');
             }
 
-            $__error_title = mb_strtoupper($rcmail->gettext('errrequestcheckfailed'));
-            $__error_text  = nl2br($rcmail->gettext('errcsrfprotectionexplain')) . '<p>' . $add . '</p>';
+            $error_title = $rcmail->gettext('errrequestcheckfailed');
+            $error_text  = nl2br($rcmail->gettext('errcsrfprotectionexplain')) . '<p>' . $add . '</p>';
         }
         // failed request (wrong step in URL)
         else if ($ERROR_CODE == 404) {
-            $request_url   = htmlentities($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-            $__error_title = mb_strtoupper($rcmail->gettext('errnotfound'));
-            $__error_text  = nl2br($rcmail->gettext('errnotfoundexplain')
+            $request_url = htmlentities($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+            $error_title = $rcmail->gettext('errnotfound');
+            $error_text  = nl2br($rcmail->gettext('errnotfoundexplain')
                 . "\n" . $rcmail->gettext('errcontactserveradmin'));
 
-            $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
-        }
-        // browser is not compatible with this application
-        else if ($ERROR_CODE == 409) {
-            $user_agent    = htmlentities($_SERVER['HTTP_USER_AGENT']);
-            $__error_title = 'Your browser does not suit the requirements for this application';
-            $__error_text  = "Required features: <i>JavaScript enabled</i> and <i>XMLHTTPRequest support</i>."
-                . "<p><i>Your configuration:</i><br>$user_agent</p>";
+            $error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
         }
         // Gone, e.g. message cached but not in the storage
         else if ($ERROR_CODE == 410) {
-            $__error_title = 'INTERNAL ERROR';
-            $__error_text  = $rcmail->gettext('messageopenerror');
+            $error_title = $rcmail->gettext('servererror');
+            $error_text  = $rcmail->gettext('messageopenerror');
         }
         // invalid compose ID
         else if ($ERROR_CODE == 450 && $_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->action == 'compose') {
             $url = $rcmail->url('compose');
 
-            $__error_title = mb_strtoupper($rcmail->gettext('errcomposesession'));
-            $__error_text  = nl2br($rcmail->gettext('errcomposesessionexplain'))
+            $error_title = $rcmail->gettext('errcomposesession');
+            $error_text  = nl2br($rcmail->gettext('errcomposesessionexplain'))
                 . '<p>' . html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
         }
         // database connection error
         else if ($ERROR_CODE == 601) {
-            $__error_title = "CONFIGURATION ERROR";
-            $__error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
+            $error_title = "Configuration error";
+            $error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
         }
         // database connection error
         else if ($ERROR_CODE == 603) {
-            $__error_title = "DATABASE ERROR: CONNECTION FAILED!";
-            $__error_text  =  "Unable to connect to the database!<br />Please contact your server-administrator.";
+            $error_title = $rcmail->gettext('dberror');
+            $error_text  = nl2br($rcmail->gettext('dbconnerror') . "\n" . $rcmail->gettext('errcontactserveradmin'));
         }
         // system error
         else {
-            $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
-            $__error_text  = sprintf('Error No. [%s]', $ERROR_CODE);
+            $error_title = $rcmail->gettext('servererror');
+            $error_text  = sprintf('Error No. [%s]', $ERROR_CODE);
         }
 
         // inform plugins
         if ($rcmail->plugins) {
             $plugin = $rcmail->plugins->exec_hook('error_page', [
                     'code'  => $ERROR_CODE,
-                    'title' => $__error_title,
-                    'text'  => $__error_text,
+                    'title' => $error_title,
+                    'text'  => $error_text,
             ]);
 
             if (!empty($plugin['title'])) {
-                $__error_title = $plugin['title'];
+                $error_title = $plugin['title'];
             }
             if (!empty($plugin['text'])) {
-                $__error_text = $plugin['text'];
+                $error_text = $plugin['text'];
             }
         }
 
@@ -115,18 +108,17 @@ class rcmail_action_utils_error extends rcmail_action
 
         // Ajax request
         if ($rcmail->output && $rcmail->output->type == 'js') {
-            header("HTTP/1.0 $HTTP_ERR_CODE $__error_title");
-            die;
+            $rcmail->output->sendExit('', ["HTTP/1.0 $HTTP_ERR_CODE $error_title"]);
         }
 
         // compose page content
-        $__page_content = '<div class="boxerror">'
-            .'<h3 class="error-title">' . $__error_title . '</h3>'
-            .'<div class="error-text">' . $__error_text . '</div>'
+        $page_content = '<div class="boxerror">'
+            .'<h3 class="error-title">' . mb_strtoupper($error_title) . '</h3>'
+            .'<div class="error-text">' . $error_text . '</div>'
             .'</div>';
 
         if ($rcmail->output && $rcmail->output->template_exists('error')) {
-            $GLOBALS['__page_content'] = $__page_content;
+            $GLOBALS['__page_content'] = $page_content;
 
             $task = empty($rcmail->user) || empty($rcmail->user->ID) ? '-login' : '';
 
@@ -137,19 +129,18 @@ class rcmail_action_utils_error extends rcmail_action
             $rcmail->output->send('error');
         }
 
-        $__skin    = $rcmail->config->get('skin', 'default');
-        $__product = $rcmail->config->get('product_name', 'Roundcube Webmail');
+        $skin    = $rcmail->config->get('skin', 'default');
+        $product = $rcmail->config->get('product_name', 'Roundcube Webmail');
 
-        // print system error page
-        echo '<!doctype html><html><head>'
-            . '<title>' . $__product . ':: ERROR</title>'
-            . '<link rel="stylesheet" type="text/css" href="skins/$__skin/common.css" />'
+        $output = '<!doctype html><html><head>'
+            . '<title>' . $product . ':: ERROR</title>'
+            . '<link rel="stylesheet" type="text/css" href="skins/$skin/common.css" />'
             . '</head><body>'
             . '<table border="0" cellsapcing="0" cellpadding="0" width="100%" height="80%">'
-            . '<tr><td align="center">' . $__page_content . '</td></tr>'
+            . '<tr><td align="center">' . $page_content . '</td></tr>'
             . '</table>'
             . '</body></html>';
 
-        exit;
+        $rcmail->output->sendExit($output);
     }
 }

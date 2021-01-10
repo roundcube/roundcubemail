@@ -182,7 +182,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     /**
      * Call the action's run() method and handle exit exception
      */
-    protected function runAndAssert($action, $expected_code)
+    protected function runAndAssert($action, $expected_code, $args = [])
     {
         // Reset output in case we execute the method multiple times in a single test
         $rcmail = rcmail::get_instance();
@@ -193,7 +193,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         try {
             StderrMock::start();
-            $action->run();
+            $action->run($args);
             StderrMock::stop();
         }
         catch (ExitException $e) {
