@@ -27,8 +27,8 @@ class Actions_Settings_Identities extends ActionTestCase
         $this->assertSame('identities', $output->template);
         $this->assertSame('Identities', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
-        $this->assertTrue(strpos($result, "list.js") !== false);
         $this->assertTrue(strpos($result, "test@example.org") !== false);
+        $this->assertRegExp('/list(.min)?.js/', $result);
     }
 
     /**
