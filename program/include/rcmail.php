@@ -135,8 +135,11 @@ class rcmail extends rcube
             }
         }
 
-        // init output class (not in CLI mode)
-        if (!empty($_REQUEST['_remote'])) {
+        // init output class
+        if (php_sapi_name() == 'cli') {
+            $this->output = new rcmail_output_cli();
+        }
+        else if (!empty($_REQUEST['_remote'])) {
             $this->json_init();
         }
         else if (!empty($_SERVER['REMOTE_ADDR'])) {
