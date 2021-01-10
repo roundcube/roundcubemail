@@ -71,6 +71,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added 'pwned' password strength driver (#7274)
 - Password: Removed old 'cpanel' driver, 'cpanel_webmail' driver renamed to 'cpanel' (#7780)
 - Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
+- Fix mail search error on invalid search_mods definition (#7789)
 - Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
