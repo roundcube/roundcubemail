@@ -32,41 +32,42 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+use GuzzleHttp\Client;
+
 class rcube_miab_password
 {
     public function save($currpass, $newpass, $username)
     {
         $config = rcmail::get_instance()->config;
         $host = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
-        $result = 'Can not initialize curl.';
-        if (is_resource($ch = curl_init($host)))
-        {
-            curl_setopt($ch, CURLOPT_HTTPHEADER,
-                array('Content-Type: application/x-www-form-urlencoded'));
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_USERPWD, ($config->get('password_miab_username') ?: $username)
-                . ':' . ($config->get('password_miab_password') ?: $currpass));
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
-                'email' => $username,
-                'password' => $newpass,
-            )));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            $result = curl_exec($ch);
-            curl_close($ch);
 
-            if (trim($result) === 'OK') {
+        try {
+            $client = new Client();
+
+            $response = $client->post($host, array(
+                'form_params' => array(
+                    'email' => $username,
+                    'password' => $newpass,
+                ),
+                'auth' => array(
+                    $config->get('password_miab_username') ?: $username,
+                    $config->get('password_miab_password') ?: $currpass,
+                ),
+            ));
+
+            if (trim($result = $response->getBody()) === 'OK') {
                 return PASSWORD_SUCCESS;
             }
+        }
+        catch (Exception $e) {
+            $result = $e->getMessage();
         }
 
         rcube::raise_error(array(
                 'code' => 600,
                 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => 'Password plugin: Unable to change password. ' 
+                'message' => 'Password plugin: Unable to change password. '
                      . $result
             ), true, false);
 
