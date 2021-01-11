@@ -32,9 +32,13 @@ class rcube_plugin_api
 {
     static protected $instance;
 
+    /** @var string */
     public $dir;
+    /** @var string */
     public $url = 'plugins/';
+    /** @var string */
     public $task = '';
+    /** @var bool */
     public $initialized = false;
 
     public $output;
