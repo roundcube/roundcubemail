@@ -239,6 +239,31 @@ class rcube_result_index
         $this->meta['count'] = count($data);
         $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
     }
+    
+    /**
+     * Prepend result index to self
+     * 
+     * @param rcube_result_index Result index to append
+     */
+    public function prepend_index($append_index)
+    {
+        $append_data = implode(self::SEPARATOR_ELEMENT, $append_index->get());
+
+        if (empty($append_data))
+            return;  
+        
+        if ($this->meta['count'] === null)
+            $this->count();
+        $old_count = $this->meta['count'];
+        $this->meta = [];
+
+        if (empty($this->raw_data))
+            $this->raw_data = $append_data;
+        else
+            $this->raw_data = $append_data . self::SEPARATOR_ELEMENT . $this->raw_data;
+
+        $this->meta['count'] = $old_count + $append_index->count();
+    }
 
     /**
      * Reverts order of elements in the result

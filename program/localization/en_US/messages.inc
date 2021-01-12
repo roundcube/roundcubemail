@@ -112,6 +112,7 @@ $messages['notuploadedwarning'] = 'Not all attachments have been uploaded yet. P
 $messages['searchsuccessful'] = '$nr messages found.';
 $messages['contactsearchsuccessful'] = '$nr contacts found.';
 $messages['searchnomatch'] = 'Search returned no matches.';
+$messages['searchfinished'] = 'Finished searching.';
 $messages['searching'] = 'Searching...';
 $messages['checking'] = 'Checking...';
 $messages['stillsearching'] = 'Still searching...';

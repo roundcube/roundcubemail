@@ -58,7 +58,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::show_message()
      */
-    function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
+    function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0, $update = false)
     {
         if ($this->app->text_exists($message)) {
             $message = $this->app->gettext(['name' => $message, 'vars' => $vars]);
