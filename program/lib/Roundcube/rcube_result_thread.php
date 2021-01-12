@@ -29,7 +29,7 @@ class rcube_result_thread
 {
     public $incomplete = false;
 
-    protected $raw_data;
+    public $raw_data;
     protected $mailbox;
     protected $meta  = [];
     protected $order = 'ASC';
@@ -245,7 +245,7 @@ class rcube_result_thread
      */
     public function prepend_index($append_index)
     {
-        $append_data = implode(self::SEPARATOR_ELEMENT, $append_index->get());
+        $append_data = $append_index->raw_data;
 
         if (empty($append_data))
             return;  

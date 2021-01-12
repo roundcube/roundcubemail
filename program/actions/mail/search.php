@@ -132,6 +132,9 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         
 
         if ($search_str) {
+            if (!empty($range)) {
+                $rcmail->storage->search_disable_sort();
+            }
             $_SESSION['search'] = $rcmail->storage->get_search_set();
             $_SESSION['last_text_search'] = $str;
         }
@@ -179,7 +182,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         else if (!empty($result) && !empty($result->incomplete)) {
             $rcmail->output->command('continue_search', $search_request);
         }
-        else if (empty($range) || $last_batch && ($count == 0 || $range[0] == 0)) {
+        else if (empty($range) || isset($last_batch) && ($count == 0 || $range[0] == 0)) {
             $rcmail->output->show_message('searchnomatch', 'notice');
             $rcmail->output->set_env('multifolder_listing', isset($result) ? !empty($result->multi) : false);
             

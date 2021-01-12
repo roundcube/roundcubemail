@@ -337,6 +337,7 @@ class rcube_imap extends rcube_storage
      *                   2 - searching character set, string
      *                   3 - sorting field, string
      *                   4 - true if sorted, bool
+     *                   5 - true disables sorting
      */
     public function set_search_set($set)
     {
@@ -351,6 +352,12 @@ class rcube_imap extends rcube_storage
 
         if (is_a($this->search_set, 'rcube_result_multifolder')) {
             $this->set_threading(false);
+        } else if (is_a($this->search_set, 'rcube_result_thread')) {
+            $this->set_threading(true);
+        }
+        
+        if (isset($set[5]) && $set[5] === true) {
+            $this->search_disable_sort();
         }
     }
     
@@ -392,6 +399,7 @@ class rcube_imap extends rcube_storage
             $this->search_charset,
             $this->search_sort_field,
             $this->search_sorted,
+            $this->disable_sort
         ];
     }
 
@@ -1619,7 +1627,7 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_threads($threads)
     {
-        if ($threads->is_empty()) {
+        if ($threads->is_empty() || $this->disable_sort) {
             return;
         }
 
