@@ -297,6 +297,7 @@ class rcmail_oauth
             }
             catch (RequestException $e) {
                 $this->last_error = "OAuth token request failed: " . $e->getMessage();
+                $this->no_redirect = true;
                 $formatter = new MessageFormatter();
 
                 rcube::raise_error([
@@ -310,6 +311,7 @@ class rcmail_oauth
             }
             catch (Exception $e) {
                 $this->last_error = "OAuth token request failed: " . $e->getMessage();
+                $this->no_redirect = true;
 
                 rcube::raise_error([
                         'message' => $this->last_error,
