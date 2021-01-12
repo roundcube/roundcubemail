@@ -181,8 +181,9 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
         else if (empty($range) || $last_batch && ($count == 0 || $range[0] == 0)) {
             $rcmail->output->show_message('searchnomatch', 'notice');
-            $rcmail->output->set_env('multifolder_listing', (bool)$result->multi);
-            if ($result->multi && $scope == 'all') {
+            $rcmail->output->set_env('multifolder_listing', isset($result) ? !empty($result->multi) : false);
+            
+            if (isset($result) && !empty($result->multi) && $scope == 'all') {
                 $rcmail->output->command('select_folder', '');
             }
         } else if (isset($last_batch)) {
