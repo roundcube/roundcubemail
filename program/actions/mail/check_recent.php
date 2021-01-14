@@ -105,7 +105,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 if (!empty($search_request) && isset($_SESSION['search'])) {
                     unset($search_request);  // only do this once
                     $_SESSION['search'] = $rcmail->storage->refresh_search();
-                    if ($_SESSION['search'][1]->multi) {
+                    if (!empty($_SESSION['search'][1]->multi)) {
                         $mbox_name = '';
                     }
                 }

@@ -430,7 +430,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         $delimiter   = $rcmail->storage->get_hierarchy_delimiter();
         $search_set  = $rcmail->storage->get_search_set();
-        $multifolder = $search_set && $search_set[1]->multi;
+        $multifolder = $search_set && !empty($search_set[1]->multi);
 
         // add/remove 'folder' column to the list on multi-folder searches
         if ($multifolder && !in_array('folder', $a_show_cols)) {
