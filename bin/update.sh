@@ -211,11 +211,11 @@ if ($RCI->configured) {
             }
 
             foreach ($composer_template['repositories'] as $repo) {
-                $rkey = $repo['type'] . preg_replace('/^https?:/', '', $repo['url']) . $repo['package']['name'];
+                $rkey = repo_key($repo);
                 $existing = false;
 
                 foreach ($composer_data['repositories'] as $k =>  $_repo) {
-                    if ($rkey == $_repo['type'] . preg_replace('/^https?:/', '', $_repo['url']) . $_repo['package']['name']) {
+                    if ($rkey == repo_key($_repo)) {
                         // switch to https://
                         if (isset($_repo['url']) && strpos($_repo['url'], 'http://') === 0) {
                             $composer_data['repositories'][$k]['url'] = 'https:' . substr($_repo['url'], 5);
@@ -224,11 +224,16 @@ if ($RCI->configured) {
                         $existing = true;
                         break;
                     }
+
                     // remove old repos
-                    if (strpos($_repo['url'], 'git://git.kolab.org') === 0) {
+                    if (isset($_repo['url']) && strpos($_repo['url'], 'git://git.kolab.org') === 0) {
                         unset($composer_data['repositories'][$k]);
                     }
-                    else if ($_repo['type'] == 'package' && $_repo['package']['name'] == 'Net_SMTP') {
+                    else if (
+                        $_repo['type'] == 'package'
+                        && !empty($_repo['package']['name'])
+                        && $_repo['package']['name'] == 'Net_SMTP'
+                    ) {
                         unset($composer_data['repositories'][$k]);
                     }
                 }
@@ -277,4 +282,19 @@ if ($RCI->configured) {
 else {
     echo "This instance of Roundcube is not yet configured!\n";
     echo "Open http://url-to-roundcube/installer/ in your browser and follow the instuctions.\n";
+}
+
+function repo_key($repo)
+{
+    $key = $repo['type'];
+
+    if (!empty($repo['url'])) {
+        $key .= preg_replace('/^https?:/', '', $repo['url']);
+    }
+
+    if (!empty($repo['package']['name'])) {
+        $key .= $repo['package']['name'];
+    }
+
+    return $key;
 }
