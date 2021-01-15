@@ -681,7 +681,9 @@ class rcube_config
         }
 
         // @TODO: remove this legacy timezone handling in the future
-        $props = $this->fix_legacy_props(['timezone' => $_SESSION['timezone']]);
+        if (isset($_SESSION['timezone'])) {
+            $props = $this->fix_legacy_props(['timezone' => $_SESSION['timezone']]);
+        }
 
         if (!empty($props['timezone'])) {
             // Prevent from using deprecated timezone names

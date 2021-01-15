@@ -314,11 +314,12 @@ class rcmail_install
 
         // iterate over the current configuration
         foreach (array_keys($this->config) as $prop) {
-            if ($replacement = $this->replaced_config[$prop]) {
+            if (!empty($this->replaced_config[$prop])) {
+                $replacement = $this->replaced_config[$prop];
                 $out['replaced'][]  = ['prop' => $prop, 'replacement' => $replacement];
                 $seen[$replacement] = true;
             }
-            else if (!$seen[$prop] && in_array($prop, $this->obsolete_config)) {
+            else if (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
                 $out['obsolete'][] = ['prop' => $prop];
                 $seen[$prop]       = true;
             }
@@ -333,7 +334,7 @@ class rcmail_install
         }
 
         // check config dependencies and contradictions
-        if ($this->config['enable_spellcheck'] && $this->config['spellcheck_engine'] == 'pspell') {
+        if (!empty($this->config['enable_spellcheck']) && $this->config['spellcheck_engine'] == 'pspell') {
             if (!extension_loaded('pspell')) {
                 $out['dependencies'][] = [
                     'prop'    => 'spellcheck_engine',

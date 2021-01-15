@@ -1208,7 +1208,7 @@ abstract class rcmail_action
         $storage = $rcmail->get_storage();
 
         $maxlength = intval($attrib['maxlength']);
-        $realnames = (bool)$attrib['realnames'];
+        $realnames = (bool) $attrib['realnames'];
         $msgcounts = $storage->get_cache('messagecount');
         $collapsed = $rcmail->config->get('collapsed_folders');
         $realnames = $rcmail->config->get('show_real_foldernames');
@@ -1218,7 +1218,11 @@ abstract class rcmail_action
             $title        = null;
             $folder_class = self::folder_classname($folder['id']);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
-            $unread       = $msgcounts ? intval($msgcounts[$folder['id']]['UNSEEN']) : 0;
+            $unread       = 0;
+
+            if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
+                $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
+            }
 
             if ($folder_class && !$realnames && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);

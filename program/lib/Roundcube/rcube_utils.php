@@ -1186,7 +1186,11 @@ class rcube_utils
                 else if (in_array($key, $bool)) {
                     $value = true;
                 }
-                else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
+                else if (
+                    isset($_SERVER['argv'][$i + 1])
+                    && strlen($_SERVER['argv'][$i + 1])
+                    && $_SERVER['argv'][$i + 1][0] != '-'
+                ) {
                     $value = $_SERVER['argv'][++$i];
                 }
 
