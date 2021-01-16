@@ -480,6 +480,7 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
 
+
 // Mail-in-a-Box Driver options
 // ----------------------------
 // the url to the control panel of Mail-in-a-Box, e.g. https://box.example.com/admin/
@@ -488,6 +489,7 @@ $config['password_miab_url'] = '';
 $config['password_miab_user'] = '';
 // password of the admin user used to access api
 $config['password_miab_pass'] = '';
+
 
 // TinyCP
 // --------------
@@ -520,3 +522,8 @@ $config['password_httpapi_var_newpass'] = 'newpass';
 // Optionally, if set, this variable additionally checks the body of the 2xx response to
 // confirm the change. It's a preg_match regular expression.
 $config['password_httpapi_expect'] = '/^ok$/i';
+
+
+// dovecot_passwdfile
+// ------------------
+$config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';

@@ -50,6 +50,7 @@
  2.1.24. TinyCP
  2.1.25. Mail-in-a-Box (miab)
  2.1.26. HTTP-API (httpapi)
+ 2.1.27. dovecot_passwdfile
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -397,6 +398,17 @@
  A 2xx response is generally assumed to mean the password changed succeeded.
  Optionally, you can configure a regular expression to check the response as
  well to verify this.
+
+
+ 2.1.27. dovecot_passwdfile
+ --------------------------
+
+ Driver that adds functionality to change the passwords in dovecot 2 passwd-file files
+ regarding https://doc.dovecot.org/configuration_manual/authentication/passwd_file.
+
+ Set 'password_dovecot_passwdfile_path' to your dovecot passwd-file location and
+ 'password_algorithm' (and related options) to the algorithm you want the passwords
+ stored in the file to be using.
 
 
  2.2. Password Strength Drivers
