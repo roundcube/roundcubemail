@@ -485,9 +485,9 @@ $config['password_modoboa_api_token'] = '';
 // the url to the control panel of Mail-in-a-Box, e.g. https://box.example.com/admin/
 $config['password_miab_url'] = '';
 // name (email) of the admin user used to access api
-$config['password_miab_username'] = '';
+$config['password_miab_user'] = '';
 // password of the admin user used to access api
-$config['password_miab_password'] = '';
+$config['password_miab_pass'] = '';
 
 // TinyCP
 // --------------

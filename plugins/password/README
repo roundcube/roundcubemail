@@ -48,6 +48,7 @@
  2.1.22. Modoboa
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
  2.1.24. TinyCP
+ 2.1.25. Mail-in-a-Box (miab)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -372,6 +373,12 @@
  www-data/apache.
  Set the password_tinycp_host, password_tinycp_port, password_tinycp_user, and
  password_tinycp_pass in plugin's config.inc.php file.
+
+
+ 2.1.25 Mail-in-a-Box (miab)
+ ---------------------------
+ Driver to change the password on Mail-in-a-Box servers.
+ See config.inc.php.dist file for configuration description.
 
 
  2.2. Password Strength Drivers

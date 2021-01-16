@@ -48,8 +48,8 @@ class rcube_miab_password
                     'password' => $newpass,
                 ],
                 'auth' => [
-                    $config->get('password_miab_username') ?: $username,
-                    $config->get('password_miab_password') ?: $currpass,
+                    $config->get('password_miab_user') ?: $username,
+                    $config->get('password_miab_pass') ?: $currpass,
                 ],
             ];
 
