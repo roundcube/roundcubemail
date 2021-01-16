@@ -72,6 +72,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added Mail-in-a-Box (miab) driver (#7824)
 - Password: Added TinyCP driver (#7510)
 - Password: Added httpapi driver to connect to generic HTTP/HTTPS APIs (#7439)
+- Password: Added dovecot_passwdfile driver (#5786)
 - Password: Removed old 'cpanel' driver, 'cpanel_webmail' driver renamed to 'cpanel' (#7780)
 - Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
 - Fix mail search error on invalid search_mods definition (#7789)
