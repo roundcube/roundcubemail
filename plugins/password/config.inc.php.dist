@@ -496,3 +496,27 @@ $config['password_tinycp_host'] = '';
 $config['password_tinycp_port'] = '';
 $config['password_tinycp_user'] = '';
 $config['password_tinycp_pass'] = '';
+
+// HTTP-API Driver options
+// ---------------------
+
+// Base URL of password change API. HTTPS recommended.
+$config['password_httpapi_url'] = 'https://passwordserver.example.org';
+
+// Method (also affects how vars are sent). Default: POST.
+// GET is not recommended as passwords will appears in the remote webserver's access log
+$config['password_httpapi_method'] = 'POST';
+
+// GET or POST variable in which to put the username
+$config['password_httpapi_var_user'] = 'user';
+
+// GET or POST variable in which to put the current password
+$config['password_httpapi_var_curpass'] = 'curpass';
+
+// GET or POST variable in which to put the new password
+$config['password_httpapi_var_newpass'] = 'newpass';
+
+// HTTP codes other than 2xx are assumed to mean the password changed failed.
+// Optionally, if set, this variable additionally checks the body of the 2xx response to
+// confirm the change. It's a preg_match regular expression.
+$config['password_httpapi_expect'] = '/^ok$/i';
