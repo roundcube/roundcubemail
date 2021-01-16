@@ -4,16 +4,14 @@
  * Roundcube password driver for generic HTTP APIs.
  *
  * This driver changes the e-mail password via any generic HTTP/HTTPS API.
- * Requires curl PHP module.
  *
- * @author     David Croft
+ * @author David Croft
  *
  * Copyright (C) The Roundcube Dev Team
  *
  * Config variables:
  * $config['password_httpapi_url']         = 'https://passwordserver.example.org'; // required
  * $config['password_httpapi_method']      = 'POST'; // default
- * $config['password_httpapi_ssl_verify']  = true; // default
  * $config['password_httpapi_var_user']    = 'user'; // optional
  * $config['password_httpapi_var_curpass'] = 'curpass'; // optional
  * $config['password_httpapi_var_newpass'] = 'newpass'; // optional
@@ -40,117 +38,102 @@ class rcube_httpapi_password
      *
      * roundcube already validated the old password so we just need to change it at this point
      *
-     * @author David Croft
-     * @param string $curpass Current password
-     * @param string $newpass New password
+     * @param string $curpass  Current password
+     * @param string $newpass  New password
      * @param string $username Login username
-     * @returns int PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
+     *
+     * @return int PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      */
     function save($curpass, $newpass, $username)
     {
-	// Get configuration with defaults
+        $rcmail = rcmail::get_instance();
+        $client = password::get_http_client();
 
-	$rcmail = rcmail::get_instance();
+        // Get configuration with defaults
+        $url         = $rcmail->config->get('password_httpapi_url');
+        $method      = $rcmail->config->get('password_httpapi_method', 'POST');
+        $var_user    = $rcmail->config->get('password_httpapi_var_user');
+        $var_curpass = $rcmail->config->get('password_httpapi_var_curpass');
+        $var_newpass = $rcmail->config->get('password_httpapi_var_newpass');
+        $expect      = $rcmail->config->get('password_httpapi_expect');
 
-	$url = $rcmail->config->get('password_httpapi_url');
-	$method = $rcmail->config->get('password_httpapi_method', 'POST');
-	$ssl_verify = $rcmail->config->get('password_httpapi_ssl_verify', true);
-	$var_user = $rcmail->config->get('password_httpapi_var_user');
-	$var_curpass = $rcmail->config->get('password_httpapi_var_curpass');
-	$var_newpass = $rcmail->config->get('password_httpapi_var_newpass');
-	$expect = $rcmail->config->get('password_httpapi_expect');
+        // Set the variables on the GET query string or POST vars
+        $vars = [];
 
-	// Initialise curl options
+        if ($var_user) {
+            $vars[$var_user] = $username;
+        }
 
-        $curl = curl_init();
+        if ($var_curpass) {
+            $vars[$var_curpass] = $curpass;
+        }
 
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT , 5);
-	if ($ssl_verify) {
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST , 2);
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER , true);
-	} else {
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST , 0);
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER , false);
-	}
+        if ($var_newpass) {
+            $vars[$var_newpass] = $newpass;
+        }
 
-	// Set the variables on the GET query string or POST vars
+        $method = strtoupper($method);
+        $params = [];
 
-	$vars = array();
-	if ($var_user)    $vars[$var_user]    = $username;
-	if ($var_curpass) $vars[$var_curpass] = $curpass;
-	if ($var_newpass) $vars[$var_newpass] = $newpass;
+        if ($method == 'POST') {
+            $params['form_params'] = $vars;
+        }
+        else if ($method == 'GET') {
+            $params['query'] = $vars;
+        }
+        else {
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Invalid httpapi method",
+                ],
+                true, false
+            );
 
-	if ($method == 'POST') {
-	    curl_setopt($curl, CURLOPT_POST, 1);
-	    curl_setopt($curl, CURLOPT_POSTFIELDS, $vars);
-	} elseif ($method == 'GET') {
-	    $query = http_build_query($vars);
-	    if (parse_url($url, PHP_URL_QUERY)) { // Does URL already include a query string?
-		$url .= '&' . $query;
-	    }
-	    else {
-		$url .= '?' . $query;
-	    }
-	} else {
-	    rcube::raise_error(array(
-				     'code' => 600,
-				     'type' => 'php',
-				     'file' => __FILE__, 'line' => __LINE__,
-				     'message' => "Password plugin: Invalid httpapi method"
-				     ), true, false);
+            return PASSWORD_CONNECT_ERROR;
+        }
 
-	    return PASSWORD_CONNECT_ERROR;
-	}
+        try {
+            $response = $client->request($method, $url, $params);
 
-        curl_setopt($curl, CURLOPT_URL            , $url);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER , true);
+            $response_code = $response->getStatusCode();
+            $result        = $response->getBody();
+        }
+        catch (Exception $e) {
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: " . $e->getMessage()
+                ],
+                true, false
+            );
 
-	// Execute the query and check the results
+            return PASSWORD_CONNECT_ERROR;
+        }
 
-	$result = curl_exec($curl);
+        // Non-2xx response codes mean the password change failed
+        if ($response_code < 200 || $response_code > 299) {
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Unexpected response code ${response_code}: "
+                        . substr($result, 0, 1024)
+                ],
+                true, false
+            );
 
-	if ($result === false) {
-	    rcube::raise_error(array(
-				     'code' => 600,
-				     'type' => 'php',
-				     'file' => __FILE__, 'line' => __LINE__,
-				     'message' => "Password plugin: Failed to exec curl: " . curl_error($curl)
-				     ), true, false);
+            return ($response_code == 404 || $response_code > 499) ? PASSWORD_CONNECT_ERROR : PASSWORD_ERROR;
+        }
 
-	    return PASSWORD_CONNECT_ERROR;
-	}
+        // If configured, check the body of the response
+        if ($expect && !preg_match($expect, $result)) {
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Unexpected response body: " . substr($result, 0, 1024)
+                ],
+                true, false
+            );
 
-	$response_code = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+            return PASSWORD_ERROR;
+        }
 
-	curl_close($curl);
-
-	// Non-2xx response codes mean the password change failed
-
-	if ($response_code < 200 || $response_code > 299) {
-	    rcube::raise_error(array(
-				     'code' => 600,
-				     'type' => 'php',
-				     'file' => __FILE__, 'line' => __LINE__,
-				     'message' => "Password plugin: Unexpected response code ${response_code}: \"" . substr($result, 0, 1024) . "\""
-				     ), true, false);
-
-	    return ($response_code == 404 || $response_code > 499) ? PASSWORD_CONNECT_ERROR : PASSWORD_ERROR;
-	}
-
-	// If configured, check the body of the response
-
-	if ($expect && !preg_match($expect, $result)) {
-	    rcube::raise_error(array(
-				     'code' => 600,
-				     'type' => 'php',
-				     'file' => __FILE__, 'line' => __LINE__,
-				     'message' => "Password plugin: Expected success message was not received, got \"" . substr($result, 0, 1024) . "\""
-				     ), true, false);
-
-	    return PASSWORD_ERROR;
-	}
-
-	return PASSWORD_SUCCESS;
+        return PASSWORD_SUCCESS;
     }
 }
-
