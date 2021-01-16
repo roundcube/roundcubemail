@@ -488,3 +488,11 @@ $config['password_miab_url'] = '';
 $config['password_miab_username'] = '';
 // password of the admin user used to access api
 $config['password_miab_password'] = '';
+
+// TinyCP
+// --------------
+// TinyCP host, port, user and pass.
+$config['password_tinycp_host'] = '';
+$config['password_tinycp_port'] = '';
+$config['password_tinycp_user'] = '';
+$config['password_tinycp_pass'] = '';
