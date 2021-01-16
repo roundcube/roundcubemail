@@ -32,30 +32,33 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-use GuzzleHttp\Client;
-
 class rcube_miab_password
 {
     public function save($currpass, $newpass, $username)
     {
         $config = rcmail::get_instance()->config;
-        $host = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
+        $host   = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
 
         try {
-            $client = new Client();
+            $client = rcube::get_instance()->get_http_client();
 
-            $response = $client->post($host, array(
-                'form_params' => array(
-                    'email' => $username,
+            $request = [
+                'form_params' => [
+                    'email'    => $username,
                     'password' => $newpass,
-                ),
-                'auth' => array(
+                ],
+                'auth' => [
                     $config->get('password_miab_username') ?: $username,
                     $config->get('password_miab_password') ?: $currpass,
-                ),
-            ));
+                ],
+            ];
 
-            if (trim($result = $response->getBody()) === 'OK') {
+            $response = $client->post($host, $request);
+
+            if (
+                $response->getStatusCode() == 200
+                && trim($result = $response->getBody()) === 'OK'
+            ) {
                 return PASSWORD_SUCCESS;
             }
         }
@@ -63,13 +66,12 @@ class rcube_miab_password
             $result = $e->getMessage();
         }
 
-        rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => 'Password plugin: Unable to change password. '
-                     . $result
-            ), true, false);
+        rcube::raise_error([
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Unable to change password. $result",
+            ],
+            true, false
+        );
 
         return PASSWORD_ERROR;
     }
