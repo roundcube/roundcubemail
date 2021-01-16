@@ -471,3 +471,12 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
+
+// Mail-in-a-Box Driver options
+// ----------------------------
+// the url to the control panel of Mail-in-a-Box, e.g. https://box.example.com/admin/
+$config['password_miab_url'] = '';
+// name (email) of the admin user used to access api
+$config['password_miab_username'] = '';
+// password of the admin user used to access api
+$config['password_miab_password'] = '';
