@@ -40,7 +40,7 @@ class rcube_miab_password
         $host   = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
 
         try {
-            $client = rcube::get_instance()->get_http_client();
+            $client = password::get_http_client();
 
             $request = [
                 'form_params' => [

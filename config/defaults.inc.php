@@ -795,11 +795,13 @@ $config['assets_path'] = '';
 // PHP code about the location of asset files in filesystem
 $config['assets_dir'] = '';
 
-// options passed when creating Guzzle http_client, used to fetch remote content
-$config['http_client'] = [
-//  'timeout' => 10,
-//  'proxy' => 'tcp://localhost:8125',
-];
+// Options passed when creating Guzzle HTTP client, used to fetch remote content
+// For example:
+// [
+//   'timeout' => 10,
+//   'proxy' => 'tcp://localhost:8125',
+// ]
+$config['http_client'] = [];
 
 // ----------------------------------
 // PLUGINS

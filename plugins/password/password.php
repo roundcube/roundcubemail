@@ -517,7 +517,7 @@ class password extends rcube_plugin
      *
      * @return string Hashed password
      */
-    static function hash_password($password, $method = '', $prefixed = true)
+    public static function hash_password($password, $method = '', $prefixed = true)
     {
         $method  = strtolower($method);
         $rcmail  = rcmail::get_instance();
@@ -809,7 +809,7 @@ class password extends rcube_plugin
      *
      * @return string Username
      */
-    static function username($format = null)
+    public static function username($format = null)
     {
         $rcmail = rcmail::get_instance();
 
@@ -826,5 +826,18 @@ class password extends rcube_plugin
                 '%d' => $rcmail->user->get_username('domain'),
                 '%u' => $_SESSION['username'],
         ]);
+    }
+
+    /**
+     * Returns Guzzle HTTP client instance configured for use in a password driver.
+     *
+     * @return \GuzzleHttp\Client HTTP client
+     */
+    public static function get_http_client()
+    {
+        $rcube  = rcube::get_instance();
+        $config = (array) $rcube->config->get('password_http_client');
+
+        return $rcube->get_http_client($config);
     }
 }
