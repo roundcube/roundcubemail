@@ -505,6 +505,9 @@ abstract class rcmail_action
 
         $hint = html::div('hint', $rcmail->gettext(['name' => 'maxuploadsize', 'vars' => ['size' => $max_filesize]]));
 
+        $plugin = $rcmail->plugins->exec_hook('modify_hint', ['hint' => $hint]);
+        $hint = $plugin['hint'];
+
         if (!empty($attrib['mode']) && $attrib['mode'] == 'hint') {
             return $hint;
         }
