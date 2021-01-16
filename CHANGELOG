@@ -69,6 +69,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
 - Password: Added 'pwned' password strength driver (#7274)
+- Password: Added Mail-in-a-Box (miab) driver (#7824)
 - Password: Removed old 'cpanel' driver, 'cpanel_webmail' driver renamed to 'cpanel' (#7780)
 - Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
 - Fix mail search error on invalid search_mods definition (#7789)
