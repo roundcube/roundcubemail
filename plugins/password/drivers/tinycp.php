@@ -25,12 +25,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-require_once("TinyCPConnector.php");
-
 class rcube_tinycp_password
 {
     public function save($currpass, $newpass, $username)
     {
+        require_once 'TinyCPConnector.php';
+
         $tinycp_host   = rcmail::get_instance()->config->get('password_tinycp_host');
         $tinycp_port   = rcmail::get_instance()->config->get('password_tinycp_port');
         $tinycp_user   = rcmail::get_instance()->config->get('password_tinycp_user');
