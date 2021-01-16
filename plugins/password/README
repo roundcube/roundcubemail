@@ -49,6 +49,7 @@
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
  2.1.24. TinyCP
  2.1.25. Mail-in-a-Box (miab)
+ 2.1.26. HTTP-API (httpapi)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -364,6 +365,7 @@
  Password is changed using ldap_exop_passwd operation.
  PHP >= 7.2 required.
 
+<<<<<<< HEAD
 
  2.1.24 TinyCP
  -------------
@@ -379,6 +381,22 @@
  ---------------------------
  Driver to change the password on Mail-in-a-Box servers.
  See config.inc.php.dist file for configuration description.
+
+
+ 2.1.26. HTTP-API (httpapi)
+ --------------------------
+
+ Driver to change the user's password via any HTTP/HTTPS POST/GET API in a
+ generic manner. It passes any of the username, curpass and newpass variables
+ to the configured POST or GET parameters at the configured URL.
+
+ Any 4xx error code (except 404) is assumed to mean the password change failed.
+ 404 or any other non-2xx error code, or failure to connect, is assumed to be a
+ connection error and is reported as such.
+
+ A 2xx response is generally assumed to mean the password changed succeeded.
+ Optionally, you can configure a regular expression to check the response as
+ well to verify this.
 
 
  2.2. Password Strength Drivers
