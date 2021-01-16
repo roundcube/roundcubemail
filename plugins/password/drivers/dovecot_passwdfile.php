@@ -40,92 +40,53 @@ class rcube_dovecot_passwdfile_password
         $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
 
         $password = password::hash_password($newpass);
-        $password = escapeshellcmd($password);
-        $username = escapeshellcmd($username);
+        $password = escapeshellcmd($password); // FIXME: Do we need this?
+        $username = escapeshellcmd($username); // FIXME: Do we need this?
+        $content  = '';
 
         // read the entire mailuser file
-        $mailusercontent = file_get_contents($mailuserfile);
+        $fp = fopen($mailuserfile, 'r');
 
-        if (empty($mailusercontent)) {
-            // Error if the mailuserfile is empty/not accessible.
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to get old password file - $mailuserfile."
-                ), true, false);
+        if (empty($fp)) {
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Unable to read password file $mailuserfile."
+                ],
+                true, false
+            );
+
             return PASSWORD_CONNECT_ERROR;
         }
 
-        // build the search/replace pattern.
-        $pattern = "/$username:[^:]+:/i";
-        $replace = "$username:$newhash:";
+        if (flock($fp, LOCK_EX)) {
+            // Read the file and replace the user password
+            while (($line = fgets($handle, 40960)) !== false) {
+                if (strpos($line, "$username:") === 0) {
+                    $pos  = strpos($line, ':', strlen("$username:") + 1);
+                    $line = "$username:$newhash" . substr($line, $pos);
+                }
 
-        // replace
-        $mailusercontent = preg_replace($pattern, $replace, $mailusercontent);
+                $content .= $line;
+            }
 
-        if (preg_last_error()){
-            $error = $this->preg_error_message(preg_last_error());
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to replace the old password: $error."
-                ), true, false);
-            return PASSWORD_ERROR;
+            // Write back the entire file
+            if (file_put_contents($mailuserfile, $content)) {
+                flock($fp, LOCK_UN);
+                fclose($fp);
+
+                return PASSWORD_SUCCESS;
+            }
         }
 
-        // write back the entire file
-        if (file_put_contents($mailuserfile, $mailusercontent)) {
-            return PASSWORD_SUCCESS;
-        }
-        else {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to save new password."
-                ), true, false);
-        }
+        fclose($fp);
+
+        rcube::raise_error([
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Failed to save file $mailuserfile."
+            ],
+            true, false
+        );
 
         return PASSWORD_ERROR;
-    }
-
-    /**
-     * Fire TEXT errors
-     * Derrived from
-     * @author Ivan Tcholakov, 2016
-     * @license MIT
-     */
-    function preg_error_message($code = null)
-    {
-        $code = (int) $code;
-        switch ($code) {
-            case PREG_NO_ERROR:
-                $result = 'No error, probably invalid regular expression?';
-                break;
-            case PREG_INTERNAL_ERROR:
-                $result = 'PCRE: Internal error.';
-                break;
-            case PREG_BACKTRACK_LIMIT_ERROR:
-                $result = 'PCRE: Backtrack limit has been exhausted.';
-                break;
-            case PREG_RECURSION_LIMIT_ERROR:
-                $result = 'PCRE: Recursion limit has been exhausted.';
-                break;
-            case PREG_BAD_UTF8_ERROR:
-                $result = 'PCRE: Malformed UTF-8 data.';
-                break;
-            default:
-                if (is_php('5.3') && $code == PREG_BAD_UTF8_OFFSET_ERROR) {
-                    $result = 'PCRE: Did not end at a valid UTF-8 codepoint.';
-                } elseif (is_php('7') && $code == PREG_JIT_STACKLIMIT_ERROR) {
-                    $result = 'PCRE: Failed because of limited JIT stack space.';
-                } else {
-                    $result = 'PCRE: Error ' . $code . '.';
-                }
-                break;
-        }
-        return $result;
     }
 }
