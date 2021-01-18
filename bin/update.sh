@@ -65,7 +65,7 @@ if ($RCI->configured) {
                 . " This isn't a problem but should be noticed)\n";
 
             foreach ($messages['obsolete'] as $msg) {
-                echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
+                echo "- '" . $msg['prop'] . (!empty($msg['explain']) ? "': " . $msg['explain'] : "'") . "\n";
                 $err++;
             }
         }
