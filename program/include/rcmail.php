@@ -250,9 +250,9 @@ class rcmail extends rcube
             }
 
             // execute action registered to a plugin task
-            if ($this->plugins->is_plugin_task($this->task)) {
+            if ($this->plugins->is_plugin_task($task)) {
                 if (!$this->action) $this->action = 'index';
-                $this->plugins->exec_action("{$this->task}.{$this->action}");
+                $this->plugins->exec_action("{$task}.{$this->action}");
                 break;
             }
 
