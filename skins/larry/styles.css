@@ -1794,6 +1794,9 @@ ul.proplist.simplelist li {
 	margin-top: 1.5em;
 	padding-top: 1.5em;
 	text-align: center;
+}
+
+#login-form p.formbuttons + p.oauthlogin {
 	border-top: 1px solid #666;
 }
 
