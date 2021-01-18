@@ -58,7 +58,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
         echo '<p class="hint">The following config options have been replaced or renamed. ';
         echo 'Please update them accordingly in your config files.</p>';
 
-        echo '<ul class="configwarings">';
+        echo '<ul class="configwarnings">';
         foreach ($messages['replaced'] as $msg) {
             echo html::tag('li', null, html::span('propname', $msg['prop']) .
                 ' was replaced by ' . html::span('propname', $msg['replacement']));
@@ -70,9 +70,10 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
         echo '<h3>Obsolete config options</h3>';
         echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
 
-        echo '<ul class="configwarings">';
+        echo '<ul class="configwarnings">';
         foreach ($messages['obsolete'] as $msg) {
-            echo html::tag('li', null, html::span('propname', $msg['prop']) . ($msg['name'] ? ':&nbsp;' . $msg['name'] : ''));
+            echo html::tag('li', null, html::span('propname', $msg['prop'])
+                . (!empty($msg['explain']) ? ':&nbsp;' . $msg['explain'] : ''));
         }
         echo '</ul>';
     }
@@ -85,7 +86,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
         echo '<h3 class="warning">Dependency check failed</h3>';
         echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
 
-        echo '<ul class="configwarings">';
+        echo '<ul class="configwarnings">';
         foreach ($messages['dependencies'] as $msg) {
             echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
         }
