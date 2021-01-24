@@ -171,15 +171,25 @@ if ($db_working) {
     $db_read = $DB->query("SELECT count(*) FROM " . $DB->quote_identifier($RCI->config['db_prefix'] . 'users'));
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', "Database not initialized");
-        echo '<p><input type="submit" name="initdb" value="Initialize database" /></p>';
+        echo '<form action="index.php?_step=3" method="post">'
+            . '<p><input type="submit" name="initdb" value="Initialize database" /></p>'
+            . '</form>';
+
         $db_working = false;
     }
     else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
+
         $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
-        echo '<p class="suggestion">You should run the update queries to get the schema fixed.<br/><br/>Version to update from: ' . $select->show('') . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>';
+
+        echo '<form action="index.php?_step=3" method="post">'
+            . '<p class="suggestion">You should run the update queries to get the schema fixed.'
+            . '<br/><br/>Version to update from: ' . $select->show('')
+            . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>'
+            . '</form>';
+
         $db_working = false;
     }
     else {
