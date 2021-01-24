@@ -111,7 +111,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Valid IP addresses for test_invalid_ip()
+     * Invalid IP addresses for test_invalid_ip()
      */
     function data_invalid_ip()
     {
