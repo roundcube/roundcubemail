@@ -936,11 +936,6 @@ class rcube_imap_generic
             return false;
         }
 
-        // Send ID info
-        if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
-            $this->data['ID'] = $this->id($this->prefs['ident']);
-        }
-
         $auth_method  = $this->prefs['auth_type'];
         $auth_methods = [];
         $result       = null;
@@ -999,7 +994,13 @@ class rcube_imap_generic
             if (!empty($this->prefs['force_caps'])) {
                 $this->clearCapability();
             }
+
             $this->logged = true;
+
+            // Send ID info
+            if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
+                $this->data['ID'] = $this->id($this->prefs['ident']);
+            }
 
             return true;
         }
