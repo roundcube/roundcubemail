@@ -46,7 +46,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     {
         return [
             ['UTF8', 'UTF-8'],
-            ['WIN1250', 'WINDOWS-1250'],
+            ['WIN1252', 'WINDOWS-1252'],
         ];
     }
 
