@@ -257,6 +257,12 @@ class rcube_charset
             }
         }
 
+        // check that PHP supports the encoding
+        $mb_list_encodings_lower = array_map('strtolower', mb_list_encodings());
+        if (! in_array(strtolower($result), $mb_list_encodings_lower)) {
+            $result = null;
+        }
+
         $charsets[$input] = $result;
 
         return $result;
