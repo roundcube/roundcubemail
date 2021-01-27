@@ -63,13 +63,14 @@ class rcube_imap_generic
     protected $debug             = false;
     protected $debug_handler     = false;
 
-    const ERROR_OK       = 0;
-    const ERROR_NO       = -1;
-    const ERROR_BAD      = -2;
-    const ERROR_BYE      = -3;
-    const ERROR_UNKNOWN  = -4;
-    const ERROR_COMMAND  = -5;
-    const ERROR_READONLY = -6;
+    const ERROR_OK           = 0;
+    const ERROR_NO           = -1;
+    const ERROR_BAD          = -2;
+    const ERROR_BYE          = -3;
+    const ERROR_UNKNOWN      = -4;
+    const ERROR_COMMAND      = -5;
+    const ERROR_READONLY     = -6;
+    const ERROR_FETCH_BINARY = -7;
 
     const COMMAND_NORESPONSE = 1;
     const COMMAND_CAPABILITY = 2;
@@ -2824,13 +2825,12 @@ class rcube_imap_generic
      * Fetches body of the specified message part
      */
     public function handlePartBody($mailbox, $id, $is_uid = false, $part = '', $encoding = null, $print = null,
-        $file = null, $formatted = false, $max_bytes = 0)
+        $file = null, $formatted = false, $max_bytes = 0, $binary = true)
     {
         if (!$this->select($mailbox)) {
             return false;
         }
 
-        $binary    = true;
         $initiated = false;
 
         do {
@@ -2887,6 +2887,9 @@ class rcube_imap_generic
             if ($binary && !$found && preg_match('/^' . $key . ' NO \[(UNKNOWN-CTE|PARSE)\]/i', $line)) {
                 $binary = $initiated = false;
                 continue;
+            } else if ($binary && !$found && preg_match('/^\* BYE FETCH failed: (.*)/i', $line, $match)) {
+                $this->setError(self::ERROR_FETCH_BINARY, "Fetch binary peek error: $match[1].");
+                return false;
             }
 
             // skip irrelevant untagged responses (we have a result already)

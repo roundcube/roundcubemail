@@ -2413,6 +2413,17 @@ class rcube_imap extends rcube_storage
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
                 $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
+            if (!$body && $this->conn->errornum === rcube_imap_generic::ERROR_FETCH_BINARY) {
+                $this->connect(
+                    $this->options['host'],
+                    $this->options['user'],
+                    $this->options['password'],
+                    $this->options['port'],
+                    $this->options['ssl']
+                );
+                $body = $this->conn->handlePartBody($this->folder, $uid, true,
+                    $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes, false);
+            }
         }
 
         if ($fp || $print) {
