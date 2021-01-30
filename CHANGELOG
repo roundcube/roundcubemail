@@ -80,6 +80,7 @@ CHANGELOG Roundcube Webmail
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+- Fix bug with managesieve_domains in Settings > Forwarding form (#7849)
 
 RELEASE 1.4.10
 --------------
