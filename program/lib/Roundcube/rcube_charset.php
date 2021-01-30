@@ -322,8 +322,10 @@ class rcube_charset
             && $from !== 'ISO-2022-JP'
         ) {
             // If iconv reports an illegal character in input it means that input string
-            // has been truncated, or it could be unsupported charset. In both cases E_NOTICE is thrown.
+            // has been truncated. It's reported as E_NOTICE.
+            // PHP8 will also throw E_WARNING on unsupported encoding.
             set_error_handler($error_handler, E_NOTICE);
+            set_error_handler($error_handler, E_WARNING);
 
             $out = iconv($from, $to . $iconv_options, $str);
 
