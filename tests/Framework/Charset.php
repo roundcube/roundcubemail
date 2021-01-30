@@ -63,7 +63,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function data_convert()
     {
-        return [
+        $data = [
             ['ö', 'ö', 'UTF-8', 'UTF-8'],
             ['ö', '', 'UTF-8', 'ASCII'],
             ['aż', 'a', 'UTF-8', 'US-ASCII'],
@@ -71,7 +71,16 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
             ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'],
             [base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'],
             ['㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'],
+            // try some invalid encodings, to make sure no error/exception is thrown
+            ['test', 'test', 'WIN1253', 'INVALID'],
         ];
+
+        if (extension_loaded('iconv')) {
+            // Windows-1253 is not supported by mbstring, we're testing fallback to iconv
+            $data[] = ['ε', chr(hexdec(('E5'))), 'UTF-8', 'WINDOWS-1253'];
+        }
+
+        return $data;
     }
 
     /**
