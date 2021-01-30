@@ -174,19 +174,6 @@ class rcube_charset
     ];
 
     /**
-     * Catch an error and throw an exception.
-     *
-     * @param int    $errno  Level of the error
-     * @param string $errstr Error message
-     *
-     * @throws ErrorException
-     */
-    public static function error_handler($errno, $errstr)
-    {
-        throw new ErrorException($errstr, 0, $errno);
-    }
-
-    /**
      * Parse and validate charset name string.
      * Sometimes charset string is malformed, there are also charset aliases,
      * but we need strict names for charset conversion (specially utf8 class)
@@ -198,6 +185,7 @@ class rcube_charset
     public static function parse_charset($input)
     {
         static $charsets = [];
+
         $charset = strtoupper($input);
 
         if (isset($charsets[$input])) {
@@ -273,6 +261,8 @@ class rcube_charset
      */
     public static function convert($str, $from, $to = null)
     {
+        static $iconv_options;
+
         $to   = empty($to) ? RCUBE_CHARSET : self::parse_charset($to);
         $from = self::parse_charset($from);
 
@@ -286,25 +276,62 @@ class rcube_charset
             return $str;
         }
 
+        $out = false;
+        $error_handler = function() use ($out) { $out = false; };
+
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
         mb_substitute_character('none');
 
-        // throw an exception if mbstring reports an illegal character in input
-        // using mb_check_encoding() is much slower
-        set_error_handler(['rcube_charset', 'error_handler'], E_WARNING);
+        // If mbstring reports an illegal character in input via E_WARNING.
+        // FIXME: Is this really true with substitute character 'none'?
+        // A warning is thrown in PHP<8 also on unsupported encoding, in PHP>=8 ValueError
+        // is thrown instead (therefore we catch Throwable below)
+        set_error_handler($error_handler, E_WARNING);
+
         try {
             $out = mb_convert_encoding($str, $to, $from);
         }
-        catch (ErrorException $e) {
+        catch (Throwable $e) {
             $out = false;
         }
-        restore_error_handler();
 
+        restore_error_handler();
         mb_substitute_character($mbstring_sc);
 
         if ($out !== false) {
             return $out;
+        }
+
+        if ($iconv_options === null) {
+            if (function_exists('iconv')) {
+                // ignore characters not available in output charset
+                $iconv_options = '//IGNORE';
+                if (iconv('', $iconv_options, '') === false) {
+                    // iconv implementation does not support options
+                    $iconv_options = '';
+                }
+            }
+            else {
+                $iconv_options = false;
+            }
+        }
+
+        // Fallback to iconv module, it is slower, but supports much more charsets than mbstring
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
+            && $from !== 'ISO-2022-JP'
+        ) {
+            // If iconv reports an illegal character in input it means that input string
+            // has been truncated, or it could be unsupported charset. In both cases E_NOTICE is thrown.
+            set_error_handler($error_handler, E_NOTICE);
+
+            $out = iconv($from, $to . $iconv_options, $str);
+
+            restore_error_handler();
+
+            if ($out !== false) {
+                return $out;
+            }
         }
 
         // return the original string
