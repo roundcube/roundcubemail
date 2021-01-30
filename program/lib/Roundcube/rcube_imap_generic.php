@@ -936,6 +936,11 @@ class rcube_imap_generic
             return false;
         }
 
+        // Send pre authentication ID info (#7860)
+        if (!empty($this->prefs['preauth_ident']) && $this->getCapability('ID')) {
+            $this->data['ID'] = $this->id($this->prefs['preauth_ident']);
+        }
+
         $auth_method  = $this->prefs['auth_type'];
         $auth_methods = [];
         $result       = null;
@@ -997,7 +1002,7 @@ class rcube_imap_generic
 
             $this->logged = true;
 
-            // Send ID info
+            // Send ID info after authentication to ensure reliable result (#7517)
             if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
                 $this->data['ID'] = $this->id($this->prefs['ident']);
             }
