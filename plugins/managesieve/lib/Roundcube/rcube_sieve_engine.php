@@ -2363,8 +2363,8 @@ class rcube_sieve_engine
         }
 
         // redirect target
-        $out .= '<span id="redirect_target' . $id . '" style="white-space:nowrap;'
-            . ' display:' . ($action['type'] == 'redirect' ? 'inline' : 'none') . '">'
+        $out .= '<span id="redirect_target' . $id . '" class="input-group" style="white-space:nowrap;'
+            . ' display:' . ($action['type'] == 'redirect' ? '' : 'none') . '">'
             . html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_action_target[$id]",
@@ -2373,7 +2373,9 @@ class rcube_sieve_engine
                 'size'  => !empty($domains) ? 20 : 35,
                 'class' => $this->error_class($id, 'action', 'target', 'action_target'),
             ]);
-        $out .= isset($domain_select) ? ' @ ' . $domain_select->show($action['domain']) : '';
+        $out .= isset($domain_select) ? '<span class="input-group-append input-group-prepend">'
+            . ' <span class="input-group-text">@</span> </span>'
+            . $domain_select->show(!empty($action['domain']) ? $action['domain'] : '') : '';
         $out .= '</span>';
 
         // (e)reject target

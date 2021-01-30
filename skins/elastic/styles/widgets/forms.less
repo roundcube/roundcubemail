@@ -1272,6 +1272,13 @@ html.ms .propform {
     margin-bottom: .5rem;
 }
 
+// This one is to fix height of an input-group child that usually we put
+// in between inputs, e.g. in managesieve forms it is '@' in email input
+// with a separate local part and domain selector.
+.input-group-append.input-group-prepend {
+    display: inline;
+}
+
 .input-group-text {
     color: @color-input;
     background-color: @color-input-addon-background;

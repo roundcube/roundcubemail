@@ -807,7 +807,7 @@ function action_type_select(id)
 
   for (var x in elems) {
     if (elems[x])
-      elems[x].style.display = !enabled[x] ? 'none' : 'inline';
+      elems[x].style.display = !enabled[x] ? 'none' : '';
   }
 };
 
