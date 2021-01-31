@@ -63,8 +63,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         }
 
         // Control folders list from a plugin
-        $plugin      = $rcmail->plugins->exec_hook('check_recent', ['folders' => $a_mailboxes, 'all' => $check_all]);
-        $a_mailboxes = $plugin['folders'];
+        $plugin       = $rcmail->plugins->exec_hook('check_recent', ['folders' => $a_mailboxes, 'all' => $check_all]);
+        $a_mailboxes  = $plugin['folders'];
+        $list_cleared = false;
 
         self::storage_fatal_error();
 
@@ -151,29 +152,53 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                     // remove messages that don't exists from list selection array
                     $rcmail->output->command('update_selection');
                 }
-            }
-            // handle flag updates
-            else if ($is_current && ($uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_GPC)) && empty($search_request)) {
-                $data = $rcmail->storage->folder_data($mbox_name);
 
-                if (empty($_SESSION['list_mod_seq']) || $_SESSION['list_mod_seq'] != $data['HIGHESTMODSEQ']) {
-                    $flags = $rcmail->storage->list_flags($mbox_name, explode(',', $uids), !empty($_SESSION['list_mod_seq']) ? $_SESSION['list_mod_seq'] : null);
-                    foreach ($flags as $idx => $row) {
-                        $flags[$idx] = array_change_key_case(array_map('intval', $row));
-                    }
-
-                    // remember last HIGHESTMODSEQ value (if supported)
-                    if (!empty($data['HIGHESTMODSEQ'])) {
-                        $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
-                    }
-
-                    $rcmail->output->set_env('recent_flags', $flags);
-                }
+                $list_cleared = true;
             }
 
             // set trash folder state
             if ($mbox_name === $trash) {
                 $rcmail->output->command('set_trash_count', $rcmail->storage->count($mbox_name, 'EXISTS', true));
+            }
+        }
+
+        // handle flag updates
+        if (!$list_cleared) {
+            $uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_POST);
+            $uids = self::get_uids($uids, null, $multifolder);
+
+            $recent_flags = [];
+
+            foreach ($uids as $mbox_name => $set) {
+                $get_flags = true;
+                $modseq    = null;
+
+                if ($mbox_name == $current) {
+                    $data      = $rcmail->storage->folder_data($mbox_name);
+                    $modseq    = !empty($_SESSION['list_mod_seq']) ? $_SESSION['list_mod_seq'] : null;
+                    $get_flags = empty($modseq) || empty($data['HIGHESTMODSEQ']) || $modseq != $data['HIGHESTMODSEQ'];
+
+                    // remember last HIGHESTMODSEQ value (if supported)
+                    if (!empty($data['HIGHESTMODSEQ'])) {
+                        $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+                    }
+                }
+
+                // TODO: Consider HIGHESTMODSEQ for all folders in multifolder search, otherwise
+                // flags for all messages in a set are requested on every refresh
+
+                if ($get_flags) {
+                    $flags = $rcmail->storage->list_flags($mbox_name, $set, $modseq);
+
+                    foreach ($flags as $idx => $row) {
+                        if ($multifolder) {
+                            $idx .= '-' . $mbox_name;
+                        }
+                        $recent_flags[$idx] = array_change_key_case(array_map('intval', $row));
+                    }
+                }
+
+                $rcmail->output->set_env('recent_flags', $recent_flags);
             }
         }
 
