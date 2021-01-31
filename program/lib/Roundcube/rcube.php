@@ -586,7 +586,7 @@ class rcube
         if (isset($attrib[$slang])) {
             $this->texts[$name] = $attrib[$slang];
         }
-        if ($slang != 'en_us' && isset($attrib['en_us'])) {
+        else if ($slang != 'en_us' && isset($attrib['en_us'])) {
             $this->texts[$name] = $attrib['en_us'];
         }
 
