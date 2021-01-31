@@ -162,7 +162,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                             $ignore_rule = true;
                         }
                         else {
-                            $action = $act['copy'] ? 'copy' : 'redirect';
+                            $action = !empty($act['copy']) ? 'copy' : 'redirect';
                             $target = $act['target'];
                         }
                     }

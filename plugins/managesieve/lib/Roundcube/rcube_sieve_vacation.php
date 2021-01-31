@@ -513,7 +513,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
             . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
             . (!empty($domain_select) ? ' <span class="input-group-append input-group-prepend"><span class="input-group-text">@</span></span>'
-                . $domain_select->show($this->vacation['domain']) : '')
+                . $domain_select->show(!empty($this->vacation['domain']) ? $this->vacation['domain'] : null) : '')
             . '</span>';
 
         // Message tab
