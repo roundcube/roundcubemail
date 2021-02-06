@@ -45,7 +45,4 @@ class reconnect extends rcube_plugin
 
         return $args;
     }
-
 }
-
-?>

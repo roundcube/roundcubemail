@@ -39,6 +39,7 @@ CHANGELOG Roundcube Webmail
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
 - Return 204 rather than 404 on missing contact photo (#7777)
+- Add 'reconnect' plugin to retry IMAP connection (#7844)
 - Plugin API: Added 'message' argument to 'message_compose_body' hook
 - Plugin API: Added 'preferences' parameter to 'user_create' hook (#7692)
 - Elastic: Dark mode (#6709)
