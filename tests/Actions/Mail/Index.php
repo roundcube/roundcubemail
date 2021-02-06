@@ -219,7 +219,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $action = new rcmail_action_mail_index;
 
-        $this->assertSame('', $action->address_string(''));
+        $this->assertSame(null, $action->address_string(''));
 
         $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
@@ -248,8 +248,6 @@ class Actions_Mail_Index extends ActionTestCase
     function test_wrap_and_quote()
     {
         $action = new rcmail_action_mail_index;
-
-        $this->assertSame('', $action->address_string(''));
 
         $this->assertSame('> ', $action->wrap_and_quote(''));
         $this->assertSame('', $action->wrap_and_quote('', 72, false));

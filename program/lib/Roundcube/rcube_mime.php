@@ -326,7 +326,7 @@ class rcube_mime
         $str = self::explode_header_string(',;', $str, true);
 
         // simplified regexp, supporting quoted local part
-        $email_rx = '(\S+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
+        $email_rx = '([^\s:]+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
 
         $result = [];
 
@@ -334,6 +334,12 @@ class rcube_mime
             $name    = '';
             $address = '';
             $val     = trim($val);
+
+            // First token might be a group name, ignore it
+            $tokens = self::explode_header_string(' ', $val);
+            if (isset($tokens[0]) && $tokens[0][strlen($tokens[0])-1] == ':') {
+                $val = substr($val, strlen($tokens[0]));
+            }
 
             if (preg_match('/(.*)<('.$email_rx.')>$/', $val, $m)) {
                 $address = $m[2];
@@ -357,14 +363,20 @@ class rcube_mime
 
             // dequote and/or decode name
             if ($name) {
-                if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
+                // An unquoted name ending with colon is a address group name, ignore it
+                if ($name[strlen($name)-1] == ':') {
+                    $name = '';
+                }
+
+                if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name)-1] == '"') {
                     $name = substr($name, 1, -1);
                     $name = stripslashes($name);
                 }
+
                 if ($decode) {
                     $name = self::decode_header($name, $fallback);
                     // some clients encode addressee name with quotes around it
-                    if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
+                    if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name)-1] == '"') {
                         $name = substr($name, 1, -1);
                     }
                 }
