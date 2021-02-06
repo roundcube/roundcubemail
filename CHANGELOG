@@ -52,6 +52,7 @@ CHANGELOG Roundcube Webmail
 - Elastic: Remember list checkbox selection state (#7148)
 - Elastic: Add "Open in new window" in mail compose (#7260)
 - Elastic: Make custom less files optional (#7497)
+- Elastic: Prevent from opening mail preview in a new window on touch devices using double tap (#7732)
 - Templates: Add support for expressions in object attributes (#7237)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)

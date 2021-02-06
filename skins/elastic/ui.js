@@ -595,6 +595,10 @@ function rcube_elastic_ui()
                 else if (typeof rcmail[list].draggable == 'boolean') {
                     rcmail[list].draggable = false;
                 }
+
+                // Also disable double-click to prevent from opening items
+                // in a new page, and prevent from zoom issues (#7732)
+                rcmail[list].dblclick_time = 0;
             }
         });
 
