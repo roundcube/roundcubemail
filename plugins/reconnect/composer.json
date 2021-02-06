@@ -1,0 +1,13 @@
+{
+    "name": "reconnect",
+    "type": "roundcube-plugin",
+    "description": "Reconnects to server for several attempts.",
+    "license": "GPLv3+",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "Sandro Knauß",
+            "email": "hefee@debian.org"
+        }
+    ]
+}
