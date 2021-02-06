@@ -1356,7 +1356,7 @@ class rcmail_action_mail_index extends rcmail_action
         $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
 
         if (!count($a_parts)) {
-            return $input;
+            return null;
         }
 
         $rcmail  = rcmail::get_instance();

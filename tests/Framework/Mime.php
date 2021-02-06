@@ -88,6 +88,49 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test decoding of address groups
+     * Uses rcube_mime::decode_address_list()
+     */
+    function test_decode_address_groups()
+    {
+        $headers = [
+            0  => 'undisclosed-recipients:;',
+            1  => 'group:test1@email.com',
+            2  => 'group:<test1@email.com>',
+            3  => 'group:test1@email.com,test2@email.com',
+            4  => 'group: <test1@email.com>,<test2@email.com>',
+            5  => '"test:group": "TEST1" <test1@email.com>,"TEST2" <test2@email.com>; test3@email.com',
+        ];
+
+        $results = [
+            0  => [],
+            1  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            2  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            3  => [
+                1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
+                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com']
+            ],
+            4  => [
+                1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
+                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
+            ],
+            5  => [
+                1 => ['name' => 'TEST1', 'mailto' => 'test1@email.com', 'string' => 'TEST1 <test1@email.com>'],
+                2 => ['name' => 'TEST2', 'mailto' => 'test2@email.com', 'string' => 'TEST2 <test2@email.com>'],
+                3 => ['name' => '',      'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
+            ],
+        ];
+
+        // Note: For now we expect group names ignored, and members handled as independent addresses
+
+        foreach ($headers as $idx => $header) {
+            $res = rcube_mime::decode_address_list($header);
+
+            $this->assertEquals($results[$idx], $res, "Decode address groups (#$idx)");
+        }
+    }
+
+    /**
      * Test decoding of header values
      * Uses rcube_mime::decode_mime_string()
      */

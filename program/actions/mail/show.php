@@ -90,7 +90,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $rcmail->output->set_env('safemode', $MESSAGE->is_safe);
             $rcmail->output->set_env('message_context', $MESSAGE->context);
             $rcmail->output->set_env('message_flags', array_keys(array_change_key_case((array) $MESSAGE->headers->flags)));
-            $rcmail->output->set_env('sender', $MESSAGE->sender['string']);
+            $rcmail->output->set_env('sender', !empty($MESSAGE->sender) ? $MESSAGE->sender['string'] : '');
             $rcmail->output->set_env('mailbox', $mbox_name);
             $rcmail->output->set_env('username', $rcmail->get_user_name());
             $rcmail->output->set_env('permaurl', $rcmail->url(['_action' => 'show', '_uid' => $msg_id, '_mbox' => $mbox_name]));
@@ -474,6 +474,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             else {
                 $value        = is_array($value) ? implode(' ', $value) : $value;
                 $header_value = trim(rcube_mime::decode_header($value, $charset));
+            }
+
+            if (empty($header_value)) {
+                continue;
             }
 
             $output_headers[$hkey] = [
