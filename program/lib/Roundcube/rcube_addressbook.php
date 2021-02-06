@@ -179,7 +179,7 @@ abstract class rcube_addressbook
      *     - Any of the given fields must match the value to be included in the result ("OR" semantics)
      *
      * All matching is done case insensitive. The matching supports exact match, prefix match or infix match as
-	 * determined by the $mode parameter.
+     * determined by the $mode parameter.
      *
      * The search settings are remembered until reset using the reset() function. They can be retrieved using
      * get_search_set(). The remembered search settings must be considered by list_records() and count().
