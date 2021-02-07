@@ -1592,6 +1592,10 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->get_username('mail');
         }
+
+        if (!empty($this->user_email)) {
+            return $this->user_email;
+        }
     }
 
     /**

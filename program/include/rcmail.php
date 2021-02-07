@@ -780,10 +780,19 @@ class rcmail extends rcube
         }
         // create new system user
         else if ($this->config->get('auto_create_user')) {
-            if ($created = rcube_user::create($username, $host)) {
-                $user = $created;
-            }
-            else {
+            // Temporarily set user email and password, so plugins can use it
+            // this way until we set it in session later. This is required e.g.
+            // by the user-specific LDAP operations from new_user_identity plugin.
+            $domain = $this->config->mail_domain($host);
+            $this->user_email = strpos($username, '@') ? $username : sprintf('%s@%s', $username, $domain);
+            $this->password   = $password;
+
+            $user = rcube_user::create($username, $host);
+
+            $this->user_email = null;
+            $this->password   = null;
+
+            if (!$user) {
                 self::raise_error([
                         'code'    => 620,
                         'file'    => __FILE__,
