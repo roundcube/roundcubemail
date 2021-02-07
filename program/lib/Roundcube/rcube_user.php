@@ -619,7 +619,7 @@ class rcube_user
      * @param string $user IMAP user name
      * @param string $host IMAP host
      *
-     * @return rcube_user New user instance
+     * @return rcube_user|null New user instance on success, Null on error/abort
      */
     static function create($user, $host)
     {
