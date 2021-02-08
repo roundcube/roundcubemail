@@ -260,41 +260,38 @@ class rcube_washtml
         // Decode insecure character sequences
         $style = rcube_utils::xss_entity_decode($style);
 
-        foreach (explode(';', $style) as $declaration) {
-            if (preg_match('/^\s*([a-z\\\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
-                $cssid = $match[1];
-                $str   = $match[2];
-                $value = '';
+        foreach (rcube_utils::parse_css_block($style) as $rule) {
+            $cssid = $rule[0];
+            $value = '';
 
-                foreach ($this->explode_style($str) as $val) {
-                    if (preg_match('/^url\(/i', $val)) {
-                        if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
-                            if ($url = $this->wash_uri($match[1])) {
-                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')';
-                            }
-                        }
-                    }
-                    else if (!preg_match('/^(behavior|expression)/i', $val)) {
-                        // Set position:fixed to position:absolute for security (#5264)
-                        if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
-                            $val = 'absolute';
-                        }
-
-                        // whitelist ?
-                        $value .= ' ' . $val;
-
-                        // #1488535: Fix size units, so width:800 would be changed to width:800px
-                        if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
-                            && preg_match('/^[0-9]+$/', $val)
-                        ) {
-                            $value .= 'px';
+            foreach ($this->explode_style($rule[1]) as $val) {
+                if (preg_match('/^url\(/i', $val)) {
+                    if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
+                        if ($url = $this->wash_uri($match[1])) {
+                            $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')';
                         }
                     }
                 }
+                else if (!preg_match('/^(behavior|expression)/i', $val)) {
+                    // Set position:fixed to position:absolute for security (#5264)
+                    if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
+                        $val = 'absolute';
+                    }
 
-                if (isset($value[0])) {
-                    $result[] = $cssid . ':' . $value;
+                    // whitelist ?
+                    $value .= ' ' . $val;
+
+                    // #1488535: Fix size units, so width:800 would be changed to width:800px
+                    if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
+                        && preg_match('/^[0-9]+$/', $val)
+                    ) {
+                        $value .= 'px';
+                    }
                 }
+            }
+
+            if (isset($value[0])) {
+                $result[] = $cssid . ': ' . trim($value);
             }
         }
 
@@ -983,23 +980,8 @@ class rcube_washtml
      */
     protected function explode_style($style)
     {
-        $pos = 0;
-
-        // first remove comments
-        while (($pos = strpos($style, '/*', $pos)) !== false) {
-            $end = strpos($style, '*/', $pos+2);
-
-            if ($end === false) {
-                $style = substr($style, 0, $pos);
-            }
-            else {
-                $style = substr_replace($style, '', $pos, $end - $pos + 2);
-            }
-        }
-
-        $style  = trim($style);
-        $strlen = strlen($style);
         $result = [];
+        $strlen = strlen($style);
         $q      = false;
 
         // explode value
