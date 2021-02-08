@@ -399,7 +399,7 @@ class rcube_utils
             $styles = preg_replace('/position[^a-z]*:[\s\r\n]*fixed/i', 'position: absolute', $styles);
 
             // Remove 'page' attributes (#7604)
-            $styles = preg_replace('/(^|[\n\s;])page:[^;]+;*/im', '', $styles);
+            $styles = preg_replace('/((^|[\n\s;])page:)[^;]+;*/im', '\\1 unset;', $styles);
 
             // check every line of a style block...
             if ($allow_remote) {

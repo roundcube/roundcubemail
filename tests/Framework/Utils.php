@@ -237,6 +237,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         // Allow strict url()
         $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
         $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
+
+        // XSS issue, HTML in 'content' property
+        $style = "body { content: '</style><img src onerror=\"alert(\'hello\');\">'; color: red; }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { content: '';\n color: red;\n }", $mod);
+
+        $style = "body { content: '< page: ;/style>< page: ;img src onerror=\"alert(\'hello\');\">'; color: red; }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame(
+            "#rcmbody { content: '< page: unset;/style>< page: unset;img src onerror=\"alert('hello');\">'; color: red; }",
+            str_replace("\n", '', $mod)
+        );
+
+        // Removing page: property
+        $style = "body { page: test; color: red; }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { page: unset;\n color: red;\n }", $mod);
     }
 
     /**
