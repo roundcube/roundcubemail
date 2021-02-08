@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Display a nice error informing about no PHP8 support
 - Elastic: Fix compatibility with Less v3 and v4 (#7813)
 - Fix bug with managesieve_domains in Settings > Forwarding form (#7849)
+- Fixed errors in MSSQL database update scripts (#7853)
 
 RELEASE 1.4.10
 --------------
