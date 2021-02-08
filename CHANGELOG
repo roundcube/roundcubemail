@@ -86,6 +86,7 @@ CHANGELOG Roundcube Webmail
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
 - Fix bug with managesieve_domains in Settings > Forwarding form (#7849)
+- Fixed errors in MSSQL database update scripts (#7853)
 
 RELEASE 1.4.10
 --------------
