@@ -192,8 +192,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
 
         $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
-        $this->assertContains('#rcmbody {width:600px', $mod, 'Replace body selector nested in @media block');
-        $this->assertContains('#rcmbody {min-width:474px', $mod, 'Replace body selector nested in @media block (#5811)');
+        $this->assertContains('#rcmbody { width: 600px', $mod, 'Replace body selector nested in @media block');
+        $this->assertContains('#rcmbody { min-width: 474px', $mod, 'Replace body selector nested in @media block (#5811)');
     }
 
     /**
@@ -247,6 +247,24 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         // Allow strict url()
         $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
         $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
+
+        // XSS issue, HTML in 'content' property
+        $style = "body { content: '</style><img src onerror=\"alert(\'hello\');\">'; color: red; }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { content: ''; color: red; }", $mod);
+
+        $style = "body { content: '< page: ;/style>< page: ;img src onerror=\"alert(\'hello\');\">'; color: red; }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { content: '< page: ;/style>< page: ;img src onerror=\"alert('hello');\">'; color: red; }", $mod);
+
+        // Removing page: property
+        $style = "body { page: test; color: red }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { color: red; }", $mod);
+
+        $style = "body { background:url(alert(&#039;URL!&#039;) ) }";
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame("#rcmbody { background: /* evil! */; }", $mod);
     }
 
     /**
@@ -299,6 +317,85 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         // #5747
         $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
         $this->assertContains('#foo', $mod, "Strip HTML comments from content, but not the content");
+    }
+
+    /**
+     * Test-Cases for parse_css_block() test
+     */
+    function data_parse_css_block()
+    {
+        return [
+            [
+                'test:test2',
+                [['test', 'test2']],
+            ],
+            [
+                'Test :teSt2 ;',
+                [['test', 'teSt2']],
+            ],
+            [
+                'test : test2 test3;',
+                [['test', 'test2 test3']],
+            ],
+            [
+                '/* : */ test : val /* ; */ ;',
+                [['test', 'val']],
+            ],
+            [
+                '/* test : val */ ;',
+                [],
+            ],
+            [
+                'test :"test1\\"test2" ;',
+                [['test', '"test1\\"test2"']],
+            ],
+            [
+                "test : 'test5 \\'test6';",
+                [['test', "'test5 \\'test6'"]],
+            ],
+            [
+                "test: test8\ntest6;",
+                [['test', 'test8 test6']],
+            ],
+            [
+                "PRop: val1; prop-two: 'val2: '",
+                [['prop', 'val1'], ['prop-two', "'val2: '"]],
+            ],
+            [
+                "prop: val1; prop-two :",
+                [['prop', 'val1']],
+            ],
+            [
+                "prop: val1; prop-two :;",
+                [['prop', 'val1']],
+            ],
+            [
+                "background: url(data:image/png;base64,test)",
+                [['background', 'url(data:image/png;base64,test)']],
+            ],
+            [
+                "background:url('data:image/png;base64,test')",
+                [['background', "url('data:image/png;base64,test')"]],
+            ],
+            [
+                "background: url(\"data:image/png;base64,test\")",
+                [['background', 'url("data:image/png;base64,test")']],
+            ],
+            [
+                'font-family:"新細明體","serif";color:red',
+                [['font-family', '"新細明體","serif"'], ['color', 'red']]
+            ],
+        ];
+    }
+
+    /**
+     * Test parse_css_block()
+     *
+     * @dataProvider data_parse_css_block
+     */
+    function test_explode_style($input, $output)
+    {
+        $this->assertSame($output, rcube_utils::parse_css_block($input));
     }
 
     /**

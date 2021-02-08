@@ -418,6 +418,9 @@ class rcube_utils
 
         $strict_url_regexp = '!url\s*\(\s*["\']?(https?:)//[a-z0-9/._+-]+["\']?\s*\)!Uims';
 
+        // remove html comments
+        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
+
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
             $nested = strpos($source, '{', $pos+1);
@@ -426,48 +429,40 @@ class rcube_utils
             }
             $length = $pos2 - $pos - 1;
             $styles = substr($source, $pos+1, $length);
+            $output = '';
 
-            // Convert position:fixed to position:absolute (#5264)
-            $styles = preg_replace('/position[^a-z]*:[\s\r\n]*fixed/i', 'position: absolute', $styles);
+            // check every css rule in the style block...
+            foreach (self::parse_css_block($styles) as $rule) {
+                // Remove 'page' attributes (#7604)
+                if ($rule[0] == 'page') {
+                    continue;
+                }
 
-            // Remove 'page' attributes (#7604)
-            $styles = preg_replace('/(^|[\n\s;])page:[^;]+;*/im', '', $styles);
+                // Convert position:fixed to position:absolute (#5264)
+                if ($rule[0] == 'position' && strcasecmp($rule[1], 'fixed') === 0) {
+                    $rule[1] = 'absolute';
+                }
+                else if ($allow_remote) {
+                    $stripped = preg_replace('/[^a-z\(:;]/i', '', $rule[1]);
 
-            // check every line of a style block...
-            if ($allow_remote) {
-                $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
-
-                for ($i=0, $len=count($a_styles); $i < $len; $i++) {
-                    if (!isset($a_styles[$i])) {
-                        continue;
-                    }
-
-                    $line     = $a_styles[$i];
-                    $stripped = preg_replace('/[^a-z\(:;]/i', '', $line);
-
-                    // allow data:image uri, join with continuation
-                    if (stripos($stripped, 'url(data:image')) {
-                        $a_styles[$i] .= ';' . $a_styles[$i+1];
-                        unset($a_styles[$i+1]);
-                    }
-                    // allow strict url() values only
-                    else if (stripos($stripped, 'url(') && !preg_match($strict_url_regexp, $line)) {
-                        $a_styles = ['/* evil! */'];
-                        break;
+                    // allow data:image and strict url() values only
+                    if (
+                        stripos($stripped, 'url(') !== false
+                        && stripos($stripped, 'url(data:image') === false
+                        && !preg_match($strict_url_regexp, $rule[1])
+                    ) {
+                        $rule[1] = '/* evil! */';
                     }
                 }
 
-                $styles = implode(";\n", $a_styles);
+                $output .= sprintf(" %s: %s;", $rule[0] , $rule[1]);
             }
 
-            $key      = $replacements->add($styles);
+            $key      = $replacements->add($output . ' ');
             $repl     = $replacements->get_replacement($key);
             $source   = substr_replace($source, $repl, $pos+1, $length);
             $last_pos = $pos2 - ($length - strlen($repl));
         }
-
-        // remove html comments
-        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
 
         // add #container to each tag selector and prefix to id/class identifiers
         if ($container_id || $prefix) {
@@ -509,6 +504,78 @@ class rcube_utils
         $source = $replacements->resolve($source);
 
         return $source;
+    }
+
+    /**
+     * Explode css style. Property names will be lower-cased and trimmed.
+     * Values will be trimmed. Invalid entries will be skipped.
+     *
+     * @param string $style CSS style
+     *
+     * @return array List of CSS rule pairs, e.g. [['color', 'red'], ['top', '0']]
+     */
+    public static function parse_css_block($style)
+    {
+        $pos = 0;
+
+        // first remove comments
+        while (($pos = strpos($style, '/*', $pos)) !== false) {
+            $end = strpos($style, '*/', $pos+2);
+
+            if ($end === false) {
+                $style = substr($style, 0, $pos);
+            }
+            else {
+                $style = substr_replace($style, '', $pos, $end - $pos + 2);
+            }
+        }
+
+        // Replace new lines with spaces
+        $style = preg_replace('/[\r\n]+/', ' ', $style);
+
+        $style  = trim($style);
+        $length = strlen($style);
+        $result = [];
+        $pos    = 0;
+
+        while ($pos < $length && ($colon_pos = strpos($style, ':', $pos))) {
+            // Property name
+            $name = strtolower(trim(substr($style, $pos, $colon_pos - $pos)));
+
+            // get the property value
+            $q = $s = false;
+            for ($i = $colon_pos + 1; $i < $length; $i++) {
+                if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i-1] != "\\")) {
+                    if ($q == $style[$i]) {
+                        $q = false;
+                    }
+                    else if ($q === false) {
+                        $q = $style[$i];
+                    }
+                }
+                else if ($style[$i] == "(" && !$q && ($i == 0 || $style[$i-1] != "\\")) {
+                    $q = "(";
+                }
+                else if ($style[$i] == ")" && $q == "(" && $style[$i-1] != "\\") {
+                    $q = false;
+                }
+
+                if ($q === false && (($s = $style[$i] == ';') || $i == $length - 1)) {
+                    break;
+                }
+            }
+
+            $value_length = $i - $colon_pos - ($s ? 1 : 0);
+            $value        = trim(substr($style, $colon_pos + 1, $value_length));
+
+            if (strlen($name) && !preg_match('/[^a-z-]/', $name) && strlen($value) && $value !== ';') {
+                $result[] = [$name, $value];
+            }
+
+            $pos = $i + 1;
+        }
+
+        return $result;
     }
 
     /**
