@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[cache_shared] (
 GO
 ALTER TABLE [dbo].[cache] ADD
   CONSTRAINT [DF_cache_user_id] DEFAULT ('0') FOR [user_id],
-  CONSTRAINT [DF_cache_cache_key] DEFAULT ('') FOR [cache_key],
+  CONSTRAINT [DF_cache_cache_key] DEFAULT ('') FOR [cache_key]
 GO
 CREATE INDEX [IX_cache_expires] ON [dbo].[cache]([expires]) ON [PRIMARY]
 GO
