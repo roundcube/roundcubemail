@@ -155,6 +155,7 @@ $messages['smtpautherror'] = 'Error SMTP ($code): Authentication fallite.';
 $messages['smtpfromerror'] = 'Error SMTP ($code): Impossibile fixar le expeditor "$from" ($msg).';
 $messages['smtptoerror'] = 'Error SMTP ($code): Impossibile adder le destinatario "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Error SMTP: Impossibile interpretar le lista de destinatarios.';
+$messages['smtpsizeerror'] = 'Error de SMTP: Le grandor del message excede le limite del servitor ($limit)';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Adresse de e-mail invalide: $email';
 $messages['toomanyrecipients'] = 'Troppo de destinatarios. Reduce le numero de destinatarios a $max.';

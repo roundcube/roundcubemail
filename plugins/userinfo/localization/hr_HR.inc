@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Informacije o korisniku';
 $labels['created'] = 'Stvoreno';
 $labels['lastlogin'] = 'Zadnja prijava (login)';
 $labels['defaultidentity'] = 'Preddefinirani identitet';
+$labels['userid'] = 'ID';

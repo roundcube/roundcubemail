@@ -462,6 +462,7 @@ $labels['foldertype'] = 'Vrsta mape';
 $labels['personalfolder'] = 'Privatna mapa';
 $labels['otherfolder'] = 'Mapa drugog korisnika';
 $labels['sharedfolder'] = 'Javna mapa';
+$labels['encryption'] = 'Šifriranje';
 $labels['sortby'] = 'Sortiraj po';
 $labels['sortasc'] = 'Sortiraj uzlaznim nizom';
 $labels['sortdesc'] = 'Sortiraj silaznim nizom';

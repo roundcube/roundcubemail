@@ -17,4 +17,3 @@
 $labels['help'] = 'Kömək';
 $labels['about'] = 'Haqqında';
 $labels['license'] = 'Lisenziya';
-?>

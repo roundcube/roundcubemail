@@ -95,4 +95,3 @@ $messages['createerror'] = 'Ligipääsuõiguste andmine nurjus';
 $messages['deleteconfirm'] = 'Oled sa kindel, et sa soovid valitudkasutaja(te) õiguseid kustutada?';
 $messages['norights'] = 'Õigusi pole määratud!';
 $messages['nouser'] = 'Kasutajanime pole määratud!';
-?>

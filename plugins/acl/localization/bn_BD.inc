@@ -24,4 +24,3 @@ $labels['shortacld'] = 'ফেলে দিন';
 $labels['shortaclt'] = 'ফেলে দিন';
 $labels['shortaclread'] = 'পড়';
 $labels['shortacldelete'] = 'ফেলে দিন';
-?>

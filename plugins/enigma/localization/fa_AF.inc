@@ -18,4 +18,3 @@ $labels['subkeycreated'] = 'ایجاد شد';
 $labels['expiresnever'] = 'هیچگاه';
 $labels['unknown'] = 'نا شناس';
 $labels['newkeypass'] = 'شفر';
-?>

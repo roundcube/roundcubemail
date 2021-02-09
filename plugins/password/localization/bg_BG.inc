@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Новата парола трябва да е раз
 $messages['passwdexpirewarning'] = 'Внимание! Срокът на Вашата парола изтича съвсем скоро и е препоръчително да я смените преди $expirationdatetime.';
 $messages['passwdexpired'] = 'Срокът на Вашата парола е изтекъл и трябва да я смените точно сега!';
 $messages['passwdconstraintviolation'] = 'Нарушение на изискване за паролата. Вероятно паролата е твърде лесна.';
+$messages['pwned_mustnotbedisclosed'] = 'Паролата не трябва да бъде&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">общоизвестна</a>.';
+$messages['pwned_isdisclosed'] = 'Тази парола е общоизвестна.';
+$messages['pwned_fetcherror'] = 'Неуспешна проверка на силата на паролата.';

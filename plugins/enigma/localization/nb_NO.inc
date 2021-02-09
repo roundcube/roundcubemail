@@ -18,11 +18,12 @@ $labels['encryption'] = 'Kryptering';
 $labels['keyname'] = 'Navn';
 $labels['keyid'] = 'Nøkkel ID';
 $labels['typeencrypt'] = 'Krypter';
+$labels['subkeyid'] = 'ID';
 $labels['subkeycreated'] = 'Opprettet';
 $labels['expiresnever'] = 'Aldri';
 $labels['unknown'] = 'ukjent';
+$labels['userid'] = 'ID';
 $labels['createkeys'] = 'Lag et nytt nøkkelpar';
 $labels['keychpass'] = 'Bytt passord';
 $labels['newkeypass'] = 'Passord';
 $labels['keyimportlabel'] = 'Importer fra fil';
-?>

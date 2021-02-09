@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'ユーザー情報';
+$labels['infoforuser'] = '$user の情報';
 $labels['created'] = '作成日時';
 $labels['lastlogin'] = '最後のログイン';
 $labels['defaultidentity'] = '既定の識別情報';
+$labels['userid'] = 'ID';

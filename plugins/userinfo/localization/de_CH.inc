@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'Benutzerinfo';
+$labels['infoforuser'] = 'Informationen zu $user';
 $labels['created'] = 'Erstellt';
 $labels['lastlogin'] = 'Letztes Login';
 $labels['defaultidentity'] = 'Standard-Absender';
+$labels['userid'] = 'ID';

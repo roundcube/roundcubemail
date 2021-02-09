@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Mostrar ícones expressivos em mensagens de texto simples';
 $labels['emoticonscompose'] = 'Activar ícones expressivos';
-?>

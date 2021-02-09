@@ -18,4 +18,3 @@ $labels['help'] = 'Cabhair';
 $labels['about'] = 'Maidir leis';
 $labels['license'] = 'Ceadúnas';
 $labels['csrfinfo'] = 'Léigh tuilleadh faoi CSRF agus conas mar a chosnaítear thú';
-?>

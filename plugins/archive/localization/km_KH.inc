@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'ខែ (ឧទា. បណ្ណសារ/2012/06)
 $labels['archivetypefolder'] = 'ថត​ដើម';
 $labels['archivetypesender'] = 'អ្នក​ផ្ញើ​អ៊ីមែល';
 $labels['unkownsender'] = 'មិន​ស្គាល់';
-?>

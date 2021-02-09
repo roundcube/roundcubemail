@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = '年 (例: アーカイブ/2012)';
 $labels['archivetypemonth'] = '月 (例: アーカイブ/2012/06)';
 $labels['archivetypetbmonth'] = '月 - Thunderbird互換 (例: アーカイブ/2012/2012-06)';
 $labels['archivetypefolder'] = '元のフォルダー';
+$labels['archivetypefolderyear'] = '年と元のフォルダー (例: アーカイブ/2012/...)';
+$labels['archivetypefoldermonth'] = '年、月と元のフォルダー (例: アーカイブ/2012/06/...)';
 $labels['archivetypesender'] = '電子メールの送信者';
 $labels['unkownsender'] = '不明';
 $labels['readonarchive'] = 'アーカイブでメッセージを既読に設定';
-?>

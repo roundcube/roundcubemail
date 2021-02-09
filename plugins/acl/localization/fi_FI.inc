@@ -26,6 +26,7 @@ $labels['anyone'] = 'Kaikki käyttäjät (kuka tahansa)';
 $labels['anonymous'] = 'Vieraat (anonyymit)';
 $labels['identifier'] = 'Tunniste';
 $labels['aclr'] = 'Lue viestit';
+$labels['acls'] = 'Säilytä Luettu-tila';
 $labels['aclc'] = 'Luo alikansioita';
 $labels['aclk'] = 'Luo alikansioita';
 $labels['acld'] = 'Poista viestejä';
@@ -73,6 +74,6 @@ $messages['createsuccess'] = 'Käyttöoikeuksia lisättiin onnistuneesti';
 $messages['updateerror'] = 'Käyttöoikeuksien päivitys epäonnistui';
 $messages['deleteerror'] = 'Käyttöoikeuksien poistaminen epäonnistui';
 $messages['createerror'] = 'Käyttöoikeuksien lisääminen epäonnistui';
+$messages['deleteconfirm'] = 'Oletko varma että haluat poistaa oikeudet valituilta käyttäjiltä?';
 $messages['norights'] = 'Oikeuksia ei ole määritelty!';
 $messages['nouser'] = 'Käyttäjänimeä ei ole määritelty!';
-?>

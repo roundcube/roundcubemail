@@ -95,4 +95,3 @@ $messages['createerror'] = 'Piekļuves tiesības pievienot neizdevās';
 $messages['deleteconfirm'] = 'Vai tiešām atzīmētajiem lietotājiem noņemt piekļuves tiesības?';
 $messages['norights'] = 'Netika norādītas tiesības!';
 $messages['nouser'] = 'Netika norādīts lietotājvārds!';
-?>

@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Carpeta original';
 $labels['archivetypesender'] = 'Remitente del correo';
 $labels['unkownsender'] = 'desconocido';
 $labels['readonarchive'] = 'Marcar el mensaje como leído al archivar';
-?>

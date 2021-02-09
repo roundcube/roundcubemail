@@ -18,4 +18,3 @@ $labels['help'] = 'Help';
 $labels['about'] = 'Oer';
 $labels['license'] = 'Lisinsje';
 $labels['csrfinfo'] = 'Lês mear oer CSRF en hoe\'t wy jo beskermje';
-?>

@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Brugerinfo';
 $labels['created'] = 'Oprettet';
 $labels['lastlogin'] = 'Sidste login';
 $labels['defaultidentity'] = 'Standardidentitet';
+$labels['userid'] = 'ID';

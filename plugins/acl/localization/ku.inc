@@ -86,4 +86,3 @@ $messages['createerror'] = 'Tevkirina mafên têketinê bigire';
 $messages['deleteconfirm'] = 'Tu ewle yî, dixwazî mafên têketinê yên bikarhênerê(n) bijartî rakî?';
 $messages['norights'] = 'Tu maf nehat diyarkirin!';
 $messages['nouser'] = 'Tu bikarhêner nehat diyarkirin!';
-?>

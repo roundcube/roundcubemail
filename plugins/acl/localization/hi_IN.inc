@@ -21,4 +21,3 @@ $labels['shortaclk'] = 'बनाऐं';
 $labels['shortacld'] = 'मिटा';
 $labels['shortaclt'] = 'मिटा';
 $labels['shortacldelete'] = 'मिटा';
-?>

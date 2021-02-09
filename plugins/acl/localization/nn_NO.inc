@@ -86,4 +86,3 @@ $messages['createerror'] = 'Kunne ikkje leggje til tilgangsrettar';
 $messages['deleteconfirm'] = 'Er du sikker på at du vil fjerne tilgangen til  valde brukarar?';
 $messages['norights'] = 'Ingen rettar er spesifisert!';
 $messages['nouser'] = 'Brukarnamn er ikkje spesifisert!';
-?>

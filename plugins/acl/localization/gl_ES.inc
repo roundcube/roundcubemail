@@ -95,4 +95,3 @@ $messages['createerror'] = 'Non se poden engadir permisos de acceso';
 $messages['deleteconfirm'] = 'De certo que queres eliminar os permisos de acceso da(s) persoa(s) usuaria(s) escollida(s)?';
 $messages['norights'] = 'Non se especificaron permisos!';
 $messages['nouser'] = 'Non se especificou o nome da persoa usuaria!';
-?>

@@ -17,4 +17,3 @@
 $labels['help'] = 'Ayuda';
 $labels['about'] = 'Tocante a';
 $labels['license'] = 'Llicencia';
-?>

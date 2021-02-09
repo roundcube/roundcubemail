@@ -52,4 +52,3 @@ $labels['shortaclother'] = 'อื่นๆ';
 $labels['shortaclread'] = 'อ่าน';
 $labels['shortaclwrite'] = 'เขียน';
 $labels['shortacldelete'] = 'ลบ';
-?>

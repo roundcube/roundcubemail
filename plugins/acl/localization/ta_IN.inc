@@ -21,4 +21,3 @@ $labels['shortaclk'] = 'உருவாக்கு';
 $labels['shortacld'] = 'நீக்கு';
 $labels['shortaclt'] = 'நீக்கு';
 $labels['shortacldelete'] = 'நீக்கு';
-?>

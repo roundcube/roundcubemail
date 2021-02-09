@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'Brukerinformasjon';
+$labels['infoforuser'] = 'Informasjon for $user';
 $labels['created'] = 'Opprettet';
 $labels['lastlogin'] = 'Sist logget inn';
 $labels['defaultidentity'] = 'Standard identitet';
+$labels['userid'] = 'ID';

@@ -95,4 +95,3 @@ $messages['createerror'] = 'Ní féidir cearta rochtana a chur leis';
 $messages['deleteconfirm'] = 'An bhfuil tú cinnte gur mian leat na cearta rochtana a bhaint den úsáideoir(í) roghnaithe?';
 $messages['norights'] = 'Níor sonraíodh aon chearta!';
 $messages['nouser'] = 'Níor sonraíodh aon ainm úsáideora!';
-?>

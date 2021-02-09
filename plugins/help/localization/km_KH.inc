@@ -17,4 +17,3 @@
 $labels['help'] = 'ជំនួយ';
 $labels['about'] = 'អំពី';
 $labels['license'] = 'អាជ្ញាប័ណ្ណ';
-?>

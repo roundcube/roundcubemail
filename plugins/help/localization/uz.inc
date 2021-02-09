@@ -18,4 +18,3 @@ $labels['help'] = 'Yordam';
 $labels['about'] = 'Biz haqimizda';
 $labels['license'] = 'Litsenziya';
 $labels['csrfinfo'] = 'CSRF haqida  va qanday himoya qilishimiz haqida ko‘proq o‘qing';
-?>

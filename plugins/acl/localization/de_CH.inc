@@ -95,4 +95,3 @@ $messages['createerror'] = 'Zugriffsrechte konnten nicht gewährt werden';
 $messages['deleteconfirm'] = 'Sind Sie sicher, dass Sie die Zugriffsrechte den ausgewählten Benutzern entziehen möchten?';
 $messages['norights'] = 'Es wurden keine Zugriffsrechte ausgewählt!';
 $messages['nouser'] = 'Es wurde kein Benutzer ausgewählt!';
-?>

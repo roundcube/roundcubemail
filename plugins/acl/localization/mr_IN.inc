@@ -23,4 +23,3 @@ $labels['shortacld'] = 'नष्ट करा';
 $labels['shortaclt'] = 'नष्ट करा';
 $labels['shortaclother'] = 'इतर';
 $labels['shortacldelete'] = 'नष्ट करा';
-?>

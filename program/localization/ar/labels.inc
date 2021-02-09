@@ -475,6 +475,7 @@ $labels['dualusemail'] = 'الرسائل';
 $labels['dualusefolder'] = 'المجلدات';
 $labels['generate'] = 'توليد';
 $labels['encryptioncreatekey'] = 'إنشاء زوج مِن المفاتيح';
+$labels['encryption'] = 'التشفير';
 $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc'] = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';

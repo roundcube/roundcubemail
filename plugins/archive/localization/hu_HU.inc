@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Év ( pl Arhívum/2012)';
 $labels['archivetypemonth'] = 'Honap ( pl Arhívum/2012/06)';
 $labels['archivetypetbmonth'] = 'Honap - Thunderbird kompatibilis ( pl Arhívum/2012/2012-06)';
 $labels['archivetypefolder'] = 'Eredeti mappa';
+$labels['archivetypefolderyear'] = 'Év és az eredeti mappa (pl: Archív/2012/...)';
+$labels['archivetypefoldermonth'] = 'Év, hónap és az eredeti mappa  (pl: Archív/2012/06/...)';
 $labels['archivetypesender'] = 'Feladó';
 $labels['unkownsender'] = 'ismeretlen';
 $labels['readonarchive'] = 'Üzenet olvasottként jelölése arhiváláskor';
-?>

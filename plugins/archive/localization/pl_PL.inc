@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Oryginalny folder';
 $labels['archivetypesender'] = 'E-mail nadawcy';
 $labels['unkownsender'] = 'nieznany';
 $labels['readonarchive'] = 'Podczas archiwizowania oznacz wiadomość jako przeczytaną';
-?>

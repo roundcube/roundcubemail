@@ -18,4 +18,3 @@ $labels['subkeycreated'] = 'निर्माण केलेले';
 $labels['expiresnever'] = 'कधीच नाही';
 $labels['unknown'] = 'माहित नसलेला';
 $labels['newkeypass'] = 'परवलीचा शब्द';
-?>

@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Naujas slaptažodis turi būti kitoks nei senasis.';
 $messages['passwdexpirewarning'] = 'Įspėjimas! Jūsų slaptažodis greitai nustos galioti, pakeiskite jį iki $expirationdatetime.';
 $messages['passwdexpired'] = 'Jūsų slaptažodis nebegalioja, jūs turite pakeisti jį dabar!';
 $messages['passwdconstraintviolation'] = 'Slaptažodžio apribojimų pažeidimas. Tikriausiai, slaptažodis pernelyg silpnas.';
+$messages['pwned_mustnotbedisclosed'] = 'Slaptažodis privalo būti&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">ne plačiai žinomas</a>.';
+$messages['pwned_isdisclosed'] = 'Šis slaptažodis yra plačiai žinomas.';
+$messages['pwned_fetcherror'] = 'Nepavyko patikrinti slaptažodžio stiprumo.';

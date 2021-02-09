@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Informācija par lietotāju';
 $labels['created'] = 'Izveidots';
 $labels['lastlogin'] = 'Pēdējā pieteikšanās';
 $labels['defaultidentity'] = 'Noklusētā identitāte';
+$labels['userid'] = 'ID';

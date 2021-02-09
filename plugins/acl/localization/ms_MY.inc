@@ -21,4 +21,3 @@ $labels['shortaclk'] = 'Cipta';
 $labels['shortacld'] = 'Padam';
 $labels['shortaclt'] = 'Padam';
 $labels['shortacldelete'] = 'Padam';
-?>

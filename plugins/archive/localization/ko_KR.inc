@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = '연도 (예: 보관/2012)';
 $labels['archivetypemonth'] = '월 (예: 보관/2012/06)';
 $labels['archivetypetbmonth'] = '월 - 썬더버드 호환 (예: 보관/2012/2012-06)';
 $labels['archivetypefolder'] = '원본 폴더';
+$labels['archivetypefolderyear'] = '연도 및 원래 폴더 (예: 보관/2012/...)';
+$labels['archivetypefoldermonth'] = '연, 월 및 원래 폴더 (예: 보관/2012/06/...)';
 $labels['archivetypesender'] = '발송자 이메일';
 $labels['unkownsender'] = '알 수 없음';
 $labels['readonarchive'] = '보관 편지함에서 메시지를 읽음으로 표시';
-?>

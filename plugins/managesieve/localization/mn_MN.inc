@@ -49,4 +49,6 @@ $labels['del'] = 'Устгах';
 $labels['sender'] = 'Илгээгч';
 $labels['flagread'] = 'Унших';
 $labels['datetest'] = 'Огноо';
+$labels['spamtestequals'] = 'тэнцүү';
+$labels['spamtestnotequals'] = 'нь тэнцүү биш';
 $labels['vacation.subject'] = 'Гарчиг';

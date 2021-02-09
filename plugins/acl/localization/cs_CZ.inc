@@ -95,4 +95,3 @@ $messages['createerror'] = 'Přidání přístupových práv se nezdařilo';
 $messages['deleteconfirm'] = 'Opravdu si přejete odstranit přístupová práva pro vybrané(ho) uživatele?';
 $messages['norights'] = 'Nejsou specifikována žádná práva!';
 $messages['nouser'] = 'Není specifikováno uživatelské jméno!';
-?>

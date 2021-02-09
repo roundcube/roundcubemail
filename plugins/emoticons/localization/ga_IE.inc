@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Taispeáin straoiseoga i dteachtaireachtaí le gnáth-théacs';
 $labels['emoticonscompose'] = 'Cumasaigh straoiseoga';
-?>

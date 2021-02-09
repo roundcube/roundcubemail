@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Afișați emoticoane în mesaje text simplu';
 $labels['emoticonscompose'] = 'Activați emoticoane';
-?>

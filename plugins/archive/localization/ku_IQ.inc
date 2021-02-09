@@ -18,4 +18,3 @@ $labels['buttontext'] = 'ئەرشیف';
 $labels['archivefolder'] = 'ئەرشیف';
 $labels['settingstitle'] = 'ئەرشیف';
 $labels['unkownsender'] = 'نەناسراو';
-?>

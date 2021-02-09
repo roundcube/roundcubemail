@@ -28,4 +28,3 @@ $labels['archivetypefolder'] = 'Oarspronklike map';
 $labels['archivetypesender'] = 'Stjoerder e-post';
 $labels['unkownsender'] = 'ûnbekend';
 $labels['readonarchive'] = 'Markearje it berjocht as lêzen op argyf';
-?>

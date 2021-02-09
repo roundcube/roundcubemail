@@ -31,4 +31,3 @@ $labels['keyremove'] = 'Fjern';
 $labels['keychpass'] = 'Skift kodeord:';
 $labels['newkeypass'] = 'Adgangskode';
 $labels['keyimportlabel'] = 'Importer fra fil';
-?>

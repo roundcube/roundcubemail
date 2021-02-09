@@ -587,6 +587,7 @@ $labels['encryptioncreatekey'] = '建立新的金鑰對';
 $labels['openmailvelopesettings'] = '開啟 Mailvelope 設定';
 $labels['encryptionprivkeysinmailvelope'] = '有 $nr 個符合的私鑰儲存於 Mailvelope 鑰匙圈：';
 $labels['encryptionnoprivkeysinmailvelope'] = '未有在 Mailvelope 附加程式找到寄件者的身分的 PGP 私鑰。是否建立一個新的，以啟用郵件加密？';
+$labels['encryption'] = '加密';
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '遞增排序';
 $labels['sortdesc'] = '遞減排序';

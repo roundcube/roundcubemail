@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Jahr (z.B. Archiv/2012)';
 $labels['archivetypemonth'] = 'Monat (z.B. Archiv/2012/06)';
 $labels['archivetypetbmonth'] = 'Monat - Thunderbird-kompatibel (z.B. Archiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Originalordner';
+$labels['archivetypefolderyear'] = 'Jahr und der Originalordner (z.B. Archiv/2012/...)';
+$labels['archivetypefoldermonth'] = 'Jahr, Monat und der Originalordner (z.B. Archiv/2012/06/...)';
 $labels['archivetypesender'] = 'Absender-E-Mail';
 $labels['unkownsender'] = 'unbekannt';
 $labels['readonarchive'] = 'Nachricht im Archiv als gelesen markieren';
-?>

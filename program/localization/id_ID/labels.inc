@@ -535,6 +535,7 @@ $labels['namespace.personal'] = 'Pribadi';
 $labels['namespace.other'] = 'Pengguna lain';
 $labels['namespace.shared'] = 'Bersama';
 $labels['encryptioncreatekey'] = 'Buat pasangan kunci baru';
+$labels['encryption'] = 'Enkripsi';
 $labels['sortby'] = 'Urut berdasarkan';
 $labels['sortasc'] = 'Urut menaik';
 $labels['sortdesc'] = 'Urut menurun';

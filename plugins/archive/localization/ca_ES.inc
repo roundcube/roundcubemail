@@ -24,9 +24,10 @@ $labels['settingstitle'] = 'Arxiu';
 $labels['archivetype'] = 'Divideix arxiu per';
 $labels['archivetypeyear'] = 'Any (p.ex. Arxiu/2012)';
 $labels['archivetypemonth'] = 'Mes (p.ex. Arxiu/2012/06)';
-$labels['archivetypetbmonth'] = 'Mes - Compatible amb Thunderbird (ej. Arxiu/2012/2102-06)';
+$labels['archivetypetbmonth'] = 'Mes - Compatible amb Thunderbird (p.ex. Arxiu/2012/2102-06)';
 $labels['archivetypefolder'] = 'Carpeta original';
+$labels['archivetypefolderyear'] = 'L\'any i la carpeta original (p.ex. Arxiu/2012/...)';
+$labels['archivetypefoldermonth'] = 'L\'any, el mes i la carpeta original (p.ex. Arxiu/2012/06/...)';
 $labels['archivetypesender'] = 'Adreça del remitent';
 $labels['unkownsender'] = 'desconegut';
 $labels['readonarchive'] = 'Marca el missatge com a llegit a l\'arxiu';
-?>

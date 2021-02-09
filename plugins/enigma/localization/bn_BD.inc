@@ -17,4 +17,3 @@
 $labels['expiresnever'] = 'কখোনোই না';
 $labels['unknown'] = 'অজানা';
 $labels['newkeypass'] = 'গোপোন শব্দ (password)';
-?>

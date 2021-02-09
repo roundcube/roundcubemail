@@ -20,4 +20,3 @@ $labels['expiresnever'] = 'nikad';
 $labels['unknown'] = 'nepoznato';
 $labels['keychpass'] = 'Promijeni šifru';
 $labels['newkeypass'] = 'Šifra';
-?>

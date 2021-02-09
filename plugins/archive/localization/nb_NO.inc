@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Måned (f.eks. Arkiv/2012/06)';
 $labels['archivetypetbmonth'] = 'Måned - Thunderbird kompatibel (f.eks. Arkiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Opprinnelig mappe';
+$labels['archivetypefolderyear'] = 'År og opprinnelig mappe (f.eks. Arkiv/2012/...)';
+$labels['archivetypefoldermonth'] = 'År, måned og opprinnelig mappe (f.eks. Arkiv/2012/06/...)';
 $labels['archivetypesender'] = 'Avsender';
 $labels['unkownsender'] = 'ukjent';
 $labels['readonarchive'] = 'Merk meldingen som lest ved arkivering';
-?>

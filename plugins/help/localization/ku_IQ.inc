@@ -17,4 +17,3 @@
 $labels['help'] = 'یارمەتی';
 $labels['about'] = 'دەربارە';
 $labels['license'] = 'مۆڵەت';
-?>

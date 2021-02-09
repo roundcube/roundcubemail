@@ -20,4 +20,3 @@ $labels['archived'] = 'വിജയകരമായി ശേഖരിച്ച�
 $labels['archivefolder'] = 'ശേഖരം';
 $labels['settingstitle'] = 'ശേഖരം';
 $labels['unkownsender'] = 'അറിയാത്ത';
-?>

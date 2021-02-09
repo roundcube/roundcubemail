@@ -55,4 +55,3 @@ $labels['shortaclread'] = 'Ɣeṛ';
 $labels['shortaclwrite'] = 'Aru';
 $labels['shortacldelete'] = 'Kkes';
 $messages['deleting'] = 'Kkes akk izerfan n unekcum...';
-?>

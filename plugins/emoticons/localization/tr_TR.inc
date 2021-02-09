@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Düz metin iletilerinde duygu ifadeleri görüntülensin';
 $labels['emoticonscompose'] = 'Duygu ifadeleri kullanılsın';
-?>

@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Faisnéis an úsáideora';
 $labels['created'] = 'Cruthaithe';
 $labels['lastlogin'] = 'Ceangailte an uair dheireanach';
 $labels['defaultidentity'] = 'An chéannacht réamhshocraithe';
+$labels['userid'] = 'Aitheantas';

@@ -520,6 +520,7 @@ $labels['namespace.personal'] = 'Personel';
 $labels['namespace.other'] = 'Arveriaded all';
 $labels['namespace.shared'] = 'Rannet';
 $labels['encryptioncreatekey'] = 'Krouiñ un daouad alc\'hwezioù nevez';
+$labels['encryption'] = 'Enrinegañ';
 $labels['sortby'] = 'Rummañ dre';
 $labels['sortasc'] = 'Rumm diagentad';
 $labels['sortdesc'] = 'Rumm diskennad';

@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Parastā teksta ziņojumos rādīt emocijas';
 $labels['emoticonscompose'] = 'Rādīt emocijas';
-?>

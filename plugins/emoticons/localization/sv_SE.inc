@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Visa emoji-symboler i textmeddelanden';
 $labels['emoticonscompose'] = 'Aktivera emoji-symboler';
-?>

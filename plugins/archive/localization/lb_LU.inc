@@ -24,7 +24,9 @@ $labels['settingstitle'] = 'Archiv';
 $labels['archivetype'] = 'Archiv dividéieren duerch';
 $labels['archivetypeyear'] = 'Joer (z.B. Archiv/2013)';
 $labels['archivetypemonth'] = 'Mount (z.B. Archiv/2013/06)';
+$labels['archivetypetbmonth'] = 'Mount - Thunderbird kompatibel (z.B. Archiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Original-Dossier';
+$labels['archivetypefolderyear'] = 'Joer an den original Dossier (z.B. Archiv/2012/...)';
+$labels['archivetypefoldermonth'] = 'Joer, Mount an den original Dossier (z.B. Archiv/2012/...)';
 $labels['archivetypesender'] = 'Sender-E-Mail';
 $labels['unkownsender'] = 'onbekannt';
-?>
