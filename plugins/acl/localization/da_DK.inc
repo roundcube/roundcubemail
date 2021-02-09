@@ -90,4 +90,3 @@ $messages['createerror'] = 'Kunne ikke tilføje tilgangsrettigheder';
 $messages['deleteconfirm'] = 'Er du sikker på, at du vil slette tilgangsrettigheder fra de(n) valgte bruger(e)?';
 $messages['norights'] = 'Der er ikke specificeret nogle rettigheder!';
 $messages['nouser'] = 'Der er ikke angiver et brugernavn!';
-?>

@@ -24,4 +24,3 @@ $labels['shortaclt'] = 'നീക്കം ചെയ്യുക';
 $labels['shortaclother'] = 'മറ്റുള്ളത്';
 $labels['shortaclread'] = 'വായിച്ചവ';
 $labels['shortacldelete'] = 'നീക്കം ചെയ്യുക';
-?>

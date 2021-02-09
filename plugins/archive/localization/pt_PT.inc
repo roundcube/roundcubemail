@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Ano (ex. Arquivo/2012)';
 $labels['archivetypemonth'] = 'Mês (ex. Arquivo/2012/06)';
 $labels['archivetypetbmonth'] = 'Mês - Compatível com Thunderbird (ex. Arquivo/2012/2012-06)';
 $labels['archivetypefolder'] = 'Pasta original';
+$labels['archivetypefolderyear'] = 'Ano e pasta original (ex. Arquivo/2012/...)';
+$labels['archivetypefoldermonth'] = 'Ano, mês e pasta original (ex. Arquivo/2012/06/...)';
 $labels['archivetypesender'] = 'E-mail do remetente';
 $labels['unkownsender'] = 'desconhecido';
 $labels['readonarchive'] = 'Marcar a mensagem como lida ao arquivar';
-?>

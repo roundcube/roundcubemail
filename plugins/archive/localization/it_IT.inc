@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Cartella di origine';
 $labels['archivetypesender'] = 'Mittente email';
 $labels['unkownsender'] = 'sconosciuto';
 $labels['readonarchive'] = 'Segna i messaggi in archivio come letti';
-?>

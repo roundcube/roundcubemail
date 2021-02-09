@@ -94,4 +94,3 @@ $messages['createerror'] = 'لا يمكن اضافة حقوق الوصول';
 $messages['deleteconfirm'] = 'هل تريد فعلاً حذف حقوق الوصول لـ المستخدمين المحددين ؟';
 $messages['norights'] = 'لم يتم تحديد حقوق وصول!';
 $messages['nouser'] = 'لم يتم تحديد اسم مستخدم!';
-?>

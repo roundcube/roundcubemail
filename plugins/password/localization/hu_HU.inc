@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Az új jelszó nem lehet azonos a régi jelszóval.';
 $messages['passwdexpirewarning'] = 'Figyelem! A jelszavad hamarosan lejár, változtasd meg még $expirationdatetime elött.';
 $messages['passwdexpired'] = 'A jelszavad lejárt, adj meg újat.';
 $messages['passwdconstraintviolation'] = 'Jelszó szabály megsértése. A jelszó valószínűleg túl gyenge.';
+$messages['pwned_mustnotbedisclosed'] = 'A jelszó nem lehet&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">általánosan használtként ismert</a>.';
+$messages['pwned_isdisclosed'] = 'Ez a jelszó általánosan használtként ismert.';
+$messages['pwned_fetcherror'] = 'Nem sikerült a jelszó erősségének ellenörzése.';

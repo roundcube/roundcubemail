@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Información de usuario';
 $labels['created'] = 'Creado';
 $labels['lastlogin'] = 'Ultimo ingreso';
 $labels['defaultidentity'] = 'Identidad por defecto';
+$labels['userid'] = 'ID';

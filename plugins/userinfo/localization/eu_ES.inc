@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Erabiltzailearen informazioa';
 $labels['created'] = 'Sortua';
 $labels['lastlogin'] = 'Azken saioa';
 $labels['defaultidentity'] = 'Lehenetsitako identitatea';
+$labels['userid'] = 'ID';

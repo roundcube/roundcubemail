@@ -95,4 +95,3 @@ $messages['createerror'] = 'Toegangsrechten kunnen niet toegevoegd worden';
 $messages['deleteconfirm'] = 'Weet u zeker dat u de toegangsrechten van de geselecteerde gebruiker(s) wilt verwijderen?';
 $messages['norights'] = 'Er zijn geen toegangsrechten opgegeven!';
 $messages['nouser'] = 'Er is geen gebruikersnaam opgegeven!';
-?>

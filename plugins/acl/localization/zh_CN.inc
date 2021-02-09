@@ -95,4 +95,3 @@ $messages['createerror'] = '无法添加访问权限';
 $messages['deleteconfirm'] = '您确定要移除选中用户的访问权限吗?';
 $messages['norights'] = '没有已指定的权限!';
 $messages['nouser'] = '没有已指定的用户名!';
-?>

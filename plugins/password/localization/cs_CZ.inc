@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Nové heslo musí být odlišné od předchozího.';
 $messages['passwdexpirewarning'] = 'Varování! Vaše heslo bude brzy zneplatněno, změňte ho před $expirationdatetime.';
 $messages['passwdexpired'] = 'Vaše heslo bylo zneplatněno, musíte ho nyní změnit!';
 $messages['passwdconstraintviolation'] = ' Nesplnění nutných pravidel pro heslo. Heslo je zrejmě příliš slabé.';
+$messages['pwned_mustnotbedisclosed'] = 'Heslo nesmí být&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">běžně užívané</a>.';
+$messages['pwned_isdisclosed'] = 'Heslo je běžně užívané.';
+$messages['pwned_fetcherror'] = 'Síla hesla se nedá ověřit.';

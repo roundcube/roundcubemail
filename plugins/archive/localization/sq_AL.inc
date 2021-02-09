@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Vit (p.sh. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Muaj (p.sh. Arkiv/2012/06)';
 $labels['archivetypetbmonth'] = 'Muaj - i përputhshëm me Thunderbird-in (p.sh. Arkiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Dosje origjinale';
+$labels['archivetypefolderyear'] = 'Vit dhe dosja origjinale (p.sh., Arkiv/2012/…)';
+$labels['archivetypefoldermonth'] = 'Vit, muaj,dhe dosja origjinale (p.sh., Arkiv/2012/06/…)';
 $labels['archivetypesender'] = 'Email dërguesi';
 $labels['unkownsender'] = 'e panjohur';
 $labels['readonarchive'] = 'I vini shenjë si të lexuar mesazhit në arkiv';
-?>

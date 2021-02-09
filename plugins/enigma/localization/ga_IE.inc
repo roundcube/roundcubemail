@@ -45,8 +45,6 @@ $labels['keysend'] = 'Seol eochair phoiblí i dteachtaireacht';
 $labels['keychpass'] = 'Athraigh d\'fhocal faire';
 $labels['newkeypass'] = 'Pasfhocal';
 $labels['newkeypassconfirm'] = 'Deimhnigh an focal faire';
-$labels['newkeysize'] = 'Méid na heochrach';
-$labels['key2048'] = '2048 beart - an réamhshocrú';
 $labels['keygenerating'] = 'Ag cruthú eochracha...';
 $labels['encryptmsg'] = 'Criptigh an teachtaireacht seo';
 $labels['signmsg'] = 'Sínigh an teachtaireacht seo go digiteach';
@@ -58,4 +56,5 @@ $messages['encrypterror'] = 'Theip ar an gcriptiú.';
 $messages['nokeysfound'] = 'Níor aimsíodh aon eochair';
 $messages['keynotfound'] = 'Níor aimsíodh an eochair!';
 $messages['passwordsdiffer'] = 'Ní hionann na focail fhaire!';
-?>
+$labels['newkeysize'] = 'Méid na heochrach';
+$labels['key2048'] = '2048 beart - an réamhshocrú';

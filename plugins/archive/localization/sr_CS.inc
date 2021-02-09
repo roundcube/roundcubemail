@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'изворној фасцикли';
 $labels['archivetypesender'] = 'адреси пошиљаоца';
 $labels['unkownsender'] = 'непознато';
 $labels['readonarchive'] = 'Поруку означи као прочитану при архивирању';
-?>

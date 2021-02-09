@@ -15,9 +15,12 @@
 */
 
 $labels['keyname'] = 'Nombre';
+$labels['keyid'] = 'ID de la llave';
+$labels['typeencrypt'] = 'Cifrar';
+$labels['subkeyid'] = 'ID';
 $labels['subkeycreated'] = 'Creado';
 $labels['expiresnever'] = 'nunca';
 $labels['unknown'] = 'desconocido';
+$labels['userid'] = 'ID';
 $labels['keychpass'] = 'Cambiar contraseña';
 $labels['newkeypass'] = 'Contraseña';
-?>

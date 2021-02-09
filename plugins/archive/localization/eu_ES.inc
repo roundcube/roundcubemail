@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Jatorrizko karpeta';
 $labels['archivetypesender'] = 'Bidaltzailearen helbidea';
 $labels['unkownsender'] = 'ezezaguna';
 $labels['readonarchive'] = 'Markatu mezua irakurrita bezala artxiboan';
-?>

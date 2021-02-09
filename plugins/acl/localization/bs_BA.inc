@@ -95,4 +95,3 @@ $messages['createerror'] = 'Nije moguće dodati prava pristupa';
 $messages['deleteconfirm'] = 'Jeste li sigurni da želite ukloniti prava pristupa za odabrane korisnike?';
 $messages['norights'] = 'Niste odabrali prava pristupa!';
 $messages['nouser'] = 'Niste odabrali korisničko ime!';
-?>

@@ -95,4 +95,3 @@ $messages['createerror'] = '無法新增權限';
 $messages['deleteconfirm'] = '確定要刪除所選使用者的權限嗎？';
 $messages['norights'] = '沒有指定任何權限';
 $messages['nouser'] = '沒有指定用戶名稱';
-?>

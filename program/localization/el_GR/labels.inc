@@ -542,6 +542,7 @@ $labels['namespace.shared'] = 'Διαμοιρασμένος';
 $labels['dualusemail'] = 'μηνύματα';
 $labels['dualusefolder'] = 'φάκελοι';
 $labels['encryptioncreatekey'] = 'Δημιουργία νέου ζεύγους κλειδιού';
+$labels['encryption'] = 'Κρυπτογράφηση';
 $labels['sortby'] = 'Ταξινόμηση κατά';
 $labels['sortasc'] = 'Αύξουσα ταξινόμηση';
 $labels['sortdesc'] = 'Φθίνουσα ταξινόμηση';

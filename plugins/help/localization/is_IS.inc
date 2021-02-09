@@ -18,4 +18,3 @@ $labels['help'] = 'Hjálp';
 $labels['about'] = 'Um hugbúnaðinn';
 $labels['license'] = 'Notkunarleyfi';
 $labels['csrfinfo'] = 'Lestumeira uF og hvernig við verjum þig';
-?>

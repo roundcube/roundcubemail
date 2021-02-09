@@ -95,4 +95,3 @@ $messages['createerror'] = 'No se pueden agregar los permisos de acceso';
 $messages['deleteconfirm'] = 'Estas seguro que queres remover los permisos de acceso a el/los usuario(s) seleccionado/s?';
 $messages['norights'] = 'Ningun permiso ha sido especificado!';
 $messages['nouser'] = 'Ningun nombre de usuario ha sido especificado!';
-?>

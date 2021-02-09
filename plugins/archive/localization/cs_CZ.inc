@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Rok (např.  Archiv/2012)';
 $labels['archivetypemonth'] = 'Měsíc (např. Archiv/2012/06)';
 $labels['archivetypetbmonth'] = 'Měsíc - kompatibilní s Thunderbird klientem (např. Archiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Původní složka';
+$labels['archivetypefolderyear'] = 'Rok a původní složka (např. Archive/2012/...)';
+$labels['archivetypefoldermonth'] = 'Rok, měsíc a původní složka (např. Archive/2012/06/...)';
 $labels['archivetypesender'] = 'E-mail odesílatele';
 $labels['unkownsender'] = 'neznámý';
 $labels['readonarchive'] = 'Při archivaci označit zprávu jako přečtenou';
-?>

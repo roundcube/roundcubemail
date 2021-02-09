@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Näita lihttekst kirjas emotikone';
 $labels['emoticonscompose'] = 'Luba emotikonid';
-?>

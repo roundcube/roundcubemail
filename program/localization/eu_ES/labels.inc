@@ -588,6 +588,7 @@ $labels['encryptioncreatekey'] = 'Sortu gako pare berria';
 $labels['openmailvelopesettings'] = 'Ireki Mailvelope ezarpenak';
 $labels['encryptionprivkeysinmailvelope'] = ' Badaukazu bat datozen $nr gako pribatu zure Mailvelope giltzarrian gordeta:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'Bidaltzaile identitate honek jada ez dauka PGP gako pribaturik gordeta zure Mailvelope gehigarrian. Nahi al duzu bat sortzea mezuak zifratu ahal izateko?';
+$labels['encryption'] = 'Zifraketa';
 $labels['sortby'] = 'Honela ordenatu';
 $labels['sortasc'] = 'Goraka ordenatu';
 $labels['sortdesc'] = 'Beheraka ordenatu';

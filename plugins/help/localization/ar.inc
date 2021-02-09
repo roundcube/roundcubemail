@@ -18,4 +18,3 @@ $labels['help'] = 'المساعدة';
 $labels['about'] = 'نبذة عن البرنامج';
 $labels['license'] = 'الترخيص';
 $labels['csrfinfo'] = 'إطّلع على المزيد حول CSRF و كيف  نقوم بحمايتكم';
-?>

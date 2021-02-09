@@ -21,4 +21,3 @@ $labels['shortaclk'] = 'جوړول، رامنځ ته کول';
 $labels['shortacld'] = 'ړنګول';
 $labels['shortaclt'] = 'ړنګول';
 $labels['shortacldelete'] = 'ړنګول';
-?>

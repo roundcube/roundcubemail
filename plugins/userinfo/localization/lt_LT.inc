@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'Informacija apie naudotoją';
+$labels['infoforuser'] = 'Informacija apie $user';
 $labels['created'] = 'Sukurtas';
 $labels['lastlogin'] = 'Paskutinį kartą prisijungė';
 $labels['defaultidentity'] = 'Numatytoji tapatybė';
+$labels['userid'] = 'ID';

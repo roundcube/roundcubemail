@@ -68,6 +68,7 @@ $labels['detail'] = 'جزئیات';
 $labels['comparator'] = 'مقایسه کننده:';
 $labels['default'] = 'پیش فرض';
 $labels['index'] = 'اندیس';
+$labels['spamtestequals'] = 'مساوی با';
 $labels['vacation.reply'] = 'پیام پاسخ';
 $labels['vacation.advanced'] = 'تنظیمات پیشرفته';
 $labels['vacation.subject'] = 'موضوع';

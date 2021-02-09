@@ -51,5 +51,5 @@ $labels['createkeys'] = 'Crear un nuevo par de claves';
 $labels['importkeys'] = 'Importar clave(s)';
 $labels['keychpass'] = 'Cambiar contraseña';
 $labels['newkeypass'] = 'Contraseña';
+$labels['newkeytype'] = 'Tipo de clave';
 $labels['keyimportlabel'] = 'Importar desde archivo';
-?>

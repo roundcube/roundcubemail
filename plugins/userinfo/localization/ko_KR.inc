@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = '사용자 정보';
+$labels['infoforuser'] = '$user 정보';
 $labels['created'] = '생성 날짜';
 $labels['lastlogin'] = '마지막 로그인 날짜';
 $labels['defaultidentity'] = '기본 신원';
+$labels['userid'] = 'ID';

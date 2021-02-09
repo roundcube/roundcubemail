@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Näytä hymiöt "pelkkä teksti"-viesteissä';
 $labels['emoticonscompose'] = 'Käytä hymiöitä';
-?>

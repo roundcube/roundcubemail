@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'הצגה של פרצופונים בהודעות של טקסט פשוט';
 $labels['emoticonscompose'] = 'הפעל פרצופונים';
-?>

@@ -63,8 +63,7 @@ $labels['keyrevoke'] = 'Revocar';
 $labels['keysend'] = 'Inviar le clave pubic in un message';
 $labels['keychpass'] = 'Cambiar contrasigno';
 $labels['newkeypass'] = 'Contrasigno';
-$labels['key2048'] = '2048 bits - predefinite';
-$labels['key4096'] = '4096 bits - plus secur';
+$labels['newkeytype'] = 'Typo de clave';
 $labels['keygenerating'] = 'Genera claves...';
 $labels['encryptionoptions'] = 'Optiones de cryptation...';
 $labels['encryptmsg'] = 'Cryptar iste message';
@@ -117,4 +116,5 @@ $messages['keygeneratesuccess'] = 'Un par de claves ha essite generate e importa
 $messages['keygennosupport'] = 'Vostre navigator del web non supporta le cryptographia. Incapace de generar un par de claves!';
 $messages['noidentselected'] = 'Es necessari seliger al minus un identitate pro le clave!';
 $messages['nonameident'] = 'Le identitate debe includer un nomine de usator!';
-?>
+$labels['key2048'] = '2048 bits - predefinite';
+$labels['key4096'] = '4096 bits - plus secur';

@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Pasta original';
 $labels['archivetypesender'] = 'E-mail do remetente';
 $labels['unkownsender'] = 'desconhecido';
 $labels['readonarchive'] = 'Marcar a mensagem como lida ao arquivar';
-?>

@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Mes (p.ex. Arquivo/2012/06)';
 $labels['archivetypefolder'] = 'Cartafol orixe';
 $labels['archivetypesender'] = 'Enderezo da persoa remitente';
 $labels['unkownsender'] = 'descoñecido';
-?>

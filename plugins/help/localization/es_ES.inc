@@ -18,4 +18,4 @@ $labels['help'] = 'Ayuda';
 $labels['about'] = 'Acerca de';
 $labels['license'] = 'Licencia';
 $labels['csrfinfo'] = 'Lea más sobre CSRF y cómo le protegemos';
-?>
+$labels['arialabelhelpcontent'] = 'Contenido de la ayuda';

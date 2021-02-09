@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Het nieuwe paswoord dient verschillend ten opzichte v
 $messages['passwdexpirewarning'] = 'Waarschuwing! je wachtwoord verloopt binnenkort, Wijzig het voor $vervaldatum.';
 $messages['passwdexpired'] = 'Je wachtwoord is verlopen, je dient het nu te wijzigen!';
 $messages['passwdconstraintviolation'] = 'Wachtwoord voldoet niet aan beleid. Waarschijnlijk te zwak.';
+$messages['pwned_mustnotbedisclosed'] = 'Het wachtwoord mag niet <a href="https://haveibeenpwned.com/Passwords" target="_blank">algemeen bekend</a> zijn.';
+$messages['pwned_isdisclosed'] = 'Dit wachtwoord is algemeen bekend.';
+$messages['pwned_fetcherror'] = 'De wachtwoordsterkte kon niet geverifieerd worden.';

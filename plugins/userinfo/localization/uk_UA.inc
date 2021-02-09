@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Інформація';
 $labels['created'] = 'Створено';
 $labels['lastlogin'] = 'Останнє входження';
 $labels['defaultidentity'] = 'Типовий профіль';
+$labels['userid'] = 'ID';

@@ -28,4 +28,3 @@ $labels['archivetypefolder'] = 'Original mappe';
 $labels['archivetypesender'] = 'Afsenders email';
 $labels['unkownsender'] = 'ukendt';
 $labels['readonarchive'] = 'Marker denne meddelelse som læst i arkivet';
-?>

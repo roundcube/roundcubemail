@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'месяца (прыкладам, Архіў/2012
 $labels['archivetypefolder'] = 'Выточная папка';
 $labels['archivetypesender'] = 'Эл. пошта адпраўніка';
 $labels['unkownsender'] = 'невядомы';
-?>

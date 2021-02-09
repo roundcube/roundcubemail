@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Månad (f.eks. Arkiv/2012/06)';
 $labels['archivetypefolder'] = 'Opprinneleg mappe';
 $labels['archivetypesender'] = 'Avsendar';
 $labels['unkownsender'] = 'ukjent';
-?>

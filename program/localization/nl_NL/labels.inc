@@ -587,6 +587,7 @@ $labels['encryptioncreatekey'] = 'Maak een nieuw sleutelpaar aan';
 $labels['openmailvelopesettings'] = 'open Mailvelope Instellingen';
 $labels['encryptionprivkeysinmailvelope'] = 'U heeft $nr overeenkomende privésleutels opgeslagen in Mailvelope';
 $labels['encryptionnoprivkeysinmailvelope'] = 'Deze afzender zijn indentiteit heeft (nog) geen PGP-privésleutels opgeslagen in uw Mailvelope extensie. Wilt u deze aanmaken om versleuteling van berichten in te kunnen schakelen?';
+$labels['encryption'] = 'Versleuteling';
 $labels['sortby'] = 'Sorteer op';
 $labels['sortasc'] = 'Sorteer oplopend';
 $labels['sortdesc'] = 'Sorteer aflopend';

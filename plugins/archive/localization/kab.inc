@@ -22,4 +22,3 @@ $labels['settingstitle'] = 'Aḥraz';
 $labels['archivetypeyear'] = 'Aseggas(md. Aḥraz/2012)';
 $labels['archivetypesender'] = 'Imayl n umazan';
 $labels['unkownsender'] = 'arussin';
-?>

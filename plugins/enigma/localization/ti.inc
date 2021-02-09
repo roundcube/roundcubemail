@@ -16,4 +16,3 @@
 
 $labels['subkeycreated'] = 'እዋን ፍጥረት';
 $labels['newkeypass'] = 'መሐለፊ ቃል';
-?>

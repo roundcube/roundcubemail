@@ -581,6 +581,7 @@ $labels['encryptioncreatekey'] = 'Crea una nuova coppia di chiavi';
 $labels['openmailvelopesettings'] = 'Apri impostazioni di Mailvelope';
 $labels['encryptionprivkeysinmailvelope'] = 'Ci sono $nr chiavi private corrispondenti memorizzate nel portachiavi Mailvelope:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'L\'indentità del server non dispone ancora di una chiave privata PGP memorizzata nell\'estensione Mailvelope. Vuoi crearne una per abilitare la cifratura dei messaggi?';
+$labels['encryption'] = 'Cifratura';
 $labels['sortby'] = 'Ordina per';
 $labels['sortasc'] = 'Ordinamento crescente';
 $labels['sortdesc'] = 'Ordinamento decrescente';

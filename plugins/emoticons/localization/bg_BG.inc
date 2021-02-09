@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Показвай емотикони в съобщения с обикновен текст';
 $labels['emoticonscompose'] = 'Разреши емотикони';
-?>

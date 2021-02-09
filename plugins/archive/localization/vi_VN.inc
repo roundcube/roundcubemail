@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Tháng (ví dụ: Lưu trữ/2012/06)';
 $labels['archivetypefolder'] = 'Thư mục nguyên gốc';
 $labels['archivetypesender'] = 'Địa chỉ thư điện tử của người gửi';
 $labels['unkownsender'] = 'Không rõ';
-?>

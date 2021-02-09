@@ -21,4 +21,3 @@ $labels['shortaclk'] = 'बनाउनुहोस';
 $labels['shortacld'] = 'मेटाउनुहोस';
 $labels['shortaclt'] = 'मेटाउनुहोस';
 $labels['shortacldelete'] = 'मेटाउनुहोस';
-?>

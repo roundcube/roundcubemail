@@ -61,4 +61,3 @@ $labels['shortaclother'] = 'Oars';
 $labels['shortaclread'] = 'Lêze';
 $labels['shortaclwrite'] = 'Skriuwe';
 $labels['shortacldelete'] = 'Ferwiderje';
-?>

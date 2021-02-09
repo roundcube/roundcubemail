@@ -95,4 +95,3 @@ $messages['createerror'] = 'N\'haller ket ouzhpennañ aotreoù haeziñ';
 $messages['deleteconfirm'] = 'Sur oc\'h e fell deoc\'h dilemel aotreoù haeziñ an arveriaded diuzet?';
 $messages['norights'] = 'Aotre ebet erspizet!';
 $messages['nouser'] = 'Anv arveriad ebet erspizet!';
-?>

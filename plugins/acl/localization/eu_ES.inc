@@ -95,4 +95,3 @@ $messages['createerror'] = 'Ezin dira gehitu sarbide-eskubideak';
 $messages['deleteconfirm'] = 'Seguru zaude hautatutako erabiltzaile(ar)en sarbide-eskubideak ezabatu nahi duzula?';
 $messages['norights'] = 'Eskubideak ez dira zehaztu!';
 $messages['nouser'] = 'Erabiltzaile-izana ez da zehaztu!';
-?>

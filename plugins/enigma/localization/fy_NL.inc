@@ -22,4 +22,3 @@ $labels['expiresnever'] = 'nea';
 $labels['unknown'] = 'ûnbekend';
 $labels['keychpass'] = 'Wachtwurd feroarje';
 $labels['newkeypass'] = 'Wachtwurd';
-?>

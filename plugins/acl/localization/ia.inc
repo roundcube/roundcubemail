@@ -95,4 +95,3 @@ $messages['createerror'] = 'Impossibile adder derectos de accesso';
 $messages['deleteconfirm'] = 'Es vos secur de voler remover le derectos de accesso del usator(es) seligite?';
 $messages['norights'] = 'Nulle derecto ha essite specificate.';
 $messages['nouser'] = 'Nulle nomine de usator ha essite specificate.';
-?>

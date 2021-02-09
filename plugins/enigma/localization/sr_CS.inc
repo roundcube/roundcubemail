@@ -22,4 +22,3 @@ $labels['expiresnever'] = 'никад';
 $labels['unknown'] = 'непознато';
 $labels['keychpass'] = 'Измени лозинку';
 $labels['newkeypass'] = 'Лозинка';
-?>

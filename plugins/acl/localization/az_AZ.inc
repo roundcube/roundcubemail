@@ -95,4 +95,3 @@ $messages['createerror'] = 'Giriş hüququnu əlavə etmək mümkün deyil';
 $messages['deleteconfirm'] = 'Seçilmiş istifadəçilərin giriş hüququnu silməkdə əminsiniz?';
 $messages['norights'] = 'Giriş hüquqları göstərilməyib!';
 $messages['nouser'] = 'İstifadəçi adı təyin olunmayıb!';
-?>

@@ -95,4 +95,3 @@ $messages['createerror'] = 'Neišeina pridėti prieigos teises';
 $messages['deleteconfirm'] = 'Ar jūs esate įsitikinę, jog norite panaikinti prieigos teises pažymėtiems vartotojams(-ui)?';
 $messages['norights'] = 'Nenurodytos jokios teisės!';
 $messages['nouser'] = 'Nenurodytas joks vartotojas!';
-?>

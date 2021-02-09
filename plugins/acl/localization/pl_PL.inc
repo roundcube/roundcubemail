@@ -95,4 +95,3 @@ $messages['createerror'] = 'Nie udało się dodać praw dostępu';
 $messages['deleteconfirm'] = 'Czy na pewno chcesz usunąć prawa wybranym użytkownikom?';
 $messages['norights'] = 'Nie wybrano praw dostępu!';
 $messages['nouser'] = 'Nie podano nazwy użytkownika!';
-?>

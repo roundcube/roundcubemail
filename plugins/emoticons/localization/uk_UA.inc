@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Показувати смайлики у повідомленнях з простим текстом';
 $labels['emoticonscompose'] = 'Увімкнути смайлики';
-?>

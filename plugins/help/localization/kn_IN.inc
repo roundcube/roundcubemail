@@ -16,4 +16,3 @@
 
 $labels['help'] = 'ಸಹಾಯ';
 $labels['license'] = 'ಪರವಾನಗಿ';
-?>

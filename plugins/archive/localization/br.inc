@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Miz (sk: Diell/2012/06)';
 $labels['archivetypefolder'] = 'Teuliad orin';
 $labels['archivetypesender'] = 'Postel ar c\'haser';
 $labels['unkownsender'] = 'dianav';
-?>

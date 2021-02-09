@@ -16,10 +16,10 @@
 
 $labels['buttonjunk'] = 'Meddelandet är skräp';
 $labels['asjunk'] = 'Skräp';
-$labels['markasjunk'] = 'Märk som skräp';
+$labels['markasjunk'] = 'Markera som skräp';
 $labels['buttonnotjunk'] = 'Meddelandet är inte skräp';
 $labels['asnotjunk'] = 'Inte skräp';
-$labels['markasnotjunk'] = 'Märk som inte skräp';
+$labels['markasnotjunk'] = 'Markera som inte skräp';
 $labels['notjunk'] = 'Inte skräp';
 $messages['reportedasjunk'] = 'Framgångsrikt rapporterat som skräp';
 $messages['reportedasnotjunk'] = 'Framgångsrikt rapporterat som inte skräp';

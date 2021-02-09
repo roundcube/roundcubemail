@@ -95,4 +95,3 @@ $messages['createerror'] = 'S’arrihet të shtohen të drejta hyrjeje';
 $messages['deleteconfirm'] = 'Jeni i sigurt, doni t’i hiqni të drejta hyrjeje përdoruesit(ve) të përzgjedhur?';
 $messages['norights'] = 'S’janë specifikuar të drejta!';
 $messages['nouser'] = 'S’është specifikuar emër përdoruesi!';
-?>

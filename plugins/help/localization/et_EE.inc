@@ -17,4 +17,5 @@
 $labels['help'] = 'Abi';
 $labels['about'] = 'Roundcube info';
 $labels['license'] = 'Litsents';
-?>
+$labels['csrfinfo'] = 'Loe lisa CSRF kohta ja kuidas me sind kaitseme';
+$labels['arialabelhelpcontent'] = 'Abiinfo sisu';

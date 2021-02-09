@@ -95,4 +95,3 @@ $messages['createerror'] = 'Methwyd ychwanegu hawliau mynediad';
 $messages['deleteconfirm'] = 'Ydych chi\'n siwr eich bod am ddileu hawliau mynediad y defnyddiwr/wyr ddewiswyd?';
 $messages['norights'] = 'Nid oes hawliau wedi eu nodi!';
 $messages['nouser'] = 'Nid oes enw defnyddiwr wedi ei nodi!';
-?>
