@@ -42,6 +42,8 @@ class IdentitiesTest extends \Tests\Browser\TestCase
 
     /**
      * Test identity creation
+     *
+     * @group failsontravis-phone
      */
     public function testIdentityCreate()
     {
@@ -140,6 +142,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identity deletion
      *
      * @depends testIdentityCreate
+     * @group failsontravis-phone
      */
     public function testIdentityDelete()
     {
@@ -176,6 +179,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identity update
      *
      * @depends testIdentityDelete
+     * @group failsontravis-phone
      */
     public function testIdentityUpdate()
     {
@@ -221,6 +225,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identities in mail composer
      *
      * @depends testIdentityUpdate
+     * @group failsontravis-phone
      */
     public function testIdentitiesInComposer()
     {

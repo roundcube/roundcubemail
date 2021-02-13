@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Det nye passordet må være anderledes fra det gamle.
 $messages['passwdexpirewarning'] = 'Advarsel! Ditt passord løper snart ut, bytt det før $expirationdatetime.';
 $messages['passwdexpired'] = 'Ditt passord har løpt ut, du må bytte det nå!';
 $messages['passwdconstraintviolation'] = 'Brudd på passordbegrensning. Passordet er sannsynligvis for svakt.';
+$messages['pwned_mustnotbedisclosed'] = 'Passord må ikke være&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">allment kjent</a>.';
+$messages['pwned_isdisclosed'] = 'Dette passordet er allment kjent.';
+$messages['pwned_fetcherror'] = 'Feilet i verifiseringen av passordstyrke.';

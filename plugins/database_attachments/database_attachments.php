@@ -148,7 +148,7 @@ class database_attachments extends filesystem_attachments
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)
         if ($cache = $this->get_cache()) {
-            $cache->remove($args['group'], true);
+            $cache->remove(isset($args['group']) ? $args['group'] : null, true);
         }
     }
 
@@ -157,7 +157,7 @@ class database_attachments extends filesystem_attachments
      */
     protected function _key($args)
     {
-        $uname = $args['path'] ?: $args['name'];
+        $uname = !empty($args['path']) ? $args['path'] : $args['name'];
         return $args['group'] . md5(microtime() . $uname . $_SESSION['user_id']);
     }
 

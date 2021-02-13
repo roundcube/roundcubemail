@@ -33,7 +33,7 @@ class rcmail_oauth
     protected $rcmail;
 
     /** @var array */
-    protected $options = array();
+    protected $options = [];
 
     /** @var string */
     protected $last_error = null;
@@ -49,7 +49,7 @@ class rcmail_oauth
      *
      * @return rcmail_oauth The one and only instance
      */
-    static function get_instance($options = array())
+    static function get_instance($options = [])
     {
         if (!self::$instance) {
             self::$instance = new rcmail_oauth($options);
@@ -64,22 +64,22 @@ class rcmail_oauth
      *
      * @param array $options Config options:
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $this->rcmail  = rcmail::get_instance();
-        $this->options = (array) $options + array(
-            'provider' => $this->rcmail->config->get('oauth_provider'),
-            'auth_uri' => $this->rcmail->config->get('oauth_auth_uri'),
-            'token_uri' => $this->rcmail->config->get('oauth_token_uri'),
-            'client_id' => $this->rcmail->config->get('oauth_client_id'),
-            'client_secret' => $this->rcmail->config->get('oauth_client_secret'),
-            'identity_uri' => $this->rcmail->config->get('oauth_identity_uri'),
+        $this->options = (array) $options + [
+            'provider'        => $this->rcmail->config->get('oauth_provider'),
+            'auth_uri'        => $this->rcmail->config->get('oauth_auth_uri'),
+            'token_uri'       => $this->rcmail->config->get('oauth_token_uri'),
+            'client_id'       => $this->rcmail->config->get('oauth_client_id'),
+            'client_secret'   => $this->rcmail->config->get('oauth_client_secret'),
+            'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
-            'scope' => $this->rcmail->config->get('oauth_scope'),
-            'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
-            'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', array()),
-            'login_redirect' => $this->rcmail->config->get('oauth_login_redirect', false),
-        );
+            'scope'           => $this->rcmail->config->get('oauth_scope'),
+            'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
+            'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
+            'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
+        ];
     }
 
     /**
@@ -118,7 +118,7 @@ class rcmail_oauth
     public function get_redirect_uri()
     {
         // rewrite redirect URL to not contain query parameters because some providers do not support this
-        return preg_replace('/\?_task=[a-z]+/', 'index.php/login/oauth', $this->rcmail->url([], true, true));
+        return preg_replace('/\/?\?_task=[a-z]+/', '/index.php/login/oauth', $this->rcmail->url([], true, true));
     }
 
     /**
@@ -140,14 +140,17 @@ class rcmail_oauth
     public function jwt_decode($jwt)
     {
         list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
+
         $header = json_decode(base64_decode($headb64), true);
-        $body = json_decode(base64_decode($bodyb64), true);
+        $body   = json_decode(base64_decode($bodyb64), true);
 
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
-        } else if (isset($body['aud']) && $body['aud'] !== $this->options['client_id']) {
+        }
+        else if (isset($body['aud']) && $body['aud'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid aud value');
-        } else if (!isset($body['azp']) && !isset($body['aud'])) {
+        }
+        else if (!isset($body['azp']) && !isset($body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
@@ -169,27 +172,30 @@ class rcmail_oauth
             $delimiter = strpos($this->options['auth_uri'], '?') > 0 ? '&' : '?';
             $query = http_build_query([
                 'response_type' => 'code',
-                'client_id' => $this->options['client_id'],
-                'scope' => $this->options['scope'],
-                'redirect_uri' => $this->get_redirect_uri(),
-                'state' => $_SESSION['oauth_state'],
-            ] + (array)$this->options['auth_parameters']);
+                'client_id'     => $this->options['client_id'],
+                'scope'         => $this->options['scope'],
+                'redirect_uri'  => $this->get_redirect_uri(),
+                'state'         => $_SESSION['oauth_state'],
+            ] + (array) $this->options['auth_parameters']);
             $this->rcmail->output->redirect($this->options['auth_uri'] . $delimiter . $query);  // exit
-        } else {
+        }
+        else {
             // log error about missing config options
-            rcube::raise_error(array(
-                'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
-                'file'    => __FILE__,
-                'line'    => __LINE__,
-            ), true, false);
+            rcube::raise_error([
+                    'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                ], true, false
+            );
         }
     }
 
     /**
      * Request access token with auth code returned from oauth login
-     * 
+     *
      * @param string $auth_code
      * @param string $state
+     *
      * @return array Authorization data as hash array with entries
      *   `username` as the authentication user name
      *   `authorization` as the oauth authorization string "<type> <access-token>"
@@ -197,10 +203,10 @@ class rcmail_oauth
      */
     public function request_access_token($auth_code, $state = null)
     {
-        $oauth_token_uri = $this->options['token_uri'];
-        $oauth_client_id = $this->options['client_id'];
+        $oauth_token_uri     = $this->options['token_uri'];
+        $oauth_client_id     = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
-        $oauth_identity_uri = $this->options['identity_uri'];
+        $oauth_identity_uri  = $this->options['identity_uri'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
             // validate state parameter against $_SESSION['oauth_state']
@@ -214,15 +220,17 @@ class rcmail_oauth
                     'timeout' => 10.0,
                     'verify' => $this->options['verify_peer'],
                 ]);
-                $response = $client->post($oauth_token_uri, array(
-                    'form_params' => array(
-                        'code' => $auth_code,
-                        'client_id' => $oauth_client_id,
-                        'client_secret' => $oauth_client_secret,
-                        'redirect_uri' => $this->get_redirect_uri(),
-                        'grant_type' => 'authorization_code',
-                    ),
-                ));
+
+                $response = $client->post($oauth_token_uri, [
+                        'form_params'       => [
+                            'code'          => $auth_code,
+                            'client_id'     => $oauth_client_id,
+                            'client_secret' => $oauth_client_secret,
+                            'redirect_uri'  => $this->get_redirect_uri(),
+                            'grant_type'    => 'authorization_code',
+                        ],
+                ]);
+
                 $data = \GuzzleHttp\json_decode($response->getBody(), true);
 
                 // auth success
@@ -243,22 +251,24 @@ class rcmail_oauth
                             }
                         } catch (\Exception $e) {
                             // log error
-                            rcube::raise_error(array(
-                                'message' => $e->getMessage(),
-                                'file'    => __FILE__,
-                                'line'    => __LINE__,
-                            ), true, false);
+                            rcube::raise_error([
+                                    'message' => $e->getMessage(),
+                                    'file'    => __FILE__,
+                                    'line'    => __LINE__,
+                                ], true, false
+                            );
                         }
                     }
 
                     // request user identity (email)
                     if (empty($username) && !empty($oauth_identity_uri)) {
-                        $identity_response = $client->get($oauth_identity_uri, array(
-                            'headers' => array(
-                                'Authorization' => $authorization,
-                                'Accept' => 'application/json',
-                            ),
-                        ));
+                        $identity_response = $client->get($oauth_identity_uri, [
+                                'headers' => [
+                                    'Authorization' => $authorization,
+                                    'Accept' => 'application/json',
+                                ],
+                        ]);
+
                         $identity = \GuzzleHttp\json_decode($identity_response->getBody(), true);
 
                         foreach ($this->options['identity_fields'] as $field) {
@@ -275,56 +285,72 @@ class rcmail_oauth
                     $this->rcmail->session->remove('oauth_state');
 
                     // return auth data
-                    return array(
-                        'username' => $username,
+                    return [
+                        'username'      => $username,
                         'authorization' => $authorization,
-                        'token' => $data,
-                    );
-                } else {
+                        'token'         => $data,
+                    ];
+                }
+                else {
                     throw new Exception('Unexpected response from OAuth service');
                 }
-            } catch (RequestException $e) {
+            }
+            catch (RequestException $e) {
                 $this->last_error = "OAuth token request failed: " . $e->getMessage();
+                $this->no_redirect = true;
                 $formatter = new MessageFormatter();
-                rcube::raise_error(array(
-                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ), true, false);
+
+                rcube::raise_error([
+                        'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                    ], true, false
+                );
+
                 return false;
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 $this->last_error = "OAuth token request failed: " . $e->getMessage();
-                rcube::raise_error(array(
+                $this->no_redirect = true;
+
+                rcube::raise_error([
+                        'message' => $this->last_error,
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                    ], true, false
+                );
+
+                return false;
+            }
+        }
+        else {
+            $this->last_error = "Missing required OAuth config options 'oauth_token_uri', 'oauth_client_id', 'oauth_client_secret'";
+
+            rcube::raise_error([
                     'message' => $this->last_error,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                ), true, false);
-                return false;
-            }
-        } else {
-            $this->last_error = "Missing required OAuth config options 'oauth_token_uri', 'oauth_client_id', 'oauth_client_secret'";
-            rcube::raise_error(array(
-                'message' => $this->last_error,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
-            ), true, false);
+                ], true, false
+            );
+
             return false;
         }
     }
 
     /**
      * Obtain a new access token using the refresh_token grant type
-     * 
+     *
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
      * @param array $token
+     *
      * @return array Updated authorization data
      */
     public function refresh_access_token(array $token)
     {
-        $oauth_token_uri = $this->options['token_uri'];
-        $oauth_client_id = $this->options['client_id'];
+        $oauth_token_uri     = $this->options['token_uri'];
+        $oauth_client_id     = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
 
         // send token request to get a real access token for the given auth code
@@ -333,14 +359,14 @@ class rcmail_oauth
                 'timeout' => 10.0,
                 'verify' => $this->options['verify_peer'],
             ]);
-            $response = $client->post($oauth_token_uri, array(
-                'form_params' => array(
-                    'client_id' => $oauth_client_id,
-                    'client_secret' => $oauth_client_secret,
-                    'refresh_token' => $this->rcmail->decrypt($token['refresh_token']),
-                    'grant_type' => 'refresh_token',
-                ),
-            ));
+            $response = $client->post($oauth_token_uri, [
+                    'form_params' => [
+                        'client_id'     => $oauth_client_id,
+                        'client_secret' => $oauth_client_secret,
+                        'refresh_token' => $this->rcmail->decrypt($token['refresh_token']),
+                        'grant_type'    => 'refresh_token',
+                    ],
+            ]);
             $data = \GuzzleHttp\json_decode($response->getBody(), true);
 
             // auth success
@@ -359,22 +385,28 @@ class rcmail_oauth
                     'authorization' => $authorization,
                 ];
             }
-        } catch (RequestException $e) {
+        }
+        catch (RequestException $e) {
             $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
             $formatter = new MessageFormatter();
-            rcube::raise_error(array(
-                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                'file'    => __FILE__,
-                'line'    => __LINE__,
-            ), true, false);
+            rcube::raise_error([
+                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                ], true, false
+            );
+
             return false;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
-            rcube::raise_error(array(
-                'message' => $this->last_error,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
-            ), true, false);
+            rcube::raise_error([
+                    'message' => $this->last_error,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                ], true, false
+            );
+
             return false;
         }
     }
@@ -413,7 +445,7 @@ class rcmail_oauth
 
     /**
      * Callback for 'storage_init' hook
-     * 
+     *
      * @param array $options
      * @return array
      */
@@ -470,12 +502,13 @@ class rcmail_oauth
      */
     public function unauthenticated($options)
     {
-        if ($this->options['login_redirect'] &&
-            !$this->rcmail->output->ajax_call &&
-            !$this->no_redirect &&
-            empty($options['error']) &&
-            $options['http_code'] === 200
-            ) {
+        if (
+            $this->options['login_redirect']
+            && !$this->rcmail->output->ajax_call
+            && !$this->no_redirect
+            && empty($options['error'])
+            && $options['http_code'] === 200
+        ) {
             $this->login_redirect();
         }
 

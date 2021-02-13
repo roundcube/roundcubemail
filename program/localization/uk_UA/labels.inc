@@ -526,6 +526,7 @@ $labels['namespace.personal'] = 'Особисті';
 $labels['namespace.other'] = 'Інші користувачі';
 $labels['namespace.shared'] = 'Поширені';
 $labels['encryptioncreatekey'] = 'Створити нову пару ключів';
+$labels['encryption'] = 'Шифрування';
 $labels['sortby'] = 'Відсортувати за';
 $labels['sortasc'] = 'Сортувати за зростанням';
 $labels['sortdesc'] = 'Сортувати за спаданням';

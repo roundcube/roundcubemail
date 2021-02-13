@@ -28,16 +28,15 @@ function print_usage()
     print "--file   Message file to upload\n";
 }
 
-
 // get arguments
-$opts = array('h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file');
-$args = rcube_utils::get_opt($opts) + array('host' => 'localhost', 'mbox' => 'INBOX');
+$opts = ['h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file'];
+$args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX'];
 
-if ($_SERVER['argv'][1] == 'help') {
+if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
-else if (!($args['host'] && $args['file'])) {
+else if (empty($args['host']) || empty($args['file'])) {
     print "Missing required parameters.\n";
     print_usage();
     exit;
@@ -60,14 +59,15 @@ if (empty($args['pass'])) {
 
 // parse $host URL
 $a_host = parse_url($args['host']);
-if ($a_host['host']) {
+if (!empty($a_host['host'])) {
     $host      = $a_host['host'];
-    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? TRUE : FALSE;
+    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls'])) ? TRUE : FALSE;
     $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
 }
 else {
-    $host = $args['host'];
+    $host      = $args['host'];
     $imap_port = 143;
+    $imap_ssl  = false;
 }
 
 // instantiate IMAP class
@@ -85,10 +85,12 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
     while (($line = fgets($fp)) !== false) {
         if (preg_match('/^From\s+-/', $line) && $lastline == '') {
             if (!empty($message)) {
-                if ($IMAP->save_message($args['mbox'], rtrim($message)))
+                if ($IMAP->save_message($args['mbox'], rtrim($message))) {
                     $count++;
-                else
+                }
+                else {
                     rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
+                }
                 $message = '';
             }
             continue;
@@ -98,14 +100,17 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
         $lastline = rtrim($line);
     }
 
-    if (!empty($message) && $IMAP->save_message($args['mbox'], rtrim($message)))
+    if (!empty($message) && $IMAP->save_message($args['mbox'], rtrim($message))) {
         $count++;
+    }
 
     // upload message from file
-    if ($count)
+    if ($count) {
         print "$count messages successfully added to {$args['mbox']}.\n";
-    else
+    }
+    else {
         print "Adding messages failed!\n";
+    }
 }
 else {
     rcube::raise_error("IMAP login failed.", false, true);

@@ -31,7 +31,7 @@ $config['password_login_exceptions'] = null;
 
 // Array of hosts that support password changing.
 // Listed hosts will feature a Password option in Settings; others will not.
-// Example: array('mail.example.com', 'mail2.example.org');
+// Example: ['mail.example.com', 'mail2.example.org'];
 // Default is NULL (all hosts supported).
 $config['password_hosts'] = null;
 
@@ -90,6 +90,14 @@ $config['password_disabled'] = false;
 //     %d - the domain part of the username (in case the username is an email address)
 // Note: This may no apply to some drivers implementing their own rules, e.g. sql.
 $config['password_username_format'] = '%u';
+
+// Options passed when creating Guzzle HTTP client, used to access various external APIs.
+// This will overwrite global http_client settings. For example:
+// [
+//   'timeout' => 10,
+//   'proxy' => 'tcp://localhost:8125',
+// ]
+$config['password_http_client'] = [];
 
 
 // SQL Driver options
@@ -175,7 +183,7 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
-// Exemple: array('ldap1.exemple.com', 'ldap2.exemple.com');
+// Exemple: ['ldap1.exemple.com', 'ldap2.exemple.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
 
@@ -352,33 +360,12 @@ $config['password_vpopmaild_timeout'] = 10;
 
 
 // cPanel Driver options
-// --------------------------
+// ---------------------
 // The cPanel Host name
 $config['password_cpanel_host'] = 'host.domain.com';
 
-// The cPanel admin username
-$config['password_cpanel_username'] = 'username';
-
-// The cPanel admin password
-$config['password_cpanel_password'] = 'password';
-
-// The cPanel admin hash
-// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
-// Hash takes precedence over password auth.
-// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
-$config['password_cpanel_hash'] = '';
-
 // The cPanel port to use
-$config['password_cpanel_port'] = 2087;
-
-
-// cPanel Webmail Driver options
-// -----------------------------
-// The cPanel Host name
-$config['password_cpanel_webmail_host'] = 'host.domain.com';
-
-// The cPanel port to use
-$config['password_cpanel_webmail_port'] = 2096;
+$config['password_cpanel_port'] = 2096;
 
 
 // XIMSS (Communigate server) Driver options
@@ -411,11 +398,11 @@ $config['xmail_port'] = 6017;
 // false: Hmailserver is on same box as PHP
 $config['hmailserver_remote_dcom'] = false;
 // Windows credentials
-$config['hmailserver_server'] = array(
+$config['hmailserver_server'] = [
     'Server'   => 'localhost',      // hostname or ip address
     'Username' => 'administrator',  // windows username
     'Password' => 'password'        // windows user password
-);
+];
 
 
 // pw_usermod Driver options
@@ -492,3 +479,51 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
+
+
+// Mail-in-a-Box Driver options
+// ----------------------------
+// the url to the control panel of Mail-in-a-Box, e.g. https://box.example.com/admin/
+$config['password_miab_url'] = '';
+// name (email) of the admin user used to access api
+$config['password_miab_user'] = '';
+// password of the admin user used to access api
+$config['password_miab_pass'] = '';
+
+
+// TinyCP
+// --------------
+// TinyCP host, port, user and pass.
+$config['password_tinycp_host'] = '';
+$config['password_tinycp_port'] = '';
+$config['password_tinycp_user'] = '';
+$config['password_tinycp_pass'] = '';
+
+// HTTP-API Driver options
+// ---------------------
+
+// Base URL of password change API. HTTPS recommended.
+$config['password_httpapi_url'] = 'https://passwordserver.example.org';
+
+// Method (also affects how vars are sent). Default: POST.
+// GET is not recommended as passwords will appears in the remote webserver's access log
+$config['password_httpapi_method'] = 'POST';
+
+// GET or POST variable in which to put the username
+$config['password_httpapi_var_user'] = 'user';
+
+// GET or POST variable in which to put the current password
+$config['password_httpapi_var_curpass'] = 'curpass';
+
+// GET or POST variable in which to put the new password
+$config['password_httpapi_var_newpass'] = 'newpass';
+
+// HTTP codes other than 2xx are assumed to mean the password changed failed.
+// Optionally, if set, this variable additionally checks the body of the 2xx response to
+// confirm the change. It's a preg_match regular expression.
+$config['password_httpapi_expect'] = '/^ok$/i';
+
+
+// dovecot_passwdfile
+// ------------------
+$config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';

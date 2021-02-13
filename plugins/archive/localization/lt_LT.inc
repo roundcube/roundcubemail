@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Metai (pvz. Archyvas/2012)';
 $labels['archivetypemonth'] = 'Mėnesis (pvz. Archyvas/2012/06)';
 $labels['archivetypetbmonth'] = 'Mėnesis - Suderinama su Thunderbird (pvz., Archyvas/2012/2012-06)';
 $labels['archivetypefolder'] = 'Tikrasis aplankas';
+$labels['archivetypefolderyear'] = 'Metai ir pradinis aplankas (pvz., Archyvas/2012/...)';
+$labels['archivetypefoldermonth'] = 'Metai, mėnuo ir pradinis aplankas (pvz., Archyvas/2012/06/...)';
 $labels['archivetypesender'] = 'Siuntėjo el. pašto adresas';
 $labels['unkownsender'] = 'nežinomas';
 $labels['readonarchive'] = 'Archyvuojant, žymėti laišką kaip skaitytą';
-?>

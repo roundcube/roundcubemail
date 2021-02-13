@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'שנה ( לדוגמה, ארכיב/2012 )';
 $labels['archivetypemonth'] = 'חודש ( לדוגמה, ארכיב/2012/06 )';
 $labels['archivetypetbmonth'] = 'חודש - תואם תאנדרבירד ( לדוגמה, ארכיב/2012/2012-06 )';
 $labels['archivetypefolder'] = 'תיקיה מקורית';
+$labels['archivetypefolderyear'] = 'שנה ושם התיקיה המקורית ( לדוגמה, לקוחות/2012 )';
+$labels['archivetypefoldermonth'] = 'שנה, חודש ושם התיקיה המקורית (לדוגמה, לקוחות/2012/06/.....)';
 $labels['archivetypesender'] = 'שולח ההודעה';
 $labels['unkownsender'] = 'לא ידוע';
 $labels['readonarchive'] = 'יש לסמן את ההודעה בארכיב כאילו נקראה';
-?>

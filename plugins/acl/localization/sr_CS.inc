@@ -54,4 +54,3 @@ $labels['shortaclother'] = 'Друго';
 $labels['shortaclread'] = 'Читање';
 $labels['shortaclwrite'] = 'Упис';
 $labels['shortacldelete'] = 'Брисање';
-?>

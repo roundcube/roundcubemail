@@ -13,6 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
+$messages['missingattachment'] = "Manglar viðheft?";
 $messages['forgotattachment'] = "Gloymdi tú at viðhefta ein fíl?";
 $messages['reminderoption'] = "Áminn um gloymdar viðheftingar";
 $messages['keywords'] = "viðhefting,fílur,heft,viðheft,heftir,lagt inní,CV,fylgi skriv";

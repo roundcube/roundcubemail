@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'Felhasználói információ';
+$labels['infoforuser'] = 'Információ  $user számra';
 $labels['created'] = 'Létrehozva';
 $labels['lastlogin'] = 'Utolsó bejelentkezés';
 $labels['defaultidentity'] = 'Alapértelmezett azonosító';
+$labels['userid'] = 'ID';

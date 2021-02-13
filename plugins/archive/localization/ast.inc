@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Mes (p.ex. Archivu/2012/06)';
 $labels['archivetypefolder'] = 'Carpeta orixinal';
 $labels['archivetypesender'] = 'Corréu-e del remitente';
 $labels['unkownsender'] = 'desconocíu';
-?>

@@ -21,24 +21,43 @@
  * Roundcube result set class
  *
  * Representing an address directory result set.
- * Implenets Iterator and thus be used in foreach() loops.
+ * Implements Iterator and can thus be used in foreach() loops.
  *
  * @package    Framework
  * @subpackage Addressbook
  */
 class rcube_result_set implements Iterator, ArrayAccess
 {
-    public $count      = 0;
-    public $first      = 0;
+    /**
+     * @var int The number of total records. Note that when only a subset of records is requested,
+     *          this number may be higher than the number of data records in this result set.
+     */
+    public $count = 0;
+
+    /**
+     * @var int When a subset of the total records is requested, $first gives the index into the total record
+     *          set from that the data records in this result set start. This is normally a multiple of the
+     *          user-configured page size.
+     */
+    public $first = 0;
+
+    /**
+     * @var bool True if the results are from an addressbook that does not support listing all records but
+     *           requires the search function to be used.
+     */
     public $searchonly = false;
-    public $records    = array();
+
+    /**
+     * @var array The data records of the result set. May be a subset of the total records, e.g. for one page.
+     */
+    public $records = [];
 
     private $current = 0;
 
-    function __construct($c=0, $f=0)
+    function __construct($count = 0, $first = 0)
     {
-        $this->count = (int)$c;
-        $this->first = (int)$f;
+        $this->count = (int) $count;
+        $this->first = (int) $first;
     }
 
     function add($rec)
@@ -48,13 +67,17 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     function iterate()
     {
-        return $this->records[$this->current++];
+        $current = $this->current();
+
+        $this->current++;
+
+        return $current;
     }
 
     function first()
     {
         $this->current = 0;
-        return $this->records[$this->current];
+        return $this->current();
     }
 
     function seek($i)
@@ -99,7 +122,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     function current()
     {
-        return $this->records[$this->current];
+        return isset($this->records[$this->current]) ? $this->records[$this->current] : null;
     }
 
     function key()

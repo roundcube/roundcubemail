@@ -135,8 +135,8 @@ class rcube_tnef_decoder
      */
     public function decompress($data)
     {
-        $attachments = array();
-        $message     = array();
+        $attachments = [];
+        $message     = [];
 
         if ($this->_geti($data, 32) == self::SIGNATURE) {
             $this->_geti($data, 16);
@@ -160,10 +160,10 @@ class rcube_tnef_decoder
             }
         }
 
-        return array(
+        return [
             'message'     => $message,
             'attachments' => array_reverse($attachments),
-        );
+        ];
     }
 
     /**
@@ -359,7 +359,7 @@ class rcube_tnef_decoder
 
             case self::MAPI_ATTACH_MIME_TAG:
                 // Is this ever set, and what is format?
-                $value = explode('/', $value);
+                $value = explode('/', trim($value));
                 $result['type']    = $value[0];
                 $result['subtype'] = $value[1];
                 break;
@@ -425,12 +425,12 @@ class rcube_tnef_decoder
         case self::ARENDDATA:
             // Add a new default data block to hold details of this
             // attachment. Reverse order is easier to handle later!
-            array_unshift($attachment, array(
+            array_unshift($attachment, [
                     'type'    => 'application',
                     'subtype' => 'octet-stream',
                     'name'    => 'unknown',
                     'stream'  => ''
-            ));
+            ]);
 
             break;
 
@@ -547,7 +547,7 @@ class rcube_tnef_decoder
     public static function rtf2text($text)
     {
         $document = '';
-        $stack    = array();
+        $stack    = [];
         $j        = -1;
 
         // Read the data character-by- character…
@@ -746,7 +746,7 @@ class rcube_tnef_decoder
      */
     protected static function _rtfIsPlain($s)
     {
-        $notPlain = array('*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet');
+        $notPlain = ['*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet'];
 
         for ($i = 0; $i < count($notPlain); $i++) {
             if (!empty($s[$notPlain[$i]])) {

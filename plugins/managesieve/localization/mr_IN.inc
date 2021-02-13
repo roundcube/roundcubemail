@@ -37,4 +37,6 @@ $labels['notifymethodmailto'] = 'इ-मेल्';
 $labels['notifymethodtel'] = 'दूरध्वनी';
 $labels['datetest'] = 'दिनांक';
 $labels['advancedopts'] = 'अधिक पर्याय';
+$labels['spamtestequals'] = 'च्या बरोबर आहे';
+$labels['spamtestnotequals'] = 'च्या बरोबर नाही';
 $labels['vacation.subject'] = 'विषय';

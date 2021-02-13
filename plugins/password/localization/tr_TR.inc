@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Yeni parola eski paroladan farklı olmalıdır.';
 $messages['passwdexpirewarning'] = 'Uyarı! Parolanızın kullanma süresi yakında dolacak. $expirationdatetime tarihinden önce değiştirin.';
 $messages['passwdexpired'] = 'Parolanızın kullanma süresi dolmuş. Şimdi değiştirmelisiniz!';
 $messages['passwdconstraintviolation'] = 'Parola istenilen karmaşıklıkta değil. Büyük olasılıkla oldukça kolay.';
+$messages['pwned_mustnotbedisclosed'] = 'Parola&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">yaygın kullanılmıyor olmalı</a>.';
+$messages['pwned_isdisclosed'] = 'Bu parola yaygın olarak kullanılıyor.';
+$messages['pwned_fetcherror'] = 'Parola zorluğu denetlenemedi.';

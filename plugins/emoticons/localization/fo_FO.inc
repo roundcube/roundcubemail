@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Vís "emoticons" í reinum tekst boðum';
 $labels['emoticonscompose'] = 'Tendra "emoticons"';
-?>

@@ -42,6 +42,8 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
     /**
      * Test response creation
+     *
+     * @group failsontravis-phone
      */
     public function testResponseCreate()
     {
@@ -119,6 +121,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response deletion
      *
      * @depends testResponseCreate
+     * @group failsontravis-phone
      */
     public function testResponseDelete()
     {
@@ -153,6 +156,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test responses in mail composer
      *
      * @depends testResponseDelete
+     * @group failsontravis-phone
      */
     public function testResponsesInComposer()
     {
@@ -188,8 +192,9 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->clickToolbarMenuItem('responses')
                 ->waitFor('#responseslist')
                 ->click('#responseslist li:nth-child(1) a.insertresponse')
-                ->waitUntilMissing('#responses-menu')
-                ->waitUntilMissing('.popover-overlay')
+                ->waitUntilMissing('#responses-menu');
+
+            $browser->waitUntilMissing('.popover-overlay')
                 ->assertValue('#composebody', 'Body and Response 1')
                 ->waitForMessage('confirmation', 'Response inserted successfully.')
                 ->closeMessage('confirmation');
@@ -202,6 +207,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response update
      *
      * @depends testResponsesInComposer
+     * @group failsontravis-phone
      */
     public function testResponseUpdate()
     {

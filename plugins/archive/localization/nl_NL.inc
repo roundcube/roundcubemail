@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Jaar (bijv. Archief/2012)';
 $labels['archivetypemonth'] = 'Maand (bijv. Archief/2012/06)';
 $labels['archivetypetbmonth'] = 'Maand - Thunderbird compatibel (bijv. Archief/2012/06)';
 $labels['archivetypefolder'] = 'Originele map';
+$labels['archivetypefolderyear'] = 'Jaar en de oorspronkelijke map (bv. Archief/2012/...)';
+$labels['archivetypefoldermonth'] = 'Jaar, maand en de oorspronkelijke map (bv. Archief/2012/06/...)';
 $labels['archivetypesender'] = 'Afzender e-mail';
 $labels['unkownsender'] = 'onbekend';
 $labels['readonarchive'] = 'Markeer bericht al gelezen op archiveren';
-?>

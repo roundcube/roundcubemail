@@ -13,7 +13,8 @@ class Framework_Addresses extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_addresses(1, null, 1);
+        $db     = new rcube_db('test');
+        $object = new rcube_addresses($db, null, 1);
 
         $this->assertInstanceOf('rcube_addresses', $object, "Class constructor");
         $this->assertInstanceOf('rcube_addressbook', $object, "Class constructor");

@@ -39,7 +39,7 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=5040100',
+      cache_suffix: 's=5050100',
       theme: 'silver',
       language: config.lang,
       content_css: rcmail.assets_path(config.content_css),

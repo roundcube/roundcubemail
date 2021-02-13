@@ -226,6 +226,14 @@
 	background-position: 4px -550px;
 }
 
+#sections-table #rcmrowencryption .section {
+	background-position: 7px -2437px;
+}
+
+#sections-table #rcmrowencryption.selected .section {
+	background-position: 7px -2461px;
+}
+
 #folderslist .boxtitle a.iconbutton.search {
 	background-position: -2px -317px;
 	cursor: pointer;

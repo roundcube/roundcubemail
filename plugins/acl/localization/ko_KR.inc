@@ -95,4 +95,3 @@ $messages['createerror'] = '접근 권한을 추가할 수 없음';
 $messages['deleteconfirm'] = '정말로 선택한 사용자의 접근 권한을 삭제하시겠습니까?';
 $messages['norights'] = '지정된 권한이 없음!';
 $messages['nouser'] = '지정된 사용자명이 없음!';
-?>

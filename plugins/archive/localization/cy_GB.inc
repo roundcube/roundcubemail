@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Blwyddyn (e.g. Archif/2012)';
 $labels['archivetypemonth'] = 'Mis (e.g. Archif/2012/06)';
 $labels['archivetypetbmonth'] = 'Mis - Cydnaws a Thunderbird (e.e. Archif/2012/2012-06)';
 $labels['archivetypefolder'] = 'Ffolder gwreiddiol';
+$labels['archivetypefolderyear'] = 'Blwyddyn a ffolder gwreiddiol (e.e. Archif/2012/...)';
+$labels['archivetypefoldermonth'] = 'Blwyddyn, mis a\'r ffolder gwreiddiol (e.e. Archif/2012/06...)';
 $labels['archivetypesender'] = 'Ebost anfonwr';
 $labels['unkownsender'] = 'anhysbys';
 $labels['readonarchive'] = 'Nodi\'r neges fel darllenwyd ar archif';
-?>

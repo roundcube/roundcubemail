@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Dangos gwenogluniau mewn fformat testun plaen';
 $labels['emoticonscompose'] = 'Galluogi gwenogluniau';
-?>

@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Emoticons in Klartextnachrichten anzeigen';
 $labels['emoticonscompose'] = 'Emoticons aktivieren';
-?>

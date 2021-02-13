@@ -23,12 +23,12 @@ class emoticons extends rcube_plugin
     {
         $rcube = rcube::get_instance();
 
-        $this->add_hook('message_part_after', array($this, 'message_part_after'));
-        $this->add_hook('html_editor', array($this, 'html_editor'));
+        $this->add_hook('message_part_after', [$this, 'message_part_after']);
+        $this->add_hook('html_editor', [$this, 'html_editor']);
 
         if ($rcube->task == 'settings') {
-            $this->add_hook('preferences_list', array($this, 'preferences_list'));
-            $this->add_hook('preferences_save', array($this, 'preferences_save'));
+            $this->add_hook('preferences_list', [$this, 'preferences_list']);
+            $this->add_hook('preferences_save', [$this, 'preferences_save']);
         }
     }
 
@@ -75,31 +75,31 @@ class emoticons extends rcube_plugin
     function preferences_list($args)
     {
         $rcube         = rcube::get_instance();
-        $dont_override = $rcube->config->get('dont_override', array());
+        $dont_override = $rcube->config->get('dont_override', []);
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {
             $this->load_config();
             $this->add_texts('localization');
 
             $field_id = 'emoticons_display';
-            $checkbox = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => 1));
+            $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
-            $args['blocks']['main']['options']['emoticons_display'] = array(
+            $args['blocks']['main']['options']['emoticons_display'] = [
                     'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false)))
-            );
+            ];
         }
         else if ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
             $this->load_config();
             $this->add_texts('localization');
 
             $field_id = 'emoticons_compose';
-            $checkbox = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => 1));
+            $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
-            $args['blocks']['main']['options']['emoticons_compose'] = array(
+            $args['blocks']['main']['options']['emoticons_compose'] = [
                     'title'   => html::label($field_id, $this->gettext('emoticonscompose')),
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true)))
-            );
+            ];
         }
 
         return $args;
@@ -142,7 +142,7 @@ class emoticons extends rcube_plugin
             . ')';
 
         // map of emoticon replacements
-        $map = array(
+        $map = [
             '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'   ), // laugh
             '/:-?\(/'             => self::ico_tag('1f626', ':('   ), // frown
             '/'.$entity.';-?\)/'  => self::ico_tag('1f609', ';)'   ), // wink
@@ -155,13 +155,13 @@ class emoticons extends rcube_plugin
             '/(?<!mailto):-?\$/'  => self::ico_tag('1f633', ':-$'  ), // embarrassed
             '/(?<!mailto):-?\*/i' => self::ico_tag('1f48b', ':-*'  ), // kiss
             '/(?<!mailto):-?S/i'  => self::ico_tag('1f615', ':-S'  ), // undecided
-        );
+        ];
 
         return preg_replace(array_keys($map), array_values($map), $text);
     }
 
     protected static function ico_tag($ico, $title)
     {
-        return html::span(array('title' => $title), "&#x{$ico};");
+        return html::span(['title' => $title], "&#x{$ico};");
     }
 }

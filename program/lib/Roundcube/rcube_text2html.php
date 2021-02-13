@@ -32,7 +32,7 @@ class rcube_text2html
     protected $text;
 
     /** @var array Configuration */
-    protected $config = array(
+    protected $config = [
         // non-breaking space
         'space' => "\xC2\xA0",
         // enables format=flowed parser
@@ -53,7 +53,7 @@ class rcube_text2html
         // prefix and suffix of unwrappable line
         'nobr_start' => '<span style="white-space:nowrap">',
         'nobr_end'   => '</span>',
-    );
+    ];
 
     /** @var bool Internal state */
     protected $_converted = false;
@@ -70,7 +70,7 @@ class rcube_text2html
      * @param bool   $from_file Indicates $source is a file to pull content from
      * @param array  $config    Class configuration
      */
-    function __construct($source = '', $from_file = false, $config = array())
+    function __construct($source = '', $from_file = false, $config = [])
     {
         if (!empty($source)) {
             $this->set_text($source, $from_file);
@@ -141,7 +141,7 @@ class rcube_text2html
     protected function _converter($text)
     {
         // make links and email-addresses clickable
-        $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
+        $attribs  = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
         $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
@@ -164,12 +164,15 @@ class rcube_text2html
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $flowed = false;
-            if (isset($flowed_char) && ord($text[$n][0]) == $flowed_char) {
+            $first  = isset($text[$n][0]) ? $text[$n][0] : '';
+
+            if (isset($flowed_char) && ord($first) == $flowed_char) {
                 $flowed   = true;
                 $text[$n] = substr($text[$n], 1);
+                $first    = isset($text[$n][0]) ? $text[$n][0] : '';
             }
 
-            if ($text[$n][0] == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
+            if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
                 $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);

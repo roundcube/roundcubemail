@@ -30,7 +30,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         parent::__construct();
     }
@@ -61,7 +61,7 @@ class rcmail_output_cli extends rcmail_output
     function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($this->app->text_exists($message)) {
-            $message = $this->app->gettext(array('name' => $message, 'vars' => $vars));
+            $message = $this->app->gettext(['name' => $message, 'vars' => $vars]);
         }
 
         printf("[%s] %s\n", strtoupper($type), $message);
@@ -72,7 +72,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::redirect()
      */
-    function redirect($p = array(), $delay = 1)
+    function redirect($p = [], $delay = 1)
     {
         // NOP
     }

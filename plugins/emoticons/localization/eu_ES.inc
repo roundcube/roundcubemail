@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Erakutsi sentikurrak testu lauan dauden mezuetan';
 $labels['emoticonscompose'] = 'Gaitu sentikurrak';
-?>

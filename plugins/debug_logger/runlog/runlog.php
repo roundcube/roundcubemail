@@ -7,16 +7,16 @@
  */
 class runlog {
 
-    private $start_time     = FALSE;
-    private $parent_stack   = array();
-    private $file_handles   = array();
-    private $debug_messages = array();
+    private $start_time     = false;
+    private $parent_stack   = [];
+    private $file_handles   = [];
+    private $debug_messages = [];
     private $indent         = 0;
-    private $run_log        = array();
+    private $run_log        = [];
 
-    public $print_to_console = FALSE;
+    public $print_to_console = false;
     public $threshold        = 0;
-    public $tag_count        = array();
+    public $tag_count        = [];
     public $timestamp        = "d-M-Y H:i:s O";
     public $max_line_size    = 150;
 
@@ -27,15 +27,15 @@ class runlog {
 
     public function start($name, $tag = false)
     {
-        $this->run_log[] = array(
-                'type'    => 'start',
-                'tag'     => $tag,
-                'index'   => count($this->run_log),
-                'value'   => $name,
-                'time'    => microtime(true),
-                'parents' => $this->parent_stack,
-                'ended'   => false,
-        );
+        $this->run_log[] = [
+            'type'    => 'start',
+            'tag'     => $tag,
+            'index'   => count($this->run_log),
+            'value'   => $name,
+            'time'    => microtime(true),
+            'parents' => $this->parent_stack,
+            'ended'   => false,
+        ];
 
         $this->parent_stack[] = $name;
 
@@ -46,7 +46,9 @@ class runlog {
 
     public function end()
     {
-        $name = array_pop($this->parent_stack);
+        $name  = array_pop($this->parent_stack);
+        $lastk = 0;
+
         foreach ($this->run_log as $k => $entry) {
             if ($entry['value'] == $name && $entry['type'] == 'start' && !$entry['ended']) {
                 $lastk = $k;
@@ -56,15 +58,15 @@ class runlog {
         $start = $this->run_log[$lastk]['time'];
         $this->run_log[$lastk]['duration'] = microtime(true) - $start;
         $this->run_log[$lastk]['ended'] = true;
-        $this->run_log[] = array(
-                'type'     => 'end',
-                'tag'      =>  $this->run_log[$lastk]['tag'],
-                'index'    => $lastk,
-                'value'    => $name,
-                'time'     => microtime(true),
-                'duration' => microtime(true) - $start,
-                'parents'  => $this->parent_stack,
-        );
+        $this->run_log[] = [
+            'type'     => 'end',
+            'tag'      =>  $this->run_log[$lastk]['tag'],
+            'index'    => $lastk,
+            'value'    => $name,
+            'time'     => microtime(true),
+            'duration' => microtime(true) - $start,
+            'parents'  => $this->parent_stack,
+        ];
 
         $this->indent--;
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
@@ -91,9 +93,9 @@ class runlog {
     {
         $text = "";
         foreach ($this->run_log as $entry){
-            $text .= str_repeat("   ",count($entry['parents']));
-            if ($entry['tag'] != 'text'){
-                $text .= $entry['tag'].': ';
+            $text .= str_repeat("   ", count($entry['parents']));
+            if ($entry['tag'] != 'text') {
+                $text .= $entry['tag'] . ': ';
             }
             $text .= $entry['value'];
 
@@ -112,7 +114,7 @@ class runlog {
         if (!isset($this->file_handles[$tag])) {
             $this->file_handles[$tag] = fopen($filename, 'a');
             if (!$this->file_handles[$tag]) {
-                trigger_error('Could not open file for writing: '.$filename);
+                trigger_error("Could not open file for writing: $filename");
             }
         }
     }
@@ -126,13 +128,13 @@ class runlog {
             $msg = '<pre>' . print_r($msg, true) . '</pre>';
         }
         $this->debug_messages[] = $msg;
-        $this->run_log[] = array(
-                'type'    => 'note',
-                'tag'     => $tag ?: 'text',
-                'value'   => htmlentities($msg),
-                'time'    => microtime(true),
-                'parents' => $this->parent_stack,
-        );
+        $this->run_log[] = [
+            'type'    => 'note',
+            'tag'     => $tag ?: 'text',
+            'value'   => htmlentities($msg),
+            'time'    => microtime(true),
+            'parents' => $this->parent_stack,
+        ];
 
         $this->print_to_file($msg, $tag);
         $this->print_to_console($msg, $tag);
@@ -140,18 +142,13 @@ class runlog {
 
     public function print_to_file($msg, $tag = false)
     {
-        if (!$tag) {
-            $file_handle_tag = 'master';
-        }
-        else{
-            $file_handle_tag = $tag;
-        }
+        $file_handle_tag = $tag ?: 'master';
 
         if ($file_handle_tag != 'master' && isset($this->file_handles[$file_handle_tag])) {
             $buffer = $this->get_indent();
             $buffer .= "$msg\n";
             if (!empty($this->timestamp)) {
-                $buffer = sprintf("[%s] %s",date($this->timestamp, time()), $buffer);
+                $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
             }
             fwrite($this->file_handles[$file_handle_tag], wordwrap($buffer, $this->max_line_size, "\n     "));
         }
@@ -161,10 +158,10 @@ class runlog {
             if ($tag) {
                 $buffer .= "$tag: ";
             }
-            $msg = str_replace("\n","",$msg);
+            $msg = str_replace("\n", "", $msg);
             $buffer .= "$msg";
             if (!empty($this->timestamp)) {
-                $buffer = sprintf("[%s] %s",date($this->timestamp, time()), $buffer);
+                $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
             }
             if(strlen($buffer) > $this->max_line_size){
                 $buffer = substr($buffer,0,$this->max_line_size - 3) . "...";

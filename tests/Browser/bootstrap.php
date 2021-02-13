@@ -131,9 +131,9 @@ class bootstrap
 
         $imap_host = $rcmail->config->get('default_host');
         $a_host = parse_url($imap_host);
-        if ($a_host['host']) {
+        if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
-            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'));
+            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls']);
             $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
         }
         else {
@@ -163,8 +163,10 @@ class bootstrap
             rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
+        $file = file_get_contents($filename);
         $imap = rcmail::get_instance()->get_storage();
-        $imap->save_message($mailbox, file_get_contents($filename));
+
+        $imap->save_message($mailbox, $file);
     }
 
     /**

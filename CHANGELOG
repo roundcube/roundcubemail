@@ -2,20 +2,33 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Require PHP >= 5.5
+- Support PHP 8.0 (#7625)
+- Require php-intl
+- Remove use of Net_IDNA2 package
+- Require GuzzleHttp\Client
+- Upgrade to TinyMCE 5.5.1
+- Upgrade to jQuery 3.5.1 (#7464)
+- Update build tools (#7800, #7804, #7497):
+    - jsshrink.sh: Replace google-closure-compiler with UglifyJS
+    - cssshrink.sh: Replace yuicompressor with csso
+    - require lessc >= 2.5.2 (and add support for v4) with less-plugin-clean-css for Less files compilation
 - Automatically collected recipients and trusted senders (#6904)
     - Added configurable Collected Recipients addressbook source (#4971)
     - Added configurable Trusted Senders addressbook source (#5046)
     - Added 'contact_exists' hook
+    - Added separate "trusted senders" options for show_images and mdn_request preferences (#7614)
 - Contact form mode: private/business (#7630)
 - OAuth/XOauth support (#7425, #6933)
 - Cache refactoring (#6312)
 - Added special value 'email' to login_username_filter, it changes also logon input type (#7179)
-- Upgrade to TinyMCE 5.4.1
-- Upgrade to jQuery 3.5.1 (#7464)
 - Allow array in smtp_host config (#7296)
-- Remove use of ext-iconv
+- Support proxy for server-side HTTP requests (#7658)
+- By default do not set the User-Agent header (#7731)
+- Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
+- Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
+- Allow NULL in users.preferences column in postgres and sqlite db, the same as for other engines (#7767)
 - Support for language codes up to 16 chars long (e.g. es-419) in database schema (#6851)
 - Relaxed domain name validation for extended TLDs support (#5588)
 - Allow opening application/octet-stream attachments according to filename extension (#6821)
@@ -25,19 +38,27 @@ CHANGELOG Roundcube Webmail
 - Add support for SameSite cookie attribute via session_samesite option (req PHP >= 7.3.0) (#6772)
 - Change folders sorting so shared/other users namespaces are listed last (#5012)
 - Display a warning and do not try to open empty attachments (#7332)
+- Return 204 rather than 404 on missing contact photo (#7777)
+- Add 'reconnect' plugin to retry IMAP connection (#7844)
 - Plugin API: Added 'message' argument to 'message_compose_body' hook
+- Plugin API: Added 'preferences' parameter to 'user_create' hook (#7692)
 - Elastic: Dark mode (#6709)
+- Elastic: Display email size on the list of messages (#7162)
+- Elastic: Replace properties sidebar with a dialog on the attachment preview page (#7635)
 - Elastic: Minimize forms/colors blink on page load
 - Elastic: Improve mail header "detailed mode" (#7224)
 - Elastic: Moving single recipients between recipient inputs with drag-n-drop (#5069)
 - Elastic: Display a special icon for other users and shared namespace roots (#5012)
 - Elastic: Support space-separated email addresses in recipient input (#6529, #6457)
 - Elastic: Remember list checkbox selection state (#7148)
+- Elastic: Add "Open in new window" in mail compose (#7260)
+- Elastic: Make custom less files optional (#7497)
+- Elastic: Prevent from opening mail preview in a new window on touch devices using double tap (#7732)
 - Templates: Add support for expressions in object attributes (#7237)
 - Templates: Add support for nested if conditions (#6818)
 - Templates: Make [space][slash] ending of condition objects optional (#6954)
 - Mailvelope: Fix size of iframe for PGP-inlined mail (#7348)
-- Mailvelope: Add config option to use Main Keyring (#7348)
+- Mailvelope: Add config option to use Main Keyring (#7348, #7157)
 - Mailvelope: Add config option to set the size for new keys (#7348)
 - Mailvelope: Always ask before discarding email currently being composed (#7348)
 - Mailvelope: Fix unnecessary warning to re-add attachments when restoring a draft (#7348)
@@ -48,11 +69,38 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Improve UX on custom header input (#7207)
 - Managesieve: Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Managesieve: Fix bug where forward/vacation rule could end up being duplicated (#7349)
+- new_user_identity: Fix missing password for user-specific LDAP operations (#7667)
 - Password: Added 'pwned' password strength driver (#7274)
+- Password: Added Mail-in-a-Box (miab) driver (#7824)
+- Password: Added TinyCP driver (#7510)
+- Password: Added httpapi driver to connect to generic HTTP/HTTPS APIs (#7439)
+- Password: Added dovecot_passwdfile driver (#5786)
+- Password: Removed old 'cpanel' driver, 'cpanel_webmail' driver renamed to 'cpanel' (#7780)
+- Fix handling of address groups in email headers by ignoring their names (#7663)
+- Fix so message flags are updated on refresh also for multifolder search results (#7774)
+- Fix so IMAP ID command is send only after authentication (#7517)
+- Fix bug where it wasn't possible to save Spanish (Latin America) locale preference (#7784)
+- Fix mail search error on invalid search_mods definition (#7789)
 - Fix error when dealing with message/rfc822 attachments using Gmail IMAP (#6854)
 - Fix ISO-2022-JP-MS encoding issues (#7091)
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
+
+RELEASE 1.4.11
+--------------
+- Display a nice error informing about no PHP8 support
+- Elastic: Fix compatibility with Less v3 and v4 (#7813)
+- Fix bug with managesieve_domains in Settings > Forwarding form (#7849)
+- Fix errors in MSSQL database update scripts (#7853)
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious CSS content
+
+RELEASE 1.4.10
+--------------
+- Fix extra angle brackets in In-Reply-To header derived from mailto: params (#7655)
+- Fix folder list issue whan special folder is a subfolder (#7647)
+- Fix Elastic's folder subscription toggle in search result (#7653)
+- Fix state of subscription toggle on folders list after changing folder state from the search result (#7653)
+- Security: Fix cross-site scripting (XSS) via HTML or Plain text messages with malicious content [CVE-2020-35730]
 
 RELEASE 1.4.9
 -------------

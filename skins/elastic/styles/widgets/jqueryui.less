@@ -108,7 +108,7 @@
 
             a.btn-link,
             button {
-                .overflow-ellipsis;
+                .overflow-ellipsis();
                 min-width: 5rem;
                 margin: floor(.65 * @page-font-size) floor(.3 * @page-font-size);
 
@@ -333,6 +333,8 @@
     .ui-datepicker-next {
         cursor: pointer;
         width: auto;
+        color: @color-font;
+        text-decoration: none;
 
         &:before {
         &:extend(.font-icon-class);

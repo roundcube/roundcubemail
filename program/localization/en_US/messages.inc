@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages = array();
+$messages = [];
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
@@ -26,6 +26,7 @@ $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['accountlocked'] = 'Too many failed login attempts. Try again later.';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['dbconnerror'] = 'Unable to connect to the database!';
 $messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
@@ -125,6 +126,7 @@ $messages['converting'] = 'Removing formatting...';
 $messages['messageopenerror'] = 'Could not load message from server.';
 $messages['filelinkerror'] = 'Attaching the file failed.';
 $messages['fileuploaderror'] = 'File upload failed.';
+$messages['csvfilemismatch'] = 'Import of multiple CSV files with different fields is not supported.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';
@@ -220,6 +222,7 @@ $messages['clicktocompose'] = 'Click here to compose a new message';
 $messages['nosupporterror'] = 'This feature is not supported by your web browser.';
 $messages['siginserted'] = 'Signature inserted successfully.';
 $messages['responseinserted'] = 'Response inserted successfully.';
+$messages['noresponsesavailable'] = 'No responses available';
 $messages['listempty'] = 'The list is empty.';
 $messages['listusebutton'] = 'Use the Create button to add a new record.';
 $messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';

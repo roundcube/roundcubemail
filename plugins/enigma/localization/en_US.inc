@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 
-$labels = array();
+$labels = [];
 $labels['encryption'] = 'Encryption';
 $labels['enigmacerts'] = 'S/MIME Certificates';
 $labels['enigmakeys'] = 'PGP Keys';
@@ -101,7 +101,7 @@ $labels['arialabelkeyexportoptions'] = 'Keys export options';
 $labels['arialabelkeysearchform'] = 'Keys search form';
 $labels['arialabelkeyoptions'] = 'Key options';
 
-$messages = array();
+$messages = [];
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';
 $messages['siginvalid'] = 'Invalid signature from $sender.';

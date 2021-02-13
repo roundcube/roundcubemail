@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Година (пр. Архив/2012)';
 $labels['archivetypemonth'] = 'Месец (пр. Архив/2012/06)';
 $labels['archivetypetbmonth'] = 'Месец - съвместим с Thunderbird (пр. Архив/2012/2012-06)';
 $labels['archivetypefolder'] = 'Оригинална папка';
+$labels['archivetypefolderyear'] = 'Година и оригиналната папка (пр. Архив/2012/...) ';
+$labels['archivetypefoldermonth'] = 'Година, месец и оригиналната папка (пр. Архив/2012/06/...) ';
 $labels['archivetypesender'] = 'E-mail адрес на подател';
 $labels['unkownsender'] = 'неизвестно';
 $labels['readonarchive'] = 'Маркирай писмото като прочетено в архива';
-?>

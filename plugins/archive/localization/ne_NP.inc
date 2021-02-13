@@ -15,4 +15,3 @@
 */
 
 $labels['unkownsender'] = 'अज्ञात';
-?>

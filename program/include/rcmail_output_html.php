@@ -29,18 +29,18 @@ class rcmail_output_html extends rcmail_output
 
     protected $message;
     protected $template_name;
-    protected $objects      = array();
-    protected $js_env       = array();
-    protected $js_labels    = array();
-    protected $js_commands  = array();
-    protected $skin_paths   = array();
+    protected $objects      = [];
+    protected $js_env       = [];
+    protected $js_labels    = [];
+    protected $js_commands  = [];
+    protected $skin_paths   = [];
     protected $skin_name    = '';
     protected $scripts_path = '';
-    protected $script_files = array();
-    protected $css_files    = array();
-    protected $scripts      = array();
-    protected $meta_tags    = array();
-    protected $link_tags    = array('shortcut icon' => '');
+    protected $script_files = [];
+    protected $css_files    = [];
+    protected $scripts      = [];
+    protected $meta_tags    = [];
+    protected $link_tags    = ['shortcut icon' => ''];
     protected $header       = '';
     protected $footer       = '';
     protected $body         = '';
@@ -51,16 +51,16 @@ class rcmail_output_html extends rcmail_output
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
 
     // deprecated names of templates used before 0.5
-    protected $deprecated_templates = array(
+    protected $deprecated_templates = [
         'contact'      => 'showcontact',
         'contactadd'   => 'addcontact',
         'contactedit'  => 'editcontact',
         'identityedit' => 'editidentity',
         'messageprint' => 'printmessage',
-    );
+    ];
 
     // deprecated names of template objects used before 1.4
-    protected $deprecated_template_objects = array(
+    protected $deprecated_template_objects = [
         'addressframe'        => 'contentframe',
         'messagecontentframe' => 'contentframe',
         'prefsframe'          => 'contentframe',
@@ -69,7 +69,7 @@ class rcmail_output_html extends rcmail_output
         'responseframe'       => 'contentframe',
         'keyframe'            => 'contentframe',
         'filterframe'         => 'contentframe',
-    );
+    ];
 
     /**
      * Constructor
@@ -82,12 +82,12 @@ class rcmail_output_html extends rcmail_output
 
         $this->set_env('task', $task);
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
-        $this->set_env('locale', $_SESSION['language']);
+        $this->set_env('locale', !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US');
         $this->set_env('devel_mode', $this->devel_mode);
 
         // Version number e.g. 1.4.2 will be 10402
         $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
-        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + $version[2]);
+        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + (isset($version[2]) ? $version[2] : 0));
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -98,7 +98,7 @@ class rcmail_output_html extends rcmail_output
         if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
             if ($this->check_skin($_GET['skin'])) {
                 $this->set_skin($_GET['skin']);
-                $this->app->user->save_prefs(array('skin' => $_GET['skin']));
+                $this->app->user->save_prefs(['skin' => $_GET['skin']]);
             }
         }
 
@@ -106,10 +106,13 @@ class rcmail_output_html extends rcmail_output
         $this->set_skin($this->config->get('skin'));
         $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
 
-        if (!empty($_REQUEST['_extwin']))
+        if (!empty($_REQUEST['_extwin'])) {
             $this->set_env('extwin', 1);
-        if ($this->framed || $framed)
+        }
+
+        if ($this->framed || $framed) {
             $this->set_env('framed', 1);
+        }
 
         $lic = <<<EOF
 /*
@@ -144,14 +147,14 @@ EOF;
         $this->include_script('app.js');
 
         // register common UI objects
-        $this->add_handlers(array(
-            'loginform'       => array($this, 'login_form'),
-            'preloader'       => array($this, 'preloader'),
-            'username'        => array($this, 'current_username'),
-            'message'         => array($this, 'message_container'),
-            'charsetselector' => array($this, 'charset_selector'),
-            'aboutcontent'    => array($this, 'about_content'),
-        ));
+        $this->add_handlers([
+                'loginform'       => [$this, 'login_form'],
+                'preloader'       => [$this, 'preloader'],
+                'username'        => [$this, 'current_username'],
+                'message'         => [$this, 'message_container'],
+                'charsetselector' => [$this, 'charset_selector'],
+                'aboutcontent'    => [$this, 'about_content'],
+        ]);
 
         // set blankpage (watermark) url
         $blankpage = $this->config->get('blankpage_url', '/watermark.html');
@@ -161,10 +164,10 @@ EOF;
     /**
      * Set environment variable
      *
-     * @param string  $name    Property name
-     * @param mixed   $value   Property value
-     * @param boolean $addtojs True if this property should be added
-     *                         to client environment
+     * @param string $name    Property name
+     * @param mixed  $value   Property value
+     * @param bool   $addtojs True if this property should be added
+     *                        to client environment
      */
     public function set_env($name, $value, $addtojs = true)
     {
@@ -237,17 +240,22 @@ EOF;
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
         }
-        else if ($this->env['task'] == 'login') {
-            $title = $this->app->gettext(array(
-                'name' => 'welcome',
-                'vars' => array('product' => $this->config->get('product_name')
-            )));
+        else if (isset($this->env['task'])) {
+            if ($this->env['task'] == 'login') {
+                $title = $this->app->gettext([
+                        'name' => 'welcome',
+                        'vars' => ['product' => $this->config->get('product_name')]
+                ]);
+            }
+            else {
+                $title = ucfirst($this->env['task']);
+            }
         }
         else {
-            $title = ucfirst($this->env['task']);
+            $title = '';
         }
 
-        if ($full) {
+        if ($full && $title) {
             if ($this->devel_mode && !empty($_SESSION['username'])) {
                 $title = $_SESSION['username'] . ' :: ' . $title;
             }
@@ -286,8 +294,8 @@ EOF;
         $this->base_path = $skin_path;
 
         // register skin path(s)
-        $this->skin_paths = array();
-        $this->skins      = array();
+        $this->skin_paths = [];
+        $this->skins      = [];
         $this->load_skin($skin_path);
 
         $this->skin_name = $skin;
@@ -305,11 +313,11 @@ EOF;
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         if (strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                     'message' => 'Invalid skin name'
-                ), true, false);
+                ], true, false);
 
             return false;
         }
@@ -340,16 +348,16 @@ EOF;
         $path_elements = explode('/', $skin_path);
         $skin_id       = end($path_elements);
 
-        if (!$meta['name']) {
+        if (empty($meta['name'])) {
             $meta['name'] = $skin_id;
         }
 
         $this->skins[$skin_id] = $meta;
 
         // Keep skin config for ajax requests (#6613)
-        $_SESSION['skin_config'] = array();
+        $_SESSION['skin_config'] = [];
 
-        if ($meta['extends']) {
+        if (!empty($meta['extends'])) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
                 $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
@@ -374,8 +382,12 @@ EOF;
         }
 
         // Use array_merge() here to allow for global default and extended skins
-        $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
-        $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        if (!empty($meta['meta'])) {
+            $this->meta_tags = array_merge($this->meta_tags, (array) $meta['meta']);
+        }
+        if (!empty($meta['links'])) {
+            $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        }
 
         return $_SESSION['skin_config'];
     }
@@ -385,14 +397,15 @@ EOF;
      *
      * @param string $name Template name
      *
-     * @return boolean True if template exists
+     * @return bool True if template exists, False otherwise
      */
     public function template_exists($name)
     {
         foreach ($this->skin_paths as $skin_path) {
             $filename = RCUBE_INSTALL_PATH . $skin_path . '/templates/' . $name . '.html';
-            if ((is_file($filename) && is_readable($filename))
-                || ($this->deprecated_templates[$name] && $this->template_exists($this->deprecated_templates[$name]))
+            if (
+                (is_file($filename) && is_readable($filename))
+                || (!empty($this->deprecated_templates[$name]) && $this->template_exists($this->deprecated_templates[$name]))
             ) {
                 return true;
             }
@@ -409,7 +422,7 @@ EOF;
      * @param string $add_path   Additional path to search in
      * @param bool   $minified   Fallback to a minified version of the file
      *
-     * @return mixed Relative path to the requested file or False if not found
+     * @return string|false Relative path to the requested file or False if not found
      */
     public function get_skin_file($file, &$skin_path = null, $add_path = null, $minified = false)
     {
@@ -418,6 +431,10 @@ EOF;
         if ($add_path) {
             array_unshift($skin_paths, $add_path);
             $skin_paths = array_unique($skin_paths);
+        }
+
+        if ($file[0] != '/') {
+            $file = '/' . $file;
         }
 
         if ($skin_path = $this->find_file_path($file, $skin_paths)) {
@@ -473,10 +490,13 @@ EOF;
     public function command()
     {
         $cmd = func_get_args();
-        if (strpos($cmd[0], 'plugin.') !== false)
-            $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
-        else
+
+        if (strpos($cmd[0], 'plugin.') !== false) {
+            $this->js_commands[] = ['triggerEvent', $cmd[0], $cmd[1]];
+        }
+        else {
             $this->js_commands[] = $cmd;
+        }
     }
 
     /**
@@ -501,20 +521,20 @@ EOF;
      * @param string  $message  Message to display
      * @param string  $type     Message type [notice|confirm|error]
      * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param boolean $override Override last set message
+     * @param bool    $override Override last set message
      * @param int     $timeout  Message display time in seconds
      *
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
+    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars)) {
-                    $vars = array_map(array('rcube','Q'), $vars);
+                    $vars = array_map(['rcube','Q'], $vars);
                 }
 
-                $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
+                $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
             }
             else {
                 $msgtext = $message;
@@ -533,11 +553,11 @@ EOF;
     public function reset($all = false)
     {
         $framed = $this->framed;
-        $task   = $this->env['task'];
-        $env    = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $task   = isset($this->env['task']) ? $this->env['task'] : '';
+        $env    = $all ? null : array_intersect_key($this->env, ['extwin' => 1, 'framed' => 1]);
 
         // keep jQuery-UI files
-        $css_files = $script_files = array();
+        $css_files = $script_files = [];
 
         foreach ($this->css_files as $file) {
             if (strpos($file, 'plugins/jqueryui') === 0) {
@@ -557,15 +577,15 @@ EOF;
 
         // let some env variables survive
         $this->env          = $this->js_env = $env;
-        $this->framed       = $framed || $this->env['framed'];
-        $this->js_labels    = array();
-        $this->js_commands  = array();
-        $this->scripts      = array();
+        $this->framed       = $framed || !empty($this->env['framed']);
+        $this->js_labels    = [];
+        $this->js_commands  = [];
+        $this->scripts      = [];
         $this->header       = '';
         $this->footer       = '';
         $this->body         = '';
-        $this->css_files    = array();
-        $this->script_files = array();
+        $this->css_files    = [];
+        $this->script_files = [];
 
         // load defaults
         if (!$all) {
@@ -586,12 +606,18 @@ EOF;
      * @param int   $delay  Delay in seconds
      * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
-    public function redirect($p = array(), $delay = 1, $secure = false)
+    public function redirect($p = [], $delay = 1, $secure = false)
     {
-        if ($this->env['extwin'])
-            $p['extwin'] = 1;
+        if (!empty($this->env['extwin']) && !(is_string($p) && preg_match('#^https?://#', $p))) {
+            if (!is_array($p)) {
+                $p = ['_action' => $p];
+            }
+
+            $p['_extwin'] = 1;
+        }
+
         $location = $this->app->url($p, false, false, $secure);
-        header('Location: ' . $location);
+        $this->header('Location: ' . $location);
         exit;
     }
 
@@ -599,19 +625,25 @@ EOF;
      * Send the request output to the client.
      * This will either parse a skin template.
      *
-     * @param string  $templ Template name
-     * @param boolean $exit  True if script should terminate (default)
+     * @param string $templ Template name
+     * @param bool   $exit  True if script should terminate (default)
      */
     public function send($templ = null, $exit = true)
     {
         if ($templ != 'iframe') {
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
-                rcube::raise_error(array('code' => 505, 'type' => 'php',
-                  'file' => __FILE__, 'line' => __LINE__,
-                  'message' => 'Recursion alert: ignoring output->send()'), true, false);
+                rcube::raise_error([
+                        'code'    => 505,
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                        'message' => 'Recursion alert: ignoring output->send()'
+                    ], true, false
+                );
+
                 return;
             }
+
             $this->parse($templ, false);
         }
         else {
@@ -640,7 +672,7 @@ EOF;
         }
 
         // Fix assets path on blankpage
-        if ($this->js_env['blankpage']) {
+        if (!empty($this->js_env['blankpage'])) {
             $this->js_env['blankpage'] = $this->asset_url($this->abs_url($this->js_env['blankpage'], true));
         }
 
@@ -650,8 +682,8 @@ EOF;
         // script files and skip rcube_webmail initialization (#1489792)
         // but not on error pages where skins may need jQuery, etc.
         if ($framed && empty($this->js_env['server_error'])) {
-            $this->scripts      = array();
-            $this->script_files = array();
+            $this->scripts      = [];
+            $this->script_files = [];
             $this->header       = '';
             $this->footer       = '';
         }
@@ -678,10 +710,10 @@ EOF;
         }
 
         // allow (legal) iframe content to be loaded
-        $framed = $this->framed || $this->env['framed'];
+        $framed = $this->framed || !empty($this->env['framed']);
         if ($framed && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             if (strtolower($xopt) === 'deny') {
-                header('X-Frame-Options: sameorigin', true);
+                $this->header('X-Frame-Options: sameorigin', true);
             }
         }
     }
@@ -689,9 +721,9 @@ EOF;
     /**
      * Parse a specific skin template and deliver to stdout (or return)
      *
-     * @param string  $name  Template name
-     * @param boolean $exit  Exit script
-     * @param boolean $write Don't write to stdout, return parsed content instead
+     * @param string $name  Template name
+     * @param bool   $exit  Exit script
+     * @param bool   $write Don't write to stdout, return parsed content instead
      *
      * @link http://php.net/manual/en/function.exit.php
      */
@@ -700,7 +732,7 @@ EOF;
         $plugin   = false;
         $realname = $name;
         $skin_dir = '';
-        $plugin_skin_paths = array();
+        $plugin_skin_paths = [];
 
         $this->template_name = $realname;
 
@@ -712,7 +744,10 @@ EOF;
 
             // apply skin search escalation list to plugin directory
             foreach ($this->skin_paths as $skin_path) {
+                // skin folder in plugin dir
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
+                // plugin folder in skin dir
+                $plugin_skin_paths[] = $skin_path . '/plugins/' . $plugin;
             }
 
             // prepend plugin skin paths to search list
@@ -723,21 +758,23 @@ EOF;
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
             // when requesting a plugin template ignore global skin path(s)
-            if ($plugin && strpos($skin_path, $this->app->plugins->url) !== 0) {
+            if ($plugin && strpos($skin_path, $this->app->plugins->url) === false) {
                 continue;
             }
 
             $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
-            if (!is_readable($path) && ($dname = $this->deprecated_templates[$realname])) {
-                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$dname.html";
+            if (!is_readable($path) && !empty($this->deprecated_templates[$realname])) {
+                $dname = $this->deprecated_templates[$realname];
+                $path  = RCUBE_INSTALL_PATH . "$skin_path/templates/$dname.html";
 
                 if (is_readable($path)) {
-                    rcube::raise_error(array(
+                    rcube::raise_error([
                             'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'"
-                        ), true, false);
+                        ], true, false
+                    );
                 }
             }
 
@@ -755,13 +792,12 @@ EOF;
 
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
-            rcube::raise_error(array(
-                'code' => 404,
-                'type' => 'php',
-                'line' => __LINE__,
-                'file' => __FILE__,
-                'message' => 'Error loading template for '.$realname
-                ), true, $write);
+            rcube::raise_error([
+                    'code' => 404,
+                    'line' => __LINE__,
+                    'file' => __FILE__,
+                    'message' => 'Error loading template for '.$realname
+                ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
             return false;
@@ -771,8 +807,8 @@ EOF;
         // and /this/ to the current plugin skin directory
         if ($plugin) {
             $templ = preg_replace(
-                array('/\bplugins\//', '/(["\']?)\/this\//'),
-                array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'),
+                ['/\bplugins\//', '/(["\']?)\/this\//'],
+                [$this->app->plugins->url, '\\1' . $this->app->plugins->url . $skin_dir . '/'],
                 $templ
             );
         }
@@ -782,8 +818,11 @@ EOF;
         $output = $this->parse_xml($output);
 
         // trigger generic hook where plugins can put additional content to the page
-        $hook = $this->app->plugins->exec_hook("render_page", array(
-                'template' => $realname, 'content' => $output, 'write' => $write));
+        $hook = $this->app->plugins->exec_hook("render_page", [
+                'template' => $realname,
+                'content'  => $output,
+                'write'    => $write
+        ]);
 
         // save some memory
         $output = $hook['content'];
@@ -811,24 +850,24 @@ EOF;
         $out             = '';
         $parent_commands = 0;
         $parent_prefix   = '';
-        $top_commands    = array();
+        $top_commands    = [];
 
         // these should be always on top,
         // e.g. hide_message() below depends on env.framed
         if (!$this->framed && !empty($this->js_env)) {
-            $top_commands[] = array('set_env', $this->js_env);
+            $top_commands[] = ['set_env', $this->js_env];
         }
         if (!empty($this->js_labels)) {
-            $top_commands[] = array('add_label', $this->js_labels);
+            $top_commands[] = ['add_label', $this->js_labels];
         }
 
         // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
+        $unlock = isset($_REQUEST['_unlock']) ? preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']) : 0;
         if ($this->framed) {
-            $top_commands[] = array('iframe_loaded', $unlock);
+            $top_commands[] = ['iframe_loaded', $unlock];
         }
         else if ($unlock) {
-            $top_commands[] = array('hide_message', $unlock);
+            $top_commands[] = ['hide_message', $unlock];
         }
 
         $commands = array_merge($top_commands, $this->js_commands);
@@ -876,7 +915,7 @@ EOF;
      */
     public function abs_url($str, $search_path = false)
     {
-        if ($str[0] == '/') {
+        if (isset($str[0]) && $str[0] == '/') {
             if ($search_path && ($file_url = $this->get_skin_file($str))) {
                 return $file_url;
             }
@@ -895,13 +934,13 @@ EOF;
      */
     public function raise_error($code, $message)
     {
-        global $__page_content, $ERROR_CODE, $ERROR_MESSAGE;
+        $args = [
+            'code'    => $code,
+            'message' => $message,
+        ];
 
-        $ERROR_CODE    = $code;
-        $ERROR_MESSAGE = $message;
-
-        include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
-        exit;
+        $page = new rcmail_action_utils_error;
+        $page->run($args);
     }
 
     /**
@@ -921,7 +960,7 @@ EOF;
             $path = $this->abs_url($path, true);
         }
 
-        if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
+        if (!$this->assets_path || in_array($path[0], ['?', '/', '.']) || strpos($path, '://')) {
             return $path;
         }
 
@@ -941,8 +980,7 @@ EOF;
         $GLOBALS['__comm_path'] = html::quote($this->app->comm_path);
         $GLOBALS['__skin_path'] = html::quote($this->base_path);
 
-        return preg_replace_callback('/\$(__[a-z0-9_\-]+)/',
-            array($this, 'globals_callback'), $input);
+        return preg_replace_callback('/\$(__[a-z0-9_\-]+)/', [$this, 'globals_callback'], $input);
     }
 
     /**
@@ -958,9 +996,9 @@ EOF;
      */
     protected function fix_paths($output)
     {
-        return preg_replace_callback(
-            '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i',
-            array($this, 'file_callback'), $output);
+        $regexp = '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i';
+
+        return preg_replace_callback($regexp, [$this, 'file_callback'], $output);
     }
 
     /**
@@ -992,9 +1030,9 @@ EOF;
      */
     protected function fix_assets_paths($output)
     {
-        return preg_replace_callback(
-            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i',
-            array($this, 'assets_callback'), $output);
+        $regexp = '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i';
+
+        return preg_replace_callback($regexp, [$this, 'assets_callback'], $output);
     }
 
     /**
@@ -1055,9 +1093,11 @@ EOF;
      */
     protected function parse_conditions($input)
     {
-        while (preg_match('/<roundcube:if\s+[^>]+>(((?!<roundcube:(if|endif)).)*)<roundcube:endif[^>]*>/is', $input, $conditions)) {
+        $regexp = '/<roundcube:if\s+[^>]+>(((?!<roundcube:(if|endif)).)*)<roundcube:endif[^>]*>/is';
+
+        while (preg_match($regexp, $input, $conditions)) {
             $result = $this->eval_condition($conditions[0]);
-            $input = str_replace($conditions[0], $result, $input);
+            $input  = str_replace($conditions[0], $result, $input);
         }
 
         return $input;
@@ -1096,10 +1136,11 @@ EOF;
                 return $matches[0] . $this->eval_condition($result);
             }
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Unable to parse conditional tag " . $matches[2]
-                ), true, false);
+                ], true, false
+            );
         }
 
         return $input;
@@ -1110,7 +1151,7 @@ EOF;
      *
      * @param string $condition Condition statement
      *
-     * @return boolean True if condition is met, False if not
+     * @return bool True if condition is met, False if not
      * @todo Extend this to allow real conditions, not just "set"
      */
     protected function check_condition($condition)
@@ -1126,8 +1167,8 @@ EOF;
         $out    = $matches[0];
         $attrib = html::parse_attrib_string($matches[1]);
 
-        if (strtolower($attrib['method']) == 'post') {
-            $hidden = new html_hiddenfield(array('name' => '_token', 'value' => $this->app->get_request_token()));
+        if (!empty($attrib['method']) && strtolower($attrib['method']) == 'post') {
+            $hidden = new html_hiddenfield(['name' => '_token', 'value' => $this->app->get_request_token()]);
             $out .= "\n" . $hidden->show();
         }
 
@@ -1144,7 +1185,7 @@ EOF;
     protected function eval_expression($expression)
     {
         $expression = preg_replace(
-            array(
+            [
                 '/session:([a-z0-9_]+)/i',
                 '/config:([a-z0-9_]+)(:([a-z0-9_]+))?/i',
                 '/env:([a-z0-9_]+)/i',
@@ -1152,16 +1193,16 @@ EOF;
                 '/cookie:([a-z0-9_]+)/i',
                 '/browser:([a-z0-9_]+)/i',
                 '/template:name/i',
-            ),
-            array(
-                "\$_SESSION['\\1']",
+            ],
+            [
+                "(isset(\$_SESSION['\\1']) ? \$_SESSION['\\1'] : null)",
                 "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$this->env['\\1']",
+                "(isset(\$this->env['\\1']) ? \$this->env['\\1'] : null)",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
-                "\$_COOKIE['\\1']",
-                "\$this->browser->{'\\1'}",
+                "(isset(\$_COOKIE['\\1']) ? \$_COOKIE['\\1'] : null)",
+                "(isset(\$this->browser->{'\\1'}) ? \$this->browser->{'\\1'} : null)",
                 "'{$this->template_name}'",
-            ),
+            ],
             $expression
         );
 
@@ -1184,11 +1225,11 @@ EOF;
 
         switch ($type) {
             case 'env':
-                $value = $this->env[$name];
+                $value = isset($this->env[$name]) ? $this->env[$name] : null;
                 break;
             case 'config':
                 $value = $this->config->get($name);
-                if (is_array($value) && $value[$_SESSION['storage_host']]) {
+                if (is_array($value) && !empty($value[$_SESSION['storage_host']])) {
                     $value = $value[$_SESSION['storage_host']];
                 }
                 break;
@@ -1196,13 +1237,13 @@ EOF;
                 $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
                 break;
             case 'session':
-                $value = $_SESSION[$name];
+                $value = isset($_SESSION[$name]) ? $_SESSION[$name] : '';
                 break;
             case 'cookie':
                 $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
                 break;
             case 'browser':
-                $value = $this->browser->{$name};
+                $value = isset($this->browser->{$name}) ? $this->browser->{$name} : '';
                 break;
         }
 
@@ -1221,7 +1262,9 @@ EOF;
      */
     protected function parse_xml($input)
     {
-        return preg_replace_callback('/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui', array($this, 'xml_command'), $input);
+        $regexp = '/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui';
+
+        return preg_replace_callback($regexp, [$this, 'xml_command'], $input);
     }
 
     /**
@@ -1254,7 +1297,7 @@ EOF;
         switch ($command) {
             // return a button
             case 'button':
-                if ($attrib['name'] || $attrib['command']) {
+                if (!empty($attrib['name']) || !empty($attrib['command'])) {
                     return $this->button($attrib);
                 }
                 break;
@@ -1266,18 +1309,26 @@ EOF;
 
             // show a label
             case 'label':
-                if ($attrib['expression'])
+                if (!empty($attrib['expression'])) {
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
+                }
 
-                if ($attrib['name'] || $attrib['command']) {
-                    $vars = $attrib + array('product' => $this->config->get('product_name'));
+                if (!empty($attrib['name']) || !empty($attrib['command'])) {
+                    $vars = $attrib + ['product' => $this->config->get('product_name')];
                     unset($vars['name'], $vars['command']);
 
-                    $label   = $this->app->gettext($attrib + array('vars' => $vars));
-                    $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
+                    $label   = $this->app->gettext($attrib + ['vars' => $vars]);
+                    $quoting = null;
+
+                    if (!empty($attrib['quoting'])) {
+                        $quoting = strtolower($attrib['quoting']);
+                    }
+                    else if (isset($attrib['html'])) {
+                        $quoting = rcube_utils::get_boolean((string) $attrib['html']) ? 'no' : '';
+                    }
 
                     // 'noshow' can be used in skins to define new labels
-                    if ($attrib['noshow']) {
+                    if (!empty($attrib['noshow'])) {
                         return '';
                     }
 
@@ -1304,7 +1355,7 @@ EOF;
 
             // include a file
             case 'include':
-                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                if (!empty($attrib['condition']) && !$this->check_condition($attrib['condition'])) {
                     break;
                 }
 
@@ -1312,14 +1363,15 @@ EOF;
                     $attrib['file'] = '/templates/' . $attrib['file'];
                 }
 
-                $old_base_path    = $this->base_path;
-                $include          = '';
+                $old_base_path   = $this->base_path;
+                $include         = '';
+                $attr_skin_path = !empty($attrib['skinpath']) ? $attrib['skinpath'] : null;
 
                 if (!empty($attrib['skin_path'])) {
-                    $attrib['skinpath'] = $attrib['skin_path'];
+                    $attr_skin_path = $attrib['skin_path'];
                 }
 
-                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
+                if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attr_skin_path)) {
                     // set base_path to core skin directory (not plugin's skin)
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                     $path = realpath(RCUBE_INSTALL_PATH . $path);
@@ -1338,15 +1390,15 @@ EOF;
                 return $include;
 
             case 'plugin.include':
-                $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib);
+                $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib + ['content' => '']);
                 return $hook['content'];
 
             // define a container block
             case 'container':
-                if ($attrib['name'] && $attrib['id']) {
+                if (!empty($attrib['name']) && !empty($attrib['id'])) {
                     $this->command('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
-                    $hook = $this->app->plugins->exec_hook("template_container", $attrib);
+                    $hook = $this->app->plugins->exec_hook("template_container", $attrib + ['content' => '']);
                     return $hook['content'];
                 }
                 break;
@@ -1355,13 +1407,16 @@ EOF;
             case 'object':
                 $object  = strtolower($attrib['name']);
                 $content = '';
+                $handler = null;
 
                 // correct deprecated object names
-                if ($this->deprecated_template_objects[$object]) {
+                if (!empty($this->deprecated_template_objects[$object])) {
                     $object = $this->deprecated_template_objects[$object];
                 }
 
-                $handler = $this->object_handlers[$object];
+                if (!empty($this->object_handlers[$object])) {
+                    $handler = $this->object_handlers[$object];
+                }
 
                 // execute object handler function
                 if (is_callable($handler)) {
@@ -1377,16 +1432,23 @@ EOF;
                     $content = html::doctype($attrib['value']);
                 }
                 else if ($object == 'logo') {
-                    $attrib += array('alt' => $this->xml_command(array('', 'object', 'name="productname"')));
+                    $attrib += ['alt' => $this->xml_command(['', 'object', 'name="productname"'])];
 
                     // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
                     // check both for backwards compatibility
-                    if (($template_logo = $this->get_template_logo($attrib['logo-type'] ?: $attrib['type'], $attrib['logo-match'])) !== null) {
+                    $logo_type  = !empty($attrib['logo-type']) ? $attrib['logo-type'] : null;
+                    $logo_match = !empty($attrib['logo-match']) ? $attrib['logo-match'] : null;
+                    if (!empty($attrib['type']) && empty($logo_type)) {
+                        $logo_type = $attrib['type'];
+                    }
+
+                    if (($template_logo = $this->get_template_logo($logo_type, $logo_match)) !== null) {
                         $attrib['src'] = $template_logo;
                     }
 
-                    $additional_logos = array();
+                    $additional_logos = [];
                     $logo_types       = (array) $this->config->get('additional_logo_types');
+
                     foreach ($logo_types as $type) {
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
@@ -1397,16 +1459,16 @@ EOF;
                         $this->set_env('additional_logos', $additional_logos);
                     }
 
-                    if ($attrib['src']) {
+                    if (!empty($attrib['src'])) {
                         $content = html::img($attrib);
                     }
                 }
                 else if ($object == 'productname') {
-                    $name = $this->config->get('product_name', 'Roundcube Webmail');
+                    $name    = $this->config->get('product_name', 'Roundcube Webmail');
                     $content = html::quote($name);
                 }
                 else if ($object == 'version') {
-                    $ver = (string)RCMAIL_VERSION;
+                    $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (preg_match('/Revision:\s(\d+)/', @shell_exec('svn info'), $regs))
                           $ver .= ' [SVN r'.$regs[1].']';
@@ -1461,7 +1523,7 @@ EOF;
                         // - array(array(), string)
                         // - array(array('key' => 'val'), array('key' => 'val'))
                         // normalise this for processing by checking for string array keys
-                        $vars = is_array($vars) ? (count(array_filter(array_keys($vars), 'is_string')) > 0 ? array($vars) : $vars) : array($vars);
+                        $vars = is_array($vars) ? (count(array_filter(array_keys($vars), 'is_string')) > 0 ? [$vars] : $vars) : [$vars];
 
                         foreach ($vars as $args) {
                             // skip unset headers e.g. when extending a skin and removing a header defined in the parent
@@ -1469,7 +1531,7 @@ EOF;
                                 continue;
                             }
 
-                            $args = is_array($args) ? $args : array($param => $args);
+                            $args = is_array($args) ? $args : [$param => $args];
 
                             // special handling for favicon
                             if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
@@ -1481,13 +1543,13 @@ EOF;
                                 }
                             }
 
-                            $content .= html::tag($tag, array($key => $name, 'nl' => true) + $args);
+                            $content .= html::tag($tag, [$key => $name, 'nl' => true] + $args);
                         }
                     }
                 }
 
                 // exec plugin hooks for this template object
-                $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + array('content' => $content));
+                $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + ['content' => $content]);
 
                 if (strlen($hook['content']) && !empty($external)) {
                     $object_id                 = uniqid('TEMPLOBJECT:', true);
@@ -1526,6 +1588,7 @@ EOF;
             case 'form':
                 return $this->form_tag($attrib);
         }
+
         return '';
     }
 
@@ -1580,7 +1643,7 @@ EOF;
         }
 
         // make sure all <form> tags have a valid request token
-        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
+        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', [$this, 'alter_form_tag'], $output);
 
         return $output;
     }
@@ -1600,33 +1663,21 @@ EOF;
         static $disabled_actions = null;
 
         // these commands can be called directly via url
-        $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
+        $a_static_commands = ['compose', 'list', 'preferences', 'folders', 'identities'];
 
-        if (!($attrib['command'] || $attrib['name'] || $attrib['href'])) {
+        if (empty($attrib['command']) && empty($attrib['name']) && empty($attrib['href'])) {
             return '';
         }
 
-        // try to find out the button type
-        if ($attrib['type']) {
-            $attrib['type'] = strtolower($attrib['type']);
-            if (strpos($attrib['type'], '-menuitem')) {
-                $attrib['type'] = substr($attrib['type'], 0, -9);
-                $menuitem = true;
-            }
-        }
-        else {
-            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'button';
-        }
+        $command = !empty($attrib['command']) ? $attrib['command'] : null;
+        $action  = $command ?: (!empty($attrib['name']) ? $attrib['name'] : null);
 
-        $command = $attrib['command'];
-        $action = $command ?: $attrib['name'];
-
-        if ($attrib['task']) {
+        if (!empty($attrib['task'])) {
             $command = $attrib['task'] . '.' . $command;
             $element = $attrib['task'] . '.' . $action;
         }
         else {
-            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $action;
+            $element = (!empty($this->env['task']) ? $this->env['task'] . '.' : '') . $action;
         }
 
         if ($disabled_actions === null) {
@@ -1638,41 +1689,64 @@ EOF;
             return '';
         }
 
-        if (!$attrib['image']) {
-            $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
+        // try to find out the button type
+        if (!empty($attrib['type'])) {
+            $attrib['type'] = strtolower($attrib['type']);
+            if (strpos($attrib['type'], '-menuitem')) {
+                $attrib['type'] = substr($attrib['type'], 0, -9);
+                $menuitem = true;
+            }
+        }
+        else if (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
+            $attrib['type'] = 'image';
+        }
+        else {
+            $attrib['type'] = 'button';
         }
 
-        if (!$attrib['id']) {
+        if (empty($attrib['image'])) {
+            if (!empty($attrib['imagepas'])) {
+                $attrib['image'] = $attrib['imagepas'];
+            }
+            else if (!empty($attrib['imageact'])) {
+                $attrib['image'] = $attrib['imageact'];
+            }
+        }
+
+        if (empty($attrib['id'])) {
             // ensure auto generated IDs are unique between main window and content frame
             // Elastic skin duplicates buttons between the two on smaller screens (#7618)
-            $prefix       = ($this->framed || $this->env['framed']) ? 'frm' : '';
+            $prefix       = ($this->framed || !empty($this->env['framed'])) ? 'frm' : '';
             $attrib['id'] = sprintf('rcmbtn%s%d', $prefix, $s_button_count++);
         }
 
         // get localized text for labels and titles
-        if ($attrib['title']) {
-            $attrib['title'] = html::quote($this->app->gettext($attrib['title'], $attrib['domain']));
+        $domain = !empty($attrib['domain']) ? $attrib['domain'] : null;
+        if (!empty($attrib['title'])) {
+            $attrib['title'] = html::quote($this->app->gettext($attrib['title'], $domain));
         }
-        if ($attrib['label']) {
-            $attrib['label'] = html::quote($this->app->gettext($attrib['label'], $attrib['domain']));
+        if (!empty($attrib['label'])) {
+            $attrib['label'] = html::quote($this->app->gettext($attrib['label'], $domain));
         }
-        if ($attrib['alt']) {
-            $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
+        if (!empty($attrib['alt'])) {
+            $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $domain));
         }
 
         // set accessibility attributes
-        if (!$attrib['role']) {
+        if (empty($attrib['role'])) {
             $attrib['role'] = 'button';
         }
+
         if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
-            if (array_key_exists('tabindex', $attrib))
+            if (array_key_exists('tabindex', $attrib)) {
                 $attrib['data-tabindex'] = $attrib['tabindex'];
-            $attrib['tabindex'] = '-1';  // disable button by default
+            }
+            $attrib['tabindex']      = '-1';  // disable button by default
             $attrib['aria-disabled'] = 'true';
         }
 
         // set title to alt attribute for IE browsers
-        if ($this->browser->ie && !$attrib['title'] && $attrib['alt']) {
+        if ($this->browser->ie && empty($attrib['title']) && !empty($attrib['alt'])) {
             $attrib['title'] = $attrib['alt'];
         }
 
@@ -1682,28 +1756,28 @@ EOF;
         }
 
         // register button in the system
-        if ($attrib['command']) {
+        if (!empty($attrib['command'])) {
             $this->add_script(sprintf(
                 "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
                 self::JS_OBJECT_NAME,
                 $command,
                 $attrib['id'],
                 $attrib['type'],
-                $attrib['imageact'] ? $this->abs_url($attrib['imageact']) : $attrib['classact'],
-                $attrib['imagesel'] ? $this->abs_url($attrib['imagesel']) : $attrib['classsel'],
-                $attrib['imageover'] ? $this->abs_url($attrib['imageover']) : ''
+                !empty($attrib['imageact']) ? $this->abs_url($attrib['imageact']) : (!empty($attrib['classact']) ? $attrib['classact'] : ''),
+                !empty($attrib['imagesel']) ? $this->abs_url($attrib['imagesel']) : (!empty($attrib['classsel']) ? $attrib['classsel'] : ''),
+                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : ''
             ));
 
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
-                $attrib['href']    = $this->app->url(array('task' => $attrib['command']));
+                $attrib['href']    = $this->app->url(['task' => $attrib['command']]);
                 $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
             }
-            else if ($attrib['task'] && in_array($attrib['task'], rcmail::$main_tasks)) {
-                $attrib['href'] = $this->app->url(array('action' => $attrib['command'], 'task' => $attrib['task']));
+            else if (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
+                $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             }
             else if (in_array($attrib['command'], $a_static_commands)) {
-                $attrib['href'] = $this->app->url(array('action' => $attrib['command']));
+                $attrib['href'] = $this->app->url(['action' => $attrib['command']]);
             }
             else if (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
               $attrib['href'] = $this->env['permaurl'];
@@ -1711,72 +1785,72 @@ EOF;
         }
 
         // overwrite attributes
-        if (!$attrib['href']) {
+        if (empty($attrib['href'])) {
             $attrib['href'] = '#';
         }
 
-        if ($attrib['task']) {
-            if ($attrib['classact']) {
+        if (!empty($attrib['task'])) {
+            if (!empty($attrib['classact'])) {
                 $attrib['class'] = $attrib['classact'];
             }
         }
-        else if ($command && !$attrib['onclick']) {
+        else if ($command && empty($attrib['onclick'])) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
                 self::JS_OBJECT_NAME,
                 $command,
-                $attrib['prop']
+                !empty($attrib['prop']) ? $attrib['prop'] : ''
             );
         }
 
-        $out = '';
+        $out         = '';
         $btn_content = null;
-        $link_attrib = array();
+        $link_attrib = [];
 
         // generate image tag
         if ($attrib['type'] == 'image') {
             $attrib_str = html::attrib_string(
                 $attrib,
-                array(
+                [
                     'style', 'class', 'id', 'width', 'height', 'border', 'hspace',
                     'vspace', 'align', 'alt', 'tabindex', 'title'
-                )
+                ]
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $btn_content .= ' '.$attrib['label'];
             }
-            $link_attrib = array('href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target');
+            $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
         else if ($attrib['type'] == 'link') {
-            $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
-            $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target', 'rel'));
-            if ($attrib['innerclass']) {
+            $btn_content = isset($attrib['content']) ? $attrib['content'] : (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
+            $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
+            if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
         }
         else if ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
 
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
             }
-            if ($attrib['command']) {
+            if (!empty($attrib['command'])) {
                 $attrib['disabled'] = 'disabled';
             }
 
-            $out = html::tag('input', $attrib, null, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
+            $out = html::tag('input', $attrib, null, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
         else {
-            if ($attrib['label']) {
+            if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
             }
-            if ($attrib['command']) {
+            if (!empty($attrib['command'])) {
                 $attrib['disabled'] = 'disabled';
             }
 
             $content = isset($attrib['content']) ? $attrib['content'] : $attrib['label'];
-            $out = html::tag('button', $attrib, $content, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
+            $out = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
 
         // generate html code for button
@@ -1785,12 +1859,12 @@ EOF;
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
-        if ($attrib['wrapper']) {
+        if (!empty($attrib['wrapper'])) {
             $out = html::tag($attrib['wrapper'], null, $out);
         }
 
         if (!empty($menuitem)) {
-            $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
+            $class = !empty($attrib['menuitem-class']) ? ' class="' . $attrib['menuitem-class'] . '"' : '';
             $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
         }
 
@@ -1809,8 +1883,8 @@ EOF;
             $file = $this->file_mod($this->scripts_path . $file);
         }
 
-        if (!is_array($this->script_files[$position])) {
-            $this->script_files[$position] = array();
+        if (!isset($this->script_files[$position]) || !is_array($this->script_files[$position])) {
+            $this->script_files[$position] = [];
         }
 
         if (!in_array($file, $this->script_files[$position])) {
@@ -1884,7 +1958,7 @@ EOF;
         };
 
         $merge_scripts = function($output, $script) {
-            return $output . html::script(array(), $script);
+            return $output . html::script([], $script);
         };
 
         // put docready commands into page footer
@@ -1902,21 +1976,21 @@ EOF;
             $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
 
             if (!headers_sent()) {
-                header('Content-Language: ' . $lang);
+                $this->header('Content-Language: ' . $lang);
             }
         }
 
         // include meta tag with charset
         if (!empty($this->charset)) {
             if (!headers_sent()) {
-                header('Content-Type: text/html; charset=' . $this->charset);
+                $this->header('Content-Type: text/html; charset=' . $this->charset);
             }
 
-            $meta .= html::tag('meta', array(
+            $meta .= html::tag('meta', [
                     'http-equiv' => 'content-type',
                     'content'    => "text/html; charset={$this->charset}",
                     'nl'         => true
-            ));
+            ]);
         }
 
         // include page title (after charset specification)
@@ -1928,14 +2002,29 @@ EOF;
         }
 
         // include scripts into header/footer
-        $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
-        $page_header .= array_reduce(array($this->scripts['head_top'] . $this->scripts['head']), $merge_scripts);
-        $page_header .= $this->header . "\n";
-        $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
+        if (!empty($this->script_files['head'])) {
+            $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
+        }
 
-        $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
+        $head  = isset($this->scripts['head_top']) ? $this->scripts['head_top'] : '';
+        $head .= isset($this->scripts['head']) ? $this->scripts['head'] : '';
+
+        $page_header .= array_reduce((array) $head, $merge_scripts);
+        $page_header .= $this->header . "\n";
+
+        if (!empty($this->script_files['head_bottom'])) {
+            $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
+        }
+
+        if (!empty($this->script_files['foot'])) {
+            $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
+        }
+
         $page_footer .= $this->footer . "\n";
-        $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
+
+        if (!empty($this->scripts['foot'])) {
+            $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
+        }
 
         // find page header
         if ($hpos = stripos($output, '</head>')) {
@@ -1986,12 +2075,12 @@ EOF;
             $css = '';
             foreach ($this->css_files as $file) {
                 $is_less = substr_compare($file, '.less', -5, 5, true) === 0;
-                $css    .= html::tag('link', array(
+                $css    .= html::tag('link', [
                         'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
                         'type' => 'text/css',
                         'href' => $file,
                         'nl'   => true,
-                ));
+                ]);
             }
             $output = substr_replace($output, $css, $pos, 0);
         }
@@ -2005,7 +2094,7 @@ EOF;
         $output = $this->postrender($output);
 
         // trigger hook with final HTML content to be sent
-        $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
+        $hook = $this->app->plugins->exec_hook("send_page", ['content' => $output]);
         if (!$hook['abort']) {
             if ($this->charset != RCUBE_CHARSET) {
                 echo rcube_charset::convert($hook['content'], RCUBE_CHARSET, $this->charset);
@@ -2019,8 +2108,8 @@ EOF;
     /**
      * Returns iframe object, registers some related env variables
      *
-     * @param array   $attrib          HTML attributes
-     * @param boolean $is_contentframe Register this iframe as the 'contentframe' gui object
+     * @param array $attrib          HTML attributes
+     * @param bool  $is_contentframe Register this iframe as the 'contentframe' gui object
      *
      * @return string IFRAME element
      */
@@ -2028,16 +2117,16 @@ EOF;
     {
         static $idcount = 0;
 
-        if (!$attrib['id']) {
+        if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmframe' . ++$idcount;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'about:blank';
+        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
-        if ($is_contentframe || $attrib['contentframe']) {
-            $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
+        if ($is_contentframe || !empty($attrib['contentframe'])) {
+            $this->set_env('contentframe', !empty($attrib['contentframe']) ? $attrib['contentframe'] : $attrib['name']);
         }
 
         return html::iframe($attrib);
@@ -2058,12 +2147,12 @@ EOF;
     {
         $hidden = '';
 
-        if ($this->env['extwin']) {
-            $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
+        if (!empty($this->env['extwin'])) {
+            $hiddenfield = new html_hiddenfield(['name' => '_extwin', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
-        else if ($this->framed || $this->env['framed']) {
-            $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+        else if ($this->framed || !empty($this->env['framed'])) {
+            $hiddenfield = new html_hiddenfield(['name' => '_framed', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
 
@@ -2072,9 +2161,9 @@ EOF;
         }
 
         return html::tag('form',
-            $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
+            $attrib + ['action' => $this->app->comm_path, 'method' => 'get'],
             $hidden . $content,
-            array('id','class','style','name','method','action','enctype','onsubmit')
+            ['id', 'class', 'style', 'name', 'method', 'action', 'enctype', 'onsubmit']
         );
     }
 
@@ -2090,17 +2179,19 @@ EOF;
     public function request_form($attrib, $content = '')
     {
         $hidden = new html_hiddenfield();
-        if ($attrib['task']) {
-            $hidden->add(array('name' => '_task', 'value' => $attrib['task']));
+
+        if (!empty($attrib['task'])) {
+            $hidden->add(['name' => '_task', 'value' => $attrib['task']]);
         }
-        if ($attrib['action']) {
-            $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
+
+        if (!empty($attrib['action'])) {
+            $hidden->add(['name' => '_action', 'value' => $attrib['action']]);
         }
 
         // we already have a <form> tag
-        if ($attrib['form']) {
-            if ($this->framed || $this->env['framed']) {
-                $hidden->add(array('name' => '_framed', 'value' => '1'));
+        if (!empty($attrib['form'])) {
+            if ($this->framed || !empty($this->env['framed'])) {
+                $hidden->add(['name' => '_framed', 'value' => '1']);
             }
 
             return $hidden->show() . $content;
@@ -2130,7 +2221,7 @@ EOF;
         }
 
         // Current username is an e-mail address
-        if (strpos($_SESSION['username'], '@')) {
+        if (isset($_SESSION['username']) && strpos($_SESSION['username'], '@')) {
             $username = $_SESSION['username'];
         }
         // get e-mail address from default identity
@@ -2163,7 +2254,11 @@ EOF;
 
         // save original url
         $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
-        if (empty($url) && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])) {
+        if (
+            empty($url)
+            && !empty($_SERVER['QUERY_STRING'])
+            && !preg_match('/_(task|action)=logout/', $_SERVER['QUERY_STRING'])
+        ) {
             $url = $_SERVER['QUERY_STRING'];
         }
 
@@ -2173,27 +2268,27 @@ EOF;
         $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
         // set atocomplete attribute
-        $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
-        $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
-        $pass_attrib = $autocomplete > 1 ? array() : array('autocomplete' => 'off');
+        $user_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
+        $host_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
+        $pass_attrib = $autocomplete > 1 ? [] : ['autocomplete' => 'off'];
 
         if ($username_filter && strtolower($username_filter) == 'email') {
             $user_attrib['type'] = 'email';
         }
 
-        $input_task   = new html_hiddenfield(array('name' => '_task', 'value' => 'login'));
-        $input_action = new html_hiddenfield(array('name' => '_action', 'value' => 'login'));
-        $input_tzone  = new html_hiddenfield(array('name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_'));
-        $input_url    = new html_hiddenfield(array('name' => '_url', 'id' => 'rcmloginurl', 'value' => $url));
-        $input_user   = new html_inputfield(array('name' => '_user', 'id' => 'rcmloginuser', 'required' => 'required')
+        $input_task   = new html_hiddenfield(['name' => '_task', 'value' => 'login']);
+        $input_action = new html_hiddenfield(['name' => '_action', 'value' => 'login']);
+        $input_tzone  = new html_hiddenfield(['name' => '_timezone', 'id' => 'rcmlogintz', 'value' => '_default_']);
+        $input_url    = new html_hiddenfield(['name' => '_url', 'id' => 'rcmloginurl', 'value' => $url]);
+        $input_user   = new html_inputfield(['name' => '_user', 'id' => 'rcmloginuser', 'required' => 'required']
             + $attrib + $user_attrib);
-        $input_pass   = new html_passwordfield(array('name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required')
+        $input_pass   = new html_passwordfield(['name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required']
             + $attrib + $pass_attrib);
         $input_host   = null;
         $hide_host    = false;
 
         if (is_array($default_host) && count($default_host) > 1) {
-            $input_host = new html_select(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select'));
+            $input_host = new html_select(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select']);
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
@@ -2207,18 +2302,18 @@ EOF;
         }
         else if (is_array($default_host) && ($host = key($default_host)) !== null) {
             $hide_host = true;
-            $input_host = new html_hiddenfield(array(
-                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host) + $attrib);
+            $input_host = new html_hiddenfield([
+                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host] + $attrib);
         }
         else if (empty($default_host)) {
-            $input_host = new html_inputfield(array('name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control')
+            $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
                 + $attrib + $host_attrib);
         }
 
         $this->add_gui_object('loginform', $form_name);
 
         // create HTML table with two cols
-        $table = new html_table(array('cols' => 2));
+        $table = new html_table(['cols' => 2]);
 
         $table->add('title', html::label('rcmloginuser', html::quote($this->app->gettext('username'))));
         $table->add('input', $input_user->show(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC)));
@@ -2243,19 +2338,24 @@ EOF;
         }
 
         if (rcube_utils::get_boolean($attrib['submit'])) {
-            $button_attr = array('type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit');
+            $button_attr = ['type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit'];
             $out .= html::p('formbuttons', html::tag('button', $button_attr, $this->app->gettext('login')));
         }
 
         // add oauth login button
         if ($this->config->get('oauth_auth_uri') && $this->config->get('oauth_provider')) {
-            $link_attr = array('href' => $this->app->url(array('action' => 'oauth')), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider'));
-            $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(array('name' => 'oauthlogin', 'vars' => array('provider' => $this->config->get('oauth_provider_name', 'OAuth'))))));
+            // hide login form fields when `oauth_login_redirect` is configured
+            if ($this->config->get('oauth_login_redirect')) {
+                $out = '';
+            }
+
+            $link_attr = ['href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider')];
+            $out .= html::p('oauthlogin', html::a($link_attr, $this->app->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $this->config->get('oauth_provider_name', 'OAuth')]])));
         }
 
         // surround html output with a form tag
         if (empty($attrib['form'])) {
-            $out = $this->form_tag(array('name' => $form_name, 'method' => 'post'), $out);
+            $out = $this->form_tag(['name' => $form_name, 'method' => 'post'], $out);
         }
 
         // include script for timezone detection
@@ -2274,8 +2374,8 @@ EOF;
     protected function preloader($attrib)
     {
         $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
-        $images = array_map(array($this, 'abs_url'), $images);
-        $images = array_map(array($this, 'asset_url'), $images);
+        $images = array_map([$this, 'abs_url'], $images);
+        $images = array_map([$this, 'asset_url'], $images);
 
         if (empty($images) || $_REQUEST['_task'] == 'logout') {
             return;
@@ -2302,48 +2402,60 @@ EOF;
         $this->add_label('searching');
 
         $attrib['name']  = '_q';
-        $attrib['class'] = trim($attrib['class'] . ' no-bs');
+        $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' no-bs');
 
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmqsearchbox';
         }
-        if ($attrib['type'] == 'search' && !$this->browser->khtml) {
+        if (isset($attrib['type']) && $attrib['type'] == 'search' && !$this->browser->khtml) {
             unset($attrib['type'], $attrib['results']);
         }
         if (empty($attrib['placeholder'])) {
             $attrib['placeholder'] = $this->app->gettext('searchplaceholder');
         }
 
-        $label   = html::label(array('for' => $attrib['id'], 'class' => 'voice'), rcube::Q($this->app->gettext('arialabelsearchterms')));
+        $label   = html::label(['for' => $attrib['id'], 'class' => 'voice'], rcube::Q($this->app->gettext('arialabelsearchterms')));
         $input_q = new html_inputfield($attrib);
         $out     = $label . $input_q->show();
+        $name    = 'qsearchbox';
 
         // Support for multiple searchforms on the same page
-        if ($attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
-            $this->add_gui_object($attrib['gui-object'] ?: 'qsearchbox', $attrib['id']);
+        if (isset($attrib['gui-object']) && $attrib['gui-object'] !== false && $attrib['gui-object'] !== 'false') {
+            $name = $attrib['gui-object'];
         }
+
+        $this->add_gui_object($name, $attrib['id']);
 
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
-            $out = $this->form_tag(array(
-                    'name'     => $attrib['form-name'] ?: 'rcmqsearchform',
-                    'onsubmit' => sprintf("%s.command('%s'); return false", self::JS_OBJECT_NAME, $attrib['command'] ?: 'search'),
+            $out = $this->form_tag([
+                    'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
+                    'onsubmit' => sprintf(
+                        "%s.command('%s'); return false",
+                        self::JS_OBJECT_NAME,
+                        !empty($attrib['command']) ? $attrib['command'] : 'search'
+                    ),
                     // 'style'    => "display:inline"
-                ), $out);
+                ], $out);
         }
 
         if (!empty($attrib['wrapper'])) {
             $options_button = '';
-            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain']);
-            $header_attrs = array(
+
+            $ariatag = !empty($attrib['ariatag']) ? $attrib['ariatag'] : 'h2';
+            $domain  = !empty($attrib['label-domain']) ? $attrib['label-domain'] : null;
+            $options = !empty($attrib['options']) ? $attrib['options'] : null;
+
+            $header_label = $this->app->gettext('arialabel' . $attrib['label'], $domain);
+            $header_attrs = [
                 'id'    => 'aria-label-' . $attrib['label'],
                 'class' => 'voice'
-            );
+            ];
 
-            $header = html::tag($attrib['ariatag'] ?: 'h2', $header_attrs, rcube::Q($header_label));
+            $header = html::tag($ariatag, $header_attrs, rcube::Q($header_label));
 
-            if ($attrib['options']) {
-                $options_button = $this->button(array(
+            if (!empty($attrib['options'])) {
+                $options_button = $this->button([
                         'type'       => 'link',
                         'href'       => '#search-filter',
                         'class'      => 'button options',
@@ -2351,11 +2463,11 @@ EOF;
                         'title'      => 'options',
                         'tabindex'   => '0',
                         'innerclass' => 'inner',
-                        'data-target' => $attrib['options']
-                ));
+                        'data-target' => $options
+                ]);
             }
 
-            $search_button = $this->button(array(
+            $search_button = $this->button([
                     'type'       => 'link',
                     'href'       => '#search',
                     'class'      => 'button search',
@@ -2363,23 +2475,25 @@ EOF;
                     'title'      => $attrib['buttontitle'],
                     'tabindex'   => '0',
                     'innerclass' => 'inner',
-            ));
+            ]);
 
-            $reset_button = $this->button(array(
+            $reset_button = $this->button([
                     'type'       => 'link',
-                    'command'    => $attrib['reset-command'] ?: 'reset-search',
+                    'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
                     'class'      => 'button reset',
                     'label'      => 'resetsearch',
                     'title'      => 'resetsearch',
                     'tabindex'   => '0',
                     'innerclass' => 'inner',
-            ));
+            ]);
 
-            $out = html::div(array(
+            $out = html::div([
                     'role'            => 'search',
-                    'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
+                    'aria-labelledby' => !empty($attrib['label']) ? 'aria-label-' . $attrib['label'] : null,
                     'class'           => $attrib['wrapper'],
-                ), "$header$out\n$reset_button\n$options_button\n$search_button");
+                ],
+                "$header$out\n$reset_button\n$options_button\n$search_button"
+            );
         }
 
         return $out;
@@ -2412,14 +2526,14 @@ EOF;
     public function charset_selector($attrib)
     {
         // pass the following attributes to the form class
-        $field_attrib = array('name' => '_charset');
+        $field_attrib = ['name' => '_charset'];
         foreach ($attrib as $attr => $value) {
-            if (in_array($attr, array('id', 'name', 'class', 'style', 'size', 'tabindex'))) {
+            if (in_array($attr, ['id', 'name', 'class', 'style', 'size', 'tabindex'])) {
                 $field_attrib[$attr] = $value;
             }
         }
 
-        $charsets = array(
+        $charsets = [
             'UTF-8'        => 'UTF-8 ('.$this->app->gettext('unicode').')',
             'US-ASCII'     => 'ASCII ('.$this->app->gettext('english').')',
             'ISO-8859-1'   => 'ISO-8859-1 ('.$this->app->gettext('westerneuropean').')',
@@ -2454,7 +2568,7 @@ EOF;
             'BIG5'         => 'BIG5 ('.$this->app->gettext('chinese').')',
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
             'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
-        );
+        ];
 
         if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
             $set = $post;
@@ -2483,11 +2597,12 @@ EOF;
     protected function about_content($attrib)
     {
         $content = '';
-        $filenames = array(
+        $filenames = [
             'about.' . $_SESSION['language'] . '.html',
             'about.' . substr($_SESSION['language'], 0, 2) . '.html',
             'about.html',
-        );
+        ];
+
         foreach ($filenames as $file) {
             $fn = RCUBE_CONFIG_DIR . $file;
             if (is_readable($fn)) {
@@ -2517,7 +2632,7 @@ EOF;
 
         if ($logo = $this->config->get('skin_logo')) {
             if (is_array($logo)) {
-                $template_names = array(
+                $template_names = [
                     $this->skin_name . ':' . $this->template_name . '[' . $type . ']',
                     $this->skin_name . ':' . $this->template_name,
                     $this->skin_name . ':*[' . $type . ']',
@@ -2532,7 +2647,7 @@ EOF;
                     '*[' . $type . ']',
                     '[' . $type . ']',
                     '*',
-                );
+                ];
 
                 if (empty($type)) {
                     // If no type provided then remove those options from the list

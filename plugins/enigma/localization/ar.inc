@@ -28,9 +28,9 @@ $labels['keychpass'] = 'تغيير كلمة المرور';
 $labels['newkeyident'] = 'الهوية';
 $labels['newkeypass'] = 'كلمة المرور';
 $labels['newkeypassconfirm'] = 'تأكيد الكلمة السرية';
+$labels['newkeytype'] = 'نوع المفتاح';
+$labels['keygenerating'] = 'جارٍ توليد المفاتيح...';
+$labels['managekeys'] = 'إدارة مفاتيح PGP';
 $labels['newkeysize'] = 'حجم المفتاح';
 $labels['key2048'] = '2048 bits - افتراضي';
 $labels['key4096'] = '4096 bits - أكثر أمانا';
-$labels['keygenerating'] = 'جارٍ توليد المفاتيح...';
-$labels['managekeys'] = 'إدارة مفاتيح PGP';
-?>

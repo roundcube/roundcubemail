@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Sākotnējā mape';
 $labels['archivetypesender'] = 'Sūtītāja e-pasts';
 $labels['unkownsender'] = 'nezināms';
 $labels['readonarchive'] = 'Arhivējot, atzīmēt vēstuli kā izlasītu';
-?>

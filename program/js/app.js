@@ -215,12 +215,6 @@ function rcube_webmail()
     var n;
     this.task = this.env.task;
 
-    // check browser capabilities (never use version checks here)
-    if (this.env.server_error != 409 && (!bw.dom || !bw.xmlhttp_test())) {
-      this.goto_url('error', '_code=0x199');
-      return;
-    }
-
     if (!this.env.blankpage)
       this.env.blankpage = 'about:blank';
 
@@ -262,7 +256,7 @@ function rcube_webmail()
 
           this.env.widescreen_list_template = [
             {className: 'threads', cells: ['threads']},
-            {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
+            {className: 'subject', cells: ['fromto', 'date', 'size', 'status', 'subject']},
             {className: 'flags', cells: ['flag', 'attachment']}
           ];
 
@@ -486,13 +480,7 @@ function rcube_webmail()
 
         // ask user to send MDN
         if (this.env.mdn_request && this.env.uid) {
-          var postact = 'sendmdn',
-            postdata = {_uid: this.env.uid, _mbox: this.env.mailbox};
-          if (!confirm(this.get_label('mdnrequest'))) {
-            postdata._flag = 'mdnsent';
-            postact = 'mark';
-          }
-          this.http_post(postact, postdata);
+            this.mdn_request_dialog(this.env.uid, this.env.mailbox);
         }
 
         // detect browser capabilities
@@ -1436,6 +1424,11 @@ function rcube_webmail()
         var dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
           import_func = function(e) {
             var win = dialog[0].contentWindow,
+              form = null;
+
+            if (win.rcmail.gui_objects.importformmap)
+              form = win.rcmail.gui_objects.importformmap;
+            else
               form = win.rcmail.gui_objects.importform;
 
             if (form) {
@@ -2070,6 +2063,13 @@ function rcube_webmail()
     // set env vars for message list
     this.env.msglist_layout = layout;
     this.env.msglist_cols = listcols;
+
+    // Set sort-* class on the list element
+    var list = this.gui_objects.messagelist,
+      classes = list.className.split(' ').filter(function(v) { return !v.startsWith('sort-'); });
+
+    classes.push('sort-' + (this.env.sort_col || 'none'));
+    list.className = classes.join(' ');
   };
 
   this.check_droptarget = function(id)
@@ -4363,6 +4363,50 @@ function rcube_webmail()
       });
   };
 
+  this.mdn_request_dialog = function(uid, mailbox)
+  {
+    var props = {
+        action: 'mark',
+        data: { _uid: uid, _mbox: mailbox, _flag: 'mdnsent' }
+      },
+      buttons = [
+        {
+          text: this.get_label('send'),
+          'class': 'mainaction send',
+          click: function(e, ui, dialog) {
+            props.action = 'sendmdn';
+            (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
+          }
+        },
+        {
+          text: this.get_label('ignore'),
+          'class': 'cancel',
+          click: function(e, ui, dialog) {
+            (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
+          }
+        }
+      ],
+      mdn_func = function(event, ui) {
+        ref.http_post(props.action, props.data);
+        // from default close function
+        $(this).remove();
+      };
+
+    if (this.env.mdn_request_save) {
+      buttons.unshift({
+        text: this.get_label('sendalwaysto').replace('$email', this.env.mdn_request_sender.mailto),
+        'class': 'mainaction send',
+        click: function(e, ui, dialog) {
+          props.data._save = ref.env.mdn_request_save;
+          props.data._address = ref.env.mdn_request_sender.string;
+          $(e.target).next().click();
+        }
+      });
+    }
+
+    this.show_popup_dialog(this.get_label('mdnrequest'), this.get_label('sendreceipt'), buttons, { close: mdn_func });
+  };
+
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/
@@ -5084,6 +5128,9 @@ function rcube_webmail()
             return rcube_event.cancel(e);
           }
         });
+
+      // remove the placeholder item if its there
+      $(this.gui_objects.responseslist).find('li > a.insertresponse.placeholder').parent().remove();
     }
   };
 
@@ -7759,19 +7806,27 @@ function rcube_webmail()
 
   this.subscribe = function(folder)
   {
-    if (folder) {
-      var lock = this.display_message('foldersubscribing', 'loading');
-      this.http_post('subscribe', {_mbox: folder}, lock);
-    }
+    this.change_subscription_state(folder, true);
   };
 
   this.unsubscribe = function(folder)
   {
+    this.change_subscription_state(folder, false);
+  };
+
+  this.change_subscription_state = function(folder, state)
+  {
     if (folder) {
-      var lock = this.display_message('folderunsubscribing', 'loading');
-      this.http_post('unsubscribe', {_mbox: folder}, lock);
+      var prefix = state ? '' : 'un',
+        lock = this.display_message('folder' + prefix + 'subscribing', 'loading');
+
+      this.http_post(prefix + 'subscribe', {_mbox: folder}, lock);
+
+      // in case this was a list of search results, update also the main list
+      $(this.gui_objects.subscriptionlist).find('input[value="' + folder + '"]').prop('checked', state);
     }
   };
+
 
   // when user select a folder in manager
   this.show_folder = function(folder, path, force)

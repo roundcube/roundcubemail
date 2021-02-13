@@ -575,6 +575,7 @@ $labels['encryptioncreatekey'] = '创建新密钥对';
 $labels['openmailvelopesettings'] = '打开 Mailvelope 设置';
 $labels['encryptionprivkeysinmailvelope'] = '你的 Mailvelope 钥匙环中有 $nr 项符合条件的 PGP 私钥：';
 $labels['encryptionnoprivkeysinmailvelope'] = '你的 Mailvelope 插件钥匙环中没有符合此发件人身份的 PGP 私钥。你想要生成一个以启用加密消息吗？';
+$labels['encryption'] = '加密';
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '递增排序';
 $labels['sortdesc'] = '递减排序';

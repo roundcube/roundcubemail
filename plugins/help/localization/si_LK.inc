@@ -16,4 +16,3 @@
 
 $labels['about'] = 'පිළිබඳ';
 $labels['license'] = 'බලපත්‍රය';
-?>

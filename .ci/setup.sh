@@ -7,9 +7,6 @@ GMV=1.5.11
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
 GMARGS="-Dgreenmail.setup.all -Dgreenmail.users=test:test -Dgreenmail.startup.timeout=3000"
 
-# Roundcube tests and instance configuration
-cp .ci/config-test.inc.php config/config-test.inc.php
-
 # Make temp and logs writeable
 sudo chmod 777 temp logs
 
@@ -17,9 +14,12 @@ sudo chmod 777 temp logs
 bin/install-jsdeps.sh
 
 # Compile Elastic's styles
-lessc skins/elastic/styles/styles.less > skins/elastic/styles/styles.css
-lessc skins/elastic/styles/print.less > skins/elastic/styles/print.css
-lessc skins/elastic/styles/embed.less > skins/elastic/styles/embed.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/styles.less > skins/elastic/styles/styles.min.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/print.less > skins/elastic/styles/print.min.css
+lessc --clean-css="--s1 --advanced" skins/elastic/styles/embed.less > skins/elastic/styles/embed.min.css
+
+# Use minified javascript files
+bin/jsshrink.sh
 
 # Install proper WebDriver version for installed Chrome browser
 php tests/Browser/install.php $CHROMEVERSION

@@ -25,7 +25,7 @@ CREATE TABLE users (
     failed_login timestamp with time zone DEFAULT NULL,
     failed_login_counter integer DEFAULT NULL,
     "language" varchar(16),
-    preferences text DEFAULT ''::text NOT NULL,
+    preferences text DEFAULT NULL,
     CONSTRAINT users_username_key UNIQUE (username, mail_host)
 );
 
@@ -343,4 +343,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2020091000');
+INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2020122900');

@@ -95,4 +95,3 @@ $messages['createerror'] = 'アクセス権を追加できません。';
 $messages['deleteconfirm'] = '選択したユーザーのアクセス件を本当に削除したいですか?';
 $messages['norights'] = '何の権限も指定されていません!';
 $messages['nouser'] = 'ユーザー名を指定していません!';
-?>

@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Notandaupplýsingar';
 $labels['created'] = 'Búið til';
 $labels['lastlogin'] = 'Síðasta innskráning';
 $labels['defaultidentity'] = 'Sjálfgefið auðkenni';
+$labels['userid'] = 'Auðkenni';

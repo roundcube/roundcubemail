@@ -175,7 +175,7 @@ input.smart-upload {
             flex-wrap: nowrap;
 
             & > *:first-child {
-                .overflow-ellipsis;
+                .overflow-ellipsis();
                 min-width: 8rem;
 
                 &:not(select) {
@@ -775,7 +775,7 @@ html.ms .propform {
         border: 1px solid @color-input-border;
 
         &.focused {
-            .style-input-focus;
+            .style-input-focus();
         }
 
         // TODO: style button focus
@@ -934,7 +934,7 @@ html.ms .propform {
     height: auto; // reset .form-control height
 
     &.focus {
-        .style-input-focus;
+        .style-input-focus();
     }
 
     .recipient {
@@ -957,7 +957,7 @@ html.ms .propform {
     }
 
     .name {
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         flex-grow: 1;
         line-height: 1.1;
         padding: floor(.25 * @page-font-size);
@@ -977,15 +977,15 @@ html.ms .propform {
     }
 
     a.button.icon {
-        font-size: .8em;
+        font-size: .75em;
         cursor: pointer;
         padding: 0;
+        color: @color-font;
 
         &:before {
-            float: none;
             display: inline-block;
             width: 1em;
-            line-height: 1.5;
+            line-height: 1.6;
         }
     }
 
@@ -1031,7 +1031,7 @@ html.ms .propform {
     }
 
     &[tabindex="-1"] {
-        .style-input-focus;
+        .style-input-focus();
     }
 
     li.tagedit-listelement-new {
@@ -1079,7 +1079,7 @@ html.ms .propform {
         }
 
         span {
-            .overflow-ellipsis;
+            .overflow-ellipsis();
             flex-grow: 1;
             display: inline-block;
             line-height: 1.4;
@@ -1272,6 +1272,13 @@ html.ms .propform {
     margin-bottom: .5rem;
 }
 
+// This one is to fix height of an input-group child that usually we put
+// in between inputs, e.g. in managesieve forms it is '@' in email input
+// with a separate local part and domain selector.
+.input-group-append.input-group-prepend {
+    display: inline;
+}
+
 .input-group-text {
     color: @color-input;
     background-color: @color-input-addon-background;
@@ -1379,9 +1386,8 @@ html.ms .propform {
 
     .custom-file-label {
         white-space: nowrap;
-        .overflow-ellipsis;
+        .overflow-ellipsis();
         padding-right: 100px;
-        line-height: 1.5 !important;
     }
 
     & + .hint {

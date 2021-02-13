@@ -16,7 +16,7 @@
 // These must be original texts used in Outlook/Thunderbird exported csv files
 // Encoding UTF-8
 
-$map = array();
+$map = [];
 
 // MS Outlook 2010
 $map['anniversary'] = "Anniversary";

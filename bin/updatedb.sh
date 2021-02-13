@@ -23,11 +23,11 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(array(
-    'v' => 'version',
-    'd' => 'dir',
-    'p' => 'package',
-));
+$opts = rcube_utils::get_opt([
+        'v' => 'version',
+        'd' => 'dir',
+        'p' => 'package',
+]);
 
 if (empty($opts['dir'])) {
     rcube::raise_error("Database schema directory not specified (--dir).", false, true);
@@ -36,4 +36,4 @@ if (empty($opts['package'])) {
     rcube::raise_error("Database schema package name not specified (--package).", false, true);
 }
 
-rcmail_utils::db_update($opts['dir'], $opts['package'], $opts['version'], array('errors' => true));
+rcmail_utils::db_update($opts['dir'], $opts['package'], $opts['version'], ['errors' => true]);

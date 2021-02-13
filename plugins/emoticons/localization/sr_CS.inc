@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Прикажи емотиконе у обичним текстуалним порукама';
 $labels['emoticonscompose'] = 'Укључи емотиконе';
-?>

@@ -62,8 +62,7 @@ $labels['keyrevoke'] = 'Sig úr gildi';
 $labels['keysend'] = 'Send almennan lykil í einum boðum';
 $labels['keychpass'] = 'Broyt loyniorð';
 $labels['newkeypass'] = 'Loyniorð';
-$labels['key2048'] = '2048 bit - vanligt';
-$labels['key4096'] = '4096 bits - meiri trygt';
+$labels['newkeytype'] = 'Lykla týpa';
 $labels['keygenerating'] = 'Framleiður lyklar...';
 $labels['encryptionoptions'] = 'Bronglu møguleikar';
 $labels['encryptmsg'] = 'Brongla hesi boð';
@@ -102,4 +101,5 @@ $messages['keygenerateerror'] = 'Feilur kom í, tá roynt var at framleiða lykl
 $messages['keygeneratesuccess'] = 'Eitt lykla-par var framleitt og inn flutt';
 $messages['keygennosupport'] = 'Tín kagari dugur ikki dulmálsvísindi. Ber ikki til at framleiða lykla par';
 $messages['nonameident'] = 'samleiki má hava eitt brúkaranavn';
-?>
+$labels['key2048'] = '2048 bit - vanligt';
+$labels['key4096'] = '4096 bits - meiri trygt';

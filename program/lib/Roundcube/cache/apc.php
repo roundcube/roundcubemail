@@ -95,7 +95,7 @@ class rcube_cache_apc extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -121,7 +121,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {

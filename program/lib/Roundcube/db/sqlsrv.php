@@ -75,20 +75,20 @@ class rcube_db_sqlsrv extends rcube_db_mssql
      */
     protected function dsn_string($dsn)
     {
-        $params = array();
+        $params = [];
         $result = 'sqlsrv:';
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $host = $dsn['hostspec'];
 
-            if ($dsn['port']) {
+            if (isset($dsn['port'])) {
                 $host .= ',' . $dsn['port'];
             }
 
             $params[] = 'Server=' . $host;
         }
 
-        if ($dsn['database']) {
+        if (isset($dsn['database'])) {
             $params[] = 'Database=' . $dsn['database'];
         }
 

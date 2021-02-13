@@ -17,7 +17,7 @@ div.tox {
     font-size: 1rem;
 
     &, :not(.svg) {
-        .font-family;
+        .font-family();
     }
 
     &.tox-tinymce {
@@ -133,7 +133,7 @@ div.tox {
         }
 
         .tox-button {
-            .btn-primary;
+            .btn-primary();
             font-weight: normal;
             padding: .5rem .75rem;
 
@@ -151,7 +151,7 @@ div.tox {
             }
 
             &.tox-button--secondary {
-                .btn-secondary;
+                .btn-secondary();
                 color: @color-btn-secondary;
 
                 &:before {
@@ -224,7 +224,7 @@ div.tox {
     .tox-selectfield select,
     .tox-textarea,
     .tox-textfield {
-        .font-family !important;
+        .font-family() !important;
         font-size: @page-font-size;
         line-height: 1.5;
         color: @color-font;
@@ -259,7 +259,7 @@ div.tox {
     .image-selector {
         font-size: 1rem;
         button {
-            .btn-secondary;
+            .btn-secondary();
             padding: .5rem .75rem;
             line-height: 1.5;
         }
@@ -385,7 +385,7 @@ div.tox {
                 flex: 1;
                 margin: auto;
                 padding-left: 1rem;
-                .overflow-ellipsis;
+                .overflow-ellipsis();
             }
 
             span.img {

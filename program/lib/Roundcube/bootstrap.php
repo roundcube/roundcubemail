@@ -25,7 +25,7 @@
  * @subpackage Core
  */
 
-$config = array(
+$config = [
     'error_reporting' => E_ALL & ~E_NOTICE & ~E_STRICT,
     'display_errors'  => false,
     'log_errors'      => true,
@@ -33,16 +33,16 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload' => 0,
-);
+];
 
 // check these additional ini settings if not called via CLI
 if (php_sapi_name() != 'cli') {
-    $config += array(
+    $config += [
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,
         'session.auto_start'      => false,
         'zlib.output_compression' => false,
-    );
+    ];
 }
 
 foreach ($config as $optname => $optval) {
@@ -109,7 +109,7 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error(
  * @param string $needle   Needle value
  * @param array  $heystack Array to search in
  *
- * @return boolean True if found, False if not
+ * @return bool True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
 {
@@ -279,7 +279,7 @@ function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = fal
  */
 function array_keys_recursive($array)
 {
-    $keys = array();
+    $keys = [];
 
     if (!empty($array) && is_array($array)) {
         foreach ($array as $key => $child) {
@@ -294,6 +294,23 @@ function array_keys_recursive($array)
 }
 
 /**
+ * Get first element from an array
+ *
+ * @param array $array Input array
+ *
+ * @return mixed First element if found, Null otherwise
+ */
+function array_first($array)
+{
+    if (is_array($array)) {
+        reset($array);
+        foreach ($array as $element) {
+            return $element;
+        }
+    }
+}
+
+/**
  * Remove all non-ascii and non-word chars except ., -, _
  *
  * @param string $str          A string
@@ -305,7 +322,7 @@ function array_keys_recursive($array)
 function asciiwords($str, $css_id = false, $replace_with = '')
 {
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
-    return preg_replace("/[^$allowed]/i", $replace_with, $str);
+    return preg_replace("/[^$allowed]+/i", $replace_with, $str);
 }
 
 /**
@@ -378,74 +395,10 @@ function format_email($email)
 function version_parse($version)
 {
     return str_replace(
-        array('-stable', '-git'),
-        array('.0', '.99'),
+        ['-stable', '-git'],
+        ['.0', '.99'],
         $version
     );
-}
-
-// intl replacement functions
-
-if (!function_exists('idn_to_utf8'))
-{
-    /**
-     * Convert domain name from IDNA ASCII to Unicode
-     *
-     * @param string $domain Domain to convert in an IDNA ASCII-compatible format.
-     *
-     * @return string|false Unicode domain, False on failure
-     */
-    function idn_to_utf8($domain)
-    {
-        static $idn, $loaded;
-
-        if (!$loaded) {
-            $idn    = new Net_IDNA2(array('version' => '2008'));
-            $loaded = true;
-        }
-
-        if ($idn && $domain && preg_match('/(^|\.)xn--/i', $domain)) {
-            try {
-                $domain = $idn->decode($domain);
-            }
-            catch (Exception $e) {
-                return false;
-            }
-        }
-
-        return $domain;
-    }
-}
-
-if (!function_exists('idn_to_ascii'))
-{
-    /**
-     * Convert domain name to IDNA ASCII-compatible form Unicode
-     *
-     * @param string $domain The domain to convert, which must be UTF-8 encoded
-     *
-     * @return string|false The domain name encoded in ASCII-compatible form, False on failure
-     */
-    function idn_to_ascii($domain)
-    {
-        static $idn, $loaded;
-
-        if (!$loaded) {
-            $idn    = new Net_IDNA2(array('version' => '2008'));
-            $loaded = true;
-        }
-
-        if ($idn && $domain && preg_match('/[^\x20-\x7E]/', $domain)) {
-            try {
-                $domain = $idn->encode($domain);
-            }
-            catch (Exception $e) {
-                return false;
-            }
-        }
-
-        return $domain;
-    }
 }
 
 /**

@@ -1,61 +1,22 @@
-<phpunit backupGlobals="false"
+<phpunit
+    backupGlobals="false"
     bootstrap="bootstrap.php"
-    colors="true">
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+>
     <testsuites>
-        <testsuite name="All Tests">
-            <file>Framework/BaseReplacer.php</file>
-            <file>Framework/Bootstrap.php</file>
-            <file>Framework/Browser.php</file>
-            <file>Framework/Cache.php</file>
-            <file>Framework/CacheShared.php</file>
-            <file>Framework/Charset.php</file>
-            <file>Framework/Config.php</file>
-            <file>Framework/Contacts.php</file>
-            <file>Framework/ContentFilter.php</file>
-            <file>Framework/Csv2vcard.php</file>
-            <file>Framework/DB.php</file>
-            <file>Framework/DBMssql.php</file>
-            <file>Framework/DBMysql.php</file>
-            <file>Framework/DBOracle.php</file>
-            <file>Framework/DBPgsql.php</file>
-            <file>Framework/DBSqlite.php</file>
-            <file>Framework/DBSqlsrv.php</file>
-            <file>Framework/Enriched.php</file>
-            <file>Framework/Html.php</file>
-            <file>Framework/Html2text.php</file>
-            <file>Framework/Imap.php</file>
-            <file>Framework/ImapCache.php</file>
-            <file>Framework/ImapGeneric.php</file>
-            <file>Framework/ImapSearch.php</file>
-            <file>Framework/Image.php</file>
-            <file>Framework/Ldap.php</file>
-            <file>Framework/LdapGeneric.php</file>
-            <file>Framework/MessageHeader.php</file>
-            <file>Framework/MessagePart.php</file>
-            <file>Framework/Mime.php</file>
-            <file>Framework/Rcube.php</file>
-            <file>Framework/ResultIndex.php</file>
-            <file>Framework/ResultMultifolder.php</file>
-            <file>Framework/ResultSet.php</file>
-            <file>Framework/ResultThread.php</file>
-            <file>Framework/Smtp.php</file>
-            <file>Framework/SpellcheckAtd.php</file>
-            <file>Framework/SpellcheckEnchant.php</file>
-            <file>Framework/SpellcheckGoogie.php</file>
-            <file>Framework/SpellcheckPspell.php</file>
-            <file>Framework/Spellchecker.php</file>
-            <file>Framework/StringReplacer.php</file>
-            <file>Framework/Text2Html.php</file>
-            <file>Framework/User.php</file>
-            <file>Framework/Utils.php</file>
-            <file>Framework/VCard.php</file>
-            <file>Framework/Washtml.php</file>
-            <file>MailFunc.php</file>
-            <file>Rcmail/OutputHtml.php</file>
-            <file>Rcmail/Rcmail.php</file>
-            <file>Rcmail/Sendmail.php</file>
+        <testsuite name="Framework">
+            <directory suffix=".php">Framework</directory>
         </testsuite>
-        <testsuite name="Plugins Tests">
+        <testsuite name="Roundcube">
+            <directory suffix=".php">Rcmail</directory>
+        </testsuite>
+        <testsuite name="Actions">
+            <directory suffix=".php">Actions/*</directory>
+        </testsuite>
+        <testsuite name="Plugins">
             <file>./../plugins/acl/tests/Acl.php</file>
             <file>./../plugins/additional_message_headers/tests/AdditionalMessageHeaders.php</file>
             <file>./../plugins/archive/tests/Archive.php</file>
@@ -64,20 +25,18 @@
             <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
             <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
             <file>./../plugins/emoticons/tests/Emoticons.php</file>
-            <file>./../plugins/enigma/tests/Enigma.php</file>
+            <directory suffix=".php">./../plugins/enigma/tests</directory>
             <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
             <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>
             <file>./../plugins/help/tests/Help.php</file>
             <file>./../plugins/hide_blockquote/tests/HideBlockquote.php</file>
             <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
             <file>./../plugins/identicon/tests/Identicon.php</file>
+            <file>./../plugins/identicon/tests/IdenticonEngine.php</file>
             <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
             <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
             <file>./../plugins/krb_authentication/tests/KrbAuthentication.php</file>
-            <file>./../plugins/managesieve/tests/Managesieve.php</file>
-            <file>./../plugins/managesieve/tests/Parser.php</file>
-            <file>./../plugins/managesieve/tests/Tokenizer.php</file>
-            <file>./../plugins/managesieve/tests/Vacation.php</file>
+            <directory suffix=".php">./../plugins/managesieve/tests</directory>
             <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
             <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
             <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>
@@ -97,6 +56,9 @@
     <filter>
         <whitelist>
             <directory suffix=".php">../program/lib</directory>
+            <directory suffix=".php">../program/include</directory>
+            <directory suffix=".php">../program/actions</directory>
+            <directory suffix=".php">../plugins</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -95,4 +95,3 @@ $messages['createerror'] = 'Nem sikerült a hozzáférési jogok hozzáadása';
 $messages['deleteconfirm'] = 'Biztosan eltávolítja a kiválasztott felhasználó(k) hozzáférési jogait?';
 $messages['norights'] = 'Nincsennek jogok megadva.';
 $messages['nouser'] = 'A felhasználónév nincs megadva.';
-?>

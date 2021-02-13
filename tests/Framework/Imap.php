@@ -19,6 +19,27 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test convert_criteria()
+     */
+    function test_convert_criteria()
+    {
+        $this->assertSame(
+            "FLAGGED SINCE 1-Feb-1994 NOT FROM \"Smith\"",
+            rcube_imap::convert_criteria("FLAGGED SINCE 1-Feb-1994 NOT FROM \"Smith\"", RCUBE_CHARSET)
+        );
+
+        $this->assertSame(
+            "ALL TEXT el",
+            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
+        );
+
+        $this->assertSame(
+            "ALL TEXT {4}\r\nżel",
+            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
+        );
+    }
+
+    /**
      * Folder sorting
      */
     function test_sort_folder_list()
@@ -30,8 +51,8 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
             'shared' => [['Shared.', '.']],
         ];
 
-        foreach (array('drafts', 'sent', 'junk', 'trash') as $mbox) {
-            rcube::get_instance()->config->set("$mbox_mbox", ucfirst($mbox));
+        foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {
+            rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 
         $object = new rcube_imap;

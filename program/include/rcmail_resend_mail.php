@@ -30,17 +30,21 @@ class rcmail_resend_mail extends Mail_mime
 
 
     /**
-     * Constructor function
+     * Object constructor.
      *
-     * Added two parameters:
-     *   'bounce_message' - rcube_message object of the original message
-     *   'bounce_headers' - An array of headers to be added to the original message
+     * @param array $params Class parameters derived from Mail_mime plus
+     *                      'bounce_message' - rcube_message object of the original message
+     *                      'bounce_headers' - An array of headers to be added to the original message
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         // To make the code simpler always use delay_file_io=true
         $params['delay_file_io'] = true;
         $params['eol']           = "\r\n";
+
+        if (!isset($params['bounce_headers'])) {
+            $params['bounce_headers'] = [];
+        }
 
         parent::__construct($params);
     }
@@ -48,7 +52,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns/Sets message headers
      */
-    public function headers($headers = array(), $overwrite = false, $skip_content = false)
+    public function headers($headers = [], $overwrite = false, $skip_content = false)
     {
         // headers() wrapper that returns Resent-Cc, Resent-Bcc instead of Cc,Bcc
         // it's also called to re-add Resent-Bcc after it has been sent (to store in Sent)
@@ -67,12 +71,12 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns all message headers as string
      */
-    public function txtHeaders($headers = array(), $overwrite = false, $skip_content = false)
+    public function txtHeaders($headers = [], $overwrite = false, $skip_content = false)
     {
         // i.e. add Resent-* headers on top of the original message head
         $this->init_message();
 
-        $result = array();
+        $result = [];
 
         foreach ($this->build_params['bounce_headers'] as $name => $value) {
             $key = str_replace('Resent-', '', $name);
@@ -110,6 +114,9 @@ class rcmail_resend_mail extends Mail_mime
         $this->orig_head = null;
     }
 
+    /**
+     * Initialize the internal message. Fetches the message from the storage.
+     */
     protected function init_message()
     {
         if ($this->orig_head !== null) {

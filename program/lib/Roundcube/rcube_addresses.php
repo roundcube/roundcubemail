@@ -27,8 +27,8 @@ class rcube_addresses extends rcube_contacts
 {
     protected $db_name       = 'collected_addresses';
     protected $type          = 0;
-    protected $table_cols    = array('name', 'email');
-    protected $fulltext_cols = array('name');
+    protected $table_cols    = ['name', 'email'];
+    protected $fulltext_cols = ['name'];
 
     // public properties
     public $primary_key = 'address_id';
@@ -36,16 +36,16 @@ class rcube_addresses extends rcube_contacts
     public $groups      = false;
     public $undelete    = false;
     public $deletable   = true;
-    public $coltypes    = array('name', 'email');
-    public $date_cols   = array();
+    public $coltypes    = ['name', 'email'];
+    public $date_cols   = [];
 
 
     /**
      * Object constructor
      *
-     * @param object  $dbconn Instance of the rcube_db class
-     * @param integer $user   User-ID
-     * @param int     $type   Type of the address (1 - recipient, 2 - trusted sender)
+     * @param object $dbconn Instance of the rcube_db class
+     * @param int    $user   User-ID
+     * @param int    $type   Type of the address (1 - recipient, 2 - trusted sender)
      */
     public function __construct($dbconn, $user, $type)
     {
@@ -57,6 +57,8 @@ class rcube_addresses extends rcube_contacts
 
     /**
      * Returns addressbook name
+     *
+     * @return string
      */
     public function get_name()
     {
@@ -74,9 +76,9 @@ class rcube_addresses extends rcube_contacts
     /**
      * List the current set of contact records
      *
-     * @param  array   List of cols to show, Null means all
-     * @param  int     Only return this number of records, use negative values for tail
-     * @param  boolean True to skip the count query (select only)
+     * @param  array $cols    List of cols to show, Null means all
+     * @param  int   $subset  Only return this number of records, use negative values for tail
+     * @param  bool  $nocount True to skip the count query (select only)
      *
      * @return array Indexed list of contact records, each a hash array
      */
@@ -85,7 +87,8 @@ class rcube_addresses extends rcube_contacts
         if ($nocount || $this->list_page <= 1) {
             // create dummy result, we don't need a count now
             $this->result = new rcube_result_set();
-        } else {
+        }
+        else {
             // count all records
             $this->result = $this->count();
         }
@@ -101,7 +104,7 @@ class rcube_addresses extends rcube_contacts
             $start_row,
             $length,
             $this->user_id,
-            $this->type,
+            $this->type
         );
 
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
@@ -133,22 +136,22 @@ class rcube_addresses extends rcube_contacts
     /**
      * Search contacts
      *
-     * @param mixed   $fields   The field name or array of field names to search in
-     * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param int     $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
-     * @param boolean $select   True if results are requested, False if count only
-     * @param boolean $nocount  True to skip the count query (select only)
-     * @param array   $required List of fields that cannot be empty
+     * @param mixed $fields   The field name or array of field names to search in
+     * @param mixed $value    Search value (or array of values when $fields is array)
+     * @param int   $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
+     * @param bool  $select   True if results are requested, False if count only
+     * @param bool  $nocount  True to skip the count query (select only)
+     * @param array $required List of fields that cannot be empty
      *
-     * @return object rcube_result_set Contact records and 'count' value
+     * @return rcube_result_set Contact records and 'count' value
      */
-    public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = array())
+    public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         if (!is_array($required) && !empty($required)) {
-            $required = array($required);
+            $required = [$required];
         }
 
-        $where = $post_search = array();
+        $where = $post_search = [];
         $mode  = intval($mode);
 
         // direct ID search
@@ -180,13 +183,13 @@ class rcube_addresses extends rcube_contacts
         else {
             // fulltext search in all fields
             if ($fields == '*') {
-                $fields = array('name', 'email');
+                $fields = ['name', 'email'];
             }
 
             // require each word in to be present in one of the fields
-            $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? array($value) : rcube_utils::tokenize_string($value, 1);
+            $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? [$value] : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
-                $groups = array();
+                $groups = [];
                 foreach ((array) $fields as $idx => $col) {
                     if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                         $groups[] = $this->db->ilike($col, $word);
@@ -215,6 +218,9 @@ class rcube_addresses extends rcube_contacts
             else {
                 $this->result = $this->count();
             }
+        }
+        else {
+            $this->result = new rcube_result_set();
         }
 
         return $this->result;
@@ -281,10 +287,10 @@ class rcube_addresses extends rcube_contacts
      * Check the given data before saving.
      * If input not valid, the message to display can be fetched using get_error()
      *
-     * @param array   &$save_data Associative array with data to save
-     * @param boolean $autofix    Try to fix/complete record automatically
+     * @param array &$save_data Associative array with data to save
+     * @param bool  $autofix    Try to fix/complete record automatically
      *
-     * @return boolean True if input is valid, False if not.
+     * @return bool True if input is valid, False if not.
      */
     public function validate(&$save_data, $autofix = false)
     {
@@ -300,7 +306,8 @@ class rcube_addresses extends rcube_contacts
 
         // check validity of the email address
         if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-            $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+            $rcube = rcube::get_instance();
+            $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
             $this->set_error(self::ERROR_VALIDATE, $error);
             return false;
         }
@@ -314,7 +321,7 @@ class rcube_addresses extends rcube_contacts
      * @param array $save_data Associative array with save data
      * @param bool  $check     Enables validity checks
      *
-     * @return integer|bool The created record ID on success, False on error
+     * @return int|bool The created record ID on success, False on error
      */
     function insert($save_data, $check = false)
     {
@@ -349,7 +356,7 @@ class rcube_addresses extends rcube_contacts
      * @param mixed $id        Record identifier
      * @param array $save_cols Associative array with save data
      *
-     * @return boolean True on success, False on error
+     * @return bool True on success, False on error
      */
     function update($id, $save_cols)
     {
@@ -359,10 +366,10 @@ class rcube_addresses extends rcube_contacts
     /**
      * Delete one or more contact records
      *
-     * @param array   $ids   Record identifiers
-     * @param boolean $force Remove record(s) irreversible (unsupported)
+     * @param array $ids   Record identifiers
+     * @param bool  $force Remove record(s) irreversible (unsupported)
      *
-     * @return int Number of removed records
+     * @return int|false Number of removed records
      */
     function delete($ids, $force = true)
     {

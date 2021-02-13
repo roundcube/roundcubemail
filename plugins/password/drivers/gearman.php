@@ -31,11 +31,11 @@ class rcube_gearman_password
     {
         if (extension_loaded('gearman')) {
             $rcmail  = rcmail::get_instance();
-            $payload = array(
+            $payload = [
                 'username'    => $username,
                 'oldPassword' => $currpass,
                 'newPassword' => $newpass,
-            );
+            ];
 
             $gmc = new GearmanClient();
             $gmc->addServer($rcmail->config->get('password_gearman_host', 'localhost'));
@@ -46,22 +46,23 @@ class rcube_gearman_password
             if ($success && $success->result == 1) {
                 return PASSWORD_SUCCESS;
             }
-            else {
-                rcube::raise_error(array(
+
+            rcube::raise_error([
                     'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
                     'message' => "Password plugin: Gearman authentication failed for user $username"
-                ), true, false);
-            }
+                ], true, false
+            );
         }
         else {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: PECL Gearman module not loaded"
-            ), true, false);
+            rcube::raise_error([
+                    'code' => 600,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                    'message' => "Password plugin: PECL Gearman module not loaded"
+                ], true, false
+            );
         }
 
         return PASSWORD_ERROR;

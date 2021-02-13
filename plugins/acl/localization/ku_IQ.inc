@@ -24,4 +24,3 @@ $labels['shortacld'] = 'سڕینەوە';
 $labels['shortaclt'] = 'سڕینەوە';
 $labels['shortaclx'] = 'سڕینەوەی بوخچە';
 $labels['shortacldelete'] = 'سڕینەوە';
-?>

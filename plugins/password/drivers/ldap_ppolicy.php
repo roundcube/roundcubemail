@@ -36,21 +36,21 @@ class rcube_ldap_ppolicy_password
         // try to open specific log file for writing
         $logfile = $log_dir.'/password_ldap_ppolicy.err';
 
-        $descriptorspec = array(
-            0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-            1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-            2 => array("file", $logfile, "a") // stderr is a file to write to
-        );
+        $descriptorspec = [
+            0 => ["pipe", "r"],  // stdin is a pipe that the child will read from
+            1 => ["pipe", "w"],  // stdout is a pipe that the child will write to
+            2 => ["file", $logfile, "a"] // stderr is a file to write to
+        ];
 
         $cmd = 'plugins/password/helpers/'. $cmd;
 
-        $this->_debug('Policy request: ' . json_encode(array(
+        $this->_debug('Policy request: ' . json_encode([
             'user'   => $username,
             'cmd'    => $cmd,
             'uri'    => $uri,
             'baseDN' => $baseDN,
             'filter' => $filter,
-        )));
+        ]));
 
         $process = proc_open($cmd, $descriptorspec, $pipes);
 
@@ -84,12 +84,13 @@ class rcube_ldap_ppolicy_password
             case "Cannot connect to any server":
                 return PASSWORD_CONNECT_ERROR;
             default:
-                rcube::raise_error(array(
+                rcube::raise_error([
                         'code' => 600,
-                        'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
+                        'file' => __FILE__,
+                        'line' => __LINE__,
                         'message' => $result
-                    ), true, false);
+                    ], true, false
+                );
             }
 
             return PASSWORD_ERROR;

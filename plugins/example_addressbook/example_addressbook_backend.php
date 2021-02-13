@@ -10,8 +10,8 @@
 class example_addressbook_backend extends rcube_addressbook
 {
     public $primary_key = 'ID';
-    public $readonly = true;
-    public $groups = true;
+    public $readonly    = true;
+    public $groups      = true;
 
     private $filter;
     private $result;
@@ -46,27 +46,27 @@ class example_addressbook_backend extends rcube_addressbook
 
     function list_groups($search = null, $mode = 0)
     {
-        return array(
-            array('ID' => 'testgroup1', 'name' => "Testgroup"),
-            array('ID' => 'testgroup2', 'name' => "Sample Group"),
-        );
+        return [
+            ['ID' => 'testgroup1', 'name' => "Testgroup"],
+            ['ID' => 'testgroup2', 'name' => "Sample Group"],
+        ];
     }
 
     public function list_records($cols = null, $subset = 0)
     {
         $this->result = $this->count();
-        $this->result->add(array(
+        $this->result->add([
                 'ID'        => '111',
                 'name'      => "Example Contact",
                 'firstname' => "Example",
                 'surname'   => "Contact",
                 'email'     => "example@roundcube.net"
-        ));
+        ]);
 
         return $this->result;
     }
 
-    public function search($fields, $value, $strict=false, $select=true, $nocount=false, $required=array())
+    public function search($fields, $value, $strict = false, $select = true, $nocount = false, $required = [])
     {
         // no search implemented, just list all records
         return $this->list_records();

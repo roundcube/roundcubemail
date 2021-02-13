@@ -26,8 +26,8 @@
  */
 class rcube_db_oracle extends rcube_db
 {
-    public $db_provider = 'oracle';
-
+    public $db_provider    = 'oracle';
+    public $in_transaction = false;
 
     /**
      * Create connection instance
@@ -43,9 +43,11 @@ class rcube_db_oracle extends rcube_db
             $this->db_error     = true;
             $this->db_error_msg = 'OCI8 extension not loaded. See http://php.net/manual/en/book.oci8.php';
 
-            rcube::raise_error(array('code' => 500, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg), true, false);
+            rcube::raise_error([
+                    'code' => 500, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => $this->db_error_msg
+                ], true, false);
 
             return;
         }
@@ -58,9 +60,11 @@ class rcube_db_oracle extends rcube_db
             $this->db_error     = true;
             $this->db_error_msg = $error['message'];
 
-            rcube::raise_error(array('code' => 500, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg), true, false);
+            rcube::raise_error([
+                    'code' => 500, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => $this->db_error_msg
+                ], true, false);
 
             return;
         }
@@ -79,10 +83,10 @@ class rcube_db_oracle extends rcube_db
      */
     protected function conn_configure($dsn, $dbh)
     {
-        $init_queries = array(
+        $init_queries = [
             "ALTER SESSION SET nls_date_format = 'YYYY-MM-DD'",
             "ALTER SESSION SET nls_timestamp_format = 'YYYY-MM-DD HH24:MI:SS'",
-        );
+        ];
 
         foreach ($init_queries as $query) {
             $stmt = oci_parse($dbh, $query);
@@ -93,7 +97,7 @@ class rcube_db_oracle extends rcube_db
     /**
      * Connection state checker
      *
-     * @return boolean True if in connected state
+     * @return bool True if in connected state
      */
     public function is_connected()
     {
@@ -132,7 +136,7 @@ class rcube_db_oracle extends rcube_db
         // executed only once, we will not use prepared queries
         $pos  = 0;
         $idx  = 0;
-        $args = array();
+        $args = [];
 
         if (!empty($params)) {
             while ($pos = strpos($query, '?', $pos)) {
@@ -160,8 +164,8 @@ class rcube_db_oracle extends rcube_db
 
         // replace escaped '?' and quotes back to normal, see self::quote()
         $query = str_replace(
-            array('??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE),
-            array('?', self::DEFAULT_QUOTE),
+            ['??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE],
+            ['?', self::DEFAULT_QUOTE],
             $query
         );
 
@@ -195,6 +199,7 @@ class rcube_db_oracle extends rcube_db
      * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string Query that triggered the error
+     *
      * @return mixed Result to be stored and returned
      */
     protected function handle_error($query, $result = null)
@@ -202,14 +207,15 @@ class rcube_db_oracle extends rcube_db
         $error = oci_error(is_resource($result) ? $result : $this->dbh);
 
         // @TODO: Find error codes for key errors
-        if (empty($this->options['ignore_key_errors']) || !in_array($error['code'], array('23000', '23505'))) {
+        if (empty($this->options['ignore_key_errors']) || !in_array($error['code'], ['23000', '23505'])) {
             $this->db_error = true;
             $this->db_error_msg = sprintf('[%s] %s', $error['code'], $error['message']);
 
-            rcube::raise_error(array('code' => 500, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg . " (SQL Query: $query)"
-                ), true, false);
+            rcube::raise_error([
+                    'code' => 500, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => $this->db_error_msg . " (SQL Query: $query)"
+                ], true, false);
         }
 
         return false;
@@ -232,7 +238,7 @@ class rcube_db_oracle extends rcube_db
         $result   = $this->query("SELECT $sequence.currval FROM dual");
         $result   = $this->fetch_array($result);
 
-        return $result[0] ?: false;
+        return !empty($result[0]) ? $result[0] : false;
     }
 
     /**
@@ -256,7 +262,8 @@ class rcube_db_oracle extends rcube_db
      * If no query handle is specified, the last query will be taken as reference
      *
      * @param mixed $result Optional query handle
-     * @return mixed   Number of rows or false on failure
+     *
+     * @return mixed Number of rows or false on failure
      * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
@@ -297,7 +304,7 @@ class rcube_db_oracle extends rcube_db
      * @param mixed $result Optional query handle
      * @param int   $mode   Fetch mode identifier
      *
-     * @return mixed Array with col values or false on failure
+     * @return array|false Array with col values or false on failure
      */
     protected function _fetch_row($result, $mode)
     {
@@ -341,11 +348,11 @@ class rcube_db_oracle extends rcube_db
         case 'integer':
             return intval($input);
         default:
-            return "'" . strtr($input, array(
+            return "'" . strtr($input, [
                     '?' => '??',
                     "'" => "''",
                     rcube_db::DEFAULT_QUOTE => rcube_db::DEFAULT_QUOTE . rcube_db::DEFAULT_QUOTE
-            )) . "'";
+                ]) . "'";
         }
     }
 
@@ -453,13 +460,13 @@ class rcube_db_oracle extends rcube_db
 
         // replace sequence names, and other Oracle-specific commands
         $sql = preg_replace_callback('/(SEQUENCE ["]?)([^" \r\n]+)/',
-            array($this, 'fix_table_names_callback'),
+            [$this, 'fix_table_names_callback'],
             $sql
         );
 
         $sql = preg_replace_callback(
             '/([ \r\n]+["]?)([^"\' \r\n\.]+)(["]?\.nextval)/',
-            array($this, 'fix_table_names_seq_callback'),
+            [$this, 'fix_table_names_seq_callback'],
             $sql
         );
 
@@ -479,11 +486,11 @@ class rcube_db_oracle extends rcube_db
      */
     protected function dsn_options($dsn)
     {
-        $params = array();
+        $params = [];
 
-        if ($dsn['hostspec']) {
+        if (isset($dsn['hostspec'])) {
             $host = $dsn['hostspec'];
-            if ($dsn['port']) {
+            if (isset($dsn['port'])) {
                 $host .= ':' . $dsn['port'];
             }
 
@@ -500,7 +507,7 @@ class rcube_db_oracle extends rcube_db
      *
      * @param string $sql SQL queries to execute
      *
-     * @return boolen True on success, False on error
+     * @return bool True on success, False on error
      */
     public function exec_script($sql)
     {

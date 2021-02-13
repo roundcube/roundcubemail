@@ -18,4 +18,4 @@ $labels['help'] = 'Yardım';
 $labels['about'] = 'Hakkında';
 $labels['license'] = 'Lisans';
 $labels['csrfinfo'] = 'Korunmanız ve CSRF hakkında ayrıntılı bilgi.';
-?>
+$labels['arialabelhelpcontent'] = 'Yardım içeriği';

@@ -18,3 +18,4 @@ $labels['userinfo'] = 'Πληροφορίες χρήστη ';
 $labels['created'] = 'Δημιουργηθηκε';
 $labels['lastlogin'] = 'Τελευταια συνδεση';
 $labels['defaultidentity'] = 'Προκαθορισμένη ταυτότητα';
+$labels['userid'] = 'Ταυτότητα';

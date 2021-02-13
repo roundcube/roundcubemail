@@ -588,6 +588,7 @@ $labels['openmailvelopesettings'] = 'הצגת אפשרויות לתוכנת הה
 $labels['encryptionprivkeysinmailvelope'] = 'קיימים $nr מפתחות פרטיים תואמים ברשימת המפתחות שלך בתוכנת ההצפנה';
 $labels['encryptionnoprivkeysinmailvelope'] = 'לזהות השולחת אין עדיין מפתח הצפנה פרטי השמור בתוכנת ההצפנה שלך. האם ליצור כזה
 כדי לאפשר הצפנת הודעות?';
+$labels['encryption'] = 'הצפנה';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';

@@ -25,7 +25,7 @@ $labels['archivetype'] = 'Jaga arhiiv';
 $labels['archivetypeyear'] = 'Aasta (nt. Arhiiv/2012)';
 $labels['archivetypemonth'] = 'Kuu (nt. Arhiiv/2012/06)';
 $labels['archivetypefolder'] = 'Esialgne kaust';
+$labels['archivetypefolderyear'] = 'Aasta ja algne kaust (nt. Arhiiv/2012/...)';
 $labels['archivetypesender'] = 'Saatja e-post';
 $labels['unkownsender'] = 'teadmata';
 $labels['readonarchive'] = 'Märgi kiri arhiveerimisel loetuks';
-?>

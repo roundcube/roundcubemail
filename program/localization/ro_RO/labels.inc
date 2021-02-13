@@ -536,6 +536,7 @@ $labels['dualuselabel'] = 'Poate conține doar';
 $labels['dualusemail'] = 'mesaje';
 $labels['dualusefolder'] = 'dosare';
 $labels['encryptioncreatekey'] = 'Creează cheie pereche nouă';
+$labels['encryption'] = 'Criptare';
 $labels['sortby'] = 'Sortează după';
 $labels['sortasc'] = 'Sortează ascendent';
 $labels['sortdesc'] = 'Sortează descendent';

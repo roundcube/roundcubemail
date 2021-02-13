@@ -47,7 +47,7 @@ CREATE TABLE [dbo].[collected_addresses] (
 	[name] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[email] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[type] [int] NOT NULL 
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[contacts] (
@@ -297,7 +297,7 @@ GO
 ALTER TABLE [dbo].[collected_addresses] ADD 
 	CONSTRAINT [DF_collected_addresses_user_id] DEFAULT (0) FOR [user_id],
 	CONSTRAINT [DF_collected_addresses_changed] DEFAULT (getdate()) FOR [changed],
-	CONSTRAINT [DF_collected_addresses_name] DEFAULT ('') FOR [name],
+	CONSTRAINT [DF_collected_addresses_name] DEFAULT ('') FOR [name]
 GO
 
 CREATE UNIQUE INDEX [IX_collected_addresses_user_id] ON [dbo].[collected_addresses]([user_id],[type],[email]) ON [PRIMARY]
@@ -453,6 +453,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2020091000')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2020122900')
 GO
 

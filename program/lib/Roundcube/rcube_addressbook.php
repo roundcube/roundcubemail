@@ -47,30 +47,72 @@ abstract class rcube_addressbook
     const TYPE_READONLY       = 16;
 
     // public properties (mandatory)
+
+    /** @var string Name of the primary key field of this addressbook. Used to search for previously retrieved IDs. */
     public $primary_key;
-    public $groups        = false;
+
+    /** @var bool True if the addressbook supports contact groups. */
+    public $groups = false;
+
+    /**
+     * @var bool True if the addressbook supports exporting contact groups. Requires the implementation of
+     *              get_record_groups().
+     */
     public $export_groups = true;
-    public $readonly      = true;
-    public $searchonly    = false;
-    public $undelete      = false;
-    public $ready         = false;
-    public $group_id      = null;
-    public $list_page     = 1;
-    public $page_size     = 10;
-    public $sort_col      = 'name';
-    public $sort_order    = 'ASC';
-    public $date_cols     = array();
-    public $coltypes      = array(
-        'name'      => array('limit'=>1),
-        'firstname' => array('limit'=>1),
-        'surname'   => array('limit'=>1),
-        'email'     => array('limit'=>1)
-    );
+
+    /** @var bool True if the addressbook is read-only. */
+    public $readonly = true;
+
+    /**
+     * @var bool True if the addressbook does not support listing all records but needs use of the search function.
+     */
+    public $searchonly = false;
+
+    /** @var bool True if the addressbook supports restoring deleted contacts. */
+    public $undelete = false;
+
+    /** @var bool True if the addressbook is ready to be used. See rcmail_action_contacts_index::$CONTACT_COLTYPES */
+    public $ready = false;
+
+    /**
+     * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
+     *                      contact searches will be limited to contacts that belong to this group.
+     */
+    public $group_id = null;
+
+    /** @var int The current page of the listing. Numbering starts at 1. */
+    public $list_page = 1;
+
+    /** @var int The maximum number of records shown on a page. */
+    public $page_size = 10;
+
+    /** @var string Contact field by which to order listed records. */
+    public $sort_col = 'name';
+
+    /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
+    public $sort_order = 'ASC';
+
+    /** @var string[] A list of record fields that contain dates. */
+    public $date_cols = [];
+
+    /** @var array Definition of the contact fields supported by the addressbook. */
+    public $coltypes = [
+        'name'      => ['limit' => 1],
+        'firstname' => ['limit' => 1],
+        'surname'   => ['limit' => 1],
+        'email'     => ['limit' => 1]
+    ];
+
+    /**
+     * @var string[] vCard additional fields mapping
+     */
+    public $vcard_map = [];
 
     protected $error;
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
+     * @return string
      */
     abstract function get_name();
 
@@ -78,11 +120,14 @@ abstract class rcube_addressbook
      * Save a search string for future listings
      *
      * @param mixed $filter Search params to use in listing method, obtained by get_search_set()
+     * @return void
      */
     abstract function set_search_set($filter);
 
     /**
-     * Getter for saved search properties
+     * Getter for saved search properties.
+     *
+     * The filter representation is opaque to roundcube, but can be set again using set_search_set().
      *
      * @return mixed Search properties used by this class
      */
@@ -90,6 +135,7 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
+     * @return void
      */
     abstract function reset();
 
@@ -111,21 +157,43 @@ abstract class rcube_addressbook
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
-    abstract function list_records($cols=null, $subset=0);
+    abstract function list_records($cols = null, $subset = 0);
 
     /**
      * Search records
      *
-     * @param array   $fields   List of fields to search in
-     * @param string  $value    Search value
-     * @param int     $mode     Search mode. Sum of self::SEARCH_*.
-     * @param boolean $select   True if results are requested, False if count only
-     * @param boolean $nocount  True to skip the count query (select only)
-     * @param array   $required List of fields that cannot be empty
+     * Depending on the given parameters the search() function operates in different ways (in the order listed):
      *
-     * @return object rcube_result_set List of contact records and 'count' value
+     * "Direct ID search" - when $fields is either 'ID' or $this->primary_key
+     *     - $values is either a string of contact IDs separated by self::SEPARATOR (,) or an array of contact IDs
+     *     - Any contact with one of the given IDs is returned
+     *
+     * "Advanced search" - when $value is an array
+     *     - Each value in $values is the search value for the field in $fields at the same index
+     *     - All fields must match their value to be included in the result ("AND" semantics)
+     *
+     * "Search all fields" - when $fields is '*' (note: $value is a single string)
+     *     - Any field must match the value to be included in the result ("OR" semantics)
+     *
+     * "Search given fields" - if none of the above matches
+     *     - Any of the given fields must match the value to be included in the result ("OR" semantics)
+     *
+     * All matching is done case insensitive. The matching supports exact match, prefix match or infix match as
+     * determined by the $mode parameter.
+     *
+     * The search settings are remembered until reset using the reset() function. They can be retrieved using
+     * get_search_set(). The remembered search settings must be considered by list_records() and count().
+     *
+     * @param string|string[] $fields   The field name or array of field names to search in
+     * @param string|string[] $value    Search value (or array of values when $fields is array)
+     * @param int             $mode     Search mode. Sum of self::SEARCH_*.
+     * @param bool            $select   True if results are requested, False if count only
+     * @param bool            $nocount  True to skip the count query (select only)
+     * @param string|string[] $required List of fields that cannot be empty
+     *
+     * @return rcube_result_set List of contact records and 'count' value
      */
-    abstract function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array());
+    abstract function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
 
     /**
      * Count number of available contacts in database
@@ -144,12 +212,12 @@ abstract class rcube_addressbook
     /**
      * Get a specific contact record
      *
-     * @param mixed   $id    Record identifier(s)
-     * @param boolean $assoc True to return record as associative array, otherwise a result set is returned
+     * @param mixed $id    Record identifier(s)
+     * @param bool  $assoc True to return record as associative array, otherwise a result set is returned
      *
      * @return rcube_result_set|array Result object with all record fields
      */
-    abstract function get_record($id, $assoc=false);
+    abstract function get_record($id, $assoc = false);
 
     /**
      * Returns the last error occurred (e.g. when updating/inserting failed)
@@ -169,7 +237,7 @@ abstract class rcube_addressbook
      */
     protected function set_error($type, $message)
     {
-        $this->error = array('type' => $type, 'message' => $message);
+        $this->error = ['type' => $type, 'message' => $message];
     }
 
     /**
@@ -181,35 +249,36 @@ abstract class rcube_addressbook
     /**
      * Set internal list page
      *
-     * @param number $page Page number to list
+     * @param int $page Page number to list
      */
     function set_page($page)
     {
-        $this->list_page = (int)$page;
+        $this->list_page = (int) $page;
     }
 
     /**
      * Set internal page size
      *
-     * @param number $size Number of messages to display on one page
+     * @param int $size Number of messages to display on one page
      */
     function set_pagesize($size)
     {
-        $this->page_size = (int)$size;
+        $this->page_size = (int) $size;
     }
 
     /**
      * Set internal sort settings
      *
-     * @param string $sort_col   Sort column
-     * @param string $sort_order Sort order
+     * @param ?string $sort_col   Sort column
+     * @param ?string $sort_order Sort order
      */
     function set_sort_order($sort_col, $sort_order = null)
     {
-        if ($sort_col != null && ($this->coltypes[$sort_col] || in_array($sort_col, $this->coltypes))) {
+        if ($sort_col && (array_key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
             $this->sort_col = $sort_col;
         }
-        if ($sort_order != null) {
+
+        if ($sort_order) {
             $this->sort_order = strtoupper($sort_order) == 'DESC' ? 'DESC' : 'ASC';
         }
     }
@@ -218,10 +287,10 @@ abstract class rcube_addressbook
      * Check the given data before saving.
      * If input isn't valid, the message to display can be fetched using get_error()
      *
-     * @param array   &$save_data Associative array with data to save
-     * @param boolean $autofix    Attempt to fix/complete record automatically
+     * @param array &$save_data Associative array with data to save
+     * @param bool  $autofix    Attempt to fix/complete record automatically
      *
-     * @return boolean True if input is valid, False if not.
+     * @return bool True if input is valid, False if not.
      */
     public function validate(&$save_data, $autofix = false)
     {
@@ -232,7 +301,7 @@ abstract class rcube_addressbook
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
                 if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-                    $error = $rcube->gettext(array('name' => 'emailformaterror', 'vars' => array('email' => $email)));
+                    $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     $valid = false;
                     break;
@@ -241,11 +310,11 @@ abstract class rcube_addressbook
         }
 
         // allow plugins to do contact validation and auto-fixing
-        $plugin = $rcube->plugins->exec_hook('contact_validate', array(
-            'record'  => $save_data,
-            'autofix' => $autofix,
-            'valid'   => $valid,
-        ));
+        $plugin = $rcube->plugins->exec_hook('contact_validate', [
+                'record'  => $save_data,
+                'autofix' => $autofix,
+                'valid'   => $valid,
+        ]);
 
         if ($valid && !$plugin['valid']) {
             $this->set_error(self::ERROR_VALIDATE, $plugin['error']);
@@ -262,32 +331,33 @@ abstract class rcube_addressbook
      * Create a new contact record
      *
      * @param array $save_data Associative array with save data
-     *  Keys:   Field name with optional section in the form FIELD:SECTION
-     *  Values: Field value. Can be either a string or an array of strings for multiple values
-     * @param boolean $check True to check for duplicates first
+     *                         Keys:   Field name with optional section in the form FIELD:SECTION
+     *                         Values: Field value. Can be either a string or an array of strings for multiple values
+     * @param bool  $check True to check for duplicates first
      *
      * @return mixed The created record ID on success, False on error
      */
     function insert($save_data, $check = false)
     {
-        /* empty for read-only address books */
+        // empty for read-only address books
     }
 
     /**
      * Create new contact records for every item in the record set
      *
      * @param rcube_result_set $recset Recordset to insert
-     * @param boolean          $check  True to check for duplicates first
+     * @param bool             $check  True to check for duplicates first
      *
      * @return array List of created record IDs
      */
     function insertMultiple($recset, $check = false)
     {
-        $ids = array();
+        $ids = [];
         if ($recset instanceof rcube_result_set) {
             while ($row = $recset->next()) {
-                if ($insert = $this->insert($row, $check))
+                if ($insert = $this->insert($row, $check)) {
                     $ids[] = $insert;
+                }
             }
         }
 
@@ -299,14 +369,14 @@ abstract class rcube_addressbook
      *
      * @param mixed $id        Record identifier
      * @param array $save_cols Associative array with save data
-     *  Keys:   Field name with optional section in the form FIELD:SECTION
-     *  Values: Field value. Can be either a string or an array of strings for multiple values
+     *                         Keys:   Field name with optional section in the form FIELD:SECTION
+     *                         Values: Field value. Can be either a string or an array of strings for multiple values
      *
      * @return mixed On success if ID has been changed returns ID, otherwise True, False on error
      */
     function update($id, $save_cols)
     {
-        /* empty for read-only address books */
+        // empty for read-only address books
     }
 
     /**
@@ -314,10 +384,12 @@ abstract class rcube_addressbook
      *
      * @param array $ids   Record identifiers
      * @param bool  $force Remove records irreversible (see self::undelete)
+     *
+     * @return int|false Number of removed records, False on failure
      */
     function delete($ids, $force = true)
     {
-        /* empty for read-only address books */
+        // empty for read-only address books
     }
 
     /**
@@ -327,7 +399,7 @@ abstract class rcube_addressbook
      */
     function undelete($ids)
     {
-        /* empty for read-only address books */
+        // empty for read-only address books
     }
 
     /**
@@ -337,7 +409,7 @@ abstract class rcube_addressbook
      */
     function delete_all($with_groups = false)
     {
-        /* empty for read-only address books */
+        // empty for read-only address books
     }
 
     /**
@@ -352,12 +424,12 @@ abstract class rcube_addressbook
      * @param string $search Optional search string to match group name
      * @param int    $mode   Search mode. Sum of self::SEARCH_*
      *
-     * @return array  Indexed list of contact groups, each a hash array
+     * @return array Indexed list of contact groups, each a hash array
      */
     function list_groups($search = null, $mode = 0)
     {
-        /* empty for address books don't supporting groups */
-        return array();
+        // empty for address books don't supporting groups
+        return [];
     }
 
     /**
@@ -369,7 +441,7 @@ abstract class rcube_addressbook
      */
     function get_group($group_id)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
     }
 
     /**
@@ -377,11 +449,11 @@ abstract class rcube_addressbook
      *
      * @param string $name The group name
      *
-     * @return mixed False on error, array with record props in success
+     * @return array|false False on error, array with record props in success
      */
     function create_group($name)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
         return false;
     }
 
@@ -390,11 +462,11 @@ abstract class rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return boolean True on success, false if no data was changed
+     * @return bool True on success, false if no data was changed
      */
     function delete_group($group_id)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
         return false;
     }
 
@@ -405,11 +477,11 @@ abstract class rcube_addressbook
      * @param string $newname  New name to set for this group
      * @param string &$newid   New group identifier (if changed, otherwise don't set)
      *
-     * @return boolean|string New name on success, false if no data was changed
+     * @return string|false New name on success, false if no data was changed
      */
     function rename_group($group_id, $newname, &$newid)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
         return false;
     }
 
@@ -423,7 +495,7 @@ abstract class rcube_addressbook
      */
     function add_to_group($group_id, $ids)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
         return 0;
     }
 
@@ -437,22 +509,22 @@ abstract class rcube_addressbook
      */
     function remove_from_group($group_id, $ids)
     {
-        /* empty for address books don't supporting groups */
+        // empty for address books don't supporting groups
         return 0;
     }
 
     /**
      * Get group assignments of a specific contact record
      *
-     * @param mixed Record identifier
+     * @param mixed $id Record identifier
      *
-     * @return array $id List of assigned groups as ID=>Name pairs
+     * @return array List of assigned groups as ID => Name pairs
      * @since 0.5-beta
      */
     function get_record_groups($id)
     {
-        /* empty for address books don't supporting groups */
-        return array();
+        // empty for address books don't supporting groups
+        return [];
     }
 
     /**
@@ -468,15 +540,20 @@ abstract class rcube_addressbook
      */
     public static function get_col_values($col, $data, $flat = false)
     {
-        $out = array();
-        foreach ((array)$data as $c => $values) {
+        $out = [];
+        foreach ((array) $data as $c => $values) {
             if ($c === $col || strpos($c, $col.':') === 0) {
                 if ($flat) {
-                    $out = array_merge($out, (array)$values);
+                    $out = array_merge($out, (array) $values);
                 }
                 else {
-                    list(, $type) = explode(':', $c);
-                    $out[$type] = array_merge((array)$out[$type], (array)$values);
+                    list(, $type) = rcube_utils::explode(':', $c);
+                    if ($type !== null && isset($out[$type])) {
+                        $out[$type] = array_merge((array) $out[$type], (array) $values);
+                    }
+                    else {
+                        $out[$type] = (array) $values;
+                    }
                 }
             }
         }
@@ -490,19 +567,6 @@ abstract class rcube_addressbook
     }
 
     /**
-     * Normalize the given string for fulltext search.
-     * Currently only optimized for Latin-1 characters; to be extended
-     *
-     * @param string $str Input string (UTF-8)
-     * @return string Normalized string
-     * @deprecated since 0.9-beta
-     */
-    protected static function normalize_string($str)
-    {
-        return rcube_utils::normalize_string($str);
-    }
-
-    /**
      * Compose a valid display name from the given structured contact data
      *
      * @param array $contact    Hash array with contact data as key-value pairs
@@ -513,28 +577,33 @@ abstract class rcube_addressbook
     public static function compose_display_name($contact, $full_email = false)
     {
         $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
-        $fn = $contact['name'];
+        $fn      = isset($contact['name']) ? $contact['name'] : '';
 
         // default display name composition according to vcard standard
         if (!$fn) {
-            $fn = implode(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
-            $fn = trim(preg_replace('/\s+/u', ' ', $fn));
+            $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
+            $fn   = trim(preg_replace('/\s+/u', ' ', $fn));
         }
 
         // use email address part for name
         $email = self::get_col_values('email', $contact, true);
-        $email = $email[0];
+        $email = isset($email[0]) ? $email[0] : null;
 
         if ($email && (empty($fn) || $fn == $email)) {
             // return full email
-            if ($full_email)
+            if ($full_email) {
                 return $email;
+            }
 
             list($emailname) = explode('@', $email);
-            if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match))
+
+            if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
                 $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
-            else
+            }
+            else {
                 $fn = ucfirst($emailname);
+            }
         }
 
         return $fn;
@@ -558,19 +627,27 @@ abstract class rcube_addressbook
 
         switch ($compose_mode) {
         case 3:
-            $fn = implode(' ', array($contact['surname'] . ',', $contact['firstname'], $contact['middlename']));
+            $fn = implode(' ', [$contact['surname'] . ',', $contact['firstname'], $contact['middlename']]);
             break;
         case 2:
-            $fn = implode(' ', array($contact['surname'], $contact['firstname'], $contact['middlename']));
+            $keys = ['surname', 'firstname', 'middlename'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
             break;
         case 1:
-            $fn = implode(' ', array($contact['firstname'], $contact['middlename'], $contact['surname']));
+            $keys = ['firstname', 'middlename', 'surname'];
+            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
             break;
         case 0:
-            $fn = $contact['name'] ?: implode(' ', array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']));
+            if (!empty($contact['name'])) {
+                $fn = $contact['name'];
+            }
+            else {
+                $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+                $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
+            }
             break;
         default:
-            $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', array('contact' => $contact));
+            $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
             $fn     = $plugin['fn'];
         }
 
@@ -584,7 +661,7 @@ abstract class rcube_addressbook
                 $fn = $name;
             }
             // ... organization
-            else if ($org = trim($contact['organization'])) {
+            else if (isset($contact['organization']) && ($org = trim($contact['organization']))) {
                 $fn = $org;
             }
             // ... email address
@@ -643,9 +720,13 @@ abstract class rcube_addressbook
 
                 if (empty($value)) {
                     $value = strpos($key, ':') ? $contact[$key] : self::get_col_values($key, $contact, true);
-                    if (is_array($value)) {
+                    if (is_array($value) && isset($value[0])) {
                         $value = $value[0];
                     }
+                }
+
+                if (!is_string($value)) {
+                    $value = '';
                 }
 
                 $result = str_replace('{' . $key . '}', $value, $result);
@@ -709,7 +790,7 @@ abstract class rcube_addressbook
         }
 
         // composite field, e.g. address
-        foreach ((array)$value as $val) {
+        foreach ((array) $value as $val) {
             $val = mb_strtolower($val);
 
             if ($mode & self::SEARCH_STRICT) {

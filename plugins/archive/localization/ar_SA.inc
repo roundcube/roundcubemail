@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'المجلد الاصلي';
 $labels['archivetypesender'] = 'ايميل المرسل';
 $labels['unkownsender'] = 'مجهول';
 $labels['readonarchive'] = 'تحديد الرسالة مقروءة في المحفوظات';
-?>

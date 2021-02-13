@@ -108,14 +108,6 @@ function roundcube_browser()
   this.pointer = typeof window.PointerEvent == "function";
   this.cookies = n.cookieEnabled;
 
-  // test for XMLHTTP support
-  this.xmlhttp_test = function()
-  {
-    var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
-    this.xmlhttp = window.XMLHttpRequest || (('ActiveXObject' in window) && activeX_test());
-    return this.xmlhttp;
-  };
-
   // set class names to html tag according to the current user agent detection
   // this allows browser-specific css selectors like "html.chrome .someclass"
   this.set_html_class = function()
@@ -556,7 +548,7 @@ function setCookie(name, value, expires, path, domain, secure)
       (expires ? "; expires=" + expires.toGMTString() : "") +
       (path ? "; path=" + path : "") +
       (domain ? "; domain=" + domain : "") +
-      (secure ? "; secure" : "");
+      (secure ? "; secure" : "") + '; SameSite=Lax';
 
   document.cookie = curCookie;
 };

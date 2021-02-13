@@ -63,8 +63,7 @@ $labels['keyrevoke'] = 'Відкликати';
 $labels['keysend'] = 'Надіслати публічний ключ в повідомленні';
 $labels['keychpass'] = 'Змінити пароль';
 $labels['newkeypass'] = 'Пароль';
-$labels['key2048'] = '2048 бітів — дефолтно';
-$labels['key4096'] = '4096 бітів — безпечніше';
+$labels['newkeytype'] = 'Тип ключа';
 $labels['keygenerating'] = 'Генерування ключів…';
 $labels['encryptionoptions'] = 'Опції шифрування…';
 $labels['encryptmsg'] = 'Шифрувати це повідомлення';
@@ -114,4 +113,5 @@ $messages['keygeneratesuccess'] = 'Пару ключів успішно зген
 $messages['keygennosupport'] = 'Ваш веб-браузер не підтримує криптографію. Не вдалося згенерувати пару ключів!';
 $messages['noidentselected'] = 'Ви повинні вибрати принаймні, один ідентифікатор для ключа!';
 $messages['nonameident'] = 'Профіль повинен мати вказане ім\'я користувача!';
-?>
+$labels['key2048'] = '2048 бітів — дефолтно';
+$labels['key4096'] = '4096 бітів — безпечніше';

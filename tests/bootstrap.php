@@ -18,11 +18,13 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli')
-  die("Not in shell mode (php-cli)");
+if (php_sapi_name() != 'cli') {
+    die("Not in shell mode (php-cli)");
+}
 
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
+define('ROUNDCUBE_TEST_MODE', true);
 define('TESTS_DIR', __DIR__ . '/');
 
 if (@is_dir(TESTS_DIR . 'config')) {
@@ -37,4 +39,74 @@ rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 $include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
 if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
+}
+
+require_once(TESTS_DIR . 'ActionTestCase.php');
+require_once(TESTS_DIR . 'ExitException.php');
+require_once(TESTS_DIR . 'OutputHtmlMock.php');
+require_once(TESTS_DIR . 'OutputJsonMock.php');
+require_once(TESTS_DIR . 'StderrMock.php');
+require_once(TESTS_DIR . 'StorageMock.php');
+
+// Initialize database and environment
+ActionTestCase::init();
+
+
+/**
+ * Call protected/private method of a object.
+ *
+ * @param object $object     Object instance
+ * @param string $method     Method name to call
+ * @param array  $parameters Array of parameters to pass into method.
+ * @param string $class      Object class
+ *
+ * @return mixed Method return.
+ */
+function invokeMethod($object, $method, array $parameters = [], $class = null)
+{
+    $reflection = new ReflectionClass($class ?: get_class($object));
+
+    $method = $reflection->getMethod($method);
+    $method->setAccessible(true);
+
+    return $method->invokeArgs($object, $parameters);
+}
+
+/**
+ * Get value of a protected/private property of a object.
+ *
+ * @param rcube_sieve_vacation $object Object
+ * @param string               $name   Property name
+ * @param string $class        Object  class
+ *
+ * @return mixed Property value
+ */
+function getProperty($object, $name, $class = null)
+{
+    $reflection = new ReflectionClass($class ?: get_class($object));
+
+    $property = $reflection->getProperty($name);
+    $property->setAccessible(true);
+
+    return $property->getValue($object);
+}
+
+/**
+ * Set protected/private property of a object.
+ *
+ * @param rcube_sieve_vacation $object Object
+ * @param string               $name   Property name
+ * @param mixed                $value  Property value
+ * @param string $class        Object  class
+ *
+ * @return void
+ */
+function setProperty($object, $name, $value, $class = null)
+{
+    $reflection = new ReflectionClass($class ?: get_class($object));
+
+    $property = $reflection->getProperty($name);
+    $property->setAccessible(true);
+
+    $property->setValue($object, $value);
 }

@@ -3,18 +3,11 @@
 /**
  * cPanel Password Driver
  *
- * Driver that adds functionality to change the users cPanel password.
- * Originally written by Fulvio Venturelli <fulvio@venturelli.org>
+ * It uses Cpanel's Webmail UAPI to change the users password.
  *
- * Completely rewritten using the cPanel API2 call Email::passwdpop
- * as opposed to the original coding against the UI, which is a fragile method that
- * makes the driver to always return a failure message for any language other than English
- * see https://github.com/roundcube/roundcubemail/issues/3063
+ * This driver has been tested successfully with Digital Pacific hosting.
  *
- * This driver has been tested with o2switch hosting and seems to work fine.
- *
- * @version 3.1
- * @author Christian Chech <christian@chech.fr>
+ * @author Maikel Linke <maikel@email.org.au>
  *
  * Copyright (C) The Roundcube Dev Team
  *
@@ -34,83 +27,120 @@
 
 class rcube_cpanel_password
 {
+    /**
+     * Changes the user's password. It is called by password.php.
+     * See "Driver API" README and password.php for the interface details.
+     *
+     * @param string $curpas  Current (old) password
+     * @param string $newpass New password
+     *
+     * @return int|array Error code or assoc array with 'code' and 'message', see
+     *                   "Driver API" README and password.php
+     */
     public function save($curpas, $newpass)
     {
-        require_once 'xmlapi.php';
+        $url     = self::url();
+        $user    = password::username();
+        $userpwd = "$user:$curpas";
+        $data    = [
+            'email'    => password::username('%l'),
+            'password' => $newpass
+        ];
 
-        $rcmail = rcmail::get_instance();
+        $response = $this->curl_auth_post($userpwd, $url, $data);
 
-        $this->cuser = $rcmail->config->get('password_cpanel_username');
-        $cpanel_host = $rcmail->config->get('password_cpanel_host');
-        $cpanel_port = $rcmail->config->get('password_cpanel_port');
-        $cpanel_hash = $rcmail->config->get('password_cpanel_hash');
-        $cpanel_pass = $rcmail->config->get('password_cpanel_password');
-
-        // Setup the xmlapi connection
-        $this->xmlapi = new xmlapi($cpanel_host);
-        $this->xmlapi->set_port($cpanel_port);
-
-        // Hash auth
-        if (!empty($cpanel_hash)) {
-            $this->xmlapi->hash_auth($this->cuser, $cpanel_hash);
-        }
-        // Pass auth
-        else if (!empty($cpanel_pass)) {
-            $this->xmlapi->password_auth($this->cuser, $cpanel_pass);
-        }
-        else {
-            return PASSWORD_ERROR;
-        }
-
-        $this->xmlapi->set_output('json');
-        $this->xmlapi->set_debug(0);
-
-        return $this->setPassword($_SESSION['username'], $newpass);
+        return self::decode_response($response);
     }
 
     /**
-     * Change email account password
+     * Provides the UAPI URL of the Email::passwd_pop function.
      *
-     * @param string $address  Email address/username
-     * @param string $password Email account password
-     *
-     * @return int|array Operation status
+     * @return string HTTPS URL
      */
-    function setPassword($address, $password)
+    public static function url()
     {
-        if (strpos($address, '@')) {
-            list($data['email'], $data['domain']) = explode('@', $address);
+        $config       = rcmail::get_instance()->config;
+        $storage_host = $_SESSION['storage_host'];
+
+        $host = $config->get('password_cpanel_host', $storage_host);
+        $port = $config->get('password_cpanel_port', 2096);
+
+        return "https://$host:$port/execute/Email/passwd_pop";
+    }
+
+    /**
+     * Converts a UAPI response to a password driver response.
+     *
+     * @param string $response JSON response by the Cpanel UAPI
+     *
+     * @return mixed Response code or array, see <code>save</code>
+     */
+    public static function decode_response($response)
+    {
+        if (!$response) {
+            return PASSWORD_CONNECT_ERROR;
         }
-        else {
-            list($data['email'], $data['domain']) = array($address, '');
-        }
 
-        $data['password'] = $password;
+        // $result should be `null` or `stdClass` object
+        $result = json_decode($response);
 
-        // Get the cPanel user
-        $query = $this->xmlapi->listaccts('domain', $data['domain']);
-        $query = json_decode($query, true);
-        if ($query['status'] != 1) {
-            return false;
-        }
-
-        $cpanel_user = $query['acct'][0]['user'];
-
-        $query  = $this->xmlapi->api2_query($cpanel_user, 'Email', 'passwdpop', $data);
-        $query  = json_decode($query, true);
-        $result = $query['cpanelresult']['data'][0];
-
-        if ($result['result'] == 1) {
+        // The UAPI may return HTML instead of JSON on missing authentication
+        if ($result && isset($result->status) && $result->status === 1) {
             return PASSWORD_SUCCESS;
         }
 
-        if ($result['reason']) {
-            return array(
+        if ($result && !empty($result->errors) && is_array($result->errors)) {
+            return [
                 'code'    => PASSWORD_ERROR,
-                'message' => $result['reason'],
-            );
+                'message' => $result->errors[0],
+            ];
         }
 
         return PASSWORD_ERROR;
+    }
+
+    /**
+     * Post data to the given URL using basic authentication.
+     *
+     * Example:
+     *
+     * <code>
+     * curl_auth_post('john:Secr3t', 'https://example.org', [
+     *     'param' => 'value',
+     *     'param' => 'value'
+     * ]);
+     * </code>
+     *
+     * @param string $userpwd  User name and password separated by a colon
+     *                         <code>:</code>
+     * @param string $url      The URL to post data to
+     * @param array  $postdata The data to post
+     *
+     * @return string|false The body of the reply, False on error
+     */
+    private function curl_auth_post($userpwd, $url, $postdata)
+    {
+        $ch = curl_init();
+        $postfields = http_build_query($postdata, '', '&');
+
+        // see http://php.net/manual/en/function.curl-setopt.php
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 131072);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+        curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
+
+        $result = curl_exec($ch);
+        $error  = curl_error($ch);
+        curl_close($ch);
+
+        if ($result === false) {
+            rcube::raise_error("curl error: $error", true, false);
+        }
+
+        return $result;
     }
 }

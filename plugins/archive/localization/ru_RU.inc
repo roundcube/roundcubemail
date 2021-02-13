@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Год (например, Архив/2012)';
 $labels['archivetypemonth'] = 'Месяц (например, Архив/2012/06)';
 $labels['archivetypetbmonth'] = 'Месяц - совместимо с Thunderbird (например, Архив/2012/2012-06)';
 $labels['archivetypefolder'] = 'Исходная папка';
+$labels['archivetypefolderyear'] = 'Год и исходная папка (например, Архив/2012/...)';
+$labels['archivetypefoldermonth'] = 'Год, месяц и исходная папка (например, Архив/2012/06/...)';
 $labels['archivetypesender'] = 'Адрес отправителя';
 $labels['unkownsender'] = 'неизвестно';
 $labels['readonarchive'] = 'Помечать как прочитанное при архивировании';
-?>

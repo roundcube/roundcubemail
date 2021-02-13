@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Mánar(t.d. Skjalahgoymsla/2012/06)';
 $labels['archivetypefolder'] = 'Uppruna mappa';
 $labels['archivetypesender'] = 'Sendara teldupostur';
 $labels['unkownsender'] = 'ókent';
-?>

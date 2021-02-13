@@ -95,4 +95,3 @@ $messages['createerror'] = 'Nu s-au putut adăuga drepturi de acces';
 $messages['deleteconfirm'] = 'Sunteți sigur că doriți să ștergeți drepturile de acces la utilizatorul (ii) selectați?';
 $messages['norights'] = 'Nu au fost specificate drepturi!';
 $messages['nouser'] = 'Nu a fost specificat niciun utilizator!';
-?>

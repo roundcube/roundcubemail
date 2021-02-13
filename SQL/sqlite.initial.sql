@@ -90,7 +90,7 @@ CREATE TABLE users (
   failed_login datetime DEFAULT NULL,
   failed_login_counter integer DEFAULT NULL,
   language varchar(16),
-  preferences text NOT NULL default ''
+  preferences text DEFAULT NULL
 );
 
 CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
@@ -230,4 +230,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2020091000');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2020122900');

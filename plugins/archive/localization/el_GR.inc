@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = 'Αρχικός φάκελος';
 $labels['archivetypesender'] = 'Αποστολέας email';
 $labels['unkownsender'] = 'άγνωστο';
 $labels['readonarchive'] = 'Σημείωση του μηνύματος ως αναγνωσμένο στο αρχείο';
-?>

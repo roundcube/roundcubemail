@@ -14,7 +14,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 
         // empty input
         $csv->import('');
-        $this->assertSame(array(), $csv->export());
+        $this->assertSame([], $csv->export());
     }
 
     function test_import_tb_plain()

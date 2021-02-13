@@ -242,7 +242,7 @@ $labels['duplicate.uniqueid'] = 'identifier:';
 $labels['duplicate.seconds'] = 'timeout (seconds):';
 $labels['duplicate.last'] = 'relative to the last execution';
 
-$messages = array();
+$messages = [];
 $messages['filterunknownerror'] = 'Unknown server error.';
 $messages['filterconnerror'] = 'Unable to connect to server.';
 $messages['filterdeleteerror'] = 'Unable to delete filter. Server error occurred.';

@@ -33,13 +33,13 @@ class rcube_mime_decode
      *
      * @var array
      */
-    protected $params = array(
+    protected $params = [
         'include_bodies'  => true,
         'decode_bodies'   => true,
         'decode_headers'  => true,
         'crlf'            => "\r\n",
         'default_charset' => RCUBE_CHARSET,
-    );
+    ];
 
 
     /**
@@ -57,7 +57,7 @@ class rcube_mime_decode
      *              decode_headers - Whether to decode headers
      *              crlf           - CRLF type to use (CRLF/LF/CR)
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         if (!empty($params)) {
             $this->params = array_merge($this->params, (array) $params);
@@ -82,6 +82,8 @@ class rcube_mime_decode
             $struct = $this->structure_part($struct);
         }
 
+        $struct->size = strlen($input);
+
         return $struct;
     }
 
@@ -98,14 +100,14 @@ class rcube_mime_decode
      */
     protected function do_decode($headers, $body, $default_ctype = 'text/plain')
     {
-        $return  = new stdClass;
+        $return  = new rcube_message_part;
         $headers = $this->parseHeaders($headers);
 
         foreach ($headers as $value) {
             $header_name = strtolower($value['name']);
 
             if (isset($return->headers[$header_name]) && !is_array($return->headers[$header_name])) {
-                $return->headers[$header_name]   = array($return->headers[$header_name]);
+                $return->headers[$header_name]   = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
             }
             else if (isset($return->headers[$header_name])) {
@@ -245,7 +247,7 @@ class rcube_mime_decode
             $body = substr($body, 0, -$crlf_len);
         }
 
-        return array($header, $body);
+        return [$header, $body];
     }
 
     /**
@@ -257,6 +259,8 @@ class rcube_mime_decode
      */
     protected function parseHeaders($input)
     {
+        $return = [];
+
         if ($input !== '') {
             // Unfold the input
             $input   = preg_replace('/' . $this->params['crlf'] . "(\t| )/", ' ', $input);
@@ -264,20 +268,17 @@ class rcube_mime_decode
 
             foreach ($headers as $value) {
                 $hdr_name  = substr($value, 0, $pos = strpos($value, ':'));
-                $hdr_value = substr($value, $pos+1);
+                $hdr_value = substr($value, $pos + 1);
 
-                if ($hdr_value[0] == ' ') {
+                if (isset($hdr_value[0]) && $hdr_value[0] == ' ') {
                     $hdr_value = substr($hdr_value, 1);
                 }
 
-                $return[] = array(
+                $return[] = [
                     'name'  => $hdr_name,
                     'value' => $this->params['decode_headers'] ? $this->decodeHeader($hdr_value) : $hdr_value,
-                );
+                ];
             }
-        }
-        else {
-            $return = array();
         }
 
         return $return;
@@ -295,7 +296,7 @@ class rcube_mime_decode
     protected function parseHeaderValue($input)
     {
         $parts  = preg_split('/;\s*/', $input);
-        $return = array();
+        $return = [];
 
         if (!empty($parts)) {
             $return['value'] = trim($parts[0]);
@@ -326,7 +327,7 @@ class rcube_mime_decode
     protected function boundarySplit($input, $boundary)
     {
         $tmp   = explode('--' . $boundary, $input);
-        $parts = array();
+        $parts = [];
 
         for ($i = 1; $i < count($tmp)-1; $i++) {
             $parts[] = $tmp[$i];
@@ -370,17 +371,24 @@ class rcube_mime_decode
         $struct->ctype_secondary  = $part->ctype_secondary;
         $struct->ctype_parameters = $part->ctype_parameters;
 
-        if ($part->headers['content-transfer-encoding']) {
+        if (!empty($part->headers['content-transfer-encoding'])) {
             $struct->encoding = $part->headers['content-transfer-encoding'];
         }
 
-        if ($part->ctype_parameters['charset']) {
+        if (!empty($part->ctype_parameters['charset'])) {
             $struct->charset = $part->ctype_parameters['charset'];
         }
 
         // determine filename
-        if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
-            if (!$this->params['decode_headers']) {
+        if (!empty($part->d_parameters['filename'])) {
+            $filename = $part->d_parameters['filename'];
+        }
+        else if (!empty($part->ctype_parameters['name'])) {
+            $filename = $part->ctype_parameters['name'];
+        }
+
+        if (!empty($filename)) {
+            if (empty($this->params['decode_headers'])) {
                 $filename = $this->decodeHeader($filename);
             }
 

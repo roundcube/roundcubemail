@@ -19,4 +19,3 @@ $labels['subkeycreated'] = 'أُنشئ في';
 $labels['expiresnever'] = 'أبداً';
 $labels['unknown'] = 'مجهول';
 $labels['newkeypass'] = 'كلمة المرور';
-?>

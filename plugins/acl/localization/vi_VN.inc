@@ -95,4 +95,3 @@ $messages['createerror'] = 'Không thể thêm quyền truy cập';
 $messages['deleteconfirm'] = 'Bạn có chắc là muốn xóa bỏ quyền truy cập của người dùng được chọn?';
 $messages['norights'] = 'Chưa có quyền nào được chỉ định!';
 $messages['nouser'] = 'Chưa có tên truy nhập được chỉ định!';
-?>

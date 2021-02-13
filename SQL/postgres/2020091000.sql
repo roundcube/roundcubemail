@@ -1,3 +1,10 @@
+CREATE SEQUENCE collected_addresses_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
 CREATE TABLE collected_addresses (
     address_id integer DEFAULT nextval('collected_addresses_seq'::text) PRIMARY KEY,
     user_id integer NOT NULL

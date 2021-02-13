@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = 'Skrammañ fromlunioù er c\'hemennadennoù testenn blaen';
 $labels['emoticonscompose'] = 'Gweredekaat ar fromlunioù';
-?>

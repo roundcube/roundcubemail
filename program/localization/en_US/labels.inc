@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-$labels = array();
+$labels = [];
 
 // login page
 $labels['welcome'] = 'Welcome to $product';
@@ -359,10 +359,12 @@ $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
 
 // mdn
+$labels['sendreceipt'] = 'Send read receipt?';
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
+$labels['sendalwaysto'] = 'Always send to $email';
 
 $labels['zoomin'] = 'Zoom In';
 $labels['zoomout'] = 'Zoom Out';
@@ -492,6 +494,9 @@ $labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
+$labels['importmapdesc'] = 'Confirm the field mapping information below is correct before proceeding with CSV (comma-separated) data import.';
+$labels['fieldnotmapped'] = 'Field not mapped (do not import)';
+$labels['skipheader'] = 'Do not import first line (headers)';
 $labels['done'] = 'Done';
 
 // settings
@@ -542,6 +547,8 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
+$labels['autosendtrusted'] = 'send receipt to trusted senders, otherwise ask me';
+$labels['autosendtrustedignore'] = 'send receipt to trusted senders, otherwise ignore';
 $labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
@@ -551,6 +558,8 @@ $labels['deletejunk'] = 'Directly delete messages in Junk';
 $labels['showremoteimages'] = 'Display remote inline images';
 $labels['allowremoteresources'] = 'Allow remote resources (images, styles)';
 $labels['fromknownsenders'] = 'from known senders';
+$labels['fromtrustedsenders'] = 'from trusted senders';
+$labels['frommycontacts'] = 'from my contacts';
 $labels['always'] = 'always';
 $labels['alwaysbutplain'] = 'always, except when replying to plain text';
 $labels['showinlineimages'] = 'Display attached images below the message';
@@ -657,6 +666,10 @@ $labels['encryptioncreatekey'] = 'Create a new key pair';
 $labels['openmailvelopesettings'] = 'Open Mailvelope Settings';
 $labels['encryptionprivkeysinmailvelope'] = 'You have $nr matching private keys stored in your Mailvelope keyring:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'This sender identity doesn\'t yet have a PGP private key stored in your Mailvelope extension. Would you like to create one in order to enable encrypted messaging?';
+$labels['encryption'] = 'Encryption';
+$labels['mailvelopeoptions'] = 'Mailvelope options';
+$labels['mailvelopemainkeyring'] = 'Use Mailvelope main keyring';
+$labels['mailvelopenotfound'] = 'Mailvelope extension is not enabled/installed in your browser.';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';
@@ -667,6 +680,7 @@ $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
+$labels['destination'] = 'Destination';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';

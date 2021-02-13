@@ -156,36 +156,36 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_lists()
     {
-        $data = array(
-            array(
+        $data = [
+            [
                 "<ol><li>First</li><li>Second</li><ul><li>First sub</li></ul><li>Third</li></ol>",
                 "<ol><li>First</li><li>Second<ul><li>First sub</li></ul></li><li>Third</li></ol>"
-            ),
-            array(
+            ],
+            [
                 "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
                 "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
-            ),
-            array(
+            ],
+            [
                 "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
                 "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
-            ),
-            array(
+            ],
+            [
                 "<ul><li>First</li><ul><li>First sub</li><ul><li>sub sub</li></ul></ul><li></li></ul>",
                 "<ul><li>First<ul><li>First sub<ul><li>sub sub</li></ul></li></ul></li><li></li></ul>",
-            ),
-            array(
+            ],
+            [
                 "<ul><li>First</li><li>second</li><ul><ul><li>sub sub</li></ul></ul></ul>",
                 "<ul><li>First</li><li>second<ul><ul><li>sub sub</li></ul></ul></li></ul>",
-            ),
-            array(
+            ],
+            [
                 "<ol><ol><ol></ol></ol></ol>",
                 "<ol><ol><ol></ol></ol></ol>",
-            ),
-            array(
+            ],
+            [
                 "<div><ol><ol><ol></ol></ol></ol></div>",
                 "<div><ol><ol><ol></ol></ol></ol></div>",
-            ),
-        );
+            ],
+        ];
 
         foreach ($data as $element) {
             rcube_washtml::fix_broken_lists($element[0]);
@@ -239,7 +239,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             <body bgcolor=\"#fff\" text=\"#000\" background=\"#test\" link=\"#111\" alink=\"#222\" vlink=\"#333\">
             </body></html>";
 
-        $washer = new rcube_washtml(array('html_elements' => array('body')));
+        $washer = new rcube_washtml(['html_elements' => ['body']]);
         $washed = $washer->wash($html);
 
         $this->assertRegExp('|bgcolor="#fff"|', $washed, "Body bgcolor attribute");
@@ -343,11 +343,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return [
             [
                 '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>',
-                '<!-- html ignored --><!-- head ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>',
-                '<!-- html ignored --><!-- head ignored -->Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                'Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
@@ -355,7 +355,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
-                '<!-- html ignored --><!-- body ignored --><p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
+                '<p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
             ],
             [
                 '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
@@ -363,7 +363,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
             ],
             [
                 '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
@@ -371,7 +371,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
             ],
             [
                 '<svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
@@ -381,7 +381,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             [
                 '<html><svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
                     . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
-                '<!-- html ignored --><!-- body ignored --><svg xmlns="http://www.w3.org/1999/xhtml">'
+                '<svg xmlns="http://www.w3.org/1999/xhtml">'
                     . '<!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
             ],
             [
@@ -416,7 +416,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<svg><script href="data:text/javascript,alert(1)" /><text x="20" y="20">XSS</text></svg>',
-                '<svg><!-- script not allowed --><text x="20" y="20">XSS</text></svg>'
+                '<svg><text x="20" y="20">XSS</text></svg>'
             ],
         ];
     }
@@ -431,7 +431,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washer = new rcube_washtml;
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $washed, "SVG content");
+        $this->assertSame($expected, $this->cleanupResult($washed), "SVG content");
     }
 
     /**
@@ -442,43 +442,43 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return [
             [
                 '<html><base href="javascript:/a/-alert(1)///////"><a href="../lol/safari.html">test</a>',
-                '<!-- html ignored --><body><!-- base ignored --><a x-washed="href">test</a></body>'
+                '<body><a x-washed="href">test</a></body>'
             ],
             [
                 '<html><math><x href="javascript:alert(1)">blah</x>',
-                '<!-- html ignored --><body><math><!-- x ignored -->blah</math></body>'
+                '<body><math>blah</math></body>'
             ],
             [
                 '<html><a href="j&#x61vascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<!-- html ignored --><body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>'
             ],
             [
                 '<html><body background="javascript:alert(1)">',
-                '<!-- html ignored --><body x-washed="background"></body>'
+                '<body x-washed="background"></body>'
             ],
             [
                 '<html><math href="javascript:alert(location);"><mi>clickme</mi></math>',
-                '<!-- html ignored --><body><math x-washed="href"><mi>clickme</mi></math></body>',
+                '<body><math x-washed="href"><mi>clickme</mi></math></body>',
             ],
             [
                 '<html><math><mstyle href="javascript:alert(location);"><mi>clickme</mi></mstyle></math>',
-                '<!-- html ignored --><body><math><mstyle x-washed="href"><mi>clickme</mi></mstyle></math></body>',
+                '<body><math><mstyle x-washed="href"><mi>clickme</mi></mstyle></math></body>',
             ],
             [
                 '<html><math><msubsup href="javascript:alert(location);"><mi>clickme</mi></msubsup></math>',
-                '<!-- html ignored --><body><math><msubsup x-washed="href"><mi>clickme</mi></msubsup></math></body>',
+                '<body><math><msubsup x-washed="href"><mi>clickme</mi></msubsup></math></body>',
             ],
             [
                 '<html><math><ms HREF="javascript:alert(location);">clickme</ms></math>',
-                '<!-- html ignored --><body><math><ms x-washed="href">clickme</ms></math></body>',
+                '<body><math><ms x-washed="href">clickme</ms></math></body>',
             ],
         ];
     }
@@ -493,7 +493,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $washed, "XSS issues");
+        $this->assertSame($expected, $this->cleanupResult($washed), "XSS issues");
     }
 
     /**
@@ -585,13 +585,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_extlinks()
     {
-        $html = array(
-            array("<link href=\"http://TRACKING_URL/\">", true),
-            array("<link href=\"src:abc\">", false),
-            array("<img src=\"http://TRACKING_URL/\">", true),
-            array("<img src=\"data:image\">", false),
-            array('<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true),
-        );
+        $html = [
+            ["<link href=\"http://TRACKING_URL/\">", true],
+            ["<link href=\"src:abc\">", false],
+            ["<img src=\"http://TRACKING_URL/\">", true],
+            ["<img src=\"data:image\">", false],
+            ['<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true],
+        ];
 
         foreach ($html as $item) {
             $washer = new rcube_washtml;
@@ -601,7 +601,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         }
 
         foreach ($html as $item) {
-            $washer = new rcube_washtml(array('allow_remote' => true));
+            $washer = new rcube_washtml(['allow_remote' => true]);
             $washed = $washer->wash($item[0]);
 
             $this->assertFalse($washer->extlinks);
@@ -624,7 +624,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      */
     function test_css_prefix()
     {
-        $washer = new rcube_washtml(array('css_prefix' => 'test'));
+        $washer = new rcube_washtml(['css_prefix' => 'test']);
 
         $html   = '<p id="my-id">'
             . '<label for="my-other-id" class="my-class1 my-class2">test</label>'
@@ -709,5 +709,22 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, '<script>') === false, "CDATA content");
+    }
+
+    /**
+     * Test URI base resolving in HTML messages
+     */
+    function test_resolve_base()
+    {
+        $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
+        $html = rcube_washtml::resolve_base($html);
+
+        $this->assertRegExp('|src="http://alec\.pl/dir/img1\.gif"|', $html, "URI base resolving [1]");
+        $this->assertRegExp('|src="http://alec\.pl/dir/img2\.gif"|', $html, "URI base resolving [2]");
+        $this->assertRegExp('|src="http://alec\.pl/img3\.gif"|', $html, "URI base resolving [3]");
+
+        // base resolving exceptions
+        $this->assertRegExp('|src="cid:theCID"|', $html, "URI base resolving exception [1]");
+        $this->assertRegExp('|src="http://other\.domain\.tld/img3\.gif"|', $html, "URI base resolving exception [2]");
     }
 }

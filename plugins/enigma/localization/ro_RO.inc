@@ -63,8 +63,7 @@ $labels['keyrevoke'] = 'Revocă';
 $labels['keysend'] = 'Trimite cheie publică în mesaj';
 $labels['keychpass'] = 'Schimbă parola';
 $labels['newkeypass'] = 'Parolă';
-$labels['key2048'] = '2048 biți - implicit';
-$labels['key4096'] = '4096 biți - mult mai sigur';
+$labels['newkeytype'] = 'Tip cheie';
 $labels['keygenerating'] = 'Se generează cheile...';
 $labels['encryptionoptions'] = 'Opțiuni criptare';
 $labels['encryptmsg'] = 'Criptează acest mesaj';
@@ -116,4 +115,5 @@ $messages['keygeneratesuccess'] = 'Cheia pereche a fost generată și importată
 $messages['keygennosupport'] = 'Browserul dvs. web nu acceptă criptografia. Imposibil de generat cheia pereche!';
 $messages['noidentselected'] = 'Trebuie sa alegi cel puțin o identitate pentru cheie!';
 $messages['nonameident'] = 'Identitatea trebuie să aibă definit un nume de utilizator!';
-?>
+$labels['key2048'] = '2048 biți - implicit';
+$labels['key4096'] = '4096 biți - mult mai sigur';

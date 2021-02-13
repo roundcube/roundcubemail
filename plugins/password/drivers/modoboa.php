@@ -46,7 +46,7 @@ class rcube_modoboa_password
         // Call GET to fetch values from modoboa server
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
@@ -54,12 +54,12 @@ class rcube_modoboa_password
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => "GET",
-            CURLOPT_HTTPHEADER     => array(
+            CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
-            ),
-        ));
+            ],
+        ]);
 
         $response = curl_exec($curl);
         $err      = curl_error($curl);
@@ -90,7 +90,7 @@ class rcube_modoboa_password
         // Call HTTP API Modoboa
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/" . $userid . "/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
@@ -99,12 +99,12 @@ class rcube_modoboa_password
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => "PUT",
             CURLOPT_POSTFIELDS     => "" . $encoded . "",
-            CURLOPT_HTTPHEADER     => array(
+            CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
-            ),
-        ));
+            ],
+        ]);
 
         $response = curl_exec($curl);
         $err      = curl_error($curl);

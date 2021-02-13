@@ -14,13 +14,11 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels = array();
 $labels['changepasswd']  = 'Change password';
 $labels['curpasswd']  = 'Current Password:';
 $labels['newpasswd']  = 'New Password:';
 $labels['confpasswd']  = 'Confirm New Password:';
 
-$messages = array();
 $messages['nopassword'] = 'Please input new password.';
 $messages['nocurpassword'] = 'Please input current password.';
 $messages['passwordincorrect'] = 'Current password incorrect.';

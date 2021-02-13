@@ -18,4 +18,3 @@ $labels['subkeycreated'] = 'Laga';
 $labels['expiresnever'] = 'aldri';
 $labels['unknown'] = 'ukjent';
 $labels['newkeypass'] = 'Passord';
-?>

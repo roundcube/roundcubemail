@@ -60,4 +60,3 @@ $labels['longaclr'] = 'La dosierujo malfermeblas por legado';
 $labels['longacli'] = 'Mesaĝoj skribeblas aŭ kopieblas en la dosierujo';
 $labels['longaclp'] = 'Mesaĝoj afiŝeblas en ĉi tiu dosierujo';
 $labels['longaclread'] = 'La dosierujo malfermeblas por legado';
-?>

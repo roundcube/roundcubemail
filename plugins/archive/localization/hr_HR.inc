@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Mjesec (e.g. Arhiva/2012/06)';
 $labels['archivetypefolder'] = 'Izvorna mapa';
 $labels['archivetypesender'] = 'E-mail adresa pošiljatelja';
 $labels['unkownsender'] = 'nepoznato';
-?>

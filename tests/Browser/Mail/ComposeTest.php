@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Mail;
 
-use Facebook\Webdriver\WebDriverKeys;
+use Facebook\WebDriver\WebDriverKeys;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\HtmlEditor;
 use Tests\Browser\Components\RecipientInput;

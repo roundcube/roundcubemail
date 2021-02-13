@@ -29,4 +29,3 @@ $labels['archivetypefolder'] = '原始資料夾';
 $labels['archivetypesender'] = '寄件者電子信箱';
 $labels['unkownsender'] = '未知';
 $labels['readonarchive'] = '將封存的郵件標示為已讀取';
-?>

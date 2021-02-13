@@ -55,12 +55,12 @@ $labels['keychpass'] = 'Breyta lykilorði';
 $labels['newkeyident'] = 'Auðkenni';
 $labels['newkeypass'] = 'Lykilorð';
 $labels['newkeypassconfirm'] = 'Staðfestu  lykilorð';
-$labels['newkeysize'] = 'Stærð lykils';
-$labels['key2048'] = '2048 bita - sjálfgefið';
-$labels['key4096'] = '4096 bita - öruggara';
+$labels['newkeytype'] = 'Tegund dulritunarlykils';
 $labels['keygenerating'] = 'Útbý dulritunarlykla...';
 $labels['encryptmsg'] = 'Dulrita þessi skilaboð';
 $labels['keyimportlabel'] = 'Flytja inn úr skrá';
 $labels['managekeys'] = 'Sýsla með PGP-lykla';
 $messages['signerror'] = 'Undirritun mistókst.';
-?>
+$labels['newkeysize'] = 'Stærð lykils';
+$labels['key2048'] = '2048 bita - sjálfgefið';
+$labels['key4096'] = '4096 bita - öruggara';

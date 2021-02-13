@@ -14,6 +14,7 @@ class help extends rcube_plugin
 {
     // all task excluding 'login' and 'logout'
     public $task = '?(?!login|logout).*';
+
     // we've got no ajax handlers
     public $noajax = true;
 
@@ -26,12 +27,12 @@ class help extends rcube_plugin
         $this->register_task('help');
 
         // register actions
-        $this->register_action('index', array($this, 'action'));
-        $this->register_action('about', array($this, 'action'));
-        $this->register_action('license', array($this, 'action'));
+        $this->register_action('index', [$this, 'action']);
+        $this->register_action('about', [$this, 'action']);
+        $this->register_action('license', [$this, 'action']);
 
-        $this->add_hook('startup', array($this, 'startup'));
-        $this->add_hook('error_page', array($this, 'error_page'));
+        $this->add_hook('startup', [$this, 'startup']);
+        $this->add_hook('error_page', [$this, 'error_page']);
     }
 
     function startup($args)
@@ -40,14 +41,15 @@ class help extends rcube_plugin
 
         if (!$rcmail->output->framed) {
             // add taskbar button
-            $this->add_button(array(
-                'command'    => 'help',
-                'class'      => 'button-help',
-                'classsel'   => 'button-help button-selected',
-                'innerclass' => 'button-inner',
-                'label'      => 'help.help',
-                'type'       => 'link',
-            ), 'taskbar');
+            $this->add_button([
+                    'command'    => 'help',
+                    'class'      => 'button-help',
+                    'classsel'   => 'button-help button-selected',
+                    'innerclass' => 'button-inner',
+                    'label'      => 'help.help',
+                    'type'       => 'link',
+                ], 'taskbar'
+            );
 
             $this->include_script('help.js');
             $rcmail->output->set_env('help_open_extwin', $rcmail->config->get('help_open_extwin', false), true);
@@ -72,10 +74,10 @@ class help extends rcube_plugin
         }
 
         // register UI objects
-        $rcmail->output->add_handlers(array(
-            'helpcontent'  => array($this, 'help_content'),
-            'tablink'      => array($this, 'tablink'),
-        ));
+        $rcmail->output->add_handlers([
+                'helpcontent'  => [$this, 'help_content'],
+                'tablink'      => [$this, 'tablink'],
+        ]);
 
         $rcmail->output->set_env('help_links', $this->help_metadata());
         $rcmail->output->send(!empty($_GET['_content']) ? 'help.content' : 'help.help');
@@ -101,7 +103,7 @@ class help extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         $attrib['name'] = 'helplink' . $attrib['action'];
-        $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+        $attrib['href'] = $rcmail->url(['_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null]);
         $attrib['rel']  = $attrib['action'];
 
         // title might be already translated here, so revert to it's initial value
@@ -116,14 +118,14 @@ class help extends rcube_plugin
     function help_metadata()
     {
         $rcmail  = rcmail::get_instance();
-        $content = array();
+        $content = [];
 
         // About
         if (is_readable($this->home . '/content/about.html')) {
             $content['about'] = 'self';
         }
         else {
-            $default = $rcmail->url(array('_task' => 'settings', '_action' => 'about', '_framed' => 1));
+            $default = $rcmail->url(['_task' => 'settings', '_action' => 'about', '_framed' => 1]);
             $content['about'] = $rcmail->config->get('help_about_url', $default);
             $content['about'] = $this->resolve_language($content['about']);
         }
@@ -139,16 +141,16 @@ class help extends rcube_plugin
 
         // Help Index
         $src       = $rcmail->config->get('help_source', 'http://docs.roundcube.net/doc/help/1.1/%l/');
-        $index_map = $rcmail->config->get('help_index_map', array());
+        $index_map = $rcmail->config->get('help_index_map', []);
 
         // resolve task/action for deep linking
-        $rel = $_REQUEST['_rel'];
+        $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : null;
         list($task, ) = explode('/', $rel);
-        if ($add = $index_map[$rel]) {
-            $src .= $add;
+        if (!empty($index_map[$rel])) {
+            $src .= $index_map[$rel];
         }
-        else if ($add = $index_map[$task]) {
-            $src .= $add;
+        else if (!empty($index_map[$task])) {
+            $src .= $index_map[$task];
         }
 
         $content['index'] = $this->resolve_language($src);
@@ -160,8 +162,12 @@ class help extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($args['code'] == 403 && $rcmail->request_status == rcube::REQUEST_ERROR_URL && ($url = $rcmail->config->get('help_csrf_info'))) {
-            $args['text'] .= '<p>' . html::a(array('href' => $url, 'target' => '_blank'), $this->gettext('csrfinfo')) . '</p>';
+        if (
+            $args['code'] == 403
+            && $rcmail->request_status == rcube::REQUEST_ERROR_URL
+            && ($url = $rcmail->config->get('help_csrf_info'))
+        ) {
+            $args['text'] .= '<p>' . html::a(['href' => $url, 'target' => '_blank'], $this->gettext('csrfinfo')) . '</p>';
         }
 
         return $args;
@@ -171,8 +177,8 @@ class help extends rcube_plugin
     {
         // resolve language placeholder
         $rcmail  = rcmail::get_instance();
-        $langmap = $rcmail->config->get('help_language_map', array('*' => 'en_US'));
-        $lang    = $langmap[$_SESSION['language']] ?: $langmap['*'];
+        $langmap = $rcmail->config->get('help_language_map', ['*' => 'en_US']);
+        $lang    = !empty($langmap[$_SESSION['language']]) ? $langmap[$_SESSION['language']] : $langmap['*'];
 
         return str_replace('%l', $lang, $path);
     }

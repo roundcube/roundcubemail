@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
-$labels = array();
+$labels = [];
 $labels['buttontext'] = 'Archive';
 $labels['buttontitle'] = 'Archive this message';
 $labels['archived'] = 'Successfully archived';

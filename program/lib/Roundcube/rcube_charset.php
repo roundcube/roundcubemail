@@ -30,7 +30,7 @@
 class rcube_charset
 {
     // Aliases: some of them from HTML5 spec.
-    static public $aliases = array(
+    static public $aliases = [
         'USASCII'       => 'WINDOWS-1252',
         'ANSIX31101983' => 'WINDOWS-1252',
         'ANSIX341968'   => 'WINDOWS-1252',
@@ -65,14 +65,14 @@ class rcube_charset
         'WINDOWS949'    => 'UHC',
         'WINDOWS1257'   => 'ISO-8859-13',
         'ISO2022JP'     => 'ISO-2022-JP-MS',
-    );
+    ];
 
     /**
      * Windows codepages
      *
      * @var array
      */
-    static public $windows_codepages = array(
+    static public $windows_codepages = [
          37 => 'IBM037',    // IBM EBCDIC US-Canada
         437 => 'IBM437',    // OEM United States
         500 => 'IBM500',    // IBM EBCDIC International
@@ -171,18 +171,7 @@ class rcube_charset
         54936 => 'GB18030',     // Windows XP and later: GB18030 Simplified Chinese (4 byte); Chinese Simplified (GB18030)
         65000 => 'UTF-7',
         65001 => 'UTF-8',
-    );
-
-    /**
-     * Catch an error and throw an exception.
-     *
-     * @param int    $errno  Level of the error
-     * @param string $errstr Error message
-     */
-    public static function error_handler($errno, $errstr)
-    {
-        throw new ErrorException($errstr, 0, $errno);
-    }
+    ];
 
     /**
      * Parse and validate charset name string.
@@ -195,20 +184,21 @@ class rcube_charset
      */
     public static function parse_charset($input)
     {
-        static $charsets = array();
+        static $charsets = [];
+
         $charset = strtoupper($input);
 
         if (isset($charsets[$input])) {
             return $charsets[$input];
         }
 
-        $charset = preg_replace(array(
+        $charset = preg_replace([
             '/^[^0-9A-Z]+/',    // e.g. _ISO-8859-JP$SIO
             '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
             '/UNICODE-1-1-*/',  // RFC1641/1642
             '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
             '/\*.*$/'           // lang code according to RFC 2231.5
-        ), '', $charset);
+        ], '', $charset);
 
         if ($charset == 'BINARY') {
             return $charsets[$input] = null;
@@ -224,7 +214,7 @@ class rcube_charset
         }
         // UTF
         else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
-            $result = 'UTF-' . $m[1] . $m[2];
+            $result = 'UTF-' . $m[1] . (!empty($m[2]) ? $m[2] : '');
         }
         // ISO-8859
         else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
@@ -239,10 +229,10 @@ class rcube_charset
         }
         // LATIN
         else if (preg_match('/LATIN(.*)/', $str, $m)) {
-            $aliases = array('2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
+            $aliases = ['2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
                 '7' => 13, '8' => 14, '9' => 15, '10' => 16,
                 'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8
-            );
+            ];
 
             // some clients sends windows-1252 text as latin1,
             // it is safe to use windows-1252 for all latin1
@@ -271,6 +261,8 @@ class rcube_charset
      */
     public static function convert($str, $from, $to = null)
     {
+        static $iconv_options;
+
         $to   = empty($to) ? RCUBE_CHARSET : self::parse_charset($to);
         $from = self::parse_charset($from);
 
@@ -284,25 +276,64 @@ class rcube_charset
             return $str;
         }
 
+        $out = false;
+        $error_handler = function() use ($out) { $out = false; };
+
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
         mb_substitute_character('none');
 
-        // throw an exception if mbstring reports an illegal character in input
-        // using mb_check_encoding() is much slower
-        set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
+        // If mbstring reports an illegal character in input via E_WARNING.
+        // FIXME: Is this really true with substitute character 'none'?
+        // A warning is thrown in PHP<8 also on unsupported encoding, in PHP>=8 ValueError
+        // is thrown instead (therefore we catch Throwable below)
+        set_error_handler($error_handler, E_WARNING);
+
         try {
             $out = mb_convert_encoding($str, $to, $from);
         }
-        catch (ErrorException $e) {
+        catch (Throwable $e) {
             $out = false;
         }
-        restore_error_handler();
 
+        restore_error_handler();
         mb_substitute_character($mbstring_sc);
 
         if ($out !== false) {
             return $out;
+        }
+
+        if ($iconv_options === null) {
+            if (function_exists('iconv')) {
+                // ignore characters not available in output charset
+                $iconv_options = '//IGNORE';
+                if (iconv('', $iconv_options, '') === false) {
+                    // iconv implementation does not support options
+                    $iconv_options = '';
+                }
+            }
+            else {
+                $iconv_options = false;
+            }
+        }
+
+        // Fallback to iconv module, it is slower, but supports much more charsets than mbstring
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
+            && $from !== 'ISO-2022-JP'
+        ) {
+            // If iconv reports an illegal character in input it means that input string
+            // has been truncated. It's reported as E_NOTICE.
+            // PHP8 will also throw E_WARNING on unsupported encoding.
+            set_error_handler($error_handler, E_NOTICE);
+            set_error_handler($error_handler, E_WARNING);
+
+            $out = iconv($from, $to . $iconv_options, $str);
+
+            restore_error_handler();
+
+            if ($out !== false) {
+                return $out;
+            }
         }
 
         // return the original string
@@ -386,10 +417,12 @@ class rcube_charset
         if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
 
         // heuristics
-        if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
-        if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
-        if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
-        if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
+        if (strlen($string) >= 4) {
+            if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
+            if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
+        }
 
         if (empty($language)) {
             $rcube    = rcube::get_instance();
@@ -400,24 +433,24 @@ class rcube_charset
         $prio = null;
         switch ($language) {
         case 'ja_JP':
-            $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
+            $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win'];
             break;
 
         case 'zh_CN':
         case 'zh_TW':
-            $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
+            $prio = ['UTF-8', 'BIG-5', 'GB2312', 'EUC-TW'];
             break;
 
         case 'ko_KR':
-            $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
+            $prio = ['UTF-8', 'EUC-KR', 'ISO-2022-KR'];
             break;
 
         case 'ru_RU':
-            $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
+            $prio = ['UTF-8', 'WINDOWS-1251', 'KOI8-R'];
             break;
 
         case 'tr_TR':
-            $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
+            $prio = ['UTF-8', 'ISO-8859-9', 'WINDOWS-1254'];
             break;
         }
 
@@ -433,13 +466,13 @@ class rcube_charset
 
         if (function_exists('mb_detect_encoding')) {
             if (empty($prio)) {
-                $prio = array('UTF-8', 'SJIS', 'GB2312',
+                $prio = ['UTF-8', 'SJIS', 'GB2312',
                     'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
                     'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
                     'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
                     'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG-5',
                     'ISO-2022-KR', 'ISO-2022-JP',
-                );
+                ];
             }
 
             $encodings = array_unique(array_merge($prio, mb_list_encodings()));

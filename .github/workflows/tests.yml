@@ -1,0 +1,50 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux_tests:
+    runs-on: ubuntu-18.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.1, 7.2, 7.3, 7.4, 8.0]
+
+    name: PHP ${{ matrix.php }}/Linux
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup problem matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Setup composer
+        run: |
+            cp composer.json-dist composer.json
+            composer require "kolab/net_ldap3:~1.1.1" --no-update
+
+      - name: Fix PHPUnit for PHP8
+        run: composer config platform.php 7.4
+        if: matrix.php >= 8
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Roundcube configuration
+        run: cp .ci/config-test.inc.php config/config-test.inc.php
+
+      - name: Execute tests
+        run: vendor/bin/phpunit -c tests/phpunit.xml

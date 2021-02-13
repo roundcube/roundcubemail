@@ -63,6 +63,7 @@ function rcube_elastic_ui()
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
     this.import_dialog = import_dialog;
+    this.props_dialog = props_dialog;
     this.headers_show = headers_show;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
@@ -186,7 +187,7 @@ function rcube_elastic_ui()
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
-        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).children().each(function() {
+        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).find('button').each(function() {
             var target = $(this);
 
             // skip non-content buttons
@@ -520,8 +521,7 @@ function rcube_elastic_ui()
     {
         // Additional functionality on list widgets
         $('[data-list]').filter('ul,table').each(function() {
-            var button,
-                table = $(this),
+            var table = $(this),
                 list = table.data('list');
 
             if (rcmail[list] && rcmail[list].multiselect) {
@@ -595,50 +595,51 @@ function rcube_elastic_ui()
                 else if (typeof rcmail[list].draggable == 'boolean') {
                     rcmail[list].draggable = false;
                 }
+
+                // Also disable double-click to prevent from opening items
+                // in a new page, and prevent from zoom issues (#7732)
+                rcmail[list].dblclick_time = 0;
             }
         });
 
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
             $('[data-label-msg]').filter('ul,table').each(function() {
-                var fn, observer, callback,
-                    info = $('<div class="listing-info hidden">').insertAfter(this),
+                var info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
+                    fn = function() {
+                        var ext, command,
+                            msg = table.data('label-msg'),
+                            list = table.is('ul') ? table : table.children('tbody');
 
-                fn = function() {
-                    var ext, command,
-                        msg = table.data('label-msg'),
-                        list = table.is('ul') ? table : table.children('tbody');
+                        if (!rcmail.env.search_request && !rcmail.env.qsearch
+                            && msg && !list.children(':visible').length
+                        ) {
+                            ext = table.data('label-ext');
+                            command = table.data('create-command');
 
-                    if (!rcmail.env.search_request && !rcmail.env.qsearch
-                        && msg && !list.children(':visible').length
-                    ) {
-                        ext = table.data('label-ext');
-                        command = table.data('create-command');
+                            if (ext && (!command || rcmail.commands[command])) {
+                                msg += ' ' + ext;
+                            }
 
-                        if (ext && (!command || rcmail.commands[command])) {
-                            msg += ' ' + ext;
+                            info.text(msg).removeClass('hidden');
+                            return;
                         }
 
-                        info.text(msg).removeClass('hidden');
-                        return;
-                    }
+                        info.addClass('hidden');
+                    },
+                    callback = function() {
+                        // wait until the UI stops loading and the list is visible
+                        if (rcmail.busy || !table.is(':visible')) {
+                            return setTimeout(callback, 250);
+                        }
 
-                    info.addClass('hidden');
-                };
-
-                callback = function() {
-                    // wait until the UI stops loading and the list is visible
-                    if (rcmail.busy || !table.is(':visible')) {
-                        return setTimeout(callback, 250);
-                    }
-
-                    clearTimeout(env.list_timer);
-                    env.list_timer = setTimeout(fn, 50);
-                };
+                        clearTimeout(env.list_timer);
+                        env.list_timer = setTimeout(fn, 50);
+                    };
 
                 // show/hide the message when something changes on the list
-                observer = new MutationObserver(callback);
+                var observer = new MutationObserver(callback);
                 observer.observe(table[0], {childList: true, subtree: true, attributes: true, attributeFilter: ['style']});
 
                 // initialize the message
@@ -2150,8 +2151,9 @@ function rcube_elastic_ui()
             list_items = [],
             meta = layout_metadata(),
             button_func = function(button, items, cloned) {
-                var item = $('<li role="menuitem">'),
-                    button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
+                var item = $('<li role="menuitem">');
+
+                button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
                 button.contents().filter(function() { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
@@ -2741,6 +2743,19 @@ function rcube_elastic_ui()
             dialog = $('<iframe>').attr({id: 'headersframe', src: rcmail.url('headers', props)});
 
         rcmail.simple_dialog(dialog, rcmail.gettext('arialabelmessageheaders'), null, {
+            cancel_button: 'close',
+            height: 400
+        });
+    };
+
+    /**
+     * Attachment properties dialog
+     */
+    function props_dialog()
+    {
+        var dialog = $('#properties-menu').clone();
+
+        rcmail.simple_dialog(dialog, rcmail.gettext('properties'), null, {
             cancel_button: 'close',
             height: 400
         });
@@ -3498,7 +3513,9 @@ function rcube_elastic_ui()
      */
     function pretty_checkbox(checkbox)
     {
-        var label, parent, id, checkbox = $(checkbox);
+        var label, parent, id;
+
+        checkbox = $(checkbox);
 
         if (checkbox.is('.custom-control-input')) {
             return;
@@ -4115,11 +4132,17 @@ function rcube_elastic_ui()
      * Wrapper for rcmail.open_window to intercept window opening
      * and display a dialog with an iframe instead of a real window.
      */
-    function window_open(url)
+    function window_open(url, small, toolbar, force_window)
     {
         // Use 4th argument to bypass the dialog-mode e.g. for external windows
-        if (!is_mobile() || arguments[3] === true) {
-            return env.open_window.apply(rcmail, arguments);
+        if (!is_mobile() || force_window === true) {
+            // On attachment preview page we do not display the properties sidebar
+            // so we can use a smaller window, as we do for print pages
+            if (/_task=mail/.test(url) && /_action=get/.test(url)) {
+                small = true;
+            }
+
+            return env.open_window.call(rcmail, url, small, toolbar);
         }
 
         // _extwin=1, _framed=1 are required to display attachment preview

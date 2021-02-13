@@ -19,4 +19,3 @@ $labels['expiresnever'] = 'ഒരിക്കലുമില്ല';
 $labels['unknown'] = 'അറിയാത്ത';
 $labels['keychpass'] = 'രഹസ്യവാക്ക് മാറ്റുക';
 $labels['newkeypass'] = 'രഹസ്യവാക്ക്';
-?>

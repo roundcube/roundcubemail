@@ -22,9 +22,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(array(
-    'd' => 'dir',
-));
+$opts = rcube_utils::get_opt(['d' => 'dir']);
 
 if (empty($opts['dir'])) {
     print "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
@@ -41,7 +39,7 @@ else if (!file_exists($opts['dir'])) {
     rcube::raise_error("Specified directory doesn't exist.", false, true);
 }
 else {
-    $dirs = array($opts['dir']);
+    $dirs = [$opts['dir']];
 }
 
 foreach ($dirs as $dir) {
@@ -52,8 +50,8 @@ foreach ($dirs as $dir) {
 
     $files   = get_files($dir);
     $images  = get_images($img_dir);
-    $find    = array();
-    $replace = array();
+    $find    = [];
+    $replace = [];
 
     // build regexps array
     foreach ($images as $path => $sum) {
@@ -76,7 +74,7 @@ foreach ($dirs as $dir) {
 
 function get_images($dir)
 {
-    $images = array();
+    $images = [];
     $dh     = opendir($dir);
 
     while ($file = readdir($dh)) {
@@ -99,7 +97,7 @@ function get_images($dir)
 
 function get_files($dir)
 {
-    $files = array();
+    $files = [];
     $dh    = opendir($dir);
 
     while ($file = readdir($dh)) {

@@ -16,3 +16,7 @@
 
 $labels['addvcardmsg'] = 'Legg vCard til búðstaðar savn';
 $labels['vcardsavefailed'] = 'Kann ikki goyma vCard';
+$labels['attachvcard'] = 'Viðlegg vCard';
+$labels['vcardattached'] = 'vCard fíla viðløgd';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Send vCard víðari';

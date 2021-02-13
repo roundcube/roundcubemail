@@ -26,7 +26,8 @@ $labels['archivetypeyear'] = 'Año (p.ej. Archivo/2012)';
 $labels['archivetypemonth'] = 'Mes (p.ej. Archivo/2012/06)';
 $labels['archivetypetbmonth'] = 'Mes - Compatible con Thunderbird (ej. Archive/2012/2012-06)';
 $labels['archivetypefolder'] = 'Bandeja original';
+$labels['archivetypefolderyear'] = 'Año y la carpeta original (p.ej. Archivo/2012/...)';
+$labels['archivetypefoldermonth'] = 'Año, mes y la carpeta original (p.ej. Archivo/2012/06/...)';
 $labels['archivetypesender'] = 'Correo electrónico del remitente';
 $labels['unkownsender'] = 'desconocido';
 $labels['readonarchive'] = 'Marcar el mensaje como leído al archivar';
-?>

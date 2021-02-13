@@ -77,4 +77,3 @@ $messages['updateerror'] = 'Nun puen anovase los drechos d\'accesu';
 $messages['deleteerror'] = 'Nun puen desaniciase los drechos d\'accesu';
 $messages['createerror'] = 'Nun puen amestase los drechos d\'accesu';
 $messages['deleteconfirm'] = '¿De xuru quies desaniciar los drechos d\'accesu al(a los) usuariu(os) esbilláu(os)?';
-?>

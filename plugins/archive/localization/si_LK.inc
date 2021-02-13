@@ -20,4 +20,3 @@ $labels['archived'] = 'සංරක්‍ෂණය සාර්ථකයි';
 $labels['archivefolder'] = 'සංරක්‍ෂණය';
 $labels['settingstitle'] = 'සංරක්‍ෂණය';
 $labels['unkownsender'] = 'නොදනී';
-?>

@@ -27,4 +27,3 @@ $labels['archivetypemonth'] = 'Mes (ej. Archivo/2012/06)';
 $labels['archivetypefolder'] = 'Carpeta original';
 $labels['archivetypesender'] = 'Remitente de correo electrónico';
 $labels['unkownsender'] = 'desconocido';
-?>

@@ -587,6 +587,7 @@ $labels['encryptioncreatekey'] = 'Búa til nýtt lyklapar';
 $labels['openmailvelopesettings'] = 'Opna stillingar Mailvelope';
 $labels['encryptionprivkeysinmailvelope'] = 'Þú ert með $nr samsvarandi einkalykla sem geymdir eru í Mailvelope lyklageymslunni þinni:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'Auðkenni þessa sendanda er ekki ennþá með PGP-einkalykil geymdan í Mailvelope-viðbótinni. Mydirðu vilja útbúa einn slíkann til að virkja dulritun skilaboða?';
+$labels['encryption'] = 'Dulritun';
 $labels['sortby'] = 'Raða eftir';
 $labels['sortasc'] = 'Raða vaxandi';
 $labels['sortdesc'] = 'Raða minnkandi';

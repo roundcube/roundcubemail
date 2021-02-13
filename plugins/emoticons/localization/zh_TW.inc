@@ -16,4 +16,3 @@
 
 $labels['emoticonsdisplay'] = '在純文字郵件顯示表情符號';
 $labels['emoticonscompose'] = '啟用表情符號';
-?>
