@@ -154,8 +154,8 @@ abstract class rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array $cols   List of cols to show
-     * @param int   $subset Only return this number of records, use negative values for tail
+     * @param ?array $cols   List of cols to show (null means all)
+     * @param int    $subset Only return this number of records, use negative values for tail
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
