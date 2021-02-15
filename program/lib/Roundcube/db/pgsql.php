@@ -195,7 +195,7 @@ class rcube_db_pgsql extends rcube_db
      * INSERT ... ON CONFLICT DO UPDATE.
      * When not supported by the engine we do UPDATE and INSERT.
      *
-     * @param string $table   Table name
+     * @param string $table   Table name (should be already passed via table_name() with quoting)
      * @param array  $keys    Hash array (column => value) of the unique constraint
      * @param array  $columns List of columns to update
      * @param array  $values  List of values to update (number of elements
@@ -211,7 +211,6 @@ class rcube_db_pgsql extends rcube_db
             return parent::insert_or_update($table, $keys, $columns, $values);
         }
 
-        $table   = $this->table_name($table, true);
         $columns = array_map([$this, 'quote_identifier'], $columns);
         $target  = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
         $cols    = $target . ', ' . implode(', ', $columns);
