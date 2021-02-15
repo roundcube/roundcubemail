@@ -224,7 +224,7 @@ class rcube_db_mysql extends rcube_db
      * INSERT ... ON DUPLICATE KEY UPDATE (or equivalent).
      * When not supported by the engine we do UPDATE and INSERT.
      *
-     * @param string $table   Table name
+     * @param string $table   Table name (should be already passed via table_name() with quoting)
      * @param array  $keys    Hash array (column => value) of the unique constraint
      * @param array  $columns List of columns to update
      * @param array  $values  List of values to update (number of elements
@@ -235,7 +235,6 @@ class rcube_db_mysql extends rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $table   = $this->table_name($table, true);
         $columns = array_map(function($i) { return "`$i`"; }, $columns);
         $cols    = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
         $cols   .= ', ' . implode(', ', $columns);
