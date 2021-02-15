@@ -60,11 +60,11 @@ INSTALLATION
    IMPORTANT: REMOVE THE INSTALLER DIRECTORY!
    ------------------------------------------
 8. If you use git sources compile css files for the Elastic skin (required
-   lessc >= 1.5.0):
+   lessc >= 2.5.2):
    $ cd skins/elastic
-   $ lessc -x styles/styles.less > styles/styles.css
-   $ lessc -x styles/print.less > styles/print.css
-   $ lessc -x styles/embed.less > styles/embed.css
+   $ lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css
 9. Check Known Issues section of this file
 
 
