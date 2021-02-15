@@ -1467,7 +1467,7 @@ class rcube
         $log_entry = sprintf("%s Error: %s%s (%s %s)",
             $program,
             $arg_arr['message'],
-            $arg_arr['file'] ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
+            !empty($arg_arr['file']) ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
             $_SERVER['REQUEST_METHOD'],
             $uri
         );
