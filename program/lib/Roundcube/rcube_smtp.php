@@ -164,6 +164,12 @@ class rcube_smtp
             $this->conn->setTimeout($timeout);
         }
 
+        $exts = $this->conn->getServiceExtensions();
+        if (isset($exts['XCLIENT']) && $rcube->config->get('smtp_xclient_login')==1) {
+            $this->conn->command("XCLIENT LOGIN=".$rcube->get_user_name(),array(220));
+            }
+
+
         $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
