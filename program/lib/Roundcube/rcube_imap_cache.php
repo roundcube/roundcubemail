@@ -916,6 +916,7 @@ class rcube_imap_cache
             ) {
                 return false;
             }
+
             // compare UID sets
             if (!empty($mbox_data['UNDELETED'])) {
                 $uids_new = $mbox_data['UNDELETED']->get();
@@ -928,13 +929,19 @@ class rcube_imap_cache
                 sort($uids_new, SORT_NUMERIC);
                 sort($uids_old, SORT_NUMERIC);
 
-                if ($uids_old != $uids_new)
+                if ($uids_old != $uids_new) {
                     return false;
+                }
+            }
+            else if ($object->is_empty()) {
+                // We have to run ALL UNDELETED search anyway for this case, so we can
+                // return early to skip the following search command.
+                return false;
             }
             else {
                 // get all undeleted messages excluding cached UIDs
-                $ids = $this->imap->search_once($mailbox, 'ALL UNDELETED NOT UID '.
-                    rcube_imap_generic::compressMessageSet($object->get()));
+                $existing = rcube_imap_generic::compressMessageSet($object->get());
+                $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID $existing");
 
                 if (!$ids->is_empty()) {
                     return false;
