@@ -86,6 +86,7 @@ CHANGELOG Roundcube Webmail
 - Fix so messages in threads with no root aren't displayed separately (#4999)
 - Fix so anchor tags without href attribute are not modified (#7413)
 - Fix invalid IMAP SEARCH command in some rare case on messages cache synchronization (#7895)
+- Fix so allowing remote resources does not add an entry to browser history (#6620)
 
 RELEASE 1.4.11
 --------------

@@ -2568,8 +2568,14 @@ function rcube_webmail()
     else {
       if (!preview && this.env.message_extwin && !this.env.extwin)
         this.open_window(url, true);
-      else
+      else {
+        // "Allow remote resources" reloads the page, we remove this request from the history,
+        // so Back button works as expected, i.e. ignores the reload request (#6620)
+        if (safe && document.referrer && window.history.replaceState)
+          window.history.replaceState({}, '', document.referrer);
+
         this.location_href(url, target, true);
+      }
     }
   };
 
