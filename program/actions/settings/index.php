@@ -1675,7 +1675,7 @@ class rcmail_action_settings_index extends rcmail_action
             $token = str_replace('_', ' ', $token);
             $key  .= ":$idx";
 
-            $tokens[$i] = $labels[$key] ?: $token;
+            $tokens[$i] = !empty($labels[$key]) ? $labels[$key] : $token;
         }
 
         return implode('/', $tokens);
