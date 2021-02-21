@@ -667,6 +667,7 @@ class rcube_user
                     'language'    => $data['language'],
                     'preferences' => serialize($data['preferences']),
             ]);
+
             $rcube->user = $user_instance;
             $mail_domain = $rcube->config->mail_domain($data['host']);
             $user_name   = $data['user_name'];

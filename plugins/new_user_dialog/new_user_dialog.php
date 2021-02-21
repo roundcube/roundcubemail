@@ -30,7 +30,7 @@ class new_user_dialog extends rcube_plugin
     function create_identity($p)
     {
         // set session flag when a new user was created and the default identity seems to be incomplete
-        if (!empty($p['login']) && empty($p['complete'])) {
+        if (!empty($p['login']) && empty($p['complete']) && !empty($p['record']['standard'])) {
             $rcmail = rcmail::get_instance();
             $rcmail->user->save_prefs(['newuserdialog' => true]);
         }
@@ -43,6 +43,7 @@ class new_user_dialog extends rcube_plugin
     function render_page($p)
     {
         $rcmail = rcmail::get_instance();
+
         if ($p['template'] != 'login' && $rcmail->config->get('newuserdialog')) {
             $this->add_texts('localization');
 

@@ -36,8 +36,9 @@ class new_user_identity extends rcube_plugin
             $results = $this->ldap->search('*', $args['user'], true);
 
             if (count($results->records) == 1) {
-                $user_name  = is_array($results->records[0]['name']) ? $results->records[0]['name'][0] : $results->records[0]['name'];
-                $user_email = is_array($results->records[0]['email']) ? $results->records[0]['email'][0] : $results->records[0]['email'];
+                $user       = $results->records[0];
+                $user_name  = is_array($user['name']) ? $user['name'][0] : $user['name'];
+                $user_email = is_array($user['email']) ? $user['email'][0] : $user['email'];
 
                 $args['user_name']  = $user_name;
                 $args['email_list'] = [];
@@ -46,18 +47,23 @@ class new_user_identity extends rcube_plugin
                     $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
                 }
 
-                foreach (array_keys($results[0]) as $key) {
+                if (!empty($args['user_email'])) {
+                    $args['email_list'][] = $args['user_email'];
+                }
+
+                foreach (array_keys($user) as $key) {
                     if (!preg_match('/^email($|:)/', $key)) {
                         continue;
                     }
 
-                    foreach ((array) $results->records[0][$key] as $alias) {
+                    foreach ((array) $user[$key] as $alias) {
                         if (strpos($alias, '@')) {
                             $args['email_list'][] = rcube_utils::idn_to_ascii($alias);
                         }
                     }
                 }
 
+                $args['email_list'] = array_unique($args['email_list']);
             }
         }
 
