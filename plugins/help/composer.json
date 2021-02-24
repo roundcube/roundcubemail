@@ -2,7 +2,7 @@
     "name": "roundcube/help",
     "type": "roundcube-plugin",
     "description": "Plugin adds a new item (Help) in taskbar.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.4",
     "authors": [
         {

@@ -2,7 +2,7 @@
     "name": "roundcube/identicon",
     "type": "roundcube-plugin",
     "description": "Displays Github-like identicons for contacts/addresses without photo specified.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "0.1",
     "authors": [
         {

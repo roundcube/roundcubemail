@@ -2,7 +2,7 @@
     "name": "roundcube/http_authentication",
     "type": "roundcube-plugin",
     "description": "HTTP Basic Authentication",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.5",
     "authors": [
         {

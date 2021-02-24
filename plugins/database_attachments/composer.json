@@ -2,7 +2,7 @@
     "name": "roundcube/database_attachments",
     "type": "roundcube-plugin",
     "description": "This plugin which provides database backed storage for temporary attachment file handling. The primary advantage of this plugin is its compatibility with round-robin dns multi-server Roundcube installations.",
-    "license": "GPLv2",
+    "license": "GPL-3.0-or-later",
     "version": "1.2",
     "authors": [
         {

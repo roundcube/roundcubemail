@@ -2,7 +2,7 @@
     "name": "roundcube/autologon",
     "type": "roundcube-plugin",
     "description": "Sample plugin to try out some hooks",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.0",
     "authors": [
         {

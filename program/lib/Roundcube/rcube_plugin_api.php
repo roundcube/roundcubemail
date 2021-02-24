@@ -278,20 +278,13 @@ class rcube_plugin_api
             'Apache-1'     => 'http://www.apache.org/licenses/LICENSE-1.0',
             'Apache-1.1'   => 'http://www.apache.org/licenses/LICENSE-1.1',
             'GPL'          => 'http://www.gnu.org/licenses/gpl.html',
-            'GPLv2'        => 'http://www.gnu.org/licenses/gpl-2.0.html',
             'GPL-2.0'      => 'http://www.gnu.org/licenses/gpl-2.0.html',
-            'GPLv3'        => 'http://www.gnu.org/licenses/gpl-3.0.html',
-            'GPLv3+'       => 'http://www.gnu.org/licenses/gpl-3.0.html',
+            'GPL-2.0+'     => 'http://www.gnu.org/licenses/gpl.html',
             'GPL-3.0'      => 'http://www.gnu.org/licenses/gpl-3.0.html',
             'GPL-3.0+'     => 'http://www.gnu.org/licenses/gpl.html',
-            'GPL-2.0+'     => 'http://www.gnu.org/licenses/gpl.html',
-            'AGPLv3'       => 'http://www.gnu.org/licenses/agpl.html',
-            'AGPLv3+'      => 'http://www.gnu.org/licenses/agpl.html',
             'AGPL-3.0'     => 'http://www.gnu.org/licenses/agpl.html',
+            'AGPL-3.0+'     => 'http://www.gnu.org/licenses/agpl.html',
             'LGPL'         => 'http://www.gnu.org/licenses/lgpl.html',
-            'LGPLv2'       => 'http://www.gnu.org/licenses/lgpl-2.0.html',
-            'LGPLv2.1'     => 'http://www.gnu.org/licenses/lgpl-2.1.html',
-            'LGPLv3'       => 'http://www.gnu.org/licenses/lgpl.html',
             'LGPL-2.0'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
             'LGPL-2.1'     => 'http://www.gnu.org/licenses/lgpl-2.1.html',
             'LGPL-3.0'     => 'http://www.gnu.org/licenses/lgpl.html',
@@ -425,11 +418,16 @@ class rcube_plugin_api
         if (!$info && class_exists($plugin_name)) {
             $info = ['name' => $plugin_name, 'version' => '--'];
         }
-        else if (
-            !empty($info['license']) && empty($info['license_uri'])
-            && !empty($license_uris[$info['license']])
-        ) {
-            $info['license_uri'] = $license_uris[$info['license']];
+        else if (!empty($info['license'])) {
+            // Convert license identifier to something shorter
+            if (preg_match('/^([ALGP]+)[-v]([0-9.]+)(\+|-or-later)?/', $info['license'], $matches)) {
+                $info['license'] = $matches[1] . '-' . sprintf('%.1f', $matches[2])
+                    . (!empty($matches[3]) ? '+' : '');
+            }
+
+            if (empty($info['license_uri']) && !empty($license_uris[$info['license']])) {
+                $info['license_uri'] = $license_uris[$info['license']];
+            }
         }
 
         return $info;
