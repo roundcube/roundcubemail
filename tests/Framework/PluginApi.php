@@ -19,7 +19,7 @@ class Framework_PluginApi extends PHPUnit\Framework\TestCase
         $this->assertSame('roundcube', $info['vendor']);
         $this->assertSame('acl', $info['name']);
         $this->assertSame([], $info['require']);
-        $this->assertSame('GPLv3+', $info['license']);
+        $this->assertSame('GPL-3.0+', $info['license']);
     }
 
     /**
