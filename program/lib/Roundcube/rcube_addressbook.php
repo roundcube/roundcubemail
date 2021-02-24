@@ -224,7 +224,7 @@ abstract class rcube_addressbook
     /**
      * Returns the last error occurred (e.g. when updating/inserting failed)
      *
-     * @return array Hash array with the following fields: type, message
+     * @return ?array Hash array with the following fields: type, message
      */
     function get_error()
     {
