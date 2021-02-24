@@ -2,7 +2,7 @@
     "name": "roundcube/enigma",
     "type": "roundcube-plugin",
     "description": "Server-side PGP Encryption for Roundcube",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "0.8",
     "authors": [
         {

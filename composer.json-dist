@@ -1,7 +1,7 @@
 {
     "name": "roundcube/roundcubemail",
     "description": "The Roundcube Webmail suite",
-    "license": "GPL-3.0+",
+    "license": "GPL-3.0-or-later",
     "repositories": [
         {
             "type": "composer",

@@ -2,7 +2,7 @@
     "name": "roundcube/emoticons",
     "type": "roundcube-plugin",
     "description": "Plugin that adds emoticons support.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "3.0",
     "authors": [
         {
