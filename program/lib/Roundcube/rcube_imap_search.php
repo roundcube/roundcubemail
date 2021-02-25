@@ -50,8 +50,9 @@ class rcube_imap_search
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      * @param  bool    $threading  True if threaded listing is active
+     * @param  array   $range      Range of messages to consider. 0 = newest item in folder 
      */
-    public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
+    public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null, $range = null)
     {
         $start   = floor(microtime(true));
         $results = new rcube_result_multifolder($folders);

@@ -29,7 +29,7 @@ class rcube_result_thread
 {
     public $incomplete = false;
 
-    protected $raw_data;
+    public $raw_data;
     protected $mailbox;
     protected $meta  = [];
     protected $order = 'ASC';
@@ -236,6 +236,36 @@ class rcube_result_thread
         }
 
         $this->raw_data = ltrim($result, self::SEPARATOR_ELEMENT);
+    }
+    
+    /**
+     * Prepend result index to self
+     * 
+     * @param rcube_result_index Result index to append
+     */
+    public function prepend_index($append_index)
+    {
+        $append_data = $append_index->raw_data;
+
+        if (empty($append_data))
+            return;  
+        
+        if ($this->meta['count'] === null)
+            $this->count();
+        if ($this->meta['messages'] === null)
+            $this->count_messages();
+        
+        $old_count = $this->meta['count'];
+        $old_message_count = $this->meta['messages'];
+        $this->meta = [];
+
+        if (empty($this->raw_data))
+            $this->raw_data = $append_data;
+        else
+            $this->raw_data = $append_data . self::SEPARATOR_ELEMENT . $this->raw_data;
+
+        $this->meta['count'] = $old_count + $append_index->count();
+        $this->meta['messages'] = $old_message_count + $append_index->count_messages();
     }
 
     /**

@@ -387,10 +387,11 @@ abstract class rcube_storage
      * @param  string  $str        Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
+     * @param  array   $range      Range of messages to consider. 0 = newest item in folder
      *
      * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
-    abstract function search($folder = null, $str = 'ALL', $charset = null, $sort_field = null);
+    abstract function search($folder = null, $str = 'ALL', $charset = null, $sort_field = null, $range = null);
 
     /**
      * Direct (real and simple) search request (without result sorting and caching).

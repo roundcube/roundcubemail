@@ -118,8 +118,9 @@ abstract class rcube_output
      * @param array   $vars     Key-value pairs to be replaced in localized text
      * @param bool    $override Override last set message
      * @param int     $timeout  Message displaying time in seconds
+     * @param bool    $update   Replace an existing message of the same type
      */
-    abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
+    abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0, $update = false);
 
     /**
      * Redirect to a certain url.

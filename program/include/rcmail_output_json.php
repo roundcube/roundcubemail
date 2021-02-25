@@ -132,10 +132,11 @@ class rcmail_output_json extends rcmail_output
      * @param array  $vars     Key-value pairs to be replaced in localized text
      * @param bool   $override Override last set message
      * @param int    $timeout  Message displaying time in seconds
+     * @param bool   $update   Replace an existing message of the same type
      *
      * @uses self::command()
      */
-    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
+    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0, $update = false)
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
@@ -149,7 +150,10 @@ class rcmail_output_json extends rcmail_output
             }
 
             $this->message = $message;
-            $this->command('display_message', $msgtext, $type, $timeout * 1000);
+            if ($update)
+                $this->command('replace_message', $msgtext, $type, $timeout * 1000);
+            else
+                $this->command('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 

@@ -70,7 +70,8 @@ function rcube_webmail()
     recipients_delimiter: ', ', // @deprecated
     popup_width: 1150,
     popup_width_small: 900,
-    thread_padding: '15px'
+    thread_padding: '15px',
+    qsearch: null
   };
 
   // create protected reference to myself
@@ -1346,28 +1347,43 @@ function rcube_webmail()
 
       // quicksearch
       case 'search':
-        return this.qsearch(props);
+        var batch_number = null;
+        if ($("[name='s_backwards']").is(":checked"))
+          batch_number = 1 ;
+          
+        if (this.message_list)
+          this.clear_message_list();
+        else if (this.contact_list)
+          this.list_contacts_clear();
+        
+        return this.qsearch(props, batch_number);
 
       // reset quicksearch
       case 'reset-search':
         var n, s = this.env.search_request || this.env.qsearch;
 
-        this.reset_qsearch(true);
-
-        if (s && this.env.action == 'compose') {
-          if (this.contact_list)
-            this.list_contacts_clear();
-        }
-        else if (s && this.env.mailbox) {
-          this.list_mailbox(this.env.mailbox, 1);
-        }
-        else if (s && this.task == 'addressbook') {
-          if (this.env.source == '') {
-            for (n in this.env.address_sources) break;
-            this.env.source = n;
-            this.env.group = '';
+        // only clear screen in case of non-batched search
+        if (!this.env.qsearch.batch_number) {
+          this.reset_qsearch(true);
+          
+          if (s && this.env.action == 'compose') {
+            if (this.contact_list)
+              this.list_contacts_clear();
           }
-          this.list_contacts(this.env.source, this.env.group, 1);
+          else if (s && this.env.mailbox) {
+            this.list_mailbox(this.env.mailbox, 1);
+          }
+          else if (s && this.task == 'addressbook') {
+            if (this.env.source == '') {
+              for (n in this.env.address_sources) break;
+              this.env.source = n;
+              this.env.group = '';
+            }
+            this.list_contacts(this.env.source, this.env.group, 1);
+          }
+        } else {
+          this.abort_request(this.env.qsearch);
+          this.env.qsearch = null;
         }
         break;
 
@@ -5607,20 +5623,17 @@ function rcube_webmail()
   };
 
   // send remote request to search mail or contacts
-  this.qsearch = function(value)
+  // if batch_number>0, this is #batch_number in a sequence of search requests
+  this.qsearch = function(value, batch_number = null)
   {
     // Note: Some plugins would like to do search without value,
     // so we keep value != '' check to allow that use-case. Which means
     // e.g. that qsearch() with no argument will execute the search.
     if (value != '' || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
       var r, lock = this.set_busy(true, 'searching'),
-        url = this.search_params(value),
+        url = this.search_params(value, null, batch_number),
         action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
 
-      if (this.message_list)
-        this.clear_message_list();
-      else if (this.contact_list)
-        this.list_contacts_clear();
 
       if (this.env.source)
         url._source = this.env.source;
@@ -5630,9 +5643,9 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
 
-      r = this.http_request(action, url, lock);
+      //r = this.http_request(action, url, lock);
 
-      this.env.qsearch = {lock: lock, request: r};
+      this.env.qsearch = {lock: lock, request: r, props: value, batch_number: batch_number};
       this.enable_command('set-listmode', this.env.threads && (this.env.search_scope || 'base') == 'base');
 
       return true;
@@ -5653,7 +5666,7 @@ function rcube_webmail()
   };
 
   // build URL params for search
-  this.search_params = function(search, filter)
+  this.search_params = function(search, filter, batch_number = null)
   {
     var n, url = {}, mods_arr = [],
       mods = this.env.search_mods,
@@ -5680,6 +5693,15 @@ function rcube_webmail()
           mods_arr.push(n);
         url._headers = mods_arr.join(',');
       }
+    }
+    
+    if (batch_number) {
+      var amount = 5000;
+      if (mods['text'] || mods['body'])
+        amount = 500;
+      first = (batch_number-1) * amount;
+      last = batch_number * amount - 1;
+      url._range = first + '-' + last;
     }
 
     url._layout = this.env.layout;
@@ -9303,7 +9325,14 @@ function rcube_webmail()
 
       case 'getunread':
       case 'search':
-        this.env.qsearch = null;
+        if (this.env.qsearch) {
+          if (!this.env.qsearch.batch_number || response.env.last_batch == 1) {
+            this.env.qsearch = null;
+          } else {
+            batch_number = this.env.qsearch.batch_number + 1;
+            this.qsearch(this.env.qsearch.props, batch_number);
+          }
+        }
       case 'list':
         if (this.task == 'mail') {
           var is_multifolder = this.is_multifolder_listing(),

@@ -523,10 +523,11 @@ EOF;
      * @param array   $vars     Key-value pairs to be replaced in localized text
      * @param bool    $override Override last set message
      * @param int     $timeout  Message display time in seconds
+     * @param bool    $update   Replace an existing message of the same type
      *
      * @uses self::command()
      */
-    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
+    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0, $update = false)
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {

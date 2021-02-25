@@ -46,12 +46,21 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $scope    = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
         $interval = rcube_utils::get_input_value('_interval', rcube_utils::INPUT_GET);
         $continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
+        $range    = rcube_utils::get_input_value('_range', rcube_utils::INPUT_GET);
 
         $filter         = trim($filter);
         $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
         // Parse input
         list($subject, $search) = self::search_input($str, $headers, $scope, $mbox);
+        
+        if (!empty($range)) {
+            $range = explode("-", $range, 2);
+            $range[0] = (int) $range[0];
+            $range[1] = (int) $range[1];
+        } else {
+            $range = null;
+        }
 
         // add list filter string
         $search_str = $filter && $filter != 'ALL' ? $filter : '';
@@ -68,6 +77,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         $search_str  = trim($search_str);
+        $sort_column = empty($range) ? self::sort_column() : 'ARRIVAL';
         $sort_column = self::sort_column();
         $sort_order  = self::sort_order();
 
@@ -76,8 +86,10 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $rcmail->storage->set_search_set($_SESSION['search']);
             $search_str = $_SESSION['search'][0];
         }
-
+        
+        
         // execute IMAP search
+        $curr_count = 0;
         if ($search_str) {
             $mboxes = [];
 
@@ -99,15 +111,30 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 $rcmail->output->set_env('mailbox', $mbox);
             }
 
-            $result = $rcmail->storage->search($mboxes, $search_str, RCUBE_CHARSET, $sort_column);
+            $result = $rcmail->storage->search($mboxes, $search_str, RCUBE_CHARSET, $sort_column, $range);
+            $curr_count = $rcmail->storage->count($mbox, $rcmail->storage->get_threading() ? 'THREADS' : 'ALL');
+            
+            if (!empty($range) && !$result) {
+                $rcmail->output->set_env('last_batch', 1);
+                $last_batch = 1;
+            }
+        }
+        
+        $batch_continue = !empty($range) && $range[0] != 0;
+        if ($batch_continue && isset($_SESSION['search'])) {
+            $rcmail->storage->prepend_search_set($_SESSION['search']);
         }
 
         // save search results in session
         if (!isset($_SESSION['search']) || !is_array($_SESSION['search'])) {
             $_SESSION['search'] = [];
         }
+        
 
         if ($search_str) {
+            if (!empty($range)) {
+                $rcmail->storage->search_disable_sort();
+            }
             $_SESSION['search'] = $rcmail->storage->get_search_set();
             $_SESSION['last_text_search'] = $str;
         }
@@ -116,20 +143,25 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['search_scope']    = $scope;
         $_SESSION['search_interval'] = $interval;
         $_SESSION['search_filter']   = $filter;
+        
+        $count = $rcmail->storage->count($mbox, $rcmail->storage->get_threading() ? 'THREADS' : 'ALL');
+        $all_count = $rcmail->storage->count(null, 'ALL');
 
         // Get the headers
         if (!isset($result) || empty($result->incomplete)) {
-            $result_h = $rcmail->storage->list_messages($mbox, 1, $sort_column, $sort_order);
+            $result_h = $rcmail->storage->list_messages($mbox, 1, $sort_column, $sort_order, 0, $count-$curr_count);
+        }
+        
+        if (!empty($range) && !$count == 0 && ($count>$curr_count || $range[0] == 0)) {
+            // replace existing message
+            $rcmail->output->show_message('searchsuccessful', 'confirmation', ['nr' => $all_count], true, 0, true);
         }
 
         // Make sure we got the headers
         if (!empty($result_h)) {
-            $count = $rcmail->storage->count($mbox, $rcmail->storage->get_threading() ? 'THREADS' : 'ALL');
-
             self::js_message_list($result_h, false);
 
-            if ($search_str) {
-                $all_count = $rcmail->storage->count(null, 'ALL');
+            if ($search_str && empty($range)) {
                 $rcmail->output->show_message('searchsuccessful', 'confirmation', ['nr' => $all_count]);
             }
 
@@ -144,24 +176,23 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
         // handle IMAP errors (e.g. #1486905)
         else if ($err_code = $rcmail->storage->get_error_code()) {
-            $count = 0;
             self::display_server_error();
         }
         // advice the client to re-send the (cross-folder) search request
         else if (!empty($result) && !empty($result->incomplete)) {
-            $count = 0;  // keep UI locked
             $rcmail->output->command('continue_search', $search_request);
         }
-        else {
-            $count = 0;
-
+        else if (empty($range) || isset($last_batch) && ($count == 0 || $range[0] == 0)) {
             $rcmail->output->show_message('searchnomatch', 'notice');
             $rcmail->output->set_env('multifolder_listing', isset($result) ? !empty($result->multi) : false);
-
+            
             if (isset($result) && !empty($result->multi) && $scope == 'all') {
                 $rcmail->output->command('select_folder', '');
             }
+        } else if (isset($last_batch)) {
+            $rcmail->output->show_message('searchfinished', 'notice');
         }
+
 
         // update message count display
         $rcmail->output->set_env('search_request', $search_str ? $search_request : '');
