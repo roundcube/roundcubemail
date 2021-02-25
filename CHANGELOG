@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.5-beta
+----------------
 - Require PHP >= 5.5
 - Support PHP 8.0 (#7625)
 - Require php-intl
