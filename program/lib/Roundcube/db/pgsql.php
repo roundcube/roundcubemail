@@ -42,11 +42,7 @@ class rcube_db_pgsql extends rcube_db
     ];
 
     /**
-     * Object constructor
-     *
-     * @param string $db_dsnw DSN for read/write operations
-     * @param string $db_dsnr Optional DSN for read only operations
-     * @param bool   $pconn   Enables persistent connections
+     * {@inheritdoc}
      */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {

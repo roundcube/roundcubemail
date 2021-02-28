@@ -187,7 +187,11 @@ class rcube_message_header
      */
     public $flags = [];
 
-    // map header to rcube_message_header object property
+    /**
+     * Header name to rcube_message_header object property map
+     *
+     * @var array
+     */
     private $obj_headers = [
         'date'      => 'date',
         'from'      => 'from',
@@ -212,6 +216,11 @@ class rcube_message_header
 
     /**
      * Returns header value
+     *
+     * @param string $name   Header name
+     * @param bool   $decode Decode the header content
+     *
+     * @param string|null Header content
      */
     public function get($name, $decode = true)
     {
@@ -243,6 +252,9 @@ class rcube_message_header
 
     /**
      * Sets header value
+     *
+     * @param string $name  Header name
+     * @param string $value Header content
      */
     public function set($name, $value)
     {
@@ -259,7 +271,7 @@ class rcube_message_header
     /**
      * Factory method to instantiate headers from a data array
      *
-     * @param array  $arr Hash array with header values
+     * @param array $arr Hash array with header values
      *
      * @return rcube_message_header instance filled with headers values
      */
@@ -283,6 +295,7 @@ class rcube_message_header
  */
 class rcube_message_header_sorter
 {
+    /** @var array Message UIDs */
     private $uids = [];
 
 

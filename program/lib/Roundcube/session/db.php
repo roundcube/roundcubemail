@@ -28,8 +28,12 @@
  */
 class rcube_session_db extends rcube_session
 {
+    /** @var rcube_db Database handler */
     private $db;
+
+    /** @var string Session table name (quoted) */
     private $table_name;
+
 
     /**
      * Object constructor

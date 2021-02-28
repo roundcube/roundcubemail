@@ -20,7 +20,7 @@
 */
 
 /**
- * Interface class for accessing SQL Database cache
+ * Interface implementation class for accessing SQL Database cache
  *
  * @package    Framework
  * @subpackage Cache
@@ -41,13 +41,9 @@ class rcube_cache_db extends rcube_cache
      */
     protected $table;
 
-    protected $existing = [];
-
 
     /**
-     * Object constructor.
-     *
-     * @see rcube_cache::__construct()
+     * {@inheritdoc}
      */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
@@ -112,7 +108,6 @@ class rcube_cache_db extends rcube_cache
             }
 
             $this->db->reset();
-            $this->existing[] = $key;
         }
 
         if (!$this->indexed) {

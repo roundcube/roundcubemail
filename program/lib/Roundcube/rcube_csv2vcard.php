@@ -377,10 +377,14 @@ class rcube_csv2vcard
         ],
     ];
 
-
+    /** @var array Localized labels map */
     protected $local_label_map = [];
-    protected $vcards          = [];
-    protected $map             = [];
+
+    /** @var rcube_vcard[] List of contacts as vCards */
+    protected $vcards = [];
+
+    /** @var array Field mapping */
+    protected $map = [];
 
 
     /**
@@ -408,8 +412,9 @@ class rcube_csv2vcard
     /**
      * Import contacts from CSV file
      *
-     * @param string $csv     Content of the CSV file
-     * @param bool   $dry_run Generate automatic field mapping
+     * @param string $csv       Content of the CSV file
+     * @param bool   $dry_run   Generate automatic field mapping
+     * @param bool   $skip_head Skip header line
      *
      * @return array Field mapping info (dry run only)
      */
@@ -527,7 +532,7 @@ class rcube_csv2vcard
     /**
      * Parse CSV header line, detect fields mapping
      *
-     * @param array $elements Array of field names from a first line in CSV file
+     * @param array $lines One or two header lines in CSV file
      */
     protected function parse_header($lines)
     {

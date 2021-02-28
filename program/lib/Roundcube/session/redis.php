@@ -24,10 +24,14 @@
  * @package    Framework
  * @subpackage Core
  */
-class rcube_session_redis extends rcube_session {
-
+class rcube_session_redis extends rcube_session
+{
+    /** @var Redis The redis engine */
     private $redis;
+
+    /** @var bool Debug state */
     private $debug;
+
 
     /**
      * Object constructor

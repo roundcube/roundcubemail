@@ -27,6 +27,7 @@ class rcube_config
 {
     const DEFAULT_SKIN = 'elastic';
 
+    /** @var string A skin configured in the config file (before being replaced by a user preference) */
     public $system_skin = 'elastic';
 
     private $env       = '';
@@ -101,9 +102,7 @@ class rcube_config
     }
 
     /**
-     * @brief Guess the type the string may fit into.
-     *
-     * Look inside the string to determine what type might be best as a container.
+     * Looks inside the string to determine what type might be best as a container.
      *
      * @param string $value The value to inspect
      *
@@ -129,9 +128,7 @@ class rcube_config
     }
 
     /**
-     * @brief Parse environment variable into PHP type.
-     *
-     * Perform an appropriate parsing of the string to create the desired PHP type.
+     * Parse environment variable into PHP type.
      *
      * @param string $string String to parse into PHP type
      * @param string $type   Type of value to return
@@ -164,7 +161,7 @@ class rcube_config
     }
 
     /**
-     * @brief Get environment variable value.
+     * Get environment variable value.
      *
      * Retrieve an environment variable's value or if it's not found, return the
      * provided default value.

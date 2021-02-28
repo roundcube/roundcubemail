@@ -108,7 +108,9 @@ abstract class rcube_addressbook
      */
     public $vcard_map = [];
 
+    /** @var array Error state - hash array with the following fields: type, message */
     protected $error;
+
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
@@ -414,9 +416,13 @@ abstract class rcube_addressbook
 
     /**
      * Setter for the current group
-     * (empty, has to be re-implemented by extending class)
+     *
+     * @param string|int $group_id A group identifier
      */
-    function set_group($group_id) { }
+    function set_group($group_id)
+    {
+        // empty for address books don't supporting groups
+    }
 
     /**
      * List all active contact groups of this source
