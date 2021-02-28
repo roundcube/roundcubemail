@@ -26,15 +26,26 @@
  */
 class rcube_imap_search
 {
+    /** @var array IMAP connection options */
     public $options = [];
 
-    protected $jobs      = [];
+    /** @var rcube_imap_search_job[] Search jobs */
+    protected $jobs = [];
+
+    /** @var int Time limit in seconds */
     protected $timelimit = 0;
+
+    /** @var array Search results */
     protected $results;
+
+    /** @var rcube_imap_generic IMAP connection object */
     protected $conn;
 
     /**
      * Default constructor
+     *
+     * @param array              $options IMAP connection options
+     * @param rcube_imap_generic $conn    IMAP connection object
      */
     public function __construct($options, $conn)
     {
@@ -45,11 +56,11 @@ class rcube_imap_search
     /**
      * Invoke search request to IMAP server
      *
-     * @param  array   $folders    List of IMAP folders to search in
-     * @param  string  $str        Search criteria
-     * @param  string  $charset    Search charset
-     * @param  string  $sort_field Header field to sort by
-     * @param  bool    $threading  True if threaded listing is active
+     * @param array  $folders    List of IMAP folders to search in
+     * @param string $str        Search criteria
+     * @param string $charset    Search charset
+     * @param string $sort_field Header field to sort by
+     * @param bool   $threading  True if threaded listing is active
      */
     public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
     {
@@ -88,6 +99,8 @@ class rcube_imap_search
 
     /**
      * Setter for timelimt property
+     *
+     * @param int $seconds Limit in seconds
      */
     public function set_timelimit($seconds)
     {
@@ -96,6 +109,8 @@ class rcube_imap_search
 
     /**
      * Setter for previous (potentially incomplete) search results
+     *
+     * @param array $res Search result
      */
     public function set_results($res)
     {
@@ -103,8 +118,9 @@ class rcube_imap_search
     }
 
     /**
-     * Get connection to the IMAP server
-     * (used for single-thread mode)
+     * Get connection to the IMAP server (used for single-thread mode)
+     *
+     * @return rcube_imap_generic IMAP connection object
      */
     public function get_imap()
     {
@@ -118,15 +134,36 @@ class rcube_imap_search
  */
 class rcube_imap_search_job /* extends Stackable */
 {
+    /** @var rcube_imap_search The job worker */
     public $worker;
 
+    /** @var string IMAP folder to search in */
     private $folder;
+
+    /** @var string Search criteria */
     private $search;
+
+    /** @var string Search charset */
     private $charset;
+
+    /** @var string Header field to sort by */
     private $sort_field;
+
+    /** @var bool True if threaded listing is active */
     private $threading;
+
+    /** @var rcube_result_index|rcube_result_thread Search result */
     private $result;
 
+    /**
+     * Class constructor
+     *
+     * @param string $folder     IMAP folder to search in
+     * @param string $str        Search criteria
+     * @param string $charset    Search charset
+     * @param string $sort_field Header field to sort by
+     * @param bool   $threading  True if threaded listing is active
+     */
     public function __construct($folder, $str, $charset = null, $sort_field = null, $threading = false)
     {
         $this->folder     = $folder;
@@ -139,6 +176,9 @@ class rcube_imap_search_job /* extends Stackable */
         $this->result->incomplete = true;
     }
 
+    /**
+     * Executes the IMAP search
+     */
     public function run()
     {
         $this->result = $this->search_index();
@@ -146,6 +186,8 @@ class rcube_imap_search_job /* extends Stackable */
 
     /**
      * Copy of rcube_imap::search_index()
+     *
+     * @return rcube_result_index|rcube_result_thread Search result
      */
     protected function search_index()
     {
@@ -212,6 +254,11 @@ class rcube_imap_search_job /* extends Stackable */
         return $messages;
     }
 
+    /**
+     * Return the saved search set as a array
+     *
+     * @return array Search set
+     */
     public function get_search_set()
     {
         return [
@@ -223,6 +270,11 @@ class rcube_imap_search_job /* extends Stackable */
         ];
     }
 
+    /**
+     * Returns the search result.
+     *
+     * @return rcube_result_index|rcube_result_thread Search result
+     */
     public function get_result()
     {
         return $this->result;

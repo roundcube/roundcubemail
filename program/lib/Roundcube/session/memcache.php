@@ -28,8 +28,12 @@
  */
 class rcube_session_memcache extends rcube_session
 {
+    /** @var Memcache The memcache driver */
     private $memcache;
+
+    /** @var bool Debug state */
     private $debug;
+
 
     /**
      * Object constructor

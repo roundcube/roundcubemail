@@ -168,7 +168,7 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return object Memcache
+     * @return Memcache The memcache engine
      */
     public function get_memcache()
     {
@@ -182,7 +182,7 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return object Memcached
+     * @return Memcached The memcached engine
      */
     public function get_memcached()
     {
@@ -196,7 +196,7 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return object Redis
+     * @return Redis The redis engine
      */
     public function get_redis()
     {

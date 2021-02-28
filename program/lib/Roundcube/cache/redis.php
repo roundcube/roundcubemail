@@ -20,7 +20,7 @@
 */
 
 /**
- * Interface class for accessing Redis cache
+ * Interface implementation class for accessing Redis cache
  *
  * @package    Framework
  * @subpackage Cache
@@ -36,9 +36,7 @@ class rcube_cache_redis extends rcube_cache
 
 
     /**
-     * Object constructor.
-     *
-     * @see rcube_cache::__construct()
+     * {@inheritdoc}
      */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {

@@ -29,7 +29,11 @@
  */
 class rcube_charset
 {
-    // Aliases: some of them from HTML5 spec.
+    /**
+     * Character set aliases (some of them from HTML5 spec.)
+     *
+     * @var array
+     */
     static public $aliases = [
         'USASCII'       => 'WINDOWS-1252',
         'ANSIX31101983' => 'WINDOWS-1252',
