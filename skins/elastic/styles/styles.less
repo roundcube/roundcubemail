@@ -188,7 +188,7 @@ body.task-error-login #layout {
         display: flex;
 
         img.contactphoto {
-            margin: 0 1rem 0 0;
+            margin: 0 0 0 1rem;
             border-radius: 50%;
             width: @mail-header-photo-height;
             height: @mail-header-photo-height;
@@ -226,7 +226,7 @@ body.task-error-login #layout {
             white-space: nowrap;
             color: @color-black-shade-text;
             font-weight: bold;
-            padding-right: 1rem;
+            padding-left: 1rem;
             vertical-align: top;
         }
     }
@@ -289,7 +289,7 @@ body.task-error-login #layout {
             white-space: nowrap;
             max-width: 8em;
             font-weight: bold;
-            padding-right: 1rem;
+            padding-left: 1rem;
             vertical-align: top;
         }
 
@@ -363,9 +363,9 @@ body.task-error-login #layout {
         span.blockquote-link {
             top: 0;
             cursor: pointer;
-            right: .5rem;
+            left: .5rem;
             min-width: 4rem;
-            padding: .2rem .25rem .2rem .5rem;
+            padding: .2rem .5rem .2rem .25rem;
             font-size: 90%;
             text-align: center;
             color: @color-black-shade-text;
@@ -391,7 +391,7 @@ body.task-error-login #layout {
 
         &.blockquote-header {
             text-overflow: ellipsis !important;
-            padding-right: 5rem !important;
+            padding-left: 5rem !important;
         }
     }
 }
@@ -413,7 +413,7 @@ body.task-error-login #layout {
 
 #composestatusbar {
     opacity: .3;
-    right: 2.5rem;
+    left: 2.5rem;
 
     @media screen and (min-width: (@screen-width-small + 1px)) {
         display: none;

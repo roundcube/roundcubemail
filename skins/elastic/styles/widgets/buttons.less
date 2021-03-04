@@ -150,7 +150,7 @@ button.btn {
         display: inline !important;
         float: none !important;
         vertical-align: middle;
-        margin-right: .4rem !important; // !important needed for a.btn
+        margin-left: .4rem !important; // !important needed for a.btn
     }
 
     &.oauth.google:before,
@@ -192,7 +192,7 @@ html.touch {
 
 .floating-action-buttons {
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 0;
 
     .footer:not(:empty) + & {
@@ -201,7 +201,7 @@ html.touch {
 
     a.button {
         display: block;
-        float: left;
+        float: right;
         width: @floating-action-button-size;
         height: @floating-action-button-size;
         border-radius: 50%;
@@ -209,7 +209,7 @@ html.touch {
         color: white;
         opacity: .95;
         box-shadow: 0 0 5px 5px lighten(@color-main, 35%);
-        margin: 0 1rem 1rem 0;
+        margin: 1rem 0 0 1rem;
 
         &:before {
             &:extend(.font-icon-class);

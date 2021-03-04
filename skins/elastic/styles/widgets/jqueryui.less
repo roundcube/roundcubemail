@@ -22,7 +22,7 @@
 
 .ui-widget {
     border: 1px solid @color-datepicker-border;
-    box-shadow: 3px 3px 5px @color-popover-shadow;
+    box-shadow: -3px 3px 5px @color-popover-shadow;
     border-radius: .3rem;
 }
 
@@ -73,7 +73,7 @@
     .ui-dialog-title {
         line-height: @layout-header-height;
         font-size: 1.25rem;
-        padding: 0 3rem 0 1rem;
+        padding: 0 1rem 0 3rem;
         color: @color-dialog-header;
     }
 
@@ -81,7 +81,7 @@
         border: 0;
         color: @color-dialog-header;
         background: transparent;
-        right: 0;
+        left: 0;
         top: 0;
         position: absolute;
         padding: .25rem .5rem;
@@ -113,13 +113,13 @@
                 margin: floor(.65 * @page-font-size) floor(.3 * @page-font-size);
 
                 &:last-child {
-                    margin-right: 0;
+                    margin-left: 0;
                 }
             }
 
             a.btn-link {
-                padding-right: 0;
                 padding-left: 0;
+                padding-right: 0;
                 text-decoration: none;
                 color: @color-font;
 
@@ -130,7 +130,7 @@
                 &.options {
                     order: -1;
                     padding: .375rem .25rem;
-                    margin-right: .3rem;
+                    margin-left: .3rem;
 
                     &:before {
                         // this icon is for mobile version
@@ -297,7 +297,7 @@
     // Always display datepicker centered, overwriting widgets position
     margin: ~"calc(50vh - 10em) calc(50vw - 10em) !important";
     top: 0 !important;
-    left: 0 !important;
+    right: 0 !important;
     box-shadow: none;
     user-select: none;
 
@@ -398,7 +398,7 @@
 
 .minicolors-panel {
     border: 1px solid @color-datepicker-border;
-    box-shadow: 3px 3px 5px @color-popover-shadow;
+    box-shadow: -3px 3px 5px @color-popover-shadow;
     border-radius: .3rem;
     height: 152px;
     padding: 1px;
@@ -423,8 +423,8 @@
 
     .ui-menu {
         border-radius: .3rem;
-        left: 15px !important;
-        right: 15px;
+        right: 15px !important;
+        left: 15px;
         width: auto;
     }
 

@@ -97,7 +97,7 @@ font.bold {
     }
 
     .contact-head {
-        margin-left: 1rem;
+        margin-right: 1rem;
         margin-top: 0 !important;
 
         legend {
@@ -115,7 +115,7 @@ p.image-attachment {
     border: 1px solid @color-border;
     border-radius: .3rem;
     background-color: @color-message-background;
-    float: left;
+    float: right;
     margin: .5rem;
     min-width: 47%;
     min-height: @image-attachment-size;
@@ -146,21 +146,21 @@ p.image-attachment {
 
     .image-filename {
         .overflow-ellipsis();
-        left: 0;
+        right: 0;
         top: 0;
         right: 0;
-        padding-right: 4rem;
+        padding-left: 4rem;
     }
 
     .image-filesize {
-        right: 0;
+        left: 0;
         top: 0;
     }
 
     .attachment-links {
         position: absolute;
         bottom: 0;
-        left: 0;
+        right: 0;
         width: 100%;
         text-align: center;
 
@@ -314,16 +314,16 @@ fieldset.image-attachment {
 .image-tools {
     position: absolute;
     top: 5rem;
-    left: 0;
+    right: 0;
     height: @layout-header-height;
     overflow: hidden;
     transform: translateX(-87%);
     transition: transform 0.3s ease-in-out;
     background-color: @color-image-tools-background;
-    border-radius: 0 .3rem .3rem 0;
+    border-radius: .3rem 0 0 .3rem;
 
     .menu {
-        float: left;
+        float: right;
     }
 
     a.button.icon.tools {
@@ -382,7 +382,7 @@ fieldset.image-attachment {
 
     th:first-child,
     .name {
-        text-align: left;
+        text-align: right;
     }
 }
 
@@ -425,7 +425,7 @@ fieldset.image-attachment {
     & > .footer {
         height: 3.5rem;
         border-top: 1px solid @color-table-border;
-        text-align: left;
+        text-align: right;
 
         a {
             padding: .2rem .45rem !important;
@@ -447,7 +447,7 @@ fieldset.image-attachment {
 
             &:first-child {
                 .overflow-ellipsis();
-                text-align: left;
+                text-align: right;
             }
         }
 
@@ -495,11 +495,11 @@ table.compact-table {
     }
 
     td:first-child {
-        padding-left: 0;
+        padding-right: 0;
     }
 
     td:last-child {
-        padding-right: 0;
+        padding-left: 0;
     }
 }
 

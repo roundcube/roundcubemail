@@ -37,7 +37,7 @@ input.smart-upload {
         line-height: 2rem;
 
         label {
-            margin-right: .5rem;
+            margin-left: .5rem;
         }
     }
 
@@ -45,7 +45,7 @@ input.smart-upload {
         display: flex;
 
         input:first-child {
-            margin-right: .5rem;
+            margin-left: .5rem;
         }
         input:last-child {
             width: 75%;
@@ -86,7 +86,7 @@ input.smart-upload {
             }
 
             &:not(:last-child) {
-                margin-right: .25rem;
+                margin-left: .25rem;
             }
         }
     }
@@ -123,7 +123,7 @@ input.smart-upload {
             margin-bottom: .25rem;
 
             *:first-child.input-group-prepend {
-                text-align: left;
+                text-align: right;
                 min-width: 7.5em;
 
                 & > * {
@@ -147,7 +147,7 @@ input.smart-upload {
 
         & > .multi-input {
             width: 100%;
-            margin-left: .25rem;
+            margin-right: .25rem;
         }
     }
 
@@ -202,7 +202,7 @@ input.smart-upload {
             }
 
             select {
-                text-align: left;
+                text-align: right;
             }
 
             &.composite select {
@@ -331,11 +331,11 @@ input.smart-upload {
                     padding: .25rem 0 0 0;
 
                     &.rowbuttons {
-                        text-align: right;
+                        text-align: left;
                         padding-top: 0;
 
                         a {
-                            margin-left: .5rem;
+                            margin-right: .5rem;
 
                             & > span {
                                 display: inline;
@@ -375,8 +375,8 @@ fieldset.advanced {
 
         &:after {
             &:extend(.font-icon-class);
-            float: right;
-            margin: 0 0 0 .25rem;
+            float: left;
+            margin: 0 .25rem 0 0;
             line-height: inherit;
             font-size: inherit;
             content: @fa-var-angle-up;
@@ -437,7 +437,7 @@ html.ms .propform {
         padding: 0.5rem 1rem;
 
         button {
-            margin-right: .5rem;
+            margin-left: .5rem;
         }
     }
 
@@ -484,7 +484,7 @@ html.ms .propform {
 
         .form-control-plaintext,
         label.col-form-label {
-            padding: floor(.375 * @page-font-size) floor(.375 * @page-font-size) floor(.375 * @page-font-size) 0;
+            padding: floor(.375 * @page-font-size) 0 floor(.375 * @page-font-size) floor(.375 * @page-font-size);
         }
 
         .form-control-plaintext {
@@ -681,7 +681,7 @@ html.ms .propform {
         }
 
         input[type=radio] {
-            margin-right: .5em;
+            margin-left: .5em;
 
             &:disabled + label {
                 opacity: .5;
@@ -744,7 +744,7 @@ html.ms .propform {
             line-height: @listing-line-height;
 
             input {
-                margin-right: .5rem;
+                margin-left: .5rem;
             }
         }
     }
@@ -789,7 +789,7 @@ html.ms .propform {
     }
 
     input.form-control {
-        padding-left: .75rem;
+        padding-right: .75rem;
         height: auto; // fixes input height
     }
 
@@ -803,11 +803,11 @@ html.ms .propform {
     }
 
     .input-group-text {
-        border-left: 1px solid @color-input-border;
+        border-right: 1px solid @color-input-border;
     }
 
     .input-group-append {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     .input-group {
@@ -875,7 +875,7 @@ html.ms .propform {
         li {
             position: relative;
             display: flex;
-            padding-right: 1.5em;
+            padding-left: 1.5em;
             margin: 0.15em 0;
 
             a.filename {
@@ -885,12 +885,12 @@ html.ms .propform {
             a.delete,
             a.cancelupload {
                 position: absolute;
-                right: 0.25em;
+                left: 0.25em;
                 width: auto; // fix button width if the widget is in a .popupmenu
             }
 
             a.dropdown {
-                margin-right: .5em;
+                margin-left: .5em;
             }
 
             .inner {
@@ -946,7 +946,7 @@ html.ms .propform {
         border-radius: .25em;
         padding: 0 .25em;
         margin-top: @recipient-input-margin-fix;
-        margin-right: .2em;
+        margin-left: .2em;
         white-space: nowrap;
         cursor: default;
 
@@ -1058,7 +1058,7 @@ html.ms .propform {
         background-color: @color-recipient-input-background;
         border-radius: .25em;
         margin-top: @recipient-input-margin-fix;
-        margin-right: .2em;
+        margin-left: .2em;
         white-space: nowrap;
 
         a /* TODO: .tagedit-close, .tagedit-break, .tagedit-delete, .tagedit-save */ {
@@ -1068,7 +1068,7 @@ html.ms .propform {
             width: 1.1em;
             overflow: hidden;
             vertical-align: middle;
-            margin-right: .2rem;
+            margin-left: .2rem;
 
             &:before {
                 &:extend(.font-icon-class);
@@ -1107,7 +1107,7 @@ html.ms .propform {
         white-space: normal;
 
         &:last-child {
-            padding-right: 0;
+            padding-left: 0;
         }
     }
 
@@ -1156,7 +1156,7 @@ html.ms .propform {
 
     span.label {
         line-height: 2.4;
-        padding: 0 .5rem 0 .25rem;
+        padding: 0 .25rem 0 .5rem;
     }
 
     div.ui-slider {
@@ -1177,7 +1177,7 @@ html.ms .propform {
     a.button {
         display: none;
         position: absolute;
-        left: 0;
+        right: 0;
         top: 0;
         background-color: rgba(255, 255, 255, .85);
         border-radius: 5px;
@@ -1211,8 +1211,8 @@ html.ms .propform {
 
     select + select,
     .input-group :first-child {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 }
 
@@ -1290,11 +1290,11 @@ html.ms .propform {
 }
 
 .custom-switch {
-    padding-left: 0;
+    padding-right: 0;
     display: inline-block;
 
     .custom-control-input {
-        left: 0;
+        right: 0;
         opacity: 0 !important; // fixes input in dark mode
 
         &:focus ~ .custom-control-label:before {
@@ -1319,13 +1319,13 @@ html.ms .propform {
     // Make switches bigger, we use smaller font than Bootstrap's default
 
     .custom-control-label {
-        padding-left: 2.5rem;
+        padding-right: 2.5rem;
         min-height: 2rem;
         line-height: 2;
         display: inline-block;
 
         html.touch & {
-            padding-left: 3rem;
+            padding-right: 3rem;
         }
 
         &:before,
@@ -1340,7 +1340,7 @@ html.ms .propform {
         }
 
         &:before {
-            left: 2px;
+            right: 2px;
             top: 4px;
             width: floor(1.9 * @page-font-size);
             height: floor(1.2 * @page-font-size);
@@ -1353,7 +1353,7 @@ html.ms .propform {
         }
 
         &:after {
-            left: 4px;
+            right: 4px;
             top: 6px;
             width: floor(1.2 * @page-font-size) - 4;
             height: floor(1.2 * @page-font-size) - 4;
@@ -1387,7 +1387,7 @@ html.ms .propform {
     .custom-file-label {
         white-space: nowrap;
         .overflow-ellipsis();
-        padding-right: 100px;
+        padding-left: 100px;
     }
 
     & + .hint {

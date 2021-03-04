@@ -33,6 +33,7 @@
 html {
     height: 100%;
     font-size: @page-font-size;
+    direction: rtl;
 }
 
 body {
@@ -40,6 +41,8 @@ body {
     height: 100%;
     color: @color-font;
     overflow: hidden;
+    direction: rtl;
+    text-align: right;
 
     html.iframe & {
         overflow: auto;
@@ -126,13 +129,13 @@ body {
     flex: 2;
     max-width: 30%;
     min-width: 220px;
-    border-right: 1px solid @color-layout-border;
+    border-left: 1px solid @color-layout-border;
     background-color: @color-layout-sidebar-background;
 
     &.sidebar-right {
         order: 2;
-        border-right: 0;
-        border-left: 1px solid @color-layout-border;
+        border-left: 0;
+        border-right: 1px solid @color-layout-border;
         // sidebar on right is unusual situation, probably there's no list in layout,
         // in such a case we can make it a little bit wider
         flex: 3;
@@ -146,7 +149,7 @@ body {
     flex: 3;
     max-width: 30%;
     min-width: 300px;
-    border-right: 1px solid @color-layout-border;
+    border-left: 1px solid @color-layout-border;
     background-color: @color-layout-list-background;
 }
 
@@ -186,7 +189,7 @@ body {
 
 #layout-menu {
     &.popover {
-        left: 0 !important;
+        right: 0 !important;
     }
 
     .popover-header {
@@ -231,7 +234,7 @@ body {
 
                 &:before {
                     height: @layout-touch-header-height;
-                    float: right;
+                    float: left;
                 }
 
                 .inner {
@@ -247,22 +250,22 @@ body {
     z-index: 1;
     position: absolute;
     top: 0;
-    right: -3px;
+    left: -3px;
     width: 6px;
     height: 100%;
 
     &.inverted {
-        right: auto;
-        left: -3px;
+        left: auto;
+        right: -3px;
     }
 
     &.active {
         width: 10000px;
-        right: -5000px;
+        left: -5000px;
 
         &.inverted {
-            right: auto;
-            left: -5000px;
+            left: auto;
+            right: -5000px;
         }
     }
 }

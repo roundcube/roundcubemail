@@ -51,7 +51,7 @@
     }
 
     td.selection {
-        padding: 0 0 0 .5em;
+        padding: 0  .5em 0 0 ;
         width: 2em;
         text-align: center;
 
@@ -120,13 +120,13 @@ html:not(.touch) {
         li > a,
         tbody tr > td:first-child,
         &:not(.withselection) tbody tr > td.selection + td {
-            border-left: 2px solid transparent;
+            border-right: 2px solid transparent;
         }
 
         li > a:focus,
         &.focus tbody tr.focused > td:first-child,
         &.focus:not(.withselection) tbody tr.focused > td.selection + td {
-            border-left: 2px solid @color-list-focus-indicator;
+            border-right: 2px solid @color-list-focus-indicator;
             outline: 0;
         }
     }
@@ -158,7 +158,7 @@ ul.listing {
 
         ul {
             border-top: 1px solid @color-list-border;
-            padding-left: 1.5em;
+            padding-right: 1.5em;
 
             li:last-child {
                 border-bottom: none;
@@ -169,7 +169,7 @@ ul.listing {
             position: absolute;
             padding: 0;
             top: 0;
-            right: 0;
+            left: 0;
             height: @listing-line-height;
             vertical-align: middle;
 
@@ -241,7 +241,7 @@ html.touch {
     a:before {
         &:extend(.font-icon-class);
         height: 2em; // TODO: ?
-        margin-right: .5rem;
+        margin-left: .5rem;
     }
     &.preferences > a:before {
         content: @fa-var-sliders-h;
@@ -301,7 +301,7 @@ html.touch {
     & > i:before {
         &:extend(.font-icon-class);
         content: @fa-var-user;
-        margin-left: .5rem;
+        margin-right: .5rem;
     }
     &.group > i:before {
         content: @fa-var-users;
@@ -315,7 +315,7 @@ html.ie11 .listing.iconized li a:before {
 .listing.iconized tr {
     td:before {
         &:extend(.font-icon-class);
-        margin-right: .5rem;
+        margin-left: .5rem;
     }
     &.contact.person td.name:before {
         content: @fa-var-user;
@@ -368,7 +368,7 @@ html.ie11 .listing.iconized li a:before {
 
 .popupmenu .listing {
     li > a {
-        border-left: 0;
+        border-right: 0;
 
         &:not(.disabled):hover {
             color: @color-menu-hover;
@@ -391,7 +391,7 @@ ul.treelist {
         div.treetoggle {
             position: absolute;
             top: 0;
-            left: 0;
+            right: 0;
             width: @listing-treetoggle-width;
             cursor: pointer;
             background-color: transparent;
@@ -399,7 +399,7 @@ ul.treelist {
             &:before {
                 &:extend(.font-icon-class);
                 content: @fa-var-angle-right;
-                margin-left: .25em;
+                margin-right: .25em;
                 font-size: 1em;
             }
 
@@ -410,7 +410,7 @@ ul.treelist {
 
         & > a {
             .overflow-ellipsis();
-            padding-left: @listing-treetoggle-width;
+            padding-right: @listing-treetoggle-width;
         }
 
         &.selected {
@@ -429,25 +429,25 @@ ul.treelist {
             padding: 0;
 
             li {
-                padding-left: 0;
-                a { padding-left: (2 * @listing-treetoggle-width); }
-                div.treetoggle { left: @listing-treetoggle-width; }
+                padding-right: 0;
+                a { padding-right: (2 * @listing-treetoggle-width); }
+                div.treetoggle { right: @listing-treetoggle-width; }
 
                 li {
-                    a { padding-left: (3 * @listing-treetoggle-width); }
-                    div.treetoggle { left: (2 * @listing-treetoggle-width); }
+                    a { padding-right: (3 * @listing-treetoggle-width); }
+                    div.treetoggle { right: (2 * @listing-treetoggle-width); }
 
                     li {
-                        a { padding-left: (4 * @listing-treetoggle-width); }
-                        div.treetoggle { left: (3 * @listing-treetoggle-width); }
+                        a { padding-right: (4 * @listing-treetoggle-width); }
+                        div.treetoggle { right: (3 * @listing-treetoggle-width); }
 
                         li {
-                            a { padding-left: (5 * @listing-treetoggle-width); }
-                            div.treetoggle { left: (4 * @listing-treetoggle-width); }
+                            a { padding-right: (5 * @listing-treetoggle-width); }
+                            div.treetoggle { right: (4 * @listing-treetoggle-width); }
 
                             li {
-                                a { padding-left: (6 * @listing-treetoggle-width); }
-                                div.treetoggle { left: (5 * @listing-treetoggle-width); }
+                                a { padding-right: (6 * @listing-treetoggle-width); }
+                                div.treetoggle { right: (5 * @listing-treetoggle-width); }
                             }
                         }
                     }
@@ -462,7 +462,7 @@ ul.treelist {
         }
 
         li > a {
-            padding-left: .5em;
+            padding-right: .5em;
         }
     }
 }
@@ -474,7 +474,7 @@ ul.treelist {
         &.mailbox {
             &.unread {
                 & > a {
-                    padding-right: 2.8em;
+                    padding-left: 2.8em;
                     font-weight: bold;
                 }
             }
@@ -482,7 +482,7 @@ ul.treelist {
             .unreadcount {
                 position: absolute;
                 top: 0;
-                right: 0;
+                left: 0;
                 min-width: 2em;
                 line-height: 1.4rem;
                 margin: ((@listing-line-height - 1.4 * @page-font-size) / 2);
@@ -519,7 +519,7 @@ ul.treelist {
         a:before {
             &:extend(.font-icon-class);
             .font-icon-regular(@fa-var-folder);
-            margin-right: .5rem;
+            margin-left: .5rem;
         }
 
         &.inbox > a:before {
@@ -553,7 +553,7 @@ ul.treelist {
 
     // folder-selector fix for left padding
     &.menu a:before {
-        margin-left: .5em;
+        margin-right: .5em;
     }
 }
 
@@ -568,7 +568,7 @@ table.fixedcopy {
 
 .messagelist {
     td {
-        border-left: 0;
+        border-right: 0;
         width: 2em;
         vertical-align: top;
         font-size: 1rem !important;
@@ -576,7 +576,7 @@ table.fixedcopy {
 
     td.subject {
         width: 100%;
-        padding-right: 0;
+        padding-left: 0;
         display: flex;
         flex-wrap: wrap;
 
@@ -599,8 +599,8 @@ table.fixedcopy {
                 flex: 1;
                 font-size: 90%;
                 color: @color-list-secondary;
-                padding-left: 1.5em;
-                padding-right: .5rem;
+                padding-right: 1.5em;
+                padding-left: .5rem;
             }
 
             &.subject {
@@ -611,7 +611,7 @@ table.fixedcopy {
     }
 
     td.threads {
-        padding: 0 0 0 .25rem;
+        padding: 0 .25rem 0 0;
         width: 1.5em;
     }
 
@@ -704,7 +704,7 @@ table.fixedcopy {
             .font-icon-solid(@fa-var-share);
             font-size: 1rem;
             opacity: .5;
-            margin: 0 -0.1em 0 -1.25em;
+            margin: 0 -1.25em 0 -0.1em;
         }
     }
 
@@ -797,7 +797,7 @@ html.touch {
         td.flags {
             position: absolute;
             top: .25rem;
-            right: 0;
+            left: 0;
             bottom: 0;
             background-color: transparent;
 
@@ -806,10 +806,10 @@ html.touch {
             }
         }
         td.subject {
-            padding-right: .5em;
+            padding-left: .5em;
 
             .subject {
-                padding-right: 1.5rem;
+                padding-left: 1.5rem;
             }
         }
     }
@@ -846,13 +846,13 @@ html.touch {
         display: inline;
         color: @color-list-secondary;
         font-style: italic;
-        margin-left: .5em;
+        margin-right: .5em;
     }
 
     li {
         a:before {
             &:extend(.font-icon-class);
-            margin-right: .5rem;
+            margin-left: .5rem;
         }
 
         a.addressbook::before {
@@ -1021,7 +1021,7 @@ html.touch {
 
         .attachment-size {
             color: @color-list-secondary;
-            padding-left: .25em;
+            padding-right: .25em;
         }
     }
 }
@@ -1071,6 +1071,6 @@ html.touch {
 
 #subscription-table {
     li.mailbox a {
-        padding-right: 2.5rem;
+        padding-left: 2.5rem;
     }
 }

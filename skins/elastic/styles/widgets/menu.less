@@ -45,7 +45,7 @@
         a {
             color: @color-toolbar-button;
             display: block;
-            float: left;
+            float: right;
             border: 0 !important;
             height: @layout-header-height;
             min-width: 3.2rem;
@@ -114,7 +114,7 @@
         }
 
         a:first-child {
-            padding-right: 0;
+            padding-left: 0;
         }
     }
 
@@ -174,7 +174,7 @@
             }
 
             .pagenav-text {
-                text-align: left;
+                text-align: right;
                 font-size: 100%;
             }
 
@@ -206,7 +206,7 @@
 
         button {
             display: block;
-            float: left;
+            float: right;
             cursor: pointer;
             color: @color-toolbar-button;
             background-color: transparent;
@@ -226,7 +226,7 @@
         li {
             display: block;
             height: auto;
-            text-align: left;
+            text-align: right;
 
             &.spacer {
                 display: none;
@@ -255,13 +255,13 @@
                 line-height: @listing-line-height;
                 display: block;
                 padding: 0 .5rem;
-                text-align: left;
+                text-align: right;
 
                 &:before {
                     line-height: inherit;
                     height: inherit !important;
-                    margin-right: .5rem !important;
-                    float: left !important;
+                    margin-left: .5rem !important;
+                    float: right !important;
                     width: 1.18em !important;
                     min-width: 1.18em;
                 }
@@ -278,7 +278,7 @@
                         &:extend(.font-icon-class);
                         color: @color-black-shade-text;
                         font-size: .9em;
-                        margin: 0 0 0 .2em;
+                        margin: 0 .2em 0 0 ;
                         min-width: 1.18em;
                         content: @fa-var-chevron-right;
 
@@ -728,7 +728,7 @@ a.toolbar-button {
             content: @fa-var-search;
             height: @layout-searchbar-height;
             color: @color-list-pagenav;
-            margin: 0 0 0 .75rem;
+            margin: 0 .75rem 0 0 ;
         }
     }
 
@@ -842,7 +842,7 @@ a.toolbar-button {
             max-width: unset;
             padding: 0 .5em;
             margin-top: 1px;
-            text-align: left;
+            text-align: right;
             line-height: @layout-touch-menu-record-height;
             height: @layout-touch-menu-record-height;
             border-bottom: 1px solid @color-list-border !important;
@@ -850,9 +850,9 @@ a.toolbar-button {
             font-size: 1.2rem;
 
             &:before {
-                float: left !important;
+                float: right !important;
                 width: 1.2em !important;
-                margin-right: .5rem !important;
+                margin-left: .5rem !important;
             }
         }
 
@@ -886,7 +886,7 @@ a.toolbar-button {
         .special-buttons {
             position: absolute;
             bottom: 0;
-            left: 0;
+            right: 0;
             background-color: @color-taskmenu-background;
         }
 
