@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
+
 RELEASE 1.4.11
 --------------
 - Display a nice error informing about no PHP8 support
