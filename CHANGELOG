@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where imap_conn_options settings were ignored (#7912)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 
 RELEASE 1.5-beta

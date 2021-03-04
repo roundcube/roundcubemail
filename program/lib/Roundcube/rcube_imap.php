@@ -148,11 +148,10 @@ class rcube_imap extends rcube_storage
         $attempt = 0;
         do {
             $data = [
-                'host'           => $host,
-                'user'           => $user,
-                'attempt'        => ++$attempt,
-                'socket_options' => [],
-                'retry'          => false
+                'host'    => $host,
+                'user'    => $user,
+                'attempt' => ++$attempt,
+                'retry'   => false
             ];
 
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
@@ -166,7 +165,9 @@ class rcube_imap extends rcube_storage
             }
 
             // Handle per-host socket options
-            rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
+            if (isset($data['socket_options'])) {
+                rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
+            }
 
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
         } while(!$this->conn->connected() && $data['retry']);
