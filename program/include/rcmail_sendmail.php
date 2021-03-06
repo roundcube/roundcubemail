@@ -714,6 +714,10 @@ class rcmail_sendmail
             $this->parse_data['RECIPIENT_COUNT'] = 0;
         }
 
+        if (empty($mailto)) {
+            return '';
+        }
+
         // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
         $charset = $this->options['charset'];
         if ($charset != RCUBE_CHARSET) {
@@ -744,6 +748,8 @@ class rcmail_sendmail
             }
             // address without brackets and without name (add brackets)
             else if (preg_match('/^'.$email_regexp.'$/', $item)) {
+                // Remove trailing non-letter characters (#7899)
+                $item     = preg_replace('/[^a-zA-Z]$/', '', $item);
                 $item     = rcube_utils::idn_to_ascii($item);
                 $result[] = $item;
             }
