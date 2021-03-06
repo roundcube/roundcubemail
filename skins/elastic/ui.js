@@ -3356,7 +3356,8 @@ function rcube_elastic_ui()
                     email = RegExp.$1;
                     recipients.push({
                         name: '',
-                        email: email.replace(/(^<|>$)/g, '')
+                        email: email.replace(/(^<|>$)/g, '') // trim < and > characters
+                            .replace(/[^a-z]$/gi, '') // remove trailing comma or any non-letter character at the end (#7899)
                     });
 
                     str = str.replace(email, '').trim();
@@ -3365,7 +3366,7 @@ function rcube_elastic_ui()
                     }
                 }
 
-                if (email != RegExp.$1) {
+                if (email != RegExp.$1 && RegExp.$1) {
                     email = RegExp.$1;
                     recipients.push({
                         name: str.replace(email, '').trim(),
