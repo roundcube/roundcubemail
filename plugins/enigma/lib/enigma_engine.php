@@ -145,7 +145,7 @@ class enigma_engine
 
         // check if we have password for this key
         $passwords = $this->get_passwords();
-        $pass      = $passwords[$key->id];
+        $pass      = isset($passwords[$key->id]) ? $passwords[$key->id] : null;
 
         if ($pass === null) {
             // ask for password
@@ -252,7 +252,7 @@ class enigma_engine
 
             // check if we have password for this key
             $passwords = $this->get_passwords();
-            $sign_pass = $passwords[$sign_key->id];
+            $sign_pass = isset($passwords[$sign_key->id]) ? $passwords[$sign_key->id] : null;
 
             if ($sign_pass === null) {
                 // ask for password
@@ -665,7 +665,7 @@ class enigma_engine
 
         // Get bodies
         if ($body === null) {
-            if (!$struct->body_modified) {
+            if (empty($struct->body_modified)) {
                 $body = $this->get_part_body($p['object'], $struct);
             }
         }
