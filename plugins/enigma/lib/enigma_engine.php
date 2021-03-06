@@ -880,6 +880,10 @@ class enigma_engine
     private function pgp_verify(&$msg_body, $sig_body = null)
     {
         // @TODO: Handle big bodies using (temp) files
+
+        // Get rid of possible non-ascii characters (#5962)
+        $sig_body = preg_replace('/[^\x00-\x7F]/', '', $sig_body);
+
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
         if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND) {
@@ -900,6 +904,10 @@ class enigma_engine
     private function pgp_decrypt(&$msg_body, &$signature = null)
     {
         // @TODO: Handle big bodies using (temp) files
+
+        // Get rid of possible non-ascii characters (#5962)
+        $msg_body = preg_replace('/[^\x00-\x7F]/', '', $msg_body);
+
         $keys   = $this->get_passwords();
         $result = $this->pgp_driver->decrypt($msg_body, $keys, $signature);
 
@@ -1237,11 +1245,6 @@ class enigma_engine
         }
         else {
             $body = $msg->get_part_body($part->mime_id, false);
-
-            // Convert charset to get rid of possible non-ascii characters (#5962)
-            if ($part->charset && stripos($part->charset, 'ASCII') === false) {
-                $body = rcube_charset::convert($body, $part->charset, 'US-ASCII');
-            }
         }
 
         return $body;
