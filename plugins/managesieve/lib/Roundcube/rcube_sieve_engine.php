@@ -142,7 +142,7 @@ class rcube_sieve_engine
             $this->script = [];
         }
         else {
-            $this->exts = $this->sieve->get_extensions();
+            $this->exts = $this->rc->plugins->exec_hook('managesieve_extensions', $this->sieve->get_extensions());
             $this->init_script();
             $this->rc->output->set_env('currentset', $this->sieve->current);
             $_SESSION['managesieve_current'] = $this->sieve->current;
