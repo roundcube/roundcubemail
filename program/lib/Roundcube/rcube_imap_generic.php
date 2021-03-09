@@ -2742,7 +2742,7 @@ class rcube_imap_generic
                     $value = str_replace('"', '', $value);
 
                     if ($field == 'subject') {
-                        $value = preg_replace('/^(Re:\s*|Fwd:\s*|Fw:\s*)+/i', '', $value);
+                        $value = preg_replace('/^(Re:\s*|Fwd:\s*|Tr:\s*|Fw:\s*)+/i', '', $value);
                     }
                 }
             }
