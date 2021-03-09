@@ -1193,7 +1193,12 @@ class rcmail_sendmail
         $subject = trim($subject);
 
         // replace Re:, Re[x]:, Re-x (#1490497)
-        $prefix = '/^(re:|re\[\d\]:|re-\d:)\s*/i';
+        $response_prefixes = rcmail::get_instance()->config->get('subject_response_prefixes', ['Re:']);
+        $data = array_map(function($prefix) { 
+            $prefix = strtolower(str_replace(':', '', $prefix)); 
+            return $prefix.':|'.$prefix.'\[\d\]:|'.$prefix.'-\d:'; 
+        }, $response_prefixes);
+        $prefix = '/^('.implode('|', $data).')\s*/i';
         do {
             $subject = preg_replace($prefix, '', $subject, -1, $count);
         }
@@ -1202,7 +1207,7 @@ class rcmail_sendmail
         // replace (was: ...) (#1489375)
         $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
 
-        return 'Re: ' . $subject;
+        return rcmail::get_instance()->config->get('default_response_prefix', 'Re:') . ' ' . $subject;
     }
 
     /**
@@ -1236,11 +1241,12 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            if (preg_match('/^fwd:/i', $this->options['message']->subject)) {
+            $forward_prefixes = rcmail::get_instance()->config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
+            if (preg_match('/^('.implode('|', $forward_prefixes).')/i', $this->options['message']->subject)) {
                 $subject = $this->options['message']->subject;
             }
             else {
-                $subject = 'Fwd: ' . $this->options['message']->subject;
+                $subject = $this->rcmail->config->get('default_forward_prefix', 'Fwd:') . ' ' . $this->options['message']->subject;
             }
         }
         // creeate a draft-subject

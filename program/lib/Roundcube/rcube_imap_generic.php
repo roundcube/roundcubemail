@@ -2742,7 +2742,10 @@ class rcube_imap_generic
                     $value = str_replace('"', '', $value);
 
                     if ($field == 'subject') {
-                        $value = preg_replace('/^(Re:\s*|Fwd:\s*|Tr:\s*|Fw:\s*)+/i', '', $value);
+                        $forward_prefixes = rcmail::get_instance()->config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
+                        $response_prefixes = rcmail::get_instance()->config->get('subject_response_prefixes', ['Re:']);
+                        $data = array_map(function($prefix) { return $prefix . '\s*'; }, array_merge($forward_prefixes, $response_prefixes));
+                        $value = preg_replace('/^('.implode('|', $data).')+/i', '', $value);
                     }
                 }
             }
