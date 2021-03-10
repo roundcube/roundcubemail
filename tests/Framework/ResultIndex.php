@@ -86,4 +86,26 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
         $this->assertSame("2,10:11", $object->get_compressed(), "Get compressed index");
         $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), "Get parameter");
     }
+
+    /**
+     * Empty SORT result parsing test
+     */
+    function test_parse_empty()
+    {
+        $object = new rcube_result_index('INBOX', "* SORT");
+
+        $this->assertSame(true, $object->is_empty(), "Object is empty");
+        $this->assertSame(false, $object->is_error(), "Object is error");
+        $this->assertSame(null, $object->max(), "Max message UID");
+        $this->assertSame(null, $object->min(), "Min message UID");
+        $this->assertSame(0, $object->count_messages(), "Messages count");
+        $this->assertSame(0, $object->count(), "Messages count");
+        $this->assertSame(false, $object->exists(10, true), "Message exists");
+        $this->assertSame(false, $object->exists(10), "Message exists (bool)");
+        $this->assertSame(null, $object->get_element('FIRST'), "Get first element");
+        $this->assertSame(null, $object->get_element('LAST'), "Get last element");
+        $this->assertSame(null, $object->get_element(1), "Get specified element");
+        $this->assertSame("", $object->get_compressed(), "Get compressed index");
+        $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), "Get parameter");
+    }
 }

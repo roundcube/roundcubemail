@@ -184,10 +184,14 @@ class rcube_result_index
     /**
      * Returns maximal message identifier in the result
      *
-     * @return int Maximal message identifier
+     * @return int|null Maximal message identifier
      */
     public function max()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = (int) @max($this->get());
         }
@@ -198,10 +202,14 @@ class rcube_result_index
     /**
      * Returns minimal message identifier in the result
      *
-     * @return int Minimal message identifier
+     * @return int|null Minimal message identifier
      */
     public function min()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = (int) @min($this->get());
         }
