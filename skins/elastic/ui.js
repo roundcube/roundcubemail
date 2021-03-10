@@ -803,7 +803,7 @@ function rcube_elastic_ui()
         color_scheme.addListener(function(e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', null);
+            rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
         });
 
         // We deliberately use only cookies here, not local storage
