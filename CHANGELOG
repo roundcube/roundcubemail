@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where imap_conn_options settings were ignored (#7912)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 - Fix bug when sending an email and recipient's email address contains a trailing dot (#7899)
+- Fix bug where the list page wasn't reset when changing a folder on mail view page (#7932)
 
 RELEASE 1.5-beta
 ----------------

@@ -181,9 +181,10 @@ class rcmail_action_mail_index extends rcmail_action
             $mbox = isset($_SESSION['mbox']) && strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
         }
 
-        // we handle 'page' argument on 'list' and 'getunread' to prevent from
-        // race condition and unintentional page overwrite in session
-        if ($rcmail->action == 'list' || $rcmail->action == 'getunread') {
+        // We handle 'page' argument on 'list' and 'getunread' to prevent from
+        // race condition and unintentional page overwrite in session.
+        // Also, when entering the Mail UI (#7932)
+        if (empty($rcmail->action) || $rcmail->action == 'list' || $rcmail->action == 'getunread') {
             $page = isset($_GET['_page']) ? intval($_GET['_page']) : 0;
             if (!$page) {
                 $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
