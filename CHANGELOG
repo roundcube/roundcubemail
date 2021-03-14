@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 - Fix bug when sending an email and recipient's email address contains a trailing dot (#7899)
 - Fix bug where the list page wasn't reset when changing a folder on mail view page (#7932)
+- Fix so selecting the same folder to reset search resets also the page number (#7125)
 
 RELEASE 1.5-beta
 ----------------
