@@ -91,7 +91,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->redirect([
                     '_action' => 'compose',
                     '_id'     => self::$COMPOSE['id'],
-                    '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['search'] : null,
+                    '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['_search'] : null,
             ]);
         }
 

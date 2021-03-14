@@ -903,7 +903,7 @@ function rcube_webmail()
           window.close();
         }
         else if (this.task == 'mail') {
-          this.list_mailbox(props);
+          this.list_mailbox(props, props ? 1 : '');
           this.set_button_titles();
         }
         else if (this.task == 'addressbook')
@@ -2777,10 +2777,12 @@ function rcube_webmail()
     if (this.env.uid)
       url._uid = this.env.uid;
 
+    if (page)
+      url._page = page;
+
     // load message list to target frame/window
     if (mbox) {
       url._mbox = mbox;
-      url._page = page;
       this.set_busy(true, 'loading');
       this.location_href(url, target);
     }
