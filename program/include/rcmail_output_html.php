@@ -1576,8 +1576,7 @@ EOF;
      */
     public function button($attrib)
     {
-        static $s_button_count   = 100;
-        static $disabled_actions = null;
+        static $s_button_count = 100;
 
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
@@ -1609,9 +1608,7 @@ EOF;
             $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $action;
         }
 
-        if ($disabled_actions === null) {
-            $disabled_actions = (array) $this->config->get('disabled_actions');
-        }
+        $disabled_actions = (array) $this->config->get('disabled_actions');
 
         // remove buttons for disabled actions
         if (in_array($element, $disabled_actions) || in_array($action, $disabled_actions)) {
