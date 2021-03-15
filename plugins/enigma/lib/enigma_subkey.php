@@ -77,4 +77,48 @@ class enigma_subkey
             return 'EdDSA';
         }
     }
+
+    /**
+     * Checks if the subkey has expired
+     *
+     * @return bool
+     */
+    function is_expired()
+    {
+        $now = new DateTime('now');
+
+        return !empty($this->expires) && $this->expires < $now;
+    }
+
+    /**
+     * Returns subkey creation date-time string
+     *
+     * @return string|null
+     */
+    function get_creation_date()
+    {
+        if (empty($this->created)) {
+            return null;
+        }
+
+        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+
+        return $this->created->format($date_format);
+    }
+
+    /**
+     * Returns subkey expiration date-time string
+     *
+     * @return string|null
+     */
+    function get_expiration_date()
+    {
+        if (empty($this->expires)) {
+            return null;
+        }
+
+        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+
+        return $this->expires->format($date_format);
+    }
 }

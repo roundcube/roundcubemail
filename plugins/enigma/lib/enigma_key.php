@@ -91,24 +91,6 @@ class enigma_key
     }
 
     /**
-     * Returns true if any of subkeys is not expired
-     *
-     * @return bool
-     */
-    function is_expired()
-    {
-        $now = time();
-
-        foreach ($this->subkeys as $subkey) {
-            if (!$subkey->expires || $subkey->expires > $now) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Returns true if any of subkeys is a private key
      *
      * @return bool
@@ -134,12 +116,10 @@ class enigma_key
      */
     function find_subkey($email, $mode)
     {
-        $now = time();
-
         foreach ($this->users as $user) {
             if (strcasecmp($user->email, $email) === 0 && $user->valid && !$user->revoked) {
                 foreach ($this->subkeys as $subkey) {
-                    if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
+                    if (!$subkey->revoked && !$subkey->is_expired()) {
                         if ($subkey->usage & $mode) {
                             return $subkey;
                         }
