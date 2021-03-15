@@ -409,9 +409,7 @@ class enigma_ui
         $table->add_header('expires', $this->enigma->gettext('subkeyexpires'));
         $table->add_header('usage', $this->enigma->gettext('subkeyusage'));
 
-        $now         = time();
-        $date_format = $this->rc->config->get('date_format', 'Y-m-d');
-        $usage_map   = [
+        $usage_map = [
             enigma_key::CAN_ENCRYPT      => $this->enigma->gettext('typeencrypt'),
             enigma_key::CAN_SIGN         => $this->enigma->gettext('typesign'),
             enigma_key::CAN_CERTIFY      => $this->enigma->gettext('typecert'),
@@ -431,11 +429,11 @@ class enigma_ui
                 }
             }
 
-            $table->set_row_attribs($subkey->revoked || ($subkey->expires && $subkey->expires < $now) ? 'deleted' : '');
+            $table->set_row_attribs($subkey->revoked || $subkey->is_expired() ? 'deleted' : '');
             $table->add('id', $subkey->get_short_id());
             $table->add('algo', $algo);
-            $table->add('created', $subkey->created ? $this->rc->format_date($subkey->created, $date_format, false) : '');
-            $table->add('expires', $subkey->expires ? $this->rc->format_date($subkey->expires, $date_format, false) : $this->enigma->gettext('expiresnever'));
+            $table->add('created', $subkey->get_creation_date());
+            $table->add('expires', $subkey->get_expiration_date() ?: $this->enigma->gettext('expiresnever'));
             $table->add('usage', implode(',', $usage));
         }
 
