@@ -1192,22 +1192,14 @@ class rcmail_sendmail
     {
         $subject = trim($subject);
 
-        // replace Re:, Re[x]:, Re-x (#1490497)
-        $response_prefixes = rcmail::get_instance()->config->get('subject_response_prefixes', ['Re:']);
-        $data = array_map(function($prefix) { 
-            $prefix = strtolower(str_replace(':', '', $prefix)); 
-            return $prefix.':|'.$prefix.'\[\d\]:|'.$prefix.'-\d:'; 
-        }, $response_prefixes);
-        $prefix = '/^('.implode('|', $data).')\s*/i';
-        do {
-            $subject = preg_replace($prefix, '', $subject, -1, $count);
-        }
-        while ($count);
+        //  Add config options for subject prefixes (#7929) 
+        $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
 
         // replace (was: ...) (#1489375)
         $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
+        $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
-        return rcmail::get_instance()->config->get('default_response_prefix', 'Re:') . ' ' . $subject;
+        return trim($subject);
     }
 
     /**
@@ -1241,13 +1233,9 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            $forward_prefixes = rcmail::get_instance()->config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
-            if (preg_match('/^('.implode('|', $forward_prefixes).')/i', $this->options['message']->subject)) {
-                $subject = $this->options['message']->subject;
-            }
-            else {
-                $subject = $this->rcmail->config->get('default_forward_prefix', 'Fwd:') . ' ' . $this->options['message']->subject;
-            }
+            //  Add config options for subject prefixes (#7929) 
+            $subject = rcube_utils::remove_subject_prefix($this->options['message']->subject, 'forward');
+            $subject = trim($this->rcmail->config->get('forward_prefix', 'Fwd:') . ' ' . $subject);
         }
         // creeate a draft-subject
         else if ($this->data['mode'] == self::MODE_DRAFT || $this->data['mode'] == self::MODE_EDIT) {
