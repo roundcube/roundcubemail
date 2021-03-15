@@ -186,6 +186,11 @@ EOF;
      */
     public function set_assets_path($path, $fs_dir = null)
     {
+        // set absolute path for assets if /index.php/foo/bar url is used
+        if (empty($path) && !empty($_SERVER['PATH_INFO'])) {
+            $path = preg_replace('/\/?\?_task=[a-z]+/', '', $this->app->url([], true));
+        }
+
         if (empty($path)) {
             return;
         }
