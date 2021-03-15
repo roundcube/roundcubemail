@@ -1216,10 +1216,10 @@ abstract class rcmail_action
         $out = '';
         foreach ($arrFolders as $folder) {
             $title        = null;
-            $folder_class = self::folder_classname($folder['id'], $folder['class'] ?: null);
+            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = 0;
-            $realname     = $realnames || $folder['realname'] ?: false;
+            $realname     = $realnames || isset($folder['realname']) ? $folder['realname'] : false;
 
             if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
@@ -1326,7 +1326,7 @@ abstract class rcmail_action
                 }
             }
 
-            if (!$realnames && ($folder_class = self::folder_classname($folder['id'], $folder['class'] ?: null)) && $rcmail->text_exists($folder_class)) {
+            if (!$realnames && ($folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null)) && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1354,11 +1354,11 @@ abstract class rcmail_action
      * (including shared/other users namespace roots).
      *
      * @param string $folder_id IMAP Folder name
-     * @param string $folder_class failback folder CSS class name
+     * @param string $fallback fallback Folder CSS class name
      *
      * @return string|null CSS class name
      */
-    public static function folder_classname($folder_id, $folder_class = null)
+    public static function folder_classname($folder_id, $fallback = null)
     {
         static $classes;
 
@@ -1387,7 +1387,7 @@ abstract class rcmail_action
             }
         }
 
-        return !empty($classes[$folder_id]) ? $classes[$folder_id] : $folder_class;
+        return !empty($classes[$folder_id]) ? $classes[$folder_id] : $fallback;
     }
 
     /**
