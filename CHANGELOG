@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Upgrade to TinyMCE 5.7.1
 - Plugin API: Allow modification of 'error' argument in 'message_send_error' hook (#7914)
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
