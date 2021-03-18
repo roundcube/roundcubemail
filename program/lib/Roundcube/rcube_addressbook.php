@@ -108,7 +108,7 @@ abstract class rcube_addressbook
      */
     public $vcard_map = [];
 
-    /** @var array Error state - hash array with the following fields: type, message */
+    /** @var ?array Error state - hash array with the following fields: type, message */
     protected $error;
 
 
@@ -224,7 +224,7 @@ abstract class rcube_addressbook
     /**
      * Returns the last error occurred (e.g. when updating/inserting failed)
      *
-     * @return ?array Hash array with the following fields: type, message
+     * @return ?array Hash array with the following fields: type, message. Null if no error set.
      */
     function get_error()
     {
