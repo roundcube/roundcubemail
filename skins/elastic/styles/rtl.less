@@ -1,0 +1,898 @@
+@import (reference) "variables";
+
+html.rtl {
+
+  direction: rtl;
+  //=============  Start style.less
+  #message-header {
+    & > .header {
+      img.contactphoto {
+        margin: 0 0 0 1rem;
+      }
+    }
+  }
+
+  .header-headers {
+    .header-title {
+      padding-left: 1rem;
+    }
+  }
+
+  .message-partheaders {
+    table.headers-table {
+      .header-title {
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  .message-part,
+  .message-htmlpart {
+    blockquote {
+      span.blockquote-link {
+        left: .5rem;
+        padding: .2rem .5rem .2rem .25rem;
+      }
+
+      &.blockquote-header {
+        padding-left: 5rem !important;
+      }
+    }
+  }
+
+  #composestatusbar {
+    opacity: .3;
+    left: 2.5rem;
+  }
+
+  //=============  End style.less
+  //=======================================
+  //=============  Start mixins.less
+  .font-icon-class {
+    float: right;
+  }
+
+  //=============  End mixins.less
+  //=======================================
+  //=============  Start layout.less
+  body {
+    direction: rtl;
+    text-align: right;
+  }
+
+  #layout-sidebar {
+    border-left: 1px solid @color-layout-border;
+
+    &.sidebar-right {
+      border-left: 0;
+      border-right: 1px solid @color-layout-border;
+    }
+  }
+
+  #layout-list {
+    border-left: 1px solid @color-layout-border;
+  }
+
+  #layout-menu {
+    &.popover {
+      right: 0 !important;
+      left: auto;
+    }
+
+    .popover-header {
+      html.layout-phone & {
+        a {
+          &:before {
+            float: left;
+          }
+        }
+      }
+    }
+  }
+
+
+  .column-resizer {
+    left: -3px;
+    right: auto;
+
+    &.inverted {
+      left: auto;
+      right: -3px;
+    }
+
+    &.active {
+      left: -5000px;
+      right: auto;
+
+      &.inverted {
+        left: auto;
+        right: -5000px;
+      }
+    }
+  }
+
+  //=============  End layout.less
+  //=======================================
+  //=============  Start common.less
+  .contact-header {
+    .contact-head {
+      margin-right: 1rem;
+    }
+  }
+
+  p.image-attachment {
+    float: right;
+
+    .image-filename {
+      right: 0;
+      left: auto;
+      padding-left: 4rem;
+    }
+
+    .image-filesize {
+      left: 0;
+    }
+
+    .attachment-links {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  .image-tools {
+    right: 0;
+    left: auto;
+    border-radius: .3rem 0 0 .3rem;
+
+    .menu {
+      float: right;
+    }
+  }
+
+  .quota-info {
+    th:first-child,
+    .name {
+      text-align: right;
+    }
+  }
+
+  .table-widget {
+    & > .footer {
+      text-align: right;
+    }
+
+    table.options-table {
+      td, th {
+        &:first-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  table.compact-table {
+    td:first-child {
+      padding-right: 0;
+    }
+
+    td:last-child {
+      padding-left: 0;
+    }
+  }
+
+  //=============  End common.less
+  //=======================================
+  //=============  Start buttons.less
+  a.btn,
+  button.btn {
+    &:before {
+      margin-left: .4rem !important; // !important needed for a.btn
+    }
+  }
+
+  .floating-action-buttons {
+    left: 0;
+
+    a.button {
+      float: right;
+      margin: 1rem 0 0 1rem;
+    }
+  }
+
+  //=============  End buttons.less
+  //=======================================
+  //=============  Start jqueryui.less
+  .ui-widget {
+    box-shadow: -3px 3px 5px @color-popover-shadow;
+  }
+
+
+  .ui-dialog {
+    .ui-dialog-title {
+      padding: 0 1rem 0 3rem;
+    }
+
+    .ui-dialog-titlebar-close {
+      left: 0;
+    }
+
+    .ui-dialog-buttonpane {
+      .ui-dialog-buttonset {
+        a.btn-link,
+        button {
+          &:last-child {
+            margin-left: 0;
+          }
+        }
+
+        a.btn-link {
+
+          &.options {
+            margin-left: .3rem;
+          }
+        }
+      }
+    }
+  }
+
+  .ui-datepicker {
+    right: 0 !important;
+    left: auto;
+  }
+
+  .minicolors-panel {
+    box-shadow: -3px 3px 5px @color-popover-shadow;
+  }
+
+  @media screen and (max-width: @screen-width-mini) {
+    .ui-menu {
+      right: 15px !important;
+      left: 15px;
+    }
+  }
+  //=============  End jqueryui.less
+  //=======================================
+  //=============  Start dialogs.less
+  html.layout-small,
+  html.layout-phone {
+    .popover:not(.select-menu) {
+      left: 0;
+      right: initial !important;
+    }
+  }
+
+  html.touch .popover {
+    .listing {
+      li a {
+        &:before {
+          float: right;
+        }
+      }
+    }
+  }
+
+  .select-menu {
+    .listing li {
+      a {
+        padding-right: .25rem;
+      }
+    }
+
+    &.inline {
+      .listing li {
+        padding-left: .5rem;
+      }
+    }
+  }
+
+  .pgpkeyimport {
+    div.key {
+      label {
+        margin-left: 0.5em;
+      }
+
+      label + a,
+      label + span {
+        margin-left: 1em;
+      }
+    }
+
+    li.uid {
+      padding: .25rem 1.5em 0 0;
+    }
+
+    button.importkey {
+      left: 0;
+    }
+  }
+
+  //=============  End dialogs.less
+  //=======================================
+  //=============  Start menu.less
+  .menu {
+
+    &.toolbar {
+
+      a {
+        float: right;
+      }
+    }
+
+    .dropbutton {
+      a:first-child {
+        padding-left: 0;
+      }
+    }
+
+    &.pagenav {
+      &.pagenav-list {
+        .pagenav-text {
+          text-align: right;
+        }
+      }
+    }
+
+    .buttons {
+      button {
+        float: right;
+      }
+    }
+
+    .popover & {
+      li {
+        text-align: right;
+
+        a {
+          text-align: right;
+
+          &:before {
+            margin-left: .5rem !important;
+            float: right !important;
+          }
+
+          &[aria-haspopup] {
+            &:after {
+              &:extend(.font-icon-class);
+              margin: 0 .2em 0 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .searchbar {
+    form {
+      &:before {
+        &:extend(.font-icon-class);
+        margin: 0 .75rem 0 0;
+      }
+    }
+  }
+
+  #taskmenu {
+    @media screen and (max-width: @screen-width-xs) {
+      a {
+        text-align: right;
+
+        &:before {
+          float: right !important;
+          margin-left: .5rem !important;
+        }
+      }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+      .special-buttons {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+
+  //=============  End menu.less
+  //=======================================
+  //=============  Start messages.less
+  .ui.alert {
+    & > i.icon:before {
+      &:extend(.font-icon-class);
+      margin-left: .6rem;
+    }
+
+    .btn {
+      margin-right: .5rem;
+    }
+  }
+
+  #messagestack {
+    left: .7em;
+  }
+
+  //=============  End messages.less
+  //=======================================
+  //=============  Start lists.less
+  .listing {
+    td.selection {
+      padding: 0 .5em 0 0;
+    }
+  }
+
+  html:not(.touch) {
+    .listing {
+      li > a,
+      tbody tr > td:first-child,
+      &:not(.withselection) tbody tr > td.selection + td {
+        border-right: 2px solid transparent;
+      }
+
+      li > a:focus,
+      &.focus tbody tr.focused > td:first-child,
+      &.focus:not(.withselection) tbody tr.focused > td.selection + td {
+        border-right: 2px solid @color-list-focus-indicator;
+      }
+    }
+  }
+
+  ul.listing {
+
+    li {
+      ul {
+        border-top: 1px solid @color-list-border;
+        padding-right: 1.5em;
+      }
+
+      .custom-switch {
+        left: 0;
+      }
+    }
+  }
+
+  .listing.iconized li {
+    a:before {
+      &:extend(.font-icon-class);
+      margin-left: .5rem;
+    }
+
+    & > i:before {
+      &:extend(.font-icon-class);
+      margin-right: .5rem;
+    }
+  }
+
+  .listing.iconized tr {
+    td:before {
+      &:extend(.font-icon-class);
+      margin-left: .5rem;
+    }
+  }
+
+  .popupmenu .listing {
+    li > a {
+      border-right: 0;
+    }
+  }
+
+
+  ul.treelist {
+    li {
+      div.treetoggle {
+        right: 0;
+        left: auto;
+
+        &:before {
+          &:extend(.font-icon-class);
+          margin-right: .25em;
+        }
+      }
+
+      & > a {
+        padding-right: @listing-treetoggle-width;
+      }
+
+      ul {
+        li {
+          padding-right: 0;
+
+          a {
+            padding-right: (2 * @listing-treetoggle-width);
+          }
+
+          div.treetoggle {
+            right: @listing-treetoggle-width;
+            left: auto;
+          }
+
+          li {
+            a {
+              padding-right: (3 * @listing-treetoggle-width);
+            }
+
+            div.treetoggle {
+              right: (2 * @listing-treetoggle-width);
+              left: auto;
+            }
+
+            li {
+              a {
+                padding-right: (4 * @listing-treetoggle-width);
+              }
+
+              div.treetoggle {
+                right: (3 * @listing-treetoggle-width);
+                left: auto;
+              }
+
+              li {
+                a {
+                  padding-right: (5 * @listing-treetoggle-width);
+                }
+
+                div.treetoggle {
+                  right: (4 * @listing-treetoggle-width);
+                  left: auto;
+                }
+
+                li {
+                  a {
+                    padding-right: (6 * @listing-treetoggle-width);
+                  }
+
+                  div.treetoggle {
+                    right: (5 * @listing-treetoggle-width);
+                    left: auto;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.notree {
+      li > a {
+        padding-right: .5em;
+      }
+    }
+  }
+
+  .folderlist {
+    li {
+      &.mailbox {
+        &.unread {
+          & > a {
+            padding-left: 2.8em;
+          }
+        }
+
+        .unreadcount {
+          right: auto;
+          left: 0;
+        }
+      }
+
+      a:before {
+        margin-left: .5rem;
+      }
+    }
+
+    &.menu a:before {
+      margin-right: .5em;
+    }
+  }
+
+  .messagelist {
+    td {
+      border-right: 0;
+    }
+
+    td.subject {
+      padding-left: 0;
+
+      span {
+        &.fromto {
+          padding-right: 1.5em;
+          padding-left: .5rem;
+        }
+      }
+    }
+
+    td.threads {
+      padding: 0 .25rem 0 0;
+    }
+
+    td.subject span.msgicon.status {
+      &.replied.forwarded:after {
+        margin: 0 -1.25em 0 -0.1em;
+      }
+    }
+  }
+
+  html.layout-phone,
+  html.touch {
+    .messagelist {
+      td.flags {
+        left: 0;
+        right: auto;
+      }
+
+      td.subject {
+        padding-left: .5em;
+
+        .subject {
+          padding-left: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .contactlist {
+    span.email {
+      margin-right: .5em;
+    }
+
+    li {
+      a:before {
+        margin-left: .5rem;
+      }
+    }
+  }
+
+
+  .attachmentslist {
+    li {
+      .attachment-size {
+        padding-right: .25em;
+      }
+    }
+  }
+
+  #subscription-table {
+    li.mailbox a {
+      padding-left: 2.5rem;
+    }
+  }
+
+  //=============  End lists.less
+  //=======================================
+  //=============  Start forms.less
+  .propform {
+    .form-check td:not(.title) > label {
+      label {
+        margin-left: .5rem;
+      }
+    }
+
+    td.datetime {
+      input:first-child {
+        margin-left: .5rem;
+      }
+    }
+
+    td.rowbuttons {
+      a {
+        &:not(:last-child) {
+          margin-left: .25rem;
+        }
+      }
+    }
+
+    td.rowtargets {
+      .input-group {
+        *:first-child.input-group-prepend {
+          text-align: right;
+        }
+      }
+    }
+
+    td > .flexbox {
+      & > .multi-input {
+        margin-right: .25rem;
+      }
+    }
+
+    &.groupped {
+      .row.input-group {
+        select {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: @screen-width-bs-phone) {
+    .propform {
+      table.compact-table {
+        tr {
+          td {
+            &.rowbuttons {
+              text-align: left;
+
+              a {
+                margin-right: .5rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  fieldset.advanced {
+    > legend {
+      &:after {
+        float: left;
+        margin: 0 .25rem 0 0;
+      }
+    }
+  }
+
+  .formcontainer {
+    .formbuttons {
+      button {
+        margin-left: .5rem;
+      }
+    }
+  }
+
+
+  .formcontent {
+    .row {
+      .form-control-plaintext,
+      label.col-form-label {
+        padding: floor(.375 * @page-font-size) 0 floor(.375 * @page-font-size) floor(.375 * @page-font-size);
+      }
+    }
+  }
+
+  .proplist {
+    margin-bottom: 0;
+    padding: 0;
+
+    li {
+      input[type=radio] {
+        margin-left: .5em;
+      }
+    }
+  }
+
+  .popupmenu.form {
+    li:not(.separator) {
+      label {
+        input {
+          margin-left: .5rem;
+        }
+      }
+    }
+  }
+
+  .multi-input {
+    input.form-control {
+      padding-right: .75rem;
+    }
+
+    .input-group-text {
+      border-right: 1px solid @color-input-border;
+    }
+
+    .input-group-append {
+      margin-right: 0;
+    }
+  }
+
+  .file-upload {
+    .attachmentslist {
+      li {
+        padding-left: 1.5em;
+
+        a.delete,
+        a.cancelupload {
+          left: 0.25em;
+        }
+
+        a.dropdown {
+          margin-left: .5em;
+        }
+      }
+    }
+  }
+
+  .recipient-input {
+    .recipient {
+      margin-left: .2em;
+    }
+  }
+
+  .tagedit-list {
+    li.tagedit-listelement-old {
+      margin-left: .2em;
+
+      a {
+        margin-left: .2rem;
+      }
+    }
+  }
+
+  .skinselection {
+    & > span {
+      &:last-child {
+        padding-left: 0;
+      }
+    }
+  }
+
+  .input-percent-slider {
+    span.label {
+      padding: 0 .25rem 0 .5rem;
+    }
+  }
+
+  .image-upload {
+    a.button {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  .input-group-combo {
+    select + select,
+    .input-group :first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .custom-switch {
+    padding-right: 0;
+
+    .custom-control-input {
+      right: 0;
+      left: auto;
+    }
+
+    .custom-control-label {
+      padding-right: 2.5rem;
+
+      html.touch & {
+        padding-right: 3rem;
+      }
+
+      &:before {
+        right: 2px;
+        left: auto;
+      }
+
+      &:after {
+        right: 4px;
+        left: auto;
+      }
+    }
+  }
+
+  .custom-file {
+    .custom-file-label {
+      padding-left: 100px;
+    }
+  }
+
+  //=============  End forms.less
+  //=======================================
+  //=============  Start editor.less
+  .image-selector {
+    .attachmentslist {
+      li {
+        span.name {
+          padding-right: 1rem;
+        }
+      }
+    }
+  }
+
+  //=============  End editor.less
+  //=======================================
+  //=============  Start style.less
+  //=============  End style.less
+}
+
+
