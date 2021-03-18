@@ -417,7 +417,7 @@ abstract class rcube_addressbook
     /**
      * Setter for the current group
      *
-     * @param string|int $group_id A group identifier
+     * @param null|0|string $gid Database identifier of the group. 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {
