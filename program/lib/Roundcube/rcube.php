@@ -924,9 +924,9 @@ class rcube
      *
      * @param string $cipher Encrypted text
      * @param string $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
-     * @param boo    $base64 Whether or not input is base64-encoded
+     * @param bool   $base64 Whether or not input is base64-encoded
      *
-     * @return string Decrypted text
+     * @return string|false Decrypted text, false on error
      */
     public function decrypt($cipher, $key = 'des_key', $base64 = true)
     {
