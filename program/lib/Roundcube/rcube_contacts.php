@@ -181,7 +181,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return ?array Group properties as hash array
+     * @return ?array Group properties as hash array, null in case of error.
      */
     function get_group($group_id)
     {
