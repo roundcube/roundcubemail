@@ -34,6 +34,7 @@ class rcmail_action_mail_index extends rcmail_action
 
     protected static $PRINT_MODE = false;
     protected static $REMOTE_OBJECTS;
+    protected static $SUSPICIOUS_EMAIL = false;
 
     /**
      * Request handler.
@@ -1383,6 +1384,7 @@ class rcmail_action_mail_index extends rcmail_action
             // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
             if (!$show_email && $valid && $name && $name != $mailto && strpos($name, '@')) {
                 $name = '';
+                self::$SUSPICIOUS_EMAIL = true;
             }
 
             // IDNA ASCII to Unicode
@@ -1393,6 +1395,11 @@ class rcmail_action_mail_index extends rcmail_action
                 $string = rcube_utils::idn_to_utf8($string);
             }
             $mailto = rcube_utils::idn_to_utf8($mailto);
+
+            // Homograph attack detection (#6891)
+            if (!self::$SUSPICIOUS_EMAIL) {
+                self::$SUSPICIOUS_EMAIL = rcube_spoofchecker::check($mailto);
+            }
 
             if (self::$PRINT_MODE) {
                 $address = '&lt;' . rcube::Q($mailto) . '&gt;';
