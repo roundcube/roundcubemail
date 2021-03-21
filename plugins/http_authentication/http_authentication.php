@@ -90,7 +90,7 @@ class http_authentication extends rcube_plugin
         }
     }
 
-    function shutdown()
+    static function shutdown()
     {
         // There's no need to store password (even if encrypted) in session
         // We'll set it back on startup (#1486553)
