@@ -53,6 +53,9 @@ class rcube_spoofchecker
         if (defined('Spoofchecker::HIGHLY_RESTRICTIVE')) {
             $checker->setRestrictionLevel(Spoofchecker::HIGHLY_RESTRICTIVE);
         }
+        else {
+            $checker->setChecks(Spoofchecker::SINGLE_SCRIPT | Spoofchecker::INVISIBLE);
+        }
 
         $result = $checker->isSuspicious($domain);
 
