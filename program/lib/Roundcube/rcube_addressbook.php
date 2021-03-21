@@ -108,7 +108,7 @@ abstract class rcube_addressbook
      */
     public $vcard_map = [];
 
-    /** @var array Error state - hash array with the following fields: type, message */
+    /** @var ?array Error state - hash array with the following fields: type, message */
     protected $error;
 
 
@@ -154,8 +154,8 @@ abstract class rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array $cols   List of cols to show
-     * @param int   $subset Only return this number of records, use negative values for tail
+     * @param ?array $cols   List of cols to show (null means all)
+     * @param int    $subset Only return this number of records, use negative values for tail
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
@@ -224,7 +224,7 @@ abstract class rcube_addressbook
     /**
      * Returns the last error occurred (e.g. when updating/inserting failed)
      *
-     * @return array Hash array with the following fields: type, message
+     * @return ?array Hash array with the following fields: type, message. Null if no error set.
      */
     function get_error()
     {
@@ -417,7 +417,7 @@ abstract class rcube_addressbook
     /**
      * Setter for the current group
      *
-     * @param string|int $group_id A group identifier
+     * @param null|0|string $gid Database identifier of the group. 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {
@@ -443,11 +443,12 @@ abstract class rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return array Group properties as hash array
+     * @return ?array Group properties as hash array, null in case of error.
      */
     function get_group($group_id)
     {
         // empty for address books don't supporting groups
+        return null;
     }
 
     /**
