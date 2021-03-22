@@ -1157,7 +1157,7 @@ class rcube_utils
         $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
-        if (utf8_encode(utf8_decode($str)) == $str) {
+        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str)  {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
             preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
