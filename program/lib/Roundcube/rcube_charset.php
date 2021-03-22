@@ -526,64 +526,11 @@ class rcube_charset
             return $input;
         }
 
-        // mbstring is much faster (especially with long strings)
-        if (function_exists('mb_convert_encoding')) {
-            $msch = mb_substitute_character();
-            mb_substitute_character('none');
-            $res = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
-            mb_substitute_character($msch);
+        $msch = mb_substitute_character();
+        mb_substitute_character('none');
+        $res = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
+        mb_substitute_character($msch);
 
-            if ($res !== false) {
-                return $res;
-            }
-        }
-
-        $seq    = '';
-        $out    = '';
-        $regexp = '/^('.
-//          '[\x00-\x7F]'.                                  // UTF8-1
-            '|[\xC2-\xDF][\x80-\xBF]'.                      // UTF8-2
-            '|\xE0[\xA0-\xBF][\x80-\xBF]'.                  // UTF8-3
-            '|[\xE1-\xEC][\x80-\xBF][\x80-\xBF]'.           // UTF8-3
-            '|\xED[\x80-\x9F][\x80-\xBF]'.                  // UTF8-3
-            '|[\xEE-\xEF][\x80-\xBF][\x80-\xBF]'.           // UTF8-3
-            '|\xF0[\x90-\xBF][\x80-\xBF][\x80-\xBF]'.       // UTF8-4
-            '|[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]'.// UTF8-4
-            '|\xF4[\x80-\x8F][\x80-\xBF][\x80-\xBF]'.       // UTF8-4
-            ')$/';
-
-        for ($i = 0, $len = strlen($input); $i < $len; $i++) {
-            $chr = $input[$i];
-            $ord = ord($chr);
-
-            // 1-byte character
-            if ($ord <= 0x7F) {
-                if ($seq !== '') {
-                    $out .= preg_match($regexp, $seq) ? $seq : '';
-                    $seq = '';
-                }
-
-                $out .= $chr;
-            }
-            // first byte of multibyte sequence
-            else if ($ord >= 0xC0) {
-                if ($seq !== '') {
-                    $out .= preg_match($regexp, $seq) ? $seq : '';
-                    $seq = '';
-                }
-
-                $seq = $chr;
-            }
-            // next byte of multibyte sequence
-            else if ($seq !== '') {
-                $seq .= $chr;
-            }
-        }
-
-        if ($seq !== '') {
-            $out .= preg_match($regexp, $seq) ? $seq : '';
-        }
-
-        return $out;
+        return $res;
     }
 }
