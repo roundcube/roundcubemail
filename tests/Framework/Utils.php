@@ -616,13 +616,9 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             'Xoe' => 'xo',
             'Xue' => 'xu',
             '项目' => '项目',
+            'ß'  => '',
+            '日' => '',
         ];
-
-        // this test fails on PHP 5.3.3
-        if (PHP_VERSION_ID > 50303) {
-            $test['ß']  = '';
-            $test['日'] = '';
-        }
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::normalize_string($input);
