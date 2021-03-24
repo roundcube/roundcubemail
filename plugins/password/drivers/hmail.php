@@ -45,7 +45,7 @@ class rcube_hmail_password
         }
 
         if (strstr($username,'@')) {
-            list($domain,) = explode('@', $username);
+            list(, $domain) = explode('@', $username);
         }
         else {
             $domain = $rcmail->config->get('username_domain',false);
