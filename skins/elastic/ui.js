@@ -3720,12 +3720,12 @@ function rcube_elastic_ui()
                     if (selected.focus().length) {
                         var list_parent = list.parent();
 
-                        // try to scroll the list so focused element is in center
                         last_index = list.find('a').index(selected[0]);
                         last_char = index[last_index];
 
-                        if (last_index > 5) {
-                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2);
+                        // try to scroll the list so focused element is in center (for Firefox)
+                        if (bw.mz && last_index > 5) {
+                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2 - 20);
                         }
                     }
                     // focus first active element on the list

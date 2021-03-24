@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
 - Password: Fix broken 'hmail' driver (#7966)
+- Fix Elastic's pretty select scroll position in Chrome (#7964)
 - Fix so session expiration is more precise and do not depend on the garbage collector (#7576)
 - Fix bug where imap_conn_options settings were ignored (#7912)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
