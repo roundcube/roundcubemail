@@ -1313,7 +1313,10 @@ class rcmail extends rcube
 
         // validate the contact
         if (!$source->validate($contact, true)) {
-            $error = $source->get_error();
+            if ($error = $source->get_error()) {
+                $error = $error['message'];
+            }
+
             return false;
         }
 
@@ -1325,7 +1328,10 @@ class rcmail extends rcube
         $contact = $plugin['record'];
 
         if (!empty($plugin['abort'])) {
-            $error = $plugin['message'];
+            if (!empty($plugin['message'])) {
+                $error = $plugin['message'];
+            }
+
             return $plugin['result'];
         }
 
