@@ -49,7 +49,7 @@ class identity_select extends rcube_plugin
      */
     function select($p)
     {
-        if ($p['selected'] !== null || !is_object($p['message']->headers)) {
+        if ($p['selected'] !== null || empty($p['message']->headers)) {
             return $p;
         }
 
