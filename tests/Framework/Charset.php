@@ -19,6 +19,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
             ["\xC1", ""],
             ["Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"],
             ["сим\xD0вол", "символ"],
+            [["сим\xD0вол"], ["символ"]],
+            [["a\x8cb" => "a\x8cb"], ["ab" => "ab"]],
+            [["a\x8cb" => "a\x8cb", "ab" => "12"], ["ab" => "12"]],
         ];
     }
 
@@ -27,7 +30,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function test_clean($input, $output)
     {
-        $this->assertEquals($output, rcube_charset::clean($input));
+        $this->assertSame($output, rcube_charset::clean($input));
     }
 
     /**
