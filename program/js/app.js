@@ -8811,6 +8811,7 @@ function rcube_webmail()
   {
     $("#" + name).remove();
     delete this.entity_selectors[name];
+    this.triggerEvent('destroy-entity-selector', { name: name });
   };
 
   /***********************************************/
