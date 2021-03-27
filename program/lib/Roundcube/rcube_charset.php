@@ -507,6 +507,7 @@ class rcube_charset
 
     /**
      * Removes non-unicode characters from input.
+     * If the input is an array, both values and keys will be cleaned up.
      *
      * @param mixed $input String or array.
      *
@@ -516,8 +517,19 @@ class rcube_charset
     {
         // handle input of type array
         if (is_array($input)) {
-            foreach ($input as $idx => $val) {
-                $input[$idx] = self::clean($val);
+            foreach (array_keys($input) as $key) {
+                $k = is_string($key) ? self::clean($key) : $key;
+                $v = self::clean($input[$key]);
+
+                if ($k !== $key) {
+                    unset($input[$key]);
+                    if (!array_key_exists($k, $input)) {
+                        $input[$k] = $v;
+                    }
+                }
+                else {
+                    $input[$k] = $v;
+                }
             }
             return $input;
         }
