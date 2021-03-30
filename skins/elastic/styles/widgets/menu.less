@@ -947,3 +947,106 @@ a.toolbar-button {
         }
     }
 }
+
+/*** Dark Mode Switch ***/
+
+.darkmode-toggle-input {
+    display: none; /* hides input */
+}
+
+.darkmode-toggle-label {
+    display: block;
+    position: relative;
+    border-radius: 100px;
+    width: 58%;
+    height: 1.3rem;
+    padding: 0.2rem;
+    margin: 0 auto .8rem auto;
+    background-color: @color-list-selected-background;
+    cursor: pointer;
+    box-sizing: content-box;
+
+    &:before,
+    &:after {
+        &:extend(.font-icon-class);
+        position: absolute;
+        left: 0.3rem;
+        top: 0.15rem;
+        z-index: 2;
+        font-size: 96%;
+        opacity: .85;
+    }
+
+    &:before {
+        content: @fa-var-sun;
+    }
+
+    &:after {
+        content: @fa-var-moon;
+        left: auto;
+        right: 0.1rem;
+    }
+}
+
+.darkmode-toggle-span {
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    left: 0.25rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    border-radius: 50%;
+    background-color: @color-font;
+    z-index: 4;
+}
+
+.darkmode-toggle-input:checked ~ * .darkmode-toggle-span {
+    transform: translateX(132%);
+}
+
+@media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
+    .darkmode-toggle-label {
+        width: 1.3rem;
+        height: 3rem;
+
+        &:after {
+            top: auto;
+            bottom: 0.6rem;
+        }
+    }
+
+    .darkmode-toggle-span {
+        left: 0.2rem;
+        height: 1.3rem;
+    }
+
+    .darkmode-toggle-input:checked ~ * .darkmode-toggle-span {
+        transform: translateY(128%);
+    }
+}
+
+
+#layout-menu.popover {
+    .darkmode-toggle-label {
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0.8rem;
+        width: 4.2rem;
+        height: 1.6rem;
+        background-color: #e0e0e0;
+
+        &:before,
+        &:after {
+            font-size: 135%;
+        }
+    }
+
+    .darkmode-toggle-span {
+        height: 1.6rem;
+        width: 1.6rem;
+    }
+
+    .darkmode-toggle-input:checked ~ * .darkmode-toggle-span {
+        transform: translateX(158%);
+    }
+}
+

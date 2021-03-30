@@ -305,7 +305,7 @@ function rcube_elastic_ui()
         // Modify normal checkboxes on lists so they are different
         // than those used for row selection, i.e. use icons
         $('[data-list]').each(function() {
-            $('input[type=checkbox]', this).each(function() { pretty_checkbox(this); });
+            $('input[type=checkbox]:not(.nopretty)', this).each(function() { pretty_checkbox(this); });
         });
 
         // Assign .formcontainer class to the iframe body, when it
@@ -781,21 +781,22 @@ function rcube_elastic_ui()
             },
             switch_color_mode = function() {
                 if (color_mode == 'dark') {
-                    $('#taskmenu a.theme').removeClass('dark').addClass('light').find('span').text(rcmail.gettext('lightmode'));
+                    $('#taskmenu label.theme').removeClass('dark').addClass('light').find('span').text(rcmail.gettext('lightmode'));
                     $('html').addClass('dark-mode');
                 }
                 else {
-                    $('#taskmenu a.theme').removeClass('light').addClass('dark').find('span').text(rcmail.gettext('darkmode'));
+                    $('#taskmenu label.theme').removeClass('light').addClass('dark').find('span').text(rcmail.gettext('darkmode'));
                     $('html').removeClass('dark-mode');
                 }
 
                 screen_logo(mode);
+                $('#darkmode-toggle-input').prop('checked', color_mode == 'dark');
                 $('iframe').each(switch_iframe_color_mode);
             };
 
         // Add onclick action to the menu button
-        $('#taskmenu a.theme').on('click', function() {
-            color_mode = $(this).is('.dark') ? 'dark' : 'light';
+        $('#darkmode-toggle-input').on('click', function() {
+            color_mode = this.checked ? 'dark' : 'light';
             switch_color_mode();
             rcmail.set_cookie('colorMode', color_mode);
         });
@@ -1080,7 +1081,7 @@ function rcube_elastic_ui()
 
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
-        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
+        $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]:not(.nopretty)', context)
             .each(function() { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready

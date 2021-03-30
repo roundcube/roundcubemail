@@ -263,6 +263,24 @@ html.dark-mode {
         background-color: lighten(@color-dark-list-selected-background, 5%);
     }
 
+    .darkmode-toggle-label {
+        background-color: @color-taskmenu-button-selected-background;
+
+        &:before {
+            opacity: 1.0;
+        }
+    }
+
+    .darkmode-toggle-span {
+        background-color: @color-dark-font;
+    }
+
+    #layout-menu.popover {
+        .darkmode-toggle-label {
+            background-color: @color-taskmenu-button-selected-background;
+        }
+    }
+
     // ---------------------------------
     // Lists
     // ---------------------------------

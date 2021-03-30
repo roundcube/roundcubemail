@@ -31,7 +31,11 @@
 			<roundcube:if condition="config:dark_mode_support" />
 				<roundcube:add_label name="darkmode" />
 				<roundcube:add_label name="lightmode" />
-				<roundcube:button name="theme" label="darkmode" type="link" innerClass="inner" class="theme dark" />
+				<input type="checkbox" id="darkmode-toggle-input" class="darkmode-toggle-input nopretty" />
+				<label for="darkmode-toggle-input" class="darkmode-toggle-label">
+					<span class="darkmode-toggle-span"></span>
+					<span class="darkmode-toggle-text sr-only"><roundcube:label name="darkmode" /></span>
+				</label>
 			<roundcube:endif />
 			<roundcube:button name="about" label="about" type="link"
 				class="about" innerClass="inner" onclick="UI.about_dialog(this)" />
