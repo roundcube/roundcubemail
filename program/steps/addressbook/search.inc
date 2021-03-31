@@ -114,13 +114,13 @@ function rcmail_contact_search()
     // quick-search
     else {
         $search = trim(rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true));
-        $fields = explode(',', rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET));
+        $fields = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 
         if (empty($fields)) {
             $fields = array_keys($SEARCH_MODS_DEFAULT);
         }
         else {
-            $fields = array_filter($fields);
+            $fields = array_filter(explode(',', $fields));
         }
 
         // update search_mods setting
