@@ -254,15 +254,9 @@ searchmenu: function(show)
 set_searchmod: function(elem)
 {
   var all, m, task = rcmail.env.task,
-    mods = rcmail.env.search_mods,
+    mods = rcmail.env.search_mods || {},
     mbox = rcmail.env.mailbox,
     scope = $('input[name="s_scope"]:checked').val();
-
-  if (scope == 'all')
-    mbox = '*';
-
-  if (!mods)
-    mods = {};
 
   if (task == 'mail') {
     if (!mods[mbox])
@@ -282,10 +276,7 @@ set_searchmod: function(elem)
 
   // mark all fields
   if (elem.value == all) {
-    $('input:checkbox[name="s_mods[]"]').map(function() {
-      if (this == elem)
-        return;
-
+    $('input:checkbox[name="s_mods[]"]').not(elem).map(function() {
       this.checked = true;
       if (elem.checked) {
         this.disabled = true;
