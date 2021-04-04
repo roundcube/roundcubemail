@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
 - Password: Fix broken 'hmail' driver (#7966)
+- Fix invalid search fields after search scope change (#6919)
 - Fix Elastic's pretty select scroll position in Chrome (#7964)
 - Fix bug where invalid non-unicode characters in JSON output could make the UI unresponsive (#7955)
 - Fix PHP 8 fatal error when allowing images in an email (#7968)

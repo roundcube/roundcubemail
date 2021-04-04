@@ -272,13 +272,14 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 // save search modifiers for the current folder to user prefs
-                $mkey              = $scope == 'all' ? '*' : $mbox;
-                $search_mods       = self::search_mods();
-                $search_mods_value = array_fill_keys(array_keys($subject), 1);
+                if ($scope != 'all') {
+                    $search_mods       = self::search_mods();
+                    $search_mods_value = array_fill_keys(array_keys($subject), 1);
 
-                if (!isset($search_mods[$mkey]) || $search_mods[$mkey] != $search_mods_value) {
-                    $search_mods[$mkey] = $search_mods_value;
-                    $rcmail->user->save_prefs(['search_mods' => $search_mods]);
+                    if (!isset($search_mods[$mbox]) || $search_mods[$mbox] != $search_mods_value) {
+                        $search_mods[$mbox] = $search_mods_value;
+                        $rcmail->user->save_prefs(['search_mods' => $search_mods]);
+                    }
                 }
             }
             else {

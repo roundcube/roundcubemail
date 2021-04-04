@@ -2790,9 +2790,10 @@ function rcube_elastic_ui()
      */
     function searchmenu(obj)
     {
-        var n, all,
+        var n, all = '*',
             list = $('input[name="s_mods[]"]', obj),
             scope_select = $('#s_scope', obj),
+            interval_select = $('#s_interval', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
@@ -2801,22 +2802,20 @@ function rcube_elastic_ui()
             $(obj).data('initialized', true);
             if (list.length) {
                 list.on('change', function() { set_searchmod(obj, this); });
-                rcmail.addEventListener('beforesearch', function() { set_searchmod(obj); });
+
+                rcmail.addEventListener('beforesearch', function() {
+                    rcmail.env.search_scope = scope_select.val();
+                    rcmail.env.search_interval = interval_select.val();
+                });
             }
         }
 
-        if (rcmail.env.search_mods) {
-            if (rcmail.env.task == 'mail') {
-                if (scope == 'all') {
-                    mbox = '*';
-                }
+        scope_select.val(scope);
 
-                mods = mods[mbox] ? mods[mbox] : mods['*'];
+        if (mods) {
+            if (rcmail.env.task == 'mail') {
+                mods = mods[mbox] || mods['*'];
                 all = 'text';
-                scope_select.val(scope);
-            }
-            else {
-                all = '*';
             }
 
             if (mods[all]) {
@@ -2837,18 +2836,8 @@ function rcube_elastic_ui()
     function set_searchmod(menu, elem)
     {
         var all, m, task = rcmail.env.task,
-            mods = rcmail.env.search_mods,
-            mbox = rcmail.env.mailbox,
-            scope = $('#s_scope', menu).val(),
-            interval = $('#s_interval', menu).val();
-
-        if (scope == 'all') {
-            mbox = '*';
-        }
-
-        if (!mods) {
-            mods = {};
-        }
+            mods = rcmail.env.search_mods || {},
+            mbox = rcmail.env.mailbox;
 
         if (task == 'mail') {
             if (!mods[mbox]) {
@@ -2856,17 +2845,11 @@ function rcube_elastic_ui()
             }
             m = mods[mbox];
             all = 'text';
-
-            rcmail.env.search_scope = scope;
-            rcmail.env.search_interval = interval;
         }
-        else { //addressbook
+        else {
+            // addressbook
             m = mods;
             all = '*';
-        }
-
-        if (!elem) {
-            return;
         }
 
         if (!elem.checked) {
@@ -2878,11 +2861,7 @@ function rcube_elastic_ui()
 
         // mark all fields
         if (elem.value == all) {
-            $('input[name="s_mods[]"]', menu).map(function() {
-                if (this == elem) {
-                    return;
-                }
-
+            $('input[name="s_mods[]"]', menu).not(elem).map(function() {
                 this.checked = true;
 
                 if (elem.checked) {

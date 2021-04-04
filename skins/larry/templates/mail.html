@@ -54,9 +54,9 @@
 		<li role="separator" class="separator"><label><roundcube:label name="date" /></label></li>
 		<li role="menuitem"><roundcube:object name="searchinterval" id="s_interval" onchange="rcmail.set_searchinterval($(this).val())" /></li>
 		<li role="separator" class="separator"><label><roundcube:label name="searchscope" /></label></li>
-		<li role="menuitem"><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
-		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>
-		<li role="menuitem"><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="allfolders" /></span></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="subfolders" /></span></label></li>
+		<li role="menuitem"><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="allfolders" /></span></label></li>
 	</ul>
 	<div class="buttons"><a class="button" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></a></div>
 </div>
