@@ -210,7 +210,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::$MESSAGE = new rcube_message($msg_uid);
 
             // make sure message is marked as read
-            if (self::$MESSAGE->headers && self::$MESSAGE->context === null && empty(self::$MESSAGE->headers->flags['SEEN'])) {
+            if (
+                !empty(self::$MESSAGE->headers)
+                && self::$MESSAGE->context === null
+                && empty(self::$MESSAGE->headers->flags['SEEN'])
+            ) {
                 $rcmail->storage->set_flag($msg_uid, 'SEEN');
             }
 
@@ -218,7 +222,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $rcmail->storage->set_charset(self::$MESSAGE->headers->charset);
             }
 
-            if (!self::$MESSAGE->headers) {
+            if (empty(self::$MESSAGE->headers)) {
                 // error
             }
             else if ($compose_mode == rcmail_sendmail::MODE_FORWARD || $compose_mode == rcmail_sendmail::MODE_REPLY) {
@@ -860,6 +864,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function get_reply_header($message)
     {
+        if (empty($message->headers)) {
+            return '';
+        }
+
         $rcmail = rcmail::get_instance();
         $list   = rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset);
         $from   = array_pop($list);
@@ -867,7 +875,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $rcmail->gettext([
                 'name' => 'mailreplyintro',
                 'vars' => [
-                    'date'   => $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long')),
+                    'date'   => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
                     'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
                 ]
         ]);
@@ -880,8 +888,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function get_forward_header($message, $bodyIsHtml = false, $extended = true)
     {
+        if (empty($message->headers)) {
+            return '';
+        }
+
         $rcmail = rcmail::get_instance();
-        $date   = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
+        $date   = $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long'));
 
         if (!$bodyIsHtml) {
             $prefix = "\n\n\n-------- " . $rcmail->gettext('originalmessage') . " --------\n";
@@ -890,11 +902,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $prefix .= $rcmail->gettext('from')    . ': ' . $message->get_header('from') . "\n";
             $prefix .= $rcmail->gettext('to')      . ': ' . $message->get_header('to') . "\n";
 
-            if ($extended && ($cc = $message->headers->get('cc'))) {
+            if ($extended && ($cc = $message->get_header('cc'))) {
                 $prefix .= $rcmail->gettext('cc') . ': ' . $cc . "\n";
             }
 
-            if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            if ($extended && ($replyto = $message->get_header('reply-to')) && $replyto != $message->get_header('from')) {
                 $prefix .= $rcmail->gettext('replyto') . ': ' . $replyto . "\n";
             }
 
@@ -914,12 +926,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $rcmail->gettext('to'), rcube::Q($message->get_header('to'), 'replace')
             );
 
-            if ($extended && ($cc = $message->headers->get('cc'))) {
+            if ($extended && ($cc = $message->get_header('cc'))) {
                 $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                     $rcmail->gettext('cc'), rcube::Q($cc, 'replace'));
             }
 
-            if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            if ($extended && ($replyto = $message->get_header('reply-to')) && $replyto != $message->get_header('from')) {
                 $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                     $rcmail->gettext('replyto'), rcube::Q($replyto, 'replace'));
             }
