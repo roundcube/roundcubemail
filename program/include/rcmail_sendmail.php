@@ -1088,7 +1088,7 @@ class rcmail_sendmail
                 // Reply to message sent by yourself (#1487074, #1489230, #1490439)
                 // Reply-To address need to be unset (#1490233)
                 if (!empty($message->compose['ident']) && empty($replyto)) {
-                    foreach ([$fvalue, $message->headers->from] as $sender) {
+                    foreach ([$fvalue, $message->get_header('from')] as $sender) {
                         $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
 
                         if (in_array($message->compose['ident']['email_ascii'], $senders)) {
