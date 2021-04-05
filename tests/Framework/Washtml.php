@@ -15,7 +15,6 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return preg_replace('/<!-- [a-z]+ (ignored|not allowed) -->/', '', $html);
     }
 
-
     /**
      * Test the elimination of some XSS vulnerabilities
      */
@@ -726,5 +725,46 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         // base resolving exceptions
         $this->assertRegExp('|src="cid:theCID"|', $html, "URI base resolving exception [1]");
         $this->assertRegExp('|src="http://other\.domain\.tld/img3\.gif"|', $html, "URI base resolving exception [2]");
+    }
+
+    /**
+     * Test workaround for HTML5 bug (#7356)
+     */
+    function test_table_bug7356()
+    {
+        $html = '
+<table id="t1">
+  <tr>
+    <td>
+      <table id="t2">
+        <tr>
+        <tr>
+          <td></td>
+        </tr>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td></td></tr>
+</table>';
+
+        $expected = '
+<table id="t1">
+  <tr>
+    <td>
+      <table id="t2">
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td></td></tr>
+</table>';
+
+        $washer = new rcube_washtml;
+        $washed = $this->cleanupResult($washer->wash($html));
+
+        $this->assertSame(trim($expected), $washed);
     }
 }

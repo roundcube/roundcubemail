@@ -968,6 +968,10 @@ class rcube_washtml
             }
         }
 
+        // Workaround for HTML5 issue with "invalid" table structure (#7356)
+        $html = preg_replace('|<tr>\s*<tr>|', '<tr>', $html);
+        $html = preg_replace('|</tr>\s*</tr>|', '</tr>', $html);
+
         return $html;
     }
 
