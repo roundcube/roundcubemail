@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix so selecting the same folder to reset search resets also the page number (#7125)
 - Fix login page rendering after oauth failure (#7812,#7923)
 - Fix bug where assigning users to groups via menu (not drag'n'drop) could fail in Elastic theme (#7973)
+- Fix HTML5 parser issue with a messy HTML code from Outlook (#7356)
 
 RELEASE 1.5-beta
 ----------------
