@@ -4029,7 +4029,7 @@ function rcube_webmail()
             hidden = $("[name='_pgpmime']", form),
             msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage');
 
-          form.target = ref.get_save_target();
+          form.target = ref.get_save_target(msgid);
           form._draft.value = draft ? '1' : '';
           form.action = ref.add_url(form.action, '_unlock', msgid);
           form.action = ref.add_url(form.action, '_framed', 1);
@@ -4828,7 +4828,7 @@ function rcube_webmail()
     $('li', this.gui_objects.attachmentlist).each(function() { files.push(this.id.replace(/^rcmfile/, '')); });
     $('[name="_attachments"]', form).val(files.join());
 
-    form.target = this.get_save_target();
+    form.target = this.get_save_target(msgid);
     form._draft.value = draft ? '1' : '';
     form.action = this.add_url(form.action, '_unlock', msgid);
     form.action = this.add_url(form.action, '_framed', 1);
@@ -5211,11 +5211,19 @@ function rcube_webmail()
   };
 
   // Create (attach) 'savetarget' iframe before use
-  this.get_save_target = function()
+  this.get_save_target = function(unlock)
   {
     // Removing the frame on load/error to workaround issues with window history
     this.dummy_iframe('savetarget', 'about:blank')
-      .on('load error', function() { $(this).remove(); });
+      .on('load error', function() {
+        // catch invalid/error response from server and unlock the UI (#7494, #7488, #7522)
+        if (unlock && $(this).contents().find('meta[name="generator"][content="Roundcube"]').length == 0) {
+          ref.iframe_loaded(unlock);
+          ref.display_message('connerror', 'error');
+        }
+
+        $(this).remove();
+      });
 
     return 'savetarget';
   };
