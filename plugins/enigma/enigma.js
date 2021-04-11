@@ -117,7 +117,7 @@ rcube_webmail.prototype.enigma_key_import = function()
     this.enigma_import_dialog = this.simple_dialog(dialog, this.gettext('enigma.importkeys'), import_func, {
         button: 'import',
         width: 500,
-        height: 150
+        height: 180
     });
 };
 
