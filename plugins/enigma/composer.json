@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Server-side PGP Encryption for Roundcube",
     "license": "GPL-3.0-or-later",
-    "version": "0.8",
+    "version": "0.9",
     "authors": [
         {
             "name": "Aleksander Machniak",

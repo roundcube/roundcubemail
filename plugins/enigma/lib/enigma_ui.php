@@ -645,6 +645,11 @@ class enigma_ui
             else {
                 $this->rc->output->set_pagetitle($title);
             }
+
+            $warning = $this->enigma->gettext('keystoragenotice');
+            $warning = html::div(['class' => 'boxinformation mb-3', 'id' => 'key-notice'], $warning);
+
+            $form = $warning . $form;
         }
 
         if (empty($attrib['part']) || $attrib['part'] == 'search') {
@@ -813,12 +818,15 @@ class enigma_ui
             ], 'text')
         );
 
+        $warning = $this->enigma->gettext('keystoragenotice');
+        $warning = html::div(['class' => 'boxinformation mb-3', 'id' => 'key-notice'], $warning);
+
         $this->rc->output->add_gui_object('keyform', $attrib['id']);
         $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
             'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.noidentselected',
             'enigma.keygennosupport');
 
-        return $this->rc->output->form_tag([], $table->show($attrib));
+        return $this->rc->output->form_tag([], $warning . $table->show($attrib));
     }
 
     /**
