@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
 - Password: Fix broken 'hmail' driver (#7966)
 - Fix invalid search fields after search scope change (#6919)
+- Fix so "Always allow from..." button appears also when allow_images=3 (#7961)
 - Fix Elastic's pretty select scroll position in Chrome (#7964)
 - Fix bug where invalid non-unicode characters in JSON output could make the UI unresponsive (#7955)
 - Fix PHP 8 fatal error when allowing images in an email (#7968)
