@@ -48,7 +48,7 @@ class rcmail_output_html extends rcmail_output
     protected $assets_path;
     protected $assets_dir   = RCUBE_INSTALL_PATH;
     protected $devel_mode   = false;
-    protected $default_template = "<html>\n<head><meta name='generator' content='Roundcube'><title></title></head>\n<body></body>\n</html>";
+    protected $default_template = "<html>\n<head><meta name='generator' content='Roundcube'></head>\n<body></body>\n</html>";
 
     // deprecated names of templates used before 0.5
     protected $deprecated_templates = [
