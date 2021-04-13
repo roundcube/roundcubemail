@@ -248,7 +248,7 @@ directory of your installation.
 
 Lighttpd:
 ---------
-With Lightty the addition of Expire: tags by mod_expire is incompatible with
+With Lighttpd the addition of Expire: tags by mod_expire is incompatible with
 the addition of "Cache-control: public". Using Cache-control 'public' is 
 used below as it is assumed to give a better caching result.
 
