@@ -2992,7 +2992,7 @@ RELEASE 0.1-STABLE
 - Don't create default folders by default
 - Fixed some potential security risks (audited by Andris)
 - Only show new messages if they match the current search (#925)
-- Switch to/from when searcing in Sent folder (#1177)
+- Switch to/from when searching in Sent folder (#1177)
 - Correctly read the References header (#1236)
 - Unset old cookie before sending a new value (#1232)
 - Correctly decode attachments when downloading them (#1235 and #1484642)
