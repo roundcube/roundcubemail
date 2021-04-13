@@ -1416,7 +1416,7 @@ class rcube_db
      *
      * @param string $sql SQL queries to execute
      *
-     * @return boolen True on success, False on error
+     * @return boolean True on success, False on error
      */
     public function exec_script($sql)
     {
