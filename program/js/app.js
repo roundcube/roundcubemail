@@ -4038,7 +4038,7 @@ function rcube_webmail()
             form.action = ref.add_url(form.action, '_saveonly', 1);
           }
 
-          // send pgp conent via hidden field
+          // send pgp content via hidden field
           if (!hidden.length) {
             hidden = $('<input type="hidden" name="_pgpmime">').appendTo(form);
           }
