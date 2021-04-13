@@ -579,7 +579,7 @@ class rcube_message
     }
 
     /**
-     * Read the message structure returend by the IMAP server
+     * Read the message structure returned by the IMAP server
      * and build flat lists of content parts and attachments
      *
      * @param rcube_message_part $structure Message structure node
