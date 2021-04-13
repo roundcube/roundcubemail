@@ -336,7 +336,7 @@ abstract class rcube_plugin
      * @param array  $p         Hash array with named parameters (as used in skin templates)
      * @param string $container Container name where the buttons should be added to
      *
-     * @see rcube_remplate::button()
+     * @see rcube_template::button()
      */
     public function add_button($p, $container)
     {
