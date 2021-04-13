@@ -274,7 +274,7 @@ function rcube_elastic_ui()
             $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
-        // Some plugins use 'listbubtton' class, we'll replace it with 'button'
+        // Some plugins use 'listbutton' class, we'll replace it with 'button'
         $('.listbutton').each(function() {
             var button = find_button(this.id);
 
