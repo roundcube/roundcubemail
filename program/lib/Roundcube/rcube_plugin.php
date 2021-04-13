@@ -311,7 +311,7 @@ abstract class rcube_plugin
     }
 
     /**
-     * Make this javascipt file available on the client
+     * Make this javascript file available on the client
      *
      * @param string $fn File path; absolute or relative to the plugin directory
      */
