@@ -818,7 +818,7 @@ function vacation_action_select()
   $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
 };
 
-// Inititalizes smart list input
+// Initializes smart list input
 function smart_field_init(field)
 {
   if (window.UI && UI.smart_field_init)

@@ -3871,7 +3871,7 @@ function rcube_elastic_ui()
         $(textarea).on('input', resize).trigger('input');
     };
 
-    // Inititalizes smart list input
+    // Initializes smart list input
     function smart_field_init(field)
     {
         var tip, id = field.id + '_list',
