@@ -387,7 +387,7 @@ function rcube_text_editor(config, id)
       return ed.state != 'ready' && ed.state != 'no_error_found';
   };
 
-  // resume spellchecking, highlight provided mispellings without a new ajax request
+  // resume spellchecking, highlight provided misspellings without a new ajax request
   this.spellcheck_resume = function(data)
   {
     var ed = this.editor;

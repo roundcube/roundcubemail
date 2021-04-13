@@ -5185,7 +5185,7 @@ function rcube_webmail()
     this.editor.set_language(lang);
   };
 
-  // resume spellchecking, highlight provided mispellings without new ajax request
+  // resume spellchecking, highlight provided misspellings without new ajax request
   this.spellcheck_resume = function(data)
   {
     this.editor.spellcheck_resume(data);
