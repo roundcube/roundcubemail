@@ -445,7 +445,7 @@ class rcube_config
     }
 
     /**
-     * Override config options with the given values (eg. user prefs)
+     * Override config options with the given values (e.g. user prefs)
      *
      * @param array $prefs Hash array with config props to merge over
      */

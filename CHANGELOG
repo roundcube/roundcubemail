@@ -2814,7 +2814,7 @@ RELEASE 0.2-STABLE
 - Allow calling msgimport.sh/msgexport.sh from any directory (#1837)
 - Localized filesize units (#1760)
 - Better handling of "no identity" and "no email in identity" situations (#1592)
-- Added 'mime_param_folding' option with possibility to choose long/non-ascii attachment names encoding eg. to be readable in MS Outlook/OE (#1743)
+- Added 'mime_param_folding' option with possibility to choose long/non-ascii attachment names encoding e.g. to be readable in MS Outlook/OE (#1743)
 - Added "advanced options" feature in User Preferences
 - Fix unread counter when displaying cached massage in preview panel (#1720)
 - Fix htmleditor spellchecking on MS Windows (#1808)

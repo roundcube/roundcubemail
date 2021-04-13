@@ -388,7 +388,7 @@ abstract class rcube_storage
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      *
-     * @todo: Search criteria should be provided in non-IMAP format, eg. array
+     * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     abstract function search($folder = null, $str = 'ALL', $charset = null, $sort_field = null);
 

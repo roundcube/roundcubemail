@@ -10032,7 +10032,7 @@ function rcube_webmail()
     }
   };
 
-  // Checks browser capabilities eg. PDF support, TIF support
+  // Checks browser capabilities e.g. PDF support, TIF support
   this.browser_capabilities_check = function()
   {
     if (!this.env.browser_capabilities)

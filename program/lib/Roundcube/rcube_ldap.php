@@ -1702,7 +1702,7 @@ class rcube_ldap extends rcube_addressbook
         foreach ($this->fieldmap as $rf => $fld) {
             $val = $save_cols[$rf];
 
-            // check for value in base field (eg. email instead of email:foo)
+            // check for value in base field (e.g. email instead of email:foo)
             list($col, $subtype) = explode(':', $rf);
             if (!$val && !empty($save_cols[$col])) {
                 $val = $save_cols[$col];

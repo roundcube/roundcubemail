@@ -1614,7 +1614,7 @@ class rcube_imap extends rcube_storage
      * @param  string  $sort_field Header field to sort by
      *
      * @return rcube_result_index  Search result object
-     * @todo: Search criteria should be provided in non-IMAP format, eg. array
+     * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
@@ -3107,7 +3107,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Fix folders list by adding folders from other namespaces.
-     * Needed on some servers eg. Courier IMAP
+     * Needed on some servers e.g. Courier IMAP
      *
      * @param array  $result Reference to folders list
      * @param string $type   Listing type (ext-subscribed, subscribed or all)
