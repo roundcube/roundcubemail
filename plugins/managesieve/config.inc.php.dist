@@ -28,7 +28,7 @@ $config['managesieve_auth_pw'] = null;
 // Note: tls:// prefix in managesieve_host is also supported
 $config['managesieve_usetls'] = false;
 
-// Connection scket context options
+// Connection socket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
 //$config['managesieve_conn_options'] = [
