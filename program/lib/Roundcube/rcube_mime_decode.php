@@ -45,7 +45,7 @@ class rcube_mime_decode
     /**
      * Constructor.
      *
-     * Sets up the object, initialise the variables, and splits and
+     * Sets up the object, initialize the variables, and splits and
      * stores the header and body of the input.
      *
      * @param array $params An array of various parameters that determine
