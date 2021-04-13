@@ -114,7 +114,7 @@ class html
     }
 
     /**
-     * Derrived method for <div> containers
+     * Derived method for <div> containers
      *
      * @param mixed  $attr Hash array with tag attributes or string with class name
      * @param string $cont Div content
@@ -132,7 +132,7 @@ class html
     }
 
     /**
-     * Derrived method for <p> blocks
+     * Derived method for <p> blocks
      *
      * @param mixed  $attr Hash array with tag attributes or string with class name
      * @param string $cont Paragraph content
@@ -150,7 +150,7 @@ class html
     }
 
     /**
-     * Derrived method to create <img />
+     * Derived method to create <img />
      *
      * @param string|array $attr Hash array with tag attributes or string with image source (src)
      *
@@ -169,7 +169,7 @@ class html
     }
 
     /**
-     * Derrived method for link tags
+     * Derived method for link tags
      *
      * @param string|array $attr Hash array with tag attributes or string with link location (href)
      * @param string       $cont Link content
@@ -189,7 +189,7 @@ class html
     }
 
     /**
-     * Derrived method for inline span tags
+     * Derived method for inline span tags
      *
      * @param string|array $attr Hash array with tag attributes or string with class name
      * @param string       $cont Tag content
@@ -207,7 +207,7 @@ class html
     }
 
     /**
-     * Derrived method for form element labels
+     * Derived method for form element labels
      *
      * @param string|array $attr Hash array with tag attributes or string with 'for' attrib
      * @param string       $cont Tag content
@@ -225,7 +225,7 @@ class html
     }
 
     /**
-     * Derrived method to create <iframe></iframe>
+     * Derived method to create <iframe></iframe>
      *
      * @param string|array $attr Hash array with tag attributes or string with frame source (src)
      * @param string       $cont Tag content
@@ -245,7 +245,7 @@ class html
     }
 
     /**
-     * Derrived method to create <script> tags
+     * Derived method to create <script> tags
      *
      * @param string|array $attr Hash array with tag attributes or string with script source (src)
      * @param string       $cont Javascript code to be placed as tag content
@@ -276,7 +276,7 @@ class html
     }
 
     /**
-     * Derrived method for line breaks
+     * Derived method for line breaks
      *
      * @param array $attrib Associative array with tag attributes
      *

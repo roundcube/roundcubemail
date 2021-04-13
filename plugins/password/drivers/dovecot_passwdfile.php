@@ -4,7 +4,7 @@
  * Dovecot passwdfile Password Driver
  *
  * Driver that adds functionality to change the passwords in dovecot v2 passwd-file files.
- * The code is derrived from the Plugin examples by The Roundcube Dev Team
+ * The code is derived from the Plugin examples by The Roundcube Dev Team
  *
  * On vanilla dovecot v2 environments, use the correct values for these config settings, too:
  *

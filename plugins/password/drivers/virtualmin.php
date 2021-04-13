@@ -4,7 +4,7 @@
  * Virtualmin Password Driver
  *
  * Driver that adds functionality to change the users Virtualmin password.
- * The code is derrived from the Squirrelmail "Change Cyrus/SASL Password" Plugin
+ * The code is derived from the Squirrelmail "Change Cyrus/SASL Password" Plugin
  * by Thomas Bruederli.
  *
  * It only works with virtualmin on the same host where Roundcube runs
