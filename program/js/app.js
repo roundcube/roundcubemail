@@ -4146,7 +4146,7 @@ function rcube_webmail()
   };
 
   // list the given public keys in a dialog with options to import
-  // them into the local Maivelope keyring
+  // them into the local Mailvelope keyring
   this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
     var ul = $('<div>').addClass('listing pgpkeyimport');
