@@ -47,7 +47,7 @@ $config['managesieve_default'] = '/etc/dovecot/sieve/global';
 // The name of the script which will be used when there's no user script
 $config['managesieve_script_name'] = 'managesieve';
 
-// Sieve RFC says that we should use UTF-8 endcoding for mailbox names,
+// Sieve RFC says that we should use UTF-8 encoding for mailbox names,
 // but some implementations does not covert UTF-8 to modified UTF-7.
 // Defaults to UTF7-IMAP
 $config['managesieve_mbox_encoding'] = 'UTF-8';
