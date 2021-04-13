@@ -126,7 +126,7 @@ class rcube_plugin_api
             $this->load_plugin($plugin_name);
         }
 
-        // check existance of all required core plugins
+        // check existence of all required core plugins
         foreach ($plugins_required as $plugin_name) {
             $loaded = false;
             foreach ($this->plugins as $plugin) {
