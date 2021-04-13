@@ -1542,7 +1542,7 @@ RELEASE 0.9.2
 - Fix PHP warning when responding to a message with many Return-Path headers (#4222)
 - Fix unintentional compose window resize (#4206)
 - Fix performance regression in text wrapping function (#4219)
-- Fix connection to posgtres db using unix socket (#4218)
+- Fix connection to postgres db using unix socket (#4218)
 - Fix handling of comma when adding contact from contacts widget (#4199)
 - Fix bug where a message was opened in both preview pane and new window on double-click (#4212)
 - Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#4202)
