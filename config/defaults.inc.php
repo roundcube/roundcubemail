@@ -675,7 +675,7 @@ $config['max_message_size'] = '100M';
 // Default: 0 (no limit)
 $config['max_recipients'] = 0;
 
-// Maximum number of recipients per message exluding Bcc header.
+// Maximum number of recipients per message excluding Bcc header.
 // This is a soft limit, which means we only display a warning to the user.
 // Default: 5
 $config['max_disclosed_recipients'] = 5;
