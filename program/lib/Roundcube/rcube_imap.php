@@ -4351,7 +4351,7 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Sort folders in alphabethical order. Optionally put special folders
+     * Sort folders in alphabetical order. Optionally put special folders
      * first and other-users/shared namespaces last.
      *
      * @param array $a_folders    Folders list
