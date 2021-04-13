@@ -934,7 +934,7 @@ class rcube_vcard
         }
 
         // some implementations (GMail) use non-standard backslash before colon (#1489085)
-        // we will handle properly any backslashed character - removing dummy backslahes
+        // we will handle properly any backslashed character - removing dummy backslashes
         // return strtr($str, ["\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';']);
 
         $str = str_replace("\r", '', $str);
