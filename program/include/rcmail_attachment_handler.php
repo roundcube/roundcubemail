@@ -361,7 +361,7 @@ class rcmail_attachment_handler
             // Some servers have MAXPERIP or other limits.
             // To workaround this we'll wait for some time
             // and try again (once).
-            // Note: Random sleep interval is used to minimize concurency
+            // Note: Random sleep interval is used to minimize concurrency
             // in getting message parts
 
             if (!isset($_GET['_redirected'])) {
