@@ -675,7 +675,7 @@ RELEASE 1.3.1
 - Remove non-printable characters from filenames on download/display (#5880)
 - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
 - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
-- Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
+- Fix bug where HTML messages with @media styles could modify style of page body (#5811)
 - Fix style issue on selected and unfocused message that is part of a thread (#5798)
 - Fix bug where a.button style from managesieve plugin could impact other elements (#5800)
 - Fix position of selected icon for (Mailvelope) Encrypt button
