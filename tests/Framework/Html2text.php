@@ -53,8 +53,8 @@ class rc_html2text extends PHPUnit\Framework\TestCase
             ],
             8 => [
                 'title' => '&nbsp; handling test',
-                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
-                'out'   => "eye:   test\ntes:   test",
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> test: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntest:   test",
             ],
             9 => [
                 'title' => 'HTML entity in STRONG tag',
