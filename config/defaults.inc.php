@@ -212,7 +212,7 @@ $config['imap_force_lsub'] = false;
 // Enable this option to force listing of folders in all namespaces
 $config['imap_force_ns'] = false;
 
-// Some servers return hidden folders (name starting witha dot)
+// Some servers return hidden folders (name starting with a dot)
 // from user home directory. IMAP RFC does not forbid that.
 // Enable this option to hide them and disable possibility to create such.
 $config['imap_skip_hidden_folders'] = false;
