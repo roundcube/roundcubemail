@@ -486,7 +486,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function(row)
 /*********          Filter Form methods          *********/
 /*********************************************************/
 
-// Form submition
+// Form submission
 rcube_webmail.prototype.managesieve_save = function()
 {
   if (this.env.action == 'plugin.managesieve-vacation') {
