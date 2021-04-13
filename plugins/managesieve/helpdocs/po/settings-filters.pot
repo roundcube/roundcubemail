@@ -63,7 +63,7 @@ msgstr ""
 
 #: ../../en_US/_plugins/managesieve/settings-filters.rst:42
 # 0f01b114450f4439b210f3831d66c534
-msgid "Because filters are executed in specified order (from top to bottom as you see them on the list) you can use drag-and-drop technique to rearange filters on the list."
+msgid "Because filters are executed in specified order (from top to bottom as you see them on the list) you can use drag-and-drop technique to rearrange filters on the list."
 msgstr ""
 
 #: ../../en_US/_plugins/managesieve/settings-filters.rst:45

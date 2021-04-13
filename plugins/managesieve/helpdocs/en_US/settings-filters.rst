@@ -37,7 +37,7 @@ Every filter can be active or inactive, which is convenient if you want to
 disable some actions temporarily.
 
 Because filters are executed in specified order (from top to bottom as you see them on the list)
-you can use drag-and-drop technique to rearange filters on the list.
+you can use drag-and-drop technique to rearrange filters on the list.
 
 Every filter definition contains at least one rule and one action. Depending on server
 capabilities a rule can be based e.g. on message headers, body, date or size.
