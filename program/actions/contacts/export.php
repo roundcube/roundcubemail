@@ -122,7 +122,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $rcmail->output->sendExit();
         }
 
-        // send downlaod headers
+        // send download headers
         $rcmail->output->header('Content-Type: text/vcard; charset=' . RCUBE_CHARSET);
         $rcmail->output->header('Content-Disposition: attachment; filename="contacts.vcf"');
 

@@ -513,7 +513,7 @@ class enigma_ui
                 }
             }
 
-            // send downlaod headers
+            // send download headers
             header('Content-Type: application/pgp-keys');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
 
