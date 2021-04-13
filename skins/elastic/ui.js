@@ -3995,7 +3995,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Register form errors, mark fields as invalid, dsplay the error below the input
+     * Register form errors, mark fields as invalid, display the error below the input
      */
     function form_errors(tips)
     {
