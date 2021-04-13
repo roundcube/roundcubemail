@@ -3556,7 +3556,7 @@ function rcube_elastic_ui()
 
         var select_ident = 'select' + select.attr('id') + select.attr('name');
         var is_menu_open = function() {
-            // Use proper window in cases when the select element intialized
+            // Use proper window in cases when the select element initialized
             // inside an iframe is then used in a dialog inside a parent's window
             // For some reason we can't access data-button property in cross-window
             // case, we use data-ident attribute instead
