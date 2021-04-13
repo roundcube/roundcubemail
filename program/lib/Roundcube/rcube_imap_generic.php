@@ -557,7 +557,7 @@ class rcube_imap_generic
      * @param string $pass Password
      * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
-     * @return resource Connection resourse on success, error code on error
+     * @return resource Connection resource on success, error code on error
      */
     protected function authenticate($user, $pass, $type = 'PLAIN')
     {
@@ -812,7 +812,7 @@ class rcube_imap_generic
      * @param string $user Username
      * @param string $pass Password
      *
-     * @return resource Connection resourse on success, error code on error
+     * @return resource Connection resource on success, error code on error
      */
     protected function login($user, $password)
     {
