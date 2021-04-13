@@ -322,7 +322,7 @@ function rcube_text_editor(config, id)
         tinymce.execCommand('mceRemoveEditor', false, ref.id);
         ref.editor = null;
 
-        // replace signture mark with text version of the signature
+        // replace signature mark with text version of the signature
         if (is_sig)
           data = data.replace(sig_mark, "\n" + signature.text);
 
