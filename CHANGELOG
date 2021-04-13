@@ -1427,7 +1427,7 @@ RELEASE 1.0-beta
 - LDAP: separated address book implementation from a generic LDAP wrapper class
 - Allow address books to browse a multi-level group hierarchy in the contacts list
 - Fix session issues when local and database time differs (#2401)
-- Fix thread cache syncronization/validation (#4150)
+- Fix thread cache synchronization/validation (#4150)
 - Added feature to import messages to the currently selected folder
 - Add option show_real_foldernames to disable localization of special folders
 - Fix database cache expunge issues (#4229)
