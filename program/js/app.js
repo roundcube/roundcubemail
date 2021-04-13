@@ -4115,7 +4115,7 @@ function rcube_webmail()
       var missing_keys = [],
         key_selection = [];
 
-      // alanyze results of all queries
+      // analyze results of all queries
       $.each(arguments, function(i, result) {
         var email = result.shift();
         if (!result.length) {
