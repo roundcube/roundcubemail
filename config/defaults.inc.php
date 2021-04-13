@@ -1158,7 +1158,7 @@ $config['autocomplete_min_length'] = 1;
 // books are searched in one request.
 $config['autocomplete_threads'] = 0;
 
-// Max. numer of entries in autocomplete popup. Default: 15.
+// Max. number of entries in autocomplete popup. Default: 15.
 $config['autocomplete_max'] = 15;
 
 // show address fields in this order
