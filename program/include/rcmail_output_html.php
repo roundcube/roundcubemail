@@ -2217,7 +2217,7 @@ EOF;
     {
         static $username;
 
-        // alread fetched
+        // already fetched
         if (!empty($username)) {
             return $username;
         }
