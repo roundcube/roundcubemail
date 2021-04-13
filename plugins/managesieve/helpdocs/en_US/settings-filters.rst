@@ -21,7 +21,7 @@ the number of definitions is unlimited and they can be grouped into sets
 Filter sets
 -----------
 
-Filter definitions can be grouped into sets. These can be activated or disactivated.
+Filter definitions can be grouped into sets. These can be activated or deactivated.
 Depending on server configuration there can be none, one or more active sets
 at the same time. They need to have a unique name.
 
