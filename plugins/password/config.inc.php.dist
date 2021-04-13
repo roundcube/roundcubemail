@@ -291,7 +291,7 @@ $config['password_ldap_force_replace'] = true;
 
 // LDAP Password Last Change Date
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "days since epoch" (an integer value)
+// The date is measured in "days since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set (e.g. shadowLastChange)
 $config['password_ldap_lchattr'] = '';
 
@@ -301,7 +301,7 @@ $config['password_ldap_samba_pwattr'] = '';
 
 // LDAP Samba Password Last Change Date attribute, e.g. sambaPwdLastSet
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "seconds since epoch" (an integer value)
+// The date is measured in "seconds since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set
 $config['password_ldap_samba_lchattr'] = '';
 
