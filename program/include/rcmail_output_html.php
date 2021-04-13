@@ -2045,7 +2045,7 @@ EOF;
             $page_header = "<head>\n$page_header\n</head>\n";
         }
 
-        // add page hader
+        // add page header
         if ($hpos) {
             $output = substr_replace($output, $page_header, $hpos, 0);
         }
