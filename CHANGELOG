@@ -2572,7 +2572,7 @@ RELEASE 0.3-stable
 - Add mail_domain to LDAP email entries without @ sign (#1652)
 - Fix saving empty values in LDAP contact data (#2113)
 - Fix LDAP contact update when RDN field is changed (#2119)
-- Fix LDAP attributes case senitivity problems (#2155)
+- Fix LDAP attributes case sensitivity problems (#2155)
 - Fix LDAP addressbook browsing when only one directory is used (#2314)
 - Fix endless loop on error response for APPEND command (#2346)
 - Don't require date.timezone setting in installer (#2284)
