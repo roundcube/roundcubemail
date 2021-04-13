@@ -177,7 +177,7 @@ if ($RCI->configured) {
     if (is_file(INSTALL_PATH . 'composer.json') && is_readable(INSTALL_PATH . 'composer.json-dist')) {
         $composer_data     = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
         $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
-        $comsposer_json    = null;
+        $composer_json    = null;
 
         // update the require section with the new dependencies
         if (!empty($composer_data['require']) && !empty($composer_template['require'])) {
@@ -246,11 +246,11 @@ if ($RCI->configured) {
             $composer_data['repositories'] = array_values($composer_data['repositories']);
         }
 
-        $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $composer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         // write updated composer.json back to disk
-        if ($comsposer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
-            $success &= (bool)file_put_contents(INSTALL_PATH . 'composer.json', $comsposer_json);
+        if ($composer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
+            $success &= (bool)file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
         }
         else {
             echo "WARNING: unable to update composer.json!\n";
