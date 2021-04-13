@@ -1064,7 +1064,7 @@ function rcube_elastic_ui()
                 .parent().append(label);
         });
 
-        // Make tables pretier
+        // Make tables prettier
         $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
             .filter(function() {
                 // exclude direct propform children and external content
