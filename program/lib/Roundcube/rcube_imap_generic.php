@@ -234,7 +234,7 @@ class rcube_imap_generic
     {
         $line = $this->readLine($size);
 
-        // include all string literels untile the real end of "line"
+        // include all string literals untile the real end of "line"
         while (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
             $bytes = $m[1];
             $out   = '';
