@@ -2941,7 +2941,7 @@ class rcube_imap extends rcube_storage
         // Add/Remove folders according to some configuration options
         $this->list_folders_filter($result, $root . $name, ($list_extended ? 'ext-' : '') . 'subscribed');
 
-        // Save the last command state, so we can ignore errors on any following UNSEBSCRIBE calls
+        // Save the last command state, so we can ignore errors on any following UNSUBSCRIBE calls
         $state = $this->save_conn_state();
 
         if ($list_extended) {
