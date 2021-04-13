@@ -122,7 +122,7 @@ class rcmail_oauth
     }
 
     /**
-     * Getter for the last error occured
+     * Getter for the last error occurred
      *
      * @return mixed
      */
