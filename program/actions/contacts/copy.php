@@ -45,7 +45,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 break;
             }
 
-            // It maight happen when copying records from search result
+            // It might happen when copying records from search result
             // Do nothing, go to next source
             if ((string) $target == (string) $source) {
                 continue;
