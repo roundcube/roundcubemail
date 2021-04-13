@@ -1342,7 +1342,7 @@ class rcmail extends rcube
      * Find an email address in user addressbook(s)
      *
      * @param string $email Email address
-     * @param int    $type  Addressbook type (see rcube_addressbook::TYPE_* consts)
+     * @param int    $type  Addressbook type (see rcube_addressbook::TYPE_* constants)
      *
      * @return bool True if the address exists in specified addressbook(s), False otherwise
      */

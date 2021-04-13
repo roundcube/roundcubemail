@@ -38,7 +38,7 @@
  */
 function rcube_list_widget(list, p)
 {
-  // static contants
+  // static constants
   this.ENTER_KEY = 13;
   this.DELETE_KEY = 46;
   this.BACKSPACE_KEY = 8;
