@@ -639,7 +639,7 @@ class rcube_html2text
                     // replace content with inner blockquotes
                     $this->_converter($body);
 
-                    // resore text width
+                    // restore text width
                     $this->width = $p_width;
 
                     // Add citation markers and create <pre> block
