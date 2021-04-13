@@ -1231,7 +1231,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        // abort process if requiered fields are missing
+        // abort process if required fields are missing
         // TODO: generate message saying which fields are missing
         if ($missing) {
             $this->set_error(self::ERROR_VALIDATE, 'formincomplete');

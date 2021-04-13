@@ -145,7 +145,7 @@ class rcube_plugin_api
             if (!$loaded) {
                 rcube::raise_error([
                         'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Requried plugin $plugin_name was not loaded"
+                        'message' => "Required plugin $plugin_name was not loaded"
                     ],
                     true, true
                 );
