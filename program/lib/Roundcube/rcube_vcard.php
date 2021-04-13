@@ -671,7 +671,7 @@ class rcube_vcard
      *
      * @param string $val vCard content
      *
-     * @retunr string Folded vCard string
+     * @return string Folded vCard string
      */
     public static function rfc2425_fold($val)
     {
