@@ -1932,7 +1932,7 @@ EOF;
 
     /**
      * Add HTML code to the page footer
-     * To be added right befor </body>
+     * To be added right before </body>
      *
      * @param string $str HTML code
      */
