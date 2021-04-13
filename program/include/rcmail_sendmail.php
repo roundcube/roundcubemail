@@ -1243,7 +1243,7 @@ class rcmail_sendmail
                 $subject = 'Fwd: ' . $this->options['message']->subject;
             }
         }
-        // creeate a draft-subject
+        // create a draft-subject
         else if ($this->data['mode'] == self::MODE_DRAFT || $this->data['mode'] == self::MODE_EDIT) {
             $subject = $this->options['message']->subject;
         }
