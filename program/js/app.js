@@ -4092,7 +4092,7 @@ function rcube_webmail()
   this.mailvelope_search_pubkeys = function(emails, resolve, import_handler)
   {
     // query with publickey.js
-    var deferreds = [],
+    var deferred = [],
       pk = new PublicKey(this.env.keyservers),
       lock = ref.display_message('', 'loading');
 
@@ -4108,10 +4108,10 @@ function rcube_webmail()
           d.resolve([email].concat(results));
         }
       });
-      deferreds.push(d);
+      deferred.push(d);
     });
 
-    $.when.apply($, deferreds).then(function() {
+    $.when.apply($, deferred).then(function() {
       var missing_keys = [],
         key_selection = [];
 
