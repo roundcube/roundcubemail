@@ -1171,7 +1171,7 @@ RELEASE 1.1-beta
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
 - Added config option 'log_session_id' to control the length of the session identifier in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#4638)
-- Intergrate Net_LDAP3 and rcube_ldap_generic classes
+- Integrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#4478)
 - Support password encryption using openssl extension (#4614)
 - Create/rename groups in UI dialogs (#4592)
