@@ -6555,7 +6555,7 @@ function rcube_webmail()
     if (source == '' && this.env.selection_sources.length == 1)
       source = this.env.selection_sources[0];
 
-    // tagret is a group
+    // target is a group
     if (to.type == 'group') {
       if (dest == source)
         return;

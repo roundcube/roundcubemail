@@ -1611,7 +1611,7 @@ RELEASE 0.9-rc2
 - Fix forward as attachment bug with editormode != 1 (#4129)
 - Fix LIMIT/OFFSET queries handling on MS SQL Server (#4123)
 - Fix so task name can really contain all from a-z0-9_- characters (#4095)
-- Fix javascript errors when working in a page opened with taget="_blank"
+- Fix javascript errors when working in a page opened with target="_blank"
 - Mention SQLite database format change in UPGRADING file (#4122)
 - Increase maxlength to 254 chars for email input fields in addressbook (#4126)
 - Fix thumbnail size when GD extension is used for image resize (#4124)
