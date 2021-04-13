@@ -259,7 +259,7 @@ expect {
                        exit 1}
 }
 
-# exit succsessfully
+# exit successfully
 expect {
   eof {close $err
        exit 0}
