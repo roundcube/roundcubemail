@@ -139,7 +139,7 @@ class rcube_sql_password
         $username    = $_SESSION['username'];
         $host        = $_SESSION['imap_host'];
 
-        // convert domains to/from punnycode
+        // convert domains to/from punycode
         if ($rcmail->config->get('password_idn_ascii')) {
             $domain_part = rcube_utils::idn_to_ascii($domain_part);
             $username    = rcube_utils::idn_to_ascii($username);
