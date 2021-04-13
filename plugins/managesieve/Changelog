@@ -133,7 +133,7 @@
 - Add vacation-seconds extension support (RFC 6131)
 - Several script parser code improvements
 - Support string list arguments in filter form (#1489018)
-- Support date, currendate and index tests - RFC5260 (#1488120)
+- Support date, currentdate and index tests - RFC5260 (#1488120)
 - Split plugin file into two files
 - Fix handling of &, <, > characters in scripts/filter names (#1489208)
 - Support 'keep' action (#1489226)
