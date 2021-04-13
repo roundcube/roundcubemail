@@ -776,7 +776,7 @@ class rcube_washtml
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
-            "\xe2\x80\xa6"  // elipses
+            "\xe2\x80\xa6"  // ellipses
         ];
 
         $fixedwordchars = [
