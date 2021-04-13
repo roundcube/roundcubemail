@@ -1794,7 +1794,7 @@ function rcube_webmail()
     if (node.collapsed) {
       this.env[prefname] = this.env[prefname] + '&'+urlencode(node.id)+'&';
 
-      // select the folder if one of its childs is currently selected
+      // select the folder if one of its children is currently selected
       // don't select if it's virtual (#1488346)
       if (!node.virtual && this.env.mailbox && this.env.mailbox.startsWith(node.id + this.env.delimiter))
         this.command('list', node.id);
@@ -3047,7 +3047,7 @@ function rcube_webmail()
 
     parent = row.parent_uid;
 
-    // childrens
+    // children
     row = row.obj.nextSibling;
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
@@ -8894,7 +8894,7 @@ function rcube_webmail()
     return show;
   };
 
-  // hide the given popup menu (and it's childs)
+  // hide the given popup menu (and its children)
   this.hide_menu = function(name, event)
   {
     if (!this.menu_stack.length) {

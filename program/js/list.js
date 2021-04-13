@@ -1168,7 +1168,7 @@ select_last: function(mod_key, noscroll)
 
 
 /**
- * Add all childs of the given row to selection
+ * Add all children of the given row to selection
  */
 select_children: function(uid)
 {
@@ -1421,7 +1421,7 @@ highlight_row: function(id, multiple, norecur)
 
 
 /**
- * Highlight/unhighlight all childs of the given row
+ * Highlight/unhighlight all children of the given row
  */
 highlight_children: function(id, status)
 {
