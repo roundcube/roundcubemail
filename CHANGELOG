@@ -1727,7 +1727,7 @@ RELEASE 0.8.5
 - Fix XSS vulnerability in vbscript: and data:text links handling [CVE-2012-6121] (#4033)
 - Fix absolute positioning in HTML messages (#4007)
 - Fix cache (in)validation after setting \Deleted flag
-- Fix keybord events on messages list in opera browser (#4011)
+- Fix keyboard events on messages list in opera browser (#4011)
 - Fix selection of collapsed thread rows (#3978)
 - Fix wrapping of quoted text with format=flowed (#3561)
 
