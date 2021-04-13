@@ -267,7 +267,7 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
-// To specify differnt SMTP servers for different IMAP hosts provide an array
+// To specify different SMTP servers for different IMAP hosts provide an array
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
 $config['smtp_server'] = 'localhost';
 
