@@ -8147,7 +8147,7 @@ function rcube_webmail()
     return id;
   };
 
-  // make a message to disapear
+  // make a message to disappear
   this.hide_message = function(obj, fade)
   {
     // pass command to parent window
