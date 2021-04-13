@@ -20,7 +20,7 @@
 */
 
 /**
- * Helper class for spellchecking with Googielspell and PSpell support.
+ * Helper class for spellchecking with GoogieSpell and PSpell support.
  *
  * @package    Framework
  * @subpackage Utils
