@@ -4530,7 +4530,7 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Increde/decrease messagecount for a specific folder
+     * Increase/decrease messagecount for a specific folder
      */
     protected function set_messagecount($folder, $mode, $increment)
     {
