@@ -269,7 +269,7 @@
 
 * version 2.7 [2010-07-06]
 -----------------------------------------------------------
-- Update Net_Sieve to version 1.3.0 (fixes LOGIN athentication)
+- Update Net_Sieve to version 1.3.0 (fixes LOGIN authentication)
 - Added support for copying and copy sending of messages (COPY extension)
 
 * version 2.6 [2010-06-03]
