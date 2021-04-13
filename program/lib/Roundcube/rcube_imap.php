@@ -913,7 +913,7 @@ class rcube_imap extends rcube_storage
             $index->slice(-$slice, $slice);
         }
 
-        // fetch reqested messages headers
+        // fetch requested messages headers
         $a_index = $index->get();
         $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
@@ -1015,7 +1015,7 @@ class rcube_imap extends rcube_storage
         // Get UIDs of all messages in all threads
         $a_index = $threads->get();
 
-        // fetch reqested headers from server
+        // fetch requested headers from server
         $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
         unset($a_index);
@@ -1300,7 +1300,7 @@ class rcube_imap extends rcube_storage
             return [];
         }
         else {
-            // fetch reqested headers from server
+            // fetch requested headers from server
             $headers = $this->conn->fetchHeaders(
                 $folder, $msgs, true, false, $this->get_fetch_headers());
         }
