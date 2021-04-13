@@ -2675,7 +2675,7 @@ RELEASE 0.2.2
 -------------
 - Fix quicksearchbox look in Chrome and Konqueror (#1380)
 - Fix UTF-8 byte-order mark removing (#1911)
-- Fix folders subscribtions on Konqueror (#1380) 
+- Fix folders subscriptions on Konqueror (#1380) 
 - Fix debug console on Konqueror and Safari
 - Fix messagelist focus issue when modifying status of selected messages (#2134)
 - Support STARTTLS in IMAP connection (#1714)
