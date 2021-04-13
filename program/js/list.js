@@ -77,7 +77,7 @@ function rcube_list_widget(list, p)
   this.touch_start_time = 0; // start time of the touch event
   this.touch_event_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
 
-  // overwrite default paramaters
+  // overwrite default parameters
   if (p && typeof p === 'object')
     for (var n in p)
       this[n] = p[n];
