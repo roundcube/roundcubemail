@@ -96,7 +96,7 @@ class rcube_plugin_api
 
         // register an internal hook
         $this->register_hook('template_container', [$this, 'template_container_hook']);
-        // maybe also register a shudown function which triggers
+        // maybe also register a shutdown function which triggers
         // shutdown functions of all plugin objects
 
         foreach ($this->plugins as $plugin) {
