@@ -1076,7 +1076,7 @@ EOF;
     }
 
     /**
-     * Public wrapper to dipp into template parsing.
+     * Public wrapper to dip into template parsing.
      *
      * @param string $input Template content
      *
