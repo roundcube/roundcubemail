@@ -2768,7 +2768,7 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param int    $uid     Message UID
      * @param array  $parts   Message part identifiers
-     * @param bool   $mime    Use MIME instad of HEADER
+     * @param bool   $mime    Use MIME instead of HEADER
      *
      * @return array|bool Array containing headers string for each specified body
      *                    False on failure.
