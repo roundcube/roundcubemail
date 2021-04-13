@@ -1138,7 +1138,7 @@ class rcube_db
         // use Base64 encoding to workaround issues with invalid
         // or null characters in serialized string (#1489142)
         if ($serialized) {
-            // Keep backward compatybility where base64 wasn't used
+            // Keep backward compatibility where base64 wasn't used
             if (strpos(substr($input, 0, 16), ':') !== false) {
                 return self::decode(@unserialize($input));
             }

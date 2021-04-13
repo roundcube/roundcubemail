@@ -1743,7 +1743,7 @@ RELEASE 0.8.3
 -------------
 - Fix AREA links handling (#3992)
 - Fix possible HTTP DoS on error in keep-alive requests (#3983)
-- Fix compatybility with MDB2 2.5.0b4 (#3982)
+- Fix compatibility with MDB2 2.5.0b4 (#3982)
 - Fix a bug where saving a message in INBOX wasn't possible
 - Fix HTML part detection in messages with attachments (#3976)
 - Fix bug where wrong words were highlighted on spell-before-send check
@@ -2490,7 +2490,7 @@ RELEASE 0.4-beta
 - Add support for MDB2's 'sqlsrv' driver (#2602)
 - Use jQuery-1.4
 - Removed problematic browser-caching of messages
-- Fix incompatybility with suhosin.executor.disable_emodifier (#2549)
+- Fix incompatibility with suhosin.executor.disable_emodifier (#2549)
 - Use PLAIN auth when CRAM fails and imap_auth_type='check' (#2587)
 - Fix removal of <title> tag from HTML messages (#2629)
 - Fix 'force_https' to specified port when URL contains a port number (#2612)

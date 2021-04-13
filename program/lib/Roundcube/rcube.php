@@ -387,7 +387,7 @@ class rcube
         $storage_cache  = $this->config->get("{$driver}_cache");
         $messages_cache = $this->config->get('messages_cache');
 
-        // for backward compatybility
+        // for backward compatibility
         if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
             $storage_cache  = 'db';
             $messages_cache = true;
