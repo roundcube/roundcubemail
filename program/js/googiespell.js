@@ -754,8 +754,8 @@ this.showErrorsInIframe = function()
     $(output).css('text-align', 'left');
 
     var me = this;
-    if (this.custom_item_evaulator)
-        $.map(this.error_links, function(elm){me.custom_item_evaulator(me, elm)});
+    if (this.custom_item_evaluator)
+        $.map(this.error_links, function(elm){me.custom_item_evaluator(me, elm)});
 
     $(this.edit_layer).append(output);
 
