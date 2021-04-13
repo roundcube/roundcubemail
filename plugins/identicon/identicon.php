@@ -20,7 +20,7 @@ class identicon extends rcube_plugin
 
 
     /**
-     * Plugin initilization.
+     * Plugin initialization.
      */
     function init()
     {
