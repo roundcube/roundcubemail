@@ -2269,7 +2269,7 @@ EOF;
 
         $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
-        // set atocomplete attribute
+        // set autocomplete attribute
         $user_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $host_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $pass_attrib = $autocomplete > 1 ? [] : ['autocomplete' => 'off'];
