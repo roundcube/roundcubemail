@@ -3147,7 +3147,7 @@ RELEASE 0.1-RC1
 - Fixed URL character set (Ticket #616)
 - Fixed saving of contact into MySQL from LDAP query results (Ticket #681)
 - Fixed folder renaming: unsubscribe before rename (Bug #750)
-- Finalized new message parsing (+ chaching)
+- Finalized new message parsing (+ caching)
 - Fixed wrong usage of mbstring (Bug #645)
 - Set default spelling language (Ticket #764)
 - Added support for Nox Spell Server
