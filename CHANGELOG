@@ -2070,7 +2070,7 @@ RELEASE 0.6-beta
 - Added option to specify to which address book add new contacts
 - Added plugin hook for keep-alive requests
 - Store user preferences in session when write-master is not available and session is stored in memcache, write them later
-- Improve performence of folder manager operations
+- Improve performance of folder manager operations
 - Fix default_port option handling in Installer when config.inc.php file exists (#3390)
 - Removed option focus_on_new_message, added newmail_notifier plugin
 - Added general rcube_cache class with Memcache and APC support
