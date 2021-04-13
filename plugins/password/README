@@ -198,7 +198,7 @@
  ----------------------------------------------
 
  You can specify which host to connect to via 'password_directadmin_host' (don't
- forget to use tcp:// or ssl://) and what port via 'password_direactadmin_port'.
+ forget to use tcp:// or ssl://) and what port via 'password_directadmin_port'.
  The password enforcement with plenty customization can be done directly by
  DirectAdmin, please see http://www.directadmin.com/features.php?id=910
  See config.inc.php.dist file for more info.
