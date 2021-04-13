@@ -278,7 +278,7 @@ class html
     /**
      * Derrived method for line breaks
      *
-     * @param array $attrib Associative arry with tag attributes
+     * @param array $attrib Associative array with tag attributes
      *
      * @return string HTML code
      * @see html::tag()
