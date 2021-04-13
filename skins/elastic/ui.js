@@ -941,7 +941,7 @@ function rcube_elastic_ui()
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform:not(.groupped) div.row', context).each(function() {
+        $('fieldset.propform:not(.grouped) div.row', context).each(function() {
             var has_input = $('input:not([type=hidden]),select,textarea', this).length > 0;
 
             if (has_input) {
@@ -954,7 +954,7 @@ function rcube_elastic_ui()
         });
 
         // Contact info/edit form
-        $('fieldset.propform.groupped fieldset', context).each(function() {
+        $('fieldset.propform.grouped fieldset', context).each(function() {
             $('.row', this).each(function() {
                 var label, first,
                     has_input = $('input,select,textarea', this).length > 0,
