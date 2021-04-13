@@ -959,7 +959,7 @@ EOF;
     public function asset_url($path, $abs_url = false)
     {
         // iframe content can't be in a different domain
-        // @TODO: check if assests are on a different domain
+        // @TODO: check if assets are on a different domain
 
         if ($abs_url) {
             $path = $this->abs_url($path, true);
