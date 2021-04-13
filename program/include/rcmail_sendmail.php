@@ -925,7 +925,7 @@ class rcmail_sendmail
 
             $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
 
-            // create teaxtarea object
+            // create textarea object
             $input = new $field_type($field_attrib);
             $out   = $input->show($this->compose_header_value($param, $mode));
         }
