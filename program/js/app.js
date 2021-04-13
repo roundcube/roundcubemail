@@ -9470,7 +9470,7 @@ function rcube_webmail()
    The string '%' in either a GET query or POST parameters will be replaced with the respective item value.
    This is the argument object expected: {
        items: ['foo','bar','gna'],      // list of items to send requests for
-       action: 'task/some-action',      // Roudncube action to call
+       action: 'task/some-action',      // Roundcube action to call
        query: { q:'%s' },               // GET query parameters
        postdata: { source:'%s' },       // POST data (sends a POST request if present)
        threads: 3,                      // max. number of concurrent requests
