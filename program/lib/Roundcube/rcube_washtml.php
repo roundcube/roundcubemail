@@ -11,14 +11,14 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Utility class providing HTML sanityzer (based on Washtml class)     |
+ |   Utility class providing HTML sanitizer (based on Washtml class)     |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Frederic Motte <fmotte@ubixis.com>                            |
  +-----------------------------------------------------------------------+
 
-                Washtml, a HTML sanityzer.
+                Washtml, a HTML sanitizer.
 
  Copyright (c) 2007 Frederic Motte <fmotte@ubixis.com>
  All rights reserved.
@@ -45,7 +45,7 @@
 */
 
 /**
- * Utility class providing HTML sanityzer
+ * Utility class providing HTML sanitizer
  *
  * @package    Framework
  * @subpackage Utils
