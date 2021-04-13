@@ -98,7 +98,7 @@ class rcube_imap_search
     }
 
     /**
-     * Setter for timelimt property
+     * Setter for timelimit property
      *
      * @param int $seconds Limit in seconds
      */
