@@ -2954,7 +2954,7 @@ RELEASE 0.1.1
 - Fixed creating a new folder with a comma in its name (#1263)
 - Fixed sorting of messages when default mailbox is empty (#1020)
 - Improve message previewpane - less loading (#1019)
-- Fixed login form autoompletion (#1378)
+- Fixed login form autocompletion (#1378)
 - Fixed virtuser_query option for mdb2 backend (#1409)
 - Fixed attachment resoting from Drafts when message body was empty (#1144)
 - Fixed usage of ob_gzhandler (#1390)
