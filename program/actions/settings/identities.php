@@ -56,7 +56,7 @@ class rcmail_action_settings_identities extends rcmail_action
             $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_utils::idn_to_utf8($row['email']) . '>');
         }
 
-        // get all identites from DB and define list of cols to be displayed
+        // get all identities from DB and define list of cols to be displayed
         $plugin = $rcmail->plugins->exec_hook('identities_list', [
                 'list' => $list,
                 'cols' => ['mail']
