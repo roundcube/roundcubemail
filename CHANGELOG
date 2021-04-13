@@ -439,7 +439,7 @@ RELEASE 1.4-rc1
 - Password: Fix bug where new users could skip forced password change (#6434)
 - Password: Allow drivers to override default password comparisons (eg new is not same as current) (#6473)
 - Password: Allow drivers to override default strength checks (eg allow for 'not the same as last x passwords') (#246)
-- Passowrd: Allow drivers to define password strength rules displayed to the user
+- Password: Allow drivers to define password strength rules displayed to the user
 - Password: Allow separate password saving and strength drivers for use of strength checking services (#5040)
 - Password: Add zxcvbn driver for checking password strength (#6479)
 - Password: Disallow control characters in passwords
