@@ -183,7 +183,7 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
-// Exemple: ['ldap1.exemple.com', 'ldap2.exemple.com'];
+// Example: ['ldap1.example.com', 'ldap2.example.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
 
@@ -201,8 +201,8 @@ $config['password_ldap_starttls'] = false;
 $config['password_ldap_version'] = '3';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
-$config['password_ldap_basedn'] = 'dc=exemple,dc=com';
+// Example: 'dc=example,dc=com'
+$config['password_ldap_basedn'] = 'dc=example,dc=com';
 
 // LDAP connection method
 // There are two connection methods for changing a user's LDAP password.
@@ -228,8 +228,8 @@ $config['password_ldap_adminPW'] = null;
 // '%name' will be replaced by the current roundcube user's name part
 // '%domain' will be replaced by the current roundcube user's domain part
 // '%dc' will be replaced by domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
-// Exemple: 'uid=%login,ou=people,dc=exemple,dc=com'
-$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=exemple,dc=com';
+// Example: 'uid=%login,ou=people,dc=example,dc=com'
+$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=example,dc=com';
 
 // LDAP search DN
 // The DN roundcube should bind with to find out user's DN
@@ -317,7 +317,7 @@ $config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
 $config['password_ldap_ppolicy_uri'] = 'ldap://localhost/';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
+// Example: 'dc=example,dc=com'
 $config['password_ldap_ppolicy_basedn'] = 'dc=example,dc=com';
 
 $config['password_ldap_ppolicy_searchDN'] = 'cn=someuser,dc=example,dc=com';
