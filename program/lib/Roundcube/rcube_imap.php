@@ -1213,7 +1213,7 @@ class rcube_imap extends rcube_storage
         // SEARCH result, need sorting
         $cnt = $index->count();
 
-        // 300: experimantal value for best result
+        // 300: experimental value for best result
         if (($cnt > 300 && $cnt > $this->page_size) || !$this->sort_field) {
             // use memory less expensive (and quick) method for big result set
             $index = clone $this->index('', $this->sort_field, $this->sort_order);
