@@ -1986,7 +1986,7 @@ RELEASE 0.7-beta
 - Fix issue where it wasn't possible to change list view mode in folder manager for INBOX (#3522)
 - Fix namespace handling in special folders settings (#3527)
 - Disable time limit for CLI scripts (#3524)
-- Fix misleading display when chaning editor type (#3519)
+- Fix misleading display when changing editor type (#3519)
 - Add loading indicator on contact delete
 - Fix bug where after delete message rows can be added to the list of another folder (#3263)
 - Add notice on autocompletion that not all records were displayed
