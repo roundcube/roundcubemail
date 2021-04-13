@@ -246,7 +246,7 @@ $config['password_ldap_searchDN'] = 'cn=roundcube,ou=services,dc=example,dc=com'
 // If password_ldap_searchDN is set, the password to use for
 // binding to search for user's DN. Note that you should comment out the default
 // password_ldap_userDN_mask setting for this to take effect.
-// Warning: Be sure to set approperiate permissions on this file so this password
+// Warning: Be sure to set appropriate permissions on this file so this password
 // is only accessible to roundcube and don't forget to restrict roundcube's access to
 // your directory as much as possible using ACLs. Should this password be compromised
 // you want to minimize the damage.
