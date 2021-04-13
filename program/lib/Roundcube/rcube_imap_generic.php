@@ -223,7 +223,7 @@ class rcube_imap_generic
     }
 
     /**
-     * Reads a line of data from the connection stream inluding all
+     * Reads a line of data from the connection stream including all
      * string continuation literals.
      *
      * @param int $size Buffer size
