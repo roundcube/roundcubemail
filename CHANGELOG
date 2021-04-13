@@ -3048,7 +3048,7 @@ RELEASE 0.1-RC2
 - Fix status message bug #1114 with regard to #1041
 - Fix address adding bug reported by David Koblas
 - Applied socket error patch by Thomas Mangin
-- Pass-by-reference workarround for PHP5 in sendmail.inc
+- Pass-by-reference workaround for PHP5 in sendmail.inc
 - Fixed buggy imap_root settings (closes #1056)
 - Prevent default events on subject links (#1071)
 - Use HTTP-POST requests for actions that change state
