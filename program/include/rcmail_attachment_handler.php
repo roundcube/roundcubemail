@@ -130,7 +130,7 @@ class rcmail_attachment_handler
     /**
      * Check if the object is a message part not uploaded file
      *
-     * @return bool True if the object is a meesage part
+     * @return bool True if the object is a message part
      */
     public function is_message_part()
     {
