@@ -954,7 +954,7 @@ $config['mailvelope_keysize'] = 4096;
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
 
-// This indicates which type of address book to use. Possible choises:
+// This indicates which type of address book to use. Possible choices:
 // 'sql' - built-in sql addressbook enabled (default),
 // ''    - built-in sql addressbook disabled.
 //         Still LDAP or plugin-added addressbooks will be available.
