@@ -2748,7 +2748,7 @@ RELEASE 0.2-STABLE
 - Fix line-break issue when copy & paste in Firefox (#1832)
 - Fix autocomplete "unknown server error" (#2008)
 - Fix STARTTLS before AUTH in SMTP connection (#1415)
-- Support multiple quota values in QUOTAROOT resonse (#1999)
+- Support multiple quota values in QUOTAROOT response (#1999)
 - Only abbreviate file name for IE < 7 browsers (#1548)
 - Performance: allow setting imap rootdir and delimiter before connect (#1628)
 - Fix sorting of folders with more than 2 levels (#1953)
