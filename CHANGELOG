@@ -48,7 +48,7 @@ RELEASE 1.5-beta
 - Allow array in smtp_host config (#7296)
 - Support proxy for server-side HTTP requests (#7658)
 - By default do not set the User-Agent header (#7731)
-- Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
+- Add possibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
 - Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
