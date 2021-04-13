@@ -7,7 +7,7 @@
  * for contacts/addresses that do not have a photo image.
  *
  * @todo: Make it optional and configurable via user preferences
- * @todo: Make color palettes match the curren skin
+ * @todo: Make color palettes match the current skin
  * @todo: Implement optional SVG generator
  *
  * @license GNU GPLv3+
