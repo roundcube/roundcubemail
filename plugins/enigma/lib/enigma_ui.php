@@ -1286,7 +1286,7 @@ class enigma_ui
             $this->rc->output->show_message($msg, 'error');
         }
 
-        // Check sign/ecrypt options for signed/encrypted drafts
+        // Check sign/encrypt options for signed/encrypted drafts
         if (!in_array('encrypt', $locks)) {
             $this->rc->output->set_env('enigma_force_encrypt', !empty($engine->decryptions));
         }
