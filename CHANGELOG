@@ -3117,7 +3117,7 @@ RELEASE 0.1-RC1
 - Include smtp final response in log (closes #862)
 - Corrected date string in sent message header (closes #887)
 - Correctly choose "To" column in sent and draft mailboxes (closes #769)
-- Changed srong tooltips for message browse buttons (closes #757)
+- Changed tooltips for message browse buttons (closes #757)
 - Fixed signature delimiter character to be standard (Bug #830)
 - Fixed XSS vulnerability (Bug #877)
 - Remove newlines from mail headers (Bug #827)
