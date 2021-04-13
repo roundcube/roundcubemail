@@ -3236,7 +3236,7 @@ function rcube_elastic_ui()
                 }
                 // #7231: When clicking on autocompletion list a change event
                 // is fired twice. We have to remove last recipient box if it is
-                // the same recpient (with incomplete email address).
+                // the same recipient (with incomplete email address).
                 // FIXME: Anyone with a better solution?
                 else if (ac) {
                     last = list.find('li.recipient').last();

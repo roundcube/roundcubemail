@@ -1055,7 +1055,7 @@ class rcmail_sendmail
             $charset = $this->rcmail->output->charset;
         }
         else if ($mode == self::MODE_REPLY) {
-            // get recipent address(es) out of the message headers
+            // get recipient address(es) out of the message headers
             if ($header == 'to') {
                 $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
                 $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
