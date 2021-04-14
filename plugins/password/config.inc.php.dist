@@ -428,7 +428,7 @@ $config['password_expect_script'] = '';
 
 // Arguments for the expect script. See the helpers/passwd-expect file for details.
 // This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+//   -telnet -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
 $config['password_expect_params'] = '';
 
 

@@ -22,7 +22,7 @@
  * password_expect_params => arguments for the expect script
  *   see the password-expect file for details. This is probably
  *   a good starting default:
- *   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+ *   -telnet -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
  *
  * Copyright (C) The Roundcube Dev Team
  *
