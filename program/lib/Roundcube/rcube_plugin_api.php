@@ -253,7 +253,7 @@ class rcube_plugin_api
     }
 
     /**
-     * Check if we should prevent this plugin from initialising
+     * Check if we should prevent this plugin from initializing
      *
      * @param rcube_plugin $plugin Plugin object
      *
