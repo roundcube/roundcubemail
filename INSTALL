@@ -208,7 +208,7 @@ please refer to the instructions in UPGRADING guide.
 OPTIMISING
 ==========
 
-There are two forms of optimisation here, compression and caching, both aimed
+There are two forms of optimization here, compression and caching, both aimed
 at increasing an end user's experience using Roundcube Webmail. Compression
 allows the static web pages to be delivered with less bandwidth. The index.php
 of Roundcube Webmail already enables compression on its output. The settings
@@ -243,7 +243,7 @@ To enable these features in apache the following modules need to be enabled:
  * mod_expires
  * mod_headers
 
-The optimisation is already included in the .htaccess file in the top 
+The optimization is already included in the .htaccess file in the top 
 directory of your installation.
 
 Lighttpd:
