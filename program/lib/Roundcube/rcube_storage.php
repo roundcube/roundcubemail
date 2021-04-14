@@ -669,7 +669,7 @@ abstract class rcube_storage
      * Create a new folder on the server.
      *
      * @param string  $folder    New folder name
-     * @param bool    $subscribe True if the newvfolder should be subscribed
+     * @param bool    $subscribe True if the new folder should be subscribed
      * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
      * @param bool    $noselect  Make the folder \NoSelect folder by adding hierarchy
      *                           separator at the end (useful for server that do not support
