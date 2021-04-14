@@ -255,7 +255,7 @@ class rcube_imap extends rcube_storage
     /**
      * Checks IMAP connection.
      *
-     * @return bool Ttrueon success, False on failure
+     * @return bool True on success, False on failure
      */
     public function is_connected()
     {
