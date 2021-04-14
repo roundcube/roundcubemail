@@ -2085,7 +2085,7 @@ class rcube_imap_generic
             'DELETED'      => 3,
         ];
 
-        if (empty($upported[$index_field])) {
+        if (empty($supported[$index_field])) {
             return false;
         }
 
