@@ -333,7 +333,7 @@ rcube_webmail.prototype.enigma_import = function()
     }
 };
 
-// Ssearch for key(s) for import
+// Search for key(s) for import
 rcube_webmail.prototype.enigma_import_search = function()
 {
     var form, search;
