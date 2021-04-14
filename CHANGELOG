@@ -1232,7 +1232,7 @@ RELEASE 1.0.4
 - Fix issue where Archive folder wasn't protected in Folder Manager (#4706)
 - Fix compatibility with PHP 5.2. in rcube_imap_generic (#4682)
 - Fix setting flags on servers with no PERMANENTFLAGS response (#4667)
-- Fix regression in SHAA password generation in ldap driver of password plugin (#4670)
+- Fix regression in SHA password generation in ldap driver of password plugin (#4670)
 - Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#4672)
 - Fix font style display issue in HTML messages with styled <span> elements (#4671)
 - Fix download of attachments that are part of TNEF message (#4668)
