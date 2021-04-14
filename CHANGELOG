@@ -2750,7 +2750,7 @@ RELEASE 0.2-STABLE
 - Fix STARTTLS before AUTH in SMTP connection (#1415)
 - Support multiple quota values in QUOTAROOT response (#1999)
 - Only abbreviate file name for IE < 7 browsers (#1548)
-- Performance: allow setting imap rootdir and delimiter before connect (#1628)
+- Performance: allow setting imap root dir and delimiter before connect (#1628)
 - Fix sorting of folders with more than 2 levels (#1953)
 - Fix search results page jumps in LDAP addressbook (#1689)
 - Fix empty line before the signature in IE (#1769)
