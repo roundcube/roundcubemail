@@ -469,7 +469,7 @@ $config['password_plesk_rpc_port'] = '8443';
 $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 
 
-// kasswd Driver options
+// kpasswd Driver options
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
