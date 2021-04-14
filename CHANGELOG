@@ -1298,7 +1298,7 @@ RELEASE 1.0.1
 - Apply user-specific replacements to group's base_dn property (#4512)
 - Fix missing email address when importing contacts from outlook csv (#4535)
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#4508)
-- Fix "washing" of unicoded style attributes (#4510)
+- Fix "washing" of unicode style attributes (#4510)
 - Fix unintentional redirect from compose page in Webkit browsers (#4516)
 - Fix messages index cache update under some conditions (e.g. proxy) (#4505)
 - Fix lack of translation of special folders in some configurations (#4520)
@@ -2089,9 +2089,9 @@ RELEASE 0.6-beta
 - Move folder name truncation to client/skin (#1822)
 - Added plugin hook for request token creation
 - Replace LDAP vars in group queries (#3329)
-- Fix vcard folding with uncode characters (#3353)
+- Fix vcard folding with unicode characters (#3353)
 - Keep all submitted data if contact form validation fails (#3350)
-- Handle uncode strings in rcube_addressbook::normalize_string() (#3351)
+- Handle unicode strings in rcube_addressbook::normalize_string() (#3351)
 - Fix handling of debug_level=4 in ajax requests (#3327)
 - Enable TinyMCE's contextmenu (#3062)
 - Allow multiple concurrent compose sessions
