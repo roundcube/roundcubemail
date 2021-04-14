@@ -4101,10 +4101,10 @@ function rcube_elastic_ui()
                         ts = setTimeout(function() {
                             // For left-side-splitter we need the current offset
                             if (inverted) {
-                                offset = node.position().right;
+                                offset = node.position().left;
                             }
                             var cursor_position = rcube_event.get_mouse_pos(e).x,
-                                width = inverted ? cursor_position - offset : node.width() + (offset - cursor_position) ;
+                                width = inverted ? node.width() + (offset - cursor_position) : cursor_position - offset;
 
                             set_width(width);
                         }, 5);
@@ -4299,6 +4299,3 @@ if ($ && $.datepicker) {
         }
     });
 }
-
-
-
