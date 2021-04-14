@@ -343,7 +343,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
       break;
 
-    // Sactivate/deactivate set
+    // Activate/Deactivate the set
     case 'setact':
       var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
       if (o.active) {
