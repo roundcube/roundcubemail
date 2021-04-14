@@ -59,7 +59,7 @@ class rcube_imap_generic
     protected $prefs             = [];
     protected $logged            = false;
     protected $capability        = [];
-    protected $capability_readed = false;
+    protected $capability_read   = false;
     protected $debug             = false;
     protected $debug_handler     = false;
 
@@ -524,7 +524,7 @@ class rcube_imap_generic
         if (!empty($result)) {
             return $result;
         }
-        else if ($this->capability_readed) {
+        else if ($this->capability_read) {
             return false;
         }
 
@@ -536,7 +536,7 @@ class rcube_imap_generic
             $this->parseCapability($result[1]);
         }
 
-        $this->capability_readed = true;
+        $this->capability_read = true;
 
         return $this->hasCapability($name);
     }
@@ -547,7 +547,7 @@ class rcube_imap_generic
     public function clearCapability()
     {
         $this->capability        = [];
-        $this->capability_readed = false;
+        $this->capability_read = false;
     }
 
     /**
@@ -971,7 +971,7 @@ class rcube_imap_generic
         }
 
         // pre-login capabilities can be not complete
-        $this->capability_readed = false;
+        $this->capability_read = false;
 
         // Authenticate
         switch ($auth_method) {
@@ -4094,7 +4094,7 @@ class rcube_imap_generic
         }
 
         if ($trusted) {
-            $this->capability_readed = true;
+            $this->capability_read = true;
         }
     }
 

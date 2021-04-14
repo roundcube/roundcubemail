@@ -196,7 +196,7 @@ $config['imap_ns_personal'] = null;
 $config['imap_ns_other']    = null;
 $config['imap_ns_shared']   = null;
 
-// By default IMAP capabilities are readed after connection to IMAP server
+// By default IMAP capabilities are read after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
 // after login. Set to True if you've got this case.
 $config['imap_force_caps'] = false;
