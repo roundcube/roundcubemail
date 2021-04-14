@@ -818,7 +818,7 @@ EOF;
             );
         }
 
-        // parse for specialtags
+        // parse for special tags
         $output = $this->parse_conditions($templ);
         $output = $this->parse_xml($output);
 
