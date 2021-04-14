@@ -865,7 +865,7 @@ RELEASE 1.2.2
 - Fix bug where blocked.gif couldn't be attached to reply/forward with insecure content
 - Fix E_DEPRECATED warning when using Auth_SASL::factory() (#5401)
 - Fix bug where names of downloaded files could be malformed when derived from the message subject (#5404)
-- Fix so "All" messages selection is resetted on search reset (#5413)
+- Fix so "All" messages selection is reset on search reset (#5413)
 - Fix bug where folder creation could fail if personal namespace contained more than one entry (#5403)
 - Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
 - Fix PHP warning when handling shared namespace with empty prefix (#5420)
