@@ -164,7 +164,7 @@ class rcube_vcard
     }
 
     /**
-     * Return vCard data as associative array to be unsed in Roundcube address books
+     * Return vCard data as associative array to be used in Roundcube address books
      *
      * @return array Hash array with key-value pairs
      */
