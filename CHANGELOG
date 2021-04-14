@@ -1375,7 +1375,7 @@ RELEASE 1.0-beta
 - Fix Internet Explorer 11 detection (#4397)
 - Fix date column width to fit the widest possible date format (#4354)
 - Move certain user preference options to a collapsed "advanced" block (#4015)
-- Add file type icons for Powerpoint and Open Office presentations (#4269)
+- Add file type icons for PowerPoint and Open Office presentations (#4269)
 - Fix operations on folders with trailing spaces in name (#4387)
 - Improve identity selection based on From: header (#4360)
 - Fix issue where mails with inline images of the same name contained only the first image multiple times (#4378)
