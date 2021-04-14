@@ -44,7 +44,7 @@ class rcube_dovecot_passwdfile_password
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
-        // read the entire mailuser file
+        // read the entire mail user file
         $fp = fopen($mailuserfile, 'r');
 
         if (empty($fp)) {
