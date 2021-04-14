@@ -3296,7 +3296,7 @@ function rcube_elastic_ui()
             .attr('tabindex', -1)
             .after(list)
             // some core code sometimes focuses or changes the original node
-            // in such cases we wan't to parse its value and apply changes
+            // in such cases we want to parse its value and apply changes
             // to the widget element
             .on('focus', function(e) { input.focus(); e.preventDefault(); })
             .on('change', function() {
