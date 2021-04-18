@@ -947,6 +947,8 @@ class rcube_sieve_script
 
             switch ($token) {
             case 'if':
+            case 'else':
+            case 'elsif':
                 // nested 'if' conditions, ignore the whole rule (#5540)
                 $this->_parse_actions($content, $position);
                 continue 2;

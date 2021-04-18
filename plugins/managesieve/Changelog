@@ -8,6 +8,7 @@
 - Fix bug where it wasn't possible to save flag actions (#7188)
 - Fix bug where activation of forward/vacation rule could activate a wrong script (#7423)
 - Fix bug where forward/vacation rule could end up being duplicated (#7349)
+- Fix removing nested rules in scripts (#8011)
 
 * version 9.3 [2019-04-21]
 -----------------------------------------------------------
