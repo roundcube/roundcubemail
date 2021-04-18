@@ -375,7 +375,7 @@ $labels['rotateimage'] = 'Rotate image';
 $labels['showtools'] = 'Show image tools';
 $labels['hidetools'] = 'Hide image tools';
 
-// address boook
+// address book
 $labels['name'] = 'Display Name';
 $labels['firstname'] = 'First Name';
 $labels['surname'] = 'Last Name';
