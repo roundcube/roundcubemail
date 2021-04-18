@@ -618,7 +618,7 @@ abstract class rcube_addressbook
 
     /**
      * Compose the name to display in the contacts list for the given contact record.
-     * This respects the settings parameter how to list conacts.
+     * This respects the settings parameter how to list contacts.
      *
      * @param array $contact Hash array with contact data as key-value pairs
      *

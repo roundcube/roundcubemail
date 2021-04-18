@@ -4,7 +4,7 @@
  * DBMail Password Driver
  *
  * Driver that adds functionality to change the users DBMail password.
- * The code is derrived from the Squirrelmail "Change SASL Password" Plugin
+ * The code is derived from the Squirrelmail "Change SASL Password" Plugin
  * by Galen Johnson.
  *
  * It only works with dbmail-users on the same host where Roundcube runs

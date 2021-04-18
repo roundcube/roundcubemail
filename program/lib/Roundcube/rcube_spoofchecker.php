@@ -32,7 +32,7 @@ class rcube_spoofchecker
     /**
      * Detects (potential) spoofing in an e-mail address or a domain.
      *
-     * @param string $domain Email address or domain (UTF8 not punnycode)
+     * @param string $domain Email address or domain (UTF8 not punycode)
      *
      * @return bool True if spoofed/suspicious, False otherwise
      */

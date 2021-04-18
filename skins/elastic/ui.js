@@ -274,7 +274,7 @@ function rcube_elastic_ui()
             $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
-        // Some plugins use 'listbubtton' class, we'll replace it with 'button'
+        // Some plugins use 'listbutton' class, we'll replace it with 'button'
         $('.listbutton').each(function() {
             var button = find_button(this.id);
 
@@ -941,7 +941,7 @@ function rcube_elastic_ui()
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform:not(.groupped) div.row', context).each(function() {
+        $('fieldset.propform:not(.grouped) div.row', context).each(function() {
             var has_input = $('input:not([type=hidden]),select,textarea', this).length > 0;
 
             if (has_input) {
@@ -954,7 +954,7 @@ function rcube_elastic_ui()
         });
 
         // Contact info/edit form
-        $('fieldset.propform.groupped fieldset', context).each(function() {
+        $('fieldset.propform.grouped fieldset', context).each(function() {
             $('.row', this).each(function() {
                 var label, first,
                     has_input = $('input,select,textarea', this).length > 0,
@@ -1064,7 +1064,7 @@ function rcube_elastic_ui()
                 .parent().append(label);
         });
 
-        // Make tables pretier
+        // Make tables prettier
         $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
             .filter(function() {
                 // exclude direct propform children and external content
@@ -3236,7 +3236,7 @@ function rcube_elastic_ui()
                 }
                 // #7231: When clicking on autocompletion list a change event
                 // is fired twice. We have to remove last recipient box if it is
-                // the same recpient (with incomplete email address).
+                // the same recipient (with incomplete email address).
                 // FIXME: Anyone with a better solution?
                 else if (ac) {
                     last = list.find('li.recipient').last();
@@ -3296,7 +3296,7 @@ function rcube_elastic_ui()
             .attr('tabindex', -1)
             .after(list)
             // some core code sometimes focuses or changes the original node
-            // in such cases we wan't to parse it's value and apply changes
+            // in such cases we want to parse its value and apply changes
             // to the widget element
             .on('focus', function(e) { input.focus(); e.preventDefault(); })
             .on('change', function() {
@@ -3556,7 +3556,7 @@ function rcube_elastic_ui()
 
         var select_ident = 'select' + select.attr('id') + select.attr('name');
         var is_menu_open = function() {
-            // Use proper window in cases when the select element intialized
+            // Use proper window in cases when the select element initialized
             // inside an iframe is then used in a dialog inside a parent's window
             // For some reason we can't access data-button property in cross-window
             // case, we use data-ident attribute instead
@@ -3871,7 +3871,7 @@ function rcube_elastic_ui()
         $(textarea).on('input', resize).trigger('input');
     };
 
-    // Inititalizes smart list input
+    // Initializes smart list input
     function smart_field_init(field)
     {
         var tip, id = field.id + '_list',
@@ -3995,7 +3995,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Register form errors, mark fields as invalid, dsplay the error below the input
+     * Register form errors, mark fields as invalid, display the error below the input
      */
     function form_errors(tips)
     {

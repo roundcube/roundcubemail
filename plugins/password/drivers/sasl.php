@@ -4,7 +4,7 @@
  * SASL Password Driver
  *
  * Driver that adds functionality to change the users Cyrus/SASL password.
- * The code is derrived from the Squirrelmail "Change SASL Password" Plugin
+ * The code is derived from the Squirrelmail "Change SASL Password" Plugin
  * by Galen Johnson.
  *
  * It only works with saslpasswd2 on the same host where Roundcube runs

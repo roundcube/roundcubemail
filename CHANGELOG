@@ -48,7 +48,7 @@ RELEASE 1.5-beta
 - Allow array in smtp_host config (#7296)
 - Support proxy for server-side HTTP requests (#7658)
 - By default do not set the User-Agent header (#7731)
-- Add posibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
+- Add possibility to (re-)define field mapping on contacts import from a CSV file (#7045, #6668)
 - Move "On request for return receipt" from "Mailbox View" to "Displaying Messages" (#7614)
 - Support RFC8438: IMAP STATUS=SIZE - for faster folder size calculation (#7269)
 - MySQL: Use utf8mb4 charset and utf8mb4_unicode_ci collation (#6535, #7113)
@@ -305,7 +305,7 @@ RELEASE 1.4.1
 
 RELEASE 1.4.0
 -------------
-- Elastic: Resizeable columns (#6929)
+- Elastic: Resizable columns (#6929)
 - Elastic: Fix position and style of auto-complete dropdown on small screens (#6951)
 - Elastic: Fix initial focus on recipients input in mail compose screen
 - Elastic: Fix inserting responses at cursor position (#6971)
@@ -439,7 +439,7 @@ RELEASE 1.4-rc1
 - Password: Fix bug where new users could skip forced password change (#6434)
 - Password: Allow drivers to override default password comparisons (eg new is not same as current) (#6473)
 - Password: Allow drivers to override default strength checks (eg allow for 'not the same as last x passwords') (#246)
-- Passowrd: Allow drivers to define password strength rules displayed to the user
+- Password: Allow drivers to define password strength rules displayed to the user
 - Password: Allow separate password saving and strength drivers for use of strength checking services (#5040)
 - Password: Add zxcvbn driver for checking password strength (#6479)
 - Password: Disallow control characters in passwords
@@ -675,7 +675,7 @@ RELEASE 1.3.1
 - Remove non-printable characters from filenames on download/display (#5880)
 - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
 - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
-- Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
+- Fix bug where HTML messages with @media styles could modify style of page body (#5811)
 - Fix style issue on selected and unfocused message that is part of a thread (#5798)
 - Fix bug where a.button style from managesieve plugin could impact other elements (#5800)
 - Fix position of selected icon for (Mailvelope) Encrypt button
@@ -865,7 +865,7 @@ RELEASE 1.2.2
 - Fix bug where blocked.gif couldn't be attached to reply/forward with insecure content
 - Fix E_DEPRECATED warning when using Auth_SASL::factory() (#5401)
 - Fix bug where names of downloaded files could be malformed when derived from the message subject (#5404)
-- Fix so "All" messages selection is resetted on search reset (#5413)
+- Fix so "All" messages selection is reset on search reset (#5413)
 - Fix bug where folder creation could fail if personal namespace contained more than one entry (#5403)
 - Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
 - Fix PHP warning when handling shared namespace with empty prefix (#5420)
@@ -973,7 +973,7 @@ RELEASE 1.2-beta
 - Security: Improved encrypt/decrypt methods with option to choose the cipher_method (#4492)
 - Make optional adding of standard signature separator - sig_separator (#3276)
 - Optimize folder_size() on Cyrus IMAP by using special folder annotation (#4894)
-- Make optional hidding of folders with name starting with a dot - imap_skip_hidden_folders (#4870)
+- Make optional hiding of folders with name starting with a dot - imap_skip_hidden_folders (#4870)
 - Add option to enable HTML editor always, except when replying to plain text messages (#4352)
 - Emoticons: Added option to switch on/off emoticons in compose editor (#2076)
 - Emoticons: Added option to switch on/off emoticons in plain text messages
@@ -1171,7 +1171,7 @@ RELEASE 1.1-beta
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
 - Added config option 'log_session_id' to control the length of the session identifier in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#4638)
-- Intergrate Net_LDAP3 and rcube_ldap_generic classes
+- Integrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#4478)
 - Support password encryption using openssl extension (#4614)
 - Create/rename groups in UI dialogs (#4592)
@@ -1232,7 +1232,7 @@ RELEASE 1.0.4
 - Fix issue where Archive folder wasn't protected in Folder Manager (#4706)
 - Fix compatibility with PHP 5.2. in rcube_imap_generic (#4682)
 - Fix setting flags on servers with no PERMANENTFLAGS response (#4667)
-- Fix regression in SHAA password generation in ldap driver of password plugin (#4670)
+- Fix regression in SHA password generation in ldap driver of password plugin (#4670)
 - Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#4672)
 - Fix font style display issue in HTML messages with styled <span> elements (#4671)
 - Fix download of attachments that are part of TNEF message (#4668)
@@ -1298,7 +1298,7 @@ RELEASE 1.0.1
 - Apply user-specific replacements to group's base_dn property (#4512)
 - Fix missing email address when importing contacts from outlook csv (#4535)
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#4508)
-- Fix "washing" of unicoded style attributes (#4510)
+- Fix "washing" of unicode style attributes (#4510)
 - Fix unintentional redirect from compose page in Webkit browsers (#4516)
 - Fix messages index cache update under some conditions (e.g. proxy) (#4505)
 - Fix lack of translation of special folders in some configurations (#4520)
@@ -1375,7 +1375,7 @@ RELEASE 1.0-beta
 - Fix Internet Explorer 11 detection (#4397)
 - Fix date column width to fit the widest possible date format (#4354)
 - Move certain user preference options to a collapsed "advanced" block (#4015)
-- Add file type icons for Powerpoint and Open Office presentations (#4269)
+- Add file type icons for PowerPoint and Open Office presentations (#4269)
 - Fix operations on folders with trailing spaces in name (#4387)
 - Improve identity selection based on From: header (#4360)
 - Fix issue where mails with inline images of the same name contained only the first image multiple times (#4378)
@@ -1420,14 +1420,14 @@ RELEASE 1.0-beta
 - Added possibility to choose to move or copy contacts from drag-n-drop menu (#3962)
 - Fix Close link and remove About link on error pages (#4201)
 - Improved/unified attachment preview screen, added print button
-- Fix lack of space between searchfiler and quicksearchbar in Larry skin (#4233)
+- Fix lack of space between searchfilter and quicksearchbar in Larry skin (#4233)
 - Cache LDAP's user_specific search and use vlv for better performance (#4247)
 - LDAP: auto-detect and use VLV indices for all search operations
 - LDAP: additional group configuration options for  address books
 - LDAP: separated address book implementation from a generic LDAP wrapper class
 - Allow address books to browse a multi-level group hierarchy in the contacts list
 - Fix session issues when local and database time differs (#2401)
-- Fix thread cache syncronization/validation (#4150)
+- Fix thread cache synchronization/validation (#4150)
 - Added feature to import messages to the currently selected folder
 - Add option show_real_foldernames to disable localization of special folders
 - Fix database cache expunge issues (#4229)
@@ -1542,7 +1542,7 @@ RELEASE 0.9.2
 - Fix PHP warning when responding to a message with many Return-Path headers (#4222)
 - Fix unintentional compose window resize (#4206)
 - Fix performance regression in text wrapping function (#4219)
-- Fix connection to posgtres db using unix socket (#4218)
+- Fix connection to postgres db using unix socket (#4218)
 - Fix handling of comma when adding contact from contacts widget (#4199)
 - Fix bug where a message was opened in both preview pane and new window on double-click (#4212)
 - Fix fatal error when xdebug.max_nesting_level was exceeded in rcube_washtml (#4202)
@@ -1573,7 +1573,7 @@ RELEASE 0.9.1
 - Fix min_refresh_interval handling on preferences save (#4179)
 - Fix PDF support detection for Firefox PDF.js (#4113)
 - Fix possible collision in generated thumbnail cache key (#4177)
-- Fix exit code on bootsrap errors in CLI mode (#4160)
+- Fix exit code on bootstrap errors in CLI mode (#4160)
 - Fix error handling in CLI mode, use STDERR and non-empty exit code (#5161)
 - Fix error when using check_referer=true
 - Fix incorrect handling of some specific links (#4171)
@@ -1611,7 +1611,7 @@ RELEASE 0.9-rc2
 - Fix forward as attachment bug with editormode != 1 (#4129)
 - Fix LIMIT/OFFSET queries handling on MS SQL Server (#4123)
 - Fix so task name can really contain all from a-z0-9_- characters (#4095)
-- Fix javascript errors when working in a page opened with taget="_blank"
+- Fix javascript errors when working in a page opened with target="_blank"
 - Mention SQLite database format change in UPGRADING file (#4122)
 - Increase maxlength to 254 chars for email input fields in addressbook (#4126)
 - Fix thumbnail size when GD extension is used for image resize (#4124)
@@ -1727,7 +1727,7 @@ RELEASE 0.8.5
 - Fix XSS vulnerability in vbscript: and data:text links handling [CVE-2012-6121] (#4033)
 - Fix absolute positioning in HTML messages (#4007)
 - Fix cache (in)validation after setting \Deleted flag
-- Fix keybord events on messages list in opera browser (#4011)
+- Fix keyboard events on messages list in opera browser (#4011)
 - Fix selection of collapsed thread rows (#3978)
 - Fix wrapping of quoted text with format=flowed (#3561)
 
@@ -1743,7 +1743,7 @@ RELEASE 0.8.3
 -------------
 - Fix AREA links handling (#3992)
 - Fix possible HTTP DoS on error in keep-alive requests (#3983)
-- Fix compatybility with MDB2 2.5.0b4 (#3982)
+- Fix compatibility with MDB2 2.5.0b4 (#3982)
 - Fix a bug where saving a message in INBOX wasn't possible
 - Fix HTML part detection in messages with attachments (#3976)
 - Fix bug where wrong words were highlighted on spell-before-send check
@@ -1986,7 +1986,7 @@ RELEASE 0.7-beta
 - Fix issue where it wasn't possible to change list view mode in folder manager for INBOX (#3522)
 - Fix namespace handling in special folders settings (#3527)
 - Disable time limit for CLI scripts (#3524)
-- Fix misleading display when chaning editor type (#3519)
+- Fix misleading display when changing editor type (#3519)
 - Add loading indicator on contact delete
 - Fix bug where after delete message rows can be added to the list of another folder (#3263)
 - Add notice on autocompletion that not all records were displayed
@@ -2070,7 +2070,7 @@ RELEASE 0.6-beta
 - Added option to specify to which address book add new contacts
 - Added plugin hook for keep-alive requests
 - Store user preferences in session when write-master is not available and session is stored in memcache, write them later
-- Improve performence of folder manager operations
+- Improve performance of folder manager operations
 - Fix default_port option handling in Installer when config.inc.php file exists (#3390)
 - Removed option focus_on_new_message, added newmail_notifier plugin
 - Added general rcube_cache class with Memcache and APC support
@@ -2089,9 +2089,9 @@ RELEASE 0.6-beta
 - Move folder name truncation to client/skin (#1822)
 - Added plugin hook for request token creation
 - Replace LDAP vars in group queries (#3329)
-- Fix vcard folding with uncode characters (#3353)
+- Fix vcard folding with unicode characters (#3353)
 - Keep all submitted data if contact form validation fails (#3350)
-- Handle uncode strings in rcube_addressbook::normalize_string() (#3351)
+- Handle unicode strings in rcube_addressbook::normalize_string() (#3351)
 - Fix handling of debug_level=4 in ajax requests (#3327)
 - Enable TinyMCE's contextmenu (#3062)
 - Allow multiple concurrent compose sessions
@@ -2490,7 +2490,7 @@ RELEASE 0.4-beta
 - Add support for MDB2's 'sqlsrv' driver (#2602)
 - Use jQuery-1.4
 - Removed problematic browser-caching of messages
-- Fix incompatybility with suhosin.executor.disable_emodifier (#2549)
+- Fix incompatibility with suhosin.executor.disable_emodifier (#2549)
 - Use PLAIN auth when CRAM fails and imap_auth_type='check' (#2587)
 - Fix removal of <title> tag from HTML messages (#2629)
 - Fix 'force_https' to specified port when URL contains a port number (#2612)
@@ -2572,7 +2572,7 @@ RELEASE 0.3-stable
 - Add mail_domain to LDAP email entries without @ sign (#1652)
 - Fix saving empty values in LDAP contact data (#2113)
 - Fix LDAP contact update when RDN field is changed (#2119)
-- Fix LDAP attributes case senitivity problems (#2155)
+- Fix LDAP attributes case sensitivity problems (#2155)
 - Fix LDAP addressbook browsing when only one directory is used (#2314)
 - Fix endless loop on error response for APPEND command (#2346)
 - Don't require date.timezone setting in installer (#2284)
@@ -2675,7 +2675,7 @@ RELEASE 0.2.2
 -------------
 - Fix quicksearchbox look in Chrome and Konqueror (#1380)
 - Fix UTF-8 byte-order mark removing (#1911)
-- Fix folders subscribtions on Konqueror (#1380) 
+- Fix folders subscriptions on Konqueror (#1380) 
 - Fix debug console on Konqueror and Safari
 - Fix messagelist focus issue when modifying status of selected messages (#2134)
 - Support STARTTLS in IMAP connection (#1714)
@@ -2748,9 +2748,9 @@ RELEASE 0.2-STABLE
 - Fix line-break issue when copy & paste in Firefox (#1832)
 - Fix autocomplete "unknown server error" (#2008)
 - Fix STARTTLS before AUTH in SMTP connection (#1415)
-- Support multiple quota values in QUOTAROOT resonse (#1999)
+- Support multiple quota values in QUOTAROOT response (#1999)
 - Only abbreviate file name for IE < 7 browsers (#1548)
-- Performance: allow setting imap rootdir and delimiter before connect (#1628)
+- Performance: allow setting imap root dir and delimiter before connect (#1628)
 - Fix sorting of folders with more than 2 levels (#1953)
 - Fix search results page jumps in LDAP addressbook (#1689)
 - Fix empty line before the signature in IE (#1769)
@@ -2775,7 +2775,7 @@ RELEASE 0.2-STABLE
 - Use SORT for searching on servers with SORT capability
 - Added message status filter
 - Fix empty file sending (#1801)
-- Improved searching with many criterias (calling one SEARCH command)
+- Improved searching with many criteria (calling one SEARCH command)
 - Fix HTML editor initialization on IE (#1731)
 - Add warning when switching editor mode from html to plain (#1888)
 - Make identities list scrollable (#1930)
@@ -2814,7 +2814,7 @@ RELEASE 0.2-STABLE
 - Allow calling msgimport.sh/msgexport.sh from any directory (#1837)
 - Localized filesize units (#1760)
 - Better handling of "no identity" and "no email in identity" situations (#1592)
-- Added 'mime_param_folding' option with possibility to choose long/non-ascii attachment names encoding eg. to be readable in MS Outlook/OE (#1743)
+- Added 'mime_param_folding' option with possibility to choose long/non-ascii attachment names encoding e.g. to be readable in MS Outlook/OE (#1743)
 - Added "advanced options" feature in User Preferences
 - Fix unread counter when displaying cached massage in preview panel (#1720)
 - Fix htmleditor spellchecking on MS Windows (#1808)
@@ -2954,9 +2954,9 @@ RELEASE 0.1.1
 - Fixed creating a new folder with a comma in its name (#1263)
 - Fixed sorting of messages when default mailbox is empty (#1020)
 - Improve message previewpane - less loading (#1019)
-- Fixed login form autoompletion (#1378)
+- Fixed login form autocompletion (#1378)
 - Fixed virtuser_query option for mdb2 backend (#1409)
-- Fixed attachment resoting from Drafts when message body was empty (#1144)
+- Fixed attachment restoring from Drafts when message body was empty (#1144)
 - Fixed usage of ob_gzhandler (#1390)
 - Fixed message part window in IE6 (#1211)
 - Fixed decoding of mime-encoded strings (#938)
@@ -2992,7 +2992,7 @@ RELEASE 0.1-STABLE
 - Don't create default folders by default
 - Fixed some potential security risks (audited by Andris)
 - Only show new messages if they match the current search (#925)
-- Switch to/from when searcing in Sent folder (#1177)
+- Switch to/from when searching in Sent folder (#1177)
 - Correctly read the References header (#1236)
 - Unset old cookie before sending a new value (#1232)
 - Correctly decode attachments when downloading them (#1235 and #1484642)
@@ -3048,7 +3048,7 @@ RELEASE 0.1-RC2
 - Fix status message bug #1114 with regard to #1041
 - Fix address adding bug reported by David Koblas
 - Applied socket error patch by Thomas Mangin
-- Pass-by-reference workarround for PHP5 in sendmail.inc
+- Pass-by-reference workaround for PHP5 in sendmail.inc
 - Fixed buggy imap_root settings (closes #1056)
 - Prevent default events on subject links (#1071)
 - Use HTTP-POST requests for actions that change state
@@ -3116,8 +3116,8 @@ RELEASE 0.1-RC1
 - Mark messages as read once the preview is loaded (closes #1484132)
 - Include smtp final response in log (closes #862)
 - Corrected date string in sent message header (closes #887)
-- Correclty choose "To" column in sent and draft mailboxes (closes #769)
-- Changed srong tooltips for message browse buttons (closes #757)
+- Correctly choose "To" column in sent and draft mailboxes (closes #769)
+- Changed tooltips for message browse buttons (closes #757)
 - Fixed signature delimiter character to be standard (Bug #830)
 - Fixed XSS vulnerability (Bug #877)
 - Remove newlines from mail headers (Bug #827)
@@ -3147,7 +3147,7 @@ RELEASE 0.1-RC1
 - Fixed URL character set (Ticket #616)
 - Fixed saving of contact into MySQL from LDAP query results (Ticket #681)
 - Fixed folder renaming: unsubscribe before rename (Bug #750)
-- Finalized new message parsing (+ chaching)
+- Finalized new message parsing (+ caching)
 - Fixed wrong usage of mbstring (Bug #645)
 - Set default spelling language (Ticket #764)
 - Added support for Nox Spell Server

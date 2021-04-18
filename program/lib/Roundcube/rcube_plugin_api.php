@@ -96,7 +96,7 @@ class rcube_plugin_api
 
         // register an internal hook
         $this->register_hook('template_container', [$this, 'template_container_hook']);
-        // maybe also register a shudown function which triggers
+        // maybe also register a shutdown function which triggers
         // shutdown functions of all plugin objects
 
         foreach ($this->plugins as $plugin) {
@@ -126,7 +126,7 @@ class rcube_plugin_api
             $this->load_plugin($plugin_name);
         }
 
-        // check existance of all required core plugins
+        // check existence of all required core plugins
         foreach ($plugins_required as $plugin_name) {
             $loaded = false;
             foreach ($this->plugins as $plugin) {
@@ -145,7 +145,7 @@ class rcube_plugin_api
             if (!$loaded) {
                 rcube::raise_error([
                         'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Requried plugin $plugin_name was not loaded"
+                        'message' => "Required plugin $plugin_name was not loaded"
                     ],
                     true, true
                 );
@@ -253,7 +253,7 @@ class rcube_plugin_api
     }
 
     /**
-     * Check if we should prevent this plugin from initialising
+     * Check if we should prevent this plugin from initializing
      *
      * @param rcube_plugin $plugin Plugin object
      *
@@ -636,7 +636,7 @@ class rcube_plugin_api
         else if (in_array($task, rcmail::$main_tasks)) {
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Cannot register taks $task;"
+                    'message' => "Cannot register task $task;"
                         ." already taken by another plugin or the application itself"
                 ],
                 true, false

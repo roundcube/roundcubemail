@@ -1794,7 +1794,7 @@ function rcube_webmail()
     if (node.collapsed) {
       this.env[prefname] = this.env[prefname] + '&'+urlencode(node.id)+'&';
 
-      // select the folder if one of its childs is currently selected
+      // select the folder if one of its children is currently selected
       // don't select if it's virtual (#1488346)
       if (!node.virtual && this.env.mailbox && this.env.mailbox.startsWith(node.id + this.env.delimiter))
         this.command('list', node.id);
@@ -3047,7 +3047,7 @@ function rcube_webmail()
 
     parent = row.parent_uid;
 
-    // childrens
+    // children
     row = row.obj.nextSibling;
     while (row) {
       if (row.nodeType == 1 && (r = rows[row.uid])) {
@@ -4038,7 +4038,7 @@ function rcube_webmail()
             form.action = ref.add_url(form.action, '_saveonly', 1);
           }
 
-          // send pgp conent via hidden field
+          // send pgp content via hidden field
           if (!hidden.length) {
             hidden = $('<input type="hidden" name="_pgpmime">').appendTo(form);
           }
@@ -4092,7 +4092,7 @@ function rcube_webmail()
   this.mailvelope_search_pubkeys = function(emails, resolve, import_handler)
   {
     // query with publickey.js
-    var deferreds = [],
+    var deferred = [],
       pk = new PublicKey(this.env.keyservers),
       lock = ref.display_message('', 'loading');
 
@@ -4108,14 +4108,14 @@ function rcube_webmail()
           d.resolve([email].concat(results));
         }
       });
-      deferreds.push(d);
+      deferred.push(d);
     });
 
-    $.when.apply($, deferreds).then(function() {
+    $.when.apply($, deferred).then(function() {
       var missing_keys = [],
         key_selection = [];
 
-      // alanyze results of all queries
+      // analyze results of all queries
       $.each(arguments, function(i, result) {
         var email = result.shift();
         if (!result.length) {
@@ -4146,7 +4146,7 @@ function rcube_webmail()
   };
 
   // list the given public keys in a dialog with options to import
-  // them into the local Maivelope keyring
+  // them into the local Mailvelope keyring
   this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
     var ul = $('<div>').addClass('listing pgpkeyimport');
@@ -5185,7 +5185,7 @@ function rcube_webmail()
     this.editor.set_language(lang);
   };
 
-  // resume spellchecking, highlight provided mispellings without new ajax request
+  // resume spellchecking, highlight provided misspellings without new ajax request
   this.spellcheck_resume = function(data)
   {
     this.editor.spellcheck_resume(data);
@@ -6555,7 +6555,7 @@ function rcube_webmail()
     if (source == '' && this.env.selection_sources.length == 1)
       source = this.env.selection_sources[0];
 
-    // tagret is a group
+    // target is a group
     if (to.type == 'group') {
       if (dest == source)
         return;
@@ -8147,7 +8147,7 @@ function rcube_webmail()
     return id;
   };
 
-  // make a message to disapear
+  // make a message to disappear
   this.hide_message = function(obj, fade)
   {
     // pass command to parent window
@@ -8894,7 +8894,7 @@ function rcube_webmail()
     return show;
   };
 
-  // hide the given popup menu (and it's childs)
+  // hide the given popup menu (and its children)
   this.hide_menu = function(name, event)
   {
     if (!this.menu_stack.length) {
@@ -9470,7 +9470,7 @@ function rcube_webmail()
    The string '%' in either a GET query or POST parameters will be replaced with the respective item value.
    This is the argument object expected: {
        items: ['foo','bar','gna'],      // list of items to send requests for
-       action: 'task/some-action',      // Roudncube action to call
+       action: 'task/some-action',      // Roundcube action to call
        query: { q:'%s' },               // GET query parameters
        postdata: { source:'%s' },       // POST data (sends a POST request if present)
        threads: 3,                      // max. number of concurrent requests
@@ -10032,7 +10032,7 @@ function rcube_webmail()
     }
   };
 
-  // Checks browser capabilities eg. PDF support, TIF support
+  // Checks browser capabilities e.g. PDF support, TIF support
   this.browser_capabilities_check = function()
   {
     if (!this.env.browser_capabilities)

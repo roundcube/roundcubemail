@@ -249,7 +249,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
             . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
             . '</head><body>' . $html . '</body></html>';
 
-        // clean HTML with washhtml by Frederic Motte
+        // clean HTML with washtml by Frederic Motte
         $wash_opts = [
             'show_washed'   => false,
             'allow_remote'  => 1,

@@ -212,7 +212,7 @@ class rcube_session_redis extends rcube_session
      * @param string $type   Operation type
      * @param string $key    Session identifier
      * @param string $data   Data to log
-     * @param bool   $result Opearation result
+     * @param bool   $result Operation result
      */
     protected function debug($type, $key, $data = null, $result = null)
     {

@@ -164,7 +164,7 @@ class rcube_vcard
     }
 
     /**
-     * Return vCard data as associative array to be unsed in Roundcube address books
+     * Return vCard data as associative array to be used in Roundcube address books
      *
      * @return array Hash array with key-value pairs
      */
@@ -653,7 +653,7 @@ class rcube_vcard
         $out = substr($matches[1], 0, $c);
 
         for ($n = $c; $c < strlen($matches[1]); $c++) {
-            // break if length > 75 or mutlibyte character starts after position 71
+            // break if length > 75 or multibyte character starts after position 71
             if ($n > 75 || ($n > 71 && ord($matches[1][$c]) >> 6 == 3)) {
                 $out .= "\r\n ";
                 $n = 0;
@@ -671,7 +671,7 @@ class rcube_vcard
      *
      * @param string $val vCard content
      *
-     * @retunr string Folded vCard string
+     * @return string Folded vCard string
      */
     public static function rfc2425_fold($val)
     {
@@ -934,7 +934,7 @@ class rcube_vcard
         }
 
         // some implementations (GMail) use non-standard backslash before colon (#1489085)
-        // we will handle properly any backslashed character - removing dummy backslahes
+        // we will handle properly any backslashed character - removing dummy backslashes
         // return strtr($str, ["\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';']);
 
         $str = str_replace("\r", '', $str);

@@ -54,7 +54,7 @@ abstract class rcube_spellchecker_engine
      *
      * @param string $text Text content for spellchecking
      *
-     * @return bool True when no mispelling found, otherwise false
+     * @return bool True when no misspelling found, otherwise false
      */
     abstract function check($text);
 

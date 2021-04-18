@@ -89,7 +89,7 @@ class rcmail_oauth
      */
     protected function init()
     {
-        // subscrbe to storage and smtp init events
+        // subscribe to storage and smtp init events
         if ($this->is_enabled()) {
             $this->rcmail->plugins->register_hook('storage_init', [$this, 'storage_init']);
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
@@ -122,7 +122,7 @@ class rcmail_oauth
     }
 
     /**
-     * Getter for the last error occured
+     * Getter for the last error occurred
      *
      * @return mixed
      */

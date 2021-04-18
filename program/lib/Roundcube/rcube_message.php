@@ -579,7 +579,7 @@ class rcube_message
     }
 
     /**
-     * Read the message structure returend by the IMAP server
+     * Read the message structure returned by the IMAP server
      * and build flat lists of content parts and attachments
      *
      * @param rcube_message_part $structure Message structure node
@@ -759,7 +759,7 @@ class rcube_message
                 $this->add_part($c);
             }
         }
-        // this is an ecrypted message -> create a plaintext body with the according message
+        // this is an encrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'multipart/encrypted') {
             $p = new rcube_message_part();
             $p->type            = 'content';
@@ -781,7 +781,7 @@ class rcube_message
                 }
             }
         }
-        // this is an S/MIME ecrypted message -> create a plaintext body with the according message
+        // this is an S/MIME encrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'application/pkcs7-mime') {
             $p = new rcube_message_part();
             $p->type            = 'content';

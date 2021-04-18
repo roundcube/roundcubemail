@@ -260,7 +260,7 @@ class rcube_csv2vcard
         'mobile_number'     => "Mobile Number",
         'nickname'          => "Nickname",
         'organization'      => "Organization",
-        'pager_number'      => "Pager Namber",
+        'pager_number'      => "Pager Number",
         'primary_email'     => "Primary Email",
         'secondary_email'   => "Secondary Email",
         'web_page_1'        => "Web Page 1",
