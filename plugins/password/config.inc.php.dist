@@ -16,7 +16,7 @@ $config['password_confirm_current'] = true;
 
 // Require the new password to be a certain length.
 // set to blank to allow passwords of any length
-$config['password_minimum_length'] = 0;
+$config['password_minimum_length'] = 8;
 
 // Require the new password to have at least the specified strength score.
 // Note: Password strength is scored from 1 (week) to 5 (strong).

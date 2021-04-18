@@ -133,7 +133,7 @@ class password extends rcube_plugin
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
         $confirm         = $this->rc->config->get('password_confirm_current');
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         $force_save      = $this->rc->config->get('password_force_save');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
@@ -270,7 +270,7 @@ class password extends rcube_plugin
 
         $rules = '';
 
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         if ($required_length > 0) {
             $rules .= html::tag('li', ['class' => 'required-length'], $this->gettext([
                 'name' => 'passwordshort',
