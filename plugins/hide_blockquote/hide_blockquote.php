@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Quotation block hidding
+ * Quotation block hiding
  *
  * Plugin that adds a possibility to hide long blocks of cited text in messages.
  *
  * Configuration:
  * // Minimum number of citation lines. Longer citation blocks will be hidden.
- * // 0 - no limit (no hidding).
+ * // 0 - no limit (no hiding).
  * $config['hide_blockquote_limit'] = 0;
  *
  * @license GNU GPLv3+

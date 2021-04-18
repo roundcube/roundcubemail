@@ -58,7 +58,7 @@ function rcube_init_tabs(id, current)
   if (!tabs.length)
     tabs = $('<div>').addClass('tabsbar').appendTo(content);
 
-  // convert fildsets into tabs
+  // convert fieldsets into tabs
   fs.each(function(idx) {
     var tab, a, elm = $(this), legend = elm.children('legend');
 

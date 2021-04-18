@@ -29,7 +29,7 @@ class rcmail_string_replacer extends rcube_string_replacer
     /**
      * Callback function used to build mailto: links around e-mail strings
      *
-     * This also adds an onclick-handler to open the Rouncube compose message screen on such links
+     * This also adds an onclick-handler to open the Roundcube compose message screen on such links
      *
      * @param array $matches Matches result from preg_replace_callback
      *

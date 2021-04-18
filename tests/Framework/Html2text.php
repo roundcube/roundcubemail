@@ -53,8 +53,8 @@ class rc_html2text extends PHPUnit\Framework\TestCase
             ],
             8 => [
                 'title' => '&nbsp; handling test',
-                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
-                'out'   => "eye:   test\ntes:   test",
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> test: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntest:   test",
             ],
             9 => [
                 'title' => 'HTML entity in STRONG tag',
@@ -118,7 +118,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoating on invalid html');
+        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
         $html = <<<EOF
@@ -131,7 +131,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
     }
 
     /**

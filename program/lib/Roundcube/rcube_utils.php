@@ -1085,7 +1085,7 @@ class rcube_utils
         }
 
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
-        // throws a warning, so we have to set the variant explicitely (#6075)
+        // throws a warning, so we have to set the variant explicitly (#6075)
         $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
         $options = 0;
 

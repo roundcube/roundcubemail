@@ -20,7 +20,7 @@
 */
 
 /**
- * Helper class for spellchecking with Googielspell and PSpell support.
+ * Helper class for spellchecking with GoogieSpell and PSpell support.
  *
  * @package    Framework
  * @subpackage Utils
@@ -126,7 +126,7 @@ class rcube_spellchecker
      * @param string $text    Text content for spellchecking
      * @param bool   $is_html Enables HTML-to-Text conversion
      *
-     * @return bool True when no mispelling found, otherwise false
+     * @return bool True when no misspelling found, otherwise false
      */
     function check($text, $is_html = false)
     {
@@ -146,9 +146,9 @@ class rcube_spellchecker
     }
 
     /**
-     * Number of mispellings found (after check)
+     * Number of misspellings found (after check)
      *
-     * @return int Number of mispellings
+     * @return int Number of misspellings
      */
     function found()
     {

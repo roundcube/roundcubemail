@@ -1140,7 +1140,7 @@ function rcube_mail_ui()
     // create tabs container
     var tabs = $('<ul>').addClass('tabsbar').prependTo(content);
 
-    // convert fildsets into tabs
+    // convert fieldsets into tabs
     fs.each(function(idx) {
       var tab, a, elm = $(this),
         legend = elm.children('legend'),

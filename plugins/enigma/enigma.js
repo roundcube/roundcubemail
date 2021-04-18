@@ -294,7 +294,7 @@ rcube_webmail.prototype.enigma_export = function(selected)
     this.enigma_export_submit(args);
 };
 
-// Sumbitting request for key(s) export
+// Submitting request for key(s) export
 // Done this way to handle password input
 rcube_webmail.prototype.enigma_export_submit = function(data)
 {
@@ -333,7 +333,7 @@ rcube_webmail.prototype.enigma_import = function()
     }
 };
 
-// Ssearch for key(s) for import
+// Search for key(s) for import
 rcube_webmail.prototype.enigma_import_search = function()
 {
     var form, search;

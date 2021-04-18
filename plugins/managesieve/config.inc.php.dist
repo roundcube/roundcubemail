@@ -28,7 +28,7 @@ $config['managesieve_auth_pw'] = null;
 // Note: tls:// prefix in managesieve_host is also supported
 $config['managesieve_usetls'] = false;
 
-// Connection scket context options
+// Connection socket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
 //$config['managesieve_conn_options'] = [
@@ -41,13 +41,13 @@ $config['managesieve_usetls'] = false;
 // Note: These can be also specified as an array of options indexed by hostname
 $config['managesieve_conn_options'] = null;
 
-// A file with default script content (eg. spam filter)
+// A file with default script content (e.g. spam filter)
 $config['managesieve_default'] = '/etc/dovecot/sieve/global';
 
 // The name of the script which will be used when there's no user script
 $config['managesieve_script_name'] = 'managesieve';
 
-// Sieve RFC says that we should use UTF-8 endcoding for mailbox names,
+// Sieve RFC says that we should use UTF-8 encoding for mailbox names,
 // but some implementations does not covert UTF-8 to modified UTF-7.
 // Defaults to UTF7-IMAP
 $config['managesieve_mbox_encoding'] = 'UTF-8';

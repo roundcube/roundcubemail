@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copy spam/ham messages to a direcotry for learning later
+ * Copy spam/ham messages to a directory for learning later
  *
  * @version 2.0
  *

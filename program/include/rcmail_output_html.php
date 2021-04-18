@@ -818,7 +818,7 @@ EOF;
             );
         }
 
-        // parse for specialtags
+        // parse for special tags
         $output = $this->parse_conditions($templ);
         $output = $this->parse_xml($output);
 
@@ -959,7 +959,7 @@ EOF;
     public function asset_url($path, $abs_url = false)
     {
         // iframe content can't be in a different domain
-        // @TODO: check if assests are on a different domain
+        // @TODO: check if assets are on a different domain
 
         if ($abs_url) {
             $path = $this->abs_url($path, true);
@@ -1076,7 +1076,7 @@ EOF;
     }
 
     /**
-     * Public wrapper to dipp into template parsing.
+     * Public wrapper to dip into template parsing.
      *
      * @param string $input Template content
      *
@@ -1932,7 +1932,7 @@ EOF;
 
     /**
      * Add HTML code to the page footer
-     * To be added right befor </body>
+     * To be added right before </body>
      *
      * @param string $str HTML code
      */
@@ -2045,7 +2045,7 @@ EOF;
             $page_header = "<head>\n$page_header\n</head>\n";
         }
 
-        // add page hader
+        // add page header
         if ($hpos) {
             $output = substr_replace($output, $page_header, $hpos, 0);
         }
@@ -2217,7 +2217,7 @@ EOF;
     {
         static $username;
 
-        // alread fetched
+        // already fetched
         if (!empty($username)) {
             return $username;
         }
@@ -2269,7 +2269,7 @@ EOF;
 
         $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
-        // set atocomplete attribute
+        // set autocomplete attribute
         $user_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $host_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $pass_attrib = $autocomplete > 1 ? [] : ['autocomplete' => 'off'];

@@ -3,7 +3,7 @@
 /**
  * Debug Logger
  *
- * Enhanced logging for debugging purposes.  It is not recommened
+ * Enhanced logging for debugging purposes.  It is not recommended
  * to be enabled on production systems without testing because of
  * the somewhat increased memory, cpu and disk i/o overhead.
  *

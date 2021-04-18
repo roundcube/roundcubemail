@@ -20,7 +20,7 @@
 /**
  * If http_received_header_encrypt is configured, the IP address and the
  * host name of the added Received: header is encrypted with 3DES, to
- * protect information that some could consider sensitve, yet their
+ * protect information that some could consider sensitive, yet their
  * availability is a must in some circumstances.
  *
  * Such an encrypted Received: header might look like:

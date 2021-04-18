@@ -4,7 +4,7 @@
  * Dovecot passwdfile Password Driver
  *
  * Driver that adds functionality to change the passwords in dovecot v2 passwd-file files.
- * The code is derrived from the Plugin examples by The Roundcube Dev Team
+ * The code is derived from the Plugin examples by The Roundcube Dev Team
  *
  * On vanilla dovecot v2 environments, use the correct values for these config settings, too:
  *
@@ -44,7 +44,7 @@ class rcube_dovecot_passwdfile_password
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
-        // read the entire mailuser file
+        // read the entire mail user file
         $fp = fopen($mailuserfile, 'r');
 
         if (empty($fp)) {

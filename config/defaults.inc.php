@@ -196,7 +196,7 @@ $config['imap_ns_personal'] = null;
 $config['imap_ns_other']    = null;
 $config['imap_ns_shared']   = null;
 
-// By default IMAP capabilities are readed after connection to IMAP server
+// By default IMAP capabilities are read after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
 // after login. Set to True if you've got this case.
 $config['imap_force_caps'] = false;
@@ -212,7 +212,7 @@ $config['imap_force_lsub'] = false;
 // Enable this option to force listing of folders in all namespaces
 $config['imap_force_ns'] = false;
 
-// Some servers return hidden folders (name starting witha dot)
+// Some servers return hidden folders (name starting with a dot)
 // from user home directory. IMAP RFC does not forbid that.
 // Enable this option to hide them and disable possibility to create such.
 $config['imap_skip_hidden_folders'] = false;
@@ -267,7 +267,7 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
-// To specify differnt SMTP servers for different IMAP hosts provide an array
+// To specify different SMTP servers for different IMAP hosts provide an array
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
 $config['smtp_server'] = 'localhost';
 
@@ -675,7 +675,7 @@ $config['max_message_size'] = '100M';
 // Default: 0 (no limit)
 $config['max_recipients'] = 0;
 
-// Maximum number of recipients per message exluding Bcc header.
+// Maximum number of recipients per message excluding Bcc header.
 // This is a soft limit, which means we only display a warning to the user.
 // Default: 5
 $config['max_disclosed_recipients'] = 5;
@@ -954,7 +954,7 @@ $config['mailvelope_keysize'] = 4096;
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
 
-// This indicates which type of address book to use. Possible choises:
+// This indicates which type of address book to use. Possible choices:
 // 'sql' - built-in sql addressbook enabled (default),
 // ''    - built-in sql addressbook disabled.
 //         Still LDAP or plugin-added addressbooks will be available.
@@ -996,7 +996,7 @@ $config['ldap_public']['Verisign'] = [
   'port'          => 389,
   'use_tls'       => false,
   'ldap_version'  => 3,       // using LDAPv3
-  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind arrempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
+  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind attempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // When 'user_specific' is enabled following variables can be used in base_dn/bind_dn config:
   // %fu - The full username provided, assumes the username is an email
@@ -1105,7 +1105,7 @@ $config['ldap_public']['Verisign'] = [
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, %d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
-  // -> in this case, assure that groups and contacts are separated due to the concernig filters!
+  // -> in this case, assure that groups and contacts are separated due to the concerning filters!
   'groups'  => [
     'base_dn'           => '',
     'scope'             => 'sub',       // Search mode: sub|base|list
@@ -1158,7 +1158,7 @@ $config['autocomplete_min_length'] = 1;
 // books are searched in one request.
 $config['autocomplete_threads'] = 0;
 
-// Max. numer of entries in autocomplete popup. Default: 15.
+// Max. number of entries in autocomplete popup. Default: 15.
 $config['autocomplete_max'] = 15;
 
 // show address fields in this order

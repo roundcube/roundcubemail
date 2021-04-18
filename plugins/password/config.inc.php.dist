@@ -77,7 +77,7 @@ $config['password_blowfish_cost'] = 12;
 //$config['password_crypt_rounds'] = 50000;
 
 // This option temporarily disables the password change functionality.
-// Use it when the users database server is in maintenance mode or sth like that.
+// Use it when the users database server is in maintenance mode or something like that.
 // You can set it to TRUE/FALSE or a text describing the reason
 // which will replace the default.
 $config['password_disabled'] = false;
@@ -183,7 +183,7 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
-// Exemple: ['ldap1.exemple.com', 'ldap2.exemple.com'];
+// Example: ['ldap1.example.com', 'ldap2.example.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
 
@@ -201,8 +201,8 @@ $config['password_ldap_starttls'] = false;
 $config['password_ldap_version'] = '3';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
-$config['password_ldap_basedn'] = 'dc=exemple,dc=com';
+// Example: 'dc=example,dc=com'
+$config['password_ldap_basedn'] = 'dc=example,dc=com';
 
 // LDAP connection method
 // There are two connection methods for changing a user's LDAP password.
@@ -228,8 +228,8 @@ $config['password_ldap_adminPW'] = null;
 // '%name' will be replaced by the current roundcube user's name part
 // '%domain' will be replaced by the current roundcube user's domain part
 // '%dc' will be replaced by domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
-// Exemple: 'uid=%login,ou=people,dc=exemple,dc=com'
-$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=exemple,dc=com';
+// Example: 'uid=%login,ou=people,dc=example,dc=com'
+$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=example,dc=com';
 
 // LDAP search DN
 // The DN roundcube should bind with to find out user's DN
@@ -246,8 +246,8 @@ $config['password_ldap_searchDN'] = 'cn=roundcube,ou=services,dc=example,dc=com'
 // If password_ldap_searchDN is set, the password to use for
 // binding to search for user's DN. Note that you should comment out the default
 // password_ldap_userDN_mask setting for this to take effect.
-// Warning: Be sure to set approperiate permissions on this file so this password
-// is only accesible to roundcube and don't forget to restrict roundcube's access to
+// Warning: Be sure to set appropriate permissions on this file so this password
+// is only accessible to roundcube and don't forget to restrict roundcube's access to
 // your directory as much as possible using ACLs. Should this password be compromised
 // you want to minimize the damage.
 $config['password_ldap_searchPW'] = 'secret';
@@ -291,7 +291,7 @@ $config['password_ldap_force_replace'] = true;
 
 // LDAP Password Last Change Date
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "days since epoch" (an integer value)
+// The date is measured in "days since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set (e.g. shadowLastChange)
 $config['password_ldap_lchattr'] = '';
 
@@ -301,7 +301,7 @@ $config['password_ldap_samba_pwattr'] = '';
 
 // LDAP Samba Password Last Change Date attribute, e.g. sambaPwdLastSet
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "seconds since epoch" (an integer value)
+// The date is measured in "seconds since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set
 $config['password_ldap_samba_lchattr'] = '';
 
@@ -317,7 +317,7 @@ $config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
 $config['password_ldap_ppolicy_uri'] = 'ldap://localhost/';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
+// Example: 'dc=example,dc=com'
 $config['password_ldap_ppolicy_basedn'] = 'dc=example,dc=com';
 
 $config['password_ldap_ppolicy_searchDN'] = 'cn=someuser,dc=example,dc=com';
@@ -428,7 +428,7 @@ $config['password_expect_script'] = '';
 
 // Arguments for the expect script. See the helpers/passwd-expect file for details.
 // This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+//   -telnet -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
 $config['password_expect_params'] = '';
 
 
@@ -469,7 +469,7 @@ $config['password_plesk_rpc_port'] = '8443';
 $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 
 
-// kasswd Driver options
+// kpasswd Driver options
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';

@@ -923,7 +923,7 @@ class rcmail_action_mail_index extends rcmail_action
             }
         }
 
-        // clean HTML with washhtml by Frederic Motte
+        // clean HTML with washtml by Frederic Motte
         $wash_opts = [
             'show_washed'   => false,
             'allow_remote'  => $p['safe'],

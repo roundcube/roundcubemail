@@ -925,7 +925,7 @@ class rcmail_sendmail
 
             $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
 
-            // create teaxtarea object
+            // create textarea object
             $input = new $field_type($field_attrib);
             $out   = $input->show($this->compose_header_value($param, $mode));
         }
@@ -1055,7 +1055,7 @@ class rcmail_sendmail
             $charset = $this->rcmail->output->charset;
         }
         else if ($mode == self::MODE_REPLY) {
-            // get recipent address(es) out of the message headers
+            // get recipient address(es) out of the message headers
             if ($header == 'to') {
                 $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
                 $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
@@ -1243,7 +1243,7 @@ class rcmail_sendmail
                 $subject = 'Fwd: ' . $this->options['message']->subject;
             }
         }
-        // creeate a draft-subject
+        // create a draft-subject
         else if ($this->data['mode'] == self::MODE_DRAFT || $this->data['mode'] == self::MODE_EDIT) {
             $subject = $this->options['message']->subject;
         }

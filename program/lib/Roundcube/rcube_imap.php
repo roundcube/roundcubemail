@@ -255,7 +255,7 @@ class rcube_imap extends rcube_storage
     /**
      * Checks IMAP connection.
      *
-     * @return bool Ttrueon success, False on failure
+     * @return bool True on success, False on failure
      */
     public function is_connected()
     {
@@ -913,7 +913,7 @@ class rcube_imap extends rcube_storage
             $index->slice(-$slice, $slice);
         }
 
-        // fetch reqested messages headers
+        // fetch requested messages headers
         $a_index = $index->get();
         $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
@@ -1015,7 +1015,7 @@ class rcube_imap extends rcube_storage
         // Get UIDs of all messages in all threads
         $a_index = $threads->get();
 
-        // fetch reqested headers from server
+        // fetch requested headers from server
         $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
         unset($a_index);
@@ -1213,7 +1213,7 @@ class rcube_imap extends rcube_storage
         // SEARCH result, need sorting
         $cnt = $index->count();
 
-        // 300: experimantal value for best result
+        // 300: experimental value for best result
         if (($cnt > 300 && $cnt > $this->page_size) || !$this->sort_field) {
             // use memory less expensive (and quick) method for big result set
             $index = clone $this->index('', $this->sort_field, $this->sort_order);
@@ -1300,7 +1300,7 @@ class rcube_imap extends rcube_storage
             return [];
         }
         else {
-            // fetch reqested headers from server
+            // fetch requested headers from server
             $headers = $this->conn->fetchHeaders(
                 $folder, $msgs, true, false, $this->get_fetch_headers());
         }
@@ -1614,7 +1614,7 @@ class rcube_imap extends rcube_storage
      * @param  string  $sort_field Header field to sort by
      *
      * @return rcube_result_index  Search result object
-     * @todo: Search criteria should be provided in non-IMAP format, eg. array
+     * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
@@ -2941,7 +2941,7 @@ class rcube_imap extends rcube_storage
         // Add/Remove folders according to some configuration options
         $this->list_folders_filter($result, $root . $name, ($list_extended ? 'ext-' : '') . 'subscribed');
 
-        // Save the last command state, so we can ignore errors on any following UNSEBSCRIBE calls
+        // Save the last command state, so we can ignore errors on any following UNSUBSCRIBE calls
         $state = $this->save_conn_state();
 
         if ($list_extended) {
@@ -3107,7 +3107,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Fix folders list by adding folders from other namespaces.
-     * Needed on some servers eg. Courier IMAP
+     * Needed on some servers e.g. Courier IMAP
      *
      * @param array  $result Reference to folders list
      * @param string $type   Listing type (ext-subscribed, subscribed or all)
@@ -4351,7 +4351,7 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Sort folders in alphabethical order. Optionally put special folders
+     * Sort folders in alphabetical order. Optionally put special folders
      * first and other-users/shared namespaces last.
      *
      * @param array $a_folders    Folders list
@@ -4530,7 +4530,7 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Increde/decrese messagecount for a specific folder
+     * Increase/decrease messagecount for a specific folder
      */
     protected function set_messagecount($folder, $mode, $increment)
     {
