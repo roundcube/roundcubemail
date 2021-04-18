@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
 - Enigma: Display an information that public and private keys are stored on the server (#7941)
+- Managesieve: Fix removing nested rules in scripts (#8011)
 - Password: Fix broken 'hmail' driver (#7966)
 - Fix invalid search fields after search scope change (#6919)
 - Fix so "Always allow from..." button appears also when allow_images=3 (#7961)
