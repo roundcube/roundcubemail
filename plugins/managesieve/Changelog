@@ -1,3 +1,5 @@
+* version 9.4 [2021-04-18]
+-----------------------------------------------------------
 - Add support for 'spamtest' extension - RFC3685 (#6950)
 - Improve UX on custom header input (#7207)
 - Allow display name with email address in vacation :from field (#6760)
