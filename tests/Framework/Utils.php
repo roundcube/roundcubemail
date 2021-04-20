@@ -779,4 +779,29 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     {
         $this->assertEquals(rcube_utils::parse_host($name, $host), $result);
     }
+
+    /**
+     * Test-Cases for test_remove_subject_prefix()
+     */
+    function data_remove_subject_prefix() {
+        return [
+            ['both',    'Fwd: Re: Test subject both', 'Test subject both'],
+            ['both',    'Re: Fwd: Test subject both', 'Test subject both'],
+            ['reply',   'Fwd: Re: Test subject reply', 'Fwd: Re: Test subject reply'],
+            ['reply',   'Re: Fwd: Test subject reply', 'Fwd: Test subject reply'],
+            ['reply',   'Re: Fwd: Test subject reply (was: other test)', 'Fwd: Test subject reply'],
+            ['forward', 'Re: Fwd: Test subject forward', 'Re: Fwd: Test subject forward'],
+            ['forward', 'Fwd: Re: Test subject forward', 'Re: Test subject forward'],
+            ['forward', 'Fw: Re: Test subject forward', 'Re: Test subject forward'],
+        ];
+    }
+
+    /**
+     * Test remove_subject_prefix
+     * 
+     * @dataProvider data_remove_subject_prefix
+     */
+    function test_remove_subject_prefix($mode, $subject, $result) {
+        $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
+    }
 }
