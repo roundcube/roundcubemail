@@ -1219,13 +1219,13 @@ abstract class rcmail_action
             $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = 0;
-            $realname     = $realnames || isset($folder['realname']) ? $folder['realname'] : false;
+            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
 
             if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
             }
 
-            if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
+            if (isset($folder_class) && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1326,7 +1326,10 @@ abstract class rcmail_action
                 }
             }
 
-            if (!$realnames && ($folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null)) && $rcmail->text_exists($folder_class)) {
+            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
+            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
+
+            if (isset($folder_class) && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1354,7 +1357,7 @@ abstract class rcmail_action
      * (including shared/other users namespace roots).
      *
      * @param string $folder_id IMAP Folder name
-     * @param string $fallback fallback Folder CSS class name
+     * @param string $fallback  Fallback Folder CSS class name
      *
      * @return string|null CSS class name
      */
