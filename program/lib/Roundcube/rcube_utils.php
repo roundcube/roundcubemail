@@ -1591,23 +1591,27 @@ class rcube_utils
      */
     public static function remove_subject_prefix($subject, $mode = 'both')
     {
+        $config = rcmail::get_instance()->config;
+
         // Clean subject prefix for reply, forward or both
         if ($mode == 'both') {
-            $reply_prefixes = rcmail::get_instance()->config->get('subject_reply_prefixes', ['Re:']);
-            $forward_prefixes = rcmail::get_instance()->config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
+            $reply_prefixes = $config->get('subject_reply_prefixes', ['Re:']);
+            $forward_prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
             $prefixes = array_merge($reply_prefixes, $forward_prefixes);
         }
         else if ($mode == 'reply') {
-            $prefixes = rcmail::get_instance()->config->get('subject_reply_prefixes', ['Re:']);
+            $prefixes = $config->get('subject_reply_prefixes', ['Re:']);
+            // replace (was: ...) (#1489375)
+            $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
         }
         else if ($mode == 'forward') {
-            $prefixes = rcmail::get_instance()->config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
+            $prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
         }
 
         // replace Re:, Re[x]:, Re-x (#1490497)
         $pieces = array_map(function($prefix) {
-            $prefix = strtolower(str_replace(':', '', $prefix)); 
-            return $prefix.':|'.$prefix.'\[\d\]:|'.$prefix.'-\d:'; 
+            $prefix = strtolower(str_replace(':', '', $prefix));
+            return "$prefix:|$prefix\[\d\]:|$prefix-\d:";
         }, $prefixes);
         $pattern = '/^('.implode('|', $pieces).')\s*/i';
         do {

@@ -1194,9 +1194,6 @@ class rcmail_sendmail
 
         //  Add config options for subject prefixes (#7929) 
         $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
-
-        // replace (was: ...) (#1489375)
-        $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
         $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
         return trim($subject);
