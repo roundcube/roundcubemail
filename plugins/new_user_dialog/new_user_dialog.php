@@ -178,7 +178,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
             ));
             if ($plugin['abort']) return;
             // save data
-            $rcmail->user->update_identity($identity['identity_id'], $save_data);
+            $rcmail->user->update_identity($plugin['id'], $plugin['record']);
             $rcmail->user->save_prefs(['newuserdialog' => null]);
             // hide dialog
             $rcmail->output->command('new_user_dialog_close');
