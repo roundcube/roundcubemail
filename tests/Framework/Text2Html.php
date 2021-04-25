@@ -136,4 +136,25 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
 
         $this->assertEquals($expected, $html);
     }
+
+    /**
+     * Test bug #8021
+     */
+    function test_text2html_8021()
+    {
+        $input = "Test1 [1]\n\n[1] http://d1.tld\n\nyou wrote:\n> Test2 [1]\n>\n> [1] http://d2.tld";
+        $expected = '<div class="pre">Test1 [<a href="http://d1.tld">1</a>]'
+            . "<br>\n<br>\n"
+            . '[1] <a href="http://d1.tld">http://d1.tld</a>'
+            . "<br>\n<br>\n"
+            . 'you wrote:<blockquote>Test2 [<a href="http://d2.tld">1</a>]'
+            . "<br>\n<br>\n"
+            . '[1] <a href="http://d2.tld">http://d2.tld</a></blockquote></div>';
+
+        $t2h = new rcube_text2html($input);
+        $html = $t2h->get_html();
+        $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
+
+        $this->assertEquals($expected, $html);
+    }
 }

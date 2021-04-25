@@ -103,7 +103,7 @@ class rcube_string_replacer
      * @return string Return valid link for recognized schemes, otherwise
      *                return the unmodified URL.
      */
-    public function link_callback($matches)
+    protected function link_callback($matches)
     {
         $i          = -1;
         $scheme     = strtolower($matches[1]);
@@ -138,12 +138,21 @@ class rcube_string_replacer
      *
      * @return string Replacement string
      */
-    public function linkref_addindex($matches)
+    protected function linkref_addindex($matches)
     {
-        $key = $matches[1];
-        $this->linkrefs[$key] = isset($this->urls[$matches[3]]) ? $this->urls[$matches[3]] : null;
+        $key = $matches[1][0];
 
-        return $this->get_replacement($this->add('['.$key.']')) . $matches[2];
+        if (!isset($this->linkrefs[$key])) {
+            $this->linkrefs[$key] = [];
+        }
+
+        // Store the reference and its occurrence position
+        $this->linkrefs[$key][] = [
+            isset($this->urls[$matches[3][0]]) ? $this->urls[$matches[3][0]] : null,
+            $matches[0][1]
+        ];
+
+        return $this->get_replacement($this->add('['.$key.']')) . $matches[2][0];
     }
 
     /**
@@ -153,17 +162,25 @@ class rcube_string_replacer
      *
      * @return string Replacement string
      */
-    public function linkref_callback($matches)
+    protected function linkref_callback($matches)
     {
         $i = 0;
-        if (!empty($this->linkrefs[$matches[1]])) {
-            $url    = $this->linkrefs[$matches[1]];
+        $key = $matches[1][0];
+
+        if (!empty($this->linkrefs[$key])) {
             $attrib = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
-            $attrib['href'] = $url;
-            $i = $this->add(html::a($attrib, rcube::Q($matches[1])));
+
+            foreach ($this->linkrefs[$key] as $linkref) {
+                $attrib['href'] = $linkref[0];
+                if ($linkref[1] >= $matches[1][1]) {
+                    break;
+                }
+            }
+
+            $i = $this->add(html::a($attrib, rcube::Q($matches[1][0])));
         }
 
-        return $i > 0 ? '[' . $this->get_replacement($i) . ']' : $matches[0];
+        return $i > 0 ? '[' . $this->get_replacement($i) . ']' : $matches[0][0];
     }
 
     /**
@@ -173,7 +190,7 @@ class rcube_string_replacer
      *
      * @return string Replacement string
      */
-    public function mailto_callback($matches)
+    protected function mailto_callback($matches)
     {
         $href   = $matches[1];
         $suffix = $this->parse_url_brackets($href);
@@ -190,7 +207,7 @@ class rcube_string_replacer
      *
      * @return string Value at index $matches[1]
      */
-    public function replace_callback($matches)
+    protected function replace_callback($matches)
     {
         return isset($this->values[$matches[1]]) ? $this->values[$matches[1]] : null;
     }
@@ -207,9 +224,14 @@ class rcube_string_replacer
         // search for patterns like links and e-mail addresses
         $str = preg_replace_callback($this->link_pattern, [$this, 'link_callback'], $str);
         $str = preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $str);
+
         // resolve link references
-        $str = preg_replace_callback($this->linkref_index, [$this, 'linkref_addindex'], $str);
-        $str = preg_replace_callback($this->linkref_pattern, [$this, 'linkref_callback'], $str);
+        $str = preg_replace_callback($this->linkref_index,
+            [$this, 'linkref_addindex'], $str, -1, $count, PREG_OFFSET_CAPTURE
+        );
+        $str = preg_replace_callback($this->linkref_pattern,
+            [$this, 'linkref_callback'], $str, -1, $count, PREG_OFFSET_CAPTURE
+        );
 
         return $str;
     }
