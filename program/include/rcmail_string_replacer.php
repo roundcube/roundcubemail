@@ -36,7 +36,7 @@ class rcmail_string_replacer extends rcube_string_replacer
      * @return int Index of saved string value
      * @see rcube_string_replacer::mailto_callback()
      */
-    protected function mailto_callback($matches)
+    public function mailto_callback($matches)
     {
         $href   = $matches[1];
         $suffix = $this->parse_url_brackets($href);

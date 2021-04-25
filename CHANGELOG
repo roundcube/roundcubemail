@@ -24,7 +24,6 @@ CHANGELOG Roundcube Webmail
 - Fix login page rendering after oauth failure (#7812,#7923)
 - Fix bug where assigning users to groups via menu (not drag'n'drop) could fail in Elastic theme (#7973)
 - Fix HTML5 parser issue with a messy HTML code from Outlook (#7356)
-- Fix handling of multiple link references with the same index in plain text message (#8021)
 
 RELEASE 1.5-beta
 ----------------
