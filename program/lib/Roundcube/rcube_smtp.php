@@ -539,38 +539,50 @@ class rcube_smtp
         return $addresses;
     }
 
-    private function _process_xclient() {
-
+    /**
+     * Send XCLIENT command if configured and supported
+     */
+    private function _process_xclient()
+    {
         $rcube = rcube::get_instance();
 
         if (!is_object($this->conn)) {
             return false;
-            }
+        }
 
         $exts = $this->conn->getServiceExtensions();
 
         if (!isset($exts['XCLIENT'])) {
             return true;
+        }
+
+        $opts = explode(' ', $exts['XCLIENT']);
+        $cmd = '';
+
+        if ($rcube->config->get('smtp_xclient_login') && in_array_nocase('login', $opts)) {
+            $cmd .= " LOGIN=" . $rcube->get_user_name();
+        }
+
+        if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase('addr', $opts)) {
+            $ip = rcube_utils::remote_addr();
+
+            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                $r = $ip;
+            }
+            elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                $r = "IPV6:{$ip}";
+            }
+            else {
+                $r = "[UNAVAILABLE]";
             }
 
-        $opts=explode(" ",$exts['XCLIENT']);
-        $cmd="";
-        if ($rcube->config->get('smtp_xclient_login') && in_array_nocase("login",$opts)) {
-            $cmd.=" LOGIN=".$rcube->get_user_name(); 
-            }
-        if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase("addr",$opts)) {
-            $ip=rcube_utils::remote_addr();
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                $r=$ip;
-            } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-                $r="IPV6:".$ip;
-            } else {
-                $r="[UNAVAILABLE]";
-            }
-            $cmd.=" ADDR=".$r;
-            }
-        if ($cmd!="") { $this->conn->command("XCLIENT".$cmd,array(220)); }
-        
+            $cmd .= " ADDR={$r}";
+        }
+
+        if ($cmd) {
+            $this->conn->command("XCLIENT" . $cmd, [220]);
+        }
+
         return true;
     }
 }
