@@ -93,6 +93,7 @@ class rcmail_oauth
         if ($this->is_enabled()) {
             $this->rcmail->plugins->register_hook('storage_init', [$this, 'storage_init']);
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
+            $this->rcmail->plugins->register_hook('managesieve_connect', [$this, 'managesieve_connect']);
             $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
         }
@@ -478,6 +479,25 @@ class rcmail_oauth
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
             $options['smtp_auth_type'] = 'XOAUTH2';
+        }
+
+        return $options;
+    }
+
+    /**
+     * Callback for 'managesieve_connect' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function managesieve_connect($options)
+    {
+        if (isset($_SESSION['oauth_token'])) {
+            // check token validity
+            $this->check_token_validity($_SESSION['oauth_token']);
+
+            // enforce XOAUTH2 authorization type
+            $options['auth_type'] = 'XOAUTH2';
         }
 
         return $options;
