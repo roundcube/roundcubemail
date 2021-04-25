@@ -292,6 +292,13 @@ $config['smtp_auth_cid'] = null;
 // Optional SMTP authentication password to be used for smtp_auth_cid
 $config['smtp_auth_pw'] = null;
 
+// Pass the username (XCLIENT LOGIN) to the server
+$config['smtp_xclient_login'] = false;
+
+// Pass the remote IP (XCLIENT ADDR) to the server
+$config['smtp_xclient_addr'] = false;
+
+
 // SMTP HELO host
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages
 // Leave this blank and you will get the server variable 'server_name' or
