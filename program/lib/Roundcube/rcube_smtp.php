@@ -164,6 +164,14 @@ class rcube_smtp
             $this->conn->setTimeout($timeout);
         }
 
+        if (!$this->_process_xclient()) {
+            list($code,) = $this->conn->getResponse();
+            $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => $code]];
+            $this->conn  = null;
+
+            return false;
+        }
+
         $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
@@ -529,5 +537,52 @@ class rcube_smtp
         }
 
         return $addresses;
+    }
+
+    /**
+     * Send XCLIENT command if configured and supported
+     */
+    private function _process_xclient()
+    {
+        $rcube = rcube::get_instance();
+
+        if (!is_object($this->conn)) {
+            return false;
+        }
+
+        $exts = $this->conn->getServiceExtensions();
+
+        if (!isset($exts['XCLIENT'])) {
+            return true;
+        }
+
+        $opts = explode(' ', $exts['XCLIENT']);
+        $cmd = '';
+
+        if ($rcube->config->get('smtp_xclient_login') && in_array_nocase('login', $opts)) {
+            $cmd .= " LOGIN=" . $rcube->get_user_name();
+        }
+
+        if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase('addr', $opts)) {
+            $ip = rcube_utils::remote_addr();
+
+            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                $r = $ip;
+            }
+            elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                $r = "IPV6:{$ip}";
+            }
+            else {
+                $r = "[UNAVAILABLE]";
+            }
+
+            $cmd .= " ADDR={$r}";
+        }
+
+        if ($cmd) {
+            $this->conn->command("XCLIENT" . $cmd, [220]);
+        }
+
+        return true;
     }
 }
