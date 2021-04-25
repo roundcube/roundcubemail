@@ -803,6 +803,20 @@ $config['assets_dir'] = '';
 // ]
 $config['http_client'] = [];
 
+// List of supported subject prefixes for a message reply
+// This list is used to clean the subject when replying or sorting messages
+$config['subject_reply_prefixes'] = ['Re:'];
+
+// List of supported subject prefixes for a message forward
+// This list is used to clean the subject when forwarding or sorting messages
+$config['subject_forward_prefixes'] = ['Fwd:', 'Fw:'];
+
+// Prefix to use in subject when replying to a message
+$config['response_prefix'] = 'Re:';
+
+// Prefix to use in subject when forwarding a message
+$config['forward_prefix'] = 'Fwd:';
+
 // ----------------------------------
 // PLUGINS
 // ----------------------------------
