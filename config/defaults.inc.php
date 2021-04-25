@@ -292,11 +292,11 @@ $config['smtp_auth_cid'] = null;
 // Optional SMTP authentication password to be used for smtp_auth_cid
 $config['smtp_auth_pw'] = null;
 
-//Send XCLIENT LOGIN information where SMTP AUTH is disabled
-$config['smtp_xclient_login'] = null;
+// Pass the username (XCLIENT LOGIN) to the server
+$config['smtp_xclient_login'] = false;
 
-//Use Remote IP instead of web server IP
-$config['smtp_xclient_addr'] = null;
+// Pass the remote IP (XCLIENT ADDR) to the server
+$config['smtp_xclient_addr'] = false;
 
 
 // SMTP HELO host
