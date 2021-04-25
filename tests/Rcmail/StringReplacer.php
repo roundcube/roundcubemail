@@ -14,11 +14,11 @@ class Rcmail_RcmailStringReplacer extends PHPUnit\Framework\TestCase
     {
         $replacer = new rcmail_string_replacer();
 
-        $result = invokeMethod($replacer, 'mailto_callback', [['email@address.com', 'email@address.com']]);
+        $result = $replacer->mailto_callback(['email@address.com', 'email@address.com']);
 
         $this->assertRegExp($replacer->pattern, $result);
 
-        $result = invokeMethod($replacer, 'mailto_callback', [['address.com', 'address.com']]);
+        $result = $replacer->mailto_callback(['address.com', 'address.com']);
 
         $this->assertSame('address.com', $result);
     }
