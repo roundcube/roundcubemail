@@ -176,13 +176,24 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
                 'id' => $identity['identity_id'],
                 'record' => $save_data
             ));
-            if ($plugin['abort']) return;
-            // save data
-            $rcmail->user->update_identity($plugin['id'], $plugin['record']);
-            $rcmail->user->save_prefs(['newuserdialog' => null]);
-            // hide dialog
-            $rcmail->output->command('new_user_dialog_close');
-            $rcmail->output->show_message('successfullysaved', 'confirmation');
+
+            if (!$plugin['abort']) {
+                // save data
+                $updated = $rcmail->user->update_identity($plugin['id'], $plugin['record']);
+                $rcmail->user->save_prefs(['newuserdialog' => null]);
+            } else {
+                $updated = $plugin['result'];
+            }
+
+            if ($updated) {
+                // hide dialog
+                $rcmail->output->command('new_user_dialog_close');
+                $rcmail->output->show_message('successfullysaved', 'confirmation');
+            } else {
+                //show error
+                $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+                $rcmail->output->show_message($error, 'error', null, false);
+            }
         }
 
         $rcmail->output->send();
