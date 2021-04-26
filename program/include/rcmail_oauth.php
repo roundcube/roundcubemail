@@ -210,13 +210,13 @@ class rcmail_oauth
         $oauth_identity_uri  = $this->options['identity_uri'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
-            // validate state parameter against $_SESSION['oauth_state']
-            if (!empty($_SESSION['oauth_state']) && $_SESSION['oauth_state'] !== $state) {
-                throw new RuntimeException('Invalid state parameter');
-            }
-
-            // send token request to get a real access token for the given auth code
             try {
+                // validate state parameter against $_SESSION['oauth_state']
+                if (!empty($_SESSION['oauth_state']) && $_SESSION['oauth_state'] !== $state) {
+                    throw new RuntimeException('Invalid state parameter');
+                }
+
+                // send token request to get a real access token for the given auth code
                 $client = new Client([
                     'timeout' => 10.0,
                     'verify' => $this->options['verify_peer'],
