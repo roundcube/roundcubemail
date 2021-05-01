@@ -315,6 +315,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // register UI objects (Note: some objects are registered by rcmail_sendmail above)
         $rcmail->output->add_handlers([
                 'composebody'           => [$this, 'compose_body'],
+                'composeobjects'        => [$this, 'compose_objects'],
                 'composeattachmentlist' => [$this, 'compose_attachment_list'],
                 'composeattachmentform' => [$this, 'compose_attachment_form'],
                 'composeattachment'     => [$this, 'compose_attachment_field'],
@@ -1193,6 +1194,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 self::$MESSAGE->subject = $message->subject;
             }
 
+            if ($message->headers->get('bcc', false) || $message->headers->get('resent-bcc', false)) {
+                self::$COMPOSE['has_bcc'] = true;
+            }
+
             // generate (unique) attachment name
             $name = strlen($message->subject) ? mb_substr($message->subject, 0, 64) : 'message_rfc822';
             if (!empty($names[$name])) {
@@ -1294,6 +1299,37 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         else {
             return preg_replace('/^.*[\/]/', '', $filename);
         }
+    }
+
+    /**
+     * Handler for template object 'composeObjects'
+     *
+     * @param array $attrib HTML attributes
+     *
+     * @return string HTML content
+     */
+    public static function compose_objects($attrib)
+    {
+        if (empty($attrib['id'])) {
+            $attrib['id'] = 'compose-objects';
+        }
+
+        $rcmail  = rcmail::get_instance();
+        $content = [];
+
+        // Add a warning about Bcc recipients
+        if (true || !empty(self::$COMPOSE['has_bcc'])) {
+            $msg        = html::span(null, rcube::Q($rcmail->gettext('bccemail')));
+            $msg_attrib = ['id' => 'bcc-warning', 'class' => 'boxwarning'];
+            $content[]  = html::div($msg_attrib, $msg);
+        }
+
+        $plugin = $rcmail->plugins->exec_hook('compose_objects',
+            ['content' => $content, 'message' => self::$MESSAGE]);
+
+        $content = implode("\n", $plugin['content']);
+
+        return $content ? html::div($attrib, $content) : '';
     }
 
     /**
