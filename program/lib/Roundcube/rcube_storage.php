@@ -64,16 +64,17 @@ abstract class rcube_storage
      * @var array
      */
     protected $all_headers = [
-        'IN-REPLY-TO',
-        'BCC',
-        'SENDER',
-        'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
-        'REFERENCES',
-        'X-DRAFT-INFO',
+        'BCC',
+        'IN-REPLY-TO',
         'MAIL-FOLLOWUP-TO',
         'MAIL-REPLY-TO',
+        'MESSAGE-ID',
+        'REFERENCES',
+        'RESENT-BCC',
         'RETURN-PATH',
+        'SENDER',
+        'X-DRAFT-INFO',
     ];
 
     const UNKNOWN       = 0;
