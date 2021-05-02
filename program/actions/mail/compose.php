@@ -1318,7 +1318,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $content = [];
 
         // Add a warning about Bcc recipients
-        if (true || !empty(self::$COMPOSE['has_bcc'])) {
+        if (!empty(self::$COMPOSE['has_bcc'])) {
             $msg        = html::span(null, rcube::Q($rcmail->gettext('bccemail')));
             $msg_attrib = ['id' => 'bcc-warning', 'class' => 'boxwarning'];
             $content[]  = html::div($msg_attrib, $msg);

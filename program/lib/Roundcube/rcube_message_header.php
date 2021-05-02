@@ -227,7 +227,7 @@ class rcube_message_header
         $name  = strtolower($name);
         $value = null;
 
-        if (isset($this->obj_headers[$name])) {
+        if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
         else if (isset($this->others[$name])) {
