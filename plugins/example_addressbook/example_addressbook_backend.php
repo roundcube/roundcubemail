@@ -46,10 +46,17 @@ class example_addressbook_backend extends rcube_addressbook
 
     function list_groups($search = null, $mode = 0)
     {
-        return [
+        $groups = [
             ['ID' => 'testgroup1', 'name' => "Testgroup"],
             ['ID' => 'testgroup2', 'name' => "Sample Group"],
         ];
+
+        if (is_string($search) && strlen($search)) {
+            // Return empty result for any searches, normally it should filter the existing groups
+            return [];
+        }
+
+        return $groups;
     }
 
     public function list_records($cols = null, $subset = 0)
@@ -68,8 +75,28 @@ class example_addressbook_backend extends rcube_addressbook
 
     public function search($fields, $value, $strict = false, $select = true, $nocount = false, $required = [])
     {
-        // no search implemented, just list all records
-        return $this->list_records();
+        // Note: we do not implement all possible search request modes and variants.
+        //       We implement only the simplest searching case in "select" mode
+
+        $result = new rcube_result_set();
+        foreach ($this->list_records() as $record) {
+            if (is_string($value)) {
+                $found = false;
+
+                foreach (array_keys($record) as $key) {
+                    if (strpos(mb_strtolower((string) $record[$key]), mb_strtolower($value)) !== false) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if ($found) {
+                    $result->add($record);
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function count()
