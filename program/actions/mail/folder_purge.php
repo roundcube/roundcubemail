@@ -30,42 +30,51 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail       = rcmail::get_instance();
-        $delimiter    = $rcmail->storage->get_hierarchy_delimiter();
+        $storage      = $rcmail->get_storage();
+        $delimiter    = $storage->get_hierarchy_delimiter();
+        $mbox         = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
         $trash_mbox   = $rcmail->config->get('trash_mbox');
-        $junk_mbox    = $rcmail->config->get('junk_mbox');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
-        $junk_regexp  = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
 
-        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+        // we should only be purging trash (or their subfolders)
+        if (!strlen($trash_mbox) || $mbox === $trash_mbox || preg_match($trash_regexp, $mbox)) {
+            $success = $storage->delete_message('*', $mbox);
+            $delete  = true;
+        }
+        // move to Trash
+        else {
+            $success = $storage->move_message('1:*', $trash_mbox, $mbox);
+            $delete  = false;
+        }
 
-        // we should only be purging trash and junk (or their subfolders)
-        if ($mbox == $trash_mbox || $mbox == $junk_mbox
-            || preg_match($trash_regexp, $mbox) || preg_match($junk_regexp, $mbox)
-        ) {
-            $success = $rcmail->storage->clear_folder($mbox);
+        if ($success) {
+            $rcmail->output->show_message('folderpurged', 'confirmation');
+            $rcmail->output->command('set_unread_count', $mbox, 0);
+            self::set_unseen_count($mbox, 0);
 
-            if ($success) {
-                $rcmail->output->show_message('folderpurged', 'confirmation');
-                $rcmail->output->command('set_unread_count', $mbox, 0);
-                self::set_unseen_count($mbox, 0);
-
-                // set trash folder state
-                if ($mbox === $trash_mbox) {
-                    $rcmail->output->command('set_trash_count', 0);
-                }
-
-                if (!empty($_REQUEST['_reload'])) {
-                    $rcmail->output->set_env('messagecount', 0);
-                    $rcmail->output->set_env('pagecount', 0);
-                    $rcmail->output->set_env('exists', 0);
-                    $rcmail->output->command('message_list.clear');
-                    $rcmail->output->command('set_rowcount', self::get_messagecount_text(), $mbox);
-                    $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
-                }
+            // set trash folder state
+            if ($mbox === $trash_mbox) {
+                $rcmail->output->command('set_trash_count', 0);
             }
-            else {
-                self::display_server_error();
+            else if (strlen($trash_mbox)) {
+                $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
+
+            if (!$delete && strlen($trash_mbox)) {
+                self::send_unread_count($trash_mbox, true);
+            }
+
+            if (!empty($_REQUEST['_reload'])) {
+                $rcmail->output->set_env('messagecount', 0);
+                $rcmail->output->set_env('pagecount', 0);
+                $rcmail->output->set_env('exists', 0);
+                $rcmail->output->command('message_list.clear');
+                $rcmail->output->command('set_rowcount', self::get_messagecount_text(), $mbox);
+                $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
+            }
+        }
+        else {
+            self::display_server_error();
         }
 
         $rcmail->output->send();
