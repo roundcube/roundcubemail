@@ -4454,17 +4454,6 @@ function rcube_webmail()
     return false;
   };
 
-  // test if purge command is allowed
-  this.purge_mailbox_test = function()
-  {
-    return (this.env.exists && (
-      this.env.mailbox == this.env.trash_mailbox
-      || this.env.mailbox == this.env.junk_mailbox
-      || this.env.mailbox.startsWith(this.env.trash_mailbox + this.env.delimiter)
-      || this.env.mailbox.startsWith(this.env.junk_mailbox + this.env.delimiter)
-    ));
-  };
-
   // Mark all messages as read in:
   //   - selected folder (mode=cur)
   //   - selected folder and its subfolders (mode=sub)
@@ -9299,8 +9288,7 @@ function rcube_webmail()
             uid = this.env.list_uid;
 
           this.enable_command('show', 'select-all', 'select-none', this.env.messagecount > 0);
-          this.enable_command('expunge', this.env.exists && !is_multifolder);
-          this.enable_command('purge', this.purge_mailbox_test() && !is_multifolder);
+          this.enable_command('expunge', 'purge', this.env.exists && !is_multifolder);
           this.enable_command('import-messages', !is_multifolder);
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
 

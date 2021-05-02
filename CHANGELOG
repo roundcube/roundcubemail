@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Add IDN homograph attack (spoofing) detection [CVE-2019-15237] (#6891)
 - Add configuration options for subject prefixes (#7929, #4981)
 - Warn the user about a potential data leak on mail bounce or forward (#7993)
+- Make the Empty action available for every non-empty folder, not only Trash (#7948)
 - Plugin API: Allow modification of 'error' argument in 'message_send_error' hook (#7914)
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
