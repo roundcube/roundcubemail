@@ -62,7 +62,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder has successfully been emptied.","confirmation",0);') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.show_folder("Trash",null,true);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
     }

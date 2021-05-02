@@ -40,7 +40,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
 
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('expunge', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder has successfully been compacted.","confirmation",0);') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully compacted.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_quota(') === false);
     }
 
@@ -71,7 +71,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $this->assertCount(3, $commands);
         $this->assertSame([
                 'display_message',
-                'Folder has successfully been compacted.',
+                'Folder successfully compacted.',
                 'confirmation',
                 0
             ],
