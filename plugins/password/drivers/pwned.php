@@ -74,8 +74,9 @@ class rcube_pwned_password
     function strength_rules()
     {
         $rc = rcmail::get_instance();
+        $href = 'https://haveibeenpwned.com/Passwords';
 
-        return [$rc->gettext('password.pwned_mustnotbedisclosed')];
+        return [$rc->gettext('password.pwned_mustnotbedisclosed', ['vars' => ['href' => $href]])];
     }
 
     /**

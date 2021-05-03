@@ -272,7 +272,7 @@ class password extends rcube_plugin
 
         $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         if ($required_length > 0) {
-            $rules .= html::tag('li', ['class' => 'required-length'], $this->gettext([
+            $rules .= html::tag('li', ['class' => 'required-length d-inline'], $this->gettext([
                 'name' => 'passwordshort',
                 'vars' => ['length' => $required_length]
             ]));
@@ -280,7 +280,7 @@ class password extends rcube_plugin
 
         if ($msgs = $this->_strength_rules()) {
             foreach ($msgs as $msg) {
-                $rules .= html::tag('li', ['class' => 'strength-rule'], $msg);
+                $rules .= html::tag('li', ['class' => 'strength-rule d-inline'], $msg);
             }
         }
 
