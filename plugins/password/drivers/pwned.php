@@ -76,7 +76,7 @@ class rcube_pwned_password
         $rc = rcmail::get_instance();
         $href = 'https://haveibeenpwned.com/Passwords';
 
-        return [$rc->gettext('password.pwned_mustnotbedisclosed', ['vars' => ['href' => $href]])];
+        return [$rc->gettext(['name' => 'password.pwned_mustnotbedisclosed', 'vars' => ['href' => $href]])];
     }
 
     /**
