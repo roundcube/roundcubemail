@@ -237,6 +237,7 @@ class rcmail_oauth
                 // auth success
                 if (!empty($data['access_token'])) {
                     $username = null;
+                    $identity = null;
                     $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
 
                     // decode JWT id_token if provided
@@ -284,6 +285,11 @@ class rcmail_oauth
                     $this->mask_auth_data($data);
 
                     $this->rcmail->session->remove('oauth_state');
+
+                    $this->rcmail->plugins->exec_hook('oauth_login', array_merge($data, [
+                        'username' => $username,
+                        'identity' => $identity,
+                    ]));
 
                     // return auth data
                     return [
@@ -380,6 +386,8 @@ class rcmail_oauth
 
                 // update session data
                 $_SESSION['oauth_token'] = array_merge($token, $data);
+
+                $this->rcmail->plugins->exec_hook('oauth_refresh_token', $data);
 
                 return [
                     'token' => $data,
