@@ -172,10 +172,10 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
         }
         else {
             // execute hook
-            $plugin = $rcmail->plugins->exec_hook('identity_update', array(
+            $plugin = $rcmail->plugins->exec_hook('identity_update', [
                 'id' => $identity['identity_id'],
                 'record' => $save_data
-            ));
+            ]);
 
             if (!$plugin['abort']) {
                 // save data
