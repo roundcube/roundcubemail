@@ -191,7 +191,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
                 $rcmail->output->command('new_user_dialog_close');
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
             } else {
-                //show error
+                // show error
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
             }
