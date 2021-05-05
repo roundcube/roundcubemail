@@ -842,14 +842,15 @@ abstract class rcmail_action
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC);
-        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC);
+        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC, true);
+        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC, true);
 
         // already a hash array
         if (is_array($_uid) && !isset($_uid[0])) {
             return $_uid;
         }
 
+        $is_multifolder = false;
         $result = [];
 
         // special case: *
