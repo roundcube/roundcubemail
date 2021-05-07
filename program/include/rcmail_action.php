@@ -1225,7 +1225,7 @@ abstract class rcmail_action
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
             }
 
-            if (isset($folder_class) && !$realname && $rcmail->text_exists($folder_class)) {
+            if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1329,7 +1329,7 @@ abstract class rcmail_action
             $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
             $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
 
-            if (isset($folder_class) && !$realname && $rcmail->text_exists($folder_class)) {
+            if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
