@@ -34,6 +34,7 @@ CHANGELOG Roundcube Webmail
 - Fix HTML5 parser issue with a messy HTML code from Outlook (#7356)
 - Fix handling of multiple link references with the same index in plain text message (#8021)
 - Fix various actions on folders with angle brackets in name (#8037)
+- Fix inconsistent fowarding actions statuses on drafts (#8039)
 
 RELEASE 1.5-beta
 ----------------
