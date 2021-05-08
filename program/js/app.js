@@ -1938,16 +1938,34 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var selected = list.get_single_selection(),
-      selected_count = list.get_selection(false).length;
+    var isDraft = false,
+      selected = list.get_single_selection(),
+      selection = list.get_selection(false),
+      selected_count = selection.length;
 
     this.enable_command(this.env.message_commands, selected != null);
 
+    // Find out whether any of the selected messages comes from the Drafts folder
+    if (selected_count > 0) {
+      if (!this.env.multifolder_listing) {
+        isDraft = this.env.mailbox == this.env.drafts_mailbox
+      }
+      else {
+        $.each(selection, function(i, v) {
+          if (ref.get_message_mailbox(v) == ref.env.drafts_mailbox) {
+            isDraft = true;
+            return false;
+          }
+        });
+      }
+    }
+
+    // Disable some actions enabled above
     if (selected) {
-      // Hide certain command buttons when Drafts folder is selected
-      if (this.get_message_mailbox(selected) == this.env.drafts_mailbox)
-        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-attachment', 'forward-inline', false);
-      // Disable reply-list when List-Post header is not set
+      if (isDraft) {
+        this.enable_command('reply', 'reply-all', 'reply-list', 'forward', 'forward-inline',
+          'forward-attachment', 'bounce', false);
+      }
       else {
         var msg = this.env.messages[selected];
         if (!msg.ml)
@@ -1956,7 +1974,8 @@ function rcube_webmail()
     }
 
     // Multi-message commands
-    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', selected_count > 0);
+    this.enable_command('delete', 'move', 'copy', 'mark', selected_count > 0);
+    this.enable_command('forward', 'forward-attachment', !isDraft && selected_count > 0);
 
     // reset all-pages-selection
     if (selected || (selected_count && selected_count != list.rowcount))
