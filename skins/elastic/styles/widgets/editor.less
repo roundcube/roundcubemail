@@ -221,7 +221,7 @@ div.tox {
     // Adding .form-control does not work with TinyMCE skins,
     // so we have to overwrite some props here
     .tox-color-input > input,
-    .tox-selectfield select,
+    .tox-listboxfield .tox-listbox--select,
     .tox-textarea,
     .tox-textfield {
         .font-family() !important;
@@ -236,6 +236,10 @@ div.tox {
             border-color: @color-input-border-focus;
             box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
         }
+    }
+
+    .tox-listbox__select-label {
+        margin: 0;
     }
 
     .tox-color-input span {

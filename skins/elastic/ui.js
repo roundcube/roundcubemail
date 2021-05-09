@@ -1421,7 +1421,6 @@ function rcube_elastic_ui()
                             // also https://github.com/tinymce/tinymce/issues/4869
                         }
 
-                        body.find('select').each(function() { pretty_select(this); });
                         body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
                         body.find('.tox-textarea,.tox-textfield').addClass('form-control');
                     };
