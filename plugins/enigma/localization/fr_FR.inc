@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Clés supprimées avec succès';
 $messages['keyremoveerror'] = 'Impossible de supprimer les clés sélectionnées';
 $messages['keyimporttext'] = 'Vous pouvez importer des clés privées et publiques ou des signatures de révocation au format ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Vous pouvez chercher des clés publiques par identifiant de clé, nom d’utilisateur ou adresse courriel, et ensuite les importer directement.';
+$messages['keystoragenotice'] = 'Toutes les clés publiques et privées sont stockées sur le serveur.';
 $messages['formerror'] = 'Veuillez remplir le formulaire. Tous les champs sont requis.';
 $messages['passwordsdiffer'] = 'Les mots de passe ne correspondent pas';
 $messages['keygenerateerror'] = 'La génération de la biclé a échoué';

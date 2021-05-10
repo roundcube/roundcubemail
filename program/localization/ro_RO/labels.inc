@@ -594,6 +594,6 @@ $labels['arialabelcontactexportoptions'] = 'Opțiuni export contact';
 $labels['arialabelabookgroupoptions'] = 'Opțiuni Agendă/Grup';
 $labels['arialabelpreferencesform'] = 'Formular preferințe';
 $labels['arialabelidentityeditfrom'] = 'Formular modificare identitate';
-$labels['arialabelresonseeditfrom'] = 'Formular modificare răspuns';
+$labels['arialabelresponseeditfrom'] = 'Formular modificare răspuns';
 $labels['arialabelsearchterms'] = 'Termenii căutării';
 $labels['arialabeldropactionmenu'] = 'Meniu acțiune Drag-n-Drop';

@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Chave(s) eliminada(s) com sucesso.';
 $messages['keyremoveerror'] = 'Não foi possível eliminar a(s) chave(s) selecionada(s).';
 $messages['keyimporttext'] = 'Pode importar chaves privadas e públicas ou de revogação de assinaturas em formato ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Pode procurar por chaves públicas através de identificadores de chave, nome de utilizador ou endereço de e-mail e, em seguida, importá-las directamente.';
+$messages['keystoragenotice'] = 'Todas as chaves públicas e privadas são armazenadas no servidor.';
 $messages['formerror'] = 'Por favor, preencha o formulário. Todos os campos são obrigatórios!';
 $messages['passwordsdiffer'] = 'As palavras-passe não coincidem!';
 $messages['keygenerateerror'] = 'Falha ao gerar o par de chaves';

@@ -30,6 +30,5 @@ $messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja mä
 $messages['passwordtooweak'] = 'Parool on liiga nõrk.';
 $messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
 $messages['firstloginchange'] = 'See on sinu esimene sisselogimine, palun muuda oma parooli.';
-$messages['pwned_mustnotbedisclosed'] = 'Parool ei peaks olema &nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">laialdaselt kasutatud</a>.';
 $messages['pwned_isdisclosed'] = 'Parool on liiga tavaline.';
 $messages['pwned_fetcherror'] = 'Parooli tugevuse kontrollimine ebaõnnestus.';

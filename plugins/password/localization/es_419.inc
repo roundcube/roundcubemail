@@ -38,6 +38,5 @@ $messages['samepasswd'] = 'La nueva contraseña tiene que ser diferente a la ant
 $messages['passwdexpirewarning'] = 'Alerta! Su contraseña expirará pronto, cambiela antes de $expirationdatetime.';
 $messages['passwdexpired'] = 'Su contraseña ha expirado, tiene que cambiarla ahora!';
 $messages['passwdconstraintviolation'] = 'Violación de restricción de contraseña. Probablemente la contraseña sea demasiado débil.';
-$messages['pwned_mustnotbedisclosed'] = 'La contraseña no puede ser&nbsp; <a href="https://haveibeenpwned.com/Passwords" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'Esta contraseña es comúnmente conocida.';
 $messages['pwned_fetcherror'] = 'No se pudo verificar la seguridad de la contraseña.';

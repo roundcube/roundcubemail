@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Klíče byly odstraněny.';
 $messages['keyremoveerror'] = 'Nemohu smazat vybrané klíče.';
 $messages['keyimporttext'] = 'Můžete naimportovat soukromé a veřejné klíče nebo podpisy pro revokaci ve formátu ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Veřejné klíče můžete vyhledávat podle identifikátoru klíče, uživatele, nebo e-mailové adresy a potom je přímo importovat.';
+$messages['keystoragenotice'] = 'Všechny veřejné a soukromé klíče jsou uloženy na serveru.';
 $messages['formerror'] = 'Prosím vyplňte tento formulář. Všechna pole jsou požadována.';
 $messages['passwordsdiffer'] = 'Zadaná hesla se neshodují!';
 $messages['keygenerateerror'] = 'Selhalo generování páru klíčů';

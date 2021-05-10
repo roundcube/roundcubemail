@@ -597,6 +597,6 @@ $labels['arialabelattachmentpreview'] = 'پیش‌نمایش پیوست';
 $labels['arialabelabookgroupoptions'] = 'گزینه‌های دفترنشانی/گروه';
 $labels['arialabelpreferencesform'] = 'فرم تنظیمات';
 $labels['arialabelidentityeditfrom'] = 'فرم ویرایش هویت';
-$labels['arialabelresonseeditfrom'] = 'فرم ویرایش واکنش‌گرا';
+$labels['arialabelresponseeditfrom'] = 'فرم ویرایش واکنش‌گرا';
 $labels['arialabelsearchterms'] = 'شرایط جستجو';
 $labels['arialabelimagetools'] = 'ابزار تصویر';
