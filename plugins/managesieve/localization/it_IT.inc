@@ -91,6 +91,7 @@ $labels['none'] = 'nessuno';
 $labels['fromset'] = 'dal gruppo';
 $labels['fromfile'] = 'dal file';
 $labels['filterdisabled'] = 'Filtro disabilitato';
+$labels['filterenabled'] = 'Filtro abilitato';
 $labels['countisgreaterthan'] = 'somma maggiore di';
 $labels['countisgreaterthanequal'] = 'somma maggiore uguale  a';
 $labels['countislessthan'] = 'somma minore di';

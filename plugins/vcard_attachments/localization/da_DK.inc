@@ -17,4 +17,6 @@
 $labels['addvcardmsg'] = 'Tilføj vCard til adressebogen';
 $labels['vcardsavefailed'] = 'Kan ikke gemme dette vCard';
 $labels['attachvcard'] = 'Tilføj vCard';
+$labels['vcardattached'] = 'vCard fil vedhæftet.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Videresend vCard';

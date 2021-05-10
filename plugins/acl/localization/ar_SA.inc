@@ -82,6 +82,7 @@ $labels['longaclwrite'] = 'لا يمكن وضع علامة على الرسائل
 $labels['longacldelete'] = 'لا يمكن حذف الرسائل';
 $labels['longaclother'] = 'حقوق الوصول الأخرى';
 $labels['ariasummaryacltable'] = 'قائمة حقوق الوصول';
+$labels['arialabelaclactions'] = 'قائمة الإجراءات';
 $labels['arialabelaclform'] = 'نموذج حقوق الوصول';
 $messages['deleting'] = 'جاري حذف حقوق الوصول...';
 $messages['saving'] = 'جاري حفظ حقوق الوصول...';

@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l’
 $messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
 $messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant';
 $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';
-$messages['pwned_mustnotbedisclosed'] = 'Le mot de passe ne doit pas être <a href="https://haveibeenpwned.com/Passwords" target="_blank">connu par ailleurs</a>.';
+$messages['pwned_mustnotbedisclosed'] = 'Le mot de passe ne doit pas être <a href="$href" target="_blank">notoire</a>.';
 $messages['pwned_isdisclosed'] = 'Ce mot de passe est connu par ailleurs.';
 $messages['pwned_fetcherror'] = 'Échec de vérification de la robustesse du mot de passe.';

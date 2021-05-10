@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Anahtar(lar) silindi';
 $messages['keyremoveerror'] = 'Anahtar(lar) silinemedi.';
 $messages['keyimporttext'] = 'Özel ve genel anahtar(lar)ı içe aktarabilir ya da ASCII-Armor biçimindeki imzanızı geri çekebilirsiniz.';
 $messages['keyimportsearchtext'] = 'Genel anahtarları, anahtar tanımlayıcı, e-posta ya da kullanıcı adına göre arayarak doğrudan içe aktarabilirsiniz.';
+$messages['keystoragenotice'] = 'Herkese açık ve özel tüm anahtarlar sunucu üzerinde depolanıyor.';
 $messages['formerror'] = 'Formun doldurun. Tüm alanlar zorunludur!';
 $messages['passwordsdiffer'] = 'Parola ile onayı aynı değil!';
 $messages['keygenerateerror'] = 'Anahtar çifti oluşturulamadı.';

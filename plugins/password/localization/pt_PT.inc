@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'A nova palavra-passe tem de ser diferente da antiga.'
 $messages['passwdexpirewarning'] = 'Aviso! A sua palavra-passe irá expirar em breve. Deve alterá-la antes de $expirationdatetime.';
 $messages['passwdexpired'] = 'A sua palavra-passe expirou. Tem de alterá-la agora!';
 $messages['passwdconstraintviolation'] = 'Violação da limitação de palavra-passe. Palavra-passe provavelmente muito fraca.';
-$messages['pwned_mustnotbedisclosed'] = 'A palavra-passe não deve ser&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">vulgarmente conhecida</a>.';
+$messages['pwned_mustnotbedisclosed'] = 'A password não deve ser <a href="$href" target="_blank">vulgarmente conhecida</a>.';
 $messages['pwned_isdisclosed'] = 'Esta palavra-passe é vulgarmente conhecida.';
 $messages['pwned_fetcherror'] = 'Falha ao verificar a força da palavra-passe.';

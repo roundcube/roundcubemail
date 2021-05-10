@@ -15,17 +15,19 @@
 */
 
 $labels['buttontext'] = 'الأرشيف';
-$labels['buttontitle'] = 'أرشف هذه الرسالة';
+$labels['buttontitle'] = 'أرشفة هذه الرسالة';
 $labels['archived'] = 'أُرشفت بنجاح';
-$labels['archivedreload'] = 'ارشفت بنجاح. اعد تحميل الصفحه لاضهار الملف المؤرشف';
-$labels['archiveerror'] = 'بعض الرسائل لايمكن ارشفتها';
+$labels['archivedreload'] = 'تمت أرشفته بنجاح. أعد تحميل الصفحة لمشاهدة مجلدات الأرشيف الجديدة.';
+$labels['archiveerror'] = 'لا يمكن أرشفة بعض الرسائل';
 $labels['archivefolder'] = 'الأرشيف';
 $labels['settingstitle'] = 'الأرشيف';
 $labels['archivetype'] = 'تقسيم الأرشيف ب';
-$labels['archivetypeyear'] = 'السنة (مثال. الارشيف/2012)';
-$labels['archivetypemonth'] = 'الشهر (مثال. الارشيف/2012/06)';
-$labels['archivetypetbmonth'] = 'الشهر - متوافق مع ثندربرد (المحفوظات/1433/1433-06 مثلاً)';
+$labels['archivetypeyear'] = 'السنة (على سبيل المثال. الأرشيف / 2012)';
+$labels['archivetypemonth'] = 'الشهر (على سبيل المثال. الأرشيف / 2012 / 06)';
+$labels['archivetypetbmonth'] = 'الشهر - متوافق مع Thunderbird (على سبيل المثال أرشيف / 2012 / 2012-06)';
 $labels['archivetypefolder'] = 'المجلد الاصلي';
-$labels['archivetypesender'] = 'ايميل المرسل';
+$labels['archivetypefolderyear'] = 'السنة والمجلد الأصلي (على سبيل المثال. الأرشيف / 2012 / ...)';
+$labels['archivetypefoldermonth'] = 'السنة والشهر والمجلد الأصلي (على سبيل المثال. الأرشيف / 2012 / 06 / ...)';
+$labels['archivetypesender'] = 'البريد المرسل';
 $labels['unkownsender'] = 'مجهول';
-$labels['readonarchive'] = 'تحديد الرسالة مقروءة في المحفوظات';
+$labels['readonarchive'] = 'ضع علامة على الرسالة كمقروءة في الأرشيف';

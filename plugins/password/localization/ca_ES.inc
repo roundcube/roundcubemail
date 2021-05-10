@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'La nova contrasenya ha de ser diferent de l\'antiga.'
 $messages['passwdexpirewarning'] = 'Compte!, la vostra contrasenya caducarà aviat. Canvieu-la abans de $expirationdatetime.';
 $messages['passwdexpired'] = 'La vostra contrasenya ha caducat, l\'heu de canviar ara!';
 $messages['passwdconstraintviolation'] = 'Violació de restricció de les contrasenyes. La contrasenya és probablement massa feble.';
-$messages['pwned_mustnotbedisclosed'] = 'La contrasenya no pot ser&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">habitualment coneguda</a>.';
+$messages['pwned_mustnotbedisclosed'] = 'La contrasenya no pot ser&nbsp;<a href="$href" target="_blank">habitualment coneguda</a>.';
 $messages['pwned_isdisclosed'] = 'Aquesta contrasenya és coneguda habitualment.';
 $messages['pwned_fetcherror'] = 'No s\'ha pogut verificar la fortalesa de la contrasenya.';
