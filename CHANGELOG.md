@@ -36,6 +36,7 @@
 - Fix handling of multiple link references with the same index in plain text message (#8021)
 - Fix various actions on folders with angle brackets in name (#8037)
 - Fix inconsistent fowarding actions statuses on drafts (#8039)
+- Fix bug where `start` and `reversed` attributes of `ol` tag were ignored (#8059)
 
 ## Release 1.5-beta
 
