@@ -169,17 +169,23 @@ abstract class rcube_addressbook
      * the page are returned. The returned records are found in the $records property of the returned result set.
      *
      * Finally, the $first property of the returned result set contains the index into the total set of filtered records
-     * (i.e. not considering the segmentation into pages) of the first returned record. FIXME should this consider
-     * subset or not? Currently it is not considered, i.e. first will always be a multiple of the page size
+     * (i.e. not considering the segmentation into pages) of the first returned record before applying the $subset
+     * parameter (i.e., $first is always a multiple of the page size).
+     *
+     * The $nocount parameter is an optimization that allows to skip querying the total amount of records of the
+     * filtered set if the caller is only interested in the records. In this case, the $count property of the returned
+     * result set will simply contain the number of returned records, but the filtered set may contain more records than
+     * this.
      *
      * The result of the operation is internally cached for later retrieval using get_result().
      *
-     * @param ?array $cols   List of columns to include in the returned records (null means all)
-     * @param int    $subset Only return this number of records of the current page, use negative values for tail
+     * @param ?array $cols    List of columns to include in the returned records (null means all)
+     * @param int    $subset  Only return this number of records of the current page, use negative values for tail
+     * @param bool   $nocount True to skip the count query (select only)
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
-    abstract function list_records($cols = null, $subset = 0);
+    abstract function list_records($cols = null, $subset = 0, $nocount = false);
 
     /**
      * Search records
@@ -207,11 +213,11 @@ abstract class rcube_addressbook
      * count().
      *
      * The search mode can be set by the admin via the config.inc.php setting addressbook_search_mode.
-     * It is used as a bit mask, but the search modes are exclusive:
+     * It is used as a bit mask, but the search modes are exclusive (SEARCH_GROUPS is combined with one of other modes):
      *   SEARCH_ALL: substring search (*abc*)
      *   SEARCH_STRICT: Exact match search (case insensitive =)
      *   SEARCH_PREFIX: Prefix search (abc*)
-     * FIXME The purpose of SEARCH_GROUPS is not clear to me and not considered.
+     *   SEARCH_GROUPS: include groups in search results (if supported)
      *
      * When records are requested in the returned rcube_result_set ($select is true), the results will only include the
      * contacts of the current page (see list_page, page_size). The behavior is as described with the list_records
@@ -224,11 +230,11 @@ abstract class rcube_addressbook
      *
      * The result of the operation is internally cached for later retrieval using get_result().
      *
-     * @param string|string[] $fields Field names to search in
-     * @param string|string[] $value Search value, or array of values, one for each field in $fields
-     * @param int $mode     Search mode. Sum of rcube_addressbook::SEARCH_*.
-     * @param bool $select   True if records are requested in the result, false if count only
-     * @param bool $nocount  True to skip the count query (select only)
+     * @param string|string[] $fields   Field names to search in
+     * @param string|string[] $value    Search value, or array of values, one for each field in $fields
+     * @param int             $mode     Search mode. Sum of rcube_addressbook::SEARCH_*.
+     * @param bool            $select   True if records are requested in the result, false if count only
+     * @param bool            $nocount  True to skip the count query (select only)
      * @param string|string[] $required Field or list of fields that cannot be empty
      *
      * @return rcube_result_set Contact records and 'count' value
@@ -238,8 +244,8 @@ abstract class rcube_addressbook
     /**
      * Count the number of contacts in the database matching the current filter criteria.
      *
-     * The current filter criteria are defined by the search filter (see search()/set_search_set()), the currently
-     * active group (see set_group()), and the required contact properties (see $requiredProps), if applicable.
+     * The current filter criteria are defined by the search filter (see search()/set_search_set()) and the currently
+     * active group (see set_group()), if applicable.
      *
      * @return rcube_result_set Result set with values for 'count' and 'first'
      */
@@ -376,7 +382,7 @@ abstract class rcube_addressbook
      * @param array $save_data Associative array with save data
      *                         Keys:   Field name with optional section in the form FIELD:SECTION
      *                         Values: Field value. Can be either a string or an array of strings for multiple values
-     * @param bool  $check True to check for duplicates first
+     * @param bool  $check     True to check for duplicates first
      *
      * @return mixed The created record ID on success, False on error
      */
