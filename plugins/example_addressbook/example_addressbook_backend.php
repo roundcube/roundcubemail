@@ -59,7 +59,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $groups;
     }
 
-    public function list_records($cols = null, $subset = 0)
+    public function list_records($cols = null, $subset = 0, $nocount = false)
     {
         $this->result = $this->count();
         $this->result->add([
