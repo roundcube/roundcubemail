@@ -592,10 +592,11 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param array $cols   List of cols to show
      * @param int   $subset Only return this number of records
+     * @param bool   $nocount True to skip the count query (Not used)
      *
      * @return array Indexed list of contact records, each a hash array
      */
-    function list_records($cols = null, $subset = 0)
+    function list_records($cols = null, $subset = 0, $nocount = false)
     {
         if (!empty($this->prop['searchonly']) && empty($this->filter) && !$this->group_id) {
             $this->result = new rcube_result_set(0);
