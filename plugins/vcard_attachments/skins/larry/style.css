@@ -1,10 +1,8 @@
-
 p.vcardattachment {
-	margin: 0.5em 1em;
+	margin: 8px;
 	width: auto;
 	background: #f9f9f9;
 	border: 1px solid #d3d3d3;
-	border-radius: 4px;
 	position: relative;
 }
 
@@ -25,8 +23,7 @@ p.vcardattachment button {
 	margin: 5px;
 }
 
-a.listbutton.vcard .inner
-{
+a.listbutton.vcard .inner {
 	background-position: center -2107px;
 }
 
