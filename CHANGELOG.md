@@ -19,6 +19,7 @@
 - New_user_dialog: Use the 'identity_update' hook (#8023)
 - Password: Fix broken 'hmail' driver (#7966)
 - Password: Set password_minimum_length to 8 by default (#8003)
+- Vcard_attachments: Improve handling of multiple contacts (#7027)
 - Fix invalid search fields after search scope change (#6919)
 - Fix so "Always allow from..." button appears also when allow_images=3 (#7961)
 - Fix Elastic's pretty select scroll position in Chrome (#7964)

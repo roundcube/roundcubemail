@@ -15,10 +15,46 @@
  * for the JavaScript code in this file.
  */
 
-function plugin_vcard_save_contact(mime_id)
+function plugin_vcard_import(mime_id)
 {
-  var lock = rcmail.set_busy(true, 'loading');
-  rcmail.http_post('plugin.savevcard', { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _part: mime_id }, lock);
+  if (!mime_id) {
+    var content = [];
+
+    $.each(rcmail.env.vcards, function (id, contact) {
+      var chbox = $('<input>').attr({type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox'}),
+        label = $('<label>').text(' ' + contact);
+
+      content.push($('<div>').append(label.prepend(chbox)));
+    });
+
+    var dialog,
+      action = function(e, a) {
+        var contacts = []
+
+        dialog.find('input:checked').each(function() {
+          contacts.push(this.value);
+        });
+
+        if (contacts.length) {
+          plugin_vcard_import(contacts.join());
+          return true; // close the dialog
+        }
+      },
+      props = {
+        button: 'import',
+        height: content.length > 4 ? 250 : 100
+      };
+
+    dialog = rcmail.simple_dialog(content, 'vcard_attachments.addvcardmsg', action, props);
+
+    return false;
+  }
+
+  rcmail.http_post(
+    'plugin.savevcard',
+    { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _part: mime_id },
+    rcmail.set_busy(true, 'loading')
+  );
 
   return false;
 }

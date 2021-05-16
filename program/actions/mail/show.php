@@ -523,8 +523,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         // single header value is requested
         if (!empty($attrib['valueof'])) {
+            if (empty($plugin['output'][$attrib['valueof']])) {
+                return '';
+            }
+
             $row = $plugin['output'][$attrib['valueof']];
-            return $row['html'] ? $row['value'] : rcube::SQ($row['value']);
+            return !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
         }
 
         // compose html table
