@@ -1098,7 +1098,7 @@ EOF;
      */
     protected function parse_conditions($input)
     {
-        $regexp = '/<roundcube:if\s+[^>]+>(((?!<roundcube:(if|endif)).)*)<roundcube:endif[^>]*>/is';
+        $regexp = '/<roundcube:if\s+[^>]+>(?:(?!<roundcube:(if|endif)).)*<roundcube:endif[^>]*>/is';
 
         while (preg_match($regexp, $input, $conditions)) {
             $result = $this->eval_condition($conditions[0]);
