@@ -1098,54 +1098,102 @@ EOF;
      */
     protected function parse_conditions($input)
     {
-        $regexp = '/<roundcube:if\s+[^>]+>(?:(?!<roundcube:(if|endif)).)*<roundcube:endif[^>]*>/is';
+        $regexp1 = '/<roundcube:if\s+([^>]+)>/is';
+        $regexp2 = '/<roundcube:(if|elseif|else|endif)\s*([^>]*)>/is';
 
-        while (preg_match($regexp, $input, $conditions)) {
-            $result = $this->eval_condition($conditions[0]);
-            $input  = str_replace($conditions[0], $result, $input);
-        }
+        $pos = 0;
 
-        return $input;
-    }
+        // Find IF tags and process them
+        while ($pos < strlen($input) && preg_match($regexp1, $input, $conditions, PREG_OFFSET_CAPTURE, $pos)) {
+            $pos = $start = $conditions[0][1];
 
-    /**
-     * Process & evaluate conditional tags
-     */
-    protected function eval_condition($input)
-    {
-        $matches = preg_split('/<roundcube:(if|elseif|else|endif)\s*([^>]*)>\n?/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE);
-        if ($matches && count($matches) == 4) {
-            if (preg_match('/^(else|endif)$/i', $matches[1])) {
-                return $matches[0] . $this->eval_condition($matches[3]);
+            // Process the 'condition' attribute
+            $attrib  = html::parse_attrib_string($conditions[1][0]);
+            $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+
+            // Define start/end position of the content to pass into the output
+            $content_start = $condmet ? $pos + strlen($conditions[0][0]) : null;
+            $content_end   = null;
+
+            $level = 0;
+            $endif = null;
+            $n = $pos + 1;
+
+            // Process the code until the closing tag (for the processed IF tag)
+            while (preg_match($regexp2, $input, $matches, PREG_OFFSET_CAPTURE, $n)) {
+                $tag_start = $matches[0][1];
+                $tag_end   = $tag_start + strlen($matches[0][0]);
+                $tag_name  = strtolower($matches[1][0]);
+
+                switch ($tag_name) {
+                case 'if':
+                    $level++;
+                    break;
+
+                case 'endif':
+                    if (!$level--) {
+                        $endif = $tag_end;
+                        if ($content_end === null) {
+                            $content_end = $tag_start;
+                        }
+                        break 2;
+                    }
+                    break;
+
+                case 'elseif':
+                    if (!$level) {
+                        if ($condmet) {
+                            if ($content_end === null) {
+                                $content_end = $tag_start;
+                            }
+                        }
+                        else {
+                            // Process the 'condition' attribute
+                            $attrib  = html::parse_attrib_string($matches[2][0]);
+                            $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+
+                            if ($condmet) {
+                                $content_start = $tag_end;
+                            }
+                        }
+                    }
+                    break;
+
+                case 'else':
+                    if (!$level) {
+                        if ($condmet) {
+                            if ($content_end === null) {
+                                $content_end = $tag_start;
+                            }
+                        }
+                        else {
+                            $content_start = $tag_end;
+                        }
+                    }
+                    break;
+                }
+
+                $n = $tag_end;
             }
 
-            $attrib = html::parse_attrib_string($matches[2]);
-
-            if (isset($attrib['condition'])) {
-                $condmet   = $this->check_condition($attrib['condition']);
-                $condparts = preg_split('/<roundcube:((elseif|else|endif)[^>]*)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
-
-                if ($condmet) {
-                    $result = $condparts[0];
-                    if ($condparts[2] != 'endif') {
-                        $result .= preg_replace('/.*<roundcube:endif[^>]*>\n?/Uis', '', $condparts[3], 1);
-                    }
-                    else {
-                        $result .= $condparts[3];
-                    }
+            // No ending tag found
+            if ($endif === null) {
+                $pos = strlen($input);
+                if ($content_end === null) {
+                    $content_end = $pos;
                 }
-                else {
-                    $result = "<roundcube:$condparts[1]>" . $condparts[3];
-                }
-
-                return $matches[0] . $this->eval_condition($result);
             }
 
-            rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Unable to parse conditional tag " . $matches[2]
-                ], true, false
-            );
+            if ($content_start === null) {
+                $content = '';
+            }
+            else {
+                $content = substr($input, $content_start, $content_end - $content_start);
+            }
+
+            // Replace the whole IF statement with the output content
+            $input = substr_replace($input, $content, $start, max($endif, $content_end, $pos) - $start);
+            $pos   = $start;
         }
 
         return $input;

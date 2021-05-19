@@ -300,7 +300,13 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
                     . "<roundcube:elseif condition='0'>Condition 5 {$txt} {$txt}<roundcube:elseif condition='0'>Condition 6 {$txt} {$txt}"
                     . "<roundcube:endif>_end_",
                 "_start_Condition 2 {$txt} {$txt}_end_"
-            ]
+            ],
+            // some invalid code
+            ["_start_<roundcube:if condition='1' />_end_", "_start__end_"],
+            ["_start_<roundcube:if condition='0' />_end_", "_start_"],
+            ["_start_<roundcube:if condition='1' />A<roundcube:else />_end_", "_start_A"],
+            ["_start_<roundcube:if condition='1' />A<roundcube:elseif condition='1' />_end_", "_start_A"],
+            ["_start_<roundcube:if />A<roundcube:endif />_end_", "_start__end_"],
         ];
     }
 
