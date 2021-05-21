@@ -201,10 +201,10 @@ class rcmail_sendmail
             $headers['Organization'] = $identity_arr['organization'];
         }
 
-        if ($mdn_enabled) {
-            $headers['Return-Receipt-To']           = $from_string;
-            $headers['Disposition-Notification-To'] = $from_string;
-        }
+
+		if ($mdn_enabled) {
+			$headers['Disposition-Notification-To'] = $from_string;
+		}
 
         if (!empty($_POST['_priority'])) {
             $priority     = intval($_POST['_priority']);
@@ -1192,7 +1192,7 @@ class rcmail_sendmail
     {
         $subject = trim($subject);
 
-        //  Add config options for subject prefixes (#7929) 
+        //  Add config options for subject prefixes (#7929)
         $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
         $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
@@ -1230,7 +1230,7 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            //  Add config options for subject prefixes (#7929) 
+            //  Add config options for subject prefixes (#7929)
             $subject = rcube_utils::remove_subject_prefix($this->options['message']->subject, 'forward');
             $subject = trim($this->rcmail->config->get('forward_prefix', 'Fwd:') . ' ' . $subject);
         }
