@@ -1782,8 +1782,8 @@ class rcube
         else {
             $this->plugins->exec_hook('message_sent', ['headers' => $headers, 'body' => $msg_body, 'message' => $message]);
 
-            // remove MDN headers after sending
-            unset($headers['Disposition-Notification-To']);
+            // remove MDN and DSN headers after sending
+            unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
             if ($this->config->get('smtp_log')) {
                 // get all recipient addresses

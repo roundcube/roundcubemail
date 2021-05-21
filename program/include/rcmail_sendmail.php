@@ -206,6 +206,10 @@ class rcmail_sendmail
 			$headers['Disposition-Notification-To'] = $from_string;
 		}
 
+		if ($dsn_enabled){
+		    $headers['Return-Receipt-To']           = $from_string;
+		}
+
         if (!empty($_POST['_priority'])) {
             $priority     = intval($_POST['_priority']);
             $a_priorities = [1 => 'highest', 2 => 'high', 4 => 'low', 5 => 'lowest'];
