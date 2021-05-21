@@ -140,7 +140,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             parse_str($url, $query);
 
             // prevent endless looping on login page
-            if ($query['_task'] == 'login') {
+            if (!empty($query['_task']) && $query['_task'] == 'login') {
                 unset($query['_task']);
             }
 
