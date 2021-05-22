@@ -202,7 +202,6 @@ class rcmail_sendmail
         }
 
         if ($mdn_enabled) {
-            $headers['Return-Receipt-To']           = $from_string;
             $headers['Disposition-Notification-To'] = $from_string;
         }
 

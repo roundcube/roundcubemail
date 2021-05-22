@@ -207,7 +207,6 @@ class rcube_message_header
         'content-type'              => 'ctype',
         'charset'                   => 'charset',
         'references'                => 'references',
-        'return-receipt-to'         => 'mdn_to',
         'disposition-notification-to' => 'mdn_to',
         'x-confirm-reading-to'      => 'mdn_to',
         'message-id'                => 'messageID',

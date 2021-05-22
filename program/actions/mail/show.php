@@ -846,7 +846,16 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
     public static function mdn_request_handler($message)
     {
         $rcmail = rcmail::get_instance();
+rcube::console($message->headers->mdn_to);
 
+rcube::console($message->context === null,
+            !empty($message->sender['mailto']),
+            empty($message->headers->flags['MDNSENT']),
+            empty($message->headers->flags['SEEN']),
+            ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*')),
+            $message->folder != $rcmail->config->get('drafts_mbox'),
+            $message->folder != $rcmail->config->get('sent_mbox')
+);
         if ($message->headers->mdn_to
             && $message->context === null
             && !empty($message->sender['mailto'])
@@ -858,7 +867,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         ) {
             $mdn_cfg = intval($rcmail->config->get('mdn_requests'));
             $exists  = $mdn_cfg == 1;
-
+rcube::console('>>>>>>>>>>>>');
             // Check sender existence in contacts
             // 3 and 4 = my contacts, 5 and 6 = trusted senders
             if ($mdn_cfg == 3 || $mdn_cfg == 4 || $mdn_cfg == 5 || $mdn_cfg == 6) {

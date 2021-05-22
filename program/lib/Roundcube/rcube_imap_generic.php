@@ -2610,7 +2610,6 @@ class rcube_imap_generic
                         case 'in-reply-to':
                             $result[$id]->in_reply_to = str_replace(["\n", '<', '>'], '', $string);
                             break;
-                        case 'return-receipt-to':
                         case 'disposition-notification-to':
                         case 'x-confirm-reading-to':
                             $result[$id]->mdn_to = substr($string, 0, 2048);
