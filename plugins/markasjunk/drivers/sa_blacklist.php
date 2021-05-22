@@ -91,6 +91,11 @@ class markasjunk_sa_blacklist
             $message = new rcube_message($uid);
             $email   = $message->sender['mailto'];
 
+            // skip invalid emails
+            if (!rcube_utils::check_email($email, false)) {
+                continue;
+            }
+
             if ($spam) {
                 // delete any whitelisting for this address
                 $db->query(
