@@ -1782,7 +1782,7 @@ class rcube
         else {
             $this->plugins->exec_hook('message_sent', ['headers' => $headers, 'body' => $msg_body, 'message' => $message]);
 
-            // remove MDN headers after sending
+            // remove MDN/DSN headers after sending
             unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
             if ($this->config->get('smtp_log')) {
