@@ -39,6 +39,7 @@
 - Fix various actions on folders with angle brackets in name (#8037)
 - Fix inconsistent fowarding actions statuses on drafts (#8039)
 - Fix bug where `start` and `reversed` attributes of `ol` tag were ignored (#8059)
+- Fix bug where consecutive LDAP searches could return wrong results (#8064)
 
 ## Release 1.5-beta
 
