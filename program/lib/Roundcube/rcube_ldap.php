@@ -884,6 +884,9 @@ class rcube_ldap extends rcube_addressbook
             $filter = 'e:' . $filter;
         }
 
+        // Reset the previous search result
+        $this->reset();
+
         // set filter string and execute search
         $this->set_search_set($filter);
 
