@@ -15,6 +15,7 @@
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Enigma: Fix invalid expiration dates of PGP keys on a 32bit system (#7531)
 - Enigma: Display an information that public and private keys are stored on the server (#7941)
+- Enigma: Optional support for passwordless keys (#7265)
 - Managesieve: Fix removing nested rules in scripts (#8011)
 - Managesieve: Support XOAUTH2, requires Net_Sieve 1.4.5 (#7925)
 - New_user_dialog: Use the 'identity_update' hook (#8023)
