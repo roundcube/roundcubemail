@@ -65,6 +65,9 @@ $config['enigma_attach_pubkey'] = false;
 // When set to 0 passwords will be stored for the whole session.
 $config['enigma_password_time'] = 5;
 
+// Enable support for private keys without passwords.
+$config['enigma_passwordless'] = false;
+
 // With this option you can lock composing options
 // of the plugin forcing the user to use configured settings.
 // The array accepts: 'sign', 'encrypt', 'pubkey'.

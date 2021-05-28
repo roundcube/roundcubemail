@@ -147,7 +147,7 @@ class enigma_engine
         $passwords = $this->get_passwords();
         $pass      = isset($passwords[$key->id]) ? $passwords[$key->id] : null;
 
-        if ($pass === null) {
+        if ($pass === null && !$this->rc->config->get('enigma_passwordless')) {
             // ask for password
             $error = ['missing' => [$key->id => $key->name]];
             return new enigma_error(enigma_error::BADPASS, '', $error);
@@ -254,7 +254,7 @@ class enigma_engine
             $passwords = $this->get_passwords();
             $sign_pass = isset($passwords[$sign_key->id]) ? $passwords[$sign_key->id] : null;
 
-            if ($sign_pass === null) {
+            if ($sign_pass === null && !$this->rc->config->get('enigma_passwordless')) {
                 // ask for password
                 $error = ['missing' => [$sign_key->id => $sign_key->name]];
                 return new enigma_error(enigma_error::BADPASS, '', $error);

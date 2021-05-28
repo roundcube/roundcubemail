@@ -343,7 +343,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
       break;
 
-    // Sactivate/deactivate set
+    // Activate/Deactivate the set
     case 'setact':
       var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
       if (o.active) {
@@ -486,7 +486,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function(row)
 /*********          Filter Form methods          *********/
 /*********************************************************/
 
-// Form submition
+// Form submission
 rcube_webmail.prototype.managesieve_save = function()
 {
   if (this.env.action == 'plugin.managesieve-vacation') {
@@ -818,7 +818,7 @@ function vacation_action_select()
   $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
 };
 
-// Inititalizes smart list input
+// Initializes smart list input
 function smart_field_init(field)
 {
   if (window.UI && UI.smart_field_init)

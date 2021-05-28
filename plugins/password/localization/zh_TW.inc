@@ -38,3 +38,5 @@ $messages['samepasswd'] = '新密碼要和舊的不同';
 $messages['passwdexpirewarning'] = '警告！您的密碼很快會到期，請在 $expirationdatetime 之前更改';
 $messages['passwdexpired'] = '您的密碼已到期，請馬上更改！';
 $messages['passwdconstraintviolation'] = '違反密碼規限。密碼可能太弱了。';
+$messages['pwned_isdisclosed'] = '此密碼為人所共知。';
+$messages['pwned_fetcherror'] = '驗證密碼強度失敗。';

@@ -59,7 +59,7 @@ class rcube_imap_generic
     protected $prefs             = [];
     protected $logged            = false;
     protected $capability        = [];
-    protected $capability_readed = false;
+    protected $capability_read   = false;
     protected $debug             = false;
     protected $debug_handler     = false;
 
@@ -223,7 +223,7 @@ class rcube_imap_generic
     }
 
     /**
-     * Reads a line of data from the connection stream inluding all
+     * Reads a line of data from the connection stream including all
      * string continuation literals.
      *
      * @param int $size Buffer size
@@ -234,7 +234,7 @@ class rcube_imap_generic
     {
         $line = $this->readLine($size);
 
-        // include all string literels untile the real end of "line"
+        // include all string literals untile the real end of "line"
         while (preg_match('/\{([0-9]+)\}\r\n$/', $line, $m)) {
             $bytes = $m[1];
             $out   = '';
@@ -524,7 +524,7 @@ class rcube_imap_generic
         if (!empty($result)) {
             return $result;
         }
-        else if ($this->capability_readed) {
+        else if ($this->capability_read) {
             return false;
         }
 
@@ -536,7 +536,7 @@ class rcube_imap_generic
             $this->parseCapability($result[1]);
         }
 
-        $this->capability_readed = true;
+        $this->capability_read = true;
 
         return $this->hasCapability($name);
     }
@@ -547,7 +547,7 @@ class rcube_imap_generic
     public function clearCapability()
     {
         $this->capability        = [];
-        $this->capability_readed = false;
+        $this->capability_read = false;
     }
 
     /**
@@ -557,7 +557,7 @@ class rcube_imap_generic
      * @param string $pass Password
      * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
-     * @return resource Connection resourse on success, error code on error
+     * @return resource Connection resource on success, error code on error
      */
     protected function authenticate($user, $pass, $type = 'PLAIN')
     {
@@ -812,7 +812,7 @@ class rcube_imap_generic
      * @param string $user Username
      * @param string $pass Password
      *
-     * @return resource Connection resourse on success, error code on error
+     * @return resource Connection resource on success, error code on error
      */
     protected function login($user, $password)
     {
@@ -971,7 +971,7 @@ class rcube_imap_generic
         }
 
         // pre-login capabilities can be not complete
-        $this->capability_readed = false;
+        $this->capability_read = false;
 
         // Authenticate
         switch ($auth_method) {
@@ -2085,7 +2085,7 @@ class rcube_imap_generic
             'DELETED'      => 3,
         ];
 
-        if (empty($upported[$index_field])) {
+        if (empty($supported[$index_field])) {
             return false;
         }
 
@@ -2610,7 +2610,6 @@ class rcube_imap_generic
                         case 'in-reply-to':
                             $result[$id]->in_reply_to = str_replace(["\n", '<', '>'], '', $string);
                             break;
-                        case 'return-receipt-to':
                         case 'disposition-notification-to':
                         case 'x-confirm-reading-to':
                             $result[$id]->mdn_to = substr($string, 0, 2048);
@@ -2742,7 +2741,7 @@ class rcube_imap_generic
                     $value = str_replace('"', '', $value);
 
                     if ($field == 'subject') {
-                        $value = preg_replace('/^(Re:\s*|Fwd:\s*|Fw:\s*)+/i', '', $value);
+                        $value = rcube_utils::remove_subject_prefix($value);
                     }
                 }
             }
@@ -2768,7 +2767,7 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param int    $uid     Message UID
      * @param array  $parts   Message part identifiers
-     * @param bool   $mime    Use MIME instad of HEADER
+     * @param bool   $mime    Use MIME instead of HEADER
      *
      * @return array|bool Array containing headers string for each specified body
      *                    False on failure.
@@ -4094,7 +4093,7 @@ class rcube_imap_generic
         }
 
         if ($trusted) {
-            $this->capability_readed = true;
+            $this->capability_read = true;
         }
     }
 

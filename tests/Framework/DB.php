@@ -185,6 +185,25 @@ class Framework_DB extends PHPUnit\Framework\TestCase
         $this->assertSame('(test)', $db->concat(['test']));
         $this->assertSame('(test1 || test2)', $db->concat(['test1', 'test2']));
     }
+
+    /**
+     * Test encode() and decode() methods
+     */
+    function test_encode_decode()
+    {
+        $str = '';
+        for ($x=0; $x<256; $x++) {
+            $str .= chr($x);
+        }
+
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+
+        $str = "グーグル谷歌中信фδοκιμήóźdźрöß😁😃";
+
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+    }
 }
 
 /**

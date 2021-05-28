@@ -38,6 +38,5 @@ $messages['samepasswd'] = 'Rhaid i\'r cyfrinair newydd fod yn wahanol i\'r hen u
 $messages['passwdexpirewarning'] = 'Rhybudd! Fe fydd eich cyfrinair yn dod i ben cyn hir, newidiwch e cyn $expirationdatetime.';
 $messages['passwdexpired'] = 'Mae\'ch cyfrinair wedi dod i ben, rhaid i chi ei newid nawr!';
 $messages['passwdconstraintviolation'] = 'Mae hwn yn torri cyfyngiad cyfrinair. Mae\'n bosib fod y cyfrinair yn rhy wan.';
-$messages['pwned_mustnotbedisclosed'] = 'Ni all y cyfrinair fod yn&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">air cyffredin</a>.';
 $messages['pwned_isdisclosed'] = 'Mae\'r cyfrinair hwn yn air sy\'n hysbys.';
 $messages['pwned_fetcherror'] = 'Methwyd gwirio cryfder y cyfrinair.';

@@ -207,7 +207,6 @@ class rcube_message_header
         'content-type'              => 'ctype',
         'charset'                   => 'charset',
         'references'                => 'references',
-        'return-receipt-to'         => 'mdn_to',
         'disposition-notification-to' => 'mdn_to',
         'x-confirm-reading-to'      => 'mdn_to',
         'message-id'                => 'messageID',
@@ -227,7 +226,7 @@ class rcube_message_header
         $name  = strtolower($name);
         $value = null;
 
-        if (isset($this->obj_headers[$name])) {
+        if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
         else if (isset($this->others[$name])) {

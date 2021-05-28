@@ -46,7 +46,7 @@ TODO
 - Generate revocation certs
 - Search filter to see invalid/expired keys
 - Key server(s) support (upload, refresh)
-- Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
+- Mark keys as trusted/untrusted, display appropriate message in verify/decrypt status
 - Performance improvements:
    - cache decrypted message key id so we can skip decryption if we have no password in session
    - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)

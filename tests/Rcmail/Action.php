@@ -152,7 +152,51 @@ class Rcmail_RcmailAction extends ActionTestCase
         $result = rcmail_action::get_uids();
         $this->assertSame([], $result);
 
-        // TODO: more input cases
+        $_GET = [
+            '_mbox' => 'Test<a>',
+            '_uid' => '1',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['Test<a>' => ['1']], $result);
+        $this->assertFalse($is_multifolder);
+
+        $_GET = [
+            '_uid' => '1-Test<a>',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['Test<a>' => ['1']], $result);
+        $this->assertTrue($is_multifolder);
+
+        $_GET = [
+            '_uid' => '1-Test<a>,2-INBOX',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['Test<a>' => ['1'], 'INBOX' => ['2']], $result);
+        $this->assertTrue($is_multifolder);
+
+        $_GET = [
+            '_mbox' => 'INBOX',
+            '_uid' => '*',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['INBOX' => '*'], $result);
+        $this->assertFalse($is_multifolder);
+
+        $_GET = [
+            '_mbox' => 'INBOX',
+            '_uid' => '1.1',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['INBOX' => ['1.1']], $result);
+        $this->assertFalse($is_multifolder);
+
+        $_GET = [
+            '_mbox' => 'INBOX',
+            '_uid' => '1:2,56',
+        ];
+        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $this->assertSame(['INBOX' => ['1:2','56']], $result);
+        $this->assertFalse($is_multifolder);
     }
 
     /**

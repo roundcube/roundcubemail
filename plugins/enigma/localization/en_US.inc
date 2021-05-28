@@ -134,6 +134,7 @@ $messages['keyremovesuccess'] = 'Key(s) deleted successfully';
 $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
 $messages['keyimportsearchtext'] = 'You can search for public keys by key identifier, user name or email address and then import them directly.';
+$messages['keystoragenotice'] = 'All public and private keys are stored on the server.';
 
 $messages['formerror'] = 'Please, fill the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';

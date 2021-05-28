@@ -81,7 +81,6 @@ $messages['checking'] = 'Vedinihêre...';
 $messages['stillsearching'] = 'Hin lê digere...';
 $messages['nospellerrors'] = 'Tu şaşiyeke rastnivîsê nehat dîtin';
 $messages['folderdeleted'] = 'Peldank hat jêbirin';
-$messages['folderpurged'] = 'Dosye bi serkeftin hat valakirin.';
 $messages['deletedsuccessfully'] = 'Hat jêbirin';
 $messages['converting'] = 'Formatkirin ji peyamê tê birin...';
 $messages['messageopenerror'] = 'Peyam ji pêşkêşkar nehat barkirin';

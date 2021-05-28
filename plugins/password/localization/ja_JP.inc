@@ -38,6 +38,6 @@ $messages['samepasswd'] = '新しいパスワードは以前のものと異な�
 $messages['passwdexpirewarning'] = '警告!  パスワードの有効期限がすぐに切れます、$expirationdatetimeよりも前に変更してください。';
 $messages['passwdexpired'] = 'パスワードの期限が切れています、今すぐ変更しなければなりません!';
 $messages['passwdconstraintviolation'] = 'パスワードの制限に違反しました。おそらくパスワードがの強度が弱すぎます。';
-$messages['pwned_mustnotbedisclosed'] = 'パスワードは<a href="https://haveibeenpwned.com/Passwords" target="_blank">よく知られたもの</a>であってはなりません。';
-$messages['pwned_isdisclosed'] = 'このパスワードはよく知られたものです。';
+$messages['pwned_mustnotbedisclosed'] = 'パスワードは<a href="$href" target="_blank">よく知られた言葉</a>であってはなりません。';
+$messages['pwned_isdisclosed'] = 'このパスワードはよく知られた言葉です。';
 $messages['pwned_fetcherror'] = 'パスワードの強度の検証に失敗しました。';

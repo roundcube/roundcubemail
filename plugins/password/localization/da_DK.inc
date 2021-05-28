@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Det nye kodeord skal være forskelligt fra det gamle.
 $messages['passwdexpirewarning'] = 'Advarsel, Dit kodeord udløber snart. Du skal ændre det før $expirationdatetime.';
 $messages['passwdexpired'] = 'Dit kodeord er udløbet, du skal ændre det nu!';
 $messages['passwdconstraintviolation'] = 'Password er i strid med reglerne. Det er sikkert for svagt.';
+$messages['pwned_mustnotbedisclosed'] = 'Adgangskoden må ikke være <a href="$href" target="_blank">almindeligt brugt</a>.';
+$messages['pwned_isdisclosed'] = 'Denne adgangskode er almindeligt brugt.';
+$messages['pwned_fetcherror'] = 'Kunne ikke bekræfte adgangskodens styrken.';

@@ -187,6 +187,10 @@ input.mainaction {
 	font-weight: bold !important;
 }
 
+button:not(:disabled) {
+	cursor: pointer;
+}
+
 form.smart-upload,
 input.smart-upload {
 	visibility: hidden;
@@ -1595,6 +1599,15 @@ body.iframe .footerleft.floating:before,
 	color: #960;
 	border: 1px solid #ffdf0e;
 	background: url(images/messages.png) #fef893 5px -85px no-repeat;
+	padding: 6px 12px 6px 30px;
+}
+
+.boxcontent .boxinformation {
+	margin: 0 0 10px;
+	display: block;
+	color: #444;
+	border: 1px solid #888;
+	background: url(images/messages.png) #ddd 5px 4px no-repeat;
 	padding: 6px 12px 6px 30px;
 }
 

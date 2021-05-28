@@ -89,10 +89,11 @@ class rcmail_oauth
      */
     protected function init()
     {
-        // subscrbe to storage and smtp init events
+        // subscribe to storage and smtp init events
         if ($this->is_enabled()) {
             $this->rcmail->plugins->register_hook('storage_init', [$this, 'storage_init']);
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
+            $this->rcmail->plugins->register_hook('managesieve_connect', [$this, 'managesieve_connect']);
             $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
         }
@@ -122,7 +123,7 @@ class rcmail_oauth
     }
 
     /**
-     * Getter for the last error occured
+     * Getter for the last error occurred
      *
      * @return mixed
      */
@@ -209,13 +210,13 @@ class rcmail_oauth
         $oauth_identity_uri  = $this->options['identity_uri'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
-            // validate state parameter against $_SESSION['oauth_state']
-            if (!empty($_SESSION['oauth_state']) && $_SESSION['oauth_state'] !== $state) {
-                throw new RuntimeException('Invalid state parameter');
-            }
-
-            // send token request to get a real access token for the given auth code
             try {
+                // validate state parameter against $_SESSION['oauth_state']
+                if (!empty($_SESSION['oauth_state']) && $_SESSION['oauth_state'] !== $state) {
+                    throw new RuntimeException('Invalid state parameter');
+                }
+
+                // send token request to get a real access token for the given auth code
                 $client = new Client([
                     'timeout' => 10.0,
                     'verify' => $this->options['verify_peer'],
@@ -236,6 +237,7 @@ class rcmail_oauth
                 // auth success
                 if (!empty($data['access_token'])) {
                     $username = null;
+                    $identity = null;
                     $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
 
                     // decode JWT id_token if provided
@@ -283,6 +285,11 @@ class rcmail_oauth
                     $this->mask_auth_data($data);
 
                     $this->rcmail->session->remove('oauth_state');
+
+                    $this->rcmail->plugins->exec_hook('oauth_login', array_merge($data, [
+                        'username' => $username,
+                        'identity' => $identity,
+                    ]));
 
                     // return auth data
                     return [
@@ -379,6 +386,8 @@ class rcmail_oauth
 
                 // update session data
                 $_SESSION['oauth_token'] = array_merge($token, $data);
+
+                $this->rcmail->plugins->exec_hook('oauth_refresh_token', $data);
 
                 return [
                     'token' => $data,
@@ -478,6 +487,25 @@ class rcmail_oauth
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
             $options['smtp_auth_type'] = 'XOAUTH2';
+        }
+
+        return $options;
+    }
+
+    /**
+     * Callback for 'managesieve_connect' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function managesieve_connect($options)
+    {
+        if (isset($_SESSION['oauth_token'])) {
+            // check token validity
+            $this->check_token_validity($_SESSION['oauth_token']);
+
+            // enforce XOAUTH2 authorization type
+            $options['auth_type'] = 'XOAUTH2';
         }
 
         return $options;

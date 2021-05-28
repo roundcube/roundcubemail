@@ -38,6 +38,5 @@ $messages['samepasswd'] = 'Ní mór don bhfocal faire nua bheith éagsúil ón s
 $messages['passwdexpirewarning'] = 'Rabhadh! Rachaidh d\'fhocal faire in éag go luath. Athraigh é roimh $expirationdatetime.';
 $messages['passwdexpired'] = 'D\'éag d\'fhocal faire. Ní mór duit é a athrú anois!';
 $messages['passwdconstraintviolation'] = 'Sárú ar na rialacha do na focail faire. Is dócha go bhfuil an focal faire rólag.';
-$messages['pwned_mustnotbedisclosed'] = 'Níl cead &nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">focal mós coitianta</a>a bheith ina fhocal faire.';
 $messages['pwned_isdisclosed'] = 'Tá fios ag an iomarca daoine ar an bhfocal faire sin.';
 $messages['pwned_fetcherror'] = 'Theip ar an gcóras a fhíorú cé chomh láidir is atá an focal faire.';

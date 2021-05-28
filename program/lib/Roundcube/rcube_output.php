@@ -357,8 +357,6 @@ abstract class rcube_output
      */
     public static function json_serialize($input, $pretty = false, $inline = true)
     {
-        // The input need to be valid UTF-8 to use with json_encode()
-        $input   = rcube_charset::clean($input);
         $options = JSON_UNESCAPED_SLASHES;
 
         // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
@@ -377,8 +375,14 @@ abstract class rcube_output
             $options |= JSON_PRETTY_PRINT;
         }
 
-        // sometimes even using rcube_charset::clean() the input contains invalid UTF-8 sequences
-        // that's why we have @ here
-        return @json_encode($input, $options);
+        // The input need to be valid UTF-8 to use json_encode() in PHP < 7.2
+        if (PHP_VERSION_ID >= 70200) {
+            $options |= JSON_INVALID_UTF8_IGNORE;
+        }
+        else {
+            $input = rcube_charset::clean($input);
+        }
+
+        return json_encode($input, $options);
     }
 }

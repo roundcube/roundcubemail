@@ -387,7 +387,7 @@ class rcube
         $storage_cache  = $this->config->get("{$driver}_cache");
         $messages_cache = $this->config->get('messages_cache');
 
-        // for backward compatybility
+        // for backward compatibility
         if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
             $storage_cache  = 'db';
             $messages_cache = true;
@@ -890,7 +890,7 @@ class rcube
      * @param string $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
      * @param bool   $base64 Whether or not to base64_encode() the result before returning
      *
-     * @return string Encrypted text
+     * @return string|false Encrypted text, false on error
      */
     public function encrypt($clear, $key = 'des_key', $base64 = true)
     {
@@ -930,11 +930,17 @@ class rcube
      */
     public function decrypt($cipher, $key = 'des_key', $base64 = true)
     {
-        if (!$cipher) {
-            return '';
+        if (strlen($cipher) == 0) {
+            return false;
         }
 
-        $cipher  = $base64 ? base64_decode($cipher) : $cipher;
+        if ($base64) {
+            $cipher = base64_decode($cipher);
+            if ($cipher === false) {
+                return false;
+            }
+        }
+
         $ckey    = $this->config->get_crypto_key($key);
         $method  = $this->config->get_crypto_method();
         $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
@@ -943,7 +949,7 @@ class rcube
 
         // session corruption? (#1485970)
         if (strlen($iv) < $iv_size) {
-            return '';
+            return false;
         }
 
         $cipher = substr($cipher, $iv_size);
@@ -1776,7 +1782,7 @@ class rcube
         else {
             $this->plugins->exec_hook('message_sent', ['headers' => $headers, 'body' => $msg_body, 'message' => $message]);
 
-            // remove MDN headers after sending
+            // remove MDN/DSN headers after sending
             unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
             if ($this->config->get('smtp_log')) {

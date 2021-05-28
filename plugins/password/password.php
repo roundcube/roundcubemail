@@ -133,7 +133,7 @@ class password extends rcube_plugin
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
         $confirm         = $this->rc->config->get('password_confirm_current');
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         $force_save      = $this->rc->config->get('password_force_save');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
@@ -143,8 +143,8 @@ class password extends rcube_plugin
             $charset    = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
             $rc_charset = strtoupper($this->rc->output->get_charset());
 
-            $sespwd = $this->rc->decrypt($_SESSION['password']);
-            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sespwd;
+            $sesspwd = $this->rc->decrypt($_SESSION['password']);
+            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
             $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST, true);
             $conpwd = rcube_utils::get_input_value('_confpasswd', rcube_utils::INPUT_POST, true);
 
@@ -165,7 +165,7 @@ class password extends rcube_plugin
             else if ($conpwd != $newpwd) {
                 $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
             }
-            else if ($confirm && ($res = $this->_compare($sespwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+            else if ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             else if ($required_length && strlen($newpwd) < $required_length) {
@@ -176,7 +176,7 @@ class password extends rcube_plugin
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
-            else if (!$force_save && ($res = $this->_compare($sespwd, $newpwd, PASSWORD_COMPARE_NEW))) {
+            else if (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // try to save the password
@@ -270,9 +270,9 @@ class password extends rcube_plugin
 
         $rules = '';
 
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         if ($required_length > 0) {
-            $rules .= html::tag('li', ['class' => 'required-length'], $this->gettext([
+            $rules .= html::tag('li', ['class' => 'required-length d-block'], $this->gettext([
                 'name' => 'passwordshort',
                 'vars' => ['length' => $required_length]
             ]));
@@ -280,7 +280,7 @@ class password extends rcube_plugin
 
         if ($msgs = $this->_strength_rules()) {
             foreach ($msgs as $msg) {
-                $rules .= html::tag('li', ['class' => 'strength-rule'], $msg);
+                $rules .= html::tag('li', ['class' => 'strength-rule d-block'], $msg);
             }
         }
 

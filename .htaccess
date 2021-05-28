@@ -12,7 +12,7 @@ RewriteRule ^(?!installer|\.well-known\/|[a-zA-Z0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
 RewriteRule ^/?(\.git|\.tx|\.ci|SQL|bin|config|logs|temp|tests|vendor|program\/(include|lib|localization|steps)) - [F]
 # - deny access to some documentation files
-RewriteRule /?(README.*|SECURITY.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
+RewriteRule /?(README.*|CHANGELOG.*|SECURITY.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>

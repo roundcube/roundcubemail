@@ -361,7 +361,7 @@ class rcube_mime
                 $name = $val;
             }
 
-            // dequote and/or decode name
+            // unquote and/or decode name
             if ($name) {
                 // An unquoted name ending with colon is a address group name, ignore it
                 if ($name[strlen($name)-1] == ':') {

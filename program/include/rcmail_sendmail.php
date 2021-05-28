@@ -202,7 +202,6 @@ class rcmail_sendmail
         }
 
         if ($mdn_enabled) {
-            $headers['Return-Receipt-To']           = $from_string;
             $headers['Disposition-Notification-To'] = $from_string;
         }
 
@@ -925,7 +924,7 @@ class rcmail_sendmail
 
             $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
 
-            // create teaxtarea object
+            // create textarea object
             $input = new $field_type($field_attrib);
             $out   = $input->show($this->compose_header_value($param, $mode));
         }
@@ -1055,7 +1054,7 @@ class rcmail_sendmail
             $charset = $this->rcmail->output->charset;
         }
         else if ($mode == self::MODE_REPLY) {
-            // get recipent address(es) out of the message headers
+            // get recipient address(es) out of the message headers
             if ($header == 'to') {
                 $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
                 $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
@@ -1088,7 +1087,7 @@ class rcmail_sendmail
                 // Reply to message sent by yourself (#1487074, #1489230, #1490439)
                 // Reply-To address need to be unset (#1490233)
                 if (!empty($message->compose['ident']) && empty($replyto)) {
-                    foreach ([$fvalue, $message->headers->from] as $sender) {
+                    foreach ([$fvalue, $message->get_header('from')] as $sender) {
                         $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
 
                         if (in_array($message->compose['ident']['email_ascii'], $senders)) {
@@ -1192,17 +1191,11 @@ class rcmail_sendmail
     {
         $subject = trim($subject);
 
-        // replace Re:, Re[x]:, Re-x (#1490497)
-        $prefix = '/^(re:|re\[\d\]:|re-\d:)\s*/i';
-        do {
-            $subject = preg_replace($prefix, '', $subject, -1, $count);
-        }
-        while ($count);
+        //  Add config options for subject prefixes (#7929) 
+        $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
+        $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
-        // replace (was: ...) (#1489375)
-        $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
-
-        return 'Re: ' . $subject;
+        return trim($subject);
     }
 
     /**
@@ -1236,14 +1229,11 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            if (preg_match('/^fwd:/i', $this->options['message']->subject)) {
-                $subject = $this->options['message']->subject;
-            }
-            else {
-                $subject = 'Fwd: ' . $this->options['message']->subject;
-            }
+            //  Add config options for subject prefixes (#7929) 
+            $subject = rcube_utils::remove_subject_prefix($this->options['message']->subject, 'forward');
+            $subject = trim($this->rcmail->config->get('forward_prefix', 'Fwd:') . ' ' . $subject);
         }
-        // creeate a draft-subject
+        // create a draft-subject
         else if ($this->data['mode'] == self::MODE_DRAFT || $this->data['mode'] == self::MODE_EDIT) {
             $subject = $this->options['message']->subject;
         }

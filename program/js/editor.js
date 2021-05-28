@@ -39,7 +39,7 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=5050100',
+      cache_suffix: 's=5080000',
       theme: 'silver',
       language: config.lang,
       content_css: rcmail.assets_path(config.content_css),
@@ -322,7 +322,7 @@ function rcube_text_editor(config, id)
         tinymce.execCommand('mceRemoveEditor', false, ref.id);
         ref.editor = null;
 
-        // replace signture mark with text version of the signature
+        // replace signature mark with text version of the signature
         if (is_sig)
           data = data.replace(sig_mark, "\n" + signature.text);
 
@@ -387,7 +387,7 @@ function rcube_text_editor(config, id)
       return ed.state != 'ready' && ed.state != 'no_error_found';
   };
 
-  // resume spellchecking, highlight provided mispellings without a new ajax request
+  // resume spellchecking, highlight provided misspellings without a new ajax request
   this.spellcheck_resume = function(data)
   {
     var ed = this.editor;

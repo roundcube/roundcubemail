@@ -8,6 +8,7 @@ EMAIL;TYPE=INTERNET;TYPE=OTHER:next@domain.tld
 TEL;TYPE=work:phone work
 TEL;TYPE=home:phone home
 TEL;TYPE=fax:fax
+TEL;TYPE=pager:pager
 TEL;TYPE=cell:mobile
 TITLE:title
 X-DEPARTMENT:department

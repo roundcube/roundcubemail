@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Nowe hasło musi być różne od poprzednich.';
 $messages['passwdexpirewarning'] = 'Uwaga! Twoje hasło wkrótce wygaśnie, zmień je przed $expirationdatetime.';
 $messages['passwdexpired'] = 'Twoje hasło wygasło, musisz je zmienić.';
 $messages['passwdconstraintviolation'] = 'Naruszenie ograniczeń hasła. Prawdopodobnie jest zbyt słabe.';
+$messages['pwned_mustnotbedisclosed'] = 'Hasło nie może być <a href="$href" target="_blank">powszechnie znane</a>.';
+$messages['pwned_isdisclosed'] = 'To hasło jest powszechnie znane.';
+$messages['pwned_fetcherror'] = 'Nie udało się zweryfikować siły hasła.';

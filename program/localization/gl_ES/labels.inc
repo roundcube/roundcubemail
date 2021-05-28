@@ -547,6 +547,6 @@ $labels['arialabelcontactexportoptions'] = 'Opcións do exportado de contactos';
 $labels['arialabelabookgroupoptions'] = 'Opcións de axenda de enderezos/grupos';
 $labels['arialabelpreferencesform'] = 'Formulario de preferencias';
 $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
-$labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
+$labels['arialabelresponseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";

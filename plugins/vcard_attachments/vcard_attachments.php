@@ -111,16 +111,11 @@ class vcard_attachments extends rcube_plugin
      */
     function message_objects($p)
     {
-        $attach_script = false;
-        $rcmail        = rcmail::get_instance();
+        $rcmail   = rcmail::get_instance();
+        $contacts = [];
 
         foreach ($this->vcard_parts as $part) {
             $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
-
-            // successfully parsed vcards?
-            if (empty($vcards)) {
-                continue;
-            }
 
             foreach ($vcards as $idx => $vcard) {
                 // skip invalid vCards
@@ -128,25 +123,34 @@ class vcard_attachments extends rcube_plugin
                     continue;
                 }
 
-                $display = $vcard->displayname . ' <'.$vcard->email[0].'>';
-                $vid     = rcube::JQ($part.':'.$idx);
-
-                // add box below message body
-                $p['content'][] = html::p(['class' => 'vcardattachment aligned-buttons boxinformation'],
-                    html::span(null, rcube::Q($display))
-                    . html::tag('button', [
-                            'onclick' => "return plugin_vcard_save_contact('$vid')",
-                            'title'   => $this->gettext('addvcardmsg'),
-                            'class'   => 'import',
-                        ], rcube::Q($rcmail->gettext('import'))
-                    )
-                );
+                $contacts["$part:$idx"] = "{$vcard->displayname} <{$vcard->email[0]}>";
             }
-
-            $attach_script = true;
         }
 
-        if ($attach_script) {
+        if (!empty($contacts)) {
+            $attr = [
+                'title' => $this->gettext('addvcardmsg'),
+                'class' => 'import btn-sm',
+            ];
+
+            if (count($contacts) == 1) {
+                $display         = array_first($contacts);
+                $attr['onclick'] = "return plugin_vcard_import('" . rcube::JQ(key($contacts)) . "')";
+            }
+            else {
+                $display         = $this->gettext(['name' => 'contactsattached', 'vars' => ['num' => count($contacts)]]);
+                $attr['onclick'] = "return plugin_vcard_import()";
+
+                $rcmail->output->set_env('vcards', $contacts);
+                $rcmail->output->add_label('vcard_attachments.addvcardmsg', 'import');
+            }
+
+            // add box below the message body
+            $p['content'][] = html::p(
+                ['class' => 'vcardattachment aligned-buttons boxinformation'],
+                html::span(null, rcube::Q($display)) . html::tag('button', $attr, rcube::Q($rcmail->gettext('import')))
+            );
+
             $this->include_script('vcardattach.js');
             $this->include_stylesheet($this->local_skin_path() . '/style.css');
         }
@@ -200,22 +204,43 @@ class vcard_attachments extends rcube_plugin
 
         $rcmail  = rcmail::get_instance();
         $message = new rcube_message($uid, $mbox);
+        $vcards  = [];
+        $errors  = 0;
 
-        if ($uid && $mime_id) {
-            list($mime_id, $index) = rcube_utils::explode(':', $mime_id);
-            $part = $message->get_part_content($mime_id, null, true);
+        if (!empty($message->headers) && $uid && $mime_id) {
+            $index = [];
+
+            foreach (explode(',', $mime_id) as $id) {
+                list($part_id, $card_id) = rcube_utils::explode(':', $id);
+                if (!isset($index[$part_id])) {
+                    $index[$part_id] = [];
+                }
+                $index[$part_id][] = $card_id;
+            }
+
+            foreach ($index as $part_id => $mime_ids) {
+                $part = $message->get_part_content($part_id, null, true);
+
+                if (!empty($part) && ($part_vcards = rcube_vcard::import($part))) {
+                    foreach ($mime_ids as $id) {
+                        if (!empty($part_vcards[$id])
+                            && ($vcard = $part_vcards[$id])
+                            && !empty($vcard->email)
+                            && !empty($vcard->email[0])
+                        ) {
+                            $vcards[] = $vcard;
+                        }
+                    }
+                }
+            }
         }
 
-        $error_msg = $this->gettext('vcardsavefailed');
+        $CONTACTS = $this->get_address_book();
 
-        if (!empty($part) && ($vcards = rcube_vcard::import($part))
-            && isset($index) && !empty($vcards[$index])
-            && ($vcard = $vcards[$index]) && $vcard->displayname && $vcard->email
-        ) {
-            $CONTACTS = $this->get_address_book();
-            $email    = $vcard->email[0];
-            $contact  = $vcard->get_assoc();
-            $valid    = true;
+        foreach ($vcards as $vcard) {
+            $email   = $vcard->email[0];
+            $contact = $vcard->get_assoc();
+            $valid   = true;
 
             // skip entries without an e-mail address or invalid
             if (empty($email) || !$CONTACTS->validate($contact, true)) {
@@ -229,12 +254,12 @@ class vcard_attachments extends rcube_plugin
                 $existing = $CONTACTS->search('email', $email, 1, false);
 
                 // compare display name
-                if (!$existing->count && $vcard->displayname) {
+                if (!$existing->count && !empty($vcard->displayname)) {
                     $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
                 }
 
                 if ($existing->count) {
-                    $rcmail->output->command('display_message', $this->gettext('contactexists'), 'warning');
+                    // $rcmail->output->command('display_message', $this->gettext('contactexists'), 'warning');
                     $valid = false;
                 }
             }
@@ -243,14 +268,20 @@ class vcard_attachments extends rcube_plugin
                 $plugin = $rcmail->plugins->exec_hook('contact_create', ['record' => $contact, 'source' => null]);
                 $contact = $plugin['record'];
 
-                if (!$plugin['abort'] && $CONTACTS->insert($contact))
-                    $rcmail->output->command('display_message', $this->gettext('addedsuccessfully'), 'confirmation');
-                else
-                    $rcmail->output->command('display_message', $error_msg, 'error');
+                if (!$plugin['abort'] && $CONTACTS->insert($contact)) {
+                    // do nothing
+                }
+                else {
+                    $errors++;
+                }
             }
         }
+
+        if ($errors || empty($vcards)) {
+            $rcmail->output->command('display_message', $this->gettext('vcardsavefailed'), 'error');
+        }
         else {
-            $rcmail->output->command('display_message', $error_msg, 'error');
+            $rcmail->output->command('display_message', $this->gettext('importedsuccessfully'), 'confirmation');
         }
 
         $rcmail->output->send();

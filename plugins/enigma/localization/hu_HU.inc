@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'A kulcs(ok) sikeresen törölve';
 $messages['keyremoveerror'] = 'Nem sikerült a kiválasztott kulcso(ka)t törölni.';
 $messages['keyimporttext'] = 'Importálhatod a privát és nyilvános kulcsodat vagy a visszavonási aláírásokatr ASCII-Armor formátumban.';
 $messages['keyimportsearchtext'] = 'A publikus kulcsokat keresheted az azonsító, a felhasználó név vagy a email cím alapján, majd közvetlenül beimportálhatod.';
+$messages['keystoragenotice'] = 'Az összes publikus és privát kulcs a szerveren van tárolva.';
 $messages['formerror'] = 'Tőltsd ki az ürlapot. Minden mező kitöltése kötelező!';
 $messages['passwordsdiffer'] = 'A jelszavak nem egyeznek!';
 $messages['keygenerateerror'] = 'Nem sikerült a kulcs-pár létrehozása';

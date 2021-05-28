@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'הסיסמה החדשה צריכה להיות שונ�
 $messages['passwdexpirewarning'] = 'אזהרה! הסיסמה תפוג בקרוב. יש לשנותה לפני expirationdatetime$.';
 $messages['passwdexpired'] = 'פג תוקפה של הסיסמה. יש לשנותה כעת!';
 $messages['passwdconstraintviolation'] = 'סיסמה לא חוקית. כנראה חלשה מדי.';
-$messages['pwned_mustnotbedisclosed'] = 'אסור שהסיסמה תהיה כזו   <a href="https://haveibeenpwned.com/Passwords" target="_blank"> שהרבה נוהגים להשתמש בה </a>';
+$messages['pwned_mustnotbedisclosed'] = 'אסור שהסיסמה תהיה כזו שהרבה נוהגים להשתמש בה למשל תאריך לידה או 1234.';
 $messages['pwned_isdisclosed'] = 'הרבה משתמשים נוהגים להשתמש בסיסמה זו';
 $messages['pwned_fetcherror'] = 'לא ניתן לודא שחוזק הסיסמה תואם לנדרש';

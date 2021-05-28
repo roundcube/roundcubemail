@@ -389,7 +389,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
         if (is_array($contacts->coltypes)) {
             // remove cols not listed by the backend class
-            $contact_cols = $contacts->coltypes[0] ? array_flip($contacts->coltypes) : $contacts->coltypes;
+            $contact_cols = isset($contacts->coltypes[0]) ? array_flip($contacts->coltypes) : $contacts->coltypes;
             self::$CONTACT_COLTYPES = array_intersect_key(self::$CONTACT_COLTYPES, $contact_cols);
 
             // add associative coltypes definition

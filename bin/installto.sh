@@ -77,7 +77,7 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    foreach (['index.php','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL'] as $file) {
+    foreach (['index.php','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG.md','README.md','UPGRADING','LICENSE','INSTALL'] as $file) {
         $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {

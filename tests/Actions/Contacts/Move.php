@@ -53,7 +53,7 @@ class Actions_Contacts_Move extends ActionTestCase
      */
     function test_move_contact_to_group()
     {
-        // Test erro handling, test moving to a group, test moving multiple contacts
+        // Test error handling, test moving to a group, test moving multiple contacts
         $this->markTestIncomplete();
     }
 }

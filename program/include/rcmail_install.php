@@ -870,7 +870,7 @@ class rcmail_install
      *
      * @param string $version Version to update from
      *
-     * @return boolen True on success, False on error
+     * @return boolean True on success, False on error
      */
     public function update_db($version)
     {

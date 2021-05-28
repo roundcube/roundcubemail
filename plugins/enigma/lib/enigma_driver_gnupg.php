@@ -585,7 +585,7 @@ class enigma_driver_gnupg extends enigma_driver
     }
 
     /**
-     * Syncronize keys database on multi-host setups
+     * Synchronize keys database on multi-host setups
      */
     protected function db_sync()
     {

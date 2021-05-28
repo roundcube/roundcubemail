@@ -499,7 +499,7 @@ class rcube_html2text
         $text = preg_replace("/\n\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
-        // remove leading empty lines (can be produced by eg. P tag on the beginning)
+        // remove leading empty lines (can be produced by e.g. P tag on the beginning)
         $text = ltrim($text, "\n");
 
         // Wrap the text to a readable format
@@ -639,7 +639,7 @@ class rcube_html2text
                     // replace content with inner blockquotes
                     $this->_converter($body);
 
-                    // resore text width
+                    // restore text width
                     $this->width = $p_width;
 
                     // Add citation markers and create <pre> block

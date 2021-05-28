@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = '키가 성공적으로 삭제되었습니다';
 $messages['keyremoveerror'] = '선택한 키를 삭제하지 못함.';
 $messages['keyimporttext'] = '비공개 및 공개 키 또는 폐기 서명을 ASCII-Armor 형식으로 가져올 수 있습니다.';
 $messages['keyimportsearchtext'] = '키 식별자, 사용자명 또는 이메일 주소로 공개 키를 검색하신 후에, 직접 가져오실 수 있습니다.';
+$messages['keystoragenotice'] = '모든 공개 및 비밀 키는 서버에 저장됩니다.';
 $messages['formerror'] = '양식을 작성해주세요. 모든 필드가 채워져야 합니다!';
 $messages['passwordsdiffer'] = '암호가 일치하지 않음!';
 $messages['keygenerateerror'] = '키 페어 생성을 실패함';
