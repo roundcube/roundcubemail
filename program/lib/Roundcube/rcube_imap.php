@@ -2356,7 +2356,7 @@ class rcube_imap extends rcube_storage
                 $filename_encoded = $fmatches[2];
             }
 
-            $part->filename = rcube_charset::convert(urldecode($filename_encoded), $filename_charset);
+            $part->filename = rcube_charset::convert(rawurldecode($filename_encoded), $filename_charset);
         }
     }
 

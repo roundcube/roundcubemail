@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
+- Fix bug where plus characters in attachment filename could have been ignored (#8074)
 
 RELEASE 1.4.11
 --------------
