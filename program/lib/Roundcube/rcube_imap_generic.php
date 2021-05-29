@@ -125,7 +125,7 @@ class rcube_imap_generic
 
     /**
      * Send command to the connection stream with Command Continuation
-     * Requests (RFC3501 7.5) and LITERAL+ (RFC2088) support
+     * Requests (RFC3501 7.5) and LITERAL+ (RFC2088) and LITERAL- (RFC7888) support.
      *
      * @param string $string     Command string
      * @param bool   $endln      True if CRLF need to be added at the end of command
@@ -147,9 +147,14 @@ class rcube_imap_generic
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i = 0, $cnt = count($parts); $i < $cnt; $i++) {
                 if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
-                    // LITERAL+ support
-                    if (!empty($this->prefs['literal+'])) {
+                    // LITERAL+/LITERAL- support
+                    $literal_plus = false;
+                    if (
+                        !empty($this->prefs['literal+'])
+                        || (!empty($this->prefs['literal-']) && $matches[1] <= 4096)
+                    ) {
                         $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
+                        $literal_plus = true;
                     }
 
                     $bytes = $this->putLine($parts[$i].$parts[$i+1], false, $anonymized);
@@ -160,7 +165,7 @@ class rcube_imap_generic
                     $res += $bytes;
 
                     // don't wait if server supports LITERAL+ capability
-                    if (empty($this->prefs['literal+'])) {
+                    if (!$literal_plus) {
                         $line = $this->readLine(1000);
                         // handle error in command
                         if (!isset($line[0]) || $line[0] != '+') {
@@ -4090,6 +4095,9 @@ class rcube_imap_generic
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
             $this->prefs['literal+'] = true;
+        }
+        else if (!isset($this->prefs['literal-']) && in_array('LITERAL-', $this->capability)) {
+            $this->prefs['literal-'] = true;
         }
 
         if ($trusted) {

@@ -6,6 +6,7 @@
 - SMTP XCLIENT support (#7893, #6411)
 - Add IDN homograph attack (spoofing) detection [CVE-2019-15237] (#6891)
 - Add configuration options for subject prefixes (#7929, #4981)
+- Support IMAP LITERAL- extension [RFC 7888] (#6878)
 - Warn the user about a potential data leak on mail bounce or forward (#7993)
 - Make the Empty action available for every non-empty folder, not only Trash (#7948)
 - Remove (incorrect) use of Return-Receipt-To header (#8069)
