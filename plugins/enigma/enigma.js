@@ -546,11 +546,7 @@ rcube_webmail.prototype.enigma_password_request = function(data)
         myprompt = $('<div class="prompt">'),
         myprompt_content = $('<p class="message">')
             .appendTo(myprompt),
-        myprompt_input = $('<input>').attr({type: 'password', size: 30})
-            .keypress(function(e) {
-                if (e.which == 13)
-                    (ref.is_framed() ? window.parent.$ : $)('.ui-dialog-buttonpane button.mainaction:visible').click();
-            })
+        myprompt_input = $('<input>').attr({type: 'password', size: 30, 'data-submit': 'true'})
             .appendTo(myprompt);
 
     data.key = data.keyid;

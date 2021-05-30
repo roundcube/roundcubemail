@@ -3419,7 +3419,7 @@ function rcube_elastic_ui()
     {
         var element = $(e.target).parents('.recipient'),
             recipient = element.text().replace(/,+$/, ''),
-            input = $('<input>').attr({type: 'text', size: 50}).val(recipient),
+            input = $('<input>').attr({type: 'text', 'data-submit': 'true'}).val(recipient),
             content = $('<label>').text(rcmail.gettext('recipient')).append(input);
 
         rcmail.simple_dialog(content, 'recipientedit', function() {
