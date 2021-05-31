@@ -205,8 +205,7 @@ class zipdownload extends rcube_plugin
         $filename = $part->filename;
 
         if ($filename === null || $filename === '') {
-            $ext      = (array) rcube_mime::get_mime_extensions($part->mimetype);
-            $ext      = array_shift($ext);
+            $ext      = array_first((array) rcube_mime::get_mime_extensions($part->mimetype));
             $filename = $rcmail->gettext('messagepart') . ' ' . $part->mime_id;
             if ($ext) {
                 $filename .= '.' . $ext;
