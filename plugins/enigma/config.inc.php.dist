@@ -78,3 +78,8 @@ $config['enigma_passwordless'] = false;
 //     - enigma_options_lock = ['sign']
 //     - dont_override       = ['enigma_sign_all']
 $config['enigma_options_lock'] = [];
+
+// Enable Kolab's Web Of Anti-Trust feature
+// Fetches public keys from DNS. Default: false
+// To enable set it to True or an array of domain names.
+$config['enigma_woat'] = false;

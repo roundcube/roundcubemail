@@ -28,6 +28,7 @@ class enigma_engine
     private $pgp_driver;
     private $smime_driver;
     private $password_time;
+    private $sender;
     private $cache = [];
 
     public $decryptions     = [];
@@ -272,6 +273,9 @@ class enigma_engine
 
         $recipients = array_unique($recipients);
 
+        // Fetch keys from external sources, if configured
+        $this->sync_keys($recipients);
+
         // find recipient public keys
         foreach ((array) $recipients as $email) {
             if ($email == $from && $sign_key) {
@@ -378,6 +382,17 @@ class enigma_engine
         // in the first "content part" of the message.
         if ($got_content && $this->rc->task == 'mail' && $this->rc->action == 'compose') {
             return;
+        }
+
+        // Get the message/part sender
+        if (!empty($p['object']->sender) && !empty($p['object']->sender['mailto'])) {
+            $this->sender = $p['object']->sender['mailto'];
+        }
+        if (!empty($p['structure']->headers) && !empty($p['structure']->headers['from'])) {
+            $from = rcube_mime::decode_address_list($p['structure']->headers['from'], 1, false);
+            if (($from = current($from)) && !empty($from['mailto'])) {
+                $this->sender = $from['mailto'];
+            }
         }
 
         // Don't be tempted to support encryption in text/html parts
@@ -881,6 +896,11 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
 
+        // Import sender's key from external sources, if configured
+        if ($this->sender) {
+            $this->sync_keys([$this->sender]);
+        }
+
         // Get rid of possible non-ascii characters (#5962)
         $sig_body = preg_replace('/[^\x00-\x7F]/', '', $sig_body);
 
@@ -904,6 +924,11 @@ class enigma_engine
     private function pgp_decrypt(&$msg_body, &$signature = null)
     {
         // @TODO: Handle big bodies using (temp) files
+
+        // Import sender's key from external sources, if configured
+        if ($this->sender) {
+            $this->sync_keys([$this->sender]);
+        }
 
         // Get rid of possible non-ascii characters (#5962)
         $msg_body = preg_replace('/[^\x00-\x7F]/', '', $msg_body);
@@ -1020,18 +1045,24 @@ class enigma_engine
             return;
         }
 
-        $mode = $can_sign ? enigma_key::CAN_SIGN : enigma_key::CAN_ENCRYPT;
-        $ret  = null;
+        $mode  = $can_sign ? enigma_key::CAN_SIGN : enigma_key::CAN_ENCRYPT;
+        $found = [];
 
         // check key validity and type
         foreach ($result as $key) {
             if (($subkey = $key->find_subkey($email, $mode))
                 && (!$can_sign || $key->get_type() == enigma_key::TYPE_KEYPAIR)
             ) {
-                $ret = $key;
-                break;
+                $found[$subkey->get_creation_date(true)] = $key;
             }
         }
+
+        // Use the most recent one
+        if (count($found) > 1) {
+            ksort($found, SORT_NUMERIC);
+        }
+
+        $ret = count($found) > 0 ? array_pop($found) : null;
 
         // cache private key info for better performance
         // we can skip one list_keys() call when signing and attaching a key
@@ -1440,6 +1471,60 @@ class enigma_engine
                     'message' => "Enigma plugin: " . $result->getMessage()
                 ], true, $abort
             );
+        }
+    }
+
+    /**
+     * Import public keys from DNS according to Kolab Web-Of-Anti-Trust
+     *
+     * @param array $recipients List of email addresses
+     */
+    protected function sync_keys($recipients)
+    {
+        $import = [];
+        $woat = $this->rc->config->get('enigma_woat');
+
+        if (empty($woat)) {
+            return;
+        }
+
+        foreach ($recipients as $recipient) {
+            if (!strpos($recipient, '@')) {
+                continue;
+            }
+
+            list($local, $domain) = explode('@', $recipient);
+
+            // Do this for configured domains only
+            if (is_array($woat) && !in_array_nocase($domain, $woat)) {
+                continue;
+            }
+
+            // remove parts behind a recipient delimiter ("jeroen+Trash" => "jeroen")
+            $local = preg_replace('/\+.*$/', '', $local);
+
+            $fqdn = sha1($local) . '._woat.' . $domain;
+
+            // Fetch the TXT record(s)
+            if (($records = dns_get_record($fqdn, DNS_TXT)) === false) {
+                continue;
+            }
+
+            foreach ($records as $record) {
+                if (strpos($record['TXT'], 'v=woat1,') === 0) {
+                    $entry = explode('public-key=', $record['TXT']);
+                    if (count($entry) == 2) {
+                        $import[] = $entry[1];
+                        // For now we support only one key
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Import the fetched keys
+        if (!empty($import)) {
+            $this->import_key(implode("\n", $import));
         }
     }
 }
