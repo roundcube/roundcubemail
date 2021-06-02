@@ -123,6 +123,11 @@ class rcube_message
             )
         ];
 
+        $this->mime    = new rcube_mime($this->headers->charset);
+        $this->subject = str_replace("\n", '', $this->headers->get('subject'));
+        $from          = $this->mime->decode_address_list($this->headers->from, 1);
+        $this->sender  = current($from);
+
         if (!empty($this->headers->structure)) {
             $this->get_mime_numbers($this->headers->structure);
             $this->parse_structure($this->headers->structure);
@@ -130,11 +135,6 @@ class rcube_message
         else if ($this->context === null) {
             $this->body = $this->storage->get_body($uid);
         }
-
-        $this->mime    = new rcube_mime($this->headers->charset);
-        $this->subject = str_replace("\n", '', $this->headers->get('subject'));
-        $from          = $this->mime->decode_address_list($this->headers->from, 1);
-        $this->sender  = current($from);
 
         // notify plugins and let them analyze this structured message object
         $this->app->plugins->exec_hook('message_load', ['object' => $this]);
