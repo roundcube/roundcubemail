@@ -1141,7 +1141,7 @@ class enigma_ui
                 html::tag('button', [
                         'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
                         'title'   => $this->enigma->gettext('keyattimport'),
-                        'class'   => 'import',
+                        'class'   => 'import btn-sm',
                     ], rcube::Q($this->rc->gettext('import'))
                 )
             ) . $p['content'];
