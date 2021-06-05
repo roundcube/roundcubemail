@@ -11,6 +11,7 @@
 - Make the Empty action available for every non-empty folder, not only Trash (#7948)
 - Remove (incorrect) use of Return-Receipt-To header (#8069)
 - Submit various simple dialog forms with the Enter key (#7133)
+- Add RFC2231 support to rcube_mime_decode (#7390)
 - Plugin API: Allow modification of 'error' argument in 'message_send_error' hook (#7914)
 - OAuth: add plugin hooks `oauth_login` and `oauth_refresh_token` for oauth events (#8028, #8040)
 - Debug_logger: Fix the main plugin functionality and documentation (#8041)

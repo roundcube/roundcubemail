@@ -8,7 +8,8 @@ Cc: test1@domain.tld, test2@domain.tld, test3@domain.tld, test4@domain.tld,
  test9@domain.tld, test10@domain.tld, test11@domain.tld, test12@domain.tld
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="=_8853bfb47b7da1852ac882e69cc724f3"
+ boundary*0*=us-ascii''%3D_8853bfb47b7da1852ac882e69cc7;
+ boundary*1*=24f3
 Date: Fri, 23 May 2014 19:44:50 +0200
 Reply-To: hello@roundcube.net
 Mail-Reply-To: hello@roundcube.net
