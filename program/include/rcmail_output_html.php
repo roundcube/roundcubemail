@@ -678,7 +678,7 @@ EOF;
 
         // Fix assets path on blankpage
         if (!empty($this->js_env['blankpage'])) {
-            $this->js_env['blankpage'] = $this->asset_url($this->abs_url($this->js_env['blankpage'], true));
+            $this->js_env['blankpage'] = $this->asset_url($this->js_env['blankpage'], true);
         }
 
         $commands = $this->get_js_commands($framed);
