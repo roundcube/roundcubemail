@@ -21,6 +21,7 @@
 - Enigma: Optional support for passwordless keys (#7265)
 - Managesieve: Fix removing nested rules in scripts (#8011)
 - Managesieve: Support XOAUTH2, requires Net_Sieve 1.4.5 (#7925)
+- Managesieve: Added ability to remove 'redirect' option from UI (#7922)
 - New_user_dialog: Use the 'identity_update' hook (#8023)
 - Password: Fix broken 'hmail' driver (#7966)
 - Password: Set password_minimum_length to 8 by default (#8003)

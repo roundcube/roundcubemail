@@ -116,11 +116,20 @@ $config['managesieve_notify_methods'] = ['mailto'];
 // Enables scripts RAW editor feature
 $config['managesieve_raw_editor'] = true;
 
-// Disabled actions
-// Prevent user from performing specific actions:
-// list_sets, enable_disable_set, delete_set, new_set, download_set, new_rule, delete_rule
-// Note: disabling list_sets removes the Filter sets widget from the UI and means
-//       the set defined in managesieve_script_name will always be used (and activated)
+// Disabled actions. Prevents user from performing specific actions by disabling
+// the UI elements:
+// - list_sets,
+//   Note: disabling list_sets removes the Filter sets widget from the UI and means
+//   the set defined in managesieve_script_name will always be used (and activated)
+// - enable_disable_set,
+// - delete_set,
+// - new_set,
+// - download_set,
+// - new_filter,
+// - delete_filter,
+// - redirect: This one will remove 'redirect' option from the filter actions selector
+//   Note: This will not remove it for redirect actions already existing in the script.
+//   Note: This has no impact on the Forwarding UI
 $config['managesieve_disabled_actions'] = [];
 
 // List of hosts that support managesieve.
