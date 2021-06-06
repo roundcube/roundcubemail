@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'vCardを添付';
 $labels['vcardattached'] = 'vCardが添付。';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'vCardを転送';
+$labels['contactsattached'] = 'このメッセージには、$num 個の連絡先が添付してあります。';
+$labels['importedsuccessfully'] = 'アドレス帳に連絡先を取り込みました。';

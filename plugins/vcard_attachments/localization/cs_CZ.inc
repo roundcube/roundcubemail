@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Připojit vCard';
 $labels['vcardattached'] = 'vCard soubor připojen.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Přeposlat vCard';
+$labels['contactsattached'] = 'K této zprávě je připojeno $num kontaktů.';
+$labels['importedsuccessfully'] = 'Kontakty byly naimportovány do adresáře.';

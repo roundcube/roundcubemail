@@ -15,8 +15,10 @@
 */
 
 $labels['addvcardmsg'] = 'vCard hozzáadása a címjegyzékhez';
-$labels['vcardsavefailed'] = 'Sikertelen a vCard mentése';
+$labels['vcardsavefailed'] = 'A vCard mentése nem lehetséges';
 $labels['attachvcard'] = 'vCard csatolása';
 $labels['vcardattached'] = 'vCard csatolva.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'vCard továbbítása';
+$labels['contactsattached'] = 'Az üzenethez $num kapcsolat tartozik.';
+$labels['importedsuccessfully'] = 'A kapcsolat(ok) sikeresen importálodtak a címjegyzékbe.';

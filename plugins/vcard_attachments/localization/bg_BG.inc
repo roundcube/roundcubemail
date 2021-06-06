@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Прикачване на визитка (vCard)';
 $labels['vcardattached'] = 'Прикачен vCard файл.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Препращане на vCard';
+$labels['contactsattached'] = 'Към това писмо са прикачени $num контакта.';
+$labels['importedsuccessfully'] = 'Успешно импортиране на контактите в адресната книга.';
