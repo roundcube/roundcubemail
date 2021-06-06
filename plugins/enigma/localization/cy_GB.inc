@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Allwedd(i) wedi ei dileu yn llwyddiannus';
 $messages['keyremoveerror'] = 'Methwyd dileu yr allwedd(i) dewiswyd.';
 $messages['keyimporttext'] = 'Fe allwch chi mewnforio allwedd(i) preifat a chyhoeddus neu lofnodion pallu mewn fformat ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Gallwch chwilio am allweddi cyhoeddus yn ol adnabydd allwedd, enw defnyddiwr neu gyfeiriad ebost ac yna eu mewnforio yn uniongyrchol.';
+$messages['keystoragenotice'] = 'Mae\'r holl allweddi cyhoeddus a preifat yn cael eu stori ar y gweinydd.';
 $messages['formerror'] = 'Llenwch y ffurflen os gwelwch yn dda. Mae angen llenwi pob maes!';
 $messages['passwordsdiffer'] = 'Nid yw\'r cyfrineiriau yn cyfateb!';
 $messages['keygenerateerror'] = 'Methwyd creu pâr allweddi';

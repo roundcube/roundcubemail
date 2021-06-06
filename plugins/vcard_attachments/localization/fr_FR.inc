@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Joindre la vCard';
 $labels['vcardattached'] = 'Le fichier vCard a été joint.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Transférer la vCard';
+$labels['contactsattached'] = '$num contacts sont joints à ce message.';
+$labels['importedsuccessfully'] = 'Les contacts ont été importés avec succès au carnet d’adresses.';

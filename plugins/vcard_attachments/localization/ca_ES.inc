@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Adjunta la vCard';
 $labels['vcardattached'] = 'Fitxer vCard adjunt.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Reenvia vCard';
+$labels['contactsattached'] = 'Hi ha $num contactes adjunts a aquest missatge.';
+$labels['importedsuccessfully'] = 'El(s) contacte(s) s\'ha(n) importat correctament a la llibreta d\'adreces.';
