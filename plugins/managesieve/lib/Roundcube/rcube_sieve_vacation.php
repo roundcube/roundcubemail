@@ -407,14 +407,19 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()'
             ]);
 
+        $redirect = !empty($this->vacation['action'])
+            && ($this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy');
+
         $status->add($this->plugin->gettext('vacation.on'), 'on');
         $status->add($this->plugin->gettext('vacation.off'), 'off');
 
         $action->add($this->plugin->gettext('vacation.keep'), 'keep');
         $action->add($this->plugin->gettext('vacation.discard'), 'discard');
-        $action->add($this->plugin->gettext('vacation.redirect'), 'redirect');
-        if (in_array('copy', $this->exts)) {
-            $action->add($this->plugin->gettext('vacation.copy'), 'copy');
+        if ($redirect || !in_array('redirect', $this->disabled_actions)) {
+            $action->add($this->plugin->gettext('vacation.redirect'), 'redirect');
+            if (in_array('copy', $this->exts)) {
+                $action->add($this->plugin->gettext('vacation.copy'), 'copy');
+            }
         }
 
         if (
@@ -488,9 +493,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // force domain selection in redirect email input
-        $domains  = (array) $this->rc->config->get('managesieve_domains');
-        $redirect = !empty($this->vacation['action'])
-            && ($this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy');
+        $domains = (array) $this->rc->config->get('managesieve_domains');
 
         if (!empty($domains)) {
             sort($domains);

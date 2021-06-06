@@ -278,7 +278,7 @@ class rcube_sieve_engine
             $fid = (int) rcube_utils::get_input_value('_fid', rcube_utils::INPUT_POST);
 
             if ($action == 'delete' && !$error) {
-                if (!in_array('delete_rule', $this->disabled_actions)) {
+                if (!in_array('delete_filter', $this->disabled_actions)) {
                     if (isset($this->script[$fid])) {
                         $result = false;
                         if ($this->sieve->script->delete_rule($fid)) {
@@ -1571,8 +1571,8 @@ class rcube_sieve_engine
 
         $_SESSION['managesieve-compact-form'] = $compact;
 
-        // do not allow creation of new rules
-        if ($fid === null && in_array('new_rule', $this->disabled_actions)) {
+        // do not allow creation of new filters
+        if ($fid === null && in_array('new_filter', $this->disabled_actions)) {
             $this->rc->output->show_message('managesieve.disabledaction', 'error');
             return;
         }
@@ -2296,9 +2296,11 @@ class rcube_sieve_engine
         if (in_array('fileinto', $this->exts) && in_array('copy', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagecopyto'), 'fileinto_copy');
         }
-        $select_action->add($this->plugin->gettext('messageredirect'), 'redirect');
-        if (in_array('copy', $this->exts)) {
-            $select_action->add($this->plugin->gettext('messagesendcopy'), 'redirect_copy');
+        if ($action['type'] == 'redirect' || !in_array('redirect', $this->disabled_actions)) {
+            $select_action->add($this->plugin->gettext('messageredirect'), 'redirect');
+            if (in_array('copy', $this->exts)) {
+                $select_action->add($this->plugin->gettext('messagesendcopy'), 'redirect_copy');
+            }
         }
         if (in_array('reject', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagediscard'), 'reject');
