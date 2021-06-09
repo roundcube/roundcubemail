@@ -576,7 +576,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed $id Record identifier
      *
-     * @return array List of assigned groups as ID=>Name pairs
+     * @return array List of assigned groups, indexed by a group ID
      */
     function get_record_groups($id)
     {

@@ -579,7 +579,9 @@ abstract class rcube_addressbook
      *
      * @param mixed $id Record identifier
      *
-     * @return array List of assigned groups as ID => Name pairs
+     * @return array List of assigned groups indexed by a group ID.
+     *               Every array element can be just a group name (string), or an array
+     *               with 'ID' and 'name' elements.
      * @since 0.5-beta
      */
     function get_record_groups($id)
