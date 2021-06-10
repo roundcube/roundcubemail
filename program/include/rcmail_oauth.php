@@ -148,7 +148,7 @@ class rcmail_oauth
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
         }
-        else if (isset($body['aud']) && $body['aud'] !== $this->options['client_id']) {
+        else if (isset($body['aud']) && (is_array($body['aud']) ? !in_array($this->options['client_id'], $body['aud']) : $body['aud'] !== $this->options['client_id'])) {
             throw new RuntimeException('Failed to validate JWT: invalid aud value');
         }
         else if (!isset($body['azp']) && !isset($body['aud'])) {
