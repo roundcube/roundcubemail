@@ -35,11 +35,11 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6WyJzb21lLWNsaWVudCJdfQ.signature';
 
-        $oauth = new rcmail_oauth(array(
-            'client_id' => 'some-client'
-        ));
+        $oauth = new rcmail_oauth([
+            'client_id' => 'some-client',
+        ]);
         $body = $oauth->jwt_decode($jwt);
-        $this->assertSame($body['aud'], array('some-client'));
+        $this->assertSame($body['aud'], ['some-client']);
     }
 
     /**
@@ -49,9 +49,9 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6InNvbWUtY2xpZW50In0.signature';
 
-        $oauth = new rcmail_oauth(array(
-            'client_id' => 'some-client'
-        ));
+        $oauth = new rcmail_oauth([
+            'client_id' => 'some-client',
+        ]);
         $body = $oauth->jwt_decode($jwt);
         $this->assertSame($body['aud'], 'some-client');
     }
