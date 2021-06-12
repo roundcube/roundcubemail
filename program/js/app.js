@@ -4877,16 +4877,17 @@ function rcube_webmail()
     var recipients = [], input = $('#_' + field), selection = this.contact_list.get_selection();
 
     if (this.contact_list && selection.length) {
-      for (var id, n=0; n < selection.length; n++) {
-        id = selection[n];
-        if (id && this.env.contactdata[id]) {
-          recipients.push(this.env.contactdata[id]);
+      var data, name, n, id;
+      for (n = 0; n < selection.length; n++) {
+        if ((id = selection[n]) && (data = this.env.contactdata[id])) {
+          name = data.name || data
+          recipients.push(name);
 
           // group is added, expand it
-          if (id.charAt(0) == 'E' && this.env.contactdata[id].indexOf('@') < 0 && input.length) {
+          if (id.charAt(0) == 'E' && name.indexOf('@') < 0 && input.length) {
             var gid = id.substr(1);
-            this.group2expand[gid] = { name:this.env.contactdata[id], input:input.get(0) };
-            this.http_request('group-expand', {_source: this.env.source, _gid: gid}, false);
+            this.group2expand[gid] = {name: name, input: input.get(0)};
+            this.http_request('group-expand', {_source: data.source || this.env.source, _gid: gid}, false);
           }
         }
       }
