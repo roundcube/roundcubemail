@@ -188,7 +188,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             // show group with count
             else if (($result = $abook->count()) && $result->count) {
                 $row_id = 'E'.$group['ID'];
-                $jsresult[$row_id] = $group['name'];
+                $jsresult[$row_id] = ['name' => $group['name'], 'source' => $source_id];
                 $rcmail->output->command('add_contact_row', $row_id, [
                         'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')
                     ], 'group');
