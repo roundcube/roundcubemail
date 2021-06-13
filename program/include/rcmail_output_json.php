@@ -74,7 +74,7 @@ class rcmail_output_json extends rcmail_output
      * Register a template object handler
      *
      * @param string $obj  Object name
-     * @param string $func Function name to call
+     * @param callable $func Function name to call
      */
     public function add_handler($obj, $func)
     {

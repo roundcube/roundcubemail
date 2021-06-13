@@ -806,8 +806,10 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        // save all e-mails in database column
-        $out['email'] = implode(self::SEPARATOR, $vcard->email);
+        // save all e-mails in the database column
+        if (!empty($vcard->email)) {
+            $out['email'] = implode(self::SEPARATOR, $vcard->email);
+        }
 
         // join words for fulltext search
         $out['words'] = implode(' ', array_unique(explode(' ', $words)));

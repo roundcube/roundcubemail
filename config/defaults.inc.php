@@ -479,6 +479,12 @@ $config['advanced_prefs'] = [];
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';
 
+// Location of the blank (watermark) frame page. By default it is the watermark.html
+// file from the currently selected skin. Prepend name/path with a slash to use
+// current skin folder. Remove the slash to point to a file in the Roundcube
+// root directory. It can be also a full URL.
+$config['blankpage_url'] = '/watermark.html';
+
 // Logo image replacement. Specifies location of the image as:
 // - URL relative to the document root of this Roundcube installation
 // - full URL with http:// or https:// prefix

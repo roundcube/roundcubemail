@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Atodi vCard';
 $labels['vcardattached'] = 'Atodwyd ffeil vCard';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Danfon vCard ymlaen';
+$labels['contactsattached'] = 'Mae $num cyswllt ynghlwm a\'r neges hon.';
+$labels['importedsuccessfully'] = 'Cyswllt/cysylltiadau wedi ei mewnforio i\'r llyfr cyfeiriadau yn llwyddiannus.';

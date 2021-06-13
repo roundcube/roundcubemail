@@ -6,9 +6,12 @@
 - SMTP XCLIENT support (#7893, #6411)
 - Add IDN homograph attack (spoofing) detection [CVE-2019-15237] (#6891)
 - Add configuration options for subject prefixes (#7929, #4981)
+- Support IMAP LITERAL- extension [RFC 7888] (#6878)
 - Warn the user about a potential data leak on mail bounce or forward (#7993)
 - Make the Empty action available for every non-empty folder, not only Trash (#7948)
 - Remove (incorrect) use of Return-Receipt-To header (#8069)
+- Submit various simple dialog forms with the Enter key (#7133)
+- Add RFC2231 support to rcube_mime_decode (#7390)
 - Plugin API: Allow modification of 'error' argument in 'message_send_error' hook (#7914)
 - OAuth: add plugin hooks `oauth_login` and `oauth_refresh_token` for oauth events (#8028, #8040)
 - Debug_logger: Fix the main plugin functionality and documentation (#8041)
@@ -18,6 +21,7 @@
 - Enigma: Optional support for passwordless keys (#7265)
 - Managesieve: Fix removing nested rules in scripts (#8011)
 - Managesieve: Support XOAUTH2, requires Net_Sieve 1.4.5 (#7925)
+- Managesieve: Added ability to remove 'redirect' option from UI (#7922)
 - New_user_dialog: Use the 'identity_update' hook (#8023)
 - Password: Fix broken 'hmail' driver (#7966)
 - Password: Set password_minimum_length to 8 by default (#8003)
@@ -41,6 +45,7 @@
 - Fix inconsistent fowarding actions statuses on drafts (#8039)
 - Fix bug where `start` and `reversed` attributes of `ol` tag were ignored (#8059)
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
+- Fix bug where plus characters in attachment filename could have been ignored (#8074)
 
 ## Release 1.5-beta
 

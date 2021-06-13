@@ -4920,7 +4920,7 @@ function rcube_webmail()
     // display localized warning for missing subject
     if (!this.env.nosubject_warned && input_subject.val() == '') {
       var dialog,
-        prompt_value = $('<input>').attr({type: 'text', size: 40}),
+        prompt_value = $('<input>').attr({type: 'text', size: 40, 'data-submit': 'true'}),
         myprompt = $('<div class="prompt">')
           .append($('<p class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
@@ -4948,10 +4948,6 @@ function rcube_webmail()
           }],
         {dialogClass: 'warning'}
       );
-
-      prompt_value.select().keydown(function(e) {
-        if (e.which == 13) save_func();
-      });
 
       this.env.nosubject_warned = true;
       return false;
@@ -6770,7 +6766,7 @@ function rcube_webmail()
   // group creation dialog
   this.group_create = function()
   {
-    var input = $('<input>').attr('type', 'text'),
+    var input = $('<input>').attr({type: 'text', 'data-submit': 'true'}),
       content = $('<label>').text(this.get_label('namex')).append(input),
       source = this.env.source;
 
@@ -6791,7 +6787,7 @@ function rcube_webmail()
       return;
 
     var group_name = this.env.contactgroups['G' + this.env.source + this.env.group].name,
-      input = $('<input>').attr('type', 'text').val(group_name),
+      input = $('<input>').attr({type: 'text', 'data-submit': 'true'}).val(group_name),
       content = $('<label>').text(this.get_label('namex')).append(input),
       source = this.env.source,
       group = this.env.group;
@@ -6820,7 +6816,7 @@ function rcube_webmail()
   // callback from server upon group-delete command
   this.remove_group_item = function(prop)
   {
-    var key = 'G'+prop.source+prop.id;
+    var key = 'G' + prop.source + prop.id;
 
     if (this.treelist.remove(key)) {
       // make sure there is no cached address book or contact group selectors
@@ -8339,6 +8335,13 @@ function rcube_webmail()
 
     // Don't propagate keyboard events to the UI below the dialog (#6055)
     dialog.on('keydown keyup', function(e) { e.stopPropagation(); });
+
+    // Add Enter key handler to the input, click the 'mainaction' button
+    dialog.find('input[data-submit]').on('keydown', function(e) {
+      if (e.which == 13) {
+        dialog.find('.ui-dialog-buttonpane button.mainaction').click();
+      }
+    });
 
     this.triggerEvent('dialog-open', {obj: popup});
 
