@@ -224,6 +224,8 @@ html.touch {
     border-color: @color-btn-secondary-background;
 
     &:focus {
+        background: darken(@color-btn-secondary-background, 5%);
+        border-color: darken(@color-btn-secondary-background, 7%);
         box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 50%);
     }
 
@@ -234,9 +236,8 @@ html.touch {
 
     &.disabled,
     &:disabled {
-        background: lighten(@color-btn-secondary-background, 20%);
-        border-color: lighten(@color-btn-secondary-background, 20%);
-        opacity: 1;
+        background: @color-btn-secondary-background;
+        border-color: @color-btn-secondary-background;
     }
 
     &:not(:disabled):not(.disabled) {
@@ -258,6 +259,8 @@ html.touch {
     border-color: @color-btn-primary-background;
 
     &:focus {
+        background: darken(@color-btn-primary-background, 5%);
+        border-color: darken(@color-btn-primary-background, 7%);
         box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
     }
 
@@ -268,9 +271,8 @@ html.touch {
 
     &.disabled,
     &:disabled {
-        background: lighten(@color-btn-primary-background, 20%);
-        border-color: lighten(@color-btn-primary-background, 20%);
-        opacity: 1;
+        background: @color-btn-primary-background;
+        border-color: @color-btn-primary-background;
     }
 
     &:not(:disabled):not(.disabled) {
@@ -292,6 +294,8 @@ html.touch {
     border-color: @color-btn-danger-background;
 
     &:focus {
+        background: darken(@color-btn-danger-background, 5%);
+        border-color: darken(@color-btn-danger-background, 7%);
         box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 50%);
     }
 
@@ -302,9 +306,8 @@ html.touch {
 
     &.disabled,
     &:disabled {
-        background: lighten(@color-btn-danger-background, 20%);
-        border-color: lighten(@color-btn-danger-background, 20%);
-        opacity: 1;
+        background: @color-btn-danger-background;
+        border-color: @color-btn-danger-background;
     }
 
     &:not(:disabled):not(.disabled) {
