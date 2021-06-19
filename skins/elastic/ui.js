@@ -3221,8 +3221,13 @@ function rcube_elastic_ui()
 
                 return result.recipients.length > 0;
             },
-            parse_func = function(e, ac) {
+            parse_func = function(e, ac, trigger) {
                 var last, paste, value = this.value;
+
+                // #8098: ignore changes when autocomplete_insert is not triggered
+                if (trigger === false) {
+                    return;
+                }
 
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
