@@ -95,7 +95,7 @@ class rcube_imap extends rcube_storage
     /**
      * Magic getter for backward compat.
      *
-     * @deprecated.
+     * @deprecated
      */
     public function __get($name)
     {
