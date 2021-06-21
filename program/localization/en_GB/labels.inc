@@ -15,12 +15,14 @@
 */
 
 
+$labels['greeting'] = 'Hi';
 $labels['welcome'] = 'Welcome to $product';
 $labels['username'] = 'Username';
 $labels['password'] = 'Password';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
 $labels['oauthlogin'] = 'Login with $provider';
+$labels['forgotpassword'] = 'Forgot password';
 $labels['menu'] = 'Menu';
 $labels['logout'] = 'Logout';
 $labels['mail'] = 'Mail';
