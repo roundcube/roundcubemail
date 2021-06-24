@@ -49,6 +49,7 @@ class rcube_message
     private $mime;
     private $opt = array();
     private $parse_alternative = false;
+    private $tnef_decode = false;
 
     public $uid;
     public $folder;
@@ -103,6 +104,8 @@ class rcube_message
         if (!$this->headers) {
             return;
         }
+
+        $this->tnef_decode = (bool) $this->app->config->get('tnef_decode', true);
 
         $this->set_safe($is_safe || $_SESSION['safe_messages'][$this->folder.':'.$uid]);
         $this->opt = array(
@@ -817,7 +820,7 @@ class rcube_message
                     continue;
                 }
                 // part is Microsoft Outlook TNEF (winmail.dat)
-                else if ($part_mimetype == 'application/ms-tnef') {
+                else if ($part_mimetype == 'application/ms-tnef' && $this->tnef_decode) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);
                     foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
