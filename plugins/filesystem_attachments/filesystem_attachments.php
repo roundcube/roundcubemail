@@ -98,7 +98,7 @@ class filesystem_attachments extends rcube_plugin
         $group = $args['group'];
         $args['status'] = false;
 
-        if (!$args['path']) {
+        if (empty($args['path'])) {
             $tmp_path = rcube_utils::temp_filename('attmnt');
 
             if ($fp = fopen($tmp_path, 'w')) {

@@ -76,7 +76,7 @@ class database_attachments extends filesystem_attachments
         $cache = $this->get_cache();
         $key   = $this->_key($args);
 
-        if ($args['path']) {
+        if (!empty($args['path'])) {
             $args['data'] = file_get_contents($args['path']);
 
             if ($args['data'] === false) {
