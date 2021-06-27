@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Upgrade to TinyMCE 5.8.0
+- Upgrade to TinyMCE 5.8.2
 - SMTP XCLIENT support (#7893, #6411)
 - Add IDN homograph attack (spoofing) detection [CVE-2019-15237] (#6891)
 - Add configuration options for subject prefixes (#7929, #4981)
