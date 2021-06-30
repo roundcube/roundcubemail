@@ -2582,7 +2582,11 @@ function rcube_elastic_ui()
                 }
 
                 menus[p.name] = {target: target};
-                $(target).popover('show');
+                
+                //Fixe popover on chromium
+                setTimeout(() => {
+                    $(target).popover('show');
+                }, 1);
             }
 
             fn();
