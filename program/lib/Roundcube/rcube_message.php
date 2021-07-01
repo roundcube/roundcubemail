@@ -381,7 +381,13 @@ class rcube_message
                     $last      = $parent->real_mimetype ?: $parent->mimetype;
 
                     if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
-                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)) {
+                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)
+                    ) {
+                        // The HTML body part extracted from a winmail.dat attachment part
+                        if (strpos($part->mime_id, 'winmail.') === 0) {
+                            return true;
+                        }
+
                         continue 2;
                     }
                 }
@@ -822,9 +828,33 @@ class rcube_message
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 else if ($part_mimetype == 'application/ms-tnef' && $this->tnef_decode) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);
+                    $tnef_body  = '';
+
                     foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
-                        $this->add_part($tpart, 'attachment');
+
+                        if (strpos($tpart->mime_id, '.html')) {
+                            $tnef_body = $tpart->body;
+                            if ($this->opt['prefer_html']) {
+                                $tpart->type = 'content';
+
+                                // Reset type on the plain text part that usually is added to winmail.dat messages
+                                // (on the same level in the structure as the attachment itself)
+                                $level = count(explode('.', $mail_part->mime_id));
+                                foreach ($this->parts as $p) {
+                                    if ($p->type == 'content' && $p->mimetype == 'text/plain'
+                                        && count(explode('.', $p->mime_id)) == $level
+                                    ) {
+                                        $p->type = null;
+                                    }
+                                }
+                            }
+                            $this->add_part($tpart);
+                        }
+                        else {
+                            $inline = !empty($tpart->content_id) && strpos($tnef_body, "cid:{$tpart->content_id}") !== false;
+                            $this->add_part($tpart, $inline ? 'inline' : 'attachment');
+                        }
                     }
 
                     // add winmail.dat to the list if it's content is unknown
@@ -1005,6 +1035,26 @@ class rcube_message
 
         unset($body);
 
+        // HTML body
+        if (
+            !empty($tnef_arr['message'])
+            && !empty($tnef_arr['message']['size'])
+            && $tnef_arr['message']['subtype'] == 'html'
+        ) {
+            $tpart = new rcube_message_part;
+
+            $tpart->encoding        = 'stream';
+            $tpart->ctype_primary   = 'text';
+            $tpart->ctype_secondary = 'html';
+            $tpart->mimetype        = 'text/html';
+            $tpart->mime_id         = 'winmail.' . $part->mime_id . '.html';
+            $tpart->size            = $tnef_arr['message']['size'];
+            $tpart->body            = $tnef_arr['message']['stream'];
+
+            $parts[] = $tpart;
+        }
+
+        // Attachments
         foreach ($tnef_arr['attachments'] as $pid => $winatt) {
             $tpart = new rcube_message_part;
 
@@ -1016,6 +1066,10 @@ class rcube_message
             $tpart->mime_id         = 'winmail.' . $part->mime_id . '.' . $pid;
             $tpart->size            = $winatt['size'];
             $tpart->body            = $winatt['stream'];
+
+            if (!empty($winatt['content-id'])) {
+                $tpart->content_id = $winatt['content-id'];
+            }
 
             $parts[] = $tpart;
             unset($tnef_arr[$pid]);

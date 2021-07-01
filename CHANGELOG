@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
 - Fix bug where plus characters in attachment filename could have been ignored (#8074)
+- Fix displaying HTML body with inline images encapsulated using TNEF format (winmail.dat)
 
 RELEASE 1.4.11
 --------------
