@@ -47,6 +47,7 @@
 - Fix bug where `start` and `reversed` attributes of `ol` tag were ignored (#8059)
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
 - Fix bug where plus characters in attachment filename could have been ignored (#8074)
+- Fix displaying HTML body with inline images encapsulated using TNEF format (winmail.dat)
 
 ## Release 1.5-beta
 

@@ -364,6 +364,10 @@ class rcube_tnef_decoder
                 $result['subtype'] = $value[1];
                 break;
 
+            case self::MAPI_ATTACH_CONTENT_ID:
+                $result['content-id'] = $value;
+                break;
+
             case self::MAPI_ATTACH_DATA:
                 $this->_getx($value, 16);
                 $att = new rcube_tnef_decoder;
