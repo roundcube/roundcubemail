@@ -2533,7 +2533,9 @@ function rcube_elastic_ui()
                 }
 
                 menus[p.name] = {target: target};
-                $(target).popover('show');
+
+                // setTimeout fixes Shift + drag'n'drop menu in Chrome (#8107)
+                setTimeout(function() { $(target).popover('show'); }, 1);
             }
 
             fn();
