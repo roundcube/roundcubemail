@@ -49,6 +49,7 @@
 - Fix bug where plus characters in attachment filename could have been ignored (#8074)
 - Fix displaying HTML body with inline images encapsulated using TNEF format (winmail.dat)
 - Fix handling of custom sender addresses with names (#8106)
+- Fix shift + drag'n'drop menu not working Elastic skin with Chrome browser (#8107)
 
 ## Release 1.5-beta
 
