@@ -48,6 +48,7 @@
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
 - Fix bug where plus characters in attachment filename could have been ignored (#8074)
 - Fix displaying HTML body with inline images encapsulated using TNEF format (winmail.dat)
+- Fix handling of custom sender addresses with names (#8106)
 
 ## Release 1.5-beta
 
