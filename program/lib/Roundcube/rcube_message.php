@@ -385,6 +385,10 @@ class rcube_message
                         return true;
                     }
 
+                    if (empty($this->mime_parts[implode('.', $level)])) {
+                        return true;
+                    }
+
                     $parent = $this->mime_parts[implode('.', $level)];
 
                     if (!$this->check_context($parent)) {

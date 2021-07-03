@@ -338,7 +338,7 @@ class rcube_tnef_decoder
             case self::MAPI_RTF_COMPRESSED:
                 $result['type']    = 'application';
                 $result['subtype'] = 'rtf';
-                $result['name']    = ($result['name'] ?: 'Untitled') . '.rtf';
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
                 $result['stream']  = $this->_decodeRTF($value);
                 $result['size']    = strlen($result['stream']);
                 break;
@@ -347,7 +347,8 @@ class rcube_tnef_decoder
             case self::MAPI_BODY_HTML:
                 $result['type']    = 'text';
                 $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
-                $result['name']    = ($result['name'] ?: 'Untitled') . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
+                    . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
                 $result['stream']  = $value;
                 $result['size']    = strlen($value);
                 break;
