@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.5-rc
 
 - Upgrade to TinyMCE 5.8.2
 - SMTP XCLIENT support (#7893, #6411)
