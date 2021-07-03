@@ -108,8 +108,9 @@ class example_addressbook_backend extends rcube_addressbook
             if (is_string($value)) {
                 $found = false;
 
-                foreach (array_keys($record) as $key) {
-                    if (strpos(mb_strtolower((string) $record[$key]), mb_strtolower($value)) !== false) {
+                foreach ($record as $key => $data) {
+                    $data = is_array($data) ? implode(' ', $data) : (string) $data;
+                    if (strpos(mb_strtolower($data), mb_strtolower($value)) !== false) {
                         $found = true;
                         break;
                     }
