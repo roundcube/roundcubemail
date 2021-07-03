@@ -136,15 +136,18 @@ class rcmail_sendmail
                 $from = null;
             }
         }
-        // ... if there is no identity record, this might be a custom from
-        else if (($from_string = $this->email_input_format($from))
-            && preg_match('/(\S+@\S+)/', $from_string, $m)
-        ) {
-            $from = trim($m[1], '<>');
-        }
-        // ... otherwise it's empty or invalid
         else {
-            $from = null;
+            // ... if there is no identity record, this might be a custom from
+            $from_addresses = rcube_mime::decode_address_list($from);
+
+            if (count($from_addresses) == 1) {
+                $from        = $from_addresses[1]['mailto'];
+                $from_string = $from_addresses[1]['string'];
+            }
+            // ... otherwise it's empty or invalid
+            else {
+                $from = null;
+            }
         }
 
         // check 'From' address (identity may be incomplete)
