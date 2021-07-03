@@ -105,7 +105,7 @@ class rcube_smtp
             $smtp_host = sprintf('%s://%s', $smtp_host_url['scheme'], $smtp_host_url['host']);
         }
 
-        // remove TLS prefix and set flag for use in Net_SMTP::auth()
+        // remove TLS prefix and set flag to enable TLS later
         $use_tls = false;
         if (preg_match('#^tls://#i', $smtp_host)) {
             $smtp_host = preg_replace('#^tls://#i', '', $smtp_host);
@@ -157,6 +157,20 @@ class rcube_smtp
             return false;
         }
 
+        if ($use_tls) {
+            $result = $this->conn->starttls();
+
+            if (is_a($result, 'PEAR_Error')) {
+                list($code,) = $this->conn->getResponse();
+                $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
+                    . ' (' . $code . ')']];
+
+                $this->disconnect();
+
+                return false;
+            }
+        }
+
         // workaround for timeout bug in Net_SMTP 1.5.[0-1] (#1487843)
         if (method_exists($this->conn, 'setTimeout')
             && ($timeout = ini_get('default_socket_timeout'))
@@ -190,7 +204,7 @@ class rcube_smtp
                 $smtp_user = rcube_utils::idn_to_ascii($smtp_user);
             }
 
-            $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
+            $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, false, $smtp_authz);
 
             if (is_a($result, 'PEAR_Error')) {
                 list($code,) = $this->conn->getResponse();
