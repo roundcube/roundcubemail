@@ -48,7 +48,10 @@ jobs:
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
-      - name: Setup NPM deps
+      - name: Setup NPM and deps
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
         run: |
             npm install --force -g less
             npm install --force -g less-plugin-clean-css
