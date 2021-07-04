@@ -43,5 +43,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Roundcube configuration
+        run: cp .github/config-test.inc.php config/config-test.inc.php
+
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml
