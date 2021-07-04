@@ -49,7 +49,7 @@ jobs:
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
       - name: Setup NPM deps
-      - run: |
+        run: |
             npm install --force -g less
             npm install --force -g less-plugin-clean-css
             npm install --force -g uglify-js
