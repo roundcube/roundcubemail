@@ -37,12 +37,10 @@ jobs:
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
-            composer require "kolab/net_ldap3:~1.1.1" --no-update
             composer require "laravel/dusk:~6.9.0" --no-update
 
       - name: Fix PHPUnit for PHP8
         run: composer config platform.php 7.4
-        if: matrix.php >= 8
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
@@ -57,11 +55,4 @@ jobs:
             npm install --force -g uglify-js
 
       - name: Execute tests
-        run: |
-            .github/setup.sh
-            && echo "TESTS_MODE: DESKTOP"
-            && TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml
-            && echo "TESTS_MODE: PHONE"
-            && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml
-            && echo "TESTS_MODE: TABLET"
-            && TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml
+        run: .github/run.sh
