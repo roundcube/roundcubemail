@@ -44,6 +44,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response creation
      *
      * @group failsontravis-phone
+     * @group failsonga-phone
      */
     public function testResponseCreate()
     {
@@ -122,6 +123,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      *
      * @depends testResponseCreate
      * @group failsontravis-phone
+     * @group failsonga-phone
      */
     public function testResponseDelete()
     {
@@ -157,6 +159,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      *
      * @depends testResponseDelete
      * @group failsontravis-phone
+     * @group failsonga-phone
      */
     public function testResponsesInComposer()
     {
@@ -208,6 +211,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      *
      * @depends testResponsesInComposer
      * @group failsontravis-phone
+     * @group failsonga-phone
      */
     public function testResponseUpdate()
     {
