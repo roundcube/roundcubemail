@@ -4884,7 +4884,7 @@ function rcube_webmail()
           recipients.push(name);
 
           // group is added, expand it
-          if (id.charAt(0) == 'E' && name.indexOf('@') < 0 && input.length) {
+          if (id.charAt(0) == 'E' && input.length) {
             var gid = id.substr(1);
             this.group2expand[gid] = {name: name, input: input.get(0)};
             this.http_request('group-expand', {_source: data.source || this.env.source, _gid: gid}, false);
@@ -5959,7 +5959,7 @@ function rcube_webmail()
       trigger = true;
     }
 
-    this.ksearch_input_replace(this.ksearch_value, insert);
+    this.ksearch_input_replace(this.ksearch_value, insert, null, trigger);
 
     if (trigger) {
       this.triggerEvent('autocomplete_insert', {field: this.ksearch_input, insert: insert, data: contact, search: this.ksearch_value_last, result_type: 'person'});
@@ -6166,7 +6166,7 @@ function rcube_webmail()
 
   // Setter for input value
   // replaces 'from' string with 'to' and sets cursor position at the end
-  this.ksearch_input_replace = function(from, to, input)
+  this.ksearch_input_replace = function(from, to, input, trigger)
   {
     if (!this.ksearch_input && !input)
       return;
@@ -6185,7 +6185,7 @@ function rcube_webmail()
     this.set_caret_pos(input, cpos + to.length - from.length);
 
     // run onchange action on the element
-    $(input).trigger('change', [true]);
+    $(input).trigger('change', [true, trigger]);
   };
 
   this.ksearch_click = function(node)
