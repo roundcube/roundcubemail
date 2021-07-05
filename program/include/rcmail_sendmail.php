@@ -342,9 +342,6 @@ class rcmail_sendmail
                 // add a plain text version of the e-mail as an alternative part.
                 $MAIL_MIME->setTXTBody($plugin['body']);
             }
-
-            // Extract image Data URIs into message attachments (#1488502)
-            $this->extract_inline_images($MAIL_MIME, $this->options['from']);
         }
         else {
             $body = $this->format_plain_body($plugin['body'], $flowed);
