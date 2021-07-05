@@ -252,6 +252,10 @@ $config['messages_cache_ttl'] = '10d';
 // Note: On MySQL this should be less than (max_allowed_packet - 30%)
 $config['messages_cache_threshold'] = 50;
 
+// Trigger a logout when the IMAP authentication fails in an active session. This can happen, when the user changes it's
+// credentials while being logged in in Roundcube.
+$config['logout_on_imap_auth_error'] = false;
+
 
 // ----------------------------------
 // SMTP
