@@ -23,7 +23,7 @@ dependent: roundcubemail-git
 framework: roundcubemail-git /tmp/phpDocumentor.phar
 	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
 	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework" --template="clean")
-	rm -rf roundcube-framework-$(VERSION)/doc/phpdoc-cache*
+	(cd roundcube-framework-$(VERSION); rm -rf doc/phpdoc-cache* .phpdoc)
 	tar czf roundcube-framework-$(VERSION).tar.gz roundcube-framework-$(VERSION)
 	rm -rf roundcube-framework-$(VERSION)
 
