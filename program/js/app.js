@@ -3902,8 +3902,7 @@ function rcube_webmail()
       ref.mailvelope_editor = null;
       ref.set_button('compose-encrypted', 'act');
 
-      container.removeClass('mailvelope')
-        .find('iframe:not([aria-hidden=true])').remove();
+      container.removeClass('mailvelope').find('iframe:not([aria-hidden=true])').remove();
       $('#' + ref.env.composebody).show();
       $("[name='_pgpmime']").remove();
 
@@ -4097,7 +4096,7 @@ function rcube_webmail()
 
       ref.hide_message(msgid);
       $(selector).children().not('iframe').hide();
-      $(this.gui_objects.messagebody).addClass('mailvelope');
+      $(ref.gui_objects.messagebody).addClass('mailvelope');
 
       // on success we can remove encrypted part from the attachments list
       if (ref.env.pgp_mime_part)
