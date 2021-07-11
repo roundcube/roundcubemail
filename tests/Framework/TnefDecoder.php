@@ -26,6 +26,30 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test TNEF decoding
+     */
+    function test_decompress_body()
+    {
+        $body   = file_get_contents(TESTS_DIR . 'src/body.tnef');
+        $tnef   = new rcube_tnef_decoder;
+        $result = $tnef->decompress($body);
+
+        $this->assertSame('Untitled.html', trim($result['message']['name']));
+        $this->assertCount(0, $result['attachments']);
+        $this->assertSame('text', $result['message']['type']);
+        $this->assertSame('html', $result['message']['subtype']);
+        $this->assertSame(5360, $result['message']['size']);
+        $this->assertRegExp('/^<\!DOCTYPE HTML/', $result['message']['stream']);
+
+        $tnef   = new rcube_tnef_decoder;
+        $result = $tnef->decompress($body, true);
+
+        $this->assertCount(0, $result['attachments']);
+        $this->assertSame(5360, strlen($result['message']));
+        $this->assertRegExp('/^<\!DOCTYPE HTML/', $result['message']);
+    }
+
+    /**
      * Test rtf2text()
      */
     function test_rtf2text()
