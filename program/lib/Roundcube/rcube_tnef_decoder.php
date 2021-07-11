@@ -129,11 +129,12 @@ class rcube_tnef_decoder
     /**
      * Decompress the data.
      *
-     * @param string $data The data to decompress.
+     * @param string $data    The data to decompress.
+     * @param bool   $as_html Return message body as HTML
      *
      * @return array The decompressed data.
      */
-    public function decompress($data)
+    public function decompress($data, $as_html = false)
     {
         $attachments = [];
         $message     = [];
@@ -157,6 +158,38 @@ class rcube_tnef_decoder
                     $this->_decodeAttachment($data, $attachments);
                     break;
                 }
+            }
+        }
+
+        // Return the message body as HTML
+        if ($message && $as_html) {
+            // HTML body
+            if (!empty($message['size']) && $message['subtype'] == 'html') {
+                $message = $message['stream'];
+            }
+            // RTF body (converted to HTML)
+            // Note: RTF can contain encapsulated HTML content
+            else if (!empty($message['size']) && $message['subtype'] == 'rtf'
+                && function_exists('iconv')
+                && class_exists('RtfHtmlPhp\Document')
+            ) {
+                try {
+                    $document  = new RtfHtmlPhp\Document($message['stream']);
+                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
+                    $message   = $formatter->format($document);
+                }
+                catch (Exception $e) {
+                    // ignore the body
+                    rcube::raise_error([
+                            'file' => __FILE__,
+                            'line' => __LINE__,
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                        ], true, false
+                    );
+                }
+            }
+            else {
+                $message = null;
             }
         }
 
