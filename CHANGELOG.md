@@ -5,6 +5,7 @@
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
+- Fix Firefox infinate loading display on mail screen (#8128)
 
 ## Release 1.5-rc
 
