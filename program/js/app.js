@@ -1806,7 +1806,7 @@ function rcube_webmail()
 
     if (!this.drag_active) {
       if (old !== this.env[prefname])
-        this.folder_collapsed_timer = setTimeout(function(){ ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10)
+        this.folder_collapsed_timer = setTimeout(function() { ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10);
 
       if (this.env.unread_counts)
         this.set_unread_count_display(node.id, false);
@@ -4635,7 +4635,7 @@ function rcube_webmail()
 
     // close compose step in opener
     if (opener_rc && opener_rc.env.action == 'compose') {
-      setTimeout(function(){
+      setTimeout(function() {
         if (opener.history.length > 1)
           opener.history.back();
         else
@@ -4846,7 +4846,7 @@ function rcube_webmail()
       form.action = this.add_url(form.action, '_saveonly', 1);
 
     // register timer to notify about connection timeout
-    this.submit_timer = setTimeout(function(){
+    this.submit_timer = setTimeout(function() {
       ref.set_busy(false, null, msgid);
       ref.display_message('requesttimedout', 'error');
     }, this.env.request_timeout * 1000);
@@ -5909,7 +5909,7 @@ function rcube_webmail()
     }
 
     // start timer
-    this.ksearch_timer = setTimeout(function(){ ref.ksearch_get_results(props); }, 200);
+    this.ksearch_timer = setTimeout(function() { ref.ksearch_get_results(props); }, 200);
     this.ksearch_input = obj;
 
     return true;
@@ -9439,7 +9439,7 @@ function rcube_webmail()
 
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
-      setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
+      setTimeout(function() { ref.keep_alive(); ref.start_keepalive(); }, 30000);
   };
 
   // handler for session errors detected on the server
@@ -9459,7 +9459,7 @@ function rcube_webmail()
         clearInterval(this._refresh);
     }
     else if (redirect_url) {
-      setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
+      setTimeout(function() { ref.redirect(redirect_url, true); }, 2000);
     }
   };
 
@@ -9837,7 +9837,7 @@ function rcube_webmail()
   {
     if (this.busy) {
       // try again after 10 seconds
-      setTimeout(function(){ ref.refresh(); ref.start_refresh(); }, 10000);
+      setTimeout(function() { ref.refresh(); ref.start_refresh(); }, 10000);
       return;
     }
 
@@ -10082,7 +10082,7 @@ function rcube_webmail()
 
   this.image_support_check = function(type)
   {
-    window.setTimeout(function() {
+    setTimeout(function() {
       var img = new Image();
       img.onload = function() { ref.env.browser_capabilities[type] = 1; };
       img.onerror = function() { ref.env.browser_capabilities[type] = 0; };
@@ -10123,7 +10123,7 @@ function rcube_webmail()
         return 1;
     }
 
-    window.setTimeout(function() {
+    setTimeout(function() {
       $('<object>').attr({
           data: ref.assets_path('program/resources/dummy.pdf'),
           type: 'application/pdf',
@@ -10134,7 +10134,7 @@ function rcube_webmail()
 
           // add a short delay before attempting to remove element (#8128)
           var obj = this;
-          window.setTimeout(function() { $(obj).remove(); }, 10);
+          setTimeout(function() { $(obj).remove(); }, 10);
         })
         .appendTo(document.body);
       }, 10);
@@ -10241,10 +10241,8 @@ function rcube_webmail()
 
   this.print_dialog = function()
   {
-    if (bw.safari)
-      setTimeout('window.print()', 10);
-    else
-      window.print();
+    // setTimeout for Safari
+    setTimeout('window.print()', 10);
   };
 }  // end object rcube_webmail
 
