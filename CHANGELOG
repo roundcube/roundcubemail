@@ -1,14 +1,15 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix bug where contacts search didn't work with addressbook_search_mods set to an empty array (#7974)
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
+- Fix bug where contacts search didn't work with addressbook_search_mods set to an empty array (#7974)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
 - Fix bug where consecutive LDAP searches could return wrong results (#8064)
 - Fix bug where plus characters in attachment filename could have been ignored (#8074)
 - Fix displaying HTML body with inline images encapsulated using TNEF format (winmail.dat)
 - Fix handling of custom sender addresses with names (#8106)
 - Fix shift + drag'n'drop menu not working in Elastic skin with Chrome browser (#8107)
+- Fix Firefox infinate loading display on mail screen (#8128)
 
 RELEASE 1.4.11
 --------------
