@@ -9992,7 +9992,10 @@ function rcube_webmail()
         })
         .on('load error', function(e) {
           ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;
-          $(this).remove();
+
+          // add a short delay before attempting to remove element (#8128)
+          var obj = this;
+          window.setTimeout(function() { $(obj).remove(); }, 10);
         })
         .appendTo(document.body);
       }, 10);
