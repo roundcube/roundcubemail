@@ -653,7 +653,7 @@ this.createEditLayer = function(width, height)
                     $(ref.text_area).focus();
                     fn1 = null;
                 };
-                window.setTimeout(fn1, 10);
+                setTimeout(fn1, 10);
             }
             return false;
         });
@@ -833,7 +833,7 @@ this.flashNoSpellingErrorState = function(on_finish)
         $(this.spell_span).empty().append(rsm)
         .removeClass().addClass('googie_check_spelling_ok');
 
-        window.setTimeout(no_spell_errors, 1000);
+        setTimeout(no_spell_errors, 1000);
     }
 };
 
