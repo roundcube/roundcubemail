@@ -6,6 +6,7 @@
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
 - Fix Firefox infinate loading display on mail screen (#8128)
+- Fix converting >1MB of HTML content into plain text (#8137)
 
 ## Release 1.5-rc
 
