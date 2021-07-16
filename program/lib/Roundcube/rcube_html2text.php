@@ -138,7 +138,6 @@ class rcube_html2text
      */
     protected $search = [
         '/\r/',                                  // Non-legal carriage return
-        '/^.*<body[^>]*>\n*/is',                 // Anything before <body>
         '/<head[^>]*>.*?<\/head>/is',            // <head>
         '/<script[^>]*>.*?<\/script>/is',        // <script>
         '/<style[^>]*>.*?<\/style>/is',          // <style>
@@ -168,7 +167,6 @@ class rcube_html2text
      */
     protected $replace = [
         '',                                     // Non-legal carriage return
-        '',                                     // Anything before <body>
         '',                                     // <head>
         '',                                     // <script>
         '',                                     // <style>
@@ -199,8 +197,7 @@ class rcube_html2text
      */
     protected $ent_search = [
         '/&(nbsp|#160);/i',                      // Non-breaking space
-        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
-                                         // Double quotes
+        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i', // Double quotes
         '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
         '/&gt;/i',                               // Greater-than
         '/&lt;/i',                               // Less-than
@@ -469,6 +466,14 @@ class rcube_html2text
 
         // Convert <PRE>
         $this->_convert_pre($text);
+
+        // Remove body tag and anything before
+        // We used to have '/^.*<body[^>]*>\n*/is' in $this->search, but this requires
+        // high pcre.backtrack_limit setting when converting long HTML strings (#8137)
+        if (($pos = stripos($text, '<body')) !== false) {
+            $pos = strpos($text, '>', $pos);
+            $text = substr($text, $pos + 1);
+        }
 
         // Run our defined tags search-and-replace
         $text = preg_replace($this->search, $this->replace, $text);
