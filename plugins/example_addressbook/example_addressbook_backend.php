@@ -53,6 +53,22 @@ class example_addressbook_backend extends rcube_addressbook
         $this->name = $name;
     }
 
+    /**
+     * Get group properties such as name and email address(es)
+     *
+     * @param string $group_id Group identifier
+     *
+     * @return ?array Group properties as hash array, null in case of error.
+     */
+    function get_group($group_id)
+    {
+        foreach ($this->db_groups as $group) {
+            if ($group['ID'] == $group_id) {
+                return $group;
+            }
+        }
+    }
+
     public function get_name()
     {
         return $this->name;

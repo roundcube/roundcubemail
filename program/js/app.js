@@ -6446,12 +6446,11 @@ function rcube_webmail()
       if (this.env.address_group_stack.length > 1
         || (this.env.address_group_stack.length == 1 && this.env.address_group_stack[0].search_request)
       ) {
-        $('<a href="#list">...</a>')
-          .attr('title', this.get_label('uponelevel'))
-          .addClass('poplink')
-          .appendTo(boxtitle)
-          .click(function(e){ return ref.command('popgroup','',this); });
-        boxtitle.append('&nbsp;&raquo;&nbsp;');
+        var link = $('<a href="#list">...</a>')
+          .attr({title: this.get_label('uponelevel'), 'class': 'poplink'})
+          .click(function() { return ref.command('popgroup', '', this); });
+
+        boxtitle.append(link).append('&nbsp;&raquo;&nbsp;');
       }
 
       boxtitle.append($('<span>').text(prop ? prop.name : this.get_label('contacts')));
