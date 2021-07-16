@@ -1384,7 +1384,6 @@ class rcmail_action_mail_index extends rcmail_action
             // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
             if (!$show_email && $valid && $name && $name != $mailto && strpos($name, '@')) {
                 $name = '';
-                self::$SUSPICIOUS_EMAIL = true;
             }
 
             // IDNA ASCII to Unicode
