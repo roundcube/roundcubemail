@@ -554,7 +554,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if (!empty($after)) {
             $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));
-            $table->add(null, $after->show($this->vacation['idx'] - 1));
+            $table->add(null, $after->show(isset($this->vacation['idx']) ? $this->vacation['idx'] - 1 : ''));
         }
 
         $table->add('title', html::label('vacation_action', $this->plugin->gettext('vacation.action')));

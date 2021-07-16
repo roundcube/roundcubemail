@@ -3639,13 +3639,18 @@ class rcube_imap extends rcube_storage
     public function folder_attributes($folder, $force = false)
     {
         // get attributes directly from LIST command
-        if (!empty($this->conn->data['LIST']) && is_array($this->conn->data['LIST'][$folder])) {
+        if (!empty($this->conn->data['LIST'])
+            && isset($this->conn->data['LIST'][$folder])
+            && is_array($this->conn->data['LIST'][$folder])
+        ) {
             $opts = $this->conn->data['LIST'][$folder];
         }
         // get cached folder attributes
         else if (!$force) {
             $opts = $this->get_cache('mailboxes.attributes');
-            $opts = $opts[$folder];
+            if ($opts && isset($opts[$folder])) {
+                $opts = $opts[$folder];
+            }
         }
 
         if (!isset($opts) || !is_array($opts)) {
