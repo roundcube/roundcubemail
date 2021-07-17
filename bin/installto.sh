@@ -116,7 +116,7 @@ if (strtolower($input) == 'y') {
     // Warn about situation when using "complete" package to update "custom" installation (#7087)
     // Note: "Complete" package do not include jsdeps.json nor install-jsdeps.sh
     if (file_exists("$target_dir/jsdeps.json") && !file_exists(INSTALL_PATH . "jsdeps.json")) {
-        $adds[] = "WARNING: JavaScript dependencies update skipped.";
+        $adds[] = "WARNING: JavaScript dependencies update skipped. New jsdeps.json file not found.";
     }
     // check if js-deps are up-to-date
     else if (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
@@ -129,9 +129,6 @@ if (strtolower($input) == 'y') {
             system("cd $target_dir && bin/install-jsdeps.sh");
             echo "done.\n\n";
         }
-    }
-    else {
-        $adds[] = "NOTICE: JavaScript dependencies installation skipped.";
     }
 
     if (file_exists("$target_dir/installer")) {
