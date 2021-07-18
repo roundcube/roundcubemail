@@ -1382,9 +1382,7 @@ class rcmail_action_mail_index extends rcmail_action
             $valid  = rcube_utils::check_email($mailto, false);
 
             // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-            if (!$show_email && $valid && $name && $name != $mailto
-                && (strpos($name, '@') || strpos($name, '＠'))
-            ) {
+            if (!$show_email && $valid && $name && $name != $mailto && preg_match('/@|＠|﹫/', $name)) {
                 $name = '';
             }
 
