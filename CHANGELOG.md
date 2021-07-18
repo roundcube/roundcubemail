@@ -7,6 +7,7 @@
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
 - Fix Firefox infinate loading display on mail screen (#8128)
 - Fix converting >1MB of HTML content into plain text (#8137)
+- Fix bug where expanding a group in the recipient input could corrupt the input content (#7569)
 
 ## Release 1.5-rc
 

@@ -4879,7 +4879,8 @@ function rcube_webmail()
       var data, name, n, id;
       for (n = 0; n < selection.length; n++) {
         if ((id = selection[n]) && (data = this.env.contactdata[id])) {
-          name = data.name || data
+          // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
+          name = '\u200b' + (data.name || data) + '\u200b';
           recipients.push(name);
 
           // group is added, expand it
@@ -5945,8 +5946,10 @@ function rcube_webmail()
 
     // insert all members of a group
     if (typeof contact === 'object' && contact.type == 'group' && !contact.email && contact.id) {
-      insert = contact.name + delim;
-      this.group2expand[contact.id] = $.extend({input: this.ksearch_input}, contact);
+      // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
+      var name = '\u200b' + contact.name + '\u200b';
+      insert = name + delim;
+      this.group2expand[contact.id] = {name: name, input: this.ksearch_input};
       this.http_request('mail/group-expand', {_source: contact.source, _gid: contact.id}, false);
     }
     else if (typeof contact === 'object' && contact.name) {
@@ -5961,7 +5964,14 @@ function rcube_webmail()
     this.ksearch_input_replace(this.ksearch_value, insert, null, trigger);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', {field: this.ksearch_input, insert: insert, data: contact, search: this.ksearch_value_last, result_type: 'person'});
+      this.triggerEvent('autocomplete_insert', {
+          field: this.ksearch_input,
+          insert: insert,
+          data: contact,
+          search: this.ksearch_value_last,
+          result_type: 'person'
+      });
+
       this.ksearch_value_last = null;
       this.compose_type_activity++;
     }
@@ -5969,9 +5979,19 @@ function rcube_webmail()
 
   this.replace_group_recipients = function(id, recipients)
   {
-    if (this.group2expand[id]) {
-      this.ksearch_input_replace(this.group2expand[id].name, recipients, this.group2expand[id].input);
-      this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients, data:this.group2expand[id], search:this.ksearch_value_last, result_type:'group' });
+    var data = this.group2expand[id];
+
+    if (data) {
+      this.ksearch_input_replace(data.name, recipients, data.input);
+
+      this.triggerEvent('autocomplete_insert', {
+          field: data.input,
+          insert: recipients,
+          data: data,
+          search: this.ksearch_value_last,
+          result_type: 'group'
+      });
+
       this.ksearch_value_last = null;
       this.group2expand[id] = null;
       this.compose_type_activity++;
