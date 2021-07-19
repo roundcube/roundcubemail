@@ -63,6 +63,7 @@ function rcube_webmail()
 
   // environment defaults
   this.env = {
+    attachments: {},
     request_timeout: 180,  // seconds
     draft_autosave: 0,     // seconds
     comm_path: './',
@@ -3945,7 +3946,7 @@ function rcube_webmail()
         ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
         ref.triggerEvent('compose-encrypted', { active:true });
 
-        if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
+        if (!$.isEmptyObject(ref.env.attachments)) {
           // notify user if losing attachments
           if (ref.env.compose_mode != 'draft'
             || Object.keys(ref.env.attachments).length != 1
@@ -5285,9 +5286,8 @@ function rcube_webmail()
 
     str += this.editor.get_content({refresh: false});
 
-    if (this.env.attachments)
-      for (id in this.env.attachments)
-        str += id;
+    for (id in this.env.attachments)
+      str += id;
 
     // we can't detect changes in the Mailvelope editor so assume it changed
     if (this.mailvelope_editor) {
@@ -5508,9 +5508,6 @@ function rcube_webmail()
     if (upload_id)
       this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
 
-    if (!this.env.attachments)
-      this.env.attachments = {};
-
     if (upload_id && this.env.attachments[upload_id])
       delete this.env.attachments[upload_id];
 
@@ -5555,10 +5552,8 @@ function rcube_webmail()
 
   this.remove_from_attachment_list = function(name)
   {
-    if (this.env.attachments) {
-      delete this.env.attachments[name];
-      $('#'+name).remove();
-    }
+    delete this.env.attachments[name];
+    $('#'+name).remove();
   };
 
   this.remove_attachment = function(name)
@@ -5582,7 +5577,7 @@ function rcube_webmail()
   // rename uploaded attachment (in compose)
   this.rename_attachment = function(id)
   {
-    var attachment = this.env.attachments ? this.env.attachments[id] : null;
+    var attachment = this.env.attachments[id];
 
     if (!attachment)
       return;
@@ -5604,7 +5599,7 @@ function rcube_webmail()
   // update attachments list with the new name
   this.rename_attachment_handler = function(id, name)
   {
-    var attachment = this.env.attachments ? this.env.attachments[id] : null;
+    var attachment = this.env.attachments[id];
 
     if (!attachment || !name)
       return;
