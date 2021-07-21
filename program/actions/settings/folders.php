@@ -86,17 +86,20 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $level         = $is_special ? 0 : count($foldersplit);
 
             // add any necessary "virtual" parent folders
-            if ($parent_folder && !isset($seen[$parent_folder])) {
+            if ($parent_folder && empty($seen[$parent_folder])) {
                 for ($i = 1; $i <= $level; $i++) {
                     $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
-                    if ($ancestor_folder && !$seen[$ancestor_folder]++) {
-                        $ancestor_name = rcube_charset::convert($foldersplit[$i-1], 'UTF7-IMAP');
-                        $list_folders[] = [
-                            'id'      => $ancestor_folder,
-                            'name'    => $ancestor_name,
-                            'level'   => $i-1,
-                            'virtual' => true,
-                        ];
+                    if ($ancestor_folder) {
+                        if (empty($seen[$ancestor_folder])) {
+                            $seen[$ancestor_folder] = true;
+                            $ancestor_name = rcube_charset::convert($foldersplit[$i-1], 'UTF7-IMAP');
+                            $list_folders[] = [
+                                'id'      => $ancestor_folder,
+                                'name'    => $ancestor_name,
+                                'level'   => $i-1,
+                                'virtual' => true,
+                            ];
+                        }
                     }
                 }
             }
@@ -106,7 +109,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 continue;
             }
 
-            $seen[$folder] = 1;
+            $seen[$folder] = true;
 
             $list_folders[] = [
                 'id'    => $folder_id,

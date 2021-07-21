@@ -1075,17 +1075,13 @@ class rcube_message
         // @TODO: attachment may be huge, handle body via file
         $body     = $this->get_part_body($part->mime_id);
         $tnef     = new rcube_tnef_decoder;
-        $tnef_arr = $tnef->decompress($body);
+        $tnef_arr = $tnef->decompress($body, true);
         $parts    = [];
 
         unset($body);
 
         // HTML body
-        if (
-            !empty($tnef_arr['message'])
-            && !empty($tnef_arr['message']['size'])
-            && $tnef_arr['message']['subtype'] == 'html'
-        ) {
+        if (!empty($tnef_arr['message'])) {
             $tpart = new rcube_message_part;
 
             $tpart->encoding        = 'stream';
@@ -1093,8 +1089,8 @@ class rcube_message
             $tpart->ctype_secondary = 'html';
             $tpart->mimetype        = 'text/html';
             $tpart->mime_id         = 'winmail.' . $part->mime_id . '.html';
-            $tpart->size            = $tnef_arr['message']['size'];
-            $tpart->body            = $tnef_arr['message']['stream'];
+            $tpart->size            = strlen($tnef_arr['message']);
+            $tpart->body            = $tnef_arr['message'];
 
             $parts[] = $tpart;
         }

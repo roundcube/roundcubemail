@@ -678,14 +678,13 @@ class rcmail_sendmail
 
                 $hash      = md5($data) . '@' . $domain;
                 $mime_type = $matches[2][$idx][0];
-                $name      = $list[$hash];
 
                 if (empty($mime_type)) {
                     $mime_type = rcube_mime::image_content_type($data);
                 }
 
                 // add the image to the MIME message
-                if (!$name) {
+                if (empty($list[$hash])) {
                     $ext         = preg_replace('#^[^/]+/#', '', $mime_type);
                     $name        = substr($hash, 0, 8) . '.' . $ext;
                     $list[$hash] = $name;
@@ -693,6 +692,7 @@ class rcmail_sendmail
                     $message->addHTMLImage($data, $mime_type, $name, false, $hash);
                 }
 
+                $name = $list[$hash];
                 $body = substr_replace($body, $name, $m[1] + $offset, strlen($m[0]));
                 $offset += strlen($name) - strlen($m[0]);
             }

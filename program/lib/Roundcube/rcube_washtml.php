@@ -710,6 +710,8 @@ class rcube_washtml
             @$node->{$method}($html, LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET);
         }
 
+        unset($html); // release some memory
+
         return $this->dumpHtml($node);
     }
 

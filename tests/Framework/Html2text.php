@@ -196,4 +196,19 @@ Links:
             ],
         ];
     }
+
+    /**
+     * Test huge HTML content (#8137)
+     */
+    function test_memory_fix_8137()
+    {
+        // create >1MB input
+        $src = 'data:image/png;base64,' . str_repeat('1234567890abcdefghijklmnopqrstuvwxyz', 50000);
+        $input = 'test<body><p>test1</p><p>test2</p><img src="' . $src . '" /><p>test3</p>';
+
+        $h2t = new rcube_html2text($input, false, false);
+        $res = $h2t->get_text();
+
+        $this->assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');
+    }
 }

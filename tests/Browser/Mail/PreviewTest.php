@@ -100,6 +100,8 @@ class PreviewTest extends \Tests\Browser\TestCase
     /**
      * Test "X more..." link on mail preview with many recipients,
      * and some more
+     *
+     * @group failsonga-phone
      */
     public function testPreviewMorelink()
     {

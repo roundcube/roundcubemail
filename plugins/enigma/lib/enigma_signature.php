@@ -55,7 +55,7 @@ class enigma_signature
 
                 while (array_pop($level) !== null) {
                     $parent = join('.', $level);
-                    if ($parts[$parent] && $parts[$parent]->mimetype == 'message/rfc822') {
+                    if (!empty($parts[$parent]) && $parts[$parent]->mimetype == 'message/rfc822') {
                         $from    = $parts[$parent]->headers['from'];
                         $charset = $parts[$parent]->charset;
                         break;

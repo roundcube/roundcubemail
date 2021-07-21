@@ -783,7 +783,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // If desired, set this textarea to be editable by TinyMCE
         $attrib['data-html-editor'] = true;
         if (self::$HTML_MODE) {
-            $attrib['class'] = trim($attrib['class'] . ' mce_editor');
+            $attrib['class'] = trim((isset($attrib['class']) ? $attrib['class'] : '') . ' mce_editor');
         }
 
         $attrib['name'] = '_message';

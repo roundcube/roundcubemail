@@ -63,6 +63,7 @@ function rcube_webmail()
 
   // environment defaults
   this.env = {
+    attachments: {},
     request_timeout: 180,  // seconds
     draft_autosave: 0,     // seconds
     comm_path: './',
@@ -1806,7 +1807,7 @@ function rcube_webmail()
 
     if (!this.drag_active) {
       if (old !== this.env[prefname])
-        this.folder_collapsed_timer = setTimeout(function(){ ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10)
+        this.folder_collapsed_timer = setTimeout(function() { ref.command('save-pref', { name: prefname, value: ref.env[prefname] }); }, 10);
 
       if (this.env.unread_counts)
         this.set_unread_count_display(node.id, false);
@@ -3902,8 +3903,7 @@ function rcube_webmail()
       ref.mailvelope_editor = null;
       ref.set_button('compose-encrypted', 'act');
 
-      container.removeClass('mailvelope')
-        .find('iframe:not([aria-hidden=true])').remove();
+      container.removeClass('mailvelope').find('iframe:not([aria-hidden=true])').remove();
       $('#' + ref.env.composebody).show();
       $("[name='_pgpmime']").remove();
 
@@ -3946,7 +3946,7 @@ function rcube_webmail()
         ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
         ref.triggerEvent('compose-encrypted', { active:true });
 
-        if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
+        if (!$.isEmptyObject(ref.env.attachments)) {
           // notify user if losing attachments
           if (ref.env.compose_mode != 'draft'
             || Object.keys(ref.env.attachments).length != 1
@@ -4097,7 +4097,7 @@ function rcube_webmail()
 
       ref.hide_message(msgid);
       $(selector).children().not('iframe').hide();
-      $(this.gui_objects.messagebody).addClass('mailvelope');
+      $(ref.gui_objects.messagebody).addClass('mailvelope');
 
       // on success we can remove encrypted part from the attachments list
       if (ref.env.pgp_mime_part)
@@ -4636,7 +4636,7 @@ function rcube_webmail()
 
     // close compose step in opener
     if (opener_rc && opener_rc.env.action == 'compose') {
-      setTimeout(function(){
+      setTimeout(function() {
         if (opener.history.length > 1)
           opener.history.back();
         else
@@ -4847,7 +4847,7 @@ function rcube_webmail()
       form.action = this.add_url(form.action, '_saveonly', 1);
 
     // register timer to notify about connection timeout
-    this.submit_timer = setTimeout(function(){
+    this.submit_timer = setTimeout(function() {
       ref.set_busy(false, null, msgid);
       ref.display_message('requesttimedout', 'error');
     }, this.env.request_timeout * 1000);
@@ -4880,11 +4880,12 @@ function rcube_webmail()
       var data, name, n, id;
       for (n = 0; n < selection.length; n++) {
         if ((id = selection[n]) && (data = this.env.contactdata[id])) {
-          name = data.name || data
+          // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
+          name = '\u200b' + (data.name || data) + '\u200b';
           recipients.push(name);
 
           // group is added, expand it
-          if (id.charAt(0) == 'E' && name.indexOf('@') < 0 && input.length) {
+          if (id.charAt(0) == 'E' && input.length) {
             var gid = id.substr(1);
             this.group2expand[gid] = {name: name, input: input.get(0)};
             this.http_request('group-expand', {_source: data.source || this.env.source, _gid: gid}, false);
@@ -5285,9 +5286,8 @@ function rcube_webmail()
 
     str += this.editor.get_content({refresh: false});
 
-    if (this.env.attachments)
-      for (id in this.env.attachments)
-        str += id;
+    for (id in this.env.attachments)
+      str += id;
 
     // we can't detect changes in the Mailvelope editor so assume it changed
     if (this.mailvelope_editor) {
@@ -5508,9 +5508,6 @@ function rcube_webmail()
     if (upload_id)
       this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
 
-    if (!this.env.attachments)
-      this.env.attachments = {};
-
     if (upload_id && this.env.attachments[upload_id])
       delete this.env.attachments[upload_id];
 
@@ -5555,10 +5552,8 @@ function rcube_webmail()
 
   this.remove_from_attachment_list = function(name)
   {
-    if (this.env.attachments) {
-      delete this.env.attachments[name];
-      $('#'+name).remove();
-    }
+    delete this.env.attachments[name];
+    $('#'+name).remove();
   };
 
   this.remove_attachment = function(name)
@@ -5582,7 +5577,7 @@ function rcube_webmail()
   // rename uploaded attachment (in compose)
   this.rename_attachment = function(id)
   {
-    var attachment = this.env.attachments ? this.env.attachments[id] : null;
+    var attachment = this.env.attachments[id];
 
     if (!attachment)
       return;
@@ -5604,7 +5599,7 @@ function rcube_webmail()
   // update attachments list with the new name
   this.rename_attachment_handler = function(id, name)
   {
-    var attachment = this.env.attachments ? this.env.attachments[id] : null;
+    var attachment = this.env.attachments[id];
 
     if (!attachment || !name)
       return;
@@ -5910,7 +5905,7 @@ function rcube_webmail()
     }
 
     // start timer
-    this.ksearch_timer = setTimeout(function(){ ref.ksearch_get_results(props); }, 200);
+    this.ksearch_timer = setTimeout(function() { ref.ksearch_get_results(props); }, 200);
     this.ksearch_input = obj;
 
     return true;
@@ -5946,8 +5941,10 @@ function rcube_webmail()
 
     // insert all members of a group
     if (typeof contact === 'object' && contact.type == 'group' && !contact.email && contact.id) {
-      insert = contact.name + delim;
-      this.group2expand[contact.id] = $.extend({input: this.ksearch_input}, contact);
+      // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
+      var name = '\u200b' + contact.name + '\u200b';
+      insert = name + delim;
+      this.group2expand[contact.id] = {name: name, input: this.ksearch_input};
       this.http_request('mail/group-expand', {_source: contact.source, _gid: contact.id}, false);
     }
     else if (typeof contact === 'object' && contact.name) {
@@ -5959,10 +5956,17 @@ function rcube_webmail()
       trigger = true;
     }
 
-    this.ksearch_input_replace(this.ksearch_value, insert);
+    this.ksearch_input_replace(this.ksearch_value, insert, null, trigger);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', {field: this.ksearch_input, insert: insert, data: contact, search: this.ksearch_value_last, result_type: 'person'});
+      this.triggerEvent('autocomplete_insert', {
+          field: this.ksearch_input,
+          insert: insert,
+          data: contact,
+          search: this.ksearch_value_last,
+          result_type: 'person'
+      });
+
       this.ksearch_value_last = null;
       this.compose_type_activity++;
     }
@@ -5970,9 +5974,19 @@ function rcube_webmail()
 
   this.replace_group_recipients = function(id, recipients)
   {
-    if (this.group2expand[id]) {
-      this.ksearch_input_replace(this.group2expand[id].name, recipients, this.group2expand[id].input);
-      this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients, data:this.group2expand[id], search:this.ksearch_value_last, result_type:'group' });
+    var data = this.group2expand[id];
+
+    if (data) {
+      this.ksearch_input_replace(data.name, recipients, data.input);
+
+      this.triggerEvent('autocomplete_insert', {
+          field: data.input,
+          insert: recipients,
+          data: data,
+          search: this.ksearch_value_last,
+          result_type: 'group'
+      });
+
       this.ksearch_value_last = null;
       this.group2expand[id] = null;
       this.compose_type_activity++;
@@ -6166,7 +6180,7 @@ function rcube_webmail()
 
   // Setter for input value
   // replaces 'from' string with 'to' and sets cursor position at the end
-  this.ksearch_input_replace = function(from, to, input)
+  this.ksearch_input_replace = function(from, to, input, trigger)
   {
     if (!this.ksearch_input && !input)
       return;
@@ -6185,7 +6199,7 @@ function rcube_webmail()
     this.set_caret_pos(input, cpos + to.length - from.length);
 
     // run onchange action on the element
-    $(input).trigger('change', [true]);
+    $(input).trigger('change', [true, trigger]);
   };
 
   this.ksearch_click = function(node)
@@ -6447,12 +6461,11 @@ function rcube_webmail()
       if (this.env.address_group_stack.length > 1
         || (this.env.address_group_stack.length == 1 && this.env.address_group_stack[0].search_request)
       ) {
-        $('<a href="#list">...</a>')
-          .attr('title', this.get_label('uponelevel'))
-          .addClass('poplink')
-          .appendTo(boxtitle)
-          .click(function(e){ return ref.command('popgroup','',this); });
-        boxtitle.append('&nbsp;&raquo;&nbsp;');
+        var link = $('<a href="#list">...</a>')
+          .attr({title: this.get_label('uponelevel'), 'class': 'poplink'})
+          .click(function() { return ref.command('popgroup', '', this); });
+
+        boxtitle.append(link).append('&nbsp;&raquo;&nbsp;');
       }
 
       boxtitle.append($('<span>').text(prop ? prop.name : this.get_label('contacts')));
@@ -9440,7 +9453,7 @@ function rcube_webmail()
 
     // re-send keep-alive requests after 30 seconds
     if (action == 'keep-alive')
-      setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
+      setTimeout(function() { ref.keep_alive(); ref.start_keepalive(); }, 30000);
   };
 
   // handler for session errors detected on the server
@@ -9460,7 +9473,7 @@ function rcube_webmail()
         clearInterval(this._refresh);
     }
     else if (redirect_url) {
-      setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
+      setTimeout(function() { ref.redirect(redirect_url, true); }, 2000);
     }
   };
 
@@ -9838,7 +9851,7 @@ function rcube_webmail()
   {
     if (this.busy) {
       // try again after 10 seconds
-      setTimeout(function(){ ref.refresh(); ref.start_refresh(); }, 10000);
+      setTimeout(function() { ref.refresh(); ref.start_refresh(); }, 10000);
       return;
     }
 
@@ -10083,7 +10096,7 @@ function rcube_webmail()
 
   this.image_support_check = function(type)
   {
-    window.setTimeout(function() {
+    setTimeout(function() {
       var img = new Image();
       img.onload = function() { ref.env.browser_capabilities[type] = 1; };
       img.onerror = function() { ref.env.browser_capabilities[type] = 0; };
@@ -10124,7 +10137,7 @@ function rcube_webmail()
         return 1;
     }
 
-    window.setTimeout(function() {
+    setTimeout(function() {
       $('<object>').attr({
           data: ref.assets_path('program/resources/dummy.pdf'),
           type: 'application/pdf',
@@ -10132,7 +10145,10 @@ function rcube_webmail()
         })
         .on('load error', function(e) {
           ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;
-          $(this).remove();
+
+          // add a short delay before attempting to remove element (#8128)
+          var obj = this;
+          setTimeout(function() { $(obj).remove(); }, 10);
         })
         .appendTo(document.body);
       }, 10);
@@ -10239,10 +10255,8 @@ function rcube_webmail()
 
   this.print_dialog = function()
   {
-    if (bw.safari)
-      setTimeout('window.print()', 10);
-    else
-      window.print();
+    // setTimeout for Safari
+    setTimeout('window.print()', 10);
   };
 }  // end object rcube_webmail
 

@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
+- Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
+- Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
+- Fix Firefox infinate loading display on mail screen (#8128)
+- Fix converting >1MB of HTML content into plain text (#8137)
+- Fix bug where expanding a group in the recipient input could corrupt the input content (#7569)
+
+## Release 1.5-rc
+
 - Upgrade to TinyMCE 5.8.2
 - SMTP XCLIENT support (#7893, #6411)
 - Add IDN homograph attack (spoofing) detection [CVE-2019-15237] (#6891)
