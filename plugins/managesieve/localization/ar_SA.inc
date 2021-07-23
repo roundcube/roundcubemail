@@ -2,25 +2,26 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'تصفية';
 $labels['managefilters'] = 'ادارة تصفية البريد الوارد';
 $labels['filtername'] = 'اسم التصفية';
 $labels['newfilter'] = 'تصفية جديدة';
 $labels['filteradd'] = 'اضافة تصفية';
 $labels['filterdel'] = 'حذف تصفية';
+$labels['actions'] = 'الإجراءات';
 $labels['scope'] = 'مجال';
 $labels['moveup'] = 'نقل الى الاعلى ';
 $labels['movedown'] = 'نقل الى الاسفل';
@@ -63,14 +64,8 @@ $labels['days'] = 'ايام';
 $labels['seconds'] = 'ثواني';
 $labels['rulestop'] = 'ايقاف تقييم القواعد';
 $labels['enable'] = 'تفعيل/تعطيل';
-$labels['filterset'] = 'مجموعة مصفياة';
 $labels['filtersets'] = 'مجموعة تصفية';
-$labels['filtersetadd'] = 'اضافة مجموعة تصفية';
-$labels['filtersetact'] = 'تفعيل مجموعة التصفية الحالية ';
-$labels['filtersetdeact'] = 'تعطيل مجموعة التصفية الحالية ';
 $labels['filterdef'] = 'تعريف التصفية ';
-$labels['filtersetname'] = 'اسم مجموعة التصفية';
-$labels['newfilterset'] = 'مجموعة تصفية جديدة';
 $labels['active'] = 'نشط';
 $labels['none'] = 'لاشيء';
 $labels['fromset'] = 'من مجموعة';
@@ -144,13 +139,17 @@ $labels['detail'] = 'تفاصيل';
 $labels['default'] = 'افتراضي';
 $labels['index'] = 'الوارد:';
 $labels['indexlast'] = 'تراجع';
-$labels['vacation'] = 'اجازة ';
+$labels['spamtestequals'] = 'مساوي الى';
+$labels['spamtestnotequals'] = 'لا يساوي';
+$labels['vacation'] = 'خارج المكتب';
 $labels['vacation.advanced'] = 'اعدادات متقدمة';
+$labels['vacation.from'] = 'الرد على عنوان المرسل';
 $labels['vacation.subject'] = 'موضوع';
 $labels['vacation.body'] = 'محتوى ';
 $labels['vacation.status'] = 'الحالة ';
 $labels['vacation.on'] = 'تشغيل';
 $labels['vacation.off'] = 'ايقاف';
+$labels['vacation.after'] = 'ضع قاعدة الخروج من المنصب بعد ذلك';
 $labels['vacation.saving'] = 'يتم حفظ البيانات...';
 $labels['vacation.keep'] = 'ابقاء';
 $labels['forward.on'] = 'تشغيل';
@@ -169,15 +168,8 @@ $messages['actiondeleteconfirm'] = 'هل تريد فعلاً حذف الاجرا
 $messages['forbiddenchars'] = 'احرف محظورة في هذا الحقل.';
 $messages['cannotbeempty'] = 'لا يمكن ترك الحقل فارغاً';
 $messages['ruleexist'] = 'اسم هذة التصفية موجود مسبقاً';
-$messages['setactivateerror'] = 'لا يمكن تفعيل مجموعة التصفية المحددة.خطا في الخادم.';
-$messages['setdeactivateerror'] = 'لا يمكن تعطيل مجموعة التصفية المحددة.خطا في الخادم.';
-$messages['setdeleteerror'] = 'لا يمكن حذف مجموعة التصفية المحددة.خطا في الخادم.';
-$messages['setactivated'] = 'تم تفعيل مجموعة التصفية بنجاح.';
-$messages['setdeactivated'] = 'تم تعطيل مجموعة التصفية بنجاح.';
-$messages['setdeleted'] = 'تم حذف مجموعة التصفية بنجاح.';
-$messages['setdeleteconfirm'] = 'هل تريد فعلاً حذف مجموعات التصفية المحددة؟';
-$messages['setcreateerror'] = 'لا يمكن انشاء مجموعة تصفية.خطا في الخادم.';
-$messages['setcreated'] = 'تم انشاء مجموعة التصفية بنجاح.';
+$messages['setactivateerror'] = 'تعذر تنشيط مجموعة التصفية المحددة. حدث خطأ في الخادم.';
+$messages['setdeactivateerror'] = 'تعذر إلغاء تنشيط مجموعة التصفية المحددة. حدث خطأ في الخادم.';
 $messages['activateerror'] = 'لا يمكن تمكين التصفية(ـات) المحددة .خطا في الخادم.';
 $messages['deactivateerror'] = 'لا يمكن تعطيل التصفية(ـات) المحددة .خطا في الخادم.';
 $messages['deactivated'] = 'تم تعطيل المصفيـ(ـاة) بنجاح.';
@@ -189,5 +181,3 @@ $messages['setexist'] = 'المجموعة موجودة مسبقا.';
 $messages['nodata'] = 'يجب تحديد موضع واحد على الأقل!';
 $messages['invaliddateformat'] = 'تاريخ غير صحيح او يوجد خطا في تنسق اجزاء التاريخ';
 $messages['saveerror'] = 'لا يمكن حفظ البيانات. خطا في الخادم.';
-$messages['vacationsaved'] = 'تم حفظ تاريخ الاجازة بنجاح.';
-?>

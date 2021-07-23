@@ -6,7 +6,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013-2016, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -101,7 +101,7 @@ function newmail_notifier_sound()
     catch (e) {
         elem = $('<embed id="sound" src="' + src + '" hidden=true autostart=true loop=false />');
         elem.appendTo($('body'));
-        window.setTimeout("$('#sound').remove()", 5000);
+        setTimeout("$('#sound').remove()", 5000);
     }
 }
 

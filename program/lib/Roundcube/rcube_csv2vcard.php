@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +22,6 @@
  *
  * @package    Framework
  * @subpackage Addressbook
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_csv2vcard
 {
@@ -30,7 +30,7 @@ class rcube_csv2vcard
      *
      * @var array
      */
-    protected $csv2vcard_map = array(
+    protected $csv2vcard_map = [
         // MS Outlook 2010
         'anniversary'           => 'anniversary',
         'assistants_name'       => 'assistant',
@@ -133,14 +133,14 @@ class rcube_csv2vcard
 
         // Atmail
         'date_of_birth'         => 'birthday',
-        'email'                 => 'email:pref',
+        // 'email'                 => 'email:pref',
         'home_mobile'           => 'phone:cell',
         'home_zip'              => 'zipcode:home',
         'info'                  => 'notes',
         'user_photo'            => 'photo',
         'url'                   => 'website:homepage',
         'work_company'          => 'organization',
-        'work_dept'             => 'departament',
+        'work_dept'             => 'department',
         'work_fax'              => 'phone:work,fax',
         'work_mobile'           => 'phone:work,cell',
         'work_title'            => 'jobtitle',
@@ -156,14 +156,26 @@ class rcube_csv2vcard
         'name'                  => 'displayname',
         'name_prefix'           => 'prefix',
         'name_suffix'           => 'suffix',
-    );
+
+        // Format of Letter Hub test files from
+        // https://letterhub.com/sample-csv-file-with-contacts/
+        'company_name'          => 'organization',
+        'address'               => 'street:home',
+        'city'                  => 'locality:home',
+        //'county'                => '',
+        'state'                 => 'region:home',
+        'zip'                   => 'zipcode:home',
+        'phone1'                => 'phone:home',
+        'phone'                 => 'phone:work',
+        'email'                 => 'email:home',
+    ];
 
     /**
      * CSV label to text mapping for English
      *
      * @var array
      */
-    protected $label_map = array(
+    protected $label_map = [
         // MS Outlook 2010
         'anniversary'       => "Anniversary",
         'assistants_name'   => "Assistant's Name",
@@ -248,7 +260,7 @@ class rcube_csv2vcard
         'mobile_number'     => "Mobile Number",
         'nickname'          => "Nickname",
         'organization'      => "Organization",
-        'pager_number'      => "Pager Namber",
+        'pager_number'      => "Pager Number",
         'primary_email'     => "Primary Email",
         'secondary_email'   => "Secondary Email",
         'web_page_1'        => "Web Page 1",
@@ -290,23 +302,24 @@ class rcube_csv2vcard
         'name'              => "Name",
         'name_prefix'       => "Name Prefix",
         'name_suffix'       => "Name Suffix",
-    );
+    ];
 
     /**
      * Special fields map for GMail format
      *
      * @var array
      */
-    protected $gmail_label_map = array(
-        'E-mail' => array(
-            'Value' => array(
-                'home' => 'email:home',
-                'work' => 'email:work',
-                '*'    => 'email:other',
-            ),
-        ),
-        'Phone' => array(
-            'Value' => array(
+    protected $gmail_label_map = [
+        'E-mail' => [
+            'Value' => [
+                'home'  => 'email:home',
+                'work'  => 'email:work',
+                'other' => 'email:other',
+                ''      => 'email:other',
+            ],
+        ],
+        'Phone' => [
+            'Value' => [
                 'home'    => 'phone:home',
                 'homefax' => 'phone:homefax',
                 'main'    => 'phone:pref',
@@ -314,61 +327,64 @@ class rcube_csv2vcard
                 'mobile'  => 'phone:cell',
                 'work'    => 'phone:work',
                 'workfax' => 'phone:workfax',
-            ),
-        ),
-        'Relation' => array(
-            'Value' => array(
+            ],
+        ],
+        'Relation' => [
+            'Value' => [
                 'spouse' => 'spouse',
-            ),
-        ),
-        'Website' => array(
-            'Value' => array(
+            ],
+        ],
+        'Website' => [
+            'Value' => [
                 'profile'  => 'website:profile',
                 'blog'     => 'website:blog',
                 'homepage' => 'website:homepage',
                 'work'     => 'website:work',
-            ),
-        ),
-        'Address' => array(
-            'Street' => array(
+            ],
+        ],
+        'Address' => [
+            'Street' => [
                 'home' => 'street:home',
                 'work' => 'street:work',
-            ),
-            'City' => array(
+            ],
+            'City' => [
                 'home' => 'locality:home',
                 'work' => 'locality:work',
-            ),
-            'Region' => array(
+            ],
+            'Region' => [
                 'home' => 'region:home',
                 'work' => 'region:work',
-            ),
-            'Postal Code' => array(
+            ],
+            'Postal Code' => [
                 'home' => 'zipcode:home',
                 'work' => 'zipcode:work',
-            ),
-            'Country' => array(
+            ],
+            'Country' => [
                 'home' => 'country:home',
                 'work' => 'country:work',
-            ),
-        ),
-        'Organization' => array(
-            'Name' => array(
+            ],
+        ],
+        'Organization' => [
+            'Name' => [
                 '' => 'organization',
-            ),
-            'Title' => array(
+            ],
+            'Title' => [
                 '' => 'jobtitle',
-            ),
-            'Department' => array(
+            ],
+            'Department' => [
                 '' => 'department',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
+    /** @var array Localized labels map */
+    protected $local_label_map = [];
 
-    protected $local_label_map = array();
-    protected $vcards          = array();
-    protected $map             = array();
-    protected $gmail_map       = array();
+    /** @var rcube_vcard[] List of contacts as vCards */
+    protected $vcards = [];
+
+    /** @var array Field mapping */
+    protected $map = [];
 
 
     /**
@@ -389,73 +405,99 @@ class rcube_csv2vcard
             }
         }
 
-        $this->label_map = array_flip($this->label_map);
+        $this->label_map       = array_flip($this->label_map);
         $this->local_label_map = array_flip($this->local_label_map);
     }
 
     /**
      * Import contacts from CSV file
      *
-     * @param string $csv Content of the CSV file
+     * @param string $csv       Content of the CSV file
+     * @param bool   $dry_run   Generate automatic field mapping
+     * @param bool   $skip_head Skip header line
+     *
+     * @return array Field mapping info (dry run only)
      */
-    public function import($csv)
+    public function import($csv, $dry_run = false, $skip_head = true)
     {
         // convert to UTF-8
         $head      = substr($csv, 0, 4096);
         $charset   = rcube_charset::detect($head, RCUBE_CHARSET);
         $csv       = rcube_charset::convert($csv, $charset);
-        $csv       = preg_replace(array('/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'), '', $csv); // also remove BOM
+        $csv       = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
         $head      = '';
-        $prev_line = false;
 
-        $this->map       = array();
-        $this->gmail_map = array();
+        // Split CSV file into lines
+        $lines = rcube_utils::explode_quoted_string('[\r\n]+', $csv);
 
-        // Parse file
-        foreach (preg_split("/[\r\n]+/", $csv) as $line) {
-            if (!empty($prev_line)) {
-                $line = '"' . $line;
-            }
+        // Parse first 2 lines of file to identify fields
+        // 2 lines because for gmail CSV we need to get the value from the "Type" fields to identify which is which
+        if (empty($this->map)) {
+            $this->parse_header(array_slice($lines, 0, 2));
+        }
 
+        // Parse the fields
+        foreach ($lines as $n => $line) {
             $elements = $this->parse_line($line);
+
+            if ($dry_run) {
+                return ['source' => $elements, 'destination' => $this->map];
+            }
 
             if (empty($elements)) {
                 continue;
             }
 
-            // Parse header
-            if (empty($this->map)) {
-                $this->parse_header($elements);
-                if (empty($this->map)) {
-                    break;
-                }
-            }
-            // Parse data row
-            else {
-                // handle multiline elements (e.g. Gmail)
-                if (!empty($prev_line)) {
-                    $first = array_shift($elements);
-
-                    if ($first[0] == '"') {
-                        $prev_line[count($prev_line)-1] = '"' . $prev_line[count($prev_line)-1] . "\n" . substr($first, 1);
-                    }
-                    else {
-                        $prev_line[count($prev_line)-1] .= "\n" . $first;
-                    }
-
-                    $elements = array_merge($prev_line, $elements);
-                }
-
-                $last_element = $elements[count($elements)-1];
-                if ($last_element[0] == '"') {
-                    $elements[count($elements)-1] = substr($last_element, 1);
-                    $prev_line = $elements;
-                    continue;
-                }
+            // first line is the headers so do not import unless explicitly set
+            if (!$skip_head || $n > 0) {
                 $this->csv_to_vcard($elements);
-                $prev_line = false;
             }
         }
+    }
+
+    /**
+     * Set field mapping info
+     *
+     * @param array Field mapping
+     */
+    public function set_map($elements)
+    {
+        // sanitize input
+        $elements = array_filter($elements, function($val) {
+                return in_array($val, $this->csv2vcard_map);
+            });
+
+        $this->map = $elements;
+    }
+
+    /**
+     * Set field mapping info
+     *
+     * @return array Array of vcard fields and localized names
+     */
+    public function get_fields()
+    {
+        // get all vcard fields
+        $fields            = array_unique($this->csv2vcard_map);
+        $local_field_names = $this->local_label_map ?: $this->label_map;
+        $local_field_names = array_flip($local_field_names);
+
+        // translate with the local map
+        $map = [];
+        foreach ($fields as $csv => $vcard) {
+            if ($vcard == '_auto_') {
+                continue;
+            }
+
+            $map[$vcard] = $local_field_names[$csv];
+        }
+
+        // small fix to prevent "Groups" displaying as "Categories"
+        $map['groups'] = $local_field_names['groups'];
+
+        asort($map);
+
+        return $map;
     }
 
     /**
@@ -470,47 +512,48 @@ class rcube_csv2vcard
 
     /**
      * Parse CSV file line
+     *
+     * @param string $line Line of text from CSV file
+     *
+     * @return array CSV data extracted from the line
      */
     protected function parse_line($line)
     {
         $line = trim($line);
         if (empty($line)) {
-            return null;
+            return [];
         }
 
-        $fields = rcube_utils::explode_quoted_string(',', $line);
-
-        // remove quotes if needed
-        if (!empty($fields)) {
-            foreach ($fields as $idx => $value) {
-                if (($len = strlen($value)) > 1 && $value[0] == '"' && $value[$len-1] == '"') {
-                    // remove surrounding quotes
-                    $value = substr($value, 1, -1);
-                    // replace doubled quotes inside the string with single quote
-                    $value = str_replace('""', '"', $value);
-
-                    $fields[$idx] = $value;
-                }
-            }
-        }
+        $fields = str_getcsv($line);
 
         return $fields;
     }
 
     /**
      * Parse CSV header line, detect fields mapping
+     *
+     * @param array $lines One or two header lines in CSV file
      */
-    protected function parse_header($elements)
+    protected function parse_header($lines)
     {
-        $map1 = array();
-        $map2 = array();
+        $elements = $this->parse_line($lines[0]);
+
+        if (count($lines) == 2) {
+            // first line of contents needed to properly identify fields in gmail CSV
+            $contents = $this->parse_line($lines[1]);
+        }
+
+        $map1 = [];
+        $map2 = [];
         $size = count($elements);
 
         // check English labels
         for ($i = 0; $i < $size; $i++) {
-            $label = $this->label_map[$elements[$i]];
-            if ($label && !empty($this->csv2vcard_map[$label])) {
-                $map1[$i] = $this->csv2vcard_map[$label];
+            if (!empty($this->label_map[$elements[$i]])) {
+                $label = $this->label_map[$elements[$i]];
+                if ($label && !empty($this->csv2vcard_map[$label])) {
+                    $map1[$i] = $this->csv2vcard_map[$label];
+                }
             }
         }
 
@@ -530,32 +573,52 @@ class rcube_csv2vcard
             }
         }
 
+        // If nothing recognized fallback to simple non-localized labels
+        if (empty($map1) && empty($map2)) {
+            for ($i = 0; $i < $size; $i++) {
+                $label = str_replace(' ', '_', strtolower($elements[$i]));
+                if (!empty($this->csv2vcard_map[$label])) {
+                    $map1[$i] = $this->csv2vcard_map[$label];
+                }
+            }
+        }
+
         $this->map = count($map1) >= count($map2) ? $map1 : $map2;
 
-        // support special Gmail format
-        foreach ($this->gmail_label_map as $key => $items) {
-            $num = 1;
-            while (($_key = "$key $num - Type") && ($found = array_search($_key, $elements)) !== false) {
-                $this->gmail_map["$key:$num"] = array('_key' => $key, '_idx' => $found);
-                foreach (array_keys($items) as $item_key) {
-                    $_key = "$key $num - $item_key";
-                    if (($found = array_search($_key, $elements)) !== false) {
-                        $this->gmail_map["$key:$num"][$item_key] = $found;
-                    }
-                }
+        if (!empty($contents)) {
+            foreach ($this->gmail_label_map as $key => $items) {
+                $num = 1;
+                while (($_key = "$key $num - Type") && ($found = array_search($_key, $elements)) !== false) {
+                    $type = $contents[$found];
+                    $type = preg_replace('/[^a-z]/', '', strtolower($type));
 
-                $num++;
+                    foreach ($items as $item_key => $vcard_fields) {
+                        $_key = "$key $num - $item_key";
+                        if (($found = array_search($_key, $elements)) !== false) {
+                            $this->map[$found] = $vcard_fields[$type];
+                        }
+                    }
+
+                    $num++;
+                }
             }
         }
     }
 
     /**
      * Convert CSV data row to vCard
+     *
+     * @param array $data CSV data array
      */
     protected function csv_to_vcard($data)
     {
-        $contact = array();
+        $contact = [];
+
         foreach ($this->map as $idx => $name) {
+            if ($name == '_auto_') {
+                continue;
+            }
+
             $value = $data[$idx];
             if ($value !== null && $value !== '') {
                 if (!empty($contact[$name])) {
@@ -564,34 +627,6 @@ class rcube_csv2vcard
                 }
                 else {
                    $contact[$name] = $value;
-                }
-            }
-        }
-
-        // Gmail format support
-        foreach ($this->gmail_map as $idx => $item) {
-            $type = preg_replace('/[^a-z]/', '', strtolower($data[$item['_idx']]));
-            $key  = $item['_key'];
-
-            unset($item['_idx']);
-            unset($item['_key']);
-
-            foreach ($item as $item_key => $item_idx) {
-                $value = $data[$item_idx];
-                if ($value !== null && $value !== '') {
-                    foreach (array($type, '*') as $_type) {
-                        if ($data_idx = $this->gmail_label_map[$key][$item_key][$_type]) {
-                            $value = explode(' ::: ', $value);
-
-                            if (!empty($contact[$data_idx])) {
-                                $contact[$data_idx]   = array_merge((array) $contact[$data_idx], $value);
-                            }
-                            else {
-                                $contact[$data_idx] = $value;
-                            }
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -607,19 +642,16 @@ class rcube_csv2vcard
 
         if (!empty($contact['groups'])) {
             // categories/groups separator in vCard is ',' not ';'
-            $contact['groups'] = str_replace(',', '', $contact['groups']);
             $contact['groups'] = str_replace(';', ',', $contact['groups']);
 
-            if (!empty($this->gmail_map)) {
-                // remove "* " added by GMail
-                $contact['groups'] = str_replace('* ', '', $contact['groups']);
-                // replace strange delimiter
-                $contact['groups'] = str_replace(' ::: ', ',', $contact['groups']);
-            }
+            // remove "* " added by GMail
+            $contact['groups'] = str_replace('* ', '', $contact['groups']);
+            // replace strange delimiter added by GMail
+            $contact['groups'] = str_replace(' ::: ', ',', $contact['groups']);
         }
 
         // Empty dates, e.g. "0/0/00", "0000-00-00 00:00:00"
-        foreach (array('birthday', 'anniversary') as $key) {
+        foreach (['birthday', 'anniversary'] as $key) {
             if (!empty($contact[$key])) {
                 $date = preg_replace('/[0[:^word:]]/', '', $contact[$key]);
                 if (empty($date)) {
@@ -629,7 +661,7 @@ class rcube_csv2vcard
         }
 
         if (!empty($contact['gender']) && ($gender = strtolower($contact['gender']))) {
-            if (!in_array($gender, array('male', 'female'))) {
+            if (!in_array($gender, ['male', 'female'])) {
                 unset($contact['gender']);
             }
         }
@@ -637,7 +669,7 @@ class rcube_csv2vcard
         // Convert address(es) to rcube_vcard data
         foreach ($contact as $idx => $value) {
             $name = explode(':', $idx);
-            if (in_array($name[0], array('street', 'locality', 'region', 'zipcode', 'country'))) {
+            if (in_array($name[0], ['street', 'locality', 'region', 'zipcode', 'country'])) {
                 $contact['address:'.$name[1]][$name[0]] = $value;
                 unset($contact[$idx]);
             }
@@ -649,11 +681,11 @@ class rcube_csv2vcard
             $name = explode(':', $name);
             if (is_array($value) && $name[0] != 'address') {
                 foreach ((array) $value as $val) {
-                    $vcard->set($name[0], $val, $name[1]);
+                    $vcard->set($name[0], $val, isset($name[1]) ? $name[1] : null);
                 }
             }
             else {
-                $vcard->set($name[0], $value, $name[1]);
+                $vcard->set($name[0], $value, isset($name[1]) ? $name[1] : null);
             }
         }
 

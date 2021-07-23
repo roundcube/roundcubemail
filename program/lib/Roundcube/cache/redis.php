@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011-2018, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2018, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,12 +20,10 @@
 */
 
 /**
- * Interface class for accessing Redis cache
+ * Interface implementation class for accessing Redis cache
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache_redis extends rcube_cache
 {
@@ -37,18 +36,11 @@ class rcube_cache_redis extends rcube_cache
 
 
     /**
-     * Object constructor.
-     *
-     * @param int    $userid User identifier
-     * @param string $prefix Key name prefix
-     * @param string $ttl    Expiration time of memcache/apc items
-     * @param bool   $packed Enables/disabled data serialization.
-     *                       It's possible to disable data serialization if you're sure
-     *                       stored data will be always a safe string
+     * {@inheritdoc}
      */
-    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true)
+    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        parent::__construct($userid, $prefix, $ttl, $packed);
+        parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $rcube = rcube::get_instance();
 
@@ -72,98 +64,94 @@ class rcube_cache_redis extends rcube_cache
         if (!class_exists('Redis')) {
             self::$redis = false;
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Failed to find Redis. Make sure php-redis is included"
-                ),
+                ],
                 true, true);
         }
 
-        $rcube     = rcube::get_instance();
-        $hosts     = $rcube->config->get('redis_hosts');
+        $rcube = rcube::get_instance();
+        $hosts = $rcube->config->get('redis_hosts');
 
         // host config is wrong
         if (!is_array($hosts) || empty($hosts)) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Redis host not configured"
-                ),
+                ],
                 true, true);
         }
 
         // only allow 1 host for now until we support clustering
         if (count($hosts) > 1) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Redis cluster not yet supported"
-                ),
+                ],
                 true, true);
         }
 
         self::$redis = new Redis;
+        $failures    = 0;
 
         foreach ($hosts as $redis_host) {
             // explode individual fields
             list($host, $port, $database, $password) = array_pad(explode(':', $redis_host, 4), 4, null);
 
-            $params = parse_url($redis_host);
-            if ($params['scheme'] == 'redis') {
-                $host = (isset($params['host'])) ? $params['host'] : null;
-                $port = (isset($params['port'])) ? $params['port'] : null;
-                $database = (isset($params['database'])) ? $params['database'] : null;
-                $password = (isset($params['password'])) ? $params['password'] : null;
+            if (substr($redis_host, 0, 7) === 'unix://') {
+                $host = substr($port, 2);
+                $port = null;
+            }
+            else {
+                // set default values if not set
+                $host = $host ?: '127.0.0.1';
+                $port = $port ?: 6379;
             }
 
-            // set default values if not set
-            $host = ($host !== null) ? $host : '127.0.0.1';
-            $port = ($port !== null) ? $port : 6379;
-            $database = ($database !== null) ? $database : 0;
+            try {
+                if (self::$redis->connect($host, $port) === false) {
+                    throw new Exception("Could not connect to Redis server. Please check host and port.");
+                }
 
-            if (self::$redis->connect($host, $port) === false) {
-                rcube::raise_error(array(
-                        'code' => 604,
-                        'type' => 'redis',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not connect to Redis server. Please check host and port"
-                    ),
-                    true, true);
+                if ($password !== null && self::$redis->auth($password) === false) {
+                    throw new Exception("Could not authenticate with Redis server. Please check password.");
+                }
+
+                if ($database !== null && self::$redis->select($database) === false) {
+                    throw new Exception("Could not select Redis database. Please check database setting.");
+                }
             }
-
-            if ($password != null && self::$redis->auth($password) === false) {
-                rcube::raise_error(array(
-                        'code' => 604,
-                        'type' => 'redis',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not authenticate with Redis server. Please check password."
-                    ),
-                    true, true);
-            }
-
-            if ($database != 0 && self::$redis->select($database) === false) {
-                rcube::raise_error(array(
-                        'code' => 604,
-                        'type' => 'redis',
-                        'line' => __LINE__,
-                        'file' => __FILE__,
-                        'message' => "Could not select Redis database. Please check database setting."
-                    ),
-                    true, true);
+            catch (Exception $e) {
+                rcube::raise_error($e, true, false);
+                $failures++;
             }
         }
 
-        if (self::$redis->ping() != "+PONG") {
+        if (count($hosts) === $failures) {
             self::$redis = false;
+        }
+
+        if (self::$redis) {
+            try {
+                $ping = self::$redis->ping();
+                if ($ping !== true && $ping !== "+PONG") {
+                    throw new Exception("Redis connection failure. Ping failed.");
+                }
+            }
+            catch (Exception $e) {
+                self::$redis = false;
+                rcube::raise_error($e, true, false);
+            }
         }
 
         return self::$redis;
@@ -198,7 +186,13 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $data = self::$redis->get($key);
+        try {
+            $data = self::$redis->get($key);
+        }
+        catch (Exception $e) {
+            rcube::raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('get', $key, $data);
@@ -213,7 +207,7 @@ class rcube_cache_redis extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -221,7 +215,13 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $result = self::$redis->setEx($key, $this->ttl, $data);
+        try {
+            $result = self::$redis->setEx($key, $this->ttl, $data);
+        }
+        catch (Exception $e) {
+            rcube::raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('set', $key, $data, $result);
@@ -235,7 +235,7 @@ class rcube_cache_redis extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {
@@ -243,7 +243,14 @@ class rcube_cache_redis extends rcube_cache
             return false;
         }
 
-        $result = self::$redis->delete($key);
+        try {
+            $fname  = method_exists(self::$redis, 'del') ? 'del' : 'delete';
+            $result = self::$redis->$fname($key);
+        }
+        catch (Exception $e) {
+            rcube::raise_error($e, true, false);
+            return false;
+        }
 
         if ($this->debug) {
             $this->debug('delete', $key, null, $result);

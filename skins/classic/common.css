@@ -70,6 +70,7 @@ hr
 }
 
 input[type="text"],
+input[type="email"],
 input[type="button"],
 input[type="password"],
 button,
@@ -381,6 +382,16 @@ body.iframe .boxtitle
   min-height: 22px;
   background: url(images/display/icons.png) #EF9398 6px -95px no-repeat;
   border: 1px solid #DC5757;
+  padding: 8px 10px 8px 46px;
+}
+
+.boxcontent .boxinformation
+{
+  margin: 0 0 10px;
+  display: block;
+  min-height: 22px;
+  background: url(images/display/icons.png) #ddd 6px 4px no-repeat;
+  border: 1px solid #888;
   padding: 8px 10px 8px 46px;
 }
 
@@ -1567,42 +1578,33 @@ table.quota-info td.root {
 }
 
 /********** TinyMCE styles **********/
-.mce-btn-small button
-{
-  height: 22px;
+
+div.tox .tox-toolbar,
+div.tox .tox-toolbar__overflow,
+div.tox .tox-toolbar__primary {
+  background-color: #f0f0f0;
 }
 
-.mce-btn-small i
-{
-  line-height: 16px !important;
-  vertical-align: text-top !important;
+div.tox .tox-toolbar__primary {
+  border: 0;
 }
 
-.mce-combobox button
-{
-    padding: 6px 8px !important;
+div.tox div.tox-dialog-wrap__backdrop {
+  background: #aaa;
+  opacity: .3;
 }
 
-.mce-tinymce
-{
-  border-radius: 0 !important;
-{
-
-.mce-panel.mce-toolbar-grp
-{
-  border: 0 !important;
+div.tox div.tox-dialog {
+  box-shadow: 1px 1px 18px #666;
+  border-width: 0;
 }
 
-#image-selector-form.droptarget {
+#image-selector.droptarget {
   background: url(images/filedrop.png) center bottom no-repeat;
 }
 
-#image-selector-form.droptarget.hover
-{
+#image-selector.droptarget.hover {
   background-color: #F0F0EE;
-  box-shadow: 0 0 5px 0 #999;
-  -moz-box-shadow: 0 0 5px 0 #999;
-  -o-box-shadow: 0 0 5px 0 #999;
 }
 
 /** PGP key import dialog **/

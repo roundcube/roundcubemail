@@ -2,28 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Vælkomin til $product';
 $labels['username'] = 'Brúkaranavn';
 $labels['password'] = 'Loyniorð';
 $labels['server'] = 'Ambætari';
 $labels['login'] = 'Rita inn';
+$labels['oauthlogin'] = 'Fita inn við $provider';
+$labels['menu'] = 'Menu';
 $labels['logout'] = 'Rita út';
 $labels['mail'] = 'Teldupostur';
 $labels['settings'] = 'Stillingar';
 $labels['addressbook'] = 'Búðstaðarsavn';
+$labels['darkmode'] = 'Myrkt snið';
+$labels['lightmode'] = 'LJóst snið';
 $labels['inbox'] = 'Postur';
 $labels['drafts'] = 'Skitsur';
 $labels['sent'] = 'Sent';
@@ -38,12 +42,13 @@ $labels['cc'] = 'Cc';
 $labels['bcc'] = 'Bcc';
 $labels['replyto'] = 'Svara-til';
 $labels['followupto'] = 'Fylg við-til';
-$labels['date'] = 'Dato';
+$labels['date'] = 'Tann';
 $labels['size'] = 'Stødd';
 $labels['priority'] = 'Raðfesting';
 $labels['organization'] = 'Fyritøka';
-$labels['readstatus'] = 'Les støðu';
+$labels['readstatus'] = 'Lesistøða';
 $labels['listoptions'] = 'Lýs valmøguleikar...';
+$labels['listoptionstitle'] = 'Finn boð';
 $labels['mailboxlist'] = 'Mappur';
 $labels['messagesfromto'] = 'Boðini frá $from til $to ið tilsamans eru $count';
 $labels['threadsfromto'] = 'Tráðirnir frá $from til $to ið eru $count';
@@ -54,7 +59,7 @@ $labels['move'] = 'Flyt';
 $labels['moveto'] = 'Flyt til...';
 $labels['copyto'] = 'Avrita til...';
 $labels['download'] = 'Heinta';
-$labels['open'] = 'Opna';
+$labels['open'] = 'Lat upp';
 $labels['showattachment'] = 'Vís';
 $labels['showanyway'] = 'Vís tað avlíkavæl';
 $labels['filename'] = 'Fílu navn';
@@ -112,6 +117,8 @@ $labels['forward'] = 'Send víðari';
 $labels['forwardinline'] = 'Svara víðari, við gomlum teksti';
 $labels['forwardattachment'] = 'Send víðari sum viðhefting';
 $labels['forwardmessage'] = 'Send hesi boð víðari';
+$labels['bouncemsg'] = 'Send umaftur (bounce)';
+$labels['bounce'] = 'Send umaftur';
 $labels['deletemessage'] = 'Strika boð';
 $labels['movemessagetotrash'] = 'Koyr boð í skrell';
 $labels['printmessage'] = 'Útskriva hesi boð';
@@ -128,10 +135,14 @@ $labels['markunread'] = 'Sum ólisin';
 $labels['markflagged'] = 'Sum viðmerkt';
 $labels['markunflagged'] = 'Sum óviðmerkt';
 $labels['moreactions'] = 'Fleiri gerir...';
+$labels['markallread'] = 'Merk alt sum lisið';
+$labels['folders-cur'] = 'Einans vald mappa';
+$labels['folders-sub'] = 'Einans vald mappa og undirmappa';
 $labels['folders-all'] = 'Allar mappur';
 $labels['more'] = 'Meira';
 $labels['back'] = 'Aftur';
 $labels['options'] = 'Valmøguleikar';
+$labels['actions'] = 'Gerðir';
 $labels['first'] = 'Fyrst';
 $labels['last'] = 'Síðst';
 $labels['previous'] = 'Fyrra';
@@ -158,6 +169,7 @@ $labels['expand-all'] = 'Spreið alt';
 $labels['expand-unread'] = 'Spreið ólisið';
 $labels['collapse-all'] = 'Sett saman alt';
 $labels['threaded'] = 'Tráða';
+$labels['showunread'] = 'Vís ólisin boð';
 $labels['autoexpand_threads'] = 'Spreið boð tráðir';
 $labels['do_expand'] = 'Allir tráðir';
 $labels['expand_only_unread'] = 'einans við ólisin boð';
@@ -173,6 +185,9 @@ $labels['listcolumns'] = 'List teigar';
 $labels['listsorting'] = 'Sorterar teiga';
 $labels['listorder'] = 'Sorterar rekkjufylgju';
 $labels['listmode'] = 'Lista vísing';
+$labels['layout'] = 'Snið';
+$labels['layoutwidescreen'] = 'Breiðan skíggja';
+$labels['layoutdesktop'] = 'Skriviborð';
 $labels['layoutlist'] = 'Listið';
 $labels['folderactions'] = 'Mappu gerir...';
 $labels['compact'] = 'Trýst saman';
@@ -186,7 +201,11 @@ $labels['quotatotal'] = 'Mark';
 $labels['quotaused'] = 'Brúkt';
 $labels['quotastorage'] = 'Driv pláss';
 $labels['quotamessage'] = 'Tal av boðum';
+$labels['shortheaderdate'] = 'Tann $date';
+$labels['shortheaderto'] = 'Til $to tann $date';
+$labels['shortheaderfrom'] = 'Frá $to tann $date';
 $labels['quicksearch'] = 'Skjót leiting';
+$labels['searchplaceholder'] = 'Leita...';
 $labels['resetsearch'] = 'Nulstilla leiting';
 $labels['searchmod'] = 'Leiti minkarir';
 $labels['msgtext'] = 'Øll boðini';
@@ -227,10 +246,13 @@ $labels['encryptmessage'] = 'Brongla boð';
 $labels['encryptmessagemailvelope'] = 'Brongla tíni boð við Mailvelo';
 $labels['importpubkeys'] = 'Innflyt allmennar lyklar';
 $labels['encryptedsendialog'] = 'Sendur brongla boð';
+$labels['encryptandsign'] = 'Talgyld og signera';
 $labels['keyid'] = 'Lykla ID';
 $labels['keylength'] = 'Bit';
 $labels['keyexpired'] = 'Útgingi';
 $labels['keyrevoked'] = 'Sagt úr gildi';
+$labels['bccinstead'] = 'Nýt Bcc';
+$labels['insert'] = 'Legg inn';
 $labels['recipient'] = 'Móttakari';
 $labels['editidents'] = 'Broyt samleikar';
 $labels['spellcheck'] = 'Stava';
@@ -263,9 +285,12 @@ $labels['high'] = 'Høgt';
 $labels['highest'] = 'Hagst';
 $labels['nosubject'] = '(einki evni)';
 $labels['showimages'] = 'Vís myndir';
+$labels['allow'] = 'Loyv';
 $labels['alwaysshow'] = 'Vís altíð myndir frá $sender';
+$labels['alwaysallow'] = 'Loyv altíð frá $sender';
 $labels['isdraft'] = 'Hetta er eini skitsu boð.';
 $labels['andnmore'] = '$nr meir...';
+$labels['details'] = 'Upplýsingar';
 $labels['togglemoreheaders'] = 'Vís meiri boð teksthøvd ';
 $labels['togglefullheaders'] = 'Vel ráðan boð teksthøvd';
 $labels['htmltoggle'] = 'HTML';
@@ -281,6 +306,7 @@ $labels['mdnrequest'] = 'Sendarin av hesi boð biður um at verða kunngjørdur 
 $labels['receiptread'] = 'Svara móttakara (les)';
 $labels['yourmessage'] = 'Hetta er ein afturvend kvittan av tíni boð';
 $labels['receiptnote'] = 'Gevið gætur: Hendan kvittan vísir einans á um boðini vóru sýnd á teldu mótakarans. Har er eingin trygging fyri at móttakarin hevur lisið ella skilt tað ið er í boðunum';
+$labels['sendalwaysto'] = 'Send altíð til $email';
 $labels['name'] = 'Fult navn';
 $labels['firstname'] = 'Fornavn';
 $labels['surname'] = 'Eftirnavn';
@@ -345,10 +371,15 @@ $labels['cancel'] = 'Ógilda';
 $labels['save'] = 'Goym';
 $labels['delete'] = 'Strika';
 $labels['discard'] = 'Strika';
+$labels['continue'] = 'Víðari';
+$labels['ok'] = 'OK';
 $labels['rename'] = 'Umdoyp';
 $labels['addphoto'] = 'Legg aftrat';
 $labels['replacephoto'] = 'Skift út';
 $labels['uploadphoto'] = 'Uppsend mynd';
+$labels['choosefile'] = 'Vel fíl...';
+$labels['choosefiles'] = 'Vel fílar...';
+$labels['browse'] = 'Kaga';
 $labels['newcontact'] = 'Stovna nýggjan persón';
 $labels['deletecontact'] = 'Strika valdir persónar';
 $labels['composeto'] = 'Skriva boð til';
@@ -362,6 +393,8 @@ $labels['newgroup'] = 'Stovna nýggjan bólk';
 $labels['addgroup'] = 'Stovna bólk';
 $labels['grouprename'] = 'Umdoyp bólk';
 $labels['groupdelete'] = 'Strika bólk';
+$labels['groupassign'] = 'Legg til bólk';
+$labels['groupremove'] = 'Strika frá bólkið';
 $labels['groupremoveselected'] = 'Strika valdar persónar frá bólki';
 $labels['uponelevel'] = 'Upp eitt stig';
 $labels['previouspage'] = 'Vís fyrrverandi síðu';
@@ -376,12 +409,12 @@ $labels['searchsave'] = 'Goym leiting';
 $labels['searchdelete'] = 'Strika leiting';
 $labels['import'] = 'Innflyt';
 $labels['importcontacts'] = 'Innflyt persónar';
+$labels['importfromfile'] = 'Inflyt frá fílu';
 $labels['importtarget'] = 'Legg persón til';
 $labels['importreplace'] = 'Skift út alt búðstaðarsavni';
 $labels['importgroups'] = 'Innflyt bólka ásetan';
 $labels['importgroupsall'] = 'Øll (stovna bólkar um neyðugt)';
 $labels['importgroupsexisting'] = 'Einans fyri bólkar ið longu eru til';
-$labels['importdesc'] = 'Tú kanst uppsenda persónar frá einari aðrari búðstaðar bók.<br/>Vit veita vit møguleika at innflyta búðstaðir frá<a href="http://en.wikipedia.org/wiki/VCard">vCard</a> ella CSV (komma uppdeilt) dáta slag.';
 $labels['done'] = 'Liðugt';
 $labels['settingsfor'] = 'Stillingar til';
 $labels['about'] = 'Um';
@@ -456,7 +489,6 @@ $labels['advancedoptions'] = 'Víðkaðir valmøguleikar';
 $labels['toggleadvancedoptions'] = 'Skift víðkaðar møguleikar';
 $labels['focusonnewmessage'] = 'Legg dent á kaga vindeyga tá ið nýtt boð verður stovna';
 $labels['checkallfolders'] = 'Kannað allar mappur fyri nýggj boð';
-$labels['displaynext'] = 'Eftir striking/flyting av boði, vís so næsta boð';
 $labels['defaultfont'] = 'Vanligi stavsnið av HTML boði';
 $labels['mainoptions'] = 'Høvuðs Vælmøguleikar';
 $labels['browseroptions'] = 'Kaga Valmøguleikar';
@@ -475,6 +507,7 @@ $labels['replyandforwardonly'] = 'svar og víðarsendingar einans';
 $labels['insertsignature'] = 'Innset undirskrift';
 $labels['sigbelow'] = 'Set undirskrift undir tey siteraðu boðini';
 $labels['sigseparator'] = 'Tvinga vanliga hvørviskilju í undirskriftum';
+$labels['automarkread'] = 'Merk boð sum lisin';
 $labels['afternseconds'] = 'eftir $n sekund';
 $labels['reqmdn'] = 'Bið altíð um eina kvittan';
 $labels['reqdsn'] = 'Bið altíð um status kunngerð';
@@ -517,10 +550,16 @@ $labels['personalfolder'] = 'Einskild Mappa';
 $labels['otherfolder'] = 'Mappur hjá ørðum brúkarum';
 $labels['sharedfolder'] = 'Almennar mappur';
 $labels['findfolders'] = 'Finn mappur';
+$labels['findmail'] = 'Finn boð';
 $labels['namespace.personal'] = 'Persónlig';
 $labels['namespace.other'] = 'Aðrir brúkarir';
 $labels['namespace.shared'] = 'Deilt';
+$labels['dualuselabel'] = 'Kann bert innihalda';
+$labels['dualusemail'] = 'boð';
+$labels['dualusefolder'] = 'mappur';
+$labels['generate'] = 'Framleið';
 $labels['encryptioncreatekey'] = 'Skapa nýtt lykla par';
+$labels['encryption'] = 'Brongla';
 $labels['sortby'] = 'Sortera eftir';
 $labels['sortasc'] = 'Sortera hækkandi';
 $labels['sortdesc'] = 'Sortera lækkandi';
@@ -531,6 +570,13 @@ $labels['version'] = 'Útgáva';
 $labels['source'] = 'Kelda';
 $labels['license'] = 'Heimildarskjal';
 $labels['support'] = 'Fá hjálp';
+$labels['savedsearches'] = 'Goymdar leitanir';
+$labels['dateformatY'] = 'ÁÁÁÁ';
+$labels['dateformaty'] = 'ÁÁ';
+$labels['dateformatm'] = 'MM';
+$labels['dateformatd'] = 'DD';
+$labels['dateformatj'] = 'D';
+$labels['dateformatn'] = 'M';
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
@@ -585,14 +631,17 @@ $labels['arialabelmarkmessagesas'] = 'Merk valdu boð sum...';
 $labels['arialabelcomposeoptions'] = 'Stovningar møguleikar';
 $labels['arialabelresponsesmenu'] = 'Skapilón svar valmynd';
 $labels['arialabelattachmentuploadform'] = 'Viðheftingar uppsendingar frymil';
+$labels['arialabelattachmentmenu'] = 'Viðheftingar valmøguleikar';
+$labels['arialabelmailtomenu'] = 'Teldupost búðstaðar valmøguleikar';
 $labels['arialabelattachmentpreview'] = 'Brot av víðheftingum';
 $labels['ariasummarycomposecontacts'] = 'Listi av persónum og bólkum at velja sum móttakarar';
 $labels['arialabelcontactexportoptions'] = 'Valmøguleikar fyri persóna útflytan';
 $labels['arialabelabookgroupoptions'] = 'Bústaðarsavn/bólka valmøguleikar';
 $labels['arialabelpreferencesform'] = 'Stillinga frymil';
 $labels['arialabelidentityeditfrom'] = 'Samleika broytingar formur';
-$labels['arialabelresonseeditfrom'] = 'Svar broytingar frymil';
+$labels['arialabelresponseeditfrom'] = 'Svar broytingar frymil';
 $labels['arialabelsearchterms'] = 'Leiti orð';
+$labels['arialabelimagetools'] = 'Mynda tól';
 $labels['helplistnavigation'] = 'Vís knappaborð sniðvegir';
 $labels['helplistkeyboardnavigation'] = "Pílar upp/niður: Flyt rekkju
 Millumglopp: Vel verandi rekkju
@@ -602,4 +651,3 @@ $labels['helplistkeyboardnavmessages'] = "Pílar vinstru/høgru: vaksa/minka bo�
 Enter: Opna valdu boð
 Delete: Flyt valdu boð til skrelluspann.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Opna verandi persón";
-?>

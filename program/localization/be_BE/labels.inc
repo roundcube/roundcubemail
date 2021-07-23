@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Вітаем у $product';
 $labels['username'] = 'Карыстальнік';
 $labels['password'] = 'Пароль';
@@ -211,6 +211,7 @@ $labels['selectimage'] = 'Абраць відарыс';
 $labels['addimage'] = 'Дадаць відарыс';
 $labels['selectmedia'] = 'Абраць фільмік';
 $labels['addmedia'] = 'Дадаць фільмік';
+$labels['insert'] = 'Даданне';
 $labels['recipient'] = 'Каму';
 $labels['editidents'] = 'Рэдагаваць тоеснасці';
 $labels['spellcheck'] = 'Правапіс';
@@ -354,7 +355,6 @@ $labels['importreplace'] = 'Замяніць адрасную кнігу цал�
 $labels['importgroups'] = 'Імпартаваць прызначэнні групы';
 $labels['importgroupsall'] = 'Усе (стварыць групы пры неабходнасці)';
 $labels['importgroupsexisting'] = 'Толькі для існуючых груп';
-$labels['importdesc'] = 'Кантакты можна загрузіць з існуючай адраснай кнігі.<br/>На дадзены момант падтрымліваюцца адрасы ў фарматах <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>  і CSV (значэнні праз коску).';
 $labels['done'] = 'Гатова';
 $labels['settingsfor'] = 'Настаўленні для';
 $labels['about'] = 'Апісанне';
@@ -420,7 +420,6 @@ $labels['force7bit'] = 'Ужываць MIME-кадзіроўку для 8-біт
 $labels['advancedoptions'] = 'Дадатковыя параметры';
 $labels['focusonnewmessage'] = 'Актываваць акно браўзера пры новым паведамленні';
 $labels['checkallfolders'] = 'Правяраць усе папкі на новыя паведамленні';
-$labels['displaynext'] = 'Па выдаленні/перамяшчэнні паведамлення паказваць наступнае паведамленне';
 $labels['defaultfont'] = 'Стандартны шрыфт паведамлення ў HTML';
 $labels['mainoptions'] = 'Асноўныя параметры';
 $labels['browseroptions'] = 'Параметры браўзера';
@@ -510,4 +509,3 @@ $labels['vietnamese'] = 'в\'етнамская';
 $labels['japanese'] = 'японская';
 $labels['korean'] = 'карэйская';
 $labels['chinese'] = 'кітайская';
-?>

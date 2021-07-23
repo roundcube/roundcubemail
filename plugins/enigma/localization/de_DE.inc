@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Verschlüsselung';
 $labels['enigmacerts'] = 'S/MIME-Zertifikate';
 $labels['enigmakeys'] = 'PGP-Schlüssel';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'Deaktivieren';
 $labels['keyrevoke'] = 'Widerrufen';
 $labels['keysend'] = 'Öffentlichen Schlüssel versenden';
 $labels['keychpass'] = 'Passwort ändern';
+$labels['keyadd'] = 'Schlüssel hinzufügen';
 $labels['newkeyident'] = 'Identität';
 $labels['newkeypass'] = 'Passwort';
 $labels['newkeypassconfirm'] = 'Passwort bestätigen';
-$labels['newkeysize'] = 'Schlüssel-Größe';
-$labels['key2048'] = '2048 Bit - Vorgabe';
-$labels['key4096'] = '4096 Bit - mehr Sicherheit';
+$labels['newkeytype'] = 'Schlüsseltyp';
+$labels['rsa2048'] = 'RSA - 2048 Bit';
+$labels['rsa4096'] = 'RSA - 4096 Bit';
+$labels['ecckeypair'] = 'EKK (Elliptische Kurve)';
 $labels['keygenerating'] = 'Schlüssel werden erstellt …';
 $labels['encryptionoptions'] = 'Verschlüsselungsoptionen';
 $labels['encryptmsg'] = 'Diese Nachricht verschlüsseln';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'Diese Nachricht digital signieren';
 $labels['sendunencrypted'] = 'Unverschlüsselt senden';
 $labels['enterkeypasstitle'] = 'Bitte Schlüsselpasswort eingeben';
 $labels['enterkeypass'] = 'Ein Passwort wird benötigt, um den privaten Schlüssel ($keyid) für Benutzer »$user« zu entsperren.';
-$labels['arialabelkeyexportoptions'] = 'Optionen für Schlüsselexport';
 $labels['attachpubkeymsg'] = 'Meinen öffentlichen Schlüssel anfügen';
 $labels['keyexportprompt'] = 'Möchten Sie geheime Schlüssel in die gespeicherte OpenPGP-Schlüsseldatei mit aufnehmen?';
 $labels['onlypubkeys'] = 'Nur öffentliche Schlüssel exportieren';
@@ -88,6 +88,9 @@ $labels['keyimportsearchlabel'] = 'Auf Schlüsselserver(n) suchen';
 $labels['managekeys'] = 'PGP-Schlüssel verwalten';
 $labels['identitymatchingprivkeys'] = 'Sie haben $nr passende private Schlüssel in Ihrem Schlüsselverzeichnis:';
 $labels['identitynoprivkeys'] = 'Für diese Absender-Identität ist bis jetzt kein privater PGP-Schlüsselverzeichnis gespeichert.';
+$labels['arialabelkeyexportoptions'] = 'Optionen für Schlüsselexport';
+$labels['arialabelkeysearchform'] = 'Suchmaske für Schlüssel';
+$labels['arialabelkeyoptions'] = 'Schlüsseloptionen';
 $messages['sigvalid'] = 'Signatur von $sender wurde erfolgreich überprüft.';
 $messages['sigvalidpartial'] = 'Signatur von $sender wurde überprüft, aber ein Teil der Nachricht wurde nicht signiert.';
 $messages['siginvalid'] = 'Ungültige Signatur von $sender.';
@@ -97,6 +100,7 @@ $messages['sigerror'] = 'Unbestätigte Signatur. Interner Fehler.';
 $messages['decryptok'] = 'Nachricht entschlüsselt.';
 $messages['decrypterror'] = 'Entschlüsselung fehlgeschlagen.';
 $messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Privater Schlüssel wurde nicht gefunden. Schlüsselkennung: $keyid.';
+$messages['decryptnomdc'] = 'Entschlüsselung übersprungen. Nachricht ist nicht integritätsgeschützt.';
 $messages['decryptbadpass'] = 'Entschlüsselung fehlgeschlagen. Passwort ungültig.';
 $messages['decryptnopass'] = 'Entschlüsselung fehlgeschlagen. Schlüsselpasswort wird benötigt.';
 $messages['decryptpartial'] = 'Nachricht entschlüsselt, aber ein Teil der Nachricht wurde nicht verschlüsselt.';
@@ -106,6 +110,7 @@ $messages['signbadpass'] = 'Signierung fehlgeschlagen. Passwort ungültig.';
 $messages['signnopass'] = 'Signierung fehlgeschlagen. Schlüsselpasswort wird benötigt.';
 $messages['encrypterror'] = 'Verschlüsselung fehlgeschlagen.';
 $messages['encryptnokey'] = 'Verschlüsselung fehlgeschlagen. Öffentlicher Schlüssel für $email nicht gefunden';
+$messages['encryptnoprivkey'] = 'Verschlüsselung fehlgeschlagen. Privater Schlüssel nicht gefunden.';
 $messages['nokeysfound'] = 'Keine Schlüssel gefunden';
 $messages['keynotfound'] = 'Schlüssel nicht gefunden!';
 $messages['keyopenerror'] = 'Abrufen der Schlüsselinformationen nicht möglich. Interner Fehler.';
@@ -125,4 +130,6 @@ $messages['keygeneratesuccess'] = 'Schlüsselpaar erfolgreich generiert und impo
 $messages['keygennosupport'] = 'Dein Browser unterstützt keine Kryptopgraphiefunktionen. Konnte Schlüsselpaar nicht generieren!';
 $messages['noidentselected'] = 'Sie müssen mindestens eine Identität für den Schlüssel auswählen!';
 $messages['nonameident'] = 'Identität muss einen Benutzernamen definiert haben.';
-?>
+$labels['newkeysize'] = 'Schlüssel-Größe';
+$labels['key2048'] = '2048 Bit - Vorgabe';
+$labels['key4096'] = '4096 Bit - mehr Sicherheit';

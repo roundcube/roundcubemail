@@ -29,8 +29,8 @@ my @servers = split (/\s+/, $PAR{'uri'});
 my $active_server = 0;
 
 my $ldap;
-while ((my $serwer = shift @servers) && !($active_server)) {
-    my $ldap_uri = URI->new($serwer);
+while ((my $server = shift @servers) && !($active_server)) {
+    my $ldap_uri = URI->new($server);
     if ($ldap_uri->secure) {
         $ldap = Net::LDAP->new($ldap_uri->as_string,
             version => 3,

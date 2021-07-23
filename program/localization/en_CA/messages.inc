@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'An error occurred!';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
@@ -32,7 +31,6 @@ $messages['erroroverquotadelete'] = 'No free disk space. Use SHIFT+DEL to delete
 $messages['invalidrequest'] = 'Invalid request! No data was saved.';
 $messages['invalidhost'] = 'Invalid server name.';
 $messages['nomessagesfound'] = 'No messages found in this mailbox.';
-$messages['loggedout'] = 'You have successfully terminated the session. Goodbye!';
 $messages['mailboxempty'] = 'Mailbox is empty';
 $messages['nomessages'] = 'No messages';
 $messages['refreshing'] = 'Refreshing...';
@@ -54,7 +52,6 @@ $messages['blockedimages'] = 'To protect your privacy, remote images are blocked
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
-$messages['contactsearchonly'] = 'Enter some search terms to find contacts';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
 $messages['errorsavingsent'] = 'An error occurred while saving sent message.';
@@ -94,8 +91,6 @@ $messages['nospellerrors'] = 'No spelling errors found.';
 $messages['folderdeleted'] = 'Folder successfully deleted.';
 $messages['foldersubscribed'] = 'Folder successfully subscribed.';
 $messages['folderunsubscribed'] = 'Folder successfully unsubscribed.';
-$messages['folderpurged'] = 'Folder has successfully been emptied.';
-$messages['folderexpunged'] = 'Folder has successfully been compacted.';
 $messages['deletedsuccessfully'] = 'Successfully deleted.';
 $messages['converting'] = 'Removing formatting...';
 $messages['messageopenerror'] = 'Could not load message from server.';

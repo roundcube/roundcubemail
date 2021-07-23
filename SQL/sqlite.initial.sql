@@ -41,6 +41,21 @@ CREATE TABLE contactgroupmembers (
 CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
 
 -- 
+-- Table structure for table collected_addresses
+-- 
+
+CREATE TABLE collected_addresses (
+  address_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  name varchar(255) NOT NULL default '',
+  email varchar(255) NOT NULL,
+  "type" integer NOT NULL
+);
+
+CREATE UNIQUE INDEX ix_collected_addresses_user_id ON collected_addresses(user_id, "type", email);
+
+-- 
 -- Table structure for table identities
 -- 
 
@@ -74,8 +89,8 @@ CREATE TABLE users (
   last_login datetime DEFAULT NULL,
   failed_login datetime DEFAULT NULL,
   failed_login_counter integer DEFAULT NULL,
-  language varchar(5),
-  preferences text NOT NULL default ''
+  language varchar(16),
+  preferences text DEFAULT NULL
 );
 
 CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
@@ -99,11 +114,11 @@ CREATE INDEX ix_session_changed ON session (changed);
 
 CREATE TABLE dictionary (
     user_id integer DEFAULT NULL,
-   "language" varchar(5) NOT NULL,
+   language varchar(16) NOT NULL,
     data text NOT NULL
 );
 
-CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, "language");
+CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, language);
 
 --
 -- Table structure for table searches
@@ -196,14 +211,15 @@ CREATE INDEX ix_cache_messages_expires ON cache_messages (expires);
 --
 
 CREATE TABLE filestore (
-    file_id integer PRIMARY KEY,
+    file_id integer NOT NULL PRIMARY KEY,
     user_id integer NOT NULL,
+    context varchar(32) NOT NULL,
     filename varchar(128) NOT NULL,
     mtime integer NOT NULL,
     data text NOT NULL
 );
 
-CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, filename);
+CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, context, filename);
 
 --
 -- Table structure for table system
@@ -214,4 +230,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2018021600');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2020122900');

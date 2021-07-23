@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/archive/localization/<lang>.inc                                |
- |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2016, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
+
 $labels['buttontext'] = 'アーカイブ';
 $labels['buttontitle'] = 'このメッセージをアーカイブ';
 $labels['archived'] = 'アーカイブしました。';
@@ -27,7 +26,8 @@ $labels['archivetypeyear'] = '年 (例: アーカイブ/2012)';
 $labels['archivetypemonth'] = '月 (例: アーカイブ/2012/06)';
 $labels['archivetypetbmonth'] = '月 - Thunderbird互換 (例: アーカイブ/2012/2012-06)';
 $labels['archivetypefolder'] = '元のフォルダー';
+$labels['archivetypefolderyear'] = '年と元のフォルダー (例: アーカイブ/2012/...)';
+$labels['archivetypefoldermonth'] = '年、月と元のフォルダー (例: アーカイブ/2012/06/...)';
 $labels['archivetypesender'] = '電子メールの送信者';
 $labels['unkownsender'] = '不明';
 $labels['readonarchive'] = 'アーカイブでメッセージを既読に設定';
-?>

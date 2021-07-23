@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = '共享';
 $labels['myrights'] = '存取權限';
 $labels['username'] = '使用者：';
@@ -96,4 +95,3 @@ $messages['createerror'] = '無法新增權限';
 $messages['deleteconfirm'] = '確定要刪除所選使用者的權限嗎？';
 $messages['norights'] = '沒有指定任何權限';
 $messages['nouser'] = '沒有指定用戶名稱';
-?>

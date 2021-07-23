@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Enrinegañ';
 $labels['enigmacerts'] = 'Testenioù S/MIME';
 $labels['enigmakeys'] = 'Alc\'hwezioù PGP';
@@ -64,21 +63,20 @@ $labels['keyrevoke'] = 'Dizorniañ';
 $labels['keysend'] = 'Kas an alc\'hwez foran en ur gemennadenn';
 $labels['keychpass'] = 'Kemmañ ar ger-tremen';
 $labels['newkeypass'] = 'Ger-Tremen';
-$labels['key2048'] = '2048 bit - dre ziouer';
-$labels['key4096'] = '4096 bit - diogeloc\'h';
+$labels['newkeytype'] = 'Rizh an alc\'hwez';
 $labels['keygenerating'] = 'O c\'henel an alc\'hwezioù...';
 $labels['encryptionoptions'] = 'Dibarzhioù enrinegañ...';
 $labels['encryptmsg'] = 'Enrinegañ ar gemennadenn-mañ';
 $labels['signmsg'] = 'Sinañ ent niverel ar gemennadenn-mañ';
 $labels['enterkeypasstitle'] = 'Enankañ frazenn-dremen an alc\'hwez';
 $labels['enterkeypass'] = 'Ur frazenn-dremen a zo dleet evit dibrennañ an alc\'hwez prevez ($keyid= evit an arveriad: $user';
-$labels['arialabelkeyexportoptions'] = 'Dibarzhioù ezporzhiañ an alc\'hwezioù';
 $labels['attachpubkeymsg'] = 'Stagañ ma alc\'hwez foran';
 $labels['keyexportprompt'] = 'Fellout a ra deoc\'h enkorfañ an alc\'hwezioù kuzh er restr alc\'hwezioù OpenPGP enrollet?';
 $labels['onlypubkeys'] = 'Ezporzhiañ an alc\'hwezhioù foran hepken';
 $labels['withprivkeys'] = 'Ezporzhiañ an alc\'hwezioù kuzh';
 $labels['findkey'] = 'Klask war an dafariad(où) alc\'hwezioù';
 $labels['keyimportsearchlabel'] = 'Klask war an dafariad(où) alc\'hwezioù';
+$labels['arialabelkeyexportoptions'] = 'Dibarzhioù ezporzhiañ an alc\'hwezioù';
 $messages['sigvalid'] = 'Sinadur gwiriet a-berzh $sender.';
 $messages['sigvalidpartial'] = 'Sinadur gwiriet a-berzh $sender, met ul lodenn eus ar c\'horf n\'eo ket enrineget.';
 $messages['siginvalid'] = 'Sinadur didalvoudek a-berzh $sender.';
@@ -112,4 +110,5 @@ $messages['keygenerateerror'] = 'C\'hwitadenn war ganedigezh un daouad alc\'hwez
 $messages['keygeneratesuccess'] = 'Ganet hag enporzhiet eo bet un daouad alc\'hwezioù gant berzh. ';
 $messages['keygennosupport'] = 'N\'eo ket skoret an enrinegañ gant ho merdeer web. N\'haller ket genel un alc\'hwez nevez.';
 $messages['nonameident'] = 'Ret eo d\'ar pivelezh kaout un anv arveriad despizet!';
-?>
+$labels['key2048'] = '2048 bit - dre ziouer';
+$labels['key4096'] = '4096 bit - diogeloc\'h';

@@ -1,20 +1,17 @@
 /* This file contains the CSS data for media file selector of TinyMCE */
 
 #image-selector {
-	margin: 10px;
-	margin-bottom: 30px;
 	padding-bottom: 85px;
+	border: 1px solid transparent;
 }
 
 #image-selector.droptarget.hover,
 #image-selector.droptarget.active {
 	border: 1px solid #019bc6;
-	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 }
 
 #image-selector.droptarget.hover {
 	background-color: #d9ecf4;
-	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
 #image-selector form {
@@ -29,36 +26,29 @@
 	text-align: center;
 }
 
-#image-selector a.button {
-	color: #525252;
-	text-decoration: none;
-	font-size: 11px;
-}
-
 #image-selector .upload-form {
 	text-align: center;
 	margin-bottom: 1rem;
 }
 
-#image-selector .upload-form button {
-	padding: 4px 8px;
-	border: 1px solid #c0c0c0;
-}
-
 #image-selector-list {
 	overflow-x: hidden;
 	overflow-y: auto;
-	margin-left: 0;
+	padding: 0;
 	height: 250px;
 }
 
 #image-selector-list li {
 	line-height: 80px;
-	padding: 2px;
+	padding: 3px;
+	padding-left: 5px;
 	cursor: pointer;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background: none;
+	display:flex;
+	align-items: center;
+	margin-bottom: 1px;
 }
 
 #image-selector-list li:hover,
@@ -72,7 +62,6 @@
 }
 
 #image-selector-list li span.name {
-	vertical-align: middle;
 	font-weight: bold;
 	padding-left: 10px;
 }
@@ -80,8 +69,14 @@
 #image-selector-list li span.img {
 	height: 80px;
 	width: 80px;
+	min-width: 80px;
 	text-align: center;
-	display: inline-block;
 	overflow: hidden;
 	line-height: 80px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	border: 1px solid #ddd;
 }

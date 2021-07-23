@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,8 +31,8 @@ class rcube_result_index
 
     protected $raw_data;
     protected $mailbox;
-    protected $meta   = array();
-    protected $params = array();
+    protected $meta   = [];
+    protected $params = [];
     protected $order  = 'ASC';
 
     const SEPARATOR_ELEMENT = ' ';
@@ -54,7 +55,7 @@ class rcube_result_index
      */
     public function init($data = null)
     {
-        $this->meta = array();
+        $this->meta = [];
 
         $data = explode('*', (string)$data);
 
@@ -94,7 +95,7 @@ class rcube_result_index
                         $this->params[$param] = $value;
                         $data_item = substr($data_item, strlen($m[0]));
 
-                        if (in_array($param, array('COUNT', 'MIN', 'MAX'))) {
+                        if (in_array($param, ['COUNT', 'MIN', 'MAX'])) {
                             $this->meta[strtolower($param)] = (int) $value;
                         }
                     }
@@ -119,7 +120,7 @@ class rcube_result_index
             return;
         }
 
-        $data = array_shift($data);
+        $data = array_first($data);
         $data = trim($data);
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);
@@ -154,8 +155,9 @@ class rcube_result_index
      */
     public function count()
     {
-        if ($this->meta['count'] !== null)
+        if (isset($this->meta['count'])) {
             return $this->meta['count'];
+        }
 
         if (empty($this->raw_data)) {
             $this->meta['count']  = 0;
@@ -182,10 +184,14 @@ class rcube_result_index
     /**
      * Returns maximal message identifier in the result
      *
-     * @return int Maximal message identifier
+     * @return int|null Maximal message identifier
      */
     public function max()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = (int) @max($this->get());
         }
@@ -196,10 +202,14 @@ class rcube_result_index
     /**
      * Returns minimal message identifier in the result
      *
-     * @return int Minimal message identifier
+     * @return int|null Minimal message identifier
      */
     public function min()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = (int) @min($this->get());
         }
@@ -210,15 +220,15 @@ class rcube_result_index
     /**
      * Slices data set.
      *
-     * @param $offset Offset (as for PHP's array_slice())
-     * @param $length Number of elements (as for PHP's array_slice())
+     * @param int $offset Offset (as for PHP's array_slice())
+     * @param int $length Number of elements (as for PHP's array_slice())
      */
     public function slice($offset, $length)
     {
         $data = $this->get();
         $data = array_slice($data, $offset, $length);
 
-        $this->meta          = array();
+        $this->meta          = [];
         $this->meta['count'] = count($data);
         $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
     }
@@ -228,12 +238,12 @@ class rcube_result_index
      *
      * @param array $ids List of IDs to remove.
      */
-    public function filter($ids = array())
+    public function filter($ids = [])
     {
         $data = $this->get();
         $data = array_intersect($data, $ids);
 
-        $this->meta          = array();
+        $this->meta          = [];
         $this->meta['count'] = count($data);
         $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
     }
@@ -253,7 +263,7 @@ class rcube_result_index
         $data = array_reverse($data);
         $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
 
-        $this->meta['pos'] = array();
+        $this->meta['pos'] = [];
     }
 
     /**
@@ -273,15 +283,15 @@ class rcube_result_index
         }
 
         $msgid = (int) $msgid;
-        $begin = implode('|', array('^', preg_quote(self::SEPARATOR_ELEMENT, '/')));
-        $end   = implode('|', array('$', preg_quote(self::SEPARATOR_ELEMENT, '/')));
+        $begin = implode('|', ['^', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
+        $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
             $get_index ? PREG_OFFSET_CAPTURE : null)
         ) {
             if ($get_index) {
                 $idx = 0;
-                if ($m[0][1]) {
+                if (!empty($m[0][1])) {
                     $idx = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]);
                 }
                 // cache position of this element, so we can use it in get_element()
@@ -289,6 +299,7 @@ class rcube_result_index
 
                 return $idx;
             }
+
             return true;
         }
 
@@ -303,7 +314,7 @@ class rcube_result_index
     public function get()
     {
         if (empty($this->raw_data)) {
-            return array();
+            return [];
         }
 
         return explode(self::SEPARATOR_ELEMENT, $this->raw_data);
@@ -328,7 +339,7 @@ class rcube_result_index
      *
      * @param int|string  $index  Element's index or "FIRST" or "LAST"
      *
-     * @return int Element value
+     * @return int|null Element value
      */
     public function get_element($index)
     {
@@ -341,10 +352,12 @@ class rcube_result_index
         // first element
         if ($index === 0 || $index === '0' || $index === 'FIRST') {
             $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT);
-            if ($pos === false)
+            if ($pos === false) {
                 $result = (int) $this->raw_data;
-            else
+            }
+            else {
                 $result = (int) substr($this->raw_data, 0, $pos);
+            }
 
             return $result;
         }
@@ -352,24 +365,29 @@ class rcube_result_index
         // last element
         if ($index === 'LAST' || $index == $count-1) {
             $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT);
-            if ($pos === false)
+            if ($pos === false) {
                 $result = (int) $this->raw_data;
-            else
+            }
+            else {
                 $result = (int) substr($this->raw_data, $pos);
+            }
 
             return $result;
         }
 
         // do we know the position of the element or the neighbour of it?
         if (!empty($this->meta['pos'])) {
-            if (isset($this->meta['pos'][$index]))
+            if (isset($this->meta['pos'][$index])) {
                 $pos = $this->meta['pos'][$index];
-            else if (isset($this->meta['pos'][$index-1]))
+            }
+            else if (isset($this->meta['pos'][$index-1])) {
                 $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index-1] + 1);
-            else if (isset($this->meta['pos'][$index+1]))
+            }
+            else if (isset($this->meta['pos'][$index+1])) {
                 $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index+1] - $this->length() - 1);
+            }
 
             if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, null, $pos)) {
                 return (int) $m[1];
@@ -379,14 +397,14 @@ class rcube_result_index
         // Finally use less effective method
         $data = explode(self::SEPARATOR_ELEMENT, $this->raw_data);
 
-        return $data[$index];
+        return (int) $data[$index];
     }
 
     /**
      * Returns response parameters, e.g. ESEARCH's MIN/MAX/COUNT/ALL/MODSEQ
      * or internal data e.g. MAILBOX, ORDER
      *
-     * @param string $param  Parameter name
+     * @param string $param Parameter name
      *
      * @return array|string Response parameters or parameter value
      */

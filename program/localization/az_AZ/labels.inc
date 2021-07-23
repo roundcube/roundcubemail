@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product-a xoş gəldiniz!';
 $labels['username'] = 'İstifadəçi adı';
 $labels['password'] = 'Şifrə';
@@ -224,6 +224,7 @@ $labels['importpubkeys'] = 'İctimai açarları idxal et';
 $labels['encryptedsendialog'] = 'Şifrəli mesaj göndərilir';
 $labels['keyid'] = 'Açar ID';
 $labels['keyexpired'] = 'Vaxtı keçib';
+$labels['insert'] = 'Yerləşdir';
 $labels['recipient'] = 'Qəbul edən';
 $labels['editidents'] = 'İdentifikasiyanı dəyiş';
 $labels['spellcheck'] = 'Orfoqrafiya';
@@ -364,7 +365,6 @@ $labels['importreplace'] = 'Ünvan kitabçasını dəyiş';
 $labels['importgroups'] = 'Qrup idxalı tapşırığı';
 $labels['importgroupsall'] = 'Hamısı (əgər lazımdırsa qrupun yaradılması)';
 $labels['importgroupsexisting'] = 'Yalnız mövcud qruplar üçün';
-$labels['importdesc'] = 'Siz kontaktları mövcud ünvan kitabçasından yükləyə bilərsiniz. <br/> Hal-hazırda biz ünvanların idxalını <a href="http://az.wikipedia.org/wiki/VCard">vCard</a> və ya CSV (vergüllə bölünmüş) formatında olan vizit kartları dəstəkləyirik.';
 $labels['done'] = 'Bitdi';
 $labels['settingsfor'] = 'Nizamlamaları';
 $labels['about'] = 'Haqqında';
@@ -430,7 +430,6 @@ $labels['force7bit'] = '8-bitli simvollar üçün MIME istifadə et';
 $labels['advancedoptions'] = 'Ətraflı nizamlama';
 $labels['focusonnewmessage'] = 'Yeni məktub zamanı brauzerin pəncərəsini fokusla';
 $labels['checkallfolders'] = 'Bütün qovluqlarda yeni məktubları yoxla';
-$labels['displaynext'] = 'Hazırkini sildikdə/köçürdükdə növbəti məktubu göstər';
 $labels['defaultfont'] = 'HTML məktubun default şrifti';
 $labels['mainoptions'] = 'Əsas nizamlamalar';
 $labels['browseroptions'] = 'Brauzer ayarları';
@@ -523,4 +522,3 @@ $labels['vietnamese'] = 'Vyetnamca';
 $labels['japanese'] = 'Yaponca';
 $labels['korean'] = 'Koreya';
 $labels['chinese'] = 'Çincə';
-?>

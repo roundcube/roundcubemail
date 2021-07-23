@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_ResultMultifolder extends PHPUnit_Framework_TestCase
+class Framework_ResultMultifolder extends PHPUnit\Framework\TestCase
 {
 
     /**

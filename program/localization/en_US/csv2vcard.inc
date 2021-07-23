@@ -2,17 +2,13 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/csv2vcard.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -20,7 +16,7 @@
 // These must be original texts used in Outlook/Thunderbird exported csv files
 // Encoding UTF-8
 
-$map = array();
+$map = [];
 
 // MS Outlook 2010
 $map['anniversary'] = "Anniversary";
@@ -84,7 +80,7 @@ $map['home_zipcode'] = "Home ZipCode";
 $map['mobile_number'] = "Mobile Number";
 $map['nickname'] = "Nickname";
 $map['organization'] = "Organization";
-$map['pager_number'] = "Pager Namber";
+$map['pager_number'] = "Pager Number";
 $map['primary_email'] = "Primary Email";
 $map['secondary_email'] = "Secondary Email";
 $map['web_page_1'] = "Web Page 1";

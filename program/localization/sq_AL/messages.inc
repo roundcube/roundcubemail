@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ndodhi një gabim!';
 $messages['loginfailed']  = 'Hyrja dështoi.';
 $messages['cookiesdisabled'] = 'Shfletuesi juaj s’i pranon cookie-t.';
 $messages['sessionerror'] = 'Sesioni juaj është i pavlefshëm ose ka skaduar.';
+$messages['cookiesmismatch'] = 'U pikas ngatërrim cookie-sh. Ju lutemi, pastroni cookie-t prej shfletuesit tuaj.';
 $messages['storageerror'] = 'Lidhja me shërbyesin e depozitimit dështoi.';
 $messages['servererror'] = 'Gabim Shërbyesi!';
 $messages['servererrormsg'] = 'Gabim Shërbyesi: $msg';
-$messages['accountlocked'] = 'Numër i madh përpjekjesh për hyrje. Riprovoni më vonë.';
-$messages['connerror'] = 'Gabim Lidhjeje (Dështoi kapja e shërbyesit)!';
+$messages['accountlocked'] = 'Numër i madh përpjekjesh të dështuara për hyrje. Riprovoni më vonë.';
+$messages['connerror'] = 'Gabim Lidhjeje (S’u arrit të kapej shërbyesi)!';
 $messages['dberror'] = 'Gabim Baze të Dhënash!';
+$messages['dbconnerror'] = 'S’arrihet të lidhet me bazën e të dhënave!';
 $messages['windowopenerror'] = 'Dritarja flluskë u bllokua!';
 $messages['requesttimedout'] = 'Kërkesës i mbaroi koha';
 $messages['errorreadonly'] = 'S’arrihet të kryhet veprimi. Dosja është vetëm për lexim.';
@@ -34,7 +35,7 @@ $messages['erroroverquotadelete'] = 'S’ka hapësirë të lirë në disk. Përd
 $messages['invalidrequest'] = 'Kërkesë e pavlefshme! S’u ruajt ndonjë e dhënë.';
 $messages['invalidhost'] = 'Emër i pavlefshëm shërbyesi.';
 $messages['nomessagesfound'] = 'S’u gjetën mesazhe në këtë kuti postare.';
-$messages['loggedout'] = 'Sesionin e mbyllët me sukses. Mirupafshim!';
+$messages['loggedout'] = 'E përfunduat me sukses sesionin. Mirupafshim!';
 $messages['mailboxempty'] = 'Kutia postare është e zbrazët';
 $messages['nomessages'] = 'S’ka mesazhe';
 $messages['refreshing'] = 'Po rifreskohet…';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Ka tashmë një kontakt me të njëjtën adresë e
 $messages['contactnameexists'] = 'Ka tashmë një kontakt me të njëjtin emër.';
 $messages['blockedimages'] = 'Që të mbrohet privatësia juaj, figurat e largëta të këtij mesazhi janë bllokuar.';
 $messages['blockedresources'] = 'Për mbrojtjen e privatësisë tuaj janë bllokuar burime të largët.';
+$messages['suspiciousemail'] = 'Ky mesazh përmban adresa email të dyshimta që mund të jenë të rrejshme.';
+$messages['bccemail'] = 'Mesazhi(et) e përcjella përmbajnë marrës të fshehtë (Bcc).';
+$messages['bouncehint'] = 'Mesazhi do të dërgohet pa ndonjë ndryshim, d.m.th. duke përdorur lëndën, kryet dhe marrësit origjinalë.';
 $messages['encryptedmessage'] = 'Ky është një mesazh i fshehtëzuar dhe s’mund të shfaqet. Na ndjeni!';
 $messages['externalmessagedecryption'] = 'Ky është një mesazh i fshehtëzuar dhe mund të shfshehtëzohet me zgjerimin e shfletuesit tuaj.';
 $messages['nopubkeyfor'] = 'S’u gjet kyç i vlefshëm publik për $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'S’u gjet kyç i vlefshëm publik për identi
 $messages['encryptnoattachments'] = 'Bashkëngjitjet tashmë të ngarkuara s’mund të fshehtëzohen. Ju lutemi, rishtojini te përpunuesi i fshehtëzimeve.';
 $messages['searchpubkeyservers'] = 'Doni të kërkohet në shërbyes publikë kyçesh për kyçin që mungon?';
 $messages['encryptpubkeysfound'] = 'U gjetën kyçet publikë vijues:';
-$messages['keyservererror'] = 'Dështoi marrja e kyçit nga shërbyesi i kyçeve.';
-$messages['keyimportsuccess'] = 'Kyçi publik $key u importua me sukses te vargu juaj i kyçeve';
+$messages['keyservererror'] = 'S\'u arrit të merret kyç që nga shërbyesi i kyçeve.';
+$messages['keyimportsuccess'] = 'Kyçi publik $key u importua me sukses te vargu juaj i kyçeve.';
 $messages['nocontactsfound'] = 'S’u gjetën kontakte.';
 $messages['contactnotfound'] = 'S’u gjet kontakti i kërkuar.';
-$messages['contactsearchonly'] = 'Jepni ndonjë term kërkimi që të gjeni kontakte';
+$messages['contactsearchonly'] = 'Duhet të përdorni një formular kërkimi që të shihni kontakte prej librit të përzgjedhur të adresave.';
 $messages['sendingfailed'] = 'Dërgimi i mesazhit dështoi.';
 $messages['senttooquickly'] = 'Ju lutemi, pritni $sec sekondë(a) përpara se të dërgohet ky mesazh.';
 $messages['errorsavingsent'] = 'Ndodhi një gabim teksa ruhej mesazhi i dërguar.';
@@ -83,6 +87,7 @@ $messages['deletecontactconfirm']  = 'Doni vërtet të fshihet kontakti(et) i p�
 $messages['deletegroupconfirm']  = 'Doni vërtet të fshihet grupi i përzgjedhur?';
 $messages['deletemessagesconfirm'] = 'Doni vërtet të fshihet mesazhi(et) i përzgjedhur?';
 $messages['deletefolderconfirm']  = 'Doni vërtet të fshihet kjo dosje?';
+$messages['movefolderconfirm']  = 'Doni vërtet të lëvizet kjo dosje?';
 $messages['purgefolderconfirm']  = 'Doni vërtet të fshihen krejt mesazhet në këtë dosje?';
 $messages['contactdeleting'] = 'Po fshihet kontakti(et)…';
 $messages['groupdeleting'] = 'Po fshihet grupi…';
@@ -123,9 +128,11 @@ $messages['converting'] = 'Po i hiqet formatimi…';
 $messages['messageopenerror'] = 'S’u ngarkuan dot mesazhe që nga shërbyesi.';
 $messages['filelinkerror'] = 'Dështoi bashkëngjitja e kartelës.';
 $messages['fileuploaderror'] = 'Dështoi ngarkimi i kartelës.';
+$messages['csvfilemismatch'] = 'Nuk mbulohet importimi njëherësh i shumë kartelave CSV me fusha të ndryshme.';
 $messages['filesizeerror'] = 'Kartela e ngarkuar e tejkalon madhësinë maksimum prej $size.';
 $messages['filecounterror'] = 'Mund të ngarkoni e shumta $count kartela njëherësh.';
 $messages['msgsizeerror'] = 'Dështoi bashkëngjitja e një kartele. Tejkalohej madhësi maksimum e një mesazhi ($size).';
+$messages['msgsizeerrorfwd'] = 'U tejkalua madhësia maksimum për mesazhet ($size). S’u bashkëngjit(ën) $num mesazh(e).';
 $messages['copysuccess'] = 'U kopjuan me sukses $nr kontakte.';
 $messages['movesuccess'] = 'U lëvizën me sukses $nr kontakte.';
 $messages['copyerror'] = 'S’u kopjua dot ndonjë kontakt.';
@@ -217,6 +224,9 @@ $messages['clicktocompose'] = 'Klikoni këtu që të hartoni një mesazh të ri'
 $messages['nosupporterror'] = 'Kjo veçori nuk mbulohet nga shfletuesi juaj.';
 $messages['siginserted'] = 'Nënshkrimi u fut me sukses.';
 $messages['responseinserted'] = 'Përgjigja u fut me sukses.';
+$messages['noresponsesavailable'] = 'S’ka përgjigje';
 $messages['listempty'] = 'Lista është e zbrazët.';
 $messages['listusebutton'] = 'Përdorni butonin Krijoje që të shtoni një zë të ri.';
 $messages['keypaircreatesuccess'] = 'Për $identity u krijua me sukses një dyshe e re kyçesh.';
+$messages['emptyattachment'] = 'Kjo bashkëngjitje duket të jetë e zbrazët.<br>Ju lutemi, kontrolloni duke u lidhur me personin që e dërgoi.';
+$messages['oauthloginfailed'] = 'Hyrja me OAuth dështoi. Ju lutemi, riprovoni.';

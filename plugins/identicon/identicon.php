@@ -7,7 +7,7 @@
  * for contacts/addresses that do not have a photo image.
  *
  * @todo: Make it optional and configurable via user preferences
- * @todo: Make color palettes match the curren skin
+ * @todo: Make color palettes match the current skin
  * @todo: Implement optional SVG generator
  *
  * @license GNU GPLv3+
@@ -20,11 +20,11 @@ class identicon extends rcube_plugin
 
 
     /**
-     * Plugin initilization.
+     * Plugin initialization.
      */
     function init()
     {
-        $this->add_hook('contact_photo', array($this, 'contact_photo'));
+        $this->add_hook('contact_photo', [$this, 'contact_photo']);
     }
 
     /**
@@ -43,7 +43,8 @@ class identicon extends rcube_plugin
 
         // supporting edit/add action may be tricky, let's not do this
         if ($rcmail->action == 'show' || $rcmail->action == 'photo') {
-            $email = $args['email'];
+            $email = !empty($args['email']) ? $args['email'] : null;
+
             if (!$email && $args['record']) {
                 $addresses = rcube_addressbook::get_col_values('email', $args['record'], true);
                 if (!empty($addresses)) {
@@ -59,7 +60,7 @@ class identicon extends rcube_plugin
                 if ($rcmail->action == 'show') {
                     // set photo URL using data-uri
                     if (($icon = $identicon->getBinary()) && ($icon = base64_encode($icon))) {
-                        $mimetype    =$identicon->getMimetype();
+                        $mimetype    = $identicon->getMimetype();
                         $args['url'] = sprintf('data:%s;base64,%s', $mimetype, $icon);
                     }
                 }

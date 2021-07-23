@@ -1,0 +1,11 @@
+require ["comparator-i;ascii-numeric","fileinto","relational","spamtest"];
+# rule:[Spam1]
+if allof (spamtest :value "eq" :comparator "i;ascii-numeric" "10")
+{
+	fileinto "Junk";
+}
+# rule:[Spam2]
+if allof (spamtest :value "ge" :comparator "i;ascii-numeric" "3")
+{
+	fileinto "INBOX.spam-trap";
+}

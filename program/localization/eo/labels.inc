@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bonvenon al $product';
 $labels['username'] = 'Uzantnomo';
 $labels['password'] = 'Pasvorto';
@@ -185,6 +185,7 @@ $labels['returnreceipt'] = 'Return receipt';
 $labels['dsn'] = 'Ricev-status-konfirmo';
 $labels['mailreplyintro'] = 'Je $date, $sender skribis:';
 $labels['originalmessage'] = 'Originala mesaĝo';
+$labels['insert'] = 'Enmeti';
 $labels['recipient'] = 'Ricevanto';
 $labels['editidents'] = 'Redaktu identojn';
 $labels['spellcheck'] = 'Literumu';
@@ -338,4 +339,3 @@ $labels['sortby'] = 'Ordigu per';
 $labels['sortasc'] = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';
 $labels['license'] = 'Permesilo';
-?>

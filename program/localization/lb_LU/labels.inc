@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Wëllkomm bei $product';
 $labels['username'] = 'Benotzernumm';
 $labels['password'] = 'Passwuert';
@@ -211,6 +211,7 @@ $labels['selectimage'] = 'Bild auswielen';
 $labels['addimage'] = 'Bild dobäisetzen';
 $labels['selectmedia'] = 'Film auswielen';
 $labels['addmedia'] = 'Film dobäisetzen';
+$labels['insert'] = 'Drasetze';
 $labels['recipient'] = 'Empfänger';
 $labels['editidents'] = 'Identitéiten editéieren';
 $labels['spellcheck'] = 'Orthographie';
@@ -345,7 +346,6 @@ $labels['importreplace'] = 'Dat ganzt Adressbuch ersetzen';
 $labels['importgroups'] = 'Gruppen-Zouweisung importéieren';
 $labels['importgroupsall'] = 'All (nei Gruppen uleeën falls néideg)';
 $labels['importgroupsexisting'] = 'Just fir Gruppen déi schon existéieren';
-$labels['importdesc'] = 'Du kanns Kontakter aus engem existéierenden Adressbuch eroplueden.<br/>Mir ënnerstëtze momentan en Adress-Import vum <a href="http://en.wikipedia.org/wiki/VCard">vCard</a>- oder CSV (mat Komma getrennt)-Date-Format.';
 $labels['done'] = 'Erleedegt';
 $labels['settingsfor'] = 'Astellunge fir';
 $labels['about'] = 'Iwwert';
@@ -411,7 +411,6 @@ $labels['force7bit'] = 'MIME-Kodéierung fir 8-Bit-Zeeche benotzen';
 $labels['advancedoptions'] = 'Avancéiert Optiounen';
 $labels['focusonnewmessage'] = 'Browser-Fënster fokusséiere wann en neie Message ukënnt';
 $labels['checkallfolders'] = 'Nei Messagen an allen Dossieren opruffen';
-$labels['displaynext'] = 'Nom Réckelen/Läsche vun engem Message deen nächsten uweisen';
 $labels['defaultfont'] = 'Standard-Schrëft fir e Message mat Formatéierungen';
 $labels['mainoptions'] = 'Haapt-Optiounen';
 $labels['browseroptions'] = 'Browser-Optiounen';
@@ -501,4 +500,3 @@ $labels['vietnamese'] = 'Vietnamesesch';
 $labels['japanese'] = 'Japanesch';
 $labels['korean'] = 'Koreanesch';
 $labels['chinese'] = 'Chinesesch';
-?>

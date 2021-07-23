@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Titkosítás';
 $labels['enigmacerts'] = 'S/MIMI Tanusitványok';
 $labels['enigmakeys'] = 'PGP Kulcsok';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'Tilt';
 $labels['keyrevoke'] = 'Visszavon';
 $labels['keysend'] = 'Kűld el a nyilvános kulcsot az üzenetben';
 $labels['keychpass'] = 'Jelszó módosítás';
+$labels['keyadd'] = 'Kulcs hozzáadása';
 $labels['newkeyident'] = 'Azonosító';
 $labels['newkeypass'] = 'Jelszó';
 $labels['newkeypassconfirm'] = 'Jelszó  megerősítése';
-$labels['newkeysize'] = 'Kulcs méret';
-$labels['key2048'] = '2048 bit - alapértelemzett';
-$labels['key4096'] = '4096 bit - biztonságosabb';
+$labels['newkeytype'] = 'Kulcs tipus';
+$labels['rsa2048'] = 'RSA - 2048 bit';
+$labels['rsa4096'] = 'RSA - 4096 bit';
+$labels['ecckeypair'] = 'ECC (Elliptic Curve)';
 $labels['keygenerating'] = 'Kulcsok generálása…';
 $labels['encryptionoptions'] = 'Titkosítási beállítások...';
 $labels['encryptmsg'] = 'Titkosítsa ezt az üzenetet';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'Ennek az üzenetnek  a digtális aláírása';
 $labels['sendunencrypted'] = 'Küldés titkosítatlanul';
 $labels['enterkeypasstitle'] = 'Írd be a jelmondatot';
 $labels['enterkeypass'] = 'Jelmondat(passphrase) szükséges a titkos kulcs ($keyid)  felhasznlóhoz ($user) feloldásához. ';
-$labels['arialabelkeyexportoptions'] = 'Kulcsok exportálásához opciók';
 $labels['attachpubkeymsg'] = 'A nyilvános kulcsom csatolása';
 $labels['keyexportprompt'] = 'A mentett OpenPGP kulcsoknál legyenek-e tárolva a titkos kulcsok is?';
 $labels['onlypubkeys'] = 'Csak a nyilvános kulcsok exportálása';
@@ -87,6 +87,10 @@ $labels['keyimportlabel'] = 'Importálás fájlból';
 $labels['keyimportsearchlabel'] = 'Keresés a kulcs szerver(ek)en';
 $labels['managekeys'] = 'PGP kulcsok kezelése';
 $labels['identitymatchingprivkeys'] = '$nr egyező PGP privát kulcs van  a kulcskarikádon: ';
+$labels['identitynoprivkeys'] = 'Ennek küldőnek még nincs meg a PGP prívát kulcsa a kulcskarikádon.';
+$labels['arialabelkeyexportoptions'] = 'Kulcsok exportálásához opciók';
+$labels['arialabelkeysearchform'] = 'Kulcs kereső űrlap';
+$labels['arialabelkeyoptions'] = 'Kulcs opciók';
 $messages['sigvalid'] = 'A $sender feladó aláírása ellenőrízve.';
 $messages['sigvalidpartial'] = 'A $sender feladó aláírása ellenőrízve, de részei az üzenetnek nem voltak aláírva.';
 $messages['siginvalid'] = 'Érvénytelen aláírás  a következő feladótól: $sender';
@@ -96,6 +100,7 @@ $messages['sigerror'] = 'Nem ellenörzött aláírás. Belső hiba.';
 $messages['decryptok'] = 'Üzenet ki-tikosítva.';
 $messages['decrypterror'] = 'Visszafejtés sikertelen.';
 $messages['decryptnokey'] = 'Visszafejtés sikertelen. Nyilvános nem található. Kulcs ID: $keyid.';
+$messages['decryptnomdc'] = 'Visszafejtás átugorva. Az üzenet integritása nincs védve.';
 $messages['decryptbadpass'] = 'Visszafejtés sikertelen. Hibás jelszó.';
 $messages['decryptnopass'] = 'Visszafejtés sikertelen. A kulcshoz jelszó kell.';
 $messages['decryptpartial'] = 'Visszafejtés sikeres, de néhány része az üzenetnek nem volt titkosítva.';
@@ -105,6 +110,7 @@ $messages['signbadpass'] = 'Aláírás sikertelen. Hibás jelszó.';
 $messages['signnopass'] = 'Aláírás sikertelen. A kulcshoz jelszó kell.';
 $messages['encrypterror'] = 'Titkosítás sikertelen.';
 $messages['encryptnokey'] = 'Titkosítás sikertelen. Nyilvás kulcs nem található a következőhöz: $email.';
+$messages['encryptnoprivkey'] = 'A titkosítás sikertelen. A magánkulcs nem található.';
 $messages['nokeysfound'] = 'Nem  találhatóak kulcsok';
 $messages['keynotfound'] = 'A kulcs nem található!';
 $messages['keyopenerror'] = 'A kulcs információk lekérésés nem lehetséges. Belső hiba.';
@@ -117,6 +123,7 @@ $messages['keyremovesuccess'] = 'A kulcs(ok) sikeresen törölve';
 $messages['keyremoveerror'] = 'Nem sikerült a kiválasztott kulcso(ka)t törölni.';
 $messages['keyimporttext'] = 'Importálhatod a privát és nyilvános kulcsodat vagy a visszavonási aláírásokatr ASCII-Armor formátumban.';
 $messages['keyimportsearchtext'] = 'A publikus kulcsokat keresheted az azonsító, a felhasználó név vagy a email cím alapján, majd közvetlenül beimportálhatod.';
+$messages['keystoragenotice'] = 'Az összes publikus és privát kulcs a szerveren van tárolva.';
 $messages['formerror'] = 'Tőltsd ki az ürlapot. Minden mező kitöltése kötelező!';
 $messages['passwordsdiffer'] = 'A jelszavak nem egyeznek!';
 $messages['keygenerateerror'] = 'Nem sikerült a kulcs-pár létrehozása';
@@ -124,4 +131,6 @@ $messages['keygeneratesuccess'] = 'A kulcs-pár létrejött és sikeresen beimpo
 $messages['keygennosupport'] = 'A böngésződ nem támogatja a titkosítást. A kulcs-pár nem hozható létre!';
 $messages['noidentselected'] = 'Ki kell választanod legalább egy identitást a kulcshoz!';
 $messages['nonameident'] = 'Egy identitásnak kötelező felhasználó nevet beállítani!';
-?>
+$labels['newkeysize'] = 'Kulcs méret';
+$labels['key2048'] = '2048 bit - alapértelemzett';
+$labels['key4096'] = '4096 bit - biztonságosabb';

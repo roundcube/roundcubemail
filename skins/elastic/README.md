@@ -28,14 +28,15 @@ INSTALLATION
 ------------
 
 All styles are written using LESS syntax. Thus it needs to be compiled
-using the `lessc` command line tool. This comes with the `nodejs-less`
-RPM package which depends on nodejs.
+using the `lessc` (>= 2.5.2) command line tool. This comes with the `nodejs-less`
+RPM package or using `npm install less` which depend on nodejs.
 ```
-    $ lessc -x styles/styles.less > styles/styles.css
-    $ lessc -x styles/print.less > styles/print.css
-    $ lessc -x styles/embed.less > styles/embed.css
+    $ lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css
+    $ lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css
+    $ lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css
 ```
-(the -x option minifies the CSS code)
+(`--clean-css="--s1 --advanced"` minifies the css, requires the clean-css Less plugin.
+The plugin can be installed using `npm install less-plugin-clean-css`)
 
 References to image files from the included CSS files can be appended
 with cache-buster marks to avoid browser caching issues after updating.
@@ -62,20 +63,20 @@ FOR DEVELOPERS
 ```
     <body>
         <div id="layout">
-            <div class="menu"></div>
-            <div class="sidebar"></div>
-            <div class="list"></div>
-            <div class="content"></div>
+            <div id="layout-menu"></div>
+            <div id="layout-sidebar"></div>
+            <div id="layout-list"></div>
+            <div id="layout-content"></div>
         </div>
     </body>
 ```
-  where `sidebar` and `list` are optional. Which element of the `layout` will be displayed
+  where `#layout-sidebar` and `#layout-list` are optional. Which element of the `#layout` will be displayed
   as a main view on mobile devices can be defined by adding `selected` class to it.
 
 - The `<html>` element will receive special classes that will be updated on resize
   or orientation change:
     - `touch`: A touch device, screen width <= 1024px,
-    - 'layout-large`: Screen width > 1200px,
+    - `layout-large`: Screen width > 1200px,
     - `layout-normal`: Screen width <= 1200px and >= 768px,
     - `layout-small`: Screen width < 768px and > 480px,
     - `layout-phone`: Screen width <= 480px.
@@ -103,3 +104,16 @@ FOR DEVELOPERS
     frame. We do this e.g. for mail preview or contact preview. Plugins should use
     _action=add* or _action=create* or _nav=hide in the frame URL if the navigation
     should be hidden, which is the case when you create a content object.
+
+- Dark mode:
+    In dark mode html element will have `dark-mode` class assigned.
+    It is possible to disable dark mode using less variable `@dark-mode-enabled`.
+    Option `dark_mode_support` in meta.json controls addition of the mode switch in the menu.
+
+
+KNOWN ISSUES
+------------
+
+1. There are known issues with running less in Roundcube devel_mode:
+    - Dialogs executed on page load are displayed out of screen.
+    - CodeMirror editor (in managesieve raw script editing mode) is broken.

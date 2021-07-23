@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'フィルター';
 $labels['managefilters'] = '受信メールのフィルターを管理';
 $labels['filtername'] = 'フィルター名';
@@ -41,6 +41,14 @@ $labels['filterregex'] = '次の正規表現に一致';
 $labels['filternotregex'] = '次の正規表現に一致しない';
 $labels['filterunder'] = 'より下';
 $labels['filterover'] = 'より上';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIMEのパート:';
+$labels['mime-message'] = 'メッセージ';
+$labels['mime-anychild'] = '任意';
+$labels['mime-type'] = 'タイプ';
+$labels['mime-subtype'] = 'サブタイプ';
+$labels['mime-contenttype'] = 'コンテントタイプ';
+$labels['mime-param'] = 'パラメーター';
 $labels['addrule'] = '規則を追加';
 $labels['delrule'] = '規則を削除';
 $labels['messagemoveto'] = '次にメッセージを移動';
@@ -71,10 +79,10 @@ $labels['filterset'] = 'フィルターセット';
 $labels['filtersets'] = 'フィルターセット';
 $labels['filtersetadd'] = 'フィルターセットを追加';
 $labels['filtersetdel'] = 'フィルターセットを削除';
-$labels['filtersetact'] = '現在のフィルター セットを有効';
-$labels['filtersetdeact'] = '現在のフィルター セットを無効';
+$labels['filtersetact'] = '現在のフィルターセットを有効化';
+$labels['filtersetdeact'] = '現在のフィルターセットを無効化';
 $labels['filterseteditraw'] = 'フィルターセットを編集';
-$labels['filtersetswitch'] = 'フィルターセットを有効化・無効化';
+$labels['filtersetswitch'] = 'フィルターセットを有効・無効';
 $labels['filterdef'] = 'フィルターの定義';
 $labels['filtersetname'] = 'フィルターセットの名前';
 $labels['newfilterset'] = '新しいフィルターセット';
@@ -82,7 +90,8 @@ $labels['active'] = '有効';
 $labels['none'] = 'なし';
 $labels['fromset'] = 'セットから';
 $labels['fromfile'] = 'ファイルから';
-$labels['filterdisabled'] = 'フィルターを無効にしました。';
+$labels['filterdisabled'] = 'フィルターは無効';
+$labels['filterenabled'] = 'フィルターは有効';
 $labels['countisgreaterthan'] = 'より大きい回数';
 $labels['countisgreaterthanequal'] = '以上の回数';
 $labels['countislessthan'] = '未満の回数';
@@ -103,6 +112,18 @@ $labels['flagdeleted'] = '削除済み';
 $labels['flaganswered'] = '返信済み';
 $labels['flagflagged'] = 'フラグ付き';
 $labels['flagdraft'] = '下書き';
+$labels['addheader'] = 'メッセージにヘッダーを追加';
+$labels['deleteheader'] = 'メッセージからヘッダーを削除';
+$labels['headername'] = 'ヘッダーの名前';
+$labels['headervalue'] = 'ヘッダーの値';
+$labels['headerpos'] = 'ヘッダーの位置';
+$labels['headeratstart'] = '最初';
+$labels['headeratend'] = '最後';
+$labels['headeroccurrence'] = 'ヘッダーの存在・位置';
+$labels['headerfromstart'] = '開始';
+$labels['headerfromend'] = '終了';
+$labels['headerpatterns'] = 'ヘッダーの値のパターン';
+$labels['headermatchtype'] = '一致タイプ:';
 $labels['setvariable'] = '変数を設定';
 $labels['setvarname'] = '変数の名前:';
 $labels['setvarvalue'] = '変数の値:';
@@ -167,20 +188,28 @@ $labels['asciicasemap'] = '大文字小文字を区別しない(ascii-casemap)';
 $labels['asciinumeric'] = '数値(ascii-numeric)';
 $labels['index'] = 'インデックス:';
 $labels['indexlast'] = '後方';
-$labels['vacation'] = '休暇';
+$labels['spamtest'] = 'SPAMのレベル';
+$labels['spamtestisgreaterthan'] = 'より大きい';
+$labels['spamtestisgreaterthanequal'] = '以上';
+$labels['spamtestislessthan'] = 'より小さい';
+$labels['spamtestislessthanequal'] = '以下';
+$labels['spamtestequals'] = '次に等しい';
+$labels['spamtestnotequals'] = '次に等しくない';
+$labels['spamtestisunknown'] = '不明';
+$labels['vacation'] = '事務所に不在';
 $labels['vacation.reply'] = '返信のメッセージ';
 $labels['vacation.advanced'] = '詳細な設定';
 $labels['vacation.from'] = '送信者のアドレスに返信';
 $labels['vacation.subject'] = '件名';
 $labels['vacation.body'] = '本文';
-$labels['vacation.start'] = '休暇の開始';
-$labels['vacation.end'] = '休暇の終了';
+$labels['vacation.start'] = '開始時刻';
+$labels['vacation.end'] = '終了時刻';
 $labels['vacation.status'] = '状態';
 $labels['vacation.on'] = 'オン';
 $labels['vacation.off'] = 'オフ';
 $labels['vacation.addresses'] = '私の電子メールアドレス';
 $labels['vacation.interval'] = '返信の間隔';
-$labels['vacation.after'] = '後に休暇の規則を記入';
+$labels['vacation.after'] = '事務所不在のルールを後に配置';
 $labels['vacation.saving'] = 'データを保存中...';
 $labels['vacation.action'] = '届いたメッセージの操作';
 $labels['vacation.keep'] = '保持';
@@ -225,15 +254,15 @@ $messages['actiondeleteconfirm'] = '本当に選択した動作を削除しま�
 $messages['forbiddenchars'] = '項目に禁止している文字が含まれています。';
 $messages['cannotbeempty'] = '項目は空欄にできません。';
 $messages['ruleexist'] = '指定した名前のフィルターが既に存在します。';
-$messages['setactivateerror'] = '選択したフィルターセットを有効にできません。サーバーでエラーが発生しました。';
-$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできません。サーバーでエラーが発生しました。';
-$messages['setdeleteerror'] = '選択したフィルターセットを削除できません。サーバーでエラーが発生しました。';
+$messages['setactivateerror'] = '選択したフィルターセットを有効にできませんでした。サーバーでエラーが発生しました。';
+$messages['setdeactivateerror'] = '選択したフィルターセットを無効にできませんでした。サーバーでエラーが発生しました。';
+$messages['setdeleteerror'] = '選択したフィルターセットを削除できませんでした。サーバーでエラーが発生しました。';
 $messages['setactivated'] = 'フィルターセットを有効にしました。';
 $messages['setdeactivated'] = 'フィルターセットを無効にしました。';
 $messages['setdeleted'] = 'フィルターセットを削除しました。';
 $messages['setupdated'] = 'フィルターセットを更新しました。';
-$messages['setdeleteconfirm'] = '本当に選択したフィルターセットを削除しますか?';
-$messages['setcreateerror'] = 'フィルターセットを作成できません。サーバーでエラーが発生しました。';
+$messages['setdeleteconfirm'] = '本当に削除したフィルターセットを削除しますか?';
+$messages['setcreateerror'] = 'フィルターセットを作成できませんでした。サーバーでエラーが発生しました。';
 $messages['setcreated'] = 'フィルターセットを作成しました。';
 $messages['activateerror'] = '選択したフィルターを有効にできません。サーバーでエラーが発生しました。';
 $messages['deactivateerror'] = '選択したフィルターを無効にできません。サーバーでエラーが発生しました。';
@@ -244,12 +273,13 @@ $messages['moveerror'] = '選択したフィルターを移動できません。
 $messages['nametoolong'] = '名前が長すぎます。';
 $messages['namereserved'] = '予約されている名前です。';
 $messages['setexist'] = 'フィルターセットが既に存在します。';
-$messages['nodata'] = '少なくとも1つの場所を選択しなければなりません!';
+$messages['nodata'] = '少なくとも場所を1つ選択しなければなりません!';
 $messages['invaliddateformat'] = '無効な日付または日付部分の書式';
 $messages['saveerror'] = 'フィルターの保存できません。サーバーでエラーが発生しました。';
-$messages['vacationsaved'] = '休暇のデータを保存しました。';
+$messages['vacationsaved'] = '事務所不在のデータを保存しました。';
 $messages['forwardsaved'] = '転送のデータを保存しました。';
 $messages['emptyvacationbody'] = '休暇のメッセージの本文が必要です!';
 $messages['duplicate.conflict.err'] = 'ヘッダーと一意な識別子の両方は同時に使用できません。';
 $messages['disabledaction'] = '許可されていない動作です。';
-?>
+$messages['lastindexempty'] = '最後から数える時はインデックスが必要';
+$messages['noflagset'] = '少なくともフラッグを1つ選択しなければなりません。';

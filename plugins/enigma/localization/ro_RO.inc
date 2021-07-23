@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Criptare';
 $labels['enigmacerts'] = 'Certificate S/MIME';
 $labels['enigmakeys'] = 'Chei PGP';
@@ -64,15 +63,13 @@ $labels['keyrevoke'] = 'Revocă';
 $labels['keysend'] = 'Trimite cheie publică în mesaj';
 $labels['keychpass'] = 'Schimbă parola';
 $labels['newkeypass'] = 'Parolă';
-$labels['key2048'] = '2048 biți - implicit';
-$labels['key4096'] = '4096 biți - mult mai sigur';
+$labels['newkeytype'] = 'Tip cheie';
 $labels['keygenerating'] = 'Se generează cheile...';
 $labels['encryptionoptions'] = 'Opțiuni criptare';
 $labels['encryptmsg'] = 'Criptează acest mesaj';
 $labels['signmsg'] = 'Semnează digital acest mesaj';
 $labels['enterkeypasstitle'] = 'Introdu fraza de acces cheie';
 $labels['enterkeypass'] = 'O frază de acces este necesară pentru a debloca cheia secretă ($keyid) pentru utilizatorul: $user.';
-$labels['arialabelkeyexportoptions'] = 'Opțiuni export chei';
 $labels['attachpubkeymsg'] = 'Atașează cheia mea publică';
 $labels['keyexportprompt'] = 'Vrei să incluzi cheile secrete în fișierul de chei OpenPGP salvat?';
 $labels['onlypubkeys'] = 'Exportă doar Cheile Publice';
@@ -80,6 +77,7 @@ $labels['withprivkeys'] = 'Exportă Cheile Secrete';
 $labels['findkey'] = 'Caută în serverele de chei';
 $labels['keyimportlabel'] = 'Importă din fișier';
 $labels['keyimportsearchlabel'] = 'Caută în serverele de chei';
+$labels['arialabelkeyexportoptions'] = 'Opțiuni export chei';
 $messages['sigvalid'] = 'Semnătură $sender verificată.';
 $messages['sigvalidpartial'] = 'Semnătură $sender verificată, dar parte a mesajului nu a fost semnat.';
 $messages['siginvalid'] = 'Semnătură nevalidă de la $sender.';
@@ -117,4 +115,5 @@ $messages['keygeneratesuccess'] = 'Cheia pereche a fost generată și importată
 $messages['keygennosupport'] = 'Browserul dvs. web nu acceptă criptografia. Imposibil de generat cheia pereche!';
 $messages['noidentselected'] = 'Trebuie sa alegi cel puțin o identitate pentru cheie!';
 $messages['nonameident'] = 'Identitatea trebuie să aibă definit un nume de utilizator!';
-?>
+$labels['key2048'] = '2048 biți - implicit';
+$labels['key4096'] = '4096 biți - mult mai sigur';

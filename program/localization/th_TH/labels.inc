@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'ยินดีต้อนรับสู่ $product';
 $labels['username'] = 'บัญชีผู้ใช้';
 $labels['password'] = 'รหัสผ่าน';
@@ -243,6 +243,7 @@ $labels['keylength'] = 'บิต';
 $labels['keyexpired'] = 'หมดอายุ';
 $labels['keyrevoked'] = 'ยกเลิก';
 $labels['bccinstead'] = 'ใช้สำเนาลับ';
+$labels['insert'] = 'แทรก';
 $labels['recipient'] = 'ผู้รับ';
 $labels['editidents'] = 'แก้ไขข้อมูลประจำตัว';
 $labels['spellcheck'] = 'สะกด';
@@ -393,7 +394,6 @@ $labels['importreplace'] = 'แทนที่ทั้งหมดในสม�
 $labels['importgroups'] = 'นำเข้ากลุ่มที่ได้รับมอบหมาย';
 $labels['importgroupsall'] = 'ทั้งหมด (สร้างกลุ่มหากจำเป็น)';
 $labels['importgroupsexisting'] = 'เฉพาะสำหรับกลุ่มที่มีอยู่เท่านั้น';
-$labels['importdesc'] = 'คุณสามารถอัปโหลดรายชื่อจากสมุดที่อยู่ที่มีอยู่<br/>ขณะนี้ระบบรองรับนำเข้าจากรูปแบบข้อมูล <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> หรือ CSV (ที่คั่นด้วยจุลภาค)';
 $labels['done'] = 'สำเร็จ';
 $labels['settingsfor'] = 'ตั้งค่าสำหรับ';
 $labels['about'] = 'เกี่ยวกับ';
@@ -477,4 +477,3 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'Unicode';
-?>

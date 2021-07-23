@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'خطایی رخ داد!';
 $messages['loginfailed']  = 'ورود ناموفق بود.';
 $messages['cookiesdisabled'] = 'مرورگر شما کوکی‌ها را قبول نمی‌کند.';
@@ -33,7 +32,6 @@ $messages['erroroverquotadelete'] = 'دیسک فضای خالی ندارد. بر
 $messages['invalidrequest'] = 'درخواست نامعتبر! هیچ داده‌ای ذخیره نشد.';
 $messages['invalidhost'] = 'نام سرور غیرمعتبر.';
 $messages['nomessagesfound'] = 'هیچ پیغامی در این صندوق‌پستی پیدا نشد.';
-$messages['loggedout'] = 'شما با کام‌یابی نشست را پایان دادید. خدانگهدار!';
 $messages['mailboxempty'] = 'صندوق پستی خالی است';
 $messages['nomessages'] = 'بدون پیام';
 $messages['refreshing'] = 'نوسازی...';
@@ -57,7 +55,6 @@ $messages['blockedimages'] = 'برای حفاظت از حریم شخصی شما�
 $messages['encryptedmessage'] = 'این یک پیام رمزنگاری شده است و قابل نمایش نیست. با عرض پوزش!';
 $messages['nocontactsfound'] = 'مخاطبی پیدا نشد.';
 $messages['contactnotfound'] = 'مخاطب درخواست شده پیدا نشد.';
-$messages['contactsearchonly'] = 'برای یافتن مخاطب‌ها، عبارت جستجو را وارد کنید';
 $messages['sendingfailed'] = 'ارسال پیغام ناموفق بود.';
 $messages['senttooquickly'] = 'لطفا قبل از ارسال این پیام $sec ثانیه صبر کنید.';
 $messages['errorsavingsent'] = 'خطایی رخ داده است پیام ارسالی ذخیره می گردد.';
@@ -100,8 +97,6 @@ $messages['nospellerrors'] = 'هیچ اشکال املایی پیدا نشد.';
 $messages['folderdeleted'] = 'پوشه با کام‌یابی حذف شد.';
 $messages['foldersubscribed'] = 'اشتراک پوشه با کام‌یابی انجام شد.';
 $messages['folderunsubscribed'] = 'اشتراک پوشه با کام‌یابی لغو شد.';
-$messages['folderpurged'] = 'پوشه با کام‌یابی خالی شد.';
-$messages['folderexpunged'] = 'پوشه با کام‌یابی فشرده شد.';
 $messages['deletedsuccessfully'] = 'با کام‌یابی حذف شد.';
 $messages['converting'] = 'در حال حذف قالب‌بندی...';
 $messages['messageopenerror'] = 'بارگذاری پیام از روی سرور انجام نشد.';
@@ -140,10 +135,10 @@ $messages['importmessageerror'] = 'وارد کردن ناموفق! فایل با
 $messages['opnotpermitted'] = 'عملیات مجاز نیست!';
 $messages['editorwarning'] = 'تعویض به ویرایشگر متن ساده باعث از دست رفتن قالب‌بندی همه متن‌ها می‌شود، آیا می‌خواهید عملیات را ادامه بدهید؟';
 $messages['httpreceivedencrypterror'] = 'یک خطای پیکربندی خطرناک رخ داده است. سریعا با سرپرست یا مسئول خود تماس بگیرید. <b>امکان ارسال  پیام شما وجود ندارد.</b>';
-$messages['smtpconnerror'] = 'خطای SMTP (%code): اتصال به سرور ناموفق بود.';
-$messages['smtpautherror'] = 'خطای SMTP (%code): تصدیق هویت ناموفق بود.';
-$messages['smtpfromerror'] = 'خطای SMTP (%code): ناموفق در تنظیم فرستنده "$from" ($msg).';
-$messages['smtptoerror'] = 'خطای SMTP (%code): نام موفق در افزودن گیرنده "$to" ($msg).';
+$messages['smtpconnerror'] = 'خطای SMTP ($code): اتصال به سرور ناموفق بود.';
+$messages['smtpautherror'] = 'خطای SMTP ($code): تصدیق هویت ناموفق بود.';
+$messages['smtpfromerror'] = 'خطای SMTP ($code): ناموفق در تنظیم فرستنده "$from" ($msg).';
+$messages['smtptoerror'] = 'خطای SMTP ($code): نام موفق در افزودن گیرنده "$to" ($msg).';
 $messages['smtprecipientserror'] = 'خطای SMTP: ناتوان در تجزیه فهرست گیرنده‌ها.';
 $messages['smtperror'] = 'خطای SMTP: $msg';
 $messages['toomanyrecipients'] = 'گیرنده‌های بیش از اندازه: تعداد گیرنده ها را به $max کاهش دهید.';

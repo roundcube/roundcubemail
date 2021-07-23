@@ -7,7 +7,7 @@
  * @group database
  * @group postgres
  */
-class Framework_DBPgsql extends PHPUnit_Framework_TestCase
+class Framework_DBPgsql extends PHPUnit\Framework\TestCase
 {
 
     /**

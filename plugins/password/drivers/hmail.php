@@ -6,7 +6,7 @@
  * @version 2.0
  * @author Roland 'rosali' Liebl <myroundcube@mail4us.net>
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,10 +30,12 @@ class rcube_hmail_password
 
         try {
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
-            if ($remote)
+            if ($remote) {
                 $obApp = new COM("hMailServer.Application", $rcmail->config->get('hmailserver_server'));
-            else
+            }
+            else {
                 $obApp = new COM("hMailServer.Application");
+            }
         }
         catch (Exception $e) {
             rcube::write_log('errors', "Plugin password (hmail driver): " . trim(strip_tags($e->getMessage())));
@@ -43,8 +45,7 @@ class rcube_hmail_password
         }
 
         if (strstr($username,'@')) {
-            $temparr = explode('@', $username);
-            $domain = $temparr[1];
+            list(, $domain) = explode('@', $username);
         }
         else {
             $domain = $rcmail->config->get('username_domain',false);
@@ -55,8 +56,9 @@ class rcube_hmail_password
             $username = $username . "@" . $domain;
         }
 
-        $obApp->Authenticate($username, $curpass);
         try {
+            $obApp->Authenticate($username, $curpass);
+
             $obDomain  = $obApp->Domains->ItemByName($domain);
             $obAccount = $obDomain->Accounts->ItemByAddress($username);
             $obAccount->Password = $passwd;

@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Email section
  *
- * Copyright (c) 2012-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -401,7 +401,7 @@ table.messagelist.fixedcopy {
 }
 
 /* thread parent message with flagged children */
-.messagelist tbody tr.flaggedroot .flag span {
+.messagelist tr.flaggedroot td.flag span.unflagged {
 	background-position: -23px -1076px;
 }
 
@@ -843,7 +843,7 @@ div.hide-headers {
 	color: #960;
 	border: 1px solid #ffdf0e;
 	background-color: #fef893;
-	background-position: 5px -83px;
+	background-position: 5px -87px;
 	padding: 6px 12px 6px 30px;
 	white-space: normal;
 }
@@ -1305,7 +1305,6 @@ body.status-flagged .flag-icon {
 	overflow: auto;
 }
 
-#image-selector.droptarget,
 #compose-attachments.droptarget {
 	background-image: url(images/filedrop.png);
 	background-position: center bottom;
@@ -1340,18 +1339,9 @@ body.status-flagged .flag-icon {
 	padding-bottom: 8px;
 }
 
-#composebodycontainer .mce-tinymce {
+#composebodycontainer .tox-tinymce {
 	border: 0 !important;
 	margin-top: 1px;
-}
-
-#composebodycontainer .mce-panel {
-	border-color: #ddd !important;
-	background: #f0f0f0;
-}
-
-#composebody_toolbargroup {
-	border-bottom: 1px solid #ddd;
 }
 
 #uploadform a.iconlink {
@@ -1502,6 +1492,10 @@ body.status-flagged .flag-icon {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #666;
+}
+
+.widescreen .messagelist td.subject span.size {
+	display: none;
 }
 
 .widescreen .messagelist tr.flagged td.subject span.date,

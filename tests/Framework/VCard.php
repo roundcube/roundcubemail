@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_VCard extends PHPUnit_Framework_TestCase
+class Framework_VCard extends PHPUnit\Framework\TestCase
 {
 
     function _srcpath($fn)
@@ -112,6 +112,9 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         // https://github.com/roundcube/roundcubemail/issues/1934
         $vcards2 = rcube_vcard::import(file_get_contents($this->_srcpath('thebat.vcf')));
         $this->assertEquals("Iksiñski", $vcards2[0]->surname, "Detect charset in encoded values");
+
+        $vcards[0]->reset();
+        // TODO: Test reset() method
     }
 
     function test_import_photo_encoding()
@@ -150,5 +153,41 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
 
         $vcards = rcube_vcard::import($input);
         $this->assertEquals("Ǽgean ĽdaMonté", $vcards[0]->displayname, "Decoded from UTF-16");
+    }
+
+    /**
+     * Skipping empty values (#6564)
+     */
+    function test_parse_skip_empty()
+    {
+        $vcard = new rcube_vcard("BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:;;;;\n"
+            . "FN:Test\n"
+            . "TEL;TYPE=home:67890\n"
+            . "TEL;TYPE=CELL:\n"
+            . "ADR;TYPE=home:;;street;city;state;zip;country\n"
+            . "END:VCARD"
+        );
+
+        $result = $vcard->get_assoc();
+
+        $this->assertCount(1, $result['phone:home'], "TYPE=home entry exists");
+        $this->assertTrue(!isset($result['phone:mobile']), "TYPE=CELL entry ignored");
+        $this->assertCount(5, $result['address:home'][0], "ADR with some fields missing");
+        $this->assertEquals($result['address:home'][0]['zipcode'], 'zip', "ADR with some fields missing (1)");
+        $this->assertEquals($result['address:home'][0]['street'], 'street', "ADR with some fields missing (2)");
+    }
+
+    /**
+     * Support BDAT in YYYYMMRR format
+     */
+    function test_bday_v4()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:4.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nBDAY:19800202\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("1980-02-02", $vcard['birthday'][0]);
     }
 }

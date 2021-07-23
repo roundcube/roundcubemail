@@ -40,9 +40,9 @@
 class rcube_plesk_password
 {
     /**
-     * this method is called from roundcube to change the password
+     * This method is called from roundcube to change the password
      *
-     * roundcube allready validated the old password so we just need to change it at this point
+     * roundcube already validated the old password so we just need to change it at this point
      *
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
      * @param string $curpass Current password
@@ -67,8 +67,10 @@ class rcube_plesk_password
         $result = $plesk->change_mailbox_password($username, $newpass);
         //$plesk->destroy();
 
-        if ($result) {
+        if ($result == "ok") {
             return PASSWORD_SUCCESS;
+        } elseif (is_array($result)) {
+            return $result;
         }
 
         return PASSWORD_ERROR;
@@ -88,6 +90,9 @@ class rcube_plesk_password
  */
 class plesk_rpc
 {
+    protected $old_version = false;
+    protected $curl;
+
     /**
      * init plesk-rpc via curl
      *
@@ -100,11 +105,11 @@ class plesk_rpc
      */
     function init($host, $port, $path, $user, $pass)
     {
-        $headers = array(
+        $headers = [
             sprintf("HTTP_AUTH_LOGIN: %s", $user),
             sprintf("HTTP_AUTH_PASSWD: %s", $pass),
             "Content-Type: text/xml"
-        );
+        ];
 
         $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
         $this->curl = curl_init();
@@ -120,35 +125,24 @@ class plesk_rpc
      * send a request to the plesk
      *
      * @param string $packet XML-Packet to send to Plesk
-     * @returns bool request was successful or not
+     *
+     * @returns string Response body
      */
     function send_request($packet)
     {
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $packet);
-        $retval = curl_exec($this->curl);
+        $result = curl_exec($this->curl);
 
-        return $retval;
+        return $result && strpos($result, '<?xml') === 0 ? $result : null;
     }
 
     /**
      * close curl
      */
-    function destroy(){
-        curl_close($this->curl);
-    }
-
-    /**
-     * Creates an Initial SimpleXML-Object for Plesk-RPC
-     *
-     * @returns object SimpleXML object
-     */
-    function get_request_obj()
+    function destroy()
     {
-        $request = new SimpleXMLElement("<packet></packet>");
-        $request->addAttribute("version", "1.6.3.0");
-
-        return $request;
+        curl_close($this->curl);
     }
 
     /**
@@ -160,7 +154,7 @@ class plesk_rpc
     function domain_info($domain)
     {
         // build xml
-        $request = $this->get_request_obj();
+        $request = new SimpleXMLElement("<packet></packet>");
         $site    = $request->addChild("site");
         $get     = $site->addChild("get");
         $filter  = $get->addChild("filter");
@@ -170,12 +164,25 @@ class plesk_rpc
 
         $dataset->addChild("hosting");
         $packet = $request->asXML();
+        $xml    = null;
 
-        // send the request
-        $res = $this->send_request($packet);
+        // send the request and make it to simple-xml-object
+        if ($res = $this->send_request($packet)) {
+            $xml = new SimpleXMLElement($res);
+        }
 
-        // make it to simple-xml-object
-        $xml = new SimpleXMLElement($res);
+        // Old Plesk versions require version attribute, add it and try again
+        if ($xml && $xml->site->get->result->status == 'error' && $xml->site->get->result->errcode == 1017) {
+            $request->addAttribute("version", "1.6.3.0");
+            $packet = $request->asXML();
+
+            $this->old_version = true;
+
+            // send the request and make it to simple-xml-object
+            if ($res = $this->send_request($packet)) {
+                $xml = new SimpleXMLElement($res);
+            }
+        }
 
         return $xml;
     }
@@ -185,15 +192,13 @@ class plesk_rpc
      *
      * @param string $domain domain-name
      *
-     * @returns bool|int false if failed and integer if successed
+     * @returns int Domain ID
      */
     function get_domain_id($domain)
     {
-        $xml = $this->domain_info($domain);
-        $id  = intval($xml->site->get->result->id);
-        $id  = (is_int($id)) ? $id : false;
-
-        return $id;
+        if ($xml = $this->domain_info($domain)) {
+            return intval($xml->site->get->result->id);
+        }
     }
 
     /**
@@ -215,11 +220,11 @@ class plesk_rpc
         }
 
         // build xml-packet
-        $request = $this    -> get_request_obj();
-        $mail    = $request -> addChild("mail");
-        $update  = $mail    -> addChild("update");
-        $add     = $update  -> addChild("set");
-        $filter  = $add     -> addChild("filter");
+        $request = new SimpleXMLElement("<packet></packet>");
+        $mail    = $request->addChild("mail");
+        $update  = $mail->addChild("update");
+        $add     = $update->addChild("set");
+        $filter  = $add->addChild("filter");
         $filter->addChild("site-id", $domain_id);
 
         $mailname = $filter->addChild("mailname");
@@ -229,13 +234,27 @@ class plesk_rpc
         $password->addChild("value", $newpass);
         $password->addChild("type", "plain");
 
+        if ($this->old_version) {
+            $request->addAttribute("version", "1.6.3.0");
+        }
+
         $packet = $request->asXML();
 
         // send the request to plesk
-        $res = $this->send_request($packet);
-        $xml = new SimpleXMLElement($res);
-        $res = strval($xml->mail->update->set->result->status);
+        if ($res = $this->send_request($packet)) {
+            $xml = new SimpleXMLElement($res);
+            $res = strval($xml->mail->update->set->result->status);
 
-        return $res == "ok";
+            if ($res != "ok") {
+                $res = [
+                    'code' => PASSWORD_ERROR,
+                    'message' => strval($xml->mail->update->set->result->errtext)
+                ];
+            }
+
+            return $res;
+        }
+
+        return false;
     }
 }

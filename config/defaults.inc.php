@@ -9,7 +9,7 @@
  | Default settings for all configuration options                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2018, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$config = array();
+$config = [];
 
 // ----------------------------------
 // SQL DATABASE
@@ -27,8 +27,12 @@ $config = array();
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
+// Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
+// Note: Various drivers support various additional arguments for connection,
+//       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
+//       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
+//       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 $config['db_dsnw'] = 'mysql://roundcube:@localhost/roundcubemail';
 
 // Database DSN for read-only operations (if empty write database will be used)
@@ -49,12 +53,12 @@ $config['db_prefix'] = '';
 // Mapping of table names and connections to use for ALL operations.
 // This can be used in a setup with replicated databases and a DB master
 // where read/write access to cache tables should not go to master.
-$config['db_table_dsn'] = array(
+$config['db_table_dsn'] = [
 //    'cache' => 'r',
 //    'cache_index' => 'r',
 //    'cache_thread' => 'r',
 //    'cache_messages' => 'r',
-);
+];
 
 // It is possible to specify database variable values e.g. some limits here.
 // Use them if your server is not MySQL or for better performance.
@@ -71,7 +75,7 @@ $config['db_max_allowed_packet'] = null;
 $config['log_driver'] = 'file';
 
 // date format for log entries
-// (read http://php.net/manual/en/function.date.php for all format characters)  
+// (read http://php.net/manual/en/function.date.php for all format characters)
 $config['log_date_format'] = 'd-M-Y H:i:s O';
 
 // length of the session ID to prepend each log line with
@@ -92,34 +96,34 @@ $config['syslog_facility'] = LOG_USER;
 // Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.
 $config['per_user_logging'] = false;
 
-// Log sent messages to <log_dir>/sendmail or to syslog
+// Log sent messages to <log_dir>/sendmail.log or to syslog
 $config['smtp_log'] = true;
 
-// Log successful/failed logins to <log_dir>/userlogins or to syslog
+// Log successful/failed logins to <log_dir>/userlogins.log or to syslog
 $config['log_logins'] = false;
 
-// Log session authentication errors to <log_dir>/session or to syslog
-$config['log_session'] = false;
+// Log session debug information/authentication errors to <log_dir>/session.log or to syslog
+$config['session_debug'] = false;
 
-// Log SQL queries to <log_dir>/sql or to syslog
+// Log SQL queries to <log_dir>/sql.log or to syslog
 $config['sql_debug'] = false;
 
-// Log IMAP conversation to <log_dir>/imap or to syslog
+// Log IMAP conversation to <log_dir>/imap.log or to syslog
 $config['imap_debug'] = false;
 
-// Log LDAP conversation to <log_dir>/ldap or to syslog
+// Log LDAP conversation to <log_dir>/ldap.log or to syslog
 $config['ldap_debug'] = false;
 
-// Log SMTP conversation to <log_dir>/smtp or to syslog
+// Log SMTP conversation to <log_dir>/smtp.log or to syslog
 $config['smtp_debug'] = false;
 
-// Log Memcache conversation to <log_dir>/memcache or to syslog
+// Log Memcache conversation to <log_dir>/memcache.log or to syslog
 $config['memcache_debug'] = false;
 
-// Log APC conversation to <log_dir>/apc or to syslog
+// Log APC conversation to <log_dir>/apc.log or to syslog
 $config['apc_debug'] = false;
 
-// Log Redis conversation to <log_dir>/redis or to syslog
+// Log Redis conversation to <log_dir>/redis.log or to syslog
 $config['redis_debug'] = false;
 
 
@@ -130,7 +134,8 @@ $config['redis_debug'] = false;
 // The IMAP host chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
@@ -152,13 +157,13 @@ $config['imap_auth_type'] = null;
 // IMAP socket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
-//$config['imap_conn_options'] = array(
-//  'ssl'         => array(
+//$config['imap_conn_options'] = [
+//  'ssl'         => [
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ),
-// );
+//   ],
+// ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
 
@@ -177,7 +182,7 @@ $config['imap_delimiter'] = null;
 
 // If you know your imap's folder vendor, you can specify it here.
 // Otherwise it will be determined automatically. Use lower-case
-// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+// identifiers, e.g. 'dovecot', 'cyrus', 'gimap', 'hmail', 'uw-imap'.
 $config['imap_vendor'] = null;
 
 // If IMAP server doesn't support NAMESPACE extension, but you're
@@ -191,7 +196,7 @@ $config['imap_ns_personal'] = null;
 $config['imap_ns_other']    = null;
 $config['imap_ns_shared']   = null;
 
-// By default IMAP capabilities are readed after connection to IMAP server
+// By default IMAP capabilities are read after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
 // after login. Set to True if you've got this case.
 $config['imap_force_caps'] = false;
@@ -200,14 +205,14 @@ $config['imap_force_caps'] = false;
 // extension if available. Some servers (dovecot 1.x) returns wrong results
 // for shared namespaces in this case. https://github.com/roundcube/roundcubemail/issues/2474
 // Enable this option to force LSUB command usage instead.
-// Deprecated: Use imap_disabled_caps = array('LIST-EXTENDED')
+// Deprecated: Use imap_disabled_caps = ['LIST-EXTENDED']
 $config['imap_force_lsub'] = false;
 
 // Some server configurations (e.g. Courier) doesn't list folders in all namespaces
 // Enable this option to force listing of folders in all namespaces
 $config['imap_force_ns'] = false;
 
-// Some servers return hidden folders (name starting witha dot)
+// Some servers return hidden folders (name starting with a dot)
 // from user home directory. IMAP RFC does not forbid that.
 // Enable this option to hide them and disable possibility to create such.
 $config['imap_skip_hidden_folders'] = false;
@@ -222,13 +227,13 @@ $config['imap_dual_use_folders'] = null;
 // and you can't remove it from CAPABILITY string on server-side.
 // For example UW-IMAP server has broken ESEARCH.
 // Note: Because the list is cached, re-login is required after change.
-$config['imap_disabled_caps'] = array();
+$config['imap_disabled_caps'] = [];
 
 // Log IMAP session identifiers after each IMAP login.
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -253,8 +258,8 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (for sending mails).
-// Enter hostname with prefix tls:// to use STARTTLS, or use
-// prefix ssl:// to use the deprecated SSL over SMTP (aka SMTPS)
+// Enter hostname with prefix ssl:// to use Implicit TLS, or use
+// prefix tls:// to use STARTTLS.
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -262,9 +267,11 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
+// To specify different SMTP servers for different IMAP hosts provide an array
+// of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
 $config['smtp_server'] = 'localhost';
 
-// SMTP port (default is 587)
+// SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
 $config['smtp_port'] = 587;
 
 // SMTP username (if required) if you use %u as the username Roundcube
@@ -285,9 +292,16 @@ $config['smtp_auth_cid'] = null;
 // Optional SMTP authentication password to be used for smtp_auth_cid
 $config['smtp_auth_pw'] = null;
 
-// SMTP HELO host 
-// Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages 
-// Leave this blank and you will get the server variable 'server_name' or 
+// Pass the username (XCLIENT LOGIN) to the server
+$config['smtp_xclient_login'] = false;
+
+// Pass the remote IP (XCLIENT ADDR) to the server
+$config['smtp_xclient_addr'] = false;
+
+
+// SMTP HELO host
+// Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages
+// Leave this blank and you will get the server variable 'server_name' or
 // localhost if that isn't defined.
 $config['smtp_helo_host'] = '';
 
@@ -300,22 +314,101 @@ $config['smtp_timeout'] = 0;
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation, and
 // requires 'smtp_timeout' to be non zero.
-// $config['smtp_conn_options'] = array(
-//   'ssl'         => array(
+// $config['smtp_conn_options'] = [
+//   'ssl'         => [
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ),
-// );
+//   ],
+// ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
 
 
 // ----------------------------------
+// OAuth
+// ----------------------------------
+
+// Enable OAuth2 by defining a provider. Use 'generic' here
+$config['oauth_provider'] = null;
+
+// Provider name to be displayed on the login button
+$config['oauth_provider_name'] = 'Google';
+
+// Mandatory: OAuth client ID for your Roundcube installation
+$config['oauth_client_id'] = null;
+
+// Mandatory: OAuth client secret
+$config['oauth_client_secret'] = null;
+
+// Mandatory: URI for OAuth user authentication (redirect)
+$config['oauth_auth_uri'] = null;
+
+// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+$config['oauth_token_uri'] = null;
+
+// Optional: Endpoint to query user identity if not provided in auth response
+$config['oauth_identity_uri'] = null;
+
+// Optional: disable SSL certificate check on HTTP requests to OAuth server
+// See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
+$config['oauth_verify_peer'] = true;
+
+// Mandatory: OAuth scopes to request (space-separated string)
+$config['oauth_scope'] = null;
+
+// Optional: additional query parameters to send with login request (hash array)
+$config['oauth_auth_parameters'] = [];
+
+// Optional: array of field names used to resolve the username within the identity information
+$config['oauth_identity_fields'] = null;
+
+// Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
+$config['oauth_login_redirect'] = false;
+
+///// Example config for Gmail
+
+// Register your service at https://console.developers.google.com/
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+
+// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['oauth_provider'] = 'google';
+// $config['oauth_provider_name'] = 'Google';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://accounts.google.com/o/oauth2/auth";
+// $config['oauth_token_uri'] = "https://oauth2.googleapis.com/token";
+// $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
+// $config['oauth_scope'] = "email profile openid https://mail.google.com/";
+// $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+///// Example config for Outlook.com (Office 365)
+
+// Register your OAuth client at https://portal.azure.com
+// - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
+// - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
+
+// $config['default_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
+
+// $config['oauth_provider'] = 'outlook';
+// $config['oauth_provider_name'] = 'Outlook.com';
+// $config['oauth_client_id'] = "<your-credentials-client-id>";
+// $config['oauth_client_secret'] = "<your-credentials-client-secret>";
+// $config['oauth_auth_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+// $config['oauth_token_uri'] = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+// $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
+// $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
+// $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
+// $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
+
+// ----------------------------------
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache'.
+// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
@@ -328,7 +421,8 @@ $config['ldap_cache_ttl'] = '10m';
 
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
-$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+// Example: ['localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock'];
+$config['memcache_hosts'] = null;
 
 // Controls the use of a persistent connections to memcache servers
 // See http://php.net/manual/en/memcache.addserver.php
@@ -343,11 +437,15 @@ $config['memcache_timeout'] = 1;
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_retry_interval'] = 15;
 
-// use these hosts for accessing Redis.
-// Currently only one host is supported. cluster support may come in a future release.
-// You can pass 4 fields, host, port, database and password.
-// Unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
-$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
+// Use these hosts for accessing Redis.
+// Currently only one host is supported. Cluster support may come in a future release.
+// You can pass 4 fields, host, port (optional), database (optional) and password (optional).
+// Unset fields will be set to the default values host=127.0.0.1, port=6379.
+// Examples:
+//     ['localhost:6379'];
+//     ['192.168.1.1:6379:1:secret'];
+//     ['unix:///var/run/redis/redis-server.sock:1:secret'];
+$config['redis_hosts'] = null;
 
 // Maximum size of an object in memcache (in bytes). Default: 2MB
 $config['memcache_max_allowed_packet'] = '2M';
@@ -368,34 +466,63 @@ $config['redis_max_allowed_packet'] = '2M';
 $config['enable_installer'] = false;
 
 // don't allow these settings to be overridden by the user
-$config['dont_override'] = array();
+$config['dont_override'] = [];
 
 // List of disabled UI elements/actions
-$config['disabled_actions'] = array();
+$config['disabled_actions'] = [];
 
 // define which settings should be listed under the 'advanced' block
 // which is hidden by default
-$config['advanced_prefs'] = array();
+$config['advanced_prefs'] = [];
 
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';
 
-// replace Roundcube logo with this image
-// specify an URL relative to the document root of this Roundcube installation
-// an array can be used to specify different logos for specific template files
-// '*' for default logo
-// ':favicon' for favicon
-// ':print' for logo on all print templates (e.g. messageprint, contactprint)
-// ':small' for small screen logo in Elastic
-// different logos can be specified for different skins by prefixing the skin name to the array key
-// config applied in order: <skin>:<template>, <skin>:*, <template>, *
-// for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png", "elastic:*" => "/images/logo.png")
+// Location of the blank (watermark) frame page. By default it is the watermark.html
+// file from the currently selected skin. Prepend name/path with a slash to use
+// current skin folder. Remove the slash to point to a file in the Roundcube
+// root directory. It can be also a full URL.
+$config['blankpage_url'] = '/watermark.html';
+
+// Logo image replacement. Specifies location of the image as:
+// - URL relative to the document root of this Roundcube installation
+// - full URL with http:// or https:// prefix
+// - URL relative to the current skin folder (when starts with a '/')
+//
+// An array can be used to specify different logos for specific template files
+// The array key specifies the place(s) the logo should be applied to and
+// is made up of (up to) 3 parts:
+// - skin name prefix (always with colon, can be replaced with *)
+// - template name (or * for all templates)
+// - logo type - it is used for logos used on multiple templates
+//   the available types include '[favicon]' for favicon, '[print]' for logo on all print
+//   templates (e.g. messageprint, contactprint) and '[small]' for small screen logo in supported skins
+//   '[dark]' and '[small-dark]' for dark mode logo in supported skins
+//
+// Example config for skin_logo
+/*
+   [
+     // show the image /images/logo_login_small.png for the Login screen in the Elastic skin on small screens
+     "elastic:login[small]" => "/images/logo_login_small.png",
+     // show the image /images/logo_login.png for the Login screen in the Elastic skin
+     "elastic:login" => "/images/logo_login.png",
+     // show the image /images/logo_small.png in the Elastic skin
+     "elastic:*[small]" => "/images/logo_small.png",
+     // show the image /images/larry.png in the Larry skin
+     "larry:*" => "/images/larry.png",
+     // show the image /images/logo_login.png on the login template in all skins
+     "login" => "/images/logo_login.png",
+     // show the image /images/logo_print.png for all print type logos in all skins
+     "[print]" => "/images/logo_print.png",
+   ];
+*/
 $config['skin_logo'] = null;
 
-// automatically create a new Roundcube user when log-in the first time.
-// a new user will be created once the IMAP login succeeds.
-// set to false if only registered users can use this service
+// Automatically register user in Roundcube database on successful (IMAP) logon.
+// Set to false if only registered users should be allowed to the webmail.
+// Note: If disabled you have to create records in Roundcube users table by yourself.
+// Note: Roundcube does not manage/create users on a mail server.
 $config['auto_create_user'] = true;
 
 // Enables possibility to log in using email address from user identities
@@ -406,7 +533,7 @@ $config['user_aliases'] = false;
 // This is used by the 'file' log driver.
 $config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
-// use this folder to store temp files
+// Location of temporary saved files such as attachments and cache files
 // must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
@@ -442,6 +569,7 @@ $config['login_username_maxlen'] = 1024;
 $config['login_password_maxlen'] = 1024;
 
 // Logon username filter. Regular expression for use with preg_match().
+// Use special value 'email' if you accept only full email addresses as user logins.
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
@@ -471,20 +599,26 @@ $config['session_auth_name'] = null;
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
+// Session samesite. Defaults to PHP session.cookie_samesite setting.
+// Requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
+// Possible values: null (default), 'Lax', or 'Strict'
+$config['session_samesite'] = null;
+
 // Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
 //
-// If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
-// Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+// If set to 'memcache' or 'memcached', a list of servers need to be specified in 'memcache_hosts'
+// Make sure the Memcache extension (https://pecl.php.net/package/memcache) version >= 2.0.0
+// or the Memcached extension (https://pecl.php.net/package/memcached) version >= 2.0.0 is installed.
 //
 // If set to 'redis', a server needs to be specified in 'redis_hosts'
-// Make sure the Redis extension (http://pecl.php.net/package/redis) version >= 2.0.0 is installed
+// Make sure the Redis extension (https://pecl.php.net/package/redis) version >= 2.0.0 is installed.
 //
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
 
 // List of trusted proxies
 // X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
-$config['proxy_whitelist'] = array();
+$config['proxy_whitelist'] = [];
 
 // List of trusted host names
 // Attackers can modify Host header of the HTTP request causing $_SERVER['SERVER_NAME']
@@ -492,7 +626,7 @@ $config['proxy_whitelist'] = array();
 // to collect user names and passwords. Some server configurations prevent that, but not all.
 // An empty list accepts any host name. The list can contain host names
 // or PCRE patterns (without // delimiters, that will be added automatically).
-$config['trusted_host_patterns'] = array();
+$config['trusted_host_patterns'] = [];
 
 // check client IP in session authorization
 $config['ip_check'] = false;
@@ -505,9 +639,10 @@ $config['x_frame_options'] = 'sameorigin';
 // This key is used for encrypting purposes, like storing of imap password
 // in the session. For historical reasons it's called DES_key, but it's used
 // with any configured cipher_method (see below).
+// For the default cipher_method a required key length is 24 characters.
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// Encryption algorithm. You can use any method supported by openssl.
+// Encryption algorithm. You can use any method supported by OpenSSL.
 // Default is set for backward compatibility to DES-EDE3-CBC,
 // but you can choose e.g. AES-256-CBC which we consider a better choice.
 $config['cipher_method'] = 'DES-EDE3-CBC';
@@ -538,11 +673,9 @@ $config['username_domain_forced'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['mail_domain'] = '';
 
-// Password character set.
-// If your authentication backend supports it, use "UTF-8".
-// Otherwise, use the appropriate character set.
-// Defaults to ISO-8859-1 for backward compatibility.
-$config['password_charset'] = 'ISO-8859-1';
+// Password character set, to change the password for user
+// authentication or for password change operations
+$config['password_charset'] = 'UTF-8';
 
 // How many seconds must pass between emails sent by a user
 $config['sendmail_delay'] = 0;
@@ -556,7 +689,7 @@ $config['max_message_size'] = '100M';
 // Default: 0 (no limit)
 $config['max_recipients'] = 0;
 
-// Maximum number of recipients per message exluding Bcc header.
+// Maximum number of recipients per message excluding Bcc header.
 // This is a soft limit, which means we only display a warning to the user.
 // Default: 5
 $config['max_disclosed_recipients'] = 5;
@@ -568,8 +701,8 @@ $config['max_group_members'] = 0;
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
 
-// Add this user-agent to message headers when sending
-$config['useragent'] = 'Roundcube Webmail/'.RCUBE_VERSION;
+// Add this user-agent to message headers when sending. Default: not set.
+$config['useragent'] = null;
 
 // try to load host-specific configuration
 // see https://github.com/roundcube/roundcubemail/wiki/Configuration:-Multi-Domain-Setup
@@ -617,9 +750,12 @@ $config['identities_level'] = 0;
 $config['identity_image_size'] = 64;
 
 // Mimetypes supported by the browser.
-// attachments of these types will open in a preview window
-// either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
-$config['client_mimetypes'] = null;  # null == default
+// Attachments of these types will open in a preview window.
+// Either a comma-separated list or an array. Default list includes:
+//     text/plain,text/html,
+//     image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp,
+//     application/x-javascript,application/pdf,application/x-shockwave-flash
+$config['client_mimetypes'] = null;
 
 // Path to a local mime magic database file for PHPs finfo extension.
 // Set to null if the default path should be used.
@@ -673,19 +809,40 @@ $config['assets_path'] = '';
 // PHP code about the location of asset files in filesystem
 $config['assets_dir'] = '';
 
+// Options passed when creating Guzzle HTTP client, used to fetch remote content
+// For example:
+// [
+//   'timeout' => 10,
+//   'proxy' => 'tcp://localhost:8125',
+// ]
+$config['http_client'] = [];
+
+// List of supported subject prefixes for a message reply
+// This list is used to clean the subject when replying or sorting messages
+$config['subject_reply_prefixes'] = ['Re:'];
+
+// List of supported subject prefixes for a message forward
+// This list is used to clean the subject when forwarding or sorting messages
+$config['subject_forward_prefixes'] = ['Fwd:', 'Fw:'];
+
+// Prefix to use in subject when replying to a message
+$config['response_prefix'] = 'Re:';
+
+// Prefix to use in subject when forwarding a message
+$config['forward_prefix'] = 'Fwd:';
 
 // ----------------------------------
 // PLUGINS
 // ----------------------------------
 
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = array();
+$config['plugins'] = [];
 
 // ----------------------------------
 // USER INTERFACE
 // ----------------------------------
 
-// default messages sort column. Use empty value for default server's sorting, 
+// default messages sort column. Use empty value for default server's sorting,
 // or 'arrival', 'date', 'subject', 'from', 'to', 'fromto', 'size', 'cc'
 $config['message_sort_col'] = '';
 
@@ -694,7 +851,7 @@ $config['message_sort_order'] = 'DESC';
 
 // These cols are shown in the message list. Available cols are:
 // subject, from, to, fromto, cc, replyto, date, size, status, flag, attachment, priority
-$config['list_cols'] = array('subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment');
+$config['list_cols'] = ['subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment'];
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
@@ -705,13 +862,13 @@ $config['date_format'] = 'Y-m-d';
 
 // give this choice of date formats to the user to select from
 // Note: do not use ambiguous formats like m/d/Y
-$config['date_formats'] = array('Y-m-d', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'd/m/Y', 'd.m.Y', 'j.n.Y');
+$config['date_formats'] = ['Y-m-d', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'd/m/Y', 'd.m.Y', 'j.n.Y'];
 
 // use this format for time display (date or strftime format)
 $config['time_format'] = 'H:i';
 
 // give this choice of time formats to the user to select from
-$config['time_formats'] = array('G:i', 'H:i', 'g:i a', 'h:i A');
+$config['time_formats'] = ['G:i', 'H:i', 'g:i a', 'h:i A'];
 
 // use this format for short date display (derived from date_format and time_format)
 $config['date_short'] = 'D H:i';
@@ -747,7 +904,7 @@ $config['protect_default_folders'] = true;
 // Disable localization of the default folder names listed above
 $config['show_real_foldernames'] = false;
 
-// if in your system 0 quota means no limit set this option to true 
+// if in your system 0 quota means no limit set this option to true
 $config['quota_zero_as_unlimited'] = false;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
@@ -775,9 +932,9 @@ $config['spellcheck_engine'] = 'googie';
 $config['spellcheck_uri'] = '';
 
 // These languages can be selected for spell checking.
-// Configure as a PHP style hash array: array('en'=>'English', 'de'=>'Deutsch');
+// Configure as a PHP style hash array: ['en'=>'English', 'de'=>'Deutsch'];
 // Leave empty for default set of available language.
-$config['spellcheck_languages'] = NULL;
+$config['spellcheck_languages'] = null;
 
 // Makes that words with all letters capitalized will be ignored (e.g. GOOGLE)
 $config['spellcheck_ignore_caps'] = false;
@@ -798,41 +955,46 @@ $config['max_pagesize'] = 200;
 // Minimal value of user's 'refresh_interval' setting (in seconds)
 $config['min_refresh_interval'] = 60;
 
-// Enables files upload indicator. Requires APC installed and enabled apc.rfc1867 option.
-// By default refresh time is set to 1 second. You can set this value to true
-// or any integer value indicating number of seconds.
-$config['upload_progress'] = false;
-
 // Specifies for how many seconds the Undo button will be available
 // after object delete action. Currently used with supporting address book sources.
 // Setting it to 0, disables the feature.
 $config['undo_timeout'] = 0;
 
 // A static list of canned responses which are immutable for the user
-$config['compose_responses_static'] = array(
-//  array('name' => 'Canned Response 1', 'text' => 'Static Response One'),
-//  array('name' => 'Canned Response 2', 'text' => 'Static Response Two'),
-);
+$config['compose_responses_static'] = [
+//  ['name' => 'Canned Response 1', 'text' => 'Static Response One'],
+//  ['name' => 'Canned Response 2', 'text' => 'Static Response Two'],
+];
+
+// List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
+// Note: Lookup is client-side, so the server must support Cross-Origin Resource Sharing
+$config['keyservers'] = ['keys.openpgp.org'];
+
+// Enables use of the Main Keyring in Mailvelope? If disabled, a per-site keyring
+// will be used. This is set to false for backwards compatibility.
+$config['mailvelope_main_keyring'] = false;
+
+// Mailvelope RSA bit size for newly generated keys, either 2048 or 4096.
+// It maybe desirable to use 2048 for sites with many mobile users.
+$config['mailvelope_keysize'] = 4096;
 
 // ----------------------------------
 // ADDRESSBOOK SETTINGS
 // ----------------------------------
 
-// This indicates which type of address book to use. Possible choises:
-// 'sql' (default), 'ldap' and ''.
-// If set to 'ldap' then it will look at using the first writable LDAP
-// address book as the primary address book and it will not display the
-// SQL address book in the 'Address Book' view.
-// If set to '' then no address book will be displayed or only the
-// addressbook which is created by a plugin (like CardDAV).
+// This indicates which type of address book to use. Possible choices:
+// 'sql' - built-in sql addressbook enabled (default),
+// ''    - built-in sql addressbook disabled.
+//         Still LDAP or plugin-added addressbooks will be available.
+//         BC Note: The value can actually be anything except 'sql', it does not matter.
 $config['address_book_type'] = 'sql';
 
 // In order to enable public ldap search, configure an array like the Verisign
 // example further below. if you would like to test, simply uncomment the example.
 // Array key must contain only safe characters, ie. a-zA-Z0-9_
-$config['ldap_public'] = array();
+$config['ldap_public'] = [];
 
-// If you are going to use LDAP for individual address books, you will need to 
+// If you are going to use LDAP for individual address books, you will need to
 // set 'user_specific' to true and use the variables to generate the appropriate DNs to access it.
 //
 // The recommended directory structure for LDAP is to store all the address book entries
@@ -845,10 +1007,10 @@ $config['ldap_public'] = array();
 //
 // So the base_dn would be uid=%fu,ou=people,o=root
 // The bind_dn would be the same as based_dn or some super user login.
-/* 
+/*
  * example config for Verisign directory
  *
-$config['ldap_public']['Verisign'] = array(
+$config['ldap_public']['Verisign'] = [
   'name'          => 'Verisign.com',
   // Replacement variables supported in host names:
   // %h - user's IMAP hostname
@@ -857,11 +1019,12 @@ $config['ldap_public']['Verisign'] = array(
   // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
+  // Note: Host can also be a full URI e.g. ldaps://hostname.local:636 (for SSL)
   'hosts'         => array('directory.verisign.com'),
   'port'          => 389,
   'use_tls'       => false,
   'ldap_version'  => 3,       // using LDAPv3
-  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind arrempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
+  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind attempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // When 'user_specific' is enabled following variables can be used in base_dn/bind_dn config:
   // %fu - The full username provided, assumes the username is an email
@@ -885,7 +1048,7 @@ $config['ldap_public']['Verisign'] = array(
   'domain_base_dn' => '',
   'domain_filter'  => '',
   // Optional map of replacement strings => attributes used when binding for an individual address book
-  'search_bind_attrib' => array(),  // e.g. array('%udc' => 'ou')
+  'search_bind_attrib' => [],  // e.g. ['%udc' => 'ou']
   // Default for %dn variable if search doesn't return DN value
   'search_dn_default' => '',
   // Optional authentication identifier to be used as SASL authorization proxy
@@ -904,22 +1067,22 @@ $config['ldap_public']['Verisign'] = array(
   'writable'       => false,
   // To create a new contact these are the object classes to specify
   // (or any other classes you wish to use).
-  'LDAP_Object_Classes' => array('top', 'inetOrgPerson'),
+  'LDAP_Object_Classes' => ['top', 'inetOrgPerson'],
   // The RDN field that is used for new entries, this field needs
   // to be one of the search_fields, the base of base_dn is appended
   // to the RDN to insert into the LDAP directory.
   'LDAP_rdn'       => 'cn',
   // The required fields needed to build a new contact as required by
   // the object classes (can include additional fields not required by the object classes).
-  'required_fields' => array('cn', 'sn', 'mail'),
-  'search_fields'   => array('mail', 'cn'),  // fields to search in
+  'required_fields' => ['cn', 'sn', 'mail'],
+  'search_fields'   => ['mail', 'cn'],  // fields to search in
   // mapping of contact fields to directory attributes
   //   1. for every attribute one can specify the number of values (limit) allowed.
   //      default is 1, a wildcard * means unlimited
   //   2. another possible parameter is separator character for composite fields
   //   3. it's possible to define field format for write operations, e.g. for date fields
   //      example: 'birthday:date[YmdHis\\Z]'
-  'fieldmap' => array(
+  'fieldmap' => [
     // Roundcube  => LDAP:limit
     'name'        => 'cn',
     'surname'     => 'sn',
@@ -945,14 +1108,14 @@ $config['ldap_public']['Verisign'] = array(
     // these currently don't work:
     // 'manager'       => 'manager',
     // 'assistant'     => 'secretary',
-  ),
+  ],
   // Map of contact sub-objects (attribute name => objectClass(es)), e.g. 'c' => 'country'
-  'sub_fields' => array(),
+  'sub_fields' => [],
   // Generate values for the following LDAP attributes automatically when creating a new record
-  'autovalues' => array(
-  // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed 
-  // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
-  ),
+  'autovalues' => [
+    // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed
+    // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+  ],
   'sort'           => 'cn',         // The field to sort the listing by.
   'scope'          => 'sub',        // search mode: sub|base|list
   'filter'         => '(objectClass=inetOrgPerson)',      // used for basic listing (if not empty) and will be &'d with search queries. example: status=act
@@ -970,47 +1133,47 @@ $config['ldap_public']['Verisign'] = array(
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, %d and %dc work as for base_dn (see above)
   // if the groups base_dn is empty, the contact base_dn is used for the groups as well
-  // -> in this case, assure that groups and contacts are separated due to the concernig filters!
-  'groups'  => array(
+  // -> in this case, assure that groups and contacts are separated due to the concerning filters!
+  'groups'  => [
     'base_dn'           => '',
     'scope'             => 'sub',       // Search mode: sub|base|list
     'filter'            => '(objectClass=groupOfNames)',
-    'object_classes'    => array('top', 'groupOfNames'),   // Object classes to be assigned to new groups
+    'object_classes'    => ['top', 'groupOfNames'],   // Object classes to be assigned to new groups
     'member_attr'       => 'member',   // Name of the default member attribute, e.g. uniqueMember
     'name_attr'         => 'cn',       // Attribute to be used as group name
     'email_attr'        => 'mail',     // Group email address attribute (e.g. for mailing lists)
     'member_filter'     => '(objectclass=*)',  // Optional filter to use when querying for group members
     'vlv'               => false,      // Use VLV controls to list groups
-    'class_member_attr' => array(      // Mapping of group object class to member attribute used in these objects
+    'class_member_attr' => [      // Mapping of group object class to member attribute used in these objects
       'groupofnames'       => 'member',
       'groupofuniquenames' => 'uniquemember'
-    ),
-  ),
+    ],
+  ],
   // this configuration replaces the regular groups listing in the directory tree with
   // a hard-coded list of groups, each listing entries with the configured base DN and filter.
   // if the 'groups' option from above is set, it'll be shown as the first entry with the name 'Groups'
-  'group_filters' => array(
-    'departments' => array(
+  'group_filters' => [
+    'departments' => [
       'name'    => 'Company Departments',
       'scope'   => 'list',
       'base_dn' => 'ou=Groups,dc=mydomain,dc=com',
       'filter'  => '(|(objectclass=groupofuniquenames)(objectclass=groupofurls))',
       'name_attr' => 'cn',
-    ),
-    'customers' => array(
+    ],
+    'customers' => [
       'name'    => 'Customers',
       'scope'   => 'sub',
       'base_dn' => 'ou=Customers,dc=mydomain,dc=com',
       'filter'  => '(objectClass=inetOrgPerson)',
       'name_attr' => 'sn',
-    ),
-  ),
-);
+    ],
+  ],
+];
 */
 
 // An ordered array of the ids of the addressbooks that should be searched
-// when populating address autocomplete fields server-side. ex: array('sql','Verisign');
-$config['autocomplete_addressbooks'] = array('sql');
+// when populating address autocomplete fields server-side. ex: ['sql','Verisign'];
+$config['autocomplete_addressbooks'] = ['sql'];
 
 // The minimum number of characters required to be typed in an autocomplete field
 // before address books will be searched. Most useful for LDAP directories that
@@ -1023,7 +1186,7 @@ $config['autocomplete_min_length'] = 1;
 // books are searched in one request.
 $config['autocomplete_threads'] = 0;
 
-// Max. numer of entries in autocomplete popup. Default: 15.
+// Max. number of entries in autocomplete popup. Default: 15.
 $config['autocomplete_max'] = 15;
 
 // show address fields in this order
@@ -1039,12 +1202,28 @@ $config['addressbook_search_mode'] = 0;
 
 // List of fields used on contacts list and for autocompletion searches
 // Warning: These are field names not LDAP attributes (see 'fieldmap' setting)!
-$config['contactlist_fields'] = array('name', 'firstname', 'surname', 'email');
+$config['contactlist_fields'] = ['name', 'firstname', 'surname', 'email'];
 
 // Template of contact entry on the autocompletion list.
 // You can use contact fields as: name, email, organization, department, etc.
 // See program/steps/addressbook/func.inc for a list
 $config['contact_search_name'] = '{name} <{email}>';
+
+// Contact mode. If your contacts are mostly business, switch it to 'business'.
+// This will prioritize form fields related to 'work' (instead of 'home').
+// Default: 'private'.
+$config['contact_form_mode'] = 'private';
+
+// The addressbook source to store automatically collected recipients in.
+// Default: true (the built-in "Collected recipients" addressbook, source id = '1')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_recipients'] = true;
+
+// The addressbook source to store trusted senders in.
+// Default: true (the built-in "Trusted senders" addressbook, source id = '2')
+// Note: It can be set to any writeable addressbook, e.g. 'sql'
+$config['collected_senders'] = true;
+
 
 // ----------------------------------
 // USER PREFERENCES
@@ -1053,8 +1232,12 @@ $config['contact_search_name'] = '{name} <{email}>';
 // Use this charset as fallback for message decoding
 $config['default_charset'] = 'ISO-8859-1';
 
-// skin name: folder from skins/
-$config['skin'] = 'larry';
+// Skin name: folder from skins/
+$config['skin'] = 'elastic';
+
+// Limit skins available for the user.
+// Note: When not empty, it should include the default skin set in 'skin' option.
+$config['skins_allowed'] = [];
 
 // Enables using standard browser windows (that can be handled as tabs)
 // instead of popup windows
@@ -1084,10 +1267,11 @@ $config['timezone'] = 'auto';
 // prefer displaying HTML messages
 $config['prefer_html'] = true;
 
-// display remote resources (inline images, styles)
+// Display remote resources (inline images, styles) in HTML messages
 // 0 - Never, always ask
-// 1 - Ask if sender is not in address book
+// 1 - Allow from my contacts (all writeable addressbooks + collected senders and recipients)
 // 2 - Always allow
+// 3 - Allow from trusted senders
 $config['show_images'] = 0;
 
 // open messages in new window
@@ -1130,7 +1314,7 @@ $config['logout_purge'] = false;
 // Compact INBOX on logout
 $config['logout_expunge'] = false;
 
-// Display attached images below the message body 
+// Display attached images below the message body
 $config['inline_images'] = true;
 
 // Encoding of long/non-ascii attachment names:
@@ -1159,7 +1343,7 @@ $config['refresh_interval'] = 60;
 // If true all folders will be checked for recent messages
 $config['check_all_folders'] = false;
 
-// If true, after message delete/move, the next message will be displayed
+// If true, after message/contact delete/move, the next message/contact will be displayed
 $config['display_next'] = true;
 
 // Default messages listing mode. One of 'threads' or 'list'.
@@ -1198,28 +1382,27 @@ $config['sig_separator'] = true;
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $config['force_7bit'] = false;
 
-// Defaults of the search field configuration.
+// Default fields configuration for mail search.
 // The array can contain a per-folder list of header fields which should be considered when searching
 // The entry with key '*' stands for all folders which do not have a specific list set.
+// Supported fields: subject, from, to, cc, bcc, body, text.
 // Please note that folder names should to be in sync with $config['*_mbox'] options
-$config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
+$config['search_mods'] = null;  // Example: ['*' => ['subject'=>1, 'from'=>1], 'Sent' => ['subject'=>1, 'to'=>1]];
 
 // Defaults of the addressbook search field configuration.
-$config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
-
-// 'Delete always'
-// This setting reflects if mail should be always deleted
-// when moving to Trash fails. This is necessary in some setups
-// when user is over quota and Trash is included in the quota.
-$config['delete_always'] = false;
+$config['addressbook_search_mods'] = null;  // Example: ['name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1];
 
 // Directly delete messages in Junk instead of moving to Trash
 $config['delete_junk'] = false;
 
 // Behavior if a received message requests a message delivery notification (read receipt)
-// 0 = ask the user, 1 = send automatically, 2 = ignore (never send or ask)
-// 3 = send automatically if sender is in addressbook, otherwise ask the user
-// 4 = send automatically if sender is in addressbook, otherwise ignore
+// 0 = ask the user,
+// 1 = send automatically,
+// 2 = ignore (never send or ask)
+// 3 = send automatically if sender is in my contacts, otherwise ask the user
+// 4 = send automatically if sender is in my contacts, otherwise ignore
+// 5 = send automatically if sender is a trusted sender, otherwise ask the user
+// 6 = send automatically if sender is a trusted sender, otherwise ignore
 $config['mdn_requests'] = 0;
 
 // Return receipt checkbox default state

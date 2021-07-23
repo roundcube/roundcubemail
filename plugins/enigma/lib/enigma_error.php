@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | Error class for the Enigma Plugin                                       |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -19,7 +18,7 @@ class enigma_error
 {
     private $code;
     private $message;
-    private $data = array();
+    private $data = [];
 
     // error codes
     const OK          = 0;
@@ -33,7 +32,7 @@ class enigma_error
     const NOMDC       = 8;
 
 
-    function __construct($code = null, $message = '', $data = array())
+    function __construct($code = null, $message = '', $data = [])
     {
         $this->code    = $code;
         $this->message = $message;
@@ -50,8 +49,12 @@ class enigma_error
         return $this->message;
     }
 
-    function getData($name)
+    function getData($name = null)
     {
-        return $name ? $this->data[$name] : $this->data;
+        if ($name) {
+            return isset($this->data[$name]) ? $this->data[$name] : null;
+        }
+
+        return $this->data;
     }
 }

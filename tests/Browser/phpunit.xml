@@ -1,0 +1,21 @@
+<phpunit backupGlobals="false"
+    bootstrap="bootstrap.php"
+    colors="true">
+    <testsuites>
+        <testsuite name="Logon">
+            <directory suffix="Test.php">Logon</directory>
+        </testsuite>
+        <testsuite name="Contacts">
+            <directory suffix="Test.php">Contacts</directory>
+        </testsuite>
+        <testsuite name="Settings">
+            <directory suffix="Test.php">Settings</directory>
+        </testsuite>
+        <testsuite name="Mail">
+            <directory suffix="Test.php">Mail</directory>
+        </testsuite>
+        <testsuite name="Plugins">
+            <directory suffix="Test.php">../../plugins/*/tests/Browser</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -2,17 +2,16 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output.php                                     |
+ | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2012 The Roundcube Dev Team                        |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
+ |                                                                       |
  | CONTENTS:                                                             |
  |   Abstract class for output generation                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -35,14 +34,14 @@ abstract class rcmail_output extends rcube_output
     public $framed    = false;
 
     protected $pagetitle       = '';
-    protected $object_handlers = array();
+    protected $object_handlers = [];
     protected $devel_mode      = false;
 
 
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         parent::__construct();
 
@@ -74,7 +73,7 @@ abstract class rcmail_output extends rcube_output
     {
         parent::reset();
 
-        $this->object_handlers = array();
+        $this->object_handlers = [];
         $this->pagetitle = '';
     }
 
@@ -95,7 +94,7 @@ abstract class rcmail_output extends rcube_output
      * Register a template object handler
      *
      * @param string $name Object name
-     * @param string $func Function name to call
+     * @param callable $func Function name to call
      *
      * @return void
      */
@@ -114,5 +113,36 @@ abstract class rcmail_output extends rcube_output
     public function add_handlers($handlers)
     {
         $this->object_handlers = array_merge($this->object_handlers, $handlers);
+    }
+
+    /**
+     * A wrapper for header() function, so it can be replaced for automated tests
+     *
+     * @param string $header  The header string
+     * @param bool   $replace Replace previously set header?
+     *
+     * @return void
+     */
+    public function header($header, $replace = true)
+    {
+        header($header, $replace);
+    }
+
+    /**
+     * A helper to send output to the browser and exit
+     *
+     * @param string $body    The output body
+     * @param array  $headers Headers
+     *
+     * @return void
+     */
+    public function sendExit($body = '', $headers = [])
+    {
+        foreach ($headers as $header) {
+            header($header);
+        }
+
+        print $body;
+        exit;
     }
 }

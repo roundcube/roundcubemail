@@ -2,17 +2,16 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_cli.php                                 |
+ | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2014 The Roundcube Dev Team                        |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
+ |                                                                       |
  | CONTENTS:                                                             |
  |   Abstract class for output generation                                |
- |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -31,7 +30,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Object constructor
      */
-    public function __construct($task = null, $framed = false)
+    public function __construct()
     {
         parent::__construct();
     }
@@ -62,7 +61,7 @@ class rcmail_output_cli extends rcmail_output
     function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($this->app->text_exists($message)) {
-            $message = $this->app->gettext(array('name' => $message, 'vars' => $vars));
+            $message = $this->app->gettext(['name' => $message, 'vars' => $vars]);
         }
 
         printf("[%s] %s\n", strtoupper($type), $message);
@@ -73,7 +72,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::redirect()
      */
-    function redirect($p = array(), $delay = 1)
+    function redirect($p = [], $delay = 1)
     {
         // NOP
     }

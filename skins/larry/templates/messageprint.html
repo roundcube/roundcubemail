@@ -1,13 +1,13 @@
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
-<title><roundcube:object name="pagetitle" /></title>
-<roundcube:object name="favicon" />
+<roundcube:object name="meta" />
+<roundcube:object name="links" />
 <link rel="stylesheet" type="text/css" href="/print.css" />
 </head>
 <body>
 
-<div id="header"><roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" type="print" /></div>
+<div id="header"><roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" logo-type="print" logo-match="all" /></div>
 
 <div id="printmessageframe">
 <roundcube:object name="messageHeaders" class="headers-table" max="10" />

@@ -2,26 +2,25 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Comparteix';
 $labels['myrights'] = 'Permisos d\'accés';
 $labels['username'] = 'Usuari:';
 $labels['advanced'] = 'Mode Avançat';
 $labels['add'] = 'Afegeix';
 $labels['newuser'] = 'Afegeix una entrada';
-$labels['editperms'] = 'Editar Permisos';
+$labels['editperms'] = 'Edita Permisos';
 $labels['actions'] = 'Accions dels permisos d\'accés...';
 $labels['anyone'] = 'Tots els usuaris (qualsevol)';
 $labels['anonymous'] = 'Convidats (anònim)';
@@ -93,7 +92,6 @@ $messages['createsuccess'] = 'Els permisos d\'accés han estat afegits correctam
 $messages['updateerror'] = 'No s\'han pogut actualitzar els permisos d\'accés';
 $messages['deleteerror'] = 'No s\'han pogut suprimir els permisos d\'accés';
 $messages['createerror'] = 'No s\'han pogut afegir els permisos d\'accés';
-$messages['deleteconfirm'] = 'Esteu segurs que voleu suprimir els permisos d\'accés de l\'usuari o usuaris seleccionats?';
+$messages['deleteconfirm'] = 'Esteu segur de voler suprimir els permisos d\'accés de l\'usuari o usuaris seleccionats?';
 $messages['norights'] = 'No s\'ha especificat cap permís';
 $messages['nouser'] = 'No s\'ha especificat cap nom d\'usuari';
-?>

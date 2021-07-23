@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | SubKey class for the Enigma Plugin                                      |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -74,6 +73,52 @@ class enigma_subkey
             return 'ECDSA';
         case 21:
             return 'Diffie-Hellman';
+        case 22:
+            return 'EdDSA';
         }
+    }
+
+    /**
+     * Checks if the subkey has expired
+     *
+     * @return bool
+     */
+    function is_expired()
+    {
+        $now = new DateTime('now');
+
+        return !empty($this->expires) && $this->expires < $now;
+    }
+
+    /**
+     * Returns subkey creation date-time string
+     *
+     * @return string|null
+     */
+    function get_creation_date()
+    {
+        if (empty($this->created)) {
+            return null;
+        }
+
+        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+
+        return $this->created->format($date_format);
+    }
+
+    /**
+     * Returns subkey expiration date-time string
+     *
+     * @return string|null
+     */
+    function get_expiration_date()
+    {
+        if (empty($this->expires)) {
+            return null;
+        }
+
+        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+
+        return $this->expires->format($date_format);
     }
 }

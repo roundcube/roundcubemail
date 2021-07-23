@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Atur filter email masuk';
 $labels['filtername'] = 'Nama filter';
@@ -75,17 +75,16 @@ $labels['days'] = 'hari';
 $labels['seconds'] = 'detik';
 $labels['rulestop'] = 'Berhenti mengevaluasi aturan';
 $labels['enable'] = 'Aktifkan/Non-Aktifkan';
-$labels['filterset'] = 'Himpunan filter';
+$labels['filterset'] = 'Set tapis';
 $labels['filtersets'] = 'Himpunan banyak filter';
-$labels['filtersetadd'] = 'Tambahkan himpunan filter';
-$labels['filtersetdel'] = 'Hapus set filter';
-$labels['filtersetact'] = 'Aktifkan himpunan filter ayng sekarang';
-$labels['filtersetdeact'] = 'Matikan himpunan filter ayng sekarang';
+$labels['filtersetadd'] = 'Tambahkan set tapis';
+$labels['filtersetdel'] = 'Hapus set tapis';
+$labels['filtersetact'] = 'Aktifkan set tapis saat ini';
+$labels['filtersetdeact'] = 'Nonaktifkan set tapis saat ini';
 $labels['filterseteditraw'] = 'Sunting set penyaring';
-$labels['filtersetswitch'] = 'Hidupkan / matikan set filter';
 $labels['filterdef'] = 'Definisi filter';
-$labels['filtersetname'] = 'Nama himpunan filter';
-$labels['newfilterset'] = 'Himpunan filter baru';
+$labels['filtersetname'] = 'Nama set tapis';
+$labels['newfilterset'] = 'Set tapis baru';
 $labels['active'] = 'aktif';
 $labels['none'] = 'nihil';
 $labels['fromset'] = 'dari himpunan';
@@ -175,20 +174,22 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'mundur:';
-$labels['vacation'] = 'Liburan';
+$labels['spamtestequals'] = 'sama dengan';
+$labels['spamtestnotequals'] = 'tidak sama dengan';
+$labels['vacation'] = 'Di Luar Kantor';
 $labels['vacation.reply'] = 'Balas pesan';
 $labels['vacation.advanced'] = 'Pengaturan Lanjutan';
 $labels['vacation.from'] = 'Alamat pengirim balasan';
 $labels['vacation.subject'] = 'Judul';
 $labels['vacation.body'] = 'Isi';
-$labels['vacation.start'] = 'Mulai libur';
-$labels['vacation.end'] = 'Akhir libur';
+$labels['vacation.start'] = 'Waktu mulai';
+$labels['vacation.end'] = 'Waktu berakhir';
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'Nyala';
 $labels['vacation.off'] = 'Mati';
 $labels['vacation.addresses'] = 'Alamat email saya';
 $labels['vacation.interval'] = 'Balas secara interval';
-$labels['vacation.after'] = 'Atur untuk pengaturan cuti setelah';
+$labels['vacation.after'] = 'Pasang aturan di-luar-kantor setelah';
 $labels['vacation.saving'] = 'Menyimpan data...';
 $labels['vacation.action'] = 'Tindakan untuk pesan masuk';
 $labels['vacation.keep'] = 'Simpan';
@@ -233,16 +234,16 @@ $messages['actiondeleteconfirm'] = 'Yakin untuk menghapus tindakan terpilih?';
 $messages['forbiddenchars'] = 'Karakter terlarang pada isian.';
 $messages['cannotbeempty'] = 'Isian tidak bisa kosong.';
 $messages['ruleexist'] = 'Penyaringan dengan nama tersebut sudah ada.';
-$messages['setactivateerror'] = 'Tidak dapat mengaktivkan kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setdeactivateerror'] = 'Tidak bisa mematikan kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setdeleteerror'] = 'Tidak dapat menghapus kumpulan penyaringan terpilih. Terjadi kesalahan pada server.';
-$messages['setactivated'] = 'Kumpulan penyaringan berhasil dihidupkan.';
-$messages['setdeactivated'] = 'Kumpulan penyaringan berhasil dimatikan.';
-$messages['setdeleted'] = 'Kumpulan penyaringan berhasil dihapus.';
-$messages['setupdated'] = 'Set penyaring sukses dimutakhirkan.';
-$messages['setdeleteconfirm'] = 'Yakin ingin menghapus kumpulan penyaringan terpilih?';
-$messages['setcreateerror'] = 'Tidak bisa membuat kumpulan penyaringan. Terjadi kesalahan pada server';
-$messages['setcreated'] = 'Kumpulan penyaringan berhasul dibuat.';
+$messages['setactivateerror'] = 'Tidak bisa mengaktifkan set tapis yang dipilih. Terjadi kesalahan server.';
+$messages['setdeactivateerror'] = 'Tidak bisa menonaktifkan set tapis yang dipilih. Terjadi kesalahan server.';
+$messages['setdeleteerror'] = 'Tidak bisa menghapus set tapis yang dipilih. Terjadi kesalahan server.';
+$messages['setactivated'] = 'Set tapis sukses diaktifkan.';
+$messages['setdeactivated'] = 'Set tapis sukses dinonaktifkan.';
+$messages['setdeleted'] = 'Set tapis sukses dihapus.';
+$messages['setupdated'] = 'Set tapis sukses diperbarui';
+$messages['setdeleteconfirm'] = 'Anda yakin hendak menghapus set tapis yang dipilih?';
+$messages['setcreateerror'] = 'Tidak bisa membuat set tapis. Terjadi kesalahan server.';
+$messages['setcreated'] = 'Set tapis sukses dibuat.';
 $messages['activateerror'] = 'Tidak dapat mengaktifkan penyaringan terpilih. Terjadi kesalahan pada server';
 $messages['deactivateerror'] = 'Tidak dapat mematikan penyaringan terpilih. Terjadi kesalahan pada server';
 $messages['deactivated'] = 'Berhasil menghidupkan penyaringan.';
@@ -255,9 +256,8 @@ $messages['setexist'] = 'Kumpulan sudah ada.';
 $messages['nodata'] = 'Setidaknya satu posisi harus dipilih!';
 $messages['invaliddateformat'] = 'Format tanggal atau bagian dari tanggal salah';
 $messages['saveerror'] = 'Tidak dapat menyimpan data. Terjadi kesalahan pada server.';
-$messages['vacationsaved'] = 'Data untuk cuti berhasil disimpan.';
+$messages['vacationsaved'] = 'Data di-luar-kantor sukses disimpan';
 $messages['forwardsaved'] = 'Meneruskan data sukses tersimpan';
 $messages['emptyvacationbody'] = 'Tubuh pesan liburan diperlukan!';
 $messages['duplicate.conflict.err'] = 'Header dan identifier unik keduanya tidak diijinkan.';
 $messages['disabledaction'] = 'Tindakan tidak di izinkan';
-?>

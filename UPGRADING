@@ -14,18 +14,23 @@ and cd into that directory. From there, run the following command in a shell:
 
   ./bin/installto.sh <TARGET-FOLDER>
 
-For <TARGET-FOLDER> you specify the path to the Roundcube installation 
-which should be updated. The update script will then copy all new files to the 
+For <TARGET-FOLDER> you specify the path to the Roundcube installation
+which should be updated. The update script will then copy all new files to the
 target location and check and update the configuration and database schema.
-After all is done, the temporary folder with the new Roundcube files can be 
+After all is done, the temporary folder with the new Roundcube files can be
 removed again.
 
+WARNING: Make sure files have proper owner/group for your setup. If you use
+         tar to extract the package, `--no-same-owner` option might be helpful.
 WARNING: See Post-Upgrade Activities section below.
+WARNING: If you use MySQL < 5.7.7 or MariaDB < 10.2.2 make sure to configure it with:
+            innodb_large_prefix=true
+            innodb_file_format=Barracuda
 
 
 Updating manually
 -----------------
-If you don't have shell access to the Roundcube installation or if not running 
+If you don't have shell access to the Roundcube installation or if not running
 it on a unix system, you need to do the following operations by hand:
 
 1. Replace index.php and all files in
@@ -53,11 +58,12 @@ it on a unix system, you need to do the following operations by hand:
    - run `php composer.phar install --no-dev`.
 4c. If you use git sources or the release package without dependencies
    update javascript dependencies by executing `bin/install-jsdeps.sh` script.
-4d. If you use git sources compile css files for the Elastic skin:
+4d. If you use git sources compile css files for the Elastic skin (required
+   lessc >= 2.5.2):
    $ cd skins/elastic
-   $ lessc -x styles/styles.less > styles/styles.css
-   $ lessc -x styles/print.less > styles/print.css
-   $ lessc -x styles/embed.less > styles/embed.css
+   $ lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css
 5. Run `./bin/update.sh` from the commandline OR
    open http://url-to-roundcube/installer/ in a browser and choose "3 Test config".
    To enable the latter one, you have to temporary set 'enable_installer'
@@ -71,16 +77,29 @@ it on a unix system, you need to do the following operations by hand:
 
 Post-Upgrade Activities
 -----------------------
-1. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
-2. When upgrading from version older than 0.6-beta you should make sure
+1. Check system requirements in INSTALL file.
+2. If you're using build-in addressbook, run indexing script /bin/indexcontacts.sh.
+3. When upgrading from version older than 0.6-beta you should make sure
    your folder settings contain namespace prefix. For example Courier users
    should add INBOX. prefix to folder names in main configuration file.
-3. Check system requirements in INSTALL file.
+4. When upgrading from version older than 1.4.0 make sure old files
+   in configured temp_dir are removed. Since this version we use constant filename
+   prefix and do not remove files not starting with "RCMTEMP".
+
 
 SQLite database upgrade
 -----------------------
+
 Versions older than 0.9 were supporting SQLite v2 only. Newer versions require
 database in v3 format. The best what you can do is to convert database file
 to the new format using command line tools:
 
 sqlite OLD.DB .dump | sqlite3 NEW.DB
+
+
+Other tools
+-----------
+In case you need to only update the database schema you can use updatedb.sh script.
+For example, to update the Roundcube core database run:
+
+  ./bin/updatedb.sh --package=roundcube --dir=SQL

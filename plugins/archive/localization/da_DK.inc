@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/archive/localization/<lang>.inc                                |
- |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2016, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
+
 $labels['buttontext'] = 'Arkiv';
 $labels['buttontitle'] = 'Arkivér denne besked';
 $labels['archived'] = 'Succesfuldt arkiveret.';
@@ -25,8 +24,10 @@ $labels['settingstitle'] = 'Arkiver';
 $labels['archivetype'] = 'Del arkiv med';
 $labels['archivetypeyear'] = 'År (f.eks. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Måned (f.eks. Arkiv/2012/06)';
+$labels['archivetypetbmonth'] = 'Måned - Thunderbird kompatibelt(f.eks. Arkiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Original mappe';
+$labels['archivetypefolderyear'] = 'År og den originale mappe (f.eks. Arkiv/2012/...)';
+$labels['archivetypefoldermonth'] = 'År, måned og den originale mappe (f.eks. Arkiv/2012/06/...)';
 $labels['archivetypesender'] = 'Afsenders email';
 $labels['unkownsender'] = 'ukendt';
 $labels['readonarchive'] = 'Marker denne meddelelse som læst i arkivet';
-?>

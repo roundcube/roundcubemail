@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -15,10 +15,46 @@
  * for the JavaScript code in this file.
  */
 
-function plugin_vcard_save_contact(mime_id)
+function plugin_vcard_import(mime_id)
 {
-  var lock = rcmail.set_busy(true, 'loading');
-  rcmail.http_post('plugin.savevcard', { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _part: mime_id }, lock);
+  if (!mime_id) {
+    var content = [];
+
+    $.each(rcmail.env.vcards, function (id, contact) {
+      var chbox = $('<input>').attr({type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox'}),
+        label = $('<label>').text(' ' + contact);
+
+      content.push($('<div>').append(label.prepend(chbox)));
+    });
+
+    var dialog,
+      action = function(e, a) {
+        var contacts = []
+
+        dialog.find('input:checked').each(function() {
+          contacts.push(this.value);
+        });
+
+        if (contacts.length) {
+          plugin_vcard_import(contacts.join());
+          return true; // close the dialog
+        }
+      },
+      props = {
+        button: 'import',
+        height: content.length > 4 ? 250 : 100
+      };
+
+    dialog = rcmail.simple_dialog(content, 'vcard_attachments.addvcardmsg', action, props);
+
+    return false;
+  }
+
+  rcmail.http_post(
+    'plugin.savevcard',
+    { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _part: mime_id },
+    rcmail.set_busy(true, 'loading')
+  );
 
   return false;
 }
@@ -79,7 +115,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
       if (window.UI && UI.recipient_selector) {
         var button, form = $('#compose-attachments > div');
         button = $('<button class="btn btn-secondary attach vcard">')
-          .attr('tabindex', $('button,input', form).first().attr('tabindex') || 0)
+          .attr({type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0})
           .text(rcmail.gettext('vcard_attachments.attachvcard'))
           .appendTo(form)
           .click(function() {

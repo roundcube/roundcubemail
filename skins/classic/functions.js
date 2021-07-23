@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2006-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 function rcube_init_settings_tabs()
 {
   var el, cl, container = $('#tabsbar'),
-    last_tab = $('span:last', container),
+    last_tab = $('span', container).last(),
     tab = '#settingstabpreferences',
     action = window.rcmail && rcmail.env.action ? rcmail.env.action : null;
 
@@ -58,7 +58,7 @@ function rcube_init_tabs(id, current)
   if (!tabs.length)
     tabs = $('<div>').addClass('tabsbar').appendTo(content);
 
-  // convert fildsets into tabs
+  // convert fieldsets into tabs
   fs.each(function(idx) {
     var tab, a, elm = $(this), legend = elm.children('legend');
 
@@ -254,15 +254,9 @@ searchmenu: function(show)
 set_searchmod: function(elem)
 {
   var all, m, task = rcmail.env.task,
-    mods = rcmail.env.search_mods,
+    mods = rcmail.env.search_mods || {},
     mbox = rcmail.env.mailbox,
     scope = $('input[name="s_scope"]:checked').val();
-
-  if (scope == 'all')
-    mbox = '*';
-
-  if (!mods)
-    mods = {};
 
   if (task == 'mail') {
     if (!mods[mbox])
@@ -282,10 +276,7 @@ set_searchmod: function(elem)
 
   // mark all fields
   if (elem.value == all) {
-    $('input:checkbox[name="s_mods[]"]').map(function() {
-      if (this == elem)
-        return;
-
+    $('input:checkbox[name="s_mods[]"]').not(elem).map(function() {
       this.checked = true;
       if (elem.checked) {
         this.disabled = true;
@@ -577,7 +568,7 @@ resize_compose_body: function()
     h = div.height() - 2,
     x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.mce-toolbar').height());
+  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.tox-toolbar').height());
   $('#compose-body').width(w-x).height(h);
   $('#googie_edit_layer').width(w).height(h);
 },
@@ -1013,6 +1004,9 @@ function percent_indicator(obj, data)
 
 function attachment_menu_append(item)
 {
+  if ($(item).is('.no-menu'))
+    return;
+
   $(item).append(
     $('<a class="drop"></a>').on('click keypress', function(e) {
       if (e.type != 'keypress' || e.which == 13) {

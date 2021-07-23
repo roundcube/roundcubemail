@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/timezones/
 */
 
-$labels['tz:utc'] = 'UTC';
+$labels['tz:utc'] = 'TUC';
 $labels['tz:africa'] = 'Afrique';
 $labels['tz:africa:abidjan'] = 'Abidjan';
 $labels['tz:africa:accra'] = 'Accra';

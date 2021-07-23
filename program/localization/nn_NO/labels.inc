@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Velkomen til $product';
 $labels['username'] = 'Brukarnamn';
 $labels['password'] = 'Passord';
@@ -186,6 +186,7 @@ $labels['returnreceipt'] = 'Epost-er-lest-kvittering';
 $labels['dsn'] = 'Leveringsstatus';
 $labels['mailreplyintro'] = 'Den $date skreiv $sender:';
 $labels['originalmessage'] = 'Opphavleg melding';
+$labels['insert'] = 'Sett inn';
 $labels['recipient'] = 'Mottakar';
 $labels['editidents'] = 'Redigere identitetar';
 $labels['spellcheck'] = 'Stavekontroll';
@@ -306,7 +307,6 @@ $labels['searchdelete'] = 'Slett søk';
 $labels['import'] = 'Importer';
 $labels['importcontacts'] = 'Importer kontaktar';
 $labels['importreplace'] = 'Byt ut heile adresseboka';
-$labels['importdesc'] = 'Du kan laste opp kontaktar frå ei eksisterande adressebok.<br/>Vi støttar adressebøker i formata <a href="http://no.wikipedia.org/wiki/VCard">vCard</a> og CSV (kommaseparert).';
 $labels['done'] = 'Ferdig';
 $labels['settingsfor'] = 'Innstillingar for';
 $labels['about'] = 'Om';
@@ -371,7 +371,6 @@ $labels['force7bit'] = 'Bruk MIME-enkoding for 8-bit characterer (æøå og slik
 $labels['advancedoptions'] = 'Avanserte val';
 $labels['focusonnewmessage'] = 'Fokuser nettlesarvindauge på ny epost';
 $labels['checkallfolders'] = 'Sjekk alle mappar for nye epostar';
-$labels['displaynext'] = 'Etter sletting/flytting, vis neste epost';
 $labels['defaultfont'] = 'Standard skrifttype i HTML-melding';
 $labels['mainoptions'] = 'Hovudinnstillingar';
 $labels['browseroptions'] = 'Alternativ for nettlesar';
@@ -457,4 +456,3 @@ $labels['vietnamese'] = 'Vietnamesisk';
 $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
-?>

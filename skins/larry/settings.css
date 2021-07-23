@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Settings section
  *
- * Copyright (c) 2017-2017, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -224,6 +224,14 @@
 
 #sections-table #rcmrowcalendar.selected .section {
 	background-position: 4px -550px;
+}
+
+#sections-table #rcmrowencryption .section {
+	background-position: 7px -2437px;
+}
+
+#sections-table #rcmrowencryption.selected .section {
+	background-position: 7px -2461px;
 }
 
 #folderslist .boxtitle a.iconbutton.search {

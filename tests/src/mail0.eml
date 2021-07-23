@@ -1,0 +1,47 @@
+Return-Path: <thomas@roundcube.net>
+X-Original-To: tb@tester.local
+From: "Thomas B." <thomas@roundcube.net>
+To: Tom Tester <tb@tester.local>
+Subject: Lines
+Cc: test1@domain.tld, test2@domain.tld, test3@domain.tld, test4@domain.tld,
+ test5@domain.tld, test6@domain.tld, test7@domain.tld, test8@domain.tld,
+ test9@domain.tld, test10@domain.tld, test11@domain.tld, test12@domain.tld
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary*0*=us-ascii''%3D_8853bfb47b7da1852ac882e69cc7;
+ boundary*1*=24f3
+Date: Fri, 23 May 2014 19:44:50 +0200
+Reply-To: hello@roundcube.net
+Mail-Reply-To: hello@roundcube.net
+Message-ID: <99839b8ec12482419372f1edafa9de75@woodcrest.local>
+X-Sender: thomas@roundcube.net
+
+--=_8853bfb47b7da1852ac882e69cc724f3
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+
+Plain text message body.
+
+-- 
+Developer of Free Software
+Sent with Roundcube Webmail - roundcube.net
+--=_8853bfb47b7da1852ac882e69cc724f3
+Content-Transfer-Encoding: base64
+Content-Type: text/plain;
+ name=lines.txt
+Content-Disposition: attachment;
+ filename=lines.txt;
+ size=13
+
+Zm9vDQpiYXINCmduYQ==
+--=_8853bfb47b7da1852ac882e69cc724f3
+Content-Transfer-Encoding: base64
+Content-Type: text/plain;
+ name=lines_lf.txt
+Content-Disposition: attachment;
+ filename=lines_lf.txt;
+ size=11
+
+Zm9vCmJhcgpnbmE=
+--=_8853bfb47b7da1852ac882e69cc724f3--

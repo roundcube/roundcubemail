@@ -13,7 +13,7 @@
  * @author Ziba Scott <ziba@umich.edu>
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2011-2018, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -28,10 +28,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
-if (class_exists('filesystem_attachments', false) && !defined('TESTS_DIR')) {
-    die("Configuration issue. There can be only one enabled plugin for attachments handling");
-}
 
 require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachments.php';
 
@@ -59,7 +55,7 @@ class database_attachments extends filesystem_attachments
         }
 
         $data   = base64_encode($data);
-        $status = $cache->write($key, $data);
+        $status = $cache->set($key, $data);
 
         if ($status) {
             $args['id']     = $key;
@@ -80,7 +76,7 @@ class database_attachments extends filesystem_attachments
         $cache = $this->get_cache();
         $key   = $this->_key($args);
 
-        if ($args['path']) {
+        if (!empty($args['path'])) {
             $args['data'] = file_get_contents($args['path']);
 
             if ($args['data'] === false) {
@@ -91,7 +87,7 @@ class database_attachments extends filesystem_attachments
         }
 
         $data   = base64_encode($args['data']);
-        $status = $cache->write($key, $data);
+        $status = $cache->set($key, $data);
 
         if ($status) {
             $args['id'] = $key;
@@ -132,7 +128,7 @@ class database_attachments extends filesystem_attachments
     function get($args)
     {
         $cache = $this->get_cache();
-        $data  = $cache->read($args['id']);
+        $data  = $cache->get($args['id']);
 
         if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
@@ -152,7 +148,7 @@ class database_attachments extends filesystem_attachments
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)
         if ($cache = $this->get_cache()) {
-            $cache->remove($args['group'], true);
+            $cache->remove(isset($args['group']) ? $args['group'] : null, true);
         }
     }
 
@@ -161,8 +157,8 @@ class database_attachments extends filesystem_attachments
      */
     protected function _key($args)
     {
-        $uname = $args['path'] ?: $args['name'];
-        return $args['group'] . md5(time() . $uname . $_SESSION['user_id']);
+        $uname = !empty($args['path']) ? $args['path'] : $args['name'];
+        return $args['group'] . md5(microtime() . $uname . $_SESSION['user_id']);
     }
 
     /**
@@ -186,7 +182,7 @@ class database_attachments extends filesystem_attachments
             }
 
             // Init SQL cache (disable cache data serialization)
-            $this->cache = $rcmail->get_cache($prefix, $type, $ttl, false);
+            $this->cache = $rcmail->get_cache($prefix, $type, $ttl, false, true);
         }
 
         return $this->cache;

@@ -1414,13 +1414,9 @@ div.hide-headers
   border: 1px solid #999;
 }
 
-#compose-body-div .mce-tinymce {
+#compose-body-div .tox-tinymce {
   border: 0 !important;
   width: 100% !important;
-}
-
-.mce-top-part::before {
-  box-shadow: none !important;
 }
 
 #compose-div .boxlistcontent
@@ -1764,10 +1760,6 @@ input.from_address
   position: absolute;
 }
 
-#image-selector {
-  padding-bottom: 0 !important;
-}
-
 /**** Styles for widescreen (3-column) view ****/
 
 .widescreen #mailview-top {
@@ -1863,6 +1855,10 @@ input.from_address
   overflow: hidden;
   text-overflow: ellipsis;
   color: #666;
+}
+
+.widescreen .messagelist td.subject span.size {
+  display: none;
 }
 
 .widescreen .messagelist tr.flagged td.subject span.date,

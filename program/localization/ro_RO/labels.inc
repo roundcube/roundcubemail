@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Bine aţi venit la $product';
 $labels['username'] = 'Utilizator';
 $labels['password'] = 'Parolă';
@@ -242,6 +242,7 @@ $labels['keylength'] = 'Biți';
 $labels['keyexpired'] = 'Expirat';
 $labels['keyrevoked'] = 'Revocat';
 $labels['bccinstead'] = 'Folosește Bcc';
+$labels['insert'] = 'Inserează';
 $labels['recipient'] = 'Destinatar';
 $labels['editidents'] = 'Editează identităţi';
 $labels['spellcheck'] = 'Ortografie';
@@ -394,7 +395,6 @@ $labels['importreplace'] = 'Înlocuieşte întreaga agendă';
 $labels['importgroups'] = 'Importă atribuirile în grup';
 $labels['importgroupsall'] = 'Toate (creează grupurile dacă este necesar)';
 $labels['importgroupsexisting'] = 'Doar pentru grupurile existente';
-$labels['importdesc'] = 'Puteți încărca contacte dintr-o agendă existentă.<br/>Momentan este suportat importul în formatul <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> sau în formatul CSV (comma-separated).';
 $labels['done'] = 'Finalizat';
 $labels['settingsfor'] = 'Setări pentru';
 $labels['about'] = 'Despre';
@@ -466,7 +466,6 @@ $labels['force7bit'] = 'Foloseşte encodarea MIME pentru caracterele cu 8 biţi'
 $labels['advancedoptions'] = 'Opţiuni avansate';
 $labels['focusonnewmessage'] = 'Focalizare pe fereastra browser-ului la mesaje noi';
 $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
-$labels['displaynext'] = 'După ştergerea sau mutarea unui mesaj afişează-l pe următorul din listă';
 $labels['defaultfont'] = 'Font-ul implicit al mesajului HTML';
 $labels['mainoptions'] = 'Opţiuni principale';
 $labels['browseroptions'] = 'Opțiuni browser';
@@ -537,6 +536,7 @@ $labels['dualuselabel'] = 'Poate conține doar';
 $labels['dualusemail'] = 'mesaje';
 $labels['dualusefolder'] = 'dosare';
 $labels['encryptioncreatekey'] = 'Creează cheie pereche nouă';
+$labels['encryption'] = 'Criptare';
 $labels['sortby'] = 'Sortează după';
 $labels['sortasc'] = 'Sortează ascendent';
 $labels['sortdesc'] = 'Sortează descendent';
@@ -594,7 +594,6 @@ $labels['arialabelcontactexportoptions'] = 'Opțiuni export contact';
 $labels['arialabelabookgroupoptions'] = 'Opțiuni Agendă/Grup';
 $labels['arialabelpreferencesform'] = 'Formular preferințe';
 $labels['arialabelidentityeditfrom'] = 'Formular modificare identitate';
-$labels['arialabelresonseeditfrom'] = 'Formular modificare răspuns';
+$labels['arialabelresponseeditfrom'] = 'Formular modificare răspuns';
 $labels['arialabelsearchterms'] = 'Termenii căutării';
 $labels['arialabeldropactionmenu'] = 'Meniu acțiune Drag-n-Drop';
-?>

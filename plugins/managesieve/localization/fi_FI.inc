@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Suodattimet';
 $labels['managefilters'] = 'Hallitse saapuvan sähköpostin suodattimia';
 $labels['filtername'] = 'Suodattimen nimi';
 $labels['newfilter'] = 'Uusi suodatin';
 $labels['filteradd'] = 'Lisää suodatin';
 $labels['filterdel'] = 'Poista suodatin';
+$labels['rules'] = 'Säännöt';
+$labels['actions'] = 'Toiminnot';
 $labels['scope'] = 'Rajaus';
 $labels['moveup'] = 'Siirrä ylös';
 $labels['movedown'] = 'Siirrä alas';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'vastaa säännöllistä lauseketta';
 $labels['filternotregex'] = 'ei vastaa säännöllistä lauseketta';
 $labels['filterunder'] = 'alle';
 $labels['filterover'] = 'yli';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME-osio:';
+$labels['mime-message'] = 'viesti';
+$labels['mime-anychild'] = 'mikä tahansa';
+$labels['mime-type'] = 'tyyppi';
+$labels['mime-subtype'] = 'alatyyppi';
+$labels['mime-contenttype'] = 'sisällön tyyppi';
+$labels['mime-param'] = 'parametri';
 $labels['addrule'] = 'Lisää sääntö';
 $labels['delrule'] = 'Poista sääntö';
 $labels['messagemoveto'] = 'Siirrä viesti';
@@ -65,20 +75,23 @@ $labels['days'] = 'päivää';
 $labels['seconds'] = 'sekuntia';
 $labels['rulestop'] = 'Lopeta sääntöjen arviointi';
 $labels['enable'] = 'Ota käyttöön/poista käytöstä';
-$labels['filterset'] = 'Suodattimien asetus';
+$labels['filterset'] = 'Suodatinasetus';
 $labels['filtersets'] = 'Suodattimen asetus';
 $labels['filtersetadd'] = 'Lisää suodatinasetus';
-$labels['filtersetact'] = 'Aktivoi nykyinen suodattimien asetus';
-$labels['filtersetdeact'] = 'Poista käytöstä nykyinen suodattimien asetus';
+$labels['filtersetdel'] = 'Poista suodatinasetus';
+$labels['filtersetact'] = 'Ota käyttöön nykyinen suodatinasetus';
+$labels['filtersetdeact'] = 'Poista nykyinen suodatinasetus käytöstä';
 $labels['filterseteditraw'] = 'Muokkaa suodatinasetusta';
+$labels['filtersetswitch'] = 'Ota käyttöön/poista käytöstä suodatinasetukset';
 $labels['filterdef'] = 'Suodattimen määrittely';
-$labels['filtersetname'] = 'Suodattimien asetuksen nimi';
+$labels['filtersetname'] = 'Suodatinasetuksen nimi';
 $labels['newfilterset'] = 'Uusi suodatinasetus';
 $labels['active'] = 'aktiivinen';
 $labels['none'] = 'Ei mikään';
 $labels['fromset'] = 'sarjasta';
 $labels['fromfile'] = 'tiedostosta';
 $labels['filterdisabled'] = 'Suodatin poistettu käytöstä';
+$labels['filterenabled'] = 'Suodatin käytössä';
 $labels['countisgreaterthan'] = 'määrä on suurempi kuin';
 $labels['countisgreaterthanequal'] = 'määrä on suurempi tai yhtä suuri kuin';
 $labels['countislessthan'] = 'määrä on vähemmän kuin';
@@ -99,6 +112,18 @@ $labels['flagdeleted'] = 'Poistettu';
 $labels['flaganswered'] = 'Vastattu';
 $labels['flagflagged'] = 'Liputettu';
 $labels['flagdraft'] = 'Luonnos';
+$labels['addheader'] = 'Lisää otsake viestiin';
+$labels['deleteheader'] = 'Poista otsake viestistä';
+$labels['headername'] = 'Otsakkeen nimi';
+$labels['headervalue'] = 'Otsakkeen arvo';
+$labels['headerpos'] = 'Otsakkeen sijainti';
+$labels['headeratstart'] = 'alussa';
+$labels['headeratend'] = 'lopussa';
+$labels['headeroccurrence'] = 'Otsakkeen esiintyminen/sijainti';
+$labels['headerfromstart'] = 'alusta';
+$labels['headerfromend'] = 'lopusta';
+$labels['headerpatterns'] = 'Otsakearvon kaava';
+$labels['headermatchtype'] = 'täsmää tyyppiin:';
 $labels['setvariable'] = 'Aseta muuttuja';
 $labels['setvarname'] = 'Muuttujan nimi:';
 $labels['setvarvalue'] = 'Muuttujan arvo:';
@@ -161,15 +186,24 @@ $labels['default'] = 'oletus';
 $labels['octet'] = 'tarkka (tavuina)';
 $labels['asciicasemap'] = 'kirjainkoosta riippumaton (ascii-merkistö)';
 $labels['asciinumeric'] = 'numeerinen (ascii-numerot)';
+$labels['index'] = 'indeksi:';
 $labels['indexlast'] = 'taaksepäin';
-$labels['vacation'] = 'Loma';
+$labels['spamtest'] = 'Roskapostitaso';
+$labels['spamtestisgreaterthan'] = 'on suurempi kuin';
+$labels['spamtestisgreaterthanequal'] = 'on suurempi tai yhtä suuri kuin';
+$labels['spamtestislessthan'] = 'on vähemmän kuin';
+$labels['spamtestislessthanequal'] = 'on vähemmän tai yhtä suuri kuin';
+$labels['spamtestequals'] = 'on samanlainen kuin';
+$labels['spamtestnotequals'] = 'ei ole samanlainen kuin';
+$labels['spamtestisunknown'] = 'on tuntematon';
+$labels['vacation'] = 'Lomavastaaja';
 $labels['vacation.reply'] = 'Vastausviesti';
 $labels['vacation.advanced'] = 'Lisäasetukset';
 $labels['vacation.from'] = 'Vastauksen lähetysosoite';
 $labels['vacation.subject'] = 'Aihe';
 $labels['vacation.body'] = 'Sisältö';
-$labels['vacation.start'] = 'Loman alku';
-$labels['vacation.end'] = 'Loman loppu';
+$labels['vacation.start'] = 'Aloitusaika';
+$labels['vacation.end'] = 'Päättymisaika';
 $labels['vacation.status'] = 'Tila';
 $labels['vacation.on'] = 'Päällä';
 $labels['vacation.off'] = 'Pois';
@@ -182,22 +216,31 @@ $labels['vacation.keep'] = 'Säilytä';
 $labels['vacation.discard'] = 'Hylkää';
 $labels['vacation.redirect'] = 'Ohjaa uudelleen osoitteeseen';
 $labels['vacation.copy'] = 'Lähetä kopio osoitteeseen';
+$labels['forward'] = 'Uudelleenohjaus';
 $labels['forward.redirect'] = 'Ohjaa uudelleen osoitteeseen';
 $labels['forward.copy'] = 'Lähetä kopio osoitteeseen';
 $labels['forward.on'] = 'Päällä';
 $labels['forward.off'] = 'Pois';
+$labels['forward.status'] = 'Tila:';
+$labels['forward.action'] = 'Suorita seuraava sääntö saapuville viesteille:';
 $labels['forward.saving'] = 'Tallennetaan tietoja...';
 $labels['filladdresses'] = 'Lisää kaikki osoitteeni';
 $labels['arialabelfiltersetactions'] = 'Suodatinasetuksen toiminnot';
+$labels['arialabelfilteractions'] = 'Suodattimen toiminnot';
+$labels['arialabelfilterform'] = 'Suodattimen asetukset';
 $labels['ariasummaryfilterslist'] = 'Suodatinlista';
 $labels['ariasummaryfiltersetslist'] = 'Suodatinasetuslista';
 $labels['filterstitle'] = 'Muokkaa saapuvan postin suodattimia';
 $labels['vacationtitle'] = 'Muokkaa poissaolosääntöä';
+$labels['forwardtitle'] = 'Muokkaa viestien vältyssääntöä';
 $labels['message'] = 'Viesti';
 $labels['duplicate'] = 'on kopio';
 $labels['notduplicate'] = 'ei ole kopio';
+$labels['duplicate.handle'] = 'käsittele:';
 $labels['duplicate.header'] = 'otsikko:';
+$labels['duplicate.uniqueid'] = 'tunniste:';
 $labels['duplicate.seconds'] = 'aikakatkaisu (sekuntia):';
+$labels['duplicate.last'] = 'suhteellinen viimeiseen suoritukseen';
 $messages['filterunknownerror'] = 'Tuntematon palvelinvirhe.';
 $messages['filterconnerror'] = 'Yhteys palvelimeen epäonnistui.';
 $messages['filterdeleteerror'] = 'Suodattimen poistaminen epäonnistui. Tapahtui palvelinvirhe.';
@@ -211,16 +254,16 @@ $messages['actiondeleteconfirm'] = 'Haluatko varmasti poistaa valitun toimenpite
 $messages['forbiddenchars'] = 'Virheellisiä merkkejä kentässä.';
 $messages['cannotbeempty'] = 'Kenttä ei voi olla tyhjä.';
 $messages['ruleexist'] = 'Suodatin samalla nimellä on jo olemassa.';
-$messages['setactivateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu tallentaa.';
+$messages['setactivateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu ottaa käyttöön.';
 $messages['setdeactivateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu kytkeä pois päältä.';
 $messages['setdeleteerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu poistaa.';
 $messages['setactivated'] = 'Suodatinasetukset kytketty päälle.';
 $messages['setdeactivated'] = 'Suodatinasetukset kytketty pois päältä.';
-$messages['setdeleted'] = 'Suodatinasetukset poistettu.';
-$messages['setupdated'] = 'Suodatinasetukset päivitetty.';
-$messages['setdeleteconfirm'] = 'Oletko varma että haluat poistaa valitut suodatinasetukset?';
-$messages['setcreateerror'] = 'Palvelinvirheestä johtuen suodatinasetuksia ei voitu luoda.';
-$messages['setcreated'] = 'Suodatinasetukset luotiin onnistuneesti.';
+$messages['setdeleted'] = 'Suodatinasetus poistettu.';
+$messages['setupdated'] = 'Suodatinasetus päivitetty.';
+$messages['setdeleteconfirm'] = 'Oletko varma että haluat poistaa valitun suodatinasetuksen?';
+$messages['setcreateerror'] = 'Palvelinvirheestä johtuen suodatinasetusta ei voitu luoda.';
+$messages['setcreated'] = 'Suodatinasetus luotiin onnistuneesti.';
 $messages['activateerror'] = 'Palvelinvirheestä johtuen valittuja suodattimia ei voitu ottaa käyttöön.';
 $messages['deactivateerror'] = 'Palvelinvirheestä johtuen valittuja suodattimia ei voitu kytkeä pois käytöstä.';
 $messages['deactivated'] = 'Suodattimet kytketty pois käytöstä.';
@@ -230,7 +273,13 @@ $messages['moveerror'] = 'Palvelinvirheestä johtuen suodatinta ei voitu siirtä
 $messages['nametoolong'] = 'Nimi on liian pitkä.';
 $messages['namereserved'] = 'Varattu nimi.';
 $messages['setexist'] = 'Suodatinasetus on jo olemassa.';
+$messages['nodata'] = 'Vähintään yksi sijainti täytyy valita!';
+$messages['invaliddateformat'] = 'Virheellinen päivämäärämuoto.';
 $messages['saveerror'] = 'Tietojen tallennus epäonnistui palvelinvirheen vuoksi.';
-$messages['vacationsaved'] = 'Lomatiedot tallennettu onnistuneesti.';
+$messages['vacationsaved'] = 'Lomavastaaja aktivoitu.';
+$messages['forwardsaved'] = 'Uudelleenohjaukset tallennettu.';
 $messages['emptyvacationbody'] = 'Lomaviestin sisältö vaaditaan!';
-?>
+$messages['duplicate.conflict.err'] = 'Otsaketta ja uniikkia tunnistetta ei sallita samanaikaisesti.';
+$messages['disabledaction'] = 'Toiminto ei ole sallittu.';
+$messages['lastindexempty'] = 'Indeksi vaaditaan lopusta laskiessa.';
+$messages['noflagset'] = 'Vähintään yksi lippu täytyy valita.';

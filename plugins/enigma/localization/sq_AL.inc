@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Fshehtëzim';
 $labels['enigmacerts'] = 'Dëshmi S/MIME';
 $labels['enigmakeys'] = 'Kyçe PGP';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'Çaktivizoje';
 $labels['keyrevoke'] = 'Shfuqizoje';
 $labels['keysend'] = 'Dërgo kyç publik në mesazh';
 $labels['keychpass'] = 'Ndryshoni fjalëkalimin';
+$labels['keyadd'] = 'Shtoni kyç';
 $labels['newkeyident'] = 'Identitet';
 $labels['newkeypass'] = 'Fjalëkalimi';
 $labels['newkeypassconfirm'] = 'Ripohoni fjalëkalimin';
-$labels['newkeysize'] = 'Madhësi kyçi';
-$labels['key2048'] = '2048 bite - parazgjedhje';
-$labels['key4096'] = '4096 bite - më i sigurt';
+$labels['newkeytype'] = 'Lloj kyçi';
+$labels['rsa2048'] = 'RSA - 2048 bite';
+$labels['rsa4096'] = 'RSA - 4096 bite';
+$labels['ecckeypair'] = 'ECC (Lakore Eliptike)';
 $labels['keygenerating'] = 'Po prodhohen kyçe…';
 $labels['encryptionoptions'] = 'Mundësi fshehtëzimi…';
 $labels['encryptmsg'] = 'Fshehtëzoje këtë mesazh';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'Nënshkruaje në mënyrë dixhitale këtë mesazh';
 $labels['sendunencrypted'] = 'Dërgoje të pafshehtëzuar';
 $labels['enterkeypasstitle'] = 'Jepni frazëkalim kyçi';
 $labels['enterkeypass'] = 'Frazëkalimi është i nevojshëm për të zhbllokuar kyçin e fshehtë ($keyid) për përdoruesin: $user.';
-$labels['arialabelkeyexportoptions'] = 'Mundësi eksportimi kyçesh';
 $labels['attachpubkeymsg'] = 'Bashkëngjite kyçin tim publik';
 $labels['keyexportprompt'] = 'Doni të përfshihen kyçe të fshehtë te kartela e ruajtur e kyçeve OpenPGP?';
 $labels['onlypubkeys'] = 'Eksporto Vetëm Kyçe Publikë';
@@ -88,6 +88,9 @@ $labels['keyimportsearchlabel'] = 'Kërko në shërbyes kyçesh';
 $labels['managekeys'] = 'Administroni kyçe PGP';
 $labels['identitymatchingprivkeys'] = 'Keni të depozituar në vargun tuaj të kyçeve $nr kyçe private PGP me përputhje:';
 $labels['identitynoprivkeys'] = 'Ky identitet dërguesi ende nuk ka ndonjë kyç privat të depozituar në vargun tuaj të kyçeve.';
+$labels['arialabelkeyexportoptions'] = 'Mundësi eksportimi kyçesh';
+$labels['arialabelkeysearchform'] = 'Formular kërkimi kyçesh';
+$labels['arialabelkeyoptions'] = 'Mundësi kyçesh';
 $messages['sigvalid'] = 'Nënshkrim nga $sender i verifikuar.';
 $messages['sigvalidpartial'] = 'Nënshkrim nga $sender i verifikuar, por s’pati të nënshkruar pjesë lënde.';
 $messages['siginvalid'] = 'Nënshkrim  i pavlefshëm nga $sender.';
@@ -97,6 +100,7 @@ $messages['sigerror'] = 'Nënshkrim i paverifikuar. Gabim i brendshëm.';
 $messages['decryptok'] = 'Mesazhi u shfshehtëzua.';
 $messages['decrypterror'] = 'Shfshehtëzimi dështoi.';
 $messages['decryptnokey'] = 'Shfshehtëzimi dështoi. S’u gjet kyç privat. ID Kyçi: $keyid.';
+$messages['decryptnomdc'] = 'Shfshehtëzimi u anashkalua. Mesazhi është pa mbrojtje integriteti.';
 $messages['decryptbadpass'] = 'Shfshehtëzimi dështoi. Fjalëkalim i pavlefshëm.';
 $messages['decryptnopass'] = 'Shfshehtëzimi dështoi. Lypset fjalëkalim kyçi.';
 $messages['decryptpartial'] = 'Mesazhi u shfshehtëzua, por një pjesë e lëndë s’u shfshehtëzua.';
@@ -106,6 +110,7 @@ $messages['signbadpass'] = 'Hyrja dështoi. Fjalëkalim i pavlefshëm.';
 $messages['signnopass'] = 'Nënshkrimi dështoi. Lypset fjalëkalim kyçi.';
 $messages['encrypterror'] = 'Fshehtëzimi dështoi.';
 $messages['encryptnokey'] = 'Fshehtëzimi dështoi. S’u gjet kyç publik për $email';
+$messages['encryptnoprivkey'] = 'Fshehtëzimi dështoi. S’u gjet kyç privat.';
 $messages['nokeysfound'] = 'S’u gjetën kyçe';
 $messages['keynotfound'] = 'S’u gjet kyç!';
 $messages['keyopenerror'] = 'S’arrihet të merren të dhëna kyçi! Gabim i brendshëm.';
@@ -118,11 +123,14 @@ $messages['keyremovesuccess'] = 'Kyçi(et) u fshi me sukses';
 $messages['keyremoveerror'] = 'S’arrihet të fshihen kyçin(et) e përzgjedhur?';
 $messages['keyimporttext'] = 'Mund të importoni kyç(e) privatë dhe publikë ose nënshkrime shfuqizimesh në formatin ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Për kyçe publikë mund të kërkoni sipas identifikuesi kyçi, emri përdoruesi ose adrese email dhe mandej t’i importoni ata drejtpërsëdrejti.';
+$messages['keystoragenotice'] = 'Krejt kyçet, publikë dhe privatë, depozitohen te shërbyesi.';
 $messages['formerror'] = 'Ju lutemi, plotësoni formularin. Janë të domosdoshme krejt fushat!';
 $messages['passwordsdiffer'] = 'Fjalëkalimet nuk përputhen!';
-$messages['keygenerateerror'] = 'Dështoi prodhimi i një çifti kyçesh';
+$messages['keygenerateerror'] = 'S’u arrit të prodhohej një çift kyçesh';
 $messages['keygeneratesuccess'] = 'U prodhua dhe importua me sukses një çift kyçesh.';
 $messages['keygennosupport'] = 'Shfletuesi juaj nuk e mbulon kriptografinë. S’arrihet të prodhohet çift kyçesh!';
 $messages['noidentselected'] = 'Duhet të përzgjidhni të paktën një identitet për kyçin!';
 $messages['nonameident'] = 'Identiteti duhet të ketë të përkufizuar një emër përdoruesi!';
-?>
+$labels['newkeysize'] = 'Madhësi kyçi';
+$labels['key2048'] = '2048 bite - parazgjedhje';
+$labels['key4096'] = '4096 bite - më i sigurt';

@@ -2,29 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Vitajte v $product';
 $labels['username'] = 'Meno používateľa';
 $labels['password'] = 'Heslo';
 $labels['server'] = 'Server';
 $labels['login'] = 'Prihlásiť';
+$labels['oauthlogin'] = 'Prihlásenie cez $provider';
 $labels['menu'] = 'Menu';
 $labels['logout'] = 'Odhlásiť';
 $labels['mail'] = 'E-mail';
 $labels['settings'] = 'Nastavenia';
 $labels['addressbook'] = 'Adresár kontaktov';
+$labels['darkmode'] = 'Tmavý režim';
+$labels['lightmode'] = 'Svetlý režim';
 $labels['inbox'] = 'Doručená pošta';
 $labels['drafts'] = 'Koncepty';
 $labels['sent'] = 'Odoslané';
@@ -147,6 +150,7 @@ $labels['last'] = 'Posledná/-ý';
 $labels['previous'] = 'Predchádzajúca/-i';
 $labels['next'] = 'Ďalšia/-í';
 $labels['select'] = 'Výber';
+$labels['selection'] = 'Výber';
 $labels['all'] = 'Všetko';
 $labels['none'] = 'Nič';
 $labels['currpage'] = 'Aktuálna stránka';
@@ -168,6 +172,7 @@ $labels['expand-all'] = 'Rozbaliť všetko';
 $labels['expand-unread'] = 'Rozbaliť neprečítané';
 $labels['collapse-all'] = 'Zbaliť všetko';
 $labels['threaded'] = 'Spojené do konverzácií';
+$labels['showunread'] = 'Zobraziť neprečítané správy';
 $labels['autoexpand_threads'] = 'Rozbaliť konverzácie';
 $labels['do_expand'] = 'všetky';
 $labels['expand_only_unread'] = 'len s neprečítanými správami';
@@ -195,6 +200,8 @@ $labels['folderactions'] = 'Akcie pre priečinky...';
 $labels['compact'] = 'Zhustiť';
 $labels['empty'] = 'Vyprázdniť';
 $labels['importmessages'] = 'Importovať správy';
+$labels['mailimportdesc'] = 'E-mail môžete nahrať s použitím súborov vo formáte <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> alebo <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Viaceré súbory je možné skomprimovať do archívov ZIP.';
 $labels['quota'] = 'Úložné miesto';
 $labels['unknown'] = 'neznáme';
 $labels['unlimited'] = 'neobmedzené';
@@ -255,6 +262,8 @@ $labels['keyexpired'] = 'Expirované';
 $labels['keyrevoked'] = 'Odvolané';
 $labels['bccinstead'] = 'Použiť skrytú kópiu';
 $labels['addheader'] = 'Pridať príjemcu (hlavička)';
+$labels['insert'] = 'Vložiť';
+$labels['insertcontact'] = 'Vložiť kontakt(y)';
 $labels['recipient'] = 'Príjemca';
 $labels['recipientedit'] = 'Úprava príjemcu';
 $labels['editidents'] = 'Upraviť identitu odosielateľa';
@@ -294,8 +303,10 @@ $labels['alwaysshow'] = 'Vždy zobraziť obrázky od odosielateľa $sender';
 $labels['alwaysallow'] = 'Vždy povoliť od $sender';
 $labels['isdraft'] = 'Toto je koncept';
 $labels['andnmore'] = 'Počet ďalších: $nr...';
+$labels['details'] = 'Podrobnosti';
+$labels['summary'] = 'Zhrnutie';
 $labels['headers'] = 'Hlavičky';
-$labels['envelope'] = 'Obálka';
+$labels['allheaders'] = 'Všetky hlavičky...';
 $labels['togglemoreheaders'] = 'Zobraziť viac hlavičiek správ';
 $labels['togglefullheaders'] = 'Prepnúť zobrazenie úplných hlavičiek správ';
 $labels['htmltoggle'] = 'HTML';
@@ -307,10 +318,12 @@ $labels['addcc'] = 'Pridať kópiu';
 $labels['addbcc'] = 'Pridať skrytú kopiu';
 $labels['addreplyto'] = 'Pridať pole Odpovedať na';
 $labels['addfollowupto'] = 'Pridať pole Preposlať na';
+$labels['sendreceipt'] = 'Odoslať potvrdenie o prečítaní?';
 $labels['mdnrequest'] = 'Odosielateľ tejto správy chce byť informovaný o tom, že ste túto správu čítali. Chcete mu potvrdiť prijatie správy?';
 $labels['receiptread'] = 'Potvrdenie o doručení (a prečítaní) správy';
 $labels['yourmessage'] = 'Toto je potvrdenie o doručení vašej správy';
 $labels['receiptnote'] = 'Poznámka: Toto potvrdenie znamená len to, že správa sa zobrazila na počítači príjemcu. Nie je však zaručené, že príjemca správu čítal a porozumel jej obsahu.';
+$labels['sendalwaysto'] = 'Vždy odoslať na $email';
 $labels['zoomin'] = 'Priblížiť';
 $labels['zoomout'] = 'Oddialiť';
 $labels['rotate'] = 'Otočiť';
@@ -390,6 +403,9 @@ $labels['rename'] = 'Premenovať';
 $labels['addphoto'] = 'Pridať fotografiu';
 $labels['replacephoto'] = 'Nahradiť fotografiu';
 $labels['uploadphoto'] = 'Nahrať fotografiu';
+$labels['choosefile'] = 'Vybrať súbor...';
+$labels['choosefiles'] = 'Vybrať súbory...';
+$labels['browse'] = 'Prehľadávať';
 $labels['newcontact'] = 'Vytvoriť nový kontakt';
 $labels['deletecontact'] = 'Vymazať vybrané kontakty';
 $labels['composeto'] = 'Vytvoriť správu pre';
@@ -425,7 +441,10 @@ $labels['importreplace'] = 'Nahradiť celý adresár kontaktov';
 $labels['importgroups'] = 'Importovať priradenia do skupín';
 $labels['importgroupsall'] = 'Všetky (vytvoriť skupiny ak je to potrebné)';
 $labels['importgroupsexisting'] = 'Len pre existujúce skupiny';
-$labels['importdesc'] = 'Môžete vložiť kontakty zo svojho existujúceho adresára.<br/>Momentálne je možné importovanie adries z formátu <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> alebo CSV (údaje oddeľované čiarkou).';
+$labels['importdesc'] = 'Môžete nahrať kontakty z existujúceho adresára. <br/>Momentálne podporujeme import adries z formátu <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> alebo CSV (údaje oddeľované čiarkou).';
+$labels['importmapdesc'] = 'Skôr než budete pokračovať v importovaní údajov vo formáte CSV (údaje oddeľované čiarkou), potvrďte správnosť informácie o priradení polí.';
+$labels['fieldnotmapped'] = 'Pole nie je priradené (neimportuje sa)';
+$labels['skipheader'] = 'Neimportovať prvý riadok (hlavičky)';
 $labels['done'] = 'Hotovo';
 $labels['settingsfor'] = 'Nastavenia pre';
 $labels['about'] = 'O systéme';
@@ -472,6 +491,8 @@ $labels['askuser'] = 'opýtať sa používateľa';
 $labels['autosend'] = 'odoslať potvrdenie';
 $labels['autosendknown'] = 'odoslať potvrdenie iba mojim kontaktom';
 $labels['autosendknownignore'] = 'odoslať potvrdenie známym odosielateľom, inak ignorovať';
+$labels['autosendtrusted'] = 'odoslať potvrdenie dôveryhodným odosielateľom, inak sa ma opýtať';
+$labels['autosendtrustedignore'] = 'odoslať potvrdenie dôveryhodným odosielateľom, inak ignorovať';
 $labels['ignorerequest'] = 'ignorovať požiadavku';
 $labels['readwhendeleted'] = 'Označiť správu ako prečítanú pri jej vymazávaní';
 $labels['flagfordeletion'] = 'Namiesto vymazania správy ju iba označiť ako vymazanú';
@@ -481,6 +502,8 @@ $labels['deletejunk'] = 'Hneď vymazávať správy v priečinku Nevyžiadaná po
 $labels['showremoteimages'] = 'Zobrazovať obrázky uložené mimo správy';
 $labels['allowremoteresources'] = 'Povoliť vzdialené zdroje (obrázky, štýly)';
 $labels['fromknownsenders'] = 'pri známych odosielateľoch';
+$labels['fromtrustedsenders'] = 'od dôveryhodných odosielateľov';
+$labels['frommycontacts'] = 'od mojich kontaktov';
 $labels['always'] = 'vždy';
 $labels['alwaysbutplain'] = 'vždy, okrem odpovedí na správy v čistom texte';
 $labels['showinlineimages'] = 'Zobrazovať priložené obrázky pod správou';
@@ -501,7 +524,7 @@ $labels['advancedoptions'] = 'Rozšírené nastavenia';
 $labels['toggleadvancedoptions'] = 'Prepnúť pokročilé nastavenia';
 $labels['focusonnewmessage'] = 'Aktivovať okno prehliadača pri novej správe';
 $labels['checkallfolders'] = 'Kontrolovať nové správy vo všetkých priečinkoch';
-$labels['displaynext'] = 'Zobraziť ďalšiu správu po vymazaní/presunutí správy';
+$labels['displaynext'] = 'Po vymazaní/presune zobraziť ďalší záznam v zozname';
 $labels['defaultfont'] = 'Predvolené písmo pre HTML správu';
 $labels['mainoptions'] = 'Hlavné nastavenia';
 $labels['browseroptions'] = 'Nastavenia prehliadania';
@@ -529,6 +552,14 @@ $labels['replysamefolder'] = 'Umiestňovať odpovede do rovnakého priečinka ak
 $labels['defaultabook'] = 'Predvolený adresár kontaktov';
 $labels['autocompletesingle'] = 'Vynechať alternatívne e-mailové adresy pri automatickom dopĺňaní';
 $labels['listnamedisplay'] = 'Zobraziť kontakty ako';
+$labels['contactformmode'] = 'Režim kontaktného formulára';
+$labels['privatemode'] = 'Súkromný (doma)';
+$labels['businessmode'] = 'Biznisový (práca)';
+$labels['collectedaddresses'] = 'Zozbierané adresy';
+$labels['collectedrecipients'] = 'Zozbieraní príjemcovia';
+$labels['collectedrecipientsopt'] = 'Ukladať príjemcov odchádzajúcich e-mailov do';
+$labels['collectedsendersopt'] = 'Ukladať dôveryhodných odosielateľov do';
+$labels['trustedsenders'] = 'Dôveryhodní odosielatelia';
 $labels['spellcheckbeforesend'] = 'Skontrolovať pravopis pred odoslaním správy';
 $labels['spellcheckoptions'] = 'Nastavenia kontroly pravopisu';
 $labels['spellcheckignoresyms'] = 'Ignorovať slová so symbolmi';
@@ -577,6 +608,10 @@ $labels['encryptioncreatekey'] = 'Vytvoriť nový pár kľúčov';
 $labels['openmailvelopesettings'] = 'Otvoriť nastavenia Mailvelope';
 $labels['encryptionprivkeysinmailvelope'] = 'Vo vašej súprave kľúčov Mailvelope máte uložených $nr zodpovedajúcich súkromných kľúčov.';
 $labels['encryptionnoprivkeysinmailvelope'] = 'Pre túto identitu odosielateľa ešte nemáte v rozšírení Mailvelope uložený žiadny súkromný kľúč PGP. Chcete nejaký vytvoriť, aby bolo možné aktivovať posielanie zašifrovaných správ?';
+$labels['encryption'] = 'Šifrovanie';
+$labels['mailvelopeoptions'] = 'Možnosti Mailvelope';
+$labels['mailvelopemainkeyring'] = 'Použiť hlavnú kľúčenku Mailvelope';
+$labels['mailvelopenotfound'] = 'Vo vašom prehliadači nie je zapnuté/nainštalovať rozšírenie Mailvelope.';
 $labels['sortby'] = 'Zoradiť podľa';
 $labels['sortasc'] = 'Zoradiť vzostupne';
 $labels['sortdesc'] = 'Zoradiť zostupne';
@@ -585,6 +620,7 @@ $labels['installedplugins'] = 'Nainštalované prídavné moduly';
 $labels['plugin'] = 'Zásuvný modul';
 $labels['version'] = 'Verzia';
 $labels['source'] = 'Zdrojový kód';
+$labels['destination'] = 'Cieľ';
 $labels['license'] = 'Licencia';
 $labels['support'] = 'Podpora';
 $labels['savedsearches'] = 'Uložené vyhľadávania';
@@ -619,6 +655,7 @@ $labels['chinese'] = 'Čínsky';
 $labels['arialabeltopnav'] = 'Ovládanie okna';
 $labels['arialabeltasknav'] = 'Úlohy aplikácie';
 $labels['arialabeltoolbar'] = 'Panel nástrojov aplikácie';
+$labels['arialabellistnav'] = 'Zoznam navigovania';
 $labels['arialabelactivetask'] = 'Aktívna úloha';
 $labels['arialabelmessagessearchfilter'] = 'Filter zoznamu e-mailov';
 $labels['arialabelmailsearchform'] = 'Formulár pre vyhľadanie e-mailu';
@@ -657,7 +694,7 @@ $labels['arialabelcontactexportoptions'] = 'Nastavenia exportu kontaktov';
 $labels['arialabelabookgroupoptions'] = 'Nastavenia adresára/skupiny';
 $labels['arialabelpreferencesform'] = 'Formulár s nastaveniami';
 $labels['arialabelidentityeditfrom'] = 'Formulár pre úpravu identity';
-$labels['arialabelresonseeditfrom'] = 'Formulár pre úpravu odpovede';
+$labels['arialabelresponseeditfrom'] = 'Formulár pre úpravu odpovede';
 $labels['arialabelsearchterms'] = 'Vyhľadávanie položiek';
 $labels['arialabeldropactionmenu'] = 'Menu akcií typu Ťahaj a pusť';
 $labels['arialabelheadersmenu'] = 'Menu pre pridanie príjemcu (hlavičky)';
@@ -671,4 +708,3 @@ $labels['helplistkeyboardnavmessages'] = "Šípky doprava/doľava: rozbaliť/zba
 Enter: otvoriť vybranú/zvýraznenú správu.
 Delete: presunúť vybrané správy do koša.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Otvoriť vybraný/zvýraznený kontakt.";
-?>

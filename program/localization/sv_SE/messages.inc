@@ -2,32 +2,33 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ett fel uppstod!';
 $messages['loginfailed']  = 'Inloggningen misslyckades';
 $messages['cookiesdisabled'] = 'Webbläsaren accepterar inte cookies.';
 $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
+$messages['cookiesmismatch'] = 'Något är fel med webbläsarens cookie. Rensa bort den för att kunna fortsätta.';
 $messages['storageerror'] = 'Anslutning till lagringsservern misslyckades.';
 $messages['servererror'] = 'Serverfel!';
 $messages['servererrormsg'] = 'Serverfel: $msg';
 $messages['accountlocked'] = 'För många felaktiga inloggningar. Försök igen senare.';
 $messages['connerror'] = 'Anslutningsfel (misslyckades att kontakta servern)!';
 $messages['dberror'] = 'Databasfel!';
+$messages['dbconnerror'] = 'Anslutning till serverns databas misslyckades!';
 $messages['windowopenerror'] = 'Popup-fönstret blockerades!';
 $messages['requesttimedout'] = 'Begäran tog för lång tid';
-$messages['errorreadonly'] = 'Åtgärden kunde inte utföras. Katalogen är skrivskyddad.';
+$messages['errorreadonly'] = 'Åtgärden kunde inte utföras. Mappen är skrivskyddad.';
 $messages['errornoperm'] = 'Åtgärden kunde inte utföras. Otillräcklig befogenhet.';
 $messages['erroroverquota'] = 'Åtgärden kunde inte utföras. Otillräckligt lagringsutrymme.';
 $messages['erroroverquotadelete'] = 'Otillräckligt lagringsutrymme. Tryck på SHIFT och DEL för att ta bort ett meddelande.';
@@ -35,14 +36,14 @@ $messages['invalidrequest'] = 'Ogiltig begäran! Informationen sparades inte.';
 $messages['invalidhost'] = 'Ogiltigt servernamn.';
 $messages['nomessagesfound'] = 'Inga meddelanden.';
 $messages['loggedout'] = 'Du är utloggad. Välkommen åter!';
-$messages['mailboxempty'] = 'Katalogen är tom';
+$messages['mailboxempty'] = 'Brevlådan är tom';
 $messages['nomessages'] = 'Inga meddelanden';
 $messages['refreshing'] = 'Uppdaterar...';
-$messages['loading'] = 'Laddar...';
+$messages['loading'] = 'Läser in...';
 $messages['uploading'] = 'Överför fil...';
 $messages['attaching'] = 'Bifogar fil...';
 $messages['uploadingmany'] = 'Överför filer...';
-$messages['loadingdata'] = 'Laddar data...';
+$messages['loadingdata'] = 'Läser in data...';
 $messages['checkingmail'] = 'Hämtar nya meddelanden...';
 $messages['sendingmessage'] = 'Skickar meddelande...';
 $messages['messagesent'] = 'Meddelandet har skickats.';
@@ -57,6 +58,7 @@ $messages['contactexists'] = 'En kontakt med den här adressen finns redan.';
 $messages['contactnameexists'] = 'En kontakt med det här namnet finns redan.';
 $messages['blockedimages'] = 'Externt länkade bilder i meddelandet har blockerats.';
 $messages['blockedresources'] = 'Externt länkade resurser i meddelandet har blockerats.';
+$messages['suspiciousemail'] = 'Meddelandet innehåller mailadresser som kan vara försök till bedrägeri.';
 $messages['encryptedmessage'] = 'Meddelandet är krypterat och kan tyvärr inte visas.';
 $messages['externalmessagedecryption'] = 'Meddelandet är krypterat och kan visas med ett tillägg i webbläsaren.';
 $messages['nopubkeyfor'] = 'Ingen giltig offentlig nyckel hittades för $email';
@@ -64,11 +66,11 @@ $messages['nopubkeyforsender'] = 'Ingen giltig offentlig nyckel hittades för di
 $messages['encryptnoattachments'] = 'Redan uppladdade bilagor kan inte krypteras. Lägg till bilagorna i krypteringsredigeraren istället.';
 $messages['searchpubkeyservers'] = 'Ska saknade nycklar sökas i offentliga nyckelservrar?';
 $messages['encryptpubkeysfound'] = 'Följande offentliga nycklar hittades:';
-$messages['keyservererror'] = 'Nyckeln kunde inte hämtas från nyckelservern';
-$messages['keyimportsuccess'] = 'Offentlig nyckel $key är tillagd i din nyckelring';
+$messages['keyservererror'] = 'Nyckeln kunde inte hämtas från nyckelservern.';
+$messages['keyimportsuccess'] = 'Offentlig nyckel $key är tillagd i din nyckelring.';
 $messages['nocontactsfound'] = 'Inga kontakter hittades.';
 $messages['contactnotfound'] = 'Efterfrågad kontakt hittades inte.';
-$messages['contactsearchonly'] = 'Ange sökord för att hitta kontakter';
+$messages['contactsearchonly'] = 'Ange sökord för att hitta kontakter i vald adressbok.';
 $messages['sendingfailed'] = 'Meddelandet kunde inte skickas.';
 $messages['senttooquickly'] = 'Vänta ytterligare $sec sekunder med att skicka meddelandet.';
 $messages['errorsavingsent'] = 'Det skickade meddelandet kunde inte sparas.';
@@ -82,14 +84,15 @@ $messages['confirmationtitle'] = 'Är du säker...';
 $messages['deletecontactconfirm']  = 'Vill du verkligen ta bort valda kontakter?';
 $messages['deletegroupconfirm']  = 'Vill du verkligen ta bort den valda gruppen?';
 $messages['deletemessagesconfirm'] = 'Vill du verkligen ta bort valda meddelanden?';
-$messages['deletefolderconfirm']  = 'Vill du verkligen ta bort den här katalogen?';
-$messages['purgefolderconfirm']  = 'Vill du verkligen ta bort alla meddelanden i den här katalogen?';
+$messages['deletefolderconfirm']  = 'Vill du verkligen ta bort den här mappen?';
+$messages['movefolderconfirm']  = 'Vill du verkligen flytta den här mappen?';
+$messages['purgefolderconfirm']  = 'Vill du verkligen ta bort alla meddelanden i den här mappen?';
 $messages['contactdeleting'] = 'Tar bort kontakt...';
 $messages['groupdeleting'] = 'Tar bort grupp...';
-$messages['folderdeleting'] = 'Tar bort katalog...';
-$messages['foldermoving'] = 'Flyttar katalog...';
-$messages['foldersubscribing'] = 'Startar prenumeration på katalog...';
-$messages['folderunsubscribing'] = 'Avslutar prenumeration på katalog...';
+$messages['folderdeleting'] = 'Tar bort mapp...';
+$messages['foldermoving'] = 'Flyttar mapp...';
+$messages['foldersubscribing'] = 'Startar prenumeration på mapp...';
+$messages['folderunsubscribing'] = 'Avslutar prenumeration på mapp...';
 $messages['formincomplete'] = 'Formuläret var inte komplett ifyllt.';
 $messages['noemailwarning'] = 'Ange en giltig adress.';
 $messages['nonamewarning']  = 'Ange ett namn.';
@@ -113,19 +116,19 @@ $messages['searching'] = 'Söker...';
 $messages['checking'] = 'Kontrollerar...';
 $messages['stillsearching'] = 'Söker fortfarande...';
 $messages['nospellerrors'] = 'Inget stavfel hittades.';
-$messages['folderdeleted'] = 'Katalogen togs bort.';
-$messages['foldersubscribed'] = 'Prenumeration på katalog startad.';
-$messages['folderunsubscribed'] = 'Prenumeration på katalog avslutad.';
-$messages['folderpurged'] = 'Katalog tömd.';
-$messages['folderexpunged'] = 'Katalog rensad.';
+$messages['folderdeleted'] = 'Mappen togs bort.';
+$messages['foldersubscribed'] = 'Prenumeration på mapp startad.';
+$messages['folderunsubscribed'] = 'Prenumeration på mapp avslutad.';
 $messages['deletedsuccessfully'] = 'Borttaget.';
 $messages['converting'] = 'Tar bort formatering...';
 $messages['messageopenerror'] = 'Meddelandet kunde inte hämtas från servern.';
 $messages['filelinkerror'] = 'Filen kunde inte bifogas.';
 $messages['fileuploaderror'] = 'Filuppladdning misslyckades.';
+$messages['csvfilemismatch'] = 'Import av flera CSV-filer med olika fält stöds inte.';
 $messages['filesizeerror'] = 'Den uppladdade filens storlek överstiger högsta tillåtna $size.';
 $messages['filecounterror'] = 'Högst $count filer kan laddas upp samtidigt.';
 $messages['msgsizeerror'] = 'Filen kunde inte bifogas. Största tillåtna storlek ($size) överskreds.';
+$messages['msgsizeerrorfwd'] = 'Tillåten storlek på meddelandet ($size) är överskriden. $num meddelanden har inte bifogats.';
 $messages['copysuccess'] = '$nr kontakter har kopierats.';
 $messages['movesuccess'] = '$nr kontakter har flyttats.';
 $messages['copyerror'] = 'Några kontakter kunde inte kopieras.';
@@ -144,7 +147,7 @@ $messages['receiptsent'] = 'Mottagarkvitto har skickats.';
 $messages['errorsendingreceipt'] = 'Mottagarkvitto kunde inte skickas.';
 $messages['deleteidentityconfirm'] = 'Vill du verkligen ta bort denna identitet?';
 $messages['nodeletelastidentity'] = 'Du kan inte ta bort identiteten, den är din sista.';
-$messages['forbiddencharacter'] = 'Katalognamnet innehåller otillåtna tecken.';
+$messages['forbiddencharacter'] = 'Mappnamnet innehåller otillåtna tecken.';
 $messages['selectimportfile'] = 'Välj en fil att ladda upp.';
 $messages['addresswriterror'] = 'Markerad adressbok är skrivskyddad.';
 $messages['contactaddedtogroup'] = 'Kontakterna har lagts till i gruppen.';
@@ -185,19 +188,19 @@ $messages['savedsearchcreated'] = 'Sparad sökning tillagd.';
 $messages['savedsearchcreateerror'] = 'Kunde inte lägga till sparad sökning.';
 $messages['messagedeleted'] = 'Meddelande borttaget.';
 $messages['messagemoved'] = 'Meddelande flyttat.';
-$messages['messagemovedtotrash'] = 'Meddelande flyttat till Papperskorg.';
+$messages['messagemovedtotrash'] = 'Meddelanden flyttade till Papperskorg.';
 $messages['messagecopied'] = 'Meddelande kopierat.';
 $messages['messagemarked'] = 'Meddelande markerat.';
 $messages['autocompletechars'] = 'Ange minst $min tecken för automatisk komplettering.';
 $messages['autocompletemore'] = 'Ytterligare passande poster funna. Skriv fler tecken.';
 $messages['namecannotbeempty'] = 'Namnet får inte vara tomt.';
 $messages['nametoolong'] = 'Namnet är för långt.';
-$messages['namedotforbidden'] = 'Katalognamnet kan inte inledas med en punkt.';
-$messages['folderupdated'] = 'Katalog uppdaterad.';
-$messages['foldercreated'] = 'Katalog skapad.';
+$messages['namedotforbidden'] = 'Mappnamnet kan inte inledas med en punkt.';
+$messages['folderupdated'] = 'Mappen uppdaterad.';
+$messages['foldercreated'] = 'Mappen skapad.';
 $messages['invalidimageformat'] = 'Ogiltigt bildfilsformat.';
 $messages['mispellingsfound'] = 'Stavfel hittades i meddelandet.';
-$messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åtkomsträttighet saknas.';
+$messages['parentnotwritable'] = 'Mappen kunde inte skapas eller flyttas. Åtkomsträttighet saknas.';
 $messages['messagetoobig'] = 'Meddelandet är alltför stort att behandla.';
 $messages['attachmentvalidationerror'] = 'Den här bilagan är misstänkt eftersom dess typ inte överensstämmer med typen som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan i webbläsaren eftersom innehållet kan vara skadligt.<br/><br/><em>Förväntad: $expected; Funnen: $detected</em>';
 $messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
@@ -217,6 +220,9 @@ $messages['clicktocompose'] = 'Klicka här för att skriva ett nytt meddelande';
 $messages['nosupporterror'] = 'Funktionen finns inte i webbläsaren.';
 $messages['siginserted'] = 'Signatur infogad.';
 $messages['responseinserted'] = 'Respons infogad.';
+$messages['noresponsesavailable'] = 'Ingen respons tillgänglig';
 $messages['listempty'] = 'Listan är tom.';
 $messages['listusebutton'] = 'Använd Skapa-knappen för att lägga till information.';
 $messages['keypaircreatesuccess'] = 'Ett nytt nyckelpar har skapats för $identity.';
+$messages['emptyattachment'] = 'Bilagan verkar vara tom.<br>Kontakta avsändaren.';
+$messages['oauthloginfailed'] = 'OAuth-inloggningen misslyckades. Vänligen försök igen.';

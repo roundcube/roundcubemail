@@ -8,7 +8,7 @@
  * @version 2.0
  * @author Philip Weir
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class rcube_poppassd_password
     function format_error_result($code, $line)
     {
         if (preg_match('/^\d\d\d\s+(\S.*)\s*$/', $line, $matches)) {
-            return array('code' => $code, 'message' => $matches[1]);
+            return ['code' => $code, 'message' => $matches[1]];
         }
 
         return $code;

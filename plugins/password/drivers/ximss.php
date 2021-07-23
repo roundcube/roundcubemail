@@ -14,7 +14,7 @@
  * @version 2.0
  * @author Erik Meitner <erik wanderings.us>
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class rcube_ximss_password
         $port = $rcmail->config->get('password_ximss_port');
         $sock = stream_socket_client("tcp://$host:$port", $errno, $errstr, 30);
 
-        if ($sock === FALSE) {
+        if ($sock === false) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -64,20 +64,21 @@ class rcube_ximss_password
 
         fclose($sock);
 
-        foreach (explode( "\0",$responseblob) as $response) {
+        foreach (explode( "\0", $responseblob) as $response) {
             $resp = simplexml_load_string("<xml>".$response."</xml>");
+            $id = $resp && !empty($resp->response[0]['id']) ? $resp->response[0]['id'] : null;
 
-            if ($resp->response[0]['id'] == 'A001') {
+            if ($id == 'A001') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_CONNECT_ERROR;
                 }
             }
-            else if ($resp->response[0]['id'] == 'A002') {
+            else if ($id == 'A002') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_ERROR;
                 }
             }
-            else if ($resp->response[0]['id'] == 'A003') {
+            else if ($id == 'A003') {
                 if (isset($resp->response[0]['errorNum'])) {
                     // There was a problem during logout (This is probably harmless)
                 }

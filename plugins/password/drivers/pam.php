@@ -6,7 +6,7 @@
  * @version 2.0
  * @author Aleksander Machniak
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,21 +35,23 @@ class rcube_pam_password
                 }
             }
             else {
-                rcube::raise_error(array(
-                    'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: PAM authentication failed for user $username: $error"
-                    ), true, false);
+                rcube::raise_error([
+                        'code' => 600,
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                        'message' => "Password plugin: PAM authentication failed for user $username: $error"
+                    ], true, false
+                );
             }
         }
         else {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: PECL-PAM module not loaded"
-                ), true, false);
+            rcube::raise_error([
+                    'code' => 600,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                    'message' => "Password plugin: PECL-PAM module not loaded"
+                ], true, false
+            );
         }
 
         return PASSWORD_ERROR;

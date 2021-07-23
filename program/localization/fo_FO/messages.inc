@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ein feilur kom fyri!';
 $messages['loginfailed']  = 'Feilur í innriting.';
 $messages['cookiesdisabled'] = 'Kagi tín noktar cookies.';
 $messages['sessionerror'] = 'Seta tín er ógyldig ella útgingin.';
+$messages['cookiesmismatch'] = 'Tú hevur nú rita út. Farvæl!';
 $messages['storageerror'] = 'Feilur í samand til goymslu ambatara.';
 $messages['servererror'] = 'Ambatara Feilur!';
 $messages['servererrormsg'] = 'Ambatara Feilur: $msg';
@@ -34,7 +34,6 @@ $messages['erroroverquotadelete'] = 'Einki pláss á diski. Brúka SHIFT+DEL fyr
 $messages['invalidrequest'] = 'Ógyldig umbøn! Einki dáta varð goymt.';
 $messages['invalidhost'] = 'Ógyldigt ambatara navn.';
 $messages['nomessagesfound'] = 'Eingi boð í funnin hesum postkassa,';
-$messages['loggedout'] = 'Tú hevur strika tína setu. Farvæl!';
 $messages['mailboxempty'] = 'Postkassi er tómur';
 $messages['nomessages'] = 'Eingin boð';
 $messages['refreshing'] = 'Endur-innlesur...';
@@ -62,11 +61,9 @@ $messages['nopubkeyforsender'] = 'Eingin gildur almenna lykil var funnin fyri t�
 $messages['encryptnoattachments'] = 'Tær longu viðheftu fílirnir, kunnu ikki bronglast. Vinarliga set teir inn av nýggjum.';
 $messages['searchpubkeyservers'] = 'Vilt tú leita í almennum datagrunnum eftir manglandi lyklum?';
 $messages['encryptpubkeysfound'] = 'Teir fylgjandi almennalyklar vóru funnir:';
-$messages['keyservererror'] = 'Feilur kom í tá roynt var at heinta lyklar frá lykla-ambætara';
-$messages['keyimportsuccess'] = 'Almennalykilin $key er koyrdur í tín lyklaring';
+$messages['keyservererror'] = 'Feilur at heinta lykil frá lyklaambætara';
 $messages['nocontactsfound'] = 'Eingir persónar funnir.';
 $messages['contactnotfound'] = 'Umbindni persónurin varð ikki funnin.';
-$messages['contactsearchonly'] = 'Skriva onkur leiti orð fyri at finna persónar';
 $messages['sendingfailed'] = 'Riggaði ikki at senda boð.';
 $messages['senttooquickly'] = 'Vinarliga bíða $sec sekund(ir) áðrenn tú sendur hetta boð.';
 $messages['errorsavingsent'] = 'Ein feilur kom fyri tá ið roynt var at goyma send boð.';
@@ -75,10 +72,13 @@ $messages['errormoving'] = 'Kundi ikki flyta boð(ini).';
 $messages['errorcopying'] = 'Kundi ikki avrita boð(ini).';
 $messages['errordeleting'] = 'Kundi ikki strika boð(ini).';
 $messages['errormarking'] = 'Kundi ikki merkja boð(ini).';
+$messages['alerttitle'] = 'Gev gætur';
+$messages['confirmationtitle'] = 'Ert tú vís/ur';
 $messages['deletecontactconfirm']  = 'Ert tú vísur í at tú vilt strika merkt(ar) persónar?';
 $messages['deletegroupconfirm']  = 'Ert tú vísur í at tú vilt strika valda bólk?';
 $messages['deletemessagesconfirm'] = 'Ert tú vísur í at tú vilt strika vald boð()?';
 $messages['deletefolderconfirm']  = 'Ert tú vísur í at tú vilt strika hesa mappu?';
+$messages['movefolderconfirm']  = 'Vilt tú veruliga flyta hesa mappu?';
 $messages['purgefolderconfirm']  = 'Ert tú vísur í at tú vilt strika øll boð í hesu mappu?';
 $messages['contactdeleting'] = 'Strikar persón(ar)...';
 $messages['groupdeleting'] = 'Strikar bólk...';
@@ -107,8 +107,6 @@ $messages['nospellerrors'] = 'Eingin stavifeilur funnin.';
 $messages['folderdeleted'] = 'Mappa sletta.';
 $messages['foldersubscribed'] = 'Mappa tekna til.';
 $messages['folderunsubscribed'] = 'Ógylt tekning til mappu.';
-$messages['folderpurged'] = 'Mappan er tómd.';
-$messages['folderexpunged'] = 'Mappan var samantrongd.';
 $messages['deletedsuccessfully'] = 'Strika uftan feilir.';
 $messages['converting'] = 'Tekur burt forsniðing...';
 $messages['messageopenerror'] = 'Kundi ikki lesa inn boð frá servara.';

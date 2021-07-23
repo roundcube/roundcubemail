@@ -5,58 +5,73 @@
  *
  * @package Tests
  */
-class rc_html2text extends PHPUnit_Framework_TestCase
+class rc_html2text extends PHPUnit\Framework\TestCase
 {
 
     function data_html2text()
     {
-        return array(
-            0 => array(
+        return [
+            0 => [
                 'title' => 'Test entry',
                 'in'    => '',
                 'out'   => '',
-            ),
-            1 => array(
+            ],
+            1 => [
                 'title' => 'Basic HTML entities',
                 'in'    => '&quot;&amp;',
                 'out'   => '"&',
-            ),
-            2 => array(
+            ],
+            2 => [
                 'title' => 'HTML entity string',
                 'in'    => '&amp;quot;',
                 'out'   => '&quot;',
-            ),
-            3 => array(
-                'title' => 'HTML entity in STRONG tag',
-                'in'    => '<strong>&#347;</strong>', // ś
-                'out'   => 'Ś', // upper ś
-            ),
-            4 => array(
-                'title' => 'STRONG tag to upper-case conversion',
-                'in'    => '<strong>ś</strong>',
-                'out'   => 'Ś',
-            ),
-            5 => array(
-                'title' => 'STRONG inside B tag',
-                'in'    => '<b><strong>&#347;</strong></b>',
-                'out'   => 'Ś',
-            ),
-            6 => array(
+            ],
+            3 => [
+                'title' => 'HTML entity in H1 tag',
+                'in'    => '<h1>&#347;</h1>', // ś
+                'out'   => "Ś\n\n", // upper ś
+            ],
+            4 => [
+                'title' => 'H1 tag to upper-case conversion',
+                'in'    => '<h1>ś</h1>',
+                'out'   => "Ś\n\n",
+            ],
+            5 => [
+                'title' => 'H1 inside B tag',
+                'in'    => '<b><h1>&#347;</h1></b>',
+                'out'   => "Ś\n\n",
+            ],
+            6 => [
                 'title' => 'Don\'t remove non-printable chars',
                 'in'    => chr(0x002).chr(0x003),
                 'out'   => chr(0x002).chr(0x003),
-            ),
-            7 => array(
+            ],
+            7 => [
                 'title' => 'Remove spaces after <br>',
                 'in'    => 'test<br>  test',
                 'out'   => "test\ntest",
-            ),
-            8 => array(
+            ],
+            8 => [
                 'title' => '&nbsp; handling test',
-                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
-                'out'   => "eye:   test\ntes:   test",
-            ),
-        );
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> test: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntest:   test",
+            ],
+            9 => [
+                'title' => 'HTML entity in STRONG tag',
+                'in'    => '<strong>&#347;</strong>', // ś
+                'out'   => 'ś',
+            ],
+            10 => [
+                'title' => 'STRONG tag to upper-case conversion',
+                'in'    => '<strong>ś</strong>',
+                'out'   => 'ś',
+            ],
+            11 => [
+                'title' => 'STRONG inside B tag',
+                'in'    => '<b><strong>&#347;</strong></b>',
+                'out'   => 'ś',
+            ],
+        ];
     }
 
     /**
@@ -73,7 +88,7 @@ class rc_html2text extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * Test blockquote tags handling
      */
     function test_multiple_blockquotes()
     {
@@ -103,7 +118,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoating on invalid html');
+        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
         $html = <<<EOF
@@ -116,9 +131,12 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
     }
 
+    /**
+     * Test links handling
+     */
     function test_links()
     {
         $html     = '<a href="http://test.com">content</a>';
@@ -159,23 +177,38 @@ Links:
 
     function data_links_no_list()
     {
-        return array(
-            array(
+        return [
+            [
                 'this is <a href="http://test.com">content</a>',
                 'this is content',
-            ),
-            array(
+            ],
+            [
                 'this is <a href="#test">content&amp;&nbsp;test</a>',
                 'this is content& test',
-            ),
-            array(
+            ],
+            [
                 'this is <a href="">content</a>',
                 'this is content',
-            ),
-            array(
+            ],
+            [
                 'this is <a href="http://test.com"><img src=http://test.com/image" alt="image" /></a>',
                 'this is http://test.com',
-            ),
-        );
+            ],
+        ];
+    }
+
+    /**
+     * Test huge HTML content (#8137)
+     */
+    function test_memory_fix_8137()
+    {
+        // create >1MB input
+        $src = 'data:image/png;base64,' . str_repeat('1234567890abcdefghijklmnopqrstuvwxyz', 50000);
+        $input = 'test<body><p>test1</p><p>test2</p><img src="' . $src . '" /><p>test3</p>';
+
+        $h2t = new rcube_html2text($input, false, false);
+        $res = $h2t->get_text();
+
+        $this->assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');
     }
 }

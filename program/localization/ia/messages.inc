@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Un error ha occurrite.';
 $messages['loginfailed']  = 'Apertura de session fallite.';
 $messages['cookiesdisabled'] = 'Vostre navigator non accepta cookies.';
@@ -34,7 +33,6 @@ $messages['erroroverquotadelete'] = 'Nulle spatio libere sur disco. Preme SHIFT+
 $messages['invalidrequest'] = 'Requesta non valide. Le datos non ha essite salveguardate.';
 $messages['invalidhost'] = 'Nomine de servitor non valide.';
 $messages['nomessagesfound'] = 'Nulle message trovate in iste cassa postal.';
-$messages['loggedout'] = 'Vos ha terminate le session. A revider!';
 $messages['mailboxempty'] = 'Le cassa postal es vacue';
 $messages['nomessages'] = 'Nulle message';
 $messages['refreshing'] = 'A refrescar...';
@@ -62,11 +60,8 @@ $messages['nopubkeyforsender'] = 'Nulle clave public valide ha essite trovate pr
 $messages['encryptnoattachments'] = 'Le attachamentos jam incargate non pote esser cryptate. Per favor re-adde los in le editor cryptographic.';
 $messages['searchpubkeyservers'] = 'Vole tu cercar le claves mancante in le servitores de claves public?';
 $messages['encryptpubkeysfound'] = 'Le sequente claves public ha essite trovate:';
-$messages['keyservererror'] = 'Fallimento de obtener clave ab servitor de claves';
-$messages['keyimportsuccess'] = 'Le clave public $key ha essite importate in tu portaclaves';
 $messages['nocontactsfound'] = 'Nulle contacto trovate.';
 $messages['contactnotfound'] = 'Le contacto requestate non ha essite trovate.';
-$messages['contactsearchonly'] = 'Entra parolas a cercar in contactos';
 $messages['sendingfailed'] = 'Le invio del message ha fallite.';
 $messages['senttooquickly'] = 'Per favor, attende $sec secunda(s) ante inviar iste message.';
 $messages['errorsavingsent'] = 'Un error ha occurrite durante le salveguarda del message inviate.';
@@ -111,8 +106,6 @@ $messages['nospellerrors'] = 'Nulle error de orthographia trovate.';
 $messages['folderdeleted'] = 'Le dossier ha essite delite.';
 $messages['foldersubscribed'] = 'Le subscription al dossier ha succedite.';
 $messages['folderunsubscribed'] = 'Le subscription al dossier ha essite cancellate.';
-$messages['folderpurged'] = 'Le dossier ha essite vacuate.';
-$messages['folderexpunged'] = 'Le dossier ha essite compactate.';
 $messages['deletedsuccessfully'] = 'Delete con successo.';
 $messages['converting'] = 'A remover le formatation...';
 $messages['messageopenerror'] = 'Impossibile cargar le message ab le servitor.';
@@ -160,6 +153,7 @@ $messages['smtpautherror'] = 'Error SMTP ($code): Authentication fallite.';
 $messages['smtpfromerror'] = 'Error SMTP ($code): Impossibile fixar le expeditor "$from" ($msg).';
 $messages['smtptoerror'] = 'Error SMTP ($code): Impossibile adder le destinatario "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Error SMTP: Impossibile interpretar le lista de destinatarios.';
+$messages['smtpsizeerror'] = 'Error de SMTP: Le grandor del message excede le limite del servitor ($limit)';
 $messages['smtperror'] = 'Error SMTP: $msg';
 $messages['emailformaterror'] = 'Adresse de e-mail invalide: $email';
 $messages['toomanyrecipients'] = 'Troppo de destinatarios. Reduce le numero de destinatarios a $max.';

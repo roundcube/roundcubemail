@@ -6,28 +6,32 @@
 // See README file for list of supported driver names.
 $config['password_driver'] = 'sql';
 
+// A driver to use for checking password strength. Default: null (disabled).
+// See README file for list of supported driver names.
+$config['password_strength_driver'] = null;
+
 // Determine whether current password is required to change password.
 // Default: false.
 $config['password_confirm_current'] = true;
 
 // Require the new password to be a certain length.
 // set to blank to allow passwords of any length
-$config['password_minimum_length'] = 0;
+$config['password_minimum_length'] = 8;
 
-// Require the new password to contain a letter and punctuation character
-// Change to false to remove this check.
-$config['password_require_nonalpha'] = false;
+// Require the new password to have at least the specified strength score.
+// Note: Password strength is scored from 1 (week) to 5 (strong).
+$config['password_minimum_score'] = 0;
 
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
 
-// Comma-separated list of login exceptions for which password change
+// Array of login exceptions for which password change
 // will be not available (no Password tab in Settings)
 $config['password_login_exceptions'] = null;
 
 // Array of hosts that support password changing.
 // Listed hosts will feature a Password option in Settings; others will not.
-// Example: array('mail.example.com', 'mail2.example.org');
+// Example: ['mail.example.com', 'mail2.example.org'];
 // Default is NULL (all hosts supported).
 $config['password_hosts'] = null;
 
@@ -40,7 +44,7 @@ $config['password_force_new_user'] = false;
 
 // Default password hashing/crypting algorithm.
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
-// sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, samba, ad, dovecot, clear.
+// sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, ssha512, samba, ad, dovecot, clear.
 // For details see password::hash_password() method.
 $config['password_algorithm'] = 'clear';
 
@@ -73,7 +77,7 @@ $config['password_blowfish_cost'] = 12;
 //$config['password_crypt_rounds'] = 50000;
 
 // This option temporarily disables the password change functionality.
-// Use it when the users database server is in maintenance mode or sth like that.
+// Use it when the users database server is in maintenance mode or something like that.
 // You can set it to TRUE/FALSE or a text describing the reason
 // which will replace the default.
 $config['password_disabled'] = false;
@@ -86,6 +90,14 @@ $config['password_disabled'] = false;
 //     %d - the domain part of the username (in case the username is an email address)
 // Note: This may no apply to some drivers implementing their own rules, e.g. sql.
 $config['password_username_format'] = '%u';
+
+// Options passed when creating Guzzle HTTP client, used to access various external APIs.
+// This will overwrite global http_client settings. For example:
+// [
+//   'timeout' => 10,
+//   'proxy' => 'tcp://localhost:8125',
+// ]
+$config['password_http_client'] = [];
 
 
 // SQL Driver options
@@ -167,11 +179,11 @@ $config['password_pop_port'] = 106;
 $config['password_saslpasswd_args'] = '';
 
 
-// LDAP and LDAP_SIMPLE Driver options
+// LDAP, LDAP_SIMPLE and LDAP_EXOP Driver options
 // -----------------------------------
-// LDAP server name to connect to. 
+// LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
-// Exemple: array('ldap1.exemple.com', 'ldap2.exemple.com');
+// Example: ['ldap1.example.com', 'ldap2.example.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
 
@@ -189,8 +201,8 @@ $config['password_ldap_starttls'] = false;
 $config['password_ldap_version'] = '3';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
-$config['password_ldap_basedn'] = 'dc=exemple,dc=com';
+// Example: 'dc=example,dc=com'
+$config['password_ldap_basedn'] = 'dc=example,dc=com';
 
 // LDAP connection method
 // There are two connection methods for changing a user's LDAP password.
@@ -216,8 +228,8 @@ $config['password_ldap_adminPW'] = null;
 // '%name' will be replaced by the current roundcube user's name part
 // '%domain' will be replaced by the current roundcube user's domain part
 // '%dc' will be replaced by domain name hierarchal string e.g. "dc=test,dc=domain,dc=com"
-// Exemple: 'uid=%login,ou=people,dc=exemple,dc=com'
-$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=exemple,dc=com';
+// Example: 'uid=%login,ou=people,dc=example,dc=com'
+$config['password_ldap_userDN_mask'] = 'uid=%login,ou=people,dc=example,dc=com';
 
 // LDAP search DN
 // The DN roundcube should bind with to find out user's DN
@@ -234,8 +246,8 @@ $config['password_ldap_searchDN'] = 'cn=roundcube,ou=services,dc=example,dc=com'
 // If password_ldap_searchDN is set, the password to use for
 // binding to search for user's DN. Note that you should comment out the default
 // password_ldap_userDN_mask setting for this to take effect.
-// Warning: Be sure to set approperiate permissions on this file so this password
-// is only accesible to roundcube and don't forget to restrict roundcube's access to
+// Warning: Be sure to set appropriate permissions on this file so this password
+// is only accessible to roundcube and don't forget to restrict roundcube's access to
 // your directory as much as possible using ACLs. Should this password be compromised
 // you want to minimize the damage.
 $config['password_ldap_searchPW'] = 'secret';
@@ -279,17 +291,17 @@ $config['password_ldap_force_replace'] = true;
 
 // LDAP Password Last Change Date
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "days since epoch" (an integer value)
+// The date is measured in "days since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set (e.g. shadowLastChange)
 $config['password_ldap_lchattr'] = '';
 
 // LDAP Samba password attribute, e.g. sambaNTPassword
 // Name of the LDAP's Samba attribute used for storing user password
 $config['password_ldap_samba_pwattr'] = '';
- 
+
 // LDAP Samba Password Last Change Date attribute, e.g. sambaPwdLastSet
 // Some places use an attribute to store the date of the last password change
-// The date is meassured in "seconds since epoch" (an integer value)
+// The date is measured in "seconds since epoch" (an integer value)
 // Whenever the password is changed, the attribute will be updated if set
 $config['password_ldap_samba_lchattr'] = '';
 
@@ -305,7 +317,7 @@ $config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
 $config['password_ldap_ppolicy_uri'] = 'ldap://localhost/';
 
 // LDAP base name (root directory)
-// Exemple: 'dc=exemple,dc=com'
+// Example: 'dc=example,dc=com'
 $config['password_ldap_ppolicy_basedn'] = 'dc=example,dc=com';
 
 $config['password_ldap_ppolicy_searchDN'] = 'cn=someuser,dc=example,dc=com';
@@ -348,33 +360,12 @@ $config['password_vpopmaild_timeout'] = 10;
 
 
 // cPanel Driver options
-// --------------------------
+// ---------------------
 // The cPanel Host name
 $config['password_cpanel_host'] = 'host.domain.com';
 
-// The cPanel admin username
-$config['password_cpanel_username'] = 'username';
-
-// The cPanel admin password
-$config['password_cpanel_password'] = 'password';
-
-// The cPanel admin hash
-// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
-// Hash takes precedence over password auth.
-// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
-$config['password_cpanel_hash'] = '';
-
 // The cPanel port to use
-$config['password_cpanel_port'] = 2087;
-
-
-// cPanel Webmail Driver options
-// -----------------------------
-// The cPanel Host name
-$config['password_cpanel_webmail_host'] = 'host.domain.com';
-
-// The cPanel port to use
-$config['password_cpanel_webmail_port'] = 2096;
+$config['password_cpanel_port'] = 2096;
 
 
 // XIMSS (Communigate server) Driver options
@@ -407,11 +398,11 @@ $config['xmail_port'] = 6017;
 // false: Hmailserver is on same box as PHP
 $config['hmailserver_remote_dcom'] = false;
 // Windows credentials
-$config['hmailserver_server'] = array(
+$config['hmailserver_server'] = [
     'Server'   => 'localhost',      // hostname or ip address
     'Username' => 'administrator',  // windows username
     'Password' => 'password'        // windows user password
-);
+];
 
 
 // pw_usermod Driver options
@@ -437,7 +428,7 @@ $config['password_expect_script'] = '';
 
 // Arguments for the expect script. See the helpers/passwd-expect file for details.
 // This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+//   -telnet -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
 $config['password_expect_params'] = '';
 
 
@@ -460,7 +451,7 @@ $config['password_gearman_host'] = 'localhost';
 
 // Plesk/PPA Driver options
 // --------------------
-// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel 
+// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel
 
 // Plesk RCP Host
 $config['password_plesk_host'] = '10.0.0.5';
@@ -478,12 +469,61 @@ $config['password_plesk_rpc_port'] = '8443';
 $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 
 
-// kasswd Driver options
+// kpasswd Driver options
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
+
 
 // Modoboa Driver options
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
+
+
+// Mail-in-a-Box Driver options
+// ----------------------------
+// the url to the control panel of Mail-in-a-Box, e.g. https://box.example.com/admin/
+$config['password_miab_url'] = '';
+// name (email) of the admin user used to access api
+$config['password_miab_user'] = '';
+// password of the admin user used to access api
+$config['password_miab_pass'] = '';
+
+
+// TinyCP
+// --------------
+// TinyCP host, port, user and pass.
+$config['password_tinycp_host'] = '';
+$config['password_tinycp_port'] = '';
+$config['password_tinycp_user'] = '';
+$config['password_tinycp_pass'] = '';
+
+// HTTP-API Driver options
+// ---------------------
+
+// Base URL of password change API. HTTPS recommended.
+$config['password_httpapi_url'] = 'https://passwordserver.example.org';
+
+// Method (also affects how vars are sent). Default: POST.
+// GET is not recommended as passwords will appears in the remote webserver's access log
+$config['password_httpapi_method'] = 'POST';
+
+// GET or POST variable in which to put the username
+$config['password_httpapi_var_user'] = 'user';
+
+// GET or POST variable in which to put the current password
+$config['password_httpapi_var_curpass'] = 'curpass';
+
+// GET or POST variable in which to put the new password
+$config['password_httpapi_var_newpass'] = 'newpass';
+
+// HTTP codes other than 2xx are assumed to mean the password changed failed.
+// Optionally, if set, this variable additionally checks the body of the 2xx response to
+// confirm the change. It's a preg_match regular expression.
+$config['password_httpapi_expect'] = '/^ok$/i';
+
+
+// dovecot_passwdfile
+// ------------------
+$config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';

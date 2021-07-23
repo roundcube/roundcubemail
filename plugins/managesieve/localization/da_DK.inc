@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtre';
-$labels['managefilters'] = 'Ændre indgående mail filtreing';
+$labels['managefilters'] = 'Administrer indgående mail filtrering';
 $labels['filtername'] = 'Filter navn';
 $labels['newfilter'] = 'Nyt filter';
 $labels['filteradd'] = 'Tilføj filter';
 $labels['filterdel'] = 'Slet filter';
+$labels['rules'] = 'Regler';
+$labels['actions'] = 'Handlinger';
 $labels['scope'] = 'Omfang';
 $labels['moveup'] = 'Flyt op';
 $labels['movedown'] = 'Flyt ned';
@@ -39,18 +41,26 @@ $labels['filterregex'] = 'matcher regulært udtryk';
 $labels['filternotregex'] = 'matcher ikke regulært udtryk';
 $labels['filterunder'] = 'under';
 $labels['filterover'] = 'over';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME del:';
+$labels['mime-message'] = 'besked';
+$labels['mime-anychild'] = 'vilkårlig';
+$labels['mime-type'] = 'type';
+$labels['mime-subtype'] = 'undertype';
+$labels['mime-contenttype'] = 'content-type';
+$labels['mime-param'] = 'parameter';
 $labels['addrule'] = 'Tilføj regel';
 $labels['delrule'] = 'Slet regel';
 $labels['messagemoveto'] = 'Flyt besked til';
-$labels['messageredirect'] = 'Redirriger besked til';
+$labels['messageredirect'] = 'Omdiriger mail til';
 $labels['messagecopyto'] = 'Kopier besked til';
 $labels['messagesendcopy'] = 'Send kopi af besked til';
 $labels['messagereply'] = 'Svar med besked';
 $labels['messagedelete'] = 'Slet besked';
 $labels['messagediscard'] = 'Slet med besked';
 $labels['messagekeep'] = 'Behold besked i Inbox';
-$labels['messagesrules'] = 'For indkomne besked:';
-$labels['messagesactions'] = '...udfør følgende aktioner:';
+$labels['messagesrules'] = 'For indgående mails:';
+$labels['messagesactions'] = '...udfør følgende handlinger:';
 $labels['add'] = 'Tilføje';
 $labels['del'] = 'Fjern';
 $labels['sender'] = 'Afsender';
@@ -59,24 +69,29 @@ $labels['vacationaddr'] = 'Min e-mail adresse:';
 $labels['vacationdays'] = 'Hvor tit skal besked sendes (i dage):';
 $labels['vacationinterval'] = 'Hvor tit skal besked sendes:';
 $labels['vacationreason'] = 'Besked (ved ferie):';
+$labels['vacationfrom'] = 'Svar afsender adresse:';
 $labels['vacationsubject'] = 'Besked emne:';
 $labels['days'] = 'dage';
 $labels['seconds'] = 'sekunder';
 $labels['rulestop'] = 'Stop behandling af regler';
 $labels['enable'] = 'Aktivér/Deaktivér';
-$labels['filterset'] = 'Filter sæt';
-$labels['filtersets'] = 'Filtre sæt';
-$labels['filtersetadd'] = 'Tilføj filter sæt';
-$labels['filtersetact'] = 'Aktiver nuværende filter sæt';
-$labels['filtersetdeact'] = 'Deaktiver nuværende filter sæt';
+$labels['filterset'] = 'Filtersæt';
+$labels['filtersets'] = 'Filtersæt';
+$labels['filtersetadd'] = 'Tilføj filtersæt';
+$labels['filtersetdel'] = 'Slet filtersæt';
+$labels['filtersetact'] = 'Aktiver nuværende filtersæt';
+$labels['filtersetdeact'] = 'Deaktiver nuværende filtersæt';
+$labels['filterseteditraw'] = 'Rediger filtersæt';
+$labels['filtersetswitch'] = 'Aktivér/Deaktivér filtersæt';
 $labels['filterdef'] = 'Filter definition';
-$labels['filtersetname'] = 'Filter sæt navn';
-$labels['newfilterset'] = 'Nyt filter sæt';
+$labels['filtersetname'] = 'Filtersæt navn';
+$labels['newfilterset'] = 'Nyt filtersæt';
 $labels['active'] = 'aktiv';
 $labels['none'] = 'ingen';
 $labels['fromset'] = 'fra sæt';
 $labels['fromfile'] = 'fra fil';
 $labels['filterdisabled'] = 'Filter deaktiveret';
+$labels['filterenabled'] = 'Filter aktiveret';
 $labels['countisgreaterthan'] = 'antal er større end';
 $labels['countisgreaterthanequal'] = 'antal er større end eller lig med';
 $labels['countislessthan'] = 'antal er mindre end';
@@ -97,6 +112,15 @@ $labels['flagdeleted'] = 'Slettede';
 $labels['flaganswered'] = 'Besvaret';
 $labels['flagflagged'] = 'Markeret';
 $labels['flagdraft'] = 'Kladde';
+$labels['addheader'] = 'Tilføj header til beskeden';
+$labels['deleteheader'] = 'Fjern header fra beskeden';
+$labels['headername'] = 'Headernavn';
+$labels['headervalue'] = 'Headerværdi';
+$labels['headerpos'] = 'Headerposition';
+$labels['headeratstart'] = 'i begyndelsen';
+$labels['headeratend'] = 'i slutningen';
+$labels['headerfromstart'] = 'Fra start';
+$labels['headerfromend'] = 'Fra slut';
 $labels['setvariable'] = 'Skriv variablen';
 $labels['setvarname'] = 'Variabel navn:';
 $labels['setvarvalue'] = 'Variabel værdi:';
@@ -108,6 +132,7 @@ $labels['varupperfirst'] = 'Første bogstav stort';
 $labels['varquotewildcard'] = 'Sæt specialle tegn i citationstegn ';
 $labels['varlength'] = 'længde';
 $labels['notify'] = 'Send meddelelse';
+$labels['notifytarget'] = 'Meddelelse mål:';
 $labels['notifyimportance'] = 'Vigtighed:';
 $labels['notifyimportancelow'] = 'lav';
 $labels['notifyimportancenormal'] = 'normal';
@@ -119,6 +144,7 @@ $labels['filtercreate'] = 'Opret filter';
 $labels['usedata'] = 'Brug følgende data i filteret:';
 $labels['nextstep'] = 'Næste trin';
 $labels['...'] = '...';
+$labels['string'] = 'Streng';
 $labels['currdate'] = 'Aktuel dato';
 $labels['datetest'] = 'Dato';
 $labels['dateheader'] = 'header:';
@@ -135,7 +161,7 @@ $labels['iso8601'] = 'dato (ISO8601)';
 $labels['std11'] = 'dato (RFC2822)';
 $labels['zone'] = 'tidszone';
 $labels['weekday'] = 'ugedag (0-6)';
-$labels['advancedopts'] = 'Advancerede muligheder';
+$labels['advancedopts'] = 'Avancerede muligheder';
 $labels['body'] = 'Brødtekst';
 $labels['address'] = 'adresse';
 $labels['envelope'] = 'kuvert';
@@ -156,14 +182,25 @@ $labels['asciicasemap'] = 'store og små bogstaver (ascii-bogstaver)';
 $labels['asciinumeric'] = 'numerisk (ascii-numerisk)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'baglends';
-$labels['vacation'] = 'Ferie';
+$labels['spamtest'] = 'Spam score ';
+$labels['spamtestisgreaterthan'] = 'er større end';
+$labels['spamtestisgreaterthanequal'] = 'er større end eller lig med';
+$labels['spamtestislessthan'] = 'er mindre end';
+$labels['spamtestislessthanequal'] = 'er mindre end eller lig med';
+$labels['spamtestequals'] = 'er ens med';
+$labels['spamtestnotequals'] = 'er ikke ens med';
+$labels['spamtestisunknown'] = 'er ukendt';
+$labels['vacation'] = 'Ikke tilstede';
 $labels['vacation.reply'] = 'Svar besked';
-$labels['vacation.advanced'] = 'Avanceret indstillinger ';
+$labels['vacation.advanced'] = 'Avancerede indstillinger ';
 $labels['vacation.subject'] = 'Emne';
 $labels['vacation.body'] = 'Body';
-$labels['vacation.start'] = 'Ferie star';
-$labels['vacation.end'] = 'Ferie slut';
+$labels['vacation.start'] = 'Start tid';
+$labels['vacation.end'] = 'Slut tid';
 $labels['vacation.status'] = 'Status';
+$labels['vacation.on'] = 'Tænd';
+$labels['vacation.off'] = 'Sluk';
+$labels['vacation.addresses'] = 'Mine e-mail adresser';
 $labels['vacation.saving'] = 'Gemmer data...';
 $labels['vacation.keep'] = 'Behold';
 $labels['vacation.discard'] = 'Kasser';
@@ -171,7 +208,15 @@ $labels['vacation.redirect'] = 'Omdiriger til ';
 $labels['vacation.copy'] = 'Send kopi til';
 $labels['forward.redirect'] = 'Omdiriger til ';
 $labels['forward.copy'] = 'Send kopi til';
+$labels['forward.on'] = 'Tænd';
+$labels['forward.off'] = 'Sluk';
+$labels['forward.status'] = 'Status:';
 $labels['forward.saving'] = 'Gemmer data...';
+$labels['ariasummaryfilterslist'] = 'Liste over filtre';
+$labels['ariasummaryfiltersetslist'] = 'Liste over filtre indstillinger';
+$labels['filterstitle'] = 'Rediger filter for indkommende mails';
+$labels['vacationtitle'] = 'Rediger out-of-office regel';
+$labels['message'] = 'Besked';
 $labels['duplicate.header'] = 'header:';
 $messages['filterunknownerror'] = 'Ukendt server fejl.';
 $messages['filterconnerror'] = 'Kan ikke forbinde til server.';
@@ -185,15 +230,6 @@ $messages['actiondeleteconfirm'] = 'Er du sikker på du vil slette den valgte ha
 $messages['forbiddenchars'] = 'Ulovlige tegn i feltet';
 $messages['cannotbeempty'] = 'Feltet kan ikke være tomt.';
 $messages['ruleexist'] = 'Filter med dette navn eksisterer allerede.';
-$messages['setactivateerror'] = 'Kan ikke aktiverer valgt filter sæt. Server fejl.';
-$messages['setdeactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
-$messages['setdeleteerror'] = 'Kan ikke slette valgt filter sæt. Server fejl.';
-$messages['setactivated'] = 'Filter sæt aktiveret.';
-$messages['setdeactivated'] = 'Filter sæt deaktiveret.';
-$messages['setdeleted'] = 'Filter sæt slettet.';
-$messages['setdeleteconfirm'] = 'Er du sikker på du vil slette valgt filter sæt?';
-$messages['setcreateerror'] = 'Kan ikke oprette filter sæt. Server fejl.';
-$messages['setcreated'] = 'Filter sæt oprettet.';
 $messages['activateerror'] = 'Kan ikke aktivere valgt filter sæt. Server fejl.';
 $messages['deactivateerror'] = 'Kan ikke deaktivere valgt filter sæt. Server fejl.';
 $messages['deactivated'] = 'Filter(filtre) aktiveret.';
@@ -202,9 +238,7 @@ $messages['moved'] = 'Filter flyttet.';
 $messages['moveerror'] = 'Kan ikke flytte valgt filter. Server fejl.';
 $messages['nametoolong'] = 'Navn er for langt.';
 $messages['namereserved'] = 'Reserveret navn.';
-$messages['setexist'] = 'Filterv sæt eksisterer allerede';
+$messages['setexist'] = 'Filtersæt eksisterer allerede.';
 $messages['nodata'] = 'Mindst en position skal vælges!';
 $messages['invaliddateformat'] = 'Ugyldigt dato- eller tidsformat';
 $messages['saveerror'] = 'Kunne ikke gemme data. Server fejl';
-$messages['vacationsaved'] = 'Ferie data gemt';
-?>

@@ -1,7 +1,6 @@
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
 <roundcube:if condition="env:extwin" /><body class="noscroll extwin"><roundcube:else /><body class="noscroll"><roundcube:endif />
@@ -74,7 +73,7 @@
 
 <roundcube:include file="/includes/footer.html" />
 
-<script type="text/javascript">
+<script>
   <roundcube:if condition="!env:managesieve_no_set_list" />
   new rcube_splitter({ id:'managesievesplitter1', p1:'#filtersetslistbox', p2:'#filtersscreen',
           orientation:'v', relative:true, start:156, min:120, size:12 }).init();

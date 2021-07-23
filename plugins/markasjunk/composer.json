@@ -1,24 +1,29 @@
 {
     "name": "roundcube/markasjunk",
     "type": "roundcube-plugin",
-    "description": "Adds a new button to the mailbox toolbar to mark the selected messages as Junk and move them to the configured Junk folder.",
-    "license": "GPLv3+",
-    "version": "1.2",
+    "description": "Adds buttons to mark messages as Junk/Non-Junk with moving to the Junk folder and Spam/Ham learning.",
+    "license": "GPL-3.0-or-later",
+    "version": "2.0",
     "authors": [
         {
             "name": "Thomas Bruederli",
             "email": "roundcube@gmail.com",
             "role": "Lead"
+        },
+        {
+            "name": "Philip Weir",
+            "email": "roundcube@tehinterweb.co.uk",
+            "role": "Developer"
         }
     ],
     "repositories": [
         {
             "type": "composer",
-            "url": "http://plugins.roundcube.net"
+            "url": "https://plugins.roundcube.net"
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.4.0",
         "roundcube/plugin-installer": ">=0.1.3"
     }
 }

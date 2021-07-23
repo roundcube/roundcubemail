@@ -2,10 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/timezones.inc                                     |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -76,6 +75,18 @@ $labels['tz:america:anguilla'] = 'Anguilla';
 $labels['tz:america:antigua'] = 'Antigua';
 $labels['tz:america:araguaina'] = 'Araguaïna';
 $labels['tz:america:argentina'] = 'Argentina';
+$labels['tz:america:argentina:buenos_aires'] = 'Buenos Aires';
+$labels['tz:america:argentina:catamarca'] = 'Catamarca';
+$labels['tz:america:argentina:cordoba'] = 'Cordoba';
+$labels['tz:america:argentina:jujuy'] = 'Jujuy';
+$labels['tz:america:argentina:la_rioja'] = 'La Rioja';
+$labels['tz:america:argentina:mendoza'] = 'Mendoza';
+$labels['tz:america:argentina:rio_gallegos'] = 'Rio Gallegos';
+$labels['tz:america:argentina:salta'] = 'Salta';
+$labels['tz:america:argentina:san_juan'] = 'San Juan';
+$labels['tz:america:argentina:san_luis'] = 'San Luis';
+$labels['tz:america:argentina:tucuman'] = 'Tucuman';
+$labels['tz:america:argentina:ushuaia'] = 'Ushuaia';
 $labels['tz:america:aruba'] = 'Aruba';
 $labels['tz:america:asuncion'] = 'Asunción';
 $labels['tz:america:atikokan'] = 'Atikokan';
@@ -124,11 +135,21 @@ $labels['tz:america:halifax'] = 'Halifax';
 $labels['tz:america:havana'] = 'L\'Havana';
 $labels['tz:america:hermosillo'] = 'Hermosillo';
 $labels['tz:america:indiana'] = 'Indiana';
+$labels['tz:america:indiana:indianapolis'] = 'Indianapolis';
+$labels['tz:america:indiana:knox'] = 'Knox';
+$labels['tz:america:indiana:marengo'] = 'Marengo';
+$labels['tz:america:indiana:petersburg'] = 'Petersburg';
+$labels['tz:america:indiana:tell_city'] = 'Tell City';
+$labels['tz:america:indiana:vevay'] = 'Vevay';
+$labels['tz:america:indiana:vincennes'] = 'Vincennes';
+$labels['tz:america:indiana:winamac'] = 'Winamac';
 $labels['tz:america:inuvik'] = 'Inuvik';
 $labels['tz:america:iqaluit'] = 'Iqaluit';
 $labels['tz:america:jamaica'] = 'Jamaica';
 $labels['tz:america:juneau'] = 'Juneau';
 $labels['tz:america:kentucky'] = 'Kentucky';
+$labels['tz:america:kentucky:louisville'] = 'Louisville';
+$labels['tz:america:kentucky:monticello'] = 'Monticello';
 $labels['tz:america:kralendijk'] = 'Kralendijk';
 $labels['tz:america:la_paz'] = 'La Paz';
 $labels['tz:america:lima'] = 'Lima';
@@ -156,6 +177,9 @@ $labels['tz:america:nipigon'] = 'Nipigon';
 $labels['tz:america:nome'] = 'Nome';
 $labels['tz:america:noronha'] = 'Noronha';
 $labels['tz:america:north_dakota'] = 'Dakota del Nord';
+$labels['tz:america:north_dakota:beulah'] = 'Beulah';
+$labels['tz:america:north_dakota:center'] = 'Center';
+$labels['tz:america:north_dakota:new_salem'] = 'New Salem';
 $labels['tz:america:ojinaga'] = 'Ojinaga';
 $labels['tz:america:panama'] = 'Panamà';
 $labels['tz:america:pangnirtung'] = 'Pangnirtung';

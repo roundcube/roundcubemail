@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = '加密';
 $labels['enigmacerts'] = 'S/MIME 证书';
 $labels['enigmakeys'] = 'PGP 密钥';
@@ -67,9 +66,7 @@ $labels['keychpass'] = '修改密码';
 $labels['newkeyident'] = '标识';
 $labels['newkeypass'] = '密码';
 $labels['newkeypassconfirm'] = '确认密码';
-$labels['newkeysize'] = '密钥长度';
-$labels['key2048'] = '2048 位 - 默认';
-$labels['key4096'] = '4096 位 - 更安全';
+$labels['newkeytype'] = '密钥类型';
 $labels['keygenerating'] = '正在生成密钥...';
 $labels['encryptionoptions'] = '加密选项...';
 $labels['encryptmsg'] = '加密此邮件';
@@ -77,7 +74,6 @@ $labels['signmsg'] = '数字签名此邮件';
 $labels['sendunencrypted'] = '不加密发送';
 $labels['enterkeypasstitle'] = '请输入密钥口令';
 $labels['enterkeypass'] = '需要口令解锁私钥 ($keyid)，用户：$user。';
-$labels['arialabelkeyexportoptions'] = '密钥导出选项';
 $labels['attachpubkeymsg'] = '附加我的公钥';
 $labels['keyexportprompt'] = '您要在保存的 OpenPGP 密钥文件中包含私钥吗？';
 $labels['onlypubkeys'] = '仅导出公钥';
@@ -85,6 +81,10 @@ $labels['withprivkeys'] = '导出私钥';
 $labels['findkey'] = '搜索密钥服务器';
 $labels['keyimportlabel'] = '从文件导入';
 $labels['keyimportsearchlabel'] = '在密钥服务器上搜索';
+$labels['managekeys'] = '管理 PGP 密钥';
+$labels['identitymatchingprivkeys'] = '你的钥匙环中有 $nr 项符合条件的 PGP 私钥：';
+$labels['identitynoprivkeys'] = '你的钥匙环中没有符合此发件人身份的 PGP 私钥';
+$labels['arialabelkeyexportoptions'] = '密钥导出选项';
 $messages['sigvalid'] = '已验证来自 $sender 的签名。';
 $messages['sigvalidpartial'] = '已验证来自 $sender 的签名，但主体部分未被签名。';
 $messages['siginvalid'] = '无效的来自 $sender 的签名。';
@@ -122,4 +122,6 @@ $messages['keygeneratesuccess'] = '密钥对生成和导入成功。';
 $messages['keygennosupport'] = '您的网页浏览器不支持加密。无法生成密钥对！';
 $messages['noidentselected'] = '您必须为该密钥选择至少一个身份！';
 $messages['nonameident'] = '身份必须有一个用户名！';
-?>
+$labels['newkeysize'] = '密钥长度';
+$labels['key2048'] = '2048 位 - 默认';
+$labels['key4096'] = '4096 位 - 更安全';

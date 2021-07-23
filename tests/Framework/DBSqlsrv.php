@@ -5,9 +5,9 @@
  *
  * @package Tests
  * @group database
- * @group sqlrsv
+ * @group sqlsrv
  */
-class Framework_DBSqlsrv extends PHPUnit_Framework_TestCase
+class Framework_DBSqlsrv extends PHPUnit\Framework\TestCase
 {
 
     /**

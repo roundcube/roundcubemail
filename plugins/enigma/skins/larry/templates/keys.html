@@ -1,7 +1,6 @@
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
-<title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
 <roundcube:if condition="env:extwin" /><body class="noscroll extwin"><roundcube:else /><body class="noscroll"><roundcube:endif />
@@ -83,7 +82,7 @@
 
 <roundcube:include file="/includes/footer.html" />
 
-<script type="text/javascript">
+<script>
     new rcube_splitter({ id:'enigmakeyssplitter', p1:'#enigmakeyslist', p2:'#enigmacontent-box',
             orientation:'v', relative:true, start:266, min:180, size:12 }).init();
 </script>

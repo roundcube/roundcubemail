@@ -3,9 +3,9 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 1.4-git                                                         |
+ | Version 1.5-git                                                         |
  |                                                                         |
- | Copyright (C) 2009-2017, The Roundcube Dev Team                         |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -42,53 +42,56 @@ define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
 
 require INSTALL_PATH . 'program/include/iniset.php';
 
-if (function_exists('session_start'))
-  session_start();
+if (function_exists('session_start')) {
+    session_start();
+}
 
 $RCI = rcmail_install::get_instance();
 $RCI->load_config();
 
 if (isset($_GET['_getconfig'])) {
-  $filename = 'config.inc.php';
-  if (!empty($_SESSION['config']) && $_GET['_getconfig'] == 2) {
-    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $filename;
-    @unlink($path);
-    file_put_contents($path, $_SESSION['config']);
-    exit;
-  }
-  else if (!empty($_SESSION['config'])) {
-    header('Content-type: text/plain');
-    header('Content-Disposition: attachment; filename="'.$filename.'"');
-    echo $_SESSION['config'];
-    exit;
-  }
-  else {
+    $filename = 'config.inc.php';
+    if (!empty($_SESSION['config']) && $_GET['_getconfig'] == 2) {
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $filename;
+        @unlink($path);
+        file_put_contents($path, $_SESSION['config']);
+        exit;
+    }
+
+    if (!empty($_SESSION['config'])) {
+        header('Content-type: text/plain');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
+        echo $_SESSION['config'];
+        exit;
+    }
+
     header('HTTP/1.0 404 Not found');
     die("The requested configuration was not found. Please run the installer from the beginning.");
-  }
 }
 
-if ($RCI->configured && ($RCI->getprop('enable_installer') || $_SESSION['allowinstaller']) &&
-    !empty($_GET['_mergeconfig'])) {
-  $filename = 'config.inc.php';
+if (
+    $RCI->configured
+    && ($RCI->getprop('enable_installer') || $_SESSION['allowinstaller']) &&
+    !empty($_GET['_mergeconfig'])
+) {
+    $filename = 'config.inc.php';
 
-  header('Content-type: text/plain');
-  header('Content-Disposition: attachment; filename="'.$filename.'"');
+    header('Content-type: text/plain');
+    header('Content-Disposition: attachment; filename="'.$filename.'"');
 
-  $RCI->merge_config();
-  echo $RCI->create_config();
-  exit;
+    $RCI->merge_config();
+    echo $RCI->create_config();
+    exit;
 }
 
 // go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
-  header("Location: ./?_step=1");
-  exit;
+    header("Location: ./?_step=1");
+    exit;
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Roundcube Webmail Installer</title>
@@ -113,22 +116,23 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 <?php
 
-  // exit if installation is complete
-  if ($RCI->configured && !$RCI->getprop('enable_installer') && !$_SESSION['allowinstaller']) {
+// exit if installation is complete
+if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['allowinstaller'])) {
     // header("HTTP/1.0 404 Not Found");
     if ($RCI->configured && $RCI->legacy_config) {
-      echo '<h2 class="error">Your configuration needs to be migrated!</h2>';
-      echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';
-      echo '<p>Please run the <tt>bin/update.sh</tt> script from the command line or set <p>&nbsp; <tt>$rcube_config[\'enable_installer\'] = true;</tt></p>';
-      echo ' in your RCUBE_CONFIG_DIR/main.inc.php to let the installer help you migrating it.</p>';
+        echo '<h2 class="error">Your configuration needs to be migrated!</h2>';
+        echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';
+        echo '<p>Please run the <tt>bin/update.sh</tt> script from the command line or set <p>&nbsp; <tt>$rcube_config[\'enable_installer\'] = true;</tt></p>';
+        echo ' in your RCUBE_CONFIG_DIR/main.inc.php to let the installer help you migrating it.</p>';
     }
     else {
-      echo '<h2 class="error">The installer is disabled!</h2>';
-      echo '<p>To enable it again, set <tt>$config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/config.inc.php</p>';
+        echo '<h2 class="error">The installer is disabled!</h2>';
+        echo '<p>To enable it again, set <tt>$config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/config.inc.php</p>';
     }
+
     echo '</div></body></html>';
     exit;
-  }
+}
 
 ?>
 
@@ -136,21 +140,21 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 <ol id="progress">
 <?php
-  $include_steps = array(
+$include_steps = [
     1 => './check.php',
     2 => './config.php',
     3 => './test.php',
-  );
+];
 
-  if (!in_array($RCI->step, array_keys($include_steps))) {
+if (!in_array($RCI->step, array_keys($include_steps))) {
     $RCI->step = 1;
-  }
+}
 
-  foreach (array('Check environment', 'Create config', 'Test config') as $i => $item) {
+foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
     $j = $i + 1;
     $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step='.$j.'">' . rcube::Q($item) . '</a>' : rcube::Q($item);
     printf('<li class="step%d%s">%s</li>', $j+1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
-  }
+}
 ?>
 </ol>
 
@@ -162,7 +166,7 @@ include $include_steps[$RCI->step];
 </div>
 
 <div id="footer">
-  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2012 – Published under the GNU Public License;&nbsp;
+  Installer by the Roundcube Dev Team. Copyright &copy; 2008-2021 – Published under the GNU Public License;&nbsp;
   Icons by <a href="http://famfamfam.com">famfamfam</a>
 </div>
 </body>

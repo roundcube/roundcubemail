@@ -10,7 +10,7 @@
  *
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2011-2016, Kolab Systems AG
+ * Copyright (C) Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +32,8 @@ class newmail_notifier extends rcube_plugin
 
     private $rc;
     private $notified;
-    private $opt = array();
-    private $exceptions = array();
+    private $opt = [];
+    private $exceptions = [];
 
 
     /**
@@ -45,8 +45,8 @@ class newmail_notifier extends rcube_plugin
 
         // Preferences hooks
         if ($this->rc->task == 'settings') {
-            $this->add_hook('preferences_list', array($this, 'prefs_list'));
-            $this->add_hook('preferences_save', array($this, 'prefs_save'));
+            $this->add_hook('preferences_list', [$this, 'prefs_list']);
+            $this->add_hook('preferences_save', [$this, 'prefs_save']);
         }
         else { // if ($this->rc->task == 'mail') {
             // add script when not in ajax and not in frame and only in main window
@@ -66,7 +66,7 @@ class newmail_notifier extends rcube_plugin
 
                 if (!empty($this->opt)) {
                     // Get folders to skip checking for
-                    $exceptions = array('drafts_mbox', 'sent_mbox', 'trash_mbox', 'junk_mbox');
+                    $exceptions = ['drafts_mbox', 'sent_mbox', 'trash_mbox', 'junk_mbox'];
                     foreach ($exceptions as $folder) {
                         $folder = $this->rc->config->get($folder);
                         if (strlen($folder) && $folder != 'INBOX') {
@@ -74,7 +74,7 @@ class newmail_notifier extends rcube_plugin
                         }
                     }
 
-                    $this->add_hook('new_messages', array($this, 'notify'));
+                    $this->add_hook('new_messages', [$this, 'notify']);
                 }
              }
         }
@@ -97,44 +97,47 @@ class newmail_notifier extends rcube_plugin
 
         if (!empty($_REQUEST['_framed'])) {
             $this->rc->output->add_label('newmail_notifier.title', 'newmail_notifier.testbody',
-                'newmail_notifier.desktopunsupported', 'newmail_notifier.desktopenabled', 'newmail_notifier.desktopdisabled');
+                'newmail_notifier.desktopunsupported', 'newmail_notifier.desktopenabled',
+                'newmail_notifier.desktopdisabled'
+            );
             $this->include_script('newmail_notifier.js');
         }
 
         // Check that configuration is not disabled
-        $dont_override = (array) $this->rc->config->get('dont_override', array());
+        $dont_override = (array) $this->rc->config->get('dont_override', []);
 
-        foreach (array('basic', 'desktop', 'sound') as $type) {
+        foreach (['basic', 'desktop', 'sound'] as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
                 $field_id = '_' . $key;
-                $input    = new html_checkbox(array('name' => $field_id, 'id' => $field_id, 'value' => 1));
+                $input    = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
                 $content  = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(array('href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'()'),
+                    . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'(); return false'],
                         $this->gettext('test'));
 
-                $args['blocks']['new_message']['options'][$key] = array(
+                $args['blocks']['new_message']['options'][$key] = [
                     'title' => html::label($field_id, rcube::Q($this->gettext($type))),
                     'content' => $content
-                );
+                ];
             }
         }
 
         $type = 'desktop_timeout';
-        $key = 'newmail_notifier_' . $type;
+        $key  = 'newmail_notifier_' . $type;
+
         if (!in_array($key, $dont_override)) {
             $field_id = '_' . $key;
-            $select   = new html_select(array('name' => $field_id, 'id' => $field_id));
+            $select   = new html_select(['name' => $field_id, 'id' => $field_id, 'class' => 'custom-select']);
 
-            foreach (array(5, 10, 15, 30, 45, 60) as $sec) {
-                $label = $this->rc->gettext(array('name' => 'afternseconds', 'vars' => array('n' => $sec)));
+            foreach ([5, 10, 15, 30, 45, 60] as $sec) {
+                $label = $this->rc->gettext(['name' => 'afternseconds', 'vars' => ['n' => $sec]]);
                 $select->add($label, $sec);
             }
 
-            $args['blocks']['new_message']['options'][$key] = array(
+            $args['blocks']['new_message']['options'][$key] = [
                 'title'   => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
                 'content' => $select->show((int) $this->rc->config->get($key))
-            );
+            ];
         }
 
         return $args;
@@ -153,9 +156,9 @@ class newmail_notifier extends rcube_plugin
         $this->load_config();
 
         // Check that configuration is not disabled
-        $dont_override = (array) $this->rc->config->get('dont_override', array());
+        $dont_override = (array) $this->rc->config->get('dont_override', []);
 
-        foreach (array('basic', 'desktop', 'sound') as $type) {
+        foreach (['basic', 'desktop', 'sound'] as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
                 $args['prefs'][$key] = rcube_utils::get_input_value('_' . $key, rcube_utils::INPUT_POST) ? true : false;
@@ -203,11 +206,12 @@ class newmail_notifier extends rcube_plugin
 
             $this->rc->output->set_env('newmail_notifier_timeout', $this->rc->config->get('newmail_notifier_desktop_timeout'));
             $this->rc->output->command('plugin.newmail_notifier',
-                array(
+                [
                     'basic'   => $this->opt['basic'],
                     'sound'   => $this->opt['sound'],
                     'desktop' => $this->opt['desktop'],
-                ));
+                ]
+            );
         }
 
         return $args;

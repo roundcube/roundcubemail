@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2017, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -122,18 +123,21 @@ class rcube_tnef_decoder
     const RTF_UNCOMPRESSED = 0x414c454d;
     const RTF_COMPRESSED   = 0x75465a4c;
 
+    protected $codepage;
+
 
     /**
      * Decompress the data.
      *
-     * @param string $data The data to decompress.
+     * @param string $data    The data to decompress.
+     * @param bool   $as_html Return message body as HTML
      *
-     * @return mixed The decompressed data.
+     * @return array The decompressed data.
      */
-    public function decompress($data)
+    public function decompress($data, $as_html = false)
     {
-        $attachments = array();
-        $message     = array();
+        $attachments = [];
+        $message     = [];
 
         if ($this->_geti($data, 32) == self::SIGNATURE) {
             $this->_geti($data, 16);
@@ -157,17 +161,49 @@ class rcube_tnef_decoder
             }
         }
 
-        return array(
+        // Return the message body as HTML
+        if ($message && $as_html) {
+            // HTML body
+            if (!empty($message['size']) && $message['subtype'] == 'html') {
+                $message = $message['stream'];
+            }
+            // RTF body (converted to HTML)
+            // Note: RTF can contain encapsulated HTML content
+            else if (!empty($message['size']) && $message['subtype'] == 'rtf'
+                && function_exists('iconv')
+                && class_exists('RtfHtmlPhp\Document')
+            ) {
+                try {
+                    $document  = new RtfHtmlPhp\Document($message['stream']);
+                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
+                    $message   = $formatter->format($document);
+                }
+                catch (Exception $e) {
+                    // ignore the body
+                    rcube::raise_error([
+                            'file' => __FILE__,
+                            'line' => __LINE__,
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                        ], true, false
+                    );
+                }
+            }
+            else {
+                $message = null;
+            }
+        }
+
+        return [
             'message'     => $message,
             'attachments' => array_reverse($attachments),
-        );
+        ];
     }
 
     /**
      * Pop specified number of bytes from the buffer.
      *
-     * @param string  &$data The data string.
-     * @param integer $bytes How many bytes to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bytes How many bytes to retrieve.
      *
      * @return string Extracted data
      */
@@ -186,10 +222,10 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bits from the buffer
      *
-     * @param string  &$data The data string.
-     * @param integer $bits  How many bits to retrieve.
+     * @param string &$data The data string.
+     * @param int    $bits  How many bits to retrieve.
      *
-     * @return int
+     * @return int|null
      */
     protected function _geti(&$data, $bits)
     {
@@ -215,6 +251,8 @@ class rcube_tnef_decoder
      * Decode a single attribute
      *
      * @param string &$data The data string.
+     *
+     * @return string Extracted data
      */
     protected function _decodeAttribute(&$data)
     {
@@ -333,7 +371,7 @@ class rcube_tnef_decoder
             case self::MAPI_RTF_COMPRESSED:
                 $result['type']    = 'application';
                 $result['subtype'] = 'rtf';
-                $result['name']    = ($result['name'] ?: 'Untitled') . '.rtf';
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
                 $result['stream']  = $this->_decodeRTF($value);
                 $result['size']    = strlen($result['stream']);
                 break;
@@ -342,7 +380,8 @@ class rcube_tnef_decoder
             case self::MAPI_BODY_HTML:
                 $result['type']    = 'text';
                 $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
-                $result['name']    = ($result['name'] ?: 'Untitled') . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
+                    . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
                 $result['stream']  = $value;
                 $result['size']    = strlen($value);
                 break;
@@ -354,9 +393,13 @@ class rcube_tnef_decoder
 
             case self::MAPI_ATTACH_MIME_TAG:
                 // Is this ever set, and what is format?
-                $value = explode('/', $value);
+                $value = explode('/', trim($value));
                 $result['type']    = $value[0];
                 $result['subtype'] = $value[1];
+                break;
+
+            case self::MAPI_ATTACH_CONTENT_ID:
+                $result['content-id'] = $value;
                 break;
 
             case self::MAPI_ATTACH_DATA:
@@ -420,12 +463,12 @@ class rcube_tnef_decoder
         case self::ARENDDATA:
             // Add a new default data block to hold details of this
             // attachment. Reverse order is easier to handle later!
-            array_unshift($attachment, array(
+            array_unshift($attachment, [
                     'type'    => 'application',
                     'subtype' => 'octet-stream',
                     'name'    => 'unknown',
                     'stream'  => ''
-            ));
+            ]);
 
             break;
 
@@ -492,21 +535,21 @@ class rcube_tnef_decoder
         $length_preload = strlen($preload);
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {
-            $uncomp .= $preload{$cnt};
+            $uncomp .= $preload[$cnt];
             ++$out;
         }
 
         while ($out < ($size + $length_preload)) {
             if (($flag_count++ % 8) == 0) {
-                $flags = ord($data{$in++});
+                $flags = ord($data[$in++]);
             }
             else {
                 $flags = $flags >> 1;
             }
 
             if (($flags & 1) != 0) {
-                $offset = ord($data{$in++});
-                $length = ord($data{$in++});
+                $offset = ord($data[$in++]);
+                $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
                 $length = ($length & 0xF) + 2;
                 $offset = ((int)($out / 4096)) * 4096 + $offset;
@@ -523,7 +566,7 @@ class rcube_tnef_decoder
                 }
             }
             else {
-                $uncomp .= $data{$in++};
+                $uncomp .= $data[$in++];
                 ++$out;
             }
         }
@@ -533,8 +576,7 @@ class rcube_tnef_decoder
 
     /**
      * Parse RTF data and return the best plaintext representation we can.
-     * Adapted from:
-     * http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
+     * Adapted from: http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
      *
      * @param string $text The RTF (uncompressed) text.
      *
@@ -543,7 +585,7 @@ class rcube_tnef_decoder
     public static function rtf2text($text)
     {
         $document = '';
-        $stack    = array();
+        $stack    = [];
         $j        = -1;
 
         // Read the data character-by- character…
@@ -737,9 +779,12 @@ class rcube_tnef_decoder
         return $document;
     }
 
+    /**
+     * Checks if an RTF element is plain text
+     */
     protected static function _rtfIsPlain($s)
     {
-        $notPlain = array('*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet');
+        $notPlain = ['*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet'];
 
         for ($i = 0; $i < count($notPlain); $i++) {
             if (!empty($s[$notPlain[$i]])) {

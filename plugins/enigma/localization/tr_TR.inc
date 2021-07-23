@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Şifreleme';
 $labels['enigmacerts'] = 'S/MIME Sertifikaları';
 $labels['enigmakeys'] = 'PGP Anahtarları';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'Devre dışı';
 $labels['keyrevoke'] = 'Geri al';
 $labels['keysend'] = 'İletiyle birlikte ortak anahtar gönderilsin';
 $labels['keychpass'] = 'Parolayı değiştir';
+$labels['keyadd'] = 'Anahtar ekle';
 $labels['newkeyident'] = 'Kimlik';
 $labels['newkeypass'] = 'Parola';
 $labels['newkeypassconfirm'] = 'Parola Onayı';
-$labels['newkeysize'] = 'Anahtar boyutu';
-$labels['key2048'] = '2048 bit-Varsayılan';
-$labels['key4096'] = '4096 bit- daha güvenli';
+$labels['newkeytype'] = 'Anahtar türü';
+$labels['rsa2048'] = 'RSA - 2048 bit';
+$labels['rsa4096'] = 'RSA - 4096 bit';
+$labels['ecckeypair'] = 'ECC (Eliptik Eğri)';
 $labels['keygenerating'] = 'Anahtarlar oluştur...';
 $labels['encryptionoptions'] = 'Şifreleme ayarları...';
 $labels['encryptmsg'] = 'Bu iletiyi şifrele';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'İletiyi dijital imzala';
 $labels['sendunencrypted'] = 'Şifrelenmemiş olarak gönder';
 $labels['enterkeypasstitle'] = 'Anahtar sözcüğünüzü yazın';
 $labels['enterkeypass'] = 'Gizli anahtarı ($keyid) açmak için $user kullanıcısının anahtar sözcüğü gerekli.';
-$labels['arialabelkeyexportoptions'] = 'Anahtar dışa aktarma ayarları';
 $labels['attachpubkeymsg'] = 'Genel anahtarımı ekle';
 $labels['keyexportprompt'] = 'OpenPGP anahtar dosyasına gizli anahtarları da  kaydetmek istiyor musunuz?';
 $labels['onlypubkeys'] = 'Yalnız Genel Anahtarları Dışa Aktar';
@@ -88,6 +88,9 @@ $labels['keyimportsearchlabel'] = 'Anahtarı sunucu(lar)da ara';
 $labels['managekeys'] = 'PGP Anahtarları Yönetimi';
 $labels['identitymatchingprivkeys'] = 'Anahtarlığınızda eşleşen $nr PGP özel anahtarı var:';
 $labels['identitynoprivkeys'] = 'Henüz bu gönderici kimliği için PGP anahtarlığınızda bir özel anahtar bulunmuyor.';
+$labels['arialabelkeyexportoptions'] = 'Anahtar dışa aktarma ayarları';
+$labels['arialabelkeysearchform'] = 'Anahtar arama formu';
+$labels['arialabelkeyoptions'] = 'Anahtar seçenekleri';
 $messages['sigvalid'] = '$sender imzası geçerli.';
 $messages['sigvalidpartial'] = '$sender imzası doğrulandı, ancak metnin tümü imzalanmamış.';
 $messages['siginvalid'] = '$sender imzası geçersiz.';
@@ -97,6 +100,7 @@ $messages['sigerror'] = 'Sorun var! İmza doğrulanmamış.';
 $messages['decryptok'] = 'İleti şifresi çözüldü.';
 $messages['decrypterror'] = 'Şifre çözülemedi.';
 $messages['decryptnokey'] = 'Şifre çözülemedi. Özel anahtar bulunamadı. Anahtar Kodu: $keyid.';
+$messages['decryptnomdc'] = 'Şifre çözme işlemi atlandı. İleti bütünleşik olarak korunmuyor.';
 $messages['decryptbadpass'] = 'Şifre çözülemedi. Parola geçersiz.';
 $messages['decryptnopass'] = 'Şifre çözülemedi. Anahtar parola gerekli.';
 $messages['decryptpartial'] = 'İletinin şifresi çözüldü, fakat metnin tümü şifrelenmemiş.';
@@ -106,6 +110,7 @@ $messages['signbadpass'] = 'İmzalanamadı. Parola geçersiz.';
 $messages['signnopass'] = 'İmzalanamadı. Anahtar parola gerekli.';
 $messages['encrypterror'] = 'Şifrelenemedi.';
 $messages['encryptnokey'] = 'Şifrelenemedi. Genel anahtar $email içinde bulunamadı.';
+$messages['encryptnoprivkey'] = 'Şifrelenemedi. Özel anahtar bulunamadı.';
 $messages['nokeysfound'] = 'Anahtarlar bulunamadı';
 $messages['keynotfound'] = 'Anahtar buunamadı!';
 $messages['keyopenerror'] = 'Sorun var! Anahtar bilgileri alınamıyor.';
@@ -118,6 +123,7 @@ $messages['keyremovesuccess'] = 'Anahtar(lar) silindi';
 $messages['keyremoveerror'] = 'Anahtar(lar) silinemedi.';
 $messages['keyimporttext'] = 'Özel ve genel anahtar(lar)ı içe aktarabilir ya da ASCII-Armor biçimindeki imzanızı geri çekebilirsiniz.';
 $messages['keyimportsearchtext'] = 'Genel anahtarları, anahtar tanımlayıcı, e-posta ya da kullanıcı adına göre arayarak doğrudan içe aktarabilirsiniz.';
+$messages['keystoragenotice'] = 'Herkese açık ve özel tüm anahtarlar sunucu üzerinde depolanıyor.';
 $messages['formerror'] = 'Formun doldurun. Tüm alanlar zorunludur!';
 $messages['passwordsdiffer'] = 'Parola ile onayı aynı değil!';
 $messages['keygenerateerror'] = 'Anahtar çifti oluşturulamadı.';
@@ -125,4 +131,6 @@ $messages['keygeneratesuccess'] = 'Anahtar çiftiniz oluşturuldu ve içe aktar�
 $messages['keygennosupport'] = 'Tarayıcınız şifrelemeyi desteklemiyor. Anahtar çifti oluşturulamıyor.';
 $messages['noidentselected'] = 'Anahtar için en az bir kimlik seçmelisiniz!';
 $messages['nonameident'] = 'Kimlik için bir kullanıcı adı belirtmelisiniz!';
-?>
+$labels['newkeysize'] = 'Anahtar boyutu';
+$labels['key2048'] = '2048 bit-Varsayılan';
+$labels['key4096'] = '4096 bit- daha güvenli';

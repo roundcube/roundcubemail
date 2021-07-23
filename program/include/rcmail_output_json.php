@@ -2,10 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | program/include/rcmail_output_json.php                                |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -27,14 +26,32 @@
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts     = array();
-    protected $commands  = array();
-    protected $callbacks = array();
+    protected $texts     = [];
+    protected $commands  = [];
+    protected $callbacks = [];
     protected $message   = null;
+    protected $header_sent = false;
 
     public $type      = 'js';
     public $ajax_call = true;
 
+
+    /**
+     * Object constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (!empty($_SESSION['skin_config'])) {
+            foreach ($_SESSION['skin_config'] as $key => $value) {
+                $this->config->set($key, $value, true);
+            }
+
+            $value = array_merge((array) $this->config->get('dont_override'), array_keys($_SESSION['skin_config']));
+            $this->config->set('dont_override', $value, true);
+        }
+    }
 
     /**
      * Issue command to set page title
@@ -57,7 +74,7 @@ class rcmail_output_json extends rcmail_output
      * Register a template object handler
      *
      * @param string $obj  Object name
-     * @param string $func Function name to call
+     * @param callable $func Function name to call
      */
     public function add_handler($obj, $func)
     {
@@ -110,25 +127,26 @@ class rcmail_output_json extends rcmail_output
     /**
      * Invoke display_message command
      *
-     * @param string  $message  Message to display
-     * @param string  $type     Message type [notice|confirm|error]
-     * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param boolean $override Override last set message
-     * @param int     $timeout  Message displaying time in seconds
+     * @param string $message  Message to display
+     * @param string $type     Message type [notice|confirm|error]
+     * @param array  $vars     Key-value pairs to be replaced in localized text
+     * @param bool   $override Override last set message
+     * @param int    $timeout  Message displaying time in seconds
      *
      * @uses self::command()
      */
-    public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
+    public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars)) {
-                    $vars = array_map(array('rcmail', 'Q'), $vars);
+                    $vars = array_map(['rcmail', 'Q'], $vars);
                 }
-                $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
+                $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
             }
-            else
+            else {
                 $msgtext = $message;
+            }
 
             $this->message = $message;
             $this->command('display_message', $msgtext, $type, $timeout * 1000);
@@ -141,8 +159,8 @@ class rcmail_output_json extends rcmail_output
     public function reset()
     {
         parent::reset();
-        $this->texts    = array();
-        $this->commands = array();
+        $this->texts    = [];
+        $this->commands = [];
     }
 
     /**
@@ -153,7 +171,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @see rcmail::url()
      */
-    public function redirect($p = array(), $delay = 1)
+    public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
         $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
@@ -179,7 +197,7 @@ class rcmail_output_json extends rcmail_output
     public function raise_error($code, $message)
     {
         if ($code == 403) {
-            header('HTTP/1.1 403 Forbidden');
+            $this->header('HTTP/1.1 403 Forbidden');
             die("Invalid Request");
         }
 
@@ -195,12 +213,10 @@ class rcmail_output_json extends rcmail_output
      */
     protected function remote_response($add = '')
     {
-        static $s_header_sent = false;
-
-        if (!$s_header_sent) {
-            $s_header_sent = true;
+        if (!$this->header_sent) {
+            $this->header_sent = true;
             $this->nocacheing_headers();
-            header('Content-Type: text/plain; charset=' . $this->get_charset());
+            $this->header('Content-Type: application/json; charset=' . $this->get_charset());
         }
 
         // unset default env vars
@@ -213,20 +229,23 @@ class rcmail_output_json extends rcmail_output
             $response['unlock'] = $unlock;
         }
 
-        if (!empty($this->env))
+        if (!empty($this->env)) {
             $response['env'] = $this->env;
+        }
 
-        if (!empty($this->texts))
+        if (!empty($this->texts)) {
             $response['texts'] = $this->texts;
+        }
 
         // send function calls
         $response['exec'] = $this->get_js_commands() . $add;
 
-        if (!empty($this->callbacks))
+        if (!empty($this->callbacks)) {
             $response['callbacks'] = $this->callbacks;
+        }
 
         // trigger generic hook where plugins can put additional content to the response
-        $hook = $this->app->plugins->exec_hook("render_response", array('response' => $response));
+        $hook = $this->app->plugins->exec_hook("render_response", ['response' => $response]);
 
         // save some memory
         $response = $hook['response'];

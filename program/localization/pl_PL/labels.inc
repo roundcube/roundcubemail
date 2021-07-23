@@ -2,29 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Witamy w $product';
-$labels['username'] = 'Nazwa';
+$labels['username'] = 'Nazwa użytkownika';
 $labels['password'] = 'Hasło';
 $labels['server'] = 'Serwer';
 $labels['login'] = 'Zaloguj';
+$labels['oauthlogin'] = 'Zaloguj z $provider';
 $labels['menu'] = 'Menu';
 $labels['logout'] = 'Wyloguj';
 $labels['mail'] = 'Poczta';
 $labels['settings'] = 'Ustawienia';
 $labels['addressbook'] = 'Książka adresowa';
+$labels['darkmode'] = 'Tryb ciemny';
+$labels['lightmode'] = 'Tryb jasny';
 $labels['inbox'] = 'Odebrane';
 $labels['drafts'] = 'Kopie robocze';
 $labels['sent'] = 'Wysłane';
@@ -138,7 +141,7 @@ $labels['folders-sub'] = 'Wybrany folder i podfoldery';
 $labels['folders-all'] = 'Wszystkie foldery';
 $labels['more'] = 'Więcej';
 $labels['back'] = 'Wstecz';
-$labels['options'] = 'Ustawienia';
+$labels['options'] = 'Opcje';
 $labels['composeoptions'] = 'Opcje';
 $labels['optionsandattachments'] = 'Opcje i załączniki';
 $labels['actions'] = 'Akcje';
@@ -147,6 +150,7 @@ $labels['last'] = 'Ostatnia';
 $labels['previous'] = 'Poprzednia';
 $labels['next'] = 'Następna';
 $labels['select'] = 'Zaznacz';
+$labels['selection'] = 'Zaznaczenie';
 $labels['all'] = 'Wszystkie';
 $labels['none'] = 'Brak';
 $labels['currpage'] = 'Bieżąca strona';
@@ -168,6 +172,7 @@ $labels['expand-all'] = 'Rozwiń wszystkie';
 $labels['expand-unread'] = 'Rozwiń nieprzeczytane';
 $labels['collapse-all'] = 'Zwiń wszystkie';
 $labels['threaded'] = 'Powątkowane';
+$labels['showunread'] = 'Pokaż nieprzeczytane';
 $labels['autoexpand_threads'] = 'Rozwijaj wątki';
 $labels['do_expand'] = 'wszystkie';
 $labels['expand_only_unread'] = 'tylko nieprzeczytane';
@@ -195,6 +200,8 @@ $labels['folderactions'] = 'Działania na folderach...';
 $labels['compact'] = 'Porządkuj';
 $labels['empty'] = 'Opróżnij';
 $labels['importmessages'] = 'Import wiadomości';
+$labels['mailimportdesc'] = 'Możesz zaimportować pliki w formacie <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> lub <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'Wiele plików może być skompresowane przy użyciu archiwum zip.';
 $labels['quota'] = 'Użyte miejsce';
 $labels['unknown'] = 'nieznane';
 $labels['unlimited'] = 'bez limitu';
@@ -248,13 +255,17 @@ $labels['encryptmessage'] = 'Szyfruj wiadomość';
 $labels['encryptmessagemailvelope'] = 'Szyfruj wiadomość używając Mailvelope';
 $labels['importpubkeys'] = 'Importuj klucze publiczne';
 $labels['encryptedsendialog'] = 'Wysyłanie zaszyfrowanej wiadomości';
+$labels['encryptandsign'] = 'Szyfruj i podpisz';
 $labels['keyid'] = 'ID Klucza';
 $labels['keylength'] = 'Bitów';
 $labels['keyexpired'] = 'Przedawniony';
 $labels['keyrevoked'] = 'Unieważniony';
 $labels['bccinstead'] = 'Użyj Bcc';
 $labels['addheader'] = 'Dodaj odbiorcę (nagłówek)';
+$labels['insert'] = 'Wstaw';
+$labels['insertcontact'] = 'Wstaw kontakt(y)';
 $labels['recipient'] = 'Odbiorca';
+$labels['recipientedit'] = 'Edycja odbiorcy';
 $labels['editidents'] = 'Edytuj tożsamości';
 $labels['spellcheck'] = 'Pisownia';
 $labels['checkspelling'] = 'Sprawdź pisownię';
@@ -292,8 +303,10 @@ $labels['alwaysshow'] = 'Zawsze wyświetlaj obrazki od $sender';
 $labels['alwaysallow'] = 'Zawsze zezwalaj od $sender';
 $labels['isdraft'] = 'To jest kopia robocza wiadomości.';
 $labels['andnmore'] = '$nr więcej...';
+$labels['details'] = 'Szczegóły';
+$labels['summary'] = 'Ogólne';
 $labels['headers'] = 'Nagłówki';
-$labels['envelope'] = 'Koperta';
+$labels['allheaders'] = 'Wszystkie nagłówki...';
 $labels['togglemoreheaders'] = 'Pokaż więcej nagłówków wiadomości';
 $labels['togglefullheaders'] = 'Przełącz podgląd nagłówków wiadomości';
 $labels['htmltoggle'] = 'HTML';
@@ -305,11 +318,21 @@ $labels['addcc'] = 'Dodaj Cc';
 $labels['addbcc'] = 'Dodaj Bcc';
 $labels['addreplyto'] = 'Dodaj Reply-To';
 $labels['addfollowupto'] = 'Dodaj Followup-To';
+$labels['sendreceipt'] = 'Wysłać potwierdzenie odbioru?';
 $labels['mdnrequest'] = 'Nadawca zażądał potwierdzenia przeczytania tej wiadomości. Czy chcesz go powiadomić?';
 $labels['receiptread'] = 'Potwierdzenie otrzymania';
 $labels['yourmessage'] = 'To jest potwierdzenie dostarczenia Twojej wiadomości';
 $labels['receiptnote'] = 'Uwaga: To potwierdzenie dostarczenia wiadomości oznacza tylko, że wiadomość została wyświetlona na komputerze adresata. Nie ma żadnej gwarancji, że odbiorca przeczytał czy też zrozumiał treść wiadomości.';
-$labels['name'] = 'Nazwa';
+$labels['sendalwaysto'] = 'Zawsze wysyłaj do $email';
+$labels['zoomin'] = 'Zwiększ';
+$labels['zoomout'] = 'Zmniejsz';
+$labels['rotate'] = 'Obróć';
+$labels['increaseimage'] = 'Zwiększ rozmiar obrazu';
+$labels['decreaseimage'] = 'Zmniejsz rozmiar obrazu';
+$labels['rotateimage'] = 'Obróć obraz';
+$labels['showtools'] = 'Pokaż narzędzia obrazu';
+$labels['hidetools'] = 'Ukryj narzędzia obrazu';
+$labels['name'] = 'Nazwa wyświetlana';
 $labels['firstname'] = 'Imię';
 $labels['surname'] = 'Nazwisko';
 $labels['middlename'] = 'Drugie imię';
@@ -380,6 +403,9 @@ $labels['rename'] = 'Zmień nazwę';
 $labels['addphoto'] = 'Dodaj';
 $labels['replacephoto'] = 'Zamień';
 $labels['uploadphoto'] = 'Wyślij zdjęcie';
+$labels['choosefile'] = 'Wybierz plik...';
+$labels['choosefiles'] = 'Wybierz pliki...';
+$labels['browse'] = 'Przeglądaj';
 $labels['newcontact'] = 'Dodaj nowy kontakt';
 $labels['deletecontact'] = 'Usuń zaznaczone kontakty';
 $labels['composeto'] = 'Utwórz wiadomość do wybranych kontaktów';
@@ -393,6 +419,8 @@ $labels['newgroup'] = 'Utwórz nową grupę';
 $labels['addgroup'] = 'Dodaj grupę';
 $labels['grouprename'] = 'Zmień nazwę grupy';
 $labels['groupdelete'] = 'Usuń grupę';
+$labels['groupassign'] = 'Przypisz do grupy...';
+$labels['groupremove'] = 'Usuń z grupy';
 $labels['groupremoveselected'] = 'Usuń wybrane kontakty z grupy';
 $labels['uponelevel'] = 'Jeden poziom w górę';
 $labels['previouspage'] = 'Poprzednia strona';
@@ -413,7 +441,10 @@ $labels['importreplace'] = 'Zastąp całą książkę adresową';
 $labels['importgroups'] = 'Importuj powiązania z grupami';
 $labels['importgroupsall'] = 'Wszystkie (utwórz grupy jeśli potrzeba)';
 $labels['importgroupsexisting'] = 'Tylko do isniejących grup';
-$labels['importdesc'] = 'Import kontaktów z istniejącej książki adresowej.<br/>Obecnie obsługiwany jest import w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (pola oddzielone przecinkiem).';
+$labels['importdesc'] = 'Możesz zaimportować kontakty z istniejącej książki adresowej.<br/>Obecnie wspierany jest format <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (dane odzielone przecinkami).';
+$labels['importmapdesc'] = 'Przed przystąpieniem do importu danych w formacie CSV potwierdź poprawność powiązania pól.';
+$labels['fieldnotmapped'] = 'Pole niepowiązane (pomiń)';
+$labels['skipheader'] = 'Nie importuj pierwszej linii (nagłówki)';
 $labels['done'] = 'Wykonane';
 $labels['settingsfor'] = 'Ustawienia dla';
 $labels['about'] = 'O programie';
@@ -460,6 +491,8 @@ $labels['askuser'] = 'pytaj mnie';
 $labels['autosend'] = 'wyślij potwierdzenie';
 $labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów, pytaj o pozostałe';
 $labels['autosendknownignore'] = 'wyślij potwierdzenie tylko do moich kontaktów, pozostałe ignoruj';
+$labels['autosendtrusted'] = 'wyślij do zaufanych nadawców, w innych przypadkach pytaj';
+$labels['autosendtrustedignore'] = 'wyślij do zaufanych nadawców, w innych przypadkach ignoruj';
 $labels['ignorerequest'] = 'ignoruj żądanie';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
@@ -469,8 +502,10 @@ $labels['deletejunk'] = 'Kasuj wiadomości bezpośrednio w folderze Spam';
 $labels['showremoteimages'] = 'Wyświetlaj obrazki w wiadomościach';
 $labels['allowremoteresources'] = 'Zezwól na zdalne zasoby (obrazki, style)';
 $labels['fromknownsenders'] = 'od znanych nadawców';
+$labels['fromtrustedsenders'] = 'od zaufanych nadawców';
+$labels['frommycontacts'] = 'od moich kontaktów';
 $labels['always'] = 'zawsze';
-$labels['alwaysbutplain'] = 'Zawsze, za wyjątkiem odpowiedzi na zwykły tekst.';
+$labels['alwaysbutplain'] = 'zawsze, za wyjątkiem odpowiedzi na zwykły tekst.';
 $labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
 $labels['autosavedraft'] = 'Automatycznie zapisuj tworzoną wiadomość';
 $labels['everynminutes'] = 'co $n minut(y)';
@@ -489,7 +524,7 @@ $labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['toggleadvancedoptions'] = 'Pokaż/ukryj opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';
 $labels['checkallfolders'] = 'Sprawdzaj czy nadeszły nowe wiadomości we wszystkich folderach';
-$labels['displaynext'] = 'Po usunięciu/przeniesieniu wiadomości wyświetl następną';
+$labels['displaynext'] = 'Po usunięciu elementu listy wyświetl następny';
 $labels['defaultfont'] = 'Czcionka wiadomości HTML';
 $labels['mainoptions'] = 'Opcje główne';
 $labels['browseroptions'] = 'Opcje przeglądarki';
@@ -517,6 +552,14 @@ $labels['replysamefolder'] = 'Umieszczaj odpowiedzi w folderze wiadomości, na k
 $labels['defaultabook'] = 'Domyślna książka adresowa';
 $labels['autocompletesingle'] = 'Nie pokazuj alternatywnych adresów przy autouzupełnianiu';
 $labels['listnamedisplay'] = 'Wyświetl kontakty jako';
+$labels['contactformmode'] = 'Tryb formularza kontaktu';
+$labels['privatemode'] = 'Osobisty (Dom)';
+$labels['businessmode'] = 'Firmowy (Praca)';
+$labels['collectedaddresses'] = 'Zebrane adresy';
+$labels['collectedrecipients'] = 'Zebrani adresaci';
+$labels['collectedrecipientsopt'] = 'Zapisuj adresatów poczty do';
+$labels['collectedsendersopt'] = 'Zapisuj zaufanych nadawców do';
+$labels['trustedsenders'] = 'Zaufani nadawcy';
 $labels['spellcheckbeforesend'] = 'Przed wysłaniem wiadomości sprawdzaj pisownię';
 $labels['spellcheckoptions'] = 'Opcje sprawdzania pisowni';
 $labels['spellcheckignoresyms'] = 'Ignoruj słowa zawierające symbole';
@@ -560,7 +603,15 @@ $labels['namespace.shared'] = 'Współdzielone';
 $labels['dualuselabel'] = 'Może zawierać tylko';
 $labels['dualusemail'] = 'wiadomości';
 $labels['dualusefolder'] = 'foldery';
+$labels['generate'] = 'Generuj';
 $labels['encryptioncreatekey'] = 'Utwórz nową parę kluczy';
+$labels['openmailvelopesettings'] = 'Otwórz ustawienia Mailvelope';
+$labels['encryptionprivkeysinmailvelope'] = 'Znaleziono $nr pasujących kluczy prywatnych w bazie Mailvelope:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Wybrana tożsamość nadawcy nie posiada pasującego klucza prywatnego w bazie Mailvelope. Czy chcesz utworzyć klucz pozwalający szyfrować wiadomości?';
+$labels['encryption'] = 'Szyfrowanie';
+$labels['mailvelopeoptions'] = 'Opcje Mailvelope';
+$labels['mailvelopemainkeyring'] = 'Korzystaj z głównego zasobu kluczy (keyring) Mailvelope';
+$labels['mailvelopenotfound'] = 'Rozszerzenie Mailvelope nie jest włączone/zainstalowane w twojej przeglądarce.';
 $labels['sortby'] = 'Sortuj wg';
 $labels['sortasc'] = 'Rosnąco';
 $labels['sortdesc'] = 'Malejąco';
@@ -569,11 +620,18 @@ $labels['installedplugins'] = 'Zainstalowane wtyczki';
 $labels['plugin'] = 'Wtyczka';
 $labels['version'] = 'Wersja';
 $labels['source'] = 'Źródła';
+$labels['destination'] = 'Cel';
 $labels['license'] = 'Licencja';
 $labels['support'] = 'Wsparcie techniczne';
 $labels['savedsearches'] = 'Zapisane wyszukiwania';
+$labels['dateformatY'] = 'RRRR';
+$labels['dateformaty'] = 'RR';
+$labels['dateformatm'] = 'MM';
+$labels['dateformatd'] = 'DD';
+$labels['dateformatj'] = 'D';
+$labels['dateformatn'] = 'M';
 $labels['B'] = 'B';
-$labels['KB'] = 'KB';
+$labels['KB'] = 'kB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'uniwersalny';
@@ -597,6 +655,7 @@ $labels['chinese'] = 'chiński';
 $labels['arialabeltopnav'] = 'Kontrolki okna';
 $labels['arialabeltasknav'] = 'Zadania aplikacji';
 $labels['arialabeltoolbar'] = 'Narzędzia aplikacji';
+$labels['arialabellistnav'] = 'Obsługa listy';
 $labels['arialabelactivetask'] = 'Aktywne zadanie';
 $labels['arialabelmessagessearchfilter'] = 'Filtr listy wiadomości';
 $labels['arialabelmailsearchform'] = 'Formularz wyszukiwania wiadomości';
@@ -622,6 +681,7 @@ $labels['arialabelmessageheaders'] = 'Nagłówki wiadomości';
 $labels['arialabelforwardingoptions'] = 'Opcje przekazywania wiadomości';
 $labels['arialabelreplyalloptions'] = 'Opcje odpowiedzi do wszystkich';
 $labels['arialabelmoremessageactions'] = 'Więcej akcji';
+$labels['arialabelmorecontactactions'] = 'Więcej akcji';
 $labels['arialabelmarkmessagesas'] = 'Oznacz wybrane wiadomości jako...';
 $labels['arialabelcomposeoptions'] = 'Opcje kompozycji';
 $labels['arialabelresponsesmenu'] = 'Menu zapisanych odpowiedzi';
@@ -634,10 +694,11 @@ $labels['arialabelcontactexportoptions'] = 'Opcje eksportu kontaktów';
 $labels['arialabelabookgroupoptions'] = 'Opcje książki adresowej i grup';
 $labels['arialabelpreferencesform'] = 'Formularz ustawień';
 $labels['arialabelidentityeditfrom'] = 'Formularz edycji tożsamości';
-$labels['arialabelresonseeditfrom'] = 'Formularz edycji odpowiedzi';
+$labels['arialabelresponseeditfrom'] = 'Formularz edycji odpowiedzi';
 $labels['arialabelsearchterms'] = 'Szukana fraza';
 $labels['arialabeldropactionmenu'] = 'Menu Przeciągnij-i-upuść';
 $labels['arialabelheadersmenu'] = 'Menu dodawania odbiorcy (nagłóweka)';
+$labels['arialabelimagetools'] = 'Narzędzia obrazu';
 $labels['helplistnavigation'] = 'Obsługa listy przy pomocy klawiatury';
 $labels['helplistkeyboardnavigation'] = "Strzałki góra/dół: Oznaczanie/poruszanie się po wierszach.
 Spacja: Wybór bieżącego wiersza.
@@ -647,4 +708,3 @@ $labels['helplistkeyboardnavmessages'] = "Strzałki prawo/lewo: Rozwiniecie/zwin
 ENTER: Otwarcie bieżącej wiadomości.
 DELETE: Usunięcie/Przeniesienie wiadomości do Kosza.";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: Otwarcie bieżącego kontaktu.";
-?>

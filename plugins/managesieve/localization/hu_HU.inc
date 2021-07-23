@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Üzenetszűrők';
 $labels['managefilters'] = 'Bejövő üzenetek szűrői';
 $labels['filtername'] = 'Szűrő neve';
@@ -75,22 +75,23 @@ $labels['days'] = 'napok';
 $labels['seconds'] = 'másodpercek';
 $labels['rulestop'] = 'Műveletek végrehajtásának befejezése';
 $labels['enable'] = 'Bekapcsol/Kikapcsol';
-$labels['filterset'] = 'Szűrök készlet';
+$labels['filterset'] = 'Szűrő készlet';
 $labels['filtersets'] = 'Szűrő készletek';
-$labels['filtersetadd'] = 'Szűrő hozzáadása a készlethez';
+$labels['filtersetadd'] = 'Szűrőkészle hozzáadása';
 $labels['filtersetdel'] = 'Szűrőkészlet törlése';
-$labels['filtersetact'] = 'Az aktuális szűrő készlet engedélyezése';
-$labels['filtersetdeact'] = 'Az aktuális szűrő készlet tiltása';
+$labels['filtersetact'] = 'Az aktuális szűrőkészlet aktiválása';
+$labels['filtersetdeact'] = 'Az aktuális szűrőkészlet deaktiválása';
 $labels['filterseteditraw'] = 'Szűrőkészlet beállítás';
-$labels['filtersetswitch'] = 'Engedélyezni/letíltani a szűrőkészletet';
+$labels['filtersetswitch'] = 'Engedélyezni/letiltani szűrőkészletet';
 $labels['filterdef'] = 'Szűrő definíció';
-$labels['filtersetname'] = 'Szűrő készlet neve';
-$labels['newfilterset'] = 'Új szűrő készlet';
+$labels['filtersetname'] = 'Szűrőkészlet neve';
+$labels['newfilterset'] = 'Új szűrőkészlet';
 $labels['active'] = 'aktív';
 $labels['none'] = 'nincs';
 $labels['fromset'] = 'készletből';
 $labels['fromfile'] = 'fájlból';
 $labels['filterdisabled'] = 'Szűrő kikapcsolása';
+$labels['filterenabled'] = 'Szűrő engedélyezve';
 $labels['countisgreaterthan'] = 'a számláló nagyobb mint';
 $labels['countisgreaterthanequal'] = 'a számláló nagyobb vagy egyenlő';
 $labels['countislessthan'] = 'a számláló kissebb mint';
@@ -111,6 +112,18 @@ $labels['flagdeleted'] = 'Törölt';
 $labels['flaganswered'] = 'Megválaszolt';
 $labels['flagflagged'] = 'Megjelölt';
 $labels['flagdraft'] = 'Vázlat';
+$labels['addheader'] = 'Fejléc hozzáadása az üzenethez';
+$labels['deleteheader'] = 'Fejléc eltávolítása az üzenetből';
+$labels['headername'] = 'Fejléc neve';
+$labels['headervalue'] = 'Fejléc értéke';
+$labels['headerpos'] = 'Fejléc pozició';
+$labels['headeratstart'] = 'az elején';
+$labels['headeratend'] = 'a végére';
+$labels['headeroccurrence'] = 'Fejléc előfordulás/pozició';
+$labels['headerfromstart'] = 'az elejétől';
+$labels['headerfromend'] = 'a végétől';
+$labels['headerpatterns'] = 'Fejléc értékeinek mintái';
+$labels['headermatchtype'] = 'egyezés tipúsa:';
 $labels['setvariable'] = 'Változó beállítása';
 $labels['setvarname'] = 'Változó neve:';
 $labels['setvarvalue'] = 'Változó értéke:';
@@ -175,20 +188,28 @@ $labels['asciicasemap'] = 'kis-nagybetüre nem érzékeny (ascii-casemap)';
 $labels['asciinumeric'] = 'számszerü (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'visszafelé';
-$labels['vacation'] = 'Vakáció';
+$labels['spamtest'] = 'Levélszemét szint';
+$labels['spamtestisgreaterthan'] = 'nagyobb mint';
+$labels['spamtestisgreaterthanequal'] = 'nagyobb vagy egyenlő ';
+$labels['spamtestislessthan'] = 'kisebb mint';
+$labels['spamtestislessthanequal'] = 'kisebb vagy egyenlő';
+$labels['spamtestequals'] = 'megegyezik';
+$labels['spamtestnotequals'] = 'nem egyezik meg';
+$labels['spamtestisunknown'] = 'ismeretlen';
+$labels['vacation'] = 'Irodán kívül';
 $labels['vacation.reply'] = 'Válasz az üzenetre';
 $labels['vacation.advanced'] = 'Haladó beállítások';
 $labels['vacation.from'] = 'Reply sender address';
 $labels['vacation.subject'] = 'Tárgy';
 $labels['vacation.body'] = 'Törzs';
-$labels['vacation.start'] = 'Szünidő kezdete';
-$labels['vacation.end'] = 'Szünidő vége';
+$labels['vacation.start'] = 'Kezdő időpontja';
+$labels['vacation.end'] = 'Befejezés időpontja';
 $labels['vacation.status'] = 'Állapot';
 $labels['vacation.on'] = 'Be';
 $labels['vacation.off'] = 'Ki';
 $labels['vacation.addresses'] = 'Saját e-mail címeim';
 $labels['vacation.interval'] = 'Válasz intervallum';
-$labels['vacation.after'] = 'Rakd a szabadság szabályt ez után ';
+$labels['vacation.after'] = 'Tedd az irodán kívül szabályt ez után';
 $labels['vacation.saving'] = 'Adatok mentése...';
 $labels['vacation.action'] = 'Beérkező üzenet akció';
 $labels['vacation.keep'] = 'Megtartás';
@@ -233,16 +254,16 @@ $messages['actiondeleteconfirm'] = 'Biztosan törli ezt a műveletet?';
 $messages['forbiddenchars'] = 'Érvénytelen karakter a mezőben';
 $messages['cannotbeempty'] = 'A mező nem lehet üres';
 $messages['ruleexist'] = 'Már van ilyen névvel elmentett szűrő.';
-$messages['setactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült engedélyezni. Szerver hiba történt.';
-$messages['setdeactivateerror'] = 'A kiválasztott szűrő készletet nem sikerült tiltani. Szerver hiba történt.';
-$messages['setdeleteerror'] = 'Nem sikerült a kiválasztott szűrő készletet törölni. Szerver hiba történt.';
-$messages['setactivated'] = 'A filter készlet engedélyezése sikeresen végrehajtódott.';
-$messages['setdeactivated'] = 'A filter készlet tiltása sikeresen végrehajtódott.';
-$messages['setdeleted'] = 'A filter készlet törlése sikeresen végrehajtódott.';
-$messages['setupdated'] = 'A szűrőkészlet sikeresen frissítve';
-$messages['setdeleteconfirm'] = 'Biztosan törölni szeretnéd a kiválasztott szűrő készleteket?';
-$messages['setcreateerror'] = 'Nem sikerült létrehozni a szűrő készletet. Szerver hiba történt.';
-$messages['setcreated'] = 'A szűrő készlet sikeresen létrejött.';
+$messages['setactivateerror'] = 'A szűrőkészlet aktiválása sikertelen. Szerver hiba történt.';
+$messages['setdeactivateerror'] = 'A szűrőkészlet deaktiválása sikertelen. Szerver hiba történt.';
+$messages['setdeleteerror'] = 'A szűrőkészlet törlése sikertelen. Szerver hiba történt.';
+$messages['setactivated'] = 'A szűrőkészlet aktiválása sikeres.';
+$messages['setdeactivated'] = 'A szűrőkészlet deaktiválása sikeres.';
+$messages['setdeleted'] = 'A szűrőkészlet törlése sikeres.';
+$messages['setupdated'] = 'A szűrőkészlet frissítése sikeres.';
+$messages['setdeleteconfirm'] = 'Biztos, hogy törlöd a kiválasztott szűrőkészletet?';
+$messages['setcreateerror'] = 'Nem sikerült létrehozni a szűrőkészletet. Szerver hiba történt.';
+$messages['setcreated'] = 'Szűrőkészlet sikeresen létrejött.';
 $messages['activateerror'] = 'Nem sikerült engedélyezni a kiválasztott szűrö(k)et. Szerver hiba történt.';
 $messages['deactivateerror'] = 'Nem sikerült kikapcsolni a kiválasztott szűrő(ke)t. Szerver hiba történt.';
 $messages['deactivated'] = 'Szűrő(k) sikeresen bekapcsolva.';
@@ -255,9 +276,10 @@ $messages['setexist'] = 'A készlet már létezik.';
 $messages['nodata'] = 'Legalább egyet ki kell választani.';
 $messages['invaliddateformat'] = 'hibás dátum formátum';
 $messages['saveerror'] = 'Az adat mentése sikertelen. Szerverhiba történt';
-$messages['vacationsaved'] = 'Vakáció adatai sikeresen elmentve.';
+$messages['vacationsaved'] = 'Irodán kívül adatai sikeresen elmentve.';
 $messages['forwardsaved'] = 'A továbbítási adatok sikeresen elmentve.';
 $messages['emptyvacationbody'] = 'A vakácíó üzenet szövegtörzse kötelező!';
 $messages['duplicate.conflict.err'] = 'Egyszerre fejléc és egyedi azonosító nem engedélyezett.';
 $messages['disabledaction'] = 'A művelet nem megengedett.';
-?>
+$messages['lastindexempty'] = 'Az index kötelező amikor a végétől számoljuk';
+$messages['noflagset'] = 'Legalább egy jelző ki kell legyen választva.';

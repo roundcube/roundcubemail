@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'הצפנה';
 $labels['enigmacerts'] = 'תעודות מאושרות S/MIME';
 $labels['enigmakeys'] = 'מפתחות PGP';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'חסום';
 $labels['keyrevoke'] = 'הפקעה';
 $labels['keysend'] = 'משלוח מפתח ציבורי בהודעה';
 $labels['keychpass'] = 'שינוי סיסמה';
+$labels['keyadd'] = 'הוספת מפתח';
 $labels['newkeyident'] = 'זהות';
 $labels['newkeypass'] = 'סיסמה';
 $labels['newkeypassconfirm'] = 'אישור סיסמה';
-$labels['newkeysize'] = 'גודל מפתח';
-$labels['key2048'] = 'ברירת מחדל - 2048 סיביות';
-$labels['key4096'] = '4096 סיביות - יותר בטוח';
+$labels['newkeytype'] = 'סוג מפתח';
+$labels['rsa2048'] = 'RSA - 2048 bits';
+$labels['rsa4096'] = 'RSA - 4096 bits';
+$labels['ecckeypair'] = 'ECC (Elliptic Curve)';
 $labels['keygenerating'] = 'מפתחות נוצרים...';
 $labels['encryptionoptions'] = 'אפשרויות הצפנה...';
 $labels['encryptmsg'] = 'הצפנה של הודעה זו';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'חתימה דיגיטלית של הודעה זו';
 $labels['sendunencrypted'] = 'לשלוח ללא הצפנה';
 $labels['enterkeypasstitle'] = 'נא להקיש צרור אותיות וסימנים ליצירת מפתח';
 $labels['enterkeypass'] = 'יש להקיש צרור אותיות וסימנים שנבחרו קודם כדי לשחרר נעילה של המפתח הסודי  (keyid$)  של משתמש  user$';
-$labels['arialabelkeyexportoptions'] = 'אפשרויות ייצוא של מפתחות';
 $labels['attachpubkeymsg'] = 'צירוף המפתח הציבורי שלי';
 $labels['keyexportprompt'] = 'האם ברצונך לכלול מפתחות סודיים בקובץ השמור של המפתחות ?';
 $labels['onlypubkeys'] = 'ייצוא מפתחות ציבוריים בלבד';
@@ -85,6 +85,12 @@ $labels['withprivkeys'] = 'ייצוא מפתחות סודיים';
 $labels['findkey'] = 'חיפוש בשרת(י) מפתח';
 $labels['keyimportlabel'] = 'ייבוא מקובץ';
 $labels['keyimportsearchlabel'] = 'חיפוש בשרת(י) מפתח';
+$labels['managekeys'] = 'ניהול מפתחות הצפנה';
+$labels['identitymatchingprivkeys'] = 'קיימים $nr  מפתחות הצפנה פרטיים תואמים בצרור המפתחות שלך';
+$labels['identitynoprivkeys'] = 'לזהות השולחת אין עדיין מפתח הצפנה פרטי בצרור המפתחות שלך';
+$labels['arialabelkeyexportoptions'] = 'אפשרויות ייצוא של מפתחות';
+$labels['arialabelkeysearchform'] = 'טופס חיפוש מפתח';
+$labels['arialabelkeyoptions'] = 'אפשרויות מפתח';
 $messages['sigvalid'] = 'אימות חתימה מ sender$';
 $messages['sigvalidpartial'] = 'אומתה חתימה של sender$ אבל חלק מגוף ההודעה לא נחתם';
 $messages['siginvalid'] = 'חתימה לא תקינה מ sender$';
@@ -94,6 +100,7 @@ $messages['sigerror'] = 'חתימה לא מאומתת. שגיאה פנימית.'
 $messages['decryptok'] = 'הודעה פוענחה.';
 $messages['decrypterror'] = 'הפיענוח נכשל.';
 $messages['decryptnokey'] = 'הפיענוח נכשל. לא נמצא מפתח פרטי. קוד מפתח: keyid$.';
+$messages['decryptnomdc'] = 'לא בוצע הפיענוח.  אין להודעה הגנת שלמות.';
 $messages['decryptbadpass'] = 'פיענוח נכשל. סיסמה שגויה.';
 $messages['decryptnopass'] = 'פענוח נכשל. נדרשת סיסמת מפתח.';
 $messages['decryptpartial'] = 'ההודעה פוענחה אבל חלק מגוף ההודעה כלל לא הוצפן';
@@ -103,6 +110,7 @@ $messages['signbadpass'] = 'חתימה נכשלה. סיסמה שגויה.';
 $messages['signnopass'] = 'חיתום נכשל. נדרשת סיסמת מפתח.';
 $messages['encrypterror'] = 'הצפנה נכשלה.';
 $messages['encryptnokey'] = 'הצפנה נכשלה. לא נמצא מפתח ציבורי עבור mail$.';
+$messages['encryptnoprivkey'] = 'הצפנה נכשלה. לא נמצא מפתח פרטי.';
 $messages['nokeysfound'] = 'לא נמצאו מפתחות.';
 $messages['keynotfound'] = 'לא נמצא מפתח !';
 $messages['keyopenerror'] = 'לא ניתן להשיג מידע על מפתח! שגיאה פנימית.';
@@ -115,6 +123,7 @@ $messages['keyremovesuccess'] = 'מפתח(ות) נמחק(ו) בהצלחה';
 $messages['keyremoveerror'] = 'לא ניתן למחוק את המפתחות שנבחרו.';
 $messages['keyimporttext'] = 'ניתן לייבא מפתחות פרטיים וציבוריים או חתימות ביטול בםפורמט ASCII-Armor';
 $messages['keyimportsearchtext'] = 'ניתן לחפש מפתחות ציבוריים לפי מזהה מפתח, שם משתמש או כתובת דוא"ל ואח"כ לייבא אותם ישירות.';
+$messages['keystoragenotice'] = 'כל המפתחות הציבוריים והפרטיים מאוחסנים על השרת';
 $messages['formerror'] = 'נא למלא את כל השדות בטופס !';
 $messages['passwordsdiffer'] = 'הסיסמאות לא תואמות!';
 $messages['keygenerateerror'] = 'נכשלה יצירה של צמד המפתחות';
@@ -122,4 +131,6 @@ $messages['keygeneratesuccess'] = 'נוצר צמד מפתחות ויובא בה�
 $messages['keygennosupport'] = 'הדפדפן הזה אינו תומך בהצפנה. לא ניתן לייצר צמד מפתחות !';
 $messages['noidentselected'] = 'יש לבחור לפחות זהות אחת עבור המפתח';
 $messages['nonameident'] = 'יש להגדיר שם משתמש בהגדרת הזהות !';
-?>
+$labels['newkeysize'] = 'גודל מפתח';
+$labels['key2048'] = 'ברירת מחדל - 2048 סיביות';
+$labels['key4096'] = '4096 סיביות - יותר בטוח';

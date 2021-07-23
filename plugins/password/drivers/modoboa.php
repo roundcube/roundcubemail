@@ -9,7 +9,7 @@
  * @version 1.0.1
  * @author stephane @actionweb.fr
  *
- * Copyright (C) 2018, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class rcube_modoboa_password
         // Call GET to fetch values from modoboa server
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
@@ -54,12 +54,12 @@ class rcube_modoboa_password
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => "GET",
-            CURLOPT_HTTPHEADER     => array(
+            CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
-            ),
-        ));
+            ],
+        ]);
 
         $response = curl_exec($curl);
         $err      = curl_error($curl);
@@ -82,6 +82,7 @@ class rcube_modoboa_password
 
         // Encode json with new password
         $ret['username'] = $decoded[0]->username;
+        $ret['mailbox']  = $decoded[0]->mailbox;
         $ret['role']     = $decoded[0]->role;
         $ret['password'] = $passwd; // new password
         $encoded         = json_encode($ret);
@@ -89,7 +90,7 @@ class rcube_modoboa_password
         // Call HTTP API Modoboa
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/" . $userid . "/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
@@ -98,12 +99,12 @@ class rcube_modoboa_password
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => "PUT",
             CURLOPT_POSTFIELDS     => "" . $encoded . "",
-            CURLOPT_HTTPHEADER     => array(
+            CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
-            ),
-        ));
+            ],
+        ]);
 
         $response = curl_exec($curl);
         $err      = curl_error($curl);

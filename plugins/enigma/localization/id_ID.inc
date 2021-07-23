@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Enkripsi';
 $labels['enigmacerts'] = 'Sertifikat S/MIME';
 $labels['enigmakeys'] = 'Kunci PGP';
@@ -67,9 +66,7 @@ $labels['keychpass'] = 'Ubah kata sandi';
 $labels['newkeyident'] = 'Identitas';
 $labels['newkeypass'] = 'Password';
 $labels['newkeypassconfirm'] = 'Konfirmasi password / kata kunci';
-$labels['newkeysize'] = 'Ukuran kunci';
-$labels['key2048'] = '2048 bit - baku';
-$labels['key4096'] = '4096 bit - lebih aman';
+$labels['newkeytype'] = 'Tipe kunci';
 $labels['keygenerating'] = 'Membuat kunci...';
 $labels['encryptionoptions'] = 'Opsi enkripsi...';
 $labels['encryptmsg'] = 'Enkripsikan pesan ini';
@@ -77,7 +74,6 @@ $labels['signmsg'] = 'Tandatantani pesan ini';
 $labels['sendunencrypted'] = 'Kirim dengan tidak di enskripsi';
 $labels['enterkeypasstitle'] = 'Masukkan frasa sandi kunci';
 $labels['enterkeypass'] = 'Frasa sandi diperlukan untuk membuka kunci rahasia ($keyid) untuk pengguna: $user.';
-$labels['arialabelkeyexportoptions'] = 'Opsi ekspor kunci';
 $labels['attachpubkeymsg'] = 'Lampirkan kunci publik saya';
 $labels['keyexportprompt'] = 'Apakah Anda ingin menyertakan kunci rahasia dalam berkas kunci OpenPGP yang disimpan?';
 $labels['onlypubkeys'] = 'Ekspor Kunci Publik Saja';
@@ -85,6 +81,7 @@ $labels['withprivkeys'] = 'Ekspor Kunci Rahasia';
 $labels['findkey'] = 'Cari pada server kunci';
 $labels['keyimportlabel'] = 'Impor dari berkas';
 $labels['keyimportsearchlabel'] = 'Cari pada server kunci';
+$labels['arialabelkeyexportoptions'] = 'Opsi ekspor kunci';
 $messages['sigvalid'] = 'Tanda tangan terverifikasi dari $sender.';
 $messages['sigvalidpartial'] = 'Tanda tangan terverifikasi dari $sender, tapi sebagian pesan tidak ditandatangani.';
 $messages['siginvalid'] = 'Tanda tangan tak valid dari $sender.';
@@ -122,4 +119,6 @@ $messages['keygeneratesuccess'] = 'Suatu pasangan kunci dibuat dan sukses diimpo
 $messages['keygennosupport'] = 'Peramban web Anda tidak mendukung kriptografi. Tidak bisa membuat suatu pasangan kunci!';
 $messages['noidentselected'] = 'Anda mesti memilih paling tidak satu identitas untuk kunci!';
 $messages['nonameident'] = 'Identitas mesti mengandung nama pengguna!';
-?>
+$labels['newkeysize'] = 'Ukuran kunci';
+$labels['key2048'] = '2048 bit - baku';
+$labels['key4096'] = '4096 bit - lebih aman';

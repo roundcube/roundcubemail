@@ -7,7 +7,7 @@
  * @group database
  * @group oracle
  */
-class Framework_DBOracle extends PHPUnit_Framework_TestCase
+class Framework_DBOracle extends PHPUnit\Framework\TestCase
 {
 
     /**

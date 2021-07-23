@@ -4,7 +4,7 @@
  * Virtualmin Password Driver
  *
  * Driver that adds functionality to change the users Virtualmin password.
- * The code is derrived from the Squirrelmail "Change Cyrus/SASL Password" Plugin
+ * The code is derived from the Squirrelmail "Change Cyrus/SASL Password" Plugin
  * by Thomas Bruederli.
  *
  * It only works with virtualmin on the same host where Roundcube runs
@@ -13,7 +13,7 @@
  * @version 3.0
  * @author Martijn de Munnik
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ class rcube_virtualmin_password
 {
     function save($currpass, $newpass, $username)
     {
-        $rcmail   = rcmail::get_instance();
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
 
@@ -44,11 +43,14 @@ class rcube_virtualmin_password
             $domain = trim($output_domain[0]);
         }
         else {
-            rcube::raise_error(array(
-                'code' => 600,
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd or domain for mail-user '$username' not known to Virtualmin"
-                ), true, false);
+            rcube::raise_error([
+                    'code' => 600,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                    'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd "
+                        . "or domain for mail-user '$username' not known to Virtualmin"
+                ], true, false
+            );
 
             return PASSWORD_ERROR;
         }
@@ -62,11 +64,13 @@ class rcube_virtualmin_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error(array(
+        rcube::raise_error([
                 'code' => 600,
-                'file' => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd"
-            ), true, false);
+            ], true, false
+        );
 
         return PASSWORD_ERROR;
     }

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Prišlo je do napake!';
 $messages['loginfailed']  = 'Prijava ni uspela';
 $messages['cookiesdisabled'] = 'Vaš spletni brskalnik ne sprejema piškotkov.';
@@ -34,7 +33,7 @@ $messages['erroroverquotadelete'] = 'Zmanjkalo je diskovnega prostora. Za izbris
 $messages['invalidrequest'] = 'Neveljavna zahteva. Podatki niso bili shranjeni.';
 $messages['invalidhost'] = 'Nepravilno ime strežnika';
 $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
-$messages['loggedout'] = 'Odjava je bila uspešna.';
+$messages['loggedout'] = 'Uspešno ste zaključili sejo. Nasvidenje!';
 $messages['mailboxempty'] = 'Poštni predal je prazen.';
 $messages['nomessages'] = 'Ni sporočil';
 $messages['refreshing'] = 'Osvežujem...';
@@ -62,11 +61,8 @@ $messages['nopubkeyforsender'] = 'Veljavnega javnega ključa za pošiljatelja ni
 $messages['encryptnoattachments'] = 'Priponke, ki ste jih že naložili, ne morejo biti šifrirane. Dodajte jih znova v urejevalnik.';
 $messages['searchpubkeyservers'] = 'Ali želite manjkajoče javne ključe poiskati na javno dostopnih strežnikih?';
 $messages['encryptpubkeysfound'] = 'Najdeni so bili naslednji javni ključi:';
-$messages['keyservererror'] = 'Na strežniku ključa ni bilo mogoče najti';
-$messages['keyimportsuccess'] = 'Uspešno ste shranili svoj javni ključ $key';
 $messages['nocontactsfound'] = 'Ni stikov.';
 $messages['contactnotfound'] = 'Iskanega stika ni bilo mogoče najti.';
-$messages['contactsearchonly'] = 'Vpišite iskalni parameter za iskanje stika';
 $messages['sendingfailed'] = 'Sporočila ni bilo mogoče poslati.';
 $messages['senttooquickly'] = 'Počakajte $sec sekund in nato znova poskusite s pošiljanjem sporočila.';
 $messages['errorsavingsent'] = 'Pri shranjevanju poslanega sporočila je prišlo do napake.';
@@ -91,6 +87,7 @@ $messages['noemailwarning'] = 'Vnesite veljaven elektronski naslov';
 $messages['nonamewarning']  = 'Vnesite ime';
 $messages['nopagesizewarning'] = 'Vnesite velikost strani';
 $messages['nosenderwarning'] = 'Vnesite elektronski naslov pošiljatelja.';
+$messages['recipientsadded'] = 'Naslovnik[i] uspešno dodan[i]';
 $messages['norecipientwarning'] = 'Vnesite vsaj enega prejemnika sporočila';
 $messages['disclosedrecipwarning'] = 'Vsi prejemniki bodo videli naslove drugih prejemnikov sporočila. Uporabite polje Skp, da zaščitite njihovo zasebnost.';
 $messages['disclosedreciptitle'] = 'Preveliko število javnih naslovov prejemnikov';
@@ -111,8 +108,6 @@ $messages['nospellerrors'] = 'V tekstu ni bilo nobenih pravopisnih napak';
 $messages['folderdeleted'] = 'Mapa je bila uspešno izbrisana.';
 $messages['foldersubscribed'] = 'Mapa je bila uspešno prijavljena.';
 $messages['folderunsubscribed'] = 'Mapa je bila uspešno odjavljena.';
-$messages['folderpurged'] = 'Mapa je bila uspešno izpraznjena';
-$messages['folderexpunged'] = 'Mapa je bila uspešno skrčena';
 $messages['deletedsuccessfully'] = 'Uspešno izbrisano';
 $messages['converting'] = 'Odstranjevanje nastavitev oblikovanja...';
 $messages['messageopenerror'] = 'Sporočila ni bilo mogoče prenesti iz strežnika';
@@ -206,3 +201,6 @@ $messages['clicktoresumesession'] = 'Kliknite tukaj za obnovitev prejšnje seje'
 $messages['errcomposesession'] = 'Napaka v seji sestavljanja sporočila';
 $messages['errcomposesessionexplain'] = 'Zahtevane seje za sestavljanje sporočila ni bilo mogoče najti.';
 $messages['clicktocompose'] = 'Kliknite tukaj, če želite ustvariti novo sporočilo';
+$messages['listempty'] = 'Seznam je prazen.';
+$messages['listusebutton'] = 'Uporabite gumb »Ustvari« za dodajanje novega zapisa.';
+$messages['emptyattachment'] = 'Ta priponka je videti prazna.<br>Prosimo, posvetujte se s pošiljateljem.';

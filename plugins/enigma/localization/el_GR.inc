@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Κρυπτογράφηση';
 $labels['enigmacerts'] = 'Πιστοποιητικά S/MIME';
 $labels['enigmakeys'] = 'PGP Κλειδιά';
@@ -25,6 +24,7 @@ $labels['keyuserid'] = 'Ταυτότητα Χρήστη';
 $labels['keytype'] = 'Τύπος κλειδιού';
 $labels['fingerprint'] = 'Δακτυλικό αποτύπωμα';
 $labels['subkeys'] = 'Υποκλειδιά';
+$labels['keyprops'] = 'Ιδιότητες κλειδιού';
 $labels['basicinfo'] = 'Βασικές πληροφορίες';
 $labels['userids'] = 'Επιπλέον Χρήστες';
 $labels['typepublickey'] = 'δημόσιο κλειδί';
@@ -63,16 +63,18 @@ $labels['keydisable'] = 'Απενεργοποίηση';
 $labels['keyrevoke'] = 'Απόσυρση';
 $labels['keysend'] = 'Αποστολή δημοσίου κλειδιού στο μήνυμα';
 $labels['keychpass'] = 'Αλλαγή κωδικού';
+$labels['keyadd'] = 'Προσθήκη κλειδιού';
+$labels['newkeyident'] = 'Ταυτότητα';
 $labels['newkeypass'] = 'Κωδικός Πρόσβασης';
-$labels['key2048'] = '2048 bits - προκαθορισμένο';
-$labels['key4096'] = '4096 bits - ασφαλέστερο';
+$labels['newkeypassconfirm'] = 'Επιβέβαιωση κωδικού πρόσβασης';
+$labels['newkeytype'] = 'Τύπος κλειδιού';
 $labels['keygenerating'] = 'Δημιουργία κλειδιών...';
 $labels['encryptionoptions'] = 'Επιλογές κρυπτογράφησης...';
 $labels['encryptmsg'] = 'Κρυπτογράφηση του μηνύματος';
 $labels['signmsg'] = 'Ψηφιακή υπογραφή του μηνύματος';
+$labels['sendunencrypted'] = 'Αποστολή χωρίς κρυπτογράφηση';
 $labels['enterkeypasstitle'] = 'Εισάσετε τον κωδικό του κλειδιού';
 $labels['enterkeypass'] = 'Απαιτείται ένας κωδικός για το ξεκλειδωμα του κρυφού κλειδιού ($keyid) του χρήστη: $user.';
-$labels['arialabelkeyexportoptions'] = 'Επιλογές εξαγωγής κλειδιών';
 $labels['attachpubkeymsg'] = 'Επισύναψη του δημόσιου κλειδιού μου';
 $labels['keyexportprompt'] = 'Θέλετε να συμπεριληφθούν τα μυστικά κλειδικά στο αποθηκευμένο αρχείο κλειδιών OpenPGP;';
 $labels['onlypubkeys'] = 'Εξαγωγή Δημοσίων Κλειδιών Μόνο';
@@ -80,6 +82,9 @@ $labels['withprivkeys'] = 'Εξαγωγή Μυστικών Κλειδιών';
 $labels['findkey'] = 'Αναζήτηση στον(ους) εξυπηρετητή(ές) κλειδιών';
 $labels['keyimportlabel'] = 'Εισαγωγή από αρχείο';
 $labels['keyimportsearchlabel'] = 'Αναζήτηση στον(ους) εξυπηρετητή(ές) κλειδιών';
+$labels['managekeys'] = 'Διαχείριση PGP κλειδιών';
+$labels['arialabelkeyexportoptions'] = 'Επιλογές εξαγωγής κλειδιών';
+$labels['arialabelkeyoptions'] = 'Επιλογές κλειδιών';
 $messages['sigvalid'] = 'Επαληθευμένη υπογραφή από τον  $sender.';
 $messages['sigvalidpartial'] = 'Επαληθευμένη υπογραφή από τον $sender, αλλά τμήμα του κειμένου δεν έχει υπογραφεί.';
 $messages['siginvalid'] = 'Άκυρη υπογραφή από τον $sender.';
@@ -89,14 +94,17 @@ $messages['sigerror'] = 'Ανεπαλήθευτη υπογραφή. Εσωτερ
 $messages['decryptok'] = 'Το μήνυμα αποκρυπτογραφήθηκε.';
 $messages['decrypterror'] = 'Η αποκρυπτογράφηση απέτυχε.';
 $messages['decryptnokey'] = 'Η αποκρυπτογράφηση απέτυχε. Το ιδιωτικό κλειδί δε βρέθηκε. Ταυτότητα κλειδιού: $keyid.';
+$messages['decryptbadpass'] = 'Η αποκρυπτογράφηση απέτυχε. Μη έγκυρος κωδικός πρόσβασης.';
 $messages['decryptnopass'] = 'Η αποκρυπτογράφηση απέτυχε. Απαιτείται ο κωδικός του κλειδιού.';
 $messages['decryptpartial'] = 'Το μήνυμα αποκρυπτογραφήθηκε, αλλά τμήμα του μηνύματος δεν ήταν κρυπτογραφημένο.';
 $messages['signerror'] = 'Η υπογραφή απέτυχε.';
 $messages['signnokey'] = 'Η υπογραφή απέτυχε. Το ιδιωτικό κλειδί δε βρέθηκε.';
+$messages['signbadpass'] = 'Η υπογραφή απέτυχε. Λάθος κωδικός πρόσβασης.';
 $messages['signnopass'] = 'Η υπογραφή απέτυχε. Απαιτείται ο κωδικός του κλειδιού.';
 $messages['encrypterror'] = 'Η κρυπτογράφηση απέτυχε.';
 $messages['encryptnokey'] = 'Η κρυπτογράφηση απέτυχε. Το δημόσιο κλειδί του $email δε βρέθηκε.
  ';
+$messages['encryptnoprivkey'] = 'Η κρυπτογράφηση απέτυχε. Το ιδιωτικό κλειδί δε βρέθηκε.';
 $messages['nokeysfound'] = 'Δε βρέθηκαν κλειδιά';
 $messages['keynotfound'] = 'Το κλειδί δε βρέθηκε!';
 $messages['keyopenerror'] = 'Αδυναμία ανάκτησης των πληροφοριών του κλειδιού! Εσωτερικό σφάλμα.';
@@ -113,5 +121,8 @@ $messages['passwordsdiffer'] = 'Οι κωδικοί δεν ταιριάζουν 
 $messages['keygenerateerror'] = 'Αποτυχία δημιουργίας ζεύγους κλειδιών.';
 $messages['keygeneratesuccess'] = 'Το ζεύγος κλειδιών δημιουργήθηκε και εισήχθη επιτυχώς.';
 $messages['keygennosupport'] = 'To πρόγραμμα περιήγησής σας δεν υποστηρίζει κρυπτογράφηση. Δεν ήταν δυνατή η δημιουργία ενός ζεύγος κλειδιών!';
+$messages['noidentselected'] = 'Πρέπει να επιλέξετε τουλάχιστον μια ταυτότητα για το κλειδί!';
 $messages['nonameident'] = 'Η Ταυτότητα πρέπει να έχει ορισμένο όνομα χρήστη!';
-?>
+$labels['newkeysize'] = 'Μέγεθος κλειδιού';
+$labels['key2048'] = '2048 bits - προκαθορισμένο';
+$labels['key4096'] = '4096 bits - ασφαλέστερο';

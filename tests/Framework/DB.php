@@ -6,19 +6,8 @@
  * @package Tests
  * @group database
  */
-class Framework_DB extends PHPUnit_Framework_TestCase
+class Framework_DB extends PHPUnit\Framework\TestCase
 {
-
-    /**
-     * Class constructor test
-     */
-    function test_class()
-    {
-        $object = new rcube_db('test');
-
-        $this->assertInstanceOf('rcube_db', $object, "Class constructor");
-    }
-
     /**
      * Test script execution and table_prefix replacements
      */
@@ -29,30 +18,39 @@ class Framework_DB extends PHPUnit_Framework_TestCase
         $db->set_option('identifier_start', '`');
         $db->set_option('identifier_end', '`');
 
-        $script = implode("\n", array(
+        $script = implode("\n", [
             "CREATE TABLE `xxx` (test int, INDEX xxx (test));",
             "-- test comment",
             "ALTER TABLE `xxx` CHANGE test test int;",
             "TRUNCATE xxx;",
+            "TRUNCATE TABLE xxx;",
             "DROP TABLE `vvv`;",
             "CREATE TABLE `i` (test int CONSTRAINT `iii`
                 FOREIGN KEY (`test`) REFERENCES `xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE);",
+            "CREATE TABLE `i` (`test` int, INDEX `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE INDEX `testidx` (`test`))",
             "INSERT INTO xxx test = 1;",
             "SELECT test FROM xxx;",
-        ));
-        $output = implode("\n", array(
+        ]);
+
+        $output = implode("\n", [
             "CREATE TABLE `prefix_xxx` (test int, INDEX prefix_xxx (test))",
             "ALTER TABLE `prefix_xxx` CHANGE test test int",
             "TRUNCATE prefix_xxx",
+            "TRUNCATE TABLE prefix_xxx",
             "DROP TABLE `prefix_vvv`",
             "CREATE TABLE `prefix_i` (test int CONSTRAINT `prefix_iii`
                 FOREIGN KEY (`test`) REFERENCES `prefix_xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE)",
+            "CREATE TABLE `prefix_i` (`test` int, INDEX `prefix_testidx` (`test`))",
+            "CREATE TABLE `prefix_i` (`test` int, UNIQUE `prefix_testidx` (`test`))",
+            "CREATE TABLE `prefix_i` (`test` int, UNIQUE INDEX `prefix_testidx` (`test`))",
             "INSERT INTO prefix_xxx test = 1",
             "SELECT test FROM prefix_xxx",
-        ));
+        ]);
 
         $result = $db->exec_script($script);
-        $out    = array();
+        $out    = [];
 
         foreach ($db->queries as $q) {
             $out[] = $q;
@@ -81,7 +79,7 @@ class Framework_DB extends PHPUnit_Framework_TestCase
         $db->query("SELECT `test` WHERE `test` = ?", "?test?");
         $db->query("SELECT `test` WHERE `test` = ?", "????");
 
-        $expected = implode("\n", array(
+        $expected = implode("\n", [
             "SELECT 'test`test'",
             "SELECT 'test?test'",
             "SELECT 'test``test'",
@@ -91,13 +89,13 @@ class Framework_DB extends PHPUnit_Framework_TestCase
             "SELECT `test` WHERE `test` = '`te``st`'",
             "SELECT `test` WHERE `test` = '?test?'",
             "SELECT `test` WHERE `test` = '????'",
-        ));
+        ]);
 
-       $this->assertSame($expected, implode("\n", $db->queries), "Query parsing [1]");
+        $this->assertSame($expected, implode("\n", $db->queries), "Query parsing [1]");
 
         $db->set_option('identifier_start', '"');
         $db->set_option('identifier_end', '"');
-        $db->queries = array();
+        $db->queries = [];
 
         $db->query("SELECT ?", "test`test");
         $db->query("SELECT ?", "test?test");
@@ -109,7 +107,7 @@ class Framework_DB extends PHPUnit_Framework_TestCase
         $db->query("SELECT `test` WHERE `test` = ?", "?test?");
         $db->query("SELECT `test` WHERE `test` = ?", "????");
 
-        $expected = implode("\n", array(
+        $expected = implode("\n", [
             "SELECT 'test`test'",
             "SELECT 'test?test'",
             "SELECT 'test``test'",
@@ -119,9 +117,9 @@ class Framework_DB extends PHPUnit_Framework_TestCase
             "SELECT \"test\" WHERE \"test\" = '`te``st`'",
             "SELECT \"test\" WHERE \"test\" = '?test?'",
             "SELECT \"test\" WHERE \"test\" = '????'",
-        ));
+        ]);
 
-       $this->assertSame($expected, implode("\n", $db->queries), "Query parsing [2]");
+        $this->assertSame($expected, implode("\n", $db->queries), "Query parsing [2]");
     }
 
     function test_parse_dsn()
@@ -137,6 +135,75 @@ class Framework_DB extends PHPUnit_Framework_TestCase
         $this->assertSame('HOST', $result['hostspec'], "DSN parser: hostspec");
         $this->assertSame('DATABASE', $result['database'], "DSN parser: database");
     }
+
+    /**
+     * Test list_tables() method
+     */
+    function test_list_tables()
+    {
+        $db = rcube::get_instance()->get_dbh();
+
+        $tables = $db->list_tables();
+
+        $this->assertContains('users', $tables);
+    }
+
+    /**
+     * Test list_columns() method
+     */
+    function test_list_cols()
+    {
+        $db = rcube::get_instance()->get_dbh();
+
+        $columns = $db->list_cols('cache');
+
+        $this->assertSame(['user_id', 'cache_key', 'expires', 'data'], $columns);
+    }
+
+    /**
+     * Test array2list() method
+     */
+    function test_array2list()
+    {
+        $db = rcube::get_instance()->get_dbh();
+
+        $this->assertSame('', $db->array2list([]));
+        $this->assertSame('\'test\'', $db->array2list(['test']));
+        $this->assertSame('\'test\'\'test\'', $db->array2list(['test\'test']));
+        $this->assertSame('\'test\'', $db->array2list('test'));
+    }
+
+    /**
+     * Test concat() method
+     */
+    function test_concat()
+    {
+        $db = rcube::get_instance()->get_dbh();
+
+        $this->assertSame('(test)', $db->concat('test'));
+        $this->assertSame('(test1 || test2)', $db->concat('test1', 'test2'));
+        $this->assertSame('(test)', $db->concat(['test']));
+        $this->assertSame('(test1 || test2)', $db->concat(['test1', 'test2']));
+    }
+
+    /**
+     * Test encode() and decode() methods
+     */
+    function test_encode_decode()
+    {
+        $str = '';
+        for ($x=0; $x<256; $x++) {
+            $str .= chr($x);
+        }
+
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+
+        $str = "グーグル谷歌中信фδοκιμήóźdźрöß😁😃";
+
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+    }
 }
 
 /**
@@ -144,7 +211,7 @@ class Framework_DB extends PHPUnit_Framework_TestCase
  */
 class rcube_db_test_wrapper extends rcube_db
 {
-    public $queries = array();
+    public $queries = [];
 
     protected function query_execute($query)
     {

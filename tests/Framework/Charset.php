@@ -4,10 +4,9 @@
  * Test class to test rcube_charset class
  *
  * @package Tests
- * @group iconv
  * @group mbstring
  */
-class Framework_Charset extends PHPUnit_Framework_TestCase
+class Framework_Charset extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -15,11 +14,15 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_clean()
     {
-        return array(
-            array('', ''),
-            array("\xC1", ""),
-            array("Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"),
-        );
+        return [
+            ['', ''],
+            ["\xC1", ""],
+            ["Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"],
+            ["сим\xD0вол", "символ"],
+            [["сим\xD0вол"], ["символ"]],
+            [["a\x8cb" => "a\x8cb"], ["ab" => "ab"]],
+            [["a\x8cb" => "a\x8cb", "ab" => "12"], ["ab" => "12"]],
+        ];
     }
 
     /**
@@ -27,17 +30,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function test_clean($input, $output)
     {
-        $this->assertEquals($output, rcube_charset::clean($input));
-    }
-
-    /**
-     * Just check for faulty byte-sequence, regardless of the actual cleaning results
-     */
-    function test_clean_2()
-    {
-        $bogus = "сим\xD0вол";
-        $this->assertRegExp('/\xD0\xD0/', $bogus);
-        $this->assertNotRegExp('/\xD0\xD0/', rcube_charset::clean($bogus));
+        $this->assertSame($output, rcube_charset::clean($input));
     }
 
     /**
@@ -45,10 +38,10 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_parse_charset()
     {
-        return array(
-            array('UTF8', 'UTF-8'),
-            array('WIN1250', 'WINDOWS-1250'),
-        );
+        return [
+            ['UTF8', 'UTF-8'],
+            ['WIN1250', 'WINDOWS-1250'],
+        ];
     }
 
     /**
@@ -64,14 +57,24 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_convert()
     {
-        return array(
-            array('ö', 'ö', 'UTF-8', 'UTF-8'),
-            array('ö', '', 'UTF-8', 'US-ASCII'),
-            array('aż', 'a', 'UTF-8', 'US-ASCII'),
-            array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
-            array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
-            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
-        );
+        $data = [
+            ['ö', 'ö', 'UTF-8', 'UTF-8'],
+            ['ö', '', 'UTF-8', 'ASCII'],
+            ['aż', 'a', 'UTF-8', 'US-ASCII'],
+            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'],
+            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'],
+            [base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'],
+            ['㈱山﨑工業', base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), 'UTF-8', 'ISO-2022-JP'],
+            // try some invalid encodings, to make sure no error/exception is thrown
+            ['test', 'test', 'WIN1253', 'INVALID'],
+        ];
+
+        if (extension_loaded('iconv')) {
+            // Windows-1253 is not supported by mbstring, we're testing fallback to iconv
+            $data[] = ['ε', chr(hexdec(('E5'))), 'UTF-8', 'WINDOWS-1253'];
+        }
+
+        return $data;
     }
 
     /**
@@ -87,9 +90,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_utf7_to_utf8()
     {
-        return array(
-            array('+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'),
-        );
+        return [
+            ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
+        ];
     }
 
     /**
@@ -105,9 +108,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_utf7imap_to_utf8()
     {
-        return array(
-            array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'),
-        );
+        return [
+            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
+        ];
     }
 
     /**
@@ -123,9 +126,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_utf8_to_utf7imap()
     {
-        return array(
-            array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'),
-        );
+        return [
+            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
+        ];
     }
 
     /**
@@ -141,9 +144,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_utf16_to_utf8()
     {
-        return array(
-            array(base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'),
-        );
+        return [
+            [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
+        ];
     }
 
     /**
@@ -159,10 +162,10 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_detect()
     {
-        return array(
-            array('', '', 'UTF-8'),
-            array('a', 'UTF-8', 'UTF-8'),
-        );
+        return [
+            ['', '', 'UTF-8'],
+            ['a', 'UTF-8', 'UTF-8'],
+        ];
     }
 
     /**
@@ -178,9 +181,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_detect_with_lang()
     {
-        return array(
-            array(base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'),
-        );
+        return [
+            [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
+        ];
     }
 
     /**
@@ -190,5 +193,4 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($output, rcube_charset::detect($input, $output, $lang));
     }
-
 }

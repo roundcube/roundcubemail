@@ -1,6 +1,6 @@
 <?php
 
-class IdentitySelect_Plugin extends PHPUnit_Framework_TestCase
+class IdentitySelect_Plugin extends PHPUnit\Framework\TestCase
 {
 
     function setUp()
@@ -14,7 +14,7 @@ class IdentitySelect_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new identity_select($rcube->api);
+        $plugin = new identity_select($rcube->plugins);
 
         $this->assertInstanceOf('identity_select', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

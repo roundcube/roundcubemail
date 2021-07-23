@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2016, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -26,14 +26,15 @@ function rcmail_archive(prop)
   if (!post_data._uid)
     return;
 
-  rcmail.show_contentframe(false);
-
   // Disable message command buttons until a message is selected
   rcmail.enable_command(rcmail.env.message_commands, false);
   rcmail.enable_command('plugin.archive', false);
 
   // let the server sort the messages to the according subfolders
   rcmail.with_selected_messages('move', post_data, null, 'plugin.move2archive');
+
+  // Reset preview (must be after with_selected_messages() call)
+  rcmail.show_contentframe(false);
 }
 
 function rcmail_is_archive()
@@ -65,16 +66,16 @@ if (window.rcmail) {
       else
         li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true);
 
-      if (li) {
+      if (li)
         $(li).addClass('archive');
 
-        // in folder selector popup
-        rcmail.addEventListener('menu-open', function(p) {
-          if (p.name == 'folder-selector') {
-            $('a[rel="' + $('a', li).attr('rel') + '"]', p.obj).parent().addClass('archive');
-          }
-        });
-      }
+      // in folder selector popup
+      rcmail.addEventListener('menu-open', function(p) {
+        if (p.name == 'folder-selector') {
+          var search = rcmail.env.archive_folder;
+          $('a', p.obj).filter(function() { return $(this).data('id') == search; }).parent().addClass('archive');
+        }
+      });
     }
   });
 }

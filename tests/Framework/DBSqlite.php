@@ -7,7 +7,7 @@
  * @group database
  * @group sqlite
  */
-class Framework_DBSqlite extends PHPUnit_Framework_TestCase
+class Framework_DBSqlite extends PHPUnit\Framework\TestCase
 {
 
     /**

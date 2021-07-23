@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Šifrēšana';
 $labels['enigmacerts'] = 'S/MIME sertifikāti';
 $labels['enigmakeys'] = 'PGP atslēgas';
@@ -67,9 +66,7 @@ $labels['keychpass'] = 'Mainīt paroli';
 $labels['newkeyident'] = 'Identitāte';
 $labels['newkeypass'] = 'Parole';
 $labels['newkeypassconfirm'] = 'Apstiprināt paroli';
-$labels['newkeysize'] = 'Atslēgas stiprums';
-$labels['key2048'] = '2048 biti - pec noklusējuma';
-$labels['key4096'] = '4096 biti - papildus drošība';
+$labels['newkeytype'] = 'Atslēgas tips';
 $labels['keygenerating'] = 'Ģenerē atslēgas...';
 $labels['encryptionoptions'] = 'Šifrēšanas iestatījumi...';
 $labels['encryptmsg'] = 'Šifrēt šo e-pastu';
@@ -77,7 +74,6 @@ $labels['signmsg'] = 'Digitāli parakstīt šo e-pastu';
 $labels['sendunencrypted'] = 'Sūtīt nešifrētu';
 $labels['enterkeypasstitle'] = 'Ievadiet atslēgas paroli';
 $labels['enterkeypass'] = 'Lai atbloķētu lietotāja $user šifrēto atslēgu ($keyid), ir nepieciešama parole.';
-$labels['arialabelkeyexportoptions'] = 'Atslēgu eksportēšanas iestatījumi';
 $labels['attachpubkeymsg'] = 'Pievienot manu publisko atslēgu';
 $labels['keyexportprompt'] = 'Vai iekļaut slepenās atslēgas saglabātajos openPGP atslēgu failos?';
 $labels['onlypubkeys'] = 'Eksportēt tikai publiskās atslēgas';
@@ -85,6 +81,7 @@ $labels['withprivkeys'] = 'Eksportēt slepenās atslēgas';
 $labels['findkey'] = 'Meklēt atslēgu serveros.';
 $labels['keyimportlabel'] = 'Importēt no faila';
 $labels['keyimportsearchlabel'] = 'Meklēt atslēgu serveros.';
+$labels['arialabelkeyexportoptions'] = 'Atslēgu eksportēšanas iestatījumi';
 $messages['sigvalid'] = 'Pārbaudīts $sender paraksts.';
 $messages['sigvalidpartial'] = 'Pārbaudīts $sender paraksts, bet daļa no e-pasta nav parakstīta.';
 $messages['siginvalid'] = 'Nederīgs paraksts no $sender.';
@@ -122,4 +119,6 @@ $messages['keygeneratesuccess'] = 'Atslēgu pāris veiksmīgi uzģenerēts un ie
 $messages['keygennosupport'] = 'Nav iespējams uzģenerēt atslēgu pāri, jo Jūsu tīmekļa pārlūks neatbalsta kriptogrāfijas iespējas!';
 $messages['noidentselected'] = 'Jums ir jāizvēlas vismaz viens atslēgas identifikators!';
 $messages['nonameident'] = 'Identitātei jābūt ar definētu lietotāja vārdu!';
-?>
+$labels['newkeysize'] = 'Atslēgas stiprums';
+$labels['key2048'] = '2048 biti - pec noklusējuma';
+$labels['key4096'] = '4096 biti - papildus drošība';

@@ -4,8 +4,8 @@
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
- | Copyright (C) 20011-2013, The Roundcube Dev Team                      |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,7 +28,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 {
     private $enchant_broker;
     private $enchant_dictionary;
-    private $matches = array();
+    private $matches = [];
 
     /**
      * Return a list of languages supported by this backend
@@ -39,7 +39,11 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
     {
         $this->init();
 
-        $langs = array();
+        if (!$this->enchant_broker) {
+            return [];
+        }
+
+        $langs = [];
         if ($dicts = enchant_broker_list_dicts($this->enchant_broker)) {
             foreach ($dicts as $dict) {
                 $langs[] = preg_replace('/-.*$/', '', $dict['lang_tag']);
@@ -81,22 +85,22 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         $this->init();
 
         if (!$this->enchant_dictionary) {
-            return array();
+            return [];
         }
 
         // tokenize
         $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
-        $diff       = 0;
-        $matches    = array();
+        $diff    = 0;
+        $matches = [];
 
         foreach ($text as $w) {
             $word = trim($w[0]);
             $pos  = $w[1] - $diff;
             $len  = mb_strlen($word);
 
-            // skip exceptions
             if ($this->dictionary->is_exception($word)) {
+                // skip exceptions
             }
             else if (!enchant_dict_check($this->enchant_dictionary, $word)) {
                 $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
@@ -105,7 +109,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
                     $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
                 }
 
-                $matches[] = array($word, $pos, $len, null, $suggestions);
+                $matches[] = [$word, $pos, $len, null, $suggestions];
             }
 
             $diff += (strlen($word) - $len);
@@ -125,15 +129,16 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         $this->init();
 
         if (!$this->enchant_dictionary) {
-            return array();
+            return [];
         }
 
         $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
-        if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS)
+        if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {
             $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
+        }
 
-        return is_array($suggestions) ? $suggestions : array();
+        return is_array($suggestions) ? $suggestions : [];
     }
 
     /**
@@ -143,14 +148,14 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      */
     function get_words($text = null)
     {
-        $result = array();
+        $result = [];
 
         if ($text) {
             // init spellchecker
             $this->init();
 
             if (!$this->enchant_dictionary) {
-                return array();
+                return [];
             }
 
             // With Enchant we don't need to get suggestions to return misspelled words

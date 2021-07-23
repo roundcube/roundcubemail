@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Zifraketa';
 $labels['enigmacerts'] = 'S/MIME ziurtagiriak';
 $labels['enigmakeys'] = 'PGP gakoak';
@@ -64,12 +63,14 @@ $labels['keydisable'] = 'Desgaitu';
 $labels['keyrevoke'] = 'Errebokatu';
 $labels['keysend'] = 'Bidali gako publikoa mezu batean';
 $labels['keychpass'] = 'Aldatu pasahitza';
+$labels['keyadd'] = 'Gehitu gakoa';
 $labels['newkeyident'] = 'Identitatea';
 $labels['newkeypass'] = 'Pasahitza';
 $labels['newkeypassconfirm'] = 'Baieztatu pasahitza';
-$labels['newkeysize'] = 'Gakoaren tamaina';
-$labels['key2048'] = '2048 bit - lehenetsia';
-$labels['key4096'] = '4096 bit - seguruagoa';
+$labels['newkeytype'] = 'Gako mota';
+$labels['rsa2048'] = 'RSA - 2048 bit';
+$labels['rsa4096'] = 'RSA - 4096 bit';
+$labels['ecckeypair'] = 'ECC (Kurba eliptikoa)';
 $labels['keygenerating'] = 'Gakoak sortzen...';
 $labels['encryptionoptions'] = 'Zifratze aukerak...';
 $labels['encryptmsg'] = 'Zifratu mezu hau';
@@ -77,7 +78,6 @@ $labels['signmsg'] = 'Digitalki sinatu mezu hau';
 $labels['sendunencrypted'] = 'Bidali zifratu gabe';
 $labels['enterkeypasstitle'] = 'Sartu gakoaren pasaesaldia';
 $labels['enterkeypass'] = 'Pasaesaldi bat behar da erabiltzaile honen gako sekretua ($keyid) desblokeatzeko: $user';
-$labels['arialabelkeyexportoptions'] = 'Gakoen esportazio aukerak';
 $labels['attachpubkeymsg'] = 'Erantsi nire gako publikoa';
 $labels['keyexportprompt'] = 'Nahi al duzu gako sekretuak sartzea gordetako OpenPGP gakoen fitxategian?';
 $labels['onlypubkeys'] = 'Esportatu bakarrik gako publikoak';
@@ -85,6 +85,12 @@ $labels['withprivkeys'] = 'Esportatu gako sekretuak';
 $labels['findkey'] = 'Bilatu gako zerbitzari(et)an';
 $labels['keyimportlabel'] = 'Inportatu fitxategitik';
 $labels['keyimportsearchlabel'] = 'Bilatu gako zerbitzari(et)an';
+$labels['managekeys'] = 'Kudeatu PGP gakoak';
+$labels['identitymatchingprivkeys'] = ' Badaukazu bat datozen $nr PGP gako pribatu zure giltzarrian gordeta:';
+$labels['identitynoprivkeys'] = 'Bidaltzaile honen identitateak ez dauka PGP gako pribaturik zure giltzarrian gordeta.';
+$labels['arialabelkeyexportoptions'] = 'Gakoen esportazio aukerak';
+$labels['arialabelkeysearchform'] = 'Gakoen bilaketa formularioa';
+$labels['arialabelkeyoptions'] = 'Gako aukerak';
 $messages['sigvalid'] = '$sender-en sinadura egiaztatuta';
 $messages['sigvalidpartial'] = '$sender-en sinadura egiaztatuta, baina testu-gorputzaren zati bat ez dago sinatua.';
 $messages['siginvalid'] = '$sender-en sinadura baliogabea.';
@@ -94,6 +100,7 @@ $messages['sigerror'] = 'Egiaztatu gabeko sinadura. Barne errorea.';
 $messages['decryptok'] = 'Mezua deszifratua.';
 $messages['decrypterror'] = 'Deszifratzeak huts egin du.';
 $messages['decryptnokey'] = 'Deszifratzeak  huts egin du. Ez da aurkitu gako pribatua. Gakoaren IDa:  $keyid.';
+$messages['decryptnomdc'] = 'Deszifratzeak huts egin du. Mezua ez da bere osotasunean babestu.';
 $messages['decryptbadpass'] = 'Deszifratzeak huts egin du. Baliogabeko pasahitza.';
 $messages['decryptnopass'] = 'Deszifratzeak huts egin du. Pasahitz gakoa behar da.';
 $messages['decryptpartial'] = 'Mezua deszifratua, baina testu gorputzaren zati bat ez zegoen zifratua.';
@@ -103,6 +110,7 @@ $messages['signbadpass'] = 'Sinadurak huts egin du. Baliogabeko pasahitza.';
 $messages['signnopass'] = 'Sinadurak huts egin du. Gako pasahitza behar da.';
 $messages['encrypterror'] = 'Zifratzeak huts egin du.';
 $messages['encryptnokey'] = 'Zifratzeak huts egin du. Ez da $email -ren gako publikoa aurkitu.';
+$messages['encryptnoprivkey'] = 'Zifratzeak huts egin du. Gako pribatua ez da aurkitu.';
 $messages['nokeysfound'] = 'Ez dira gakoak aurkitu';
 $messages['keynotfound'] = 'Gakoa ez da aurkitu!';
 $messages['keyopenerror'] = 'Ezin izan da gakoaren informazioa eskuratu! Barne errorea.';
@@ -115,6 +123,7 @@ $messages['keyremovesuccess'] = 'Gakoa(k) ongi ezabatu d(ir)a';
 $messages['keyremoveerror'] = 'Ezin izan d(ir)a hautatutako gakoa(k) ezabatu.';
 $messages['keyimporttext'] = 'Gako pribatu eta publikoa(k) edo errebokazio sinadurak ASCII-Armor formatuan inportatu ahal dituzu.';
 $messages['keyimportsearchtext'] = 'Gako publikoak bilatzen ahal dituzu gako identifikatzaile, erabiltzaile-izena edo posta helbidearen bidez eta orduan zuzenean inportatu.';
+$messages['keystoragenotice'] = 'Gako publiko eta pribatu guztiak zerbitzarian gordeta daude.';
 $messages['formerror'] = 'Bete formularioa. Eremu guztiak bete behar dira!';
 $messages['passwordsdiffer'] = 'Pasahitzak ez dira berdinak!';
 $messages['keygenerateerror'] = 'Huts egin du gako bikotea sortzea.';
@@ -122,4 +131,6 @@ $messages['keygeneratesuccess'] = 'Gako bikotea ongi sortu eta inportatu da.';
 $messages['keygennosupport'] = 'Zure nabigatzaileak ez du kriptografia onartzen. Ezin da gako bikotea sortu!';
 $messages['noidentselected'] = 'Gutxienez identitate bat hautatu behar duzu gakoarentzat!';
 $messages['nonameident'] = 'Identitateak erabiltzaile-izen bat definitua izan behar du!';
-?>
+$labels['newkeysize'] = 'Gakoaren tamaina';
+$labels['key2048'] = '2048 bit - lehenetsia';
+$labels['key4096'] = '4096 bit - seguruagoa';

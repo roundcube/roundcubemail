@@ -2,29 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Willkommen bei $product';
 $labels['username'] = 'Benutzername';
 $labels['password'] = 'Passwort';
 $labels['server'] = 'Server';
 $labels['login'] = 'Anmelden';
+$labels['oauthlogin'] = 'Anmeldung mit $provider';
 $labels['menu'] = 'Menü';
 $labels['logout'] = 'Abmelden';
 $labels['mail'] = 'E-Mail';
 $labels['settings'] = 'Einstellungen';
 $labels['addressbook'] = 'Adressbuch';
+$labels['darkmode'] = 'Dunkler Modus';
+$labels['lightmode'] = 'Heller Modus';
 $labels['inbox'] = 'Posteingang';
 $labels['drafts'] = 'Entwürfe';
 $labels['sent'] = 'Gesendet';
@@ -147,6 +150,7 @@ $labels['last'] = 'Letzte(r)';
 $labels['previous'] = 'Vorherige(r)';
 $labels['next'] = 'Nächste(r)';
 $labels['select'] = 'Auswahl';
+$labels['selection'] = 'Auswahl';
 $labels['all'] = 'Alle';
 $labels['none'] = 'Keine';
 $labels['currpage'] = 'Aktuelle Seite';
@@ -168,6 +172,7 @@ $labels['expand-all'] = 'Alle aufklappen';
 $labels['expand-unread'] = 'Ungelesene aufklappen';
 $labels['collapse-all'] = 'Alle zuklappen';
 $labels['threaded'] = 'Gruppiert';
+$labels['showunread'] = 'Ungelesene Nachrichten anzeigen';
 $labels['autoexpand_threads'] = 'Konversationen aufklappen';
 $labels['do_expand'] = 'alle';
 $labels['expand_only_unread'] = 'nur ungelesene';
@@ -195,6 +200,7 @@ $labels['folderactions'] = 'Ordneraktionen …';
 $labels['compact'] = 'Packen';
 $labels['empty'] = 'Leeren';
 $labels['importmessages'] = 'Nachrichten importieren';
+$labels['mailimportdesc'] = 'Sie können Mail-Dateien im Format <a href="https://en.wikipedia.org/wiki/Email#Message_format">MME</a> oder <a href="https://en.wikipedia.org/wiki/Mbox">MBOX</a> hochladen.';
 $labels['mailimportzip'] = 'Mehrere Dateien können zu ZIP-Archiven komprimiert werden.';
 $labels['quota'] = 'Speicherplatz';
 $labels['unknown'] = 'unbekannt';
@@ -256,6 +262,8 @@ $labels['keyexpired'] = 'Abgelaufen';
 $labels['keyrevoked'] = 'Widerrufen';
 $labels['bccinstead'] = 'Blindkopie verwenden';
 $labels['addheader'] = 'Empfänger hinzufügen (Kopfzeile)';
+$labels['insert'] = 'Hinzufügen';
+$labels['insertcontact'] = 'Kontakt(e) einfügen';
 $labels['recipient'] = 'Empfänger';
 $labels['recipientedit'] = 'Empfänger bearbeiten';
 $labels['editidents'] = 'Identitäten bearbeiten';
@@ -295,8 +303,10 @@ $labels['alwaysshow'] = 'Bilder von $sender immer zeigen';
 $labels['alwaysallow'] = 'Von $sender immer erlauben';
 $labels['isdraft'] = 'Dies ist ein Entwurf';
 $labels['andnmore'] = '$nr weitere …';
+$labels['details'] = 'Details';
+$labels['summary'] = 'Zusammenfassung';
 $labels['headers'] = 'Kopfzeilen';
-$labels['envelope'] = 'Umschlag';
+$labels['allheaders'] = 'Alle Kopfzeilen...';
 $labels['togglemoreheaders'] = 'Mehr Kopfzeilen der Nachricht anzeigen';
 $labels['togglefullheaders'] = 'Rohkopfzeilen ein-/ausblenden';
 $labels['htmltoggle'] = 'HTML';
@@ -308,10 +318,12 @@ $labels['addcc'] = 'Kopie hinzufügen';
 $labels['addbcc'] = 'Blindkopie hinzufügen';
 $labels['addreplyto'] = 'Antwortadresse hinzufügen';
 $labels['addfollowupto'] = 'Followup-To hinzufügen';
+$labels['sendreceipt'] = 'Lesebestätigung senden?';
 $labels['mdnrequest'] = 'Der Sender dieser Nachricht möchte gerne eine Lesebestätigung. Wollen Sie dieses bestätigen?';
 $labels['receiptread'] = 'Empfangsbestätigung (gelesen)';
 $labels['yourmessage'] = 'Dies ist eine Empfangsbestätigung für Ihre Nachricht';
 $labels['receiptnote'] = 'Hinweis: Der Empfänger hat den Empfang der Nachricht bestätigt. Dies ist keine Garantie, dass die Nachricht gelesen und verstanden wurde.';
+$labels['sendalwaysto'] = 'Immer an $email senden';
 $labels['zoomin'] = 'Vergrößern';
 $labels['zoomout'] = 'Verkleinern';
 $labels['rotate'] = 'Drehen';
@@ -391,6 +403,9 @@ $labels['rename'] = 'Umbenennen';
 $labels['addphoto'] = 'Kontaktbild hinzufügen';
 $labels['replacephoto'] = 'Bild ändern';
 $labels['uploadphoto'] = 'Bild hochladen';
+$labels['choosefile'] = 'Datei auswählen…';
+$labels['choosefiles'] = 'Dateien auswählen…';
+$labels['browse'] = 'Durchsuchen';
 $labels['newcontact'] = 'Neuen Kontakt erstellen';
 $labels['deletecontact'] = 'Gewählte Kontakte löschen';
 $labels['composeto'] = 'Nachricht verfassen';
@@ -426,6 +441,7 @@ $labels['importreplace'] = 'Bestehendes Adressbuch komplett ersetzen';
 $labels['importgroups'] = 'Gruppenzuordnungen importieren';
 $labels['importgroupsall'] = 'Alle (Gruppen erstellen wenn nötig)';
 $labels['importgroupsexisting'] = 'Nur für existierende Gruppen';
+$labels['importdesc'] = 'Sie können Kontakte von einem vorhandenen Adressbuch hochladen.<br/>Zur Zeit wird der Import von Adressen im <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> oder CSV-Format (Komma-getrenntes Format) unterstützt.';
 $labels['done'] = 'Fertig';
 $labels['settingsfor'] = 'Einstellungen für';
 $labels['about'] = 'Über';
@@ -469,18 +485,22 @@ $labels['serversettings'] = 'Servereinstellungen';
 $labels['mailboxview'] = 'Postfachansicht';
 $labels['mdnrequests'] = 'Empfangsbestätigung senden';
 $labels['askuser'] = 'immer fragen';
-$labels['autosend'] = 'Lesebestätigung automatisch senden';
-$labels['autosendknown'] = 'Lesebestätigung nur an meine Kontakte senden';
-$labels['autosendknownignore'] = 'für bekannte Absender, sonst ignorieren';
+$labels['autosend'] = 'Bestätigung senden';
+$labels['autosendknown'] = 'Bestätigung an meine Kontakte senden, sonst nachfragen';
+$labels['autosendknownignore'] = 'Bestätigung an meine Kontakte senden, sonst ignorieren';
+$labels['autosendtrusted'] = 'Bestätigung an vertrauenswürdige Absender senden, sonst nachfragen';
+$labels['autosendtrustedignore'] = 'Bestätigung an vertrauenswürdige Absender senden, sonst ignorieren';
 $labels['ignorerequest'] = 'Anforderung ignorieren';
-$labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
-$labels['flagfordeletion'] = 'Als gelöscht markieren anstatt in den Papierkorb verschieben';
+$labels['readwhendeleted'] = 'Nachricht beim Löschen als gelesen markieren';
+$labels['flagfordeletion'] = 'Nachricht zum Löschen markieren, anstatt sie zu löschen';
 $labels['skipdeleted'] = 'Keine gelöschten Nachrichten anzeigen';
 $labels['deletealways'] = 'Wenn verschieben in den Papierkorb fehlschlägt, Nachricht löschen';
 $labels['deletejunk'] = 'Nachrichten in Spam direkt löschen';
 $labels['showremoteimages'] = 'Eingebettete Bilder vom Internet laden';
 $labels['allowremoteresources'] = 'Externe Ressourcen erlauben (Bilder, Stile)';
 $labels['fromknownsenders'] = 'bei bekannten Absendern';
+$labels['fromtrustedsenders'] = 'von vertrauenswürdigen Absendern';
+$labels['frommycontacts'] = 'aus meinen Kontakten';
 $labels['always'] = 'immer';
 $labels['alwaysbutplain'] = 'immer, außer beim Antworten auf Klartext';
 $labels['showinlineimages'] = 'Angehängte Bilder unter der Nachricht anzeigen';
@@ -501,7 +521,7 @@ $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Optionen auswählen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
-$labels['displaynext'] = 'Nächste Nachricht nach verschieben/löschen anzeigen';
+$labels['displaynext'] = 'Nach verschieben/löschen den nächsten Listeneintrag anzeigen';
 $labels['defaultfont'] = 'Standardschrift von HTML-Nachrichten';
 $labels['mainoptions'] = 'Allgemein';
 $labels['browseroptions'] = 'Browsereinstellungen';
@@ -529,13 +549,21 @@ $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern'
 $labels['defaultabook'] = 'Standardadressbuch';
 $labels['autocompletesingle'] = 'Alternative E-Mail-Adressen bei der Auto-Vervollständigung nicht berücksichtigen';
 $labels['listnamedisplay'] = 'Kontakte auflisten als';
+$labels['contactformmode'] = 'Kontaktformular-Modus';
+$labels['privatemode'] = 'Privat (Zuhause)';
+$labels['businessmode'] = 'Geschäftlich (Arbeit)';
+$labels['collectedaddresses'] = 'Gesammelte Adressen';
+$labels['collectedrecipients'] = 'Gesammelte Empfänger';
+$labels['collectedrecipientsopt'] = 'Empfänger ausgehender E-Mails speichern in';
+$labels['collectedsendersopt'] = 'Vertrauenswürdige Absender speichern in';
+$labels['trustedsenders'] = 'Vertrauenswürdige Absender';
 $labels['spellcheckbeforesend'] = 'Rechtschreibprüfung vor dem Absenden der Nachricht';
 $labels['spellcheckoptions'] = 'Rechtschreibprüfungsoptionen';
 $labels['spellcheckignoresyms'] = 'Wörter mit Symbolen überspringen';
 $labels['spellcheckignorenums'] = 'Wörter mit Ziffern überspringen';
 $labels['spellcheckignorecaps'] = 'Wörter überspringen, die nur aus Großbuchstaben bestehen';
 $labels['addtodict'] = 'Zum Wörterbuch hinzufügen';
-$labels['mailtoprotohandler'] = 'Als Programm für mailto:-Verknüpfunken einrichten';
+$labels['mailtoprotohandler'] = 'Als Programm für mailto:-Verknüpfungen einrichten';
 $labels['standardwindows'] = 'Popups als Standardfenster behandeln';
 $labels['forwardmode'] = 'Nachrichtenweiterleitung';
 $labels['inline'] = 'eingebettet';
@@ -577,6 +605,10 @@ $labels['encryptioncreatekey'] = 'Neues Schlüsselpaar erstellen';
 $labels['openmailvelopesettings'] = 'Mailvelope-Einstellungen öffnen';
 $labels['encryptionprivkeysinmailvelope'] = 'Sie haben $nr passende private Schlüssel in Ihrem Mailvelope-Schlüsselverzeichnis:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'Für diese Absender-Identität ist bis jetzt kein privater PGP-Schlüssel in Ihrer Mailvelope gespeichert. Wollen Sie einen Schlüssel erstellen, damit eine verschlüsselte Kommunikation möglich ist?';
+$labels['encryption'] = 'Verschlüsselung';
+$labels['mailvelopeoptions'] = 'Mailvelope-Optionen';
+$labels['mailvelopemainkeyring'] = 'Mailvelope-Hauptschlüsselbund verwenden';
+$labels['mailvelopenotfound'] = 'Mailvelope-Erweiterung ist in Ihrem Browser nicht aktiviert/installiert.';
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc'] = 'Aufsteigend sortieren';
 $labels['sortdesc'] = 'Absteigend sortieren';
@@ -619,6 +651,7 @@ $labels['chinese'] = 'Chinesisch';
 $labels['arialabeltopnav'] = 'Fenstersteuerung';
 $labels['arialabeltasknav'] = 'Anwendungsaufgaben';
 $labels['arialabeltoolbar'] = 'Anwendungstoolbar';
+$labels['arialabellistnav'] = 'Listennavigation';
 $labels['arialabelactivetask'] = 'Aktive Aufgabe';
 $labels['arialabelmessagessearchfilter'] = 'Filter für die E-Mail-Liste';
 $labels['arialabelmailsearchform'] = 'Suchmaske für E-Mails';
@@ -657,7 +690,7 @@ $labels['arialabelcontactexportoptions'] = 'Kontakt-Export-Optionen';
 $labels['arialabelabookgroupoptions'] = 'Adressbuch/Gruppen-Optionen';
 $labels['arialabelpreferencesform'] = 'Einstellungsformular';
 $labels['arialabelidentityeditfrom'] = 'Identität-Bearbeitungsformular';
-$labels['arialabelresonseeditfrom'] = 'Antwortbearbeitungsformular';
+$labels['arialabelresponseeditfrom'] = 'Antwortbearbeitungsformular';
 $labels['arialabelsearchterms'] = 'Suchbegriffe';
 $labels['arialabeldropactionmenu'] = 'Aktionsmenü für das Ziehen und Loslassen';
 $labels['arialabelheadersmenu'] = 'Menü zum Hinzufügen der Empfänger (Kopfzeile) ';
@@ -671,4 +704,3 @@ $labels['helplistkeyboardnavmessages'] = "Pfeil rechts/links: Nachricht im Threa
 Enter: Öffne die ausgewählte/fokussierte Nachricht
 Rücktaste: Verschiebe gewählte Nachricht in den Mülleimer";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
-?>

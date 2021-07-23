@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Html extends PHPUnit_Framework_TestCase
+class Framework_Html extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -23,38 +23,38 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      */
     function data_attrib_string()
     {
-        return array(
-            array(
-                array(), null, '',
-            ),
-            array(
-                array('test' => 'test'), null, ' test="test"',
-            ),
-            array(
-                array('test' => 'test'), array('test'), ' test="test"',
-            ),
-            array(
-                array('test' => 'test'), array('other'), '',
-            ),
-            array(
-                array('checked' => true), null, ' checked="checked"',
-            ),
-            array(
-                array('checked' => ''), null, '',
-            ),
-            array(
-                array('onclick' => ''), null, '',
-            ),
-            array(
-                array('size' => 5), null, ' size="5"',
-            ),
-            array(
-                array('size' => 'test'), null, '',
-            ),
-            array(
-                array('data-test' => 'test'), null, ' data-test="test"',
-            ),
-        );
+        return [
+            [
+                [], null, '',
+            ],
+            [
+                ['test' => 'test'], null, ' test="test"',
+            ],
+            [
+                ['test' => 'test'], ['test'], ' test="test"',
+            ],
+            [
+                ['test' => 'test'], ['other'], '',
+            ],
+            [
+                ['checked' => true], null, ' checked="checked"',
+            ],
+            [
+                ['checked' => ''], null, '',
+            ],
+            [
+                ['onclick' => ''], null, '',
+            ],
+            [
+                ['size' => 5], null, ' size="5"',
+            ],
+            [
+                ['size' => 'test'], null, '',
+            ],
+            [
+                ['data-test' => 'test'], null, ' data-test="test"',
+            ],
+        ];
     }
 
     /**
@@ -71,15 +71,15 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      */
     function data_quote()
     {
-        return array(
-            array('abc', 'abc'),
-            array('?', '?'),
-            array('"', '&quot;'),
-            array('<', '&lt;'),
-            array('>', '&gt;'),
-            array('&', '&amp;'),
-            array('&amp;', '&amp;amp;'),
-        );
+        return [
+            ['abc', 'abc'],
+            ['?', '?'],
+            ['"', '&quot;'],
+            ['<', '&lt;'],
+            ['>', '&gt;'],
+            ['&', '&amp;'],
+            ['&amp;', '&amp;amp;'],
+        ];
     }
 
     /**
@@ -96,32 +96,32 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      */
     function data_parse_attrib_string()
     {
-        return array(
-            array(
+        return [
+            [
                 '',
-                array(),
-            ),
-            array(
+                [],
+            ],
+            [
                 'test="test1-val"',
-                array('test' => 'test1-val'),
-            ),
-            array(
+                ['test' => 'test1-val'],
+            ],
+            [
                 'test1="test1-val"    test2=test2-val',
-                array('test1' => 'test1-val', 'test2' => 'test2-val'),
-            ),
-            array(
+                ['test1' => 'test1-val', 'test2' => 'test2-val'],
+            ],
+            [
                 '   test1="test1\'val"    test2=\'test2"val\'   ',
-                array('test1' => 'test1\'val', 'test2' => 'test2"val'),
-            ),
-            array(
+                ['test1' => 'test1\'val', 'test2' => 'test2"val'],
+            ],
+            [
                 'expression="test == true ? \' test\' : \'\'" ',
-                array('expression' => 'test == true ? \' test\' : \'\''),
-            ),
-            array(
+                ['expression' => 'test == true ? \' test\' : \'\''],
+            ],
+            [
                 'href="http://domain.tld/страница"',
-                array('href' => 'http://domain.tld/страница'),
-            ),
-        );
+                ['href' => 'http://domain.tld/страница'],
+            ],
+        ];
     }
 
     /**

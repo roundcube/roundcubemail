@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'אירעה שגיאה !';
 $messages['loginfailed']  = 'הכניסה נכשלה';
 $messages['cookiesdisabled'] = 'הדפדפן אינו מקבל עוגיות';
 $messages['sessionerror'] = 'כניסתך למערכת אינה חוקית או שפג תוקפה';
+$messages['cookiesmismatch'] = 'קיימת אי התאמה בין בעוגיות. יש לנקות עוגיות השמורות בדפדפן';
 $messages['storageerror'] = 'הקשר לשרת הדואר נכשל';
 $messages['servererror'] = '! שגיאת שרת';
 $messages['servererrormsg'] = '$msg  שגיאת שרת';
 $messages['accountlocked'] = 'יותר מדיי ניסיונות כניסה כושלים. נסה שנית מאוחר יותר.';
 $messages['connerror'] = 'שגיאת תקשורת עם השרת.';
 $messages['dberror'] = '! שגיאה במסד הנתונים';
+$messages['dbconnerror'] = 'לא ניתן ליצור קשר עם מסד הנתוים';
 $messages['windowopenerror'] = 'החלון הקופץ נחסם!';
 $messages['requesttimedout'] = 'תם הזמן המוקצב לבקשה';
 $messages['errorreadonly'] = 'לא ניתן לבצע הפעולה כי התיקייה במצב קריאה בלבד';
@@ -34,7 +35,7 @@ $messages['erroroverquotadelete'] = 'אין מקום פנוי על הדיסק. �
 $messages['invalidrequest'] = 'בקשה לא חוקית. המידע לא נשמר';
 $messages['invalidhost'] = 'שם שרת לא חוקי';
 $messages['nomessagesfound'] = 'לא נמצאו הודעות בתיבה זו';
-$messages['loggedout'] = 'הקשר הסתיים. להתראות!';
+$messages['loggedout'] = 'הפעילות הסתיימה בהצלחה.  להתראות.';
 $messages['mailboxempty'] = 'רשימת ההודעות ריקה';
 $messages['nomessages'] = 'אין הודעות';
 $messages['refreshing'] = 'מרענן...';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'קים איש קשר בעל כתובת דוא"ל �
 $messages['contactnameexists'] = 'קיים כבר איש קשר בעל אותו שם';
 $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי לשמור על הפרטיות';
 $messages['blockedresources'] = 'משאבים מרוחקים נחסמו כדי לשמור על פרטיות';
+$messages['suspiciousemail'] = 'ההודעה מכילה כתובות דוא"ל חשודות כנסיון מרמה';
+$messages['bccemail'] = 'ההודעה/ות שהועברו מכילה/ות נמענים נסתרים BCC';
+$messages['bouncehint'] = 'ההודעה תישלח ללא שינוי, כלומר עם גוף ההודעה,כותרות ונמענים מקוריים.';
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
 $messages['externalmessagedecryption'] = 'זו הודעה מוצפנת שניתן לפענחה באמצעות תוסף לדפדפן';
 $messages['nopubkeyfor'] = 'לא נמצא מפתח ציבורי עבור email$';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'לא נמצא מפתח ציבורי תקין �
 $messages['encryptnoattachments'] = 'לא ניתן להצפין צרופות שכבר הועלו. נא להוסיפן מחדש בעורך ההצפנה.';
 $messages['searchpubkeyservers'] = 'האם ברצונך לחפש בשרתים של מפתחות ציבוריים אחר המפתחות החסרים?';
 $messages['encryptpubkeysfound'] = 'נמצאו המפתחות הציבוריים שלהלן';
-$messages['keyservererror'] = 'נכשלה השגה של המפתח משרת המפתחות';
-$messages['keyimportsuccess'] = 'מפתח ציבורי key$ יובא בהצלחה אל צרור המפתחות שלך';
+$messages['keyservererror'] = 'שליפת מפתח מהשרת נכשלה';
+$messages['keyimportsuccess'] = 'מפתח ציבורי $key יובא בהצלחה לצרור המפתחות שלך';
 $messages['nocontactsfound'] = 'לא נמצאו אנשי קשר';
 $messages['contactnotfound'] = 'איש הקשר המבוקש לא נמצא';
-$messages['contactsearchonly'] = 'יש להקיש מפתחות חיפוש כדי למצוא אנשי קשר';
+$messages['contactsearchonly'] = 'יש להתשמש במסך חיפוש כדי לראות אנשי קשר מספר הכתובות';
 $messages['sendingfailed'] = 'שליחת ההודעה נכשלה';
 $messages['senttooquickly'] = 'נא להמתין $sec שניות לפני מסירת הודעה זו';
 $messages['errorsavingsent'] = 'אירעה שגיאה בזמן שמירת ההודעה שנשלחה';
@@ -83,6 +87,7 @@ $messages['deletecontactconfirm']  = 'האם למחוק את איש הקשר?';
 $messages['deletegroupconfirm']  = 'האם אכן ברצונך למחוק את הקבוצה שנבחרה?';
 $messages['deletemessagesconfirm'] = 'האם למחוק את ההודעות המסומנות?';
 $messages['deletefolderconfirm']  = 'האם למחוק תיקייה זו?';
+$messages['movefolderconfirm']  = 'האם אכן ברצונך להעביר את התיקייה?';
 $messages['purgefolderconfirm']  = 'האם למחוק את כל ההודעות בתיקייה זו?';
 $messages['contactdeleting'] = 'אנשי קשר נמחקים...';
 $messages['groupdeleting'] = 'מחיקת קבוצה...';
@@ -123,9 +128,12 @@ $messages['converting'] = 'הסרת העיצוב מההודעה';
 $messages['messageopenerror'] = 'לא ניתן לטעון ההודעה מהשרת';
 $messages['filelinkerror'] = 'הצמדת הצרופה נכשלה';
 $messages['fileuploaderror'] = 'העלאת הקובץ נכשלה';
+$messages['csvfilemismatch'] = 'יבוא של מספר קבצים מסוג CVS בעלי שדות שונים זה מזה אינו נתמך.';
 $messages['filesizeerror'] = 'הקובץ לטעינה גדול מהגודל המקסימלי שהוא $size';
 $messages['filecounterror'] = 'ניתן להעלות לכל היותר count$ קבצים בעת ובעונה אחת';
 $messages['msgsizeerror'] = 'הוספת צרופה נכשלה. גודלה יותר מהגודל (size$) המותר.';
+$messages['msgsizeerrorfwd'] = 'גודל ההודעה (size$) דול מהמקסימום המותר. 
+num$ הודעות לא צורפו.';
 $messages['copysuccess'] = '$nr אנשי קשר הועתקו בהצלחה';
 $messages['movesuccess'] = '$nr אנשי קשר הועברו בהצלחה';
 $messages['copyerror'] = 'לא ניתן היה להעתיק אנשי קשר כלשהם';
@@ -165,6 +173,7 @@ $messages['smtpautherror'] = 'SMTP ($code): ההזדהות נכשלה';
 $messages['smtpfromerror'] = '($msg) SMTP ($code): "$from" לא נרשמה כתובת השולח';
 $messages['smtptoerror'] = '($msg) SMTP ($code): "$to" לא נרשמה כתובת המקבל';
 $messages['smtprecipientserror'] = 'SMTP : לא ניתן לפענח רשימת נמענים';
+$messages['smtputf8error'] = 'שגיאת SMTP: שרת הדואר לא תומך כתובת דואר אלקטרוני מקודדת ביוניקוד.';
 $messages['smtpsizeerror'] = 'גודל ההודעה עולה על הגודל המותר בשרת  limit ($limit)';
 $messages['smtperror'] = 'SMTP: $msg';
 $messages['emailformaterror'] = 'כתבות דוא"ל לא תקינה: email$';
@@ -219,3 +228,11 @@ $messages['errcomposesession'] = 'שגיאה במהלך יצירת ההודעה'
 $messages['errcomposesessionexplain'] = 'תהליך יצירת ההודעה לא אותר';
 $messages['clicktocompose'] = 'יש להקיש כאן כדי ליצור הודעה חדשה';
 $messages['nosupporterror'] = 'התכונה הזו אינה נתמכת על ידי הדפדפן שלך';
+$messages['siginserted'] = 'החתימה התווספה בהצלחה';
+$messages['responseinserted'] = 'התגובה התווספה בהצלחה';
+$messages['noresponsesavailable'] = 'לא נמצאו תגובות';
+$messages['listempty'] = 'הרשימה ריקה';
+$messages['listusebutton'] = 'יש להשתמש בכפתור יצירה כדי להוסיף רשומה חדשה';
+$messages['keypaircreatesuccess'] = 'הצליחה יצירת מפתח חדש ל identity$';
+$messages['emptyattachment'] = 'צרופה זו נראית כריקה. יש לבדוק עם השולח';
+$messages['oauthloginfailed'] = 'נכשל נסיון כניסה באמצעות OAUTH. נא לנסות שנית.';

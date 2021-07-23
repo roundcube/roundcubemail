@@ -2,35 +2,38 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Üdvözli a $product';
 $labels['username'] = 'Felhasználónév';
 $labels['password'] = 'Jelszó';
 $labels['server'] = 'Szerver';
 $labels['login'] = 'Bejelentkezés';
+$labels['oauthlogin'] = 'Bejelentkezni a következővel $provider';
 $labels['menu'] = 'Menű';
 $labels['logout'] = 'Kijelentkezés';
 $labels['mail'] = 'E-mail';
 $labels['settings'] = 'Beállítások';
 $labels['addressbook'] = 'Címjegyzék';
+$labels['darkmode'] = 'Sötét mód';
+$labels['lightmode'] = 'Világos mód';
 $labels['inbox'] = 'Érkezettek';
 $labels['drafts'] = 'Piszkozatok';
 $labels['sent'] = 'Küldöttek';
 $labels['trash'] = 'Kuka';
 $labels['junk'] = 'Kéretlen';
-$labels['show_real_foldernames'] = 'Valós nevek megjelenítése a speciális mappáknál';
+$labels['show_real_foldernames'] = 'Valódi nevek megjelenítése a speciális mappáknál';
 $labels['subject'] = 'Tárgy';
 $labels['from'] = 'Feladó';
 $labels['sender'] = 'Feladó';
@@ -56,7 +59,7 @@ $labels['move'] = 'Áthelyezés';
 $labels['moveto'] = 'Áthelyezés...';
 $labels['copyto'] = 'Másolás..';
 $labels['download'] = 'letöltés';
-$labels['open'] = 'Megnyítás';
+$labels['open'] = 'Megnyitás';
 $labels['showattachment'] = 'Megjelenítés';
 $labels['showanyway'] = 'Megjelnítés mindenképpen';
 $labels['filename'] = 'Fájl neve';
@@ -144,9 +147,10 @@ $labels['optionsandattachments'] = 'Opciók és csatolmányok';
 $labels['actions'] = 'Műveletek';
 $labels['first'] = 'Első';
 $labels['last'] = 'Utolsó';
-$labels['previous'] = 'Elöző';
+$labels['previous'] = 'Előző';
 $labels['next'] = 'Következő';
 $labels['select'] = 'Kijelölés';
+$labels['selection'] = 'Kijelölés';
 $labels['all'] = 'Összes';
 $labels['none'] = 'Nincs';
 $labels['currpage'] = 'Aktuális oldal';
@@ -168,6 +172,7 @@ $labels['expand-all'] = 'Összes kibontása';
 $labels['expand-unread'] = 'Olvasatlanok kibontása';
 $labels['collapse-all'] = 'Összes összecsukása';
 $labels['threaded'] = 'Témák szerinti csoportosítás';
+$labels['showunread'] = 'Olvasatlan üzenetek megjelenítése';
 $labels['autoexpand_threads'] = 'Témacsoportok kibontása';
 $labels['do_expand'] = 'minden téma';
 $labels['expand_only_unread'] = 'csak ahol van olvasatlan üzenet';
@@ -195,6 +200,8 @@ $labels['folderactions'] = 'Mappaműveletek...';
 $labels['compact'] = 'Tömörítés';
 $labels['empty'] = 'Kiürítés';
 $labels['importmessages'] = 'Üzenetek importálása';
+$labels['mailimportdesc'] = 'Feltölthetsz leveleket a <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> vagy <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> formátumban.';
+$labels['mailimportzip'] = 'Több file-t lehet összetömöríteni egy a zip fileba.';
 $labels['quota'] = 'Helyfoglalás';
 $labels['unknown'] = 'ismeretlen';
 $labels['unlimited'] = 'korlátlan';
@@ -204,8 +211,8 @@ $labels['quotaused'] = 'Használt';
 $labels['quotastorage'] = 'Lemez méret';
 $labels['quotamessage'] = 'Üzenet darab';
 $labels['shortheaderdate'] = '$date';
-$labels['shortheaderto'] = '$to címzetnek $date';
-$labels['shortheaderfrom'] = '$from kűldőtől $date';
+$labels['shortheaderto'] = '$to címzettnek $date';
+$labels['shortheaderfrom'] = '$from küldőtől $date';
 $labels['quicksearch'] = 'Gyorskeresés';
 $labels['searchplaceholder'] = 'Keresés...';
 $labels['resetsearch'] = 'Alapállapot';
@@ -254,11 +261,13 @@ $labels['keylength'] = 'Bitek';
 $labels['keyexpired'] = 'Lejárt';
 $labels['keyrevoked'] = 'Visszvont';
 $labels['bccinstead'] = 'Titkos másolat használata';
-$labels['addheader'] = 'Címzet (fejléc) hozzáadása ';
+$labels['addheader'] = 'Címzett (fejléc) hozzáadása ';
+$labels['insert'] = 'Beszúrás';
+$labels['insertcontact'] = 'Kapcsolat(ok) beszúrása';
 $labels['recipient'] = 'Címzett';
 $labels['recipientedit'] = 'A címzett szerkesztése';
 $labels['editidents'] = 'Azonosítók szerkesztése';
-$labels['spellcheck'] = 'Helyesírás ellenőrzés';
+$labels['spellcheck'] = 'Helyesírás-ellenőrzés';
 $labels['checkspelling'] = 'Helyesírás-ellenőrzés';
 $labels['resumeediting'] = 'Helyesírás-ellenőrzés vége';
 $labels['revertto'] = 'Visszaállítás erre';
@@ -294,8 +303,10 @@ $labels['alwaysshow'] = 'Képek megjelenítése mindig, ha a feladó $sender';
 $labels['alwaysallow'] = 'Minding engedélyezve ha a feladó $sender ';
 $labels['isdraft'] = 'Ez egy piszkozat.';
 $labels['andnmore'] = 'további $nr...';
+$labels['details'] = 'Részletek';
+$labels['summary'] = 'Összegzés';
 $labels['headers'] = 'Fejlécek';
-$labels['envelope'] = 'Boriték';
+$labels['allheaders'] = 'Fejlécek...';
 $labels['togglemoreheaders'] = 'Több üzenet fejrész(header) megjelenítése';
 $labels['togglefullheaders'] = 'Nyers üzenet fejléc megjelenítés- elrejtés';
 $labels['htmltoggle'] = 'HTML';
@@ -307,10 +318,12 @@ $labels['addcc'] = 'Cc (Másolati cím) hozzáadása';
 $labels['addbcc'] = 'Bcc (titkos másolati cím) hozzáadása';
 $labels['addreplyto'] = 'Válaszcím hozzáadása';
 $labels['addfollowupto'] = 'Hírcsoport válasz hozzáadása';
+$labels['sendreceipt'] = 'Elküldi az olvasási visszaigazolást?';
 $labels['mdnrequest'] = 'Az üzenet küldője értesítést kér arról, hogy elolvasta a levelet. El legyen küldve az olvasási visszaigazolás?';
 $labels['receiptread'] = 'Olvasási visszaigazolás (olvasott)';
 $labels['yourmessage'] = 'Ez az üzenete olvasási visszaigazolása';
 $labels['receiptnote'] = 'Megjegyzés: Ez az olvasási visszaigazolás csak azt igazolja, hogy az üzenet megjelenítésre került a címzett számítógépén. Nincs rá garancia, hogy a címzett elolvasta volna az üzenetet illetve megértette volna annak tartalmát.';
+$labels['sendalwaysto'] = 'Mindig küldjön ide $email';
 $labels['zoomin'] = 'Nagyítás';
 $labels['zoomout'] = 'Kicsinyítés';
 $labels['rotate'] = 'Elforgatás';
@@ -390,6 +403,9 @@ $labels['rename'] = 'Átnevezés';
 $labels['addphoto'] = 'Kép hozzáadása';
 $labels['replacephoto'] = 'Kép cseréje';
 $labels['uploadphoto'] = 'Fotó feltöltése';
+$labels['choosefile'] = 'File kiválasztása...';
+$labels['choosefiles'] = 'Fileok kiválasztása...';
+$labels['browse'] = 'Böngészés';
 $labels['newcontact'] = 'Új kapcsolat létrehozása';
 $labels['deletecontact'] = 'Kijelölt kapcsolatok törlése';
 $labels['composeto'] = 'E-mail küldése erre a címre';
@@ -405,8 +421,8 @@ $labels['grouprename'] = 'Csoport átnevezése';
 $labels['groupdelete'] = 'Csoport törlése';
 $labels['groupassign'] = 'Csoporthoz rendelés...';
 $labels['groupremove'] = 'Csoportból eltávolítás';
-$labels['groupremoveselected'] = 'A kijelölt partnerek törlése a csopotból';
-$labels['uponelevel'] = 'Egy szintel feljebb';
+$labels['groupremoveselected'] = 'A kijelölt partnerek törlése a csoportból';
+$labels['uponelevel'] = 'Egy szinttel feljebb';
 $labels['previouspage'] = 'Előző oldal';
 $labels['firstpage'] = 'Első oldal';
 $labels['nextpage'] = 'Következő oldal';
@@ -425,7 +441,10 @@ $labels['importreplace'] = 'A teljes címjegyzék cseréje';
 $labels['importgroups'] = 'Csoport hozzárendelések importálása';
 $labels['importgroupsall'] = 'Mind(csoport létrehozása amennyiben szükséges)';
 $labels['importgroupsexisting'] = 'Csak már létező csoportoknak';
-$labels['importdesc'] = 'Feltölthetsz partnereket egyébb már létező címjegyzékekből. <br/>Jelenleg a következő két tipusú címjegyzékek importálása lehetséges  <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> és a CSV (comma-separated/vesszővel tagolt) formátum.';
+$labels['importdesc'] = 'Feltölthetsz partnereket már létező címjegyzékből.<br/>Jelenleg a címeket importálni vagy <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> vagy CSV(vesszővel-tagolt) formátumból lehet.';
+$labels['importmapdesc'] = 'Erősítse meg, hogy a mező megfeleltetések megfelelőek, mielőtt folytatnánk a CSV (vesszővel elválasztott) adatok importálását.';
+$labels['fieldnotmapped'] = 'A mező nem hozzárendelve (nem importálandó)';
+$labels['skipheader'] = 'Nem importálja az első sort (fejlécek)';
 $labels['done'] = 'Kész';
 $labels['settingsfor'] = 'Beállítás';
 $labels['about'] = 'Névjegy';
@@ -472,6 +491,8 @@ $labels['askuser'] = 'kérdezzen rá';
 $labels['autosend'] = 'automatikus küldés';
 $labels['autosendknown'] = 'küldés csak a címjegyzékben lévő kapcsolataimnak, egyéb esetben kérdezzen rá';
 $labels['autosendknownignore'] = 'küldés csak a címjegyzékben lévő kapcsolataimnak, egyéb esetben nem';
+$labels['autosendtrusted'] = 'küldjön visszaigazolást a megbízható feladóknak, máskülönben kérdezzen rá';
+$labels['autosendtrustedignore'] = 'küldjön visszaigazolást a megbízható feladóknak, máskülönben hagyja figyelmen kívül';
 $labels['ignorerequest'] = 'a kérés figyelmen kivül hagyása';
 $labels['readwhendeleted'] = 'Üzenet olvasottként jelölése törléskor';
 $labels['flagfordeletion'] = 'Üzenet törlendőnek jelölése törlés helyett';
@@ -479,8 +500,10 @@ $labels['skipdeleted'] = 'Törölt üzenetek ne legyenek megjelenítve';
 $labels['deletealways'] = 'Üzenet törlése, ha nem sikerül áthelyezni a törölt elemek mappába';
 $labels['deletejunk'] = 'Üzenetek közvetlen törlése a levélszemét mappából';
 $labels['showremoteimages'] = 'Távoli beágyazott képek megjelenítése';
-$labels['allowremoteresources'] = 'Tivoli erőforrások engedélyezve (képek, stílusok)';
+$labels['allowremoteresources'] = 'Távoli erőforrások engedélyezve (képek, stílusok)';
 $labels['fromknownsenders'] = 'csak ismert feladóktól';
+$labels['fromtrustedsenders'] = 'a megbízható feladóktól';
+$labels['frommycontacts'] = 'a partnereimtől';
 $labels['always'] = 'mindig';
 $labels['alwaysbutplain'] = 'mindig, kivéve ha sima szöveg levélre válaszolunk';
 $labels['showinlineimages'] = 'Csatolt képek megjelenítése az üzenet alatt';
@@ -501,7 +524,7 @@ $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['toggleadvancedoptions'] = 'Haladó beállítások kapcsolása';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
 $labels['checkallfolders'] = 'Új üzenetek ellenőrzése minden mappában';
-$labels['displaynext'] = 'Levél törlése/áthelyezése után jelenjen meg a következő üzenet';
+$labels['displaynext'] = 'A következő elem megjelenítése törlés/áthelyezés után';
 $labels['defaultfont'] = 'HTML üzenet alap karakterkészlete';
 $labels['mainoptions'] = 'Általános beállítások';
 $labels['browseroptions'] = 'Böngésző beállításai';
@@ -529,6 +552,14 @@ $labels['replysamefolder'] = 'Válaszok azonos mappába helyezése';
 $labels['defaultabook'] = 'Alapértelmezett címjegyzék';
 $labels['autocompletesingle'] = 'Alternatív e-mail címek kihagyása automatikus kiegészítéskor';
 $labels['listnamedisplay'] = 'Névjegyek listázása';
+$labels['contactformmode'] = 'Kapcsolat űrlap mód';
+$labels['privatemode'] = 'Magán (Otthoni)';
+$labels['businessmode'] = 'Üzleti (Munkahely)';
+$labels['collectedaddresses'] = 'Begyűjtött címek';
+$labels['collectedrecipients'] = 'Begyűjtött Címzettek';
+$labels['collectedrecipientsopt'] = 'Kimenő emailek címzetjeinek tárolása a kövezkezőben';
+$labels['collectedsendersopt'] = 'Megbízható feladókat tárolása a következőben';
+$labels['trustedsenders'] = 'Megbízható Feladók';
 $labels['spellcheckbeforesend'] = 'Helyesírás-ellenőrzés az üzenet elküldése előtt';
 $labels['spellcheckoptions'] = 'Helyesírás-ellenőrzés opciók';
 $labels['spellcheckignoresyms'] = 'Speciális karaktereket tartalmazó szavak kihagyása';
@@ -576,6 +607,11 @@ $labels['generate'] = 'Generálás';
 $labels['encryptioncreatekey'] = 'Új kulcs pár létrehozása';
 $labels['openmailvelopesettings'] = 'Open Mailvelope Beállítások';
 $labels['encryptionprivkeysinmailvelope'] = '$nr egyező privát kulcs van a Mailvelope kulcskarikádon: ';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Ennek küldőnek még nincs meg a PGP prívát kulcsa a Mailvelope kiterjesztésedben. Szeretnél létrehozni egyet, hogy engedélyezzed a titkositott üzenetváltást?';
+$labels['encryption'] = 'Titkosítás';
+$labels['mailvelopeoptions'] = 'Mailvelope opciók';
+$labels['mailvelopemainkeyring'] = 'Mailvelop fő kulcskarikájának használata';
+$labels['mailvelopenotfound'] = 'A Mailvelope bővítmény nincs engedélyezva/telepítve a böngésződben.';
 $labels['sortby'] = 'Rendezés';
 $labels['sortasc'] = 'növekvő';
 $labels['sortdesc'] = 'csökkenő';
@@ -584,6 +620,7 @@ $labels['installedplugins'] = 'Telepített bővítmények';
 $labels['plugin'] = 'Bővítmény';
 $labels['version'] = 'Verzió';
 $labels['source'] = 'Forrás';
+$labels['destination'] = 'Cél';
 $labels['license'] = 'Licensz';
 $labels['support'] = 'Támogatás';
 $labels['savedsearches'] = 'Elmentett keresések';
@@ -618,6 +655,7 @@ $labels['chinese'] = 'Kínai';
 $labels['arialabeltopnav'] = 'Ablak beállítás';
 $labels['arialabeltasknav'] = 'Alkalmazás feladatok';
 $labels['arialabeltoolbar'] = 'Alkamazás eszközsor';
+$labels['arialabellistnav'] = 'Lista navigáció';
 $labels['arialabelactivetask'] = 'Aktiv feladat';
 $labels['arialabelmessagessearchfilter'] = 'Email lista szűrő';
 $labels['arialabelmailsearchform'] = 'Email üzenet kereső űrlap';
@@ -638,11 +676,12 @@ $labels['arialabelmessagenav'] = 'Üzenet navigálás';
 $labels['arialabelmessagebody'] = 'Üzenet főrész';
 $labels['arialabelmessageactions'] = 'Üzenet műveletek';
 $labels['arialabelcontactquicksearch'] = 'Kapcsolat kereső űrlap';
-$labels['arialabelcontactsearchbox'] = 'Kapcsolat kereső bevitelimező';
+$labels['arialabelcontactsearchbox'] = 'Kapcsolat kereső beviteli mező';
 $labels['arialabelmessageheaders'] = 'Üzenet fejlécek';
 $labels['arialabelforwardingoptions'] = 'Továbbítási beállítások';
 $labels['arialabelreplyalloptions'] = 'Válasz mindenkinek beállítások';
 $labels['arialabelmoremessageactions'] = 'További műveletek az üzenettel...';
+$labels['arialabelmorecontactactions'] = 'További műveletek a kapcsolatokkal...';
 $labels['arialabelmarkmessagesas'] = 'A kiválasztott üzenetek megjelölése mint...';
 $labels['arialabelcomposeoptions'] = 'Levélírás opciók';
 $labels['arialabelresponsesmenu'] = 'Sablon válaszok menű';
@@ -655,17 +694,17 @@ $labels['arialabelcontactexportoptions'] = 'Kapcsolat exportálásának opciói'
 $labels['arialabelabookgroupoptions'] = 'Címjegyzék/csoportjegyzék opciói';
 $labels['arialabelpreferencesform'] = 'Beállítások űrlap';
 $labels['arialabelidentityeditfrom'] = 'Identitás szerkesztő űrlap';
-$labels['arialabelresonseeditfrom'] = 'Válasz szerkesztő űrlap';
+$labels['arialabelresponseeditfrom'] = 'Válasz szerkesztő űrlap';
 $labels['arialabelsearchterms'] = 'Kereső kifejezések';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop műveletek menü';
+$labels['arialabelheadersmenu'] = 'Címzett (fejléc) hozzáadása menűhöz';
 $labels['arialabelimagetools'] = 'Kép eszközök';
 $labels['helplistnavigation'] = 'A navigálásra használt billentyűk listája';
-$labels['helplistkeyboardnavigation'] = "Nyilak fel/le: A sor fokusz/kiválasztás mozgatása.
-Szóköz: A fokuszban lévő sor kiválasztása.
-Shift + fel/le: Több sor kiválasztása az aktállíis sor alatt/felett.
-Ctrl + Szóköz: A fokszban levő sor hozzáadása a szelekcióhoz vagy törlése abból.";
-$labels['helplistkeyboardnavmessages'] = "Jobbra/Balra nyilak: kibontja/becsukja az üzenet szálaka (csak a beszélgető/szálas módban).
+$labels['helplistkeyboardnavigation'] = "Nyilak fel/le: A sor fókusz/kiválasztás mozgatása.
+Szóköz: A fókuszban lévő sor kiválasztása.
+Shift + fel/le: Több sor kiválasztása az aktuális sor alatt/felett.
+Ctrl + Szóköz: A fókuszban levő sor hozzáadása vagy törlése a kiválasztásból.";
+$labels['helplistkeyboardnavmessages'] = "Jobbra/Balra nyilak: kibontja/becsukja az üzenet szálakat (csak a beszélgető/szálas módban).
 Enter: Kinyitja a kiválasztott/fókuszban levő üzenetet.
 Delete: A kiválaszott üzenet áthelyezése a Kukába.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Megnyitja a kiválasztott/fókuszban levő kapcsolatot.";
-?>

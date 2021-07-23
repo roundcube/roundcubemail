@@ -2,30 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Филтри';
 $labels['managefilters'] = 'Управление на филтри за входяща поща';
 $labels['filtername'] = 'Име на филтър';
 $labels['newfilter'] = 'Нов филтър';
 $labels['filteradd'] = 'Добавяне на филтър';
 $labels['filterdel'] = 'Изтриване на филтър';
+$labels['rules'] = 'Условия';
+$labels['actions'] = 'Действия';
 $labels['scope'] = 'Обхват';
 $labels['moveup'] = 'Преместване нагоре';
 $labels['movedown'] = 'Преместване надолу';
-$labels['filterallof'] = 'която изпълнява всички условия';
-$labels['filteranyof'] = 'която изпълнява някое от условията';
+$labels['filterallof'] = 'при изпълнение на всички условия';
+$labels['filteranyof'] = 'при изпълнение на някое от условията';
 $labels['filterany'] = 'за всички писма';
 $labels['filtercontains'] = 'съдържа';
 $labels['filternotcontains'] = 'не съдържа';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'отговаря на регулярен израз';
 $labels['filternotregex'] = 'не отговаря на регулярен израз';
 $labels['filterunder'] = 'под';
 $labels['filterover'] = 'над';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME част:';
+$labels['mime-message'] = 'писмо';
+$labels['mime-anychild'] = 'която и да е';
+$labels['mime-type'] = 'тип';
+$labels['mime-subtype'] = 'подтип';
+$labels['mime-contenttype'] = 'тип на съдържанието';
+$labels['mime-param'] = 'параметър';
 $labels['addrule'] = 'Ново условие';
 $labels['delrule'] = 'Изтриване на условие';
 $labels['messagemoveto'] = 'Премести писмото във';
@@ -48,8 +58,8 @@ $labels['messagesendcopy'] = 'Изпрати копие на писмото до
 $labels['messagereply'] = 'Отговори с писмо';
 $labels['messagedelete'] = 'Изтрий писмото';
 $labels['messagediscard'] = 'Отхвърли с писмо';
-$labels['messagekeep'] = 'Остави писмото във Вх. поща';
-$labels['messagesrules'] = 'При получаване на поща...';
+$labels['messagekeep'] = 'Остави писмото във Входящи';
+$labels['messagesrules'] = 'При получаване на поща:';
 $labels['messagesactions'] = '...изпълни следните действия:';
 $labels['add'] = 'Добави';
 $labels['del'] = 'Изтрий';
@@ -58,19 +68,21 @@ $labels['recipient'] = 'Получател';
 $labels['vacationaddr'] = 'Мои адреси на ел. поща:';
 $labels['vacationdays'] = 'Колко често да праща писма (в дни):';
 $labels['vacationinterval'] = 'Колко често да праща писма:';
-$labels['vacationreason'] = 'Текст на писмото (причина за отпуск)';
+$labels['vacationreason'] = 'Текст на писмото (причина за отпуск):';
 $labels['vacationfrom'] = 'Адрес за отговор на подателя:';
-$labels['vacationsubject'] = 'Заглавие на писмото';
+$labels['vacationsubject'] = 'Заглавие на писмото:';
 $labels['days'] = 'дни';
 $labels['seconds'] = 'секунди';
 $labels['rulestop'] = 'Спри проверка на други условия';
 $labels['enable'] = 'Включи/Изключи';
 $labels['filterset'] = 'Набор филтри';
 $labels['filtersets'] = 'Набори филтри';
-$labels['filtersetadd'] = 'Нов набор филтри';
+$labels['filtersetadd'] = 'Добавяне на набор филтри';
+$labels['filtersetdel'] = 'Изтриване на набор филтри';
 $labels['filtersetact'] = 'Активиране на текущ набор филтри';
 $labels['filtersetdeact'] = 'Деактивиране на текущ набор филтри';
-$labels['filterseteditraw'] = 'Редакция набор филтри';
+$labels['filterseteditraw'] = 'Редакция на набор филтри';
+$labels['filtersetswitch'] = 'Включи/Изключи набор филтри';
 $labels['filterdef'] = 'Дефиниране на филтър';
 $labels['filtersetname'] = 'Име на набор филтри';
 $labels['newfilterset'] = 'Нов набор филтри';
@@ -79,6 +91,7 @@ $labels['none'] = 'няма';
 $labels['fromset'] = 'от набор';
 $labels['fromfile'] = 'от файл';
 $labels['filterdisabled'] = 'Изключен филтър';
+$labels['filterenabled'] = 'Включен филтър';
 $labels['countisgreaterthan'] = 'брой е по-голям от';
 $labels['countisgreaterthanequal'] = 'брой е по-голям или равен на';
 $labels['countislessthan'] = 'брой е по-малък от';
@@ -91,7 +104,7 @@ $labels['valueislessthan'] = 'стойност е по-малка от';
 $labels['valueislessthanequal'] = 'стойност е по-малка или равна на';
 $labels['valueequals'] = 'стойност е равна на';
 $labels['valuenotequals'] = 'стойност не е равна на';
-$labels['setflags'] = 'Установи флагове на писмо';
+$labels['setflags'] = 'Установи флагове на писмото';
 $labels['addflags'] = 'Добави флагове към писмо';
 $labels['removeflags'] = 'Премахни флагове от писмо';
 $labels['flagread'] = 'Прочетено';
@@ -99,6 +112,18 @@ $labels['flagdeleted'] = 'Изтрито';
 $labels['flaganswered'] = 'Отговорено';
 $labels['flagflagged'] = 'Отбелязано';
 $labels['flagdraft'] = 'Чернова';
+$labels['addheader'] = 'Добави заглавен блок към писмо';
+$labels['deleteheader'] = 'Премахни заглавен блок от писмо';
+$labels['headername'] = 'Име на заглавен блок';
+$labels['headervalue'] = 'Стойност на заглавен блок';
+$labels['headerpos'] = 'Позиция на заглавен блок';
+$labels['headeratstart'] = 'в началото';
+$labels['headeratend'] = 'в края';
+$labels['headeroccurrence'] = 'Поява/позиция на заглавен блок';
+$labels['headerfromstart'] = 'от началото';
+$labels['headerfromend'] = 'от края';
+$labels['headerpatterns'] = 'Модели на стойността на заглавен блок';
+$labels['headermatchtype'] = 'тип съвпадение:';
 $labels['setvariable'] = 'Установи променлива';
 $labels['setvarname'] = 'Име на променлива:';
 $labels['setvarvalue'] = 'Стойност на променлива:';
@@ -113,7 +138,7 @@ $labels['notify'] = 'Изпрати известие';
 $labels['notifytarget'] = 'Известие към:';
 $labels['notifymessage'] = 'Съдържание на известие (опционално):';
 $labels['notifyoptions'] = 'Опции на известие (опционално):';
-$labels['notifyfrom'] = 'Известие от (опционално):';
+$labels['notifyfrom'] = 'Подател на известието (опционално):';
 $labels['notifyimportance'] = 'Приоритет:';
 $labels['notifyimportancelow'] = 'нисък';
 $labels['notifyimportancenormal'] = 'нормален';
@@ -155,7 +180,7 @@ $labels['allparts'] = 'всичко';
 $labels['domain'] = 'домейн';
 $labels['localpart'] = 'локална част';
 $labels['user'] = 'потребител';
-$labels['detail'] = 'датайли';
+$labels['detail'] = 'детайли';
 $labels['comparator'] = 'сравнител:';
 $labels['default'] = 'по подразбиране';
 $labels['octet'] = 'стриктно (октет)';
@@ -163,39 +188,51 @@ $labels['asciicasemap'] = 'без значение малки/големи бу�
 $labels['asciinumeric'] = 'цифрово';
 $labels['index'] = 'индекс:';
 $labels['indexlast'] = 'наобратно';
+$labels['spamtest'] = 'Ниво на Спам';
+$labels['spamtestisgreaterthan'] = 'е по-голямо от';
+$labels['spamtestisgreaterthanequal'] = 'е по-голямо или равно на';
+$labels['spamtestislessthan'] = 'е по-малко от';
+$labels['spamtestislessthanequal'] = 'е по-малко или равно на';
+$labels['spamtestequals'] = 'е равно на';
+$labels['spamtestnotequals'] = 'не е равно на';
+$labels['spamtestisunknown'] = 'е неизвестно';
 $labels['vacation'] = 'Отпуск';
 $labels['vacation.reply'] = 'Писмо отговор';
 $labels['vacation.advanced'] = 'Разширени настройки';
 $labels['vacation.from'] = 'Адрес за отговор на подателя:';
 $labels['vacation.subject'] = 'Относно';
 $labels['vacation.body'] = 'Съдържание';
-$labels['vacation.start'] = 'Начало на отпуск';
-$labels['vacation.end'] = 'Край на отпуск';
+$labels['vacation.start'] = 'Начало';
+$labels['vacation.end'] = 'Край';
 $labels['vacation.status'] = 'Статус';
 $labels['vacation.on'] = 'Вкл.';
 $labels['vacation.off'] = 'Изкл.';
 $labels['vacation.addresses'] = 'Мои адреси на ел. поща';
 $labels['vacation.interval'] = 'Интервал на отговор';
-$labels['vacation.after'] = 'Постави правило за отпуск след';
+$labels['vacation.after'] = 'Постави правилото за отпуск след';
 $labels['vacation.saving'] = 'Запис на данни...';
 $labels['vacation.action'] = 'Действие при получаване на писмо';
-$labels['vacation.keep'] = 'Задръж';
+$labels['vacation.keep'] = 'Запази';
 $labels['vacation.discard'] = 'Изхвърли';
 $labels['vacation.redirect'] = 'Препрати на';
 $labels['vacation.copy'] = 'Прати копие на';
+$labels['forward'] = 'Препращане';
 $labels['forward.redirect'] = 'Препрати на';
 $labels['forward.copy'] = 'Прати копие на';
 $labels['forward.on'] = 'Вкл.';
 $labels['forward.off'] = 'Изкл.';
+$labels['forward.status'] = 'Статус:';
+$labels['forward.action'] = 'При получаване на поща изпълни следното действие:';
 $labels['forward.saving'] = 'Запис на данни...';
 $labels['filladdresses'] = 'Попълни с всички мои адреси';
-$labels['arialabelfiltersetactions'] = 'Действия на набор от филтри';
+$labels['arialabelfiltersetactions'] = 'Действия за набор от филтри';
 $labels['arialabelfilteractions'] = 'Действия на филтър';
 $labels['arialabelfilterform'] = 'Свойства на филтър';
 $labels['ariasummaryfilterslist'] = 'Списък филтри';
 $labels['ariasummaryfiltersetslist'] = 'Списък набори от филтри';
-$labels['filterstitle'] = 'Редакция на филтри вх. поща';
-$labels['vacationtitle'] = 'Редакция на правило за извън офиса';
+$labels['filterstitle'] = 'Редакция на филтри за входяща поща';
+$labels['vacationtitle'] = 'Редакция на правило за отпуск (извън офиса)';
+$labels['forwardtitle'] = 'Редактиране на правилото за препращане на поща';
 $labels['message'] = 'Писмо';
 $labels['duplicate'] = 'е дубликат';
 $labels['notduplicate'] = 'не е дубликат';
@@ -223,7 +260,7 @@ $messages['setdeleteerror'] = 'Невъзможно изтриване на из
 $messages['setactivated'] = 'Наборът от филтри е активиран успешно.';
 $messages['setdeactivated'] = 'Наборът от филтри е деактивиран успешно.';
 $messages['setdeleted'] = 'Наборът от филтри е изтрит успешно.';
-$messages['setupdated'] = 'Наборът филтри е променен успешно';
+$messages['setupdated'] = 'Наборът от филтри е променен успешно.';
 $messages['setdeleteconfirm'] = 'Сигурни ли сте, че желаете да изтриете избрания набор от филтри?';
 $messages['setcreateerror'] = 'Невъзможно създаване на набор от филтри. Възникна сървърна грешка.';
 $messages['setcreated'] = 'Наборът от филтри е създаден успешно.';
@@ -240,6 +277,9 @@ $messages['nodata'] = 'Поне една позиция трябва да е и�
 $messages['invaliddateformat'] = 'невалидна дата или формат на част от дата';
 $messages['saveerror'] = 'Невъзможен запис на данни. Грешка при достъп до сървър.';
 $messages['vacationsaved'] = 'Данните за отпуск са записани успешно.';
+$messages['forwardsaved'] = 'Данните за препращане са записани успешно.';
 $messages['emptyvacationbody'] = 'Липсва текст на писмо при отпуск!';
 $messages['duplicate.conflict.err'] = 'Не е позволено едновременното използване на заглавен блок и уникален идентификатор.';
-?>
+$messages['disabledaction'] = 'Непозволенo действие.';
+$messages['lastindexempty'] = 'Необходим е индекс, когато се брои от края';
+$messages['noflagset'] = 'Поне един флаг трябва да е избран.';

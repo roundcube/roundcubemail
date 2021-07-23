@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Muuda parooli';
 $labels['curpasswd']  = 'Vana parool:';
 $labels['newpasswd']  = 'Uus parool:';
@@ -28,5 +27,8 @@ $messages['connecterror'] = 'Parooli salvestamine nurjus. Ühenduse tõrge.';
 $messages['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
 $messages['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
 $messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
+$messages['passwordtooweak'] = 'Parool on liiga nõrk.';
 $messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
 $messages['firstloginchange'] = 'See on sinu esimene sisselogimine, palun muuda oma parooli.';
+$messages['pwned_isdisclosed'] = 'Parool on liiga tavaline.';
+$messages['pwned_fetcherror'] = 'Parooli tugevuse kontrollimine ebaõnnestus.';

@@ -3,15 +3,16 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Provide database supported session management                       |
+ |   Provide memcache supported session management                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -24,17 +25,20 @@
  *
  * @package    Framework
  * @subpackage Core
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
- * @author     Cor Bosman <cor@roundcu.be>
  */
 class rcube_session_memcache extends rcube_session
 {
+    /** @var Memcache The memcache driver */
     private $memcache;
+
+    /** @var bool Debug state */
     private $debug;
 
+
     /**
-     * @param Object $config
+     * Object constructor
+     *
+     * @param rcube_config $config Configuration
      */
     public function __construct($config)
     {
@@ -44,10 +48,11 @@ class rcube_session_memcache extends rcube_session
         $this->debug    = $config->get('memcache_debug');
 
         if (!$this->memcache) {
-            rcube::raise_error(array(
-                    'code' => 604, 'type' => 'db',
+            rcube::raise_error([
+                    'code' => 604, 'type' => 'memcache',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to connect to memcached. Please check configuration"),
+                    'message' => "Failed to connect to memcached. Please check configuration"
+                ],
                 true, true);
         }
 
@@ -56,9 +61,12 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * @param $save_path
-     * @param $session_name
-     * @return bool
+     * Opens the session
+     *
+     * @param string $save_path    Session save path
+     * @param string $session_name Session name
+     *
+     * @return bool True on success, False on failure
      */
     public function open($save_path, $session_name)
     {
@@ -66,7 +74,9 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * @return bool
+     * Close the session
+     *
+     * @return bool True on success, False on failure
      */
     public function close()
     {
@@ -74,10 +84,11 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * Handler for session_destroy() with memcache backend
+     * Destroy the session
      *
-     * @param $key
-     * @return bool
+     * @param string $key Session identifier
+     *
+     * @return bool True on success, False on failure
      */
     public function destroy($key)
     {
@@ -96,8 +107,9 @@ class rcube_session_memcache extends rcube_session
     /**
      * Read session data from memcache
      *
-     * @param $key
-     * @return null|string
+     * @param string $key Session identifier
+     *
+     * @return string Serialized data string
      */
     public function read($key)
     {
@@ -119,10 +131,10 @@ class rcube_session_memcache extends rcube_session
     /**
      * Write data to memcache storage
      *
-     * @param $key
-     * @param $vars
+     * @param string $key  Session identifier
+     * @param string $vars Session data string
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function write($key, $vars)
     {
@@ -130,7 +142,7 @@ class rcube_session_memcache extends rcube_session
             return true;
         }
 
-        $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
+        $data   = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
         $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
         if ($this->debug) {
@@ -143,18 +155,18 @@ class rcube_session_memcache extends rcube_session
     /**
      * Update memcache session data
      *
-     * @param $key
-     * @param $newvars
-     * @param $oldvars
+     * @param string $key     Session identifier
+     * @param string $newvars New session data string
+     * @param string $oldvars Old session data string
      *
-     * @return bool
+     * @return bool True on success, False on failure
      */
     public function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $data   = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars]);
             $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
             if ($this->debug) {
@@ -169,6 +181,11 @@ class rcube_session_memcache extends rcube_session
 
     /**
      * Write memcache debug info to the log
+     *
+     * @param string $type   Operation type
+     * @param string $key    Session identifier
+     * @param string $data   Data to log
+     * @param bool   $result Operation result
      */
     protected function debug($type, $key, $data = null, $result = null)
     {
