@@ -38,5 +38,6 @@ $messages['samepasswd'] = 'Lösenordet får inte vara samma som det gamla.';
 $messages['passwdexpirewarning'] = 'Varning! Lösenordet blir snart ogiltigt, ändra det innan $expirationdatetime.';
 $messages['passwdexpired'] = 'Lösenordet är ogiltigt, du måste ändra det nu!';
 $messages['passwdconstraintviolation'] = 'Lösenordet uppfyller inte gällande kriterier. Lösenordet är troligtvis inte tillräckligt bra.';
+$messages['pwned_mustnotbedisclosed'] = 'Lösenordet får inte vara <a href="$href" target="_blank">allmänt känt</a>.';
 $messages['pwned_isdisclosed'] = 'Detta lösenord är allmänt känt.';
 $messages['pwned_fetcherror'] = 'Det gick inte att verifiera lösenordsstyrkan.';

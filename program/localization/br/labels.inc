@@ -318,6 +318,7 @@ $labels['advsearch'] = 'Klask kempleshoc\'h';
 $labels['advanced'] = 'Araokaet';
 $labels['other'] = 'All';
 $labels['printcontact'] = 'Moullañ an darempred';
+$labels['qrcode'] = 'KR Kod';
 $labels['typehome'] = 'Degemer';
 $labels['typework'] = 'Labour';
 $labels['typeother'] = 'All';
