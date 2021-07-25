@@ -98,6 +98,11 @@
  */
 class rcube_html2text
 {
+    const LINKS_NONE = 0;
+    const LINKS_END = 1;
+    const LINKS_INLINE = 2;
+    const LINKS_DEFAULT = self::LINKS_END;
+
     /**
      * Contains the HTML content to convert.
      *
@@ -317,21 +322,15 @@ class rcube_html2text
     protected $_link_list = [];
 
     /**
-     * Boolean flag, true if a table of link URLs should be listed after the text.
+     * Integer flag
+     * 0 if links should be removed
+     * 1 if a table of link URLs should be listed after the text
+     * 2 if the link should be displayed to the original point in the text they appeared
      *
      * @var boolean $_do_links
      * @see __construct()
      */
     protected $_do_links = true;
-
-    /**
-     * Boolean flag, false if a table of link URLs should be listed after the text, true if the link should be displayed to the original point in the text they
-     * appeared.
-     *
-     * @var boolean $_keep_links_inline
-     * @see __construct()
-     */
-    protected $_keep_links_inline = true;
 
     /**
      * Constructor.
@@ -342,11 +341,10 @@ class rcube_html2text
      *
      * @param string  $source    HTML content
      * @param boolean $from_file Indicates $source is a file to pull content from
-     * @param boolean $do_links  Indicate whether a table of link URLs is desired
+     * @param mixed   $do_links  Indicate whether a table of link URLs is desired
      * @param integer $width     Maximum width of the formatted text, 0 for no limit
-     * @param boolean $keep_links_inline  Indicate whether a table of link URLs is desired or a display next to the linktext
      */
-    function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8', $keep_links_inline = false)
+    function __construct($source = '', $from_file = false, $do_links = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
     {
         if (!empty($source)) {
             $this->set_html($source, $from_file);
@@ -357,7 +355,6 @@ class rcube_html2text
         $this->_do_links = $do_links;
         $this->width     = $width;
         $this->charset   = $charset;
-        $this->_keep_links_inline = $keep_links_inline;
     }
 
     /**
@@ -564,7 +561,7 @@ class rcube_html2text
             $url .= "$link";
         }
 
-        if (!$this->_do_links) {
+        if (self::LINKS_NONE === $this->_do_links) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
             $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
@@ -577,7 +574,7 @@ class rcube_html2text
             return $display;
         }
 
-        if ($this->_keep_links_inline) {
+        if (self::LINKS_INLINE === $this->_do_links) {
             return $this->_build_link_inline($url, $display);
         }
 
@@ -789,5 +786,28 @@ class rcube_html2text
         $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
 
         return $str;
+    }
+
+    /**
+     * @param integer $do_links
+     *
+     * @return bool
+     */
+    public static function isAllowedLinkBehavior($do_links)
+    {
+        if (
+            in_array(
+                $do_links,
+                [
+                    rcube_html2text::LINKS_NONE,
+                    rcube_html2text::LINKS_END,
+                    rcube_html2text::LINKS_INLINE
+                ]
+            )
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
