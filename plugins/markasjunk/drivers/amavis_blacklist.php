@@ -95,6 +95,11 @@ class markasjunk_amavis_blacklist
             $message = new rcube_message($uid);
             $email   = $message->sender['mailto'];
 
+            // skip invalid emails
+            if (!rcube_utils::check_email($email, false)) {
+                continue;
+            }
+
             $sql_result = $db->query("SELECT `id` FROM `mailaddr` WHERE `email` = ? ORDER BY `priority` DESC", $email);
 
             if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {

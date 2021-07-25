@@ -27,19 +27,21 @@
  */
 class rcube_image
 {
-    private $image_file;
-
     const TYPE_GIF = 1;
     const TYPE_JPG = 2;
     const TYPE_PNG = 3;
     const TYPE_TIF = 4;
 
+    /** @var array Image file type to extension map */
     public static $extensions = [
         self::TYPE_GIF => 'gif',
         self::TYPE_JPG => 'jpg',
         self::TYPE_PNG => 'png',
         self::TYPE_TIF => 'tif',
     ];
+
+    /** @var string Image file location */
+    private $image_file;
 
 
     /**

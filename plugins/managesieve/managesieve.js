@@ -56,7 +56,7 @@ if (window.rcmail) {
         sieve_raw_editor_init();
       }
       else {
-        rcmail.enable_command('plugin.managesieve-add', !rcmail.env.sieveconnerror && $.inArray('new_rule', rcmail.env.managesieve_disabled_actions) == -1);
+        rcmail.enable_command('plugin.managesieve-add', !rcmail.env.sieveconnerror && $.inArray('new_filter', rcmail.env.managesieve_disabled_actions) == -1);
         rcmail.enable_command('plugin.managesieve-setadd', !rcmail.env.sieveconnerror && $.inArray('new_set', rcmail.env.managesieve_disabled_actions) == -1);
       }
 
@@ -149,7 +149,7 @@ rcube_webmail.prototype.managesieve_select = function(list)
   var has_id = typeof(id) != 'undefined' && id != null;
 
   this.enable_command('plugin.managesieve-act', has_id);
-  this.enable_command('plugin.managesieve-del', has_id && $.inArray('delete_rule', rcmail.env.managesieve_disabled_actions) == -1);
+  this.enable_command('plugin.managesieve-del', has_id && $.inArray('delete_filter', rcmail.env.managesieve_disabled_actions) == -1);
 };
 
 // Set selection
@@ -343,7 +343,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
       break;
 
-    // Sactivate/deactivate set
+    // Activate/Deactivate the set
     case 'setact':
       var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
       if (o.active) {
@@ -486,7 +486,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function(row)
 /*********          Filter Form methods          *********/
 /*********************************************************/
 
-// Form submition
+// Form submission
 rcube_webmail.prototype.managesieve_save = function()
 {
   if (this.env.action == 'plugin.managesieve-vacation') {
@@ -818,7 +818,7 @@ function vacation_action_select()
   $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
 };
 
-// Inititalizes smart list input
+// Initializes smart list input
 function smart_field_init(field)
 {
   if (window.UI && UI.smart_field_init)

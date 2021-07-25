@@ -6,7 +6,7 @@ use Tests\Browser\Components\App;
 
 class FoldersTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_imap();
         \bootstrap::reset_mailboxes();
@@ -69,6 +69,7 @@ class FoldersTest extends \Tests\Browser\TestCase
      * Test folder creation
      *
      * @group failsontravis-phone
+     * @group failsonga-phone
      */
     public function testFolderCreate()
     {

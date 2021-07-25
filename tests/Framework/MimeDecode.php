@@ -22,10 +22,12 @@ class Framework_MimeDecode extends PHPUnit\Framework\TestCase
         $this->assertSame('multipart/mixed', $result->mimetype);
         $this->assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
         $this->assertSame('8bit', $result->encoding);
-        $this->assertSame(1384, $result->size);
+        $this->assertSame(1413, $result->size);
 
         $this->assertCount(13, $result->headers);
         $this->assertSame('thomas@roundcube.net', $result->headers['x-sender']);
+
+        $this->assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
 
         $this->assertCount(3, $result->parts);
         $this->assertSame(11, $result->parts[2]->size);

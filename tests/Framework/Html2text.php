@@ -53,8 +53,8 @@ class rc_html2text extends PHPUnit\Framework\TestCase
             ],
             8 => [
                 'title' => '&nbsp; handling test',
-                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
-                'out'   => "eye:   test\ntes:   test",
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> test: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntest:   test",
             ],
             9 => [
                 'title' => 'HTML entity in STRONG tag',
@@ -101,9 +101,9 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('>> INNER 1', $res, 'Quote inner');
-        $this->assertContains('>> INNER 3', $res, 'Quote inner');
-        $this->assertContains('> OUTER END', $res, 'Quote outer');
+        $this->assertStringContainsString('>> INNER 1', $res, 'Quote inner');
+        $this->assertStringContainsString('>> INNER 3', $res, 'Quote inner');
+        $this->assertStringContainsString('> OUTER END', $res, 'Quote outer');
     }
 
     function test_broken_blockquotes()
@@ -118,7 +118,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoating on invalid html');
+        $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
         $html = <<<EOF
@@ -131,7 +131,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+        $this->assertStringContainsString('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
     }
 
     /**
@@ -195,5 +195,20 @@ Links:
                 'this is http://test.com',
             ],
         ];
+    }
+
+    /**
+     * Test huge HTML content (#8137)
+     */
+    function test_memory_fix_8137()
+    {
+        // create >1MB input
+        $src = 'data:image/png;base64,' . str_repeat('1234567890abcdefghijklmnopqrstuvwxyz', 50000);
+        $input = 'test<body><p>test1</p><p>test2</p><img src="' . $src . '" /><p>test3</p>';
+
+        $h2t = new rcube_html2text($input, false, false);
+        $res = $h2t->get_text();
+
+        $this->assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');
     }
 }

@@ -553,13 +553,28 @@ class enigma_driver_gnupg extends enigma_driver
             $skey = new enigma_subkey();
             $skey->id          = $subkey->getId();
             $skey->revoked     = $subkey->isRevoked();
-            $skey->created     = $subkey->getCreationDate();
-            $skey->expires     = $subkey->getExpirationDate();
             $skey->fingerprint = $subkey->getFingerprint();
             $skey->has_private = $subkey->hasPrivate();
             $skey->algorithm   = $subkey->getAlgorithm();
             $skey->length      = $subkey->getLength();
             $skey->usage       = $subkey->usage();
+
+            if (method_exists($subkey, 'getCreationDateTime')) {
+                $skey->created = $subkey->getCreationDateTime();
+                $skey->expires = $subkey->getExpirationDateTime();
+            }
+            else {
+                $skey->created = $subkey->getCreationDate();
+                $skey->expires = $subkey->getExpirationDate();
+
+                if ($skey->created) {
+                    $skey->created = new DateTime("@{$skey->created}");
+                }
+
+                if ($skey->expires) {
+                    $skey->expires = new DateTime("@{$skey->expires}");
+                }
+            }
 
             $ekey->subkeys[$idx] = $skey;
         };
@@ -570,7 +585,7 @@ class enigma_driver_gnupg extends enigma_driver
     }
 
     /**
-     * Syncronize keys database on multi-host setups
+     * Synchronize keys database on multi-host setups
      */
     protected function db_sync()
     {

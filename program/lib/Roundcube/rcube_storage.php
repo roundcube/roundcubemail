@@ -64,16 +64,17 @@ abstract class rcube_storage
      * @var array
      */
     protected $all_headers = [
-        'IN-REPLY-TO',
-        'BCC',
-        'SENDER',
-        'MESSAGE-ID',
         'CONTENT-TRANSFER-ENCODING',
-        'REFERENCES',
-        'X-DRAFT-INFO',
+        'BCC',
+        'IN-REPLY-TO',
         'MAIL-FOLLOWUP-TO',
         'MAIL-REPLY-TO',
+        'MESSAGE-ID',
+        'REFERENCES',
+        'RESENT-BCC',
         'RETURN-PATH',
+        'SENDER',
+        'X-DRAFT-INFO',
     ];
 
     const UNKNOWN       = 0;
@@ -388,7 +389,7 @@ abstract class rcube_storage
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      *
-     * @todo: Search criteria should be provided in non-IMAP format, eg. array
+     * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     abstract function search($folder = null, $str = 'ALL', $charset = null, $sort_field = null);
 
@@ -669,7 +670,7 @@ abstract class rcube_storage
      * Create a new folder on the server.
      *
      * @param string  $folder    New folder name
-     * @param bool    $subscribe True if the newvfolder should be subscribed
+     * @param bool    $subscribe True if the new folder should be subscribed
      * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
      * @param bool    $noselect  Make the folder \NoSelect folder by adding hierarchy
      *                           separator at the end (useful for server that do not support

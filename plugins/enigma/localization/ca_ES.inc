@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'La/es clau(s) s\'ha(n) suprimit correctament';
 $messages['keyremoveerror'] = 'No es poden suprimir les claus seleccionades.';
 $messages['keyimporttext'] = 'Podeu importar claus públiques i privades o signatures de revocació en format ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Podeu cercar claus públiques per l\'identificador de la clau, nom d’usuari o adreça de correu electrònic i després importar-les directament.';
+$messages['keystoragenotice'] = 'Totes les claus públiques i privades s’emmagatzemen al servidor.';
 $messages['formerror'] = 'Si us plau ompliu el formulari. Tots els camps són obligatoris!';
 $messages['passwordsdiffer'] = 'Les contrasenyes no coincideixen!';
 $messages['keygenerateerror'] = 'No s\'ha pogut generar un parell de claus';

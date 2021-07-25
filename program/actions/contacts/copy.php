@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Copy a contact record from one direcotry to another                 |
+ |   Copy a contact record from one directory to another                 |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -45,7 +45,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 break;
             }
 
-            // It maight happen when copying records from search result
+            // It might happen when copying records from search result
             // Do nothing, go to next source
             if ((string) $target == (string) $source) {
                 continue;

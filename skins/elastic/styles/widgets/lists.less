@@ -355,7 +355,7 @@ html.ie11 .listing.iconized li a:before {
     }
 }
 
-/* selecatable list: e.g. spellcheck language selection */
+/* selectable list: e.g. spellcheck language selection */
 .listing.iconized.selectable li {
     a:before {
         &:extend(.font-icon-class);
@@ -606,6 +606,7 @@ table.fixedcopy {
             &.subject {
                 .overflow-ellipsis();
                 width: 100%;
+                user-select: none
             }
         }
     }

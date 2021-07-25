@@ -53,7 +53,7 @@ class Framework_User extends ActionTestCase
 
         $hash = $user->get_hash();
 
-        $this->assertRegExp('/^[a-zA-Z0-9]{16}$/', $hash);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{16}$/', $hash);
 
         $user = new rcube_user(1);
 

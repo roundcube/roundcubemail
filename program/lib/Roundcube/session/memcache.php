@@ -28,8 +28,12 @@
  */
 class rcube_session_memcache extends rcube_session
 {
+    /** @var Memcache The memcache driver */
     private $memcache;
+
+    /** @var bool Debug state */
     private $debug;
+
 
     /**
      * Object constructor
@@ -181,7 +185,7 @@ class rcube_session_memcache extends rcube_session
      * @param string $type   Operation type
      * @param string $key    Session identifier
      * @param string $data   Data to log
-     * @param bool   $result Opearation result
+     * @param bool   $result Operation result
      */
     protected function debug($type, $key, $data = null, $result = null)
     {

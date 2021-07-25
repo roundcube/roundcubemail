@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Attach vCard';
 $labels['vcardattached'] = 'vCard file attached.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Forward vCard';
+$labels['contactsattached'] = 'There are $num contacts attached to this message.';
+$labels['importedsuccessfully'] = 'Contact(s) imported successfully';

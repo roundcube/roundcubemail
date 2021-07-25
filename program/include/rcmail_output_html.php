@@ -48,7 +48,7 @@ class rcmail_output_html extends rcmail_output
     protected $assets_path;
     protected $assets_dir   = RCUBE_INSTALL_PATH;
     protected $devel_mode   = false;
-    protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
+    protected $default_template = "<html>\n<head><meta name='generator' content='Roundcube'></head>\n<body></body>\n</html>";
 
     // deprecated names of templates used before 0.5
     protected $deprecated_templates = [
@@ -186,6 +186,11 @@ EOF;
      */
     public function set_assets_path($path, $fs_dir = null)
     {
+        // set absolute path for assets if /index.php/foo/bar url is used
+        if (empty($path) && !empty($_SERVER['PATH_INFO'])) {
+            $path = preg_replace('/\/?\?_task=[a-z]+/', '', $this->app->url([], true));
+        }
+
         if (empty($path)) {
             return;
         }
@@ -673,7 +678,7 @@ EOF;
 
         // Fix assets path on blankpage
         if (!empty($this->js_env['blankpage'])) {
-            $this->js_env['blankpage'] = $this->asset_url($this->abs_url($this->js_env['blankpage'], true));
+            $this->js_env['blankpage'] = $this->asset_url($this->js_env['blankpage'], true);
         }
 
         $commands = $this->get_js_commands($framed);
@@ -813,7 +818,7 @@ EOF;
             );
         }
 
-        // parse for specialtags
+        // parse for special tags
         $output = $this->parse_conditions($templ);
         $output = $this->parse_xml($output);
 
@@ -954,7 +959,7 @@ EOF;
     public function asset_url($path, $abs_url = false)
     {
         // iframe content can't be in a different domain
-        // @TODO: check if assests are on a different domain
+        // @TODO: check if assets are on a different domain
 
         if ($abs_url) {
             $path = $this->abs_url($path, true);
@@ -1071,7 +1076,7 @@ EOF;
     }
 
     /**
-     * Public wrapper to dipp into template parsing.
+     * Public wrapper to dip into template parsing.
      *
      * @param string $input Template content
      *
@@ -1093,54 +1098,102 @@ EOF;
      */
     protected function parse_conditions($input)
     {
-        $regexp = '/<roundcube:if\s+[^>]+>(((?!<roundcube:(if|endif)).)*)<roundcube:endif[^>]*>/is';
+        $regexp1 = '/<roundcube:if\s+([^>]+)>/is';
+        $regexp2 = '/<roundcube:(if|elseif|else|endif)\s*([^>]*)>/is';
 
-        while (preg_match($regexp, $input, $conditions)) {
-            $result = $this->eval_condition($conditions[0]);
-            $input  = str_replace($conditions[0], $result, $input);
-        }
+        $pos = 0;
 
-        return $input;
-    }
+        // Find IF tags and process them
+        while ($pos < strlen($input) && preg_match($regexp1, $input, $conditions, PREG_OFFSET_CAPTURE, $pos)) {
+            $pos = $start = $conditions[0][1];
 
-    /**
-     * Process & evaluate conditional tags
-     */
-    protected function eval_condition($input)
-    {
-        $matches = preg_split('/<roundcube:(if|elseif|else|endif)\s*([^>]*)>\n?/is', $input, 2, PREG_SPLIT_DELIM_CAPTURE);
-        if ($matches && count($matches) == 4) {
-            if (preg_match('/^(else|endif)$/i', $matches[1])) {
-                return $matches[0] . $this->eval_condition($matches[3]);
+            // Process the 'condition' attribute
+            $attrib  = html::parse_attrib_string($conditions[1][0]);
+            $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+
+            // Define start/end position of the content to pass into the output
+            $content_start = $condmet ? $pos + strlen($conditions[0][0]) : null;
+            $content_end   = null;
+
+            $level = 0;
+            $endif = null;
+            $n = $pos + 1;
+
+            // Process the code until the closing tag (for the processed IF tag)
+            while (preg_match($regexp2, $input, $matches, PREG_OFFSET_CAPTURE, $n)) {
+                $tag_start = $matches[0][1];
+                $tag_end   = $tag_start + strlen($matches[0][0]);
+                $tag_name  = strtolower($matches[1][0]);
+
+                switch ($tag_name) {
+                case 'if':
+                    $level++;
+                    break;
+
+                case 'endif':
+                    if (!$level--) {
+                        $endif = $tag_end;
+                        if ($content_end === null) {
+                            $content_end = $tag_start;
+                        }
+                        break 2;
+                    }
+                    break;
+
+                case 'elseif':
+                    if (!$level) {
+                        if ($condmet) {
+                            if ($content_end === null) {
+                                $content_end = $tag_start;
+                            }
+                        }
+                        else {
+                            // Process the 'condition' attribute
+                            $attrib  = html::parse_attrib_string($matches[2][0]);
+                            $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+
+                            if ($condmet) {
+                                $content_start = $tag_end;
+                            }
+                        }
+                    }
+                    break;
+
+                case 'else':
+                    if (!$level) {
+                        if ($condmet) {
+                            if ($content_end === null) {
+                                $content_end = $tag_start;
+                            }
+                        }
+                        else {
+                            $content_start = $tag_end;
+                        }
+                    }
+                    break;
+                }
+
+                $n = $tag_end;
             }
 
-            $attrib = html::parse_attrib_string($matches[2]);
-
-            if (isset($attrib['condition'])) {
-                $condmet   = $this->check_condition($attrib['condition']);
-                $condparts = preg_split('/<roundcube:((elseif|else|endif)[^>]*)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
-
-                if ($condmet) {
-                    $result = $condparts[0];
-                    if ($condparts[2] != 'endif') {
-                        $result .= preg_replace('/.*<roundcube:endif[^>]*>\n?/Uis', '', $condparts[3], 1);
-                    }
-                    else {
-                        $result .= $condparts[3];
-                    }
+            // No ending tag found
+            if ($endif === null) {
+                $pos = strlen($input);
+                if ($content_end === null) {
+                    $content_end = $pos;
                 }
-                else {
-                    $result = "<roundcube:$condparts[1]>" . $condparts[3];
-                }
-
-                return $matches[0] . $this->eval_condition($result);
             }
 
-            rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Unable to parse conditional tag " . $matches[2]
-                ], true, false
-            );
+            if ($content_start === null) {
+                $content = '';
+            }
+            else {
+                $content = substr($input, $content_start, $content_end - $content_start);
+            }
+
+            // Replace the whole IF statement with the output content
+            $input = substr_replace($input, $content, $start, max($endif, $content_end, $pos) - $start);
+            $pos   = $start;
         }
 
         return $input;
@@ -1659,8 +1712,7 @@ EOF;
      */
     public function button($attrib)
     {
-        static $s_button_count   = 100;
-        static $disabled_actions = null;
+        static $s_button_count = 100;
 
         // these commands can be called directly via url
         $a_static_commands = ['compose', 'list', 'preferences', 'folders', 'identities'];
@@ -1680,9 +1732,7 @@ EOF;
             $element = (!empty($this->env['task']) ? $this->env['task'] . '.' : '') . $action;
         }
 
-        if ($disabled_actions === null) {
-            $disabled_actions = (array) $this->config->get('disabled_actions');
-        }
+        $disabled_actions = (array) $this->config->get('disabled_actions');
 
         // remove buttons for disabled actions
         if (in_array($element, $disabled_actions) || in_array($action, $disabled_actions)) {
@@ -1930,7 +1980,7 @@ EOF;
 
     /**
      * Add HTML code to the page footer
-     * To be added right befor </body>
+     * To be added right before </body>
      *
      * @param string $str HTML code
      */
@@ -2043,7 +2093,7 @@ EOF;
             $page_header = "<head>\n$page_header\n</head>\n";
         }
 
-        // add page hader
+        // add page header
         if ($hpos) {
             $output = substr_replace($output, $page_header, $hpos, 0);
         }
@@ -2215,7 +2265,7 @@ EOF;
     {
         static $username;
 
-        // alread fetched
+        // already fetched
         if (!empty($username)) {
             return $username;
         }
@@ -2267,7 +2317,7 @@ EOF;
 
         $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
-        // set atocomplete attribute
+        // set autocomplete attribute
         $user_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $host_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $pass_attrib = $autocomplete > 1 ? [] : ['autocomplete' => 'off'];

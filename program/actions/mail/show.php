@@ -261,7 +261,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         );
 
         // add link to save sender in addressbook and reload message
-        if (!empty(self::$MESSAGE->sender['mailto']) && $rcmail->config->get('show_images') == 1) {
+        $show_images = $rcmail->config->get('show_images');
+        if (!empty(self::$MESSAGE->sender['mailto']) && ($show_images == 1 || $show_images == 3)) {
             $buttons .= ' ' . html::a([
                     'href'    => "#loadremotealways",
                     'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', true)",
@@ -274,6 +275,29 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $rcmail->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
 
         return html::div($attrib, $msg . '&nbsp;' . html::span('boxbuttons', $buttons));
+    }
+
+    /**
+     * Display a warning whenever a suspicious email address has been found in the message.
+     *
+     * @return string HTML content of the warning element
+     */
+    public static function suspicious_content_warning()
+    {
+        if (empty(self::$SUSPICIOUS_EMAIL)) {
+            return '';
+        }
+
+        $rcmail = rcmail::get_instance();
+
+        $attrib = [
+            'id'    => 'suspicious-content-message',
+            'class' => 'notice',
+        ];
+
+        $msg = html::span(null, rcube::Q($rcmail->gettext('suspiciousemail')));
+
+        return html::div($attrib, $msg);
     }
 
     public static function message_buttons()
@@ -314,6 +338,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $content = [
             self::message_buttons(),
             self::remote_objects_msg(),
+            self::suspicious_content_warning(),
         ];
 
         $plugin = $rcmail->plugins->exec_hook('message_objects',
@@ -498,8 +523,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         // single header value is requested
         if (!empty($attrib['valueof'])) {
+            if (empty($plugin['output'][$attrib['valueof']])) {
+                return '';
+            }
+
             $row = $plugin['output'][$attrib['valueof']];
-            return $row['html'] ? $row['value'] : rcube::SQ($row['value']);
+            return !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
         }
 
         // compose html table

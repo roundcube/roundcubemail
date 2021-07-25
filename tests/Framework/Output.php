@@ -52,5 +52,8 @@ class Framework_Output extends PHPUnit\Framework\TestCase
         $this->assertSame('[]', rcube_output::json_serialize([]));
         $this->assertSame('10', rcube_output::json_serialize(10));
         $this->assertSame('{"test":"test"}', rcube_output::json_serialize(['test' => 'test']));
+
+        // Test non-utf-8 input
+        $this->assertSame('{"ab":"ab"}', rcube_output::json_serialize(["a\x8cb" => "a\x8cb"]));
     }
 }

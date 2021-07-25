@@ -14,5 +14,5 @@ Your report should include clear steps for reproduction and a classification of 
 ## Publishing and Credits
 
 We're dedicated to analyze and fix the reported issues as fast a possible. Usually within days we'll have an update ready.
-Together with the reporter we plan the releasing and the disclousure of the found and fixed vulnerability.
+Together with the reporter we plan the releasing and the disclosure of the found and fixed vulnerability.
 Credits to the reporter are granted and can be included in all public communication if desired.

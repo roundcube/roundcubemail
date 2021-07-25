@@ -444,7 +444,7 @@ class HTTPSocket
     }
 
     /**
-     * Set a specifc message on how to change the SSL setting, in the event that it's not set correctly.
+     * Set a specific message on how to change the SSL setting, in the event that it's not set correctly.
      */
     function set_ssl_setting_message($str)
     {

@@ -129,7 +129,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         $result = $action->message_list([]);
 
-        $this->assertRegExp('/^<table id="rcubemessagelist".*<\/table>$/', $result);
+        $this->assertMatchesRegularExpression('/^<table id="rcubemessagelist".*<\/table>$/', $result);
         $listcols = ['threads', 'subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment'];
         $this->assertSame($listcols, $output->get_env('listcols'));
     }
@@ -354,25 +354,25 @@ class Actions_Mail_Index extends ActionTestCase
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => false]);
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertRegExp('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
-        $this->assertRegExp('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
-        $this->assertNotRegExp('/ex3.jpg/', $html, "No references to external images");
-        $this->assertNotRegExp('/<meta [^>]+>/', $html, "No meta tags allowed");
-        $this->assertNotRegExp('/<form [^>]+>/', $html, "No form tags allowed");
-        $this->assertRegExp('/Subscription form/', $html, "Include <form> contents");
-        $this->assertRegExp('/<!-- link ignored -->/', $html, "No external links allowed");
-        $this->assertRegExp('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
+        $this->assertMatchesRegularExpression('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
+        $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
+        $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, "No references to external images");
+        $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, "No meta tags allowed");
+        $this->assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, "No form tags allowed");
+        $this->assertMatchesRegularExpression('/Subscription form/', $html, "Include <form> contents");
+        $this->assertMatchesRegularExpression('/<!-- link ignored -->/', $html, "No external links allowed");
+        $this->assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
 //        $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertRegExp('/<style [^>]+>/', $html, "Allow styles in safe mode");
-        $this->assertRegExp('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, "Allow external images in HTML (safe mode)");
-        $this->assertRegExp("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html, "Allow external images in CSS (safe mode)");
+        $this->assertMatchesRegularExpression('/<style [^>]+>/', $html, "Allow styles in safe mode");
+        $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, "Allow external images in HTML (safe mode)");
+        $this->assertMatchesRegularExpression("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html, "Allow external images in CSS (safe mode)");
         $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
-        $this->assertRegExp('#'.$css.'#Ui', $html, "Filter (anonymized) external styleseehts with utils/modcss.php");
+        $this->assertMatchesRegularExpression('#'.$css.'#Ui', $html, "Filter (anonymized) external stylesheets with utils/modcss.php");
     }
 
     /**
@@ -385,15 +385,15 @@ class Actions_Mail_Index extends ActionTestCase
         $part   = $this->get_html_part('src/htmlxss.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
-        $this->assertNotRegExp('/src="skins/', $washed, "Remove local references");
-        $this->assertNotRegExp('/\son[a-z]+/', $washed, "Remove on* attributes");
-        $this->assertNotContains('onload', $washed, "Handle invalid style");
+        $this->assertDoesNotMatchRegularExpression('/src="skins/', $washed, "Remove local references");
+        $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $washed, "Remove on* attributes");
+        $this->assertStringNotContainsString('onload', $washed, "Handle invalid style");
 
         $params = ['container_id' => 'foo'];
         $html   = rcmail_action_mail_index::html4inline($washed, $params);
 
-        $this->assertNotRegExp('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
-        $this->assertNotRegExp('/alert/', $html, "Remove alerts");
+        $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
+        $this->assertDoesNotMatchRegularExpression('/alert/', $html, "Remove alerts");
     }
 
     /**
@@ -409,8 +409,8 @@ class Actions_Mail_Index extends ActionTestCase
         $body   = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
         $washed = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertNotRegExp('/alert|expression|javascript|xss/', $washed, "Remove evil style blocks");
-        $this->assertNotRegExp('/font-style:italic/', $washed, "Allow valid styles");
+        $this->assertDoesNotMatchRegularExpression('/alert|expression|javascript|xss/', $washed, "Remove evil style blocks");
+        $this->assertDoesNotMatchRegularExpression('/font-style:italic/', $washed, "Allow valid styles");
     }
 
     /**
@@ -425,8 +425,8 @@ class Actions_Mail_Index extends ActionTestCase
             .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
         $washed = rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
 
-        $this->assertNotRegExp('/data:text/', $washed, "Remove data:text/html links");
-        $this->assertNotRegExp('/vbscript:/', $washed, "Remove vbscript: links");
+        $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, "Remove data:text/html links");
+        $this->assertDoesNotMatchRegularExpression('/vbscript:/', $washed, "Remove vbscript: links");
     }
 
     /**
@@ -438,11 +438,11 @@ class Actions_Mail_Index extends ActionTestCase
         $params = ['container_id' => 'foo'];
         $html   = rcmail_action_mail_index::html4inline($html, $params);
 
-        $this->assertRegExp('/<div style="font-size:11px">/', $html, "Body attributes");
+        $this->assertMatchesRegularExpression('/<div style="font-size:11px">/', $html, "Body attributes");
         $this->assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
-        $this->assertRegExp('/background-color: #fff;/', $params['container_attrib']['style'], "Body style (bgcolor)");
-        $this->assertRegExp('/background-image: url\(test\)/', $params['container_attrib']['style'], "Body style (background)");
-        $this->assertRegExp('/color: #000/', $params['container_attrib']['style'], "Body style (text)");
+        $this->assertMatchesRegularExpression('/background-color: #fff;/', $params['container_attrib']['style'], "Body style (bgcolor)");
+        $this->assertMatchesRegularExpression('/background-image: url\(test\)/', $params['container_attrib']['style'], "Body style (background)");
+        $this->assertMatchesRegularExpression('/color: #000/', $params['container_attrib']['style'], "Body style (text)");
     }
 
     /**
@@ -456,7 +456,7 @@ class Actions_Mail_Index extends ActionTestCase
         $part   = $this->get_html_part('src/invalidchars.html');
         $washed = rcmail_action_mail_index::print_body($part->body, $part);
 
-        $this->assertRegExp('/<p>(символ|симол)<\/p>/', $washed, "Remove non-unicode characters from HTML message body");
+        $this->assertMatchesRegularExpression('/<p>(символ|симол)<\/p>/', $washed, "Remove non-unicode characters from HTML message body");
     }
 
     /**
@@ -474,11 +474,11 @@ class Actions_Mail_Index extends ActionTestCase
 
         $body   = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertContains("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (1)");
+        $this->assertStringContainsString("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (1)");
 
         $body   = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertContains("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (2)");
+        $this->assertStringContainsString("<html><head>$meta</head><body>Test1", $washed, "Meta tag insertion (2)");
 
         $body   = 'Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
@@ -511,9 +511,21 @@ class Actions_Mail_Index extends ActionTestCase
         $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
         $html = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
-        $this->assertRegExp('/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/', $html, "Mailto links with onclick");
-        $this->assertRegExp('#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#', $html, "Links with target=_blank");
-        $this->assertRegExp('#\\[<a rel="noreferrer" target="_blank" href="http://example.com/\\?tx\\[a\\]=5">http://example.com/\\?tx\\[a\\]=5</a>\\]#', $html, "Links with square brackets");
+        $this->assertMatchesRegularExpression(
+            '/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/',
+            $html,
+            "Mailto links with onclick"
+        );
+        $this->assertMatchesRegularExpression(
+            '#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#',
+            $html,
+            "Links with target=_blank"
+        );
+        $this->assertMatchesRegularExpression(
+            '#\\[<a rel="noreferrer" target="_blank" href="http://example.com/\\?tx\\[a\\]=5">http://example.com/\\?tx\\[a\\]=5</a>\\]#',
+            $html,
+            "Links with square brackets"
+        );
     }
 
     /**
@@ -533,7 +545,7 @@ class Actions_Mail_Index extends ActionTestCase
         $mailto = '<a href="mailto:me@me.com"'
             .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
 
-        $this->assertRegExp('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
+        $this->assertMatchesRegularExpression('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
     }
 
     /**
@@ -547,9 +559,9 @@ class Actions_Mail_Index extends ActionTestCase
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         // #1487759
-        $this->assertRegExp('|<p>test1</p>|', $washed, "Buggy HTML comments");
+        $this->assertMatchesRegularExpression('|<p>test1</p>|', $washed, "Buggy HTML comments");
         // but conditional comments (<!--[if ...) should be removed
-        $this->assertNotRegExp('|<p>test2</p>|', $washed, "Conditional HTML comments");
+        $this->assertDoesNotMatchRegularExpression('|<p>test2</p>|', $washed, "Conditional HTML comments");
     }
 
     /**
@@ -563,16 +575,16 @@ class Actions_Mail_Index extends ActionTestCase
         $html = '<a href="/">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
-        $this->assertNotContains('href="/"', $body);
-        $this->assertContains('<a>', $body);
+        $this->assertStringNotContainsString('href="/"', $body);
+        $this->assertStringContainsString('<a>', $body);
 
         $html = '<a href="https://roundcube.net">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
         // allow external links, add target and noreferrer
-        $this->assertContains('<a href="https://roundcube.net"', $body);
-        $this->assertContains(' target="_blank"', $body);
-        $this->assertContains(' rel="noreferrer"', $body);
+        $this->assertStringContainsString('<a href="https://roundcube.net"', $body);
+        $this->assertStringContainsString(' target="_blank"', $body);
+        $this->assertStringContainsString(' rel="noreferrer"', $body);
     }
 
     /**
@@ -585,8 +597,8 @@ class Actions_Mail_Index extends ActionTestCase
         $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
-        $this->assertNotContains('onerror=alert(1)//">test', $body);
-        $this->assertContains('<a style="x: &gt;"', $body);
+        $this->assertStringNotContainsString('onerror=alert(1)//">test', $body);
+        $this->assertStringContainsString('<a style="x: &gt;"', $body);
     }
 
     /**

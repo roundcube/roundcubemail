@@ -26,7 +26,7 @@
 # @param -host        hostname to be connected
 # @param -timeout     timeout for each step
 # @param -log         file for writing error messages
-# @param -output      file for loging the output
+# @param -output      file for logging the output
 # @param -telnet      use telnet
 # @param -ssh         use ssh (default)
 # @param -rlogin      use rlogin
@@ -259,7 +259,7 @@ expect {
                        exit 1}
 }
 
-# exit succsessfully
+# exit successfully
 expect {
   eof {close $err
        exit 0}

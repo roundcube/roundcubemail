@@ -11,14 +11,14 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Utility class providing HTML sanityzer (based on Washtml class)     |
+ |   Utility class providing HTML sanitizer (based on Washtml class)     |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Frederic Motte <fmotte@ubixis.com>                            |
  +-----------------------------------------------------------------------+
 
-                Washtml, a HTML sanityzer.
+                Washtml, a HTML sanitizer.
 
  Copyright (c) 2007 Frederic Motte <fmotte@ubixis.com>
  All rights reserved.
@@ -45,7 +45,7 @@
 */
 
 /**
- * Utility class providing HTML sanityzer
+ * Utility class providing HTML sanitizer
  *
  * @package    Framework
  * @subpackage Utils
@@ -103,7 +103,7 @@ class rcube_washtml
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
         'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
         'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
-        'background', 'src', 'poster', 'href', 'headers',
+        'background', 'src', 'poster', 'href', 'headers', 'start', 'reversed',
         // attributes of form elements
         'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value', 'for',
         // SVG
@@ -710,6 +710,8 @@ class rcube_washtml
             @$node->{$method}($html, LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET);
         }
 
+        unset($html); // release some memory
+
         return $this->dumpHtml($node);
     }
 
@@ -776,7 +778,7 @@ class rcube_washtml
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
-            "\xe2\x80\xa6"  // elipses
+            "\xe2\x80\xa6"  // ellipses
         ];
 
         $fixedwordchars = [
@@ -967,6 +969,10 @@ class rcube_washtml
                 $html = substr_replace($html, ($body_pos === false ? '<body>' : '') . $prefix, $pos + 1, 0);
             }
         }
+
+        // Workaround for HTML5 issue with "invalid" table structure (#7356)
+        $html = preg_replace('|<tr>\s*<tr>|', '<tr>', $html);
+        $html = preg_replace('|</tr>\s*</tr>|', '</tr>', $html);
 
         return $html;
     }

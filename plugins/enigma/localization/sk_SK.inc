@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Vymazanie kľúča (kľúčov) bolo úspešné.
 $messages['keyremoveerror'] = 'Nemožno vymazať vybraný kľúč (vybrané kľúče).';
 $messages['keyimporttext'] = 'Môžete naimportovať súkromné a verejné kľúče alebo podpisy pre odvolanie vo formáte ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Verejné kľúče môžete vyhľadávať podľa identifikátora kľúča, mena používateľa alebo e-mailovej adresy a potom ich priamo importovať.';
+$messages['keystoragenotice'] = 'Všetky verejné a súkromné kľúče sú uložené na serveri.';
 $messages['formerror'] = 'Prosím vyplňte formulár. Je nutné vyplniť všetky polia!';
 $messages['passwordsdiffer'] = 'Heslá sa nezhodujú!';
 $messages['keygenerateerror'] = 'Nepodarilo sa vygenerovať pár kľúčov';

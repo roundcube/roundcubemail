@@ -409,9 +409,7 @@ class enigma_ui
         $table->add_header('expires', $this->enigma->gettext('subkeyexpires'));
         $table->add_header('usage', $this->enigma->gettext('subkeyusage'));
 
-        $now         = time();
-        $date_format = $this->rc->config->get('date_format', 'Y-m-d');
-        $usage_map   = [
+        $usage_map = [
             enigma_key::CAN_ENCRYPT      => $this->enigma->gettext('typeencrypt'),
             enigma_key::CAN_SIGN         => $this->enigma->gettext('typesign'),
             enigma_key::CAN_CERTIFY      => $this->enigma->gettext('typecert'),
@@ -431,11 +429,11 @@ class enigma_ui
                 }
             }
 
-            $table->set_row_attribs($subkey->revoked || ($subkey->expires && $subkey->expires < $now) ? 'deleted' : '');
+            $table->set_row_attribs($subkey->revoked || $subkey->is_expired() ? 'deleted' : '');
             $table->add('id', $subkey->get_short_id());
             $table->add('algo', $algo);
-            $table->add('created', $subkey->created ? $this->rc->format_date($subkey->created, $date_format, false) : '');
-            $table->add('expires', $subkey->expires ? $this->rc->format_date($subkey->expires, $date_format, false) : $this->enigma->gettext('expiresnever'));
+            $table->add('created', $subkey->get_creation_date());
+            $table->add('expires', $subkey->get_expiration_date() ?: $this->enigma->gettext('expiresnever'));
             $table->add('usage', implode(',', $usage));
         }
 
@@ -515,7 +513,7 @@ class enigma_ui
                 }
             }
 
-            // send downlaod headers
+            // send download headers
             header('Content-Type: application/pgp-keys');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
 
@@ -647,6 +645,11 @@ class enigma_ui
             else {
                 $this->rc->output->set_pagetitle($title);
             }
+
+            $warning = $this->enigma->gettext('keystoragenotice');
+            $warning = html::div(['class' => 'boxinformation mb-3', 'id' => 'key-notice'], $warning);
+
+            $form = $warning . $form;
         }
 
         if (empty($attrib['part']) || $attrib['part'] == 'search') {
@@ -815,12 +818,15 @@ class enigma_ui
             ], 'text')
         );
 
+        $warning = $this->enigma->gettext('keystoragenotice');
+        $warning = html::div(['class' => 'boxinformation mb-3', 'id' => 'key-notice'], $warning);
+
         $this->rc->output->add_gui_object('keyform', $attrib['id']);
         $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
             'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.noidentselected',
             'enigma.keygennosupport');
 
-        return $this->rc->output->form_tag([], $table->show($attrib));
+        return $this->rc->output->form_tag([], $warning . $table->show($attrib));
     }
 
     /**
@@ -1135,7 +1141,7 @@ class enigma_ui
                 html::tag('button', [
                         'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
                         'title'   => $this->enigma->gettext('keyattimport'),
-                        'class'   => 'import',
+                        'class'   => 'import btn-sm',
                     ], rcube::Q($this->rc->gettext('import'))
                 )
             ) . $p['content'];
@@ -1280,7 +1286,7 @@ class enigma_ui
             $this->rc->output->show_message($msg, 'error');
         }
 
-        // Check sign/ecrypt options for signed/encrypted drafts
+        // Check sign/encrypt options for signed/encrypted drafts
         if (!in_array('encrypt', $locks)) {
             $this->rc->output->set_env('enigma_force_encrypt', !empty($engine->decryptions));
         }

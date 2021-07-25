@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.1, 7.2, 7.3, 7.4, 8.0]
+        php: [7.3, 7.4, 8.0]
 
     name: PHP ${{ matrix.php }}/Linux
 
@@ -36,15 +36,11 @@ jobs:
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
 
-      - name: Fix PHPUnit for PHP8
-        run: composer config platform.php 7.4
-        if: matrix.php >= 8
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Roundcube configuration
-        run: cp .ci/config-test.inc.php config/config-test.inc.php
+        run: cp .github/config-test.inc.php config/config-test.inc.php
 
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml

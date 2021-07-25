@@ -2,7 +2,7 @@ Roundcube Webmail
 =================
 [roundcube.net](https://roundcube.net)
 
-[![Build Status](https://api.travis-ci.org/roundcube/roundcubemail.svg?branch=master)](https://travis-ci.org/roundcube/roundcubemail)
+[![Tests Status](https://github.com/roundcube/roundcubemail/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/roundcube/roundcubemail/actions/workflows/tests.yml)
 
 ATTENTION
 ---------
@@ -37,13 +37,13 @@ described in the UPGRADING file.
 
 BROWSER SUPPORT
 ---------------
-Roundcube uses jQuery 3.x for its client and therefore inherits the browser
-support from there. This currently includes:
+Roundcube uses jQuery 3.x (and other libs) for its client and therefore
+inherits the browser support from there. This currently includes:
 
 - Chrome: (Current - 1) and Current
 - Edge: (Current - 1) and Current
 - Firefox: (Current - 1) and Current, ESR
-- Internet Explorer: 9+ (11+ for the Elastic skin)
+- Internet Explorer: 11+
 - Safari: (Current - 1) and Current
 - Opera: Current
 

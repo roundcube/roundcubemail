@@ -407,14 +407,19 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()'
             ]);
 
+        $redirect = !empty($this->vacation['action'])
+            && ($this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy');
+
         $status->add($this->plugin->gettext('vacation.on'), 'on');
         $status->add($this->plugin->gettext('vacation.off'), 'off');
 
         $action->add($this->plugin->gettext('vacation.keep'), 'keep');
         $action->add($this->plugin->gettext('vacation.discard'), 'discard');
-        $action->add($this->plugin->gettext('vacation.redirect'), 'redirect');
-        if (in_array('copy', $this->exts)) {
-            $action->add($this->plugin->gettext('vacation.copy'), 'copy');
+        if ($redirect || !in_array('redirect', $this->disabled_actions)) {
+            $action->add($this->plugin->gettext('vacation.redirect'), 'redirect');
+            if (in_array('copy', $this->exts)) {
+                $action->add($this->plugin->gettext('vacation.copy'), 'copy');
+            }
         }
 
         if (
@@ -488,9 +493,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // force domain selection in redirect email input
-        $domains  = (array) $this->rc->config->get('managesieve_domains');
-        $redirect = !empty($this->vacation['action'])
-            && ($this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy');
+        $domains = (array) $this->rc->config->get('managesieve_domains');
 
         if (!empty($domains)) {
             sort($domains);
@@ -551,7 +554,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if (!empty($after)) {
             $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));
-            $table->add(null, $after->show($this->vacation['idx'] - 1));
+            $table->add(null, $after->show(isset($this->vacation['idx']) ? $this->vacation['idx'] - 1 : ''));
         }
 
         $table->add('title', html::label('vacation_action', $this->plugin->gettext('vacation.action')));
@@ -844,7 +847,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
-                $this->error = "Invalid address in action taget: " . $data['target'];
+                $this->error = "Invalid address in action target: " . $data['target'];
                 return false;
             }
         }

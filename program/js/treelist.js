@@ -1090,7 +1090,7 @@ function rcube_treelist_widget(node, p)
 
           if (drag_active && scroll != 0) {
             if (!scroll_timer)
-              scroll_timer = window.setTimeout(function(){ drag_scroll(scroll); }, p.scroll_delay);
+              scroll_timer = setTimeout(function() { drag_scroll(scroll); }, p.scroll_delay);
           }
           else if (scroll_timer) {
             window.clearTimeout(scroll_timer);
@@ -1141,7 +1141,7 @@ function rcube_treelist_widget(node, p)
     scroll_timer = null;
 
     if (list_scroll_top != old_top)
-      scroll_timer = window.setTimeout(function(){ drag_scroll(dir); }, p.scroll_speed);
+      scroll_timer = setTimeout(function() { drag_scroll(dir); }, p.scroll_speed);
   }
 
   /**

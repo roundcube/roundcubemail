@@ -62,7 +62,7 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
     exit(0);
 }
 
-$username = trim($args[0]);
+$username = isset($args[0]) ? trim($args[0]) : null;
 if (empty($username)) {
     _die("Missing required parameters", true);
 }

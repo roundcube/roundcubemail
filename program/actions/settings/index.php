@@ -1581,7 +1581,7 @@ class rcmail_action_settings_index extends rcmail_action
 
         $disabled_actions = (array) $rcmail->config->get('disabled_actions');
 
-        // get all identites from DB and define list of cols to be displayed
+        // get all identities from DB and define list of cols to be displayed
         $plugin = $rcmail->plugins->exec_hook('settings_actions', [
                 'actions' => $default_actions,
                 'attrib'  => $attrib,
@@ -1675,7 +1675,7 @@ class rcmail_action_settings_index extends rcmail_action
             $token = str_replace('_', ' ', $token);
             $key  .= ":$idx";
 
-            $tokens[$i] = $labels[$key] ?: $token;
+            $tokens[$i] = !empty($labels[$key]) ? $labels[$key] : $token;
         }
 
         return implode('/', $tokens);

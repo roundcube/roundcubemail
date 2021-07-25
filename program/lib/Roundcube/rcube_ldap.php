@@ -592,10 +592,11 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param array $cols   List of cols to show
      * @param int   $subset Only return this number of records
+     * @param bool   $nocount True to skip the count query (Not used)
      *
      * @return array Indexed list of contact records, each a hash array
      */
-    function list_records($cols = null, $subset = 0)
+    function list_records($cols = null, $subset = 0, $nocount = false)
     {
         if (!empty($this->prop['searchonly']) && empty($this->filter) && !$this->group_id) {
             $this->result = new rcube_result_set(0);
@@ -946,6 +947,9 @@ class rcube_ldap extends rcube_addressbook
             $filter = 'e:' . $filter;
         }
 
+        // Reset the previous search result
+        $this->reset();
+
         // set filter string and execute search
         $this->set_search_set($filter);
 
@@ -1231,7 +1235,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        // abort process if requiered fields are missing
+        // abort process if required fields are missing
         // TODO: generate message saying which fields are missing
         if ($missing) {
             $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
@@ -1702,7 +1706,7 @@ class rcube_ldap extends rcube_addressbook
         foreach ($this->fieldmap as $rf => $fld) {
             $val = $save_cols[$rf];
 
-            // check for value in base field (eg. email instead of email:foo)
+            // check for value in base field (e.g. email instead of email:foo)
             list($col, $subtype) = explode(':', $rf);
             if (!$val && !empty($save_cols[$col])) {
                 $val = $save_cols[$col];

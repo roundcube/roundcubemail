@@ -145,15 +145,18 @@ class rcmail_sendmail
                 $from = null;
             }
         }
-        // ... if there is no identity record, this might be a custom from
-        else if (($from_string = $this->email_input_format($from))
-            && preg_match('/(\S+@\S+)/', $from_string, $m)
-        ) {
-            $from = trim($m[1], '<>');
-        }
-        // ... otherwise it's empty or invalid
         else {
-            $from = null;
+            // ... if there is no identity record, this might be a custom from
+            $from_addresses = rcube_mime::decode_address_list($from);
+
+            if (count($from_addresses) == 1) {
+                $from        = $from_addresses[1]['mailto'];
+                $from_string = $from_addresses[1]['string'];
+            }
+            // ... otherwise it's empty or invalid
+            else {
+                $from = null;
+            }
         }
 
         // check 'From' address (identity may be incomplete)
@@ -202,7 +205,6 @@ class rcmail_sendmail
         }
 
         if ($mdn_enabled) {
-            $headers['Return-Receipt-To']           = $from_string;
             $headers['Disposition-Notification-To'] = $from_string;
         }
 
@@ -676,14 +678,13 @@ class rcmail_sendmail
 
                 $hash      = md5($data) . '@' . $domain;
                 $mime_type = $matches[2][$idx][0];
-                $name      = $list[$hash];
 
                 if (empty($mime_type)) {
                     $mime_type = rcube_mime::image_content_type($data);
                 }
 
                 // add the image to the MIME message
-                if (!$name) {
+                if (empty($list[$hash])) {
                     $ext         = preg_replace('#^[^/]+/#', '', $mime_type);
                     $name        = substr($hash, 0, 8) . '.' . $ext;
                     $list[$hash] = $name;
@@ -691,6 +692,7 @@ class rcmail_sendmail
                     $message->addHTMLImage($data, $mime_type, $name, false, $hash);
                 }
 
+                $name = $list[$hash];
                 $body = substr_replace($body, $name, $m[1] + $offset, strlen($m[0]));
                 $offset += strlen($name) - strlen($m[0]);
             }
@@ -712,6 +714,10 @@ class rcmail_sendmail
     {
         if (!isset($this->parse_data['RECIPIENT_COUNT'])) {
             $this->parse_data['RECIPIENT_COUNT'] = 0;
+        }
+
+        if (empty($mailto)) {
+            return '';
         }
 
         // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
@@ -744,6 +750,8 @@ class rcmail_sendmail
             }
             // address without brackets and without name (add brackets)
             else if (preg_match('/^'.$email_regexp.'$/', $item)) {
+                // Remove trailing non-letter characters (#7899)
+                $item     = preg_replace('/[^a-zA-Z]$/', '', $item);
                 $item     = rcube_utils::idn_to_ascii($item);
                 $result[] = $item;
             }
@@ -919,7 +927,7 @@ class rcmail_sendmail
 
             $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
 
-            // create teaxtarea object
+            // create textarea object
             $input = new $field_type($field_attrib);
             $out   = $input->show($this->compose_header_value($param, $mode));
         }
@@ -1049,7 +1057,7 @@ class rcmail_sendmail
             $charset = $this->rcmail->output->charset;
         }
         else if ($mode == self::MODE_REPLY) {
-            // get recipent address(es) out of the message headers
+            // get recipient address(es) out of the message headers
             if ($header == 'to') {
                 $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
                 $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
@@ -1082,7 +1090,7 @@ class rcmail_sendmail
                 // Reply to message sent by yourself (#1487074, #1489230, #1490439)
                 // Reply-To address need to be unset (#1490233)
                 if (!empty($message->compose['ident']) && empty($replyto)) {
-                    foreach ([$fvalue, $message->headers->from] as $sender) {
+                    foreach ([$fvalue, $message->get_header('from')] as $sender) {
                         $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
 
                         if (in_array($message->compose['ident']['email_ascii'], $senders)) {
@@ -1186,17 +1194,11 @@ class rcmail_sendmail
     {
         $subject = trim($subject);
 
-        // replace Re:, Re[x]:, Re-x (#1490497)
-        $prefix = '/^(re:|re\[\d\]:|re-\d:)\s*/i';
-        do {
-            $subject = preg_replace($prefix, '', $subject, -1, $count);
-        }
-        while ($count);
+        //  Add config options for subject prefixes (#7929) 
+        $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
+        $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
-        // replace (was: ...) (#1489375)
-        $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
-
-        return 'Re: ' . $subject;
+        return trim($subject);
     }
 
     /**
@@ -1230,14 +1232,11 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            if (preg_match('/^fwd:/i', $this->options['message']->subject)) {
-                $subject = $this->options['message']->subject;
-            }
-            else {
-                $subject = 'Fwd: ' . $this->options['message']->subject;
-            }
+            //  Add config options for subject prefixes (#7929) 
+            $subject = rcube_utils::remove_subject_prefix($this->options['message']->subject, 'forward');
+            $subject = trim($this->rcmail->config->get('forward_prefix', 'Fwd:') . ' ' . $subject);
         }
-        // creeate a draft-subject
+        // create a draft-subject
         else if ($this->data['mode'] == self::MODE_DRAFT || $this->data['mode'] == self::MODE_EDIT) {
             $subject = $this->options['message']->subject;
         }

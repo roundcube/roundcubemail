@@ -2,8 +2,7 @@
 
 class Password_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../password.php';
     }
@@ -101,10 +100,10 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
         $this->assertSame("\"\0t\0e\0s\0t\0\"\0", $pass);
 
         $pass = password::hash_password('test', 'ssha');
-        $this->assertRegExp('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
+        $this->assertMatchesRegularExpression('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
 
         $pass = password::hash_password('test', 'sha256-crypt');
-        $this->assertRegExp('/^\{CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
+        $this->assertMatchesRegularExpression('/^\{CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
 
         // TODO: Test all algos
     }

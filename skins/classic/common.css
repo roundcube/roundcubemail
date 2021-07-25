@@ -385,6 +385,16 @@ body.iframe .boxtitle
   padding: 8px 10px 8px 46px;
 }
 
+.boxcontent .boxinformation
+{
+  margin: 0 0 10px;
+  display: block;
+  min-height: 22px;
+  background: url(images/display/icons.png) #ddd 6px 4px no-repeat;
+  border: 1px solid #888;
+  padding: 8px 10px 8px 46px;
+}
+
 .boxcontent table td.title
 {
   color: #666;

@@ -239,7 +239,7 @@ this.spellCheck = function(ignore)
 {
     this.prepare(ignore);
 
-    var req_text = this.escapeSpecial(this.orginal_text),
+    var req_text = this.escapeSpecial(this.original_text),
         ref = this;
 
     $.ajax({ type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
@@ -299,7 +299,7 @@ this.prepare = function(ignore, no_indicator)
     this.cnt_errors_fixed = 0;
     this.cnt_errors = 0;
     this.setStateChanged('checking_spell');
-    this.orginal_text = '';
+    this.original_text = '';
 
     if (!no_indicator && this.main_controller)
         this.appendIndicator(this.spell_span);
@@ -329,7 +329,7 @@ this.prepare = function(ignore, no_indicator)
     if (this.main_controller)
         $(this.spell_span).off('click');
 
-    this.orginal_text = area.val();
+    this.original_text = area.val();
 };
 
 this.parseResult = function(r_text)
@@ -400,14 +400,14 @@ this.hideErrorWindow = function()
     $(this.error_window_iframe).hide();
 };
 
-this.updateOrginalText = function(offset, old_value, new_value, id)
+this.updateOriginalText = function(offset, old_value, new_value, id)
 {
-    var part_1 = this.orginal_text.substring(0, offset),
-        part_2 = this.orginal_text.substring(offset+old_value.length),
+    var part_1 = this.original_text.substring(0, offset),
+        part_2 = this.original_text.substring(offset+old_value.length),
         add_2_offset = new_value.length - old_value.length;
 
-    this.orginal_text = part_1 + new_value + part_2;
-    $(this.text_area).val(this.orginal_text);
+    this.original_text = part_1 + new_value + part_2;
+    $(this.text_area).val(this.original_text);
     for (var j=0, len=this.results.length; j<len; j++) {
         // Don't edit the offset of the current item
         if (j != id && j > id)
@@ -441,7 +441,7 @@ this.correctError = function(id, elm, l_elm, rm_pre_space)
     }
 
     this.hideErrorWindow();
-    this.updateOrginalText(offset, old_value, new_value, id);
+    this.updateOriginalText(offset, old_value, new_value, id);
 
     $(elm).html(new_value).css('color', 'green').attr('is_corrected', true);
 
@@ -510,7 +510,7 @@ this.showErrorWindow = function(elm, id)
 
         $('<li>').mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
             .click(function(e) {
-                ref.updateOrginalText(offset, elm.innerHTML, old_value, id);
+                ref.updateOriginalText(offset, elm.innerHTML, old_value, id);
                 $(elm).removeAttr('is_corrected').css('color', '#b91414').html(old_value);
                 ref.hideErrorWindow();
             })
@@ -529,7 +529,7 @@ this.showErrorWindow = function(elm, id)
             if (!ref.isDefined(elm.old_value))
                 ref.saveOldValue(elm, elm.innerHTML);
 
-            ref.updateOrginalText(offset, elm.innerHTML, edit_input.value, id);
+            ref.updateOriginalText(offset, elm.innerHTML, edit_input.value, id);
             $(elm).attr('is_corrected', true).css('color', 'green').text(edit_input.value);
             ref.hideErrorWindow();
         }
@@ -653,7 +653,7 @@ this.createEditLayer = function(width, height)
                     $(ref.text_area).focus();
                     fn1 = null;
                 };
-                window.setTimeout(fn1, 10);
+                setTimeout(fn1, 10);
             }
             return false;
         });
@@ -729,33 +729,33 @@ this.showErrorsInIframe = function()
         for (var i=0, length=results.length; i < length; i++) {
             var offset = results[i]['attrs']['o'],
                 len = results[i]['attrs']['l'],
-                part_1_text = this.orginal_text.substring(pointer, offset),
+                part_1_text = this.original_text.substring(pointer, offset),
                 part_1 = this.createPart(part_1_text);
 
             output.appendChild(part_1);
             pointer += offset - pointer;
 
             // If the last child was an error, then insert some space
-            var err_link = this.createErrorLink(this.orginal_text.substr(offset, len), i);
+            var err_link = this.createErrorLink(this.original_text.substr(offset, len), i);
             this.error_links.push(err_link);
             output.appendChild(err_link);
             pointer += len;
         }
 
-        // Insert the rest of the orginal text
-        var part_2_text = this.orginal_text.substr(pointer, this.orginal_text.length),
+        // Insert the rest of the original text
+        var part_2_text = this.original_text.substr(pointer, this.original_text.length),
             part_2 = this.createPart(part_2_text);
 
         output.appendChild(part_2);
     }
     else
-        output.innerHTML = this.orginal_text;
+        output.innerHTML = this.original_text;
 
     $(output).css('text-align', 'left');
 
     var me = this;
-    if (this.custom_item_evaulator)
-        $.map(this.error_links, function(elm){me.custom_item_evaulator(me, elm)});
+    if (this.custom_item_evaluator)
+        $.map(this.error_links, function(elm){me.custom_item_evaluator(me, elm)});
 
     $(this.edit_layer).append(output);
 
@@ -833,7 +833,7 @@ this.flashNoSpellingErrorState = function(on_finish)
         $(this.spell_span).empty().append(rsm)
         .removeClass().addClass('googie_check_spelling_ok');
 
-        window.setTimeout(no_spell_errors, 1000);
+        setTimeout(no_spell_errors, 1000);
     }
 };
 

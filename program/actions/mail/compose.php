@@ -91,7 +91,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->redirect([
                     '_action' => 'compose',
                     '_id'     => self::$COMPOSE['id'],
-                    '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['search'] : null,
+                    '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['_search'] : null,
             ]);
         }
 
@@ -210,7 +210,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::$MESSAGE = new rcube_message($msg_uid);
 
             // make sure message is marked as read
-            if (self::$MESSAGE->headers && self::$MESSAGE->context === null && empty(self::$MESSAGE->headers->flags['SEEN'])) {
+            if (
+                !empty(self::$MESSAGE->headers)
+                && self::$MESSAGE->context === null
+                && empty(self::$MESSAGE->headers->flags['SEEN'])
+            ) {
                 $rcmail->storage->set_flag($msg_uid, 'SEEN');
             }
 
@@ -218,7 +222,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $rcmail->storage->set_charset(self::$MESSAGE->headers->charset);
             }
 
-            if (!self::$MESSAGE->headers) {
+            if (empty(self::$MESSAGE->headers)) {
                 // error
             }
             else if ($compose_mode == rcmail_sendmail::MODE_FORWARD || $compose_mode == rcmail_sendmail::MODE_REPLY) {
@@ -311,6 +315,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // register UI objects (Note: some objects are registered by rcmail_sendmail above)
         $rcmail->output->add_handlers([
                 'composebody'           => [$this, 'compose_body'],
+                'composeobjects'        => [$this, 'compose_objects'],
                 'composeattachmentlist' => [$this, 'compose_attachment_list'],
                 'composeattachmentform' => [$this, 'compose_attachment_form'],
                 'composeattachment'     => [$this, 'compose_attachment_field'],
@@ -778,7 +783,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // If desired, set this textarea to be editable by TinyMCE
         $attrib['data-html-editor'] = true;
         if (self::$HTML_MODE) {
-            $attrib['class'] = trim($attrib['class'] . ' mce_editor');
+            $attrib['class'] = trim((isset($attrib['class']) ? $attrib['class'] : '') . ' mce_editor');
         }
 
         $attrib['name'] = '_message';
@@ -860,6 +865,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function get_reply_header($message)
     {
+        if (empty($message->headers)) {
+            return '';
+        }
+
         $rcmail = rcmail::get_instance();
         $list   = rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset);
         $from   = array_pop($list);
@@ -867,7 +876,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $rcmail->gettext([
                 'name' => 'mailreplyintro',
                 'vars' => [
-                    'date'   => $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long')),
+                    'date'   => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
                     'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
                 ]
         ]);
@@ -880,8 +889,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     public static function get_forward_header($message, $bodyIsHtml = false, $extended = true)
     {
+        if (empty($message->headers)) {
+            return '';
+        }
+
         $rcmail = rcmail::get_instance();
-        $date   = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
+        $date   = $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long'));
 
         if (!$bodyIsHtml) {
             $prefix = "\n\n\n-------- " . $rcmail->gettext('originalmessage') . " --------\n";
@@ -890,11 +903,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $prefix .= $rcmail->gettext('from')    . ': ' . $message->get_header('from') . "\n";
             $prefix .= $rcmail->gettext('to')      . ': ' . $message->get_header('to') . "\n";
 
-            if ($extended && ($cc = $message->headers->get('cc'))) {
+            if ($extended && ($cc = $message->get_header('cc'))) {
                 $prefix .= $rcmail->gettext('cc') . ': ' . $cc . "\n";
             }
 
-            if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            if ($extended && ($replyto = $message->get_header('reply-to')) && $replyto != $message->get_header('from')) {
                 $prefix .= $rcmail->gettext('replyto') . ': ' . $replyto . "\n";
             }
 
@@ -914,12 +927,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $rcmail->gettext('to'), rcube::Q($message->get_header('to'), 'replace')
             );
 
-            if ($extended && ($cc = $message->headers->get('cc'))) {
+            if ($extended && ($cc = $message->get_header('cc'))) {
                 $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                     $rcmail->gettext('cc'), rcube::Q($cc, 'replace'));
             }
 
-            if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            if ($extended && ($replyto = $message->get_header('reply-to')) && $replyto != $message->get_header('from')) {
                 $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                     $rcmail->gettext('replyto'), rcube::Q($replyto, 'replace'));
             }
@@ -1181,6 +1194,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 self::$MESSAGE->subject = $message->subject;
             }
 
+            if ($message->headers->get('bcc', false) || $message->headers->get('resent-bcc', false)) {
+                self::$COMPOSE['has_bcc'] = true;
+            }
+
             // generate (unique) attachment name
             $name = strlen($message->subject) ? mb_substr($message->subject, 0, 64) : 'message_rfc822';
             if (!empty($names[$name])) {
@@ -1282,6 +1299,37 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         else {
             return preg_replace('/^.*[\/]/', '', $filename);
         }
+    }
+
+    /**
+     * Handler for template object 'composeObjects'
+     *
+     * @param array $attrib HTML attributes
+     *
+     * @return string HTML content
+     */
+    public static function compose_objects($attrib)
+    {
+        if (empty($attrib['id'])) {
+            $attrib['id'] = 'compose-objects';
+        }
+
+        $rcmail  = rcmail::get_instance();
+        $content = [];
+
+        // Add a warning about Bcc recipients
+        if (!empty(self::$COMPOSE['has_bcc'])) {
+            $msg        = html::span(null, rcube::Q($rcmail->gettext('bccemail')));
+            $msg_attrib = ['id' => 'bcc-warning', 'class' => 'boxwarning'];
+            $content[]  = html::div($msg_attrib, $msg);
+        }
+
+        $plugin = $rcmail->plugins->exec_hook('compose_objects',
+            ['content' => $content, 'message' => self::$MESSAGE]);
+
+        $content = implode("\n", $plugin['content']);
+
+        return $content ? html::div($attrib, $content) : '';
     }
 
     /**

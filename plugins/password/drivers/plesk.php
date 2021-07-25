@@ -42,7 +42,7 @@ class rcube_plesk_password
     /**
      * This method is called from roundcube to change the password
      *
-     * roundcube allready validated the old password so we just need to change it at this point
+     * roundcube already validated the old password so we just need to change it at this point
      *
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
      * @param string $curpass Current password

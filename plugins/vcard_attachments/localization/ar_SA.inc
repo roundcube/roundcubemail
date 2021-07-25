@@ -16,3 +16,9 @@
 
 $labels['addvcardmsg'] = 'إضافة صيغة vCard إلى دفتر العناوين';
 $labels['vcardsavefailed'] = 'غير قادر على الحفظ بصيغة vCard';
+$labels['attachvcard'] = 'إرفاق vCard';
+$labels['vcardattached'] = 'تم إرفاق ملف vCard.';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'إعادة توجيه vCard';
+$labels['contactsattached'] = 'هناك $num من جهات الاتصال المرفقة بهذه الرسالة.';
+$labels['importedsuccessfully'] = 'تم استيراد جهة (جهات) الاتصال بنجاح إلى دفتر العناوين.';

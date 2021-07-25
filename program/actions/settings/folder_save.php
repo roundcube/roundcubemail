@@ -115,7 +115,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
 
             // Server does not support both sub-folders and messages in a folder
             // For folders that are supposed to contain other folders we will:
-            //    - disable subscribtion
+            //    - disable subscription
             //    - add a separator at the end to make them \NoSelect
             if (!$dual_use_supported && $type == 'folder') {
                 $folder['subscribe'] = false;

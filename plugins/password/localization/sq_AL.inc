@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'Fjalëkalimi i ri duhet të jetë i ndryshëm nga i v
 $messages['passwdexpirewarning'] = 'Kujdes! Fjalëkalimi juaj do të skadojë së shpejti, ndryshojeni para $expirationdatetime.';
 $messages['passwdexpired'] = 'Fjalëkalimi juaj ka skaduar, lypset ta ndryshoni tani!';
 $messages['passwdconstraintviolation'] = 'Cenim kufizimi fjalëkalimi. Mundet fjalëkalim shumë i dobët.';
-$messages['pwned_mustnotbedisclosed'] = 'Fjalëklaimi s’duhet të jetë&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">një i njohur rëndom</a>.';
+$messages['pwned_mustnotbedisclosed'] = 'Fjalëkalimi s’duhet të jetë <a href="$href" target="_blank">gjë e ditur rëndom</a>.';
 $messages['pwned_isdisclosed'] = 'Ky fjalëkalim është rëndom i njohur';
 $messages['pwned_fetcherror'] = 'S’u arrit të verifikohej fortësia e fjalëkalimit.';

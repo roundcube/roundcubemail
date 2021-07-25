@@ -181,7 +181,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return array Group properties as hash array
+     * @return ?array Group properties as hash array, null in case of error.
      */
     function get_group($group_id)
     {
@@ -576,7 +576,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed $id Record identifier
      *
-     * @return array List of assigned groups as ID=>Name pairs
+     * @return array List of assigned groups, indexed by a group ID
      */
     function get_record_groups($id)
     {
@@ -806,8 +806,10 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        // save all e-mails in database column
-        $out['email'] = implode(self::SEPARATOR, $vcard->email);
+        // save all e-mails in the database column
+        if (!empty($vcard->email)) {
+            $out['email'] = implode(self::SEPARATOR, $vcard->email);
+        }
 
         // join words for fulltext search
         $out['words'] = implode(' ', array_unique(explode(' ', $words)));

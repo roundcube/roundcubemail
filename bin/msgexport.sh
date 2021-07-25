@@ -21,7 +21,7 @@ require_once INSTALL_PATH.'program/include/clisetup.php';
 
 function print_usage()
 {
-    print "Usage:  msgexport -h imap-host -u user-name -m mailbox name\n";
+    print "Usage: msgexport.sh -h imap-host -u user-name -m mailbox name\n";
     print "--host   IMAP host\n";
     print "--user   IMAP user name\n";
     print "--mbox   Folder name, set to '*' for all\n";

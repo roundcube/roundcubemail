@@ -42,6 +42,8 @@ class rcube_result_multifolder
 
     /**
      * Object constructor.
+     *
+     * @param array $folders List of IMAP folders
      */
     public function __construct($folders = [])
     {
@@ -52,7 +54,7 @@ class rcube_result_multifolder
     /**
      * Initializes object with SORT command response
      *
-     * @param string $data IMAP response string
+     * @param rcube_result_index|rcube_result_thread Search result
      */
     public function add($result)
     {
@@ -68,6 +70,8 @@ class rcube_result_multifolder
 
     /**
      * Append message UIDs from the given result to our index
+     *
+     * @param rcube_result_index|rcube_result_thread Search result
      */
     protected function append_result($result)
     {
@@ -82,6 +86,10 @@ class rcube_result_multifolder
 
     /**
      * Store a global index of (sorted) message UIDs
+     *
+     * @param 
+     * @param string $sort_field Header field to sort by
+     * @param string $sort_order Sort order
      */
     public function set_message_index($headers, $sort_field, $sort_order)
     {
@@ -157,6 +165,7 @@ class rcube_result_multifolder
      * @param int  $msgid     Message ID
      * @param bool $get_index When enabled element's index will be returned.
      *                        Elements are indexed starting with 0
+     *
      * @return mixed False if message ID doesn't exist, True if exists or
      *               index of the element if $get_index=true
      */
@@ -240,7 +249,7 @@ class rcube_result_multifolder
     /**
      * Return result element at specified index
      *
-     * @param int|string $index Element's index or "FIRST" or "LAST"
+     * @param int|string $idx Element's index or "FIRST" or "LAST"
      *
      * @return int Element value
      */
@@ -304,9 +313,11 @@ class rcube_result_multifolder
         return $this->count();
     }
 
-
-    /* Serialize magic methods */
-
+    /**
+     * Serialization __sleep handler
+     *
+     * @return array Names of all object properties that should be serialized
+     */
     public function __sleep()
     {
         $this->sdata = ['incomplete' => [], 'error' => []];
@@ -323,6 +334,9 @@ class rcube_result_multifolder
         return ['sdata', 'index', 'folders', 'sorting', 'order'];
     }
 
+    /**
+     * Serialization __wakeup handler
+     */
     public function __wakeup()
     {
         $this->meta       = ['count' => count($this->index)];

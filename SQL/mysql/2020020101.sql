@@ -1,4 +1,4 @@
--- Dropping foreign keys and changing table format is nedded for some versions of MySQL (#7277)
+-- Dropping foreign keys and changing table format is needed for some versions of MySQL (#7277)
 ALTER TABLE `cache` DROP FOREIGN KEY `user_id_fk_cache`;
 ALTER TABLE `cache_index` DROP FOREIGN KEY `user_id_fk_cache_index`;
 ALTER TABLE `cache_thread` DROP FOREIGN KEY `user_id_fk_cache_thread`;

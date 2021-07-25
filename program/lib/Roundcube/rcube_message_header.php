@@ -187,7 +187,11 @@ class rcube_message_header
      */
     public $flags = [];
 
-    // map header to rcube_message_header object property
+    /**
+     * Header name to rcube_message_header object property map
+     *
+     * @var array
+     */
     private $obj_headers = [
         'date'      => 'date',
         'from'      => 'from',
@@ -203,7 +207,6 @@ class rcube_message_header
         'content-type'              => 'ctype',
         'charset'                   => 'charset',
         'references'                => 'references',
-        'return-receipt-to'         => 'mdn_to',
         'disposition-notification-to' => 'mdn_to',
         'x-confirm-reading-to'      => 'mdn_to',
         'message-id'                => 'messageID',
@@ -212,13 +215,18 @@ class rcube_message_header
 
     /**
      * Returns header value
+     *
+     * @param string $name   Header name
+     * @param bool   $decode Decode the header content
+     *
+     * @param string|null Header content
      */
     public function get($name, $decode = true)
     {
         $name  = strtolower($name);
         $value = null;
 
-        if (isset($this->obj_headers[$name])) {
+        if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
         else if (isset($this->others[$name])) {
@@ -243,6 +251,9 @@ class rcube_message_header
 
     /**
      * Sets header value
+     *
+     * @param string $name  Header name
+     * @param string $value Header content
      */
     public function set($name, $value)
     {
@@ -259,7 +270,7 @@ class rcube_message_header
     /**
      * Factory method to instantiate headers from a data array
      *
-     * @param array  $arr Hash array with header values
+     * @param array $arr Hash array with header values
      *
      * @return rcube_message_header instance filled with headers values
      */
@@ -283,6 +294,7 @@ class rcube_message_header
  */
 class rcube_message_header_sorter
 {
+    /** @var array Message UIDs */
     private $uids = [];
 
 

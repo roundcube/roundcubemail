@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'معلومات المستخدم';
+$labels['infoforuser'] = 'معلومات المستخدم $user';
 $labels['created'] = 'أُنشئ في';
 $labels['lastlogin'] = 'آخر دخول';
 $labels['defaultidentity'] = 'الهوية الافتراضية';
+$labels['userid'] = 'المُعَرّف';

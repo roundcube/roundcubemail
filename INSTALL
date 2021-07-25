@@ -11,7 +11,7 @@ REQUIREMENTS
 
 * An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
-* PHP Version 5.5 or greater including:
+* PHP Version 7.3 or greater including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype, Intl (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Iconv, Zip, Fileinfo, Exif (recommended)
@@ -60,11 +60,11 @@ INSTALLATION
    IMPORTANT: REMOVE THE INSTALLER DIRECTORY!
    ------------------------------------------
 8. If you use git sources compile css files for the Elastic skin (required
-   lessc >= 1.5.0):
+   lessc >= 2.5.2):
    $ cd skins/elastic
-   $ lessc -x styles/styles.less > styles/styles.css
-   $ lessc -x styles/print.less > styles/print.css
-   $ lessc -x styles/embed.less > styles/embed.css
+   $ lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css
+   $ lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css
 9. Check Known Issues section of this file
 
 
@@ -208,7 +208,7 @@ please refer to the instructions in UPGRADING guide.
 OPTIMISING
 ==========
 
-There are two forms of optimisation here, compression and caching, both aimed
+There are two forms of optimization here, compression and caching, both aimed
 at increasing an end user's experience using Roundcube Webmail. Compression
 allows the static web pages to be delivered with less bandwidth. The index.php
 of Roundcube Webmail already enables compression on its output. The settings
@@ -243,12 +243,12 @@ To enable these features in apache the following modules need to be enabled:
  * mod_expires
  * mod_headers
 
-The optimisation is already included in the .htaccess file in the top 
+The optimization is already included in the .htaccess file in the top 
 directory of your installation.
 
 Lighttpd:
 ---------
-With Lightty the addition of Expire: tags by mod_expire is incompatible with
+With Lighttpd the addition of Expire: tags by mod_expire is incompatible with
 the addition of "Cache-control: public". Using Cache-control 'public' is 
 used below as it is assumed to give a better caching result.
 

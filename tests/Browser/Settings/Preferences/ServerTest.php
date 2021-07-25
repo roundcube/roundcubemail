@@ -8,7 +8,7 @@ class ServerTest extends \Tests\Browser\TestCase
 {
     private $settings;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();
     }

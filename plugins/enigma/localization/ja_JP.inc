@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = '鍵を削除しました。';
 $messages['keyremoveerror'] = '秘密鍵を削除できません。';
 $messages['keyimporttext'] = '秘密鍵と公開鍵、または失効署名はASCII-Armor形式でインポートできます。';
 $messages['keyimportsearchtext'] = 'キーの識別子、ユーザー名、電子メールアドレスのいずれかで公開鍵を検索して、直接インポートできます。';
+$messages['keystoragenotice'] = 'すべての公開鍵と秘密鍵をサーバーに保管しています。';
 $messages['formerror'] = '項目を入力してください。すべての項目は必須です!';
 $messages['passwordsdiffer'] = 'パスワードが一致しません!';
 $messages['keygenerateerror'] = '鍵ペアを生成できませんでした。';

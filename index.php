@@ -2,7 +2,7 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.5-git                                                         |
+ | Version 1.6-git                                                         |
  |                                                                         |
  | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
@@ -76,11 +76,15 @@ if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_h
         }
     }
 
-    if (!rcube_utils::https_check($port ?: 443)) {
+    if (empty($port)) {
+        $port = 443;
+    }
+
+    if (!rcube_utils::https_check($port)) {
         if (empty($host)) {
             $host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
         }
-        if ($port && $port != 443) {
+        if ($port != 443) {
             $host .= ':' . $port;
         }
 
@@ -136,7 +140,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             parse_str($url, $query);
 
             // prevent endless looping on login page
-            if ($query['_task'] == 'login') {
+            if (!empty($query['_task']) && $query['_task'] == 'login') {
                 unset($query['_task']);
             }
 

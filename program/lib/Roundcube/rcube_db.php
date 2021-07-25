@@ -576,7 +576,7 @@ class rcube_db
      * INSERT ... ON DUPLICATE KEY UPDATE (or equivalent).
      * When not supported by the engine we do UPDATE and INSERT.
      *
-     * @param string $table   Table name
+     * @param string $table   Table name (should be already passed via table_name() with quoting)
      * @param array  $keys    Hash array (column => value) of the unique constraint
      * @param array  $columns List of columns to update
      * @param array  $values  List of values to update (number of elements
@@ -587,7 +587,6 @@ class rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $table   = $this->table_name($table, true);
         $columns = array_map(function($i) { return "`$i`"; }, $columns);
         $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
         $where   = $keys;
@@ -1139,7 +1138,7 @@ class rcube_db
         // use Base64 encoding to workaround issues with invalid
         // or null characters in serialized string (#1489142)
         if ($serialized) {
-            // Keep backward compatybility where base64 wasn't used
+            // Keep backward compatibility where base64 wasn't used
             if (strpos(substr($input, 0, 16), ':') !== false) {
                 return self::decode(@unserialize($input));
             }
@@ -1216,7 +1215,7 @@ class rcube_db
     /**
      * MDB2 DSN string parser
      *
-     * @param string $sequence Secuence name
+     * @param string $sequence Sequence name
      *
      * @return array DSN parameters
      */
@@ -1417,7 +1416,7 @@ class rcube_db
      *
      * @param string $sql SQL queries to execute
      *
-     * @return boolen True on success, False on error
+     * @return boolean True on success, False on error
      */
     public function exec_script($sql)
     {

@@ -8,7 +8,7 @@ use Tests\Browser\Components\Popupmenu;
 
 class PreviewTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_imap();
         \bootstrap::purge_mailbox('INBOX');
@@ -53,8 +53,8 @@ class PreviewTest extends \Tests\Browser\TestCase
                     ->assertSeeIn('#remote-objects-message', 'To protect your privacy remote resources have been blocked.');
 
                 // Images
-                $this->assertRegExp('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
-                $this->assertRegExp('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
+                $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
 
                 // Attachments list
                 $browser->with('#attachment-list', function ($browser) {
@@ -100,6 +100,8 @@ class PreviewTest extends \Tests\Browser\TestCase
     /**
      * Test "X more..." link on mail preview with many recipients,
      * and some more
+     *
+     * @group failsonga-phone
      */
     public function testPreviewMorelink()
     {

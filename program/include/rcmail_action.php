@@ -842,14 +842,15 @@ abstract class rcmail_action
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC);
-        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC);
+        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC, true);
+        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC, true);
 
         // already a hash array
         if (is_array($_uid) && !isset($_uid[0])) {
             return $_uid;
         }
 
+        $is_multifolder = false;
         $result = [];
 
         // special case: *
@@ -1216,15 +1217,16 @@ abstract class rcmail_action
         $out = '';
         foreach ($arrFolders as $folder) {
             $title        = null;
-            $folder_class = self::folder_classname($folder['id']);
+            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = 0;
+            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
 
             if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
             }
 
-            if ($folder_class && !$realnames && $rcmail->text_exists($folder_class)) {
+            if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1325,7 +1327,10 @@ abstract class rcmail_action
                 }
             }
 
-            if (!$realnames && ($folder_class = self::folder_classname($folder['id'])) && $rcmail->text_exists($folder_class)) {
+            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
+            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
+
+            if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
             }
             else {
@@ -1353,10 +1358,11 @@ abstract class rcmail_action
      * (including shared/other users namespace roots).
      *
      * @param string $folder_id IMAP Folder name
+     * @param string $fallback  Fallback Folder CSS class name
      *
      * @return string|null CSS class name
      */
-    public static function folder_classname($folder_id)
+    public static function folder_classname($folder_id, $fallback = null)
     {
         static $classes;
 
@@ -1385,7 +1391,7 @@ abstract class rcmail_action
             }
         }
 
-        return !empty($classes[$folder_id]) ? $classes[$folder_id] : null;
+        return !empty($classes[$folder_id]) ? $classes[$folder_id] : $fallback;
     }
 
     /**

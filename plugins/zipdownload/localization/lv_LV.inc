@@ -19,3 +19,4 @@ $labels['download'] = 'Lejupielādē...';
 $labels['downloadmbox'] = 'Mbox formāts(.zip)';
 $labels['downloadmaildir'] = 'Maildir formāts (.zip)';
 $labels['downloademl'] = 'Izejas avots (.eml)';
+$labels['sizelimiterror'] = 'Kopējais atzīmēto ziņojumu lielums pārsniedz limitu ($size)';

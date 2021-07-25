@@ -375,7 +375,7 @@ $labels['rotateimage'] = 'Rotate image';
 $labels['showtools'] = 'Show image tools';
 $labels['hidetools'] = 'Hide image tools';
 
-// address boook
+// address book
 $labels['name'] = 'Display Name';
 $labels['firstname'] = 'First Name';
 $labels['surname'] = 'Last Name';
@@ -761,7 +761,7 @@ $labels['arialabelcontactexportoptions'] = 'Contact export options';
 $labels['arialabelabookgroupoptions'] = 'Addressbook/group options';
 $labels['arialabelpreferencesform'] = 'Preferences form';
 $labels['arialabelidentityeditfrom'] = 'Identity edit form';
-$labels['arialabelresonseeditfrom'] = 'Response edit form';
+$labels['arialabelresponseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
 $labels['arialabelheadersmenu'] = 'Recipient (header) adding menu';

@@ -28,8 +28,12 @@
  */
 class rcube_session_db extends rcube_session
 {
+    /** @var rcube_db Database handler */
     private $db;
+
+    /** @var string Session table name (quoted) */
     private $table_name;
+
 
     /**
      * Object constructor
@@ -101,12 +105,24 @@ class rcube_session_db extends rcube_session
      */
     public function read($key)
     {
+        if ($this->lifetime) {
+            $expire_time  = $this->db->now(-$this->lifetime);
+            $expire_check = "CASE WHEN `changed` < $expire_time THEN 1 ELSE 0 END AS expired";
+        }
+
         $sql_result = $this->db->query(
             "SELECT `vars`, `ip`, `changed`, " . $this->db->now() . " AS ts"
+            . (isset($expire_check) ? ", $expire_check" : '')
             . " FROM {$this->table_name} WHERE `sess_id` = ?", $key
         );
 
         if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
+            // Remove expired sessions (we use gc, but it may not be precise enough or disabled)
+            if (!empty($sql_arr['expired'])) {
+                $this->destroy($key);
+                return '';
+            }
+
             $this->time_diff = time() - strtotime($sql_arr['ts']);
             $this->changed   = strtotime($sql_arr['changed']);
             $this->ip        = $sql_arr['ip'];

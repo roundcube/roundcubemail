@@ -22,7 +22,31 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         $this->assertSame('octet-stream', $result['attachments'][0]['subtype']);
         $this->assertSame('AUTHORS', $result['attachments'][0]['name']);
         $this->assertSame(244, $result['attachments'][0]['size']);
-        $this->assertRegExp('/Mark Simpson/', $result['attachments'][0]['stream']);
+        $this->assertMatchesRegularExpression('/Mark Simpson/', $result['attachments'][0]['stream']);
+    }
+
+    /**
+     * Test TNEF decoding
+     */
+    function test_decompress_body()
+    {
+        $body   = file_get_contents(TESTS_DIR . 'src/body.tnef');
+        $tnef   = new rcube_tnef_decoder;
+        $result = $tnef->decompress($body);
+
+        $this->assertSame('Untitled.html', trim($result['message']['name']));
+        $this->assertCount(0, $result['attachments']);
+        $this->assertSame('text', $result['message']['type']);
+        $this->assertSame('html', $result['message']['subtype']);
+        $this->assertSame(5360, $result['message']['size']);
+        $this->assertMatchesRegularExpression('/^<\!DOCTYPE HTML/', $result['message']['stream']);
+
+        $tnef   = new rcube_tnef_decoder;
+        $result = $tnef->decompress($body, true);
+
+        $this->assertCount(0, $result['attachments']);
+        $this->assertSame(5360, strlen($result['message']));
+        $this->assertMatchesRegularExpression('/^<\!DOCTYPE HTML/', $result['message']);
     }
 
     /**
@@ -33,7 +57,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         $body = file_get_contents(TESTS_DIR . 'src/sample.rtf');
         $text = rcube_tnef_decoder::rtf2text($body);
 
-        $this->assertRegExp('/^[a-zA-Z1-6!&<,> \n\.]+$/', $text);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z1-6!&<,> \n\.]+$/', $text);
         $this->assertTrue(strpos($text, 'Alex Skolnick') !== false);
         $this->assertTrue(strpos($text, 'Heading 1') !== false);
         $this->assertTrue(strpos($text, 'Heading 2') !== false);

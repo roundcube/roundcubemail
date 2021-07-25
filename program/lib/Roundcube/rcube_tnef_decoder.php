@@ -129,11 +129,12 @@ class rcube_tnef_decoder
     /**
      * Decompress the data.
      *
-     * @param string $data The data to decompress.
+     * @param string $data    The data to decompress.
+     * @param bool   $as_html Return message body as HTML
      *
      * @return array The decompressed data.
      */
-    public function decompress($data)
+    public function decompress($data, $as_html = false)
     {
         $attachments = [];
         $message     = [];
@@ -157,6 +158,38 @@ class rcube_tnef_decoder
                     $this->_decodeAttachment($data, $attachments);
                     break;
                 }
+            }
+        }
+
+        // Return the message body as HTML
+        if ($message && $as_html) {
+            // HTML body
+            if (!empty($message['size']) && $message['subtype'] == 'html') {
+                $message = $message['stream'];
+            }
+            // RTF body (converted to HTML)
+            // Note: RTF can contain encapsulated HTML content
+            else if (!empty($message['size']) && $message['subtype'] == 'rtf'
+                && function_exists('iconv')
+                && class_exists('RtfHtmlPhp\Document')
+            ) {
+                try {
+                    $document  = new RtfHtmlPhp\Document($message['stream']);
+                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
+                    $message   = $formatter->format($document);
+                }
+                catch (Exception $e) {
+                    // ignore the body
+                    rcube::raise_error([
+                            'file' => __FILE__,
+                            'line' => __LINE__,
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                        ], true, false
+                    );
+                }
+            }
+            else {
+                $message = null;
             }
         }
 
@@ -338,7 +371,7 @@ class rcube_tnef_decoder
             case self::MAPI_RTF_COMPRESSED:
                 $result['type']    = 'application';
                 $result['subtype'] = 'rtf';
-                $result['name']    = ($result['name'] ?: 'Untitled') . '.rtf';
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
                 $result['stream']  = $this->_decodeRTF($value);
                 $result['size']    = strlen($result['stream']);
                 break;
@@ -347,7 +380,8 @@ class rcube_tnef_decoder
             case self::MAPI_BODY_HTML:
                 $result['type']    = 'text';
                 $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
-                $result['name']    = ($result['name'] ?: 'Untitled') . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
+                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
+                    . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
                 $result['stream']  = $value;
                 $result['size']    = strlen($value);
                 break;
@@ -362,6 +396,10 @@ class rcube_tnef_decoder
                 $value = explode('/', trim($value));
                 $result['type']    = $value[0];
                 $result['subtype'] = $value[1];
+                break;
+
+            case self::MAPI_ATTACH_CONTENT_ID:
+                $result['content-id'] = $value;
                 break;
 
             case self::MAPI_ATTACH_DATA:

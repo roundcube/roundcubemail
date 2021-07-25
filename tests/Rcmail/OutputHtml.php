@@ -273,6 +273,12 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
      */
     function data_conditions()
     {
+        $txt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt "
+            . "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
+            . "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
+            . "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat "
+            . "non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
         return [
             ["_start_<roundcube:if condition='1' />A<roundcube:endif />_end_", "_start_A_end_"],
             ["_start_<roundcube:if condition='0' />A<roundcube:else />B<roundcube:endif />_end_", "_start_B_end_"],
@@ -283,7 +289,24 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
             ["_start_<roundcube:if condition='1' /><roundcube:if condition='1' />A<roundcube:else />B<roundcube:endif />C<roundcube:else />D<roundcube:endif />_end_", "_start_AC_end_"],
             ["_start_<roundcube:if condition='1' /><roundcube:if condition='0' />A<roundcube:elseif condition='1' />B<roundcube:else />C<roundcube:endif />D<roundcube:else />E<roundcube:endif />_end_", "_start_BD_end_"],
             ["_start_<roundcube:if condition='0' />A<roundcube:elseif condition='1' /><roundcube:if condition='0' />B<roundcube:else /><roundcube:if condition='1' />C<roundcube:endif />D<roundcube:endif /><roundcube:else />E<roundcube:endif />_end_", "_start_CD_end_"],
-            ["_start_<roundcube:if condition='0'>A<roundcube:elseif condition='1'><roundcube:if condition='0'>B<roundcube:else><roundcube:if condition='1'>C<roundcube:endif>D<roundcube:endif><roundcube:else>E<roundcube:endif>_end_", "_start_CD_end_"]
+            ["_start_<roundcube:if condition='0'>A<roundcube:elseif condition='1'><roundcube:if condition='0'>B<roundcube:else><roundcube:if condition='1'>C<roundcube:endif>D<roundcube:endif><roundcube:else>E<roundcube:endif>_end_", "_start_CD_end_"],
+            ["_start_<roundcube:if condition='1'>A<roundcube:elseif condition='1'>B<roundcube:elseif condition='1'>C<roundcube:endif>_end_", "_start_A_end_"],
+            ["_start_<roundcube:if condition='0'>A<roundcube:elseif condition='1'>B<roundcube:elseif condition='1'>C<roundcube:endif>_end_", "_start_B_end_"],
+            ["_start_<roundcube:if condition='0'>A<roundcube:elseif condition='0'>B<roundcube:elseif condition='1'>C<roundcube:endif>_end_", "_start_C_end_"],
+            // #8065
+            [
+                "_start_<roundcube:if condition='0'>Condition 1 {$txt} {$txt}<roundcube:elseif condition='1'>Condition 2 {$txt} {$txt}"
+                    . "<roundcube:elseif condition='0'>Condition 3 {$txt} {$txt}<roundcube:elseif condition='0'>Condition 4 {$txt} {$txt}"
+                    . "<roundcube:elseif condition='0'>Condition 5 {$txt} {$txt}<roundcube:elseif condition='0'>Condition 6 {$txt} {$txt}"
+                    . "<roundcube:endif>_end_",
+                "_start_Condition 2 {$txt} {$txt}_end_"
+            ],
+            // some invalid code
+            ["_start_<roundcube:if condition='1' />_end_", "_start__end_"],
+            ["_start_<roundcube:if condition='0' />_end_", "_start_"],
+            ["_start_<roundcube:if condition='1' />A<roundcube:else />_end_", "_start_A"],
+            ["_start_<roundcube:if condition='1' />A<roundcube:elseif condition='1' />_end_", "_start_A"],
+            ["_start_<roundcube:if />A<roundcube:endif />_end_", "_start__end_"],
         ];
     }
 

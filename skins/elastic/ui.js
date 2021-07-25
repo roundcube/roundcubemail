@@ -274,7 +274,7 @@ function rcube_elastic_ui()
             $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
-        // Some plugins use 'listbubtton' class, we'll replace it with 'button'
+        // Some plugins use 'listbutton' class, we'll replace it with 'button'
         $('.listbutton').each(function() {
             var button = find_button(this.id);
 
@@ -479,6 +479,7 @@ function rcube_elastic_ui()
             .addEventListener('googiespell_create', rcmail_popup_init)
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
+            .addEventListener('destroy-entity-selector', function(o) { menu_destroy(o.name); })
             .addEventListener('clonerow', pretty_checkbox_fix)
             .addEventListener('init', init);
 
@@ -803,7 +804,7 @@ function rcube_elastic_ui()
         color_scheme.addListener(function(e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', null);
+            rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
         });
 
         // We deliberately use only cookies here, not local storage
@@ -940,7 +941,7 @@ function rcube_elastic_ui()
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform:not(.groupped) div.row', context).each(function() {
+        $('fieldset.propform:not(.grouped) div.row', context).each(function() {
             var has_input = $('input:not([type=hidden]),select,textarea', this).length > 0;
 
             if (has_input) {
@@ -953,7 +954,7 @@ function rcube_elastic_ui()
         });
 
         // Contact info/edit form
-        $('fieldset.propform.groupped fieldset', context).each(function() {
+        $('fieldset.propform.grouped fieldset', context).each(function() {
             $('.row', this).each(function() {
                 var label, first,
                     has_input = $('input,select,textarea', this).length > 0,
@@ -1063,7 +1064,7 @@ function rcube_elastic_ui()
                 .parent().append(label);
         });
 
-        // Make tables pretier
+        // Make tables prettier
         $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
             .filter(function() {
                 // exclude direct propform children and external content
@@ -1420,7 +1421,6 @@ function rcube_elastic_ui()
                             // also https://github.com/tinymce/tinymce/issues/4869
                         }
 
-                        body.find('select').each(function() { pretty_select(this); });
                         body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
                         body.find('.tox-textarea,.tox-textfield').addClass('form-control');
                     };
@@ -2582,7 +2582,9 @@ function rcube_elastic_ui()
                 }
 
                 menus[p.name] = {target: target};
-                $(target).popover('show');
+
+                // setTimeout fixes Shift + drag'n'drop menu in Chrome (#8107)
+                setTimeout(function() { $(target).popover('show'); }, 1);
             }
 
             fn();
@@ -2789,9 +2791,10 @@ function rcube_elastic_ui()
      */
     function searchmenu(obj)
     {
-        var n, all,
+        var n, all = '*',
             list = $('input[name="s_mods[]"]', obj),
             scope_select = $('#s_scope', obj),
+            interval_select = $('#s_interval', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
@@ -2800,22 +2803,20 @@ function rcube_elastic_ui()
             $(obj).data('initialized', true);
             if (list.length) {
                 list.on('change', function() { set_searchmod(obj, this); });
-                rcmail.addEventListener('beforesearch', function() { set_searchmod(obj); });
+
+                rcmail.addEventListener('beforesearch', function() {
+                    rcmail.env.search_scope = scope_select.val();
+                    rcmail.env.search_interval = interval_select.val();
+                });
             }
         }
 
-        if (rcmail.env.search_mods) {
-            if (rcmail.env.task == 'mail') {
-                if (scope == 'all') {
-                    mbox = '*';
-                }
+        scope_select.val(scope);
 
-                mods = mods[mbox] ? mods[mbox] : mods['*'];
+        if (mods) {
+            if (rcmail.env.task == 'mail') {
+                mods = mods[mbox] || mods['*'];
                 all = 'text';
-                scope_select.val(scope);
-            }
-            else {
-                all = '*';
             }
 
             if (mods[all]) {
@@ -2836,18 +2837,8 @@ function rcube_elastic_ui()
     function set_searchmod(menu, elem)
     {
         var all, m, task = rcmail.env.task,
-            mods = rcmail.env.search_mods,
-            mbox = rcmail.env.mailbox,
-            scope = $('#s_scope', menu).val(),
-            interval = $('#s_interval', menu).val();
-
-        if (scope == 'all') {
-            mbox = '*';
-        }
-
-        if (!mods) {
-            mods = {};
-        }
+            mods = rcmail.env.search_mods || {},
+            mbox = rcmail.env.mailbox;
 
         if (task == 'mail') {
             if (!mods[mbox]) {
@@ -2855,17 +2846,11 @@ function rcube_elastic_ui()
             }
             m = mods[mbox];
             all = 'text';
-
-            rcmail.env.search_scope = scope;
-            rcmail.env.search_interval = interval;
         }
-        else { //addressbook
+        else {
+            // addressbook
             m = mods;
             all = '*';
-        }
-
-        if (!elem) {
-            return;
         }
 
         if (!elem.checked) {
@@ -2877,11 +2862,7 @@ function rcube_elastic_ui()
 
         // mark all fields
         if (elem.value == all) {
-            $('input[name="s_mods[]"]', menu).map(function() {
-                if (this == elem) {
-                    return;
-                }
-
+            $('input[name="s_mods[]"]', menu).not(elem).map(function() {
                 this.checked = true;
 
                 if (elem.checked) {
@@ -3242,8 +3223,13 @@ function rcube_elastic_ui()
 
                 return result.recipients.length > 0;
             },
-            parse_func = function(e, ac) {
+            parse_func = function(e, ac, trigger) {
                 var last, paste, value = this.value;
+
+                // #8098: ignore changes when autocomplete_insert is not triggered
+                if (trigger === false) {
+                    return;
+                }
 
                 // On paste the text is not yet in the input we have to use clipboard.
                 // Also because on paste new-line characters are replaced by spaces (#6460)
@@ -3256,7 +3242,7 @@ function rcube_elastic_ui()
                 }
                 // #7231: When clicking on autocompletion list a change event
                 // is fired twice. We have to remove last recipient box if it is
-                // the same recpient (with incomplete email address).
+                // the same recipient (with incomplete email address).
                 // FIXME: Anyone with a better solution?
                 else if (ac) {
                     last = list.find('li.recipient').last();
@@ -3316,7 +3302,7 @@ function rcube_elastic_ui()
             .attr('tabindex', -1)
             .after(list)
             // some core code sometimes focuses or changes the original node
-            // in such cases we wan't to parse it's value and apply changes
+            // in such cases we want to parse its value and apply changes
             // to the widget element
             .on('focus', function(e) { input.focus(); e.preventDefault(); })
             .on('change', function() {
@@ -3356,7 +3342,8 @@ function rcube_elastic_ui()
                     email = RegExp.$1;
                     recipients.push({
                         name: '',
-                        email: email.replace(/(^<|>$)/g, '')
+                        email: email.replace(/(^<|>$)/g, '') // trim < and > characters
+                            .replace(/[^a-z]$/gi, '') // remove trailing comma or any non-letter character at the end (#7899)
                     });
 
                     str = str.replace(email, '').trim();
@@ -3365,7 +3352,7 @@ function rcube_elastic_ui()
                     }
                 }
 
-                if (email != RegExp.$1) {
+                if (email != RegExp.$1 && RegExp.$1) {
                     email = RegExp.$1;
                     recipients.push({
                         name: str.replace(email, '').trim(),
@@ -3439,7 +3426,7 @@ function rcube_elastic_ui()
     {
         var element = $(e.target).parents('.recipient'),
             recipient = element.text().replace(/,+$/, ''),
-            input = $('<input>').attr({type: 'text', size: 50}).val(recipient),
+            input = $('<input>').attr({type: 'text', 'data-submit': 'true'}).val(recipient),
             content = $('<label>').text(rcmail.gettext('recipient')).append(input);
 
         rcmail.simple_dialog(content, 'recipientedit', function() {
@@ -3575,7 +3562,7 @@ function rcube_elastic_ui()
 
         var select_ident = 'select' + select.attr('id') + select.attr('name');
         var is_menu_open = function() {
-            // Use proper window in cases when the select element intialized
+            // Use proper window in cases when the select element initialized
             // inside an iframe is then used in a dialog inside a parent's window
             // For some reason we can't access data-button property in cross-window
             // case, we use data-ident attribute instead
@@ -3719,12 +3706,12 @@ function rcube_elastic_ui()
                     if (selected.focus().length) {
                         var list_parent = list.parent();
 
-                        // try to scroll the list so focused element is in center
                         last_index = list.find('a').index(selected[0]);
                         last_char = index[last_index];
 
-                        if (last_index > 5) {
-                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2);
+                        // try to scroll the list so focused element is in center (for Firefox)
+                        if (bw.mz && last_index > 5) {
+                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2 - 20);
                         }
                     }
                     // focus first active element on the list
@@ -3890,7 +3877,7 @@ function rcube_elastic_ui()
         $(textarea).on('input', resize).trigger('input');
     };
 
-    // Inititalizes smart list input
+    // Initializes smart list input
     function smart_field_init(field)
     {
         var tip, id = field.id + '_list',
@@ -4014,7 +4001,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Register form errors, mark fields as invalid, dsplay the error below the input
+     * Register form errors, mark fields as invalid, display the error below the input
      */
     function form_errors(tips)
     {

@@ -57,7 +57,7 @@ if (!empty($_POST['submit'])) {
 
     echo '<p class="notice">Copy or download the following configuration and save it';
     echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
-    echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
+    echo ' Make sure that there are no characters before the <tt>&lt;?php</tt> bracket when saving the file.';
     echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
     echo $save_button;
 

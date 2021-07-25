@@ -80,7 +80,7 @@ class rcube_result_thread
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);
 
-        $this->raw_data = $this->parse_thread($data);
+        $this->raw_data = empty($data) ? '' : $this->parse_thread($data);
     }
 
     /**
@@ -158,10 +158,14 @@ class rcube_result_thread
     /**
      * Returns maximum message identifier in the result
      *
-     * @return int Maximum message identifier
+     * @return int|null Maximum message identifier
      */
     public function max()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = (int) @max($this->get());
         }
@@ -172,10 +176,14 @@ class rcube_result_thread
     /**
      * Returns minimum message identifier in the result
      *
-     * @return int Minimum message identifier
+     * @return int|null Minimum message identifier
      */
     public function min()
     {
+        if ($this->is_empty()) {
+            return null;
+        }
+
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = (int) @min($this->get());
         }

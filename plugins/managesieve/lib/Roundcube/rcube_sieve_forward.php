@@ -370,7 +370,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
-                $this->error = "Invalid address in action taget: " . $data['target'];
+                $this->error = "Invalid address in action target: " . $data['target'];
                 return false;
             }
         }

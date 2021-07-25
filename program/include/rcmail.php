@@ -1313,7 +1313,10 @@ class rcmail extends rcube
 
         // validate the contact
         if (!$source->validate($contact, true)) {
-            $error = $source->get_error();
+            if ($error = $source->get_error()) {
+                $error = $error['message'];
+            }
+
             return false;
         }
 
@@ -1325,7 +1328,10 @@ class rcmail extends rcube
         $contact = $plugin['record'];
 
         if (!empty($plugin['abort'])) {
-            $error = $plugin['message'];
+            if (!empty($plugin['message'])) {
+                $error = $plugin['message'];
+            }
+
             return $plugin['result'];
         }
 
@@ -1336,7 +1342,7 @@ class rcmail extends rcube
      * Find an email address in user addressbook(s)
      *
      * @param string $email Email address
-     * @param int    $type  Addressbook type (see rcube_addressbook::TYPE_* consts)
+     * @param int    $type  Addressbook type (see rcube_addressbook::TYPE_* constants)
      *
      * @return bool True if the address exists in specified addressbook(s), False otherwise
      */
@@ -1629,7 +1635,7 @@ class rcmail extends rcube
 
         if (!empty($today)) {
             $label = $this->gettext('today');
-            // replcae $ character with "Today" label (#1486120)
+            // replace $ character with "Today" label (#1486120)
             if (strpos($out, '$') !== false) {
                 $out = preg_replace('/\$/', $label, $out, 1);
             }

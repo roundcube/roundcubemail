@@ -16,4 +16,4 @@
 $messages['missingattachment'] = "Fehlender Anhang?";
 $messages['forgotattachment'] = "Haben Sie möglicherweise vergessen, eine Datei anzuhängen?";
 $messages['reminderoption'] = "An vergessene Anhänge erinnern";
-$messages['keywords'] = "anbei,im anhang,siehe anhang,angehängt,angefügt,beigefügt,beliegend";
+$messages['keywords'] = "anbei,im anhang,siehe anhang,angehängt,angefügt,beigefügt,beiliegend";

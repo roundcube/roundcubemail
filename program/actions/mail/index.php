@@ -34,6 +34,7 @@ class rcmail_action_mail_index extends rcmail_action
 
     protected static $PRINT_MODE = false;
     protected static $REMOTE_OBJECTS;
+    protected static $SUSPICIOUS_EMAIL = false;
 
     /**
      * Request handler.
@@ -181,9 +182,10 @@ class rcmail_action_mail_index extends rcmail_action
             $mbox = isset($_SESSION['mbox']) && strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
         }
 
-        // we handle 'page' argument on 'list' and 'getunread' to prevent from
-        // race condition and unintentional page overwrite in session
-        if ($rcmail->action == 'list' || $rcmail->action == 'getunread') {
+        // We handle 'page' argument on 'list' and 'getunread' to prevent from
+        // race condition and unintentional page overwrite in session.
+        // Also, when entering the Mail UI (#7932)
+        if (empty($rcmail->action) || $rcmail->action == 'list' || $rcmail->action == 'getunread') {
             $page = isset($_GET['_page']) ? intval($_GET['_page']) : 0;
             if (!$page) {
                 $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
@@ -921,7 +923,7 @@ class rcmail_action_mail_index extends rcmail_action
             }
         }
 
-        // clean HTML with washhtml by Frederic Motte
+        // clean HTML with washtml by Frederic Motte
         $wash_opts = [
             'show_washed'   => false,
             'allow_remote'  => $p['safe'],
@@ -1380,7 +1382,7 @@ class rcmail_action_mail_index extends rcmail_action
             $valid  = rcube_utils::check_email($mailto, false);
 
             // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-            if (!$show_email && $valid && $name && $name != $mailto && strpos($name, '@')) {
+            if (!$show_email && $valid && $name && $name != $mailto && preg_match('/@|＠|﹫/', $name)) {
                 $name = '';
             }
 
@@ -1392,6 +1394,11 @@ class rcmail_action_mail_index extends rcmail_action
                 $string = rcube_utils::idn_to_utf8($string);
             }
             $mailto = rcube_utils::idn_to_utf8($mailto);
+
+            // Homograph attack detection (#6891)
+            if (!self::$SUSPICIOUS_EMAIL) {
+                self::$SUSPICIOUS_EMAIL = rcube_spoofchecker::check($mailto);
+            }
 
             if (self::$PRINT_MODE) {
                 $address = '&lt;' . rcube::Q($mailto) . '&gt;';

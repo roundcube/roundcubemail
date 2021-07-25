@@ -27,7 +27,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
 
         $v = rcmail_utils::db_version();
 
-        $this->assertRegExp('/^[0-9]{10}$/', $v);
+        $this->assertMatchesRegularExpression('/^[0-9]{10}$/', $v);
     }
 
     /**

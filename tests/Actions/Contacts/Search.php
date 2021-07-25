@@ -50,7 +50,7 @@ class Actions_Contacts_Search extends ActionTestCase
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
-        $this->assertRegExp('/^[0-9a-z]{32}$/', $result['env']['search_request']);
+        $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
         $this->assertTrue(strpos($result['exec'], 'this.add_contact_row') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);

@@ -28,3 +28,11 @@ php tests/Browser/install.php $CHROMEVERSION
 wget https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
     && (sudo java $GMARGS -jar greenmail-standalone-$GMV.jar &) \
     && sleep 5
+
+# Run tests
+echo "\nTESTS_MODE: DESKTOP" \
+&& TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga \
+&& echo "TESTS_MODE: PHONE" \
+&& TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga-phone \
+&& echo "TESTS_MODE: TABLET" \
+&& TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga-tablet

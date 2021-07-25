@@ -2,7 +2,7 @@
 
 class Managesieve_Engine extends ActionTestCase
 {
-    function setUp()
+    static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../managesieve.php';
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';

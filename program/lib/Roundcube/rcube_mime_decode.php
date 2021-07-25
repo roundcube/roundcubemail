@@ -45,7 +45,7 @@ class rcube_mime_decode
     /**
      * Constructor.
      *
-     * Sets up the object, initialise the variables, and splits and
+     * Sets up the object, initialize the variables, and splits and
      * stores the header and body of the input.
      *
      * @param array $params An array of various parameters that determine
@@ -82,7 +82,9 @@ class rcube_mime_decode
             $struct = $this->structure_part($struct);
         }
 
-        $struct->size = strlen($input);
+        if ($struct) {
+            $struct->size = strlen($input);
+        }
 
         return $struct;
     }
@@ -302,9 +304,23 @@ class rcube_mime_decode
             $return['value'] = trim($parts[0]);
 
             for ($n = 1; $n < count($parts); $n++) {
-                if (preg_match_all('/(([[:alnum:]]+)="?([^"]*)"?\s?;?)+/i', $parts[$n], $matches)) {
-                    for ($i = 0; $i < count($matches[2]); $i++) {
-                        $return['other'][strtolower($matches[2][$i])] = $matches[3][$i];
+                if (preg_match('/^([[:alnum:]]+)="?([^"]*)"?+/', $parts[$n], $matches)) {
+                    $return['other'][strtolower($matches[1])] = $matches[2];
+                }
+                // Support RFC2231 encoding
+                else if (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
+                    $key = strtolower($matches[1]);
+                    $val = $matches[3];
+
+                    if (preg_match("/^(([^']*)'[^']*')/", $val, $m)) {
+                        $val = rawurldecode(substr($val, strlen($m[0])));
+                    }
+
+                    if (isset($return['other'][$key])) {
+                        $return['other'][$key] .= $val;
+                    }
+                    else {
+                        $return['other'][$key] = $val;
                     }
                 }
             }

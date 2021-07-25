@@ -14,5 +14,12 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
-
-$messages['reportedasjunk'] = 'تمت الافادة كـ غير مرغوب فية بنجاح';
+$labels['buttonjunk'] = 'هذه الرسالة غير مهمة';
+$labels['asjunk'] = 'كغير مهم';
+$labels['markasjunk'] = 'وضع علامة على أنه غير مرغوب فيه';
+$labels['buttonnotjunk'] = 'هذه الرسالة ليست غير مهمة';
+$labels['asnotjunk'] = 'ليس وهمي';
+$labels['markasnotjunk'] = 'ضع علامة ليست غير مهمة';
+$labels['notjunk'] = 'ليس وهمي';
+$messages['reportedasjunk'] = 'تم الإبلاغ عن أنه غير هام بنجاح';
+$messages['reportedasnotjunk'] = 'تم الإبلاغ عن أنه ليس بريدًا غير مهم بنجاح';

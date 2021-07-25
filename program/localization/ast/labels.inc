@@ -550,6 +550,6 @@ $labels['arialabelcontactexportoptions'] = 'Opciones d\'esportación de contautu
 $labels['arialabelabookgroupoptions'] = 'Opciones de llibru de direiciones/grupu';
 $labels['arialabelpreferencesform'] = 'Formulariu de preferencies';
 $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
-$labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
+$labels['arialabelresponseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";

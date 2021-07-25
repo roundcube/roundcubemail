@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Kyçi(et) u fshi me sukses';
 $messages['keyremoveerror'] = 'S’arrihet të fshihen kyçin(et) e përzgjedhur?';
 $messages['keyimporttext'] = 'Mund të importoni kyç(e) privatë dhe publikë ose nënshkrime shfuqizimesh në formatin ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Për kyçe publikë mund të kërkoni sipas identifikuesi kyçi, emri përdoruesi ose adrese email dhe mandej t’i importoni ata drejtpërsëdrejti.';
+$messages['keystoragenotice'] = 'Krejt kyçet, publikë dhe privatë, depozitohen te shërbyesi.';
 $messages['formerror'] = 'Ju lutemi, plotësoni formularin. Janë të domosdoshme krejt fushat!';
 $messages['passwordsdiffer'] = 'Fjalëkalimet nuk përputhen!';
 $messages['keygenerateerror'] = 'S’u arrit të prodhohej një çift kyçesh';

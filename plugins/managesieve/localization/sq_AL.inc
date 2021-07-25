@@ -17,15 +17,15 @@
 
 $labels['filters'] = 'Filtra';
 $labels['managefilters'] = 'Administroni filtra për postë ardhëse';
-$labels['filtername'] = 'Emër filtri';
+$labels['filtername'] = 'Emri i filtrit';
 $labels['newfilter'] = 'Filtër i ri';
 $labels['filteradd'] = 'Shtoni filtër';
 $labels['filterdel'] = 'Fshije filtrin';
-$labels['rules'] = 'Rregulla';
-$labels['actions'] = 'Veprime';
+$labels['rules'] = 'Rregullat';
+$labels['actions'] = 'Veprimet';
 $labels['scope'] = 'Shtrirje';
-$labels['moveup'] = 'Ngjitu sipër';
-$labels['movedown'] = 'Ulu poshtë';
+$labels['moveup'] = 'Levize lart';
+$labels['movedown'] = 'Levize poshtë';
 $labels['filterallof'] = 'që ka përputhje me krejt rregullat vijues';
 $labels['filteranyof'] = 'që ka përputhje me cilindo nga rregullat vijues';
 $labels['filterany'] = 'krejt mesazhet';

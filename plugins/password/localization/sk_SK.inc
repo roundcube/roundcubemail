@@ -38,6 +38,6 @@ $messages['samepasswd'] = 'Nové heslo by sa malo odlišovať od pôvodného hes
 $messages['passwdexpirewarning'] = 'Pozor! Platnosť Vášho hesla čoskoro vyprší, zmeňte ho pred $expirationdatetime.';
 $messages['passwdexpired'] = 'Platnosť Vášho hesla vypršala, teraz ho musíte zmeniť!';
 $messages['passwdconstraintviolation'] = 'Výnimka obmedzenia hesla. Heslo je pravdepodobne príliš ľahké.';
-$messages['pwned_mustnotbedisclosed'] = 'Heslo nesmie byť&nbsp;<a href="https://haveibeenpwned.com/Passwords" target="_blank">všeobecne známe</a>.';
+$messages['pwned_mustnotbedisclosed'] = 'Heslo nesmie byť <a href="$href" target="_blank">všeobecne a bežne známe</a>.';
 $messages['pwned_isdisclosed'] = 'Toto heslo je všeobecne známe.';
 $messages['pwned_fetcherror'] = 'Nepodarilo sa overiť silu hesla.';

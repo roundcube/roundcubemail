@@ -6,7 +6,7 @@
 $config['acl_advanced_mode'] = false;
 
 // LDAP addressbook that would be searched for user names autocomplete.
-// That should be an array refering to the $config['ldap_public'] array key
+// That should be an array referring to the $config['ldap_public'] array key
 // or complete addressbook configuration array.
 $config['acl_users_source'] = '';
 

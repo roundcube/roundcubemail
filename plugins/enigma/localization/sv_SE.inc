@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Nycklar borttagna.';
 $messages['keyremoveerror'] = 'Nycklarna kunde inte tas bort.';
 $messages['keyimporttext'] = 'Privata och offentliga nycklar eller återkallande av signaturer kan importeras i formatet ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Offentlig nyckel kan sökas genom att ange identifierare, användarnamn eller mailadress, för att sedan importeras direkt.';
+$messages['keystoragenotice'] = 'Samtliga offentliga och privata nycklar lagras på servern.';
 $messages['formerror'] = 'Fyll i formulärets samtliga fält.';
 $messages['passwordsdiffer'] = 'Bekräftelsen av lösenordet stämmer inte.';
 $messages['keygenerateerror'] = 'Nyckelpar kunde inte skapas';
