@@ -6,7 +6,7 @@ use Tests\Browser\Components\Popupmenu;
 
 class MailTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_imap();
         \bootstrap::purge_mailbox('INBOX');

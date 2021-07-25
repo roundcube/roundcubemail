@@ -74,8 +74,8 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
-        $this->assertContains('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, "Numeric linkref replacements");
-        $this->assertContains('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, "Alphanum linkref replacements");
-        $this->assertContains('of [Roundcube].', $result, "Don't touch strings without an index entry");
+        $this->assertStringContainsString('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, "Numeric linkref replacements");
+        $this->assertStringContainsString('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, "Alphanum linkref replacements");
+        $this->assertStringContainsString('of [Roundcube].', $result, "Don't touch strings without an index entry");
     }
 }

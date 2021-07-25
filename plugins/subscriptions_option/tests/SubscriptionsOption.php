@@ -2,8 +2,7 @@
 
 class SubscriptionsOption_Plugin extends ActionTestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../subscriptions_option.php';
     }

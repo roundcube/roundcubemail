@@ -6,7 +6,7 @@ use Tests\Browser\Components\Dialog;
 
 class PluginTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();
     }

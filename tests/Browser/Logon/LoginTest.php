@@ -6,7 +6,7 @@ use Tests\Browser\Components\App;
 
 class LoginTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

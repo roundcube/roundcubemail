@@ -2,8 +2,7 @@
 
 class Help_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../help.php';
     }
@@ -31,7 +30,7 @@ class Help_Plugin extends PHPUnit\Framework\TestCase
         $result = $plugin->help_metadata();
 
         $this->assertCount(3, $result);
-        $this->assertRegexp('|\?_task=settings&_action=about&_framed=1$|', $result['about']);
+        $this->assertMatchesRegularExpression('|\?_task=settings&_action=about&_framed=1$|', $result['about']);
         $this->assertSame('self', $result['license']);
         $this->assertSame('http://docs.roundcube.net/doc/help/1.1/en_US/', $result['index']);
     }

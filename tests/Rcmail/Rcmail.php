@@ -7,7 +7,7 @@
  */
 class Rcmail_Rcmail extends ActionTestCase
 {
-    function setUp()
+    function setUp(): void
     {
         // set some HTTP env vars
         $_SERVER['HTTP_HOST'] = 'mail.example.org';
@@ -207,7 +207,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $date = $rcmail->user_date();
 
-        $this->assertRegExp('/[a-z]{3}, [0-9]{1,2} [a-z]{3} ' . date('Y H:i:s') . ' [+-][0-9]{4}/i', $date);
+        $this->assertMatchesRegularExpression('/[a-z]{3}, [0-9]{1,2} [a-z]{3} ' . date('Y H:i:s') . ' [+-][0-9]{4}/i', $date);
     }
 
     /**

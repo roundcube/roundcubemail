@@ -3,7 +3,7 @@
 class Enigma_Plugin extends PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         include_once __DIR__ . '/../enigma.php';
     }

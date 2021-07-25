@@ -2,8 +2,7 @@
 
 class NewUserDialog_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../new_user_dialog.php';
     }
