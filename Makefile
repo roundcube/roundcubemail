@@ -1,10 +1,10 @@
 GITREMOTE=git://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
-VERSION=1.5-rc
- 
+VERSION=1.6-git
+
 all: clean complete dependent framework
- 
+
 complete: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); jq '.require += {"kolab/net_ldap3": "~1.1.1"} | del(.suggest."kolab/net_ldap3")' --indent 4 composer.json-dist > composer.json)
@@ -52,7 +52,7 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm)
 	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile)
-	(cd roundcubemail-git; sed -i '' 's/1.5-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
+	(cd roundcubemail-git; sed -i '' 's/1.6-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; sed -i '' 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
