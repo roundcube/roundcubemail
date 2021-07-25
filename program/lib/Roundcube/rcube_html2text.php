@@ -352,9 +352,21 @@ class rcube_html2text
 
         $this->set_base_url();
 
-        $this->_do_links = $do_links;
+        $this->setDoLinks($do_links);
+
         $this->width     = $width;
         $this->charset   = $charset;
+    }
+
+    private function setDoLinks($do_links)
+    {
+        if (!$this->isAllowedLinkBehavior((int) $do_links)) {
+            $this->_do_links = rcube_html2text::LINKS_DEFAULT;
+
+            return;
+        }
+
+        $this->_do_links = (int) $do_links;
     }
 
     /**
@@ -793,7 +805,7 @@ class rcube_html2text
      *
      * @return bool
      */
-    public static function isAllowedLinkBehavior($do_links)
+    private function isAllowedLinkBehavior($do_links)
     {
         if (
             in_array(
