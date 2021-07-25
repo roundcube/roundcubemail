@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Bifoga vCard';
 $labels['vcardattached'] = 'vCard-fil bifogad.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Skicka vidare vCard';
+$labels['contactsattached'] = 'Meddelandet har $num bifogade kontakter.';
+$labels['importedsuccessfully'] = 'Importen av kontakter till adressboken lyckades.';

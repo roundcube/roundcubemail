@@ -27,6 +27,9 @@ $messages['connecterror'] = 'Ezin izan da pasahitz berria gorde. Konexio arazoak
 $messages['internalerror'] = 'Ezin izan da pasahitz berria gorde.';
 $messages['passwordshort'] = 'Gutxienez $length karakteretakoa izan behar du pasahitzak.';
 $messages['passwordweak'] = 'Gutxienez zenbaki bat eta puntuazio karaktere bat izan behar du pasahitzak.';
+$messages['passwordtooweak'] = 'Pasahitz ahulegia';
+$messages['passwordnoseq'] = 'Pasahitza ez luke horrelako sekuentzia izan behar: 123456 edo QWERTY';
+$messages['passwordnocommon'] = 'Pasahitza ez luke hitz arrunta edo izen bat izan behar.';
 $messages['passwordforbidden'] = 'Galarazitako karaktereak daude pasahitzean.';
 $messages['firstloginchange'] = 'Zure lehenengo sarrera da. Pasahitza aldatu mesedez.';
 $messages['disablednotice'] = 'Sistema mantentze lanetan dago eta oraintxe bertan ezin da pasahitzik aldatu. Laster denak bere onera itzuli beharko luke. Barkatu eragozpenenak.';
@@ -35,3 +38,6 @@ $messages['samepasswd'] = 'Pasahitz berria ezin da izan aurrekoaren berdina.';
 $messages['passwdexpirewarning'] = 'Kontuz! Zure pasahitza laster iraungiko da, aldatu $expirationdatetime baino lehen.';
 $messages['passwdexpired'] = 'Zure pasahitza iraungi da, aldatu behar duzu orain!';
 $messages['passwdconstraintviolation'] = 'Pasahitzen murriztapen-bortxaketa. Seguru aski ahulegia da.';
+$messages['pwned_mustnotbedisclosed'] = 'Pasahitza ez da <a href="$href" target="_blank">ezaguna</a> izan behar.';
+$messages['pwned_isdisclosed'] = 'Pasahitz hori ezaguna da.';
+$messages['pwned_fetcherror'] = 'Pasahitzaren sendotasunaren probak huts egin du.';
