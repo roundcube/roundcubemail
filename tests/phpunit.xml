@@ -44,7 +44,7 @@
             <file>./../plugins/password/tests/Password.php</file>
             <file>./../plugins/redundant_attachments/tests/RedundantAttachments.php</file>
             <file>./../plugins/show_additional_headers/tests/ShowAdditionalHeaders.php</file>
-            <file>./../plugins/squirrelmail_usercopy/tests/Squirrelmail_usercopy.php</file>
+            <file>./../plugins/squirrelmail_usercopy/tests/SquirrelmailUsercopy.php</file>
             <file>./../plugins/subscriptions_option/tests/SubscriptionsOption.php</file>
             <file>./../plugins/userinfo/tests/Userinfo.php</file>
             <file>./../plugins/vcard_attachments/tests/VcardAttachments.php</file>

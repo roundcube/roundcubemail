@@ -98,10 +98,8 @@ abstract class TestCase extends PHPUnitTestCase
 
     /**
      * Set up the test run
-     *
-     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

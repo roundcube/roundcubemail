@@ -73,7 +73,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $oauth = rcmail_oauth::get_instance();
 
-        $this->assertRegexp('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
+        $this->assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
     }
 
     /**

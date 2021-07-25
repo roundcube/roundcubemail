@@ -41,13 +41,13 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
         $vcf = $vcard->export();
-        $this->assertRegExp('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
+        $this->assertMatchesRegularExpression('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
 
         $vcard = new rcube_vcard();
         $vcard->set('phone', '+987654321', 'MOBILE');
 
         $vcf = $vcard->export();
-        $this->assertRegExp('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
+        $this->assertMatchesRegularExpression('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
     }
 
     /**

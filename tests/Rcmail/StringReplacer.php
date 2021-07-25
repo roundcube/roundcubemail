@@ -16,7 +16,7 @@ class Rcmail_RcmailStringReplacer extends PHPUnit\Framework\TestCase
 
         $result = invokeMethod($replacer, 'mailto_callback', [['email@address.com', 'email@address.com']]);
 
-        $this->assertRegExp($replacer->pattern, $result);
+        $this->assertMatchesRegularExpression($replacer->pattern, $result);
 
         $result = invokeMethod($replacer, 'mailto_callback', [['address.com', 'address.com']]);
 

@@ -2,8 +2,7 @@
 
 class Identicon_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeCLass(): void
     {
         include_once __DIR__ . '/../identicon.php';
     }

@@ -101,9 +101,9 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('>> INNER 1', $res, 'Quote inner');
-        $this->assertContains('>> INNER 3', $res, 'Quote inner');
-        $this->assertContains('> OUTER END', $res, 'Quote outer');
+        $this->assertStringContainsString('>> INNER 1', $res, 'Quote inner');
+        $this->assertStringContainsString('>> INNER 3', $res, 'Quote inner');
+        $this->assertStringContainsString('> OUTER END', $res, 'Quote outer');
     }
 
     function test_broken_blockquotes()
@@ -118,7 +118,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
+        $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
         $html = <<<EOF
@@ -131,7 +131,7 @@ EOF;
         $ht = new rcube_html2text($html, false, false);
         $res = $ht->get_text();
 
-        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
+        $this->assertStringContainsString('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
     }
 
     /**

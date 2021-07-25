@@ -2,8 +2,7 @@
 
 class Archive_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../archive.php';
     }

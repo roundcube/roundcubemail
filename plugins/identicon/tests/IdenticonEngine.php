@@ -2,7 +2,7 @@
 
 class Identicon_IdenticonEngine extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../identicon_engine.php';
     }
@@ -20,7 +20,7 @@ class Identicon_IdenticonEngine extends PHPUnit\Framework\TestCase
 
         $icon = $engine->getBinary();
 
-        $this->assertRegExp('/^\x89\x50\x4E\x47/', $icon);
+        $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $icon);
         $this->assertSame('image/png', $engine->getMimetype());
     }
 }
