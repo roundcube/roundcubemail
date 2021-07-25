@@ -147,6 +147,34 @@ Links:
 [1] http://test.com
 ';
 
+        $ht = new rcube_html2text($html, false, 1);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list');
+
+        // href == content (#1490434)
+        $html     = '<a href="http://test.com">http://test.com</a>';
+        $expected = 'http://test.com';
+
+        $ht = new rcube_html2text($html, false, 1);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Skip link with href == content');
+    }
+
+    /**
+     * Test links handling with backward compatibility boolean flag
+     */
+    function test_links_bc_with_boolean()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content [1]
+
+Links:
+------
+[1] http://test.com
+';
+
         $ht = new rcube_html2text($html, false, true);
         $res = $ht->get_text();
 
@@ -163,11 +191,47 @@ Links:
     }
 
     /**
+     * Test links inline handling
+     */
+    function test_links_inline()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content <http://test.com>';
+
+        $ht = new rcube_html2text($html, false, 2);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list');
+
+        // href == content (#1490434)
+        $html     = '<a href="http://test.com">http://test.com</a>';
+        $expected = 'http://test.com';
+
+        $ht = new rcube_html2text($html, false, 2);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Skip link with href == content');
+    }
+
+    /**
      * Test <a> links handling when not using link list (#5795)
      *
      * @dataProvider data_links_no_list
      */
     function test_links_no_list($input, $output)
+    {
+        $h2t = new rcube_html2text($input, false, 0);
+        $res = $h2t->get_text();
+
+        $this->assertSame($output, $res, 'Links handling');
+    }
+
+    /**
+     * Test <a> links handling when not using link list (#5795) with backward compatibility boolean flag
+     *
+     * @dataProvider data_links_no_list
+     */
+    function test_links_no_list_bc_with_boolean($input, $output)
     {
         $h2t = new rcube_html2text($input, false, false);
         $res = $h2t->get_text();

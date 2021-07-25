@@ -1924,11 +1924,10 @@ class rcmail extends rcube
     public function html2text($html, $options = [])
     {
         $default_options = [
-            'links'             => $this->config->get('html2text_links', true),
+            'links'             => $this->config->get('html2text_links', rcube_html2text::LINKS_DEFAULT),
             'width'             => $this->config->get('html2text_width', 75),
             'body'              => $html,
-            'charset'           => $this->config->get('html2text_charset', RCUBE_CHARSET),
-            'keep_links_inline' => $this->config->get('html2text_keep_links_inline', false),
+            'charset'           => RCUBE_CHARSET,
         ];
 
         $options = array_merge($default_options, (array) $options);
@@ -1939,7 +1938,7 @@ class rcmail extends rcube
         // Convert to text
         if (empty($options['abort'])) {
             $converter = new rcube_html2text($options['body'],
-                false, $options['links'], $options['width'], $options['charset'], $options['keep_links_inline']);
+                false, $options['links'], $options['width'], $options['charset']);
 
             $options['body'] = rtrim($converter->get_text());
         }
