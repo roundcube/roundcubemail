@@ -60,7 +60,7 @@ class rcube_dovecot_passwdfile_password
 
         if (flock($fp, LOCK_EX)) {
             // Read the file and replace the user password
-            while (($line = fgets($handle, 40960)) !== false) {
+            while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "$username:") === 0) {
                     $pos  = strpos($line, ':', strlen("$username:") + 1);
                     $line = "$username:$newhash" . substr($line, $pos);
