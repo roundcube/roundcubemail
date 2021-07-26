@@ -63,7 +63,7 @@ class rcube_dovecot_passwdfile_password
             while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "$username:") === 0) {
                     $pos  = strpos($line, ':', strlen("$username:") + 1);
-                    $line = "$username:$newhash" . substr($line, $pos);
+                    $line = "$username:$password" . substr($line, $pos);
                 }
 
                 $content .= $line;
