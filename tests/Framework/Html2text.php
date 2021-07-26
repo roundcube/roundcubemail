@@ -201,7 +201,7 @@ Links:
         $ht = new rcube_html2text($html, false, 2);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list');
+        $this->assertSame($expected, $res, 'Links Inline');
 
         // href == content (#1490434)
         $html     = '<a href="http://test.com">http://test.com</a>';
@@ -259,6 +259,35 @@ Links:
                 'this is http://test.com',
             ],
         ];
+    }
+
+    /**
+     * Test links fallback to default handling
+     */
+    function test_links_fallback_to_default_link_list()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content [1]
+
+Links:
+------
+[1] http://test.com
+';
+
+        $ht = new rcube_html2text($html, false);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list as default (doLinks not set)');
+
+        $ht = new rcube_html2text($html, false, mt_rand(3, 9999));
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list as default (doLinks greater than 3)');
+
+        $ht = new rcube_html2text($html, false, mt_rand(-9999, -1));
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list as default (doLinks lower than 0)');
     }
 
     /**

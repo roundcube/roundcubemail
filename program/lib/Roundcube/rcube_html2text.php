@@ -807,19 +807,13 @@ class rcube_html2text
      */
     private function isAllowedLinkBehavior($do_links)
     {
-        if (
-            in_array(
-                $do_links,
-                [
-                    rcube_html2text::LINKS_NONE,
-                    rcube_html2text::LINKS_END,
-                    rcube_html2text::LINKS_INLINE
-                ]
-            )
-        ) {
-            return true;
-        }
-
-        return false;
+        return in_array(
+            $do_links,
+            [
+                rcube_html2text::LINKS_NONE,
+                rcube_html2text::LINKS_END,
+                rcube_html2text::LINKS_INLINE
+            ]
+        );
     }
 }
