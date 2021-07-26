@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.3, 7.4, 8.0, 8.1]
+        php: ["7.3", "7.4", "8.0", "8.1"]
 
     name: PHP ${{ matrix.php }}/Linux
 
@@ -31,14 +31,14 @@ jobs:
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Fix PHPUnit for PHP8.1
-        run: composer config platform.php 8.0
-        if: matrix.php >= 8.1
-
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
+
+      - name: Fix PHPUnit for PHP8.1
+        run: composer config platform.php 8.0
+        if: matrix.php >= 8.1
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
