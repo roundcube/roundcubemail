@@ -339,10 +339,10 @@ class rcube_html2text
      * will instantiate with that source propagated, all that has
      * to be done it to call get_text().
      *
-     * @param string  $source    HTML content
-     * @param boolean $from_file Indicates $source is a file to pull content from
-     * @param mixed   $do_links  Indicate whether a table of link URLs is desired
-     * @param integer $width     Maximum width of the formatted text, 0 for no limit
+     * @param string   $source    HTML content
+     * @param boolean  $from_file Indicates $source is a file to pull content from
+     * @param bool|int $do_links  Indicate whether a table of link URLs is desired
+     * @param integer  $width     Maximum width of the formatted text, 0 for no limit
      */
     function __construct($source = '', $from_file = false, $do_links = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
     {
@@ -358,10 +358,15 @@ class rcube_html2text
         $this->charset   = $charset;
     }
 
+    /**
+     * Sets the links behavior flag
+     *
+     * @param bool|int $do_links
+     */
     private function setDoLinks($do_links)
     {
         if (!$this->isAllowedLinkBehavior((int) $do_links)) {
-            $this->_do_links = rcube_html2text::LINKS_DEFAULT;
+            $this->_do_links = self::LINKS_DEFAULT;
 
             return;
         }
