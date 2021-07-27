@@ -52,7 +52,6 @@ class rcube_dovecot_passwdfile_password
             return PASSWORD_ERROR;
         }
 
-        $password = escapeshellcmd($password); // FIXME: Do we need this?
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
