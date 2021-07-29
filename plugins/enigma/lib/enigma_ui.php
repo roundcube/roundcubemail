@@ -779,7 +779,7 @@ class enigma_ui
         foreach ($identities as $idx => $ident) {
             $name = format_email_recipient($ident['email'], $ident['name']);
             $attr = ['value' => $idx, 'data-name' => $ident['name'], 'data-email' => $ident['email_ascii']];
-            $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($idx, $attr) . rcube::Q($name)));
+            $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($this->rc->config->get('enigma_create_select_all') ? $idx : 'none', $attr) . rcube::Q($name)));
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
