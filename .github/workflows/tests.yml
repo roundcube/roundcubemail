@@ -48,3 +48,6 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml
+
+      - name: Print errors
+        run: cat logs/errors.log
