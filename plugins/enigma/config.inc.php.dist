@@ -68,6 +68,9 @@ $config['enigma_password_time'] = 5;
 // Enable support for private keys without passwords.
 $config['enigma_passwordless'] = false;
 
+// Select all identity when create a new key
+$config['enigma_create_select_all'] = false;
+
 // With this option you can lock composing options
 // of the plugin forcing the user to use configured settings.
 // The array accepts: 'sign', 'encrypt', 'pubkey'.
