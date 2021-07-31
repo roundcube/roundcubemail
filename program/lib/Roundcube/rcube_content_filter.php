@@ -34,7 +34,8 @@ class rcube_content_filter extends php_user_filter
         return true;
     }
 
-    public function filter($in, $out, &$consumed, bool $closing): int
+    #[ReturnTypeWillChange]
+    public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             $this->buffer .= $bucket->data;

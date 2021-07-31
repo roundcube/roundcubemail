@@ -177,8 +177,10 @@ class rcmail_action_mail_index extends rcmail_action
         $message_sort_col   = $rcmail->config->get('message_sort_col');
         $message_sort_order = $rcmail->config->get('message_sort_order');
 
+        $mbox = (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+
         // set imap properties and session vars
-        if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
+        if (!strlen($mbox)) {
             $mbox = isset($_SESSION['mbox']) && strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
         }
 
