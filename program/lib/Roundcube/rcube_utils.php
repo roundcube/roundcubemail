@@ -1133,7 +1133,9 @@ class rcube_utils
             $repl[] = ' ';
         }
 
-        return array_filter(explode(" ", preg_replace($expr, $repl, $str)));
+        $str = preg_replace($expr, $repl, $str);
+
+        return is_string($str) ? array_filter(explode(" ", $str)) : [];
     }
 
     /**
@@ -1524,6 +1526,10 @@ class rcube_utils
     {
         if (($preg_error = preg_last_error()) != PREG_NO_ERROR) {
             $errstr = "PCRE Error: $preg_error.";
+
+            if (function_exists('preg_last_error_msg')) {
+                $errstr .= ' ' . preg_last_error_msg();
+            }
 
             if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR) {
                 $errstr .= " Consider raising pcre.backtrack_limit!";

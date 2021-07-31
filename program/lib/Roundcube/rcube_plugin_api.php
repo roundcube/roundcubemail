@@ -355,7 +355,10 @@ class rcube_plugin_api
                     }
                 }
 
-                list($info['vendor'], $info['name']) = explode('/', $json['name']);
+                if (!empty($json['name']) && is_string($json['name']) && strpos($json['name'], '/') !== false) {
+                    list($info['vendor'], $info['name']) = explode('/', $json['name'], 2);
+                }
+
                 $info['version'] = $json['version'];
                 $info['license'] = $json['license'];
                 $info['require'] = $require;
