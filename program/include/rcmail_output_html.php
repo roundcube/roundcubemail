@@ -317,7 +317,7 @@ EOF;
     public function check_skin($skin)
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
-        if (strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
+        if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
             rcube::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
@@ -1602,7 +1602,7 @@ EOF;
                 }
 
                 // exec plugin hooks for this template object
-                $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + ['content' => $content]);
+                $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + ['content' => (string) $content]);
 
                 if (strlen($hook['content']) && !empty($external)) {
                     $object_id                 = uniqid('TEMPLOBJECT:', true);

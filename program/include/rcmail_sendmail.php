@@ -721,12 +721,13 @@ class rcmail_sendmail
         }
 
         // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
-        $charset = $this->options['charset'];
-        if ($charset != RCUBE_CHARSET) {
-            $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
-        }
-        if (preg_match('/ISO-2022/i', $charset)) {
-            $use_base64 = true;
+        if ($charset = $this->options['charset']) {
+            if ($charset != RCUBE_CHARSET) {
+                $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
+            }
+            if (preg_match('/ISO-2022/i', $charset)) {
+                $use_base64 = true;
+            }
         }
 
         // simplified email regexp, supporting quoted local part

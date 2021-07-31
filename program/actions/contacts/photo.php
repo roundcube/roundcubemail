@@ -97,7 +97,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         $data = $plugin['data'];
 
         // detect if photo data is a URL
-        if (strlen($data) < 1024 && filter_var($data, FILTER_VALIDATE_URL)) {
+        if ($data && strlen($data) < 1024 && filter_var($data, FILTER_VALIDATE_URL)) {
             $rcmail->output->redirect($data);
         }
 

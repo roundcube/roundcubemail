@@ -175,7 +175,7 @@ class rcube_vcard
 
         // copy name fields to output array
         foreach (['firstname', 'surname', 'middlename', 'nickname', 'organization'] as $col) {
-            if (strlen($this->$col)) {
+            if (is_string($this->$col) && strlen($this->$col)) {
                 $out[$col] = $this->$col;
             }
         }
@@ -337,7 +337,7 @@ class rcube_vcard
     public function set($field, $value, $type = 'HOME')
     {
         $field   = strtolower($field);
-        $type_uc = strtoupper($type);
+        $type_uc = strtoupper((string) $type);
 
         switch ($field) {
         case 'name':
@@ -435,7 +435,7 @@ class rcube_vcard
             if (!empty(self::$fieldmap[$field])) {
                 $tag = self::$fieldmap[$field];
 
-                if (is_array($value) || strlen($value)) {
+                if (is_array($value) || (is_string($value) && strlen($value))) {
                     $this->raw[$tag][] = (array) $value;
                     if ($type) {
                         $index    = count($this->raw[$tag]) - 1;
