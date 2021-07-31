@@ -334,8 +334,10 @@ class rcube_plugin_api
         }
 
         // fall back to composer.json file
-        if (!$info) {
+        if (empty($info)) {
+            $info = [];
             $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
+
             if (is_readable($composer) && ($json = json_decode(file_get_contents($composer), true))) {
                 // Build list of plugins required
                 $require = [];
@@ -390,7 +392,7 @@ class rcube_plugin_api
         }
 
         // fall back to package.xml file
-        if (!$info) {
+        if (empty($info)) {
             $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
             if (is_readable($package) && ($file = file_get_contents($package))) {
                 $doc = new DOMDocument();
