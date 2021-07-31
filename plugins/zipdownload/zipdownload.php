@@ -402,7 +402,7 @@ class zipdownload extends rcube_plugin
 
 class zipdownload_mbox_filter extends php_user_filter
 {
-    function filter($in, $out, &$consumed, $closing)
+    function filter($in, $out, &$consumed, bool $closing): int
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             // messages are read line by line

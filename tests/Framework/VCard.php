@@ -122,9 +122,10 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $input = file_get_contents($this->_srcpath('photo.vcf'));
 
         $vcards = rcube_vcard::import($input);
-        $vcard = $vcards[0]->get_assoc();
 
         $this->assertCount(1, $vcards, "Detected 1 vcard");
+
+        $vcard = $vcards[0]->get_assoc();
 
         // ENCODING=b case (#1488683)
         $this->assertEquals("/9j/4AAQSkZJRgABAQA", substr(base64_encode($vcard['photo']), 0, 19), "Photo decoding");

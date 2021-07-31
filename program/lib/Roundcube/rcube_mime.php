@@ -98,7 +98,7 @@ class rcube_mime
             $input = implode(', ', $input);
         }
 
-        $a   = self::parse_address_list($input, $decode, $fallback);
+        $a   = self::parse_address_list((string) $input, $decode, $fallback);
         $out = [];
         $j   = 0;
 

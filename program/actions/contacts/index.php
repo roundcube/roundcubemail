@@ -310,9 +310,9 @@ class rcmail_action_contacts_index extends rcmail_action
             $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 
             // use first directory by default
-            if (!strlen($source) || !isset($js_list[$source])) {
+            if (!is_string($source) || !strlen($source) || !isset($js_list[$source])) {
                 $source = $rcmail->config->get('default_addressbook');
-                if (!strlen($source) || !isset($js_list[$source])) {
+                if (!is_string($source) || !strlen($source) || !isset($js_list[$source])) {
                     $source = strval(key($js_list));
                 }
             }
@@ -350,7 +350,7 @@ class rcmail_action_contacts_index extends rcmail_action
     // instantiate a contacts object according to the given source
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
-        if (!strlen($source)) {
+        if (!is_string($source) || !strlen($source)) {
             $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
         }
 
@@ -1457,7 +1457,7 @@ class rcmail_action_contacts_index extends rcmail_action
             return $cid;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
+        if (!is_string($cid) || !preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
             return [];
         }
 

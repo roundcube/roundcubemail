@@ -412,11 +412,11 @@ class rcube_mime_decode
         }
 
         $struct->body        = $part->body;
-        $struct->size        = strlen($part->body);
+        $struct->size        = is_string($part->body) ? strlen($part->body) : 0;
         $struct->disposition = $part->disposition;
 
         $count = 0;
-        foreach ((array)$part->parts as $child_part) {
+        foreach ((array) $part->parts as $child_part) {
             $struct->parts[] = $this->structure_part($child_part, ++$count, $struct->mime_id);
         }
 

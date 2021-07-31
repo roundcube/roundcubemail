@@ -163,12 +163,14 @@ class rcmail_bounce_stream_filter extends php_user_filter
 
     protected $in_body = false;
 
-    public function onCreate()
+    public function onCreate(): bool
     {
         self::$headers = '';
+
+        return true;
     }
 
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, bool $closing): int
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             if (!$this->in_body) {

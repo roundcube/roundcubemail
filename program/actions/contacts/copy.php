@@ -41,7 +41,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
 
         foreach ($cids as $source => $cid) {
             // Something wrong, target not specified
-            if (!strlen($target)) {
+            if (!is_string($target) || !strlen($target)) {
                 break;
             }
 

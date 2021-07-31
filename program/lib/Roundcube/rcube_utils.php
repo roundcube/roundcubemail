@@ -734,19 +734,19 @@ class rcube_utils
             $type = 'SERVER_NAME';
         }
 
-        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : null;
+        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : '';
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
-        if ($strip_port) {
-            $name = preg_replace('/:\d+$/', '', $name);
-        }
-
-        if (empty($patterns) || in_array_nocase($name, $patterns)) {
-            return $name;
-        }
-
         if (!empty($name)) {
+            if ($strip_port) {
+                $name = preg_replace('/:\d+$/', '', $name);
+            }
+
+            if (empty($patterns) || in_array_nocase($name, $patterns)) {
+                return $name;
+            }
+
             foreach ($patterns as $pattern) {
                 if (preg_match("/$pattern/", $name)) {
                     return $name;
@@ -965,7 +965,7 @@ class rcube_utils
      */
     public static function clean_datestr($date)
     {
-        $date = trim($date);
+        $date = trim((string) $date);
 
         // check for MS Outlook vCard date format YYYYMMDD
         if (preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $date, $m)) {
@@ -1120,6 +1120,10 @@ class rcube_utils
      */
     public static function tokenize_string($str, $minlen = 2)
     {
+        if (!is_string($str)) {
+            return [];
+        }
+
         $expr = ['/[\s;,"\'\/+-]+/ui', '/(\d)[-.\s]+(\d)/u'];
         $repl = [' ', '\\1\\2'];
 
@@ -1324,7 +1328,7 @@ class rcube_utils
      */
     public static function get_boolean($str)
     {
-        $str = strtolower($str);
+        $str = strtolower((string) $str);
 
         return !in_array($str, ['false', '0', 'no', 'off', 'nein', ''], true);
     }
@@ -1364,11 +1368,11 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 0;
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
-            if ($port != $default_port && $port != 80) {
+            if ($port && $port != $default_port && $port != 80) {
                 $prefix .= ':' . $port;
             }
 

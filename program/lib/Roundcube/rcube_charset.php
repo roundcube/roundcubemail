@@ -190,7 +190,7 @@ class rcube_charset
     {
         static $charsets = [];
 
-        $charset = strtoupper($input);
+        $charset = strtoupper((string) $input);
 
         if (isset($charsets[$input])) {
             return $charsets[$input];

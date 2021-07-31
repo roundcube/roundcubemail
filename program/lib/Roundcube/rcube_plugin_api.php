@@ -336,7 +336,7 @@ class rcube_plugin_api
         // fall back to composer.json file
         if (!$info) {
             $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
-            if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+            if (is_readable($composer) && ($json = json_decode(file_get_contents($composer), true))) {
                 // Build list of plugins required
                 $require = [];
                 foreach (array_keys((array) $json['require']) as $dname) {

@@ -47,7 +47,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $interval = rcube_utils::get_input_value('_interval', rcube_utils::INPUT_GET);
         $continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
 
-        $filter         = trim($filter);
+        $filter         = trim((string) $filter);
         $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
         // Parse input
