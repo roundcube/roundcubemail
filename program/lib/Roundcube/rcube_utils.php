@@ -75,13 +75,7 @@ class rcube_utils
         // session_get_cookie_params() return includes 'lifetime' but setcookie() does not use it, instead it uses 'expires'
         unset($attrib['lifetime']);
 
-        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            // An alternative signature for setcookie supporting an options array added in PHP 7.3.0
-            setcookie($name, $value, $attrib);
-        }
-        else {
-            setcookie($name, $value, $attrib['expires'], $attrib['path'], $attrib['domain'], $attrib['secure'], $attrib['httponly']);
-        }
+        setcookie($name, $value, $attrib);
     }
 
     /**
