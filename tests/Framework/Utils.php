@@ -451,6 +451,21 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * rcube_utils::get_input_string()
+     */
+    function test_get_input_string()
+    {
+        $_GET = [];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => 'val'];
+        $this->assertSame('val', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => ['val1', 'val2']];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+    }
+
+    /**
      * rcube:utils::file2class()
      */
     function test_file2class()
