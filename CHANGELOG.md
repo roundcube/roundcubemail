@@ -11,6 +11,7 @@
 - Fix converting >1MB of HTML content into plain text (#8137)
 - Fix bug where expanding a group in the recipient input could corrupt the input content (#7569)
 - Fix fatal error/warning on invalid input to user parameter (#8152)
+- Fix changing password with dovecot_passwdfile driver (#8145)
 
 ## Release 1.5-rc
 

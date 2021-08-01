@@ -772,7 +772,12 @@ class password extends rcube_plugin
         }
 
         if ($crypted === null || $crypted === false) {
-            return false;
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Failed to hash password ($method). Check for configuration issues."
+                ],
+                true, true
+            );
         }
 
         if ($prefixed && $prefixed !== true) {
