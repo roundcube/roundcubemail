@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Dropped support for PHP < 7.3 (#7976)
+- Dropped support for strftime-like format (with % sign) in date and time format configuration
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
