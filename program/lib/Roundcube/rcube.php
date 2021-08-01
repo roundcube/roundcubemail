@@ -470,8 +470,7 @@ class rcube
             ini_set('session.cookie_path', $sess_path);
         }
         // set session samesite attribute
-        // requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
-        if (version_compare(PHP_VERSION, '7.3.0', '>=') && $sess_samesite) {
+        if ($sess_samesite) {
             ini_set('session.cookie_samesite', $sess_samesite);
         }
         // set session garbage collecting time according to session_lifetime
