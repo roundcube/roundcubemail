@@ -112,8 +112,8 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', [
             'host'  => $RCMAIL->autoselect_host(),
-            'user'  => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
-            'pass'  => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+            'user'  => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
+            'pass'  => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
             'valid' => $request_valid,
             'error' => null,
             'cookiecheck' => true,
@@ -136,7 +136,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         // restore original request parameters
         $query = [];
-        if ($url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST)) {
+        if ($url = rcube_utils::get_input_string('_url', rcube_utils::INPUT_POST)) {
             parse_str($url, $query);
 
             // prevent endless looping on login page
