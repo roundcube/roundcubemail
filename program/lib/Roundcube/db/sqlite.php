@@ -74,6 +74,9 @@ class rcube_db_sqlite extends rcube_db
                 }
             }
         }
+
+        // Enable WAL mode to fix locking issues like #8035.
+        $dbh->query("PRAGMA journal_mode=WAL");
     }
 
     /**
@@ -144,5 +147,22 @@ class rcube_db_sqlite extends rcube_db
     protected function dsn_string($dsn)
     {
         return $dsn['phptype'] . ':' . $dsn['database'];
+    }
+
+    /**
+     * Returns driver-specific connection options
+     *
+     * @param array $dsn DSN parameters
+     *
+     * @return array Connection options
+     */
+    protected function dsn_options($dsn)
+    {
+        $result = parent::dsn_options($dsn);
+
+        // Change the default timeout (60) to a smaller value
+        $result[PDO::ATTR_TIMEOUT] = isset($dsn['timeout']) ? intval($dsn['timeout']) : 10;
+
+        return $result;
     }
 }
