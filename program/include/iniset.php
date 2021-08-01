@@ -19,6 +19,10 @@
  +-----------------------------------------------------------------------+
 */
 
+if (PHP_VERSION_ID < 70300) {
+    die("Unsupported PHP version. Required PHP >= 7.3.");
+}
+
 // application constants
 define('RCMAIL_VERSION', '1.6-git');
 define('RCMAIL_START', microtime(true));
