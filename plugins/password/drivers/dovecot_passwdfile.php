@@ -40,18 +40,6 @@ class rcube_dovecot_passwdfile_password
         $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
 
         $password = password::hash_password($newpass);
-
-        if ($password === false) {
-            rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Failed to hash password. Check for configuration issues."
-                ],
-                true, false
-            );
-
-            return PASSWORD_ERROR;
-        }
-
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
