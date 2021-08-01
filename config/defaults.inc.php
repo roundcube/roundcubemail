@@ -857,14 +857,14 @@ $config['list_cols'] = ['subject', 'status', 'fromto', 'date', 'size', 'flag', '
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
 $config['language'] = null;
 
-// use this format for date display (date or strftime format)
+// use this format for date display (PHP DateTime format)
 $config['date_format'] = 'Y-m-d';
 
 // give this choice of date formats to the user to select from
 // Note: do not use ambiguous formats like m/d/Y
 $config['date_formats'] = ['Y-m-d', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'd/m/Y', 'd.m.Y', 'j.n.Y'];
 
-// use this format for time display (date or strftime format)
+// use this format for time display (PHP DateTime format)
 $config['time_format'] = 'H:i';
 
 // give this choice of time formats to the user to select from
