@@ -1445,3 +1445,14 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+
+// Html2Text Link Behavior
+// options:
+// 0 - if links should be removed
+// 1 - if a table of link URLs should be listed after the text
+// 2 - if the link should be displayed to the original point in the text they appeared
+$config['html2text_links'] = 1;
+
+// Html2Text Text Width
+// Maximum width of the formatted text, in columns
+$config['html2text_width'] = 75;

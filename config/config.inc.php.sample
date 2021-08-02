@@ -86,14 +86,3 @@ $config['plugins'] = [
 
 // skin name: folder from skins/
 $config['skin'] = 'elastic';
-
-// Html2Text Link Behavior
-// options:
-// 0 - if links should be removed
-// 1 - if a table of link URLs should be listed after the text
-// 2 - if the link should be displayed to the original point in the text they appeared
-$config['html2text_links'] = 1;
-
-// Html2Text Text Width
-// Maximum width of the formatted text, in columns
-$config['html2text_width'] = 75;
