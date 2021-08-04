@@ -1913,8 +1913,8 @@ class rcmail extends rcube
     public function html2text($html, $options = [])
     {
         $default_options = [
-            'links'   => true,
-            'width'   => 75,
+            'links'   => $this->config->get('html2text_links', rcube_html2text::LINKS_DEFAULT),
+            'width'   => $this->config->get('html2text_width', 75),
             'body'    => $html,
             'charset' => RCUBE_CHARSET,
         ];
