@@ -16,6 +16,7 @@
 - Fix fatal error/warning on invalid input to user parameter (#8152)
 - Fix changing password with dovecot_passwdfile driver (#8145)
 - Fix handling of headers that occur multiple times by show_additional_headers plugin (#8157)
+- Fix bug where vertical scrollbar in new HTML message bounced back on scroll (#8046)
 
 ## Release 1.5-rc
 
