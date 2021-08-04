@@ -98,6 +98,11 @@
  */
 class rcube_html2text
 {
+    const LINKS_NONE = 0;
+    const LINKS_END = 1;
+    const LINKS_INLINE = 2;
+    const LINKS_DEFAULT = self::LINKS_END;
+
     /**
      * Contains the HTML content to convert.
      *
@@ -317,7 +322,10 @@ class rcube_html2text
     protected $_link_list = [];
 
     /**
-     * Boolean flag, true if a table of link URLs should be listed after the text.
+     * Integer flag
+     * 0 if links should be removed
+     * 1 if a table of link URLs should be listed after the text
+     * 2 if the link should be displayed to the original point in the text they appeared
      *
      * @var boolean $_do_links
      * @see __construct()
@@ -331,12 +339,12 @@ class rcube_html2text
      * will instantiate with that source propagated, all that has
      * to be done it to call get_text().
      *
-     * @param string $source    HTML content
-     * @param bool   $from_file Indicates $source is a file to pull content from
-     * @param bool   $do_links  Indicate whether a table of link URLs is desired
-     * @param int    $width     Maximum width of the formatted text, 0 for no limit
+     * @param string   $source    HTML content
+     * @param boolean  $from_file Indicates $source is a file to pull content from
+     * @param bool|int $do_links  Indicate whether a table of link URLs is desired
+     * @param integer  $width     Maximum width of the formatted text, 0 for no limit
      */
-    function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8')
+    function __construct($source = '', $from_file = false, $do_links = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
     {
         if (!empty($source)) {
             $this->set_html($source, $from_file);
@@ -344,9 +352,26 @@ class rcube_html2text
 
         $this->set_base_url();
 
-        $this->_do_links = $do_links;
+        $this->setDoLinks($do_links);
+
         $this->width     = $width;
         $this->charset   = $charset;
+    }
+
+    /**
+     * Sets the links behavior flag
+     *
+     * @param bool|int $do_links
+     */
+    private function setDoLinks($do_links)
+    {
+        if (!$this->isAllowedLinkBehavior((int) $do_links)) {
+            $this->_do_links = self::LINKS_DEFAULT;
+
+            return;
+        }
+
+        $this->_do_links = (int) $do_links;
     }
 
     /**
@@ -519,14 +544,14 @@ class rcube_html2text
      * Helper function called by preg_replace() on link replacement.
      *
      * Maintains an internal list of links to be displayed at the end of the
-     * text, with numeric indices to the original point in the text they
+     * text, with numeric indices or simply the link to the original point in the text they
      * appeared. Also makes an effort at identifying and handling absolute
      * and relative links.
      *
      * @param string $link    URL of the link
      * @param string $display Part of the text to associate number with
      */
-    protected function _build_link_list($link, $display)
+    protected function _handle_link($link, $display)
     {
         if (empty($link)) {
             return $display;
@@ -553,7 +578,7 @@ class rcube_html2text
             $url .= "$link";
         }
 
-        if (!$this->_do_links) {
+        if (self::LINKS_NONE === $this->_do_links) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
             $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
@@ -566,6 +591,39 @@ class rcube_html2text
             return $display;
         }
 
+        if (self::LINKS_INLINE === $this->_do_links) {
+            return $this->_build_link_inline($url, $display);
+        }
+
+        return $this->_build_link_list($url, $display);
+    }
+
+    /**
+     * Helper function called by _handle_link() on link replacement.
+     *
+     * Displays the link next to the original point in the text they
+     * appeared.
+     *
+     * @param string $url     URL of the link
+     * @param string $display linktext
+     */
+    protected function _build_link_inline($url, $display)
+    {
+        return $display . ' &lt;' . $url . '&gt;';
+    }
+
+    /**
+     * Helper function called by _handle_link() on link replacement.
+     *
+     * Maintains an internal list of links to be displayed at the end of the
+     * text, with numeric indices to the original point in the text they
+     * appeared.
+     *
+     * @param string $url    URL of the link
+     * @param string $display Part of the text to associate number with
+     */
+    protected function _build_link_list($url, $display)
+    {
         if (($index = array_search($url, $this->_link_list)) === false) {
             $index = count($this->_link_list);
             $this->_link_list[] = $url;
@@ -693,7 +751,7 @@ class rcube_html2text
         case 'a':
             // Remove spaces in URL (#1487805)
             $url = str_replace(' ', '', $matches[3]);
-            return $this->_build_link_list($url, $matches[4]);
+            return $this->_handle_link($url, $matches[4]);
         }
     }
 
@@ -745,5 +803,22 @@ class rcube_html2text
         $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
 
         return $str;
+    }
+
+    /**
+     * @param integer $do_links
+     *
+     * @return bool
+     */
+    private function isAllowedLinkBehavior($do_links)
+    {
+        return in_array(
+            $do_links,
+            [
+                rcube_html2text::LINKS_NONE,
+                rcube_html2text::LINKS_END,
+                rcube_html2text::LINKS_INLINE
+            ]
+        );
     }
 }
