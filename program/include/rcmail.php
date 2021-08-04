@@ -1914,7 +1914,7 @@ class rcmail extends rcube
     {
         $default_options = [
             'links'   => $this->config->get('html2text_links', rcube_html2text::LINKS_DEFAULT),
-            'width'   => $this->config->get('html2text_width', 75),
+            'width'   => $this->config->get('html2text_width') ?: 75,
             'body'    => $html,
             'charset' => RCUBE_CHARSET,
         ];

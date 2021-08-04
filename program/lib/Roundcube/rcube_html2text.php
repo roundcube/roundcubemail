@@ -123,7 +123,7 @@ class rcube_html2text
      * Set this value to 0 (or less) to ignore word wrapping
      * and not constrain text to a fixed-width column.
      *
-     * @var integer $width
+     * @var int $width
      */
     protected $width = 70;
 
@@ -308,7 +308,7 @@ class rcube_html2text
     /**
      * Indicates whether content in the $html variable has been converted yet.
      *
-     * @var boolean $_converted
+     * @var bool $_converted
      * @see $html, $text
      */
     protected $_converted = false;
@@ -322,15 +322,15 @@ class rcube_html2text
     protected $_link_list = [];
 
     /**
-     * Integer flag
-     * 0 if links should be removed
-     * 1 if a table of link URLs should be listed after the text
-     * 2 if the link should be displayed to the original point in the text they appeared
+     * Links handling.
+     * - 0 if links should be removed
+     * - 1 if a table of link URLs should be listed after the text
+     * - 2 if the link should be displayed to the original point in the text they appeared
      *
-     * @var boolean $_do_links
+     * @var int $_links_mode
      * @see __construct()
      */
-    protected $_do_links = true;
+    protected $_links_mode = 1;
 
     /**
      * Constructor.
@@ -339,39 +339,43 @@ class rcube_html2text
      * will instantiate with that source propagated, all that has
      * to be done it to call get_text().
      *
-     * @param string   $source    HTML content
-     * @param boolean  $from_file Indicates $source is a file to pull content from
-     * @param bool|int $do_links  Indicate whether a table of link URLs is desired
-     * @param integer  $width     Maximum width of the formatted text, 0 for no limit
+     * @param string   $source     HTML content
+     * @param bool     $from_file  Indicates $source is a file to pull content from
+     * @param bool|int $links_mode Links handling mode
+     * @param int      $width      Maximum width of the formatted text, 0 for no limit
      */
-    function __construct($source = '', $from_file = false, $do_links = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
+    function __construct($source = '', $from_file = false, $links_mode = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
     {
         if (!empty($source)) {
             $this->set_html($source, $from_file);
         }
 
         $this->set_base_url();
+        $this->set_links_mode($links_mode);
 
-        $this->setDoLinks($do_links);
-
-        $this->width     = $width;
-        $this->charset   = $charset;
+        $this->width   = $width;
+        $this->charset = $charset;
     }
 
     /**
-     * Sets the links behavior flag
+     * Sets the links behavior mode
      *
-     * @param bool|int $do_links
+     * @param bool|int $mode
      */
-    private function setDoLinks($do_links)
+    private function set_links_mode($mode)
     {
-        if (!$this->isAllowedLinkBehavior((int) $do_links)) {
-            $this->_do_links = self::LINKS_DEFAULT;
+        $allowed = [
+            self::LINKS_NONE,
+            self::LINKS_END,
+            self::LINKS_INLINE
+        ];
 
+        if (!in_array((int) $mode, $allowed)) {
+            $this->_links_mode = self::LINKS_DEFAULT;
             return;
         }
 
-        $this->_do_links = (int) $do_links;
+        $this->_links_mode = (int) $mode;
     }
 
     /**
@@ -578,7 +582,7 @@ class rcube_html2text
             $url .= "$link";
         }
 
-        if (self::LINKS_NONE === $this->_do_links) {
+        if (self::LINKS_NONE === $this->_links_mode) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
             $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
@@ -591,7 +595,7 @@ class rcube_html2text
             return $display;
         }
 
-        if (self::LINKS_INLINE === $this->_do_links) {
+        if (self::LINKS_INLINE === $this->_links_mode) {
             return $this->_build_link_inline($url, $display);
         }
 
@@ -803,22 +807,5 @@ class rcube_html2text
         $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
 
         return $str;
-    }
-
-    /**
-     * @param integer $do_links
-     *
-     * @return bool
-     */
-    private function isAllowedLinkBehavior($do_links)
-    {
-        return in_array(
-            $do_links,
-            [
-                rcube_html2text::LINKS_NONE,
-                rcube_html2text::LINKS_END,
-                rcube_html2text::LINKS_INLINE
-            ]
-        );
     }
 }
