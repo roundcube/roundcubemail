@@ -11,7 +11,7 @@ class LoginTest extends TestCase
         parent::setUp();
 
         \bootstrap::init_db();
-        \bootstrap::init_imap();
+        \bootstrap::init_imap(true);
     }
 
     public function testLogin()

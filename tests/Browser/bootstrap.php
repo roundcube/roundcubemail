@@ -102,12 +102,12 @@ class bootstrap
     /**
      * Wipe the configured IMAP account and fill with test data
      */
-    public static function init_imap()
+    public static function init_imap($force = false)
     {
         if (!TESTS_USER) {
             return false;
         }
-        else if (self::$imap_ready !== null) {
+        else if (!$force && self::$imap_ready !== null) {
             return self::$imap_ready;
         }
 
