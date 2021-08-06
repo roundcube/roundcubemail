@@ -300,7 +300,7 @@
 ## Release 1.4.2
 
 - Add support for PHPUnit 6 and 7 (#6870)
-- Plugin API: Make actionbefore, before<action>, actionafter and after<action> events working with plugin actions (#7106)
+- Plugin API: Make `actionbefore`, `before<action>`, `actionafter` and `after<action>` events working with plugin actions (#7106)
 - Managesieve: Replace "Filter disabled" with "Filter enabled" (#7028)
 - Managesieve: Fix so modifier type select wasn't hidden after hiding modifier select on header change
 - Managesieve: Fix filter selection after removing a first filter (#7079)
@@ -583,7 +583,7 @@
   - Support conditional include
   - Support for 'link' objects
   - Support including files with path relative to templates directory
-  - Use <button> instead of <input> for submit button on logon screen
+  - Use `<button>` instead of `<input>` for submit button on logon screen
 - Support skin localization (#5853)
 - Reset onerror on images if placeholder does not exist to prevent from requests storm
 - Unified and simplified code for loading content frame for responses and identities
@@ -629,7 +629,7 @@
 - Fix compatibility with MySQL 8 - error on 'system' table use
 - Managesieve: Fix bug where show_real_foldernames setting wasn't respected (#6422)
 - New_user_identity: Fix %fu/%u vars substitution in user specific LDAP params (#6419)
-- Fix support for "allow-from <uri>" in "x_frame_options" config option (#6449)
+- Fix support for `allow-from <uri>` in `x_frame_options` config option (#6449)
 - Fix bug where valid content between HTML comments could have been skipped in some cases (#6464)
 - Fix multiple VCard field search (#6466)
 - Fix session issue on long running requests (#6470)
@@ -862,7 +862,7 @@
 - Managesieve: Support 'duplicate' extension [RFC 7352]
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
-- Control search engine crawlers via X-Robots-Tag header instead of <meta> and robots.txt (#5098)
+- Control search engine crawlers via X-Robots-Tag header instead of `<meta>` and robots.txt (#5098)
 - Fixed redundancy in sql caching system and compatibility with Galera Cluster (#5439)
     - Removed redundant 'created' column from cache and cache_shared tables
     - Removed use of redundant data records
@@ -1214,7 +1214,7 @@
 - Added folder searching in Folder Manager
 - Fix restoring draft messages from localStorage if editor mode differs (#4631)
 - Added config option/user preference to disable saving messages in localStorage (#4606)
-- Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
+- Added config option 'imap_log_session' to enable Roundcube and IMAP session ID logging
 - Added config option 'log_session_id' to control the length of the session identifier in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#4638)
 - Integrate Net_LDAP3 and rcube_ldap_generic classes
@@ -1280,7 +1280,7 @@
 - Fix setting flags on servers with no PERMANENTFLAGS response (#4667)
 - Fix regression in SHA password generation in ldap driver of password plugin (#4670)
 - Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#4672)
-- Fix font style display issue in HTML messages with styled <span> elements (#4671)
+- Fix font style display issue in HTML messages with styled `<span>` elements (#4671)
 - Fix download of attachments that are part of TNEF message (#4668)
 - Fix handling of uuencoded messages if messages_cache is enabled (#4675)
 - Fix handling of base64-encoded attachments with extra spaces (#4678)
@@ -1987,7 +1987,7 @@
 - Fix navigation in messages search results
 - Improved handling of some malformed values encoded with quoted-printable (#3590)
 - Add possibility to do LDAP bind before searching for bind DN
-- Fix handling of empty <U> tags in HTML messages (#3584)
+- Fix handling of empty `<U>` tags in HTML messages (#3584)
 - Add content filter for embedded attachments to protect from XSS on IE [CVE-2012-1253] (#3372)
 - Use strpos() instead of strstr() when possible (#3581)
 - Fix handling HTML entities when converting HTML to text (#3582)
@@ -2142,7 +2142,7 @@
 - Enable TinyMCE's contextmenu (#3062)
 - Allow multiple concurrent compose sessions
 - New config option for custom logo
-- Allow skins to define/override texts with <roundcube:label />
+- Allow skins to define/override texts with `<roundcube:label />`
 - Add simple ACL rights/namespace handling in folder manager
 - Force IE to send referers (#3306)
 - Better display of vcard import results (#1861)
@@ -2165,7 +2165,7 @@
 - Fix some CSS issues in Settings for Internet Explorer
 - Fixed handling of folder with name "0" in folder selector
 - Fix bug where messages were deleted instead moved to trash folder after Shift key was used (#3376)
-- Fix relative URLs handling according to a <base> in HTML (#3368)
+- Fix relative URLs handling according to a `<base>` in HTML (#3368)
 - Fix handling of top-level domains with more than 5 chars or unicode chars (#3366)
 - Fix usage of non-standard HTTP error codes (#3297)
 - Fix PHP warning on mistaken in_array() usage (#3375)
@@ -2195,7 +2195,7 @@
 - Use only one from IMAP authentication methods to prevent login delays (1487784)
 - Support strftime format in date_today option
 - Fix SQL query in rcube_user::query() so it uses index on MySQL again
-- Removed redundant </form> tags from contact add/edit pages
+- Removed redundant `</form>` tags from contact add/edit pages
 - Fix CSS error in contact details screen on IE7 (#3281)
 
 ## Release 0.5.1
@@ -2236,7 +2236,7 @@
 ## Release 0.5
 
 - Fix double-login/session issue (#3124)
-- Wrap HTML parts with <html><body> and add Doctype declaration (#3119)
+- Wrap HTML parts with `<html><body>` and add Doctype declaration (#3119)
 - Make rcube_autoload silently skip unknown classes (#3128)
 - Fix charset detection in vcards with encoded values (#1934)
 - Better CSS cursors for splitters (#2954)
@@ -2342,7 +2342,7 @@
 - Fix operations on messages in unsubscribed folder (#3126)
 - Add support for shared folders (#525)
 - Fix handling of folders with name "0" (#3133)
-- Fix handling of folders with "<>" characters in name
+- Fix handling of folders with `<>` characters in name
 - jQuery 1.4.4
 - Fix handling of HTML entity strings in plain text messages
 - Fix focused elements aren't unfocused when clicking on the list (#3137)
@@ -2510,7 +2510,7 @@
 - Use case sensitive check when checking for default folders (#2567)
 - Fix checking for new mail: now checks unseen count of inbox (#2123)
 - Improve performance by avoiding unnecessary updates to the session table (#2552)
-- Fix invalid <font> tags which cause HTML message rendering problems (#2687)
+- Fix invalid `<font>` tags which cause HTML message rendering problems (#2687)
 - Fix CVE-2010-0464: Disable DNS prefetching (#2639)
 - Fix Received headers to behave better with SpamAssassin (#2682)
 - Password: Make passwords encoding consistent with core, add 'password_charset' global option (#2658)
@@ -2538,7 +2538,7 @@
 - Removed problematic browser-caching of messages
 - Fix incompatibility with suhosin.executor.disable_emodifier (#2549)
 - Use PLAIN auth when CRAM fails and imap_auth_type='check' (#2587)
-- Fix removal of <title> tag from HTML messages (#2629)
+- Fix removal of `<title>` tag from HTML messages (#2629)
 - Fix 'force_https' to specified port when URL contains a port number (#2612)
 - Fix to-text converting of HTML entities inside b/strong/th/hX tags (#2621)
 - Bug in spellchecker suggestions when server charset != UTF8 (#2607)
@@ -2558,7 +2558,7 @@
 - Fix displaying of hidden directories in skins list (#2535)
 - Fix open_basedir restriction error when reading skins list (#2537)
 - Fix pasting from Office apps into html editor (#2508)
-- Fix empty <a> tags parsing (#2509)
+- Fix empty `<a>` tags parsing (#2509)
 - Don't cut off attachment names when using non-RFC2231 encoding (#1912)
 - Allow inserting signatures above replied message body (#991)
 - Managesieve 2.0: multi-script support
@@ -2735,7 +2735,7 @@
 - Fix compose window doesn't fit 1024x768 window (#1807)
 - Fix service not available error when pressing back from compose dialog (#1942)
 - Fix using mail() on Windows (#2111)
-- Fix word wrapping in message-part's <PRE>s for printing (#2118)
+- Fix word wrapping in message-part's `<PRE>` tags in printing (#2118)
 - Fix incorrect word wrapping in outgoing plaintext multibyte messages (#2062)
 - Fix double footer in HTML message with embedded images
 - Fix TNEF implementation bug (#2107)
@@ -2776,7 +2776,7 @@
 - Save spellcheck corrections when switching from plain to html editor (and spellchecking is on)
 - Fix large search results on server without SORT capability (#2031)
 - Get rid of preg_replace() with eval modifier and create_function usage (#2042)
-- Bring back <base> and <link> tags in HTML messages
+- Bring back `<base>` and `<link>` tags in HTML messages
 - Fix XSS vulnerability through background attributes [CVE-2009-0413]
 - Fix problems with backslash as IMAP hierarchy delimiter (#1116)
 - Secure vcard export by getting rid of preg's 'e' modifier use (#2045)
@@ -2983,7 +2983,7 @@
 - Fixed remove signature when replying (#446)
 - Fixed problem with line with a space at the end (#1440)
 - Fixed `<!DOCTYPE>` tag filtering (#1066)
-- Fixed <?xml> tag filtering (#1075)
+- Fixed `<?xml>` tag filtering (#1075)
 - Added sections (fieldset+label) in Settings interface
 - Mark as read in one action with message preview (#1486)
 - Deleted redundant quota reads (#1486)
@@ -3131,7 +3131,7 @@
 - Hide contacts drop down on blur (closes #946)
 - Make entries in contacts drop down clickable
 - Turn off browser autocompletion on login page
-- Quote <? in text/html message parts
+- Quote `<?` in text/html message parts
 - Hide border around radio buttons
 - Applied patch for attachment download by crichardson (closes #943)
 - Fixed bug in Postgres DB handling (closes #852)
