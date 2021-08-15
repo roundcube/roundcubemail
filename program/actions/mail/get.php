@@ -166,12 +166,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
                     }
 
-                    // fix mimetype for files wrongly declared as octet-stream
-                    if ($mimetype == 'application/octet-stream' && $valid_extension) {
-                        $mimetype = $real_mimetype;
-                    }
-                    // fix mimetype for images with wrong mimetype
-                    else if (strpos($real_mimetype, 'image/') === 0 && strpos($mimetype, 'image/') === 0) {
+                    if (
+                        // fix mimetype for files wrongly declared as octet-stream
+                        ($mimetype == 'application/octet-stream' && $valid_extension)
+                        // force detected mimetype for images (#8158)
+                        || (strpos($real_mimetype, 'image/') === 0)
+                    ) {
                         $mimetype = $real_mimetype;
                     }
 

@@ -17,6 +17,7 @@
 - Fix changing password with dovecot_passwdfile driver (#8145)
 - Fix handling of headers that occur multiple times by show_additional_headers plugin (#8157)
 - Fix bug where vertical scrollbar in new HTML message bounced back on scroll (#8046)
+- Fix displaying inline images with incorrectly declared content-type (#8158)
 
 ## Release 1.5-rc
 
