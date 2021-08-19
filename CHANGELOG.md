@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.5.0
 
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Newmail_notifier: Improved the notification sound (#8155)
