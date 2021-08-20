@@ -1688,7 +1688,7 @@ class rcmail_action_settings_index extends rcmail_action
     {
         try {
             $tz    = new DateTimeZone($tzname);
-            $date  = new DateTime(null, $tz);
+            $date  = new DateTime('now', $tz);
             $count = 12;
 
             // Move back for a month (up to 12 times) until non-DST date is found

@@ -4,7 +4,7 @@ namespace Tests\Browser\Plugins\Archive;
 
 class SettingsTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();
     }

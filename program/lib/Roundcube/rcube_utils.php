@@ -75,13 +75,7 @@ class rcube_utils
         // session_get_cookie_params() return includes 'lifetime' but setcookie() does not use it, instead it uses 'expires'
         unset($attrib['lifetime']);
 
-        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            // An alternative signature for setcookie supporting an options array added in PHP 7.3.0
-            setcookie($name, $value, $attrib);
-        }
-        else {
-            setcookie($name, $value, $attrib['expires'], $attrib['path'], $attrib['domain'], $attrib['secure'], $attrib['httponly']);
-        }
+        setcookie($name, $value, $attrib);
     }
 
     /**
@@ -274,7 +268,25 @@ class rcube_utils
     }
 
     /**
-     * Read input value and convert it for internal use
+     * Read input value and make sure it is a string.
+     *
+     * @param string $fname      Field name to read
+     * @param int    $source     Source to get value from (see self::INPUT_*)
+     * @param bool   $allow_html Allow HTML tags in field value
+     * @param string $charset    Charset to convert into
+     *
+     * @return string Request parameter value
+     * @see self::get_input_value()
+     */
+    public static function get_input_string($fname, $source, $allow_html = false, $charset = null)
+    {
+        $value = self::get_input_value($fname, $source, $allow_html, $charset);
+
+        return is_string($value) ? $value : '';
+    }
+
+    /**
+     * Read request parameter value and convert it for internal use
      * Performs stripslashes() and charset conversion if necessary
      *
      * @param string $fname      Field name to read
@@ -282,7 +294,7 @@ class rcube_utils
      * @param bool   $allow_html Allow HTML tags in field value
      * @param string $charset    Charset to convert into
      *
-     * @return string|null Field value or NULL if not available
+     * @return string|array|null Request parameter value or NULL if not set
      */
     public static function get_input_value($fname, $source, $allow_html = false, $charset = null)
     {
@@ -734,19 +746,19 @@ class rcube_utils
             $type = 'SERVER_NAME';
         }
 
-        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : null;
+        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : '';
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
-        if ($strip_port) {
-            $name = preg_replace('/:\d+$/', '', $name);
-        }
-
-        if (empty($patterns) || in_array_nocase($name, $patterns)) {
-            return $name;
-        }
-
         if (!empty($name)) {
+            if ($strip_port) {
+                $name = preg_replace('/:\d+$/', '', $name);
+            }
+
+            if (empty($patterns) || in_array_nocase($name, $patterns)) {
+                return $name;
+            }
+
             foreach ($patterns as $pattern) {
                 if (preg_match("/$pattern/", $name)) {
                     return $name;
@@ -965,7 +977,7 @@ class rcube_utils
      */
     public static function clean_datestr($date)
     {
-        $date = trim($date);
+        $date = trim((string) $date);
 
         // check for MS Outlook vCard date format YYYYMMDD
         if (preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $date, $m)) {
@@ -1120,6 +1132,10 @@ class rcube_utils
      */
     public static function tokenize_string($str, $minlen = 2)
     {
+        if (!is_string($str)) {
+            return [];
+        }
+
         $expr = ['/[\s;,"\'\/+-]+/ui', '/(\d)[-.\s]+(\d)/u'];
         $repl = [' ', '\\1\\2'];
 
@@ -1129,7 +1145,9 @@ class rcube_utils
             $repl[] = ' ';
         }
 
-        return array_filter(explode(" ", preg_replace($expr, $repl, $str)));
+        $str = preg_replace($expr, $repl, $str);
+
+        return is_string($str) ? array_filter(explode(" ", $str)) : [];
     }
 
     /**
@@ -1324,7 +1342,7 @@ class rcube_utils
      */
     public static function get_boolean($str)
     {
-        $str = strtolower($str);
+        $str = strtolower((string) $str);
 
         return !in_array($str, ['false', '0', 'no', 'off', 'nein', ''], true);
     }
@@ -1364,11 +1382,11 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 0;
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
-            if ($port != $default_port && $port != 80) {
+            if ($port && $port != $default_port && $port != 80) {
                 $prefix .= ':' . $port;
             }
 
@@ -1520,6 +1538,10 @@ class rcube_utils
     {
         if (($preg_error = preg_last_error()) != PREG_NO_ERROR) {
             $errstr = "PCRE Error: $preg_error.";
+
+            if (function_exists('preg_last_error_msg')) {
+                $errstr .= ' ' . preg_last_error_msg();
+            }
 
             if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR) {
                 $errstr .= " Consider raising pcre.backtrack_limit!";

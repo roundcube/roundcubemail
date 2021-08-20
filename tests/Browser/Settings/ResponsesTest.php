@@ -8,7 +8,7 @@ use Tests\Browser\Components\Popupmenu;
 
 class ResponsesTest extends \Tests\Browser\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();
     }

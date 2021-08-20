@@ -40,7 +40,6 @@ class rcube_dovecot_passwdfile_password
         $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
 
         $password = password::hash_password($newpass);
-        $password = escapeshellcmd($password); // FIXME: Do we need this?
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
@@ -60,10 +59,10 @@ class rcube_dovecot_passwdfile_password
 
         if (flock($fp, LOCK_EX)) {
             // Read the file and replace the user password
-            while (($line = fgets($handle, 40960)) !== false) {
+            while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "$username:") === 0) {
                     $pos  = strpos($line, ':', strlen("$username:") + 1);
-                    $line = "$username:$newhash" . substr($line, $pos);
+                    $line = "$username:$password" . substr($line, $pos);
                 }
 
                 $content .= $line;

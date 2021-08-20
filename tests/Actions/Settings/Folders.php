@@ -53,7 +53,7 @@ class Actions_Settings_Folders extends ActionTestCase
         $this->assertSame('folders', $output->template);
         $this->assertSame('Folders', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
-        $this->assertRegExp('/treelist(.min)?.js/', $result);
+        $this->assertMatchesRegularExpression('/treelist(.min)?.js/', $result);
     }
 
     /**

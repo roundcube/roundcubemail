@@ -1586,19 +1586,7 @@ class rcmail extends rcube
             }
         }
 
-        // strftime() format
-        if (preg_match('/%[a-z]+/i', $format)) {
-            $format = strftime($format, $timestamp);
-
-            if (isset($stz)) {
-                date_default_timezone_set($stz);
-            }
-
-            return !empty($today) ? ($this->gettext('today') . ' ' . $format) : $format;
-        }
-
         // parse format string manually in order to provide localized weekday and month names
-        // an alternative would be to convert the date() format string to fit with strftime()
         $out = '';
         for ($i = 0; $i < strlen($format); $i++) {
             if ($format[$i] == "\\") {  // skip escape chars
@@ -1626,7 +1614,8 @@ class rcmail extends rcube
                 $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
             }
             else if ($format[$i] == 'x') {
-                $out .= strftime('%x %X', $timestamp);
+                $formatter = new IntlDateFormatter(setlocale(LC_ALL, '0'), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+                $out .= $formatter->format($timestamp);
             }
             else {
                 $out .= date($format[$i], $timestamp);
@@ -1924,8 +1913,8 @@ class rcmail extends rcube
     public function html2text($html, $options = [])
     {
         $default_options = [
-            'links'   => true,
-            'width'   => 75,
+            'links'   => $this->config->get('html2text_links', rcube_html2text::LINKS_DEFAULT),
+            'width'   => $this->config->get('html2text_width') ?: 75,
             'body'    => $html,
             'charset' => RCUBE_CHARSET,
         ];

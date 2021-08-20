@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Erantsi vCard';
 $labels['vcardattached'] = 'vCard fitxategia erantsia';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Birbidali vCard';
+$labels['contactsattached'] = 'Badira $num kontaktu mezu honi erantsita';
+$labels['importedsuccessfully'] = 'Kontaktua(k) behar bezala inportatu d(ir)a helbide-liburura';

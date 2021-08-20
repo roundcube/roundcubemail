@@ -30,9 +30,9 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
-        $name      = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
-        $path      = rcube_utils::get_input_value('_parent', rcube_utils::INPUT_POST, true);
-        $old_imap  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+        $name      = trim((string) rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+        $path      = (string) rcube_utils::get_input_value('_parent', rcube_utils::INPUT_POST, true);
+        $old_imap  = (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
         $type      = rcube_utils::get_input_value('_type', rcube_utils::INPUT_POST);
         $name_imap = rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
         // $path is in UTF7-IMAP already

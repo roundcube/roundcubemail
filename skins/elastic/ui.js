@@ -1348,7 +1348,8 @@ function rcube_elastic_ui()
         }
 
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
-            var form = $('#compose-content > form'),
+            var floating = false,
+                form = $('#compose-content > form'),
                 keypress = function(e) {
                     if (e.key == 'Tab' && e.shiftKey) {
                         $('#compose-content > form').scrollTop(0);
@@ -1371,14 +1372,20 @@ function rcube_elastic_ui()
 
                 if (editor_offset && (editor_offset.top - header_top < 0)) {
                     toolbar.css({position: 'fixed', top: header_top + 'px', width: container.width() + 'px'});
+                    floating = true;
                 }
                 else {
+                    // Focusing the subject when scrolling back to the top fixes
+                    // an annoying bouncing scrollbar bug (#8046)
+                    if (floating) {
+                        $('#compose-subject').focus();
+                        floating = false;
+                    }
                     toolbar.css({position: 'relative', top: 0, width: 'auto'})
                 }
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
-
         }
 
         if (is_editor) {

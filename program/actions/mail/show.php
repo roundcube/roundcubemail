@@ -535,7 +535,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $table = new html_table(['cols' => 2]);
 
         foreach ($plugin['output'] as $hkey => $row) {
-            $val = $row['html'] ? $row['value'] : rcube::SQ($row['value']);
+            $val = !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
 
             $table->add(['class' => 'header-title'], rcube::SQ($row['title']));
             $table->add(['class' => 'header ' . $hkey], $val);

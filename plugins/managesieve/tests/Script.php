@@ -2,7 +2,7 @@
 
 class Managesieve_Script extends PHPUnit\Framework\TestCase
 {
-    function setUp()
+    static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_script.php';
     }

@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.3.0",
         "pear/pear-core-minimal": "~1.10.1",
         "pear/auth_sasl": "~1.1.0",
         "pear/mail_mime": "~1.10.0",
@@ -23,7 +23,7 @@
         "guzzlehttp/guzzle": "^6.5.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6 || ^7"
+        "phpunit/phpunit": "^9"
     },
     "suggest": {
         "kolab/net_ldap3": "~1.1.1 required for connecting to LDAP",

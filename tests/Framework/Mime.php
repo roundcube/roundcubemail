@@ -46,6 +46,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             24 => '"email@test.com" <>',
             // valid with redundant quoting (#1490040)
             25 => '"user"@"domain.tld"',
+            // invalid addr-spec (#8164)
+            26 => '"Test.org"<test@domain.tld',
+            27 => '<test@domain.tld',
         ];
 
         $results = [
@@ -76,6 +79,8 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             23 => [1, 'Test,Test', 'test@domain.tld'],
             24 => [1, '', 'email@test.com'],
             25 => [1, '', 'user@domain.tld'],
+            26 => [1, 'Test.org', 'test@domain.tld'],
+            27 => [1, '', 'test@domain.tld'],
         ];
 
         foreach ($headers as $idx => $header) {
@@ -335,7 +340,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $this->assertSame(257,              $result->parts[1]->parts[0]->size);
         $this->assertSame('text/html',      $result->parts[1]->parts[0]->mimetype);
         $this->assertSame('UTF-8',          $result->parts[1]->parts[0]->charset);
-        $this->assertRegExp('/<html>/',     $result->parts[1]->parts[0]->body);
+        $this->assertMatchesRegularExpression('/<html>/', $result->parts[1]->parts[0]->body);
         $this->assertSame('2.2',            $result->parts[1]->parts[1]->mime_id);
         $this->assertSame(793,              $result->parts[1]->parts[1]->size);
         $this->assertSame('image/jpeg',     $result->parts[1]->parts[1]->mimetype);

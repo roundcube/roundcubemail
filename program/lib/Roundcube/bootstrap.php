@@ -58,7 +58,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.5-git');
+define('RCUBE_VERSION', '1.6-git');
 define('RCUBE_CHARSET', 'UTF-8');
 define('RCUBE_TEMP_FILE_PREFIX', 'RCMTEMP');
 
@@ -322,7 +322,7 @@ function array_first($array)
 function asciiwords($str, $css_id = false, $replace_with = '')
 {
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
-    return preg_replace("/[^$allowed]+/i", $replace_with, $str);
+    return preg_replace("/[^$allowed]+/i", $replace_with, (string) $str);
 }
 
 /**
@@ -336,7 +336,7 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 function is_ascii($str, $control_chars = true)
 {
     $regexp = $control_chars ? '/[^\x00-\x7F]/' : '/[^\x20-\x7E]/';
-    return preg_match($regexp, $str) ? false : true;
+    return preg_match($regexp, (string) $str) ? false : true;
 }
 
 /**

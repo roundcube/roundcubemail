@@ -183,17 +183,17 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $css = file_get_contents(TESTS_DIR . 'src/valid.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
 
-        $this->assertRegExp('/#rcmbody\s+\{/', $mod, "Replace body style definition");
-        $this->assertRegExp('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
-        $this->assertRegExp('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
-        $this->assertRegExp('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
+        $this->assertMatchesRegularExpression('/#rcmbody\s+\{/', $mod, "Replace body style definition");
+        $this->assertMatchesRegularExpression('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
+        $this->assertMatchesRegularExpression('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
+        $this->assertMatchesRegularExpression('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
 
         $css = file_get_contents(TESTS_DIR . 'src/media.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
 
-        $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
-        $this->assertContains('#rcmbody { width: 600px', $mod, 'Replace body selector nested in @media block');
-        $this->assertContains('#rcmbody { min-width: 474px', $mod, 'Replace body selector nested in @media block (#5811)');
+        $this->assertStringContainsString('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
+        $this->assertStringContainsString('#rcmbody { width: 600px', $mod, 'Replace body selector nested in @media block');
+        $this->assertStringContainsString('#rcmbody { min-width: 474px', $mod, 'Replace body selector nested in @media block (#5811)');
     }
 
     /**
@@ -240,13 +240,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
-        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
+        $this->assertStringContainsString("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
-        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
+        $this->assertStringContainsString("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
 
         // Allow strict url()
         $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
-        $this->assertContains("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
+        $this->assertStringContainsString("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
 
         // XSS issue, HTML in 'content' property
         $style = "body { content: '</style><img src onerror=\"alert(\'hello\');\">'; color: red; }";
@@ -289,34 +289,34 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         ';
         $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
 
-        $this->assertContains('#rc .testone', $mod);
-        $this->assertContains('#rc .testthree.testfour', $mod);
-        $this->assertContains('#rc #testid1', $mod);
-        $this->assertContains('#rc #testid2.testclass:focus', $mod);
-        $this->assertContains('#rc .testfive:not(.testtest)', $mod);
-        $this->assertContains('#rc div .testsix', $mod);
-        $this->assertContains('#rc p > i ', $mod);
-        $this->assertContains('#rc div#testsome', $mod);
-        $this->assertContains('#rc li a.testbutton', $mod);
-        $this->assertNotContains(':root', $mod);
-        $this->assertContains('#rc * ', $mod);
-        $this->assertContains('#rc > * ', $mod);
+        $this->assertStringContainsString('#rc .testone', $mod);
+        $this->assertStringContainsString('#rc .testthree.testfour', $mod);
+        $this->assertStringContainsString('#rc #testid1', $mod);
+        $this->assertStringContainsString('#rc #testid2.testclass:focus', $mod);
+        $this->assertStringContainsString('#rc .testfive:not(.testtest)', $mod);
+        $this->assertStringContainsString('#rc div .testsix', $mod);
+        $this->assertStringContainsString('#rc p > i ', $mod);
+        $this->assertStringContainsString('#rc div#testsome', $mod);
+        $this->assertStringContainsString('#rc li a.testbutton', $mod);
+        $this->assertStringNotContainsString(':root', $mod);
+        $this->assertStringContainsString('#rc * ', $mod);
+        $this->assertStringContainsString('#rc > * ', $mod);
     }
 
     function test_xss_entity_decode()
     {
         $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
-        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from style node");
+        $this->assertStringNotContainsString('<img', $mod, "Strip (encoded) tags from style node");
 
         $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
-        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+        $this->assertStringNotContainsString('<img', $mod, "Strip (encoded) tags from content property");
 
         $mod = rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
-        $this->assertContains("url(", $mod, "Escape sequences resolving");
+        $this->assertStringContainsString("url(", $mod, "Escape sequences resolving");
 
         // #5747
         $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
-        $this->assertContains('#foo', $mod, "Strip HTML comments from content, but not the content");
+        $this->assertStringContainsString('#foo', $mod, "Strip HTML comments from content, but not the content");
     }
 
     /**
@@ -448,6 +448,21 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         foreach ($input as $idx => $value) {
             $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
+    }
+
+    /**
+     * rcube_utils::get_input_string()
+     */
+    function test_get_input_string()
+    {
+        $_GET = [];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => 'val'];
+        $this->assertSame('val', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => ['val1', 'val2']];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
     }
 
     /**
@@ -680,7 +695,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_random_bytes()
     {
-        $this->assertRegexp('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
         $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
         $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));

@@ -2,8 +2,7 @@
 
 class Jqueryui_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../jqueryui.php';
     }

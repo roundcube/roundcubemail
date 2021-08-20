@@ -25,10 +25,10 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
@@ -64,10 +64,10 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard  = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
@@ -82,10 +82,10 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard  = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 

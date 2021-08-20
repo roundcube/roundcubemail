@@ -2,7 +2,7 @@
 
 class Enigma_EnigmaSubkey extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass()
+    static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/enigma_subkey.php';
     }

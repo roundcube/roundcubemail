@@ -8340,7 +8340,7 @@ function rcube_webmail()
 
       popup.dialog('option', {
         height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
-        width: Math.min(w - 20, width + 24)
+        width: Math.min(w - 20, width + 28)
       });
     }
     else {

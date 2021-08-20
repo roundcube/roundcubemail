@@ -287,7 +287,7 @@ class rcube_result_index
         $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
-            $get_index ? PREG_OFFSET_CAPTURE : null)
+            $get_index ? PREG_OFFSET_CAPTURE : 0)
         ) {
             if ($get_index) {
                 $idx = 0;
@@ -389,7 +389,7 @@ class rcube_result_index
                     $this->meta['pos'][$index+1] - $this->length() - 1);
             }
 
-            if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, null, $pos)) {
+            if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, 0, $pos)) {
                 return (int) $m[1];
             }
         }

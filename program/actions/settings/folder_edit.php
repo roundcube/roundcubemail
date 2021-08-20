@@ -46,10 +46,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $storage = $rcmail->get_storage();
 
         // edited folder name (empty in create-folder mode)
-        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+        $mbox = (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
 
         // predefined path for new folder
-        $parent = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
+        $parent = (string) rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
 
         $threading_supported = $storage->get_capability('THREAD');
         $dual_use_supported  = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
@@ -152,7 +152,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                     'unsubscribed' => true,
                     'skip_noinferiors' => true,
                     'exceptions'  => $exceptions,
-                    'additional'  => strlen($selected) ? [$selected] : null,
+                    'additional'  => is_string($selected) && strlen($selected) ? [$selected] : null,
             ]);
 
             $form['props']['fieldsets']['location']['content']['parent'] = [

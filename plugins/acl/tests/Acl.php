@@ -2,8 +2,7 @@
 
 class Acl_Plugin extends ActionTestCase
 {
-
-    function setUp()
+    static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../acl.php';
     }

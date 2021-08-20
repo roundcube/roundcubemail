@@ -183,6 +183,12 @@ class rcube_db
             // don't throw exceptions or warnings
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 
+            // Return numbers as strings consistently for all supported PHP versions
+            // Since PHP 8.1 native data types are used by default
+            if (defined('PDO::ATTR_STRINGIFY_FETCHES')) {
+                $this->dbh->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, 1);
+            }
+
             $this->conn_configure($dsn, $this->dbh);
         }
         catch (Exception $e) {

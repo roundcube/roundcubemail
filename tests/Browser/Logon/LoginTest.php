@@ -6,12 +6,12 @@ use Tests\Browser\Components\App;
 
 class LoginTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         \bootstrap::init_db();
-        \bootstrap::init_imap();
+        \bootstrap::init_imap(true);
     }
 
     public function testLogin()
