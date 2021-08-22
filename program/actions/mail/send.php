@@ -156,20 +156,30 @@ class rcmail_action_mail_send extends rcmail_action
                 $spellchecker = new rcube_spellchecker($language);
                 $spell_result = $spellchecker->check($message_body, $isHtml);
 
-                $COMPOSE['spell_checked'] = true;
+                if ($error = $spellchecker->error()) {
+                    rcube::raise_error([
+                            'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Spellcheck error: " . $error
+                        ],
+                        true, false
+                    );
+                }
+                else {
+                    $COMPOSE['spell_checked'] = true;
 
-                if (!$spell_result) {
-                    if ($isHtml) {
-                        $result['words']      = $spellchecker->get();
-                        $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
-                    }
-                    else {
-                        $result = $spellchecker->get_xml();
-                    }
+                    if (!$spell_result) {
+                        if ($isHtml) {
+                            $result['words']      = $spellchecker->get();
+                            $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
+                        }
+                        else {
+                            $result = $spellchecker->get_xml();
+                        }
 
-                    $rcmail->output->show_message('mispellingsfound', 'error');
-                    $rcmail->output->command('spellcheck_resume', $result);
-                    $rcmail->output->send('iframe');
+                        $rcmail->output->show_message('mispellingsfound', 'error');
+                        $rcmail->output->command('spellcheck_resume', $result);
+                        $rcmail->output->send('iframe');
+                    }
                 }
             }
 

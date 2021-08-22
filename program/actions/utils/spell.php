@@ -55,12 +55,12 @@ class rcmail_action_utils_spell extends rcmail_action
             $result = $spellchecker->get_xml();
         }
 
-        if ($err = $spellchecker->error()) {
+        if ($error = $spellchecker->error()) {
             rcube::raise_error([
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Spell check engine error: " . trim($err)
+                    'message' => "Spellcheck error: " . $error
                 ],
                 true,
                 false
