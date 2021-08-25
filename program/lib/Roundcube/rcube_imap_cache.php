@@ -789,7 +789,7 @@ class rcube_imap_cache
             (int) $this->skip_deleted,
             (int) $mbox_data['UIDVALIDITY'],
             (int) $mbox_data['UIDNEXT'],
-            $modseq ? $modseq : $mbox_data['HIGHESTMODSEQ'],
+            $modseq ?: (isset($mbox_data['HIGHESTMODSEQ']) ? $mbox_data['HIGHESTMODSEQ'] : ''),
         ];
 
         $data    = implode('@', $data);

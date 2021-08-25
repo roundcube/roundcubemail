@@ -20,6 +20,7 @@
 - Fix displaying inline images with incorrectly declared content-type (#8158)
 - Fix so addr-spec with missing closing angle bracket can be parsed (#8164)
 - Fix handling of spellcheck connection errors (#8172)
+- Fix a couple of PHP8 warnings (#8175, #8176)
 
 ## Release 1.5-rc
 
