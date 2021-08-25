@@ -2185,7 +2185,7 @@ class rcube_imap extends rcube_storage
             $di += 3;
         }
 
-        if (is_array($part[$di]) && count($part[$di]) == 2) {
+        if (isset($part[$di]) && is_array($part[$di]) && count($part[$di]) == 2) {
             $struct->disposition = strtolower($part[$di][0]);
             if ($struct->disposition && $struct->disposition !== 'inline' && $struct->disposition !== 'attachment') {
                 // RFC2183, Section 2.8 - unrecognized type should be treated as "attachment"
@@ -2199,7 +2199,7 @@ class rcube_imap extends rcube_storage
         }
 
         // get message/rfc822's child-parts
-        if (is_array($part[8]) && $di != 8) {
+        if (isset($part[8]) && is_array($part[8]) && $di != 8) {
             $struct->parts = [];
             for ($i=0, $count=0; $i<count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
