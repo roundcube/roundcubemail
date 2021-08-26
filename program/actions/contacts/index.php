@@ -340,9 +340,9 @@ class rcmail_action_contacts_index extends rcmail_action
                 'searchform'          => [$rcmail->output, 'search_form']
         ]);
 
-        // Disable qr-code if php-gd or Endroid's QrCode is not installed
+        // Disable qr-code if imagick, iconv or BaconQrCode is not installed
         if (!$rcmail->output->ajax_call) {
-            $rcmail->output->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
+            $rcmail->output->set_env('qrcode', extension_loaded('imagick') && extension_loaded('iconv') && class_exists('BaconQrCode\Renderer\ImageRenderer'));
             $rcmail->output->add_label('qrcode');
         }
     }
