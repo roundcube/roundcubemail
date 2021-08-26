@@ -21,6 +21,8 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
     /**
      * Test check() method
+     *
+     * @group external
      */
     function test_check()
     {
@@ -55,6 +57,8 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
     /**
      * Test get_suggestions() method
+     *
+     * @group external
      */
     function test_get_suggestions()
     {
@@ -68,6 +72,8 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
     /**
      * Test get_words() method
+     *
+     * @group external
      */
     function test_get_words()
     {

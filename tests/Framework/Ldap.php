@@ -18,6 +18,11 @@ class Framework_Ldap extends PHPUnit\Framework\TestCase
             $this->markTestSkipped('The Net_LDAP3 package not available.');
         }
 
+        // skip test if php-ldap is not available
+        if (!extension_loaded('ldap')) {
+            $this->markTestSkipped('The ldap extension is not available.');
+        }
+
         StdErrMock::start();
         $object = new rcube_ldap([]);
         StdErrMock::stop();
