@@ -47,4 +47,4 @@ jobs:
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
       - name: Execute tests
-        run: vendor/bin/phpunit -c tests/phpunit.xml
+        run: vendor/bin/phpunit -c tests/phpunit.xml --exclude-group=external
