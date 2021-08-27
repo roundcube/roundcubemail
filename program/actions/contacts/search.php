@@ -107,7 +107,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             // check if search fields are supported....
             if (is_array($fields)) {
-                $cols = $source->coltypes[0] ? array_flip($source->coltypes) : $source->coltypes;
+                $cols = !empty($source->coltypes[0]) ? array_flip($source->coltypes) : $source->coltypes;
                 $supported = 0;
 
                 foreach ($fields as $f) {

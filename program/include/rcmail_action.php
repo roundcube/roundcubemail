@@ -1211,8 +1211,8 @@ abstract class rcmail_action
         $maxlength = intval($attrib['maxlength']);
         $realnames = (bool) $attrib['realnames'];
         $msgcounts = $storage->get_cache('messagecount');
-        $collapsed = $rcmail->config->get('collapsed_folders');
-        $realnames = $rcmail->config->get('show_real_foldernames');
+        $collapsed = (string) $rcmail->config->get('collapsed_folders');
+        $realnames = (bool) $rcmail->config->get('show_real_foldernames');
 
         $out = '';
         foreach ($arrFolders as $folder) {
