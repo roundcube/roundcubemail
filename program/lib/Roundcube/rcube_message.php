@@ -99,7 +99,7 @@ class rcube_message
         $this->context = $context;
         $this->app     = rcube::get_instance();
         $this->storage = $this->app->get_storage();
-        $this->folder  = strlen($folder) ? $folder : $this->storage->get_folder();
+        $this->folder  = is_string($folder) && strlen($folder) ? $folder : $this->storage->get_folder();
 
         // Set current folder
         $this->storage->set_folder($this->folder);

@@ -1178,7 +1178,7 @@ class rcmail extends rcube
      */
     private function fix_namespace_settings($user)
     {
-        $prefix     = $this->storage->get_namespace('prefix');
+        $prefix     = (string) $this->storage->get_namespace('prefix');
         $prefix_len = strlen($prefix);
 
         if (!$prefix_len) {

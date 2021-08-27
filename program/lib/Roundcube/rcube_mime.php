@@ -947,7 +947,7 @@ class rcube_mime
 
         foreach ($parts as $idx => $part) {
             // remove redundant quoting (#1490040)
-            if ($part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
+            if (isset($part[0]) && $part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
                 $parts[$idx] = $m[1];
             }
         }

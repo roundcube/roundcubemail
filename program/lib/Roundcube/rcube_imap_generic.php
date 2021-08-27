@@ -3177,7 +3177,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return array Quota information
+     * @return array|false Quota information, False on error
      */
     public function getQuota($mailbox = null)
     {
@@ -3192,46 +3192,48 @@ class rcube_imap_generic
 
         list($code, $response) = $this->execute('GETQUOTAROOT', [$this->escape($mailbox)], 0, '/^\* QUOTA /i');
 
-        $result   = false;
+        if ($code != self::ERROR_OK) {
+            return false;
+        }
+
         $min_free = PHP_INT_MAX;
+        $result   = [];
         $all      = [];
 
-        if ($code == self::ERROR_OK) {
-            foreach (explode("\n", $response) as $line) {
-                $tokens     = $this->tokenizeResponse($line, 3);
-                $quota_root = isset($tokens[2]) ? $tokens[2] : null;
-                $quotas     = $this->tokenizeResponse($line, 1);
+        foreach (explode("\n", $response) as $line) {
+            $tokens     = $this->tokenizeResponse($line, 3);
+            $quota_root = isset($tokens[2]) ? $tokens[2] : null;
+            $quotas     = $this->tokenizeResponse($line, 1);
 
-                if (empty($quotas)) {
-                    continue;
+            if (empty($quotas)) {
+                continue;
+            }
+
+            foreach (array_chunk($quotas, 3) as $quota) {
+                list($type, $used, $total) = $quota;
+                $type = strtolower($type);
+
+                if ($type && $total) {
+                    $all[$quota_root][$type]['used']  = intval($used);
+                    $all[$quota_root][$type]['total'] = intval($total);
                 }
+            }
 
-                foreach (array_chunk($quotas, 3) as $quota) {
-                    list($type, $used, $total) = $quota;
-                    $type = strtolower($type);
+            if (empty($all[$quota_root]['storage'])) {
+                continue;
+            }
 
-                    if ($type && $total) {
-                        $all[$quota_root][$type]['used']  = intval($used);
-                        $all[$quota_root][$type]['total'] = intval($total);
-                    }
-                }
+            $used  = $all[$quota_root]['storage']['used'];
+            $total = $all[$quota_root]['storage']['total'];
+            $free  = $total - $used;
 
-                if (empty($all[$quota_root]['storage'])) {
-                    continue;
-                }
-
-                $used  = $all[$quota_root]['storage']['used'];
-                $total = $all[$quota_root]['storage']['total'];
-                $free  = $total - $used;
-
-                // calculate lowest available space from all storage quotas
-                if ($free < $min_free) {
-                    $min_free          = $free;
-                    $result['used']    = $used;
-                    $result['total']   = $total;
-                    $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                    $result['free']    = 100 - $result['percent'];
-                }
+            // calculate lowest available space from all storage quotas
+            if ($free < $min_free) {
+                $min_free          = $free;
+                $result['used']    = $used;
+                $result['total']   = $total;
+                $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                $result['free']    = 100 - $result['percent'];
             }
         }
 
