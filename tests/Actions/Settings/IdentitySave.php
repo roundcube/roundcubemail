@@ -63,26 +63,4 @@ class Actions_Settings_IdentitySave extends ActionTestCase
     {
         $this->markTestIncomplete();
     }
-
-    /**
-     * Test attach_images() method
-     */
-    function test_attach_images()
-    {
-        $result = rcmail_action_settings_identity_save::attach_images('<p>test</p>');
-
-        // TODO: test image replacement
-
-        $this->assertSame('<p>test</p>', $result);
-    }
-
-    /**
-     * Test wash_html() method
-     */
-    function test_wash_html()
-    {
-        $result = rcmail_action_settings_identity_save::wash_html('<p>test</p>');
-
-        $this->assertSame('<p>test</p>', $result);
-    }
 }

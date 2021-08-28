@@ -106,7 +106,7 @@ class rcmail_action_settings_upload extends rcmail_action
                         $error_label = 'invalidimageformat';
                     }
                     else if ($err == 'size_error') {
-                        $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => $max_size]];
+                        $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes($max_size)]];
                     }
 
                     self::upload_error($err, $attachment, $error_label);

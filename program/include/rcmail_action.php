@@ -348,9 +348,10 @@ abstract class rcmail_action
     /**
      * Output HTML editor scripts
      *
-     * @param string $mode Editor mode
+     * @param string  $mode     Editor mode
+     * @param ?string $editorId Editor textarea element ID
      */
-    public static function html_editor($mode = '')
+    public static function html_editor($mode = '', $editorId = null)
     {
         $rcmail           = rcmail::get_instance();
         $spellcheck       = intval($rcmail->config->get('enable_spellcheck'));
@@ -435,6 +436,13 @@ abstract class rcmail_action
             if ($path != 'none' && ($path = $rcmail->find_asset($path))) {
                 $rcmail->output->include_css($path);
             }
+        }
+
+        if (!empty($editorId)) {
+            $script = rcmail_output::JS_OBJECT_NAME . ".enable_command('toggle-editor', true);"
+                . rcmail_output::JS_OBJECT_NAME . ".editor_init(null, '$editorId');";
+
+            $rcmail->output->add_script($script, 'docready');
         }
 
         $rcmail->output->include_script('tinymce/tinymce.min.js');
@@ -683,10 +691,10 @@ abstract class rcmail_action
             header('Content-Type: ' . $file['mimetype']);
             header('Content-Length: ' . $file['size']);
 
-            if ($file['data']) {
+            if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
             }
-            else if ($file['path']) {
+            else if (!empty($file['path'])) {
                 readfile($file['path']);
             }
         }

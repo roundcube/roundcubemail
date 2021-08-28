@@ -277,17 +277,24 @@ class rcmail_utils
      */
     public static function db_clean($days)
     {
+        $db = self::db();
+
         // mapping for table name => primary key
         $primary_keys = [
             'contacts'      => 'contact_id',
             'contactgroups' => 'contactgroup_id',
         ];
 
-        $db = self::db();
+        $tables = [
+            'contacts',
+            'contactgroups',
+            'identities',
+            'responses',
+        ];
 
         $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
-        foreach (['contacts','contactgroups','identities'] as $table) {
+        foreach ($tables as $table) {
             $sqltable = $db->table_name($table, true);
 
             // also delete linked records
