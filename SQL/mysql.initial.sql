@@ -191,6 +191,23 @@ CREATE TABLE `identities` (
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
 
+-- Table structure for table `responses`
+
+CREATE TABLE `responses` (
+ `response_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user_id` int(10) UNSIGNED NOT NULL,
+ `name` varchar(255) NOT NULL,
+ `data` longtext NOT NULL,
+ `is_html` tinyint(1) NOT NULL DEFAULT '0',
+ `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `del` tinyint(1) NOT NULL DEFAULT '0',
+ PRIMARY KEY (`response_id`),
+ CONSTRAINT `user_id_fk_responses` FOREIGN KEY (`user_id`)
+   REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ INDEX `user_responses_index` (`user_id`, `del`)
+) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+
 -- Table structure for table `dictionary`
 
 CREATE TABLE `dictionary` (
@@ -243,4 +260,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2020122900');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2021081000');

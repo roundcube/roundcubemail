@@ -3773,11 +3773,11 @@ function rcube_elastic_ui()
     };
 
     /**
-     * HTML editor textarea wrapper with nice looking tabs-like switch
+     * HTML editor textarea wrapper with plain-to-html switch button
      */
     function html_editor_init(obj)
     {
-        // Here we support two structures
+        // Here we support two kinds of structure:
         // 1. <div><textarea></textarea><select class="hidden"></div>
         // 2. <tr><td><td><td><textarea></textarea></td></tr>
         //    <tr><td><td><td><input type="checkbox"></td></tr>
@@ -3785,10 +3785,11 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
+            readonly = editor.is('[readonly],[disabled]'),
             plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
-                .attr('title', rcmail.gettext('htmltoggle'))
+                .attr({title: rcmail.gettext('htmltoggle'), disabled: readonly})
                 .on('click', function(e) {
-                    if (rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
+                    if (!readonly && rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
                         parent.addClass('ishtml');
                     }
                 })

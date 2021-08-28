@@ -54,13 +54,15 @@ class rcmail_action_settings_index extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
+        if ($rcmail->output->type == 'html') {
+            $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
 
-        // register UI objects
-        $rcmail->output->add_handlers([
-                'settingstabs' => [$this, 'settings_tabs'],
-                'sectionslist' => [$this, 'sections_list'],
-        ]);
+            // register UI objects
+            $rcmail->output->add_handlers([
+                    'settingstabs' => [$this, 'settings_tabs'],
+                    'sectionslist' => [$this, 'sections_list'],
+            ]);
+        }
     }
 
     /**
@@ -1708,5 +1710,67 @@ class rcmail_action_settings_index extends rcmail_action
         catch (Exception $e) {
             // ignore
         }
+    }
+
+    /**
+     * Attach uploaded images into signature as data URIs
+     */
+    public static function attach_images($html, $mode)
+    {
+        $rcmail = rcmail::get_instance();
+        $offset = 0;
+        $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile(\w+)[\s\'"]*/';
+
+        while (preg_match($regexp, $html, $matches, 0, $offset)) {
+            $file_id  = $matches[2];
+            $data_uri = ' ';
+
+            if ($file_id && !empty($_SESSION[$mode]['files'][$file_id])) {
+                $file = $_SESSION[$mode]['files'][$file_id];
+                $file = $rcmail->plugins->exec_hook('attachment_get', $file);
+
+                $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';
+                $data_uri .= base64_encode(!empty($file['data']) ? $file['data'] : file_get_contents($file['path']));
+                $data_uri .= '" ';
+            }
+
+            $html    = str_replace($matches[0], $data_uri, $html);
+            $offset += strlen($data_uri) - strlen($matches[0]) + 1;
+        }
+
+        return $html;
+    }
+
+    /**
+     * Sanity checks/cleanups on HTML body of signature
+     */
+    public static function wash_html($html)
+    {
+        // Add header with charset spec., washtml cannot work without that
+        $html = '<html><head>'
+            . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
+            . '</head><body>' . $html . '</body></html>';
+
+        // clean HTML with washtml by Frederic Motte
+        $wash_opts = [
+            'show_washed'   => false,
+            'allow_remote'  => 1,
+            'charset'       => RCUBE_CHARSET,
+            'html_elements' => ['body', 'link'],
+            'html_attribs'  => ['rel', 'type'],
+        ];
+
+        // initialize HTML washer
+        $washer = new rcube_washtml($wash_opts);
+
+        // Remove non-UTF8 characters (#1487813)
+        $html = rcube_charset::clean($html);
+
+        $html = $washer->wash($html);
+
+        // remove unwanted comments and tags (produced by washtml)
+        $html = preg_replace(['/<!--[^>]+-->/', '/<\/?body>/'], '', $html);
+
+        return $html;
     }
 }

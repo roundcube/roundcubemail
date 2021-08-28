@@ -39,6 +39,7 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
+      readonly: $('#' + id).is('[readonly],[disabled]'),
       cache_suffix: 's=5080200',
       theme: 'silver',
       language: config.lang,
@@ -70,7 +71,8 @@ function rcube_text_editor(config, id)
       anchor_bottom: false,
       anchor_top: false,
       file_picker_types: 'image media',
-      file_picker_callback: function(callback, value, meta) { ref.file_picker_callback(callback, value, meta); }
+      file_picker_callback: function(callback, value, meta) { ref.file_picker_callback(callback, value, meta); },
+      min_height: config.mode == 'identity' ? 100 : 400
     };
 
   // register spellchecker for plain text editor
@@ -95,7 +97,7 @@ function rcube_text_editor(config, id)
   }
 
   // minimal editor
-  if (config.mode == 'identity') {
+  if (config.mode == 'identity' || config.mode == 'response') {
     conf.toolbar += ' | charmap hr link unlink image code $extra';
     $.extend(conf, {
       plugins: 'autolink charmap code hr image link paste tabfocus',
@@ -110,8 +112,7 @@ function rcube_text_editor(config, id)
       plugins: 'autolink charmap code directionality link lists image media nonbreaking'
         + ' paste table tabfocus searchreplace spellchecker',
       spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
-      spellchecker_language: rcmail.env.spell_lang,
-      min_height: 400,
+      spellchecker_language: rcmail.env.spell_lang
     });
   }
 
@@ -257,6 +258,12 @@ function rcube_text_editor(config, id)
   {
     $(this.editor || ('#' + this.id)).focus();
     this.force_focus = false;
+  };
+
+  // Returns current editor mode
+  this.is_html = function()
+  {
+    return !!this.editor;
   };
 
   // switch html/plain mode

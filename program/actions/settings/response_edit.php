@@ -21,7 +21,6 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
 {
     protected static $mode = self::MODE_HTTP;
     protected static $response;
-    protected static $responses;
 
     /**
      * Request handler.
@@ -33,37 +32,22 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $rcmail = rcmail::get_instance();
         $title  = $rcmail->gettext($rcmail->action == 'add-response' ? 'addresponse' : 'editresponse');
 
-        self::set_response();
+        if (!empty($args['post'])) {
+            self::$response = $args['post'];
+        }
+        else if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+            self::$response = $rcmail->get_compose_response($id);
+
+            if (!is_array(self::$response)) {
+                $rcmail->output->show_message('dberror', 'error');
+                $rcmail->output->send('iframe');
+            }
+        }
 
         $rcmail->output->set_pagetitle($title);
         $rcmail->output->set_env('readonly', !empty(self::$response['static']));
         $rcmail->output->add_handler('responseform', [$this, 'response_form']);
         $rcmail->output->send('responseedit');
-    }
-
-    /**
-     * Set internal data for a requested response item
-     *
-     * @param array|null Response data
-     */
-    public static function set_response()
-    {
-        $rcmail = rcmail::get_instance();
-
-        self::$responses = $rcmail->get_compose_responses();
-
-        // edit-response
-        if (($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_GPC))) {
-            foreach (self::$responses as $i => $response) {
-                if ($response['key'] == $key) {
-                    self::$response = $response;
-                    self::$response['index'] = $i;
-                    break;
-                }
-            }
-        }
-
-        return self::$response;
     }
 
     /**
@@ -77,36 +61,62 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
     {
         $rcmail = rcmail::get_instance();
 
-        // Set form tags and hidden fields
-        $disabled = !empty(self::$response['static']);
-        $key      = isset(self::$response['key']) ? self::$response['key'] : null;
-        $hidden   = ['name' => '_key', 'value' => $key];
+        // add some labels to client
+        $rcmail->output->add_label('converting', 'editorwarning');
 
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-response', $key, $hidden);
+        // Set form tags and hidden fields
+        $readonly = !empty(self::$response['static']);
+        $is_html  = self::$response['is_html'] ?? false;
+        $id       = self::$response['id'] ?? '';
+        $hidden   = ['name' => '_id', 'value' => $id];
+
+        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-response', $id, $hidden);
         unset($attrib['form'], $attrib['id']);
+
+        $name_attr = [
+            'id'       => 'ffname',
+            'size'     => $attrib['size'] ?? null,
+            'readonly' => $readonly,
+            'required' => true,
+        ];
+
+        $text_attr = [
+            'id'       => 'fftext',
+            'size'     => $attrib['textareacols'] ?? null,
+            'rows'     => $attrib['textarearows'] ?? null,
+            'readonly' => $readonly,
+            'spellcheck'       => true,
+            'data-html-editor' => true
+        ];
+
+        $chk_attr = [
+            'id'       => 'ffis_html',
+            'disabled' => $readonly,
+            'onclick'  => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)"
+        ];
+
+        // Add HTML editor script(s)
+        self::html_editor('response', 'fftext');
+
+        // Enable TinyMCE editor
+        if ($is_html) {
+            $text_attr['class']      = 'mce_editor';
+            $text_attr['is_escaped'] = true;
+
+            // Correctly handle HTML entities in HTML editor (#1488483)
+            self::$response['data'] = htmlspecialchars(self::$response['data'], ENT_NOQUOTES, RCUBE_CHARSET);
+        }
 
         $table = new html_table(['cols' => 2]);
 
-        $name = isset(self::$response['name']) ? self::$response['name'] : '';
-        $name_attr = [
-            'id'       => 'ffname',
-            'size'     => !empty($attrib['size']) ? $attrib['size'] : null,
-            'disabled' => $disabled
-        ];
-
         $table->add('title', html::label('ffname', rcube::Q($rcmail->gettext('responsename'))));
-        $table->add(null, rcube_output::get_edit_field('name', $name, $name_attr, 'text'));
-
-        $text = isset(self::$response['text']) ? self::$response['text'] : '';
-        $text_attr = [
-            'id'       => 'fftext',
-            'size'     => !empty($attrib['textareacols']) ? $attrib['textareacols'] : null,
-            'rows'     => !empty($attrib['textarearows']) ? $attrib['textarearows'] : null,
-            'disabled' => $disabled
-        ];
+        $table->add(null, rcube_output::get_edit_field('name', self::$response['name'] ?? '', $name_attr, 'text'));
 
         $table->add('title', html::label('fftext', rcube::Q($rcmail->gettext('responsetext'))));
-        $table->add(null, rcube_output::get_edit_field('text', $text, $text_attr, 'textarea'));
+        $table->add(null, rcube_output::get_edit_field('text', self::$response['data'] ?? '', $text_attr, 'textarea'));
+
+        $table->add('title', html::label('ffis_html', rcube::Q($rcmail->gettext('htmltoggle'))));
+        $table->add(null, rcube_output::get_edit_field('is_html', $is_html, $chk_attr, 'checkbox'));
 
         // return the complete edit form as table
         return "$form_start\n" . $table->show($attrib) . $form_end;

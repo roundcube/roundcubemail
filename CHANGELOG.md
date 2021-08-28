@@ -5,6 +5,7 @@
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
 - Replace Endroid QrCode with BaconQrCode (#8173)
+- Support responses (snippets) in HTML format (#5315)
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
