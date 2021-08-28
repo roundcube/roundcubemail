@@ -11,7 +11,7 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --ignore-platform-reqs)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
-	(cd roundcubemail-$(VERSION); rm jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf vendor/masterminds/html5/test vendor/pear/*/tests vendor/*/*/.git* vendor/pear/crypt_gpg/tools vendor/pear/console_commandline/docs vendor/pear/mail_mime/scripts vendor/pear/net_ldap2/doc vendor/pear/net_smtp/docs vendor/pear/net_smtp/examples vendor/pear/net_smtp/README.rst vendor/endroid/qrcode/tests temp/js_cache)
+	(cd roundcubemail-$(VERSION); rm jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf vendor/masterminds/html5/test vendor/pear/*/tests vendor/*/*/.git* vendor/pear/crypt_gpg/tools vendor/pear/console_commandline/docs vendor/pear/mail_mime/scripts vendor/pear/net_ldap2/doc vendor/pear/net_smtp/docs vendor/pear/net_smtp/examples vendor/pear/net_smtp/README.rst vendor/bacon/bacon-qr-code/test temp/js_cache)
 	tar czf roundcubemail-$(VERSION)-complete.tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
 

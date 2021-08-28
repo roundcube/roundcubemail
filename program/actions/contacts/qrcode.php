@@ -80,17 +80,11 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 
         $data = $vcard->export();
 
-        $qrCode = new Endroid\QrCode\QrCode();
-        $qrCode
-            ->setText($data)
-            ->setSize(300)
-            ->setPadding(0)
-            ->setErrorCorrection('high')
-        //    ->setLabel('Scan the code')
-        //    ->setLabelFontSize(16)
-            ->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0])
-            ->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
-
-        return $qrCode->get('png');
+        $renderer = new BaconQrCode\Renderer\ImageRenderer(
+            new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1),
+            new BaconQrCode\Renderer\Image\ImagickImageBackEnd()
+        );
+        $writer = new BaconQrCode\Writer($renderer);
+        return $writer->writeString($data);
     }
 }
