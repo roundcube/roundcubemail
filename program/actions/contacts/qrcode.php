@@ -41,7 +41,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         // generate QR code image
         if ($data = self::contact_qrcode($contact)) {
             $headers = [
-                'Content-Type: image/png',
+                'Content-Type: ' . self::check_support(),
                 'Content-Length: ' . strlen($data)
             ];
 
@@ -79,12 +79,34 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         }
 
         $data = $vcard->export();
+        $type = self::check_support();
 
-        $renderer = new BaconQrCode\Renderer\ImageRenderer(
-            new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1),
-            new BaconQrCode\Renderer\Image\ImagickImageBackEnd()
-        );
-        $writer = new BaconQrCode\Writer($renderer);
+        $renderer_style = new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1);
+        $renderer_image = $type == 'image/png'
+            ? new BaconQrCode\Renderer\Image\ImagickImageBackEnd()
+            : new BaconQrCode\Renderer\Image\SvgImageBackEnd();
+
+        $renderer = new BaconQrCode\Renderer\ImageRenderer($renderer_style, $renderer_image);
+        $writer   = new BaconQrCode\Writer($renderer);
+
         return $writer->writeString($data);
+    }
+
+    /**
+     * Check required extensions and classes for QR code generation
+     *
+     * @return string|null Content-type of the image result
+     */
+    public static function check_support()
+    {
+        if (extension_loaded('iconv') && class_exists('BaconQrCode\Renderer\ImageRenderer')) {
+            if (extension_loaded('xmlwriter')) {
+                return 'image/svg+xml';
+            }
+
+            if (extension_loaded('imagick')) {
+                return 'image/png';
+            }
+        }
     }
 }

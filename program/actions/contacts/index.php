@@ -341,8 +341,8 @@ class rcmail_action_contacts_index extends rcmail_action
         ]);
 
         // Disable qr-code if imagick, iconv or BaconQrCode is not installed
-        if (!$rcmail->output->ajax_call) {
-            $rcmail->output->set_env('qrcode', extension_loaded('imagick') && extension_loaded('iconv') && class_exists('BaconQrCode\Renderer\ImageRenderer'));
+        if (!$rcmail->output->ajax_call && rcmail_action_contacts_qrcode::check_support()) {
+            $rcmail->output->set_env('qrcode', true);
             $rcmail->output->add_label('qrcode');
         }
     }

@@ -16,7 +16,7 @@ REQUIREMENTS
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Iconv, Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
-   - GD, Imagick (optional thumbnails generation, QR-code)
+   - GD, Imagick, XMLWriter (optional: thumbnails generation, QR-code)
 * PEAR and PEAR packages distributed with Roundcube or external.
   See composer.json-dist for the list of required packages.
 * php.ini options:
