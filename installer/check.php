@@ -40,6 +40,7 @@ $optional_php_exts = [
     'LDAP'      => 'ldap',
     'GD'        => 'gd',
     'Imagick'   => 'imagick',
+    'XMLWriter' => 'xmlwriter',
     'Zip'       => 'zip',
 ];
 
@@ -84,6 +85,8 @@ $source_urls = [
     'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
     'GD'        => 'https://www.php.net/manual/en/book.image.php',
     'Imagick'   => 'https://www.php.net/manual/en/book.imagick.php',
+    'XML'       => 'https://www.php.net/manual/en/book.xml.php',
+    'XMLWriter' => 'https://www.php.net/manual/en/book.xmlwriter.php',
     'Zip'       => 'https://www.php.net/manual/en/book.zip.php',
     'Filter'    => 'https://www.php.net/manual/en/book.filter.php',
     'Ctype'     => 'https://www.php.net/manual/en/book.ctype.php',
