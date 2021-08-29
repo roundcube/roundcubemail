@@ -3,6 +3,7 @@
 ## Release 1.5.0
 
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
+- Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Newmail_notifier: Improved the notification sound (#8155)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
@@ -18,6 +19,7 @@
 - Fix handling of spellcheck connection errors (#8172)
 - Fix a couple of PHP8 warnings (#8175, #8176)
 - Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
+- Fix password/token length check on OAuth login (#8178)
 
 ## Release 1.5-rc
 
