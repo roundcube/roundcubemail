@@ -77,8 +77,8 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
         $expected = ['ON','on','Ont','only','onya','NY','onyx','Ono','any','one'];
         $result   = $object->get_suggestions('ony');
 
-        asort($expected);
-        asort($result);
+        sort($expected);
+        sort($result);
 
         $this->assertSame($expected, $result);
     }
