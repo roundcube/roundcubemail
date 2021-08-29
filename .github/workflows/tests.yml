@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
           tools: composer:v2
           coverage: none
 
@@ -47,4 +47,4 @@ jobs:
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
       - name: Execute tests
-        run: vendor/bin/phpunit -c tests/phpunit.xml --exclude-group=external
+        run: vendor/bin/phpunit -c tests/phpunit.xml
