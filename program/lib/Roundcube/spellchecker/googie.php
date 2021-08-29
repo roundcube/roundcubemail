@@ -26,8 +26,6 @@
  */
 class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {
-    const GOOGIE_HOST = 'https://spell.roundcube.net';
-
     private $matches = [];
     private $content;
 
@@ -69,11 +67,15 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         // spell check uri is configured
         $url = $rcube->config->get('spellcheck_uri');
 
-        if (!$url) {
-            $url = self::GOOGIE_HOST . '/tbproxy/spell?lang=';
+        if (empty($url)) {
+            $this->error = "Missing 'spellcheck_uri' config option";
+            return $matches;
         }
-        $url .= $this->lang;
-        $url .= sprintf('&key=%06d', !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0);
+        if (strpos($url, '%s') !== false) {
+            $url = sprintf($url, $this->lang);
+        } else {
+            $url .= $this->lang;
+        }
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
             .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
