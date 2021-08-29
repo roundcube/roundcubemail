@@ -10,6 +10,7 @@
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
+- Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
