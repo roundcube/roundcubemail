@@ -32,7 +32,7 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install Aspell
-        run: sudo apt-get -y install aspell aspell-en
+        run: sudo apt-get -y install aspell aspell-en aspell-de
 
       - name: Setup composer
         run: |
