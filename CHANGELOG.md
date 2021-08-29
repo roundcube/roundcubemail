@@ -26,6 +26,7 @@
 - Fix handling of spellcheck connection errors (#8172)
 - Fix a couple of PHP8 warnings (#8175, #8176)
 - Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
+- Fix password/token length check on OAuth login (#8178)
 
 ## Release 1.5-rc
 
