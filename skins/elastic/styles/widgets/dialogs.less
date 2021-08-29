@@ -49,6 +49,7 @@
     box-shadow: 3px 3px 5px @color-popover-shadow;
     border-color: @color-layout-border;
     padding: 0;
+    z-index: 1300;
 
     .popover-header {
         // On mobile don't display popup arrows and titles
@@ -100,7 +101,7 @@ html.layout-phone {
     }
 
     .popover-overlay {
-        z-index: 1000;
+        z-index: 1299;
         background-color: @color-dialog-overlay-background;
         position: absolute;
         top: 0;
@@ -153,7 +154,7 @@ html.touch .popover {
     max-width: initial;
     margin: 0;
     height: auto;
-    z-index: 1300; // above TinyMCE dialogs
+    z-index: 1301; // above TinyMCE dialogs
 
     .popover-header {
         border-radius: .25rem .25rem 0 0 !important;
