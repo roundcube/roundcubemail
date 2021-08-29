@@ -21,14 +21,16 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
     /**
      * Test check() method
-     *
-     * @group external
      */
     function test_check()
     {
-        $object = new rcube_spellchecker();
+        if (!extension_loaded('pspell')) {
+            $this->markTestSkipped();
+        }
 
-        // Note: We're testing the default 'googie' engine
+        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+
+        $object = new rcube_spellchecker();
 
         $this->assertTrue($object->check('one'));
 
@@ -49,7 +51,7 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="3">'
-            . '<c o="0" l="3">' . "on\ttony\tonly\tcony\tpony\tbony\tSony\tTony\tyon\tone</c>"
+            . '<c o="0" l="3">' . "ON\ton\tOnt\tonly\tonya\tNY\tonyx\tOno\tany\tone</c>"
             . '</spellresult>',
             $object->get_xml()
         );
@@ -57,29 +59,33 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 
     /**
      * Test get_suggestions() method
-     *
-     * @group external
      */
     function test_get_suggestions()
     {
+        if (!extension_loaded('pspell')) {
+            $this->markTestSkipped();
+        }
+
+        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+
         $object = new rcube_spellchecker();
 
-        // Note: We're testing the default 'googie' engine
-
-        $expected = ['on', 'tony', 'only', 'cony', 'pony', 'bony', 'Sony', 'Tony', 'yon', 'one'];
+        $expected = ['ON','on','Ont','only','onya','NY','onyx','Ono','any','one'];
         $this->assertSame($expected, $object->get_suggestions('ony'));
     }
 
     /**
      * Test get_words() method
-     *
-     * @group external
      */
     function test_get_words()
     {
-        $object = new rcube_spellchecker();
+        if (!extension_loaded('pspell')) {
+            $this->markTestSkipped();
+        }
 
-        // Note: We're testing the default 'googie' engine
+        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+
+        $object = new rcube_spellchecker();
 
         $this->assertSame(['ony'], $object->get_words('ony'));
     }

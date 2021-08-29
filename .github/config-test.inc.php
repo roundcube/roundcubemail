@@ -28,3 +28,5 @@ $config['plugins'] = [
 ];
 
 $config['archive_mbox'] = 'Archive';
+
+$config['spellcheck_engine'] = 'pspell';
