@@ -55,7 +55,7 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
         $this->assertSame(1, $object->found());
         $this->assertSame(['ony'], $object->get_words());
 
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '|^<\?xml version="1.0" encoding="UTF-8"\?><spellresult charschecked="3"><c o="0" l="3">([a-zA-Z\t]+)</c></spellresult>$|',
             $object->get_xml()
         );
