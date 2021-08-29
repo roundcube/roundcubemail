@@ -12,11 +12,17 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
      */
     function test_languages()
     {
+        if (!extension_loaded('pspell')) {
+            $this->markTestSkipped();
+        }
+
+        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+
         $object = new rcube_spellchecker();
 
         $langs = $object->languages();
 
-        $this->assertSame('English (US)', $langs['en_US']);
+        $this->assertSame('English (US)', $langs['en']);
     }
 
     /**
@@ -49,10 +55,8 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
         $this->assertSame(1, $object->found());
         $this->assertSame(['ony'], $object->get_words());
 
-        $this->assertSame(
-            '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="3">'
-            . '<c o="0" l="3">' . "ON\ton\tOnt\tonly\tonya\tNY\tonyx\tOno\tany\tone</c>"
-            . '</spellresult>',
+        $this->assertMatchesRegularExpression(
+            '|^<\?xml version="1.0" encoding="UTF-8"\?><spellresult charschecked="3"><c o="0" l="3">([a-zA-Z\t]+)</c></spellresult>$|',
             $object->get_xml()
         );
     }
@@ -71,7 +75,12 @@ class Framework_Spellchecker extends PHPUnit\Framework\TestCase
         $object = new rcube_spellchecker();
 
         $expected = ['ON','on','Ont','only','onya','NY','onyx','Ono','any','one'];
-        $this->assertSame($expected, $object->get_suggestions('ony'));
+        $result   = $object->get_suggestions('ony');
+
+        asort($expected);
+        asort($result);
+
+        $this->assertSame($expected, $result);
     }
 
     /**
