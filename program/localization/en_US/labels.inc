@@ -630,6 +630,8 @@ $labels['asattachment'] = 'as attachment';
 $labels['replyallmode'] = 'Default action of [Reply all] button';
 $labels['replyalldefault'] = 'reply to all';
 $labels['replyalllist'] = 'reply to mailing list only (if found)';
+$labels['allmessages'] = 'all messages';
+$labels['olderxdays'] = 'older than $x days';
 
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Folders';

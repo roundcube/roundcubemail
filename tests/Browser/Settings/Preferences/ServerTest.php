@@ -20,7 +20,7 @@ class ServerTest extends \Tests\Browser\TestCase
             'flag_for_deletion' => false,
             'skip_deleted'      => false,
             'delete_junk'       => false,
-            'logout_purge'      => false,
+            'logout_purge'      => 'never',
             'logout_expunge'    => false,
         ];
 
@@ -74,8 +74,11 @@ class ServerTest extends \Tests\Browser\TestCase
                     $browser->assertSeeIn('legend', 'Maintenance');
 
                     $browser->assertSeeIn('label[for=rcmfd_logout_purge]', 'Clear Trash on logout')
-                        ->assertCheckboxState('_logout_purge', $this->settings['logout_purge'])
-                        ->setCheckboxState('_logout_purge', $this->settings['logout_purge'] = !$this->settings['logout_purge']);
+                        ->assertVisible('select[name=_logout_purge]')
+                        ->assertSelected('select[name=_logout_purge]', $this->settings['logout_purge']);
+
+                    $this->settings['logout_purge'] = '30';
+                    $browser->select('select[name=_logout_purge]', '30');
 
                     $browser->assertSeeIn('label[for=rcmfd_logout_expunge]', 'Compact Inbox on logout')
                         ->assertCheckboxState('_logout_expunge', $this->settings['logout_expunge'])
@@ -97,7 +100,12 @@ class ServerTest extends \Tests\Browser\TestCase
             // Verify if every option has been updated
             $browser->withinFrame('#preferences-frame', function ($browser) {
                 foreach ($this->settings as $key => $value) {
-                    $browser->assertCheckboxState('_' . $key, $value);
+                    if (is_bool($value)) {
+                        $browser->assertCheckboxState('_' . $key, $value);
+                    }
+                    else {
+                        $browser->assertValue("[name=_{$key}]", $value);
+                    }
                 }
             });
         });

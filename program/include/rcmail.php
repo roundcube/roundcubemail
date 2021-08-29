@@ -1039,7 +1039,17 @@ class rcmail extends rcube
         $trash_mbox     = $this->config->get('trash_mbox');
 
         if ($logout_purge && !empty($trash_mbox)) {
-            $storage->clear_folder($trash_mbox);
+            $messages = '*';
+
+            if (is_numeric($logout_purge)) {
+                $now      = new DateTime('now');
+                $interval = new DateInterval('P' . intval($logout_purge) . 'D');
+
+                $index    = $storage->search_once($trash_mbox, 'BEFORE ' . $now->sub($interval)->format('j-M-Y'));
+                $messages = $index->get_compressed();
+            }
+
+            $storage->delete_message($messages, $trash_mbox);
         }
 
         if ($logout_expunge) {

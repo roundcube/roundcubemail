@@ -1416,11 +1416,27 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     $field_id = 'rcmfd_logout_purge';
-                    $input    = new html_checkbox(['name' => '_logout_purge', 'id' => $field_id, 'value' => 1]);
+                    $select   = new html_select([
+                            'name'  => '_logout_purge',
+                            'id'    => $field_id,
+                            'class' => 'custom-select'
+                    ]);
+
+                    $select->add($rcmail->gettext('never'), 'never');
+                    $select->add($rcmail->gettext('allmessages'), 'all');
+
+                    foreach ([30, 60, 90] as $days) {
+                        $select->add($rcmail->gettext(['name' => 'olderxdays', 'vars' => ['x' => $days]]), (string) $days);
+                    }
+
+                    $purge = (string) $config['logout_purge'];
+                    if (!is_numeric($purge)) {
+                        $purge = empty($purge) ? 'never' : 'all';
+                    }
 
                     $blocks['maintenance']['options']['logout_purge'] = [
                         'title'   => html::label($field_id, rcube::Q($rcmail->gettext('logoutclear'))),
-                        'content' => $input->show($config['logout_purge']?1:0),
+                        'content' => $select->show($purge),
                     ];
                 }
 

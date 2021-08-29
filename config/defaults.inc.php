@@ -1317,7 +1317,8 @@ $config['layout'] = 'widescreen';
 // Set to -1 if messages should not be marked as read
 $config['mail_read_time'] = 0;
 
-// Clear Trash on logout
+// Clear Trash on logout. Remove all messages or only older than N days.
+// Supported values: false, true, 30, 60, 90. Default: false.
 $config['logout_purge'] = false;
 
 // Compact INBOX on logout

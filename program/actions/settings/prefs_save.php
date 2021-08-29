@@ -134,7 +134,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 'skip_deleted'      => isset($_POST['_skip_deleted']),
                 'flag_for_deletion' => isset($_POST['_flag_for_deletion']),
                 'delete_junk'       => isset($_POST['_delete_junk']),
-                'logout_purge'      => isset($_POST['_logout_purge']),
+                'logout_purge'      => self::prefs_input('logout_purge', '/^(all|never|30|60|90)$/'),
                 'logout_expunge'    => isset($_POST['_logout_expunge']),
             ];
 
@@ -234,6 +234,13 @@ class rcmail_action_settings_prefs_save extends rcmail_action
             }
 
             $storage->set_special_folders($specials);
+
+            break;
+
+        case 'server':
+            if (isset($a_user_prefs['logout_purge']) && !is_numeric($a_user_prefs['logout_purge'])) {
+                $a_user_prefs['logout_purge'] = $a_user_prefs['logout_purge'] !== 'never';
+            }
 
             break;
         }
