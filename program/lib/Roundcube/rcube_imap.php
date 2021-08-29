@@ -4392,7 +4392,9 @@ class rcube_imap extends rcube_storage
         foreach (['other', 'shared'] as $ns_name) {
             if ($ns = $this->get_namespace($ns_name)) {
                 foreach ($ns as $root) {
-                    $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                    if (isset($root[0]) && strlen($root[0])) {
+                        $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                    }
                 }
             }
         }
