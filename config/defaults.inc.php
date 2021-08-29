@@ -381,7 +381,6 @@ $config['oauth_login_redirect'] = false;
 // $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
 // $config['oauth_scope'] = "email profile openid https://mail.google.com/";
 // $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
-// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
 
 ///// Example config for Outlook.com (Office 365)
 
@@ -391,7 +390,6 @@ $config['oauth_login_redirect'] = false;
 
 // $config['default_host'] = 'ssl://outlook.office365.com';
 // $config['smtp_server'] = 'ssl://smtp.office365.com';
-// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
 
 // $config['oauth_provider'] = 'outlook';
 // $config['oauth_provider_name'] = 'Outlook.com';
