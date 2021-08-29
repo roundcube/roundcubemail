@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
 - Fix bug where contacts search didn't work with addressbook_search_mods set to an empty array (#7974)
 - Fix bug causing some HTML message content to be not centered in Elastic skin (#7911)
