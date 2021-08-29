@@ -40,6 +40,7 @@ class rcmail_action_login_oauth extends rcmail_action
             if ($auth && isset($auth['username'], $auth['authorization'], $auth['token'])) {
                 // enforce XOAUTH2 auth type
                 $rcmail->config->set('imap_auth_type', 'XOAUTH2');
+                $rcmail->config->set('login_password_maxlen', strlen($auth['authorization']));
 
                 // use access_token and user info for IMAP login
                 $storage_host = $rcmail->autoselect_host();
