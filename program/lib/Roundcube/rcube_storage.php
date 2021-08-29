@@ -713,7 +713,7 @@ abstract class rcube_storage
     }
 
     /**
-     * Remove all messages in a folder..
+     * Remove all messages in a folder.
      *
      * @param string  $folder  Folder name
      *
