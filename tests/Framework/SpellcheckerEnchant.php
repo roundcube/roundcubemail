@@ -32,7 +32,7 @@ class Framework_SpellcheckerEnchant extends PHPUnit\Framework\TestCase
         $object = new rcube_spellchecker();
 
         $langs = $object->languages();
-
+print_r($langs);
         $this->assertSame('English (US)', $langs['en']);
     }
 
