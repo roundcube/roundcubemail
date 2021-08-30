@@ -31,8 +31,8 @@ jobs:
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install Aspell
-        run: sudo apt-get -y install aspell aspell-en aspell-de
+      - name: Install Aspell/Hunspell
+        run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
       - name: Setup composer
         run: |
