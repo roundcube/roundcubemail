@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell, enchant
           tools: composer:v2
           coverage: none
 
