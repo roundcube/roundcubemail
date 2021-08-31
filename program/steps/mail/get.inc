@@ -187,8 +187,8 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
                         $RCMAIL->gettext(array(
                                 'name' => 'attachmentvalidationerror',
                                 'vars' => array(
-                                    'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
-                                    'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
+                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
+                                    'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
                                 )
                             )
                         ),
