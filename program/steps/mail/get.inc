@@ -184,21 +184,26 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             else {  // html warning with a button to load the file anyway
                 $OUTPUT = new rcmail_html_page();
                 $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
-                    html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
-                        $RCMAIL->gettext(array(
-                            'name' => 'attachmentvalidationerror',
-                            'vars' => array(
-                                'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
-                                'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
+                    html::div(
+                        array('class' => 'rcmail-inline-message rcmail-inline-warning'),
+                        $RCMAIL->gettext(
+                            array(
+                                'name' => 'attachmentvalidationerror',
+                                'vars' => array(
+                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
+                                    'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
+                                )
                             )
-                        ))
-                        . html::p(array('class' => 'rcmail-inline-buttons'),
-                            html::tag('button', array(
+                        )
+                    )
+                    . html::p(array('class' => 'rcmail-inline-buttons'),
+                        html::tag('button', array(
                                 'onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"
                             ),
-                            $RCMAIL->gettext('showanyway'))
+                            $RCMAIL->gettext('showanyway')
                         )
-                    ))));
+                    )
+                )));
             }
 
             exit;
