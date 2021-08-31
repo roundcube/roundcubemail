@@ -20,6 +20,7 @@
 - Fix a couple of PHP8 warnings (#8175, #8176)
 - Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
 - Fix password/token length check on OAuth login (#8178)
+- Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
 
 ## Release 1.5-rc
 
