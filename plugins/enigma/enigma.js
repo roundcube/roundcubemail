@@ -180,11 +180,12 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
     // generate keys
     // use OpenPGP.js if browser supports required features
-    if (window.openpgp && (window.msCrypto || (window.crypto && (window.crypto.getRandomValues || window.crypto.subtle)))) {
+    if (window.openpgp && window.crypto && window.crypto.getRandomValues) {
         lock = this.set_busy(true, 'enigma.keygenerating');
         options = {
-            userIds: users,
-            passphrase: password
+            userIDs: users,
+            passphrase: password,
+            type: type.substring(0, 3)
         };
 
         if (type == 'ecc')
@@ -196,8 +197,12 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
         openpgp.generateKey(options).then(function(keypair) {
             // success
-            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1,
-                _passwd: password, _keyid: keypair.key.primaryKey.getFingerprint()};
+            var post = {
+              _a: 'import',
+              _keys: keypair.privateKey,
+              _generated: 1,
+              _passwd: password
+            };
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
