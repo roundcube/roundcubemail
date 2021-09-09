@@ -498,54 +498,79 @@ class rcmail extends rcube
 
     /**
      * Getter for compose responses.
-     * These are stored in local config and user preferences.
      *
-     * @param bool $sorted    True to sort the list alphabetically
-     * @param bool $user_only True if only this user's responses shall be listed
+     * @param bool $user_only True to exclude additional static responses
      *
      * @return array List of the current user's stored responses
      */
-    public function get_compose_responses($sorted = false, $user_only = false)
+    public function get_compose_responses($user_only = false)
     {
-        $responses = [];
+        $responses = $this->user->list_responses();
 
         if (!$user_only) {
+            $additional = [];
             foreach ($this->config->get('compose_responses_static', []) as $response) {
-                if (empty($response['key'])) {
-                    $response['key'] = substr(md5($response['name']), 0, 16);
-                }
-
-                $response['static'] = true;
-                $response['class']  = 'readonly';
-
-                $k = $sorted ? '0000-' . mb_strtolower($response['name']) : $response['key'];
-                $responses[$k] = $response;
-            }
-        }
-
-        foreach ($this->config->get('compose_responses', []) as $response) {
-            if (empty($response['key'])) {
-                $response['key'] = substr(md5($response['name']), 0, 16);
+                $additional[$response['name']] = [
+                    'id'      => 'static-' . substr(md5($response['name']), 0, 16),
+                    'name'    => $response['name'],
+                    'static'  => true,
+                ];
             }
 
-            $k = $sorted ? mb_strtolower($response['name']) : $response['key'];
-            $responses[$k] = $response;
+            if (!empty($additional)) {
+                ksort($additional, SORT_LOCALE_STRING);
+                $responses = array_merge(array_values($additional), $responses);
+            }
         }
-
-        // sort list by name
-        if ($sorted) {
-            ksort($responses, SORT_LOCALE_STRING);
-        }
-
-        $responses = array_values($responses);
 
         $hook = $this->plugins->exec_hook('get_compose_responses', [
                 'list'      => $responses,
-                'sorted'    => $sorted,
                 'user_only' => $user_only,
         ]);
 
         return $hook['list'];
+    }
+
+    /**
+     * Getter for compose response data.
+     *
+     * @param int|string $id Response ID
+     *
+     * @return array|null Response data, Null if not found
+     */
+    public function get_compose_response($id)
+    {
+        $record = null;
+
+        // Static response
+        if (strpos((string) $id, 'static-') === 0) {
+            foreach ($this->config->get('compose_responses_static', []) as $response) {
+                $rid = 'static-' . substr(md5($response['name']), 0, 16);
+                if ($id === $rid) {
+                    $record = [
+                        'id'      => $rid,
+                        'name'    => $response['name'],
+                        'data'    => !empty($response['html']) ? $response['html'] : $response['text'],
+                        'is_html' => !empty($response['html']),
+                        'static'  => true,
+                    ];
+                    break;
+                }
+            }
+        }
+
+        // User owned response
+        if (empty($record) && is_numeric($id)) {
+            $record = $this->user->get_response($id);
+        }
+
+        // Plugin-provided response or other modifications
+        $hook = $this->plugins->exec_hook('get_compose_response', [
+                'id'     => $id,
+                'record' => $record,
+        ]);
+
+        return $hook['record'];
     }
 
     /**
@@ -1014,7 +1039,17 @@ class rcmail extends rcube
         $trash_mbox     = $this->config->get('trash_mbox');
 
         if ($logout_purge && !empty($trash_mbox)) {
-            $storage->clear_folder($trash_mbox);
+            $messages = '*';
+
+            if (is_numeric($logout_purge)) {
+                $now      = new DateTime('now');
+                $interval = new DateInterval('P' . intval($logout_purge) . 'D');
+
+                $index    = $storage->search_once($trash_mbox, 'BEFORE ' . $now->sub($interval)->format('j-M-Y'));
+                $messages = $index->get_compressed();
+            }
+
+            $storage->delete_message($messages, $trash_mbox);
         }
 
         if ($logout_expunge) {
@@ -1178,7 +1213,7 @@ class rcmail extends rcube
      */
     private function fix_namespace_settings($user)
     {
-        $prefix     = $this->storage->get_namespace('prefix');
+        $prefix     = (string) $this->storage->get_namespace('prefix');
         $prefix_len = strlen($prefix);
 
         if (!$prefix_len) {

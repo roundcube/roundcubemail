@@ -685,7 +685,7 @@ class rcube_imap extends rcube_storage
      */
     public function count($folder = '', $mode = 'ALL', $force = false, $status = true)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -824,7 +824,7 @@ class rcube_imap extends rcube_storage
      */
     public function list_flags($folder, $uids, $mod_seq = null)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -860,7 +860,7 @@ class rcube_imap extends rcube_storage
      */
     public function list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -881,7 +881,7 @@ class rcube_imap extends rcube_storage
      */
     protected function _list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             return [];
         }
 
@@ -1075,7 +1075,7 @@ class rcube_imap extends rcube_storage
      */
     protected function list_search_messages($folder, $page, $slice = 0)
     {
-        if (!strlen($folder) || empty($this->search_set) || $this->search_set->is_empty()) {
+        if (!is_string($folder) || !strlen($folder) || empty($this->search_set) || $this->search_set->is_empty()) {
             return [];
         }
 
@@ -1338,7 +1338,7 @@ class rcube_imap extends rcube_storage
      */
     public function folder_status($folder = null, &$diff = [])
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -1423,7 +1423,7 @@ class rcube_imap extends rcube_storage
 
         $this->set_sort_order($sort_field, $sort_order);
 
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -1557,7 +1557,7 @@ class rcube_imap extends rcube_storage
      */
     public function thread_index($folder = '', $sort_field = null, $sort_order = null)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -1879,7 +1879,7 @@ class rcube_imap extends rcube_storage
             list($uid, $folder) = explode('-', $uid, 2);
         }
 
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -1913,7 +1913,7 @@ class rcube_imap extends rcube_storage
      */
     public function get_message($uid, $folder = null)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -2185,7 +2185,7 @@ class rcube_imap extends rcube_storage
             $di += 3;
         }
 
-        if (is_array($part[$di]) && count($part[$di]) == 2) {
+        if (isset($part[$di]) && is_array($part[$di]) && count($part[$di]) == 2) {
             $struct->disposition = strtolower($part[$di][0]);
             if ($struct->disposition && $struct->disposition !== 'inline' && $struct->disposition !== 'attachment') {
                 // RFC2183, Section 2.8 - unrecognized type should be treated as "attachment"
@@ -2199,7 +2199,7 @@ class rcube_imap extends rcube_storage
         }
 
         // get message/rfc822's child-parts
-        if (is_array($part[8]) && $di != 8) {
+        if (isset($part[8]) && is_array($part[8]) && $di != 8) {
             $struct->parts = [];
             for ($i=0, $count=0; $i<count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
@@ -2511,7 +2511,7 @@ class rcube_imap extends rcube_storage
      */
     public function set_flag($uids, $flag, $folder = null, $skip_cache = false)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -2573,7 +2573,7 @@ class rcube_imap extends rcube_storage
      */
     public function save_message($folder, &$message, $headers = '', $is_file = false, $flags = [], $date = null, $binary = false)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -2738,7 +2738,7 @@ class rcube_imap extends rcube_storage
      */
     public function delete_message($uids, $folder = '')
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -2802,7 +2802,7 @@ class rcube_imap extends rcube_storage
             $uids = null;
         }
 
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 
@@ -3210,7 +3210,7 @@ class rcube_imap extends rcube_storage
      */
     public function folder_size($folder)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             return false;
         }
 
@@ -3675,7 +3675,7 @@ class rcube_imap extends rcube_storage
      */
     public function folder_data($folder)
     {
-        if (!strlen($folder)) {
+        if (!strlen((string) $folder)) {
             $folder = $this->folder !== null ? $this->folder : 'INBOX';
         }
 
@@ -4012,7 +4012,7 @@ class rcube_imap extends rcube_storage
         $this->clear_cache('mailboxes.metadata.', true);
 
         if ($this->get_capability('METADATA') ||
-            (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
+            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->setMetadata($folder, $entries);
         }
@@ -4047,7 +4047,7 @@ class rcube_imap extends rcube_storage
         $this->clear_cache('mailboxes.metadata.', true);
 
         if ($this->get_capability('METADATA') ||
-            (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
+            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->deleteMetadata($folder, $entries);
         }
@@ -4095,7 +4095,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->get_capability('METADATA') ||
-            (!strlen($folder) && $this->get_capability('METADATA-SERVER'))
+            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             $res = $this->conn->getMetadata($folder, $entries, $options);
         }
@@ -4392,7 +4392,9 @@ class rcube_imap extends rcube_storage
         foreach (['other', 'shared'] as $ns_name) {
             if ($ns = $this->get_namespace($ns_name)) {
                 foreach ($ns as $root) {
-                    $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                    if (isset($root[0]) && strlen($root[0])) {
+                        $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                    }
                 }
             }
         }
@@ -4497,7 +4499,7 @@ class rcube_imap extends rcube_storage
      */
     public function id2uid($id, $folder = null)
     {
-        if (!strlen($folder)) {
+        if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
         }
 

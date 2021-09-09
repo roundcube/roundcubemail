@@ -4,9 +4,14 @@
 
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
+- Replace Endroid QrCode with BaconQrCode (#8173)
+- Support responses (snippets) in HTML format (#5315)
+- Add option to purge deleted mails older than 30, 60 or 90 days (#5493)
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
+- Disable the default spellchecker option using spell.roundcube.net (#8182)
+- Enigma: Upgrade to OpenPGP.js v5.0
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
@@ -19,6 +24,11 @@
 - Fix bug where vertical scrollbar in new HTML message bounced back on scroll (#8046)
 - Fix displaying inline images with incorrectly declared content-type (#8158)
 - Fix so addr-spec with missing closing angle bracket can be parsed (#8164)
+- Fix handling of spellcheck connection errors (#8172)
+- Fix a couple of PHP8 warnings (#8175, #8176)
+- Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
+- Fix password/token length check on OAuth login (#8178)
+- Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
 
 ## Release 1.5-rc
 

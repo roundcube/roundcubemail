@@ -1689,7 +1689,7 @@ EOF;
     {
         // insert objects' contents
         foreach ($this->objects as $key => $val) {
-            $output = str_replace($key, $val, $output, $count);
+            $output = str_replace($key, (string) $val, $output, $count);
             if ($count) {
                 $this->objects[$key] = null;
             }

@@ -1164,7 +1164,7 @@ class enigma_ui
     function message_ready($p)
     {
         // The message might have been already encrypted by Mailvelope
-        if (strpos($p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
+        if (strpos((string) $p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
             return $p;
         }
 

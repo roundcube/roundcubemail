@@ -381,7 +381,6 @@ $config['oauth_login_redirect'] = false;
 // $config['oauth_identity_uri'] = 'https://www.googleapis.com/oauth2/v1/userinfo';
 // $config['oauth_scope'] = "email profile openid https://mail.google.com/";
 // $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
-// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
 
 ///// Example config for Outlook.com (Office 365)
 
@@ -391,7 +390,6 @@ $config['oauth_login_redirect'] = false;
 
 // $config['default_host'] = 'ssl://outlook.office365.com';
 // $config['smtp_server'] = 'ssl://smtp.office365.com';
-// $config['login_password_maxlen'] = 2048;  // access tokens can get very long
 
 // $config['oauth_provider'] = 'outlook';
 // $config['oauth_provider_name'] = 'Outlook.com';
@@ -908,27 +906,24 @@ $config['show_real_foldernames'] = false;
 $config['quota_zero_as_unlimited'] = false;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
-$config['enable_spellcheck'] = true;
+$config['enable_spellcheck'] = false;
 
 // Enables spellchecker exceptions dictionary.
 // Setting it to 'shared' will make the dictionary shared by all users.
 $config['spellcheck_dictionary'] = false;
 
 // Set the spell checking engine. Possible values:
-// - 'googie'  - the default (also used for connecting to Nox Spell Server, see 'spellcheck_uri' setting)
+// - 'googie'  - requires 'spellcheck_uri' option to be set (also used for connecting to Nox Spell Server)
 // - 'pspell'  - requires the PHP Pspell module and aspell installed
 // - 'enchant' - requires the PHP Enchant module
 // - 'atd'     - install your own After the Deadline server or check with the people at http://www.afterthedeadline.com before using their API
-// Since Google shut down their public spell checking service, the default settings
-// connect to http://spell.roundcube.net which is a hosted service provided by Roundcube.
 // You can connect to any other googie-compliant service by setting 'spellcheck_uri' accordingly.
 $config['spellcheck_engine'] = 'googie';
 
 // For locally installed Nox Spell Server or After the Deadline services,
 // please specify the URI to call it.
-// Get Nox Spell Server from http://orangoo.com/labs/?page_id=72 or
-// the After the Deadline package from http://www.afterthedeadline.com.
-// Leave empty to use the public API of service.afterthedeadline.com
+// Get Nox Spell Server from https://github.com/handwritingio/nox_spell_server or
+// the After the Deadline package from http://www.afterthedeadline.com
 $config['spellcheck_uri'] = '';
 
 // These languages can be selected for spell checking.
@@ -1317,7 +1312,8 @@ $config['layout'] = 'widescreen';
 // Set to -1 if messages should not be marked as read
 $config['mail_read_time'] = 0;
 
-// Clear Trash on logout
+// Clear Trash on logout. Remove all messages or only older than N days.
+// Supported values: false, true, 30, 60, 90. Default: false.
 $config['logout_purge'] = false;
 
 // Compact INBOX on logout

@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
           tools: composer:v2
           coverage: none
 
@@ -33,6 +33,9 @@ jobs:
 
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install Aspell
+        run: sudo apt-get -y install aspell aspell-en aspell-de
 
       - name: Setup composer
         run: |

@@ -11,13 +11,13 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   A handler for canned response deletion                              |
+ |   A handler for fetching a canned response content                    |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_delete extends rcmail_action
+class rcmail_action_settings_response_get extends rcmail_action
 {
     static $mode = self::MODE_AJAX;
 
@@ -30,19 +30,28 @@ class rcmail_action_settings_response_delete extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
-            $plugin = $rcmail->plugins->exec_hook('response_delete', ['id' => $id]);
+        $id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
 
-            $deleted = !$plugin['abort'] ? $rcmail->user->delete_response($id) : $plugin['result'];
+        if ($id && ($response = $rcmail->get_compose_response($id))) {
+            $is_html = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_GET);
 
-            if (!empty($deleted)) {
-                $rcmail->output->command('display_message', $rcmail->gettext('deletedsuccessfully'), 'confirmation');
-                $rcmail->output->command('remove_response', $id);
+            if ($is_html && empty($response['is_html'])) {
+                $converter = new rcube_text2html($response['data'], false, ['wrap' => true]);
+
+                $response['data'] = $converter->get_html();
+                $response['is_html'] = true;
             }
-            else {
-                $msg = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
-                $rcmail->output->show_message($msg, 'error');
+            else if (!$is_html && !empty($response['is_html'])) {
+                $params = [
+                    'width' => $rcmail->config->get('line_length', 72),
+                    'links' => false,
+                ];
+
+                $response['data'] = $rcmail->html2text($response['data'], $params);
+                $response['is_html'] = false;
             }
+
+            $rcmail->output->command('insert_response', $response);
         }
 
         $rcmail->output->send();

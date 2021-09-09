@@ -78,6 +78,22 @@ CREATE INDEX ix_identities_user_id ON identities(user_id, del);
 CREATE INDEX ix_identities_email ON identities(email, del);
 
 -- 
+-- Table structure for table responses
+-- 
+
+CREATE TABLE responses (
+  response_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL default '0',
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  name varchar(255) NOT NULL,
+  data text NOT NULL,
+  is_html tinyint NOT NULL default '0'
+);
+
+CREATE INDEX ix_responses_user_id ON responses(user_id, del);
+
+-- 
 -- Table structure for table users
 -- 
 
@@ -230,4 +246,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2020122900');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2021081000');

@@ -52,23 +52,24 @@ class rcmail_action_utils_spell_html extends rcmail_action
             }
         }
 
+        header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
+
         if ($error = $spellchecker->error()) {
             rcube::raise_error([
                     'code'    => 500,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => sprintf("Spell check engine error: " . $error)
+                    'message' => "Spellcheck error: " . $error
                 ],
                 true,
                 false
             );
 
-            echo json_encode(['error' => $error]);
+            echo json_encode(['error' => $rcmail->gettext('internalerror')]);
             exit;
         }
 
         // send output
-        header("Content-Type: application/json; charset=".RCUBE_CHARSET);
         echo json_encode($result);
         exit;
     }

@@ -24,12 +24,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell, enchant
           tools: composer:v2
           coverage: none
 
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install Aspell/Hunspell
+        run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
       - name: Setup composer
         run: |

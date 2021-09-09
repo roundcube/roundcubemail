@@ -211,12 +211,13 @@ class rcube_imap_cache
         if (!empty($index)) {
             $exists = true;
             $modseq = isset($index['modseq']) ? $index['modseq'] : null;
+            $isf    = $index['sort_field'] ?? '';
 
             if ($sort_field == 'ANY') {
-                $sort_field = $index['sort_field'];
+                $sort_field = $isf;
             }
 
-            if ($sort_field != $index['sort_field']) {
+            if ($sort_field != $isf) {
                 $is_valid = false;
             }
             else {
@@ -789,7 +790,7 @@ class rcube_imap_cache
             (int) $this->skip_deleted,
             (int) $mbox_data['UIDVALIDITY'],
             (int) $mbox_data['UIDNEXT'],
-            $modseq ? $modseq : $mbox_data['HIGHESTMODSEQ'],
+            $modseq ?: (isset($mbox_data['HIGHESTMODSEQ']) ? $mbox_data['HIGHESTMODSEQ'] : ''),
         ];
 
         $data    = implode('@', $data);
@@ -855,7 +856,7 @@ class rcube_imap_cache
         // and many rcube_imap changes to connect when needed
 
         // Check UIDVALIDITY
-        if ($index['validity'] != $mbox_data['UIDVALIDITY']) {
+        if (empty($index['validity']) || $index['validity'] != $mbox_data['UIDVALIDITY']) {
             $this->clear($mailbox);
             $exists = false;
             return false;

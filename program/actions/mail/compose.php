@@ -1563,29 +1563,33 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     /**
      * Responses list object for templates
+     *
+     * @param array $attrib Object attributes
+     *
+     * @return string HTML content
      */
     public static function compose_responses_list($attrib)
     {
         $rcmail = rcmail::get_instance();
 
-        $attrib += ['id' => 'rcmresponseslist', 'tagname' => 'ul', 'cols' => 1];
+        $attrib += ['id' => 'rcmresponseslist', 'tagname' => 'ul', 'cols' => 1, 'itemclass' => ''];
 
-        $jsenv = [];
         $list = new html_table($attrib);
 
-        foreach ($rcmail->get_compose_responses(true) as $response) {
-            $key  = $response['key'];
+        foreach ($rcmail->get_compose_responses() as $response) {
             $item = html::a([
-                    'href'         => '#' . urlencode($response['name']),
+                    'href'         => '#response-' . urlencode($response['id']),
                     'class'        => rtrim('insertresponse ' . $attrib['itemclass']),
                     'unselectable' => 'on',
                     'tabindex'     => '0',
-                    'rel'          => $key,
+                    'onclick'      => sprintf(
+                        "return %s.command('insert-response', '%s', this, event)",
+                        rcmail_output::JS_OBJECT_NAME,
+                        rcube::JQ($response['id']),
+                    ),
                 ],
                 rcube::Q($response['name'])
             );
-
-            $jsenv[$key] = $response;
 
             $list->add([], $item);
         }
@@ -1603,8 +1607,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             ));
         }
 
-        // set client env
-        $rcmail->output->set_env('textresponses', $jsenv);
         $rcmail->output->add_gui_object('responseslist', $attrib['id']);
 
         return $list->show();
