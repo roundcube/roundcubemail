@@ -51,9 +51,22 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         $rcmail->output->sendExit('', ['HTTP/1.0 404 Contact not found']);
     }
 
+    /**
+     * Generate a QR-code image for a contact
+     *
+     * @param array $contact Contact record
+     *
+     * @return string|null Image content, Null on error or missing PHP extensions
+     */
     public static function contact_qrcode($contact)
     {
         if (empty($contact)) {
+            return null;
+        }
+
+        $type = self::check_support();
+
+        if (empty($type)) {
             return null;
         }
 
@@ -79,7 +92,10 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         }
 
         $data = $vcard->export();
-        $type = self::check_support();
+
+        if (empty($data)) {
+            return null;
+        }
 
         $renderer_style = new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1);
         $renderer_image = $type == 'image/png'
