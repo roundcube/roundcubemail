@@ -157,20 +157,6 @@ class rcube_smtp
             return false;
         }
 
-        if ($use_tls) {
-            $result = $this->conn->starttls();
-
-            if (is_a($result, 'PEAR_Error')) {
-                list($code,) = $this->conn->getResponse();
-                $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
-                    . ' (' . $code . ')']];
-
-                $this->disconnect();
-
-                return false;
-            }
-        }
-
         // workaround for timeout bug in Net_SMTP 1.5.[0-1] (#1487843)
         if (method_exists($this->conn, 'setTimeout')
             && ($timeout = ini_get('default_socket_timeout'))
@@ -184,6 +170,20 @@ class rcube_smtp
             $this->conn  = null;
 
             return false;
+        }
+
+        if ($use_tls) {
+            $result = $this->conn->starttls();
+
+            if (is_a($result, 'PEAR_Error')) {
+                list($code,) = $this->conn->getResponse();
+                $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
+                    . ' (' . $code . ')']];
+
+                $this->disconnect();
+
+                return false;
+            }
         }
 
         $smtp_user = str_replace('%u', (string) $rcube->get_user_name(), $CONFIG['smtp_user']);
