@@ -442,5 +442,7 @@ body.task-error-login #layout {
 & when (@dark-mode-enabled = true) {
     @import "dark";
 }
-
+& when (@rtl-mode-enabled = true) {
+    @import "rtl";
+}
 @import (optional) "_styles";
