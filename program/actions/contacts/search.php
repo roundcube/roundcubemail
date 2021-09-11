@@ -168,8 +168,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         );
 
         // save search settings in session
-        $_SESSION['search'][$search_request] = $search_set;
-        $_SESSION['search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
+        $_SESSION['contact_search'][$search_request] = $search_set;
+        $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
         $_SESSION['page'] = 1;
 
         if ($adv) {

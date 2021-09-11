@@ -37,9 +37,9 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
         $jsresult      = [];
 
         // Use search result
-        if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['search'][$_REQUEST['_search']];
-            $sparam  = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : [];
+        if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
+            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
+            $sparam  = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
             $mode    = (int) $rcmail->config->get('addressbook_search_mode');
             $records = [];
 
