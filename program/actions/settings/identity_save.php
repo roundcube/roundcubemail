@@ -79,7 +79,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
         }
 
         // Validate e-mail addresses
-        $email_checks = [rcube_utils::idn_to_ascii($save_data['email'])];
+        $email_checks = !empty($save_data['email']) ? [rcube_utils::idn_to_ascii($save_data['email'])] : [];
         foreach (['reply-to', 'bcc'] as $item) {
             if (!empty($save_data[$item])) {
                 foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
