@@ -1394,11 +1394,11 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $search_request = $_REQUEST['_search'];
 
-        if (!isset($_SESSION['search'][$search_request])) {
+        if (!isset($_SESSION['contact_search'][$search_request])) {
             return false;
         }
 
-        $search   = (array) $_SESSION['search'][$search_request];
+        $search   = (array) $_SESSION['contact_search'][$search_request];
         $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $afields  = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
         $records  = [];
@@ -1431,7 +1431,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $search[$s] = $source->get_search_set();
         }
 
-        $_SESSION['search'][$search_request] = $search;
+        $_SESSION['contact_search'][$search_request] = $search;
 
         return $records;
     }

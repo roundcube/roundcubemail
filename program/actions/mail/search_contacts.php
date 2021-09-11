@@ -114,8 +114,8 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
             $search_request = md5('composeaddr' . $search);
 
             // save search settings in session
-            $_SESSION['search'][$search_request] = $search_set;
-            $_SESSION['search_params'] = ['id' => $search_request, 'data' => [$afields, $search]];
+            $_SESSION['contact_search'][$search_request] = $search_set;
+            $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$afields, $search]];
 
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
 
