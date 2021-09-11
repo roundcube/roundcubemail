@@ -43,7 +43,7 @@ class Actions_Contacts_Search_Create extends ActionTestCase
         self::initDB('searches');
 
         $_POST = ['_search' => 'fakeid', '_name' => 'test2'];
-        $_SESSION['search_params'] = [
+        $_SESSION['contact_search_params'] = [
             'id' => 'fakeid',
             'data' => ['*', 'bush'],
         ];
