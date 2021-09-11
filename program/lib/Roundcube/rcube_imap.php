@@ -2093,7 +2093,7 @@ class rcube_imap extends rcube_storage
                         // In case of malformed header check disposition. E.g. some servers for
                         // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
                         if (count(array_intersect($params, $find)) > 0
-                            || (is_array($part[$i][9]) && stripos($part[$i][9][0], 'attachment') === 0)
+                            || (isset($part[$i][9]) && is_array($part[$i][9]) && stripos($part[$i][9][0], 'attachment') === 0)
                         ) {
                             $mime_part_headers[] = $tmp_part_id;
                         }
