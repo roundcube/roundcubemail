@@ -885,8 +885,10 @@ function rcmail_search_update($return = false)
 {
     global $RCMAIL;
 
-    if (($search_request = $_REQUEST['_search']) && isset($_SESSION['search'][$search_request])) {
-        $search   = (array)$_SESSION['search'][$search_request];
+    if (($search_request = $_REQUEST['_search']) && isset($_SESSION['contact_search'][$search_request])
+        && is_array($_SESSION['contact_search'][$search_request])
+    ) {
+        $search   = $_SESSION['contact_search'][$search_request];
         $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
         $afields  = $return ? $RCMAIL->config->get('contactlist_fields') : array('name', 'email');
         $records  = array();
@@ -919,7 +921,7 @@ function rcmail_search_update($return = false)
             $search[$s] = $source->get_search_set();
         }
 
-        $_SESSION['search'][$search_request] = $search;
+        $_SESSION['contact_search'][$search_request] = $search;
 
         return $records;
     }

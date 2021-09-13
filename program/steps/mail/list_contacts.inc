@@ -26,9 +26,11 @@ $list_page     = max(1, intval($_GET['_page']));
 $jsresult      = array();
 
 // Use search result
-if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
-    $search  = (array)$_SESSION['search'][$_REQUEST['_search']];
-    $sparam = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : array();
+if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])
+    && is_array($_SESSION['contact_search'][$_REQUEST['_search']])
+) {
+    $search = $_SESSION['contact_search'][$_REQUEST['_search']];
+    $sparam = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : array();
 
     // get records from all sources
     foreach ($search as $s => $set) {

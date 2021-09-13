@@ -24,9 +24,11 @@
 $RCMAIL->request_security_check(rcube_utils::INPUT_GET);
 
 // Use search result
-if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
+if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])
+    && is_array($_SESSION['contact_search'][$_REQUEST['_search']])
+) {
     $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
-    $search  = (array)$_SESSION['search'][$_REQUEST['_search']];
+    $search  = $_SESSION['contact_search'][$_REQUEST['_search']];
     $records = array();
 
     // Get records from all sources
