@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
+- Fix SQL injection via some session variables
 
 RELEASE 1.3.16
 --------------
