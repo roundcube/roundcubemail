@@ -65,8 +65,8 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         // remove mbox part from _uid
-        $uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC);
-        if ($uid && !is_array($uid) && preg_match('/^\d+-.+/', $uid)) {
+        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GPC);
+        if ($uid && preg_match('/^\d+-.+/', $uid)) {
             list($uid, $mbox) = explode('-', $uid, 2);
             if (isset($_GET['_uid'])) {
                 $_GET['_uid'] = $uid;
@@ -98,7 +98,7 @@ class rcmail_action_mail_index extends rcmail_action
             if (empty($rcmail->action)) {
                 $rcmail->output->set_env('search_mods', self::search_mods());
 
-                $scope = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
+                $scope = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
                 if (!$scope && isset($_SESSION['search_scope'])) {
                     $scope = $_SESSION['search_scope'];
                 }
@@ -177,7 +177,7 @@ class rcmail_action_mail_index extends rcmail_action
         $message_sort_col   = $rcmail->config->get('message_sort_col');
         $message_sort_order = $rcmail->config->get('message_sort_order');
 
-        $mbox = (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GPC, true);
 
         // set imap properties and session vars
         if (!strlen($mbox)) {
@@ -1634,7 +1634,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         $rcmail->output->add_gui_object('search_filter', $attrib['id']);
 
-        $selected = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
+        $selected = rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET);
 
         if (!$selected && !empty($_REQUEST['_search'])) {
             $selected = $_SESSION['search_filter'];

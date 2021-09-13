@@ -39,13 +39,13 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['page'] = 1;
 
         // get search string
-        $str      = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
-        $mbox     = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
-        $filter   = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
-        $headers  = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
-        $scope    = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
-        $interval = rcube_utils::get_input_value('_interval', rcube_utils::INPUT_GET);
-        $continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
+        $str      = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true);
+        $mbox     = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GET, true);
+        $filter   = rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET);
+        $headers  = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
+        $scope    = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
+        $interval = rcube_utils::get_input_string('_interval', rcube_utils::INPUT_GET);
+        $continue = rcube_utils::get_input_string('_continue', rcube_utils::INPUT_GET);
 
         $filter         = trim((string) $filter);
         $search_request = md5($mbox . $scope . $interval . $filter . $str);

@@ -202,10 +202,10 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return;
         }
 
-        $status = rcube_utils::get_input_value('forward_status', rcube_utils::INPUT_POST);
-        $action = rcube_utils::get_input_value('forward_action', rcube_utils::INPUT_POST);
-        $target = rcube_utils::get_input_value('action_target', rcube_utils::INPUT_POST, true);
-        $target_domain = rcube_utils::get_input_value('action_domain', rcube_utils::INPUT_POST);
+        $status = rcube_utils::get_input_string('forward_status', rcube_utils::INPUT_POST);
+        $action = rcube_utils::get_input_string('forward_action', rcube_utils::INPUT_POST);
+        $target = rcube_utils::get_input_string('action_target', rcube_utils::INPUT_POST, true);
+        $target_domain = rcube_utils::get_input_string('action_domain', rcube_utils::INPUT_POST);
 
         $date_extension = in_array('date', $this->exts);
 

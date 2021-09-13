@@ -30,9 +30,9 @@ class rcmail_action_utils_save_pref extends rcmail_action
     public function run($args = [])
     {
         $rcmail   = rcmail::get_instance();
-        $name     = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST);
-        $value    = rcube_utils::get_input_value('_value', rcube_utils::INPUT_POST);
-        $sessname = rcube_utils::get_input_value('_session', rcube_utils::INPUT_POST);
+        $name     = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
+        $value    = rcube_utils::get_input_string('_value', rcube_utils::INPUT_POST);
+        $sessname = rcube_utils::get_input_string('_session', rcube_utils::INPUT_POST);
 
         // Whitelisted preferences and session variables, others
         // can be added by plugins

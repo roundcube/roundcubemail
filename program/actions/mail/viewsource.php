@@ -35,7 +35,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
         ob_end_clean();
 
         // similar code as in program/steps/mail/get.inc
-        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET)) {
+        if ($uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET)) {
             if ($pos = strpos($uid, '.')) {
                 $message = new rcube_message($uid);
                 $headers = $message->headers;

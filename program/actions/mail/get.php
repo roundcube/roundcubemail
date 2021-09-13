@@ -66,8 +66,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     'messagepartcontrols' => [$this, 'message_part_controls'],
             ]);
 
-            $part_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GET);
-            $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+            $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
+            $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
 
             // message/rfc822 preview (Note: handle also multipart/ parts, they can
             // come from Enigma, which replaces message/rfc822 with real mimetype)

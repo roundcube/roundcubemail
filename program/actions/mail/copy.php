@@ -37,7 +37,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
         }
 
         $uids    = self::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
-        $target  = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
+        $target  = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
         $sources = [];
         $copied  = false;
 

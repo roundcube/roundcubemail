@@ -43,7 +43,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         $page      = $rcmail->storage->get_page();
         $page_size = $rcmail->storage->get_pagesize();
 
-        $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
         if ($search_request && $_SESSION['search_request'] != $search_request) {
             $search_request = null;
         }

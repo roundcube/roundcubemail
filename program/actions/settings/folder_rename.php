@@ -30,8 +30,8 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
     public function run($args = [])
     {
         $rcmail  = rcmail::get_instance();
-        $name    = trim(rcube_utils::get_input_value('_folder_newname', rcube_utils::INPUT_POST, true));
-        $oldname = rcube_utils::get_input_value('_folder_oldname', rcube_utils::INPUT_POST, true);
+        $name    = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
+        $oldname = rcube_utils::get_input_string('_folder_oldname', rcube_utils::INPUT_POST, true);
 
         if (strlen($name) && strlen($oldname)) {
             $rename = self::rename_folder($oldname, $name);

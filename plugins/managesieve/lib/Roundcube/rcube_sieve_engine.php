@@ -109,7 +109,7 @@ class rcube_sieve_engine
 
             if ($mode != 'vacation' && $mode != 'forward') {
                 if (!empty($_GET['_set']) || !empty($_POST['_set'])) {
-                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                    $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GPC, true);
                 }
                 else if (!empty($_SESSION['managesieve_current'])) {
                     $script_name = $_SESSION['managesieve_current'];
@@ -274,7 +274,7 @@ class rcube_sieve_engine
         $error = $this->start();
 
         // Handle user requests
-        if ($action = rcube_utils::get_input_value('_act', rcube_utils::INPUT_GPC)) {
+        if ($action = rcube_utils::get_input_string('_act', rcube_utils::INPUT_GPC)) {
             $fid = (int) rcube_utils::get_input_value('_fid', rcube_utils::INPUT_POST);
 
             if ($action == 'delete' && !$error) {
@@ -370,7 +370,7 @@ class rcube_sieve_engine
             }
             else if ($action == 'setact' && !$error) {
                 if (!in_array('enable_disable_set', $this->disabled_actions)) {
-                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->activate_script($script_name);
                     $kep14       = $this->rc->config->get('managesieve_kolab_master');
 
@@ -390,7 +390,7 @@ class rcube_sieve_engine
             }
             else if ($action == 'deact' && !$error) {
                 if (!in_array('enable_disable_set', $this->disabled_actions)) {
-                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->deactivate_script($script_name);
 
                     if ($result === true) {
@@ -409,7 +409,7 @@ class rcube_sieve_engine
             }
             else if ($action == 'setdel' && !$error) {
                 if (!in_array('delete_set', $this->disabled_actions)) {
-                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->remove_script($script_name);
 
                     if ($result === true) {
@@ -429,7 +429,7 @@ class rcube_sieve_engine
                 if (!in_array('download_set', $this->disabled_actions)) {
                     $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
-                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                    $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GPC, true);
                     $script      = $this->sieve->get_script($script_name);
 
                     if ($script !== false) {
@@ -446,21 +446,21 @@ class rcube_sieve_engine
                 $this->rc->output->command('managesieve_updatelist', 'list', ['list' => $result]);
             }
             else if ($action == 'ruleadd') {
-                $rid = rcube_utils::get_input_value('_rid', rcube_utils::INPUT_POST);
+                $rid = rcube_utils::get_input_string('_rid', rcube_utils::INPUT_POST);
                 $id  = $this->genid();
                 $content = $this->rule_div($fid, $id, false, !empty($_SESSION['managesieve-compact-form']));
 
                 $this->rc->output->command('managesieve_rulefill', $content, $id, $rid);
             }
             else if ($action == 'actionadd') {
-                $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_POST);
+                $aid = rcube_utils::get_input_string('_aid', rcube_utils::INPUT_POST);
                 $id  = $this->genid();
                 $content = $this->action_div($fid, $id, false);
 
                 $this->rc->output->command('managesieve_actionfill', $content, $id, $aid);
             }
             else if ($action == 'addresses') {
-                $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_POST);
+                $aid = rcube_utils::get_input_string('_aid', rcube_utils::INPUT_POST);
 
                 $this->rc->output->command('managesieve_vacation_addresses_update', $aid, $this->user_emails());
             }
@@ -502,7 +502,7 @@ class rcube_sieve_engine
         // Init plugin and handle managesieve connection
         $error = $this->start();
 
-        $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST);
+        $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST);
 
         $result = $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
 
@@ -557,9 +557,9 @@ class rcube_sieve_engine
         }
         // filters set add action
         else if (!empty($_POST['_newset'])) {
-            $name       = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
-            $copy       = rcube_utils::get_input_value('_copy', rcube_utils::INPUT_POST, true);
-            $from       = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST);
+            $name       = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true);
+            $copy       = rcube_utils::get_input_string('_copy', rcube_utils::INPUT_POST, true);
+            $from       = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
             $exceptions = $this->rc->config->get('managesieve_filename_exceptions');
             $kolab      = $this->rc->config->get('managesieve_kolab_master');
             $name_uc    = mb_strtolower($name);
@@ -624,9 +624,9 @@ class rcube_sieve_engine
         }
         // filter add/edit action
         else if (isset($_POST['_name'])) {
-            $name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
-            $fid  = trim(rcube_utils::get_input_value('_fid', rcube_utils::INPUT_POST));
-            $join = trim(rcube_utils::get_input_value('_join', rcube_utils::INPUT_POST));
+            $name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
+            $fid  = trim(rcube_utils::get_input_string('_fid', rcube_utils::INPUT_POST));
+            $join = trim(rcube_utils::get_input_string('_join', rcube_utils::INPUT_POST));
 
             // and arrays
             $headers        = rcube_utils::get_input_value('_header', rcube_utils::INPUT_POST);
@@ -1410,7 +1410,7 @@ class rcube_sieve_engine
 
     function filterset_editraw($attrib)
     {
-        $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GP);
+        $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GP);
         $script      = $this->sieve->get_script($script_name);
         $script_post = !empty($_POST['rawsetcontent']) ? $_POST['rawsetcontent'] : null;
         $framed      = !empty($_POST['_framed']) || !empty($_GET['_framed']);
@@ -1468,9 +1468,9 @@ class rcube_sieve_engine
         $hiddenfields->add(['name' => '_framed', 'value' => $framed ? 1 : 0]);
         $hiddenfields->add(['name' => '_newset', 'value' => 1]);
 
-        $name     = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST);
-        $copy     = rcube_utils::get_input_value('_copy', rcube_utils::INPUT_POST);
-        $selected = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST);
+        $name     = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
+        $copy     = rcube_utils::get_input_string('_copy', rcube_utils::INPUT_POST);
+        $selected = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
 
         // filter set name input
         $input_name = new html_inputfield([
@@ -1564,7 +1564,7 @@ class rcube_sieve_engine
             $attrib['id'] = 'rcmfilterform';
         }
 
-        $fid     = rcube_utils::get_input_value('_fid', rcube_utils::INPUT_GPC);
+        $fid     = rcube_utils::get_input_string('_fid', rcube_utils::INPUT_GPC);
         $scr     = isset($this->form) ? $this->form : (array_key_exists($fid, $this->script) ? $this->script[$fid] : null);
         $compact = !empty($attrib['compact-form']);
         $framed  = !empty($_POST['_framed']) || !empty($_GET['_framed']);

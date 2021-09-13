@@ -1155,10 +1155,10 @@ class enigma_engine
      */
     function password_handler()
     {
-        $keyid  = rcube_utils::get_input_value('_keyid', rcube_utils::INPUT_POST);
-        $passwd = rcube_utils::get_input_value('_passwd', rcube_utils::INPUT_POST, true);
+        $keyid  = rcube_utils::get_input_string('_keyid', rcube_utils::INPUT_POST);
+        $passwd = rcube_utils::get_input_string('_passwd', rcube_utils::INPUT_POST, true);
 
-        if ($keyid && is_string($passwd) && strlen($passwd)) {
+        if ($keyid && strlen($passwd)) {
             $this->save_password(strtoupper($keyid), $passwd);
         }
     }

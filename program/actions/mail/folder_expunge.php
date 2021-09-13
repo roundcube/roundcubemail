@@ -30,7 +30,7 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+        $mbox   = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         $success = $rcmail->storage->expunge_folder($mbox);
 

@@ -42,7 +42,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
     {
         $rcmail = rcmail::get_instance();
         $adv    = isset($_POST['_adv']);
-        $sid    = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_GET);
+        $sid    = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
         $search = null;
 
         // get search criteria from saved search
@@ -53,7 +53,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         // get fields/values from advanced search form
         else if ($adv) {
             foreach (array_keys($_POST) as $key) {
-                $s = trim(rcube_utils::get_input_value($key, rcube_utils::INPUT_POST, true));
+                $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
                     $search[] = $s;
                     $fields[] = $m[1];
@@ -67,8 +67,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         }
         // quick-search
         else {
-            $search = trim(rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true));
-            $fields = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
+            $search = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
+            $fields = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);

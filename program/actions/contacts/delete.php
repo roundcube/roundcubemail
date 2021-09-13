@@ -69,8 +69,8 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                     $error = 'contactdelerror';
                 }
 
-                $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
-                $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
+                $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
+                $group  = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
                 $rcmail->output->show_message($error, 'error');
                 $rcmail->output->command('list_contacts', $source, $group);

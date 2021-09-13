@@ -30,9 +30,9 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
     {
         $rcmail  = rcmail::get_instance();
         $_uids   = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $flag    = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST);
-        $folders = rcube_utils::get_input_value('_folders', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $flag    = rcube_utils::get_input_string('_flag', rcube_utils::INPUT_POST);
+        $folders = rcube_utils::get_input_string('_folders', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
 
         if (empty($_uids) || empty($flag)) {
             $rcmail->output->show_message('internalerror', 'error');

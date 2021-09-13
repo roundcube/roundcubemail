@@ -134,7 +134,7 @@ class archive extends rcube_plugin
         $read_on_move   = (bool) $rcmail->config->get('read_on_archive');
         $archive_type   = $rcmail->config->get('archive_type', '');
         $archive_prefix = $this->archive_folder . $delimiter;
-        $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
         $from_show_action = !empty($_POST['_from']) && $_POST['_from'] == 'show';
 
         // count messages before changing anything
@@ -257,7 +257,7 @@ class archive extends rcube_plugin
         }
 
         if ($from_show_action) {
-            if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
+            if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             }
             else {
@@ -300,7 +300,7 @@ class archive extends rcube_plugin
         $rcmail->output->command('set_rowcount', rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
-            $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
+            $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
         }
 
         // add new rows from next page (if any)
@@ -473,7 +473,7 @@ class archive extends rcube_plugin
         $dont_override = $rcmail->config->get('dont_override', []);
 
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
-            $args['prefs']['archive_type'] = rcube_utils::get_input_value('_archive_type', rcube_utils::INPUT_POST);
+            $args['prefs']['archive_type'] = rcube_utils::get_input_string('_archive_type', rcube_utils::INPUT_POST);
         }
         else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);

@@ -29,7 +29,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $uid    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GP);
+        $uid    = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
         $inline = $rcmail->output instanceof rcmail_output_html;
 
         if (!$uid) {

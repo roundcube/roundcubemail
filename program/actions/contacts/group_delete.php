@@ -30,7 +30,7 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -38,7 +38,7 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
             $rcmail->output->send();
         }
 
-        if ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST)) {
+        if ($gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST)) {
             $plugin = $rcmail->plugins->exec_hook('group_delete', [
                     'group_id' => $gid,
                     'source'   => $source,

@@ -147,10 +147,10 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
         $disabled    = [];
 
         $save_data = [
-            'name'         => rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST),
-            'email'        => rcube_utils::get_input_value('_email', rcube_utils::INPUT_POST),
-            'organization' => rcube_utils::get_input_value('_organization', rcube_utils::INPUT_POST),
-            'signature'    => rcube_utils::get_input_value('_signature', rcube_utils::INPUT_POST),
+            'name'         => rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST),
+            'email'        => rcube_utils::get_input_string('_email', rcube_utils::INPUT_POST),
+            'organization' => rcube_utils::get_input_string('_organization', rcube_utils::INPUT_POST),
+            'signature'    => rcube_utils::get_input_string('_signature', rcube_utils::INPUT_POST),
         ];
 
         if ($ident_level == 4) {

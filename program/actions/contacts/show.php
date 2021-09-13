@@ -52,7 +52,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             $rcmail->output->set_env('cid', self::$contact['ID']);
 
             // remember current search request ID (if in search mode)
-            if ($search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GET)) {
+            if ($search = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GET)) {
                 $rcmail->output->set_env('search_request', $search);
             }
         }
@@ -199,7 +199,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         }
 
         $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $members  = self::$CONTACTS->get_record_groups($contact_id);
         $table    = new html_table(['tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist']);
         $checkbox = new html_checkbox(['name' => '_gid[]', 'class' => 'groupmember', 'disabled' => self::$CONTACTS->readonly]);

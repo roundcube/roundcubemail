@@ -46,10 +46,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $storage = $rcmail->get_storage();
 
         // edited folder name (empty in create-folder mode)
-        $mbox = (string) rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GPC, true);
 
         // predefined path for new folder
-        $parent = (string) rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
+        $parent = rcube_utils::get_input_string('_path', rcube_utils::INPUT_GPC, true);
 
         $threading_supported = $storage->get_capability('THREAD');
         $dual_use_supported  = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
@@ -105,7 +105,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
         else {
             if (isset($_POST['_name'])) {
-                $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+                $folder = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
             }
 
             $foldername = new html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
@@ -173,7 +173,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 $select->add($rcmail->gettext('dualusemail'), 'mail');
                 $select->add($rcmail->gettext('dualusefolder'), 'folder');
 
-                $value  = rcube_utils::get_input_value('_type', rcube_utils::INPUT_POST);
+                $value = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
                 $value = $select->show($value ?: 'mail');
             }
             else {

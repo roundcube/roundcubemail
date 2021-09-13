@@ -144,9 +144,9 @@ class password extends rcube_plugin
             $rc_charset = strtoupper($this->rc->output->get_charset());
 
             $sesspwd = $this->rc->decrypt($_SESSION['password']);
-            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
-            $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST, true);
-            $conpwd = rcube_utils::get_input_value('_confpasswd', rcube_utils::INPUT_POST, true);
+            $curpwd = $confirm ? rcube_utils::get_input_string('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
+            $newpwd = rcube_utils::get_input_string('_newpasswd', rcube_utils::INPUT_POST, true);
+            $conpwd = rcube_utils::get_input_string('_confpasswd', rcube_utils::INPUT_POST, true);
 
             // check allowed characters according to the configured 'password_charset' option
             // by converting the password entered by the user to this charset and back to UTF-8
