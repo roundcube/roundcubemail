@@ -21,6 +21,7 @@
 - Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
 - Fix password/token length check on OAuth login (#8178)
 - Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
+- Fix SQL injection via some session variables
 
 ## Release 1.5-rc
 
