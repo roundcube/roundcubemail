@@ -23,8 +23,7 @@ if ($RCMAIL->action == 'search-create') {
     $id   = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
     $name = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
 
-    if (($params = $_SESSION['search_params']) && $params['id'] == $id) {
-
+    if (($params = $_SESSION['contact_search_params']) && $params['id'] == $id) {
         $data = array(
             'type' => rcube_user::SEARCH_ADDRESSBOOK,
             'name' => $name,
@@ -211,8 +210,8 @@ function rcmail_contact_search()
         .(is_array($search) ? implode(',', $search) : $search));
 
     // save search settings in session
-    $_SESSION['search'][$search_request] = $search_set;
-    $_SESSION['search_params'] = array('id' => $search_request, 'data' => array($fields, $search));
+    $_SESSION['contact_search'][$search_request] = $search_set;
+    $_SESSION['contact_search_params'] = array('id' => $search_request, 'data' => array($fields, $search));
     $_SESSION['page'] = 1;
 
     if ($adv)
