@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix shift + drag'n'drop menu not working in Elastic skin with Chrome browser (#8107)
 - Fix Firefox infinate loading display on mail screen (#8128)
 - Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
+- Fix SQL injection via some session variables
 
 RELEASE 1.4.11
 --------------
