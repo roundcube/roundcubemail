@@ -34,7 +34,8 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $cols          = null;
 
         // is there a sort type for this request?
-        if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
+        $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
+        if ($sort && preg_match('/^[a-zA-Z_-]+$/', $sort)) {
             // yes, so set the sort vars
             list($sort_col, $sort_order) = explode('_', $sort);
 
