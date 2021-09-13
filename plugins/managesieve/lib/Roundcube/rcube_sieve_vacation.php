@@ -184,21 +184,21 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $timezone = new DateTimeZone('GMT');
         }
 
-        $status        = rcube_utils::get_input_value('vacation_status', rcube_utils::INPUT_POST);
-        $from          = rcube_utils::get_input_value('vacation_from', rcube_utils::INPUT_POST, true);
-        $subject       = rcube_utils::get_input_value('vacation_subject', rcube_utils::INPUT_POST, true);
-        $reason        = rcube_utils::get_input_value('vacation_reason', rcube_utils::INPUT_POST, true);
-        $addresses     = rcube_utils::get_input_value('vacation_addresses', rcube_utils::INPUT_POST, true);
-        $interval      = rcube_utils::get_input_value('vacation_interval', rcube_utils::INPUT_POST);
-        $interval_type = rcube_utils::get_input_value('vacation_interval_type', rcube_utils::INPUT_POST);
-        $date_from     = rcube_utils::get_input_value('vacation_datefrom', rcube_utils::INPUT_POST);
-        $date_to       = rcube_utils::get_input_value('vacation_dateto', rcube_utils::INPUT_POST);
-        $time_from     = rcube_utils::get_input_value('vacation_timefrom', rcube_utils::INPUT_POST);
-        $time_to       = rcube_utils::get_input_value('vacation_timeto', rcube_utils::INPUT_POST);
-        $after         = rcube_utils::get_input_value('vacation_after', rcube_utils::INPUT_POST);
-        $action        = rcube_utils::get_input_value('vacation_action', rcube_utils::INPUT_POST);
-        $target        = rcube_utils::get_input_value('action_target', rcube_utils::INPUT_POST, true);
-        $target_domain = rcube_utils::get_input_value('action_domain', rcube_utils::INPUT_POST);
+        $status        = rcube_utils::get_input_string('vacation_status', rcube_utils::INPUT_POST);
+        $from          = rcube_utils::get_input_string('vacation_from', rcube_utils::INPUT_POST, true);
+        $subject       = rcube_utils::get_input_string('vacation_subject', rcube_utils::INPUT_POST, true);
+        $reason        = rcube_utils::get_input_string('vacation_reason', rcube_utils::INPUT_POST, true);
+        $addresses     = rcube_utils::get_input_string('vacation_addresses', rcube_utils::INPUT_POST, true);
+        $interval      = rcube_utils::get_input_string('vacation_interval', rcube_utils::INPUT_POST);
+        $interval_type = rcube_utils::get_input_string('vacation_interval_type', rcube_utils::INPUT_POST);
+        $date_from     = rcube_utils::get_input_string('vacation_datefrom', rcube_utils::INPUT_POST);
+        $date_to       = rcube_utils::get_input_string('vacation_dateto', rcube_utils::INPUT_POST);
+        $time_from     = rcube_utils::get_input_string('vacation_timefrom', rcube_utils::INPUT_POST);
+        $time_to       = rcube_utils::get_input_string('vacation_timeto', rcube_utils::INPUT_POST);
+        $after         = rcube_utils::get_input_string('vacation_after', rcube_utils::INPUT_POST);
+        $action        = rcube_utils::get_input_string('vacation_action', rcube_utils::INPUT_POST);
+        $target        = rcube_utils::get_input_string('action_target', rcube_utils::INPUT_POST, true);
+        $target_domain = rcube_utils::get_input_string('action_domain', rcube_utils::INPUT_POST);
 
         $interval_type                   = $interval_type == 'seconds' ? 'seconds' : 'days';
         $vacation_action['type']         = 'vacation';

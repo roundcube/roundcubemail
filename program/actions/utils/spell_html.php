@@ -30,20 +30,20 @@ class rcmail_action_utils_spell_html extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $method = rcube_utils::get_input_value('method', rcube_utils::INPUT_POST);
-        $lang   = rcube_utils::get_input_value('lang', rcube_utils::INPUT_POST);
+        $method = rcube_utils::get_input_string('method', rcube_utils::INPUT_POST);
+        $lang   = rcube_utils::get_input_string('lang', rcube_utils::INPUT_POST);
         $result = [];
 
         $spellchecker = new rcube_spellchecker($lang);
 
         if ($method == 'addToDictionary') {
-            $data = rcube_utils::get_input_value('word', rcube_utils::INPUT_POST);
+            $data = rcube_utils::get_input_string('word', rcube_utils::INPUT_POST);
 
             $spellchecker->add_word($data);
             $result['result'] = true;
         }
         else {
-            $data = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST, true);
+            $data = rcube_utils::get_input_string('text', rcube_utils::INPUT_POST, true);
             $data = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
 
             if ($data && !$spellchecker->check($data)) {

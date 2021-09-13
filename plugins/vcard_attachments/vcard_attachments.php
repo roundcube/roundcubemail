@@ -164,8 +164,8 @@ class vcard_attachments extends rcube_plugin
     function message_compose($p)
     {
         if (
-            rcube_utils::get_input_value('_attach_vcard', rcube_utils::INPUT_GET) == '1'
-            && ($uri = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_GET))
+            rcube_utils::get_input_string('_attach_vcard', rcube_utils::INPUT_GET) == '1'
+            && ($uri = rcube_utils::get_input_string('_uri', rcube_utils::INPUT_GET))
         ) {
             if ($attachment = $this->attach_vcard(['compose_id' => $p['id'], 'uri' => $uri])) {
                 $p['attachments'][] = $attachment;
@@ -198,16 +198,16 @@ class vcard_attachments extends rcube_plugin
     {
         $this->add_texts('localization');
 
-        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
+        $mime_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_POST);
 
         $rcmail  = rcmail::get_instance();
         $message = new rcube_message($uid, $mbox);
         $vcards  = [];
         $errors  = 0;
 
-        if (!empty($message->headers) && $uid && $mime_id) {
+        if (!empty($message->headers) && $mime_id) {
             $index = [];
 
             foreach (explode(',', $mime_id) as $id) {

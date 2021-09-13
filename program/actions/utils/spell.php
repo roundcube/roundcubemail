@@ -30,7 +30,7 @@ class rcmail_action_utils_spell extends rcmail_action
     public function run($args = [])
     {
         // read input
-        $lang = rcube_utils::get_input_value('lang', rcube_utils::INPUT_GET);
+        $lang = rcube_utils::get_input_string('lang', rcube_utils::INPUT_GET);
         $data = file_get_contents('php://input');
 
         $learn_word = strpos($data, '<learnword>');

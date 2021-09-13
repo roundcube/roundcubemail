@@ -28,7 +28,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
      */
     public function run($args = [])
     {
-        $from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
+        $from = rcube_utils::get_input_string('_from', rcube_utils::INPUT_GET);
         $type = preg_replace('/(add|edit)-/', '', $from);
 
         // Plugins in Settings may use this file for some uploads (#5694)

@@ -66,7 +66,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
             $rcmail->output->show_message('messagedeleted', 'confirmation');
         }
 
-        $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
 
         // refresh saved search set after moving some messages
         if ($search_request && $rcmail->storage->get_search_set()) {
@@ -74,7 +74,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
-            if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
+            if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             }
             else {
@@ -116,7 +116,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
-            $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
+            $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
         }
 
         // add new rows from next page (if any)

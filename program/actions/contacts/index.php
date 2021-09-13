@@ -307,10 +307,10 @@ class rcmail_action_contacts_index extends rcmail_action
             $_SESSION['addressbooks_count_writeable'] = $writeable;
 
             // select address book
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
             // use first directory by default
-            if (!is_string($source) || !strlen($source) || !isset($js_list[$source])) {
+            if (!strlen($source) || !isset($js_list[$source])) {
                 $source = $rcmail->config->get('default_addressbook');
                 if (!is_string($source) || !strlen($source) || !isset($js_list[$source])) {
                     $source = strval(key($js_list));
@@ -351,7 +351,7 @@ class rcmail_action_contacts_index extends rcmail_action
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
         if (!is_string($source) || !strlen($source)) {
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         }
 
         $rcmail    = rcmail::get_instance();
@@ -374,7 +374,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $contacts->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
         }
 
-        if ($group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP)) {
+        if ($group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP)) {
             $contacts->set_group($group);
         }
 
@@ -458,7 +458,7 @@ class rcmail_action_contacts_index extends rcmail_action
         reset($sources);
 
         // currently selected source
-        $current = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $current = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         foreach ($sources as $j => $source) {
             $id = strval(strlen($source['id']) ? $source['id'] : $j);
@@ -1451,7 +1451,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // containing contact ID and source name in form: <ID>-<SOURCE>
 
         $cid    = rcube_utils::get_input_value('_cid', $request_type);
-        $source = (string) rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         if (is_array($cid)) {
             return $cid;

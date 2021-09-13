@@ -34,7 +34,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         self::$PRINT_MODE = $rcmail->action == 'print';
 
         // Read browser capabilities and store them in session
-        if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {
+        if ($caps = rcube_utils::get_input_string('_caps', rcube_utils::INPUT_GET)) {
             $browser_caps = [];
             foreach (explode(',', $caps) as $cap) {
                 $cap = explode('=', $cap);
@@ -44,7 +44,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $_SESSION['browser_caps'] = $browser_caps;
         }
 
-        $msg_id    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+        $msg_id    = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
         $uid       = preg_replace('/\.[0-9.]+$/', '', $msg_id);
         $mbox_name = $rcmail->storage->get_folder();
 

@@ -47,7 +47,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
         foreach ($a_save_cols as $col) {
             $fname = '_'.$col;
             if (isset($_POST[$fname])) {
-                $save_data[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $save_data[$col] = rcube_utils::get_input_string($fname, rcube_utils::INPUT_POST, true);
             }
         }
 
@@ -111,7 +111,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
         // update an existing identity
         if (!empty($_POST['_iid'])) {
-            $iid = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
+            $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834

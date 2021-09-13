@@ -30,7 +30,7 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
     public function run($args = [])
     {
         $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -38,7 +38,7 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
             $rcmail->output->send();
         }
 
-        $gid    = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST);
+        $gid    = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST);
         $ids    = self::get_cids($source);
         $result = false;
 

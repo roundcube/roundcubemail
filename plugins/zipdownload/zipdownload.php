@@ -143,7 +143,7 @@ class zipdownload extends rcube_plugin
 
         $tmpfname  = rcube_utils::temp_filename('zipdownload');
         $tempfiles = [$tmpfname];
-        $message   = new rcube_message(rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET));
+        $message   = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
 
         // open zip file
         $zip = new ZipArchive();
@@ -241,7 +241,7 @@ class zipdownload extends rcube_plugin
 
         $rcmail    = rcmail::get_instance();
         $imap      = $rcmail->get_storage();
-        $mode      = rcube_utils::get_input_value('_mode', rcube_utils::INPUT_POST);
+        $mode      = rcube_utils::get_input_string('_mode', rcube_utils::INPUT_POST);
         $limit     = $rcmail->config->get('zipdownload_selection', $this->default_limit);
         $limit     = $limit !== true ? parse_bytes($limit) : -1;
         $delimiter = $imap->get_hierarchy_delimiter();

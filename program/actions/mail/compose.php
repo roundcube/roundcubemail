@@ -36,7 +36,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     {
         $rcmail = rcmail::get_instance();
 
-        self::$COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GET);
+        self::$COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
         self::$COMPOSE    = null;
 
         if (self::$COMPOSE_ID && $_SESSION['compose_data_' . self::$COMPOSE_ID]) {
@@ -555,8 +555,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         // use posted message body
         if (!empty($_POST['_message'])) {
-            $body   = rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, true);
-            $isHtml = (bool) rcube_utils::get_input_value('_is_html', rcube_utils::INPUT_POST);
+            $body   = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true);
+            $isHtml = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
         }
         else if (!empty(self::$COMPOSE['param']['body'])) {
             $body   = self::$COMPOSE['param']['body'];

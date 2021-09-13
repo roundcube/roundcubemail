@@ -29,7 +29,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
-        $source        = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $afields       = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
@@ -92,7 +92,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $CONTACTS->set_pagesize($page_size);
                 $CONTACTS->set_page($list_page);
 
-                if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GET)) {
+                if ($group_id = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GET)) {
                     $CONTACTS->set_group($group_id);
                 }
                 // list groups of this source (on page one)

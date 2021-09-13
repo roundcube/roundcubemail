@@ -33,7 +33,7 @@ class rcmail_action_mail_attachment_rename extends rcmail_action_mail_attachment
 
         self::init();
 
-        $filename = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST);
+        $filename = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
         $filename = trim($filename);
 
         if (

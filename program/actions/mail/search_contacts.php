@@ -29,7 +29,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
     public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
-        $search        = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC, true);
+        $search        = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GPC, true);
         $sources       = $rcmail->get_address_sources();
         $search_mode   = (int) $rcmail->config->get('addressbook_search_mode');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
