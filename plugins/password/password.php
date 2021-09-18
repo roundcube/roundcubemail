@@ -390,6 +390,12 @@ class password extends rcube_plugin
             return $this->gettext('internalerror');
         }
 
+        // Make sure the current user password is still valid
+        // by logging in to the IMAP server (#8142)
+        if (!$this->rc->get_storage()->check_connection()) {
+            return $this->gettext('internalerror');
+        }
+
         $result  = $driver->save($curpass, $passwd, self::username());
         $message = '';
 
