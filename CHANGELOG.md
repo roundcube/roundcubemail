@@ -13,6 +13,7 @@
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Enigma: Upgrade to OpenPGP.js v5.0
+- Password: Verify current password with IMAP (#8142)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
