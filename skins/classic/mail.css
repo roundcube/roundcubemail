@@ -263,7 +263,7 @@
 
 #markmessagemenu li a.unreadlink
 {
-  background-position: 7px -119px;
+  background-position: 7px -118px;
 }
 
 #markmessagemenu li a.flaggedlink
@@ -273,7 +273,12 @@
 
 #markmessagemenu li a.unflaggedlink
 {
-  background-position: 7px -136px;
+  background-position: 7px -135px;
+}
+
+#markmessagemenu li a.undeletedlink
+{
+  background-position: 7px -1000px; /* todo */
 }
 
 #searchfilter

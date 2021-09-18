@@ -157,6 +157,7 @@ $labels['markread'] = 'As read';
 $labels['markunread'] = 'As unread';
 $labels['markflagged'] = 'As flagged';
 $labels['markunflagged'] = 'As unflagged';
+$labels['markundeleted'] = 'As not deleted';
 $labels['moreactions'] = 'More actions...';
 $labels['markallread'] = 'Mark all as read';
 $labels['folders-cur'] = 'Selected folder only';

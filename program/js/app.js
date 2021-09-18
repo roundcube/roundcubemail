@@ -3442,9 +3442,9 @@ function rcube_webmail()
       list = this.message_list;
 
     if (uid)
-      a_uids[0] = uid;
+      a_uids.push(uid);
     else if (this.env.uid)
-      a_uids[0] = this.env.uid;
+      a_uids.push(this.env.uid);
     else if (list)
       a_uids = list.get_selection();
 
@@ -3459,8 +3459,8 @@ function rcube_webmail()
             || (flag == 'delete' && !list.rows[id].deleted)
             || (flag == 'undelete' && list.rows[id].deleted)
             || (flag == 'flagged' && !list.rows[id].flagged)
-            || (flag == 'unflagged' && list.rows[id].flagged))
-        {
+            || (flag == 'unflagged' && list.rows[id].flagged)
+        ) {
           r_uids.push(id);
         }
       }
