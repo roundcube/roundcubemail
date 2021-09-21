@@ -258,7 +258,7 @@ class rcube_result_multifolder
         switch ($idx) {
             case 'FIRST': return $this->index[0];
             case 'LAST':  return end($this->index);
-            default:      return isset($this->index[$idx]) ? $this->index[$idx] : null;
+            default:      return $this->index[$idx] ?? null;
         }
     }
 
@@ -346,7 +346,7 @@ class rcube_result_multifolder
         $data = [];
         foreach ($this->index as $item) {
             list($uid, $folder) = explode('-', $item, 2);
-            $data[$folder] = (isset($data[$folder]) ? $data[$folder] : '') . ' ' . $uid;
+            $data[$folder] = ($data[$folder] ?? '') . ' ' . $uid;
         }
 
         foreach ($this->folders as $folder) {
@@ -354,7 +354,7 @@ class rcube_result_multifolder
                 $data_str = null;
             }
             else {
-                $data_str = '* SORT' . (isset($data[$folder]) ? $data[$folder] : '');
+                $data_str = '* SORT' . ($data[$folder] ?? '');
             }
 
             $set = new rcube_result_index($folder, $data_str, strtoupper($this->order));

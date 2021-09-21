@@ -210,7 +210,7 @@ class rcube_imap_cache
         // Entry exists, check cache status
         if (!empty($index)) {
             $exists = true;
-            $modseq = isset($index['modseq']) ? $index['modseq'] : null;
+            $modseq = $index['modseq'] ?? null;
             $isf    = $index['sort_field'] ?? '';
 
             if ($sort_field == 'ANY') {
@@ -790,7 +790,7 @@ class rcube_imap_cache
             (int) $this->skip_deleted,
             (int) $mbox_data['UIDVALIDITY'],
             (int) $mbox_data['UIDNEXT'],
-            $modseq ?: (isset($mbox_data['HIGHESTMODSEQ']) ? $mbox_data['HIGHESTMODSEQ'] : ''),
+            $modseq ?: ($mbox_data['HIGHESTMODSEQ'] ?? ''),
         ];
 
         $data    = implode('@', $data);

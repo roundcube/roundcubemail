@@ -409,7 +409,7 @@ class rcmail_action_mail_send extends rcmail_action
                     empty($attachment['data']),
                     $ctype == 'message/rfc822' ? '8bit' : 'base64',
                     'attachment',
-                    isset($attachment['charset']) ? $attachment['charset'] : null,
+                    $attachment['charset'] ?? null,
                     '', '',
                     $folding ? 'quoted-printable' : null,
                     $folding == 2 ? 'quoted-printable' : null,

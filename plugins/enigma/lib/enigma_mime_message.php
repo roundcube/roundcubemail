@@ -73,7 +73,7 @@ class enigma_mime_message extends Mail_mime
 
         if (isset($headers['From'])) {
             $from    = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
-            $from    = isset($from[1]) ? $from[1] : null;
+            $from    = $from[1] ?? null;
 
             return $from;
         }

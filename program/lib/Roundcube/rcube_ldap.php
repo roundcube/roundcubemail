@@ -1459,7 +1459,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        return isset($newdn) ? $newdn : true;
+        return $newdn ?? true;
     }
 
     /**
@@ -1762,7 +1762,7 @@ class rcube_ldap extends rcube_addressbook
         $suffix = $limit ? ':'.$limit : '';
         $name   = strtolower($name);
 
-        return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
+        return ($aliases[$name] ?? $name) . $suffix;
     }
 
     /**

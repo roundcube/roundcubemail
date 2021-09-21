@@ -87,7 +87,7 @@ class rcmail_output_html extends rcmail_output
 
         // Version number e.g. 1.4.2 will be 10402
         $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
-        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + (isset($version[2]) ? $version[2] : 0));
+        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + ($version[2] ?? 0));
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -558,7 +558,7 @@ EOF;
     public function reset($all = false)
     {
         $framed = $this->framed;
-        $task   = isset($this->env['task']) ? $this->env['task'] : '';
+        $task   = $this->env['task'] ?? '';
         $env    = $all ? null : array_intersect_key($this->env, ['extwin' => 1, 'framed' => 1]);
 
         // keep jQuery-UI files
@@ -1248,12 +1248,12 @@ EOF;
                 '/template:name/i',
             ],
             [
-                "(isset(\$_SESSION['\\1']) ? \$_SESSION['\\1'] : null)",
+                "(\$_SESSION['\\1'] ?? null)",
                 "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "(isset(\$this->env['\\1']) ? \$this->env['\\1'] : null)",
+                "(\$this->env['\\1'] ?? null)",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
-                "(isset(\$_COOKIE['\\1']) ? \$_COOKIE['\\1'] : null)",
-                "(isset(\$this->browser->{'\\1'}) ? \$this->browser->{'\\1'} : null)",
+                "(\$_COOKIE['\\1'] ?? null)",
+                "(\$this->browser->{'\\1'} ?? null)",
                 "'{$this->template_name}'",
             ],
             $expression
@@ -1278,7 +1278,7 @@ EOF;
 
         switch ($type) {
             case 'env':
-                $value = isset($this->env[$name]) ? $this->env[$name] : null;
+                $value = $this->env[$name] ?? null;
                 break;
             case 'config':
                 $value = $this->config->get($name);
@@ -1290,13 +1290,13 @@ EOF;
                 $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
                 break;
             case 'session':
-                $value = isset($_SESSION[$name]) ? $_SESSION[$name] : '';
+                $value = $_SESSION[$name] ?? '';
                 break;
             case 'cookie':
                 $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
                 break;
             case 'browser':
-                $value = isset($this->browser->{$name}) ? $this->browser->{$name} : '';
+                $value = $this->browser->{$name} ?? '';
                 break;
         }
 
@@ -1873,7 +1873,7 @@ EOF;
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
         else if ($attrib['type'] == 'link') {
-            $btn_content = isset($attrib['content']) ? $attrib['content'] : (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
+            $btn_content = $attrib['content'] ?? ($attrib['label'] ?: $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
@@ -1899,7 +1899,7 @@ EOF;
                 $attrib['disabled'] = 'disabled';
             }
 
-            $content = isset($attrib['content']) ? $attrib['content'] : $attrib['label'];
+            $content = $attrib['content'] ?? $attrib['label'];
             $out = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
 
@@ -2056,8 +2056,8 @@ EOF;
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head  = isset($this->scripts['head_top']) ? $this->scripts['head_top'] : '';
-        $head .= isset($this->scripts['head']) ? $this->scripts['head'] : '';
+        $head  = $this->scripts['head_top'] ?? '';
+        $head .= $this->scripts['head'] ?? '';
 
         $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";

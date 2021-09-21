@@ -243,7 +243,7 @@ class rcmail_attachment_handler
             }
         }
 
-        return isset($result) ? $result : null;
+        return $result ?? null;
     }
 
     /**

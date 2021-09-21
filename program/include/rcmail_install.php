@@ -176,7 +176,7 @@ class rcmail_install
      */
     public function getprop($name, $default = '')
     {
-        $value = isset($this->config[$name]) ? $this->config[$name] : null;
+        $value = $this->config[$name] ?? null;
 
         if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"])) {
             $value = rcube_utils::random_bytes(24);
@@ -592,7 +592,7 @@ class rcmail_install
      */
     public function get_error()
     {
-        return $this->last_error['message'];
+        return $this->last_error['message'] ?? null;
     }
 
     /**

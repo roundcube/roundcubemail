@@ -778,7 +778,7 @@ class rcube_plugin_api
     protected function template_container_hook($attrib)
     {
         $container     = $attrib['name'];
-        $content       = isset($attrib['content']) ? $attrib['content'] : '';
+        $content       = $attrib['content'] ?? '';
 
         if (isset($this->template_contents[$container])) {
             $content .= $this->template_contents[$container];

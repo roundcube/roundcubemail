@@ -408,7 +408,7 @@ class rcube_result_thread
         // Finally use less effective method
         $data = $this->get();
 
-        return isset($data[$index]) ? $data[$index] : null;
+        return $data[$index] ?? null;
     }
 
     /**

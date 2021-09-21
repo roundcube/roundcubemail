@@ -52,7 +52,7 @@ class enigma_error
     function getData($name = null)
     {
         if ($name) {
-            return isset($this->data[$name]) ? $this->data[$name] : null;
+            return $this->data[$name] ?? null;
         }
 
         return $this->data;

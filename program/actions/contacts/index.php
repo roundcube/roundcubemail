@@ -371,7 +371,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $contacts->set_page(($_SESSION['page'] = intval($_GET['_page'])));
         }
         else {
-            $contacts->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
+            $contacts->set_page($_SESSION['page'] ?? 1);
         }
 
         if ($group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP)) {
@@ -949,7 +949,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $input = self::source_selector(['id' => $colprop['id']]);
                             }
                             else {
-                                $val   = isset($record[$col]) ? $record[$col] : null;
+                                $val   = $record[$col] ?? null;
                                 $input = rcube_output::get_edit_field($col, $val, $colprop);
                             }
 
@@ -1011,7 +1011,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         $colprop['type'] = 'text';
                     }
 
-                    $label = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
+                    $label = $colprop['label'] ?? $rcmail->gettext($col);
 
                     // prepare subtype selector in edit mode
                     if ($edit_mode && isset($colprop['subtypes']) && is_array($colprop['subtypes'])) {
@@ -1036,7 +1036,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             $subtype = $subtypes[$i];
                         }
 
-                        $fc            = isset($coltypes[$field]['count']) ? intval($coltypes[$field]['count']) : 0;
+                        $fc            = intval($coltypes[$field]['count'] ?? 0);
                         $colprop['id'] = 'ff_' . $col . $fc;
                         $row_class     = 'row';
 
@@ -1053,7 +1053,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $childvalue = $val[$childcol];
                                     }
                                     else {
-                                        $childvalue =  isset($val[$j]) ? $val[$j] : null;
+                                        $childvalue = $val[$j] ?? null;
                                     }
                                 }
                                 else {
@@ -1065,7 +1065,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $cp['array'] = true;
                                     }
 
-                                    $cp_type = isset($cp['type']) ? $cp['type'] : null;
+                                    $cp_type = $cp['type'] ?? null;
                                     $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 }
                                 else {
@@ -1326,7 +1326,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
                 'record' => $record,
-                'data'   => isset($record['photo']) ? $record['photo'] : null
+                'data'   => $record['photo'] ?? null
         ]);
 
         // check if we have photo data from contact form

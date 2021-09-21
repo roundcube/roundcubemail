@@ -155,7 +155,7 @@ class rcube_mime_decode
 
             switch ($ctype) {
             case 'text/plain':
-                $encoding = isset($content_transfer_encoding) ? $content_transfer_encoding['value'] : '7bit';
+                $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                 if ($this->params['include_bodies']) {
                     $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
@@ -164,7 +164,7 @@ class rcube_mime_decode
                 break;
 
             case 'text/html':
-                $encoding = isset($content_transfer_encoding) ? $content_transfer_encoding['value'] : '7bit';
+                $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                 if ($this->params['include_bodies']) {
                     $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;

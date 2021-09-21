@@ -639,7 +639,7 @@ class rcube_user
                 'user_name'   => $user_name,
                 'user_email'  => $user_email,
                 'email_list'  => $email_list,
-                'language'    => isset($_SESSION['language']) ? $_SESSION['language'] : null,
+                'language'    => $_SESSION['language'] ?? null,
                 'preferences' => [],
         ]);
 

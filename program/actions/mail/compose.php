@@ -783,7 +783,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // If desired, set this textarea to be editable by TinyMCE
         $attrib['data-html-editor'] = true;
         if (self::$HTML_MODE) {
-            $attrib['class'] = trim((isset($attrib['class']) ? $attrib['class'] : '') . ' mce_editor');
+            $attrib['class'] = trim(($attrib['class'] ?? '') . ' mce_editor');
         }
 
         $attrib['name'] = '_message';
@@ -1350,7 +1350,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['icon_pos']) && $attrib['icon_pos'] == 'left') {
             self::$COMPOSE['icon_pos'] = 'left';
         }
-        $icon_pos = isset(self::$COMPOSE['icon_pos']) ? self::$COMPOSE['icon_pos'] : null;
+        $icon_pos = self::$COMPOSE['icon_pos'] ?? null;
 
         if (!empty(self::$COMPOSE['attachments'])) {
             if (!empty($attrib['deleteicon'])) {
@@ -1626,7 +1626,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
         else if ($message instanceof rcube_message) {
             // the whole message requested
-            $size     = isset($message->size) ? $message->size : null;
+            $size     = $message->size ?? null;
             $mimetype = 'message/rfc822';
             $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         }
@@ -1681,9 +1681,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'mimetype'   => $mimetype,
             'content_id' => !empty($part) && isset($part->content_id) ? $part->content_id : null,
             'data'       => $data,
-            'path'       => isset($path) ? $path : null,
+            'path'       => $path ?? null,
             'size'       => isset($path) ? filesize($path) : strlen($data),
-            'charset'    => !empty($part) ? $part->charset : (isset($params['charset']) ? $params['charset'] : null),
+            'charset'    => !empty($part) ? $part->charset : ($params['charset'] ?? null),
         ];
 
         $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
