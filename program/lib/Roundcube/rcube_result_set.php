@@ -124,7 +124,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     #[ReturnTypeWillChange]
     public function current()
     {
-        return isset($this->records[$this->current]) ? $this->records[$this->current] : null;
+        return $this->records[$this->current] ?? null;
     }
 
     #[ReturnTypeWillChange]

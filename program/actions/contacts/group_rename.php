@@ -63,7 +63,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
                     'source' => $source,
                     'id'     => $gid,
                     'name'   => $newname,
-                    'newid'  => isset($newgid) ? $newgid : null
+                    'newid'  => $newgid ?? null
             ]);
         }
         else {

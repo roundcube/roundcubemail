@@ -116,7 +116,7 @@ class rcmail_action_mail_index extends rcmail_action
             // set current mailbox and some other vars in client environment
             $rcmail->output->set_env('mailbox', $mbox_name);
             $rcmail->output->set_env('pagesize', $rcmail->storage->get_pagesize());
-            $rcmail->output->set_env('current_page', isset($_SESSION['page']) ? max(1, (int) $_SESSION['page']) : 1);
+            $rcmail->output->set_env('current_page', max(1, $_SESSION['page'] ?? 1));
             $rcmail->output->set_env('delimiter', $delimiter);
             $rcmail->output->set_env('threading', $threading);
             $rcmail->output->set_env('threads', $threading || $rcmail->storage->get_capability('THREAD'));
@@ -197,7 +197,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         $rcmail->storage->set_folder($_SESSION['mbox'] = $mbox);
-        $rcmail->storage->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
+        $rcmail->storage->set_page($_SESSION['page'] ?? 1);
 
         // set default sort col/order to session
         if (!isset($_SESSION['sort_col'])) {
@@ -229,7 +229,7 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->user->save_prefs(['message_threading' => $a_threading]);
         }
 
-        $threading = isset($a_threading[$_SESSION['mbox']]) ? $a_threading[$_SESSION['mbox']] : $default_threading;
+        $threading = $a_threading[$_SESSION['mbox']] ?? $default_threading;
 
         $rcmail->storage->set_threading($threading);
     }
@@ -730,8 +730,8 @@ class rcmail_action_mail_index extends rcmail_action
         return html::a([
                 'href'     => '#list-options',
                 'onclick'  => $onclick,
-                'class'    => isset($attrib['class']) ? $attrib['class'] : 'listmenu',
-                'id'       => isset($attrib['id']) ? $attrib['id'] : 'listmenulink',
+                'class'    => $attrib['class'] ?? 'listmenu',
+                'id'       => $attrib['id'] ?? 'listmenulink',
                 'title'    => $title,
                 'tabindex' => '0',
             ], $inner
@@ -1172,7 +1172,7 @@ class rcmail_action_mail_index extends rcmail_action
     {
         $last_pos = 0;
         $is_safe  = !empty($args['safe']);
-        $prefix   = isset($args['css_prefix']) ? $args['css_prefix'] : null;
+        $prefix   = $args['css_prefix'] ?? null;
         $cont_id  = trim(
             (!empty($args['container_id']) ? $args['container_id'] : '')
             . (!empty($args['body_class']) ? ' div.' . $args['body_class'] : '')
@@ -1304,7 +1304,7 @@ class rcmail_action_mail_index extends rcmail_action
             else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
                 $url_parts = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
                 $mailto    = $url_parts[0];
-                $url       = isset($url_parts[1]) ? $url_parts[1] : '';
+                $url       = $url_parts[1] ?? '';
 
                 // #6020: use raw encoding for correct "+" character handling as specified in RFC6068
                 $url       = rawurldecode($url);

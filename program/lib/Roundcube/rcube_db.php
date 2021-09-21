@@ -87,7 +87,7 @@ class rcube_db
             'oci8'    => 'oracle',
         ];
 
-        $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
+        $driver = $driver_map[$driver] ?? $driver;
         $class  = "rcube_db_$driver";
 
         if (!$driver || !class_exists($class)) {
@@ -175,8 +175,8 @@ class rcube_db
 
             $this->conn_prepare($dsn);
 
-            $username = isset($dsn['username']) ? $dsn['username'] : null;
-            $password = isset($dsn['password']) ? $dsn['password'] : null;
+            $username = $dsn['username'] ?? null;
+            $password = $dsn['password'] ?? null;
 
             $this->dbh = new PDO($dsn_string, $username, $password, $dsn_options);
 
@@ -912,7 +912,7 @@ class rcube_db
                 'integer' => PDO::PARAM_INT,
             ];
 
-            $type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
+            $type = $map[$type] ?? PDO::PARAM_STR;
 
             return strtr($this->dbh->quote($input, $type),
                 // escape ? and `

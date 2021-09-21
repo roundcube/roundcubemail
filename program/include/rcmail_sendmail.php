@@ -193,8 +193,8 @@ class rcmail_sendmail
             'Reply-To'         => $this->email_input_format($replyto),
             'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
-            'In-Reply-To'      => isset($this->data['reply_msgid']) ? $this->data['reply_msgid'] : null,
-            'References'       => isset($this->data['references']) ? $this->data['references'] : null,
+            'In-Reply-To'      => $this->data['reply_msgid'] ?? null,
+            'References'       => $this->data['references'] ?? null,
             'User-Agent'       => $this->rcmail->config->get('useragent'),
             'Message-ID'       => $message_id,
             'X-Sender'         => $from,
@@ -926,7 +926,7 @@ class rcmail_sendmail
                 }
             }
 
-            $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
+            $mode = $this->data['mode'] ?? null;
 
             // create textarea object
             $input = new $field_type($field_attrib);
@@ -1015,7 +1015,7 @@ class rcmail_sendmail
         }
         // no identities, display text input field
         else {
-            $from = isset($this->options['message']->compose['from']) ? $this->options['message']->compose['from'] : null;
+            $from = $this->options['message']->compose['from'] ?? null;
             $field_attrib['class'] = 'from_address';
             $input_from = new html_inputfield($field_attrib);
             $out = $input_from->show($from);
@@ -1060,9 +1060,9 @@ class rcmail_sendmail
         else if ($mode == self::MODE_REPLY) {
             // get recipient address(es) out of the message headers
             if ($header == 'to') {
-                $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
-                $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
-                $reply_all    = isset($message->reply_all) ? $message->reply_all : null;
+                $mailfollowup = $message->headers->others['mail-followup-to'] ?? [];
+                $mailreplyto  = $message->headers->others['mail-reply-to'] ?? [];
+                $reply_all    = $message->reply_all ?? null;
 
                 // Reply to mailing list...
                 if ($reply_all == 'list' && $mailfollowup) {
@@ -1264,7 +1264,7 @@ class rcmail_sendmail
         if (!$this->message_form) {
             $hiddenfields = new html_hiddenfield(['name' => '_task', 'value' => $this->rcmail->task]);
             $hiddenfields->add(['name' => '_action', 'value' => 'send']);
-            $hiddenfields->add(['name' => '_id', 'value' => isset($this->data['id']) ? $this->data['id'] : '']);
+            $hiddenfields->add(['name' => '_id', 'value' => $this->data['id'] ?? '']);
             $hiddenfields->add(['name' => '_attachments']);
 
             if (empty($attrib['form'])) {
@@ -1314,7 +1314,7 @@ class rcmail_sendmail
             $mbox = $_POST['_store_target'];
         }
         else {
-            $mbox = isset($this->data['param']['sent_mbox']) ? $this->data['param']['sent_mbox'] : null;
+            $mbox = $this->data['param']['sent_mbox'] ?? null;
         }
 
         $params = [
@@ -1655,7 +1655,7 @@ class rcmail_sendmail
             $selected = 0;
         }
 
-        return isset($identities[$selected]) ? $identities[$selected] : null;
+        return $identities[$selected] ?? null;
     }
 
     /**

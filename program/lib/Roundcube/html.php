@@ -699,7 +699,7 @@ class html_select extends html
             foreach ($names as $i => $text) {
                 $this->options[] = [
                     'text'  => $text,
-                    'value' => isset($values[$i]) ? $values[$i] : $i
+                    'value' => $values[$i] ?? $i
                 ] + $attrib;
             }
         }

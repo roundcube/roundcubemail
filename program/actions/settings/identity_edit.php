@@ -172,8 +172,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
         // Set form tags and hidden fields
         list($form_start, $form_end) = self::get_form_tags($attrib, 'save-identity',
-            isset(self::$record['identity_id']) ? intval(self::$record['identity_id']) : 0,
-            ['name' => '_iid', 'value' => isset(self::$record['identity_id']) ? self::$record['identity_id'] : 0]
+            intval(self::$record['identity_id'] ?? 0),
+            ['name' => '_iid', 'value' => self::$record['identity_id'] ?? 0]
         );
 
         unset($plugin);
@@ -205,7 +205,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         $value = $colprop['value'];
                     }
                     else {
-                        $val   = isset(self::$record[$col]) ? self::$record[$col] : '';
+                        $val   = self::$record[$col] ?? '';
                         $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
                     }
 

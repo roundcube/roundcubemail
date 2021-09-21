@@ -107,7 +107,7 @@ class rcmail_action_settings_about extends rcmail_action
         $table->add_header('source', $rcmail->gettext('source'));
 
         foreach ($plugin_info as $name => $data) {
-            $uri = !empty($data['src_uri']) ? $data['src_uri'] : (isset($data['uri']) ? $data['uri'] : '');
+            $uri = !empty($data['src_uri']) ? $data['src_uri'] : ($data['uri'] ?? '');
             if ($uri && stripos($uri, 'http') !== 0) {
                 $uri = 'http://' . $uri;
             }

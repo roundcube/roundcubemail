@@ -100,7 +100,7 @@ class rcube_session_redis extends rcube_session
             }
 
             if ($this->debug) {
-                $this->debug('delete', $key, null, isset($result) ? $result : false);
+                $this->debug('delete', $key, null, $result ?? false);
             }
         }
 

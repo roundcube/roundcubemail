@@ -724,7 +724,7 @@ class rcube_washtml
      */
     public function get_config($prop)
     {
-        return isset($this->config[$prop]) ? $this->config[$prop] : null;
+        return $this->config[$prop] ?? null;
     }
 
     /**

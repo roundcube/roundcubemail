@@ -690,7 +690,7 @@ class enigma_ui
                 'method'  => 'post',
                 'enctype' => 'multipart/form-data'
             ] + $attrib,
-            isset($form) ? $form : ''
+            $form ?? ''
         );
 
         return $out;

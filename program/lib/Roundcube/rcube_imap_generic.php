@@ -3202,7 +3202,7 @@ class rcube_imap_generic
 
         foreach (explode("\n", $response) as $line) {
             $tokens     = $this->tokenizeResponse($line, 3);
-            $quota_root = isset($tokens[2]) ? $tokens[2] : null;
+            $quota_root = $tokens[2] ?? null;
             $quotas     = $this->tokenizeResponse($line, 1);
 
             if (empty($quotas)) {
@@ -3916,7 +3916,7 @@ class rcube_imap_generic
             }
         }
 
-        return $num == 1 ? (isset($result[0]) ? $result[0] : '') : $result;
+        return $num == 1 ? ($result[0] ?? '') : $result;
     }
 
     /**

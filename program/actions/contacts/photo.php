@@ -83,9 +83,9 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
 
         // let plugins do fancy things with contact photos
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
-                'record' => isset($record) ? $record : null,
-                'email'  => isset($email) ? $email : null,
-                'data'   => isset($data) ? $data : null,
+                'record' => $record ?? null,
+                'email'  => $email ?? null,
+                'data'   => $data ?? null,
         ]);
 
         // redirect to url provided by a plugin

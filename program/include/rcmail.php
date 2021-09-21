@@ -114,7 +114,7 @@ class rcmail extends rcube
         $this->default_skin = $this->config->get('skin');
 
         // create user object
-        $this->set_user(new rcube_user(isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null));
+        $this->set_user(new rcube_user($_SESSION['user_id'] ?? null));
 
         // set task and action properties
         $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
@@ -197,7 +197,7 @@ class rcmail extends rcube
     {
         parent::set_user($user);
 
-        $session_lang = isset($_SESSION['language']) ? $_SESSION['language'] : null;
+        $session_lang = $_SESSION['language'] ?? null;
         $lang = $this->language_prop($this->config->get('language', $session_lang));
         $_SESSION['language'] = $this->user->language = $lang;
 

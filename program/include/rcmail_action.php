@@ -193,7 +193,7 @@ abstract class rcmail_action
         $quota  = $rcmail->plugins->exec_hook('quota', $quota);
 
         $quota_result           = (array) $quota;
-        $quota_result['type']   = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
+        $quota_result['type']   = $_SESSION['quota_display'] ?? '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
         if (!empty($quota['total']) && $quota['total'] > 0) {
@@ -551,7 +551,7 @@ abstract class rcmail_action
         }
 
         $input   = new html_inputfield($input_attr);
-        $content = (isset($attrib['prefix']) ? $attrib['prefix'] : '') . $input->show();
+        $content = ($attrib['prefix'] ?? '') . $input->show();
 
         if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
             $content = html::div(null, $content . $hint);
@@ -1007,7 +1007,7 @@ abstract class rcmail_action
             $a_folders   = $storage->list_folders_subscribed(
                 '',
                 $attrib['folder_name'],
-                isset($attrib['folder_filter']) ? $attrib['folder_filter'] : null
+                $attrib['folder_filter'] ?? null
             );
 
             foreach ($a_folders as $folder) {
@@ -1035,9 +1035,9 @@ abstract class rcmail_action
                 $select->add(html::quote($rcmail->gettext($attrib['noselection'])), '');
             }
 
-            $maxlength = isset($attrib['maxlength']) ? $attrib['maxlength'] : null;
-            $realnames = isset($attrib['realnames']) ? $attrib['realnames'] : null;
-            $default   = isset($attrib['default']) ? $attrib['default'] : null;
+            $maxlength = $attrib['maxlength'] ?? null;
+            $realnames = $attrib['realnames'] ?? null;
+            $default   = $attrib['default'] ?? null;
 
             self::render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
             $out = $select->show($default);
@@ -1052,7 +1052,7 @@ abstract class rcmail_action
 
                 $rcmail->output->include_script('treelist.js');
                 $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
-                $rcmail->output->set_env('unreadwrap', isset($attrib['unreadwrap']) ? $attrib['unreadwrap'] : false);
+                $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap'] ?? false);
                 $rcmail->output->set_env('collapsed_folders', (string) $rcmail->config->get('collapsed_folders'));
             }
 
@@ -1088,8 +1088,8 @@ abstract class rcmail_action
             $p['folder_name'] = '*';
         }
 
-        $f_filter = isset($p['folder_filter']) ? $p['folder_filter'] : null;
-        $f_rights = isset($p['folder_rights']) ? $p['folder_rights'] : null;
+        $f_filter = $p['folder_filter'] ?? null;
+        $f_rights = $p['folder_rights'] ?? null;
 
         if (!empty($p['unsubscribed'])) {
             $list = $storage->list_folders('', $p['folder_name'], $f_filter, $f_rights);
@@ -1225,10 +1225,10 @@ abstract class rcmail_action
         $out = '';
         foreach ($arrFolders as $folder) {
             $title        = null;
-            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
+            $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
             $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
             $unread       = 0;
-            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
+            $realname     = $folder['realname'] ?? $realnames;
 
             if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
@@ -1335,8 +1335,8 @@ abstract class rcmail_action
                 }
             }
 
-            $folder_class = self::folder_classname($folder['id'], isset($folder['class']) ? $folder['class'] : null);
-            $realname     = isset($folder['realname']) ? $folder['realname'] : $realnames;
+            $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
+            $realname     = $folder['realname'] ?? $realnames;
 
             if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);

@@ -99,7 +99,7 @@ abstract class rcube_output
      */
     public function get_env($name)
     {
-        return isset($this->env[$name]) ? $this->env[$name] : null;
+        return $this->env[$name] ?? null;
     }
 
     /**
@@ -336,7 +336,7 @@ abstract class rcube_output
                     $colcounts[$name] = 0;
                 }
                 $idx   = intval($colcounts[$name]++);
-                $value = isset($postvalue[$idx]) ? $postvalue[$idx] : null;
+                $value = $postvalue[$idx] ?? null;
             }
             else {
                 $value = $postvalue;

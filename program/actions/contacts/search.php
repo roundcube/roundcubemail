@@ -260,7 +260,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             }
             if ($colprop['type'] != 'image' && empty($colprop['nosearch'])) {
                 $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
-                $label    = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
+                $label    = $colprop['label'] ?? $rcmail->gettext($col);
                 $category = !empty($colprop['category']) ? $colprop['category'] : 'other';
 
                 // load jquery UI datepicker for date fields

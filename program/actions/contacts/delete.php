@@ -101,7 +101,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         }
 
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $page      = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
+        $page      = $_SESSION['page'] ?? 1;
 
         // update saved search after data changed
         if (($records = self::search_update(true)) !== false) {

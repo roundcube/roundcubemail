@@ -487,7 +487,7 @@ class rcube_contacts extends rcube_addressbook
      */
     function count()
     {
-        $count = isset($this->cache['count']) ? $this->cache['count'] : $this->_count();
+        $count = $this->cache['count'] ?? $this->_count();
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
     }
@@ -618,9 +618,9 @@ class rcube_contacts extends rcube_addressbook
 
         // require at least some name or email
         if ($valid) {
-            $name = (isset($save_data['firstname']) ? $save_data['firstname'] : '')
-                . (isset($save_data['surname']) ? $save_data['surname'] : '')
-                . (isset($save_data['name']) ? $save_data['name'] : '');
+            $name = ($save_data['firstname'] ?? '')
+                . ($save_data['surname'] ?? '')
+                . ($save_data['name'] ?? '');
 
             if (!strlen($name) && !count(array_filter($this->get_col_values('email', $save_data, true)))) {
                 $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');

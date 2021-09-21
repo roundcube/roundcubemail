@@ -746,7 +746,7 @@ class rcube_utils
             $type = 'SERVER_NAME';
         }
 
-        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : '';
+        $name     = $_SERVER[$type] ?? '';
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
@@ -783,7 +783,7 @@ class rcube_utils
      */
     public static function remote_ip()
     {
-        $address = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        $address = $_SERVER['REMOTE_ADDR'] ?? '';
 
         // append the NGINX X-Real-IP header, if set
         if (!empty($_SERVER['HTTP_X_REAL_IP']) && $_SERVER['HTTP_X_REAL_IP'] != $address) {
@@ -856,7 +856,7 @@ class rcube_utils
         if (!empty($headers)) {
             $headers = array_change_key_case($headers, CASE_UPPER);
 
-            return isset($headers[$key]) ? $headers[$key] : null;
+            return $headers[$key] ?? null;
         }
     }
 
@@ -1008,11 +1008,11 @@ class rcube_utils
             $mdy   = $m[2] > 12 && $m[1] <= 12;
             $day   = $mdy ? $m[2] : $m[1];
             $month = $mdy ? $m[1] : $m[2];
-            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, isset($m[4]) ? $m[4]: ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?? ' 00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
         else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
-            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], isset($m[4]) ? $m[4]: ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?? ' 00:00:00');
         }
 
         return $date;
@@ -1382,8 +1382,8 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 0;
+            $host = $_SERVER['HTTP_HOST'] ?? '';
+            $port = $_SERVER['SERVER_PORT'] ?? 0;
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
             if ($port && $port != $default_port && $port != 80) {

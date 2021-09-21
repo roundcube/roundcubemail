@@ -96,7 +96,7 @@ class identicon_engine
         // set icon color
         $div         = intval(255/count($this->palette));
         $index       = intval(ord($ident[0]) / $div);
-        $this->color = isset($this->palette[$index]) ? $this->palette[$index] : $this->palette[0];
+        $this->color = $this->palette[$index] ?? $this->palette[0];
 
         // set cell size
         $cell_width  = ($this->width - $this->margin * 2) / self::GRID_SIZE;

@@ -419,8 +419,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $exclude_headers = !empty($attrib['exclude']) ? explode(',', $attrib['exclude']) : [];
         $output_headers  = [];
 
-        $attr_max     = isset($attrib['max']) ? $attrib['max'] : null;
-        $attr_addicon = isset($attrib['addicon']) ? $attrib['addicon'] : null;
+        $attr_max     = $attrib['max'] ?? null;
+        $attr_addicon = $attrib['addicon'] ?? null;
         $charset      = !empty($headers['charset']) ? $headers['charset'] : null;
 
         foreach ($standard_headers as $hkey) {

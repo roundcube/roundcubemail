@@ -347,11 +347,11 @@ class rcube_imap extends rcube_storage
     {
         $set = (array) $set;
 
-        $this->search_string     = isset($set[0]) ? $set[0] : null;
-        $this->search_set        = isset($set[1]) ? $set[1] : null;
-        $this->search_charset    = isset($set[2]) ? $set[2] : null;
-        $this->search_sort_field = isset($set[3]) ? $set[3] : null;
-        $this->search_sorted     = isset($set[4]) ? $set[4] : null;
+        $this->search_string     = $set[0] ?? null;
+        $this->search_set        = $set[1] ?? null;
+        $this->search_charset    = $set[2] ?? null;
+        $this->search_sort_field = $set[3] ?? null;
+        $this->search_sorted     = $set[4] ?? null;
         $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
 
         if (is_a($this->search_set, 'rcube_result_multifolder')) {
@@ -482,7 +482,7 @@ class rcube_imap extends rcube_storage
                 $name = 'prefix_in';
             }
 
-            return isset($ns[$name]) ? $ns[$name] : null;
+            return $ns[$name] ?? null;
         }
 
         unset($ns['prefix_in'], $ns['prefix_out']);
@@ -2284,15 +2284,15 @@ class rcube_imap extends rcube_storage
                 $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $part->headers;
             }
 
-            $ctype       = isset($headers['content-type']) ? $headers['content-type'] : '';
-            $disposition = isset($headers['content-disposition']) ? $headers['content-disposition'] : '';
+            $ctype       = $headers['content-type'] ?? '';
+            $disposition = $headers['content-disposition'] ?? '';
             $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype. ';' . $disposition);
 
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header
                 if (preg_match('/^(name|filename)\*([0-9]*)\*?="*([^"]+)"*/i', $token, $matches)) {
                     $key = strtolower($matches[1]);
-                    $rfc2231_params[$key] = (isset($rfc2231_params[$key]) ? $rfc2231_params[$key] : '') . $matches[3];
+                    $rfc2231_params[$key] = ($rfc2231_params[$key] ?? '') . $matches[3];
                 }
             }
         }
@@ -3491,7 +3491,7 @@ class rcube_imap extends rcube_storage
 
         foreach ($specials as $type => $folder) {
             if (in_array($type, rcube_storage::$folder_types)) {
-                $old_folder = isset($old[$type]) ? $old[$type] : null;
+                $old_folder = $old[$type] ?? null;
                 if ($old_folder !== $folder) {
                     // unset old-folder metadata
                     if ($old_folder !== null) {
@@ -3607,7 +3607,7 @@ class rcube_imap extends rcube_storage
      */
     public function mod_folder($folder, $mode = 'out')
     {
-        $prefix = isset($this->namespace['prefix_' . $mode]) ? $this->namespace['prefix_' . $mode] : null;
+        $prefix = $this->namespace['prefix_' . $mode] ?? null;
 
         if ($prefix === null || $prefix === ''
             || !($prefix_len = strlen($prefix)) || !strlen($folder)
@@ -4475,7 +4475,7 @@ class rcube_imap extends rcube_storage
         $path2 = explode($this->delimiter, $str2);
 
         foreach ($path1 as $idx => $folder1) {
-            $folder2 = isset($path2[$idx]) ? $path2[$idx] : '';
+            $folder2 = $path2[$idx] ?? '';
 
             if ($folder1 === $folder2) {
                 continue;

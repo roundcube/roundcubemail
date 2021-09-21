@@ -33,7 +33,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
         $afields       = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $list_page     = max(1, isset($_GET['_page']) ? intval($_GET['_page']) : 0);
+        $list_page     = max(1, $_GET['_page'] ?? 0);
         $jsresult      = [];
 
         // Use search result

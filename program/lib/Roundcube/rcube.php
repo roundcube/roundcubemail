@@ -1452,7 +1452,7 @@ class rcube
     public static function log_bug($arg_arr)
     {
         $program = !empty($arg_arr['type']) ? strtoupper($arg_arr['type']) : 'PHP';
-        $uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        $uri     = $_SERVER['REQUEST_URI'] ?? '';
 
         // write error to local log file
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1714,7 +1714,7 @@ class rcube
                 $body_file = $plugin['body_file'];
             }
 
-            return isset($plugin['result']) ? $plugin['result'] : false;
+            return $plugin['result'] ?? false;
         }
 
         $from    = $plugin['from'];

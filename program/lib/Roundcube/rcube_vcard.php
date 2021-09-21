@@ -134,12 +134,12 @@ class rcube_vcard
         }
 
         // find well-known address fields
-        $this->displayname  = isset($this->raw['FN'][0][0]) ? $this->raw['FN'][0][0] : null;
-        $this->surname      = isset($this->raw['N'][0][0]) ? $this->raw['N'][0][0] : null;
-        $this->firstname    = isset($this->raw['N'][0][1]) ? $this->raw['N'][0][1] : null;
-        $this->middlename   = isset($this->raw['N'][0][2]) ? $this->raw['N'][0][2] : null;
-        $this->nickname     = isset($this->raw['NICKNAME'][0][0]) ? $this->raw['NICKNAME'][0][0] : null;
-        $this->organization = isset($this->raw['ORG'][0][0]) ? $this->raw['ORG'][0][0] : null;
+        $this->displayname  = $this->raw['FN'][0][0] ?? null;
+        $this->surname      = $this->raw['N'][0][0] ?? null;
+        $this->firstname    = $this->raw['N'][0][1] ?? null;
+        $this->middlename   = $this->raw['N'][0][2] ?? null;
+        $this->nickname     = $this->raw['NICKNAME'][0][0] ?? null;
+        $this->organization = $this->raw['ORG'][0][0] ?? null;
         $this->business     = (isset($this->raw['X-ABSHOWAS'][0][0]) && $this->raw['X-ABSHOWAS'][0][0] == 'COMPANY')
             || (!empty($this->organization) && isset($this->raw['N'][0]) && @implode('', (array) $this->raw['N'][0]) === '');
 
@@ -414,11 +414,11 @@ class rcube_vcard
                 $value = [
                     '',
                     '',
-                    isset($value['street']) ? $value['street'] : '',
-                    isset($value['locality']) ? $value['locality'] : '',
-                    isset($value['region']) ? $value['region'] : '',
-                    isset($value['zipcode']) ? $value['zipcode'] : '',
-                    isset($value['country']) ? $value['country'] : '',
+                    $value['street'] ?? '',
+                    $value['locality'] ?? '',
+                    $value['region'] ?? '',
+                    $value['zipcode'] ?? '',
+                    $value['country'] ?? '',
                 ];
             }
 

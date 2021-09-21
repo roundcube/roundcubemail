@@ -140,7 +140,7 @@ class rcube_smtp
         if (!empty($CONFIG['smtp_auth_callbacks']) && method_exists($this->conn, 'setAuthMethod')) {
             foreach ($CONFIG['smtp_auth_callbacks'] as $callback) {
                 $this->conn->setAuthMethod($callback['name'], $callback['function'],
-                    isset($callback['prepend']) ? $callback['prepend'] : true);
+                    $callback['prepend'] ?? true);
             }
         }
 

@@ -134,7 +134,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
         }
         else {
-            $selected   = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
+            $selected   = $_POST['_parent'] ?? $path_id;
             $exceptions = [$mbox];
 
             // Exclude 'prefix' namespace from parent folders list (#1488349)
@@ -202,7 +202,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 $a_threaded   = $rcmail->config->get('message_threading', []);
                 $default_mode = $rcmail->config->get('default_list_mode', 'list');
 
-                $value = (int) (isset($a_threaded[$mbox]) ? $a_threaded[$mbox] : $default_mode == 'threads');
+                $value = (int) ($a_threaded[$mbox] ?? $default_mode == 'threads');
             }
 
             $form['props']['fieldsets']['settings']['content']['viewmode'] = [
@@ -210,6 +210,8 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 'value' => $select->show($value),
             ];
         }
+
+        $msgcount = 0;
 
         // Information (count, size) - Edit mode
         if (strlen($mbox)) {
@@ -220,7 +222,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             ];
 
             if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
-                $msgcount = $storage->count($mbox, 'ALL', true, false);
+                $msgcount = (int) $storage->count($mbox, 'ALL', true, false);
 
                 if ($msgcount) {
                     // Get the size on servers with supposed-to-be-fast method for that
@@ -247,7 +249,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
                 $form['props']['fieldsets']['info']['content']['count'] = [
                     'label' => $rcmail->gettext('messagecount'),
-                    'value' => (int) $msgcount
+                    'value' => $msgcount
                 ];
                 $form['props']['fieldsets']['info']['content']['size'] = [
                     'label' => $rcmail->gettext('size'),
@@ -308,7 +310,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         $out .= "\n$form_end";
 
-        $rcmail->output->set_env('messagecount', isset($msgcount) ? (int) $msgcount : 0);
+        $rcmail->output->set_env('messagecount', $msgcount);
         $rcmail->output->set_env('folder', $mbox);
 
         if ($mbox !== null && empty($_POST)) {

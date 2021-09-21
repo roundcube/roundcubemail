@@ -76,7 +76,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             if (empty($contacts[$index])) {
                                 $contact = [
                                     'name'   => $contact,
-                                    'type'   => isset($record['_type']) ? $record['_type'] : null,
+                                    'type'   => $record['_type'] ?? null,
                                     'id'     => $record['ID'],
                                     'source' => $abook_id,
                                 ];

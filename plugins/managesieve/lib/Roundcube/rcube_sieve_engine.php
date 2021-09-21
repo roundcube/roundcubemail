@@ -926,8 +926,8 @@ class rcube_sieve_engine
                         $index       = isset($indexes[$idx]) ? $this->strip_value($indexes[$idx]) : null;
                         $indexlast   = isset($lastindexes[$idx]) ? $this->strip_value($lastindexes[$idx]) : null;
                         $mime_param  = isset($mime_params[$idx]) ? $this->strip_value($mime_params[$idx]) : null;
-                        $mime_type   = isset($mime_types[$idx]) ? $mime_types[$idx] : null;
-                        $mime_part   = isset($mime_parts[$idx]) ? $mime_parts[$idx] : null;
+                        $mime_type   = $mime_types[$idx] ?? null;
+                        $mime_part   = $mime_parts[$idx] ?? null;
                         $cust_var    = null;
 
                         if ($header == 'string') {
@@ -1565,7 +1565,7 @@ class rcube_sieve_engine
         }
 
         $fid     = rcube_utils::get_input_string('_fid', rcube_utils::INPUT_GPC);
-        $scr     = isset($this->form) ? $this->form : (array_key_exists($fid, $this->script) ? $this->script[$fid] : null);
+        $scr     = $this->form ?? (array_key_exists($fid, $this->script) ? $this->script[$fid] : null);
         $compact = !empty($attrib['compact-form']);
         $framed  = !empty($_POST['_framed']) || !empty($_GET['_framed']);
 
@@ -2020,14 +2020,14 @@ class rcube_sieve_engine
         $mout .= '<div id="rule_mod_type' . $id . '" class="adv input-group"';
         $mout .= (!in_array($rule['test'], ['address', 'envelope']) ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modtype'))));
-        $mout .= $select_type->show(isset($rule['part']) ? $rule['part'] : null);
+        $mout .= $select_type->show($rule['part'] ?? null);
         $mout .= '</div>';
 
         // Advanced modifiers (comparators)
         $need_comp = $rule['test'] != 'size' && $rule['test'] != 'spamtest' && $rule['test'] != 'duplicate';
         $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('comparator'))));
-        $mout .= $this->comparator_selector(isset($rule['comparator']) ? $rule['comparator'] : null, 'rule_comp', $id);
+        $mout .= $this->comparator_selector($rule['comparator'] ?? null, 'rule_comp', $id);
         $mout .= '</div>';
 
         // Advanced modifiers (mime)
@@ -2065,7 +2065,7 @@ class rcube_sieve_engine
             $mout .= '<div id="rule_mime' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
             $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('mime'))));
             $mout .= $select_mime->show($mime_type);
-            $mout .= $this->list_input($id, 'rule_mime_param', isset($rule['mime-param']) ? $rule['mime-param'] : null,
+            $mout .= $this->list_input($id, 'rule_mime_param', $rule['mime-param'] ?? null,
                 30, $mime_type != 'param', ['class' => $this->error_class($id, 'test', 'mime_param', 'rule_mime_param')]
             );
             $mout .= '</div>';
@@ -2089,7 +2089,7 @@ class rcube_sieve_engine
 
         $mout .= '<div id="rule_trans' .$id. '" class="adv input-group"' . ($rule['test'] != 'body' ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
-        $mout .= $select_mod->show(isset($rule['part']) ? $rule['part'] : null);
+        $mout .= $select_mod->show($rule['part'] ?? null);
         $mout .= html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_rule_trans_type[$id]",
@@ -2152,7 +2152,7 @@ class rcube_sieve_engine
                         'type'  => 'text',
                         'name'  => '_rule_duplicate_' . $unit . "[$id]",
                         'id'    => 'rule_duplicate_' . $unit . $id,
-                        'value' => isset($rule[$unit]) ? $rule[$unit] : '',
+                        'value' => $rule[$unit] ?? '',
                         'size'  => 30,
                         'class' => $this->error_class($id, 'test', 'duplicate_' . $unit, 'rule_duplicate_' . $unit),
                 ]);
@@ -2165,7 +2165,7 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => "_rule_duplicate_seconds[$id]",
                     'id'    => 'rule_duplicate_seconds' . $id,
-                    'value' => isset($rule['seconds']) ? $rule['seconds'] : '',
+                    'value' => $rule['seconds'] ?? '',
                     'size'  => 6,
                     'class' => $this->error_class($id, 'test', 'duplicate_seconds', 'rule_duplicate_seconds'),
             ]);
@@ -2429,7 +2429,7 @@ class rcube_sieve_engine
                 'rows'  => 3,
                 'cols'  => 35,
                 'class' => $this->error_class($id, 'action', 'reason', 'action_reason'),
-            ], rcube::Q(isset($action['reason']) ? $action['reason'] : '', 'strict', false));
+            ], rcube::Q($action['reason'] ?? '', 'strict', false));
         $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationsubject')) . '</span><br>';
         $out .= html::tag('input', [
                 'type'  => 'text',
@@ -2444,12 +2444,12 @@ class rcube_sieve_engine
                 'type'  => 'text',
                 'name'  => "_action_from[$id]",
                 'id'    => 'action_from' . $id,
-                'value' => isset($action['from']) ? $action['from'] : '',
+                'value' => $action['from'] ?? '',
                 'size'  => 35,
                 'class' => $this->error_class($id, 'action', 'from', 'action_from'),
         ]);
         $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br>';
-        $out .= $this->list_input($id, 'action_addresses', isset($action['addresses']) ? $action['addresses'] : null,
+        $out .= $this->list_input($id, 'action_addresses', $action['addresses'] ?? null,
                 30, false, ['class' => $this->error_class($id, 'action', 'addresses', 'action_addresses')]
             )
             . html::a(['href' => '#', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".managesieve_vacation_addresses($id)"],
@@ -2536,7 +2536,7 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => '_action_var' . $unit . '[' . $id . ']',
                     'id'    => 'action_var' . $unit . $id,
-                    'value' => isset($action[$unit]) ? $action[$unit] : '',
+                    'value' => $action[$unit] ?? '',
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', $unit, 'action_var' . $unit),
             ]);
@@ -2624,7 +2624,7 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => "_action_notifyfrom[$id]",
                     'id'    => 'action_notifyfrom' . $id,
-                    'value' => isset($action['from']) ? $action['from'] : '',
+                    'value' => $action['from'] ?? '',
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'from', 'action_notifyfrom'),
             ]);
@@ -2662,7 +2662,7 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => "_action_addheader_name[$id]",
                     'id'    => "action_addheader_name{$id}",
-                    'value' => isset($action['name']) ? $action['name'] : '',
+                    'value' => $action['name'] ?? '',
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'name', 'action_addheader_name'),
             ]);
@@ -2671,7 +2671,7 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => "_action_addheader_value[$id]",
                     'id'    => "action_addheader_value{$id}",
-                    'value' => isset($action['value']) ? $action['value'] : '',
+                    'value' => $action['value'] ?? '',
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'value', 'action_addheader_value'),
             ]);
@@ -2686,24 +2686,24 @@ class rcube_sieve_engine
                     'type'  => 'text',
                     'name'  => "_action_delheader_name[$id]",
                     'id'    => "action_delheader_name{$id}",
-                    'value' => isset($action['name']) ? $action['name'] : '',
+                    'value' => $action['name'] ?? '',
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'name', 'action_delheader_name'),
             ]);
             $out .= '<br><label class="label" for="action_delheader_value' . $id .'">'. rcube::Q($this->plugin->gettext('headerpatterns')) .'</label><br>';
-            $out .= $this->list_input($id, 'action_delheader_value', isset($action['value']) ? $action['value'] : null,
+            $out .= $this->list_input($id, 'action_delheader_value', $action['value'] ?? null,
                 null, false, ['class' => $this->error_class($id, 'action', 'value', 'action_delheader_value')]) . "\n";
             $out .= '<br><div class="adv input-group">';
             $out .= html::span('label input-group-prepend', html::label([
                     'class' => 'input-group-text', 'for' => 'action_delheader_op'.$id
                 ], rcube::Q($this->plugin->gettext('headermatchtype'))));
-            $out .= $this->match_type_selector('action_delheader_op', $id, isset($action['match-type']) ? $action['match-type'] : null, null, 'basic');
+            $out .= $this->match_type_selector('action_delheader_op', $id, $action['match-type'] ?? null, null, 'basic');
             $out .= '</div>';
             $out .= '<div class="adv input-group">';
             $out .= html::span('label input-group-prepend', html::label([
                     'class' => 'input-group-text', 'for' => 'action_delheader_comp_op'.$id
                 ], rcube::Q($this->plugin->gettext('comparator'))));
-            $out .= $this->comparator_selector(isset($action['comparator']) ? $action['comparator'] : null, 'action_delheader_comp', $id);
+            $out .= $this->comparator_selector($action['comparator'] ?? null, 'action_delheader_comp', $id);
             $out .= '</div>';
             $out .= '<br><label class="label" for="action_delheader_index' . $id .'">'. rcube::Q($this->plugin->gettext('headeroccurrence')) .'</label><br>';
             $out .= '<div class="input-group">';
