@@ -2783,7 +2783,6 @@ class rcube_imap_generic
             return false;
         }
 
-        $result = false;
         $parts  = (array) $parts;
         $key    = $this->nextTag();
         $peeks  = [];
@@ -2801,6 +2800,8 @@ class rcube_imap_generic
             $this->setError(self::ERROR_COMMAND, "Failed to send UID FETCH command");
             return false;
         }
+
+        $result = [];
 
         do {
             $line = $this->readLine(1024);
