@@ -52,6 +52,7 @@ $config['password_algorithm'] = 'clear';
 
 // Additional options for password hashing function(s).
 // For password_hash()-based passwords see https://www.php.net/manual/en/function.password-hash.php
+// It can be used to set the Blowfish algorithm cost, e.g. ['cost' => 12]
 $config['password_algorithm_options'] = [];
 
 // Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
@@ -70,11 +71,6 @@ $config['password_dovecotpw_method'] = 'CRAM-MD5';
 // Enables use of password with method prefix, e.g. {MD5}$1$LUiMYWqx$fEkg/ggr/L6Mb2X7be4i1/
 // when using password_algorithm=dovecot
 $config['password_dovecotpw_with_method'] = false;
-
-// Iteration count parameter for Blowfish-based hashing algo.
-// It must be between 4 and 31. Default: 12.
-// Be aware, the higher the value, the longer it takes to generate the password hashes.
-$config['password_blowfish_cost'] = 12;
 
 // Number of rounds for the sha256 and sha512 crypt hashing algorithms.
 // Must be at least 1000. If not set, then the number of rounds is left up

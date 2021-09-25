@@ -13,6 +13,7 @@
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Enigma: Upgrade to OpenPGP.js v5.0
+- Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
 - Password: Remove support for password_algorithms crypt, hash and cram-md5
 - Password: Remove support for %c, %d, %n, %q variables in password_query
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
