@@ -42,11 +42,17 @@ $config['password_force_save'] = false;
 // Enables forcing new users to change their password at their first login.
 $config['password_force_new_user'] = false;
 
-// Default password hashing/crypting algorithm.
+// Password hashing/crypting algorithm.
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
 // sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, ssha512, samba, ad, dovecot, clear.
+// Also supported are password_hash() algoriths: hash-default, hash-bcrypt, hash-argon2i, hash-argon2id.
+// Default: 'clear' (no hashing)
 // For details see password::hash_password() method.
 $config['password_algorithm'] = 'clear';
+
+// Additional options for password hashing function(s).
+// For password_hash()-based passwords see https://www.php.net/manual/en/function.password-hash.php
+$config['password_algorithm_options'] = [];
 
 // Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
 // using password_algorithm above. Default: empty.

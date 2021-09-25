@@ -529,6 +529,7 @@ class password extends rcube_plugin
         $rcmail  = rcmail::get_instance();
         $prefix  = '';
         $crypted = null;
+        $options = (array) $rcmail->config->get('password_algorithm_options', []);
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
@@ -742,6 +743,22 @@ class password extends rcube_plugin
 
             $prefixed = false;
 
+            break;
+
+        case 'hash-bcrypt':
+            $crypted = password_hash($password, PASSWORD_BCRYPT, $options);
+            break;
+
+        case 'hash-argon2i':
+            $crypted = password_hash($password, PASSWORD_ARGON2I, $options);
+            break;
+
+        case 'hash-argon2id':
+            $crypted = password_hash($password, PASSWORD_ARGON2ID, $options);
+            break;
+
+        case 'hash-default':
+            $crypted = password_hash($password, PASSWORD_DEFAULT, $options);
             break;
 
         case 'hash': // deprecated
