@@ -771,8 +771,12 @@ function rcube_elastic_ui()
             return;
         }
 
-        var pref,
+        // We deliberately use only cookies here, not local storage
+        var pref = rcmail.get_cookie('colorMode'),
             color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
+            reset_cookie = function() {
+                rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
+            },
             switch_iframe_color_mode = function() {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
@@ -793,6 +797,14 @@ function rcube_elastic_ui()
                 $('iframe').each(switch_iframe_color_mode);
             };
 
+        if (rcmail.env.dark_mode_support === false) {
+            if (pref == 'dark') {
+                reset_cookie();
+                $('iframe').each(switch_iframe_color_mode);
+            }
+            return;
+        }
+
         // Add onclick action to the menu button
         $('#taskmenu a.theme').on('click', function() {
             color_mode = $(this).is('.dark') ? 'dark' : 'light';
@@ -804,11 +816,10 @@ function rcube_elastic_ui()
         color_scheme.addListener(function(e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
+            reset_cookie();
         });
 
-        // We deliberately use only cookies here, not local storage
-        if (pref = rcmail.get_cookie('colorMode')) {
+        if (pref) {
             color_mode = pref;
         }
         else if (color_scheme.matches) {

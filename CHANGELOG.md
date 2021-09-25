@@ -31,6 +31,7 @@
 - Fix bug where "from my contacts" and "from trusted senders" values were mixed up (#8177)
 - Fix password/token length check on OAuth login (#8178)
 - Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
+- Fix handling of dark_mode_support:false setting in skins meta.json (#8186)
 
 ## Release 1.5-rc
 

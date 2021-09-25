@@ -394,6 +394,8 @@ EOF;
             $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
         }
 
+        $this->set_env('dark_mode_support', (bool) $this->config->get('dark_mode_support'));
+
         return $_SESSION['skin_config'];
     }
 
