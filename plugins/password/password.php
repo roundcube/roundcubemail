@@ -535,15 +535,6 @@ class password extends rcube_plugin
             $method   = $rcmail->config->get('password_algorithm');
             $prefixed = $rcmail->config->get('password_algorithm_prefix');
         }
-        else if ($method == 'crypt') { // deprecated
-            if (!($method = $rcmail->config->get('password_crypt_hash'))) {
-                $method = 'md5';
-            }
-
-            if (!strpos($method, '-crypt')) {
-                $method .= '-crypt';
-            }
-        }
 
         switch ($method) {
         case 'des':
@@ -590,7 +581,7 @@ class password extends rcube_plugin
 
         case 'blowfish': // for BC
         case 'blowfish-crypt':
-            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = (int) ($options['cost'] ?? $rcmail->config->get('password_blowfish_cost'));
             $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
             $prefix = sprintf('$2a$%02d$', $cost);
 
@@ -698,12 +689,6 @@ class password extends rcube_plugin
             $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
             break;
 
-        case 'cram-md5': // deprecated
-            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
-            $crypted = dovecot_hmacmd5($password);
-            $prefix  = '{CRAM-MD5}';
-            break;
-
         case 'dovecot':
             if (!($dovecotpw = $rcmail->config->get('password_dovecotpw'))) {
                 $dovecotpw = 'dovecotpw';
@@ -759,27 +744,6 @@ class password extends rcube_plugin
 
         case 'hash-default':
             $crypted = password_hash($password, PASSWORD_DEFAULT, $options);
-            break;
-
-        case 'hash': // deprecated
-            if (!extension_loaded('hash')) {
-                rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Password plugin: 'hash' extension not loaded!"
-                    ], true, true
-                );
-            }
-
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
-                $hash_algo = 'sha1';
-            }
-
-            $crypted = hash($hash_algo, $password);
-
-            if ($rcmail->config->get('password_hash_base64')) {
-                $crypted = base64_encode(pack('H*', $crypted));
-            }
-
             break;
 
         case 'clear':

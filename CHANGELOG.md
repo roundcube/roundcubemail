@@ -13,6 +13,8 @@
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Enigma: Upgrade to OpenPGP.js v5.0
+- Password: Remove support for password_algorithms crypt, hash and cram-md5
+- Password: Remove support for %c, %d, %n, %q variables in password_query
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
 - Password: Verify current password with IMAP (#8142)
 - Fix locked SQLite database for the CLI tools (#8035)
