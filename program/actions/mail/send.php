@@ -59,7 +59,8 @@ class rcmail_action_mail_send extends rcmail_action
                 'error_handler' => function() use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], func_get_args());
                     $rcmail->output->send('iframe');
-                }
+                },
+                'keepformatting' => !empty($_POST['_keepformatting']),
         ]);
 
         if (!isset($COMPOSE['attachments'])) {

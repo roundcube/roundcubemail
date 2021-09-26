@@ -276,6 +276,7 @@ $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Editor type';
 $labels['returnreceipt'] = 'Return receipt';
 $labels['dsn'] = 'Delivery status notification';
+$labels['keepformatting'] = 'Keep formatting';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
 $labels['selectimage'] = 'Select image';

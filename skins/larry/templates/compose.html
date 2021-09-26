@@ -160,6 +160,9 @@
 		<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" tabindex="4" /> <roundcube:label name="dsn" /></label>
 	</span>
 	<roundcube:endif />
+	<span class="composeoption">
+		<label><roundcube:object name="keepFormattingCheckBox" form="form" id="rcmcomposekeepformatting" tabindex="4" /> <roundcube:label name="keepformatting" /></label>
+	</span>
 	<roundcube:if condition="!config:no_save_sent_messages" />
 	<span class="composeoption">
 		<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" tabindex="4" /></label>
