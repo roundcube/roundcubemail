@@ -743,9 +743,13 @@ $config['mdn_use_from'] = false;
 // 4 - one identity with possibility to edit only signature
 $config['identities_level'] = 0;
 
-// Maximum size of uploaded image in kilobytes
-// Images (in html signatures) are stored in database as data URIs
+// Maximum size of uploaded image (in kilobytes) for HTML identities.
+// Images (in html signatures) are stored in database as data URIs.
 $config['identity_image_size'] = 64;
+
+// Maximum size of uploaded image (in kilobytes) for HTML responses.
+// Images (in html responses) are stored in database as data URIs.
+$config['response_image_size'] = 64;
 
 // Mimetypes supported by the browser.
 // Attachments of these types will open in a preview window.
