@@ -296,7 +296,12 @@ class rcmail_sendmail
     public function create_message($headers, $body, $isHtml = false, $attachments = [])
     {
         $charset = $this->options['charset'];
-        $flowed  = !empty($this->options['savedraft']) || $this->rcmail->config->get('send_format_flowed', true);
+
+        if (!empty($this->options['keepformatting'])) {
+            $flowed = false;
+        } else {
+            $flowed = !empty($this->options['savedraft']) || $this->rcmail->config->get('send_format_flowed', true);
+        }
 
         // create PEAR::Mail_mime instance
         $MAIL_MIME = new Mail_mime("\r\n");
@@ -371,18 +376,20 @@ class rcmail_sendmail
      */
     protected function format_plain_body($body, $flowed = false)
     {
-        // set line length for body wrapping
-        $line_length = $this->rcmail->config->get('line_length', 72);
-        $charset     = $this->options['charset'];
+        if (empty($this->options['keepformatting'])) {
+            // set line length for body wrapping
+            $line_length = $this->rcmail->config->get('line_length', 72);
+            $charset     = $this->options['charset'];
 
-        if ($flowed) {
-            $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
-        }
-        else {
-            $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
-        }
+            if ($flowed) {
+                $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
+            }
+            else {
+                $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
+            }
 
-        $body = wordwrap($body, 998, "\r\n", true);
+            $body = wordwrap($body, 998, "\r\n", true);
+        }
 
         // make sure all line endings are CRLF (#1486712)
         $body = preg_replace('/\r?\n/', "\r\n", $body);
@@ -1403,6 +1410,34 @@ class rcmail_sendmail
     }
 
     /**
+     * "Keep formatting" checkbox object for templates
+     *
+     * @param array $attrib Object attributes
+     *
+     * @return string HTML content
+     */
+    public function keep_formatting_checkbox($attrib)
+    {
+        list($form_start, $form_end) = $this->form_tags($attrib);
+        unset($attrib['form']);
+
+        if (empty($attrib['id'])) {
+            $attrib['id'] = '_keepformatting';
+        }
+
+        $attrib['name']  = '_keepformatting';
+        $attrib['value'] = '1';
+
+        $checkbox = new html_checkbox($attrib);
+
+        $out = $form_start ? "$form_start\n" : '';
+        $out .= $checkbox->show();
+        $out .= $form_end ? "\n$form_end" : '';
+
+        return $out;
+    }
+
+    /**
      * Priority selector object for templates
      *
      * @param array $attrib Object attributes
@@ -1510,6 +1545,7 @@ class rcmail_sendmail
                 'priorityselector' => [$this, 'priority_selector'],
                 'mdncheckbox'      => [$this, 'mdn_checkbox'],
                 'dsncheckbox'      => [$this, 'dsn_checkbox'],
+                'keepformattingcheckbox' => [$this, 'keep_formatting_checkbox'],
                 'composeformhead'  => [$this, 'form_head'],
         ]);
 
