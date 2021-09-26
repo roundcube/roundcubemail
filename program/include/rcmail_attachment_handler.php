@@ -48,10 +48,10 @@ class rcmail_attachment_handler
     {
         ob_end_clean();
 
-        $part_id    = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GET);
-        $file_id    = rcube_utils::get_input_value('_file', rcube_utils::INPUT_GET);
-        $compose_id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GET);
-        $uid        = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+        $part_id    = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
+        $file_id    = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GET);
+        $compose_id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
+        $uid        = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
         $rcube      = rcube::get_instance();
 
         $this->download = !empty($_GET['_download']);

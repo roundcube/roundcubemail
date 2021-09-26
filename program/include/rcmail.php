@@ -117,8 +117,8 @@ class rcmail extends rcube
         $this->set_user(new rcube_user($_SESSION['user_id'] ?? null));
 
         // set task and action properties
-        $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
-        $this->action = asciiwords(rcube_utils::get_input_value('_action', rcube_utils::INPUT_GPC));
+        $this->set_task(rcube_utils::get_input_string('_task', rcube_utils::INPUT_GPC));
+        $this->action = asciiwords(rcube_utils::get_input_string('_action', rcube_utils::INPUT_GPC));
 
         // reset some session parameters when changing task
         if ($this->task != 'utils') {
@@ -854,8 +854,8 @@ class rcmail extends rcube
             $_SESSION['password']     = $this->encrypt($password);
             $_SESSION['login_time']   = time();
 
-            $timezone = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
-            if ($timezone && is_string($timezone) && $timezone != '_default_') {
+            $timezone = rcube_utils::get_input_string('_timezone', rcube_utils::INPUT_GPC);
+            if ($timezone && $timezone != '_default_') {
                 $_SESSION['timezone'] = $timezone;
             }
 
@@ -935,7 +935,7 @@ class rcmail extends rcube
     public function session_error()
     {
         // log session failures
-        $task = rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC);
+        $task = rcube_utils::get_input_string('_task', rcube_utils::INPUT_GPC);
 
         if ($task && !in_array($task, ['login', 'logout']) && !empty($_COOKIE[ini_get('session.name')])) {
             $sess_id = $_COOKIE[ini_get('session.name')];
@@ -973,8 +973,8 @@ class rcmail extends rcube
         $host         = null;
 
         if (is_array($default_host)) {
-            $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
-            $post_user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST);
+            $post_host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
+            $post_user = rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST);
 
             list(, $domain) = explode('@', $post_user);
 
@@ -1003,7 +1003,7 @@ class rcmail extends rcube
             }
         }
         else if (empty($default_host)) {
-            $host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
+            $host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
         }
         else {
             $host = rcube_utils::parse_host($default_host);
