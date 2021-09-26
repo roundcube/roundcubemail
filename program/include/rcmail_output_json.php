@@ -225,7 +225,7 @@ class rcmail_output_json extends rcmail_output
         $rcmail = rcmail::get_instance();
         $response['action'] = $rcmail->action;
 
-        if ($unlock = rcube_utils::get_input_value('_unlock', rcube_utils::INPUT_GPC)) {
+        if ($unlock = rcube_utils::get_input_string('_unlock', rcube_utils::INPUT_GPC)) {
             $response['unlock'] = $unlock;
         }
 

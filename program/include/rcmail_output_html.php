@@ -2305,7 +2305,7 @@ EOF;
         $_SESSION['temp'] = true;
 
         // save original url
-        $url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST);
+        $url = rcube_utils::get_input_string('_url', rcube_utils::INPUT_POST);
         if (
             empty($url)
             && !empty($_SERVER['QUERY_STRING'])
@@ -2368,7 +2368,7 @@ EOF;
         $table = new html_table(['cols' => 2]);
 
         $table->add('title', html::label('rcmloginuser', html::quote($this->app->gettext('username'))));
-        $table->add('input', $input_user->show(rcube_utils::get_input_value('_user', rcube_utils::INPUT_GPC)));
+        $table->add('input', $input_user->show(rcube_utils::get_input_string('_user', rcube_utils::INPUT_GPC)));
 
         $table->add('title', html::label('rcmloginpwd', html::quote($this->app->gettext('password'))));
         $table->add('input', $input_pass->show());
@@ -2376,7 +2376,7 @@ EOF;
         // add host selection row
         if (is_object($input_host) && !$hide_host) {
             $table->add('title', html::label('rcmloginhost', html::quote($this->app->gettext('server'))));
-            $table->add('input', $input_host->show(rcube_utils::get_input_value('_host', rcube_utils::INPUT_GPC)));
+            $table->add('input', $input_host->show(rcube_utils::get_input_string('_host', rcube_utils::INPUT_GPC)));
         }
 
         $out  = $input_task->show();
@@ -2622,7 +2622,7 @@ EOF;
             'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
         ];
 
-        if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
+        if ($post = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST)) {
             $set = $post;
         }
         else if (!empty($attrib['selected'])) {

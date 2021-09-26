@@ -851,7 +851,7 @@ abstract class rcmail_action
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
         $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC, true);
-        $_mbox = $mbox ?: (string) rcube_utils::get_input_value('_mbox', $mode ?: rcube_utils::INPUT_GPC, true);
+        $_mbox = $mbox ?: rcube_utils::get_input_string('_mbox', $mode ?: rcube_utils::INPUT_GPC, true);
 
         // already a hash array
         if (is_array($_uid) && !isset($_uid[0])) {
