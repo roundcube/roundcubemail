@@ -697,10 +697,16 @@ class password extends rcube_plugin
                 $method = 'CRAM-MD5';
             }
 
-            $spec = [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['file', '/dev/null', 'a']];
-            $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
+            $command = "$dovecotpw -s '$method'";
 
-            if (!is_resource($pipe)) {
+            $spec = [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
+            $pipe = proc_open($command, $spec, $pipes);
+
+            if (!$pipe) {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: $command"
+                    ], true, false);
                 return false;
             }
 
@@ -709,12 +715,19 @@ class password extends rcube_plugin
             fwrite($pipes[0], $password . "\n", 1+strlen($password));
 
             $crypted = trim(stream_get_contents($pipes[1]), "\n");
+            $stderr = trim(stream_get_contents($pipes[2]));
 
             fclose($pipes[0]);
             fclose($pipes[1]);
+            fclose($pipes[2]);
             proc_close($pipe);
 
             if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: $command. Error: $stderr"
+                    ], true, false);
+
                 return false;
             }
 

@@ -19,6 +19,7 @@
 - Password: Remove support for %c, %d, %n, %q variables in password_query
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
 - Password: Verify current password with IMAP (#8142)
+- Password: Improve handling errors on executed commands (#8200)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
