@@ -13,6 +13,7 @@
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Disable the default spellchecker option using spell.roundcube.net (#8182)
+- SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
 - Password: Remove support for password_algorithms crypt, hash and cram-md5
