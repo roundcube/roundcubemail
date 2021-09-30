@@ -1508,6 +1508,9 @@ EOF;
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
                         }
+                        else if (!empty($attrib['data-src-' . $type])) {
+                            $additional_logos[$type] = $this->abs_url($attrib['data-src-' . $type]);
+                        }
                     }
 
                     if (!empty($additional_logos)) {
