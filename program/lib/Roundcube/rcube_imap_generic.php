@@ -413,7 +413,7 @@ class rcube_imap_generic
      */
     protected function eof()
     {
-        if (!is_resource($this->fp)) {
+        if (!$this->fp) {
             return true;
         }
 
@@ -562,7 +562,7 @@ class rcube_imap_generic
      * @param string $pass Password
      * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
-     * @return resource Connection resource on success, error code on error
+     * @return resource|int Connection resource on success, error code on error
      */
     protected function authenticate($user, $pass, $type = 'PLAIN')
     {
@@ -817,7 +817,7 @@ class rcube_imap_generic
      * @param string $user Username
      * @param string $pass Password
      *
-     * @return resource Connection resource on success, error code on error
+     * @return resource|int Connection resource on success, error code on error
      */
     protected function login($user, $password)
     {

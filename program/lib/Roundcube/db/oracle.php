@@ -198,13 +198,14 @@ class rcube_db_oracle extends rcube_db
      * Helper method to handle DB errors.
      * This by default logs the error but could be overridden by a driver implementation
      *
-     * @param string Query that triggered the error
+     * @param string   Query that triggered the error
+     * @param resource Query result
      *
-     * @return mixed Result to be stored and returned
+     * @return bool Result to be stored and returned
      */
     protected function handle_error($query, $result = null)
     {
-        $error = oci_error(is_resource($result) ? $result : $this->dbh);
+        $error = oci_error($result ?: $this->dbh);
 
         // @TODO: Find error codes for key errors
         if (empty($this->options['ignore_key_errors']) || !in_array($error['code'], ['23000', '23505'])) {
