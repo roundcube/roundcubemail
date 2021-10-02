@@ -488,7 +488,7 @@ class rcube_ldap extends rcube_addressbook
 
         }  // end foreach hosts
 
-        if (!is_resource($this->ldap->conn)) {
+        if (empty($this->ldap->conn)) {
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
