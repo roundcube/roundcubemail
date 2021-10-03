@@ -4,6 +4,7 @@
 
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
+- SQLite: Use foreign keys, require SQLite >= 3.6.19
 - Replace Endroid QrCode with BaconQrCode (#8173)
 - Support responses (snippets) in HTML format (#5315)
 - Add option to purge deleted mails older than 30, 60 or 90 days (#5493)

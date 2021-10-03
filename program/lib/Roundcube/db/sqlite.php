@@ -76,7 +76,10 @@ class rcube_db_sqlite extends rcube_db
         }
 
         // Enable WAL mode to fix locking issues like #8035.
-        $dbh->query("PRAGMA journal_mode=WAL");
+        $dbh->query("PRAGMA journal_mode = WAL");
+
+        // Enable foreign keys (requires sqlite 3.6.19 compiled with FK support)
+        $dbh->query("PRAGMA foreign_keys = ON");
     }
 
     /**

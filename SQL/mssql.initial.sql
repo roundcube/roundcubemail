@@ -486,6 +486,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2021081000')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2021100300')
 GO
 
