@@ -112,17 +112,14 @@ if (!$plugin['abort']) {
 }
 
 if ($plugin['abort']) {
+    unset($plugin['abort']);
     if ($transaction) {
         $db->rollbackTransaction();
     }
     _die("User deletion aborted by plugin");
 }
 
-// deleting the user record should be sufficient due to ON DELETE CASCADE foreign key references
-// but not all database backends actually support this so let's do it by hand
-foreach (['identities','responses','contacts','contactgroups','dictionary','cache','cache_index','cache_messages','cache_thread','searches','users'] as $table) {
-    $db->query('DELETE FROM ' . $db->table_name($table, true) . ' WHERE `user_id` = ?', $user->ID);
-}
+$db->query('DELETE FROM ' . $db->table_name('users', true) . ' WHERE `user_id` = ?', $user->ID);
 
 if ($db->is_error()) {
     $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
