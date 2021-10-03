@@ -70,6 +70,8 @@ class bootstrap
                 $db->query("DROP TABLE $table");
             }
 
+            self::init_db_user($db);
+
             // init database with schema
             system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
                 realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
@@ -85,6 +87,8 @@ class bootstrap
             // delete database file
             system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
 
+            self::init_db_user($db);
+
             // load sample test data
             // Note: exec_script() does not really work with these queries
             $sql = file_get_contents(TESTS_DIR . 'data/data.sql');
@@ -97,6 +101,25 @@ class bootstrap
                 }
             }
         }
+    }
+
+    /**
+     * Create user/identity record for the test user
+     */
+    private static function init_db_user($db)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap_host = $rcmail->config->get('default_host');
+
+        if ($host = parse_url($imap_host, PHP_URL_HOST)) {
+            $imap_host = $host;
+        }
+
+        $db->query("INSERT INTO `users` (`username`, `mail_host`, `language`)"
+                . " VALUES (?, ?, 'en_US')", TESTS_USER, $imap_host);
+
+        $db->query("INSERT INTO `identities` (`user_id`, `email`, `standard`)"
+                . " VALUES (1, ?, '1')", TESTS_USER);
     }
 
     /**
