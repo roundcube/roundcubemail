@@ -26,6 +26,9 @@
  */
 class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {
+    const GOOGIE_HOST = 'ssl://spell.roundcube.net';
+    const GOOGIE_PORT = 443;
+
     private $matches = array();
     private $content;
 
@@ -68,8 +71,9 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             $path  = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $this->lang;
         }
         else {
-            $this->error = "Missing 'spellcheck_uri' config option";
-            return $this->matches = array();
+            $host = self::GOOGIE_HOST;
+            $port = self::GOOGIE_PORT;
+            $path = '/tbproxy/spell?lang=' . $this->lang;
         }
 
         $path .= sprintf('&key=%06d', $_SESSION['user_id']);
