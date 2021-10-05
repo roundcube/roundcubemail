@@ -899,9 +899,8 @@ class rcube
 
         $ckey   = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
-        $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $cipher = openssl_encrypt($clear, $method, $ckey, $opts, $iv, $tag);
+        $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
 
         if ($cipher === false) {
             self::raise_error([
@@ -946,7 +945,6 @@ class rcube
 
         $ckey    = $this->config->get_crypto_key($key);
         $method  = $this->config->get_crypto_method();
-        $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv_size = openssl_cipher_iv_length($method);
         $tag     = null;
 
@@ -963,7 +961,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv, $tag);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
 
         return $clear;
     }
