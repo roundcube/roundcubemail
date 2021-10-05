@@ -901,7 +901,7 @@ class rcube
         $method = $this->config->get_crypto_method();
         $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $cipher = openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+        $cipher = openssl_encrypt($clear, $method, $ckey, $opts, $iv, $tag);
 
         if ($cipher === false) {
             self::raise_error([
@@ -914,6 +914,10 @@ class rcube
         }
 
         $cipher = $iv . $cipher;
+
+        if ($tag !== null) {
+            $cipher = "##{$tag}##{$cipher}";
+        }
 
         return $base64 ? base64_encode($cipher) : $cipher;
     }
@@ -944,7 +948,14 @@ class rcube
         $method  = $this->config->get_crypto_method();
         $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv_size = openssl_cipher_iv_length($method);
-        $iv      = substr($cipher, 0, $iv_size);
+        $tag     = null;
+
+        if (preg_match('/^##(.{16})##/', $cipher, $matches)) {
+            $tag    = $matches[1];
+            $cipher = substr($cipher, strlen($matches[0]));
+        }
+
+        $iv = substr($cipher, 0, $iv_size);
 
         // session corruption? (#1485970)
         if (strlen($iv) < $iv_size) {
@@ -952,7 +963,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv, $tag);
 
         return $clear;
     }

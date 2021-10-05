@@ -4,8 +4,10 @@
 
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
+- SQLite: Use foreign keys, require SQLite >= 3.6.19
 - Replace Endroid QrCode with BaconQrCode (#8173)
 - Support responses (snippets) in HTML format (#5315)
+- Add support for encryption with AEAD ciphers, e.g. aes-256-gcm (#7097)
 - Add option to purge deleted mails older than 30, 60 or 90 days (#5493)
 - Add ability to mark multiple messages as not deleted at once (#5133)
 - Add possibility to disable line-wrapping of sent mail body (#5101)
@@ -13,12 +15,14 @@
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Disable the default spellchecker option using spell.roundcube.net (#8182)
+- SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
 - Password: Remove support for password_algorithms crypt, hash and cram-md5
 - Password: Remove support for %c, %d, %n, %q variables in password_query
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
 - Password: Verify current password with IMAP (#8142)
+- Password: Improve handling errors on executed commands (#8200)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)

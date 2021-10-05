@@ -49,5 +49,12 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
         $result = $rcube->decrypt($rcube->encrypt('test'));
 
         $this->assertSame('test', $result);
+
+        // Test AEAD cipher method
+        $rcube->config->set('cipher_method', 'aes-256-gcm');
+
+        $result = $rcube->decrypt($rcube->encrypt('test'));
+
+        $this->assertSame('test', $result);
     }
 }
