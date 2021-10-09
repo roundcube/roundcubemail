@@ -3390,7 +3390,7 @@ class rcube_imap extends rcube_storage
 
         // get list of sub-folders or all folders
         // if folder name contains special characters
-        $path       = strspn($folder, '%*') > 0 ? ($folder . $delm) : '';
+        $path       = strpos($folder, '*') === false && strpos($folder, '%') === false ? ($folder . $delm) : '';
         $sub_mboxes = $this->list_folders('', $path . '*');
 
         // According to RFC3501 deleting a \Noselect folder

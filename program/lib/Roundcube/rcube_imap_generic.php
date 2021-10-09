@@ -1484,6 +1484,11 @@ class rcube_imap_generic
      */
     public function deleteFolder($mailbox)
     {
+        // Unselect the folder to prevent "BYE Fatal error: Mailbox has been (re)moved" on Cyrus IMAP
+        if ($this->selected === $mailbox && $this->hasCapability('UNSELECT')) {
+            $this->execute('UNSELECT', [], self::COMMAND_NORESPONSE);
+        }
+
         $result = $this->execute('DELETE', [$this->escape($mailbox)], self::COMMAND_NORESPONSE);
 
         return $result == self::ERROR_OK;

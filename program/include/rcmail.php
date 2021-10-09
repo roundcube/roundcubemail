@@ -1039,17 +1039,40 @@ class rcmail extends rcube
         $trash_mbox     = $this->config->get('trash_mbox');
 
         if ($logout_purge && !empty($trash_mbox)) {
-            $messages = '*';
+            $getMessages = function ($folder) use ($logout_purge, $storage) {
+                if (is_numeric($logout_purge)) {
+                    $now      = new DateTime('now');
+                    $interval = new DateInterval('P' . intval($logout_purge) . 'D');
 
-            if (is_numeric($logout_purge)) {
-                $now      = new DateTime('now');
-                $interval = new DateInterval('P' . intval($logout_purge) . 'D');
+                    return $storage->search_once($folder, 'BEFORE ' . $now->sub($interval)->format('j-M-Y'));
+                }
 
-                $index    = $storage->search_once($trash_mbox, 'BEFORE ' . $now->sub($interval)->format('j-M-Y'));
-                $messages = $index->get_compressed();
+                return '*';
+            };
+
+            $storage->delete_message($getMessages($trash_mbox), $trash_mbox);
+
+            // Trash subfolders
+            $delimiter  = $storage->get_hierarchy_delimiter();
+            $subfolders = array_reverse($storage->list_folders('', $trash_mbox . $delimiter . '*'));
+            $last       = '';
+
+            foreach ($subfolders as $folder) {
+                $messages = $getMessages($folder);
+
+                // Delete the folder if in all-messages mode, or all existing messages are to-be-removed,
+                // but not if there's a subfolder
+                if (
+                    ($messages === '*' || $messages->count() == $storage->count($folder, 'ALL', false, false))
+                    && strpos($last, $folder . $delimiter) !== 0
+                ) {
+                    $storage->delete_folder($folder);
+                }
+                else {
+                    $storage->delete_message($messages, $folder);
+                    $last = $folder;
+                }
             }
-
-            $storage->delete_message($messages, $trash_mbox);
         }
 
         if ($logout_expunge) {
