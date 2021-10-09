@@ -1234,7 +1234,7 @@ class rcube_imap_cache
             $mbox_data = $this->imap->folder_data($mailbox);
         }
 
-        if ($mbox_data['EXISTS']) {
+        if (!empty($mbox_data['EXISTS'])) {
             // fetch sorted sequence numbers
             $index = $this->imap->index_direct($mailbox, $sort_field, $sort_order);
         }
@@ -1254,7 +1254,7 @@ class rcube_imap_cache
             $mbox_data = $this->imap->folder_data($mailbox);
         }
 
-        if ($mbox_data['EXISTS']) {
+        if (!empty($mbox_data['EXISTS'])) {
             // get all threads (default sort order)
             return $this->imap->threads_direct($mailbox);
         }
