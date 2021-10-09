@@ -7,6 +7,7 @@
 - SQLite: Use foreign keys, require SQLite >= 3.6.19
 - Replace Endroid QrCode with BaconQrCode (#8173)
 - Support responses (snippets) in HTML format (#5315)
+- Purge also subfolders of Trash (and/or messages in them) on logout (#1037)
 - Add support for encryption with AEAD ciphers, e.g. aes-256-gcm (#7097)
 - Add option to purge deleted mails older than 30, 60 or 90 days (#5493)
 - Add ability to mark multiple messages as not deleted at once (#5133)
