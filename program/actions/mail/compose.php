@@ -1713,4 +1713,58 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         return false;
     }
+
+    /**
+     * Wrap text to a given number of characters per line
+     * but respect the mail quotation of replies messages (>).
+     * Finally add another quotation level by prepending the lines
+     * with >
+     *
+     * @param string $text   Text to wrap
+     * @param int    $length The line width
+     * @param bool   $quote  Enable quote indentation
+     *
+     * @return string The wrapped text
+     */
+    public static function wrap_and_quote($text, $length = 72, $quote = true)
+    {
+        // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
+        $max   = max(75, $length + 8);
+        $lines = preg_split('/\r?\n/', trim($text));
+        $out   = '';
+
+        foreach ($lines as $line) {
+            // don't wrap already quoted lines
+            if (isset($line[0]) && $line[0] == '>') {
+                $line = rtrim($line);
+                if ($quote) {
+                    $line = '>' . $line;
+                }
+            }
+            // wrap lines above the length limit, but skip these
+            // special lines with links list created by rcube_html2text
+            else if (mb_strlen($line) > $max && !preg_match('|^\[[0-9]+\] https?://\S+$|', $line)) {
+                $newline = '';
+
+                foreach (explode("\n", rcube_mime::wordwrap($line, $length - 2)) as $l) {
+                    if ($quote) {
+                        $newline .= strlen($l) ? "> $l\n" : ">\n";
+                    }
+                    else {
+                        $newline .= "$l\n";
+                    }
+                }
+
+                $line = rtrim($newline);
+            }
+            else if ($quote) {
+                $line = '> ' . $line;
+            }
+
+            // Append the line
+            $out .= $line . "\n";
+        }
+
+        return rtrim($out, "\n");
+    }
 }
