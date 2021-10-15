@@ -145,9 +145,8 @@ class rcube_text2html
         $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
-            $flowed_char = 0x01;
-            $delsp       = $this->config['delsp'];
-            $text        = rcube_mime::unfold_flowed($text, chr($flowed_char), $delsp);
+            $delsp = $this->config['delsp'];
+            $text  = rcube_mime::unfold_flowed($text, null, $delsp);
         }
 
         // search for patterns like links and e-mail addresses and replace with tokens
@@ -163,19 +162,12 @@ class rcube_text2html
 
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
-            $flowed = false;
             $first  = $text[$n][0] ?? '';
-
-            if (isset($flowed_char) && ord($first) == $flowed_char) {
-                $flowed   = true;
-                $text[$n] = substr($text[$n], 1);
-                $first    = $text[$n][0] ?? '';
-            }
 
             if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
-                $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
+                $text[$n] = $this->_convert_line($text[$n]);
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($q > $quote_level) {
@@ -207,7 +199,7 @@ class rcube_text2html
                 }
             }
             else {
-                $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
+                $text[$n] = $this->_convert_line($text[$n]);
                 $q        = 0;
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
@@ -264,12 +256,11 @@ class rcube_text2html
     /**
      * Converts spaces in line of text
      *
-     * @param string $text      Plain text
-     * @param bool   $is_flowed Is the $text format=flowed?
+     * @param string $text Plain text
      *
      * @return string Converted text
      */
-    protected function _convert_line($text, $is_flowed)
+    protected function _convert_line($text)
     {
         static $table;
 
@@ -290,17 +281,20 @@ class rcube_text2html
         // replace HTML special and whitespace characters
         $text = strtr($text, $table);
 
-        $nbsp = $this->config['space'];
+        $nbsp      = $this->config['space'];
+        $wrappable = $this->config['flowed'] || $this->config['wrap'];
 
-        // replace spaces with non-breaking spaces
-        if ($is_flowed) {
+        // make the line wrappable
+        if ($wrappable) {
             $pos  = 0;
             $diff = 0;
+            $last = -2;
             $len  = strlen($nbsp);
             $copy = $text;
 
             while (($pos = strpos($text, ' ', $pos)) !== false) {
-                if ($pos == 0 || $text[$pos-1] == ' ') {
+                if (($pos == 0 || $text[$pos-1] == ' ') && $pos - 1 != $last) {
+                    $last = $pos;
                     $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
                     $diff += $len - 1;
                 }

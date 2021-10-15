@@ -828,9 +828,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         if (!$bodyIsHtml) {
-            // soft-wrap and quote message text
-            $line_length = $rcmail->config->get('line_length', 72);
-            $body = self::wrap_and_quote($body, $line_length, $reply_indent);
+            // quote the message text
+            if ($reply_indent) {
+                $body = self::quote_text($body);
+            }
 
             if ($reply_mode > 0) { // top-posting
                 $prefix = "\n\n\n" . $prefix;
@@ -1715,54 +1716,20 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     }
 
     /**
-     * Wrap text to a given number of characters per line
-     * but respect the mail quotation of replies messages (>).
-     * Finally add another quotation level by prepending the lines
-     * with >
+     * Add quotation (>) to a replied message text.
      *
-     * @param string $text   Text to wrap
-     * @param int    $length The line width
-     * @param bool   $quote  Enable quote indentation
+     * @param string $text Text to quote
      *
-     * @return string The wrapped text
+     * @return string The quoted text
      */
-    public static function wrap_and_quote($text, $length = 72, $quote = true)
+    public static function quote_text($text)
     {
-        // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
-        $max   = max(75, $length + 8);
         $lines = preg_split('/\r?\n/', trim($text));
         $out   = '';
 
         foreach ($lines as $line) {
-            // don't wrap already quoted lines
-            if (isset($line[0]) && $line[0] == '>') {
-                $line = rtrim($line);
-                if ($quote) {
-                    $line = '>' . $line;
-                }
-            }
-            // wrap lines above the length limit, but skip these
-            // special lines with links list created by rcube_html2text
-            else if (mb_strlen($line) > $max && !preg_match('|^\[[0-9]+\] https?://\S+$|', $line)) {
-                $newline = '';
-
-                foreach (explode("\n", rcube_mime::wordwrap($line, $length - 2)) as $l) {
-                    if ($quote) {
-                        $newline .= strlen($l) ? "> $l\n" : ">\n";
-                    }
-                    else {
-                        $newline .= "$l\n";
-                    }
-                }
-
-                $line = rtrim($newline);
-            }
-            else if ($quote) {
-                $line = '> ' . $line;
-            }
-
-            // Append the line
-            $out .= $line . "\n";
+            $quoted = isset($line[0]) && $line[0] == '>';
+            $out .= '>' . ($quoted ? '' : ' ') . $line . "\n";
         }
 
         return rtrim($out, "\n");

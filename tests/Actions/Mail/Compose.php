@@ -18,21 +18,20 @@ class Actions_Mail_Compose extends ActionTestCase
     }
 
     /**
-     * Test wrap_and_quote() method
+     * Test quote_text() method
      */
-    function test_wrap_and_quote()
+    function test_quote_text()
     {
         $action = new rcmail_action_mail_compose;
 
-        $this->assertSame('> ', $action->wrap_and_quote(''));
-        $this->assertSame('', $action->wrap_and_quote('', 72, false));
+        $this->assertSame('> ', $action->quote_text(''));
 
-        $result = $action->wrap_and_quote("test1\ntest2");
+        $result = $action->quote_text("test1\ntest2");
         $expected = "> test1\n> test2";
 
         $this->assertSame($expected, $result);
 
-        $result = $action->wrap_and_quote("> test1\n> test2");
+        $result = $action->quote_text("> test1\n> test2");
         $expected = ">> test1\n>> test2";
 
         $this->assertSame($expected, $result);

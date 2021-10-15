@@ -12,6 +12,7 @@
 - Add option to purge deleted mails older than 30, 60 or 90 days (#5493)
 - Add ability to mark multiple messages as not deleted at once (#5133)
 - Add possibility to disable line-wrapping of sent mail body (#5101)
+- Improve auto-wrapping of plain text messages on preview and reply, don't wrap non-format=flowed content (#6974)
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
 - Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
