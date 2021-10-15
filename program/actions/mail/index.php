@@ -1066,7 +1066,7 @@ class rcmail_action_mail_index extends rcmail_action
     {
         $options = [
             'flowed'   => $flowed,
-            'wrap'     => !$flowed,
+            'wrap'     => $flowed,
             'replacer' => 'rcmail_string_replacer',
             'delsp'    => $delsp
         ];
@@ -1693,13 +1693,5 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         return array_values($mimetypes);
-    }
-
-    /**
-     * @deprecated Moved to rcmail_action_mail_compose
-     */
-    public static function wrap_and_quote($text, $length = 72, $quote = true)
-    {
-        return rcmail_action_mail_compose::wrap_and_quote($text, $length, $quote);
     }
 }

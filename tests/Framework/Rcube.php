@@ -56,5 +56,8 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
         $result = $rcube->decrypt($rcube->encrypt('test'));
 
         $this->assertSame('test', $result);
+
+        // Back to the default
+        $rcube->config->set('cipher_method', 'DES-EDE3-CBC');
     }
 }
