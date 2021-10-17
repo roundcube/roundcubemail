@@ -755,12 +755,18 @@ class rcube_utils
                 $name = preg_replace('/:\d+$/', '', $name);
             }
 
-            if (empty($patterns) || in_array_nocase($name, $patterns)) {
+            if (empty($patterns)) {
                 return $name;
             }
 
             foreach ($patterns as $pattern) {
-                if (preg_match("/$pattern/", $name)) {
+                // the pattern might be a regular expression or just a host/domain name
+                if (preg_match('/[^a-zA-Z0-9.:-]/', $pattern)) {
+                    if (preg_match("/$pattern/", $name)) {
+                        return $name;
+                    }
+                }
+                else if (strtolower($name) === strtolower($pattern)) {
                     return $name;
                 }
             }
