@@ -1878,7 +1878,7 @@ EOF;
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
         else if ($attrib['type'] == 'link') {
-            $btn_content = $attrib['content'] ?? ($attrib['label'] ?: $attrib['command']);
+            $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
@@ -2432,7 +2432,7 @@ EOF;
         $images = array_map([$this, 'abs_url'], $images);
         $images = array_map([$this, 'asset_url'], $images);
 
-        if (empty($images) || $_REQUEST['_task'] == 'logout') {
+        if (empty($images) || (isset($_REQUEST['_task']) && $_REQUEST['_task'] == 'logout')) {
             return;
         }
 
