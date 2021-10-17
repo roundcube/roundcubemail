@@ -756,17 +756,23 @@ class rcube_utils
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
-        if ($strip_port) {
-            $name = preg_replace('/:\d+$/', '', $name);
-        }
-
-        if (empty($patterns) || in_array_nocase($name, $patterns)) {
-            return $name;
-        }
-
         if (!empty($name)) {
+            if ($strip_port) {
+                $name = preg_replace('/:\d+$/', '', $name);
+            }
+
+            if (empty($patterns)) {
+                return $name;
+            }
+
             foreach ($patterns as $pattern) {
-                if (preg_match("/$pattern/", $name)) {
+                // the pattern might be a regular expression or just a host/domain name
+                if (preg_match('/[^a-zA-Z0-9.:-]/', $pattern)) {
+                    if (preg_match("/$pattern/", $name)) {
+                        return $name;
+                    }
+                }
+                else if (strtolower($name) === strtolower($pattern)) {
                     return $name;
                 }
             }
