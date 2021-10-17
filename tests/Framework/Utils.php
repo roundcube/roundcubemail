@@ -815,4 +815,53 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_remove_subject_prefix($mode, $subject, $result) {
         $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
+
+    /**
+     * Test server_name()
+     */
+    function test_server_name()
+    {
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+
+        $_SERVER['test'] = 'test.com:843';
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+
+        $_SERVER['test'] = 'test.com';
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+    }
+
+    /**
+     * Test server_name() with trusted_host_patterns
+     */
+    function test_server_name_trusted_host_patterns()
+    {
+        $_SERVER['test'] = 'test.com';
+
+        $rcube = rcube::get_instance();
+        $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
+        $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
+
+        $rcube->config->set('trusted_host_patterns', ['test.com']);
+
+        StderrMock::start();
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        StderrMock::stop();
+
+        $_SERVER['test'] = 'subdomain.test.com';
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
+
+        $rcube->config->set('trusted_host_patterns', ['^test.com$']);
+        $_SERVER['test'] = '^test.com$';
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
+    }
 }

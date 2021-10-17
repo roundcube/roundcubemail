@@ -44,6 +44,7 @@
 - Fix XSS issue in handling attachment filename extension in mimetype mismatch warning (#8193)
 - Fix SQL injection via some session variables
 - Fix handling of dark_mode_support:false setting in skins meta.json (#8186)
+- Fix security issues regarding server name and trusted_host_patterns setting
 
 ## Release 1.5-rc
 
