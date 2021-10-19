@@ -24,6 +24,7 @@
 - Password: Improve handling errors on executed commands (#8200)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix importing contacts with no email address (#8227)
+- Fix so session's search scope is not used if search is not active (#8199)
 
 ## Release 1.5.0
 
