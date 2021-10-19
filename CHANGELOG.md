@@ -23,6 +23,7 @@
 - Password: Verify current password with IMAP (#8142)
 - Password: Improve handling errors on executed commands (#8200)
 - Fix locked SQLite database for the CLI tools (#8035)
+- Fix importing contacts with no email address (#8227)
 
 ## Release 1.5.0
 
