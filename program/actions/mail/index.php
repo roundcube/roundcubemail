@@ -99,7 +99,7 @@ class rcmail_action_mail_index extends rcmail_action
                 $rcmail->output->set_env('search_mods', self::search_mods());
 
                 $scope = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
-                if (!$scope && isset($_SESSION['search_scope'])) {
+                if (!$scope && isset($_SESSION['search_scope']) && $rcmail->output->get_env('search_request')) {
                     $scope = $_SESSION['search_scope'];
                 }
 
