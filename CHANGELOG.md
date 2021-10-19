@@ -13,10 +13,7 @@
 - Add ability to mark multiple messages as not deleted at once (#5133)
 - Add possibility to disable line-wrapping of sent mail body (#5101)
 - Improve auto-wrapping of plain text messages on preview and reply, don't wrap non-format=flowed content (#6974)
-- Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
-- Newmail_notifier: Improved the notification sound (#8155)
 - Add option to control links handling behavior on html to text conversion (#6485)
-- Disable the default spellchecker option using spell.roundcube.net (#8182)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
@@ -26,6 +23,12 @@
 - Password: Verify current password with IMAP (#8142)
 - Password: Improve handling errors on executed commands (#8200)
 - Fix locked SQLite database for the CLI tools (#8035)
+
+## Release 1.5.0
+
+- Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
+- Newmail_notifier: Improved the notification sound (#8155)
+- Disable the default spellchecker option using spell.roundcube.net (#8182)
 - Fix size of Mailvelope iframe for PGP-inlined mail, again (#8126)
 - Fix handling of group names with @ character in autocomplete and contacts widget (#8098)
 - Fix Firefox infinate loading display on mail screen (#8128)
