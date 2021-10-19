@@ -196,8 +196,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     }
 
                     // We're using UTF8 internally
-                    $email = $vcard->email[0];
-                    $email = rcube_utils::idn_to_utf8($email);
+                    $email = null;
+                    if (isset($vcard->email[0])) {
+                        $email = $vcard->email[0];
+                        $email = rcube_utils::idn_to_utf8($email);
+                    }
 
                     if (!$replace) {
                         $existing = null;

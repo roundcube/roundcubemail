@@ -1,5 +1,9 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- Fix importing contacts with no email address (#8227)
+
 ## Release 1.5.0
 
 - Support displaying RTF content (including encapsulated HTML) from a TNEF attachment
