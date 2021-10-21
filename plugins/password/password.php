@@ -581,12 +581,11 @@ class password extends rcube_plugin
 
         case 'blowfish': // for BC
         case 'blowfish-crypt':
-            $cost   = (int) ($options['cost'] ?? $rcmail->config->get('password_blowfish_cost'));
-            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
-            $prefix = sprintf('$2a$%02d$', $cost);
-
-            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
-            $prefix  = '{CRYPT}';
+            $cost    = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost    = $cost < 4 || $cost > 31 ? 12 : $cost;
+            $cost    = ['cost' => $cost];
+            $crypted = password_hash($password, PASSWORD_BCRYPT, $cost);
+            $prefix  = '{BLF-CRYPT}';
             break;
 
         case 'md5':
