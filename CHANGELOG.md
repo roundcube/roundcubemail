@@ -25,6 +25,7 @@
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)
+- Fix some PHP8 warnings (#8239)
 
 ## Release 1.5.0
 
