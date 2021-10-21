@@ -494,7 +494,9 @@ class rcube_mime
                 // remove quote chars
                 $line = substr($line, $q);
                 // remove (optional) space-staffing
-                if ($line[0] === ' ') $line = substr($line, 1);
+                if (isset($line[0]) && $line[0] === ' ') {
+                    $line = substr($line, 1);
+                }
 
                 // The same paragraph (We join current line with the previous one) when:
                 // - the same level of quoting

@@ -400,13 +400,13 @@ class rcmail_action_mail_send extends rcmail_action
             }
             else {
                 $ctype   = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
-                $file    = $attachment['data'] ?: $attachment['path'];
+                $file    = !empty($attachment['data']) ? $attachment['data'] : $attachment['path'];
                 $folding = (int) $rcmail->config->get('mime_param_folding');
 
                 $message->addAttachment($file,
                     $ctype,
                     $attachment['name'],
-                    $attachment['data'] ? false : true,
+                    !empty($attachment['data']) ? false : true,
                     $ctype == 'message/rfc822' ? '8bit' : 'base64',
                     'attachment',
                     isset($attachment['charset']) ? $attachment['charset'] : null,
