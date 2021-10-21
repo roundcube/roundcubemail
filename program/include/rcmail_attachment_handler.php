@@ -229,7 +229,7 @@ class rcmail_attachment_handler
                 }
             }
             else {
-                $data = $attachment['data'];
+                $data = $attachment['data'] ?? '';
                 if (!$data && $attachment['path']) {
                     $data = file_get_contents($attachment['path']);
                 }
