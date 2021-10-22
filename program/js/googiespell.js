@@ -159,9 +159,7 @@ this.setCurrentLanguage = function(lan_code)
     GOOGIE_CUR_LANG = lan_code;
 
     //Set cookie
-    var now = new Date();
-    now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000);
-    rcmail.set_cookie('language', lan_code, now);
+    rcmail.set_cookie('language', lan_code, false);
 };
 
 this.setForceWidthHeight = function(width, height)

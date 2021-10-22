@@ -5,6 +5,7 @@
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)
 - Fix some PHP8 warnings (#8239)
+- Fix so dark mode state is retained after closing the browser (#8237)
 
 ## Release 1.5.0
 

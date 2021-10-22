@@ -10199,6 +10199,11 @@ function rcube_webmail()
   // Cookie setter
   this.set_cookie = function(name, value, expires)
   {
+    if (expires === false) {
+      var expires = new Date();
+      expires.setYear(expires.getFullYear() + 1);
+    }
+
     setCookie(name, value, expires, this.env.cookie_path, this.env.cookie_domain, this.env.cookie_secure);
   };
 

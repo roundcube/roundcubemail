@@ -809,7 +809,7 @@ function rcube_elastic_ui()
         $('#taskmenu a.theme').on('click', function() {
             color_mode = $(this).is('.dark') ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', color_mode);
+            rcmail.set_cookie('colorMode', color_mode, false);
         });
 
         // Note: this does not work in IE and Safari
@@ -4244,9 +4244,7 @@ function rcube_elastic_ui()
         // write prefs to local storage (if supported)
         if (!rcmail.local_storage_set_item('prefs.elastic', prefs)) {
             // store value in cookie
-            var exp = new Date();
-            exp.setYear(exp.getFullYear() + 1);
-            rcmail.set_cookie(key, val, exp);
+            rcmail.set_cookie(key, val, false);
         }
     };
 }
