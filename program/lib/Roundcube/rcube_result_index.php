@@ -145,7 +145,8 @@ class rcube_result_index
      */
     public function is_empty()
     {
-        return empty($this->raw_data);
+        return empty($this->raw_data)
+            && empty($this->meta['max']) && empty($this->meta['min']) && empty($this->meta['count']);
     }
 
     /**
@@ -193,7 +194,10 @@ class rcube_result_index
         }
 
         if (!isset($this->meta['max'])) {
-            $this->meta['max'] = (int) @max($this->get());
+            $this->meta['max'] = null;
+            if ($max = @max($this->get())) {
+                $this->meta['max'] = (int) $max;
+            }
         }
 
         return $this->meta['max'];
@@ -211,7 +215,10 @@ class rcube_result_index
         }
 
         if (!isset($this->meta['min'])) {
-            $this->meta['min'] = (int) @min($this->get());
+            $this->meta['min'] = null;
+            if ($min = @min($this->get())) {
+                $this->meta['min'] = (int) $min;
+            }
         }
 
         return $this->meta['min'];
@@ -343,11 +350,11 @@ class rcube_result_index
      */
     public function get_element($index)
     {
-        $count = $this->count();
-
-        if (!$count) {
+        if (empty($this->raw_data)) {
             return null;
         }
+
+        $count = $this->count();
 
         // first element
         if ($index === 0 || $index === '0' || $index === 'FIRST') {

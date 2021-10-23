@@ -85,6 +85,24 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
         $this->assertSame(10, $object->get_element(1), "Get specified element");
         $this->assertSame("2,10:11", $object->get_compressed(), "Get compressed index");
         $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), "Get parameter");
+
+        // A case without 'ALL' response
+        $text = "* ESEARCH (TAG \"A282\") UID MAX 721 COUNT 3";
+        $object = new rcube_result_index('INBOX', $text);
+
+        $this->assertSame(false, $object->is_empty(), "Object is empty");
+        $this->assertSame(false, $object->is_error(), "Object is error");
+        $this->assertSame(721, $object->max(), "Max message UID");
+        $this->assertSame(null, $object->min(), "Min message UID");
+        $this->assertSame(3, $object->count_messages(), "Messages count");
+        $this->assertSame(3, $object->count(), "Messages count");
+        $this->assertSame(false, $object->exists(10, true), "Message exists");
+        $this->assertSame(false, $object->exists(10), "Message exists (bool)");
+        $this->assertSame(null, $object->get_element('FIRST'), "Get first element");
+        $this->assertSame(null, $object->get_element('LAST'), "Get last element");
+        $this->assertSame(null, $object->get_element(1), "Get specified element");
+        $this->assertSame('', $object->get_compressed(), "Get compressed index");
+        $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), "Get parameter");
     }
 
     /**
