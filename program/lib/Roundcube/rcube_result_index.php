@@ -195,8 +195,9 @@ class rcube_result_index
 
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = null;
-            if ($max = @max($this->get())) {
-                $this->meta['max'] = (int) $max;
+            $all = $this->get();
+            if (!empty($all)) {
+                $this->meta['max'] = (int) max($all);
             }
         }
 
@@ -216,8 +217,9 @@ class rcube_result_index
 
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = null;
-            if ($min = @min($this->get())) {
-                $this->meta['min'] = (int) $min;
+            $all = $this->get();
+            if (!empty($all)) {
+                $this->meta['min'] = (int) min($all);
             }
         }
 
