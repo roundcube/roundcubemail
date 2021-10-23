@@ -6,6 +6,7 @@
 - Fix so session's search scope is not used if search is not active (#8199)
 - Fix some PHP8 warnings (#8239)
 - Fix so dark mode state is retained after closing the browser (#8237)
+- Fix bug where new messages were not added to the list on refresh if skip_deleted=true (#8234)
 
 ## Release 1.5.0
 
