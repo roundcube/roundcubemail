@@ -1128,6 +1128,12 @@ class rcmail extends rcube
 
         $this->address_books = [];
 
+        // In CLI stop here, prevent from errors when the console.log might exist,
+        // but be not accessible
+        if (php_sapi_name() == 'cli') {
+            return;
+        }
+
         // write performance stats to logs/console
         if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {
             // we have to disable per_user_logging to make sure stats end up in the main console log
