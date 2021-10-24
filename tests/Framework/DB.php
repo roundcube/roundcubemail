@@ -61,6 +61,58 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test script execution and table_prefix replacements when the prefix is a schema prefix
+     */
+    function test_exec_script_schema_prefix()
+    {
+        $db = new rcube_db_test_wrapper('test');
+        $db->set_option('table_prefix', 'prefix.');
+        $db->set_option('identifier_start', '`');
+        $db->set_option('identifier_end', '`');
+
+        $script = implode("\n", [
+            "CREATE TABLE `xxx` (test int, INDEX xxx (test));",
+            "-- test comment",
+            "ALTER TABLE `xxx` CHANGE test test int;",
+            "TRUNCATE xxx;",
+            "TRUNCATE TABLE xxx;",
+            "DROP TABLE `vvv`;",
+            "CREATE TABLE `i` (test int CONSTRAINT `iii`
+                FOREIGN KEY (`test`) REFERENCES `xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE);",
+            "CREATE TABLE `i` (`test` int, INDEX `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE `testidx` (`test`))",
+            "CREATE TABLE `i` (`test` int, UNIQUE INDEX `testidx` (`test`))",
+            "INSERT INTO xxx test = 1;",
+            "SELECT test FROM xxx;",
+        ]);
+
+        $output = implode("\n", [
+            "CREATE TABLE `prefix`.`xxx` (test int, INDEX xxx (test))",
+            "ALTER TABLE `prefix`.`xxx` CHANGE test test int",
+            "TRUNCATE prefix.xxx",
+            "TRUNCATE TABLE prefix.xxx",
+            "DROP TABLE `prefix`.`vvv`",
+            "CREATE TABLE `prefix`.`i` (test int CONSTRAINT `iii`
+                FOREIGN KEY (`test`) REFERENCES `prefix`.`xxx`(`test`) ON DELETE CASCADE ON UPDATE CASCADE)",
+            "CREATE TABLE `prefix`.`i` (`test` int, INDEX `testidx` (`test`))",
+            "CREATE TABLE `prefix`.`i` (`test` int, UNIQUE `testidx` (`test`))",
+            "CREATE TABLE `prefix`.`i` (`test` int, UNIQUE INDEX `testidx` (`test`))",
+            "INSERT INTO prefix.xxx test = 1",
+            "SELECT test FROM prefix.xxx",
+        ]);
+
+        $result = $db->exec_script($script);
+        $out    = [];
+
+        foreach ($db->queries as $q) {
+            $out[] = $q;
+        }
+
+        $this->assertTrue($result, "Execute SQL script (result)");
+        $this->assertSame(implode("\n", $out), $output, "Execute SQL script (content)");
+    }
+
+    /**
      * Test query parsing and arguments quoting
      */
     function test_query_parsing()
