@@ -1478,6 +1478,24 @@ class rcube_db
      */
     protected function fix_table_names_callback($matches)
     {
-        return $matches[1] . $this->options['table_prefix'] . $matches[count($matches)-1];
+        $prefix = $this->options['table_prefix'];
+
+        // Schema prefix (ends with a dot)
+        if ($prefix[strlen($prefix)-1] === '.') {
+            // These can't have a schema prefix
+            if (preg_match('/(CONSTRAINT|UNIQUE|INDEX)[\s\t`"]*$/', $matches[1])) {
+                $prefix = '';
+            }
+            else {
+                // check if the identifier is quoted, then quote the prefix
+                $last = $matches[1][strlen($matches[1])-1];
+
+                if ($last === '`' || $last === '"') {
+                    $prefix = substr($prefix, 0, -1) . $last . '.' . $last;
+                }
+            }
+        }
+
+        return $matches[1] . $prefix . $matches[count($matches)-1];
     }
 }
