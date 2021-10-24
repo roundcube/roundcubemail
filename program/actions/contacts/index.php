@@ -350,7 +350,7 @@ class rcmail_action_contacts_index extends rcmail_action
     // instantiate a contacts object according to the given source
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
-        if (!is_string($source) || !strlen($source)) {
+        if ($source === null || !strlen((string) $source)) {
             $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         }
 
