@@ -10,6 +10,7 @@
 - Fix colors on "Show source" page in dark mode (#8246)
 - Fix handling of dark_mode_support:false setting in skins meta.json - also when devel_mode=false (#8249)
 - Fix database initialization if db_prefix is a schema prefix (#8221)
+- Fix undefined constant error in Installer on Windows (#8258)
 
 ## Release 1.5.0
 

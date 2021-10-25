@@ -246,15 +246,19 @@ echo $input_syslogid->show($RCI->getprop('syslog_id', 'roundcube'));
 
 $input_syslogfacility = new html_select(['name' => '_syslog_facility', 'id' => 'cfgsyslogfacility']);
 $input_syslogfacility->add('user-level messages', LOG_USER);
-$input_syslogfacility->add('mail subsystem', LOG_MAIL);
-$input_syslogfacility->add('local level 0', LOG_LOCAL0);
-$input_syslogfacility->add('local level 1', LOG_LOCAL1);
-$input_syslogfacility->add('local level 2', LOG_LOCAL2);
-$input_syslogfacility->add('local level 3', LOG_LOCAL3);
-$input_syslogfacility->add('local level 4', LOG_LOCAL4);
-$input_syslogfacility->add('local level 5', LOG_LOCAL5);
-$input_syslogfacility->add('local level 6', LOG_LOCAL6);
-$input_syslogfacility->add('local level 7', LOG_LOCAL7);
+if (defined('LOG_MAIL')) {
+    $input_syslogfacility->add('mail subsystem', LOG_MAIL);
+}
+if (defined('LOG_LOCAL0')) {
+    $input_syslogfacility->add('local level 0', LOG_LOCAL0);
+    $input_syslogfacility->add('local level 1', LOG_LOCAL1);
+    $input_syslogfacility->add('local level 2', LOG_LOCAL2);
+    $input_syslogfacility->add('local level 3', LOG_LOCAL3);
+    $input_syslogfacility->add('local level 4', LOG_LOCAL4);
+    $input_syslogfacility->add('local level 5', LOG_LOCAL5);
+    $input_syslogfacility->add('local level 6', LOG_LOCAL6);
+    $input_syslogfacility->add('local level 7', LOG_LOCAL7);
+}
 echo $input_syslogfacility->show($RCI->getprop('syslog_facility'), LOG_USER);
 
 ?>
