@@ -370,6 +370,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     '_action' => 'photo',
                     '_email'  => self::$MESSAGE->sender['mailto'],
                     '_error'  => $error_handler ? 1 : null,
+                    '_bgcolor' => $attrib['bg-color'] ?? null
             ]);
         }
         else {

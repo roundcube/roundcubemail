@@ -1319,14 +1319,14 @@ class rcmail_action_contacts_index extends rcmail_action
             $photo_img = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
         }
 
-
         $rcmail->output->set_env('photo_placeholder', $photo_img);
 
         unset($attrib['placeholder']);
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
                 'record' => $record,
-                'data'   => $record['photo'] ?? null
+                'data'   => $record['photo'] ?? null,
+                'attrib' => $attrib
         ]);
 
         // check if we have photo data from contact form
