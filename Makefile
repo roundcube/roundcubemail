@@ -2,6 +2,14 @@ GITREMOTE=git://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
 VERSION=1.6-git
+SEDI=sed -i
+WHICH=which
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    SEDI=sed -i ''
+    WHICH=which -s
+endif
 
 all: clean complete dependent framework
 
@@ -11,7 +19,7 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --ignore-platform-reqs)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
-	(cd roundcubemail-$(VERSION); rm jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf vendor/masterminds/html5/test vendor/pear/*/tests vendor/*/*/.git* vendor/pear/crypt_gpg/tools vendor/pear/console_commandline/docs vendor/pear/mail_mime/scripts vendor/pear/net_ldap2/doc vendor/pear/net_smtp/docs vendor/pear/net_smtp/examples vendor/pear/net_smtp/README.rst vendor/bacon/bacon-qr-code/test temp/js_cache)
+	(cd roundcubemail-$(VERSION); rm -f jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf vendor/masterminds/html5/test vendor/pear/*/tests vendor/*/*/.git* vendor/pear/crypt_gpg/tools vendor/pear/console_commandline/docs vendor/pear/mail_mime/scripts vendor/pear/net_ldap2/doc vendor/pear/net_smtp/docs vendor/pear/net_smtp/examples vendor/pear/net_smtp/README.rst vendor/bacon/bacon-qr-code/test temp/js_cache)
 	tar czf roundcubemail-$(VERSION)-complete.tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
 
@@ -49,18 +57,18 @@ roundcubemail-git: buildtools
 		lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
 		lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
 	(cd roundcubemail-git/bin; rm -f transifexpull.sh package2composer.sh)
-	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm)
-	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm)
+	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
+	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
 	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile)
-	(cd roundcubemail-git; sed -i '' 's/1.6-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
-	(cd roundcubemail-git; sed -i '' 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
+	(cd roundcubemail-git; $(SEDI) 's/1.6-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
+	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
 	npm install -g uglify-js
 	npm install -g lessc
 	npm install -g less-plugin-clean-css
 	npm install -g csso-cli
-	which -s jq || echo "!!!!!! Please install jq (https://stedolan.github.io/jq/) !!!!!!"
+	@$(WHICH) jq || echo "!!!!!! Please install jq (https://stedolan.github.io/jq/) !!!!!!"
 
 /tmp/composer.phar:
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp/
