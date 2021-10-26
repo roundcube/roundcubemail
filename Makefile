@@ -1,3 +1,7 @@
+#
+# This file is used by developers to build release packages
+#
+
 GITREMOTE=git://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
@@ -64,10 +68,10 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
-	npm install -g uglify-js
-	npm install -g lessc
-	npm install -g less-plugin-clean-css
-	npm install -g csso-cli
+	npm install uglify-js
+	npm install lessc
+	npm install less-plugin-clean-css
+	npm install csso-cli
 	@$(WHICH) jq || echo "!!!!!! Please install jq (https://stedolan.github.io/jq/) !!!!!!"
 
 /tmp/composer.phar:
