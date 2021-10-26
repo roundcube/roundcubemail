@@ -53,8 +53,7 @@ shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
 roundcubemail-git: buildtools
-	git clone $(GITREMOTE) roundcubemail-git
-	(cd roundcubemail-git; git checkout $(GITBRANCH))
+	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic; \
 		lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
