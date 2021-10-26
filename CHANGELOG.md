@@ -34,6 +34,7 @@
 - Fix database initialization if db_prefix is a schema prefix (#8221)
 - Fix undefined constant error in Installer on Windows (#8258)
 - Fix Makefile on Linux (#8211)
+- Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
 
 ## Release 1.5.0
 

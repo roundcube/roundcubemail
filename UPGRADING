@@ -24,7 +24,8 @@ WARNING: Make sure files have proper owner/group for your setup. If you use
          tar to extract the package, `--no-same-owner` option might be helpful.
 WARNING: See Post-Upgrade Activities section below.
 WARNING: If you use MySQL < 5.7.7 or MariaDB < 10.2.2 make sure to configure it with:
-            innodb_large_prefix=true
+            innodb_large_prefix=1
+            innodb_file_per_table=1
             innodb_file_format=Barracuda
 
 
