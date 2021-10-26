@@ -105,16 +105,18 @@ roundcube user. Here is an example of that procedure:
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost;
 > quit
 
-# mysql roundcubemail < SQL/mysql.initial.sql
-
 Note 1: 'password' is the master password for the roundcube user. It is strongly
 recommended you replace this with a more secure password. Please keep in
-mind: You need to specify this password later in 'config/db.inc.php'.
+mind that you must specify this password later in 'config/config.inc.php'.
 
 Note 2: When using MySQL < 5.7.7 or MariaDB < 10.2.2 it is required to configure
 the database engine with:
-    innodb_large_prefix=true
+    innodb_large_prefix=1
+    innodb_file_per_table=1
     innodb_file_format=Barracuda
+
+Now you can run the Installer or configure the database access options in
+'config/config.inc.php' and run: `bin/initdb.sh --dir=SQL`.
 
 
 * SQLite
@@ -133,10 +135,12 @@ which ever is the database superuser):
 
 $ createuser -P roundcube
 $ createdb -O roundcube -E UNICODE roundcubemail
-$ psql -U roundcube -f SQL/postgres.initial.sql roundcubemail
 
 Note: in some system configurations you might need to add '-U postgres' to
 createuser and createdb commands.
+
+Now you can run the Installer or configure the database access options in
+'config/config.inc.php' and run: `bin/initdb.sh --dir=SQL`.
 
 
 * Microsoft SQL Server

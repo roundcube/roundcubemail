@@ -9,4 +9,4 @@ CREATE TABLE `collected_addresses` (
  CONSTRAINT `user_id_fk_collected_addresses` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
  UNIQUE INDEX `user_email_collected_addresses_index` (`user_id`, `type`, `email`)
-) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+) ROW_FORMAT=DYNAMIC ENGINE=INNODB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
