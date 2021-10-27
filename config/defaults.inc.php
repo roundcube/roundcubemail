@@ -1204,7 +1204,7 @@ $config['contactlist_fields'] = ['name', 'firstname', 'surname', 'email'];
 
 // Template of contact entry on the autocompletion list.
 // You can use contact fields as: name, email, organization, department, etc.
-// See program/steps/addressbook/func.inc for a list
+// See program/actions/contacts/index.php for a list
 $config['contact_search_name'] = '{name} <{email}>';
 
 // Contact mode. If your contacts are mostly business, switch it to 'business'.

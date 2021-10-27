@@ -12,6 +12,7 @@
 - Fix database initialization if db_prefix is a schema prefix (#8221)
 - Fix undefined constant error in Installer on Windows (#8258)
 - Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
+- Fix regression in setting of contact listing name (#8260)
 
 ## Release 1.5.0
 
