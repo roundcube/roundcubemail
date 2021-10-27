@@ -36,6 +36,7 @@
 - Fix Makefile on Linux (#8211)
 - Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
 - Fix regression in setting of contact listing name (#8260)
+- Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
 
 ## Release 1.5.0
 
