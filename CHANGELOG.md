@@ -15,6 +15,7 @@
 - Improve auto-wrapping of plain text messages on preview and reply, don't wrap non-format=flowed content (#6974)
 - Add option to control links handling behavior on html to text conversion (#6485)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
+- Display a generic error page on initial DB/configuration errors (#8222)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Identicon: Make background color of the image to match the current skin colors (#8256)
 - Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
