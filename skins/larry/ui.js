@@ -169,7 +169,7 @@ function rcube_mail_ui()
           attachmentmenu_append(this);
         });
 
-        if (get_pref('previewheaders') == '1') {
+        if (rcmail.env.action == 'preview' && get_pref('previewheaders') == '1') {
           toggle_preview_headers();
         }
 
