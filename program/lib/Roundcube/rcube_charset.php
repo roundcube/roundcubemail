@@ -299,6 +299,9 @@ class rcube_charset
         catch (Throwable $e) {
             $out = false;
         }
+        catch (Exception $e) {
+            $out = false;
+        }
 
         restore_error_handler();
         mb_substitute_character($mbstring_sc);
@@ -334,6 +337,9 @@ class rcube_charset
                 $out = iconv($from, $to . $iconv_options, $str);
             }
             catch (Throwable $e) {
+                $out = false;
+            }
+            catch (Exception $e) {
                 $out = false;
             }
 
