@@ -1095,7 +1095,7 @@ function rcube_webmail()
       case 'load-remote':
         if (this.env.uid) {
           if (props && this.env.sender) {
-            this.add_contact(this.env.sender, true);
+            this.add_contact(this.env.sender, true, props);
             break;
           }
 
@@ -5612,10 +5612,10 @@ function rcube_webmail()
   };
 
   // send remote request to add a new contact
-  this.add_contact = function(value, reload)
+  this.add_contact = function(value, reload, source)
   {
     if (value)
-      this.http_post('addcontact', {_address: value, _reload: reload});
+      this.http_post('addcontact', {_address: value, _reload: reload, _source: source});
   };
 
   // send remote request to search mail or contacts
