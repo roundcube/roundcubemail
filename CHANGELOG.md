@@ -14,6 +14,7 @@
 - Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
 - Fix regression in setting of contact listing name (#8260)
 - Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
+- Fix bug where \u200b characters were added into the recipient input preventing mail delivery (#8269)
 
 ## Release 1.5.0
 
