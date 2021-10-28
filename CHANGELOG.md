@@ -39,6 +39,7 @@
 - Fix regression in setting of contact listing name (#8260)
 - Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
 - Fix bug where \u200b characters were added into the recipient input preventing mail delivery (#8269)
+- Fix charset conversion errors on PHP < 8 for charsets not supported by mbstring (#8252)
 
 ## Release 1.5.0
 
