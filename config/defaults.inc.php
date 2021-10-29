@@ -1280,9 +1280,9 @@ $config['prefer_html'] = true;
 
 // Display remote resources (inline images, styles) in HTML messages. Default: 0.
 // 0 - Never, always ask
-// 1 - Allow from trusted senders
+// 1 - Allow from my contacts (all writeable addressbooks + collected senders and recipients)
 // 2 - Always allow
-// 3 - Allow from my contacts (all writeable addressbooks + collected senders and recipients)
+// 3 - Allow from trusted senders only
 $config['show_images'] = 0;
 
 // open messages in new window
