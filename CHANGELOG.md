@@ -16,8 +16,8 @@
 - Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
 - Fix bug where \u200b characters were added into the recipient input preventing mail delivery (#8269)
 - Fix charset conversion errors on PHP < 8 for charsets not supported by mbstring (#8252)
-- Fix bug where adding a contact to trusted senders via "Always allow from..." button didn't work
-  if the contact already existed in Personal addresses (or another default contacts source) (#8264, #8268)
+- Fix bug where adding a contact to trusted senders via "Always allow from..." button didn't work (#8264, #8268)
+- Fix bug with show_images setting where option 1 and 3 were swapped (#8268)
 
 ## Release 1.5.0
 

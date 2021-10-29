@@ -862,12 +862,12 @@ class rcmail_action_mail_index extends rcmail_action
             && $message->has_html_part()
         ) {
             switch ($show_images) {
-            case 1: // trusted senders only
-            case 3: // all my contacts
+            case 3: // trusted senders only
+            case 1: // all my contacts
                 if (!empty($message->sender['mailto'])) {
                     $type = rcube_addressbook::TYPE_TRUSTED_SENDER;
 
-                    if ($show_images == 3) {
+                    if ($show_images == 1) {
                         $type |= rcube_addressbook::TYPE_RECIPIENT | rcube_addressbook::TYPE_WRITEABLE;
                     }
 
