@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'A nova senha deve ser diferente da antiga.';
 $messages['passwdexpirewarning'] = 'Atenção! Sua senha vai expirar em breve, altere ela antes de $expirationdatetime.';
 $messages['passwdexpired'] = 'Sua senha expirou, você precisa alterá-la agora!';
 $messages['passwdconstraintviolation'] = 'Restrição de senha violada. Senha provavelmente muito fraca.';
+$messages['pwned_mustnotbedisclosed'] = 'A senha não deve ser <a href="$href" target="_blank">vulgarmente conhecida</a>.';
+$messages['pwned_isdisclosed'] = 'Esta senha é vulgarmente conhecida.';
+$messages['pwned_fetcherror'] = 'Falha ao verificar a força da senha.';

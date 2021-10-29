@@ -553,6 +553,7 @@ $labels['asattachment'] = 'sem viðhengi';
 $labels['replyallmode'] = 'Sjálfgefin aðgerð [Svara öllum] hnappsins';
 $labels['replyalldefault'] = 'svara öllum';
 $labels['replyalllist'] = 'einungis svara póstlista (ef hann finnst)';
+$labels['allmessages'] = 'öll skilaboð';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Möppur';
 $labels['foldername'] = 'Nafn möppu';

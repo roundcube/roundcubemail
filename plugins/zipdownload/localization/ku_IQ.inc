@@ -19,3 +19,4 @@ $labels['download'] = 'داگرتن...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
 $labels['downloademl'] = 'Source (.eml)';
+$labels['sizelimiterror'] = 'کۆی قەبارەی پەیامە هەڵبژێردراوەکان لە سنوورەکە تێپەڕیووە ($size)';

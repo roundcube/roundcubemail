@@ -465,6 +465,7 @@ $labels['asattachment'] = 'dạng gửi kèm';
 $labels['replyallmode'] = 'Thao tác mặc định cho nút [Trả lời tất cả]';
 $labels['replyalldefault'] = 'Trả lời tất cả';
 $labels['replyalllist'] = 'Chỉ gửi trả lời đến danh sách thư (nếu có tồn tại)';
+$labels['allmessages'] = 'Tất cả tin nhắn';
 $labels['folder'] = 'Thư mục';
 $labels['folders'] = 'Các thư mục';
 $labels['foldername'] = 'Tên thư mục';

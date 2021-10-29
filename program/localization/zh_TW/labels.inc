@@ -574,6 +574,7 @@ $labels['asattachment'] = '當成附件';
 $labels['replyallmode'] = '「全部回覆」按鈕的預設動作';
 $labels['replyalldefault'] = '全部回覆';
 $labels['replyalllist'] = '只回覆郵件列表 (如有)';
+$labels['allmessages'] = '所有郵件';
 $labels['folder'] = '資料夾';
 $labels['folders'] = '資料夾';
 $labels['foldername'] = '資料夾名稱';

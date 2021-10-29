@@ -575,6 +575,7 @@ $labels['asattachment'] = 'eranskin moduan';
 $labels['replyallmode'] = '[Erantzun denei] botoiaren lehenetsitako ekintza';
 $labels['replyalldefault'] = 'erantzun denei';
 $labels['replyalllist'] = 'erantzun posta zerrendara soilik (aurkitzekotan)';
+$labels['allmessages'] = 'mezu guztiak';
 $labels['folder'] = 'Karpeta';
 $labels['folders'] = 'Karpetak';
 $labels['foldername'] = 'Karpetaren izena';
