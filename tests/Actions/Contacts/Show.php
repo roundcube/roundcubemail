@@ -62,7 +62,20 @@ class Actions_Contacts_Show extends ActionTestCase
      */
     function test_render_email_value()
     {
-        $this->markTestIncomplete();
+        $input = 'test@<email.tld';
+        $expected = '<a href="mailto:test@&lt;email.tld" onclick="return rcmail.command(\'compose\',\'test@&lt;email.tld\',this)"'
+            . ' title="Compose mail to" class="email">test@&lt;email.tld</a>';
+        $this->assertSame($expected, rcmail_action_contacts_show::render_email_value($input));
+    }
+
+    /**
+     * Test render_phone_value() method
+     */
+    function test_render_phone_value()
+    {
+        $input = '+48-123<456';
+        $expected = '<a href="tel:+48-123456" class="phone">+48-123&lt;456</a>';
+        $this->assertSame($expected, rcmail_action_contacts_show::render_phone_value($input));
     }
 
     /**
@@ -70,7 +83,9 @@ class Actions_Contacts_Show extends ActionTestCase
      */
     function test_render_url_value()
     {
-        $this->markTestIncomplete();
+        $input = 'http://test/<123';
+        $expected = '<a href="http://test/&lt;123" target="_blank" class="url">http://test/&lt;123</a>';
+        $this->assertSame($expected, rcmail_action_contacts_show::render_url_value($input));
     }
 
     /**
