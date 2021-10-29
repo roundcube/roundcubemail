@@ -120,7 +120,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
                 'name'    => $rcmail->gettext('properties'),
                 'content' => [
                     'email'   => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_email_value'],
-                    'phone'   => ['size' => $i_size],
+                    'phone'   => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_phone_value'],
                     'address' => [],
                     'website' => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_url_value'],
                     'im'      => ['size' => $i_size],
@@ -175,6 +175,16 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             ],
             rcube::Q($email)
         );
+    }
+
+    public static function render_phone_value($phone)
+    {
+        $attrs = [
+            'href'  => 'tel:' . preg_replace('/[^0-9+,;-]/', '', $phone),
+            'class' => 'phone',
+        ];
+
+        return html::a($attrs, rcube::Q($phone));
     }
 
     public static function render_url_value($url)
