@@ -448,6 +448,7 @@ $labels['newmessageonly'] = 'เฉพาะข้อความใหม่เ
 $labels['replyandforwardonly'] = 'ตอบกลับและส่งต่อเท่านั้น';
 $labels['insertsignature'] = 'แทรกลายเซ็นต์';
 $labels['asattachment'] = 'เป็นไฟล์แนบ';
+$labels['allmessages'] = 'ข้อความทั้งหมด';
 $labels['folder'] = 'กล่องจดหมาย';
 $labels['folders'] = 'กล่องจดหมาย';
 $labels['foldername'] = 'ชื่อกล่องจดหมาย';

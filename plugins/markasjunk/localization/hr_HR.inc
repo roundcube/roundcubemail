@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,14 +11,8 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 
 
-$labels['actions'] = 'کردارەکان';
-$labels['messagedelete'] = 'سڕینەوەی پەیام';
-$labels['del'] = 'سڕینەوە';
-$labels['sender'] = 'نێردەر';
-$labels['notifymethodtel'] = 'تەلەفۆن';
-$labels['datetest'] = 'بەروار';
-$labels['vacation.subject'] = 'ناونیشان';
+$messages['reportedasjunk'] = 'Uspješno prijavljeno kao Junk';

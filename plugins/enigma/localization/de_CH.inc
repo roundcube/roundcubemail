@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Schlüssel erfolgreich gelöscht.';
 $messages['keyremoveerror'] = 'Löschung der Schlüssel nicht möglich.';
 $messages['keyimporttext'] = 'Private und öffentliche Schlüssel sowie zurückgerufene Signaturen können im ASCII-Armor Format importiert werden.';
 $messages['keyimportsearchtext'] = 'Sie können für öffentliche Schlüssel nach dem Schlüsselbezeichner, Benutzername oder der E-Mail-Adresse suchen und diese dann direkt importieren.';
+$messages['keystoragenotice'] = 'Alle öffentlichen und privaten Schlüssel werden auf dem Server gespeichert.';
 $messages['formerror'] = 'Bitte, alle Eingabefelder ausfüllen. Alle Eingabefelder werden benötigt!';
 $messages['passwordsdiffer'] = 'Passwörter stimmen nicht überein.';
 $messages['keygenerateerror'] = 'Schlüsselgenerierung fehlgeschlagen.';

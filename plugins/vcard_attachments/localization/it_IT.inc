@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Allega vCard';
 $labels['vcardattached'] = 'File vCard allegato.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Inoltra vCard';
+$labels['contactsattached'] = 'Ci sono $num contatti allegati a questo messaggio.';
+$labels['importedsuccessfully'] = 'Contatto/i importato/i correttamente nella rubrica.';

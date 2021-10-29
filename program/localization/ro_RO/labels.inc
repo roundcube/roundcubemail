@@ -506,6 +506,7 @@ $labels['asattachment'] = 'ca atașament';
 $labels['replyallmode'] = 'Acțiunea implicită pentru butonul [Răspunde la toți]';
 $labels['replyalldefault'] = 'răspunde la toți';
 $labels['replyalllist'] = 'răspunde listei (dacă este găsită)';
+$labels['allmessages'] = 'toate mesajele';
 $labels['folder'] = 'Dosar';
 $labels['folders'] = 'Dosare';
 $labels['foldername'] = 'Nume dosar';

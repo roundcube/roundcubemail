@@ -448,6 +448,7 @@ $labels['spellcheckignoresyms'] = 'تجاهل الكلمات التي تحتوي
 $labels['spellcheckignorenums'] = 'تجاهل الكلمات التي تحتوي أرقام';
 $labels['spellcheckignorecaps'] = 'تجاهل الكلمات التي بها أحرف كبيرة';
 $labels['addtodict'] = 'إضافة إلى القامس';
+$labels['allmessages'] = 'كافة الرسائل';
 $labels['folder'] = 'مجلد';
 $labels['folders'] = 'مجلدات';
 $labels['foldername'] = 'اسم المجلد';

@@ -571,6 +571,7 @@ $labels['asattachment'] = 'als Anhang';
 $labels['replyallmode'] = 'Standardaktion des Knopfes »Allen antworten«';
 $labels['replyalldefault'] = 'Allen antworten';
 $labels['replyalllist'] = 'Nur der Mailingliste antworten (wenn gefunden)';
+$labels['allmessages'] = 'alle Nachrichten';
 $labels['folder'] = 'Ordner';
 $labels['folders'] = 'Ordner';
 $labels['foldername'] = 'Ordnername';

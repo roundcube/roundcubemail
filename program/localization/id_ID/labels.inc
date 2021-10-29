@@ -510,6 +510,7 @@ $labels['asattachment'] = 'sebagai sisipan';
 $labels['replyallmode'] = 'Aksi dasar dari tombol [Jawab semua]';
 $labels['replyalldefault'] = 'jawab ke semua';
 $labels['replyalllist'] = 'jawab hanya ke daftar alamat email (jika ditemukan)';
+$labels['allmessages'] = 'semua pesan';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Semua Folder';
 $labels['foldername'] = 'Nama folder';
