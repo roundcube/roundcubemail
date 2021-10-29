@@ -350,11 +350,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         return [
             [
                 '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>',
-                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg></svg>'
             ],
             [
                 '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>',
-                'Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                'Hello victim!<svg></svg>'
             ],
             [
                 '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
@@ -362,7 +362,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
-                '<p>Hello victim!<svg xmlns="http://www.w3.org/1999/xhtml"></svg></p>'
+                '<p>Hello victim!<svg></svg></p>'
             ],
             [
                 '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
@@ -370,7 +370,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<svg xmlns="http://www.w3.org/1999/xhtml"></svg>'
+                '<svg></svg>'
             ],
             [
                 '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
@@ -378,7 +378,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
-                '<svg xmlns="http://www.w3.org/1999/xhtml"><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
             ],
             [
                 '<svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
@@ -388,8 +388,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             [
                 '<html><svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
                     . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
-                '<svg xmlns="http://www.w3.org/1999/xhtml">'
-                    . '<!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+                '<svg><!-- animate blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
             ],
             [
                 '<svg><animate xlink:href="#xss" attributeName="href" from="javascript:alert(1)" to="1" />'
