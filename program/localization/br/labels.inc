@@ -496,6 +496,7 @@ $labels['asattachment'] = 'kenstaget';
 $labels['replyallmode'] = 'Gwered dre ziouer an afell [Respont d\'an holl]';
 $labels['replyalldefault'] = 'respont d\'an holl';
 $labels['replyalllist'] = 'respont d\'ar roll posteloù hepken (m\'eo kavet)';
+$labels['allmessages'] = 'An holl posteloù';
 $labels['folder'] = 'Teuliad';
 $labels['folders'] = 'Teuliadoù';
 $labels['foldername'] = 'Anv an teuliad';

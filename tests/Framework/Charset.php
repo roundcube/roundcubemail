@@ -72,6 +72,9 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
         if (extension_loaded('iconv')) {
             // Windows-1253 is not supported by mbstring, we're testing fallback to iconv
             $data[] = ['ε', chr(hexdec(('E5'))), 'UTF-8', 'WINDOWS-1253'];
+            // Windows-874 is also not supported by mbstring
+            $in = quoted_printable_decode('=B5=CD=BA=A1=C5=D1=BA');
+            $data[] = [$in, 'ตอบกลับ', 'WINDOWS-874', 'UTF-8'];
         }
 
         return $data;

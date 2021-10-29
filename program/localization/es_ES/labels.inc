@@ -574,6 +574,7 @@ $labels['asattachment'] = 'como adjunto';
 $labels['replyallmode'] = 'Acción predeterminada del botón [Responder a todos]';
 $labels['replyalldefault'] = 'responder a todos';
 $labels['replyalllist'] = 'responder sólo a la lista de correo (si se encuentra)';
+$labels['allmessages'] = 'todos los mensajes';
 $labels['folder'] = 'Bandeja';
 $labels['folders'] = 'Carpetas';
 $labels['foldername'] = 'Nombre de carpeta';

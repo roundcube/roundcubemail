@@ -16,6 +16,7 @@
 - Add option to control links handling behavior on html to text conversion (#6485)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Display a generic error page on initial DB/configuration errors (#8222)
+- Display telephone numbers as tel: links (#8240)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Identicon: Make background color of the image to match the current skin colors (#8256)
 - Password: Remove password_blowfish_cost option, in favor of password_algorithm_options
@@ -38,6 +39,10 @@
 - Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
 - Fix regression in setting of contact listing name (#8260)
 - Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
+- Fix bug where \u200b characters were added into the recipient input preventing mail delivery (#8269)
+- Fix charset conversion errors on PHP < 8 for charsets not supported by mbstring (#8252)
+- Fix bug where adding a contact to trusted senders via "Always allow from..." button didn't work (#8264, #8268)
+- Fix bug with show_images setting where option 1 and 3 were swapped (#8268)
 
 ## Release 1.5.0
 

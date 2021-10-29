@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Localization file of the Roundcube Webmail Emoticons plugin           |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,14 +11,8 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-emoticons/
 */
 
-
-$labels['actions'] = 'کردارەکان';
-$labels['messagedelete'] = 'سڕینەوەی پەیام';
-$labels['del'] = 'سڕینەوە';
-$labels['sender'] = 'نێردەر';
-$labels['notifymethodtel'] = 'تەلەفۆن';
-$labels['datetest'] = 'بەروار';
-$labels['vacation.subject'] = 'ناونیشان';
+$labels['emoticonsdisplay'] = 'وێنۆچکەی هەستەکان لە دەقی نامەکاندا پیشانبدە';
+$labels['emoticonscompose'] = 'وێنۆچکەی هەستەکان چالاک بکە';

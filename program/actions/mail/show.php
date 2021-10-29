@@ -263,9 +263,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         // add link to save sender in addressbook and reload message
         $show_images = $rcmail->config->get('show_images');
         if (!empty(self::$MESSAGE->sender['mailto']) && ($show_images == 1 || $show_images == 3)) {
+            $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
                     'href'    => "#loadremotealways",
-                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', true)",
+                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', $arg)",
                     'style'   => "white-space:nowrap"
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))

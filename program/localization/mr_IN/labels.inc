@@ -336,6 +336,7 @@ $labels['insertsignature'] = 'सही मध्‍ये टाका';
 $labels['afternseconds'] = '$n क्षणानंतर';
 $labels['reqmdn'] = 'नेहमी पोचपावतीची विनंती करा';
 $labels['reqdsn'] = 'नेहमी पोचपावती स्थिती निर्देशाची विनंती करा';
+$labels['allmessages'] = 'सर्व संदेश';
 $labels['folder'] = 'फोल्डर';
 $labels['folders'] = 'फोल्डर्स';
 $labels['foldername'] = 'फोल्डरचे नाव';

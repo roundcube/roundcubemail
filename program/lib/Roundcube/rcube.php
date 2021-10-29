@@ -900,7 +900,16 @@ class rcube
         $ckey   = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
+        $tag    = null;
+
+        // This distinction is for PHP 7.3 which throws a warning when
+        // we use $tag argument with non-AEAD cipher method here
+        if (!preg_match('/-(gcm|ccm|poly1305)$/i', $method)) {
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv);
+        }
+        else {
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
+        }
 
         if ($cipher === false) {
             self::raise_error([

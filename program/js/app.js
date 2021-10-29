@@ -1073,7 +1073,7 @@ function rcube_webmail()
       case 'load-remote':
         if (this.env.uid) {
           if (props && this.env.sender) {
-            this.add_contact(this.env.sender, true);
+            this.add_contact(this.env.sender, true, props);
             break;
           }
 
@@ -4858,16 +4858,18 @@ function rcube_webmail()
       var data, name, n, id;
       for (n = 0; n < selection.length; n++) {
         if ((id = selection[n]) && (data = this.env.contactdata[id])) {
-          // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
-          name = '\u200b' + (data.name || data) + '\u200b';
-          recipients.push(name);
+          name = data.name || data
 
           // group is added, expand it
           if (id.charAt(0) == 'E' && input.length) {
+            // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
+            name = '\u200b' + name + '\u200b';
             var gid = id.substr(1);
             this.group2expand[gid] = {name: name, input: input.get(0)};
             this.http_request('group-expand', {_source: data.source || this.env.source, _gid: gid}, false);
           }
+
+          recipients.push(name);
         }
       }
     }
@@ -5509,10 +5511,10 @@ function rcube_webmail()
   };
 
   // send remote request to add a new contact
-  this.add_contact = function(value, reload)
+  this.add_contact = function(value, reload, source)
   {
     if (value)
-      this.http_post('addcontact', {_address: value, _reload: reload});
+      this.http_post('addcontact', {_address: value, _reload: reload, _source: source});
   };
 
   // send remote request to search mail or contacts

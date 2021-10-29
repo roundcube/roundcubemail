@@ -614,8 +614,8 @@ class rcmail_action_settings_index extends rcmail_action
                     ]);
 
                     $input->add($rcmail->gettext('never'), 0);
-                    $input->add($rcmail->gettext('frommycontacts'), 3);
-                    $input->add($rcmail->gettext('fromtrustedsenders'), 1);
+                    $input->add($rcmail->gettext('frommycontacts'), 1);
+                    $input->add($rcmail->gettext('fromtrustedsenders'), 3);
                     $input->add($rcmail->gettext('always'), 2);
 
                     $blocks['main']['options']['show_images'] = [

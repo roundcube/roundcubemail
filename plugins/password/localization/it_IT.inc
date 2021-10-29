@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'La nuova password deve essere differente da una usata
 $messages['passwdexpirewarning'] = 'Attenzione! La tua password scadrà a breve, cambiala prima del $expiretiondatetime.';
 $messages['passwdexpired'] = 'La tua password è scaduta, devi cambiarla adesso.';
 $messages['passwdconstraintviolation'] = 'La password non soddisfa i requisiti di sicurezza.';
+$messages['pwned_mustnotbedisclosed'] = 'La password non deve essere <a href="$href" target="_blank">nota</a>.';
+$messages['pwned_isdisclosed'] = 'Questa password è nota.';
+$messages['pwned_fetcherror'] = 'Verifica robustezza password fallita.';
