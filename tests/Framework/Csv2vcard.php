@@ -17,6 +17,15 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $this->assertSame([], $csv->export());
     }
 
+    function test_localization_files()
+    {
+        foreach (glob(RCUBE_LOCALIZATION_DIR ."*/csv2vcard.inc") as $filename) {
+            $map = null;
+            include $filename;
+            $this->assertTrue(count($map) > 0);
+        }
+    }
+
     function test_import_tb_plain()
     {
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/tb_plain.csv');
