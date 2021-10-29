@@ -262,6 +262,7 @@ $labels['2047folding'] = 'Full RFC 2047 (دیگر ها)';
 $labels['advancedoptions'] = 'انتخاب های پیشرفته';
 $labels['focusonnewmessage'] = 'فوکس دادن پینجره مرورگر به پیام جدید';
 $labels['checkallfolders'] = 'تمام پوشه ها را بخاطر پیام های جدید بررسی کنید';
+$labels['allmessages'] = 'تمام پیام ها';
 $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه ها';
 $labels['foldername'] = 'نام پوشه';

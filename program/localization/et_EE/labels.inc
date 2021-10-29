@@ -567,6 +567,7 @@ $labels['asattachment'] = 'manusena';
 $labels['replyallmode'] = 'Vaike käitumine [Vasta kõigile] nupul';
 $labels['replyalldefault'] = 'Vasta kõigile';
 $labels['replyalllist'] = 'vasta ainult postiloendile (juhul kui leitud)';
+$labels['allmessages'] = 'kõik kirjad';
 $labels['folder'] = 'Kaust';
 $labels['folders'] = 'Kaustad';
 $labels['foldername'] = 'Kausta nimi';

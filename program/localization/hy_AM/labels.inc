@@ -411,6 +411,7 @@ $labels['mailtoprotohandler'] = 'mailto: հղումների սպասարկող';
 $labels['forwardmode'] = 'Հաղորդագրությունների վերահասցեավորում';
 $labels['inline'] = 'մեջը';
 $labels['asattachment'] = 'որպես կցորդ';
+$labels['allmessages'] = 'բոլոր հաղորդագրությունները';
 $labels['folder'] = 'Դարակ';
 $labels['folders'] = 'Դարակներ';
 $labels['foldername'] = 'Դարակի անուն';

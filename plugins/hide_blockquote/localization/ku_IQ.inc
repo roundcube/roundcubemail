@@ -14,4 +14,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
 
+$labels['hide'] = 'شاردنەوە';
 $labels['show'] = 'پیشاندان';
+$labels['quotelimit'] = 'بەڵگەهێنانەوە بشارەوە کاتێک ژمارەی هێڵەکان گەورەتربوون لە';

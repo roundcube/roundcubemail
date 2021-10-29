@@ -205,6 +205,8 @@ $labels['mailimportzip'] = 'يمكن ضغط ملفات متعددة في أرش�
 $labels['quota'] = 'المساحة المستخدمة';
 $labels['unknown'] = 'مجهول';
 $labels['unlimited'] = 'غير محدود';
+$labels['quotastorage'] = 'مساحة التخزين';
+$labels['quotamessage'] = 'تعداد الرسائل';
 $labels['quicksearch'] = 'البحث السريع';
 $labels['searchplaceholder'] = 'بحث...';
 $labels['resetsearch'] = 'استعادة البحث للافتراضي';
@@ -232,8 +234,12 @@ $labels['returnreceipt'] = 'ايصال استلام';
 $labels['dsn'] = 'تنويه حالة التوصيل';
 $labels['mailreplyintro'] = 'كتب $sender في $date:';
 $labels['originalmessage'] = 'الرسالة الأساسية';
+$labels['addimage'] = 'إضافة صورة';
+$labels['selectmedia'] = 'إختر فيديو';
+$labels['addmedia'] = 'إضافة فيديو';
 $labels['encrypt'] = 'تشفير';
 $labels['keyid'] = 'مفتاح المعرّف';
+$labels['keyexpired'] = 'تنتهي';
 $labels['insert'] = 'ادراج';
 $labels['recipient'] = 'مستلم';
 $labels['editidents'] = 'تعديل الهويات';
@@ -243,6 +249,7 @@ $labels['resumeediting'] = 'متابعة التحرير';
 $labels['revertto'] = 'استعادة إلى';
 $labels['restore'] = 'استعادة';
 $labels['restoremessage'] = 'استعادة الرسائل؟';
+$labels['ignore'] = 'تجاهل';
 $labels['responses'] = 'ردود';
 $labels['insertresponse'] = 'اضافة رد ';
 $labels['manageresponses'] = 'ادارة الردود';
@@ -265,6 +272,7 @@ $labels['showimages'] = 'إظهار الصور';
 $labels['alwaysshow'] = 'دائماً أظهر الصّور القادمة من $sender';
 $labels['isdraft'] = 'هذه مسودّة رسالة';
 $labels['andnmore'] = '$nr المزيد ...';
+$labels['details'] = 'التفاصيل';
 $labels['togglemoreheaders'] = 'عرض المزيد من رؤوس الرسائل';
 $labels['togglefullheaders'] = 'تبديل رؤوس الرسائل الأولية';
 $labels['htmltoggle'] = 'HTML';
@@ -280,6 +288,7 @@ $labels['mdnrequest'] = 'طلب المرسل إعلامه عند قراءتك ل
 $labels['receiptread'] = 'إيصال الاستلام )بالقراءة)';
 $labels['yourmessage'] = 'هذا إيصال بقراءة رسالتك';
 $labels['receiptnote'] = 'ملاحظة: يُعلمك هذا الإيصال بأن رسالتك قد ظهرت على جهاز المستقبِل. ليست هناك أية ضمانات أن المستقبل قد قرأ أو فهم محتويات الرسالة.';
+$labels['zoomin'] = 'تقريب';
 $labels['name'] = 'اسم العرض';
 $labels['firstname'] = 'الإسم الأول';
 $labels['surname'] = 'الإسم الأخير';
@@ -472,6 +481,7 @@ $labels['asattachment'] = 'كـ مرفق ';
 $labels['replyallmode'] = 'الاجراء الافتراضي لـ زر [الرد على الجميع]';
 $labels['replyalldefault'] = 'الرد على الجميع';
 $labels['replyalllist'] = 'الرد فقط على القائمة البريدية (اذا كانت موجودة)';
+$labels['allmessages'] = 'كل الرسائل';
 $labels['folder'] = 'مجلد';
 $labels['folders'] = 'مجلدات';
 $labels['foldername'] = 'اسم المجلد';

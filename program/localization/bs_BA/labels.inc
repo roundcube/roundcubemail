@@ -476,6 +476,7 @@ $labels['asattachment'] = 'kao prilog';
 $labels['replyallmode'] = 'Zadana radnja za [Odgovori svima] dugme';
 $labels['replyalldefault'] = 'odgovori svima';
 $labels['replyalllist'] = 'odgovori samo listi mailova (ukoliko je pronađena)';
+$labels['allmessages'] = 'sve poruke';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Folderi';
 $labels['foldername'] = 'Naziv foldera';

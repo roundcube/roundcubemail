@@ -457,6 +457,7 @@ $labels['asattachment'] = 'як далучэнне';
 $labels['replyallmode'] = 'Стандартнае дзеянне кнопкі [Адказаць усім]';
 $labels['replyalldefault'] = 'адказаць усім';
 $labels['replyalllist'] = 'адказаць толькі ў спіс рассылкі (калі знойдзены)';
+$labels['allmessages'] = 'усе паведамленні';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папкі';
 $labels['foldername'] = 'Назва папкі';

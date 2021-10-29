@@ -381,6 +381,7 @@ $labels['reqmdn'] = 'ក្រោយពី $n វិនាទី';
 $labels['reqdsn'] = 'ក្រោយពី $n វិនាទី';
 $labels['replysamefolder'] = 'ក្រោយពី $n វិនាទី';
 $labels['spellcheckbeforesend'] = 'ពិនិត្យ​អក្ខរាវិរុទ្ធ​មុន​នឹង​ផ្ញើ​សារ';
+$labels['allmessages'] = 'សារ​ទាំង​អស់';
 $labels['folder'] = 'ថត';
 $labels['folders'] = 'ថតទាំងអស់';
 $labels['foldername'] = 'ឈ្មោះថត';

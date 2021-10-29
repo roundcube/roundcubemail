@@ -501,6 +501,7 @@ $labels['asattachment'] = 'як вкладення';
 $labels['replyallmode'] = 'Типова дія для кнопки [Відповісти всім]';
 $labels['replyalldefault'] = 'відповісти усім';
 $labels['replyalllist'] = 'відповісти лише списку розсилки (якщо є)';
+$labels['allmessages'] = 'всі повідомлення';
 $labels['folder'] = 'Тека';
 $labels['folders'] = 'Теки';
 $labels['foldername'] = 'Назва теки';

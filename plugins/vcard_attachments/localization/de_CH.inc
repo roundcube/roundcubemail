@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Als vCard anhängen';
 $labels['vcardattached'] = 'vCard-Datei angehängt.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Kontakt weiterleiten';
+$labels['contactsattached'] = 'Es sind $num Kontakte an diese Nachricht angehängt.';
+$labels['importedsuccessfully'] = 'Kontakt(e) erfolgreich in das Adressbuch importiert.';
