@@ -16,7 +16,7 @@
         "pear/net_smtp": "~1.10.0",
         "pear/crypt_gpg": "~1.6.3",
         "pear/net_sieve": "~1.4.5",
-        "roundcube/plugin-installer": "~0.3.0",
+        "roundcube/plugin-installer": "~0.3.1",
         "roundcube/rtf-html-php": "~2.1",
         "masterminds/html5": "~2.7.0",
         "bacon/bacon-qr-code": "^2.0.0",
