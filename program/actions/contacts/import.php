@@ -256,7 +256,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
             }
             else {
-                if ($upload_error == UPLOAD_ERR_CSV_FIELDS) {
+                if ($upload_error == self::UPLOAD_ERR_CSV_FIELDS) {
                     $rcmail->output->show_message('csvfilemismatch', 'error');
                 }
                 else {
