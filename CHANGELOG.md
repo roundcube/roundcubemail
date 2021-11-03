@@ -19,6 +19,7 @@
 - Fix bug where adding a contact to trusted senders via "Always allow from..." button didn't work (#8264, #8268)
 - Fix bug with show_images setting where option 1 and 3 were swapped (#8268)
 - Fix PHP fatal error on an undefined constant in contacts import action (#8277)
+- Fix fetching headers of multiple message parts at once in rcube_imap_generic::fetchMIMEHeaders() (#8282)
 
 ## Release 1.5.0
 

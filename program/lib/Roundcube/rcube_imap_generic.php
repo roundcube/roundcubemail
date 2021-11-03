@@ -2804,10 +2804,9 @@ class rcube_imap_generic
 
         do {
             $line = $this->readLine(1024);
-
             if (preg_match('/^\* [0-9]+ FETCH [0-9UID( ]+/', $line, $m)) {
                 $line = ltrim(substr($line, strlen($m[0])));
-                while (preg_match('/^BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
+                while (preg_match('/^\s*BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
                     $result[$matches[1]] = trim($this->multLine($line));
                     $line = $this->readLine(1024);
