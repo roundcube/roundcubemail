@@ -52,7 +52,7 @@ class autologout extends rcube_plugin
          *  If you want to restrict the use of this plugin to specific
          *  remote clients, you can verify the remote client's IP like this:
          *
-         *  if (in_array(rcube_utils::remote_addr(), ['123.123.123.123', '124.124.124.124'])) { return true; }
+         *  return in_array(rcube_utils::remote_addr(), ['123.123.123.123', '124.124.124.124']);
          */
 
         return true;
