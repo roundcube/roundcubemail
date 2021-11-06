@@ -25,6 +25,7 @@
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
 - Password: Verify current password with IMAP (#8142)
 - Password: Improve handling errors on executed commands (#8200)
+- Password: Add Mailcow driver (#8291)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)
@@ -45,6 +46,7 @@
 - Fix bug with show_images setting where option 1 and 3 were swapped (#8268)
 - Fix PHP fatal error on an undefined constant in contacts import action (#8277)
 - Fix fetching headers of multiple message parts at once in rcube_imap_generic::fetchMIMEHeaders() (#8282)
+- Fix bug where attachment download could sometimes fail with a CSRF check error (#8283)
 
 ## Release 1.5.0
 

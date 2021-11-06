@@ -45,7 +45,7 @@ $config['password_force_new_user'] = false;
 // Password hashing/crypting algorithm.
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
 // sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, ssha512, samba, ad, dovecot, clear.
-// Also supported are password_hash() algoriths: hash-default, hash-bcrypt, hash-argon2i, hash-argon2id.
+// Also supported are password_hash() algoriths: hash-bcrypt, hash-argon2i, hash-argon2id.
 // Default: 'clear' (no hashing)
 // For details see password::hash_password() method.
 $config['password_algorithm'] = 'clear';
@@ -507,3 +507,9 @@ $config['password_httpapi_expect'] = '/^ok$/i';
 // dovecot_passwdfile
 // ------------------
 $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
+
+
+// Mailcow driver options
+// ----------------------
+$config['password_mailcow_api_host'] = 'localhost';
+$config['password_mailcow_api_token'] = '';

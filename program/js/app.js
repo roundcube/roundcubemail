@@ -1595,7 +1595,7 @@ function rcube_webmail()
 
     value = urlencode(value);
 
-    if (/(#[a-z0-9_-]+)$/.test(url)) {
+    if (/(#[a-z0-9_-]*)$/.test(url)) {
       hash = RegExp.$1;
       url = url.substr(0, url.length - hash.length);
     }

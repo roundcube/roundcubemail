@@ -552,7 +552,7 @@ class password extends rcube_plugin
         case 'md5crypt': // for BC
         case 'md5-crypt':
             $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{MD5-CRYPT}';
             break;
 
         case 'sha256-crypt':
@@ -564,7 +564,7 @@ class password extends rcube_plugin
             }
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{SHA256-CRYPT}';
             break;
 
         case 'sha512-crypt':
@@ -576,17 +576,17 @@ class password extends rcube_plugin
             }
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{SHA512-CRYPT}';
             break;
 
         case 'blowfish': // for BC
         case 'blowfish-crypt':
             $cost   = (int) ($options['cost'] ?? $rcmail->config->get('password_blowfish_cost'));
             $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
-            $prefix = sprintf('$2a$%02d$', $cost);
+            $prefix = sprintf('$2y$%02d$', $cost);
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{BLF-CRYPT}';
             break;
 
         case 'md5':
@@ -745,18 +745,17 @@ class password extends rcube_plugin
 
         case 'hash-bcrypt':
             $crypted = password_hash($password, PASSWORD_BCRYPT, $options);
+            $prefix  = '{BLF-CRYPT}';
             break;
 
         case 'hash-argon2i':
             $crypted = password_hash($password, PASSWORD_ARGON2I, $options);
+            $prefix  = '{ARGON2I}';
             break;
 
         case 'hash-argon2id':
             $crypted = password_hash($password, PASSWORD_ARGON2ID, $options);
-            break;
-
-        case 'hash-default':
-            $crypted = password_hash($password, PASSWORD_DEFAULT, $options);
+            $prefix  = '{ARGON2ID}';
             break;
 
         case 'clear':
