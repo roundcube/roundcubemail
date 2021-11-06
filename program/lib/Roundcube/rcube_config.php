@@ -110,21 +110,21 @@ class rcube_config
      */
     private function guess_type($value)
     {
-        $type = 'string';
-
-        // array requires hint to be passed.
+        if (preg_match('/^\d+$/', $value)) {
+            return 'int';
+        }
 
         if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value)) {
-            $type = 'float';
-        }
-        else if (preg_match('/^\d+$/', $value)) {
-            $type = 'integer';
-        }
-        else if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
-            $type = 'boolean';
+            return 'float';
         }
 
-        return $type;
+        if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
+            return 'bool';
+        }
+
+        // TODO: array/object
+
+        return 'string';
     }
 
     /**
@@ -135,16 +135,16 @@ class rcube_config
      *
      * @return mixed Appropriately typed interpretation of $string.
      */
-    private function parse_env($string, $type)
+    private function parse_env($string, $type = null)
     {
         switch ($type) {
-        case 'boolean':
+        case 'bool':
             return (bool) $string;
 
-        case 'integer':
+        case 'int':
             return (int) $string;
 
-        case 'double':
+        case 'float':
             return (float) $string;
 
         case 'string':
