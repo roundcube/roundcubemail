@@ -507,3 +507,9 @@ $config['password_httpapi_expect'] = '/^ok$/i';
 // dovecot_passwdfile
 // ------------------
 $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
+
+
+// Mailcow driver options
+// ----------------------
+$config['password_mailcow_api_host'] = 'localhost';
+$config['password_mailcow_api_token'] = '';
