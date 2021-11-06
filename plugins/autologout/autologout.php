@@ -28,12 +28,18 @@ class autologout extends rcube_plugin
 {
     public $task = 'logout';
 
-    function init()
+    /**
+     * Plugin initialization
+     */
+    public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
     }
 
-    function startup($args)
+    /**
+     * Request handler
+     */
+    public function startup($args)
     {
         $rcmail = rcmail::get_instance();
 
@@ -46,13 +52,16 @@ class autologout extends rcube_plugin
         return $args;
     }
 
-    function known_client()
+    /**
+     * Checks if the request came from an allowed client IP
+     */
+    private function known_client()
     {
-        /**
-         *  If you want to restrict the use of this plugin to specific
-         *  remote clients, you can verify the remote client's IP like this:
+        /*
+         * If you want to restrict the use of this plugin to specific
+         * remote clients, you can verify the remote client's IP like this:
          *
-         *  return in_array(rcube_utils::remote_addr(), ['123.123.123.123', '124.124.124.124']);
+         * return in_array(rcube_utils::remote_addr(), ['123.123.123.123', '124.124.124.124']);
          */
 
         return true;
