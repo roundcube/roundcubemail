@@ -32,6 +32,7 @@
       <file>./../plugins/archive/tests/Archive.php</file>
       <file>./../plugins/attachment_reminder/tests/AttachmentReminder.php</file>
       <file>./../plugins/autologon/tests/Autologon.php</file>
+      <file>./../plugins/autologout/tests/Autologout.php</file>
       <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
       <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
       <file>./../plugins/emoticons/tests/Emoticons.php</file>
