@@ -757,7 +757,7 @@ class rcmail extends rcube
             }
             else if (strpos($username, '@')) {
                 // lowercase domain name
-                list($local, $domain) = explode('@', $username);
+                list($local, $domain) = rcube_utils::explode('@', $username);
                 $username = $local . '@' . mb_strtolower($domain);
             }
         }
@@ -976,7 +976,7 @@ class rcmail extends rcube
             $post_host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
             $post_user = rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST);
 
-            list(, $domain) = explode('@', $post_user);
+            list(, $domain) = rcube_utils::explode('@', $post_user);
 
             // direct match in default_host array
             if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
