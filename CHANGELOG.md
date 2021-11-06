@@ -25,6 +25,7 @@
 - Password: Add support for passwords based on PHP's password_hash() function (#7724)
 - Password: Verify current password with IMAP (#8142)
 - Password: Improve handling errors on executed commands (#8200)
+- Password: Add Mailcow driver (#8291)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)
