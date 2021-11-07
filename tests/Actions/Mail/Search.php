@@ -69,28 +69,35 @@ class Actions_Mail_Search extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $result = rcmail_action_mail_search::search_input('', 'subject,from', 'base', 'INBOX');
-
         $this->assertSame([], $result[0]);
         $this->assertSame('', $result[1]);
 
         $result = rcmail_action_mail_search::search_input('test', 'subject,from', 'base', 'INBOX');
-
         $this->assertSame(['subject' => 'HEADER SUBJECT', 'from' => 'HEADER FROM'], $result[0]);
         $this->assertSame('test', $result[1]);
 
         $result = rcmail_action_mail_search::search_input('test', null, 'base', 'INBOX');
-
         $this->assertSame(['subject' => 'HEADER SUBJECT'], $result[0]);
         $this->assertSame('test', $result[1]);
 
         $result = rcmail_action_mail_search::search_input('body:test', 'subject,from', 'base', 'INBOX');
-
         $this->assertSame(['body' => 'BODY'], $result[0]);
         $this->assertSame('test', $result[1]);
 
-        $result = rcmail_action_mail_search::search_input('test', 'from,invalid entry', 'base', 'INBOX');
+        $result = rcmail_action_mail_search::search_input('to:test', '', 'base', 'INBOX');
+        $this->assertSame(['to' => 'HEADER TO'], $result[0]);
+        $this->assertSame('test', $result[1]);
 
+        $result = rcmail_action_mail_search::search_input('reply-to:test', '', 'base', 'INBOX');
+        $this->assertSame(['reply-to' => 'HEADER REPLY-TO'], $result[0]);
+        $this->assertSame('test', $result[1]);
+
+        $result = rcmail_action_mail_search::search_input('test', 'from,invalid entry', 'base', 'INBOX');
         $this->assertSame(['from' => 'HEADER FROM'], $result[0]);
+        $this->assertSame('test', $result[1]);
+
+        $result = rcmail_action_mail_search::search_input('test', 'replyto', 'base', 'INBOX');
+        $this->assertSame(['reply-to' => 'HEADER REPLY-TO', 'mail-reply-to' => 'HEADER MAIL-REPLY-TO'], $result[0]);
         $this->assertSame('test', $result[1]);
     }
 

@@ -697,6 +697,28 @@ html.ms .propform {
             width: auto;
             display: inline;
         }
+
+        &.with-sublist {
+            flex-wrap: wrap;
+            position: relative;
+
+            & > :first-child {
+                width: 100%;
+                margin-right: 2em;
+            }
+
+            & > .proplist {
+                margin-left: 2.5rem;
+            }
+
+            & > a.dropdown {
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 2em;
+                color: @color-font;
+            }
+        }
     }
 }
 
