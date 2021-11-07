@@ -15,12 +15,16 @@
 */
 
 
+
+// login page
 $labels['welcome'] = 'Velkommen til $product';
 $labels['username'] = 'Brukernavn';
 $labels['password'] = 'Passord';
 $labels['server'] = 'Tjener';
 $labels['login'] = 'Logg inn';
 $labels['oauthlogin'] = 'Logg inn med $provider';
+
+// taskbar
 $labels['menu'] = 'Meny';
 $labels['logout'] = 'Logg ut';
 $labels['mail'] = 'E-post';
@@ -28,12 +32,16 @@ $labels['settings'] = 'Innstillinger';
 $labels['addressbook'] = 'Adressebok';
 $labels['darkmode'] = 'Mørkt modus';
 $labels['lightmode'] = 'Lyst modus';
+
+// mailbox names
 $labels['inbox'] = 'Innboks';
 $labels['drafts'] = 'Kladd';
 $labels['sent'] = 'Sendt';
 $labels['trash'] = 'Slettet';
 $labels['junk'] = 'Spam';
 $labels['show_real_foldernames'] = 'Vis orginale navn for spesielle mapper';
+
+// message listing
 $labels['subject'] = 'Emne';
 $labels['from'] = 'Avsender';
 $labels['sender'] = 'Avsender';
@@ -49,22 +57,28 @@ $labels['organization'] = 'Organisasjon';
 $labels['readstatus'] = 'Lese status';
 $labels['listoptions'] = 'List muligheter';
 $labels['listoptionstitle'] = 'Listealternativer';
+
 $labels['mailboxlist'] = 'Mapper';
 $labels['messagesfromto'] = 'Meldinger $from til $to av $count';
 $labels['threadsfromto'] = 'Tråder $from til $to av $count';
 $labels['messagenrof'] = 'Melding $nr av $count';
 $labels['fromtoshort'] = '$from – $to av $count';
+
 $labels['copy'] = 'Kopier';
 $labels['move'] = 'Flytt';
-$labels['moveto'] = 'flytt til...';
+$labels['moveto'] = 'Flytt til...';
 $labels['copyto'] = 'Kopier til...';
-$labels['download'] = 'last ned';
+$labels['download'] = 'Last ned';
 $labels['open'] = 'Åpen';
 $labels['showattachment'] = 'Vis';
 $labels['showanyway'] = 'Vis likevel';
+
 $labels['filename'] = 'Filnavn';
 $labels['filesize'] = 'Filstørrelse';
+
 $labels['addtoaddressbook'] = 'Legg til i adressebok';
+
+// weekdays short
 $labels['sun'] = 'Søn';
 $labels['mon'] = 'Man';
 $labels['tue'] = 'Tir';
@@ -72,6 +86,8 @@ $labels['wed'] = 'Ons';
 $labels['thu'] = 'Tor';
 $labels['fri'] = 'Fre';
 $labels['sat'] = 'Lør';
+
+// weekdays long
 $labels['sunday'] = 'Søndag';
 $labels['monday'] = 'Mandag';
 $labels['tuesday'] = 'Tirsdag';
@@ -79,6 +95,8 @@ $labels['wednesday'] = 'Onsdag';
 $labels['thursday'] = 'Torsdag';
 $labels['friday'] = 'Fredag';
 $labels['saturday'] = 'Lørdag';
+
+// months short
 $labels['jan'] = 'Jan';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
@@ -91,6 +109,8 @@ $labels['sep'] = 'Sep';
 $labels['oct'] = 'Okt';
 $labels['nov'] = 'Nov';
 $labels['dec'] = 'Des';
+
+// months long
 $labels['longjan'] = 'Januar';
 $labels['longfeb'] = 'Februar';
 $labels['longmar'] = 'Mars';
@@ -103,7 +123,10 @@ $labels['longsep'] = 'September';
 $labels['longoct'] = 'Oktober';
 $labels['longnov'] = 'November';
 $labels['longdec'] = 'Desember';
+
 $labels['today'] = 'I dag';
+
+// toolbar buttons
 $labels['refresh'] = 'Oppdater';
 $labels['checkmail'] = 'Se etter nye meldinger';
 $labels['compose'] = 'Skriv ny e-post';
@@ -130,11 +153,12 @@ $labels['backtolist'] = 'Tilbake til e-postlisten';
 $labels['viewsource'] = 'Vis kilde';
 $labels['mark'] = 'Merke';
 $labels['markmessages'] = 'Merk meldinger';
-$labels['markread'] = 'som lest';
-$labels['markunread'] = 'som ulest';
-$labels['markflagged'] = 'som flagget';
-$labels['markunflagged'] = 'som uflagget';
-$labels['moreactions'] = 'Flere handlinger …';
+$labels['markread'] = 'Som lest';
+$labels['markunread'] = 'Som ulest';
+$labels['markflagged'] = 'Som flagget';
+$labels['markunflagged'] = 'Som uflagget';
+$labels['markundeleted'] = 'Som ikke slettet';
+$labels['moreactions'] = 'Flere handlinger...';
 $labels['markallread'] = 'Merk alle som lest';
 $labels['folders-cur'] = 'Kun markert mappe';
 $labels['folders-sub'] = 'Markert mappe og dens undermapper';
@@ -145,6 +169,7 @@ $labels['options'] = 'Alternativer';
 $labels['composeoptions'] = 'Skrivealternativer';
 $labels['optionsandattachments'] = 'Alternativer og vedlegg';
 $labels['actions'] = 'Handlinger';
+
 $labels['first'] = 'Første';
 $labels['last'] = 'Siste';
 $labels['previous'] = 'Forrige';
@@ -173,6 +198,7 @@ $labels['expand-unread'] = 'Utvid uleste';
 $labels['collapse-all'] = 'Skjul alle';
 $labels['threaded'] = 'Trådet';
 $labels['showunread'] = 'Vis uleste meldinger';
+
 $labels['autoexpand_threads'] = 'Utvid tråder';
 $labels['do_expand'] = 'alle tråder';
 $labels['expand_only_unread'] = 'kun med uleste meldinger';
@@ -196,22 +222,26 @@ $labels['layoutlist'] = 'Liste';
 $labels['layoutwidescreendesc'] = 'Bredskjerm (3 kolonner)';
 $labels['layoutdesktopdesc'] = 'Skrivebord (bred liste og forhåndsvisning av melding under)';
 $labels['layoutlistdesc'] = 'Liste (ingen epost forhåndsvisning)';
+
 $labels['folderactions'] = 'Mappehandlinger...';
 $labels['compact'] = 'Rydd opp';
 $labels['empty'] = 'Tøm';
 $labels['importmessages'] = 'Importer meldinger';
 $labels['mailimportdesc'] = 'Du kan laste opp epost som filer i <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> eller <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> format.';
 $labels['mailimportzip'] = 'Flere filer kan komprimeres til et zip-arkiv.';
+
 $labels['quota'] = 'Plassforbruk';
 $labels['unknown'] = 'ukjent';
 $labels['unlimited'] = 'ubegrenset';
 $labels['quotatype'] = 'Kvotetype';
+$labels['quotatotal'] = 'Grense';
 $labels['quotaused'] = 'Benyttet';
 $labels['quotastorage'] = 'Lagringsplass';
 $labels['quotamessage'] = 'Antall meldinger';
 $labels['shortheaderdate'] = 'På den $date';
 $labels['shortheaderto'] = 'Til $to på den $date';
 $labels['shortheaderfrom'] = 'Fra $from på den $date';
+
 $labels['quicksearch'] = 'Hurtigsøk';
 $labels['searchplaceholder'] = 'Søk...';
 $labels['resetsearch'] = 'Nullstill søk';
@@ -227,10 +257,16 @@ $labels['allfolders'] = 'Alle mapper';
 $labels['searchinterval-1W'] = 'eldre enn en uke';
 $labels['searchinterval-1M'] = 'eldre enn en måned';
 $labels['searchinterval-1Y'] = 'eldre enn ett år';
+$labels['searchinterval1W'] = 'yngre enn en uke';
+$labels['searchinterval1M'] = 'yngre enn en måned';
+$labels['searchinterval1Y'] = 'yngre enn ett år';
+
 $labels['openinextwin'] = 'Åpne i nytt vindu';
 $labels['emlsave'] = 'Last ned (.eml)';
 $labels['changeformattext'] = 'Vis i ren tekst';
 $labels['changeformathtml'] = 'Vis i HTML';
+
+// message compose
 $labels['editasnew'] = 'Rediger som ny';
 $labels['send'] = 'Send.';
 $labels['sendmessage'] = 'Send e-posten';
@@ -240,6 +276,7 @@ $labels['charset'] = 'Tegnsett';
 $labels['editortype'] = 'Format';
 $labels['returnreceipt'] = 'Be om kvittering';
 $labels['dsn'] = 'Leveringsstatus varsling';
+$labels['keepformatting'] = 'Beholde formateringen';
 $labels['mailreplyintro'] = 'Den $date, skrev $sender:';
 $labels['originalmessage'] = 'Opprinnelig melding';
 $labels['selectimage'] = 'Velg bilde';
@@ -262,14 +299,17 @@ $labels['insert'] = 'Sett inn';
 $labels['insertcontact'] = 'Sett inn kontakt(er)';
 $labels['recipient'] = 'Mottaker';
 $labels['recipientedit'] = 'Rediger mottaker';
+
 $labels['editidents'] = 'Endre identiteter';
 $labels['spellcheck'] = 'Stavekontroll';
 $labels['checkspelling'] = 'Stavekontroll';
 $labels['resumeediting'] = 'Fortsett redigering';
 $labels['revertto'] = 'Tilbake til';
+
 $labels['restore'] = 'Gjenopprett';
 $labels['restoremessage'] = 'Gjenopprett melding?';
 $labels['ignore'] = 'Ignorer';
+
 $labels['responses'] = 'Svar';
 $labels['insertresponse'] = 'Sett inn et svar';
 $labels['manageresponses'] = 'Rediger svar';
@@ -279,18 +319,22 @@ $labels['editresponse'] = 'Rediger svar';
 $labels['editresponses'] = 'Rediger svar';
 $labels['responsename'] = 'Navn';
 $labels['responsetext'] = 'Svar tekst';
+
 $labels['attach'] = 'Legg ved';
 $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
 $labels['uploadprogress'] = '$percent ($current fra $total)';
 $labels['close'] = 'Lukk';
 $labels['messageoptions'] = 'Meldingsalternativer...';
+$labels['togglecomposeoptions'] = 'Veksle visning av skrivealternativer';
 $labels['attachmentrename'] = 'Endre navn på vedlegg';
+
 $labels['low'] = 'Lav';
 $labels['lowest'] = 'Lavest';
 $labels['normal'] = 'Normal';
 $labels['high'] = 'Høy';
 $labels['highest'] = 'Høyest';
+
 $labels['nosubject'] = '(intet emne)';
 $labels['showimages'] = 'Vis bilder';
 $labels['allow'] = 'Tillat';
@@ -304,21 +348,26 @@ $labels['headers'] = 'Hoder';
 $labels['allheaders'] = 'Alle hoder...';
 $labels['togglemoreheaders'] = 'Vis flere meldings-headere';
 $labels['togglefullheaders'] = 'Veksle visning av meldingens headere i råformat';
+
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Ren tekst';
 $labels['savesentmessagein'] = 'Lagre sendt melding i';
 $labels['dontsave'] = 'ikke lagre';
 $labels['maxuploadsize'] = 'Maksimalt tillatt filstørrelse er $size';
+
 $labels['addcc'] = 'Legg til kopiadressat (Cc)';
 $labels['addbcc'] = 'Legg til blindkopiadressat (Bcc)';
 $labels['addreplyto'] = 'Legg til svar til (Reply-To)';
 $labels['addfollowupto'] = 'Legg til oppfølging';
+
+// mdn
 $labels['sendreceipt'] = 'Sende lesebekreftelse?';
 $labels['mdnrequest'] = 'Senderen av denne meldingen har bedt om å bli gjort oppmerksom på at denne meldingen er lest. Ønsker du å sende denne bekreftelsen?';
 $labels['receiptread'] = 'Kvittering (lest)';
 $labels['yourmessage'] = 'Dette er en kvittering for at din e-post er mottatt';
 $labels['receiptnote'] = 'Merknad: Denne kvitteringen bekrefter bare at e-posten ble vist hos mottakeren. Det er ingen garanti for at mottakeren har lest eller forstått innholdet i e-posten.';
 $labels['sendalwaysto'] = 'Send alltid til $email';
+
 $labels['zoomin'] = 'Zoom Inn';
 $labels['zoomout'] = 'Zoom Ut';
 $labels['rotate'] = 'Roter';
@@ -327,6 +376,8 @@ $labels['decreaseimage'] = 'Forminske bilde';
 $labels['rotateimage'] = 'Roter bilde';
 $labels['showtools'] = 'Vis bildeverktøy';
 $labels['hidetools'] = 'Skjul bildeverktøy';
+
+// address book
 $labels['name'] = 'Visningsnavn';
 $labels['firstname'] = 'Fornavn';
 $labels['surname'] = 'Etternavn';
@@ -364,6 +415,7 @@ $labels['advanced'] = 'Avansert';
 $labels['other'] = 'Annet';
 $labels['printcontact'] = 'Skriv ut kontakt';
 $labels['qrcode'] = 'QR Kode';
+
 $labels['typehome'] = 'Hjem';
 $labels['typework'] = 'Jobb';
 $labels['typeother'] = 'Annet';
@@ -378,6 +430,7 @@ $labels['typeassistant'] = 'Assistent';
 $labels['typehomepage'] = 'Hjemmeside';
 $labels['typeblog'] = 'Blogg';
 $labels['typeprofile'] = 'Profil';
+
 $labels['addfield'] = 'Legg til felt ...';
 $labels['addcontact'] = 'Legg til kontakt';
 $labels['editcontact'] = 'Rediger kontakt';
@@ -387,6 +440,7 @@ $labels['contactnameandorg'] = 'Navn og Organisasjon';
 $labels['personalinfo'] = 'Personlig informasjon';
 $labels['personal'] = 'Personlig';
 $labels['contactphoto'] = 'Kontakt bilde';
+
 $labels['edit'] = 'Rediger';
 $labels['cancel'] = 'Avbryt';
 $labels['save'] = 'Lagre';
@@ -401,6 +455,7 @@ $labels['uploadphoto'] = 'Last opp bilde';
 $labels['choosefile'] = 'Velg fil...';
 $labels['choosefiles'] = 'Velg filer...';
 $labels['browse'] = 'Bla gjennom';
+
 $labels['newcontact'] = 'Opprett ny kontakt';
 $labels['deletecontact'] = 'Slett valgte kontakter';
 $labels['composeto'] = 'Skriv e-post til';
@@ -414,19 +469,24 @@ $labels['newgroup'] = 'Opprett ny gruppe';
 $labels['addgroup'] = 'Legg til gruppe';
 $labels['grouprename'] = 'Endre navn på gruppe';
 $labels['groupdelete'] = 'Slett gruppe';
+$labels['groupassign'] = 'Tildel gruppe...';
 $labels['groupremove'] = 'Fjern fra gruppe';
 $labels['groupremoveselected'] = 'Fjern valgte kontakter fra gruppe';
 $labels['uponelevel'] = 'Opp ett nivå';
+
 $labels['previouspage'] = 'Vis forrige sett';
 $labels['firstpage'] = 'Vis første sett';
 $labels['nextpage'] = 'Vis neste sett';
 $labels['lastpage'] = 'Vis siste sett';
+
 $labels['group'] = 'Gruppe';
 $labels['groups'] = 'Grupper';
 $labels['listgroup'] = 'Vis gruppemedlemmer';
 $labels['personaladrbook'] = 'Egne adresser';
+
 $labels['searchsave'] = 'Lagre søk';
 $labels['searchdelete'] = 'Slett søk';
+
 $labels['import'] = 'Importer';
 $labels['importcontacts'] = 'Importer kontakter';
 $labels['importfromfile'] = 'Importer fra fil';
@@ -435,20 +495,26 @@ $labels['importreplace'] = 'Erstatt hele adresseboken';
 $labels['importgroups'] = 'Importer gruppetilordninger';
 $labels['importgroupsall'] = 'Alle (opprett grupper hvis nødvendig)';
 $labels['importgroupsexisting'] = 'Bare for eksisterende grupper';
+$labels['importdesc'] = 'Du kan laste opp kontakter fra en eksisterende konktaktliste.<br/>Vi støtter foreløbig importen av kontakter under <a href="https://nb.wikipedia.org/wiki/VCard">vCard</a> eller CSV (kommaseparert fil) formatene.';
+$labels['importmapdesc'] = 'Vennligst bekreft at feltene under er fordelt riktig, før du går videre med å importere CSV (comma-separated) data.';
 $labels['fieldnotmapped'] = 'Felt er ubrukt (ikke importer)';
 $labels['skipheader'] = 'Ikke importer første linje (overskrifter)';
 $labels['done'] = 'Fullført';
+
+// settings
 $labels['settingsfor'] = 'Innstillinger for';
 $labels['about'] = 'Om';
 $labels['preferences'] = 'Oppsett';
 $labels['userpreferences'] = 'Brukeroppsett';
 $labels['editpreferences'] = 'Rediger brukeroppsett';
+
 $labels['identities'] = 'Identiteter';
 $labels['manageidentities'] = 'Behandle identiteter';
 $labels['newidentity'] = 'Opprett ny identitet';
 $labels['addidentity'] = 'Legg til identitet';
 $labels['editidentity'] = 'Rediger identitet';
 $labels['identityencryption'] = 'Kryptering';
+
 $labels['preferhtml'] = 'Foretrekk HTML';
 $labels['defaultcharset'] = 'Standard tegnsett';
 $labels['htmlmessage'] = 'HTML-melding';
@@ -483,6 +549,8 @@ $labels['askuser'] = 'spør hver gang';
 $labels['autosend'] = 'send automatisk';
 $labels['autosendknown'] = 'send kvittering til kontaktene mine, ellers spør meg';
 $labels['autosendknownignore'] = 'send kvittering til kontaktene mine, ellers ignorer';
+$labels['autosendtrusted'] = 'send kvittering til mine pålitelige kontakter, ellers spør meg';
+$labels['autosendtrustedignore'] = 'send kvittering til mine pålitelige kontakter, ellers ignorer';
 $labels['ignorerequest'] = 'Ignorer forespørsel';
 $labels['readwhendeleted'] = 'Merk melding som lest ved sletting';
 $labels['flagfordeletion'] = 'Flagg meldingen for sletting i stedet for å slette';
@@ -492,6 +560,7 @@ $labels['deletejunk'] = 'Slett meldinger i spam direkte';
 $labels['showremoteimages'] = 'Vis bilder fra eksterne servere i meldinger';
 $labels['allowremoteresources'] = 'Tillatt ekstrerne ressurser (bilder, stiler)';
 $labels['fromknownsenders'] = 'fra kjente avsendere';
+$labels['fromtrustedsenders'] = 'fra pålitelige avsendere';
 $labels['frommycontacts'] = 'fra mine kontakter';
 $labels['always'] = 'alltid';
 $labels['alwaysbutplain'] = 'Alltid, untatt når man svarer på ren tekst';
@@ -510,8 +579,10 @@ $labels['2047folding'] = 'Fullstendig RFC 2047 (andre)';
 $labels['force7bit'] = 'Bruk MIME-koding for 8-bit-tegn';
 $labels['savelocalstorage'] = "Lagre i nettleserens lokale minne (midlertidig)";
 $labels['advancedoptions'] = 'Avanserte alternativer';
+$labels['toggleadvancedoptions'] = 'Veksle visning av avanserte alternativer';
 $labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
 $labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';
+$labels['displaynext'] = 'Vis neste element i liste etter sletting/flytting';
 $labels['defaultfont'] = 'Standard skrifttype i HTML-melding';
 $labels['mainoptions'] = 'Hovedinnstillinger';
 $labels['browseroptions'] = 'Alternativer for nettleser';
@@ -539,9 +610,14 @@ $labels['replysamefolder'] = 'Legg svar i mappen til meldingen det svares på';
 $labels['defaultabook'] = 'Standard adressebok';
 $labels['autocompletesingle'] = 'Hopp over alternative e-postadresser i autofullføring';
 $labels['listnamedisplay'] = 'Vis kontakter som';
+$labels['contactformmode'] = 'Kontaktskjemamodus';
 $labels['privatemode'] = 'Privat (Hjem)';
 $labels['businessmode'] = 'Arbeid';
+$labels['collectedaddresses'] = 'Innsamlede adresser';
+$labels['collectedrecipients'] = 'Innsamlede mottakere';
 $labels['collectedrecipientsopt'] = 'Lagre utgående epost mottakere i';
+$labels['collectedsendersopt'] = 'Lagre pålitelige avsendere i';
+$labels['trustedsenders'] = 'Pålitelige avsendere';
 $labels['spellcheckbeforesend'] = 'Kontroller staving før en melding sendes';
 $labels['spellcheckoptions'] = 'Alternativer for stavekontroll';
 $labels['spellcheckignoresyms'] = 'Ignorer ord med symboler';
@@ -557,6 +633,8 @@ $labels['replyallmode'] = 'Standard valg for [Svar alle] knapp';
 $labels['replyalldefault'] = 'svar til alle';
 $labels['replyalllist'] = 'svar kun til epostliste (hvis funnet)';
 $labels['allmessages'] = 'alle meldinger';
+$labels['olderxdays'] = 'eldre enn $x dager';
+
 $labels['folder'] = 'Mappe';
 $labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenavn';
@@ -586,32 +664,45 @@ $labels['namespace.shared'] = 'Delt';
 $labels['dualuselabel'] = 'Kan kun inneholde';
 $labels['dualusemail'] = 'meldinger';
 $labels['dualusefolder'] = 'mapper';
+
 $labels['generate'] = 'Generer';
 $labels['encryptioncreatekey'] = 'Lag et nytt nøkkelpar';
 $labels['openmailvelopesettings'] = 'Åpne Mailvelope Innstillinger';
 $labels['encryptionprivkeysinmailvelope'] = 'Du har $nr treff på private nøkler lagret i din Mailvelope nøkkelring:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Denne senderidentiteteten har ingen privat PGP nøkkel i din Mailvelope utvidelse. Ønsker du å opprette én nå, for å kunne sende krypterte meldinger?';
 $labels['encryption'] = 'Kryptering';
+$labels['mailvelopeoptions'] = 'Mailvelope innstillinger';
+$labels['mailvelopemainkeyring'] = 'Bruke Mailvelope hovednøkkelring';
+$labels['mailvelopenotfound'] = 'Mailvelope utvidelsen er ikke installert/aktivert i din nettleser.';
+
 $labels['sortby'] = 'Sorter etter';
 $labels['sortasc'] = 'Eldste først';
 $labels['sortdesc'] = 'Nyeste først';
 $labels['undo'] = 'Angre';
+
 $labels['installedplugins'] = 'Installerte tillegg';
 $labels['plugin'] = 'Tilleggsmodul';
 $labels['version'] = 'Versjon';
 $labels['source'] = 'Kildekode';
+$labels['destination'] = 'Destinasjon';
 $labels['license'] = 'Lisensvilkår';
 $labels['support'] = 'Få hjelp';
 $labels['savedsearches'] = 'Lagrede søk';
+
 $labels['dateformatY'] = 'YYYY';
 $labels['dateformaty'] = 'YY';
 $labels['dateformatm'] = 'MM';
 $labels['dateformatd'] = 'DD';
 $labels['dateformatj'] = 'D';
 $labels['dateformatn'] = 'M';
+
+// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
+
+// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'Engelsk';
 $labels['westerneuropean'] = 'Vesteuropeisk';
@@ -630,18 +721,62 @@ $labels['vietnamese'] = 'Vietnamesisk';
 $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
+
+// accessibility (voice-only) headings and descriptions
 $labels['arialabeltopnav'] = 'Vinduskontroll';
 $labels['arialabeltasknav'] = 'Applikasjonsoppgave';
 $labels['arialabeltoolbar'] = 'Applikasjonsverktøylinje';
+$labels['arialabellistnav'] = 'Vis navigering';
 $labels['arialabelactivetask'] = 'Aktiv oppgave';
+$labels['arialabelmessagessearchfilter'] = 'Epostlistefilter';
+$labels['arialabelmailsearchform'] = 'Epostmelding søkeskjema';
+$labels['arialabelcontactsearchform'] = 'Kontakt søkeskjema';
+$labels['arialabelmailquicksearchbox'] = 'Epost søkeinntast';
+$labels['arialabelquicksearchbox'] = 'Søkeinntast';
+$labels['arialabelfoldersearchfilter'] = 'Mappelistefilter';
+$labels['arialabelfoldersearchform'] = 'Mappe søkeskjema';
+$labels['arialabelfolderlist'] = 'Valg av epostmappe';
+$labels['arialabelmessagelist'] = 'Epostmelding liste';
 $labels['arialabelmailpreviewframe'] = 'Meldingsforhåndsvisning';
+$labels['arialabelmailboxmenu'] = 'Mappehåndtering meny';
+$labels['arialabellistselectmenu'] = 'Vis valgmeny';
+$labels['arialabelthreadselectmenu'] = 'Trådliste meny';
+$labels['arialabelmessagelistoptions'] = 'Visning av meldingsliste og sorteringsalternativer';
+$labels['arialabelmailimportdialog'] = 'Meldingsimport';
+$labels['arialabelmessagenav'] = 'Meldingsnavigering';
 $labels['arialabelmessagebody'] = 'Meldingskropp';
+$labels['arialabelmessageactions'] = 'Meldingshåndtering';
+$labels['arialabelcontactquicksearch'] = 'Kontakt søkeskjema';
+$labels['arialabelcontactsearchbox'] = 'Kontakt søkeinntast';
 $labels['arialabelmessageheaders'] = 'Meldingshoder';
 $labels['arialabelforwardingoptions'] = 'Videresendingsalternativer';
 $labels['arialabelreplyalloptions'] = '"Svar til alle"-alternativer';
+$labels['arialabelmoremessageactions'] = 'Flere meldingshåndtering';
+$labels['arialabelmorecontactactions'] = 'Flere kontaktshåndtering';
 $labels['arialabelmarkmessagesas'] = 'Merk markerte medlinger som...';
+$labels['arialabelcomposeoptions'] = 'Skrivealternativer';
+$labels['arialabelresponsesmenu'] = 'Minimisert svaremeny';
+$labels['arialabelattachmentuploadform'] = 'Vedlegg opplastingsskjema';
 $labels['arialabelattachmentmenu'] = 'Vedleggsalternativer';
+$labels['arialabelmailtomenu'] = 'Epostadressealternativer';
 $labels['arialabelattachmentpreview'] = 'Forhåndsvisning av vedlegg';
 $labels['ariasummarycomposecontacts'] = 'Vis kontakter og grupper for å velge som mottakere';
+$labels['arialabelcontactexportoptions'] = 'Kontakteksport alternativer';
+$labels['arialabelabookgroupoptions'] = 'Kontaktliste/gruååe alternativer';
+$labels['arialabelpreferencesform'] = 'Preferanseskjema';
+$labels['arialabelidentityeditfrom'] = 'Identitet redigeringsskjema';
+$labels['arialabelresponseeditfrom'] = 'Svar redigeringsskjema';
 $labels['arialabelsearchterms'] = 'Søketermer';
+$labels['arialabeldropactionmenu'] = 'Dra-og-slipp håndteringsmeny';
+$labels['arialabelheadersmenu'] = 'Mottakerinnlegging (hode) meny';
 $labels['arialabelimagetools'] = 'Bildeverktøy';
+
+$labels['helplistnavigation'] = 'Vis tastatursnarveier';
+$labels['helplistkeyboardnavigation'] = "Pil opp/ned: Flytt linje i fokus.
+Mellomrom: Velg linjen i fokus.
+Shift + opp/ned: Legg linjen opp eller ned til valget.
+Ctrl + Mellomrom: Legg eller fjern linjen i fokus fra valget.";
+$labels['helplistkeyboardnavmessages'] = "Høyre/venstre pil: Utvid/bryt sammen meldingstråden (bare i trådmodus).
+Enter: Åpne valgt melding.
+Delete: Flytt valgt melding til mappen \"Slettet\".";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Åpne valgt kontakt.";
