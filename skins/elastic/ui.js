@@ -1730,11 +1730,11 @@ function rcube_elastic_ui()
                 $('#logo').data('src-default', $('#logo').attr('src'));
             }
 
-            if (mode == 'phone' && logos['small']) {
-                $('#logo').attr('src', logos['small']);
-            }
-            else if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
+            if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
                 $('#logo').attr('src', logos['small-dark']);
+            }
+            else if (mode == 'phone' && logos['small']) {
+                $('#logo').attr('src', logos['small']);
             }
             else if (color_mode == 'dark' && logos['dark']) {
                 $('#logo').attr('src', logos['dark']);
