@@ -22,6 +22,7 @@
 - Fix fetching headers of multiple message parts at once in rcube_imap_generic::fetchMIMEHeaders() (#8282)
 - Fix bug where attachment download could sometimes fail with a CSRF check error (#8283)
 - Fix an infinite loop when parsing environment variables with float/integer values (#8293)
+- Fix so 'small-dark' logo has more priority than the 'small' logo (#8298)
 
 ## Release 1.5.0
 
