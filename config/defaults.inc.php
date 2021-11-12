@@ -785,7 +785,7 @@ $config['show_real_foldernames'] = false;
 $config['quota_zero_as_unlimited'] = false;
 
 // Make use of the built-in spell checker.
-$config['enable_spellcheck'] = false;
+$config['enable_spellcheck'] = true;
 
 // Enables spellchecker exceptions dictionary.
 // Setting it to 'shared' will make the dictionary shared by all users.
