@@ -2,7 +2,7 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.3.16                                                          |
+ | Version 1.3.17                                                          |
  |                                                                         |
  | Copyright (C) 2005-2019, The Roundcube Dev Team                         |
  |                                                                         |
