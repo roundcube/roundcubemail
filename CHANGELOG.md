@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.5.1
 
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)

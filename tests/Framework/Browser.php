@@ -59,7 +59,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     {
         return [
             'WIN: Mozilla Firefox ' => [
-                'useragent'    => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.1',
+                'useragent'    => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.1.1',
                 'version'      => '1.8',
                 'isWin'        => true,
                 'isLinux'      => false,
