@@ -124,21 +124,29 @@ class Rcmail_Rcmail extends ActionTestCase
     function test_url()
     {
         $rcmail = rcmail::get_instance();
+
         $this->assertEquals(
             './?_task=cli&_action=test',
             $rcmail->url('test'),
             "Action only"
         );
+
         $this->assertEquals(
             './?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
             "Unprefixed parameters"
         );
+
         $this->assertEquals(
             './?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             "Prefixed parameters (skip empty)"
         );
+
+        $this->assertEquals('./?_task=cli', $rcmail->url([]), "Empty input");
+        $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
+        $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+
         $this->assertEquals(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
@@ -158,6 +166,7 @@ class Rcmail_Rcmail extends ActionTestCase
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
+
         $_SERVER['SCRIPT_NAME'] = '';
         $this->assertEquals(
             '/?_task=cli&_action=test&_mode=ABS',
