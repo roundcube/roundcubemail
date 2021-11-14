@@ -1406,17 +1406,11 @@ class rcube_utils
      * Generate a random string
      *
      * @param int  $length String length
-     * @param bool $raw    Return RAW data instead of ascii
      *
      * @return string The generated random string
      */
-    public static function random_bytes($length, $raw = false)
+    public static function random_string($length)
     {
-        // Use PHP7 true random generator
-        if ($raw) {
-            return random_bytes($length);
-        }
-
         $hextab  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $tabsize = strlen($hextab);
 

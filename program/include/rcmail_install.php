@@ -179,7 +179,7 @@ class rcmail_install
         $value = $this->config[$name] ?? null;
 
         if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"])) {
-            $value = rcube_utils::random_bytes(24);
+            $value = rcube_utils::random_string(24);
         }
 
         return $value !== null && $value !== '' ? $value : $default;
@@ -206,7 +206,7 @@ class rcmail_install
 
             // generate new encryption key, never use the default value
             if ($prop == 'des_key' && $value == $this->defaults[$prop]) {
-                $value = rcube_utils::random_bytes(24);
+                $value = rcube_utils::random_string(24);
             }
 
             // convert some form data

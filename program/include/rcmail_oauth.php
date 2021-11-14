@@ -167,7 +167,7 @@ class rcmail_oauth
     {
         if (!empty($this->options['auth_uri']) && !empty($this->options['client_id'])) {
             // create a secret string
-            $_SESSION['oauth_state'] = rcube_utils::random_bytes(12);
+            $_SESSION['oauth_state'] = rcube_utils::random_string(12);
 
             // compose full oauth login uri
             $delimiter = strpos($this->options['auth_uri'], '?') > 0 ? '&' : '?';

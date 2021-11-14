@@ -202,7 +202,7 @@ abstract class rcube_session
     public function create($data)
     {
         $length = strlen(session_id());
-        $key    = rcube_utils::random_bytes($length);
+        $key    = rcube_utils::random_string($length);
 
         // create new session
         if ($this->write($key, $this->serialize($data))) {
@@ -641,7 +641,7 @@ abstract class rcube_session
                 $secret = $_SESSION['auth_secret'];
             }
             else {
-                $secret = rcube_utils::random_bytes(strlen($this->key));
+                $secret = rcube_utils::random_string(strlen($this->key));
             }
         }
 

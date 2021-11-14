@@ -263,7 +263,7 @@ class rcube_user
 
         // generate a random hash and store it in user prefs
         if (empty($prefs['client_hash'])) {
-            $prefs['client_hash'] = rcube_utils::random_bytes(16);
+            $prefs['client_hash'] = rcube_utils::random_string(16);
             $this->save_prefs(['client_hash' => $prefs['client_hash']]);
         }
 

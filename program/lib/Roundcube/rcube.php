@@ -899,7 +899,7 @@ class rcube
 
         $ckey   = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
-        $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
+        $iv     = random_bytes(openssl_cipher_iv_length($method));
         $tag    = null;
 
         // This distinction is for PHP 7.3 which throws a warning when
@@ -988,7 +988,7 @@ class rcube
             if (empty($_SESSION['secure_token']) && $generate) {
                 // generate x characters long token
                 $length = $len > 1 ? $len : 16;
-                $token  = rcube_utils::random_bytes($length);
+                $token  = rcube_utils::random_string($length);
 
                 $plugin = $this->plugins->exec_hook('secure_token', ['value' => $token, 'length' => $length]);
 
@@ -1009,7 +1009,7 @@ class rcube
     public function get_request_token()
     {
         if (empty($_SESSION['request_token'])) {
-            $plugin = $this->plugins->exec_hook('request_token', ['value' => rcube_utils::random_bytes(32)]);
+            $plugin = $this->plugins->exec_hook('request_token', ['value' => rcube_utils::random_string(32)]);
 
             $_SESSION['request_token'] = $plugin['value'];
         }

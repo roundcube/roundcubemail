@@ -691,15 +691,14 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * rcube:utils::random_bytes()
+     * rcube:utils::random_string()
      */
-    function test_random_bytes()
+    function test_random_string()
     {
-        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
-        $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
-        $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
-        $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
-        $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_string(15));
+        $this->assertSame(1, strlen(rcube_utils::random_string(1)));
+        $this->assertSame(0, strlen(rcube_utils::random_string(0)));
+        $this->assertSame(0, strlen(rcube_utils::random_string(-1)));
     }
 
     /**
