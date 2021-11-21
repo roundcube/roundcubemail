@@ -1417,15 +1417,12 @@ class rcube_utils
             return random_bytes($length);
         }
 
-        $hextab  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        $tabsize = strlen($hextab);
+        do {
+            $base64_random_string = base64_encode(random_bytes($length));
+            $base62_random_string = str_replace(array('+', '/', '='), '', $base64_random_string);
+        } while ( strlen($base62_random_string) < $length );
 
-        $result = '';
-        while ($length-- > 0) {
-            $result .= $hextab[random_int(0, $tabsize - 1)];
-        }
-
-        return $result;
+        return substr($base62_random_string, 0, $length);
     }
 
     /**
