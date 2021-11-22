@@ -8,7 +8,9 @@ all: clean complete dependent framework
 complete: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); jq '.require += {"kolab/net_ldap3": "~1.1.1"} | del(.suggest."kolab/net_ldap3")' --indent 4 composer.json-dist > composer.json)
+	(cd roundcubemail-$(VERSION); cp composer.json composer.json-bak; /tmp/composer.phar config platform.php 5.5; /tmp/composer.phar require symfony/polyfill-intl-idn:1.19.0 --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --ignore-platform-reqs)
+	(cd roundcubemail-$(VERSION); mv composer.json-bak composer.json)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
 	(cd roundcubemail-$(VERSION); rm jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf vendor/masterminds/html5/test vendor/pear/*/tests vendor/*/*/.git* vendor/pear/crypt_gpg/tools vendor/pear/console_commandline/docs vendor/pear/mail_mime/scripts vendor/pear/net_ldap2/doc vendor/pear/net_smtp/docs vendor/pear/net_smtp/examples vendor/pear/net_smtp/README.rst vendor/endroid/qrcode/tests temp/js_cache)
