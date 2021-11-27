@@ -114,10 +114,6 @@ class jqueryui extends rcube_plugin
         $script = 'plugins/jqueryui/js/jquery.minicolors.min.js';
         $css    = self::$css_path . "/jquery.minicolors.css";
 
-        if (!self::asset_exists($css)) {
-            $css = "themes/larry/jquery.minicolors.css";
-        }
-
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
         $config       = ['theme' => $colors_theme];
         $config_str   = rcube_output::json_serialize($config);
@@ -144,10 +140,6 @@ class jqueryui extends rcube_plugin
         $css    = self::$css_path . "/tagedit.css";
 
         if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
-            if (!self::asset_exists($css)) {
-                $css = "themes/larry/tagedit.css";
-            }
-
             $rcube->output->include_css('plugins/jqueryui/' . $css);
         }
 
