@@ -5,7 +5,7 @@
 - Added support for PHP 8.1 (#8151)
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
-- Moved the Classic skin to its own repository (#8271)
+- Moved the Classic and Larry skins to their own repository (#8271)
 - SQLite: Use foreign keys, require SQLite >= 3.6.19
 - Replace Endroid QrCode with BaconQrCode (#8173)
 - Support responses (snippets) in HTML format (#5315)
