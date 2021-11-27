@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added support for PHP 8.1 (#8151)
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration
 - Moved the Classic skin to its own repository (#8271)
