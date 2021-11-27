@@ -125,12 +125,13 @@ class rcube_vcard
             $this->raw = self::charset_convert($this->raw);
         }
         // vcard has encoded values and charset should be detected
-        else if (
-            $detect && self::$values_decoded
-            && ($detected_charset = self::detect_encoding(self::vcard_encode($this->raw)))
-            && $detected_charset != RCUBE_CHARSET
-        ) {
-            $this->raw = self::charset_convert($this->raw, $detected_charset);
+        else if (self::$values_decoded) {
+            if ($detect) {
+                $charset = self::detect_encoding(self::vcard_encode($this->raw));
+            }
+            if ($charset != RCUBE_CHARSET) {
+                $this->raw = self::charset_convert($this->raw, $detected_charset);
+            }
         }
 
         // find well-known address fields
@@ -542,12 +543,7 @@ class rcube_vcard
     {
         $out = [];
 
-        // check if charsets are specified (usually vcard version < 3.0 but this is not reliable)
-        if (preg_match('/charset=/i', substr($data, 0, 2048))) {
-            $charset = null;
-        }
-        // detect charset and convert to utf-8
-        else if (($charset = self::detect_encoding($data)) && $charset != RCUBE_CHARSET) {
+        if (($charset = self::detect_encoding($data)) && $charset != RCUBE_CHARSET) {
             $data = rcube_charset::convert($data, $charset);
             $data = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $data); // also remove BOM
             $charset = RCUBE_CHARSET;
@@ -565,7 +561,8 @@ class rcube_vcard
 
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
-                $obj = new rcube_vcard($vcard_block, $charset, true, self::$fieldmap);
+                $obj = new rcube_vcard($vcard_block, $charset, false, self::$fieldmap);
+
                 // FN and N is required by vCard format (RFC 2426)
                 // on import we can be less restrictive, let's addressbook decide
                 if (!empty($obj->displayname) || !empty($obj->surname) || !empty($obj->firstname) || !empty($obj->email)) {
@@ -975,7 +972,7 @@ class rcube_vcard
     }
 
     /**
-     * Returns UNICODE type based on BOM (Byte Order Mark)
+     * Returns character set of a vCard input
      *
      * @param string $string Input string to test
      *
@@ -983,6 +980,74 @@ class rcube_vcard
      */
     private static function detect_encoding($string)
     {
+        // Detect common encodings
+        if (substr($string, 0, 4) == "\0\0\xFE\xFF") return 'UTF-32BE';  // Big Endian
+        if (substr($string, 0, 4) == "\xFF\xFE\0\0") return 'UTF-32LE';  // Little Endian
+        if (substr($string, 0, 2) == "\xFE\xFF")     return 'UTF-16BE';  // Big Endian
+        if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
+        if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
+
+        // heuristics
+        if (strlen($string) >= 4) {
+            if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
+            if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
+        }
+
+        // Extract the plain text from the vCard, so the detection is more accurate
+        // This will for example exclude photos
+
+        // Perform RFC2425 line unfolding and split lines
+        $string = preg_replace(["/\r/", "/\n\s+/"], '', $string);
+        $lines  = explode("\n", $string);
+        $string = '';
+
+        for ($i = 0, $len = count($lines); $i < $len; $i++) {
+            if (!($pos = strpos($lines[$i], ':'))) {
+                continue;
+            }
+
+            $prefix = substr($lines[$i], 0, $pos);
+
+            // Take only properties that are known to contain human-readable text
+            if (!preg_match('/^(item\d+\.)?(N|FN|ORG|ADR|NOTE|TITLE|CATEGORIES)(;|$)/', $prefix)) {
+                continue;
+            }
+
+            $data = substr($lines[$i], $pos + 1);
+
+            if (preg_match('/;CHARSET=([a-z0-9-]+)/i', $prefix, $matches)) {
+                // We assume there's only one charset in the input
+                return $matches[1];
+            }
+
+            $matches = null;
+            $enc = null;
+
+            if (stripos($prefix, 'base64') || preg_match('/ENCODING=(QUOTED-PRINTABLE|B|BASE64)/i', $prefix, $matches)) {
+                $enc = $matches ? strtoupper($matches[1]) : 'BASE64';
+                // add next line(s) to value string if QP line end detected
+                if ($enc == 'QUOTED-PRINTABLE') {
+                    while (preg_match('/=$/', $lines[$i])) {
+                        $data .= "\n" . $lines[++$i];
+                    }
+                }
+
+                $data = self::decode_value($data, $enc);
+            }
+
+            if (!$enc || $enc == 'QUOTED-PRINTABLE') {
+                $data = self::vcard_unquote($data);
+            }
+
+            if (is_array($data)) {
+                $data = implode(' ', array_filter($data));
+            }
+
+            $string .= $data . ' ';
+        }
+
         $fallback = rcube::get_instance()->config->get('default_charset', 'ISO-8859-1'); // fallback to Latin-1
 
         return rcube_charset::detect($string, $fallback);
