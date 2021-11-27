@@ -485,7 +485,7 @@ class rcube_charset
 
             $encodings = array_unique(array_merge($prio, mb_list_encodings()));
 
-            if ($encoding = mb_detect_encoding($string, $encodings)) {
+            if ($encoding = mb_detect_encoding($string, $encodings, true)) {
                 return $encoding;
             }
         }
