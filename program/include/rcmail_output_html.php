@@ -2375,8 +2375,8 @@ EOF;
             }
         }
         else if (is_array($default_host) && ($host = key($default_host)) !== null) {
-            $input_host = new html_hiddenfield([
-                'name' => '_host', 'id' => 'rcmloginhost', 'value' => is_numeric($host) ? $default_host[$host] : $host] + $attrib);
+            $val = is_numeric($host) ? $default_host[$host] : $host;
+            $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
             $input_host = null;
@@ -2396,7 +2396,9 @@ EOF;
 
         if (rcube_utils::get_boolean($attrib['submit'])) {
             $button_attr = ['type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit'];
-            $form_content['buttons']['submit'] = ['outterclass' => 'formbuttons', 'content' => html::tag('button', $button_attr, $this->app->gettext('login'))];
+            $button      = html::tag('button', $button_attr, $this->app->gettext('login'));
+
+            $form_content['buttons']['submit'] = ['outterclass' => 'formbuttons', 'content' => $button];
         }
 
         // add oauth login button
@@ -2408,8 +2410,15 @@ EOF;
                 $form_content['buttons'] = [];
             }
 
-            $link_attr = ['href' => $this->app->url(['action' => 'oauth']), 'id' => 'rcmloginoauth', 'class' => 'button oauth ' . $this->config->get('oauth_provider')];
-            $button = html::a($link_attr, $this->app->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $this->config->get('oauth_provider_name', 'OAuth')]]));
+            $link_attr = [
+                'href'  => $this->app->url(['action' => 'oauth']),
+                'id'    => 'rcmloginoauth',
+                'class' => 'button oauth ' . $this->config->get('oauth_provider')
+            ];
+
+            $provider = $this->config->get('oauth_provider_name', 'OAuth');
+            $button   = html::a($link_attr, $this->app->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $provider]]));
+
             $form_content['buttons']['oauthlogin'] = ['outterclass' => 'oauthlogin', 'content' => $button];
         }
 

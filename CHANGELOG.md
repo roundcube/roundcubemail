@@ -17,6 +17,7 @@
 - Improve auto-wrapping of plain text messages on preview and reply, don't wrap non-format=flowed content (#6974)
 - Improve searching by sender/recipient headers, support Reply-To and Followup-To (#6582)
 - Add option to control links handling behavior on html to text conversion (#6485)
+- Add 'loginform_content' plugin hook (#8273, #6569)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Display a generic error page on initial DB/configuration errors (#8222)
 - Display telephone numbers as tel: links (#8240)
