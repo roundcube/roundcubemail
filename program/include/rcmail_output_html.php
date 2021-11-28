@@ -188,7 +188,7 @@ EOF;
     {
         // set absolute path for assets if /index.php/foo/bar url is used
         if (empty($path) && !empty($_SERVER['PATH_INFO'])) {
-            $path = preg_replace('/\/?\?_task=[a-z]+/', '', $this->app->url([], true));
+            $path = preg_replace('/\?_task=[a-z]+/', '', $this->app->url([], true));
         }
 
         if (empty($path)) {
