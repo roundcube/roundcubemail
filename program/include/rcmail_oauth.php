@@ -429,7 +429,7 @@ class rcmail_oauth
     protected function mask_auth_data(&$data)
     {
         // compute absolute token expiration date
-        $data['expires'] = time() + $data['expires_in'] - 600;
+        $data['expires'] = time() + $data['expires_in'] - 10;
 
         // encrypt refresh token if provided
         if (isset($data['refresh_token'])) {
