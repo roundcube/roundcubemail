@@ -34,6 +34,10 @@
 - Password: Add Mailcow driver (#8291)
 - Fix compatibility with Referrer-Policy: "strict-origin" (#8170)
 - Fix locked SQLite database for the CLI tools (#8035)
+- Fix Makefile on Linux (#8211)
+
+## Release 1.5.1
+
 - Fix importing contacts with no email address (#8227)
 - Fix so session's search scope is not used if search is not active (#8199)
 - Fix some PHP8 warnings (#8239)
@@ -43,7 +47,6 @@
 - Fix handling of dark_mode_support:false setting in skins meta.json - also when devel_mode=false (#8249)
 - Fix database initialization if db_prefix is a schema prefix (#8221)
 - Fix undefined constant error in Installer on Windows (#8258)
-- Fix Makefile on Linux (#8211)
 - Fix installation/upgrade on MySQL 5.5 - Index column size too large (#8231)
 - Fix regression in setting of contact listing name (#8260)
 - Fix bug in Larry skin where headers toggle state was reset on full page preview (#8203)
