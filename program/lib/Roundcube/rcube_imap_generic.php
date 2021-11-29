@@ -2941,15 +2941,16 @@ class rcube_imap_generic
                 $bytes = (int) $m[1];
                 $prev  = '';
                 $found = true;
+                $chunkSize = 1024 * 1024;
 
                 // empty body
                 if (!$bytes) {
                     $result = '';
                 }
                 else while ($bytes > 0) {
-                    $line = $this->readLine(8192);
+                    $line = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
-                    if ($line === null) {
+                    if ($line === '') {
                         break;
                     }
 
