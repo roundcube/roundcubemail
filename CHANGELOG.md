@@ -1,5 +1,11 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)
+- OAuth: fix expiration of short-lived oauth tokens (#8147)
+- OAuth: fix relative path to assets if /index.php/foo/bar url is used (#8144)
+
 ## Release 1.5.1
 
 - Fix importing contacts with no email address (#8227)
