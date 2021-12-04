@@ -190,7 +190,10 @@ class HTTPSocket
             $this->set_login($location['user'], $location['pass']);
 
             $request = $location['path'];
-            $content = $location['query'];
+            
+            if ($content == '') {
+                $content = $location['query'];
+            }
 
             if (strlen($request) < 1) {
                 $request = '/';
@@ -320,7 +323,7 @@ class HTTPSocket
 
                 $this->max_redirects--;
                 $this->redirectURL = $headers['location'];
-                $this->query($headers['location']);
+                $this->query($headers['location'], $content);
             }
         }
     }
