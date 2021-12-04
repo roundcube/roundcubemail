@@ -26,7 +26,7 @@ if [ $# -gt 0 ]; then
     exit
 fi
 
-DIRS="$PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
+DIRS="$PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*  $PWD/../plugins/*/themes/*"
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.css; do
