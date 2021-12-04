@@ -6,7 +6,7 @@ on:
 
 jobs:
   browser_tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
@@ -21,15 +21,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: '8.1'
           extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
           tools: composer:v2
           coverage: none
 
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          java-version: '1.8'
 
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -52,9 +52,9 @@ jobs:
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
       - name: Setup NPM
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '16'
 
       - name: Setup NPM deps
         run: |
