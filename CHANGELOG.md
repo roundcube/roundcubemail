@@ -38,6 +38,9 @@
 - Fix compatibility with Referrer-Policy: "strict-origin" (#8170)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix Makefile on Linux (#8211)
+- Fix so folder search parameters are honored by subscriptions_option plugin (#8312)
+- Fix password change with Directadmin driver (#8322, #8329)
+- Fix so css files in plugins/jqueryui/themes will be minified too (#8337)
 
 ## Release 1.5.1
 
