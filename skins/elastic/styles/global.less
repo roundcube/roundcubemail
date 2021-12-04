@@ -95,3 +95,27 @@ a {
         opacity: .5;
     }
 }
+
+/* Scrollbar styles */
+
+html {
+    scrollbar-color: @color-scrollbar-thumb @color-scrollbar-track;
+    scrollbar-width: @scrollbar-width;
+
+    &:not(.touch) {
+        ::-webkit-scrollbar when (@scrollbar-width = auto) {
+            width: 14px;
+        }
+        ::-webkit-scrollbar when (@scrollbar-width = thin) {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: @color-scrollbar-track;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: @color-scrollbar-thumb;
+        }
+    }
+}

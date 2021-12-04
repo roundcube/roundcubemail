@@ -13,7 +13,7 @@
 
 html.dark-mode {
     scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
-    scrollbar-width: thin;
+    scrollbar-width: @scrollbar-dark-width;
 
     textarea,
     select,
@@ -26,20 +26,23 @@ html.dark-mode {
     .table-responsive-sm,
     .scroller {
         // Firefox does not inherit scrollbar size from the html element
-        scrollbar-width: thin;
+        scrollbar-width: @scrollbar-dark-width;
     }
 
     &:not(.touch) {
-        ::-webkit-scrollbar {
+        ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
+            width: 14px;
+        }
+        ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
             width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background-color: @color-dark-border;
+            background-color: @color-dark-scrollbar-track;
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: @color-dark-main;
+            background-color: @color-dark-scrollbar-thumb;
         }
     }
 
@@ -774,7 +777,7 @@ html.dark-mode {
         }
 
         .tox-menu {
-            scrollbar-width: thin;
+            scrollbar-width: @scrollbar-dark-width;
             background-color: @color-dark-popover-background;
             border-color: @color-dark-popover-border;
             box-shadow: none;
@@ -782,7 +785,7 @@ html.dark-mode {
 
         .tox-dialog__body-nav,
         .tox-collection__group {
-            scrollbar-width: thin;
+            scrollbar-width: @scrollbar-dark-width;
         }
 
         .tox-collection__item-caret svg {
@@ -978,7 +981,7 @@ html.dark-mode {
     }
 
     .ui-menu {
-        scrollbar-width: thin;
+        scrollbar-width: @scrollbar-dark-width;
         background-color: @color-dark-popover-background;
         border-color: @color-dark-popover-border;
         box-shadow: none;
