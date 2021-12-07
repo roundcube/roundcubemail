@@ -109,7 +109,7 @@ class bootstrap
     private static function init_db_user($db)
     {
         $rcmail = rcmail::get_instance();
-        $imap_host = $rcmail->config->get('default_host');
+        $imap_host = $rcmail->config->get('imap_host');
 
         if ($host = parse_url($imap_host, PHP_URL_HOST)) {
             $imap_host = $host;
@@ -152,12 +152,12 @@ class bootstrap
             self::$imap_ready = false;
         }
 
-        $imap_host = $rcmail->config->get('default_host');
+        $imap_host = $rcmail->config->get('imap_host');
         $a_host = parse_url($imap_host);
         if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
             $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls']);
-            $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
+            $imap_port = $a_host['port'] ?? ($imap_ssl ? 993 : 143);
         }
         else {
             $imap_port = 143;

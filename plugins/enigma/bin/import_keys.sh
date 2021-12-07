@@ -86,7 +86,7 @@ function get_host($args)
     global $rcmail;
 
     if (empty($args['host'])) {
-        $hosts = $rcmail->config->get('default_host', '');
+        $hosts = $rcmail->config->get('imap_host', '');
         if (is_string($hosts)) {
             $args['host'] = $hosts;
         }

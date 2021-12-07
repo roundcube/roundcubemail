@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+- Unified and simplified services connection options (#8310):
+    1. IMAP:
+        - renamed `default_host` to `imap_host`
+        - removed `default_port` option (non-standard port can be set via `imap_host`)
+        - set "tls://localhost:143" as a default for `imap_host`
+    2. SMTP:
+        - renamed `smtp_server` to `smtp_host`
+        - removed `smtp_port` option (non-standard port can be set via `smtp_host`)
+        - set "tls://localhost:587" as a default for `smtp_host`
+    3. LDAP:
+        - removed `port` option from `ldap_public` array (non-standard port can be set via `host`)
+        - removed `use_tls` option from `ldap_public` array (use tls:// prefix in `host`)
+    4. Managesieve:
+        - removed `managesieve_port` option (non-standard port can be set via `managesieve_host`)
+        - removed `managesieve_usetls` option (tls:// prefix in `managesieve_host` have to be used)
+- Plugin API: Removed `smtp_port` parameter in `smtp_connect` hook
+- Plugin API: Renamed `smtp_server` parameter to `smtp_host` in `smtp_connect` hook
+- Plugin API: Removed `port` parameter in `managesieve_connect` hook
+- Plugin API: Removed `usetls` parameter in `managesieve_connect` hook
 - Added support for PHP 8.1 (#8151)
 - Dropped support for PHP < 7.3 (#7976)
 - Dropped support for strftime-like format (with % sign) in date and time format configuration

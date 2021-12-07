@@ -2302,7 +2302,7 @@ EOF;
      */
     protected function login_form($attrib)
     {
-        $default_host     = $this->config->get('default_host');
+        $default_host     = $this->config->get('imap_host');
         $autocomplete     = (int) $this->config->get('login_autocomplete');
         $username_filter  = $this->config->get('login_username_filter');
         $_SESSION['temp'] = true;

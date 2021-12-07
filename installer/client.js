@@ -28,7 +28,7 @@ function addhostfield()
   var input = document.createElement('input');
   var link = document.createElement('a');
 
-  input.name = '_default_host[]';
+  input.name = '_imap_host[]';
   input.size = '30';
   link.href = '#';
   link.onclick = function() { removehostfield(this.parentNode); return false };
@@ -46,5 +46,3 @@ function removehostfield(row)
   var container = document.getElementById('defaulthostlist');
   container.removeChild(row);
 }
-
-
