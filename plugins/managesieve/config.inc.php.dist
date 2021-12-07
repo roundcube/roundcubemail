@@ -1,15 +1,14 @@
 <?php
 
-// managesieve server port. When empty the port will be determined automatically
-// using getservbyname() function, with 4190 as a fallback.
-$config['managesieve_port'] = null;
-
-// managesieve server address, default is localhost.
+// Managesieve server host (and optional port). Default: localhost.
 // Replacement variables supported in host name:
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
+// If port is omitted it will be determined automatically using getservbyname()
+// function, with 4190 as a fallback.
+// Note: Add tls:// prefix to enable TLS
 $config['managesieve_host'] = 'localhost';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
@@ -23,10 +22,6 @@ $config['managesieve_auth_cid'] = null;
 
 // Optional managesieve authentication password to be used for imap_auth_cid
 $config['managesieve_auth_pw'] = null;
-
-// use or not TLS for managesieve server connection
-// Note: tls:// prefix in managesieve_host is also supported
-$config['managesieve_usetls'] = false;
 
 // Connection socket context options
 // See http://php.net/manual/en/context.ssl.php

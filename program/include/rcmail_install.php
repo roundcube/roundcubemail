@@ -38,7 +38,7 @@ class rcmail_install
     public $email_pattern     = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
     public $bool_config_props = [];
 
-    public $local_config    = ['db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins'];
+    public $local_config    = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
     public $obsolete_config = ['db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check'];
     public $replaced_config = [
         'skin_path'            => 'skin',
@@ -50,6 +50,8 @@ class rcmail_install
         'top_posting'          => 'reply_mode',
         'keep_alive'           => 'refresh_interval',
         'min_keep_alive'       => 'min_refresh_interval',
+        'default_host'         => 'imap_host',
+        'smtp_server'          => 'smtp_host',
     ];
 
     // list of supported database drivers
@@ -223,7 +225,7 @@ class rcmail_install
             else if ($prop == 'smtp_auth_type' && $value == '0') {
                 $value = '';
             }
-            else if ($prop == 'default_host' && is_array($value)) {
+            else if ($prop == 'imap_host' && is_array($value)) {
                 $value = self::_clean_array($value);
                 if (count($value) <= 1) {
                     $value = $value[0];
@@ -600,13 +602,13 @@ class rcmail_install
      *
      * @return array Clean list with imap/smtp hosts
      */
-    public function get_hostlist($prop = 'default_host')
+    public function get_hostlist($prop = 'imap_host')
     {
         $hosts     = (array) $this->getprop($prop);
         $out       = [];
         $imap_host = '';
 
-        if ($prop == 'smtp_server') {
+        if ($prop == 'smtp_host') {
             // Set the imap host name for the %h macro
             $default_hosts = $this->get_hostlist();
             $imap_host = !empty($default_hosts) ? $default_hosts[0] : '';
@@ -614,7 +616,7 @@ class rcmail_install
 
         foreach ($hosts as $key => $name) {
             if (!empty($name)) {
-                if ($prop == 'smtp_server') {
+                if ($prop == 'smtp_host') {
                     // SMTP host array uses `IMAP host => SMTP host` format
                     $host = $name;
                 }

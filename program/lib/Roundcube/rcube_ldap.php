@@ -300,6 +300,20 @@ class rcube_ldap extends rcube_addressbook
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
         // see http://www.php.net/manual/en/function.ldap-connect.php
         foreach ((array) $this->prop['hosts'] as $host) {
+            $this->ldap->option_set('use_tls', false);
+
+            // Parse host specification into the format expected by Net_LDAP3 (ldap_connect)
+            $url = parse_url($host);
+            if (!empty($url['host'])) {
+                $host   = $url['host'];
+                $scheme = $url['scheme'] ?? 'ldap';
+                $port   = $url['port'] ?? ($scheme === 'ldaps' ? 636 : 389);
+
+                $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
+
+                $this->ldap->option_set('use_tls', $scheme === 'tls');
+            }
+
             // skip host if connection failed
             if (!$this->ldap->connect($host)) {
                 continue;

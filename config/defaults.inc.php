@@ -131,11 +131,12 @@ $config['redis_debug'] = false;
 // IMAP
 // ----------------------------------
 
-// The IMAP host chosen to perform the log-in.
+// The IMAP host (and optionally port number) chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
 // Enter hostname with prefix ssl:// to use Implicit TLS, or use
 // prefix tls:// to use STARTTLS.
+// If port number is omitted it will be set to 993 (for ssl://) or 143 otherwise.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
@@ -144,10 +145,7 @@ $config['redis_debug'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
-$config['default_host'] = 'localhost';
-
-// TCP port used for IMAP connections
-$config['default_port'] = 143;
+$config['imap_host'] = 'tls://localhost:143';
 
 // IMAP authentication method (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null).
 // Use 'IMAP' to authenticate with IMAP LOGIN command.
@@ -257,9 +255,10 @@ $config['messages_cache_threshold'] = 50;
 // SMTP
 // ----------------------------------
 
-// SMTP server host (for sending mails).
+// SMTP server host (and optional port number) for sending mails.
 // Enter hostname with prefix ssl:// to use Implicit TLS, or use
 // prefix tls:// to use STARTTLS.
+// If port number is omitted it will be set to 465 (for ssl://) or 587 otherwise.
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -269,10 +268,7 @@ $config['messages_cache_threshold'] = 50;
 // For example %n = mail.domain.tld, %t = domain.tld
 // To specify different SMTP servers for different IMAP hosts provide an array
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
-$config['smtp_server'] = 'localhost';
-
-// SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
-$config['smtp_port'] = 587;
+$config['smtp_host'] = 'tls://localhost:587';
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login
@@ -388,8 +384,8 @@ $config['oauth_login_redirect'] = false;
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 // - grant permissions to Microsoft Graph API "IMAP.AccessAsUser.All", "SMTP.Send", "User.Read" and "offline_access"
 
-// $config['default_host'] = 'ssl://outlook.office365.com';
-// $config['smtp_server'] = 'ssl://smtp.office365.com';
+// $config['imap_host'] = 'ssl://outlook.office365.com';
+// $config['smtp_host'] = 'ssl://smtp.office365.com';
 
 // $config['oauth_provider'] = 'outlook';
 // $config['oauth_provider_name'] = 'Outlook.com';
@@ -1031,9 +1027,9 @@ $config['ldap_public']['Verisign'] = [
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
   // Note: Host can also be a full URI e.g. ldaps://hostname.local:636 (for SSL)
-  'hosts'         => array('directory.verisign.com'),
-  'port'          => 389,
-  'use_tls'       => false,
+  // Note: If port number is omitted, it will be set to 636 (for ldaps://) or 389 otherwise.
+  // Note: To enable TLS use tls:// prefix
+  'hosts'         => array('directory.verisign.com:389'),
   'ldap_version'  => 3,       // using LDAPv3
   'network_timeout' => 10,    // The timeout (in seconds) for connect + bind attempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
@@ -1421,7 +1417,6 @@ $config['mdn_requests'] = 0;
 $config['mdn_default'] = 0;
 
 // Delivery Status Notification checkbox default state
-// Note: This can be used only if smtp_server is non-empty
 $config['dsn_default'] = 0;
 
 // Place replies in the folder of the message being replied to

@@ -669,8 +669,7 @@ class rcmail extends rcube
             return false;
         }
 
-        $default_host    = $this->config->get('default_host');
-        $default_port    = $this->config->get('default_port');
+        $imap_host       = $this->config->get('imap_host', 'tls://localhost:143');
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
 
@@ -682,17 +681,17 @@ class rcmail extends rcube
 
         // host is validated in rcmail::autoselect_host(), so here
         // we'll only handle unset host (if possible)
-        if (!$host && !empty($default_host)) {
-            if (is_array($default_host)) {
-                $key  = key($default_host);
-                $host = is_numeric($key) ? $default_host[$key] : $key;
+        if (!$host && !empty($imap_host)) {
+            if (is_array($imap_host)) {
+                $key  = key($imap_host);
+                $host = is_numeric($key) ? $imap_host[$key] : $key;
             }
             else {
-                $host = $default_host;
+                $host = $imap_host;
             }
-
-            $host = rcube_utils::parse_host($host);
         }
+
+        $host = rcube_utils::parse_host($host);
 
         if (!$host) {
             $this->login_error = self::ERROR_INVALID_HOST;
@@ -700,27 +699,15 @@ class rcmail extends rcube
         }
 
         // parse $host URL
-        $a_host = parse_url($host);
-        $ssl    = false;
-        $port   = null;
+        $url  = parse_url($host);
+        $ssl  = false;
+        $port = 143;
 
-        if (!empty($a_host['host'])) {
-            $host = $a_host['host'];
-
-            if (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) {
-                $ssl = $a_host['scheme'];
-            }
-
-            if (!empty($a_host['port'])) {
-                $port = $a_host['port'];
-            }
-            else if ($ssl && $ssl != 'tls' && (!$default_port || $default_port == 143)) {
-                $port = 993;
-            }
-        }
-
-        if (empty($port)) {
-            $port = $default_port;
+        if (!empty($url['host'])) {
+            $host   = $url['host'];
+            $scheme = $url['scheme'] ?? null;
+            $ssl    = in_array($scheme, ['ssl', 'imaps', 'tls']) ? $scheme : false;
+            $port   = $url['port'] ?? ($ssl && $ssl != 'tls' ? 993 : 143);
         }
 
         // Check if we need to add/force domain to username
@@ -969,7 +956,7 @@ class rcmail extends rcube
      */
     public function autoselect_host()
     {
-        $default_host = $this->config->get('default_host');
+        $default_host = $this->config->get('imap_host');
         $host         = null;
 
         if (is_array($default_host)) {

@@ -274,13 +274,13 @@ else {
     echo "<br/>";
 }
 
-$smtp_hosts = $RCI->get_hostlist('smtp_server');
+$smtp_hosts = $RCI->get_hostlist('smtp_host');
 if (!empty($smtp_hosts)) {
-    $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_server']);
+    $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_host']);
     $smtp_host_field->add($smtp_hosts, $smtp_hosts);
 }
 else {
-    $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_server']);
+    $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_host']);
 }
 
 $user = $RCI->getprop('smtp_user', '(none)');
@@ -311,12 +311,8 @@ else {
 <table>
 <tbody>
   <tr>
-    <td><label for="smtp_server">Server</label></td>
+    <td><label for="smtp_host">Host</label></td>
     <td><?php echo $smtp_host_field->show(isset($_POST['_smtp_host']) ? $_POST['_smtp_host'] : ''); ?></td>
-  </tr>
-  <tr>
-    <td><label for="smtp_port">Port</label></td>
-    <td><?php echo rcube::Q($RCI->getprop('smtp_port')); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>
@@ -340,7 +336,6 @@ if (isset($_POST['sendmail'])) {
     echo '<p>Trying to send email...<br />';
 
     $smtp_host = trim($_POST['_smtp_host']);
-    $smtp_port = $RCI->getprop('smtp_port');
 
     $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
     $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
@@ -372,7 +367,7 @@ if (isset($_POST['sendmail'])) {
         $head         = $mail_object->txtHeaders($send_headers);
 
         $SMTP = new rcube_smtp();
-        $SMTP->connect($smtp_host, $smtp_port, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
+        $SMTP->connect($smtp_host, null, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
         $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
         $smtp_response = $SMTP->get_response();
@@ -433,21 +428,17 @@ $pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 <table>
 <tbody>
   <tr>
-    <td><label for="imaphost">Server</label></td>
+    <td><label for="imaphost">Host</label></td>
     <td><?php echo $host_field->show(isset($_POST['_host']) ? $_POST['_host'] : ''); ?></td>
   </tr>
   <tr>
-    <td>Port</td>
-    <td><?php echo $RCI->getprop('default_port'); ?></td>
+    <td><label for="imapuser">Username</label></td>
+    <td><?php echo $user_field->show(isset($_POST['_user']) ? $_POST['_user'] : ''); ?></td>
   </tr>
-    <tr>
-      <td><label for="imapuser">Username</label></td>
-      <td><?php echo $user_field->show(isset($_POST['_user']) ? $_POST['_user'] : ''); ?></td>
-    </tr>
-    <tr>
-      <td><label for="imappass">Password</label></td>
-      <td><?php echo $pass_field->show(); ?></td>
-    </tr>
+  <tr>
+    <td><label for="imappass">Password</label></td>
+    <td><?php echo $pass_field->show(); ?></td>
+  </tr>
 </tbody>
 </table>
 
@@ -458,19 +449,14 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
 
     $imap_host = trim($_POST['_host']);
-    $imap_port = $RCI->getprop('default_port');
+    $imap_port = 143;
     $imap_ssl  = false;
-    $a_host    = parse_url($imap_host);
 
+    $a_host = parse_url($imap_host);
     if ($a_host['host']) {
         $imap_host = $a_host['host'];
         $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls'])) ? $a_host['scheme'] : null;
-        if (isset($a_host['port'])) {
-            $imap_port = $a_host['port'];
-        }
-        else if ($imap_ssl && $imap_ssl != 'tls' && (!$imap_port || $imap_port == 143)) {
-            $imap_port = 993;
-        }
+        $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
     }
 
     $imap_host = rcube_utils::idn_to_ascii($imap_host);

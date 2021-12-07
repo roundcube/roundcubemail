@@ -165,29 +165,13 @@ class rcube_sieve_engine
      */
     public function connect($username, $password)
     {
-        // Get connection parameters
         $host = $this->rc->config->get('managesieve_host', 'localhost');
-        $port = $this->rc->config->get('managesieve_port');
-        $tls  = $this->rc->config->get('managesieve_usetls', false);
-
         $host = rcube_utils::parse_host($host);
-        $host = rcube_utils::idn_to_ascii($host);
-
-        // remove tls:// prefix, set TLS flag
-        if (($host = preg_replace('|^tls://|i', '', $host, 1, $cnt)) && $cnt) {
-            $tls = true;
-        }
-
-        if (empty($port)) {
-            $port = getservbyname('sieve', 'tcp') ?: self::PORT;
-        }
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', [
                 'user'           => $username,
                 'password'       => $password,
                 'host'           => $host,
-                'port'           => $port,
-                'usetls'         => $tls,
                 'auth_type'      => $this->rc->config->get('managesieve_auth_type'),
                 'disabled'       => $this->rc->config->get('managesieve_disabled_extensions'),
                 'debug'          => $this->rc->config->get('managesieve_debug', false),
@@ -198,17 +182,32 @@ class rcube_sieve_engine
                 'gssapi_cn'      => null,
         ]);
 
+        $url = parse_url($plugin['host']);
+        $tls = false;
+
+        if (!empty($url['host'])) {
+            $host = $url['host'];
+            $port = $url['port'] ?? null;
+            $tls  = !empty($url['scheme']) && $url['scheme'] === 'tls';
+        }
+
+        if (empty($port)) {
+            $port = getservbyname('sieve', 'tcp') ?: self::PORT;
+        }
+
+        $host = rcube_utils::idn_to_ascii($host);
+
         // Handle per-host socket options
-        rcube_utils::parse_socket_options($plugin['socket_options'], $plugin['host']);
+        rcube_utils::parse_socket_options($plugin['socket_options'], $host);
 
         // try to connect to managesieve server and to fetch the script
         $this->sieve = new rcube_sieve(
             $plugin['user'],
             $plugin['password'],
-            $plugin['host'],
-            $plugin['port'],
+            $host,
+            $port,
             $plugin['auth_type'],
-            $plugin['usetls'],
+            $tls,
             $plugin['disabled'],
             $plugin['debug'],
             $plugin['auth_cid'],

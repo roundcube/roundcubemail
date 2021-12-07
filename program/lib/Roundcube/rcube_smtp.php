@@ -58,7 +58,7 @@ class rcube_smtp
         $this->error = $this->response = null;
 
         if (!$host) {
-            $host = $rcube->config->get('smtp_server');
+            $host = $rcube->config->get('smtp_host', 'tls://localhost:587');
             if (is_array($host)) {
                 if (array_key_exists($_SESSION['storage_host'], $host)) {
                     $host = $host[$_SESSION['storage_host']];
@@ -70,11 +70,15 @@ class rcube_smtp
                 }
             }
         }
+        else if (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
+            $host = "{$host}:{$port}";
+        }
+
+        $host = rcube_utils::parse_host($host);
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
-            'smtp_server'    => $host,
-            'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 587),
+            'smtp_host'      => $host,
             'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
             'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
             'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
@@ -88,28 +92,22 @@ class rcube_smtp
             'gssapi_cn'           => null,
         ]);
 
-        $smtp_host = rcube_utils::parse_host($CONFIG['smtp_server']);
-        // when called from Installer it's possible to have empty $smtp_host here
-        if (!$smtp_host) $smtp_host = 'localhost';
-        $smtp_port     = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
-        $smtp_host_url = parse_url($smtp_host);
+        $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
+        $smtp_port = 587;
+        $use_tls   = false;
 
-        // overwrite port
-        if (isset($smtp_host_url['host']) && isset($smtp_host_url['port'])) {
-            $smtp_host = $smtp_host_url['host'];
-            $smtp_port = $smtp_host_url['port'];
-        }
+        $url = parse_url($smtp_host);
 
-        // re-write smtp host
-        if (isset($smtp_host_url['host']) && isset($smtp_host_url['scheme'])) {
-            $smtp_host = sprintf('%s://%s', $smtp_host_url['scheme'], $smtp_host_url['host']);
-        }
+        if (!empty($url['host'])) {
+            $smtp_host = $url['host'];
+            $scheme    = $url['scheme'] ?? null;
+            $smtp_port = $url['port'] ?? ($scheme === 'ssl' ? 465 : 587);
+            $use_tls   = $scheme === 'tls';
 
-        // remove TLS prefix and set flag to enable TLS later
-        $use_tls = false;
-        if (preg_match('#^tls://#i', $smtp_host)) {
-            $smtp_host = preg_replace('#^tls://#i', '', $smtp_host);
-            $use_tls   = true;
+            // re-add the ssl:// prefix
+            if ($scheme === 'ssl') {
+                $smtp_host = "ssl://{$smtp_host}";
+            }
         }
 
         // Handle per-host socket options
