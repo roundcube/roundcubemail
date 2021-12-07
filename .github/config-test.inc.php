@@ -9,9 +9,6 @@ $config['db_dsnw'] = 'sqlite:////tmp/sqlite.db?mode=0646';
 $config['tests_username'] = 'test';
 $config['tests_password'] = 'test';
 
-// GreenMail
-$config['smtp_port'] = 25;
-
 // Settings required by the tests
 
 $config['create_default_folders'] = true;

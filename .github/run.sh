@@ -30,7 +30,7 @@ wget https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/green
     && sleep 10
 
 # Run tests
-echo "\nTESTS_MODE: DESKTOP" \
+echo "TESTS_MODE: DESKTOP" \
 && TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga \
 && echo "TESTS_MODE: PHONE" \
 && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga-phone \
