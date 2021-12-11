@@ -669,7 +669,7 @@ class rcmail extends rcube
             return false;
         }
 
-        $imap_host       = $this->config->get('imap_host', 'tls://localhost:143');
+        $imap_host       = $this->config->get('imap_host', 'localhost:143');
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
 
@@ -699,16 +699,9 @@ class rcmail extends rcube
         }
 
         // parse $host URL
-        $url  = parse_url($host);
-        $ssl  = false;
-        $port = 143;
+        list($host, $scheme, $port) = rcube_utils::parse_host_uri($host, 143, 993);
 
-        if (!empty($url['host'])) {
-            $host   = $url['host'];
-            $scheme = $url['scheme'] ?? null;
-            $ssl    = in_array($scheme, ['ssl', 'imaps', 'tls']) ? $scheme : false;
-            $port   = $url['port'] ?? ($ssl && $ssl != 'tls' ? 993 : 143);
-        }
+        $ssl = in_array($scheme, ['ssl', 'imaps', 'tls']) ? $scheme : false;
 
         // Check if we need to add/force domain to username
         if (!empty($username_domain)) {

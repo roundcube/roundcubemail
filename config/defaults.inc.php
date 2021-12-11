@@ -145,7 +145,7 @@ $config['redis_debug'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
-$config['imap_host'] = 'tls://localhost:143';
+$config['imap_host'] = 'localhost:143';
 
 // IMAP authentication method (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null).
 // Use 'IMAP' to authenticate with IMAP LOGIN command.
@@ -268,7 +268,7 @@ $config['messages_cache_threshold'] = 50;
 // For example %n = mail.domain.tld, %t = domain.tld
 // To specify different SMTP servers for different IMAP hosts provide an array
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
-$config['smtp_host'] = 'tls://localhost:587';
+$config['smtp_host'] = 'localhost:587';
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login

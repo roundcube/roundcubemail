@@ -792,6 +792,34 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test-Cases for test_parse_host_uri()
+     */
+    function data_parse_host_uri()
+    {
+        return [
+            [['hostname', null, null], ['hostname', null, null]],
+            [['hostname:143', null, null], ['hostname', null, 143]],
+            [['hostname:143', 123, 345], ['hostname', null, 143]],
+            [['tls://host.domain.tld', 143, 993], ['host.domain.tld', 'tls', 143]],
+            [['ssl://host.domain.tld', 143, 993], ['host.domain.tld', 'ssl', 993]],
+            [['imaps://host.domain.tld', 143, 993], ['host.domain.tld', 'imaps', 993]],
+            [['tls://host.domain.tld:123', 143, 993], ['host.domain.tld', 'tls', 123]],
+            [['ssl://host.domain.tld:123', 143, 993], ['host.domain.tld', 'ssl', 123]],
+            [['imaps://host.domain.tld:123', 143, 993], ['host.domain.tld', 'imaps', 123]],
+        ];
+    }
+
+    /**
+     * Test parse_host_uri()
+     *
+     * @dataProvider data_parse_host_uri
+     */
+    function test_parse_host_uri($args, $result)
+    {
+        $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
+    }
+
+    /**
      * Test-Cases for test_remove_subject_prefix()
      */
     function data_remove_subject_prefix() {
