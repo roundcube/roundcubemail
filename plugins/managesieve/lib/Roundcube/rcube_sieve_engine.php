@@ -182,14 +182,9 @@ class rcube_sieve_engine
                 'gssapi_cn'      => null,
         ]);
 
-        $url = parse_url($plugin['host']);
-        $tls = false;
+        list($host, $scheme, $port) = rcube_utils::parse_host_uri($plugin['host']);
 
-        if (!empty($url['host'])) {
-            $host = $url['host'];
-            $port = $url['port'] ?? null;
-            $tls  = !empty($url['scheme']) && $url['scheme'] === 'tls';
-        }
+        $tls = $scheme === 'tls';
 
         if (empty($port)) {
             $port = getservbyname('sieve', 'tcp') ?: self::PORT;

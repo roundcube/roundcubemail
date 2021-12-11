@@ -731,6 +731,41 @@ class rcube_utils
     }
 
     /**
+     * Parse host specification URI.
+     *
+     * @param string $host       Host URI
+     * @param int    $plain_port Plain port number
+     * @param int    $ssl_port   SSL port number
+     *
+     * @return An array with three elements (hostname, scheme, port)
+     */
+    public static function parse_host_uri($host, $plain_port = null, $ssl_port = null)
+    {
+        $url    = parse_url($host);
+        $port   = $plain_port;
+        $scheme = null;
+
+        if (!empty($url['host'])) {
+            $host   = $url['host'];
+            $scheme = $url['scheme'] ?? null;
+
+            if (!empty($url['port'])) {
+                $port = $url['port'];
+            }
+            else if (
+                $scheme
+                && $ssl_port
+                && ($scheme === 'ssl' || ($scheme != 'tls' && $scheme[strlen($scheme) - 1] === 's'))
+            ) {
+                // assign SSL port to ssl://, imaps://, ldaps://, but not tls://
+                $port = $ssl_port;
+            }
+        }
+
+        return [$host, $scheme, $port];
+    }
+
+    /**
      * Returns the server name after checking it against trusted hostname patterns.
      *
      * Returns 'localhost' and logs a warning when the hostname is not trusted.

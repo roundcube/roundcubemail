@@ -58,7 +58,7 @@ class rcube_smtp
         $this->error = $this->response = null;
 
         if (!$host) {
-            $host = $rcube->config->get('smtp_host', 'tls://localhost:587');
+            $host = $rcube->config->get('smtp_host', 'localhost:587');
             if (is_array($host)) {
                 if (array_key_exists($_SESSION['storage_host'], $host)) {
                     $host = $host[$_SESSION['storage_host']];
@@ -93,21 +93,14 @@ class rcube_smtp
         ]);
 
         $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
-        $smtp_port = 587;
-        $use_tls   = false;
 
-        $url = parse_url($smtp_host);
+        list($smtp_host, $scheme, $smtp_port) = rcube_utils::parse_host_uri($smtp_host, 587, 465);
 
-        if (!empty($url['host'])) {
-            $smtp_host = $url['host'];
-            $scheme    = $url['scheme'] ?? null;
-            $smtp_port = $url['port'] ?? ($scheme === 'ssl' ? 465 : 587);
-            $use_tls   = $scheme === 'tls';
+        $use_tls = $scheme === 'tls';
 
-            // re-add the ssl:// prefix
-            if ($scheme === 'ssl') {
-                $smtp_host = "ssl://{$smtp_host}";
-            }
+        // re-add the ssl:// prefix
+        if ($scheme === 'ssl') {
+            $smtp_host = "ssl://{$smtp_host}";
         }
 
         // Handle per-host socket options

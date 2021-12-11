@@ -29,11 +29,11 @@ $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 
 // IMAP host chosen to perform the log-in.
 // See defaults.inc.php for the option description.
-$config['imap_host'] = 'tls://localhost:143';
+$config['imap_host'] = 'localhost:143';
 
 // SMTP server host (for sending mails).
 // See defaults.inc.php for the option description.
-$config['smtp_host'] = 'tls://localhost:587';
+$config['smtp_host'] = 'localhost:587';
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login

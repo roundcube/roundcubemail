@@ -6,11 +6,11 @@
     1. IMAP:
         - renamed `default_host` to `imap_host`
         - removed `default_port` option (non-standard port can be set via `imap_host`)
-        - set "tls://localhost:143" as a default for `imap_host`
+        - set "localhost:143" as a default for `imap_host`
     2. SMTP:
         - renamed `smtp_server` to `smtp_host`
         - removed `smtp_port` option (non-standard port can be set via `smtp_host`)
-        - set "tls://localhost:587" as a default for `smtp_host`
+        - set "localhost:587" as a default for `smtp_host`
     3. LDAP:
         - removed `port` option from `ldap_public` array (non-standard port can be set via `host`)
         - removed `use_tls` option from `ldap_public` array (use tls:// prefix in `host`)
