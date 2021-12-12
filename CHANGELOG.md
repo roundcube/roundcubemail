@@ -60,6 +60,7 @@
 - Fix so folder search parameters are honored by subscriptions_option plugin (#8312)
 - Fix password change with Directadmin driver (#8322, #8329)
 - Fix so css files in plugins/jqueryui/themes will be minified too (#8337)
+- Fix handling of unicode/special characters in custom From input (#8357)
 
 ## Release 1.5.1
 
