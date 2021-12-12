@@ -147,7 +147,7 @@ class rcmail_sendmail
         }
         else {
             // ... if there is no identity record, this might be a custom from
-            $from_addresses = rcube_mime::decode_address_list($from);
+            $from_addresses = rcube_mime::decode_address_list($from, null, true, $charset);
 
             if (count($from_addresses) == 1) {
                 $from        = $from_addresses[1]['mailto'];
