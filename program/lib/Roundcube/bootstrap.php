@@ -113,7 +113,7 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error(
  */
 function in_array_nocase($needle, $haystack)
 {
-    if (!is_string($heystack)) {
+    if (!is_string($needle) || !is_array($haystack)) {
         return false;
     }
 
