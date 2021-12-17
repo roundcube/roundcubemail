@@ -628,9 +628,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     }
                 }
             }
-            else {
-                $body = self::compose_part_body(self::$MESSAGE, $isHtml);
-            }
 
             // compose reply-body
             if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
@@ -690,15 +687,19 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     }
 
     /**
-     * Prepare message (or message part) body for composition
+     * Prepare message part body for composition
      *
-     * @param rcube_message|rcube_message_part $part   Message or message part object
-     * @param bool                             $isHtml Use HTML mode
+     * @param rcube_message_part $part   Message part
+     * @param bool               $isHtml Use HTML mode
      *
      * @return string Message body text
      */
     public static function compose_part_body($part, $isHtml = false)
     {
+        if (!$part instanceof rcube_message_part) {
+            return '';
+        }
+
         // Check if we have enough memory to handle the message in it
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check($part->size * 10)) {
