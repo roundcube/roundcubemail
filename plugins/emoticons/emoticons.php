@@ -111,10 +111,10 @@ class emoticons extends rcube_plugin
     function preferences_save($args)
     {
         if ($args['section'] == 'mailview') {
-            $args['prefs']['emoticons_display'] = !empty(rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST));
+            $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);
         }
         else if ($args['section'] == 'compose') {
-            $args['prefs']['emoticons_compose'] = !empty(rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST));
+            $args['prefs']['emoticons_compose'] = (bool) rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST);
         }
 
         return $args;
