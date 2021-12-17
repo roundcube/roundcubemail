@@ -87,8 +87,9 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
             // create javascript list
             while ($row = $result->next()) {
                 $name      = rcube_addressbook::compose_list_name($row);
-                $classname = $row['_type'] == 'group' ? 'group' : 'person';
-                $keyname   = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
+                $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                $classname = $is_group ? 'group' : 'person';
+                $keyname   = $is_group ? 'contactgroup' : 'contact';
 
                 // add record for every email address of the contact
                 // (same as in list_contacts.inc)
