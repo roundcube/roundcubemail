@@ -689,6 +689,14 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $body;
     }
 
+    /**
+     * Prepare message (or message part) body for composition
+     *
+     * @param rcube_message|rcube_message_part $part   Message or message part object
+     * @param bool                             $isHtml Use HTML mode
+     *
+     * @return string Message body text
+     */
     public static function compose_part_body($part, $isHtml = false)
     {
         // Check if we have enough memory to handle the message in it
