@@ -1353,7 +1353,7 @@ class rcmail_sendmail
             $mdn_default = $_POST['_mdn'];
         }
         else if (in_array($this->data['mode'], [self::MODE_DRAFT, self::MODE_EDIT])) {
-            $mdn_default = (bool) $this->options['message']->headers->mdn_to;
+            $mdn_default = !empty($this->options['message']->headers->mdn_to);
         }
         else {
             $mdn_default = $this->rcmail->config->get('mdn_default');

@@ -113,10 +113,14 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error(
  */
 function in_array_nocase($needle, $haystack)
 {
+    if (!is_string($heystack)) {
+        return false;
+    }
+
     // use much faster method for ascii
     if (is_ascii($needle)) {
         foreach ((array) $haystack as $value) {
-            if (strcasecmp($value, $needle) === 0) {
+            if (is_string($value) && strcasecmp($value, $needle) === 0) {
                 return true;
             }
         }
@@ -124,7 +128,7 @@ function in_array_nocase($needle, $haystack)
     else {
         $needle = mb_strtolower($needle);
         foreach ((array) $haystack as $value) {
-            if ($needle === mb_strtolower($value)) {
+            if (is_string($value) && $needle === mb_strtolower($value)) {
                 return true;
             }
         }

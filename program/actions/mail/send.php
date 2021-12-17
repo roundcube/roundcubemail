@@ -366,6 +366,9 @@ class rcmail_action_mail_send extends rcmail_action
                 $is_inline    = preg_match($dispurl, $message_body);
             }
 
+            $ctype = isset($attachment['mimetype']) ? $attachment['mimetype'] : '';
+            $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
+
             // inline image
             if ($is_inline) {
                 // Mail_Mime does not support many inline attachments with the same name (#1489406)
@@ -392,14 +395,13 @@ class rcmail_action_mail_send extends rcmail_action
                 }
 
                 if (!empty($attachment['data'])) {
-                    $message->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false, $cid);
+                    $message->addHTMLImage($attachment['data'], $ctype, $attachment['name'], false, $cid);
                 }
                 else {
-                    $message->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name'], true, $cid);
+                    $message->addHTMLImage($attachment['path'], $ctype, $attachment['name'], true, $cid);
                 }
             }
             else {
-                $ctype   = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
                 $file    = !empty($attachment['data']) ? $attachment['data'] : $attachment['path'];
                 $folding = (int) $rcmail->config->get('mime_param_folding');
 

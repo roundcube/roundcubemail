@@ -683,10 +683,10 @@ abstract class rcmail_action
             header('Content-Type: ' . $file['mimetype']);
             header('Content-Length: ' . $file['size']);
 
-            if ($file['data']) {
+            if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
             }
-            else if ($file['path']) {
+            else if (!empty($file['path'])) {
                 readfile($file['path']);
             }
         }

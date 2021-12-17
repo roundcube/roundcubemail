@@ -368,7 +368,7 @@ class rcube_plugin_api
             // read local composer.lock file (once)
             if (!isset($composer_lock)) {
                 $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . "/composer.lock"), true);
-                if ($composer_lock['packages']) {
+                if ($composer_lock && !empty($composer_lock['packages'])) {
                     foreach ($composer_lock['packages'] as $i => $package) {
                         $composer_lock['installed'][$package['name']] = $package;
                     }
@@ -376,7 +376,7 @@ class rcube_plugin_api
             }
 
             // load additional information from local composer.lock file
-            if (!empty($json['name']) && !empty($composer_lock['installed'])
+            if (!empty($json['name']) && $composer_lock && !empty($composer_lock['installed'])
                 && !empty($composer_lock['installed'][$json['name']])
             ) {
                 $lock            = $composer_lock['installed'][$json['name']];
