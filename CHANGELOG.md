@@ -43,6 +43,7 @@
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Display a generic error page on initial DB/configuration errors (#8222)
 - Display telephone numbers as tel: links (#8240)
+- Elastic: Move scrollbar settings to variables (#8352)
 - Autologout: A new plugin to auto log out users with a POST request (#8270)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Identicon: Make background color of the image to match the current skin colors (#8256)
