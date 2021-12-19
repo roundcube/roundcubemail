@@ -239,6 +239,20 @@ fieldset.image-attachment {
     bottom: @layout-header-height;
 }
 
+textarea,
+select,
+.popover-body,
+.popupmenu,
+.ui-dialog-content,
+.frame-content,
+.formcontent,
+.table-responsive,
+.table-responsive-sm,
+.scroller {
+    // Firefox does not inherit scrollbar size from the html element
+    scrollbar-width: @scrollbar-width;
+}
+
 // iOS: Fix scrolling of iframe, display scrollbars on scrollable elements
 .ios-scroll {
     padding: 0;
