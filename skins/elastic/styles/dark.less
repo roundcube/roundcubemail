@@ -31,7 +31,9 @@ html.dark-mode {
 
     &:not(.touch) {
         ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
-            width: 14px;
+            // Note: If we do not set the width a default scrollbar is used in Chrome.
+            // And the custom colors set below do not work
+            width: 12px;
         }
         ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
             width: 6px;
