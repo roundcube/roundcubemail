@@ -12,39 +12,41 @@
 @import (reference) "variables";
 
 html.dark-mode {
-    scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
-    scrollbar-width: @scrollbar-dark-width;
-
-    textarea,
-    select,
-    .popover-body,
-    .popupmenu,
-    .ui-dialog-content,
-    .frame-content,
-    .formcontent,
-    .table-responsive,
-    .table-responsive-sm,
-    .scroller {
-        // Firefox does not inherit scrollbar size from the html element
+    & when not (@scrollbar-dark-width = unset) {
+        scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
         scrollbar-width: @scrollbar-dark-width;
-    }
 
-    &:not(.touch) {
-        ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
-            // Note: If we do not set the width a default scrollbar is used in Chrome.
-            // And the custom colors set below do not work
-            width: 12px;
-        }
-        ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
-            width: 6px;
+        textarea,
+        select,
+        .popover-body,
+        .popupmenu,
+        .ui-dialog-content,
+        .frame-content,
+        .formcontent,
+        .table-responsive,
+        .table-responsive-sm,
+        .scroller {
+            // Firefox does not inherit scrollbar size from the html element
+            scrollbar-width: @scrollbar-dark-width;
         }
 
-        ::-webkit-scrollbar-track {
-            background-color: @color-dark-scrollbar-track;
-        }
+        &:not(.touch) {
+            ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
+                // Note: If we do not set the width a default scrollbar is used in Chrome.
+                // And the custom colors set below do not work
+                width: 12px;
+            }
+            ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
+                width: 6px;
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background-color: @color-dark-scrollbar-thumb;
+            ::-webkit-scrollbar-track {
+                background-color: @color-dark-scrollbar-track;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: @color-dark-scrollbar-thumb;
+            }
         }
     }
 
