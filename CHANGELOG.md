@@ -65,6 +65,7 @@
 - Fix handling of unicode/special characters in custom From input (#8357)
 - Fix some PHP8 compatibility issues (#8363)
 - Fix chpass-wrapper.py helper compatibility with Python 3 (#8324)
+- Fix scrolling and missing Close button in the Select image dialog in Elastic/mobile (#8367)
 
 ## Release 1.5.1
 
