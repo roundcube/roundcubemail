@@ -95,6 +95,7 @@ class rcmail_oauth
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
             $this->rcmail->plugins->register_hook('managesieve_connect', [$this, 'managesieve_connect']);
             $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
+            $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
         }
     }
@@ -522,6 +523,19 @@ class rcmail_oauth
     public function logout_after($options)
     {
         $this->no_redirect = true;
+    }
+
+    /**
+     * Callback for 'login_failed' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function login_failed($options)
+    {
+        // no redirect on imap login failures
+        $this->no_redirect = true;
+        return $options;
     }
 
     /**
