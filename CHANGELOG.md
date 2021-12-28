@@ -5,6 +5,8 @@
 - OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)
 - OAuth: fix expiration of short-lived oauth tokens (#8147)
 - OAuth: fix relative path to assets if /index.php/foo/bar url is used (#8144)
+- OAuth: no auto-redirect on imap login failures (#8370)
+- OAuth: refresh access token in 'refresh' plugin hook (#8224)
 - Fix so folder search parameters are honored by subscriptions_option plugin (#8312)
 - Fix password change with Directadmin driver (#8322, #8329)
 - Fix so css files in plugins/jqueryui/themes will be minified too (#8337)
