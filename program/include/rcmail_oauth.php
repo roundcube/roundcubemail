@@ -97,6 +97,7 @@ class rcmail_oauth
             $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
             $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
+            $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
         }
     }
 
@@ -450,7 +451,7 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if ($token['expires'] < time() && isset($token['refresh_token'])) {
+        if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             $this->refresh_access_token($token);
         }
     }
@@ -557,5 +558,19 @@ class rcmail_oauth
         }
 
         return $options;
+    }
+
+
+    /**
+     * Callback for 'refresh' hook
+     *
+     * @param array $options
+     * @return void
+     */
+    public function refresh($options)
+    {
+        if (isset($_SESSION['oauth_token'])) {
+            $this->check_token_validity($_SESSION['oauth_token']);
+        }
     }
 }
