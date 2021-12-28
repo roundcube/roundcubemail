@@ -40,6 +40,8 @@
 - OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)
 - OAuth: fix expiration of short-lived oauth tokens (#8147)
 - OAuth: fix relative path to assets if /index.php/foo/bar url is used (#8144)
+- OAuth: no auto-redirect on imap login failures (#8370)
+- OAuth: refresh access token in 'refresh' plugin hook (#8224)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Display a generic error page on initial DB/configuration errors (#8222)
 - Display telephone numbers as tel: links (#8240)
