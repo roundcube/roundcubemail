@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.4.13
+--------------
 - Security: Fix cross-site scripting (XSS) via HTML messages with malicious CSS content
 
 RELEASE 1.4.12
