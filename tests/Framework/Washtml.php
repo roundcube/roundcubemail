@@ -448,6 +448,10 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
                 '<!-- html ignored --><body x-washed="background"></body>'
             ],
             [
+                '<html><body><img fill=\'asd:url(#asd)" src="x" onerror="alert(1)\' />',
+                '<body><img fill="asd:url(#asd)&quot; src=&quot;x&quot; onerror=&quot;alert(1)" /></body>'
+            ],
+            [
                 '<html><math href="javascript:alert(location);"><mi>clickme</mi></math>',
                 '<!-- html ignored --><body><math x-washed="href"><mi>clickme</mi></math></body>',
             ],

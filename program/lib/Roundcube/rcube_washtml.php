@@ -338,7 +338,7 @@ class rcube_washtml
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
-                                    . substr($val, strlen($match[0])) . '"';
+                                    . htmlspecialchars(substr($val, strlen($match[0])), ENT_QUOTES, $this->config['charset']) . '"';
                                 continue;
                             }
                         }

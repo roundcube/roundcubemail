@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Security: Fix cross-site scripting (XSS) via HTML messages with malicious CSS content
+
 RELEASE 1.4.12
 --------------
 - Enigma: Fix bug where signature verification could fail for non-ascii bodies (#7919)
