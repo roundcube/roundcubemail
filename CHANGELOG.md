@@ -37,11 +37,6 @@
 - Improve searching by sender/recipient headers, support Reply-To and Followup-To (#6582)
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Add 'loginform_content' plugin hook (#8273, #6569)
-- OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)
-- OAuth: fix expiration of short-lived oauth tokens (#8147)
-- OAuth: fix relative path to assets if /index.php/foo/bar url is used (#8144)
-- OAuth: no auto-redirect on imap login failures (#8370)
-- OAuth: refresh access token in 'refresh' plugin hook (#8224)
 - SMTP: If requested use TLS also without authentication (#4590, #8111)
 - Display a generic error page on initial DB/configuration errors (#8222)
 - Display telephone numbers as tel: links (#8240)
@@ -61,6 +56,14 @@
 - Fix compatibility with Referrer-Policy: "strict-origin" (#8170)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix Makefile on Linux (#8211)
+
+## Release 1.5.2
+
+- OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)
+- OAuth: fix expiration of short-lived oauth tokens (#8147)
+- OAuth: fix relative path to assets if /index.php/foo/bar url is used (#8144)
+- OAuth: no auto-redirect on imap login failures (#8370)
+- OAuth: refresh access token in 'refresh' plugin hook (#8224)
 - Fix so folder search parameters are honored by subscriptions_option plugin (#8312)
 - Fix password change with Directadmin driver (#8322, #8329)
 - Fix so css files in plugins/jqueryui/themes will be minified too (#8337)
