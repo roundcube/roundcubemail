@@ -2523,7 +2523,7 @@ class rcube_sieve_engine
             'length'
         ];
 
-        $out .= '<div id="action_set' .$id.'" style="display:' .($action['type'] == 'set' ? 'inline' : 'none') .'">';
+        $out .= '<div id="action_set' .$id.'" class="composite" style="display:' .($action['type'] == 'set' ? 'inline' : 'none') .'">';
         foreach (['name', 'value'] as $unit) {
             $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('setvar' . $unit)) . '</span><br>';
             $out .= html::tag('input', [
@@ -2536,18 +2536,22 @@ class rcube_sieve_engine
             ]);
             $out .= '<br>';
         }
-        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('setvarmodifiers')) . '</span>';
+
+        $smout = '';
         foreach ($set_modifiers as $s_m) {
-            $s_m_id = 'action_varmods' . $id . $s_m;
-            $out .= '<br>' . html::tag('input', [
+            $smout .= html::label(null,
+                html::tag('input', [
                     'type'    => 'checkbox',
                     'name'    => "_action_varmods[$id][]",
                     'value'   => $s_m,
-                    'id'      => $s_m_id,
-                    'checked' => array_key_exists($s_m, (array)$action) && !empty($action[$s_m]),
+                    'checked' => array_key_exists($s_m, (array) $action) && !empty($action[$s_m]),
                 ])
-                .rcube::Q($this->plugin->gettext('var' . $s_m));
+                . rcube::Q($this->plugin->gettext('var' . $s_m))
+            );
         }
+
+        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('setvarmodifiers')) . '</span>';
+        $out .= html::div('checklist', $smout);
         $out .= '</div>';
 
         // notify
