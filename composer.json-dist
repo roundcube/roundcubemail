@@ -28,5 +28,10 @@
     "suggest": {
         "kolab/net_ldap3": "~1.1.1 required for connecting to LDAP",
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver"
+    },
+    "config": {
+        "allow-plugins": {
+            "roundcube/plugin-installer": true
+        }
     }
 }
