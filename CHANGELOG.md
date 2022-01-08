@@ -56,6 +56,7 @@
 - Fix compatibility with Referrer-Policy: "strict-origin" (#8170)
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix Makefile on Linux (#8211)
+- Fix so PHP warnings are ignored when resizing a malformed image attachment (#8387)
 
 ## Release 1.5.2
 

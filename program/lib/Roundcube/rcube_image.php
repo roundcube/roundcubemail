@@ -216,17 +216,17 @@ class rcube_image
         }
 
         // use GD extension
-        if ($props['gd_type']) {
+        if ($props['gd_type'] && $props['width'] > 0 && $props['height'] > 0) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
-                $image = imagecreatefromjpeg($this->image_file);
+                $image = @imagecreatefromjpeg($this->image_file);
                 $type  = 'jpg';
             }
             else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
-                $image = imagecreatefromgif($this->image_file);
+                $image = @imagecreatefromgif($this->image_file);
                 $type  = 'gif';
             }
             else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
-                $image = imagecreatefrompng($this->image_file);
+                $image = @imagecreatefrompng($this->image_file);
                 $type  = 'png';
             }
             else {
