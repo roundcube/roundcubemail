@@ -518,38 +518,6 @@ class html_hiddenfield extends html
 }
 
 /**
- * Class to create HTML radio buttons
- *
- * @package    Framework
- * @subpackage View
- */
-class html_radiobutton extends html_inputfield
-{
-    protected $type = 'radio';
-
-    /**
-     * Get HTML code for this object
-     *
-     * @param string $value  Value of the checked field
-     * @param array  $attrib Additional attributes to override
-     *
-     * @return string HTML output
-     */
-    public function show($value = '', $attrib = null)
-    {
-        // overwrite object attributes
-        if (is_array($attrib)) {
-            $this->attrib = array_merge($this->attrib, $attrib);
-        }
-
-        // set value attribute
-        $this->attrib['checked'] = ((string)$value == (string)$this->attrib['value']);
-
-        return parent::show();
-    }
-}
-
-/**
  * Class to create HTML checkboxes
  *
  * @package    Framework
@@ -575,10 +543,21 @@ class html_checkbox extends html_inputfield
         }
 
         // set value attribute
-        $this->attrib['checked'] = ((string)$value == (string)$this->attrib['value']);
+        $this->attrib['checked'] = isset($this->attrib['value']) && ((string)$value == (string)$this->attrib['value']);
 
         return parent::show();
     }
+}
+
+/**
+ * Class to create HTML radio buttons
+ *
+ * @package    Framework
+ * @subpackage View
+ */
+class html_radiobutton extends html_checkbox
+{
+    protected $type = 'radio';
 }
 
 /**
@@ -745,7 +724,6 @@ class html_select extends html
         return parent::show();
     }
 }
-
 
 /**
  * Class to build an HTML table
