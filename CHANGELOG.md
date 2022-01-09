@@ -33,7 +33,7 @@
 - Add option to purge deleted mails older than 30, 60 or 90 days (#5493)
 - Add ability to mark multiple messages as not deleted at once (#5133)
 - Add possibility to disable line-wrapping of sent mail body (#5101)
-- Improve auto-wrapping of plain text messages on preview and reply, don't wrap non-format=flowed content (#6974)
+- Improve/Fix wrapping of plain text messages on preview and reply (#6974, #8391, #8378, #8289)
 - Improve searching by sender/recipient headers, support Reply-To and Followup-To (#6582)
 - Add option to control links handling behavior on html to text conversion (#6485)
 - Add 'loginform_content' plugin hook (#8273, #6569)

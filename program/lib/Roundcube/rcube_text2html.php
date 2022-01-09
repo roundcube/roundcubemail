@@ -56,7 +56,10 @@ class rcube_text2html
     ];
 
     /** @var bool Internal state */
-    protected $_converted = false;
+    protected $converted = false;
+
+    /** @var bool Internal no-wrap mode state */
+    protected $nowrap = false;
 
 
     /**
@@ -96,7 +99,7 @@ class rcube_text2html
             $this->text = $source;
         }
 
-        $this->_converted = false;
+        $this->converted = false;
     }
 
     /**
@@ -106,8 +109,8 @@ class rcube_text2html
      */
     function get_html()
     {
-        if (!$this->_converted) {
-            $this->_convert();
+        if (!$this->converted) {
+            $this->convert();
         }
 
         return $this->html;
@@ -122,13 +125,13 @@ class rcube_text2html
     }
 
     /**
-     * Workhorse function that does actual conversion (calls _converter() method).
+     * Workhorse function that does actual conversion (calls converter() method).
      */
-    protected function _convert()
+    protected function convert()
     {
         // Convert TXT to HTML
-        $this->html       = $this->_converter($this->text);
-        $this->_converted = true;
+        $this->html      = $this->converter($this->text);
+        $this->converted = true;
     }
 
     /**
@@ -138,7 +141,7 @@ class rcube_text2html
      *
      * @return string HTML content
      */
-    protected function _converter($text)
+    protected function converter($text)
     {
         // make links and email-addresses clickable
         $attribs  = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
@@ -167,7 +170,7 @@ class rcube_text2html
             if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
-                $text[$n] = $this->_convert_line($text[$n]);
+                $text[$n] = $this->convert_line($text[$n]);
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($q > $quote_level) {
@@ -199,7 +202,7 @@ class rcube_text2html
                 }
             }
             else {
-                $text[$n] = $this->_convert_line($text[$n]);
+                $text[$n] = $this->convert_line($text[$n]);
                 $q        = 0;
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
@@ -260,7 +263,7 @@ class rcube_text2html
      *
      * @return string Converted text
      */
-    protected function _convert_line($text)
+    protected function convert_line($text)
     {
         static $table;
 
@@ -273,16 +276,39 @@ class rcube_text2html
             $table["\t"] = '    ';
         }
 
+        // empty line?
+        if ($text === '') {
+            return $text;
+        }
+
         // skip signature separator
         if ($text == '-- ') {
             return '--' . $this->config['space'];
+        }
+
+        if ($this->nowrap) {
+            if (!in_array($text[0], [' ', '-', '+', '@'])) {
+                $this->nowrap = false;
+            }
+        }
+        else {
+            // Detect start of a unified diff
+            // TODO: Support normal diffs
+            // TODO: Support diff header and comment
+            if (
+                ($text[0] === '-' && preg_match('/^--- \S+/', $text))
+                || ($text[0] === '+' && preg_match('/^\+\+\+ \S+/', $text))
+                || ($text[0] === '@' && preg_match('/^@@ [0-9 ,+-]+ @@/', $text))
+            ) {
+                $this->nowrap = true;
+            }
         }
 
         // replace HTML special and whitespace characters
         $text = strtr($text, $table);
 
         $nbsp      = $this->config['space'];
-        $wrappable = $this->config['flowed'] || $this->config['wrap'];
+        $wrappable = !$this->nowrap && ($this->config['flowed'] || $this->config['wrap']);
 
         // make the line wrappable
         if ($wrappable) {
