@@ -1066,7 +1066,6 @@ class rcmail_action_mail_index extends rcmail_action
     {
         $options = [
             'flowed'   => $flowed,
-            'wrap'     => $flowed,
             'replacer' => 'rcmail_string_replacer',
             'delsp'    => $delsp
         ];

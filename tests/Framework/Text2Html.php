@@ -157,4 +157,43 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
 
         $this->assertEquals($expected, $html);
     }
+
+    /**
+     * Test patches/diffs handling
+     */
+    function test_text2html_patches_handling()
+    {
+        $input = "Start\n"
+            . "diff --git a/test.txt b/test.txt\n"
+            . "index 7642f44b9..6ce0170aa 100644\n"
+            . "--- a/test.txt\n"
+            . "+++ b/test.txt\n"
+            . "@@ -1982,7 +1982,7 @@ class test\n"
+            . " test1\n"
+            . " test2\n"
+            . " test3\n"
+            . "-test4\n"
+            . "+test5\n"
+            . " \n"
+            . "End";
+
+        $expected = "<div class=\"pre\">Start<br>\n"
+            . "diff --git a/test.txt b/test.txt<br>\n"
+            . "index 7642f44b9..6ce0170aa 100644<br>\n"
+            . "<span style=\"white-space:nowrap\">---_a/test.txt</span><br>\n"
+            . "<span style=\"white-space:nowrap\">+++_b/test.txt</span><br>\n"
+            . "<span style=\"white-space:nowrap\">@@_-1982,7_+1982,7_@@_class_test</span><br>\n"
+            . "<span style=\"white-space:nowrap\">_test1</span><br>\n"
+            . "<span style=\"white-space:nowrap\">_test2</span><br>\n"
+            . "<span style=\"white-space:nowrap\">_test3</span><br>\n"
+            . "<span style=\"white-space:nowrap\">-test4</span><br>\n"
+            . "<span style=\"white-space:nowrap\">+test5</span><br>\n"
+            . "<span style=\"white-space:nowrap\">_</span><br>\n"
+            . "End</div>";
+
+        $t2h = new rcube_text2html($input, false, ['space' => '_']);
+        $html = $t2h->get_html();
+
+        $this->assertEquals($expected, $html);
+    }
 }
