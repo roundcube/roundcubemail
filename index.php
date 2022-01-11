@@ -102,7 +102,7 @@ $session_error = null;
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
-    $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
+    $request_valid = !empty($_SESSION['temp']) && $RCMAIL->check_request();
     $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
 
     // purge the session in case of new login when a session already exists

@@ -1420,6 +1420,10 @@ class rcube
             return;
         }
 
+        if (!isset($arg['message'])) {
+            $arg['message'] = '';
+        }
+
         if (($log || $terminate) && !$cli && $arg['message']) {
             $arg['fatal'] = $terminate;
             self::log_bug($arg);

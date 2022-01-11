@@ -209,7 +209,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (isset($_GET['_threads'])) {
             if ($_GET['_threads']) {
                 // re-set current page number when listing mode changes
-                if (!$a_threading[$_SESSION['mbox']]) {
+                if (empty($a_threading[$_SESSION['mbox']])) {
                     $rcmail->storage->set_page($_SESSION['page'] = 1);
                 }
 
@@ -217,7 +217,7 @@ class rcmail_action_mail_index extends rcmail_action
             }
             else {
                 // re-set current page number when listing mode changes
-                if ($a_threading[$_SESSION['mbox']]) {
+                if (!empty($a_threading[$_SESSION['mbox']])) {
                     $rcmail->storage->set_page($_SESSION['page'] = 1);
                 }
 

@@ -1,5 +1,9 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- Fix various PHP8 warnings (#8392)
+
 ## Release 1.5.2
 
 - OAuth: pass 'id_token' to 'oauth_login' plugin hook (#8214)

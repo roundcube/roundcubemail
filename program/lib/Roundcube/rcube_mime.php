@@ -820,7 +820,7 @@ class rcube_mime
 
         // return cached data
         if (is_array($mime_types)) {
-            return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
+            return $mimetype ? (isset($mime_types[$mimetype]) ? $mime_types[$mimetype] : []) : $mime_extensions;
         }
 
         // load mapping file
