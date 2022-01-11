@@ -57,6 +57,7 @@
 - Fix locked SQLite database for the CLI tools (#8035)
 - Fix Makefile on Linux (#8211)
 - Fix so PHP warnings are ignored when resizing a malformed image attachment (#8387)
+- Fix various PHP8 warnings (#8392)
 
 ## Release 1.5.2
 

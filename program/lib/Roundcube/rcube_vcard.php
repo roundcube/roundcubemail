@@ -254,7 +254,21 @@ class rcube_vcard
 
                     // split ADR values into assoc array
                     if ($tag == 'ADR') {
-                        list(,, $value['street'], $value['locality'], $value['region'], $value['zipcode'], $value['country']) = $raw;
+                        if (isset($raw[2])) {
+                            $value['street'] = $raw[2];
+                        }
+                        if (isset($raw[3])) {
+                            $value['locality'] = $raw[3];
+                        }
+                        if (isset($raw[4])) {
+                            $value['region'] = $raw[4];
+                        }
+                        if (isset($raw[5])) {
+                            $value['zipcode'] = $raw[5];
+                        }
+                        if (isset($raw[6])) {
+                            $value['country'] = $raw[6];
+                        }
                         $out[$key][] = $value;
                     }
                     // support vCard v4 date format (YYYYMMDD)

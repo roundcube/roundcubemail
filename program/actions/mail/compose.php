@@ -39,7 +39,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         self::$COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
         self::$COMPOSE    = null;
 
-        if (self::$COMPOSE_ID && $_SESSION['compose_data_' . self::$COMPOSE_ID]) {
+        if (self::$COMPOSE_ID && !empty($_SESSION['compose_data_' . self::$COMPOSE_ID])) {
             self::$COMPOSE =& $_SESSION['compose_data_' . self::$COMPOSE_ID];
         }
 
