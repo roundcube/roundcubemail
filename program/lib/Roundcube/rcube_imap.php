@@ -3659,7 +3659,10 @@ class rcube_imap extends rcube_storage
             }
 
             $this->conn->listMailboxes('', $folder);
-            $opts = $this->conn->data['LIST'][$folder];
+
+            if (isset($this->conn->data['LIST'][$folder])) {
+                $opts = $this->conn->data['LIST'][$folder];
+            }
         }
 
         return isset($opts) && is_array($opts) ? $opts : [];

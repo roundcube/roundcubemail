@@ -386,8 +386,8 @@ class rcube_plugin_api
             ) {
                 $lock            = $composer_lock['installed'][$json['name']];
                 $info['version'] = $lock['version'];
-                $info['uri']     = $lock['homepage'] ?: $lock['source']['uri'];
-                $info['src_uri'] = $lock['dist']['uri'] ?: $lock['source']['uri'];
+                $info['uri']     = !empty($lock['homepage']) ? $lock['homepage'] : $lock['source']['url'];
+                $info['src_uri'] = !empty($lock['dist']['url']) ? $lock['dist']['url'] : $lock['source']['url'];
             }
         }
 

@@ -104,14 +104,15 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                     'view_mode'   => (int) rcube_utils::get_input_string('_viewmode', rcube_utils::INPUT_POST),
                     'sort_column' => rcube_utils::get_input_string('_sortcol', rcube_utils::INPUT_POST),
                     'sort_order'  => rcube_utils::get_input_string('_sortord', rcube_utils::INPUT_POST),
-                ]
+                ],
+                'subscribe' => false,
+                'noselect'  => false,
             ];
         }
 
         // create a new mailbox
         if (empty($error) && !strlen($old_imap)) {
             $folder['subscribe'] = true;
-            $folder['noselect']  = false;
 
             // Server does not support both sub-folders and messages in a folder
             // For folders that are supposed to contain other folders we will:

@@ -66,7 +66,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         if (!$success) {
             // send error message
-            if ($_POST['_from'] != 'show') {
+            if (empty($_POST['_from']) || $_POST['_from'] != 'show') {
                 $rcmail->output->command('list_mailbox');
             }
 

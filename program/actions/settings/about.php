@@ -112,13 +112,34 @@ class rcmail_action_settings_about extends rcmail_action
                 $uri = 'http://' . $uri;
             }
 
+            if ($uri) {
+                $uri = html::a([
+                        'target' => '_blank',
+                        'href'   => rcube::Q($uri)
+                    ],
+                    rcube::Q($rcmail->gettext('download'))
+                );
+            }
+
+            $license = isset($data['license']) ? $data['license'] : '';
+
+            if (!empty($data['license_uri'])) {
+                $license = html::a([
+                        'target' => '_blank',
+                        'href' => rcube::Q($data['license_uri'])
+                    ],
+                    rcube::Q($data['license'])
+                );
+            }
+            else {
+                $license = rcube::Q($license);
+            }
+
             $table->add_row();
             $table->add('name', rcube::Q(!empty($data['name']) ? $data['name'] : $name));
             $table->add('version', !empty($data['version']) ? rcube::Q($data['version']) : '');
-            $table->add('license', !empty($data['license_uri']) ? html::a(['target' => '_blank', 'href' => rcube::Q($data['license_uri'])],
-                rcube::Q($data['license'])) : $data['license']);
-            $table->add('source', $uri ? html::a(['target' => '_blank', 'href' => rcube::Q($uri)],
-                rcube::Q($rcmail->gettext('download'))) : '');
+            $table->add('license', $license);
+            $table->add('source', $uri);
         }
 
         return $table->show();
