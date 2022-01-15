@@ -30,25 +30,19 @@ class rcmail_action_settings_response_delete extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if ($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_POST)) {
-            $responses = $rcmail->get_compose_responses(false, true);
+        if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+            $plugin = $rcmail->plugins->exec_hook('response_delete', ['id' => $id]);
 
-            foreach ($responses as $i => $response) {
-                if (empty($response['key'])) {
-                    $response['key'] = substr(md5($response['name']), 0, 16);
-                }
+            $deleted = !$plugin['abort'] ? $rcmail->user->delete_response($id) : $plugin['result'];
 
-                if ($response['key'] == $key) {
-                    unset($responses[$i]);
-                    $deleted = $rcmail->user->save_prefs(['compose_responses' => $responses]);
-                    break;
-                }
+            if (!empty($deleted)) {
+                $rcmail->output->command('display_message', $rcmail->gettext('deletedsuccessfully'), 'confirmation');
+                $rcmail->output->command('remove_response', $id);
             }
-        }
-
-        if (!empty($deleted)) {
-            $rcmail->output->command('display_message', $rcmail->gettext('deletedsuccessfully'), 'confirmation');
-            $rcmail->output->command('remove_response', $key);
+            else {
+                $msg = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+                $rcmail->output->show_message($msg, 'error');
+            }
         }
 
         $rcmail->output->send();

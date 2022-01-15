@@ -529,6 +529,7 @@ $labels['asattachment'] = 'sum viðhefting';
 $labels['replyallmode'] = 'Sjálvset gerð til [Reply all] knap';
 $labels['replyalldefault'] = 'Svara øllum';
 $labels['replyalllist'] = 'svara til teldupostalista einans (um funnin)';
+$labels['allmessages'] = 'øll boð';
 $labels['folder'] = 'Mappa';
 $labels['folders'] = 'Mappur';
 $labels['foldername'] = 'Mappu navn';

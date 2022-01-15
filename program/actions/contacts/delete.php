@@ -69,8 +69,8 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                     $error = 'contactdelerror';
                 }
 
-                $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
-                $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
+                $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
+                $group  = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
                 $rcmail->output->show_message($error, 'error');
                 $rcmail->output->command('list_contacts', $source, $group);
@@ -101,7 +101,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         }
 
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $page      = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
+        $page      = $_SESSION['page'] ?? 1;
 
         // update saved search after data changed
         if (($records = self::search_update(true)) !== false) {

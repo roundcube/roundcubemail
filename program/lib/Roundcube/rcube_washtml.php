@@ -347,7 +347,7 @@ class rcube_washtml
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, ENT_QUOTES, $this->config['charset']) . ')'
-                                    . substr($value, strlen($match[0])) . '"';
+                                    . htmlspecialchars(substr($value, strlen($match[0])), ENT_QUOTES, $this->config['charset']) . '"';
                                 continue;
                             }
                         }
@@ -690,13 +690,11 @@ class rcube_washtml
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
-        if (!$this->is_xml && class_exists('Masterminds\HTML5')
-            // HTML5 parser is slow with content that contains a lot of tags
-            // disable it for such cases (https://github.com/Masterminds/html5-php/issues/181)
-            && substr_count($html, '<') < 10000
-        ) {
+        if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
             try {
-                $html5 = new Masterminds\HTML5();
+                // disabled_html_ns=true is a workaround for the performance issue
+                // https://github.com/Masterminds/html5-php/issues/181
+                $html5 = new Masterminds\HTML5(['disable_html_ns' => true]);
                 $node  = $html5->loadHTML($this->fix_html5($html));
             }
             catch (Exception $e) {
@@ -724,7 +722,7 @@ class rcube_washtml
      */
     public function get_config($prop)
     {
-        return isset($this->config[$prop]) ? $this->config[$prop] : null;
+        return $this->config[$prop] ?? null;
     }
 
     /**

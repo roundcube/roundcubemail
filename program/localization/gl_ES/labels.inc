@@ -468,6 +468,7 @@ $labels['asattachment'] = 'coma anexo';
 $labels['replyallmode'] = 'Acción dpor defecto do botón [Responder a todos]';
 $labels['replyalldefault'] = 'responder a todos';
 $labels['replyalllist'] = 'responder só para a lista (se for atopada)';
+$labels['allmessages'] = 'todas as mensaxes';
 $labels['folder'] = 'Cartafol';
 $labels['folders'] = 'Cartafoles';
 $labels['foldername'] = 'Nome do cartafol';

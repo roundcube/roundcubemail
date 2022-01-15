@@ -15,7 +15,10 @@
 */
 
 
+$labels['actions'] = 'کردارەکان';
+$labels['messagedelete'] = 'سڕینەوەی پەیام';
 $labels['del'] = 'سڕینەوە';
+$labels['sender'] = 'نێردەر';
 $labels['notifymethodtel'] = 'تەلەفۆن';
 $labels['datetest'] = 'بەروار';
 $labels['vacation.subject'] = 'ناونیشان';

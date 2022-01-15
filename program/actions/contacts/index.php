@@ -307,12 +307,12 @@ class rcmail_action_contacts_index extends rcmail_action
             $_SESSION['addressbooks_count_writeable'] = $writeable;
 
             // select address book
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
             // use first directory by default
             if (!strlen($source) || !isset($js_list[$source])) {
                 $source = $rcmail->config->get('default_addressbook');
-                if (!strlen($source) || !isset($js_list[$source])) {
+                if (!is_string($source) || !strlen($source) || !isset($js_list[$source])) {
                     $source = strval(key($js_list));
                 }
             }
@@ -340,9 +340,9 @@ class rcmail_action_contacts_index extends rcmail_action
                 'searchform'          => [$rcmail->output, 'search_form']
         ]);
 
-        // Disable qr-code if php-gd or Endroid's QrCode is not installed
-        if (!$rcmail->output->ajax_call) {
-            $rcmail->output->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
+        // Disable qr-code if imagick, iconv or BaconQrCode is not installed
+        if (!$rcmail->output->ajax_call && rcmail_action_contacts_qrcode::check_support()) {
+            $rcmail->output->set_env('qrcode', true);
             $rcmail->output->add_label('qrcode');
         }
     }
@@ -350,8 +350,8 @@ class rcmail_action_contacts_index extends rcmail_action
     // instantiate a contacts object according to the given source
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
-        if (!strlen($source)) {
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        if ($source === null || !strlen((string) $source)) {
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         }
 
         $rcmail    = rcmail::get_instance();
@@ -371,10 +371,10 @@ class rcmail_action_contacts_index extends rcmail_action
             $contacts->set_page(($_SESSION['page'] = intval($_GET['_page'])));
         }
         else {
-            $contacts->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
+            $contacts->set_page($_SESSION['page'] ?? 1);
         }
 
-        if ($group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP)) {
+        if ($group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP)) {
             $contacts->set_group($group);
         }
 
@@ -458,7 +458,7 @@ class rcmail_action_contacts_index extends rcmail_action
         reset($sources);
 
         // currently selected source
-        $current = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $current = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         foreach ($sources as $j => $source) {
             $id = strval(strlen($source['id']) ? $source['id'] : $j);
@@ -949,7 +949,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $input = self::source_selector(['id' => $colprop['id']]);
                             }
                             else {
-                                $val   = isset($record[$col]) ? $record[$col] : null;
+                                $val   = $record[$col] ?? null;
                                 $input = rcube_output::get_edit_field($col, $val, $colprop);
                             }
 
@@ -1011,7 +1011,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         $colprop['type'] = 'text';
                     }
 
-                    $label = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
+                    $label = $colprop['label'] ?? $rcmail->gettext($col);
 
                     // prepare subtype selector in edit mode
                     if ($edit_mode && isset($colprop['subtypes']) && is_array($colprop['subtypes'])) {
@@ -1036,7 +1036,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             $subtype = $subtypes[$i];
                         }
 
-                        $fc            = isset($coltypes[$field]['count']) ? intval($coltypes[$field]['count']) : 0;
+                        $fc            = intval($coltypes[$field]['count'] ?? 0);
                         $colprop['id'] = 'ff_' . $col . $fc;
                         $row_class     = 'row';
 
@@ -1053,7 +1053,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $childvalue = $val[$childcol];
                                     }
                                     else {
-                                        $childvalue =  isset($val[$j]) ? $val[$j] : null;
+                                        $childvalue = $val[$j] ?? null;
                                     }
                                 }
                                 else {
@@ -1065,7 +1065,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $cp['array'] = true;
                                     }
 
-                                    $cp_type = isset($cp['type']) ? $cp['type'] : null;
+                                    $cp_type = $cp['type'] ?? null;
                                     $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 }
                                 else {
@@ -1319,14 +1319,14 @@ class rcmail_action_contacts_index extends rcmail_action
             $photo_img = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
         }
 
-
         $rcmail->output->set_env('photo_placeholder', $photo_img);
 
         unset($attrib['placeholder']);
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
                 'record' => $record,
-                'data'   => isset($record['photo']) ? $record['photo'] : null
+                'data'   => $record['photo'] ?? null,
+                'attrib' => $attrib
         ]);
 
         // check if we have photo data from contact form
@@ -1335,7 +1335,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 if (self::$contact['photo'] == '-del-') {
                     $record['photo'] = '';
                 }
-                else if ($_SESSION['contacts']['files'][self::$contact['photo']]) {
+                else if (!empty($_SESSION['contacts']['files'][self::$contact['photo']])) {
                     $record['photo'] = $file_id = self::$contact['photo'];
                 }
             }
@@ -1394,11 +1394,11 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $search_request = $_REQUEST['_search'];
 
-        if (!isset($_SESSION['search'][$search_request])) {
+        if (!isset($_SESSION['contact_search'][$search_request])) {
             return false;
         }
 
-        $search   = (array) $_SESSION['search'][$search_request];
+        $search   = (array) $_SESSION['contact_search'][$search_request];
         $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $afields  = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
         $records  = [];
@@ -1431,7 +1431,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $search[$s] = $source->get_search_set();
         }
 
-        $_SESSION['search'][$search_request] = $search;
+        $_SESSION['contact_search'][$search_request] = $search;
 
         return $records;
     }
@@ -1451,13 +1451,13 @@ class rcmail_action_contacts_index extends rcmail_action
         // containing contact ID and source name in form: <ID>-<SOURCE>
 
         $cid    = rcube_utils::get_input_value('_cid', $request_type);
-        $source = (string) rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         if (is_array($cid)) {
             return $cid;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
+        if (!is_string($cid) || !preg_match('/^[a-zA-Z0-9\+\/=_-]+(,[a-zA-Z0-9\+\/=_-]+)*$/', $cid)) {
             return [];
         }
 

@@ -15,7 +15,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
 
-        $this->assertTrue($output->check_skin('classic'));
+        $this->assertTrue($output->check_skin('elastic'));
         $this->assertFalse($output->check_skin('unknown'));
     }
 

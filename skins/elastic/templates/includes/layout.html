@@ -28,7 +28,7 @@
 		<link rel="stylesheet" href="/styles/styles.css">
 		<roundcube:link rel="stylesheet" href="/styles/print.css" condition="env:action == 'print'" />
 	<roundcube:endif />
-	<roundcube:if condition="env:action != 'print' && !config:devel_mode" />
+	<roundcube:if condition="env:action != 'print' && !config:devel_mode && config:dark_mode_support" />
 		<script>
 		try {
 			if (document.cookie.indexOf('colorMode=dark') > -1

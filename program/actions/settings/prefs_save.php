@@ -31,7 +31,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $CURR_SECTION  = rcube_utils::get_input_value('_section', rcube_utils::INPUT_POST);
+        $CURR_SECTION  = rcube_utils::get_input_string('_section', rcube_utils::INPUT_POST);
         $dont_override = (array) $rcmail->config->get('dont_override');
         $a_user_prefs  = [];
 
@@ -116,9 +116,9 @@ class rcmail_action_settings_prefs_save extends rcmail_action
 
         case 'addressbook':
             $a_user_prefs = [
-                'default_addressbook'  => rcube_utils::get_input_value('_default_addressbook', rcube_utils::INPUT_POST, true),
-                'collected_recipients' => rcube_utils::get_input_value('_collected_recipients', rcube_utils::INPUT_POST, true),
-                'collected_senders'    => rcube_utils::get_input_value('_collected_senders', rcube_utils::INPUT_POST, true),
+                'default_addressbook'  => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
+                'collected_recipients' => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
+                'collected_senders'    => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
                 'autocomplete_single'  => isset($_POST['_autocomplete_single']),
                 'addressbook_sort_col' => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
                 'addressbook_name_listing' => self::prefs_input_int('addressbook_name_listing'),
@@ -134,7 +134,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 'skip_deleted'      => isset($_POST['_skip_deleted']),
                 'flag_for_deletion' => isset($_POST['_flag_for_deletion']),
                 'delete_junk'       => isset($_POST['_delete_junk']),
-                'logout_purge'      => isset($_POST['_logout_purge']),
+                'logout_purge'      => self::prefs_input('logout_purge', '/^(all|never|30|60|90)$/'),
                 'logout_expunge'    => isset($_POST['_logout_expunge']),
             ];
 
@@ -148,7 +148,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
             ];
 
             foreach (rcube_storage::$folder_types as $type) {
-                $a_user_prefs[$type . '_mbox'] = rcube_utils::get_input_value('_' . $type . '_mbox', rcube_utils::INPUT_POST, true);
+                $a_user_prefs[$type . '_mbox'] = rcube_utils::get_input_string('_' . $type . '_mbox', rcube_utils::INPUT_POST, true);
             };
 
             break;
@@ -234,6 +234,13 @@ class rcmail_action_settings_prefs_save extends rcmail_action
             }
 
             $storage->set_special_folders($specials);
+
+            break;
+
+        case 'server':
+            if (isset($a_user_prefs['logout_purge']) && !is_numeric($a_user_prefs['logout_purge'])) {
+                $a_user_prefs['logout_purge'] = $a_user_prefs['logout_purge'] !== 'never';
+            }
 
             break;
         }

@@ -145,7 +145,8 @@ class rcube_result_index
      */
     public function is_empty()
     {
-        return empty($this->raw_data);
+        return empty($this->raw_data)
+            && empty($this->meta['max']) && empty($this->meta['min']) && empty($this->meta['count']);
     }
 
     /**
@@ -193,7 +194,11 @@ class rcube_result_index
         }
 
         if (!isset($this->meta['max'])) {
-            $this->meta['max'] = (int) @max($this->get());
+            $this->meta['max'] = null;
+            $all = $this->get();
+            if (!empty($all)) {
+                $this->meta['max'] = (int) max($all);
+            }
         }
 
         return $this->meta['max'];
@@ -211,7 +216,11 @@ class rcube_result_index
         }
 
         if (!isset($this->meta['min'])) {
-            $this->meta['min'] = (int) @min($this->get());
+            $this->meta['min'] = null;
+            $all = $this->get();
+            if (!empty($all)) {
+                $this->meta['min'] = (int) min($all);
+            }
         }
 
         return $this->meta['min'];
@@ -287,7 +296,7 @@ class rcube_result_index
         $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
-            $get_index ? PREG_OFFSET_CAPTURE : null)
+            $get_index ? PREG_OFFSET_CAPTURE : 0)
         ) {
             if ($get_index) {
                 $idx = 0;
@@ -343,11 +352,11 @@ class rcube_result_index
      */
     public function get_element($index)
     {
-        $count = $this->count();
-
-        if (!$count) {
+        if (empty($this->raw_data)) {
             return null;
         }
+
+        $count = $this->count();
 
         // first element
         if ($index === 0 || $index === '0' || $index === 'FIRST') {
@@ -389,7 +398,7 @@ class rcube_result_index
                     $this->meta['pos'][$index+1] - $this->length() - 1);
             }
 
-            if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, null, $pos)) {
+            if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, 0, $pos)) {
                 return (int) $m[1];
             }
         }

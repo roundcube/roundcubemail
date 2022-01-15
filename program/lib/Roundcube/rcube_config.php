@@ -110,21 +110,21 @@ class rcube_config
      */
     private function guess_type($value)
     {
-        $type = 'string';
-
-        // array requires hint to be passed.
+        if (preg_match('/^\d+$/', $value)) {
+            return 'int';
+        }
 
         if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value)) {
-            $type = 'float';
-        }
-        else if (preg_match('/^\d+$/', $value)) {
-            $type = 'integer';
-        }
-        else if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
-            $type = 'boolean';
+            return 'float';
         }
 
-        return $type;
+        if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
+            return 'bool';
+        }
+
+        // TODO: array/object
+
+        return 'string';
     }
 
     /**
@@ -135,16 +135,16 @@ class rcube_config
      *
      * @return mixed Appropriately typed interpretation of $string.
      */
-    private function parse_env($string, $type)
+    private function parse_env($string, $type = null)
     {
         switch ($type) {
-        case 'boolean':
+        case 'bool':
             return (bool) $string;
 
-        case 'integer':
+        case 'int':
             return (int) $string;
 
-        case 'double':
+        case 'float':
             return (float) $string;
 
         case 'string':
@@ -245,7 +245,7 @@ class rcube_config
         $error_log = $this->prop['log_driver'] ?: 'file';
         if ($error_log == 'file') {
             $error_log  = $this->prop['log_dir'] . '/errors';
-            $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
+            $error_log .= $this->prop['log_file_ext'] ?? '.log';
         }
 
         if ($error_log && $error_log != 'stdout') {
@@ -937,6 +937,6 @@ class rcube_config
             'Etc/Zulu'          => 'UTC',
         ];
 
-        return isset($deprecated_timezones[$tzname]) ? $deprecated_timezones[$tzname] : $tzname;
+        return $deprecated_timezones[$tzname] ?? $tzname;
     }
 }

@@ -350,6 +350,7 @@ $labels['autosavedraft'] = 'Xweber hilîne';
 $labels['everynminutes'] = 'Her $n saniye(yan)';
 $labels['never'] = 'qet';
 $labels['immediately'] = 'a niha';
+$labels['allmessages'] = 'hemû peyam';
 $labels['folder'] = 'Peldank';
 $labels['folders'] = 'Peldank';
 $labels['foldername'] = 'Navê peldankê';

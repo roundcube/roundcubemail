@@ -246,7 +246,7 @@ class rcube_imap_generic
 
             while (strlen($out) < $bytes) {
                 $out = $this->readBytes($bytes);
-                if ($out === null) {
+                if ($out === '') {
                     break;
                 }
 
@@ -278,7 +278,7 @@ class rcube_imap_generic
 
             while (strlen($out) < $bytes) {
                 $line = $this->readBytes($bytes);
-                if ($line === null) {
+                if ($line === '') {
                     break;
                 }
 
@@ -413,7 +413,7 @@ class rcube_imap_generic
      */
     protected function eof()
     {
-        if (!is_resource($this->fp)) {
+        if (!$this->fp) {
             return true;
         }
 
@@ -562,7 +562,7 @@ class rcube_imap_generic
      * @param string $pass Password
      * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
-     * @return resource Connection resource on success, error code on error
+     * @return resource|int Connection resource on success, error code on error
      */
     protected function authenticate($user, $pass, $type = 'PLAIN')
     {
@@ -817,7 +817,7 @@ class rcube_imap_generic
      * @param string $user Username
      * @param string $pass Password
      *
-     * @return resource Connection resource on success, error code on error
+     * @return resource|int Connection resource on success, error code on error
      */
     protected function login($user, $password)
     {
@@ -1484,6 +1484,11 @@ class rcube_imap_generic
      */
     public function deleteFolder($mailbox)
     {
+        // Unselect the folder to prevent "BYE Fatal error: Mailbox has been (re)moved" on Cyrus IMAP
+        if ($this->selected === $mailbox && $this->hasCapability('UNSELECT')) {
+            $this->execute('UNSELECT', [], self::COMMAND_NORESPONSE);
+        }
+
         $result = $this->execute('DELETE', [$this->escape($mailbox)], self::COMMAND_NORESPONSE);
 
         return $result == self::ERROR_OK;
@@ -2783,7 +2788,6 @@ class rcube_imap_generic
             return false;
         }
 
-        $result = false;
         $parts  = (array) $parts;
         $key    = $this->nextTag();
         $peeks  = [];
@@ -2802,12 +2806,13 @@ class rcube_imap_generic
             return false;
         }
 
+        $result = [];
+
         do {
             $line = $this->readLine(1024);
-
             if (preg_match('/^\* [0-9]+ FETCH [0-9UID( ]+/', $line, $m)) {
                 $line = ltrim(substr($line, strlen($m[0])));
-                while (preg_match('/^BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
+                while (preg_match('/^\s*BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
                     $result[$matches[1]] = trim($this->multLine($line));
                     $line = $this->readLine(1024);
@@ -2936,15 +2941,16 @@ class rcube_imap_generic
                 $bytes = (int) $m[1];
                 $prev  = '';
                 $found = true;
+                $chunkSize = 1024 * 1024;
 
                 // empty body
                 if (!$bytes) {
                     $result = '';
                 }
                 else while ($bytes > 0) {
-                    $line = $this->readLine(8192);
+                    $line = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
-                    if ($line === null) {
+                    if ($line === '') {
                         break;
                     }
 
@@ -3177,7 +3183,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return array Quota information
+     * @return array|false Quota information, False on error
      */
     public function getQuota($mailbox = null)
     {
@@ -3192,46 +3198,48 @@ class rcube_imap_generic
 
         list($code, $response) = $this->execute('GETQUOTAROOT', [$this->escape($mailbox)], 0, '/^\* QUOTA /i');
 
-        $result   = false;
+        if ($code != self::ERROR_OK) {
+            return false;
+        }
+
         $min_free = PHP_INT_MAX;
+        $result   = [];
         $all      = [];
 
-        if ($code == self::ERROR_OK) {
-            foreach (explode("\n", $response) as $line) {
-                $tokens     = $this->tokenizeResponse($line, 3);
-                $quota_root = isset($tokens[2]) ? $tokens[2] : null;
-                $quotas     = $this->tokenizeResponse($line, 1);
+        foreach (explode("\n", $response) as $line) {
+            $tokens     = $this->tokenizeResponse($line, 3);
+            $quota_root = $tokens[2] ?? null;
+            $quotas     = $this->tokenizeResponse($line, 1);
 
-                if (empty($quotas)) {
-                    continue;
+            if (empty($quotas)) {
+                continue;
+            }
+
+            foreach (array_chunk($quotas, 3) as $quota) {
+                list($type, $used, $total) = $quota;
+                $type = strtolower($type);
+
+                if ($type && $total) {
+                    $all[$quota_root][$type]['used']  = intval($used);
+                    $all[$quota_root][$type]['total'] = intval($total);
                 }
+            }
 
-                foreach (array_chunk($quotas, 3) as $quota) {
-                    list($type, $used, $total) = $quota;
-                    $type = strtolower($type);
+            if (empty($all[$quota_root]['storage'])) {
+                continue;
+            }
 
-                    if ($type && $total) {
-                        $all[$quota_root][$type]['used']  = intval($used);
-                        $all[$quota_root][$type]['total'] = intval($total);
-                    }
-                }
+            $used  = $all[$quota_root]['storage']['used'];
+            $total = $all[$quota_root]['storage']['total'];
+            $free  = $total - $used;
 
-                if (empty($all[$quota_root]['storage'])) {
-                    continue;
-                }
-
-                $used  = $all[$quota_root]['storage']['used'];
-                $total = $all[$quota_root]['storage']['total'];
-                $free  = $total - $used;
-
-                // calculate lowest available space from all storage quotas
-                if ($free < $min_free) {
-                    $min_free          = $free;
-                    $result['used']    = $used;
-                    $result['total']   = $total;
-                    $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                    $result['free']    = 100 - $result['percent'];
-                }
+            // calculate lowest available space from all storage quotas
+            if ($free < $min_free) {
+                $min_free          = $free;
+                $result['used']    = $used;
+                $result['total']   = $total;
+                $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                $result['free']    = 100 - $result['percent'];
             }
         }
 
@@ -3914,7 +3922,7 @@ class rcube_imap_generic
             }
         }
 
-        return $num == 1 ? (isset($result[0]) ? $result[0] : '') : $result;
+        return $num == 1 ? ($result[0] ?? '') : $result;
     }
 
     /**

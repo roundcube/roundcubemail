@@ -45,8 +45,8 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
         }
 
         if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
-            $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
-            $group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
+            $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
+            $group_id = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
             $contacts   = $rcmail->get_address_book($source);
             $group_data = $contacts->get_group($group_id);

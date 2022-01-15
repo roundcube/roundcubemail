@@ -46,6 +46,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             24 => '"email@test.com" <>',
             // valid with redundant quoting (#1490040)
             25 => '"user"@"domain.tld"',
+            // invalid addr-spec (#8164)
+            26 => '"Test.org"<test@domain.tld',
+            27 => '<test@domain.tld',
         ];
 
         $results = [
@@ -76,6 +79,8 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             23 => [1, 'Test,Test', 'test@domain.tld'],
             24 => [1, '', 'email@test.com'],
             25 => [1, '', 'user@domain.tld'],
+            26 => [1, 'Test.org', 'test@domain.tld'],
+            27 => [1, '', 'test@domain.tld'],
         ];
 
         foreach ($headers as $idx => $header) {

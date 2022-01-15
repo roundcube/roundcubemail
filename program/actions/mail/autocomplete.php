@@ -34,8 +34,8 @@ class rcmail_action_mail_autocomplete extends rcmail_action
         $MAXNUM = (int) $rcmail->config->get('autocomplete_max', 15);
         $mode   = (int) $rcmail->config->get('addressbook_search_mode');
         $single = (bool) $rcmail->config->get('autocomplete_single');
-        $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
-        $reqid  = rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC);
+        $search = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC, true);
+        $reqid  = rcube_utils::get_input_string('_reqid', rcube_utils::INPUT_GPC);
 
         $contacts = [];
 
@@ -76,7 +76,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             if (empty($contacts[$index])) {
                                 $contact = [
                                     'name'   => $contact,
-                                    'type'   => isset($record['_type']) ? $record['_type'] : null,
+                                    'type'   => $record['_type'] ?? null,
                                     'id'     => $record['ID'],
                                     'source' => $abook_id,
                                 ];
@@ -189,7 +189,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
     public static function autocomplete_addressbooks()
     {
         $rcmail = rcmail::get_instance();
-        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         if (strlen($source)) {
             $book_types = [$source];

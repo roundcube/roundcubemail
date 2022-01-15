@@ -681,11 +681,11 @@ class rcube_csv2vcard
             $name = explode(':', $name);
             if (is_array($value) && $name[0] != 'address') {
                 foreach ((array) $value as $val) {
-                    $vcard->set($name[0], $val, isset($name[1]) ? $name[1] : null);
+                    $vcard->set($name[0], $val, $name[1] ?? null);
                 }
             }
             else {
-                $vcard->set($name[0], $value, isset($name[1]) ? $name[1] : null);
+                $vcard->set($name[0], $value, $name[1] ?? null);
             }
         }
 

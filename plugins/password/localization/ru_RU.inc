@@ -38,5 +38,6 @@ $messages['samepasswd'] = 'Новый пароль должен отличать
 $messages['passwdexpirewarning'] = 'Внимание! Ваш пароль истекает в ближайшее время, измените его до $expirationdatetime.';
 $messages['passwdexpired'] = 'Срок действия вашего пароля истек, вы должны изменить его сейчас!';
 $messages['passwdconstraintviolation'] = 'Нарушение ограничения пароля. Вероятно, слишком слабый пароль.';
+$messages['pwned_mustnotbedisclosed'] = 'Пароль не должен быть <a href="$href" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'Этот пароль общеизвестен.';
 $messages['pwned_fetcherror'] = 'Не удалось проверить стойкость пароля.';

@@ -467,6 +467,7 @@ $labels['asattachment'] = 'fayl kimi';
 $labels['replyallmode'] = '[Hamıya cavab] düyməsinin susmaya görə hərəkəti';
 $labels['replyalldefault'] = 'hamıya cavab';
 $labels['replyalllist'] = 'yalnız poçt siyahısına (əgər tapılıbsa) cavab ';
+$labels['allmessages'] = 'bütün məktublar';
 $labels['folder'] = 'Qovluq';
 $labels['folders'] = 'Qovluqlar';
 $labels['foldername'] = 'Qovluq adı';

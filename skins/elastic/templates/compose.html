@@ -46,6 +46,12 @@
 				</div>
 			</div>
 			<roundcube:endif />
+			<div class="form-group row form-check">
+				<label for="compose-keep-formatting" class="col-form-label col-6"><roundcube:label name="keepformatting" /></label>
+				<div class="col-6 form-check">
+					<roundcube:object name="keepFormattingCheckBox" id="compose-keep-formatting" noform="true" tabindex="2" class="form-check-input" />
+				</div>
+			</div>
 			<div class="form-group row">
 				<label for="compose-priority" class="col-form-label col-6"><roundcube:label name="priority" /></label>
 				<div class="col-6">
@@ -242,7 +248,6 @@
 		<li role="separator" class="separator"><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" class="rounded-0" itemclass="active" list-placeholder="noresponsesavailable" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
-		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="create responses disabled" classAct="create responses active" unselectable="on" />
 		<roundcube:button name="responses" type="link-menuitem" label="editresponses" class="edit responses active" onclick="return rcmail.command('switch-task', 'settings/responses')" />
 	</ul>
 </div>

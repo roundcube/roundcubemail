@@ -49,8 +49,7 @@ class Actions_Settings_Index extends ActionTestCase
     function test_get_skins()
     {
         $result = rcmail_action_settings_index::get_skins();
-        sort($result);
-        $this->assertSame(['classic', 'elastic', 'larry'], $result);
+        $this->assertContains('elastic', $result);
     }
 
     /**
@@ -78,5 +77,27 @@ class Actions_Settings_Index extends ActionTestCase
     {
         $result = rcmail_action_settings_index::timezone_standard_time_data('UTC');
         $this->assertSame('+00:00', $result['offset']);
+    }
+
+    /**
+     * Test attach_images() method
+     */
+    function test_attach_images()
+    {
+        $result = rcmail_action_settings_index::attach_images('<p>test</p>', 'identity');
+
+        // TODO: test image replacement
+
+        $this->assertSame('<p>test</p>', $result);
+    }
+
+    /**
+     * Test wash_html() method
+     */
+    function test_wash_html()
+    {
+        $result = rcmail_action_settings_index::wash_html('<p>test</p>');
+
+        $this->assertSame('<p>test</p>', $result);
     }
 }

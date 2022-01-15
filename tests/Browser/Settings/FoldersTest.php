@@ -8,7 +8,7 @@ class FoldersTest extends \Tests\Browser\TestCase
 {
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap();
+        \bootstrap::init_imap(true);
         \bootstrap::reset_mailboxes();
     }
 

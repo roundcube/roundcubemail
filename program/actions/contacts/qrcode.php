@@ -41,7 +41,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         // generate QR code image
         if ($data = self::contact_qrcode($contact)) {
             $headers = [
-                'Content-Type: image/png',
+                'Content-Type: ' . self::check_support(),
                 'Content-Length: ' . strlen($data)
             ];
 
@@ -51,9 +51,22 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         $rcmail->output->sendExit('', ['HTTP/1.0 404 Contact not found']);
     }
 
+    /**
+     * Generate a QR-code image for a contact
+     *
+     * @param array $contact Contact record
+     *
+     * @return string|null Image content, Null on error or missing PHP extensions
+     */
     public static function contact_qrcode($contact)
     {
         if (empty($contact)) {
+            return null;
+        }
+
+        $type = self::check_support();
+
+        if (empty($type)) {
             return null;
         }
 
@@ -80,17 +93,36 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 
         $data = $vcard->export();
 
-        $qrCode = new Endroid\QrCode\QrCode();
-        $qrCode
-            ->setText($data)
-            ->setSize(300)
-            ->setPadding(0)
-            ->setErrorCorrection('high')
-        //    ->setLabel('Scan the code')
-        //    ->setLabelFontSize(16)
-            ->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0])
-            ->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
+        if (empty($data)) {
+            return null;
+        }
 
-        return $qrCode->get('png');
+        $renderer_style = new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1);
+        $renderer_image = $type == 'image/png'
+            ? new BaconQrCode\Renderer\Image\ImagickImageBackEnd()
+            : new BaconQrCode\Renderer\Image\SvgImageBackEnd();
+
+        $renderer = new BaconQrCode\Renderer\ImageRenderer($renderer_style, $renderer_image);
+        $writer   = new BaconQrCode\Writer($renderer);
+
+        return $writer->writeString($data);
+    }
+
+    /**
+     * Check required extensions and classes for QR code generation
+     *
+     * @return string|null Content-type of the image result
+     */
+    public static function check_support()
+    {
+        if (extension_loaded('iconv') && class_exists('BaconQrCode\Renderer\ImageRenderer')) {
+            if (extension_loaded('xmlwriter')) {
+                return 'image/svg+xml';
+            }
+
+            if (extension_loaded('imagick')) {
+                return 'image/png';
+            }
+        }
     }
 }

@@ -46,10 +46,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $storage = $rcmail->get_storage();
 
         // edited folder name (empty in create-folder mode)
-        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GPC, true);
 
         // predefined path for new folder
-        $parent = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
+        $parent = rcube_utils::get_input_string('_path', rcube_utils::INPUT_GPC, true);
 
         $threading_supported = $storage->get_capability('THREAD');
         $dual_use_supported  = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
@@ -105,7 +105,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
         else {
             if (isset($_POST['_name'])) {
-                $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+                $folder = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
             }
 
             $foldername = new html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
@@ -134,7 +134,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
         }
         else {
-            $selected   = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
+            $selected   = $_POST['_parent'] ?? $path_id;
             $exceptions = [$mbox];
 
             // Exclude 'prefix' namespace from parent folders list (#1488349)
@@ -152,7 +152,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                     'unsubscribed' => true,
                     'skip_noinferiors' => true,
                     'exceptions'  => $exceptions,
-                    'additional'  => strlen($selected) ? [$selected] : null,
+                    'additional'  => is_string($selected) && strlen($selected) ? [$selected] : null,
             ]);
 
             $form['props']['fieldsets']['location']['content']['parent'] = [
@@ -173,7 +173,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 $select->add($rcmail->gettext('dualusemail'), 'mail');
                 $select->add($rcmail->gettext('dualusefolder'), 'folder');
 
-                $value  = rcube_utils::get_input_value('_type', rcube_utils::INPUT_POST);
+                $value = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
                 $value = $select->show($value ?: 'mail');
             }
             else {
@@ -202,7 +202,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 $a_threaded   = $rcmail->config->get('message_threading', []);
                 $default_mode = $rcmail->config->get('default_list_mode', 'list');
 
-                $value = (int) (isset($a_threaded[$mbox]) ? $a_threaded[$mbox] : $default_mode == 'threads');
+                $value = (int) ($a_threaded[$mbox] ?? $default_mode == 'threads');
             }
 
             $form['props']['fieldsets']['settings']['content']['viewmode'] = [
@@ -210,6 +210,8 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 'value' => $select->show($value),
             ];
         }
+
+        $msgcount = 0;
 
         // Information (count, size) - Edit mode
         if (strlen($mbox)) {
@@ -220,7 +222,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             ];
 
             if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
-                $msgcount = $storage->count($mbox, 'ALL', true, false);
+                $msgcount = (int) $storage->count($mbox, 'ALL', true, false);
 
                 if ($msgcount) {
                     // Get the size on servers with supposed-to-be-fast method for that
@@ -247,7 +249,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
                 $form['props']['fieldsets']['info']['content']['count'] = [
                     'label' => $rcmail->gettext('messagecount'),
-                    'value' => (int) $msgcount
+                    'value' => $msgcount
                 ];
                 $form['props']['fieldsets']['info']['content']['size'] = [
                     'label' => $rcmail->gettext('size'),
@@ -308,7 +310,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         $out .= "\n$form_end";
 
-        $rcmail->output->set_env('messagecount', isset($msgcount) ? (int) $msgcount : 0);
+        $rcmail->output->set_env('messagecount', $msgcount);
         $rcmail->output->set_env('folder', $mbox);
 
         if ($mbox !== null && empty($_POST)) {

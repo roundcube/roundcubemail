@@ -96,6 +96,17 @@ CREATE TABLE [dbo].[identities] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[responses] (
+	[response_id] [int] IDENTITY (1, 1) NOT NULL ,
+	[user_id] [int] NOT NULL ,
+	[changed] [datetime] NOT NULL ,
+	[del] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[name] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
+	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL, 
+	[is_html] [char] (1) COLLATE Latin1_General_CI_AI NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
 CREATE TABLE [dbo].[session] (
 	[sess_id] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[changed] [datetime] NULL ,
@@ -216,6 +227,13 @@ ALTER TABLE [dbo].[identities] WITH NOCHECK ADD
 	 PRIMARY KEY  CLUSTERED 
 	(
 		[identity_id]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[responses] WITH NOCHECK ADD 
+	 PRIMARY KEY  CLUSTERED 
+	(
+		[response_id]
 	) ON [PRIMARY] 
 GO
 
@@ -356,6 +374,16 @@ GO
 CREATE INDEX [IX_identities_email] ON [dbo].[identities]([email],[del]) ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[responses] ADD 
+	CONSTRAINT [DF_responses_user] DEFAULT ('0') FOR [user_id],
+	CONSTRAINT [DF_responses_del] DEFAULT ('0') FOR [del],
+	CONSTRAINT [DF_responses_is_html] DEFAULT ('0') FOR [is_html],
+	CHECK ([del] = '1' or [del] = '0'),
+	CHECK ([is_html] = '1' or [is_html] = '0')
+GO
+
+CREATE INDEX [IX_responses_user_id] ON [dbo].[responses]([user_id]) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[session] ADD 
 	CONSTRAINT [DF_session_sess_id] DEFAULT ('') FOR [sess_id],
 	CONSTRAINT [DF_session_ip] DEFAULT ('') FOR [ip]
@@ -391,6 +419,11 @@ CREATE UNIQUE INDEX [IX_filestore_user_id_context_filename] ON [dbo].[filestore]
 GO
 
 ALTER TABLE [dbo].[identities] ADD CONSTRAINT [FK_identities_user_id] 
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
+    ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+ALTER TABLE [dbo].[responses] ADD CONSTRAINT [FK_responses_user_id] 
     FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([user_id])
     ON DELETE CASCADE ON UPDATE CASCADE
 GO
@@ -453,6 +486,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2020122900')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2021100300')
 GO
 

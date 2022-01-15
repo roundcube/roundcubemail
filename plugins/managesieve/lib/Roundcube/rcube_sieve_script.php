@@ -463,7 +463,7 @@ class rcube_sieve_script
                             $action_script .= " :last";
                         }
                         if ($action['type'] == 'deleteheader') {
-                            $action['type'] = isset($action['match-type']) ? $action['match-type'] : null;
+                            $action['type'] = $action['match-type'] ?? null;
                             $this->add_operator($action, $action_script, $exts);
                         }
                         $action_script .= " " . self::escape_string($action['name']);
@@ -1455,7 +1455,7 @@ class rcube_sieve_script
             }
         }
 
-        return $num === 1 ? (isset($result[0]) ? $result[0] : null) : $result;
+        return $num === 1 ? ($result[0] ?? null) : $result;
     }
 
     /**

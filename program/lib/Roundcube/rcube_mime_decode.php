@@ -155,7 +155,7 @@ class rcube_mime_decode
 
             switch ($ctype) {
             case 'text/plain':
-                $encoding = isset($content_transfer_encoding) ? $content_transfer_encoding['value'] : '7bit';
+                $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                 if ($this->params['include_bodies']) {
                     $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
@@ -164,7 +164,7 @@ class rcube_mime_decode
                 break;
 
             case 'text/html':
-                $encoding = isset($content_transfer_encoding) ? $content_transfer_encoding['value'] : '7bit';
+                $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                 if ($this->params['include_bodies']) {
                     $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
@@ -412,11 +412,11 @@ class rcube_mime_decode
         }
 
         $struct->body        = $part->body;
-        $struct->size        = strlen($part->body);
+        $struct->size        = is_string($part->body) ? strlen($part->body) : 0;
         $struct->disposition = $part->disposition;
 
         $count = 0;
-        foreach ((array)$part->parts as $child_part) {
+        foreach ((array) $part->parts as $child_part) {
             $struct->parts[] = $this->structure_part($child_part, ++$count, $struct->mime_id);
         }
 

@@ -451,6 +451,21 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * rcube_utils::get_input_string()
+     */
+    function test_get_input_string()
+    {
+        $_GET = [];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => 'val'];
+        $this->assertSame('val', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+
+        $_GET = ['test' => ['val1', 'val2']];
+        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+    }
+
+    /**
      * rcube:utils::file2class()
      */
     function test_file2class()
@@ -777,6 +792,34 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test-Cases for test_parse_host_uri()
+     */
+    function data_parse_host_uri()
+    {
+        return [
+            [['hostname', null, null], ['hostname', null, null]],
+            [['hostname:143', null, null], ['hostname', null, 143]],
+            [['hostname:143', 123, 345], ['hostname', null, 143]],
+            [['tls://host.domain.tld', 143, 993], ['host.domain.tld', 'tls', 143]],
+            [['ssl://host.domain.tld', 143, 993], ['host.domain.tld', 'ssl', 993]],
+            [['imaps://host.domain.tld', 143, 993], ['host.domain.tld', 'imaps', 993]],
+            [['tls://host.domain.tld:123', 143, 993], ['host.domain.tld', 'tls', 123]],
+            [['ssl://host.domain.tld:123', 143, 993], ['host.domain.tld', 'ssl', 123]],
+            [['imaps://host.domain.tld:123', 143, 993], ['host.domain.tld', 'imaps', 123]],
+        ];
+    }
+
+    /**
+     * Test parse_host_uri()
+     *
+     * @dataProvider data_parse_host_uri
+     */
+    function test_parse_host_uri($args, $result)
+    {
+        $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
+    }
+
+    /**
      * Test-Cases for test_remove_subject_prefix()
      */
     function data_remove_subject_prefix() {
@@ -799,5 +842,54 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_remove_subject_prefix($mode, $subject, $result) {
         $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
+    }
+
+    /**
+     * Test server_name()
+     */
+    function test_server_name()
+    {
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+
+        $_SERVER['test'] = 'test.com:843';
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+
+        $_SERVER['test'] = 'test.com';
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+    }
+
+    /**
+     * Test server_name() with trusted_host_patterns
+     */
+    function test_server_name_trusted_host_patterns()
+    {
+        $_SERVER['test'] = 'test.com';
+
+        $rcube = rcube::get_instance();
+        $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
+        $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
+
+        $rcube->config->set('trusted_host_patterns', ['test.com']);
+
+        StderrMock::start();
+        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        StderrMock::stop();
+
+        $_SERVER['test'] = 'subdomain.test.com';
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
+
+        $rcube->config->set('trusted_host_patterns', ['^test.com$']);
+        $_SERVER['test'] = '^test.com$';
+
+        StderrMock::start();
+        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        StderrMock::stop();
     }
 }

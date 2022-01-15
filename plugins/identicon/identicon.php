@@ -55,7 +55,14 @@ class identicon extends rcube_plugin
             if ($email) {
                 require_once __DIR__ . '/identicon_engine.php';
 
-                $identicon = new identicon_engine($email);
+                if (!empty($args['attrib']['bg-color'])) {
+                    $bgcolor = $args['attrib']['bg-color'];
+                }
+                else {
+                    $bgcolor = rcube_utils::get_input_string('_bgcolor', rcube_utils::INPUT_GET);
+                }
+
+                $identicon = new identicon_engine($email, null, $bgcolor);
 
                 if ($rcmail->action == 'show') {
                     // set photo URL using data-uri
@@ -66,7 +73,6 @@ class identicon extends rcube_plugin
                 }
                 else {
                     // send the icon to the browser
-                    $identicon = new identicon_engine($email);
                     if ($identicon->sendOutput()) {
                         exit;
                     }

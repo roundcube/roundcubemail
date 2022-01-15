@@ -60,12 +60,12 @@ class rcube_result_set implements Iterator, ArrayAccess
         $this->first = (int) $first;
     }
 
-    function add($rec)
+    public function add($rec)
     {
         $this->records[] = $rec;
     }
 
-    function iterate()
+    public function iterate()
     {
         $current = $this->current();
 
@@ -74,20 +74,20 @@ class rcube_result_set implements Iterator, ArrayAccess
         return $current;
     }
 
-    function first()
+    public function first()
     {
         $this->current = 0;
         return $this->current();
     }
 
-    function seek($i)
+    public function seek($i): void
     {
         $this->current = $i;
     }
 
     /*** Implement PHP ArrayAccess interface ***/
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $offset = count($this->records);
@@ -98,16 +98,17 @@ class rcube_result_set implements Iterator, ArrayAccess
         }
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->records[$offset]);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->records[$offset]);
     }
 
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->records[$offset];
@@ -115,27 +116,30 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     /***  PHP 5 Iterator interface  ***/
 
-    function rewind()
+    public function rewind(): void
     {
         $this->current = 0;
     }
 
-    function current()
+    #[ReturnTypeWillChange]
+    public function current()
     {
-        return isset($this->records[$this->current]) ? $this->records[$this->current] : null;
+        return $this->records[$this->current] ?? null;
     }
 
-    function key()
+    #[ReturnTypeWillChange]
+    public function key()
     {
         return $this->current;
     }
 
-    function next()
+    #[ReturnTypeWillChange]
+    public function next()
     {
         return $this->iterate();
     }
 
-    function valid()
+    public function valid(): bool
     {
         return isset($this->records[$this->current]);
     }

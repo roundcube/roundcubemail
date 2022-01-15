@@ -26,7 +26,7 @@ if username in BLACKLIST:
     sys.exit('Changing password for user %s is forbidden (user blacklisted)' %
              username)
 
-handle = subprocess.Popen('/usr/sbin/chpasswd', stdin = subprocess.PIPE)
+handle = subprocess.Popen('/usr/sbin/chpasswd', stdin = subprocess.PIPE, universal_newlines = True)
 handle.communicate('%s:%s' % (username, password))
 
 sys.exit(handle.returncode)

@@ -30,8 +30,8 @@ class rcmail_action_mail_group_expand extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $gid    = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GET);
-        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $gid    = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GET);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $abook  = $rcmail->get_address_book($source);
 
         if ($gid && $abook) {

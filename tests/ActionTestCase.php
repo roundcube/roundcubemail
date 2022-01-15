@@ -12,6 +12,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
     static function setUpBeforeClass(): void
     {
+        // reset some interfering globals set in other tests
+        $_SERVER['REQUEST_URI'] = '';
+
         $rcmail = rcmail::get_instance();
         $rcmail->load_gui();
     }

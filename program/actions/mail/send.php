@@ -33,7 +33,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail->output->reset();
         $rcmail->output->framed = true;
 
-        $COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+        $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
         $COMPOSE    =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
         // Sanity checks
@@ -59,7 +59,8 @@ class rcmail_action_mail_send extends rcmail_action
                 'error_handler' => function() use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], func_get_args());
                     $rcmail->output->send('iframe');
-                }
+                },
+                'keepformatting' => !empty($_POST['_keepformatting']),
         ]);
 
         if (!isset($COMPOSE['attachments'])) {
@@ -73,12 +74,12 @@ class rcmail_action_mail_send extends rcmail_action
 
         $message_id      = $headers['Message-ID'];
         $message_charset = $SENDMAIL->options['charset'];
-        $message_body    = rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, true, $message_charset);
-        $isHtml          = (bool) rcube_utils::get_input_value('_is_html', rcube_utils::INPUT_POST);
+        $message_body    = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true, $message_charset);
+        $isHtml          = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
 
         // Reset message body and attachments in Mailvelope mode
         if (isset($_POST['_pgpmime'])) {
-            $pgp_mime     = rcube_utils::get_input_value('_pgpmime', rcube_utils::INPUT_POST);
+            $pgp_mime     = rcube_utils::get_input_string('_pgpmime', rcube_utils::INPUT_POST);
             $isHtml       = false;
             $message_body = '';
 
@@ -151,25 +152,35 @@ class rcmail_action_mail_send extends rcmail_action
                 && empty($COMPOSE['spell_checked'])
                 && !empty($message_body)
             ) {
-                $language     = rcube_utils::get_input_value('_lang', rcube_utils::INPUT_GPC);
+                $language     = rcube_utils::get_input_string('_lang', rcube_utils::INPUT_GPC);
                 $message_body = str_replace("\r\n", "\n", $message_body);
                 $spellchecker = new rcube_spellchecker($language);
                 $spell_result = $spellchecker->check($message_body, $isHtml);
 
-                $COMPOSE['spell_checked'] = true;
+                if ($error = $spellchecker->error()) {
+                    rcube::raise_error([
+                            'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Spellcheck error: " . $error
+                        ],
+                        true, false
+                    );
+                }
+                else {
+                    $COMPOSE['spell_checked'] = true;
 
-                if (!$spell_result) {
-                    if ($isHtml) {
-                        $result['words']      = $spellchecker->get();
-                        $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
-                    }
-                    else {
-                        $result = $spellchecker->get_xml();
-                    }
+                    if (!$spell_result) {
+                        if ($isHtml) {
+                            $result['words']      = $spellchecker->get();
+                            $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
+                        }
+                        else {
+                            $result = $spellchecker->get_xml();
+                        }
 
-                    $rcmail->output->show_message('mispellingsfound', 'error');
-                    $rcmail->output->command('spellcheck_resume', $result);
-                    $rcmail->output->send('iframe');
+                        $rcmail->output->show_message('mispellingsfound', 'error');
+                        $rcmail->output->command('spellcheck_resume', $result);
+                        $rcmail->output->send('iframe');
+                    }
                 }
             }
 
@@ -184,7 +195,7 @@ class rcmail_action_mail_send extends rcmail_action
         }
 
         // sort attachments to make sure the order is the same as in the UI (#1488423)
-        if ($files = rcube_utils::get_input_value('_attachments', rcube_utils::INPUT_POST)) {
+        if ($files = rcube_utils::get_input_string('_attachments', rcube_utils::INPUT_POST)) {
             $files = explode(',', $files);
             $files = array_flip($files);
             foreach ($files as $idx => $val) {
@@ -250,7 +261,7 @@ class rcmail_action_mail_send extends rcmail_action
 
         // delete previous saved draft
         $drafts_mbox = $rcmail->config->get('drafts_mbox');
-        $old_id      = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST);
+        $old_id      = rcube_utils::get_input_string('_draft_saveid', rcube_utils::INPUT_POST);
 
         if ($old_id && (!empty($sent) || $saved)) {
             $deleted = $rcmail->storage->delete_message($old_id, $drafts_mbox);
@@ -356,6 +367,9 @@ class rcmail_action_mail_send extends rcmail_action
                 $is_inline    = preg_match($dispurl, $message_body);
             }
 
+            $ctype = isset($attachment['mimetype']) ? $attachment['mimetype'] : '';
+            $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
+
             // inline image
             if ($is_inline) {
                 // Mail_Mime does not support many inline attachments with the same name (#1489406)
@@ -382,24 +396,23 @@ class rcmail_action_mail_send extends rcmail_action
                 }
 
                 if (!empty($attachment['data'])) {
-                    $message->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false, $cid);
+                    $message->addHTMLImage($attachment['data'], $ctype, $attachment['name'], false, $cid);
                 }
                 else {
-                    $message->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name'], true, $cid);
+                    $message->addHTMLImage($attachment['path'], $ctype, $attachment['name'], true, $cid);
                 }
             }
             else {
-                $ctype   = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
-                $file    = $attachment['data'] ?: $attachment['path'];
+                $file    = !empty($attachment['data']) ? $attachment['data'] : $attachment['path'];
                 $folding = (int) $rcmail->config->get('mime_param_folding');
 
                 $message->addAttachment($file,
                     $ctype,
                     $attachment['name'],
-                    $attachment['data'] ? false : true,
+                    empty($attachment['data']),
                     $ctype == 'message/rfc822' ? '8bit' : 'base64',
                     'attachment',
-                    isset($attachment['charset']) ? $attachment['charset'] : null,
+                    $attachment['charset'] ?? null,
                     '', '',
                     $folding ? 'quoted-printable' : null,
                     $folding == 2 ? 'quoted-printable' : null,

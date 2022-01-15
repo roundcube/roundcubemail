@@ -45,7 +45,7 @@ class enigma_ui
     {
         $this->add_js();
 
-        $action = rcube_utils::get_input_value('_a', rcube_utils::INPUT_GPC);
+        $action = rcube_utils::get_input_string('_a', rcube_utils::INPUT_GPC);
 
         if ($this->rc->action == 'plugin.enigmakeys') {
             switch ($action) {
@@ -236,8 +236,8 @@ class enigma_ui
         $this->enigma->load_engine();
 
         $pagesize = $this->rc->config->get('pagesize', 100);
-        $page     = max(intval(rcube_utils::get_input_value('_p', rcube_utils::INPUT_GPC)), 1);
-        $search   = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC);
+        $page     = max(intval(rcube_utils::get_input_string('_p', rcube_utils::INPUT_GPC)), 1);
+        $search   = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GPC);
 
         // Get the list
         $list     = $this->enigma->engine->list_keys($search);
@@ -326,7 +326,7 @@ class enigma_ui
     {
         $this->enigma->load_engine();
 
-        $id  = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GET);
+        $id  = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
         $res = $this->enigma->engine->get_key($id);
 
         if ($res instanceof enigma_key) {
@@ -476,8 +476,8 @@ class enigma_ui
      */
     private function key_export()
     {
-        $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST);
-        $priv   = rcube_utils::get_input_value('_priv', rcube_utils::INPUT_POST);
+        $keys   = rcube_utils::get_input_string('_keys', rcube_utils::INPUT_POST);
+        $priv   = rcube_utils::get_input_string('_priv', rcube_utils::INPUT_POST);
         $engine = $this->enigma->load_engine();
         $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);
 
@@ -533,7 +533,7 @@ class enigma_ui
     private function key_import()
     {
         // Import process
-        if ($data = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST)) {
+        if ($data = rcube_utils::get_input_string('_keys', rcube_utils::INPUT_POST)) {
             $this->enigma->load_engine();
             $this->enigma->engine->password_handler();
 
@@ -690,7 +690,7 @@ class enigma_ui
                 'method'  => 'post',
                 'enctype' => 'multipart/form-data'
             ] + $attrib,
-            isset($form) ? $form : ''
+            $form ?? ''
         );
 
         return $out;
@@ -707,8 +707,8 @@ class enigma_ui
         // That's why we use only OpenPGP.js method of key generation
         return;
 
-        $user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST, true);
-        $pass = rcube_utils::get_input_value('_password', rcube_utils::INPUT_POST, true);
+        $user = rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST, true);
+        $pass = rcube_utils::get_input_string('_password', rcube_utils::INPUT_POST, true);
         $size = (int) rcube_utils::get_input_value('_size', rcube_utils::INPUT_POST);
 
         if ($size > 4096) {
@@ -1164,7 +1164,7 @@ class enigma_ui
     function message_ready($p)
     {
         // The message might have been already encrypted by Mailvelope
-        if (strpos($p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
+        if (strpos((string) $p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
             return $p;
         }
 
@@ -1302,9 +1302,9 @@ class enigma_ui
      */
     function import_file()
     {
-        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
+        $mime_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_POST);
         $engine  = $this->enigma->load_engine();
 
         if ($uid && $mime_id) {

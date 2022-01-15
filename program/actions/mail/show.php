@@ -34,7 +34,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         self::$PRINT_MODE = $rcmail->action == 'print';
 
         // Read browser capabilities and store them in session
-        if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {
+        if ($caps = rcube_utils::get_input_string('_caps', rcube_utils::INPUT_GET)) {
             $browser_caps = [];
             foreach (explode(',', $caps) as $cap) {
                 $cap = explode('=', $cap);
@@ -44,7 +44,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $_SESSION['browser_caps'] = $browser_caps;
         }
 
-        $msg_id    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+        $msg_id    = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
         $uid       = preg_replace('/\.[0-9.]+$/', '', $msg_id);
         $mbox_name = $rcmail->storage->get_folder();
 
@@ -263,9 +263,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         // add link to save sender in addressbook and reload message
         $show_images = $rcmail->config->get('show_images');
         if (!empty(self::$MESSAGE->sender['mailto']) && ($show_images == 1 || $show_images == 3)) {
+            $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
                     'href'    => "#loadremotealways",
-                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', true)",
+                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', $arg)",
                     'style'   => "white-space:nowrap"
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
@@ -370,6 +371,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     '_action' => 'photo',
                     '_email'  => self::$MESSAGE->sender['mailto'],
                     '_error'  => $error_handler ? 1 : null,
+                    '_bgcolor' => $attrib['bg-color'] ?? null
             ]);
         }
         else {
@@ -419,8 +421,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $exclude_headers = !empty($attrib['exclude']) ? explode(',', $attrib['exclude']) : [];
         $output_headers  = [];
 
-        $attr_max     = isset($attrib['max']) ? $attrib['max'] : null;
-        $attr_addicon = isset($attrib['addicon']) ? $attrib['addicon'] : null;
+        $attr_max     = $attrib['max'] ?? null;
+        $attr_addicon = $attrib['addicon'] ?? null;
         $charset      = !empty($headers['charset']) ? $headers['charset'] : null;
 
         foreach ($standard_headers as $hkey) {
@@ -535,7 +537,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $table = new html_table(['cols' => 2]);
 
         foreach ($plugin['output'] as $hkey => $row) {
-            $val = $row['html'] ? $row['value'] : rcube::SQ($row['value']);
+            $val = !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
 
             $table->add(['class' => 'header-title'], rcube::SQ($row['title']));
             $table->add(['class' => 'header ' . $hkey], $val);

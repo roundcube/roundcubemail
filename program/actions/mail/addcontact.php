@@ -30,8 +30,8 @@ class rcmail_action_mail_addcontact extends rcmail_action
     public function run($args = [])
     {
         $rcmail  = rcmail::get_instance();
-        $address = rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true);
-        $source  = rcube_utils::get_input_value('_source', rcube_utils::INPUT_POST);
+        $address = rcube_utils::get_input_string('_address', rcube_utils::INPUT_POST, true);
+        $source  = rcube_utils::get_input_string('_source', rcube_utils::INPUT_POST);
 
         // Get the default addressbook
         $CONTACTS = null;

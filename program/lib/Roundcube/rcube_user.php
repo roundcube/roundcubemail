@@ -639,7 +639,7 @@ class rcube_user
                 'user_name'   => $user_name,
                 'user_email'  => $user_email,
                 'email_list'  => $email_list,
-                'language'    => isset($_SESSION['language']) ? $_SESSION['language'] : null,
+                'language'    => $_SESSION['language'] ?? null,
                 'preferences' => [],
         ]);
 
@@ -887,5 +887,157 @@ class rcube_user
         $insert = $this->db->query($sql, $insert_values);
 
         return $this->db->affected_rows($insert) ? $this->db->insert_id('searches') : false;
+    }
+
+    /**
+     * Get a saved response of this user.
+     *
+     * @param int $id Response ID
+     *
+     * @return array|null Hash array with all cols of the response record, NULL if not found
+     */
+    function get_response($id)
+    {
+        $sql_result = $this->db->query(
+            "SELECT * FROM " . $this->db->table_name('responses', true)
+                . " WHERE `user_id` = ? AND `response_id` = ? AND `del` = 0",
+            $this->ID, $id
+        );
+
+        if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+            $sql_arr['id']      = $sql_arr['response_id'];
+            $sql_arr['is_html'] = !empty($sql_arr['is_html']);
+
+            unset($sql_arr['response_id']);
+
+            return $sql_arr;
+        }
+    }
+
+    /**
+     * Return a list of all responses of this user.
+     *
+     * @return array List of responses (id, name)
+     */
+    function list_responses()
+    {
+        // Migrate the old responses existing in user preferences
+        if (!empty($this->prefs['compose_responses'])) {
+            foreach ($this->prefs['compose_responses'] as $response) {
+                $this->insert_response([
+                        'name' => $response['name'],
+                        'data' => $response['text'],
+                ]);
+            }
+
+            $this->save_prefs(['compose_responses' => null]);
+        }
+
+        $sql_result = $this->db->query(
+            "SELECT `response_id`, `name` FROM " . $this->db->table_name('responses', true)
+                . " WHERE `user_id` = ? AND `del` = 0"
+                . " ORDER BY `name`",
+            $this->ID
+        );
+
+        $result = [];
+
+        while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+            $result[] = [
+                'id'   => $sql_arr['response_id'],
+                'name' => $sql_arr['name'],
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Update a specific response record.
+     *
+     * @param int   $id   Response ID
+     * @param array $data Hash array with col->value pairs to save
+     *
+     * @return bool True if saved successfully, false if nothing changed
+     */
+    function update_response($id, $data)
+    {
+        if (!$this->ID) {
+            return false;
+        }
+
+        $query_cols = $query_params = [];
+
+        foreach (['name', 'data', 'is_html'] as $col) {
+            if (isset($data[$col])) {
+                $query_cols[]   = $this->db->quote_identifier($col) . ' = ?';
+                $query_params[] = $col == 'is_html' ? intval($data[$col]) : $data[$col];
+            }
+        }
+        $query_params[] = $id;
+        $query_params[] = $this->ID;
+
+        $sql = "UPDATE " . $this->db->table_name('responses', true)
+            . " SET `changed` = " . $this->db->now() . ", " . implode(', ', $query_cols)
+            . " WHERE `response_id` = ? AND `user_id` = ? AND `del` = 0";
+
+        $this->db->query($sql, $query_params);
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
+     * Create a new response record for the user.
+     *
+     * @param array $data Hash array with col->value pairs to save
+     *
+     * @return int|false The inserted response ID or false on error
+     */
+    function insert_response($data)
+    {
+        if (!$this->ID) {
+            return false;
+        }
+
+        $query_cols   = [$this->db->quote_identifier('user_id')];
+        $query_params = [$this->ID];
+
+        foreach (['name', 'data', 'is_html'] as $col) {
+            if (isset($data[$col])) {
+                $query_cols[]   = $this->db->quote_identifier($col);
+                $query_params[] = $col == 'is_html' ? intval($data[$col]) : $data[$col];
+            }
+        }
+
+        $sql = "INSERT INTO " . $this->db->table_name('responses', true)
+            . " (`changed`, " . implode(', ', $query_cols) . ")"
+            . " VALUES (" . $this->db->now() . ", " . trim(str_repeat('?, ', count($query_cols)), ', ') . ")";
+
+        $insert = $this->db->query($sql, $query_params);
+
+        return $this->db->affected_rows($insert) ? $this->db->insert_id('responses') : false;
+    }
+
+    /**
+     * Delete the given response record
+     *
+     * @param int $id Response ID
+     *
+     * @return bool True if deleted successfully, false otherwise
+     */
+    function delete_response($id)
+    {
+        if (!$this->ID) {
+            return false;
+        }
+
+        $this->db->query(
+            "UPDATE " . $this->db->table_name('responses', true)
+                . " SET `del` = 1 WHERE `user_id` = ? AND `response_id` = ?",
+            $this->ID,
+            $id
+        );
+
+        return $this->db->affected_rows() > 0;
     }
 }

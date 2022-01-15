@@ -184,7 +184,7 @@ class rcube_db_pgsql extends rcube_db
             }
         }
 
-        return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
+        return $this->variables[$varname] ?? $default;
     }
 
     /**

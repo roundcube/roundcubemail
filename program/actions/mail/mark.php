@@ -30,9 +30,9 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
     {
         $rcmail  = rcmail::get_instance();
         $_uids   = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $flag    = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST);
-        $folders = rcube_utils::get_input_value('_folders', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $flag    = rcube_utils::get_input_string('_flag', rcube_utils::INPUT_POST);
+        $folders = rcube_utils::get_input_string('_folders', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
 
         if (empty($_uids) || empty($flag)) {
             $rcmail->output->show_message('internalerror', 'error');
@@ -43,18 +43,8 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         $threading    = (bool) $rcmail->storage->get_threading();
         $skip_deleted = (bool) $rcmail->config->get('skip_deleted');
         $read_deleted = (bool) $rcmail->config->get('read_when_deleted');
-
-        $flags_map  = [
-            'undelete'  => 'UNDELETED',
-            'delete'    => 'DELETED',
-            'read'      => 'SEEN',
-            'unread'    => 'UNSEEN',
-            'flagged'   => 'FLAGGED',
-            'unflagged' => 'UNFLAGGED',
-        ];
-
-        $flag      = self::imap_flag($flag);
-        $old_count = 0;
+        $flag         = self::imap_flag($flag);
+        $old_count    = 0;
 
         if ($flag == 'DELETED' && $skip_deleted && $_POST['_from'] != 'show') {
             // count messages before changing anything
@@ -183,9 +173,16 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         $rcmail->output->send();
     }
 
+    /**
+     * Map Roundcube UI's flag label into IMAP flag
+     *
+     * @param string $flag Flag label
+     *
+     * @return string Uppercase IMAP flag
+     */
     public static function imap_flag($flag)
     {
-        $flags_map  = [
+        $flags_map = [
             'undelete'  => 'UNDELETED',
             'delete'    => 'DELETED',
             'read'      => 'SEEN',

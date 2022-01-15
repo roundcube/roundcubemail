@@ -12,34 +12,41 @@
 @import (reference) "variables";
 
 html.dark-mode {
-    scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
-    scrollbar-width: thin;
+    & when not (@scrollbar-dark-width = unset) {
+        scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
+        scrollbar-width: @scrollbar-dark-width;
 
-    textarea,
-    select,
-    .popover-body,
-    .popupmenu,
-    .ui-dialog-content,
-    .frame-content,
-    .formcontent,
-    .table-responsive,
-    .table-responsive-sm,
-    .scroller {
-        // Firefox does not inherit scrollbar size from the html element
-        scrollbar-width: thin;
-    }
-
-    &:not(.touch) {
-        ::-webkit-scrollbar {
-            width: 6px;
+        textarea,
+        select,
+        .popover-body,
+        .popupmenu,
+        .ui-dialog-content,
+        .frame-content,
+        .formcontent,
+        .table-responsive,
+        .table-responsive-sm,
+        .scroller {
+            // Firefox does not inherit scrollbar size from the html element
+            scrollbar-width: @scrollbar-dark-width;
         }
 
-        ::-webkit-scrollbar-track {
-            background-color: @color-dark-border;
-        }
+        &:not(.touch) {
+            ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
+                // Note: If we do not set the width a default scrollbar is used in Chrome.
+                // And the custom colors set below do not work
+                width: 12px;
+            }
+            ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
+                width: 6px;
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background-color: @color-dark-main;
+            ::-webkit-scrollbar-track {
+                background-color: @color-dark-scrollbar-track;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: @color-dark-scrollbar-thumb;
+            }
         }
     }
 
@@ -267,6 +274,7 @@ html.dark-mode {
     // Lists
     // ---------------------------------
 
+    .proplist li.with-sublist > a.dropdown,
     .listing tbody td,
     .listing tbody td a,
     .listing li a {
@@ -773,7 +781,7 @@ html.dark-mode {
         }
 
         .tox-menu {
-            scrollbar-width: thin;
+            scrollbar-width: @scrollbar-dark-width;
             background-color: @color-dark-popover-background;
             border-color: @color-dark-popover-border;
             box-shadow: none;
@@ -781,7 +789,7 @@ html.dark-mode {
 
         .tox-dialog__body-nav,
         .tox-collection__group {
-            scrollbar-width: thin;
+            scrollbar-width: @scrollbar-dark-width;
         }
 
         .tox-collection__item-caret svg {
@@ -977,7 +985,7 @@ html.dark-mode {
     }
 
     .ui-menu {
-        scrollbar-width: thin;
+        scrollbar-width: @scrollbar-dark-width;
         background-color: @color-dark-popover-background;
         border-color: @color-dark-popover-border;
         box-shadow: none;

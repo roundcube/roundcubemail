@@ -144,7 +144,7 @@ class help extends rcube_plugin
         $index_map = $rcmail->config->get('help_index_map', []);
 
         // resolve task/action for deep linking
-        $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : null;
+        $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : '';
         list($task, ) = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];

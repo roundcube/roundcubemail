@@ -83,6 +83,9 @@
 		<roundcube:button type="link-menuitem" command="mark" prop="unread" label="markunread" classAct="unread active" class="unread disabled" />
 		<roundcube:button type="link-menuitem" command="mark" prop="flagged" label="markflagged" classAct="flag active" class="flag disabled" />
 		<roundcube:button type="link-menuitem" command="mark" prop="unflagged" label="markunflagged" classAct="unflag active" class="unflag disabled" />
+		<roundcube:if condition="config:flag_for_deletion && !config:skip_deleted" />
+		<roundcube:button type="link-menuitem" command="mark" prop="undelete" label="markundeleted" classAct="undo active" class="undo disabled" />
+		<roundcube:endif />
 		<roundcube:container name="markmenu" id="markmessage-menu" />
 	</ul>
 </div>

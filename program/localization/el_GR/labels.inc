@@ -515,6 +515,7 @@ $labels['asattachment'] = 'σαν επισύναψη';
 $labels['replyallmode'] = 'Προεπιλεγμένη ενέργεια του κουμπιού [Απάντηση σε όλους]';
 $labels['replyalldefault'] = 'απάντηση σε όλους';
 $labels['replyalllist'] = 'Απάντηση μόνο σε λίστα e-mail (αν υπάρχει)';
+$labels['allmessages'] = 'όλα τα μηνύματα';
 $labels['folder'] = 'Φάκελος';
 $labels['folders'] = 'Φάκελοι';
 $labels['foldername'] = 'Όνομα φακέλου';

@@ -541,6 +541,7 @@ $labels['asattachment'] = '作为附件';
 $labels['replyallmode'] = '[回复所有]按钮的默认动作';
 $labels['replyalldefault'] = '回复全部';
 $labels['replyalllist'] = '只回复邮件列表中的联系人(找到的)';
+$labels['allmessages'] = '所有邮件';
 $labels['folder'] = '文件夹管理';
 $labels['folders'] = '文件夹管理';
 $labels['foldername'] = '邮件夹名称';

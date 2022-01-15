@@ -38,5 +38,6 @@ $messages['samepasswd'] = 'يجب أن تكون كلمة المرور الجدي
 $messages['passwdexpirewarning'] = 'تحذير! ستنتهي صلاحية كلمة مرورك قريبًا ، قم بتغييرها قبل $expirationdatetime .';
 $messages['passwdexpired'] = 'لقد انتهت صلاحية كلمة المرور الخاصة بك ، يجب عليك تغييرها الآن!';
 $messages['passwdconstraintviolation'] = 'انتهاك قيود كلمة المرور. ربما تكون كلمة المرور ضعيفة للغاية.';
+$messages['pwned_mustnotbedisclosed'] = 'يجب ألا تكون كلمة المرور &nbsp; <a href="https://haveibeenpwned.com/Passwords" target="_blank">معروفة بشكل عام</a>.';
 $messages['pwned_isdisclosed'] = 'كلمة المرور هذه معروفة بشكل عام.';
 $messages['pwned_fetcherror'] = 'فشل التحقق من قوة كلمة المرور.';

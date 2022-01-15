@@ -464,6 +464,7 @@ $labels['addtodict'] = 'Cuir leis an bhfoclóir é';
 $labels['inline'] = 'i líne';
 $labels['asattachment'] = 'mar cheangaltán';
 $labels['replyalldefault'] = 'freagair uile';
+$labels['allmessages'] = 'gach teachtaireacht';
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';

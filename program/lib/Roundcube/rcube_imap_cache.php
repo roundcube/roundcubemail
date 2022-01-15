@@ -210,13 +210,14 @@ class rcube_imap_cache
         // Entry exists, check cache status
         if (!empty($index)) {
             $exists = true;
-            $modseq = isset($index['modseq']) ? $index['modseq'] : null;
+            $modseq = $index['modseq'] ?? null;
+            $isf    = $index['sort_field'] ?? '';
 
             if ($sort_field == 'ANY') {
-                $sort_field = $index['sort_field'];
+                $sort_field = $isf;
             }
 
-            if ($sort_field != $index['sort_field']) {
+            if ($sort_field != $isf) {
                 $is_valid = false;
             }
             else {
@@ -789,7 +790,7 @@ class rcube_imap_cache
             (int) $this->skip_deleted,
             (int) $mbox_data['UIDVALIDITY'],
             (int) $mbox_data['UIDNEXT'],
-            $modseq ? $modseq : $mbox_data['HIGHESTMODSEQ'],
+            $modseq ?: ($mbox_data['HIGHESTMODSEQ'] ?? ''),
         ];
 
         $data    = implode('@', $data);
@@ -855,7 +856,7 @@ class rcube_imap_cache
         // and many rcube_imap changes to connect when needed
 
         // Check UIDVALIDITY
-        if ($index['validity'] != $mbox_data['UIDVALIDITY']) {
+        if (empty($index['validity']) || $index['validity'] != $mbox_data['UIDVALIDITY']) {
             $this->clear($mailbox);
             $exists = false;
             return false;
@@ -1233,7 +1234,7 @@ class rcube_imap_cache
             $mbox_data = $this->imap->folder_data($mailbox);
         }
 
-        if ($mbox_data['EXISTS']) {
+        if (!empty($mbox_data['EXISTS'])) {
             // fetch sorted sequence numbers
             $index = $this->imap->index_direct($mailbox, $sort_field, $sort_order);
         }
@@ -1253,7 +1254,7 @@ class rcube_imap_cache
             $mbox_data = $this->imap->folder_data($mailbox);
         }
 
-        if ($mbox_data['EXISTS']) {
+        if (!empty($mbox_data['EXISTS'])) {
             // get all threads (default sort order)
             return $this->imap->threads_direct($mailbox);
         }

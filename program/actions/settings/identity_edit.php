@@ -34,15 +34,14 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
         // edit-identity
-        if ((!empty($_GET['_iid']) || !empty($_POST['_iid'])) && $rcmail->action == 'edit-identity') {
-            $id = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_GPC);
+        if ($rcmail->action == 'edit-identity'
+            && ($id = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_GPC))
+        ) {
             self::$record = $rcmail->user->get_identity($id);
 
             if (!is_array(self::$record)) {
                 $rcmail->output->show_message('dberror', 'error');
-                // go to identities page
-                $rcmail->overwrite_action('identities');
-                return;
+                $rcmail->output->send('iframe');
             }
 
             $rcmail->output->set_env('iid', self::$record['identity_id']);
@@ -85,7 +84,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
         // Add HTML editor script(s)
-        self::html_editor('identity');
+        self::html_editor('identity', 'rcmfd_signature');
 
         // add some labels to client
         $rcmail->output->add_label('noemailwarning', 'converting', 'editorwarning');
@@ -173,8 +172,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
         // Set form tags and hidden fields
         list($form_start, $form_end) = self::get_form_tags($attrib, 'save-identity',
-            isset(self::$record['identity_id']) ? intval(self::$record['identity_id']) : 0,
-            ['name' => '_iid', 'value' => isset(self::$record['identity_id']) ? self::$record['identity_id'] : 0]
+            intval(self::$record['identity_id'] ?? 0),
+            ['name' => '_iid', 'value' => self::$record['identity_id'] ?? 0]
         );
 
         unset($plugin);
@@ -206,7 +205,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         $value = $colprop['value'];
                     }
                     else {
-                        $val   = isset(self::$record[$col]) ? self::$record[$col] : '';
+                        $val   = self::$record[$col] ?? '';
                         $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
                     }
 

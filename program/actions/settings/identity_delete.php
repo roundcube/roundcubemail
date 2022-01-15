@@ -29,7 +29,7 @@ class rcmail_action_settings_identity_delete extends rcmail_action
     public function run($args = [])
     {
         $rcmail  = rcmail::get_instance();
-        $iid     = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
+        $iid     = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
         $deleted = 0;
 
         if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid)) {

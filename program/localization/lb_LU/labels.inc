@@ -448,6 +448,7 @@ $labels['asattachment'] = 'als Unhank';
 $labels['replyallmode'] = 'Standard-Aktioun vum [U jiddwereen äntweren]-Knäppchen';
 $labels['replyalldefault'] = 'u jiddwereen äntweren';
 $labels['replyalllist'] = 'just der Mailinglëscht äntweren (wann eng fonnt gëtt) ';
+$labels['allmessages'] = 'all d\'Messagen';
 $labels['folder'] = 'Dossier';
 $labels['folders'] = 'Dossieren';
 $labels['foldername'] = 'Dossiersnumm';

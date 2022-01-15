@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_save extends rcmail_action_settings_response_edit
+class rcmail_action_settings_response_save extends rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -30,59 +30,83 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_respon
     {
         $rcmail = rcmail::get_instance();
 
-        self::set_response();
+        $id      = trim(rcube_utils::get_input_string('_id', rcube_utils::INPUT_POST));
+        $name    = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST));
+        $text    = trim(rcube_utils::get_input_string('_text', rcube_utils::INPUT_POST, true));
+        $is_html = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
 
-        if (isset($_POST['_name']) && empty(self::$response['static'])) {
-            $name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST));
-            $text = trim(rcube_utils::get_input_value('_text', rcube_utils::INPUT_POST, true));
+        $response = [
+            'id'      => $id,
+            'name'    => $name,
+            'data'    => $text,
+            'is_html' => $is_html,
+        ];
 
-            if (!empty($name) && !empty($text)) {
-                $dupes = 0;
+        if (!empty($text) && $is_html) {
+            // replace uploaded images with data URIs
+            $text = self::attach_images($text, 'response');
+            // XSS protection in HTML signature (#1489251)
+            $text = self::wash_html($text);
 
-                foreach (self::$responses as $i => $resp) {
-                    if (!empty(self::$response) && self::$response['index'] === $i) {
-                        continue;
-                    }
-                    if (strcasecmp($name, preg_replace('/\s\(\d+\)$/', '', $resp['name'])) == 0) {
-                        $dupes++;
-                    }
-                }
+            $response['data'] = $text;
+        }
 
-                if ($dupes) {  // require a unique name
-                    $name .= ' (' . ++$dupes . ')';
-                }
+        if (empty($name) || empty($text)) {
+            // TODO: error
+            $rcmail->output->show_message('formincomplete', 'error');
+            $rcmail->overwrite_action('edit-response', ['post' => $response]);
+            return;
+        }
 
-                $response = [
-                    'name'   => $name,
-                    'text'   => $text,
-                    'format' => 'text',
-                    'key'    => substr(md5($name), 0, 16)
-                ];
+        if (!empty($id) && is_numeric($id)) {
+            $plugin   = $rcmail->plugins->exec_hook('response_update', ['id' => $id, 'record' => $response]);
+            $response = $plugin['record'];
 
-                if (!empty(self::$response) && self::$responses[self::$response['index']]) {
-                    self::$responses[self::$response['index']] = $response;
-                }
-                else {
-                    self::$responses[] = $response;
-                }
-
-                self::$responses = array_filter(self::$responses, function($item) { return empty($item['static']); });
-
-                if ($rcmail->user->save_prefs(['compose_responses' => array_values(self::$responses)])) {
-                    $key = !empty(self::$response) ? self::$response['key'] : null;
-
-                    $rcmail->output->show_message('successfullysaved', 'confirmation');
-                    $rcmail->output->command('parent.update_response_row', $response, $key);
-                    $rcmail->overwrite_action('edit-response');
-                    self::$response = $response;
-                }
+            if (!$plugin['abort']) {
+                $updated = $rcmail->user->update_response($id, $response);
             }
             else {
-                $rcmail->output->show_message('formincomplete', 'error');
+                $updated = $plugin['result'];
+            }
+
+            if ($updated) {
+                $rcmail->output->show_message('successfullysaved', 'confirmation');
+                $rcmail->output->command('parent.update_response_row', $id, rcube::Q($response['name']));
+            }
+            else {
+                // show error message
+                $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+                $rcmail->output->show_message($error, 'error', null, false);
+            }
+        }
+        else {
+            $plugin   = $rcmail->plugins->exec_hook('response_create', ['record' => $response]);
+            $response = $plugin['record'];
+
+            if (!$plugin['abort']) {
+                $insert_id = $rcmail->user->insert_response($response);
+            }
+            else {
+                $insert_id = $plugin['result'];
+            }
+
+            if ($insert_id) {
+                $rcmail->output->show_message('successfullysaved', 'confirmation');
+
+                $response['id'] = $_GET['_id'] = $insert_id;
+
+                // add a new row to the list
+                $rcmail->output->command('parent.update_response_row', $insert_id, rcube::Q($response['name']), true);
+            }
+            else {
+                $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
+                $rcmail->output->show_message($error, 'error', null, false);
+                $rcmail->overwrite_action('add-response');
+                return;
             }
         }
 
         // display the form again
-        $rcmail->overwrite_action(empty(self::$response) ? 'add-response' : 'edit-response');
+        $rcmail->overwrite_action('edit-response', ['post' => $response]);
     }
 }

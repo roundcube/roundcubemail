@@ -54,13 +54,15 @@ class rcmail_action_settings_index extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
+        if ($rcmail->output->type == 'html') {
+            $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
 
-        // register UI objects
-        $rcmail->output->add_handlers([
-                'settingstabs' => [$this, 'settings_tabs'],
-                'sectionslist' => [$this, 'sections_list'],
-        ]);
+            // register UI objects
+            $rcmail->output->add_handlers([
+                    'settingstabs' => [$this, 'settings_tabs'],
+                    'sectionslist' => [$this, 'sections_list'],
+            ]);
+        }
     }
 
     /**
@@ -612,8 +614,8 @@ class rcmail_action_settings_index extends rcmail_action
                     ]);
 
                     $input->add($rcmail->gettext('never'), 0);
-                    $input->add($rcmail->gettext('frommycontacts'), 3);
-                    $input->add($rcmail->gettext('fromtrustedsenders'), 1);
+                    $input->add($rcmail->gettext('frommycontacts'), 1);
+                    $input->add($rcmail->gettext('fromtrustedsenders'), 3);
                     $input->add($rcmail->gettext('always'), 2);
 
                     $blocks['main']['options']['show_images'] = [
@@ -1414,11 +1416,27 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     $field_id = 'rcmfd_logout_purge';
-                    $input    = new html_checkbox(['name' => '_logout_purge', 'id' => $field_id, 'value' => 1]);
+                    $select   = new html_select([
+                            'name'  => '_logout_purge',
+                            'id'    => $field_id,
+                            'class' => 'custom-select'
+                    ]);
+
+                    $select->add($rcmail->gettext('never'), 'never');
+                    $select->add($rcmail->gettext('allmessages'), 'all');
+
+                    foreach ([30, 60, 90] as $days) {
+                        $select->add($rcmail->gettext(['name' => 'olderxdays', 'vars' => ['x' => $days]]), (string) $days);
+                    }
+
+                    $purge = (string) $config['logout_purge'];
+                    if (!is_numeric($purge)) {
+                        $purge = empty($purge) ? 'never' : 'all';
+                    }
 
                     $blocks['maintenance']['options']['logout_purge'] = [
                         'title'   => html::label($field_id, rcube::Q($rcmail->gettext('logoutclear'))),
-                        'content' => $input->show($config['logout_purge']?1:0),
+                        'content' => $select->show($purge),
                     ];
                 }
 
@@ -1688,7 +1706,7 @@ class rcmail_action_settings_index extends rcmail_action
     {
         try {
             $tz    = new DateTimeZone($tzname);
-            $date  = new DateTime(null, $tz);
+            $date  = new DateTime('now', $tz);
             $count = 12;
 
             // Move back for a month (up to 12 times) until non-DST date is found
@@ -1708,5 +1726,67 @@ class rcmail_action_settings_index extends rcmail_action
         catch (Exception $e) {
             // ignore
         }
+    }
+
+    /**
+     * Attach uploaded images into signature as data URIs
+     */
+    public static function attach_images($html, $mode)
+    {
+        $rcmail = rcmail::get_instance();
+        $offset = 0;
+        $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile(\w+)[\s\'"]*/';
+
+        while (preg_match($regexp, $html, $matches, 0, $offset)) {
+            $file_id  = $matches[2];
+            $data_uri = ' ';
+
+            if ($file_id && !empty($_SESSION[$mode]['files'][$file_id])) {
+                $file = $_SESSION[$mode]['files'][$file_id];
+                $file = $rcmail->plugins->exec_hook('attachment_get', $file);
+
+                $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';
+                $data_uri .= base64_encode(!empty($file['data']) ? $file['data'] : file_get_contents($file['path']));
+                $data_uri .= '" ';
+            }
+
+            $html    = str_replace($matches[0], $data_uri, $html);
+            $offset += strlen($data_uri) - strlen($matches[0]) + 1;
+        }
+
+        return $html;
+    }
+
+    /**
+     * Sanity checks/cleanups on HTML body of signature
+     */
+    public static function wash_html($html)
+    {
+        // Add header with charset spec., washtml cannot work without that
+        $html = '<html><head>'
+            . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
+            . '</head><body>' . $html . '</body></html>';
+
+        // clean HTML with washtml by Frederic Motte
+        $wash_opts = [
+            'show_washed'   => false,
+            'allow_remote'  => 1,
+            'charset'       => RCUBE_CHARSET,
+            'html_elements' => ['body', 'link'],
+            'html_attribs'  => ['rel', 'type'],
+        ];
+
+        // initialize HTML washer
+        $washer = new rcube_washtml($wash_opts);
+
+        // Remove non-UTF8 characters (#1487813)
+        $html = rcube_charset::clean($html);
+
+        $html = $washer->wash($html);
+
+        // remove unwanted comments and tags (produced by washtml)
+        $html = preg_replace(['/<!--[^>]+-->/', '/<\/?body>/'], '', $html);
+
+        return $html;
     }
 }

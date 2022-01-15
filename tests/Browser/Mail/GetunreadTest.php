@@ -8,7 +8,7 @@ class GetunreadTest extends \Tests\Browser\TestCase
 
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap();
+        \bootstrap::init_imap(true);
         \bootstrap::purge_mailbox('INBOX');
 
         // import email messages

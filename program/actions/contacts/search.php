@@ -42,7 +42,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
     {
         $rcmail = rcmail::get_instance();
         $adv    = isset($_POST['_adv']);
-        $sid    = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_GET);
+        $sid    = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
         $search = null;
 
         // get search criteria from saved search
@@ -53,7 +53,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         // get fields/values from advanced search form
         else if ($adv) {
             foreach (array_keys($_POST) as $key) {
-                $s = trim(rcube_utils::get_input_value($key, rcube_utils::INPUT_POST, true));
+                $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
                     $search[] = $s;
                     $fields[] = $m[1];
@@ -67,8 +67,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         }
         // quick-search
         else {
-            $search = trim(rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true));
-            $fields = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
+            $search = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
+            $fields = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
@@ -107,7 +107,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             // check if search fields are supported....
             if (is_array($fields)) {
-                $cols = $source->coltypes[0] ? array_flip($source->coltypes) : $source->coltypes;
+                $cols = !empty($source->coltypes[0]) ? array_flip($source->coltypes) : $source->coltypes;
                 $supported = 0;
 
                 foreach ($fields as $f) {
@@ -168,8 +168,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         );
 
         // save search settings in session
-        $_SESSION['search'][$search_request] = $search_set;
-        $_SESSION['search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
+        $_SESSION['contact_search'][$search_request] = $search_set;
+        $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
         $_SESSION['page'] = 1;
 
         if ($adv) {
@@ -260,7 +260,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             }
             if ($colprop['type'] != 'image' && empty($colprop['nosearch'])) {
                 $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
-                $label    = isset($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
+                $label    = $colprop['label'] ?? $rcmail->gettext($col);
                 $category = !empty($colprop['category']) ? $colprop['category'] : 'other';
 
                 // load jquery UI datepicker for date fields

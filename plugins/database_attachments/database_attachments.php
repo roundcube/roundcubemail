@@ -148,7 +148,7 @@ class database_attachments extends filesystem_attachments
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)
         if ($cache = $this->get_cache()) {
-            $cache->remove(isset($args['group']) ? $args['group'] : null, true);
+            $cache->remove($args['group'] ?? null, true);
         }
     }
 

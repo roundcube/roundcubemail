@@ -10,7 +10,7 @@ $config['tests_username'] = 'test';
 $config['tests_password'] = 'test';
 
 // GreenMail
-$config['smtp_port'] = 25;
+$config['smtp_host'] = 'localhost:25';
 
 // Settings required by the tests
 
@@ -28,3 +28,6 @@ $config['plugins'] = [
 ];
 
 $config['archive_mbox'] = 'Archive';
+
+$config['enable_spellcheck'] = true;
+$config['spellcheck_engine'] = 'pspell';

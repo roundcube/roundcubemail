@@ -30,7 +30,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -39,8 +39,8 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
         }
 
         if (
-            ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST))
-            && ($name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true)))
+            ($gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST))
+            && ($name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true)))
         ) {
             $newgid = null;
             $plugin = $rcmail->plugins->exec_hook('group_rename', [
@@ -63,7 +63,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
                     'source' => $source,
                     'id'     => $gid,
                     'name'   => $newname,
-                    'newid'  => isset($newgid) ? $newgid : null
+                    'newid'  => $newgid ?? null
             ]);
         }
         else {

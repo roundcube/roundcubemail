@@ -86,7 +86,7 @@ class rcube_ldap_password
         $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
-        $encodage     = $rcmail->config->get('password_ldap_encodage', 'crypt');
+        $encodage     = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
 
         // Support multiple userPassword values where desired.
         // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")

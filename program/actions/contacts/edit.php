@@ -54,7 +54,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             }
         }
         else {
-            $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
             if (strlen($source)) {
                 $CONTACTS = $rcmail->get_address_book($source, true);
@@ -224,7 +224,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             }
 
             $hiddenfields->add(['name' => '_gid', 'value' => self::$CONTACTS->group_id]);
-            $hiddenfields->add(['name' => '_search', 'value' => rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC)]);
+            $hiddenfields->add(['name' => '_search', 'value' => rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC)]);
 
             if ($cid = $rcmail->output->get_env('cid')) {
                 $hiddenfields->add(['name' => '_cid', 'value' => $cid]);

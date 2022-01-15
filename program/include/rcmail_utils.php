@@ -277,35 +277,17 @@ class rcmail_utils
      */
     public static function db_clean($days)
     {
-        // mapping for table name => primary key
-        $primary_keys = [
-            'contacts'      => 'contact_id',
-            'contactgroups' => 'contactgroup_id',
+        $db        = self::db();
+        $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
+        $tables    = [
+            'contacts',
+            'contactgroups',
+            'identities',
+            'responses',
         ];
 
-        $db = self::db();
-
-        $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
-
-        foreach (['contacts','contactgroups','identities'] as $table) {
+        foreach ($tables as $table) {
             $sqltable = $db->table_name($table, true);
-
-            // also delete linked records
-            // could be skipped for databases which respect foreign key constraints
-            if ($db->db_provider == 'sqlite' && ($table == 'contacts' || $table == 'contactgroups')) {
-                $pk           = $primary_keys[$table];
-                $memberstable = $db->table_name('contactgroupmembers');
-
-                $db->query(
-                    "DELETE FROM " . $db->quote_identifier($memberstable)
-                    . " WHERE `$pk` IN ("
-                        . "SELECT `$pk` FROM $sqltable"
-                        . " WHERE `del` = 1 AND `changed` < ?"
-                    . ")",
-                    $threshold);
-
-                echo $db->affected_rows() . " records deleted from '$memberstable'\n";
-            }
 
             // delete outdated records
             $db->query("DELETE FROM $sqltable WHERE `del` = 1 AND `changed` < ?", $threshold);

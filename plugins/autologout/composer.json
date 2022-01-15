@@ -1,0 +1,17 @@
+{
+    "name": "roundcube/autologout",
+    "type": "roundcube-plugin",
+    "description": "Plugin to auto log out users with a POST request sent from an external site.",
+    "license": "GPLv3+",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Cover Tower LLC",
+            "email": "contact@covertower.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": ">=0.1.3"
+    }
+}

@@ -136,6 +136,9 @@ class rcube_db_mysql extends rcube_db
         // Enable AUTOCOMMIT mode (#1488902)
         $result[PDO::ATTR_AUTOCOMMIT] = true;
 
+        // Disable emulating of prepared statements
+        $result[PDO::ATTR_EMULATE_PREPARES] = false;
+
         return $result;
     }
 

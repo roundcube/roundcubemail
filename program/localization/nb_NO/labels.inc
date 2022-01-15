@@ -556,6 +556,7 @@ $labels['asattachment'] = 'som vedlegg';
 $labels['replyallmode'] = 'Standard valg for [Svar alle] knapp';
 $labels['replyalldefault'] = 'svar til alle';
 $labels['replyalllist'] = 'svar kun til epostliste (hvis funnet)';
+$labels['allmessages'] = 'alle meldinger';
 $labels['folder'] = 'Mappe';
 $labels['folders'] = 'Mapper';
 $labels['foldername'] = 'Mappenavn';

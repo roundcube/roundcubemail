@@ -29,7 +29,7 @@ class rcmail_action_settings_upload extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $from   = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
+        $from   = rcube_utils::get_input_string('_from', rcube_utils::INPUT_GET);
         $type   = preg_replace('/(add|edit)-/', '', $from);
 
         // Plugins in Settings may use this file for some uploads (#5694)
@@ -44,7 +44,7 @@ class rcmail_action_settings_upload extends rcmail_action
         $rcmail->output->reset();
 
         $max_size = $rcmail->config->get($type . '_image_size', 64) * 1024;
-        $uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
+        $uploadid = rcube_utils::get_input_string('_uploadid', rcube_utils::INPUT_GET);
 
         if (!empty($_FILES['_file']['tmp_name']) && is_array($_FILES['_file']['tmp_name'])) {
             $multiple = count($_FILES['_file']['tmp_name']) > 1;
@@ -106,7 +106,7 @@ class rcmail_action_settings_upload extends rcmail_action
                         $error_label = 'invalidimageformat';
                     }
                     else if ($err == 'size_error') {
-                        $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => $max_size]];
+                        $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes($max_size)]];
                     }
 
                     self::upload_error($err, $attachment, $error_label);

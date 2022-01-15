@@ -28,9 +28,9 @@ class rcmail_action_login_oauth extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $auth_code  = rcube_utils::get_input_value('code', rcube_utils::INPUT_GET);
-        $auth_error = rcube_utils::get_input_value('error', rcube_utils::INPUT_GET);
-        $auth_state = rcube_utils::get_input_value('state', rcube_utils::INPUT_GET);
+        $auth_code  = rcube_utils::get_input_string('code', rcube_utils::INPUT_GET);
+        $auth_error = rcube_utils::get_input_string('error', rcube_utils::INPUT_GET);
+        $auth_state = rcube_utils::get_input_string('state', rcube_utils::INPUT_GET);
 
         // auth code return from oauth login
         if (!empty($auth_code)) {
@@ -40,6 +40,7 @@ class rcmail_action_login_oauth extends rcmail_action
             if ($auth && isset($auth['username'], $auth['authorization'], $auth['token'])) {
                 // enforce XOAUTH2 auth type
                 $rcmail->config->set('imap_auth_type', 'XOAUTH2');
+                $rcmail->config->set('login_password_maxlen', strlen($auth['authorization']));
 
                 // use access_token and user info for IMAP login
                 $storage_host = $rcmail->autoselect_host();
@@ -88,7 +89,7 @@ class rcmail_action_login_oauth extends rcmail_action
         }
         // error return from oauth login
         else if (!empty($auth_error)) {
-            $error_message = rcube_utils::get_input_value('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
+            $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
             $rcmail->output->show_message($error_message, 'warning');
         }
         // login action: redirect to `oauth_auth_uri`

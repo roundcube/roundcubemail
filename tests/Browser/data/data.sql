@@ -1,5 +1,4 @@
 -- Contacts
-DELETE FROM contacts;
 INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vcard, words) VALUES (1, '2019-12-31 12:23:33.523071-05', 0, 'John Doe', 'johndoe@example.org', 'John', 'Doe', 'BEGIN:VCARD
 VERSION:3.0
 N:Doe;John;;;

@@ -87,7 +87,7 @@ class rcube_db
             'oci8'    => 'oracle',
         ];
 
-        $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
+        $driver = $driver_map[$driver] ?? $driver;
         $class  = "rcube_db_$driver";
 
         if (!$driver || !class_exists($class)) {
@@ -175,13 +175,19 @@ class rcube_db
 
             $this->conn_prepare($dsn);
 
-            $username = isset($dsn['username']) ? $dsn['username'] : null;
-            $password = isset($dsn['password']) ? $dsn['password'] : null;
+            $username = $dsn['username'] ?? null;
+            $password = $dsn['password'] ?? null;
 
             $this->dbh = new PDO($dsn_string, $username, $password, $dsn_options);
 
             // don't throw exceptions or warnings
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
+            // Return numbers as strings consistently for all supported PHP versions
+            // Since PHP 8.1 native data types are used by default
+            if (defined('PDO::ATTR_STRINGIFY_FETCHES')) {
+                $this->dbh->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, 1);
+            }
 
             $this->conn_configure($dsn, $this->dbh);
         }
@@ -906,7 +912,7 @@ class rcube_db
                 'integer' => PDO::PARAM_INT,
             ];
 
-            $type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
+            $type = $map[$type] ?? PDO::PARAM_STR;
 
             return strtr($this->dbh->quote($input, $type),
                 // escape ? and `
@@ -1478,6 +1484,24 @@ class rcube_db
      */
     protected function fix_table_names_callback($matches)
     {
-        return $matches[1] . $this->options['table_prefix'] . $matches[count($matches)-1];
+        $prefix = $this->options['table_prefix'];
+
+        // Schema prefix (ends with a dot)
+        if ($prefix[strlen($prefix)-1] === '.') {
+            // These can't have a schema prefix
+            if (preg_match('/(CONSTRAINT|UNIQUE|INDEX)[\s\t`"]*$/', $matches[1])) {
+                $prefix = '';
+            }
+            else {
+                // check if the identifier is quoted, then quote the prefix
+                $last = $matches[1][strlen($matches[1])-1];
+
+                if ($last === '`' || $last === '"') {
+                    $prefix = substr($prefix, 0, -1) . $last . '.' . $last;
+                }
+            }
+        }
+
+        return $matches[1] . $prefix . $matches[count($matches)-1];
     }
 }

@@ -31,8 +31,8 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $cids         = self::get_cids();
-        $target       = rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST);
-        $target_group = rcube_utils::get_input_value('_togid', rcube_utils::INPUT_POST);
+        $target       = rcube_utils::get_input_string('_to', rcube_utils::INPUT_POST);
+        $target_group = rcube_utils::get_input_string('_togid', rcube_utils::INPUT_POST);
 
         $rcmail    = rcmail::get_instance();
         $all       = 0;

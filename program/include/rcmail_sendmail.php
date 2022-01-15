@@ -92,7 +92,7 @@ class rcmail_sendmail
 
         // set default charset
         if (empty($this->options['charset'])) {
-            $charset = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST) ?: $this->rcmail->output->get_charset();
+            $charset = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST) ?: $this->rcmail->output->get_charset();
             $this->options['charset'] = $charset;
         }
 
@@ -100,9 +100,9 @@ class rcmail_sendmail
 
         $this->parse_data = [];
 
-        $mailto  = $this->email_input_format(rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST, true, $charset), true);
-        $mailcc  = $this->email_input_format(rcube_utils::get_input_value('_cc', rcube_utils::INPUT_POST, true, $charset), true);
-        $mailbcc = $this->email_input_format(rcube_utils::get_input_value('_bcc', rcube_utils::INPUT_POST, true, $charset), true);
+        $mailto  = $this->email_input_format(rcube_utils::get_input_string('_to', rcube_utils::INPUT_POST, true, $charset), true);
+        $mailcc  = $this->email_input_format(rcube_utils::get_input_string('_cc', rcube_utils::INPUT_POST, true, $charset), true);
+        $mailbcc = $this->email_input_format(rcube_utils::get_input_string('_bcc', rcube_utils::INPUT_POST, true, $charset), true);
 
         if (!empty($this->parse_data['INVALID_EMAIL']) && empty($this->options['savedraft'])) {
             return $this->options['error_handler']('emailformaterror', 'error', ['email' => $this->parse_data['INVALID_EMAIL']]);
@@ -125,10 +125,10 @@ class rcmail_sendmail
         $dont_override = (array) $this->rcmail->config->get('dont_override');
         $mdn_enabled   = in_array('mdn_default', $dont_override) ? $this->rcmail->config->get('mdn_default') : !empty($_POST['_mdn']);
         $dsn_enabled   = in_array('dsn_default', $dont_override) ? $this->rcmail->config->get('dsn_default') : !empty($_POST['_dsn']);
-        $subject       = rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, true, $charset);
-        $from          = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST, true, $charset);
-        $replyto       = rcube_utils::get_input_value('_replyto', rcube_utils::INPUT_POST, true, $charset);
-        $followupto    = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, true, $charset);
+        $subject       = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, true, $charset);
+        $from          = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST, true, $charset);
+        $replyto       = rcube_utils::get_input_string('_replyto', rcube_utils::INPUT_POST, true, $charset);
+        $followupto    = rcube_utils::get_input_string('_followupto', rcube_utils::INPUT_POST, true, $charset);
         $from_string   = '';
 
         // Get sender name and address from identity...
@@ -147,7 +147,7 @@ class rcmail_sendmail
         }
         else {
             // ... if there is no identity record, this might be a custom from
-            $from_addresses = rcube_mime::decode_address_list($from);
+            $from_addresses = rcube_mime::decode_address_list($from, null, true, $charset);
 
             if (count($from_addresses) == 1) {
                 $from        = $from_addresses[1]['mailto'];
@@ -193,8 +193,8 @@ class rcmail_sendmail
             'Reply-To'         => $this->email_input_format($replyto),
             'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
-            'In-Reply-To'      => isset($this->data['reply_msgid']) ? $this->data['reply_msgid'] : null,
-            'References'       => isset($this->data['references']) ? $this->data['references'] : null,
+            'In-Reply-To'      => $this->data['reply_msgid'] ?? null,
+            'References'       => $this->data['references'] ?? null,
             'User-Agent'       => $this->rcmail->config->get('useragent'),
             'Message-ID'       => $message_id,
             'X-Sender'         => $from,
@@ -296,7 +296,12 @@ class rcmail_sendmail
     public function create_message($headers, $body, $isHtml = false, $attachments = [])
     {
         $charset = $this->options['charset'];
-        $flowed  = !empty($this->options['savedraft']) || $this->rcmail->config->get('send_format_flowed', true);
+
+        if (!empty($this->options['keepformatting'])) {
+            $flowed = false;
+        } else {
+            $flowed = !empty($this->options['savedraft']) || $this->rcmail->config->get('send_format_flowed', true);
+        }
 
         // create PEAR::Mail_mime instance
         $MAIL_MIME = new Mail_mime("\r\n");
@@ -371,18 +376,20 @@ class rcmail_sendmail
      */
     protected function format_plain_body($body, $flowed = false)
     {
-        // set line length for body wrapping
-        $line_length = $this->rcmail->config->get('line_length', 72);
-        $charset     = $this->options['charset'];
+        if (empty($this->options['keepformatting'])) {
+            // set line length for body wrapping
+            $line_length = $this->rcmail->config->get('line_length', 72);
+            $charset     = $this->options['charset'];
 
-        if ($flowed) {
-            $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
-        }
-        else {
-            $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
-        }
+            if ($flowed) {
+                $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
+            }
+            else {
+                $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
+            }
 
-        $body = wordwrap($body, 998, "\r\n", true);
+            $body = wordwrap($body, 998, "\r\n", true);
+        }
 
         // make sure all line endings are CRLF (#1486712)
         $body = preg_replace('/\r?\n/', "\r\n", $body);
@@ -482,7 +489,7 @@ class rcmail_sendmail
         }
         else if (!$this->rcmail->config->get('no_save_sent_messages')) {
             if (isset($_POST['_store_target'])) {
-                $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST, true);
+                $store_target = rcube_utils::get_input_string('_store_target', rcube_utils::INPUT_POST, true);
             }
             else {
                 $store_target = $this->rcmail->config->get('sent_mbox');
@@ -721,12 +728,13 @@ class rcmail_sendmail
         }
 
         // convert to UTF-8 to preserve \x2c(,) and \x3b(;) used in ISO-2022-JP;
-        $charset = $this->options['charset'];
-        if ($charset != RCUBE_CHARSET) {
-            $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
-        }
-        if (preg_match('/ISO-2022/i', $charset)) {
-            $use_base64 = true;
+        if ($charset = $this->options['charset']) {
+            if ($charset != RCUBE_CHARSET) {
+                $mailto = rcube_charset::convert($mailto, $charset, RCUBE_CHARSET);
+            }
+            if (preg_match('/ISO-2022/i', $charset)) {
+                $use_base64 = true;
+            }
         }
 
         // simplified email regexp, supporting quoted local part
@@ -925,7 +933,7 @@ class rcmail_sendmail
                 }
             }
 
-            $mode = isset($this->data['mode']) ? $this->data['mode'] : null;
+            $mode = $this->data['mode'] ?? null;
 
             // create textarea object
             $input = new $field_type($field_attrib);
@@ -1014,7 +1022,7 @@ class rcmail_sendmail
         }
         // no identities, display text input field
         else {
-            $from = isset($this->options['message']->compose['from']) ? $this->options['message']->compose['from'] : null;
+            $from = $this->options['message']->compose['from'] ?? null;
             $field_attrib['class'] = 'from_address';
             $input_from = new html_inputfield($field_attrib);
             $out = $input_from->show($from);
@@ -1049,7 +1057,7 @@ class rcmail_sendmail
             $this->rcmail->session->remove("mailto.$mailto_id");
         }
         else if (!empty($_POST['_' . $header])) {
-            $fvalue  = rcube_utils::get_input_value('_' . $header, rcube_utils::INPUT_POST, true);
+            $fvalue  = rcube_utils::get_input_string('_' . $header, rcube_utils::INPUT_POST, true);
             $charset = $this->rcmail->output->charset;
         }
         else if (!empty($this->data['param'][$header])) {
@@ -1059,9 +1067,9 @@ class rcmail_sendmail
         else if ($mode == self::MODE_REPLY) {
             // get recipient address(es) out of the message headers
             if ($header == 'to') {
-                $mailfollowup = isset($message->headers->others['mail-followup-to']) ? $message->headers->others['mail-followup-to'] : [];
-                $mailreplyto  = isset($message->headers->others['mail-reply-to']) ? $message->headers->others['mail-reply-to'] : [];
-                $reply_all    = isset($message->reply_all) ? $message->reply_all : null;
+                $mailfollowup = $message->headers->others['mail-followup-to'] ?? [];
+                $mailreplyto  = $message->headers->others['mail-reply-to'] ?? [];
+                $reply_all    = $message->reply_all ?? null;
 
                 // Reply to mailing list...
                 if ($reply_all == 'list' && $mailfollowup) {
@@ -1221,7 +1229,7 @@ class rcmail_sendmail
 
         // use subject from post
         if (isset($_POST['_subject'])) {
-            $subject = rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE);
+            $subject = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, TRUE);
         }
         else if (!empty($this->data['param']['subject'])) {
             $subject = $this->data['param']['subject'];
@@ -1263,7 +1271,7 @@ class rcmail_sendmail
         if (!$this->message_form) {
             $hiddenfields = new html_hiddenfield(['name' => '_task', 'value' => $this->rcmail->task]);
             $hiddenfields->add(['name' => '_action', 'value' => 'send']);
-            $hiddenfields->add(['name' => '_id', 'value' => isset($this->data['id']) ? $this->data['id'] : '']);
+            $hiddenfields->add(['name' => '_id', 'value' => $this->data['id'] ?? '']);
             $hiddenfields->add(['name' => '_attachments']);
 
             if (empty($attrib['form'])) {
@@ -1313,7 +1321,7 @@ class rcmail_sendmail
             $mbox = $_POST['_store_target'];
         }
         else {
-            $mbox = isset($this->data['param']['sent_mbox']) ? $this->data['param']['sent_mbox'] : null;
+            $mbox = $this->data['param']['sent_mbox'] ?? null;
         }
 
         $params = [
@@ -1353,7 +1361,7 @@ class rcmail_sendmail
             $mdn_default = $_POST['_mdn'];
         }
         else if (in_array($this->data['mode'], [self::MODE_DRAFT, self::MODE_EDIT])) {
-            $mdn_default = (bool) $this->options['message']->headers->mdn_to;
+            $mdn_default = !empty($this->options['message']->headers->mdn_to);
         }
         else {
             $mdn_default = $this->rcmail->config->get('mdn_default');
@@ -1396,6 +1404,34 @@ class rcmail_sendmail
 
         $out = $form_start ? "$form_start\n" : '';
         $out .= $checkbox->show($dsn_value);
+        $out .= $form_end ? "\n$form_end" : '';
+
+        return $out;
+    }
+
+    /**
+     * "Keep formatting" checkbox object for templates
+     *
+     * @param array $attrib Object attributes
+     *
+     * @return string HTML content
+     */
+    public function keep_formatting_checkbox($attrib)
+    {
+        list($form_start, $form_end) = $this->form_tags($attrib);
+        unset($attrib['form']);
+
+        if (empty($attrib['id'])) {
+            $attrib['id'] = '_keepformatting';
+        }
+
+        $attrib['name']  = '_keepformatting';
+        $attrib['value'] = '1';
+
+        $checkbox = new html_checkbox($attrib);
+
+        $out = $form_start ? "$form_start\n" : '';
+        $out .= $checkbox->show();
         $out .= $form_end ? "\n$form_end" : '';
 
         return $out;
@@ -1490,7 +1526,7 @@ class rcmail_sendmail
 
         // Set From field value
         if (!empty($_POST['_from'])) {
-            $message->compose['from'] = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST);
+            $message->compose['from'] = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
         }
         else if (!empty($this->data['param']['from'])) {
             $message->compose['from'] = $this->data['param']['from'];
@@ -1509,6 +1545,7 @@ class rcmail_sendmail
                 'priorityselector' => [$this, 'priority_selector'],
                 'mdncheckbox'      => [$this, 'mdn_checkbox'],
                 'dsncheckbox'      => [$this, 'dsn_checkbox'],
+                'keepformattingcheckbox' => [$this, 'keep_formatting_checkbox'],
                 'composeformhead'  => [$this, 'form_head'],
         ]);
 
@@ -1654,7 +1691,7 @@ class rcmail_sendmail
             $selected = 0;
         }
 
-        return isset($identities[$selected]) ? $identities[$selected] : null;
+        return $identities[$selected] ?? null;
     }
 
     /**

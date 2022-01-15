@@ -35,8 +35,8 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
         $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
 
         // Use search result
-        if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['search'][$_REQUEST['_search']];
+        if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
+            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
             $records = [];
 
             // Get records from all sources

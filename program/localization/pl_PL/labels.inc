@@ -574,6 +574,7 @@ $labels['asattachment'] = 'jako załącznik';
 $labels['replyallmode'] = 'Domyśla akcja przycisku [Odpowiedz wszystkim]';
 $labels['replyalldefault'] = 'odpowiedz wszystkim';
 $labels['replyalllist'] = 'odpowiedz tylko do listy mailingowej (jeśli wykryto)';
+$labels['allmessages'] = 'wszystkich';
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Foldery';
 $labels['foldername'] = 'Nazwa folderu';

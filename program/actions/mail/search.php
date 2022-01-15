@@ -39,15 +39,15 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['page'] = 1;
 
         // get search string
-        $str      = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
-        $mbox     = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
-        $filter   = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
-        $headers  = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
-        $scope    = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
-        $interval = rcube_utils::get_input_value('_interval', rcube_utils::INPUT_GET);
-        $continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
+        $str      = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true);
+        $mbox     = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GET, true);
+        $filter   = rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET);
+        $headers  = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
+        $scope    = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
+        $interval = rcube_utils::get_input_string('_interval', rcube_utils::INPUT_GET);
+        $continue = rcube_utils::get_input_string('_continue', rcube_utils::INPUT_GET);
 
-        $filter         = trim($filter);
+        $filter         = trim((string) $filter);
         $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
         // Parse input
@@ -229,29 +229,13 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $supported = ['subject', 'from', 'to', 'cc', 'bcc'];
 
         // Check the search string for type of search
-        if (preg_match("/^from:.*/i", $str)) {
+        if (preg_match("/^(from|to|reply-to|cc|bcc|subject):.*/i", $str, $m)) {
             list(, $srch) = explode(":", $str);
-            $subject['from'] = "HEADER FROM";
-        }
-        else if (preg_match("/^to:.*/i", $str)) {
-            list(, $srch) = explode(":", $str);
-            $subject['to'] = "HEADER TO";
-        }
-        else if (preg_match("/^cc:.*/i", $str)) {
-            list(, $srch) = explode(":", $str);
-            $subject['cc'] = "HEADER CC";
-        }
-        else if (preg_match("/^bcc:.*/i", $str)) {
-            list(, $srch) = explode(":", $str);
-            $subject['bcc'] = "HEADER BCC";
-        }
-        else if (preg_match("/^subject:.*/i", $str)) {
-            list(, $srch) = explode(":", $str);
-            $subject['subject'] = "HEADER SUBJECT";
+            $subject[$m[1]] = 'HEADER ' . strtoupper($m[1]);
         }
         else if (preg_match("/^body:.*/i", $str)) {
             list(, $srch) = explode(":", $str);
-            $subject['body'] = "BODY";
+            $subject['body'] = 'BODY';
         }
         else if (strlen(trim($str))) {
             if ($headers) {
@@ -263,6 +247,16 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                         break 2;
                     case 'body':
                         $subject['body'] = 'BODY';
+                        break;
+                    case 'replyto':
+                    case 'reply-to':
+                        $subject['reply-to'] = 'HEADER REPLY-TO';
+                        $subject['mail-reply-to'] = 'HEADER MAIL-REPLY-TO';
+                        break;
+                    case 'followupto':
+                    case 'followup-to':
+                        $subject['followup-to'] = 'HEADER FOLLOWUP-TO';
+                        $subject['mail-followup-to'] = 'HEADER MAIL-FOLLOWUP-TO';
                         break;
                     default:
                         if (in_array_nocase($header, $supported)) {

@@ -80,17 +80,23 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             .'<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
             .'</spellrequest>';
 
-        $response = $client->post($url, [
-              'headers' => [
-                  'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
-                  'Content-type' => 'text/xml'
-              ],
-              'body' => $gtext
-            ]
-        );
+        try {
+            $response = $client->post($url, [
+                    'connect_timeout' => 5, // seconds
+                    'headers' => [
+                        'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
+                            'Content-type' => 'text/xml'
+                    ],
+                    'body' => $gtext
+                ]
+            );
+        }
+        catch (Exception $e) {
+            // Do nothing, the error set below should be logged by the caller
+        }
 
         if (empty($response)) {
-            $this->error = "Empty result from spelling engine";
+            $this->error = $e ? $e->getMessage() : "Spelling engine failure";
         }
         else if ($response->getStatusCode() != 200) {
             $this->error = 'HTTP ' . $response->getReasonPhrase();
@@ -126,7 +132,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     {
         $matches = $word ? $this->check($word) : $this->matches;
 
-        if ($matches[0][4]) {
+        if (!empty($matches[0][4])) {
             $suggestions = explode("\t", $matches[0][4]);
             if (count($suggestions) > self::MAX_SUGGESTIONS) {
                 $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);

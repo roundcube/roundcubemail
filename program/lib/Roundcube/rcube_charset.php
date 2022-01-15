@@ -190,7 +190,7 @@ class rcube_charset
     {
         static $charsets = [];
 
-        $charset = strtoupper($input);
+        $charset = strtoupper((string) $input);
 
         if (isset($charsets[$input])) {
             return $charsets[$input];
@@ -281,7 +281,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = function() use ($out) { $out = false; };
+        $error_handler = function() { throw new \Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
@@ -328,10 +328,14 @@ class rcube_charset
             // If iconv reports an illegal character in input it means that input string
             // has been truncated. It's reported as E_NOTICE.
             // PHP8 will also throw E_WARNING on unsupported encoding.
-            set_error_handler($error_handler, E_NOTICE);
-            set_error_handler($error_handler, E_WARNING);
+            set_error_handler($error_handler, E_NOTICE | E_WARNING);
 
-            $out = iconv($from, $to . $iconv_options, $str);
+            try {
+                $out = iconv($from, $to . $iconv_options, $str);
+            }
+            catch (Throwable $e) {
+                $out = false;
+            }
 
             restore_error_handler();
 
@@ -433,16 +437,16 @@ class rcube_charset
             $language = $rcube->get_user_language();
         }
 
-        // Prioritize charsets according to current language (#1485669)
+        // Prioritize charsets according to the current language (#1485669)
         $prio = null;
         switch ($language) {
         case 'ja_JP':
-            $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win'];
+            $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS'];
             break;
 
         case 'zh_CN':
         case 'zh_TW':
-            $prio = ['UTF-8', 'BIG-5', 'GB2312', 'EUC-TW'];
+            $prio = ['UTF-8', 'BIG-5', 'EUC-TW', 'GB18030'];
             break;
 
         case 'ko_KR':
@@ -469,19 +473,28 @@ class rcube_charset
         }
 
         if (function_exists('mb_detect_encoding')) {
+            $exclude = 'BASE64,UUENCODE,HTML-ENTITIES,Quoted-Printable,'
+                . '7bit,8bit,pass,wchar,byte2be,byte2le,byte4be,byte4le,'
+                . 'UCS-4,UCS-4BE,UCS-4LE,UCS-2,UCS-2BE,UCS-2LE';
+
             if (empty($prio)) {
-                $prio = ['UTF-8', 'SJIS', 'GB2312',
+                $prio = [
+                    'UTF-8',
                     'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
                     'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
                     'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
-                    'WINDOWS-1252', 'WINDOWS-1251', 'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG-5',
-                    'ISO-2022-KR', 'ISO-2022-JP',
+                    'WINDOWS-1252', 'WINDOWS-1251', 'WINDOWS-1254',
+                    'EUC-JP', 'EUC-TW', 'KOI8-R', 'BIG-5', 'ISO-2022-KR', 'ISO-2022-JP', 'GB18030',
                 ];
             }
 
-            $encodings = array_unique(array_merge($prio, mb_list_encodings()));
+            // We have to remove unwanted/uncommon encodings from the list.
+            // This is needed especially on PHP >= 8.1
+            $all_encodings = array_diff(mb_list_encodings(), explode(',', $exclude));
 
-            if ($encoding = mb_detect_encoding($string, $encodings)) {
+            $encodings = array_unique(array_merge($prio, $all_encodings));
+
+            if ($encoding = mb_detect_encoding($string, $encodings, true)) {
                 return $encoding;
             }
         }

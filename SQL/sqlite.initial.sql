@@ -1,83 +1,6 @@
 -- Roundcube Webmail initial database structure
 
 -- 
--- Table structure for table contacts and related
--- 
-
-CREATE TABLE contacts (
-  contact_id integer NOT NULL PRIMARY KEY,
-  user_id integer NOT NULL,
-  changed datetime NOT NULL default '0000-00-00 00:00:00',
-  del tinyint NOT NULL default '0',
-  name varchar(128) NOT NULL default '',
-  email text NOT NULL default '',
-  firstname varchar(128) NOT NULL default '',
-  surname varchar(128) NOT NULL default '',
-  vcard text NOT NULL default '',
-  words text NOT NULL default ''
-);
-
-CREATE INDEX ix_contacts_user_id ON contacts(user_id, del);
-
-
-CREATE TABLE contactgroups (
-  contactgroup_id integer NOT NULL PRIMARY KEY,
-  user_id integer NOT NULL default '0',
-  changed datetime NOT NULL default '0000-00-00 00:00:00',
-  del tinyint NOT NULL default '0',
-  name varchar(128) NOT NULL default ''
-);
-
-CREATE INDEX ix_contactgroups_user_id ON contactgroups(user_id, del);
-
-
-CREATE TABLE contactgroupmembers (
-  contactgroup_id integer NOT NULL,
-  contact_id integer NOT NULL default '0',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY (contactgroup_id, contact_id)
-);
-
-CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
-
--- 
--- Table structure for table collected_addresses
--- 
-
-CREATE TABLE collected_addresses (
-  address_id integer NOT NULL PRIMARY KEY,
-  user_id integer NOT NULL,
-  changed datetime NOT NULL default '0000-00-00 00:00:00',
-  name varchar(255) NOT NULL default '',
-  email varchar(255) NOT NULL,
-  "type" integer NOT NULL
-);
-
-CREATE UNIQUE INDEX ix_collected_addresses_user_id ON collected_addresses(user_id, "type", email);
-
--- 
--- Table structure for table identities
--- 
-
-CREATE TABLE identities (
-  identity_id integer NOT NULL PRIMARY KEY,
-  user_id integer NOT NULL default '0',
-  changed datetime NOT NULL default '0000-00-00 00:00:00',
-  del tinyint NOT NULL default '0',
-  standard tinyint NOT NULL default '0',
-  name varchar(128) NOT NULL default '',
-  organization varchar(128) default '',
-  email varchar(128) NOT NULL default '',
-  "reply-to" varchar(128) NOT NULL default '',
-  bcc varchar(128) NOT NULL default '',
-  signature text NOT NULL default '',
-  html_signature tinyint NOT NULL default '0'
-);
-
-CREATE INDEX ix_identities_user_id ON identities(user_id, del);
-CREATE INDEX ix_identities_email ON identities(email, del);
-
--- 
 -- Table structure for table users
 -- 
 
@@ -94,6 +17,106 @@ CREATE TABLE users (
 );
 
 CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
+
+-- 
+-- Table structure for table contacts and related
+-- 
+
+CREATE TABLE contacts (
+  contact_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  name varchar(128) NOT NULL default '',
+  email text NOT NULL default '',
+  firstname varchar(128) NOT NULL default '',
+  surname varchar(128) NOT NULL default '',
+  vcard text NOT NULL default '',
+  words text NOT NULL default ''
+);
+
+CREATE INDEX ix_contacts_user_id ON contacts(user_id, del);
+
+
+CREATE TABLE contactgroups (
+  contactgroup_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  name varchar(128) NOT NULL default ''
+);
+
+CREATE INDEX ix_contactgroups_user_id ON contactgroups(user_id, del);
+
+
+CREATE TABLE contactgroupmembers (
+  contactgroup_id integer NOT NULL
+    REFERENCES contactgroups(contactgroup_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  contact_id integer NOT NULL
+    REFERENCES contacts(contact_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY (contactgroup_id, contact_id)
+);
+
+CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
+
+-- 
+-- Table structure for table collected_addresses
+-- 
+
+CREATE TABLE collected_addresses (
+  address_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  name varchar(255) NOT NULL default '',
+  email varchar(255) NOT NULL,
+  "type" integer NOT NULL
+);
+
+CREATE UNIQUE INDEX ix_collected_addresses_user_id ON collected_addresses(user_id, "type", email);
+
+-- 
+-- Table structure for table identities
+-- 
+
+CREATE TABLE identities (
+  identity_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  standard tinyint NOT NULL default '0',
+  name varchar(128) NOT NULL default '',
+  organization varchar(128) default '',
+  email varchar(128) NOT NULL default '',
+  "reply-to" varchar(128) NOT NULL default '',
+  bcc varchar(128) NOT NULL default '',
+  signature text NOT NULL default '',
+  html_signature tinyint NOT NULL default '0'
+);
+
+CREATE INDEX ix_identities_user_id ON identities(user_id, del);
+CREATE INDEX ix_identities_email ON identities(email, del);
+
+-- 
+-- Table structure for table responses
+-- 
+
+CREATE TABLE responses (
+  response_id integer NOT NULL PRIMARY KEY,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  del tinyint NOT NULL default '0',
+  name varchar(255) NOT NULL,
+  data text NOT NULL,
+  is_html tinyint NOT NULL default '0'
+);
+
+CREATE INDEX ix_responses_user_id ON responses(user_id, del);
 
 -- 
 -- Table structure for table session
@@ -113,9 +136,10 @@ CREATE INDEX ix_session_changed ON session (changed);
 --
 
 CREATE TABLE dictionary (
-    user_id integer DEFAULT NULL,
-   language varchar(16) NOT NULL,
-    data text NOT NULL
+  user_id integer DEFAULT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  language varchar(16) NOT NULL,
+  data text NOT NULL
 );
 
 CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, language);
@@ -126,7 +150,8 @@ CREATE UNIQUE INDEX ix_dictionary_user_language ON dictionary (user_id, language
 
 CREATE TABLE searches (
   search_id integer NOT NULL PRIMARY KEY,
-  user_id integer NOT NULL DEFAULT '0',
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   "type" smallint NOT NULL DEFAULT '0',
   name varchar(128) NOT NULL,
   data text NOT NULL
@@ -139,7 +164,8 @@ CREATE UNIQUE INDEX ix_searches_user_type_name ON searches (user_id, type, name)
 -- 
 
 CREATE TABLE cache (
-  user_id integer NOT NULL default 0,
+  user_id integer NOT NULL
+    REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   cache_key varchar(128) NOT NULL default '',
   expires datetime DEFAULT NULL,
   data text NOT NULL,
@@ -166,7 +192,8 @@ CREATE INDEX ix_cache_shared_expires ON cache_shared(expires);
 --
 
 CREATE TABLE cache_index (
-    user_id integer NOT NULL,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
     expires datetime DEFAULT NULL,
     valid smallint NOT NULL DEFAULT '0',
@@ -181,7 +208,8 @@ CREATE INDEX ix_cache_index_expires ON cache_index (expires);
 --
 
 CREATE TABLE cache_thread (
-    user_id integer NOT NULL,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
     expires datetime DEFAULT NULL,
     data text NOT NULL,
@@ -195,7 +223,8 @@ CREATE INDEX ix_cache_thread_expires ON cache_thread (expires);
 --
 
 CREATE TABLE cache_messages (
-    user_id integer NOT NULL,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
     uid integer NOT NULL,
     expires datetime DEFAULT NULL,
@@ -212,7 +241,8 @@ CREATE INDEX ix_cache_messages_expires ON cache_messages (expires);
 
 CREATE TABLE filestore (
     file_id integer NOT NULL PRIMARY KEY,
-    user_id integer NOT NULL,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     context varchar(32) NOT NULL,
     filename varchar(128) NOT NULL,
     mtime integer NOT NULL,
@@ -230,4 +260,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2020122900');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2021100300');

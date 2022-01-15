@@ -66,8 +66,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     'messagepartcontrols' => [$this, 'message_part_controls'],
             ]);
 
-            $part_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GET);
-            $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+            $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
+            $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
 
             // message/rfc822 preview (Note: handle also multipart/ parts, they can
             // come from Enigma, which replaces message/rfc822 with real mimetype)
@@ -166,12 +166,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
                     }
 
-                    // fix mimetype for files wrongly declared as octet-stream
-                    if ($mimetype == 'application/octet-stream' && $valid_extension) {
-                        $mimetype = $real_mimetype;
-                    }
-                    // fix mimetype for images with wrong mimetype
-                    else if (strpos($real_mimetype, 'image/') === 0 && strpos($mimetype, 'image/') === 0) {
+                    if (
+                        // fix mimetype for files wrongly declared as octet-stream
+                        ($mimetype == 'application/octet-stream' && $valid_extension)
+                        // force detected mimetype for images (#8158)
+                        || (strpos($real_mimetype, 'image/') === 0)
+                    ) {
                         $mimetype = $real_mimetype;
                     }
 
@@ -204,8 +204,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                             $rcmail->gettext([
                                     'name' => 'attachmentvalidationerror',
                                     'vars' => [
-                                        'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
-                                        'detected' => $real_mimetype . ($extensions[0] ? " (.$extensions[0])" : ''),
+                                        'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
+                                        'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
                                     ]
                             ]),
                             $rcmail->gettext('showanyway'),

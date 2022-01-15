@@ -161,7 +161,7 @@ class newmail_notifier extends rcube_plugin
         foreach (['basic', 'desktop', 'sound'] as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
-                $args['prefs'][$key] = rcube_utils::get_input_value('_' . $key, rcube_utils::INPUT_POST) ? true : false;
+                $args['prefs'][$key] = !empty(rcube_utils::get_input_value('_' . $key, rcube_utils::INPUT_POST));
             }
         }
 

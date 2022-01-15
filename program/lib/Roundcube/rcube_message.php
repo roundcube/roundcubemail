@@ -99,7 +99,7 @@ class rcube_message
         $this->context = $context;
         $this->app     = rcube::get_instance();
         $this->storage = $this->app->get_storage();
-        $this->folder  = strlen($folder) ? $folder : $this->storage->get_folder();
+        $this->folder  = is_string($folder) && strlen($folder) ? $folder : $this->storage->get_folder();
 
         // Set current folder
         $this->storage->set_folder($this->folder);
@@ -605,7 +605,8 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
-                list($headers, $body) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768), 2);
+                $part_body = $this->get_part_body($structure->mime_id, false, 32768);
+                list($headers, $body) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
@@ -909,7 +910,7 @@ class rcube_message
                 // part is a file/attachment
                 else if (
                     preg_match('/^(inline|attach)/', $mail_part->disposition)
-                    || $mail_part->headers['content-id']
+                    || !empty($mail_part->headers['content-id'])
                     || ($mail_part->filename &&
                         (empty($mail_part->disposition) || preg_match('/^[a-z0-9!#$&.+^_-]+$/i', $mail_part->disposition)))
                 ) {
@@ -923,7 +924,11 @@ class rcube_message
                     }
 
                     if (!empty($mail_part->headers['content-location'])) {
-                        $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
+                        $mail_part->content_location = '';
+                        if (!empty($mail_part->headers['content-base'])) {
+                            $mail_part->content_location = $mail_part->headers['content-base'];
+                        }
+                        $mail_part->content_location .= $mail_part->headers['content-location'];
                     }
 
                     // part belongs to a related message and is linked

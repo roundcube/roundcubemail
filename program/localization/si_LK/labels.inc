@@ -268,6 +268,7 @@ $labels['afternseconds'] = 'තත්පර $nකට පසු';
 $labels['spellcheckignoresyms'] = 'සලකුණු සහිත වචන නොසලකා හරින්න';
 $labels['spellcheckignorenums'] = 'අංක සහිත වචන නොසලකා හරින්න';
 $labels['addtodict'] = 'ශබ්ද කෝෂයට එක් කරන්න';
+$labels['allmessages'] = 'සියලු පණිවිඩ';
 $labels['folder'] = 'බහාලුම';
 $labels['folders'] = 'බහාලුම්';
 $labels['foldername'] = 'බහාලුමේ නම';

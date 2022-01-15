@@ -49,14 +49,9 @@ $RCMAIL->output->common_headers(!empty($_SESSION['user_id']));
 // turn on output buffering
 ob_start();
 
-// check if config files had errors
-if ($err_str = $RCMAIL->config->get_error()) {
-    rcmail::raise_error(['code' => 601, 'message' => $err_str], false, true);
-}
-
-// check DB connections and exit on failure
-if ($err_str = $RCMAIL->db->is_error()) {
-    rcmail::raise_error(['code' => 603, 'type' => 'db', 'message' => $err_str], false, true);
+// check the initial error state
+if ($RCMAIL->config->get_error() || $RCMAIL->db->is_error()) {
+    rcmail_fatal_error();
 }
 
 // error steps
@@ -102,7 +97,7 @@ $session_error = null;
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
-    $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
+    $request_valid = !empty($_SESSION['temp']) && $RCMAIL->check_request();
     $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
 
     // purge the session in case of new login when a session already exists
@@ -112,8 +107,8 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', [
             'host'  => $RCMAIL->autoselect_host(),
-            'user'  => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
-            'pass'  => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+            'user'  => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
+            'pass'  => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
             'valid' => $request_valid,
             'error' => null,
             'cookiecheck' => true,
@@ -136,7 +131,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         // restore original request parameters
         $query = [];
-        if ($url = rcube_utils::get_input_value('_url', rcube_utils::INPUT_POST)) {
+        if ($url = rcube_utils::get_input_string('_url', rcube_utils::INPUT_POST)) {
             parse_str($url, $query);
 
             // prevent endless looping on login page

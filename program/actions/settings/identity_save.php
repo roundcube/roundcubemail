@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_save extends rcmail_action
+class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -32,9 +32,9 @@ class rcmail_action_settings_identity_save extends rcmail_action
 
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
-        $a_save_cols    = ['name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature'];
-        $a_boolean_cols = ['standard', 'html_signature'];
-        $updated        = false;
+        $a_save_cols = ['name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature'];
+        $a_bool_cols = ['standard', 'html_signature'];
+        $updated     = false;
 
         // check input
         if (empty($_POST['_email']) && ($IDENTITIES_LEVEL == 0 || $IDENTITIES_LEVEL == 2)) {
@@ -47,13 +47,13 @@ class rcmail_action_settings_identity_save extends rcmail_action
         foreach ($a_save_cols as $col) {
             $fname = '_'.$col;
             if (isset($_POST[$fname])) {
-                $save_data[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $save_data[$col] = rcube_utils::get_input_string($fname, rcube_utils::INPUT_POST, true);
             }
         }
 
         // set "off" values for checkboxes that were not checked, and therefore
         // not included in the POST body.
-        foreach ($a_boolean_cols as $col) {
+        foreach ($a_bool_cols as $col) {
             $fname = '_' . $col;
             if (!isset($_POST[$fname])) {
                 $save_data[$col] = 0;
@@ -79,7 +79,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
         }
 
         // Validate e-mail addresses
-        $email_checks = [rcube_utils::idn_to_ascii($save_data['email'])];
+        $email_checks = !empty($save_data['email']) ? [rcube_utils::idn_to_ascii($save_data['email'])] : [];
         foreach (['reply-to', 'bcc'] as $item) {
             if (!empty($save_data[$item])) {
                 foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
@@ -99,7 +99,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
 
         if (!empty($save_data['signature']) && !empty($save_data['html_signature'])) {
             // replace uploaded images with data URIs
-            $save_data['signature'] = self::attach_images($save_data['signature']);
+            $save_data['signature'] = self::attach_images($save_data['signature'], 'identity');
 
             // XSS protection in HTML signature (#1489251)
             $save_data['signature'] = self::wash_html($save_data['signature']);
@@ -111,7 +111,7 @@ class rcmail_action_settings_identity_save extends rcmail_action
 
         // update an existing identity
         if (!empty($_POST['_iid'])) {
-            $iid = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
+            $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834
@@ -208,67 +208,5 @@ class rcmail_action_settings_identity_save extends rcmail_action
 
         // go to next step
         $rcmail->overwrite_action('edit-identity');
-    }
-
-    /**
-     * Attach uploaded images into signature as data URIs
-     */
-    public static function attach_images($html)
-    {
-        $rcmail = rcmail::get_instance();
-        $offset = 0;
-        $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile(\w+)[\s\'"]*/';
-
-        while (preg_match($regexp, $html, $matches, 0, $offset)) {
-            $file_id  = $matches[2];
-            $data_uri = ' ';
-
-            if ($file_id && !empty($_SESSION['identity']['files'][$file_id])) {
-                $file = $_SESSION['identity']['files'][$file_id];
-                $file = $rcmail->plugins->exec_hook('attachment_get', $file);
-
-                $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';
-                $data_uri .= base64_encode($file['data'] ?: file_get_contents($file['path']));
-                $data_uri .= '" ';
-            }
-
-            $html    = str_replace($matches[0], $data_uri, $html);
-            $offset += strlen($data_uri) - strlen($matches[0]) + 1;
-        }
-
-        return $html;
-    }
-
-    /**
-     * Sanity checks/cleanups on HTML body of signature
-     */
-    public static function wash_html($html)
-    {
-        // Add header with charset spec., washtml cannot work without that
-        $html = '<html><head>'
-            . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
-            . '</head><body>' . $html . '</body></html>';
-
-        // clean HTML with washtml by Frederic Motte
-        $wash_opts = [
-            'show_washed'   => false,
-            'allow_remote'  => 1,
-            'charset'       => RCUBE_CHARSET,
-            'html_elements' => ['body', 'link'],
-            'html_attribs'  => ['rel', 'type'],
-        ];
-
-        // initialize HTML washer
-        $washer = new rcube_washtml($wash_opts);
-
-        // Remove non-UTF8 characters (#1487813)
-        $html = rcube_charset::clean($html);
-
-        $html = $washer->wash($html);
-
-        // remove unwanted comments and tags (produced by washtml)
-        $html = preg_replace(['/<!--[^>]+-->/', '/<\/?body>/'], '', $html);
-
-        return $html;
     }
 }

@@ -300,6 +300,13 @@ class rcube_ldap extends rcube_addressbook
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
         // see http://www.php.net/manual/en/function.ldap-connect.php
         foreach ((array) $this->prop['hosts'] as $host) {
+            // Parse host specification into the format expected by Net_LDAP3 (ldap_connect)
+            list($host, $scheme, $port) = rcube_utils::parse_host_uri($host, 389, 636);
+
+            $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
+
+            $this->ldap->option_set('use_tls', $scheme === 'tls');
+
             // skip host if connection failed
             if (!$this->ldap->connect($host)) {
                 continue;
@@ -488,7 +495,7 @@ class rcube_ldap extends rcube_addressbook
 
         }  // end foreach hosts
 
-        if (!is_resource($this->ldap->conn)) {
+        if (empty($this->ldap->conn)) {
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -1459,7 +1466,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        return isset($newdn) ? $newdn : true;
+        return $newdn ?? true;
     }
 
     /**
@@ -1762,7 +1769,7 @@ class rcube_ldap extends rcube_addressbook
         $suffix = $limit ? ':'.$limit : '';
         $name   = strtolower($name);
 
-        return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
+        return ($aliases[$name] ?? $name) . $suffix;
     }
 
     /**

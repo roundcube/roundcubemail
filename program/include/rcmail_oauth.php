@@ -95,7 +95,9 @@ class rcmail_oauth
             $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
             $this->rcmail->plugins->register_hook('managesieve_connect', [$this, 'managesieve_connect']);
             $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
+            $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
+            $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
         }
     }
 
@@ -247,7 +249,6 @@ class rcmail_oauth
                             foreach ($this->options['identity_fields'] as $field) {
                                 if (isset($identity[$field])) {
                                     $username = $identity[$field];
-                                    unset($data['id_token']);
                                     break;
                                 }
                             }
@@ -290,6 +291,9 @@ class rcmail_oauth
                         'username' => $username,
                         'identity' => $identity,
                     ]));
+
+                    // remove some data we don't want to store in session
+                    unset($data['id_token']);
 
                     // return auth data
                     return [
@@ -429,7 +433,7 @@ class rcmail_oauth
     protected function mask_auth_data(&$data)
     {
         // compute absolute token expiration date
-        $data['expires'] = time() + $data['expires_in'] - 600;
+        $data['expires'] = time() + $data['expires_in'] - 10;
 
         // encrypt refresh token if provided
         if (isset($data['refresh_token'])) {
@@ -447,7 +451,7 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if ($token['expires'] < time() && isset($token['refresh_token'])) {
+        if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             $this->refresh_access_token($token);
         }
     }
@@ -523,6 +527,19 @@ class rcmail_oauth
     }
 
     /**
+     * Callback for 'login_failed' hook
+     *
+     * @param array $options
+     * @return array
+     */
+    public function login_failed($options)
+    {
+        // no redirect on imap login failures
+        $this->no_redirect = true;
+        return $options;
+    }
+
+    /**
      * Callback for 'unauthenticated' hook
      *
      * @param array $options
@@ -541,5 +558,19 @@ class rcmail_oauth
         }
 
         return $options;
+    }
+
+
+    /**
+     * Callback for 'refresh' hook
+     *
+     * @param array $options
+     * @return void
+     */
+    public function refresh($options)
+    {
+        if (isset($_SESSION['oauth_token'])) {
+            $this->check_token_validity($_SESSION['oauth_token']);
+        }
     }
 }

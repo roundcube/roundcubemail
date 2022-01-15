@@ -470,8 +470,7 @@ class rcube
             ini_set('session.cookie_path', $sess_path);
         }
         // set session samesite attribute
-        // requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
-        if (version_compare(PHP_VERSION, '7.3.0', '>=') && $sess_samesite) {
+        if ($sess_samesite) {
             ini_set('session.cookie_samesite', $sess_samesite);
         }
         // set session garbage collecting time according to session_lifetime
@@ -833,7 +832,7 @@ class rcube
             $lang = $rcube_language_aliases[$lang];
         }
         // try the first two chars
-        else if (!isset($rcube_languages[$lang])) {
+        else if ($lang && !isset($rcube_languages[$lang])) {
             $short = substr($lang, 0, 2);
 
             // check if we have an alias for the short language code
@@ -900,9 +899,17 @@ class rcube
 
         $ckey   = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
-        $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $cipher = openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+        $tag    = null;
+
+        // This distinction is for PHP 7.3 which throws a warning when
+        // we use $tag argument with non-AEAD cipher method here
+        if (!preg_match('/-(gcm|ccm|poly1305)$/i', $method)) {
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv);
+        }
+        else {
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
+        }
 
         if ($cipher === false) {
             self::raise_error([
@@ -915,6 +922,10 @@ class rcube
         }
 
         $cipher = $iv . $cipher;
+
+        if ($tag !== null) {
+            $cipher = "##{$tag}##{$cipher}";
+        }
 
         return $base64 ? base64_encode($cipher) : $cipher;
     }
@@ -943,9 +954,15 @@ class rcube
 
         $ckey    = $this->config->get_crypto_key($key);
         $method  = $this->config->get_crypto_method();
-        $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv_size = openssl_cipher_iv_length($method);
-        $iv      = substr($cipher, 0, $iv_size);
+        $tag     = null;
+
+        if (preg_match('/^##(.{16})##/', $cipher, $matches)) {
+            $tag    = $matches[1];
+            $cipher = substr($cipher, strlen($matches[0]));
+        }
+
+        $iv = substr($cipher, 0, $iv_size);
 
         // session corruption? (#1485970)
         if (strlen($iv) < $iv_size) {
@@ -953,7 +970,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
 
         return $clear;
     }
@@ -1420,6 +1437,10 @@ class rcube
             return;
         }
 
+        if (!isset($arg['message'])) {
+            $arg['message'] = '';
+        }
+
         if (($log || $terminate) && !$cli && $arg['message']) {
             $arg['fatal'] = $terminate;
             self::log_bug($arg);
@@ -1453,7 +1474,7 @@ class rcube
     public static function log_bug($arg_arr)
     {
         $program = !empty($arg_arr['type']) ? strtoupper($arg_arr['type']) : 'PHP';
-        $uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        $uri     = $_SERVER['REQUEST_URI'] ?? '';
 
         // write error to local log file
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1715,7 +1736,7 @@ class rcube
                 $body_file = $plugin['body_file'];
             }
 
-            return isset($plugin['result']) ? $plugin['result'] : false;
+            return $plugin['result'] ?? false;
         }
 
         $from    = $plugin['from'];

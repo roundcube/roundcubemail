@@ -574,6 +574,7 @@ $labels['asattachment'] = 'kā pielikumu';
 $labels['replyallmode'] = '[Atbildēt visiem] pogas noklusētā darbība';
 $labels['replyalldefault'] = 'atbildēt visiem';
 $labels['replyalllist'] = 'atbildēt tikai sarakstei (ja tāda tiek atrasta)';
+$labels['allmessages'] = 'visām vēstulēm';
 $labels['folder'] = 'Mapi';
 $labels['folders'] = 'Mapes';
 $labels['foldername'] = 'Mapes nosaukums';

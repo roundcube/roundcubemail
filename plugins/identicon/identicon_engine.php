@@ -34,10 +34,11 @@ class identicon_engine
     /**
      * Class constructor
      *
-     * @param string $ident Unique identifier (email address)
-     * @param int    $size  Icon size in pixels
+     * @param string $ident   Unique identifier (email address)
+     * @param int    $size    Icon size in pixels
+     * @param string $bgcolor Icon background color
      */
-    public function __construct($ident, $size = null)
+    public function __construct($ident, $size = null, $bgcolor = null)
     {
         if (!$size) {
             $size = self::ICON_SIZE;
@@ -47,6 +48,18 @@ class identicon_engine
         $this->margin = (int) round($size / 10);
         $this->width  = (int) round(($size - $this->margin * 2) / self::GRID_SIZE) * self::GRID_SIZE + $this->margin * 2;
         $this->height = $this->width;
+
+        if ($bgcolor) {
+            if (preg_match('/^#?[0-9a-f]{6}$/', $bgcolor)) {
+                if ($bgcolor[0] != '#') {
+                    $bgcolor = "#{$bgcolor}";
+                }
+                $this->bgcolor = $bgcolor;
+            }
+            else if ($bgcolor === 'transparent') {
+                $this->bgcolor = $bgcolor;
+            }
+        }
 
         $this->generate();
     }
@@ -96,7 +109,7 @@ class identicon_engine
         // set icon color
         $div         = intval(255/count($this->palette));
         $index       = intval(ord($ident[0]) / $div);
-        $this->color = isset($this->palette[$index]) ? $this->palette[$index] : $this->palette[0];
+        $this->color = $this->palette[$index] ?? $this->palette[0];
 
         // set cell size
         $cell_width  = ($this->width - $this->margin * 2) / self::GRID_SIZE;
@@ -136,13 +149,20 @@ class identicon_engine
      */
     private function generateGD()
     {
-        $color   = $this->toRGB($this->color);
-        $bgcolor = $this->toRGB($this->bgcolor);
-
         // create an image, setup colors
-        $image   = imagecreate($this->width, $this->height);
-        $color   = imagecolorallocate($image, $color[0], $color[1], $color[2]);
-        $bgcolor = imagecolorallocate($image, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
+        $image = imagecreate($this->width, $this->height);
+
+        $color = $this->toRGB($this->color);
+        $color = imagecolorallocate($image, $color[0], $color[1], $color[2]);
+
+        if ($this->bgcolor === 'transparent') {
+            $bgcolor = imagecolorallocatealpha($image, 0, 0, 0, 127);
+            imagesavealpha($image, true);
+        }
+        else {
+            $bgcolor = $this->toRGB($this->bgcolor);
+            $bgcolor = imagecolorallocate($image, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
+        }
 
         imagefilledrectangle($image, 0, 0, $this->width, $this->height, $bgcolor);
 

@@ -243,27 +243,6 @@ class Actions_Mail_Index extends ActionTestCase
     }
 
     /**
-     * Test wrap_and_quote() method
-     */
-    function test_wrap_and_quote()
-    {
-        $action = new rcmail_action_mail_index;
-
-        $this->assertSame('> ', $action->wrap_and_quote(''));
-        $this->assertSame('', $action->wrap_and_quote('', 72, false));
-
-        $result = $action->wrap_and_quote("test1\ntest2");
-        $expected = "> test1\n> test2";
-
-        $this->assertSame($expected, $result);
-
-        $result = $action->wrap_and_quote("> test1\n> test2");
-        $expected = ">> test1\n>> test2";
-
-        $this->assertSame($expected, $result);
-    }
-
-    /**
      * Test attachment_name() method
      */
     function test_attachment_name()

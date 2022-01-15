@@ -51,10 +51,24 @@
 		<div class="formcontent">
 			<ul class="proplist">
 				<li><label><input type="checkbox" name="s_mods[]" value="subject" /><roundcube:label name="subject" /></label></li>
-				<li><label><input type="checkbox" name="s_mods[]" value="from" /><roundcube:label name="from" /></label></li>
-				<li><label><input type="checkbox" name="s_mods[]" value="to" /><roundcube:label name="to" /></label></li>
-				<li><label><input type="checkbox" name="s_mods[]" value="cc" /><roundcube:label name="cc" /></label></li>
-				<li><label><input type="checkbox" name="s_mods[]" value="bcc" /><roundcube:label name="bcc" /></label></li>
+				<li class="with-sublist">
+					<label><input type="checkbox" name="s_mods[]" value="sender" /><roundcube:label name="sender" /></label>
+					<a class="button icon dropdown" role="button" href="#" title="<roundcube:label name="details" />"></a>
+					<ul class="proplist d-none">
+						<li><label><input type="checkbox" name="s_mods[]" value="from" /><roundcube:label name="from" /></label></li>
+						<li><label><input type="checkbox" name="s_mods[]" value="replyto" /><roundcube:label name="replyto" /></label></li>
+						<li><label><input type="checkbox" name="s_mods[]" value="followupto" /><roundcube:label name="followupto" /></label></li>
+					</ul>
+				</li>
+				<li class="with-sublist">
+					<label><input type="checkbox" name="s_mods[]" value="recipient" /><roundcube:label name="recipient" /></label>
+					<a class="button icon dropdown" role="button" href="#" title="<roundcube:label name="details" />"></a>
+					<ul class="proplist d-none">
+						<li><label><input type="checkbox" name="s_mods[]" value="to" /><roundcube:label name="to" /></label></li>
+						<li><label><input type="checkbox" name="s_mods[]" value="cc" /><roundcube:label name="cc" /></label></li>
+						<li><label><input type="checkbox" name="s_mods[]" value="bcc" /><roundcube:label name="bcc" /></label></li>
+					</ul>
+				</li>
 				<li><label><input type="checkbox" name="s_mods[]" value="body" /><roundcube:label name="body" /></label></li>
 				<li><label><input type="checkbox" name="s_mods[]" value="text" /><roundcube:label name="msgtext" /></label></li>
 			</ul>

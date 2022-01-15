@@ -405,6 +405,18 @@ body.task-error-login #layout {
         font-family: monospace;
         font-size: 13px;
     }
+
+    // This is needed for proper display of quoted plain text
+    blockquote {
+        display: inline-block;
+        min-width: 100%;
+
+        & + br {
+            // compensate the spacing "removed" by the inline-block style above
+            display: block;
+            margin-top: 1em;
+        }
+    }
 }
 
 #compose-attachments {

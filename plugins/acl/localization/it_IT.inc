@@ -92,6 +92,6 @@ $messages['createsuccess'] = 'I diritti d\'accesso sono stati aggiunti';
 $messages['updateerror'] = 'Impossibile aggiornare i diritti d\'accesso';
 $messages['deleteerror'] = 'Impossibile eliminare i diritti d\'accesso';
 $messages['createerror'] = 'Impossibile aggiungere i diritti d\'accesso';
-$messages['deleteconfirm'] = 'Sei sicuro, vuoi rimuovere i diritti d\'accesso degli utenti selezionati?';
+$messages['deleteconfirm'] = 'Sei sicuro di voler rimuovere i diritti d\'accesso degli utenti selezionati?';
 $messages['norights'] = 'Nessun diritto specificato!';
 $messages['nouser'] = 'Lo username non è stato specificato!';

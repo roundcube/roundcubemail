@@ -771,8 +771,12 @@ function rcube_elastic_ui()
             return;
         }
 
-        var pref,
+        // We deliberately use only cookies here, not local storage
+        var pref = rcmail.get_cookie('colorMode'),
             color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
+            reset_cookie = function() {
+                rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
+            },
             switch_iframe_color_mode = function() {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
@@ -793,22 +797,29 @@ function rcube_elastic_ui()
                 $('iframe').each(switch_iframe_color_mode);
             };
 
+        if (rcmail.env.dark_mode_support === false) {
+            if (pref == 'dark') {
+                reset_cookie();
+                $('iframe').each(switch_iframe_color_mode);
+            }
+            return;
+        }
+
         // Add onclick action to the menu button
         $('#taskmenu a.theme').on('click', function() {
             color_mode = $(this).is('.dark') ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', color_mode);
+            rcmail.set_cookie('colorMode', color_mode, false);
         });
 
         // Note: this does not work in IE and Safari
         color_scheme.addListener(function(e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
-            rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
+            reset_cookie();
         });
 
-        // We deliberately use only cookies here, not local storage
-        if (pref = rcmail.get_cookie('colorMode')) {
+        if (pref) {
             color_mode = pref;
         }
         else if (color_scheme.matches) {
@@ -1348,7 +1359,8 @@ function rcube_elastic_ui()
         }
 
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
-            var form = $('#compose-content > form'),
+            var floating = false,
+                form = $('#compose-content > form'),
                 keypress = function(e) {
                     if (e.key == 'Tab' && e.shiftKey) {
                         $('#compose-content > form').scrollTop(0);
@@ -1371,14 +1383,20 @@ function rcube_elastic_ui()
 
                 if (editor_offset && (editor_offset.top - header_top < 0)) {
                     toolbar.css({position: 'fixed', top: header_top + 'px', width: container.width() + 'px'});
+                    floating = true;
                 }
                 else {
+                    // Focusing the subject when scrolling back to the top fixes
+                    // an annoying bouncing scrollbar bug (#8046)
+                    if (floating) {
+                        $('#compose-subject').focus();
+                        floating = false;
+                    }
                     toolbar.css({position: 'relative', top: 0, width: 'auto'})
                 }
             });
 
             $(window).resize(function() { form.trigger('scroll'); });
-
         }
 
         if (is_editor) {
@@ -1712,11 +1730,11 @@ function rcube_elastic_ui()
                 $('#logo').data('src-default', $('#logo').attr('src'));
             }
 
-            if (mode == 'phone' && logos['small']) {
-                $('#logo').attr('src', logos['small']);
-            }
-            else if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
+            if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
                 $('#logo').attr('src', logos['small-dark']);
+            }
+            else if (mode == 'phone' && logos['small']) {
+                $('#logo').attr('src', logos['small']);
             }
             else if (color_mode == 'dark' && logos['dark']) {
                 $('#logo').attr('src', logos['dark']);
@@ -2809,6 +2827,11 @@ function rcube_elastic_ui()
                     rcmail.env.search_interval = interval_select.val();
                 });
             }
+
+            $(obj).find('.proplist > li > a.dropdown').on('click', function() {
+                var list = $(this).next()
+                list[list.is('.d-none') ? 'removeClass' : 'addClass']('d-none');
+            });
         }
 
         scope_select.val(scope);
@@ -2832,11 +2855,18 @@ function rcube_elastic_ui()
                 }
             }
         }
+
+        set_searchmod_masters(obj);
     };
 
+    /**
+     * Handler for a search option state update
+     */
     function set_searchmod(menu, elem)
     {
-        var all, m, task = rcmail.env.task,
+        var all, m, masters = {},
+            list = $('input[name="s_mods[]"]', menu),
+            task = rcmail.env.task,
             mods = rcmail.env.search_mods || {},
             mbox = rcmail.env.mailbox;
 
@@ -2846,6 +2876,10 @@ function rcube_elastic_ui()
             }
             m = mods[mbox];
             all = 'text';
+            masters = {
+                sender: ['from', 'replyto', 'followupto'],
+                recipient: ['to', 'cc', 'bcc']
+            };
         }
         else {
             // addressbook
@@ -2862,7 +2896,7 @@ function rcube_elastic_ui()
 
         // mark all fields
         if (elem.value == all) {
-            $('input[name="s_mods[]"]', menu).not(elem).map(function() {
+            list.not(elem).each(function() {
                 this.checked = true;
 
                 if (elem.checked) {
@@ -2871,13 +2905,43 @@ function rcube_elastic_ui()
                 }
                 else {
                     this.disabled = false;
-                    m[this.value] = 1;
+                    if (!(this.value in masters)) {
+                        m[this.value] = 1;
+                    }
                 }
             });
+        }
+        // Handle clicks on Sender/Recipient elements
+        else if (elem.value in masters) {
+            delete m[elem.value];
+
+            list.filter(function() { return $.inArray(this.value, masters[elem.value]) != -1; }).each(function() {
+                if (elem.checked) {
+                    this.checked = true;
+                    m[this.value] = 1;
+                }
+                else {
+                    this.checked = false;
+                    delete m[this.value];
+                }
+            });
+        }
+        else if (masters.sender) {
+            set_searchmod_masters(menu);
         }
 
         rcmail.set_searchmods(m);
     };
+
+    /*
+     * Set state of the Sender/Recipient checkbox depending on whether any of the sub-items are checked
+     */
+    function set_searchmod_masters(obj)
+    {
+        $(obj).find('.proplist > li.with-sublist').each(function() {
+            $(this).find(':not(.proplist) input')[0].checked = $(this).children('.proplist').find('input:checked').length > 0;
+        });
+    }
 
     /**
      * Spellcheck languages list
@@ -3766,11 +3830,11 @@ function rcube_elastic_ui()
     };
 
     /**
-     * HTML editor textarea wrapper with nice looking tabs-like switch
+     * HTML editor textarea wrapper with plain-to-html switch button
      */
     function html_editor_init(obj)
     {
-        // Here we support two structures
+        // Here we support two kinds of structure:
         // 1. <div><textarea></textarea><select class="hidden"></div>
         // 2. <tr><td><td><td><textarea></textarea></td></tr>
         //    <tr><td><td><td><input type="checkbox"></td></tr>
@@ -3778,10 +3842,11 @@ function rcube_elastic_ui()
         var sw, is_table = false,
             editor = $(obj),
             parent = editor.parent(),
+            readonly = editor.is('[readonly],[disabled]'),
             plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
-                .attr('title', rcmail.gettext('htmltoggle'))
+                .attr({title: rcmail.gettext('htmltoggle'), disabled: readonly})
                 .on('click', function(e) {
-                    if (rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
+                    if (!readonly && rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
                         parent.addClass('ishtml');
                     }
                 })
@@ -4121,6 +4186,15 @@ function rcube_elastic_ui()
      */
     function window_open(url, small, toolbar, force_window)
     {
+        var colorFunc = function (body) {
+            $(body).css({
+                color: $(document.body).css('color'),
+                backgroundColor: $(document.body).css('background-color')
+            })
+        };
+
+        var setColor = color_mode == 'dark' && /_task=mail/.test(url) && /_action=viewsource/.test(url);
+
         // Use 4th argument to bypass the dialog-mode e.g. for external windows
         if (!is_mobile() || force_window === true) {
             // On attachment preview page we do not display the properties sidebar
@@ -4129,7 +4203,14 @@ function rcube_elastic_ui()
                 small = true;
             }
 
-            return env.open_window.call(rcmail, url, small, toolbar);
+            var win = env.open_window.call(rcmail, url, small, toolbar);
+
+            // Switch the plain/text window to dark-mode
+            if (setColor) {
+                $(win).on('load', function() { colorFunc(win.document.body); });
+            }
+
+            return win;
         }
 
         // _extwin=1, _framed=1 are required to display attachment preview
@@ -4147,6 +4228,11 @@ function rcube_elastic_ui()
 
         if (/_frame=1/.test(url)) {
             props.dialogClass = 'no-titlebar';
+        }
+
+        // Switch the plain/text iframe to dark-mode
+        if (setColor) {
+            frame.on('load', function() { colorFunc(frame[0].contentWindow.document.body); });
         }
 
         rcmail.simple_dialog(frame, title, null, props);
@@ -4226,9 +4312,7 @@ function rcube_elastic_ui()
         // write prefs to local storage (if supported)
         if (!rcmail.local_storage_set_item('prefs.elastic', prefs)) {
             // store value in cookie
-            var exp = new Date();
-            exp.setYear(exp.getFullYear() + 1);
-            rcmail.set_cookie(key, val, exp);
+            rcmail.set_cookie(key, val, false);
         }
     };
 }

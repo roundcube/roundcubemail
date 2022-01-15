@@ -30,7 +30,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
             '_iid' => $identity['identity_id'],
             '_name' => 'new-name',
             '_email' => 'new@example.com',
-            '_standard' => 1,
+            '_standard' => '1',
             '_signature' => 'test',
         ];
 
@@ -62,27 +62,5 @@ class Actions_Settings_IdentitySave extends ActionTestCase
     function test_run_errors()
     {
         $this->markTestIncomplete();
-    }
-
-    /**
-     * Test attach_images() method
-     */
-    function test_attach_images()
-    {
-        $result = rcmail_action_settings_identity_save::attach_images('<p>test</p>');
-
-        // TODO: test image replacement
-
-        $this->assertSame('<p>test</p>', $result);
-    }
-
-    /**
-     * Test wash_html() method
-     */
-    function test_wash_html()
-    {
-        $result = rcmail_action_settings_identity_save::wash_html('<p>test</p>');
-
-        $this->assertSame('<p>test</p>', $result);
     }
 }

@@ -52,10 +52,7 @@ function rcmail_attachment_reminder_dialog()
 
   buttons[rcmail.get_label('addattachment')] = function() {
     $(this).remove();
-    if (window.UI && UI.show_uploadform) // Larry skin
-      UI.show_uploadform();
-    else if (window.rcmail_ui && rcmail_ui.show_popup) // classic skin
-      rcmail_ui.show_popup('uploadmenu', true);
+    $('#messagetoolbar a.attach, .toolbar a.attach').first().click();
   };
   buttons[rcmail.get_label('send')] = function(e) {
     $(this).remove();

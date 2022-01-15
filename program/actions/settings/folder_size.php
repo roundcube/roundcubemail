@@ -31,7 +31,7 @@ class rcmail_action_settings_folder_size extends rcmail_action
     {
         $rcmail  = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $name    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+        $name    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         $size = $storage->folder_size($name);
 

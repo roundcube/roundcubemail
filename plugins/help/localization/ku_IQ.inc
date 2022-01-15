@@ -17,3 +17,5 @@
 $labels['help'] = 'یارمەتی';
 $labels['about'] = 'دەربارە';
 $labels['license'] = 'مۆڵەت';
+$labels['csrfinfo'] = 'لێرە زیاتر بخوێنەرەوە و بزانە چۆن دەتپارێزین';
+$labels['arialabelhelpcontent'] = 'ناوەڕۆکی یارمەتی';

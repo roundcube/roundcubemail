@@ -40,6 +40,7 @@ $optional_php_exts = [
     'LDAP'      => 'ldap',
     'GD'        => 'gd',
     'Imagick'   => 'imagick',
+    'XMLWriter' => 'xmlwriter',
     'Zip'       => 'zip',
 ];
 
@@ -84,6 +85,8 @@ $source_urls = [
     'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
     'GD'        => 'https://www.php.net/manual/en/book.image.php',
     'Imagick'   => 'https://www.php.net/manual/en/book.imagick.php',
+    'XML'       => 'https://www.php.net/manual/en/book.xml.php',
+    'XMLWriter' => 'https://www.php.net/manual/en/book.xmlwriter.php',
     'Zip'       => 'https://www.php.net/manual/en/book.zip.php',
     'Filter'    => 'https://www.php.net/manual/en/book.filter.php',
     'Ctype'     => 'https://www.php.net/manual/en/book.ctype.php',
@@ -109,7 +112,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <h3>Checking PHP version</h3>
 <?php
 
-define('MIN_PHP_VERSION', '5.5.0');
+define('MIN_PHP_VERSION', '7.3.0');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
 }

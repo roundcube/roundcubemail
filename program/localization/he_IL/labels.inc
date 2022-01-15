@@ -574,6 +574,7 @@ $labels['asattachment'] = 'כצרופה';
 $labels['replyallmode'] = 'ברירת המחדל של כפתור [מענה לכולם]';
 $labels['replyalldefault'] = 'מענה לכולם';
 $labels['replyalllist'] = 'מענה לרשימת תפוצה בלבד (אם קיימת)';
+$labels['allmessages'] = 'כל ההודעות';
 $labels['folder'] = 'תיקיה';
 $labels['folders'] = 'תיקיות';
 $labels['foldername'] = 'שם תיקיה';

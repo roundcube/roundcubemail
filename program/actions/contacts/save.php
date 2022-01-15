@@ -30,8 +30,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
     {
         $rcmail        = rcmail::get_instance();
         $contacts      = self::contact_source(null, true);
-        $cid           = rcube_utils::get_input_value('_cid', rcube_utils::INPUT_POST);
-        $source        = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $cid           = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
+        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $return_action = empty($cid) ? 'add' : 'edit';
 
         // Source changed, display the form again
@@ -155,7 +155,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // insert a new contact
         else {
             // Name of the addressbook already selected on the list
-            $orig_source = rcube_utils::get_input_value('_orig_source', rcube_utils::INPUT_GPC);
+            $orig_source = rcube_utils::get_input_string('_orig_source', rcube_utils::INPUT_GPC);
 
             if (!strlen($source)) {
                 $source = $orig_source;

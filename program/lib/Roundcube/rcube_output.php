@@ -99,7 +99,7 @@ abstract class rcube_output
      */
     public function get_env($name)
     {
-        return isset($this->env[$name]) ? $this->env[$name] : null;
+        return $this->env[$name] ?? null;
     }
 
     /**
@@ -336,7 +336,7 @@ abstract class rcube_output
                     $colcounts[$name] = 0;
                 }
                 $idx   = intval($colcounts[$name]++);
-                $value = isset($postvalue[$idx]) ? $postvalue[$idx] : null;
+                $value = $postvalue[$idx] ?? null;
             }
             else {
                 $value = $postvalue;
@@ -357,7 +357,7 @@ abstract class rcube_output
      */
     public static function json_serialize($input, $pretty = false, $inline = true)
     {
-        $options = JSON_UNESCAPED_SLASHES;
+        $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_IGNORE;
 
         // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
         // if input contains a html tag it will cause issues (#6207)
@@ -365,22 +365,8 @@ abstract class rcube_output
             $options |= JSON_HEX_TAG;
         }
 
-        // JSON_UNESCAPED_UNICODE in PHP < 7.1.0 does not escape U+2028 and U+2029
-        // which causes issues (#6187)
-        if (PHP_VERSION_ID >= 70100) {
-            $options |= JSON_UNESCAPED_UNICODE;
-        }
-
         if ($pretty) {
             $options |= JSON_PRETTY_PRINT;
-        }
-
-        // The input need to be valid UTF-8 to use json_encode() in PHP < 7.2
-        if (PHP_VERSION_ID >= 70200) {
-            $options |= JSON_INVALID_UTF8_IGNORE;
-        }
-        else {
-            $input = rcube_charset::clean($input);
         }
 
         return json_encode($input, $options);

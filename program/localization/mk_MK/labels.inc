@@ -504,6 +504,7 @@ $labels['asattachment'] = 'како додаток';
 $labels['replyallmode'] = 'Стандардна акција од [Одговори на сите] копче ';
 $labels['replyalldefault'] = 'одговори на сите ';
 $labels['replyalllist'] = 'Одговори само на мејлинг листа (ако е пронајдена)';
+$labels['allmessages'] = 'Сите пораки ';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Име на папката';

@@ -38,5 +38,6 @@ $messages['samepasswd'] = 'Uuden salasanan pitää olla eri kuin vanha salasana.
 $messages['passwdexpirewarning'] = 'Varoitus! Salasanasi vanhenee pian, vaihda se ennen $expirationdatetime.';
 $messages['passwdexpired'] = 'Salasanasi on vanhentunut ja se pitää vaihtaa nyt!';
 $messages['passwdconstraintviolation'] = 'Salasanan rajoitevirhe. Salasana on todennäköisesti liian heikko.';
+$messages['pwned_mustnotbedisclosed'] = 'Salasana ei saa olla <a href="$href" target="_blank">yleisesti tunnettu</a>.';
 $messages['pwned_isdisclosed'] = 'Salasana on yleisesti tunnettu.';
 $messages['pwned_fetcherror'] = 'Salasanan vahvuutta ei voitu varmistaa.';

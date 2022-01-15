@@ -483,6 +483,7 @@ $labels['inline'] = 'уткано';
 $labels['asattachment'] = 'као прилог';
 $labels['replyallmode'] = 'Подразумевана радња за дугме [Одговори свима]';
 $labels['replyalldefault'] = 'одговори свима';
+$labels['allmessages'] = 'све поруке';
 $labels['folder'] = 'Фасцикла';
 $labels['folders'] = 'Фасцикле';
 $labels['foldername'] = 'Назив фасцикле';

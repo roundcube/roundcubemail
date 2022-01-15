@@ -553,6 +553,7 @@ $labels['asattachment'] = 'als bijlage';
 $labels['replyallmode'] = 'Standaardactie van [Beantwoord iedereen]-knop';
 $labels['replyalldefault'] = 'iedereen beantwoorden';
 $labels['replyalllist'] = 'alleen maillijst beantwoorden (indien gevonden)';
+$labels['allmessages'] = 'alle berichten';
 $labels['folder'] = 'Map';
 $labels['folders'] = 'Mappen';
 $labels['foldername'] = 'Mapnaam';

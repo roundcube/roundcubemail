@@ -27,35 +27,13 @@ $config = [];
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
 $config['db_dsnw'] = 'mysql://roundcube:pass@localhost/roundcubemail';
 
-// The IMAP host chosen to perform the log-in.
-// Leave blank to show a textbox at login, give a list of hosts
-// to display a pulldown menu or set one host as string.
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
-// Supported replacement variables:
-// %n - hostname ($_SERVER['SERVER_NAME'])
-// %t - hostname without the first part
-// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
-// %s - domain name after the '@' from e-mail address provided at login screen
-// For example %n = mail.domain.tld, %t = domain.tld
-$config['default_host'] = 'localhost';
+// IMAP host chosen to perform the log-in.
+// See defaults.inc.php for the option description.
+$config['imap_host'] = 'localhost:143';
 
 // SMTP server host (for sending mails).
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
-// Supported replacement variables:
-// %h - user's IMAP hostname
-// %n - hostname ($_SERVER['SERVER_NAME'])
-// %t - hostname without the first part
-// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
-// %z - IMAP domain (IMAP hostname without the first part)
-// For example %n = mail.domain.tld, %t = domain.tld
-// To specify different SMTP servers for different IMAP hosts provide an array
-// of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
-$config['smtp_server'] = 'localhost';
-
-// SMTP port. Use 25 for cleartext, 465 for Implicit TLS, or 587 for STARTTLS (default)
-$config['smtp_port'] = 587;
+// See defaults.inc.php for the option description.
+$config['smtp_host'] = 'localhost:587';
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login

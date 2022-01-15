@@ -32,7 +32,7 @@ class rcmail_action_contacts_search_delete extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $id     = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_POST);
+        $id     = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_POST);
         $result = false;
 
         if (!empty($id)) {

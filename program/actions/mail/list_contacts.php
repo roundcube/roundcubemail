@@ -29,17 +29,17 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail        = rcmail::get_instance();
-        $source        = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $afields       = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
         $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $list_page     = max(1, isset($_GET['_page']) ? intval($_GET['_page']) : 0);
+        $list_page     = max(1, $_GET['_page'] ?? 0);
         $jsresult      = [];
 
         // Use search result
-        if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['search'][$_REQUEST['_search']];
-            $sparam  = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : [];
+        if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
+            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
+            $sparam  = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
             $mode    = (int) $rcmail->config->get('addressbook_search_mode');
             $records = [];
 
@@ -92,7 +92,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $CONTACTS->set_pagesize($page_size);
                 $CONTACTS->set_page($list_page);
 
-                if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GET)) {
+                if ($group_id = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GET)) {
                     $CONTACTS->set_group($group_id);
                 }
                 // list groups of this source (on page one)

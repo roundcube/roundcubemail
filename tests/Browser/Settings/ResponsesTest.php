@@ -48,6 +48,12 @@ class ResponsesTest extends \Tests\Browser\TestCase
      */
     public function testResponseCreate()
     {
+        \rcmail::get_instance()->get_dbh()->exec_script("
+            DELETE FROM responses;
+            INSERT INTO responses (user_id, name, data, is_html) VALUES (1, 'response 1', 'test response 1', '0');
+            INSERT INTO responses (user_id, name, data, is_html) VALUES (1, 'response 2', '<p><b>test response 2</b></p>', '1');
+        ");
+
         $this->browse(function ($browser) {
             $browser->go('settings', 'responses');
 
@@ -67,8 +73,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                             ->assertValue('input[name=_name]', '')
                             ->assertSeeIn('label[for=ffname]', 'Name')
                             ->assertVisible('textarea[name=_text]')
-                            ->assertValue('textarea[name=_text]', '')
-                            ->assertSeeIn('label[for=fftext]', 'Response Text');
+                            ->assertValue('textarea[name=_text]', '');
                     })
                     ->type('_name', 'Test')
                     ->type('_text', 'Response Body');
@@ -104,8 +109,8 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
             // Responses list
             $browser->with('#responses-table', function ($browser) {
-                $browser->assertElementsCount('tbody tr', 1)
-                    ->assertSeeIn('tbody tr:nth-child(1)', 'Test');
+                $browser->assertElementsCount('tbody tr', 3)
+                    ->assertSeeIn('tbody tr:nth-child(3)', 'Test');
             });
 
             if ($browser->isPhone()) {
@@ -147,7 +152,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
             });
 
             $browser->waitFor('#layout-list')
-                ->assertElementsCount('#responses-table tbody tr', 0);
+                ->assertElementsCount('#responses-table tbody tr', 2);
 
             // Toolbar menu (Delete button is inactive again)
             $browser->assertToolbarMenu(['create'], ['delete']);
@@ -163,14 +168,6 @@ class ResponsesTest extends \Tests\Browser\TestCase
      */
     public function testResponsesInComposer()
     {
-        // Quickly create a set of responses
-        $responses = [
-            ['name' => 'Test 1', 'text' => 'Response 1', 'format' => 'text', 'key' => substr(md5('Test 1'), 0, 16)],
-            ['name' => 'Test 2', 'text' => 'Response 2', 'format' => 'text', 'key' => substr(md5('Test 2'), 0, 16)],
-        ];
-
-        (new \rcube_user(1))->save_prefs(['compose_responses' => $responses]);
-
         $this->browse(function ($browser) {
             if ($browser->isPhone()) {
                 $browser->click('a.back-sidebar-button');
@@ -181,11 +178,11 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->waitFor('#compose-content')
                 ->clickToolbarMenuItem('responses')
                 ->with(new Popupmenu('responses-menu'), function ($browser) {
-                    $browser->assertMenuState(['create.responses', 'edit.responses'])
+                    $browser->assertMenuState(['edit.responses'])
                         ->with('#responseslist', function ($browser) {
                             $browser->assertElementsCount('li', 2)
-                                ->assertSeeIn('li:nth-child(1) a.insertresponse', 'Test 1')
-                                ->assertSeeIn('li:nth-child(2) a.insertresponse', 'Test 2');
+                                ->assertSeeIn('li:nth-child(1) a.insertresponse', 'response 1')
+                                ->assertSeeIn('li:nth-child(2) a.insertresponse', 'response 2');
                         })
                         ->closeMenu();
                 });
@@ -198,9 +195,9 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->waitUntilMissing('#responses-menu');
 
             $browser->waitUntilMissing('.popover-overlay')
-                ->assertValue('#composebody', 'Body and Response 1')
                 ->waitForMessage('confirmation', 'Response inserted successfully.')
-                ->closeMessage('confirmation');
+                ->closeMessage('confirmation')
+                ->assertValue('#composebody', 'Body and test response 1');
 
             // TODO: Test HTML mode, test response creation
         });
@@ -229,15 +226,15 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 });
 
             $browser->waitFor('#responses-table')
-                ->assertSeeIn('#responses-table tbody tr:first-child td', 'Test 1')
+                ->assertSeeIn('#responses-table tbody tr:first-child td', 'response 1')
                 ->click('#responses-table tbody tr:first-child')
                 ->waitFor('#preferences-frame');
 
             $browser->withinFrame('#preferences-frame', function($browser) {
                 $browser->waitFor('form')
                     ->with('form', function ($browser) {
-                        $browser->assertValue('[name=_name]', 'Test 1')
-                            ->assertValue('[name=_text]', 'Response 1')
+                        $browser->assertValue('[name=_name]', 'response 1')
+                            ->assertValue('[name=_text]', 'test response 1')
                             ->type('[name=_name]', 'Test 11')
                             ->type('[name=_text]', 'Response 11');
                     });

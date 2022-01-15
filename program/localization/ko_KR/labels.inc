@@ -574,6 +574,7 @@ $labels['asattachment'] = '첨부파일';
 $labels['replyallmode'] = '[전체 회신] 버튼의 기본 동작';
 $labels['replyalldefault'] = '전체 회신';
 $labels['replyalllist'] = '발송 목록에만 회신 (찾았을 경우)';
+$labels['allmessages'] = '모든 메시지';
 $labels['folder'] = '폴더';
 $labels['folders'] = '폴더';
 $labels['foldername'] = '폴더명';

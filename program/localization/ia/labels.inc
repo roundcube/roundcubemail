@@ -515,6 +515,7 @@ $labels['asattachment'] = 'como attachamento';
 $labels['replyallmode'] = 'Action predefinite del button [Responder a totes]';
 $labels['replyalldefault'] = 'responder a totes';
 $labels['replyalllist'] = 'responder solmente al lista de diffusion (si trovate)';
+$labels['allmessages'] = 'tote le messages';
 $labels['folder'] = 'Dossier';
 $labels['folders'] = 'Dossieres';
 $labels['foldername'] = 'Nomine de dossier';

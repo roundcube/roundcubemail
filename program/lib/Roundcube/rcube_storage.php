@@ -583,7 +583,8 @@ abstract class rcube_storage
     /**
      * Parse message UIDs input
      *
-     * @param mixed $uids UIDs array or comma-separated list or '*' or '1:*'
+     * @param mixed $uids Message UIDs as array or comma-separated string, or '*'
+     *                    or rcube_result_index object
      *
      * @return array Two elements array with UIDs converted to list and ALL flag
      */
@@ -591,7 +592,10 @@ abstract class rcube_storage
     {
         $all = false;
 
-        if ($uids === '*' || $uids === '1:*') {
+        if ($uids instanceof rcube_result_index) {
+            $uids = $uids->get_compressed();
+        }
+        else if ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
                 $all = true;
@@ -713,7 +717,7 @@ abstract class rcube_storage
     }
 
     /**
-     * Remove all messages in a folder..
+     * Remove all messages in a folder.
      *
      * @param string  $folder  Folder name
      *

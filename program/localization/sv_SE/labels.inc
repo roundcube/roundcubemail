@@ -574,6 +574,7 @@ $labels['asattachment'] = 'Bilaga';
 $labels['replyallmode'] = 'Standardfunktion för knappen Svara alla';
 $labels['replyalldefault'] = 'Svara alla';
 $labels['replyalllist'] = 'Svara endast lista (i förekommande fall)';
+$labels['allmessages'] = 'Filtrera alla meddelanden';
 $labels['folder'] = 'Mapp';
 $labels['folders'] = 'Mappar';
 $labels['foldername'] = 'Mappnamn';

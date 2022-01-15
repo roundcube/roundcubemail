@@ -98,7 +98,7 @@ class rcube_mime
             $input = implode(', ', $input);
         }
 
-        $a   = self::parse_address_list($input, $decode, $fallback);
+        $a   = self::parse_address_list((string) $input, $decode, $fallback);
         $out = [];
         $j   = 0;
 
@@ -341,8 +341,11 @@ class rcube_mime
                 $val = substr($val, strlen($tokens[0]));
             }
 
-            if (preg_match('/(.*)<('.$email_rx.')>$/', $val, $m)) {
-                $address = $m[2];
+            if (preg_match('/(.*)<('.$email_rx.')$/', $val, $m)) {
+                // Note: There are cases like "Test<test@domain.tld" with no closing bracket,
+                // therefor we do not include it in the regexp above, but we have to
+                // remove it later, because $email_rx will catch it (#8164)
+                $address = rtrim($m[2], '>');
                 $name    = trim($m[1]);
             }
             else if (preg_match('/^('.$email_rx.')$/', $val, $m)) {
@@ -491,7 +494,9 @@ class rcube_mime
                 // remove quote chars
                 $line = substr($line, $q);
                 // remove (optional) space-staffing
-                if ($line[0] === ' ') $line = substr($line, 1);
+                if (isset($line[0]) && $line[0] === ' ') {
+                    $line = substr($line, 1);
+                }
 
                 // The same paragraph (We join current line with the previous one) when:
                 // - the same level of quoting
@@ -815,7 +820,7 @@ class rcube_mime
 
         // return cached data
         if (is_array($mime_types)) {
-            return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
+            return $mimetype ? (isset($mime_types[$mimetype]) ? $mime_types[$mimetype] : []) : $mime_extensions;
         }
 
         // load mapping file
@@ -944,7 +949,7 @@ class rcube_mime
 
         foreach ($parts as $idx => $part) {
             // remove redundant quoting (#1490040)
-            if ($part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
+            if (isset($part[0]) && $part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
                 $parts[$idx] = $m[1];
             }
         }

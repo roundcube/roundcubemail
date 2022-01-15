@@ -195,6 +195,7 @@ if ($RCI->configured) {
                 'pear/mail_mime-decode',
                 'roundcube/net_sieve',
                 'endroid/qrcode',
+                'endroid/qr-code',
             ];
 
             foreach ($old_packages as $pkg) {

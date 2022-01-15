@@ -25,7 +25,9 @@ class Actions_Contacts_Qrcode extends ActionTestCase
         $this->assertSame(['HTTP/1.0 404 Contact not found'], $output->headers);
         $this->assertSame('', $result);
 
-        if (!function_exists('imagecreate')) {
+        $type = $action->check_support();
+
+        if (!$type) {
             $this->markTestSkipped();
         }
 
@@ -39,7 +41,15 @@ class Actions_Contacts_Qrcode extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('Content-Type: image/png', $output->headers[0]);
-        $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
+        if ($type == 'image/png') {
+            $this->assertSame('Content-Type: image/png', $output->headers[0]);
+            $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
+        }
+        else {
+            $this->assertSame('Content-Type: image/svg+xml', $output->headers[0]);
+            $this->assertMatchesRegularExpression('/^<\?xml/', $result);
+            $this->assertMatchesRegularExpression('/<svg /', $result);
+            $this->assertMatchesRegularExpression('/<rect /', $result);
+        }
     }
 }

@@ -75,11 +75,43 @@ CREATE TABLE identities (
     "reply-to" varchar(128),
     bcc varchar(128),
     signature text,
-    html_signature integer DEFAULT 0 NOT NULL
+    html_signature smallint DEFAULT 0 NOT NULL
 );
 
 CREATE INDEX identities_user_id_idx ON identities (user_id, del);
 CREATE INDEX identities_email_idx ON identities (email, del);
+
+
+--
+-- Sequence "responses_seq"
+-- Name: responses_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE responses_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+--
+-- Table "responses"
+-- Name: responses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE responses (
+    response_id integer DEFAULT nextval('responses_seq'::text) PRIMARY KEY,
+    user_id integer NOT NULL
+        REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    del smallint DEFAULT 0 NOT NULL,
+    name varchar(255) NOT NULL,
+    data text NOT NULL,
+    is_html smallint DEFAULT 0 NOT NULL
+);
+
+CREATE INDEX responses_user_id_idx ON responses (user_id, del);
+
 
 --
 -- Sequence "collected_addresses_seq"
@@ -343,4 +375,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2020122900');
+INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2021100300');

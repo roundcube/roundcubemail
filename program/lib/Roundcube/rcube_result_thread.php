@@ -288,7 +288,7 @@ class rcube_result_thread
         ]);
 
         if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
-            $get_index ? PREG_OFFSET_CAPTURE : null)
+            $get_index ? PREG_OFFSET_CAPTURE : 0)
         ) {
             if ($get_index) {
                 $idx = 0;
@@ -408,7 +408,7 @@ class rcube_result_thread
         // Finally use less effective method
         $data = $this->get();
 
-        return isset($data[$index]) ? $data[$index] : null;
+        return $data[$index] ?? null;
     }
 
     /**

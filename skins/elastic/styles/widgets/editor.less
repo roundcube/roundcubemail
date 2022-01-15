@@ -78,8 +78,18 @@ div.tox {
         overflow: unset;
     }
 
+    .tox-dialog__content-js {
+        overflow: auto;
+    }
+
     .tox-dialog-wrap__backdrop {
         background-color: @color-dialog-overlay-background;
+    }
+
+    .tox-menu,
+    .tox-dialog__body-nav,
+    .tox-collection__group {
+        scrollbar-width: @scrollbar-width;
     }
 
     .tox-dialog__header {
@@ -450,6 +460,11 @@ div.tox {
                 margin: 0;
                 width: 34px;
                 line-height: 28px;
+            }
+
+            &[disabled] {
+                opacity: .7;
+                cursor: not-allowed;
             }
         }
     }

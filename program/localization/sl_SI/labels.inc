@@ -553,6 +553,7 @@ $labels['asattachment'] = 'Kot priponka';
 $labels['replyallmode'] = 'Privzete možnosti gumba [Odgovori vsem]';
 $labels['replyalldefault'] = 'odgovori vsem';
 $labels['replyalllist'] = 'odgovori na dopisni seznam (če ta obstaja)';
+$labels['allmessages'] = 'pogoj velja za vsa sporočila';
 $labels['folder'] = 'Mapa';
 $labels['folders'] = 'Mape';
 $labels['foldername'] = 'Ime mape';

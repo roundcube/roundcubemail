@@ -18,6 +18,8 @@ class Actions_Settings_Responses extends ActionTestCase
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
+        self::initDB('responses');
+
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
@@ -25,39 +27,8 @@ class Actions_Settings_Responses extends ActionTestCase
         $this->assertSame('responses', $output->template);
         $this->assertSame('Responses', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, "<table ") !== false);
         $this->assertMatchesRegularExpression('/list(.min)?.js/', $result);
-    }
-
-    /**
-     * Test inserting a response
-     */
-    function test_run_insert()
-    {
-        $action = new rcmail_action_settings_responses;
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'responses');
-
-        $rcmail = rcmail::get_instance();
-        $rcmail->user->save_prefs(['compose_responses' => []]);
-
-        $_POST = [
-            '_insert' => 1,
-            '_name' => 'insert',
-            '_text' => 'insert-text',
-        ];
-
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
-
-        $result = $output->getOutput();
-
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully saved.","confirmation");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.add_response_item({') !== false);
-
-        $responses = $rcmail->get_compose_responses();
-
-        $this->assertCount(1, $responses);
-        $this->assertSame('insert', $responses[0]['name']);
-        $this->assertSame('insert-text', $responses[0]['text']);
     }
 
     /**
@@ -66,13 +37,23 @@ class Actions_Settings_Responses extends ActionTestCase
     function test_responses_list()
     {
         $rcmail = rcmail::get_instance();
-        $rcmail->user->save_prefs(['compose_responses' => []]);
+        $rcmail->user->save_prefs([
+            'compose_responses_static' => [
+                ['name' => 'static 1', 'text' => 'Static Response One'],
+            ]
+        ]);
+
+        self::initDB('responses');
 
         $action = new rcmail_action_settings_responses;
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
 
         $result = $action->responses_list([]);
-        $expected = '<table id="rcmresponseslist"><thead><tr><th class="name">Display Name</th></tr></thead><tbody></tbody></table>';
+        $expected = '<table id="rcmresponseslist"><thead><tr><th class="name">Display Name</th></tr></thead><tbody>'
+            . '<tr id="rcmrowstatic-95b793e15a90ad8b"><td class="name">static 1</td></tr>'
+            . '<tr id="rcmrow1"><td class="name">response 1</td></tr>'
+            . '<tr id="rcmrow2"><td class="name">response 2</td></tr>'
+            . '</tbody></table>';
 
         $this->assertSame($expected, $result);
     }

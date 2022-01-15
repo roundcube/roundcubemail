@@ -124,21 +124,29 @@ class Rcmail_Rcmail extends ActionTestCase
     function test_url()
     {
         $rcmail = rcmail::get_instance();
+
         $this->assertEquals(
             './?_task=cli&_action=test',
             $rcmail->url('test'),
             "Action only"
         );
+
         $this->assertEquals(
             './?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
             "Unprefixed parameters"
         );
+
         $this->assertEquals(
             './?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             "Prefixed parameters (skip empty)"
         );
+
+        $this->assertEquals('./?_task=cli', $rcmail->url([]), "Empty input");
+        $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
+        $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+
         $this->assertEquals(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
@@ -158,6 +166,7 @@ class Rcmail_Rcmail extends ActionTestCase
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
+
         $_SERVER['SCRIPT_NAME'] = '';
         $this->assertEquals(
             '/?_task=cli&_action=test&_mode=ABS',
@@ -234,6 +243,17 @@ class Rcmail_Rcmail extends ActionTestCase
         $date = $rcmail->format_date(date('Y-m-d H:i:s'));
         $this->assertSame('Today ' . date('H:i'), $date);
 
-        // TODO: Test more cases
+        // Test various formats
+        setlocale(LC_ALL, 'en_US');
+        $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
+
+        $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
+        $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date, 'Y-m-d H:i'));
+        $this->assertSame(' Mon', $rcmail->format_date($date, ' D'));
+        $this->assertSame('D Monday', $rcmail->format_date($date, '\\D l'));
+        $this->assertSame('Jun June', $rcmail->format_date($date, 'M F'));
+        $this->assertSame('6/1/20, 12:20 PM', $rcmail->format_date($date, 'x'));
+        $this->assertSame('1591014030', $rcmail->format_date($date, 'U'));
+        $this->assertSame('2020-06-01T12:20:30+00:00', $rcmail->format_date($date, 'c'));
     }
 }

@@ -24,19 +24,22 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell, enchant
           tools: composer:v2
           coverage: none
 
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
+      - name: Install Aspell/Hunspell
+        run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
+
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
 
-      - name: Fix PHPUnit for PHP8.1
+      - name: Fix PHPUnit for PHP 8.1
         run: composer config platform.php 8.0
         if: matrix.php >= 8.1
 
@@ -48,3 +51,10 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: logs/errors.log

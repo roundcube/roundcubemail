@@ -79,7 +79,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->list_skins();
 
-        $this->assertSame(['classic', 'elastic', 'larry'], $result);
+        $this->assertContains('elastic', $result);
     }
 
     /**

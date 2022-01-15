@@ -175,8 +175,7 @@ $select_spell->add('ATD', 'atd');
 echo $select_spell->show($RCI->is_post ? $_POST['_spellcheck_engine'] : 'pspell');
 ?>
 
-<label for="cfgspellcheckengine">Which spell checker to use</label><br />
-
+<div>Which spell checker to use</div>
 <p class="hint">Googie implies that the message content will be sent to external server to check the spelling.</p>
 </dd>
 
@@ -246,15 +245,19 @@ echo $input_syslogid->show($RCI->getprop('syslog_id', 'roundcube'));
 
 $input_syslogfacility = new html_select(['name' => '_syslog_facility', 'id' => 'cfgsyslogfacility']);
 $input_syslogfacility->add('user-level messages', LOG_USER);
-$input_syslogfacility->add('mail subsystem', LOG_MAIL);
-$input_syslogfacility->add('local level 0', LOG_LOCAL0);
-$input_syslogfacility->add('local level 1', LOG_LOCAL1);
-$input_syslogfacility->add('local level 2', LOG_LOCAL2);
-$input_syslogfacility->add('local level 3', LOG_LOCAL3);
-$input_syslogfacility->add('local level 4', LOG_LOCAL4);
-$input_syslogfacility->add('local level 5', LOG_LOCAL5);
-$input_syslogfacility->add('local level 6', LOG_LOCAL6);
-$input_syslogfacility->add('local level 7', LOG_LOCAL7);
+if (defined('LOG_MAIL')) {
+    $input_syslogfacility->add('mail subsystem', LOG_MAIL);
+}
+if (defined('LOG_LOCAL0')) {
+    $input_syslogfacility->add('local level 0', LOG_LOCAL0);
+    $input_syslogfacility->add('local level 1', LOG_LOCAL1);
+    $input_syslogfacility->add('local level 2', LOG_LOCAL2);
+    $input_syslogfacility->add('local level 3', LOG_LOCAL3);
+    $input_syslogfacility->add('local level 4', LOG_LOCAL4);
+    $input_syslogfacility->add('local level 5', LOG_LOCAL5);
+    $input_syslogfacility->add('local level 6', LOG_LOCAL6);
+    $input_syslogfacility->add('local level 7', LOG_LOCAL7);
+}
 echo $input_syslogfacility->show($RCI->getprop('syslog_facility'), LOG_USER);
 
 ?>
@@ -318,13 +321,12 @@ echo $input_prefix->show($RCI->getprop('db_prefix'));
 <fieldset>
 <legend>IMAP Settings</legend>
 <dl class="configblock" id="cgfblockimap">
-<dt class="propname">default_host</dt>
+<dt class="propname">imap_host</dt>
 <dd>
-<div>The IMAP host(s) chosen to perform the log-in</div>
 <div id="defaulthostlist">
 <?php
 
-$text_imaphost = new html_inputfield(['name' => '_default_host[]', 'size' => 30]);
+$text_imaphost = new html_inputfield(['name' => '_imap_host[]', 'size' => 30]);
 $default_hosts = $RCI->get_hostlist();
 
 if (empty($default_hosts)) {
@@ -344,18 +346,8 @@ foreach ($default_hosts as $host) {
 </div>
 <div><a href="javascript:addhostfield()" class="addlink" title="Add another field">add</a></div>
 
-<p class="hint">Leave blank to show a textbox at login. To use SSL/IMAPS connection, type ssl://hostname</p>
-</dd>
-
-<dt class="propname">default_port</dt>
-<dd>
-<?php
-
-$text_imapport = new html_inputfield(['name' => '_default_port', 'size' => 6, 'id' => 'cfgimapport']);
-echo $text_imapport->show($RCI->getprop('default_port'));
-
-?>
-<div>TCP port used for IMAP connections</div>
+<div>The IMAP host(s) chosen to perform the log-in</div>
+<p class="hint">Leave blank to show a textbox at login. To use SSL/STARTTLS connection add ssl:// or tls:// prefix. It can also contain the port number, e.g. tls://imap.domain.tld:143.
 </dd>
 
 <dt class="propname">username_domain</dt>
@@ -447,28 +439,16 @@ echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
 <fieldset>
 <legend>SMTP Settings</legend>
 <dl class="configblock" id="cgfblocksmtp">
-<dt class="propname">smtp_server</dt>
+<dt class="propname">smtp_host</dt>
 <dd>
 <?php
 
-$text_smtphost = new html_inputfield(['name' => '_smtp_server', 'size' => 30, 'id' => 'cfgsmtphost']);
-echo $text_smtphost->show($RCI->getprop('smtp_server', 'localhost'));
+$text_smtphost = new html_inputfield(['name' => '_smtp_host', 'size' => 30, 'id' => 'cfgsmtphost']);
+echo $text_smtphost->show($RCI->getprop('smtp_host', 'localhost:587'));
 
 ?>
 <div>Use this host for sending mails</div>
-
-<p class="hint">To use SSL connection, set ssl://smtp.host.com.</p>
-</dd>
-
-<dt class="propname">smtp_port</dt>
-<dd>
-<?php
-
-$text_smtpport = new html_inputfield(['name' => '_smtp_port', 'size' => 6, 'id' => 'cfgsmtpport']);
-echo $text_smtpport->show($RCI->getprop('smtp_port'));
-
-?>
-<div>SMTP port (default is 587)</div>
+<p class="hint">To use SSL/STARTTLS connection add ssl:// or tls:// prefix. It can also contain the port number, e.g. tls://smtp.domain.tld:587.</p>
 </dd>
 
 <dt class="propname">smtp_user/smtp_pass</dt>

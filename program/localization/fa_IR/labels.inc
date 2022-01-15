@@ -508,6 +508,7 @@ $labels['asattachment'] = 'به عنوان پیوست';
 $labels['replyallmode'] = 'عمل پیش‌فرض برای دکمه [پاسخ به همه]';
 $labels['replyalldefault'] = 'پاسخ به همه';
 $labels['replyalllist'] = 'پاسخ به فقط لیست پستی (در صورت یافتن)';
+$labels['allmessages'] = 'همه پیام ها';
 $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه‌ها';
 $labels['foldername'] = 'نام پوشه';

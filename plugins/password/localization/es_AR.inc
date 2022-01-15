@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'La nueva contraseña debe ser diferente de la anterio
 $messages['passwdexpirewarning'] = '¡Advertencia! Tu contraseña vencerá pronto, cambiala antes del $expirationdatetime.';
 $messages['passwdexpired'] = 'Tu contraseña expiró. ¡Tenés que cambiarla ahora!';
 $messages['passwdconstraintviolation'] = 'Violación de restricción de contraseña. Probablemente tu contraseña es demasiado débil.';
+$messages['pwned_mustnotbedisclosed'] = 'La constraseña no debe ser <a href="$href" target="_blank">comúnmente conocida</a>.';
+$messages['pwned_isdisclosed'] = 'La contraseña es comúnmente conocida.';
+$messages['pwned_fetcherror'] = 'No se pudo verificar la seguridad de la contraseña.';

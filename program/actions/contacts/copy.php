@@ -32,8 +32,8 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
 
         $cids         = self::get_cids();
-        $target       = rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST);
-        $target_group = rcube_utils::get_input_value('_togid', rcube_utils::INPUT_POST);
+        $target       = rcube_utils::get_input_string('_to', rcube_utils::INPUT_POST);
+        $target_group = rcube_utils::get_input_string('_togid', rcube_utils::INPUT_POST);
 
         $success  = 0;
         $errormsg = 'copyerror';

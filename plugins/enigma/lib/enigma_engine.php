@@ -145,7 +145,7 @@ class enigma_engine
 
         // check if we have password for this key
         $passwords = $this->get_passwords();
-        $pass      = isset($passwords[$key->id]) ? $passwords[$key->id] : null;
+        $pass      = $passwords[$key->id] ?? null;
 
         if ($pass === null && !$this->rc->config->get('enigma_passwordless')) {
             // ask for password
@@ -252,7 +252,7 @@ class enigma_engine
 
             // check if we have password for this key
             $passwords = $this->get_passwords();
-            $sign_pass = isset($passwords[$sign_key->id]) ? $passwords[$sign_key->id] : null;
+            $sign_pass = $passwords[$sign_key->id] ?? null;
 
             if ($sign_pass === null && !$this->rc->config->get('enigma_passwordless')) {
                 // ask for password
@@ -344,7 +344,7 @@ class enigma_engine
     {
         $headers = $message->headers();
         $from    = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
-        $from    = isset($from[1]) ? $from[1] : null;
+        $from    = $from[1] ?? null;
 
         // find my key
         if ($from && ($key = $this->find_key($from, true))) {
@@ -1155,10 +1155,10 @@ class enigma_engine
      */
     function password_handler()
     {
-        $keyid  = rcube_utils::get_input_value('_keyid', rcube_utils::INPUT_POST);
-        $passwd = rcube_utils::get_input_value('_passwd', rcube_utils::INPUT_POST, true);
+        $keyid  = rcube_utils::get_input_string('_keyid', rcube_utils::INPUT_POST);
+        $passwd = rcube_utils::get_input_string('_passwd', rcube_utils::INPUT_POST, true);
 
-        if ($keyid && is_string($passwd) && strlen($passwd)) {
+        if ($keyid && strlen($passwd)) {
             $this->save_password(strtoupper($keyid), $passwd);
         }
     }

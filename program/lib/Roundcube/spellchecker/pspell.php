@@ -73,7 +73,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
                 return;
             }
 
-            $this->plink = pspell_new($this->lang, null, null, RCUBE_CHARSET, PSPELL_FAST);
+            $this->plink = pspell_new($this->lang, '', '', RCUBE_CHARSET, PSPELL_FAST);
         }
 
         if (!$this->plink) {
@@ -95,7 +95,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
         }
 
         // tokenize
-        $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
+        $text = preg_split($this->separator, $text, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
         $diff    = 0;
         $matches = [];
@@ -164,7 +164,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             }
 
             // With PSpell we don't need to get suggestions to return misspelled words
-            $text = preg_split($this->separator, $text, NULL, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
+            $text = preg_split($this->separator, $text, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
 
             foreach ($text as $w) {
                 $word = trim($w[0]);

@@ -32,7 +32,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
         $rcmail       = rcmail::get_instance();
         $storage      = $rcmail->get_storage();
         $delimiter    = $storage->get_hierarchy_delimiter();
-        $mbox         = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+        $mbox         = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
         $trash_mbox   = $rcmail->config->get('trash_mbox');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
 

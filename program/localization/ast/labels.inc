@@ -463,6 +463,7 @@ $labels['asattachment'] = 'como axuntu';
 $labels['replyallmode'] = 'Aición por defeutu del botón [Responder too]';
 $labels['replyalldefault'] = 'responder a toos';
 $labels['replyalllist'] = 'responder namái a la llista de Corréu (si s\'alcuentra)';
+$labels['allmessages'] = 'tolos mensaxes';
 $labels['folder'] = 'Carpeta';
 $labels['folders'] = 'Carpetes';
 $labels['foldername'] = 'Nome de carpeta';

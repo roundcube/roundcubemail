@@ -41,8 +41,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         // clear all stored output properties (like scripts and env vars)
         $rcmail->output->reset();
 
-        $uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GPC);
-        $uri      = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_POST);
+        $uploadid = rcube_utils::get_input_string('_uploadid', rcube_utils::INPUT_GPC);
+        $uri      = rcube_utils::get_input_string('_uri', rcube_utils::INPUT_POST);
 
         // handle dropping a reference to an attachment part of some message
         if ($uri) {
@@ -166,7 +166,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
     public static function init()
     {
-        self::$COMPOSE_ID  = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+        self::$COMPOSE_ID  = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
         self::$COMPOSE     = null;
         self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
 
@@ -178,7 +178,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             die("Invalid session var!");
         }
 
-        self::$file_id = rcube_utils::get_input_value('_file', rcube_utils::INPUT_GPC);
+        self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);
         self::$file_id = preg_replace('/^rcmfile/', '', self::$file_id) ?: 'unknown';
     }
 
