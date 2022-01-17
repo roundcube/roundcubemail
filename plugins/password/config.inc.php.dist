@@ -163,6 +163,8 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
+// When 'ldap_simple' driver is used, URI syntax (i.e. 'ldapi:///') is supported,
+// 'password_ldap_port' is ignored when URI is used.
 // Example: ['ldap1.example.com', 'ldap2.example.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
