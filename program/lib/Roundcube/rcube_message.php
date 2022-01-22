@@ -615,7 +615,8 @@ class rcube_message
 
                 // For small text messages we can optimize, so an additional FETCH is not needed
                 if ($structure->size < 32768 && count($structure->parts) == 1 && $structure->parts[0]->ctype_primary == 'text') {
-                    $structure->parts[0]->body = $body;
+                    $encoding = $structure->headers['content-transfer-encoding'] ?? '7bit';
+                    $structure->parts[0]->body = rcube_mime::decode($body, $encoding);
                 }
             }
         }
