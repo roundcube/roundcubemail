@@ -42,6 +42,7 @@
 - Display telephone numbers as tel: links (#8240)
 - Elastic: Move scrollbar settings to variables (#8352)
 - Elastic: Use thin scrollbars in both light and dark mode
+- Elastic: Make the scrollbar color lighter in dark mode (#8345)
 - Autologout: A new plugin to auto log out users with a POST request (#8270)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Identicon: Make background color of the image to match the current skin colors (#8256)
