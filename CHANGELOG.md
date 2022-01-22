@@ -4,6 +4,7 @@
 
 - Fix various PHP8 warnings (#8392)
 - Fix mail headers injection via the subject field on mail compose (#8404)
+- Fix bug where small message/rfc822 parts could not be decoded (#8408)
 
 ## Release 1.5.2
 
