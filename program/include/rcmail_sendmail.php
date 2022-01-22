@@ -177,6 +177,9 @@ class rcmail_sendmail
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
+        // Don't allow CRLF in subject (#8404)
+        $subject = trim(preg_replace('|\r?\n|', ' ', $subject));
+
         $this->options['dsn_enabled'] = $dsn_enabled;
         $this->options['from']        = $from;
         $this->options['mailto']      = $mailto;
@@ -189,7 +192,7 @@ class rcmail_sendmail
             'To'               => $mailto,
             'Cc'               => $mailcc,
             'Bcc'              => $mailbcc,
-            'Subject'          => trim($subject),
+            'Subject'          => $subject,
             'Reply-To'         => $this->email_input_format($replyto),
             'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),

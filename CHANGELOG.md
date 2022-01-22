@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix various PHP8 warnings (#8392)
+- Fix mail headers injection via the subject field on mail compose (#8404)
 
 ## Release 1.5.2
 
