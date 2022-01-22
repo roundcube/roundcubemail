@@ -395,8 +395,9 @@ class rcube_message
                         return true;
                     }
 
-                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
-                    $last      = !empty($parent->real_mimetype) ? $parent->real_mimetype : $parent->mimetype;
+                    $isCompound = $last == 'multipart/alternative' || $last == 'multipart/related';
+                    $max_delta  = $depth - ($isCompound ? 2 : 1);
+                    $last       = !empty($parent->real_mimetype) ? $parent->real_mimetype : $parent->mimetype;
 
                     if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
                         || ($last == 'multipart/mixed' && $parent_depth < $max_delta)
