@@ -1496,7 +1496,7 @@ class rcube
             $arg_arr['message'],
             !empty($arg_arr['file']) ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
             $_SERVER['REQUEST_METHOD'],
-            $uri
+            strip_tags($uri)
         );
 
         if (!self::write_log('errors', $log_entry)) {
