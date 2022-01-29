@@ -361,8 +361,8 @@ class rcube_plugin_api
                     list($info['vendor'], $info['name']) = explode('/', $json['name'], 2);
                 }
 
-                $info['version'] = $json['version'];
-                $info['license'] = $json['license'];
+                $info['version'] = isset($json['version']) ? $json['version'] : null;
+                $info['license'] = isset($json['license']) ? $json['license'] : null;
                 $info['require'] = $require;
 
                 if (!empty($json['homepage'])) {
