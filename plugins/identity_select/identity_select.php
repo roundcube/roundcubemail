@@ -38,7 +38,14 @@ class identity_select extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         if ($add_headers = (array) $rcmail->config->get('identity_select_headers', [])) {
-            $p['fetch_headers'] = trim($p['fetch_headers'] . ' ' . strtoupper(join(' ', $add_headers)));
+            $add_headers = strtoupper(join(' ', $add_headers));
+
+            if (isset($p['fetch_headers'])) {
+                $p['fetch_headers'] .= ' ' . $add_headers;
+            }
+            else {
+                $p['fetch_headers'] = $add_headers;
+            }
         }
 
         return $p;
