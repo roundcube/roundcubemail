@@ -2086,17 +2086,8 @@ class rcube_imap extends rcube_storage
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
                     }
-                    else if (!empty($part[$i][2]) && empty($part[$i][3])) {
-                        $params = array_map('strtolower', (array) $part[$i][2]);
-                        $find   = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
-
-                        // In case of malformed header check disposition. E.g. some servers for
-                        // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
-                        if (count(array_intersect($params, $find)) > 0
-                            || (isset($part[$i][9]) && is_array($part[$i][9]) && stripos($part[$i][9][0], 'attachment') === 0)
-                        ) {
-                            $mime_part_headers[] = $tmp_part_id;
-                        }
+                    else if ($this->is_attachment_part($part[$i])) {
+                        $mime_part_headers[] = $tmp_part_id;
                     }
                 }
             }
@@ -2201,12 +2192,33 @@ class rcube_imap extends rcube_storage
         // get message/rfc822's child-parts
         if (isset($part[8]) && is_array($part[8]) && $di != 8) {
             $struct->parts = [];
-            for ($i=0, $count=0; $i<count($part[8]); $i++) {
+
+            for ($i=0; $i<count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
                     break;
                 }
-                $struct->parts[] = $this->structure_part($part[8][$i], ++$count, $struct->mime_id);
+
+                $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i+1) : $i+1;
+
+                if ($this->is_attachment_part($part[8][$i])) {
+                    $mime_part_headers[] = $subpart_id;
+                }
+
+                $struct->parts[$subpart_id] = $part[8][$i];
             }
+
+            // Fetch attachment parts' headers in one go
+            if (!empty($mime_part_headers)) {
+                $mime_part_headers = $this->conn->fetchMIMEHeaders($this->folder, $this->msg_uid, $mime_part_headers);
+            }
+
+            $count = 0;
+            foreach ($struct->parts as $idx => $subpart) {
+                $struct->parts[$idx] = $this->structure_part($subpart, ++$count, $struct->mime_id,
+                    !empty($mime_part_headers[$idx]) ? $mime_part_headers[$idx] : null);
+            }
+
+            $struct->parts = array_values($struct->parts);
         }
 
         // get part ID
@@ -2224,8 +2236,7 @@ class rcube_imap extends rcube_storage
             || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
         ) {
             if (empty($mime_headers)) {
-                $mime_headers = $this->conn->fetchPartHeader(
-                    $this->folder, $this->msg_uid, true, $struct->mime_id);
+                $mime_headers = $this->conn->fetchPartHeader($this->folder, $this->msg_uid, true, $struct->mime_id);
             }
 
             if (is_string($mime_headers)) {
@@ -2266,6 +2277,25 @@ class rcube_imap extends rcube_storage
     }
 
     /**
+     * Check if the mail structure part is an attachment part and requires
+     * fetching the MIME headers for further processing.
+     */
+    protected function is_attachment_part($part)
+    {
+        if (is_array($part[2]) && !empty($part[2]) && empty($part[3])) {
+            $params = array_map('strtolower', (array) $part[2]);
+            $find   = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
+
+            // In case of malformed header check disposition. E.g. some servers for
+            // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
+            return count(array_intersect($params, $find)) > 0
+                || (isset($part[9]) && is_array($part[9]) && stripos($part[9][0], 'attachment') === 0);
+        }
+
+        return false;
+    }
+
+    /**
      * Set attachment filename from message part structure
      *
      * @param rcube_message_part $part    Part object
@@ -2303,6 +2333,12 @@ class rcube_imap extends rcube_storage
         else if (isset($rfc2231_params['filename'])) {
             $filename_encoded = $rfc2231_params['filename'];
         }
+        else if (isset($part->d_parameters['filename*'])) {
+            $filename_encoded = $part->d_parameters['filename*'];
+        }
+        else if (isset($part->ctype_parameters['name*'])) {
+            $filename_encoded = $part->ctype_parameters['name*'];
+        }
         else if (!empty($part->d_parameters['filename'])) {
             $filename_mime = $part->d_parameters['filename'];
         }
@@ -2310,7 +2346,6 @@ class rcube_imap extends rcube_storage
         else if (!empty($part->ctype_parameters['name'])) {
             $filename_mime = $part->ctype_parameters['name'];
         }
-        // Content-Disposition
         else if (!empty($part->headers['content-description'])) {
             $filename_mime = $part->headers['content-description'];
         }
