@@ -373,19 +373,18 @@ class rcube_message
                     continue;
                 }
 
+                // The HTML body part extracted from a winmail.dat attachment part
+                if (strpos($part->mime_id, 'winmail.') === 0) {
+                    return true;
+                }
+
                 $level = explode('.', $part->mime_id);
                 $depth = count($level);
                 $last  = '';
 
-                // Check if the part belongs to higher-level's multipart part
-                // this can be alternative/related/signed/encrypted or mixed
+                // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
-                    $parent_depth = count($level);
-                    if (!$parent_depth) {
-                        return true;
-                    }
-
-                    if (empty($this->mime_parts[implode('.', $level)])) {
+                    if (!count($level)) {
                         return true;
                     }
 
@@ -395,18 +394,7 @@ class rcube_message
                         return true;
                     }
 
-                    $isCompound = $last == 'multipart/alternative' || $last == 'multipart/related';
-                    $max_delta  = $depth - ($isCompound ? 2 : 1);
-                    $last       = !empty($parent->real_mimetype) ? $parent->real_mimetype : $parent->mimetype;
-
-                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
-                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)
-                    ) {
-                        // The HTML body part extracted from a winmail.dat attachment part
-                        if (strpos($part->mime_id, 'winmail.') === 0) {
-                            return true;
-                        }
-
+                    if ($parent->mimetype == 'message/rfc822') {
                         continue 2;
                     }
                 }
@@ -448,7 +436,7 @@ class rcube_message
 
                 $level = explode('.', $part->mime_id);
 
-                // Check if the part belongs to higher-level's alternative/related
+                // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
                     if (!count($level)) {
                         return true;
@@ -460,7 +448,7 @@ class rcube_message
                         return true;
                     }
 
-                    if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                    if ($parent->mimetype == 'message/rfc822') {
                         continue 2;
                     }
                 }
