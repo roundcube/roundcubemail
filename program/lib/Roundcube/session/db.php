@@ -174,7 +174,7 @@ class rcube_session_db extends rcube_session
     public function update($key, $newvars, $oldvars)
     {
         $now = $this->db->now();
-        $ts  = microtime(true);
+        $ts  = time() - $this->time_diff;
 
         // if new and old data are not the same, update data
         // else update expire timestamp only when certain conditions are met
@@ -183,7 +183,7 @@ class rcube_session_db extends rcube_session
                 . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
         }
-        else if ($ts - $this->changed + $this->time_diff > $this->lifetime / 2) {
+        else if ($ts - $this->changed > $this->lifetime / 2) {
             $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
                 . " WHERE `sess_id` = ?", $key);
         }
