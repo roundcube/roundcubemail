@@ -63,6 +63,7 @@
 - Fix bug where small message/rfc822 parts could not be decoded (#8408)
 - Fix setting HTML mode on reply/forward of a signed message (#8405)
 - Fix handling of RFC2231-encoded attachment names inside of a message/rfc822 part (#8418)
+- Fix bug where some mail parts (images) could have not be listed as attachments (#8425)
 
 ## Release 1.5.2
 
