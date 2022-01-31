@@ -980,7 +980,7 @@ class rcube_message
                         // MS Outlook sends sometimes non-related attachments as related
                         // In this case multipart/related message has only one text part
                         // We'll add all such attachments to the attachments list
-                        if (!isset($this->got_html_part)) {
+                        if ($this->got_html_part === false) {
                             $this->add_part($inline_object, 'attachment');
                         }
                         // MS Outlook sometimes also adds non-image attachments as related
