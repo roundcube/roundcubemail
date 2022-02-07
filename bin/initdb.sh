@@ -25,6 +25,7 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 // get arguments
 $opts = rcube_utils::get_opt([
     'd' => 'dir',
+    'u' => 'update'
 ]);
 
 if (empty($opts['dir'])) {
@@ -36,4 +37,11 @@ if (!file_exists($opts['dir'])) {
     rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
 }
 
-rcmail_utils::db_init($opts['dir']);
+$db = rcmail_utils::db();
+
+if (!empty($opts['update']) && in_array($db->table_name('system'), (array)$db->list_tables())) {
+    echo "Checking for database schema updates..." . PHP_EOL;
+    rcmail_utils::db_update($opts['dir'], 'roundcube', null, ['errors' => true]);
+} else {
+    rcmail_utils::db_init($opts['dir']);
+}
