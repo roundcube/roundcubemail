@@ -175,7 +175,7 @@ class rcube_tnef_decoder
             ) {
                 try {
                     $document  = new RtfHtmlPhp\Document($message['stream']);
-                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
+                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(/*JFK fix for #8444: RCUBE_CHARSET*/);
                     $message   = $formatter->format($document);
                 }
                 catch (Exception $e) {
