@@ -87,9 +87,9 @@ class rcube_result_multifolder
     /**
      * Store a global index of (sorted) message UIDs
      *
-     * @param 
-     * @param string $sort_field Header field to sort by
-     * @param string $sort_order Sort order
+     * @param rcube_message_header[] $headers    Messages in the index
+     * @param string                 $sort_field Header field to sort by
+     * @param string                 $sort_order Sort order
      */
     public function set_message_index($headers, $sort_field, $sort_order)
     {
@@ -290,7 +290,7 @@ class rcube_result_multifolder
      *
      * @param string $folder Folder name
      *
-     * @return false|rcube_result_* instance of false if none found
+     * @return false|rcube_result_index|rcube_result_thread A result set or false if none found
      */
     public function get_set($folder)
     {

@@ -1483,10 +1483,10 @@ class rcube_imap extends rcube_storage
      * Return sorted list of message UIDs ignoring current search settings.
      * Doesn't uses cache by default.
      *
-     * @param string         $folder     Folder to get index from
-     * @param string         $sort_field Sort column
-     * @param string         $sort_order Sort order [ASC, DESC]
-     * @param rcube_result_* $search     Optional messages set to limit the result
+     * @param string             $folder     Folder to get index from
+     * @param string             $sort_field Sort column
+     * @param string             $sort_order Sort order [ASC, DESC]
+     * @param rcube_result_index $search     Optional messages set to limit the result
      *
      * @return rcube_result_index Sorted list of message UIDs
      */

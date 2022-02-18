@@ -139,7 +139,7 @@ class rcube_html2text
      * used in conjunction with $replace.
      *
      * @var array $search
-     * @see $replace
+     * @see self::$replace
      */
     protected $search = [
         '/\r/',                                  // Non-legal carriage return
@@ -168,7 +168,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched.
      *
      * @var array $replace
-     * @see $search
+     * @see self::$search
      */
     protected $replace = [
         '',                                     // Non-legal carriage return
@@ -198,7 +198,7 @@ class rcube_html2text
      * used in conjunction with $ent_replace.
      *
      * @var array $ent_search
-     * @see $ent_replace
+     * @see self::$ent_replace
      */
     protected $ent_search = [
         '/&(nbsp|#160);/i',                      // Non-breaking space
@@ -222,7 +222,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched.
      *
      * @var array $ent_replace
-     * @see $ent_search
+     * @see self::$ent_search
      */
     protected $ent_replace = [
         "\xC2\xA0",                             // Non-breaking space
@@ -259,7 +259,7 @@ class rcube_html2text
      * used in conjunction with $pre_replace.
      *
      * @var array $pre_search
-     * @see $pre_replace
+     * @see self::$pre_replace
      */
     protected $pre_search = [
         "/\n/",
@@ -273,7 +273,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched for PRE body.
      *
      * @var array $pre_replace
-     * @see $pre_search
+     * @see self::$pre_search
      */
     protected $pre_replace = [
         '<br>',
@@ -294,7 +294,7 @@ class rcube_html2text
      * Contains a list of HTML tags to allow in the resulting text.
      *
      * @var string $allowed_tags
-     * @see set_allowed_tags()
+     * @see self::set_allowed_tags()
      */
     protected $allowed_tags = '';
 
@@ -309,7 +309,8 @@ class rcube_html2text
      * Indicates whether content in the $html variable has been converted yet.
      *
      * @var bool $_converted
-     * @see $html, $text
+     * @see self::$html
+     * @see self::$text
      */
     protected $_converted = false;
 
@@ -317,7 +318,7 @@ class rcube_html2text
      * Contains URL addresses from links to be rendered in plain text.
      *
      * @var array $_link_list
-     * @see _build_link_list()
+     * @see self::_build_link_list()
      */
     protected $_link_list = [];
 
@@ -328,7 +329,6 @@ class rcube_html2text
      * - 2 if the link should be displayed to the original point in the text they appeared
      *
      * @var int $_links_mode
-     * @see __construct()
      */
     protected $_links_mode = 1;
 

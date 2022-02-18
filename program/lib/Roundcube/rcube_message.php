@@ -79,8 +79,6 @@ class rcube_message
      * @param string $uid     The message UID.
      * @param string $folder  Folder name
      * @param bool   $is_safe Security flag
-     *
-     * @see self::$app, self::$storage, self::$opt, self::$parts
      */
     function __construct($uid, $folder = null, $is_safe = false)
     {
