@@ -1499,9 +1499,13 @@ class rcmail extends rcube
             if (strlen($user) > 256) {
                 $user = substr($user, 0, 256) . '...';
             }
-
-            $message = sprintf('Failed login for %s from %s in session %s (error: %d)',
-                $user, rcube_utils::remote_ip(), $session_id, $error_code);
+         
+            $message = sprintf("RC_LOGIN:FAILURE: %s", json_encode([
+                'user' => $user,
+                'ip' => rcube_utils::remote_ip(),
+                'error' => $error_code,
+                'sess' => $session_id
+            ]));
         }
         // successful login
         else {
@@ -1512,8 +1516,12 @@ class rcmail extends rcube
                 return;
             }
 
-            $message = sprintf('Successful login for %s (ID: %d) from %s in session %s',
-                $user_name, $user_id, rcube_utils::remote_ip(), $session_id);
+            $message = sprintf("RC_LOGIN:SUCCESS: %s", json_encode([
+                'user' => $user,
+                'ip' => rcube_utils::remote_ip(),
+                'user_id' => $user_id,
+                'sess' => $session_id
+            ]));
         }
 
         // log login
