@@ -9,6 +9,7 @@
 - Fix handling of RFC2231-encoded attachment names inside of a message/rfc822 part (#8418)
 - Fix bug where some mail parts (images) could have not be listed as attachments (#8425)
 - Fix bug where attachment icons were stuck at the top of the messages list in Safari (#8433)
+- Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
 
 ## Release 1.5.2
 

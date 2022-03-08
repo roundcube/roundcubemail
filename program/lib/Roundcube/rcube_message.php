@@ -595,7 +595,7 @@ class rcube_message
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 $part_body = $this->get_part_body($structure->mime_id, false, 32768);
-                list($headers, $body) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
+                list($headers, ) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
@@ -603,10 +603,22 @@ class rcube_message
                 }
 
                 // For small text messages we can optimize, so an additional FETCH is not needed
-                if ($structure->size < 32768 && count($structure->parts) == 1 && $structure->parts[0]->ctype_primary == 'text') {
-                    $encoding = isset($structure->headers['content-transfer-encoding'])
-                        ? $structure->headers['content-transfer-encoding'] : '7bit';
-                    $structure->parts[0]->body = rcube_mime::decode($body, $encoding);
+                if ($structure->size < 32768) {
+                    $decoder = new rcube_mime_decode();
+                    $decoded = $decoder->decode($part_body);
+
+                    // Non-multipart message
+                    if (isset($decoded->body) && count($structure->parts) == 1) {
+                        $structure->parts[0]->body = $decoded->body;
+                    }
+                    // Multipart message
+                    else {
+                        foreach ($decoded->parts as $idx => $p) {
+                            if (array_key_exists($idx, $structure->parts)) {
+                                $structure->parts[$idx]->body = $p->body;
+                            }
+                        }
+                    }
                 }
             }
         }
