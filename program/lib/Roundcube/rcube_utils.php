@@ -745,6 +745,10 @@ class rcube_utils
         $port   = $plain_port;
         $scheme = null;
 
+        if (!$url && str_starts_with($host, "unix://")) {
+            $port = -1;
+        }
+
         if (!empty($url['host'])) {
             $host   = $url['host'];
             $scheme = $url['scheme'] ?? null;
