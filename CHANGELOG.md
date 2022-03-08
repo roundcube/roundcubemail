@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
+
+## Release 1.6-beta
+
 - Unified and simplified services connection options (#8310):
     1. IMAP:
         - renamed `default_host` to `imap_host`
