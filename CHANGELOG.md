@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Enigma: Fix initial synchronization of private keys
+- Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
 - Fix various PHP8 warnings (#8392)
 - Fix mail headers injection via the subject field on mail compose (#8404)
 - Fix bug where small message/rfc822 parts could not be decoded (#8408)
