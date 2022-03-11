@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Fix initial synchronization of private keys
+
 RELEASE 1.4.13
 --------------
 - Security: Fix cross-site scripting (XSS) via HTML messages with malicious CSS content
