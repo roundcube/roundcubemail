@@ -624,6 +624,13 @@ class enigma_driver_gnupg extends enigma_driver
                     continue;
                 }
 
+                // Private keys might be located in 'private-keys-v1.d' subdirectory. Make sure it exists.
+                if (strpos($file, '/private-keys-v1.d/')) {
+                    if (!file_exists($this->homedir . '/private-keys-v1.d')) {
+                        mkdir($this->homedir . '/private-keys-v1.d', 0700);
+                    }
+                }
+
                 $tmpfile = $file . '.tmp';
 
                 if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
