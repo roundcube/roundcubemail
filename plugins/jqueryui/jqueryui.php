@@ -5,7 +5,7 @@
  *
  * Provide the jQuery UI library with according themes.
  *
- * @version 1.12.0
+ * @version 1.13.1
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
  * @author Aleksander Machniak <alec@alec.pl>
@@ -14,7 +14,7 @@
 class jqueryui extends rcube_plugin
 {
     public $noajax  = true;
-    public $version = '1.12.0';
+    public $version = '1.13.1';
 
     private static $features = [];
     private static $ui_theme;
@@ -65,11 +65,11 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if (self::asset_exists("js/i18n/jquery.ui.$package-$lang_l.js", false)) {
-                    $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
+                if (self::asset_exists("js/i18n/$package-$lang_l.js", false)) {
+                    $this->include_script("js/i18n/$package-$lang_l.js");
                 }
-                else if ($lang_s != 'en' && self::asset_exists("js/i18n/jquery.ui.$package-$lang_s.js", false)) {
-                    $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
+                else if ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
+                    $this->include_script("js/i18n/$package-$lang_s.js");
                 }
             }
         }
