@@ -2282,7 +2282,7 @@ class rcube_imap extends rcube_storage
      */
     protected function is_attachment_part($part)
     {
-        if (is_array($part[2]) && !empty($part[2]) && empty($part[3])) {
+        if (!empty($part[2]) && is_array($part[2]) && empty($part[3])) {
             $params = array_map('strtolower', (array) $part[2]);
             $find   = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
 
