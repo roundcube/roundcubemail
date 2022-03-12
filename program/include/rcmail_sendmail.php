@@ -279,7 +279,7 @@ class rcmail_sendmail
 
         // encoding settings for mail composing
         $message->setParam('text_encoding', $transfer_encoding);
-        $message->setParam('html_encoding', 'quoted-printable');
+        $message->setParam('html_encoding', $transfer_encoding);
         $message->setParam('head_encoding', $head_encoding);
         $message->setParam('head_charset', $this->options['charset']);
         $message->setParam('html_charset', $this->options['charset']);
