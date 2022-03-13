@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Update to jQuery-UI 1.13.1 (#8455)
+- Fix bug where SMTP password didn't work if it contained '%p' (#8435)
 - Enigma: Fix initial synchronization of private keys
 - Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
 - Fix bug where session could time out if DB and PHP timezone were different (#8303)
