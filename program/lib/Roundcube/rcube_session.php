@@ -37,7 +37,6 @@ abstract class rcube_session
     protected $vars;
     protected $now;
     protected $lifetime;
-    protected $time_diff    = 0;
     protected $reloaded     = false;
     protected $appends      = [];
     protected $unsets       = [];
