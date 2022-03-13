@@ -189,10 +189,14 @@ class enigma_mime_message extends Mail_mime
                 $headers = $this->message->headers();
                 $params  = ['content_type' => $headers['Content-Type']];
 
-                if ($headers['Content-Transfer-Encoding']
+                if (!empty($headers['Content-Transfer-Encoding'])
                     && stripos($headers['Content-Type'], 'multipart') === false
                 ) {
                     $params['encoding'] = $headers['Content-Transfer-Encoding'];
+
+                    // For plain text body we have to decode it back, to prevent from
+                    // a double encoding issue (#8413)
+                    $this->body = rcube_mime::decode($this->body, $this->build_params['text_encoding']);
                 }
 
                 $message->addSubpart($this->body, $params);
