@@ -103,7 +103,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
         $this->assertMatchesRegularExpression('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
 
         $pass = password::hash_password('test', 'ssha256');
-        $this->assertMatchesRegularExpression('/^\{SSHA256\}[a-zA-Z0-9+\/=]{56}$/', $pass);
+        $this->assertMatchesRegularExpression('/^\{SSHA256\}[a-zA-Z0-9+\/=]{48}$/', $pass);
 
         $pass = password::hash_password('test', 'sha256-crypt');
         $this->assertMatchesRegularExpression('/^\{SHA256-CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
