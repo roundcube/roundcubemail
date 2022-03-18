@@ -641,16 +641,19 @@ class password extends rcube_plugin
             $salt = rcube_utils::random_bytes(8);
 
             if (function_exists('hash')) {
-                $crypted = base64_encode( hash('sha256', $password . $salt, TRUE ) . $salt );
-                $prefix  = '{SSHA256}';
+                $salt    = substr(pack("H*", hash('sha256', $salt . $password)), 0, 4);
+                $crypted = hash('sha256', $password . $salt, true);
             }
             else {
                 rcube::raise_error([
                         'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Password plugin: Your PHP installation does not have the hash() nor sha1() function"
+                        'message' => "Password plugin: Your PHP installation does not have the hash() function"
                    ], true, true
                );
             }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA256}';
             break;
 
         case 'ssha512':
