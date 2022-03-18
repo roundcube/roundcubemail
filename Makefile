@@ -20,7 +20,7 @@ all: clean complete dependent framework
 complete: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); jq '.require += {"kolab/net_ldap3": "~1.1.1"} | del(.suggest."kolab/net_ldap3")' --indent 4 composer.json-dist > composer.json)
-	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --ignore-platform-reqs)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --ignore-platform-reqs --no-interaction)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
 	(cd roundcubemail-$(VERSION); rm -f jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf temp/js_cache)
