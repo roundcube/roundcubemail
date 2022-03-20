@@ -55,6 +55,8 @@ class rcube_config
         'mail_read_time'       => 'preview_pane_mark_read',
         'session_debug'        => 'log_session',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
+        'imap_host'            => 'default_host',
+        'smtp_host'            => 'smtp_server',
     ];
 
     /**
