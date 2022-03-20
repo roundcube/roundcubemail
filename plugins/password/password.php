@@ -636,6 +636,26 @@ class password extends rcube_plugin
             $prefix  = '{SSHA}';
             break;
 
+        // base64 encoded ssha256 for mailcow
+        case 'ssha256':
+            $salt = rcube_utils::random_bytes(8);
+
+            if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('sha256', $salt . $password)), 0, 4);
+                $crypted = hash('sha256', $password . $salt, true);
+            }
+            else {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have the hash() function"
+                   ], true, true
+               );
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA256}';
+            break;
+
         case 'ssha512':
             $salt = rcube_utils::random_bytes(8);
 
