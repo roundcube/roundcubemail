@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Update to jQuery-UI 1.13.1 (#8455)
+- Password: Add support for ssha256 algorithm (#8459)
 - Fix bug where SMTP password didn't work if it contained '%p' (#8435)
 - Enigma: Fix initial synchronization of private keys
 - Enigma: Fix double quoted-printable encoding of pgp-signed messages with no attachments (#8413)
