@@ -36,10 +36,11 @@
 function rcube_text_editor(config, id)
 {
   var ref = this,
+    editorElement = $('#' + id),
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
-      selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      readonly: $('#' + id).is('[readonly],[disabled]'),
+      selector: '#' + (editorElement.is('.mce_editor') ? id : 'fake-editor-id'),
+      readonly: editorElement.is('[readonly],[disabled]'),
       cache_suffix: 's=5080200',
       theme: 'silver',
       language: config.lang,
@@ -180,6 +181,15 @@ function rcube_text_editor(config, id)
   {
     this.editor = editor;
 
+    // Browsers have performance problems with rendering a lot of content in a textarea.
+    // To workaround that we create a separate hidden textarea for the content and copy it
+    // to the editor after the page is already loaded (#8108)
+    var content, editorContentElement = editorElement.data('html-editor-content-element');
+    if (editorContentElement && (content = $('#' + editorContentElement).val())) {
+      editor.setContent(content);
+      $('#' + editorContentElement).remove();
+    }
+
     if (rcmail.env.action == 'compose') {
       var area = $('#' + this.id),
         height = $('div.tox-toolbar__group', area.parent()).first().height();
@@ -207,10 +217,10 @@ function rcube_text_editor(config, id)
       }
     }
 
-    rcmail.triggerEvent('editor-load', {config: conf, ref: ref});
+    rcmail.triggerEvent('editor-load', {config: conf, ref: this});
 
     // set tabIndex and set focus to element that was focused before
-    ref.tabindex(ref.force_focus || (fe && fe.id == ref.id));
+    this.tabindex(this.force_focus || (fe && fe.id == this.id));
 
     // Trigger resize (needed for proper editor resizing in some browsers)
     $(window).resize();

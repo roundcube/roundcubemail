@@ -369,8 +369,8 @@ abstract class rcmail_action
                 'mode'             => $mode,
                 'disabled_plugins' => $disabled_plugins,
                 'disabled_buttons' => $disabled_buttons,
-                'extra_plugins' => $extra_plugins,
-                'extra_buttons' => $extra_buttons,
+                'extra_plugins'    => $extra_plugins,
+                'extra_buttons'    => $extra_buttons,
         ]);
 
         if (!empty($hook['abort'])) {
