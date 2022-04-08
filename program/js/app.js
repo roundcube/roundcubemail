@@ -10012,29 +10012,17 @@ function rcube_webmail()
 
   this.pdf_support_check = function()
   {
+    if ('pdfViewerEnabled' in navigator)
+      return navigator.pdfViewerEnabled ? 1 : 0;
+
     var i, plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
-      plugins = navigator.plugins,
-      len = plugins.length,
       regex = /Adobe Reader|PDF|Acrobat/i;
 
     if (plugin && plugin.enabledPlugin)
         return 1;
 
-    if ('ActiveXObject' in window) {
-      try {
-        if (plugin = new ActiveXObject("AcroPDF.PDF"))
-          return 1;
-      }
-      catch (e) {}
-      try {
-        if (plugin = new ActiveXObject("PDF.PdfCtrl"))
-          return 1;
-      }
-      catch (e) {}
-    }
-
-    for (i=0; i<len; i++) {
-      plugin = plugins[i];
+    for (i in navigator.plugins) {
+      plugin = navigator.plugins[i];
       if (typeof plugin === 'string') {
         if (regex.test(plugin))
           return 1;
