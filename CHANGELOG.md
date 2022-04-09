@@ -4,6 +4,7 @@
 
 - Update to jQuery-UI 1.13.1 (#8455)
 - Use navigator.pdfViewerEnabled for PDF viewer detection
+- Remove use of unreliable charset detection (#8344)
 - Password: Add support for ssha256 algorithm (#8459)
 - Fix slow loading of long HTML content into the HTML editor (#8108)
 - Fix bug where SMTP password didn't work if it contained '%p' (#8435)
