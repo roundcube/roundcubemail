@@ -2362,7 +2362,7 @@ class rcube_imap extends rcube_storage
                 $charset = $this->struct_charset;
             }
             else {
-                $charset = rcube_charset::detect($filename_mime, $this->default_charset);
+                $charset = $this->default_charset;
             }
 
             $part->filename = rcube_mime::decode_mime_string($filename_mime, $charset);

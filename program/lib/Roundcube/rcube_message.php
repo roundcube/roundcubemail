@@ -1223,21 +1223,9 @@ class rcube_message
             $charsets[] = $this->headers->charset;
         }
 
-        if (empty($charsets)) {
-            $rcube      = rcube::get_instance();
-            $charsets[] = rcube_charset::detect($name, $rcube->config->get('default_charset', RCUBE_CHARSET));
-        }
-
-        foreach (array_unique($charsets) as $charset) {
-            $_name = rcube_charset::convert($name, $charset);
-
-            if ($_name == rcube_charset::clean($_name)) {
-                if (!$part->charset) {
-                    $part->charset = $charset;
-                }
-
-                return $_name;
-            }
+        if ($charset = rcube_charset::check($name, $charsets)) {
+            $name = rcube_charset::convert($name, $charset);
+            $part->charset = $charset;
         }
 
         return $name;
