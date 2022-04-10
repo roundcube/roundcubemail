@@ -741,6 +741,10 @@ class rcube_utils
      */
     public static function parse_host_uri($host, $plain_port = null, $ssl_port = null)
     {
+        if (strpos($host, 'unix://') === 0) {
+            return [$host, 'unix', -1];
+        }
+
         $url    = parse_url($host);
         $port   = $plain_port;
         $scheme = null;
