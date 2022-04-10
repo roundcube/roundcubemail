@@ -1113,6 +1113,13 @@ class rcmail_action_mail_index extends rcmail_action
         return $out;
     }
 
+    /**
+     * Detect if a message attachment is an image (that can be displayed in the browser).
+     *
+     * @param rcube_message_part $part Message part - attachment
+     *
+     * @return string|null Image MIME type
+     */
     public static function part_image_type($part)
     {
         $mimetype = strtolower($part->mimetype);
