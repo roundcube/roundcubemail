@@ -7,6 +7,7 @@
 - Remove use of unreliable charset detection (#8344)
 - Don't list images attached to multipart/related part as attachments (#7184)
 - Password: Add support for ssha256 algorithm (#8459)
+- Fix so unix:// URI is supported in various host spec. options again (#8468)
 - Fix slow loading of long HTML content into the HTML editor (#8108)
 - Fix bug where SMTP password didn't work if it contained '%p' (#8435)
 - Enigma: Fix initial synchronization of private keys
