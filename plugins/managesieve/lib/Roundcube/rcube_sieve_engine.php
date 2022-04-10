@@ -1144,14 +1144,15 @@ class rcube_sieve_engine
 
                 case 'vacation':
                     $reason        = $this->strip_value($reasons[$idx], true);
-                    $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
+                    $interval_type = $interval_types && $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
 
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
                     $this->form['actions'][$i]['from']      = $from[$idx];
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
                     $this->form['actions'][$i]['addresses'] = $addresses[$idx];
                     $this->form['actions'][$i][$interval_type] = $intervals[$idx];
-// @TODO: vacation :mime, :handle
+
+                    // @TODO: vacation :mime, :handle
 
                     foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
                         $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
