@@ -141,6 +141,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         $compose_mode = null;
         $msg_uid      = null;
+        $options      = [];
 
         // get reference message and set compose mode
         if (!empty(self::$COMPOSE['param']['draft_uid'])) {
@@ -255,11 +256,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         // get reply_uid/forward_uid to flag the original message when sending
                         $info = rcmail_sendmail::draftinfo_decode($draft_info);
 
-                        if ($info['type'] == 'reply') {
-                            self::$COMPOSE['reply_uid'] = $info['uid'];
+                        if (!empty($info['type'])) {
+                            if ($info['type'] == 'reply') {
+                                self::$COMPOSE['reply_uid'] = $info['uid'];
+                            }
+                            else if ($info['type'] == 'forward') {
+                                self::$COMPOSE['forward_uid'] = $info['uid'];
+                            }
                         }
-                        else if ($info['type'] == 'forward') {
-                            self::$COMPOSE['forward_uid'] = $info['uid'];
+
+                        if (!empty($info['dsn']) && $info['dsn'] === 'on') {
+                            $options['dsn_enabled'] = true;
                         }
 
                         self::$COMPOSE['mailbox'] = $info['folder'];
@@ -306,8 +313,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('reply_msgid', self::$COMPOSE['reply_msgid']);
         }
 
+        $options['message'] = self::$MESSAGE;
+
         // Initialize helper class to build the UI
-        self::$SENDMAIL = new rcmail_sendmail(self::$COMPOSE, ['message' => self::$MESSAGE]);
+        self::$SENDMAIL = new rcmail_sendmail(self::$COMPOSE, $options);
 
         // process self::$MESSAGE body/attachments, set self::$MESSAGE_BODY/$HTML_MODE vars and some session data
         self::$MESSAGE_BODY = self::prepare_message_body();
