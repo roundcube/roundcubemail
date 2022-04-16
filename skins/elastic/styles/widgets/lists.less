@@ -794,7 +794,14 @@ html.touch {
     .messagelist {
         tr {
             position: relative;
+            display: flex; // Safari fix (#8433)
         }
+
+        td.selection,
+        td.threads {
+            line-height: 3.8em; // because of display:flex above
+        }
+
         td.flags {
             position: absolute;
             top: .25rem;
@@ -806,6 +813,7 @@ html.touch {
                 visibility: hidden;
             }
         }
+
         td.subject {
             padding-right: .5em;
 

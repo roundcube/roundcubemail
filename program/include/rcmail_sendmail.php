@@ -52,6 +52,7 @@ class rcmail_sendmail
      *    saveonly (bool) - Enable save-only mode
      *    message (object) - Message object to get some data from
      *    error_handler (callback) - Error handler
+     *    dsn_enabled (bool) - Enable DSN
      */
     public function __construct($data = [], $options = [])
     {
@@ -177,6 +178,9 @@ class rcmail_sendmail
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
+        // Don't allow CRLF in subject (#8404)
+        $subject = trim(preg_replace('|\r?\n|', ' ', $subject));
+
         $this->options['dsn_enabled'] = $dsn_enabled;
         $this->options['from']        = $from;
         $this->options['mailto']      = $mailto;
@@ -189,7 +193,7 @@ class rcmail_sendmail
             'To'               => $mailto,
             'Cc'               => $mailcc,
             'Bcc'              => $mailbcc,
-            'Subject'          => trim($subject),
+            'Subject'          => $subject,
             'Reply-To'         => $this->email_input_format($replyto),
             'Mail-Reply-To'    => $this->email_input_format($replyto),
             'Mail-Followup-To' => $this->email_input_format($followupto),
@@ -219,28 +223,34 @@ class rcmail_sendmail
 
         // remember reply/forward UIDs in special headers
         if (!empty($this->options['savedraft'])) {
+            $draft_info = [];
+
             // Note: We ignore <UID>.<PART> forwards/replies here
             if (
                 !empty($this->data['reply_uid'])
                 && ($uid = $this->data['reply_uid'])
                 && !preg_match('/^\d+\.[0-9.]+$/', $uid)
             ) {
-                $headers['X-Draft-Info'] = $this->draftinfo_encode([
-                        'type'   => 'reply',
-                        'uid'    => $uid,
-                        'folder' => $this->data['mailbox']
-                ]);
+                $draft_info['type']   = 'reply';
+                $draft_info['uid']    = $uid;
+                $draft_info['folder'] = $this->data['mailbox'];
             }
             else if (
                 !empty($this->data['forward_uid'])
                 && ($uid = rcube_imap_generic::compressMessageSet($this->data['forward_uid']))
                 && !preg_match('/^\d+[0-9.]+$/', $uid)
             ) {
-                $headers['X-Draft-Info'] = $this->draftinfo_encode([
-                        'type'   => 'forward',
-                        'uid'    => $uid,
-                        'folder' => $this->data['mailbox']
-                ]);
+                $draft_info['type']   = 'forward';
+                $draft_info['uid']    = $uid;
+                $draft_info['folder'] = $this->data['mailbox'];
+            }
+
+            if ($dsn_enabled) {
+                $draft_info['dsn'] = 'on';
+            }
+
+            if (!empty($draft_info)) {
+                $headers['X-Draft-Info'] = $this->draftinfo_encode($draft_info);
             }
         }
 
@@ -1395,8 +1405,8 @@ class rcmail_sendmail
 
         $checkbox = new html_checkbox($attrib);
 
-        if (isset($_POST['_dsn'])) {
-            $dsn_value = (int) $_POST['_dsn'];
+        if (!empty($_POST['_dsn']) || !empty($this->options['dsn_enabled'])) {
+            $dsn_value = 1;
         }
         else {
             $dsn_value = $this->rcmail->config->get('dsn_default');

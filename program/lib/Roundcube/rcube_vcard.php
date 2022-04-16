@@ -994,21 +994,6 @@ class rcube_vcard
      */
     private static function detect_encoding($string)
     {
-        // Detect common encodings
-        if (substr($string, 0, 4) == "\0\0\xFE\xFF") return 'UTF-32BE';  // Big Endian
-        if (substr($string, 0, 4) == "\xFF\xFE\0\0") return 'UTF-32LE';  // Little Endian
-        if (substr($string, 0, 2) == "\xFE\xFF")     return 'UTF-16BE';  // Big Endian
-        if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
-        if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
-
-        // heuristics
-        if (strlen($string) >= 4) {
-            if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
-            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
-            if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
-            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
-        }
-
         // Extract the plain text from the vCard, so the detection is more accurate
         // This will for example exclude photos
 
@@ -1023,6 +1008,9 @@ class rcube_vcard
             }
 
             $prefix = substr($lines[$i], 0, $pos);
+
+            // We remove \0 as so it works with UTF-16/UTF-32 encodings
+            $prefix = str_replace("\0", '', $prefix);
 
             // Take only properties that are known to contain human-readable text
             if (!preg_match('/^(item\d+\.)?(N|FN|ORG|ADR|NOTE|TITLE|CATEGORIES)(;|$)/', $prefix)) {
@@ -1060,10 +1048,13 @@ class rcube_vcard
             }
 
             $string .= $data . ' ';
+
+            // 100 KB should be enough for charset check
+            if (strlen($string) > 100 * 1024) {
+                break;
+            }
         }
 
-        $fallback = rcube::get_instance()->config->get('default_charset', 'ISO-8859-1'); // fallback to Latin-1
-
-        return rcube_charset::detect($string, $fallback);
+        return rcube_charset::check($string) ?: RCUBE_CHARSET;
     }
 }

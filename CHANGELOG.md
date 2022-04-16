@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Update to jQuery-UI 1.13.1 (#8455)
+- Use navigator.pdfViewerEnabled for PDF viewer detection
+- Remove use of unreliable charset detection (#8344)
+- Don't list images attached to multipart/related part as attachments (#7184)
+- Password: Add support for ssha256 algorithm (#8459)
+- Fix so unix:// URI is supported in various host spec. options again (#8468)
+- Fix slow loading of long HTML content into the HTML editor (#8108)
+- Fix bug where SMTP password didn't work if it contained '%p' (#8435)
+- Enigma: Fix initial synchronization of private keys
+- Enigma: Fix double quoted-printable encoding of pgp-signed messages with no attachments (#8413)
+- Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
+- Fix bug where session could time out if DB and PHP timezone were different (#8303)
+- Fix bug where DSN flag state wasn't stored with a draft (#8371)
+
+## Release 1.6-beta
+
 - Unified and simplified services connection options (#8310):
     1. IMAP:
         - renamed `default_host` to `imap_host`
@@ -42,6 +58,7 @@
 - Display telephone numbers as tel: links (#8240)
 - Elastic: Move scrollbar settings to variables (#8352)
 - Elastic: Use thin scrollbars in both light and dark mode
+- Elastic: Make the scrollbar color lighter in dark mode (#8345)
 - Autologout: A new plugin to auto log out users with a POST request (#8270)
 - Enigma: Upgrade to OpenPGP.js v5.0
 - Identicon: Make background color of the image to match the current skin colors (#8256)
@@ -58,6 +75,12 @@
 - Fix Makefile on Linux (#8211)
 - Fix so PHP warnings are ignored when resizing a malformed image attachment (#8387)
 - Fix various PHP8 warnings (#8392)
+- Fix mail headers injection via the subject field on mail compose (#8404)
+- Fix bug where small message/rfc822 parts could not be decoded (#8408)
+- Fix setting HTML mode on reply/forward of a signed message (#8405)
+- Fix handling of RFC2231-encoded attachment names inside of a message/rfc822 part (#8418)
+- Fix bug where some mail parts (images) could have not be listed as attachments (#8425)
+- Fix bug where attachment icons were stuck at the top of the messages list in Safari (#8433)
 
 ## Release 1.5.2
 

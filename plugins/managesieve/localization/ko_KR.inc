@@ -17,8 +17,8 @@
 
 $labels['filters'] = '필터';
 $labels['managefilters'] = '수신 메일 필터 관리';
-$labels['filtername'] = '필터명';
-$labels['newfilter'] = '새로운 필터';
+$labels['filtername'] = '필터 이름';
+$labels['newfilter'] = '새 필터';
 $labels['filteradd'] = '필터 추가';
 $labels['filterdel'] = '필터 삭제';
 $labels['rules'] = '규칙';
@@ -26,7 +26,7 @@ $labels['actions'] = '행동';
 $labels['scope'] = '범위';
 $labels['moveup'] = '위로 이동';
 $labels['movedown'] = '아래로 이동';
-$labels['filterallof'] = '다음 모든 규칙과 일치함';
+$labels['filterallof'] = '다음 규칙과 모두 일치함';
 $labels['filteranyof'] = '다음 규칙 중 하나라도 일치함';
 $labels['filterany'] = '모든 메시지';
 $labels['filtercontains'] = '다음을 포함함';

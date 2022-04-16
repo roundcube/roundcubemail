@@ -420,12 +420,12 @@ class rcube_csv2vcard
      */
     public function import($csv, $dry_run = false, $skip_head = true)
     {
-        // convert to UTF-8
-        $head      = substr($csv, 0, 4096);
-        $charset   = rcube_charset::detect($head, RCUBE_CHARSET);
-        $csv       = rcube_charset::convert($csv, $charset);
-        $csv       = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
-        $head      = '';
+        // convert to UTF-8 (supports default_charset and RCUBE_CHARSET as input)
+        // TODO: If the input charset is invalid we should probably just abort here
+        if ($charset = rcube_charset::check($csv)) {
+            $csv = rcube_charset::convert($csv, $charset);
+        }
+        $csv = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
 
         // Split CSV file into lines
         $lines = rcube_utils::explode_quoted_string('[\r\n]+', $csv);

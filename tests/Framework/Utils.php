@@ -806,6 +806,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             [['tls://host.domain.tld:123', 143, 993], ['host.domain.tld', 'tls', 123]],
             [['ssl://host.domain.tld:123', 143, 993], ['host.domain.tld', 'ssl', 123]],
             [['imaps://host.domain.tld:123', 143, 993], ['host.domain.tld', 'imaps', 123]],
+            [['unix:///var/run/dovecot/imap', null, null], ['unix:///var/run/dovecot/imap', 'unix', -1]],
         ];
     }
 

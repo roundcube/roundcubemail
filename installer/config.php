@@ -18,15 +18,6 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
-// register these boolean fields
-$RCI->bool_config_props = [
-  'ip_check'          => 1,
-  'enable_spellcheck' => 1,
-  'auto_create_user'  => 1,
-  'smtp_log'          => 1,
-  'prefer_html'       => 1,
-];
-
 // allow the current user to get to the next step
 $_SESSION['allowinstaller'] = true;
 

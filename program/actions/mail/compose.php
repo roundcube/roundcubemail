@@ -141,6 +141,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         $compose_mode = null;
         $msg_uid      = null;
+        $options      = [];
 
         // get reference message and set compose mode
         if (!empty(self::$COMPOSE['param']['draft_uid'])) {
@@ -255,11 +256,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         // get reply_uid/forward_uid to flag the original message when sending
                         $info = rcmail_sendmail::draftinfo_decode($draft_info);
 
-                        if ($info['type'] == 'reply') {
-                            self::$COMPOSE['reply_uid'] = $info['uid'];
+                        if (!empty($info['type'])) {
+                            if ($info['type'] == 'reply') {
+                                self::$COMPOSE['reply_uid'] = $info['uid'];
+                            }
+                            else if ($info['type'] == 'forward') {
+                                self::$COMPOSE['forward_uid'] = $info['uid'];
+                            }
                         }
-                        else if ($info['type'] == 'forward') {
-                            self::$COMPOSE['forward_uid'] = $info['uid'];
+
+                        if (!empty($info['dsn']) && $info['dsn'] === 'on') {
+                            $options['dsn_enabled'] = true;
                         }
 
                         self::$COMPOSE['mailbox'] = $info['folder'];
@@ -306,8 +313,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('reply_msgid', self::$COMPOSE['reply_msgid']);
         }
 
+        $options['message'] = self::$MESSAGE;
+
         // Initialize helper class to build the UI
-        self::$SENDMAIL = new rcmail_sendmail(self::$COMPOSE, ['message' => self::$MESSAGE]);
+        self::$SENDMAIL = new rcmail_sendmail(self::$COMPOSE, $options);
 
         // process self::$MESSAGE body/attachments, set self::$MESSAGE_BODY/$HTML_MODE vars and some session data
         self::$MESSAGE_BODY = self::prepare_message_body();
@@ -793,6 +802,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $attrib['data-html-editor'] = true;
         if (self::$HTML_MODE) {
             $attrib['class'] = trim(($attrib['class'] ?? '') . ' mce_editor');
+            $attrib['data-html-editor-content-element'] = $attrib['id'] . '-content';
         }
 
         $attrib['name'] = '_message';
@@ -808,12 +818,22 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         $rcmail->output->set_env('composebody', $attrib['id']);
 
+        $content = $hidden->show() . "\n";
+
+        // We're adding a hidden textarea with the HTML content to workaround browsers' performance
+        // issues with rendering/loading long content. It will be copied to the main editor (#8108)
+        if (strlen(self::$MESSAGE_BODY) > 50 * 1024) {
+            $contentArea = new html_textarea(['style' => 'display:none', 'id' => $attrib['id'] . '-content']);
+            $content .= $contentArea->show(self::$MESSAGE_BODY) . "\n" . $textarea->show();
+        }
+        else {
+            $content .= $textarea->show(self::$MESSAGE_BODY);
+        }
+
         // include HTML editor
         self::html_editor();
 
-        return ($form_start ? "$form_start\n" : '')
-            . "\n" . $hidden->show() . "\n" . $textarea->show(self::$MESSAGE_BODY)
-            . ($form_end ? "\n$form_end\n" : '');
+        return "$form_start\n$content\n$form_end\n";
     }
 
     public static function create_reply_body($body, $bodyIsHtml)

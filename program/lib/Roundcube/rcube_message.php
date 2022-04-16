@@ -79,8 +79,6 @@ class rcube_message
      * @param string $uid     The message UID.
      * @param string $folder  Folder name
      * @param bool   $is_safe Security flag
-     *
-     * @see self::$app, self::$storage, self::$opt, self::$parts
      */
     function __construct($uid, $folder = null, $is_safe = false)
     {
@@ -373,19 +371,18 @@ class rcube_message
                     continue;
                 }
 
+                // The HTML body part extracted from a winmail.dat attachment part
+                if (strpos($part->mime_id, 'winmail.') === 0) {
+                    return true;
+                }
+
                 $level = explode('.', $part->mime_id);
                 $depth = count($level);
                 $last  = '';
 
-                // Check if the part belongs to higher-level's multipart part
-                // this can be alternative/related/signed/encrypted or mixed
+                // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
-                    $parent_depth = count($level);
-                    if (!$parent_depth) {
-                        return true;
-                    }
-
-                    if (empty($this->mime_parts[implode('.', $level)])) {
+                    if (!count($level)) {
                         return true;
                     }
 
@@ -395,17 +392,7 @@ class rcube_message
                         return true;
                     }
 
-                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
-                    $last      = !empty($parent->real_mimetype) ? $parent->real_mimetype : $parent->mimetype;
-
-                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
-                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)
-                    ) {
-                        // The HTML body part extracted from a winmail.dat attachment part
-                        if (strpos($part->mime_id, 'winmail.') === 0) {
-                            return true;
-                        }
-
+                    if ($parent->mimetype == 'message/rfc822') {
                         continue 2;
                     }
                 }
@@ -447,7 +434,7 @@ class rcube_message
 
                 $level = explode('.', $part->mime_id);
 
-                // Check if the part belongs to higher-level's alternative/related
+                // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
                     if (!count($level)) {
                         return true;
@@ -459,7 +446,7 @@ class rcube_message
                         return true;
                     }
 
-                    if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
+                    if ($parent->mimetype == 'message/rfc822') {
                         continue 2;
                     }
                 }
@@ -606,7 +593,7 @@ class rcube_message
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 $part_body = $this->get_part_body($structure->mime_id, false, 32768);
-                list($headers, $body) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
+                list($headers, ) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
@@ -614,8 +601,22 @@ class rcube_message
                 }
 
                 // For small text messages we can optimize, so an additional FETCH is not needed
-                if ($structure->size < 32768 && count($structure->parts) == 1 && $structure->parts[0]->ctype_primary == 'text') {
-                    $structure->parts[0]->body = $body;
+                if ($structure->size < 32768) {
+                    $decoder = new rcube_mime_decode();
+                    $decoded = $decoder->decode($part_body);
+
+                    // Non-multipart message
+                    if (isset($decoded->body) && count($structure->parts) == 1) {
+                        $structure->parts[0]->body = $decoded->body;
+                    }
+                    // Multipart message
+                    else {
+                        foreach ($decoded->parts as $idx => $p) {
+                            if (array_key_exists($idx, $structure->parts)) {
+                                $structure->parts[$idx]->body = $p->body;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -989,7 +990,7 @@ class rcube_message
                         // MS Outlook sends sometimes non-related attachments as related
                         // In this case multipart/related message has only one text part
                         // We'll add all such attachments to the attachments list
-                        if (!isset($this->got_html_part)) {
+                        if ($this->got_html_part === false) {
                             $this->add_part($inline_object, 'attachment');
                         }
                         // MS Outlook sometimes also adds non-image attachments as related
@@ -1222,21 +1223,9 @@ class rcube_message
             $charsets[] = $this->headers->charset;
         }
 
-        if (empty($charsets)) {
-            $rcube      = rcube::get_instance();
-            $charsets[] = rcube_charset::detect($name, $rcube->config->get('default_charset', RCUBE_CHARSET));
-        }
-
-        foreach (array_unique($charsets) as $charset) {
-            $_name = rcube_charset::convert($name, $charset);
-
-            if ($_name == rcube_charset::clean($_name)) {
-                if (!$part->charset) {
-                    $part->charset = $charset;
-                }
-
-                return $_name;
-            }
+        if ($charset = rcube_charset::check($name, $charsets)) {
+            $name = rcube_charset::convert($name, $charset);
+            $part->charset = $charset;
         }
 
         return $name;

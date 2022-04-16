@@ -83,7 +83,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     function load_driver($driver)
     {
         include_once __DIR__ . "/../drivers/$driver.php";
-        $driver_class = "rcube_${driver}_password";
+        $driver_class = "rcube_{$driver}_password";
         $this->assertTrue(class_exists($driver_class));
         return $driver_class;
     }
@@ -101,6 +101,9 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
 
         $pass = password::hash_password('test', 'ssha');
         $this->assertMatchesRegularExpression('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
+
+        $pass = password::hash_password('test', 'ssha256');
+        $this->assertMatchesRegularExpression('/^\{SSHA256\}[a-zA-Z0-9+\/=]{48}$/', $pass);
 
         $pass = password::hash_password('test', 'sha256-crypt');
         $this->assertMatchesRegularExpression('/^\{SHA256-CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);

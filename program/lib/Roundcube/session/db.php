@@ -123,8 +123,9 @@ class rcube_session_db extends rcube_session
                 return '';
             }
 
-            $this->time_diff = time() - strtotime($sql_arr['ts']);
-            $this->changed   = strtotime($sql_arr['changed']);
+            $time_diff = time() - strtotime($sql_arr['ts']);
+
+            $this->changed   = strtotime($sql_arr['changed']) + $time_diff; // local (PHP) time
             $this->ip        = $sql_arr['ip'];
             $this->vars      = base64_decode($sql_arr['vars']);
             $this->key       = $key;
@@ -183,7 +184,7 @@ class rcube_session_db extends rcube_session
                 . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
         }
-        else if ($ts - $this->changed + $this->time_diff > $this->lifetime / 2) {
+        else if ($ts - $this->changed > $this->lifetime / 2) {
             $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
                 . " WHERE `sess_id` = ?", $key);
         }
@@ -198,7 +199,7 @@ class rcube_session_db extends rcube_session
     {
         // just clean all old sessions when this GC is called
         $this->db->query("DELETE FROM " . $this->db->table_name('session')
-            . " WHERE changed < " . $this->db->now(-$this->gc_enabled));
+            . " WHERE `changed` < " . $this->db->now(-$this->gc_enabled));
 
         $this->log("Session GC (DB): remove records < "
             . date('Y-m-d H:i:s', time() - $this->gc_enabled)

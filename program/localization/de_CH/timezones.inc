@@ -72,6 +72,7 @@ $labels['tz:europe:brussels'] = 'Brüssel';
 $labels['tz:europe:bucharest'] = 'Bukarest';
 $labels['tz:europe:copenhagen'] = 'Kopenhagen';
 $labels['tz:europe:isle_of_man'] = 'Insel Man';
+$labels['tz:europe:kaliningrad'] = 'Kaliningrad (Königsberg)';
 $labels['tz:europe:kiev'] = 'Kiew';
 $labels['tz:europe:lisbon'] = 'Lissabon';
 $labels['tz:europe:ljubljana'] = 'Laibach';

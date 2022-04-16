@@ -1,10 +1,12 @@
---- jquery-ui.css.orig	2018-06-12 09:08:51.000000000 +0200
-+++ jquery-ui.css	2019-03-25 12:47:57.905085000 +0100
+diff --git a/jquery-ui.css.orig b/jquery-ui.css
+index 2f0601a..819a492 100644
+--- a/jquery-ui.css.orig
++++ b/jquery-ui.css
 @@ -45,7 +45,6 @@
  	left: 0;
  	position: absolute;
  	opacity: 0;
--	filter:Alpha(Opacity=0); /* support: IE8 */
+-	-ms-filter: "alpha(opacity=0)"; /* support: IE8 */
  }
  
  .ui-front {
@@ -27,7 +29,16 @@
  }
  .ui-menu .ui-menu-divider {
  	margin: 5px 0;
-@@ -313,63 +315,35 @@
+@@ -281,8 +283,6 @@ button.ui-button::-moz-focus-inner {
+ /* Spinner specific style fixes */
+ .ui-controlgroup-vertical .ui-spinner-input {
+ 
+-	/* Support: IE8 only, Android < 4.4 only */
+-	width: 75%;
+ 	width: calc( 100% - 2.4em );
+ }
+ .ui-controlgroup-vertical .ui-spinner .ui-spinner-up {
+@@ -313,63 +313,35 @@ button.ui-button::-moz-focus-inner {
  	pointer-events: none;
  }
  .ui-datepicker {
@@ -95,7 +106,7 @@
  	margin: 0 0 .4em;
  }
  .ui-datepicker th {
-@@ -386,7 +360,7 @@
+@@ -386,7 +358,7 @@ button.ui-button::-moz-focus-inner {
  .ui-datepicker td a {
  	display: block;
  	padding: .2em;
@@ -104,7 +115,7 @@
  	text-decoration: none;
  }
  .ui-datepicker .ui-datepicker-buttonpane {
-@@ -454,14 +428,6 @@
+@@ -454,14 +426,6 @@ button.ui-button::-moz-focus-inner {
  	left: 2px;
  	right: auto;
  }
@@ -119,7 +130,7 @@
  .ui-datepicker-rtl .ui-datepicker-buttonpane {
  	clear: right;
  }
-@@ -491,50 +457,34 @@
+@@ -491,50 +455,34 @@ button.ui-button::-moz-focus-inner {
  	position: absolute;
  	top: 0;
  	left: 0;
@@ -177,7 +188,7 @@
  }
  .ui-dialog .ui-resizable-n {
  	height: 2px;
-@@ -560,8 +510,11 @@
+@@ -560,8 +508,11 @@ button.ui-button::-moz-focus-inner {
  	height: 7px;
  }
  .ui-dialog .ui-resizable-se {
@@ -191,15 +202,15 @@
  }
  .ui-dialog .ui-resizable-sw {
  	left: 0;
-@@ -664,7 +617,6 @@
+@@ -664,7 +615,6 @@ button.ui-button::-moz-focus-inner {
  .ui-progressbar .ui-progressbar-overlay {
  	background: url("data:image/gif;base64,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");
  	height: 100%;
--	filter: alpha(opacity=25); /* support: IE8 */
+-	-ms-filter: "alpha(opacity=25)"; /* support: IE8 */
  	opacity: 0.25;
  }
  .ui-progressbar-indeterminate .ui-progressbar-value {
-@@ -725,7 +677,7 @@
+@@ -725,7 +675,7 @@ button.ui-button::-moz-focus-inner {
  }
  .ui-slider .ui-slider-handle {
  	position: absolute;
@@ -207,8 +218,21 @@
 +	z-index: 1;
  	width: 1.2em;
  	height: 1.2em;
- 	cursor: default;
-@@ -883,39 +835,15 @@
+ 	cursor: pointer;
+@@ -741,12 +691,6 @@ button.ui-button::-moz-focus-inner {
+ 	background-position: 0 0;
+ }
+ 
+-/* support: IE8 - See #6727 */
+-.ui-slider.ui-state-disabled .ui-slider-handle,
+-.ui-slider.ui-state-disabled .ui-slider-range {
+-	filter: inherit;
+-}
+-
+ .ui-slider-horizontal {
+ 	height: .8em;
+ }
+@@ -883,39 +827,15 @@ body .ui-tooltip {
  
  /* Component containers
  ----------------------------------*/
@@ -251,7 +275,7 @@
  }
  
  /* Interaction states
-@@ -944,19 +872,6 @@
+@@ -944,19 +864,6 @@ a:visited.ui-button,
  	color: #454545;
  	text-decoration: none;
  }
@@ -271,12 +295,12 @@
  .ui-state-hover a,
  .ui-state-hover a:hover,
  .ui-state-hover a:link,
-@@ -1040,20 +955,15 @@
+@@ -1040,20 +947,15 @@ a.ui-button:active,
  .ui-priority-secondary,
  .ui-widget-content .ui-priority-secondary,
  .ui-widget-header .ui-priority-secondary {
 -	opacity: .7;
--	filter:Alpha(Opacity=70); /* support: IE8 */
+-	-ms-filter: "alpha(opacity=70)"; /* support: IE8 */
 +	opacity: .5;
  	font-weight: normal;
  }
@@ -284,16 +308,16 @@
  .ui-widget-content .ui-state-disabled,
  .ui-widget-header .ui-state-disabled {
  	opacity: .35;
--	filter:Alpha(Opacity=35); /* support: IE8 */
+-	-ms-filter: "alpha(opacity=35)"; /* support: IE8 */
  	background-image: none;
  }
 -.ui-state-disabled .ui-icon {
--	filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
+-	-ms-filter: "alpha(opacity=35)"; /* support: IE8 - See #6059 */
 -}
  
  /* Icons
  ----------------------------------*/
-@@ -1070,24 +980,6 @@
+@@ -1070,24 +972,6 @@ a.ui-button:active,
  .ui-widget-header .ui-icon {
  	background-image: url("images/ui-icons_444444_256x240.png");
  }
@@ -318,7 +342,7 @@
  .ui-button .ui-icon {
  	background-image: url("images/ui-icons_777777_256x240.png");
  }
-@@ -1270,43 +1162,7 @@
+@@ -1273,43 +1157,7 @@ a.ui-button:active,
  .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
  .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
  
@@ -356,7 +380,7 @@
  .ui-widget-overlay {
 -	background: #aaaaaa;
 -	opacity: .003;
--	filter: Alpha(Opacity=.3); /* support: IE8 */
+-	-ms-filter: Alpha(Opacity=.3); /* support: IE8 */
 -}
 -.ui-widget-shadow {
 -	-webkit-box-shadow: 0px 0px 5px #666666;

@@ -349,6 +349,46 @@ class rcube_charset
     }
 
     /**
+     * Check if the specified input string matches one of the provided charsets.
+     * This includes UTF-32, UTF-16, RCUBE_CHARSET and default_charset.
+     *
+     * @param string $str  Input string
+     * @param array  $from Suspected charsets of the input string
+     *
+     * @return string|null First matching charset
+     */
+    public static function check($str, $charsets = [])
+    {
+        $chunk = strlen($str) > 100 * 1024 ? substr($str, 0, 100 * 1024) : $str;
+
+        // Add dehault charset, system charset and easily detectable charset to the list
+        if (substr($chunk, 0, 4) == "\0\0\xFE\xFF") $charsets[] = 'UTF-32BE';
+        if (substr($chunk, 0, 4) == "\xFF\xFE\0\0") $charsets[] = 'UTF-32LE';
+        if (substr($chunk, 0, 2) == "\xFE\xFF")     $charsets[] = 'UTF-16BE';
+        if (substr($chunk, 0, 2) == "\xFF\xFE")     $charsets[] = 'UTF-16LE';
+
+        // heuristics
+        if (preg_match('/\x00\x00\x00[^\x00]/', $chunk))    $charsets[] = 'UTF-32BE';
+        if (preg_match('/[^\x00]\x00\x00\x00/', $chunk))    $charsets[] = 'UTF-32LE';
+        if (preg_match('/\x00[^\x00]\x00[^\x00]/', $chunk)) $charsets[] = 'UTF-16BE';
+        if (preg_match('/[^\x00]\x00[^\x00]\x00/', $chunk)) $charsets[] = 'UTF-16LE';
+
+        $charsets[] = RCUBE_CHARSET;
+        $charsets[] = (string) rcube::get_instance()->config->get('default_charset');
+
+        $charsets = array_map(['rcube_charset', 'parse_charset'], $charsets);
+        $charsets = array_unique(array_filter($charsets));
+
+        foreach ($charsets as $charset) {
+            $ret = self::convert($chunk, $charset);
+
+            if ($ret === rcube_charset::clean($ret)) {
+                return $charset;
+            }
+        }
+    }
+
+    /**
      * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
      *
      * @param string $str Input string (UTF-7)
@@ -415,6 +455,7 @@ class rcube_charset
      * @param string $language User language
      *
      * @return string Charset name
+     * @deprecated
      */
     public static function detect($string, $failover = null, $language = null)
     {
