@@ -1097,6 +1097,7 @@ class rcube_message
             $tpart->mime_id         = 'winmail.' . $part->mime_id . '.html';
             $tpart->size            = strlen($tnef_arr['message']);
             $tpart->body            = $tnef_arr['message'];
+            $tpart->charset         = RCUBE_CHARSET;
 
             $parts[] = $tpart;
         }
