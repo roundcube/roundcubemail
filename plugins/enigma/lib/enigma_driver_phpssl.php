@@ -37,7 +37,7 @@ class enigma_driver_phpssl extends enigma_driver
     function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
-        $this->cainfo = $this->rc->config->get('enigma_smime_ca', array());
+        $this->cainfo = $this->rc->config->get('enigma_smime_ca', []);
 
         if (!$homedir)
             return new enigma_error(enigma_error::INTERNAL,
@@ -66,15 +66,14 @@ class enigma_driver_phpssl extends enigma_driver
 
         $this->homedir = $homedir;
 
-        #XXX: Workaround for https://bugs.php.net/bug.php?id=75494
-        if (count($this->cainfo) > 0) {
+        // XXX: Workaround for https://bugs.php.net/bug.php?id=75494
+	    if (!is_array($this->cainfo) || count($this->cainfo) > 0) {
             $dummy_cert_dir = $this->homedir . '/' . 'cert_dummy';
             if (!file_exists($dummy_cert_dir)) {
                 mkdir($dummy_cert_dir, 0700);
             }
             $this->cainfo[] = $dummy_cert_dir;
         }
-
     }
 
     function encrypt($text, $keys, $sign_key = null)
@@ -89,15 +88,32 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
+    /**
+     * Verifying S/MIME signed message.
+     *
+     * @param array  $struct to verify
+     * @param string $message message body
+     * 
+     * @return mixed enigma_signature or enigma_signature
+     */
     function verify($struct, $message)
     {
         // use common temp dir
         $msg_file  = rcube_utils::temp_filename('enigmsg');
         $cert_file = rcube_utils::temp_filename('enigcrt');
+        $content_file = rcube_utils::temp_filename('enigcnt');
 
         $fh = fopen($msg_file, "w");
         if ($struct->mime_id) {
-            $message->get_part_body($struct->mime_id, false, 0, $fh);
+            if ($struct->ctype_parameters['smime-type'] == 'signed-data' ) {
+                // The following statement gives the whole body.
+                // openssl can verify this (openssl pkcs7 -verify -noverify)
+                $this->rc->storage->get_raw_body($message->uid, $fh);
+            }
+            else {
+                // this will only give the *one part*.
+                $message->get_part_body($struct->mime_id, false, 0, $fh);
+            }
         }
         else {
             $this->rc->storage->get_raw_body($message->uid, $fh);
@@ -106,23 +122,25 @@ class enigma_driver_phpssl extends enigma_driver
 
         // @TODO: use stored certificates
         // try with global config'd certificates
-        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, $this->cainfo);
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, $this->cainfo, null, $content_file);
         $validity = true;
 
         if ($sig !== true) {
             // try with server trusted certificate verification
-            $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+            $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, [], null, $content_file);
             $validity = enigma_error::SERVER_VERIFIED;
         }
 
         if ($sig !== true) {
             // try without certificate verification
-            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file);
+            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file, [], null, $content_file);
             $validity = enigma_error::UNVERIFIED;
         }
 
         if ($sig === true) {
             $sig = $this->parse_sig_cert($cert_file, $validity);
+            $content = file_get_contents($content_file);
+            $sig->comment = $content;
         }
         else {
             $errorstr = $this->get_openssl_error();
@@ -132,6 +150,7 @@ class enigma_driver_phpssl extends enigma_driver
         // remove temp files
         @unlink($msg_file);
         @unlink($cert_file);
+        @unlink($content_file);
 
         return $sig;
     }
@@ -201,7 +220,6 @@ class enigma_driver_phpssl extends enigma_driver
         }
 
         $data = new enigma_signature();
-
         $data->id          = $cert['hash']; //?
         $data->valid       = $validity;
         $data->fingerprint = $cert['serialNumber'];
@@ -209,9 +227,18 @@ class enigma_driver_phpssl extends enigma_driver
         $data->expires     = $cert['validTo_time_t'];
         $data->name        = $cert['subject']['CN'];
 //        $data->comment     = '';
-        $data->email       = $cert['subject']['emailAddress'];
-
-        rcube::write_log('errors', 'Decrypted sig: ' . $data->name);
+        if (array_key_exists('emailAddress', $cert['subject'])) {
+            $data->email       = $cert['subject']['emailAddress'];
+        }
+        else {
+            if (array_key_exists('extensions', $cert)) {
+                if (array_key_exists('subjectAltName', $cert['extensions'])) {
+                    if (substr($cert['extensions']['subjectAltName'], 0, 6) == "email:") {
+                        $data->email = substr($cert['extensions']['subjectAltName'], 6);
+                    }
+                }
+            }
+        }
 
         return $data;
     }
