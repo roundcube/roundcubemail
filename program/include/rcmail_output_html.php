@@ -1501,6 +1501,11 @@ EOF;
                         $attrib['src'] = $template_logo;
                     }
 
+                    if (($link = $this->get_template_logo('link')) !== null) {
+                        $attrib['onclick'] = "location.href='$link';";
+                        $attrib['style'] = 'cursor:pointer;';
+                    }
+
                     $additional_logos = [];
                     $logo_types       = (array) $this->config->get('additional_logo_types');
 
