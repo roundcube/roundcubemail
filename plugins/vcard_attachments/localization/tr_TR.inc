@@ -16,9 +16,9 @@
 
 $labels['addvcardmsg'] = 'Adres defterine vCard ekle';
 $labels['vcardsavefailed'] = 'vCard kaydedilemedi';
-$labels['attachvcard'] = 'vCard Ekle';
+$labels['attachvcard'] = 'vCard ekle';
 $labels['vcardattached'] = 'vCard dosyası eklendi.';
 $labels['vcard'] = 'vCard';
-$labels['forwardvcard'] = 'vCard Dosyasını İlet';
+$labels['forwardvcard'] = 'vCard dosyasını ilet';
 $labels['contactsattached'] = 'Bu iletiye eklenmiş $num kişi var.';
 $labels['importedsuccessfully'] = 'Kişi(ler) adres defteri içine aktarıldı.';

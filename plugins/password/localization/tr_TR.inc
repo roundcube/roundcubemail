@@ -14,14 +14,14 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels['changepasswd']  = 'Parola Değiştirme';
+$labels['changepasswd']  = 'Parola değiştirme';
 $labels['curpasswd']  = 'Geçerli parola:';
 $labels['newpasswd']  = 'Yeni parola:';
 $labels['confpasswd']  = 'Yeni parola onayı:';
 $messages['nopassword'] = 'Yeni parolayı yazın.';
 $messages['nocurpassword'] = 'Geçerli parolayı yazın.';
 $messages['passwordincorrect'] = 'Geçerli parolayı yanlış yazdınız.';
-$messages['passwordinconsistency'] = 'Parola ile onayı aynı değil, lütfen yeniden deneyin.';
+$messages['passwordinconsistency'] = 'Parola ile onayı aynı değil. Lütfen yeniden deneyin.';
 $messages['crypterror'] = 'Yeni parola kaydedilemedi. Şifreleme işlevi bulunamadı.';
 $messages['connecterror'] = 'Yeni parola kaydedilemedi. Bağlantı sorunu.';
 $messages['internalerror'] = 'Yeni parola kaydedilemedi.';

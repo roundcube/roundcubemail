@@ -15,4 +15,4 @@
 */
 
 $labels['identitydialogtitle'] = 'Lütfen gönderici kimliğinizi tamamlayın';
-$labels['identitydialoghint'] = 'Bu ekran oturum ilk kez açıldığın bir kere görüntülenir.';
+$labels['identitydialoghint'] = 'Bu ekran oturum ilk kez açıldığında bir kere görüntülenir.';
