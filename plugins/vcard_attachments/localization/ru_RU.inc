@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Вложить vCard';
 $labels['vcardattached'] = 'Вложенный vCard';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Переслать vCard';
+$labels['contactsattached'] = 'К этому сообщению прикреплено $num контактов.';
+$labels['importedsuccessfully'] = 'Контакт(ы) успешно импортирован(ы) в адресную книгу.';

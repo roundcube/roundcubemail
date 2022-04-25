@@ -14,4 +14,4 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-subscriptions_option/
 */
 
-$labels['useimapsubscriptions']  = 'IMAP  Aboneliklerini kullan';
+$labels['useimapsubscriptions']  = 'IMAP abonelikleri kullanılsın';
