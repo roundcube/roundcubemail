@@ -241,12 +241,11 @@ abstract class rcube_plugin
     /**
      * Wrapper for add_label() adding the plugin ID as domain
      */
-    public function add_label()
+    public function add_label(...$args)
     {
         $rcube = rcube::get_instance();
 
         if (method_exists($rcube->output, 'add_label')) {
-            $args = func_get_args();
             if (count($args) == 1 && is_array($args[0])) {
                 $args = $args[0];
             }

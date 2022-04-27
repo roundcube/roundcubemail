@@ -76,8 +76,8 @@ class markasjunk_email_learn
                     'mailto'        => $mailto,
                     'dsn_enabled'   => false,
                     'charset'       => 'UTF-8',
-                    'error_handler' => function() use ($OUTPUT) {
-                        call_user_func_array([$OUTPUT, 'show_message'], func_get_args());
+                    'error_handler' => function(...$args) use ($OUTPUT) {
+                        call_user_func_array([$OUTPUT, 'show_message'], $args);
                         $OUTPUT->send();
                     }
             ]);
