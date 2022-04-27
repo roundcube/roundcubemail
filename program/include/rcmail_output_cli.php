@@ -41,7 +41,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Add a localized label to the client environment
      *
-     * @see rcube_output::command()
+     * @see rcube_output::add_label()
      */
     function add_label(...$args)
     {
