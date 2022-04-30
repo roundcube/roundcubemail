@@ -15,6 +15,7 @@
 - Fix bug where session could time out if DB and PHP timezone were different (#8303)
 - Fix bug where DSN flag state wasn't stored with a draft (#8371)
 - Fix broken encoding of HTML content encapsulated in a RTF attachment (#8444)
+- Fix problem with aria-hidden=true on toolbar menus in the Elastic skin (#8517)
 
 ## Release 1.5.2
 

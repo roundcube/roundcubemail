@@ -2478,7 +2478,11 @@ function rcube_elastic_ui()
             $(item).attr('title', title);
         }
 
-        popup.attr('aria-hidden', 'true').data('button', item);
+        if (is_mobile() || !popup.is('.toolbar')) {
+            popup.attr('aria-hidden', 'true');
+        }
+
+        popup.data('button', item);
 
         // stop propagation to e.g. do not hide the popup when
         // clicking inside on form elements
