@@ -110,3 +110,21 @@ function setProperty($object, $name, $value, $class = null)
 
     $property->setValue($object, $value);
 }
+
+/**
+ * Parse HTML content and extract nodes by XPath query
+ *
+ * @param string $html        HTML content
+ * @param string $xpath_query XPath query
+ *
+ * @return DOMNodeList List of nodes found
+ */
+function getHTMLNodes($html, $xpath_query)
+{
+    $html5 = new Masterminds\HTML5(['disable_html_ns' => true]);
+    $doc  = $html5->loadHTML($html);
+
+    $xpath = new DOMXPath($doc);
+
+    return $xpath->query($xpath_query);
+}
