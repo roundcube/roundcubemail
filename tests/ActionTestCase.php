@@ -141,11 +141,15 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
     /**
      * Set the $rcmail->storage property
+     *
+     * @return StorageMock The storage object
      */
     public static function initStorage()
     {
         $rcmail = rcmail::get_instance();
         $rcmail->storage = new StorageMock();
+
+        return $rcmail->storage;
     }
 
     /**

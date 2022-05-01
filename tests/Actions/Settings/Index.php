@@ -58,7 +58,15 @@ class Actions_Settings_Index extends ActionTestCase
     function test_settings_tabs()
     {
         $result = rcmail_action_settings_index::settings_tabs([]);
-        $this->assertTrue(strpos($result, '<span id="settingstabpreferences" class="preferences selected"><a title="Edit user preferences" href="./?_task=settings&amp;_action=preferences"') === 0);
+        $nodes  = getHTMLNodes($result, "//span[@id='settingstabpreferences']");
+
+        $this->assertCount(1, $nodes);
+        $this->assertSame('preferences selected', $nodes[0]->getAttribute('class'));
+        $this->assertCount(1, $nodes[0]->childNodes);
+        $link = $nodes[0]->firstChild;
+        $this->assertSame('a', $link->nodeName);
+        $this->assertSame('Edit user preferences', $link->getAttribute('title'));
+        $this->assertStringEndsWith('?_task=settings&_action=preferences', $link->getAttribute('href'));
     }
 
     /**
