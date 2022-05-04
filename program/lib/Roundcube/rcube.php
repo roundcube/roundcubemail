@@ -1212,15 +1212,13 @@ class rcube
      * Construct shell command, execute it and return output as string.
      * Keywords {keyword} are replaced with arguments
      *
-     * @param string $cmd        Format string with {keywords} to be replaced
-     * @param mixed  $values,... (zero, one or more arrays can be passed)
+     * @param string $cmd     Format string with {keywords} to be replaced
+     * @param mixed  ...$args (zero, one or more arrays can be passed)
      *
      * @return string Output of command. Shell errors not detectable
      */
-    public static function exec(/* $cmd, $values1 = [], ... */)
+    public static function exec($cmd, ...$args)
     {
-        $args   = func_get_args();
-        $cmd    = array_shift($args);
         $values = $replacements = [];
 
         // merge values into one array
@@ -1263,12 +1261,10 @@ class rcube
     /**
      * Print or write debug messages
      *
-     * @param mixed Debug message or data
+     * @param mixed ...$args Debug message or data
      */
-    public static function console()
+    public static function console(...$args)
     {
-        $args = func_get_args();
-
         if (class_exists('rcube', false)) {
             $rcube  = self::get_instance();
             $plugin = $rcube->plugins->exec_hook('console', ['args' => $args]);

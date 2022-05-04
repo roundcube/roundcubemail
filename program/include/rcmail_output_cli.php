@@ -27,28 +27,23 @@ class rcmail_output_cli extends rcmail_output
 {
     public $type = 'cli';
 
-    /**
-     * Object constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Call a client method
      *
      * @see rcube_output::command()
      */
-    function command()
+    function command($cmd, ...$args)
     {
         // NOP
     }
 
     /**
      * Add a localized label to the client environment
+     *
+     * @see rcube_output::add_label()
      */
-    function add_label()
+    function add_label(...$args)
     {
         // NOP
     }

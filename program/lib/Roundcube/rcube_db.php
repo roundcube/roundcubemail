@@ -390,16 +390,13 @@ class rcube_db
     /**
      * Execute a SQL query
      *
-     * @param string SQL query to execute
-     * @param mixed  Values to be inserted in query
+     * @param string $query     SQL query to execute
+     * @param mixed  ...$params Query parameter values
      *
      * @return PDOStatement|false  Query handle or False on error
      */
-    public function query()
+    public function query($query, ...$params)
     {
-        $params = func_get_args();
-        $query  = array_shift($params);
-
         // Support one argument of type array, instead of n arguments
         if (count($params) == 1 && is_array($params[0])) {
             $params = $params[0];
@@ -411,34 +408,29 @@ class rcube_db
     /**
      * Execute a SQL query with limits
      *
-     * @param string SQL query to execute
-     * @param int    Offset for LIMIT statement
-     * @param int    Number of rows for LIMIT statement
-     * @param mixed  Values to be inserted in query
+     * @param string $query     SQL query to execute
+     * @param int    $offset    Offset for LIMIT statement
+     * @param int    $limit     Number of rows for LIMIT statement
+     * @param mixed  ...$params Query parameter values
      *
      * @return PDOStatement|false Query handle or False on error
      */
-    public function limitquery()
+    public function limitquery($query, $offset, $limit, ...$params)
     {
-        $params  = func_get_args();
-        $query   = array_shift($params);
-        $offset  = array_shift($params);
-        $numrows = array_shift($params);
-
-        return $this->_query($query, $offset, $numrows, $params);
+        return $this->_query($query, $offset, $limit, $params);
     }
 
     /**
      * Execute a SQL query with limits
      *
-     * @param string $query   SQL query to execute
-     * @param int    $offset  Offset for LIMIT statement
-     * @param int    $numrows Number of rows for LIMIT statement
-     * @param array  $params  Values to be inserted in query
+     * @param string $query  SQL query to execute
+     * @param int    $offset Offset for LIMIT statement
+     * @param int    $limit  Number of rows for LIMIT statement
+     * @param array  $params Values to be inserted in query
      *
      * @return PDOStatement|false Query handle or False on error
      */
-    protected function _query($query, $offset, $numrows, $params)
+    protected function _query($query, $offset, $limit, $params)
     {
         $query = ltrim($query);
 
@@ -449,8 +441,8 @@ class rcube_db
             return $this->last_result = false;
         }
 
-        if ($numrows || $offset) {
-            $query = $this->set_limit($query, $numrows, $offset);
+        if ($limit || $offset) {
+            $query = $this->set_limit($query, $limit, $offset);
         }
 
         // replace self::DEFAULT_QUOTE with driver-specific quoting
@@ -1079,18 +1071,17 @@ class rcube_db
      */
     public function ilike($column, $value)
     {
-        return $this->quote_identifier($column).' LIKE '.$this->quote($value);
+        return $this->quote_identifier($column) . ' LIKE ' . $this->quote($value);
     }
 
     /**
      * Abstract SQL statement for value concatenation
      *
-     * @return string SQL statement to be used in query
+     * @return string ...$args Values to concatenate
      */
-    public function concat(/* col1, col2, ... */)
+    public function concat(...$args)
     {
-        $args = func_get_args();
-        if (!empty($args) && is_array($args[0])) {
+        if (count($args) == 1 && is_array($args[0])) {
             $args = $args[0];
         }
 

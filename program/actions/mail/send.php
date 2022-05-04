@@ -56,8 +56,8 @@ class rcmail_action_mail_send extends rcmail_action
                 'sendmail'      => true,
                 'saveonly'      => $saveonly,
                 'savedraft'     => $savedraft,
-                'error_handler' => function() use ($rcmail) {
-                    call_user_func_array([$rcmail->output, 'show_message'], func_get_args());
+                'error_handler' => function(...$args) use ($rcmail) {
+                    call_user_func_array([$rcmail->output, 'show_message'], $args);
                     $rcmail->output->send('iframe');
                 },
                 'keepformatting' => !empty($_POST['_keepformatting']),

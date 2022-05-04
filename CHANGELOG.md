@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Update to jQuery-UI 1.13.1 (#8455)
+- Added possibility to make the logo image a link via the 'skin_logo' option (#8501)
 - Use navigator.pdfViewerEnabled for PDF viewer detection
 - Remove use of unreliable charset detection (#8344)
 - Don't list images attached to multipart/related part as attachments (#7184)
@@ -15,6 +16,8 @@
 - Fix handling of message/rfc822 parts that are small and are multipart structures with a single part (#8458)
 - Fix bug where session could time out if DB and PHP timezone were different (#8303)
 - Fix bug where DSN flag state wasn't stored with a draft (#8371)
+- Fix broken encoding of HTML content encapsulated in a RTF attachment (#8444)
+- Fix problem with aria-hidden=true on toolbar menus in the Elastic skin (#8517)
 
 ## Release 1.6-beta
 

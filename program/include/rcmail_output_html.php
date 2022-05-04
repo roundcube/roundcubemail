@@ -491,28 +491,28 @@ EOF;
     /**
      * Call a client method
      *
-     * @param string Method to call
-     * @param ... Additional arguments
+     * @param string $cmd    Method to call
+     * @param mixed ...$args Method arguments
      */
-    public function command()
+    public function command($cmd, ...$args)
     {
-        $cmd = func_get_args();
-
-        if (strpos($cmd[0], 'plugin.') !== false) {
-            $this->js_commands[] = ['triggerEvent', $cmd[0], $cmd[1]];
+        if (strpos($cmd, 'plugin.') !== false) {
+            $this->js_commands[] = ['triggerEvent', $cmd, $args[0]];
         }
         else {
-            $this->js_commands[] = $cmd;
+            array_unshift($args, $cmd);
+
+            $this->js_commands[] = $args;
         }
     }
 
     /**
      * Add a localized label to the client environment
+     *
+     * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
-    public function add_label()
+    public function add_label(...$args)
     {
-        $args = func_get_args();
-
         if (count($args) == 1 && is_array($args[0])) {
             $args = $args[0];
         }
@@ -1499,6 +1499,11 @@ EOF;
 
                     if (($template_logo = $this->get_template_logo($logo_type, $logo_match)) !== null) {
                         $attrib['src'] = $template_logo;
+                    }
+
+                    if (($link = $this->get_template_logo('link')) !== null) {
+                        $attrib['onclick'] = "location.href='$link';";
+                        $attrib['style'] = 'cursor:pointer;';
                     }
 
                     $additional_logos = [];

@@ -15,10 +15,10 @@
 */
 
 $labels['basic'] = 'Yeni iletiler web tarayıcıdan bildirilsin';
-$labels['desktop'] = 'Yeni iletiler Masaüstünden bildirilsin';
+$labels['desktop'] = 'Yeni iletiler masaüstünden bildirilsin';
 $labels['sound'] = 'Yeni ileti geldiğinde ses çalınsın';
 $labels['test'] = 'Deneme';
-$labels['title'] = 'Yeni İleti!';
+$labels['title'] = 'Yeni ileti!';
 $labels['body'] = 'Yeni bir iletiniz var.';
 $labels['testbody'] = 'Bu bir test bildirimidir.';
 $labels['desktopdisabled'] = 'Web tarayıcınızda masaüstü bildirimi devre dışı bırakıldı.';

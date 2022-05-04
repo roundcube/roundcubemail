@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
-$labels['downloadall'] = 'Tüm dosya eklerini indir';
+$labels['downloadall'] = 'Tüm ek dosyaları indir';
 $labels['download'] = 'İndir...';
 $labels['downloadmbox'] = 'Mbox biçimi (.zip)';
 $labels['downloadmaildir'] = 'Maildir biçimi (.zip)';

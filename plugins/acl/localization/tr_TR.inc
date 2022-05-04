@@ -15,7 +15,7 @@
 */
 
 $labels['sharing'] = 'Paylaşım';
-$labels['myrights'] = 'Erişim İzinleri';
+$labels['myrights'] = 'Erişim izinleri';
 $labels['username'] = 'Kullanıcı:';
 $labels['advanced'] = 'Gelişmiş kip';
 $labels['add'] = 'Ekle';
@@ -27,7 +27,7 @@ $labels['anonymous'] = 'Ziyaretçiler (isimsiz)';
 $labels['identifier'] = 'Tanımlayıcı';
 $labels['acll'] = 'Arama';
 $labels['aclr'] = 'İletileri oku';
-$labels['acls'] = 'Okundu durumu korunsun';
+$labels['acls'] = 'Okunmuş durumu korunsun';
 $labels['aclw'] = 'Yazma işaretleri';
 $labels['acli'] = 'Ekle (kopyala)';
 $labels['aclp'] = 'Gönder';
@@ -64,7 +64,7 @@ $labels['shortaclwrite'] = 'Yaz';
 $labels['shortacldelete'] = 'Sil';
 $labels['longacll'] = 'Klasör listesinde görülebilir ve abone olunabilir';
 $labels['longaclr'] = 'Klasör okunmak üzere açılabilir';
-$labels['longacls'] = 'İletilerin Okundu işareti değiştirilebilir';
+$labels['longacls'] = 'İletilerin okunmuş işareti değiştirilebilir';
 $labels['longaclw'] = 'Okundu ve Silindi işaretleri dışındaki işaret ve anahtar sözcükler değiştirilebilir';
 $labels['longacli'] = 'Klasöre iletiler yazılabilir ya da kopyalanabilir';
 $labels['longaclp'] = 'İletiler bu klasöre gönderilebilir';
