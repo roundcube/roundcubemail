@@ -138,6 +138,15 @@ class rcube_spellchecker
             $this->content = $text;
         }
 
+        // ignore links (#8527)
+        $callback = function ($matches) {
+            // replace the link with a dummy string that has the same length
+            // we can't just remove the link
+            return str_repeat(' ', strlen($matches[0]));
+        };
+
+        $this->content = preg_replace_callback('~(^|\s)(www.\S+|[a-z]+://\S+)~', $callback, $this->content);
+
         if ($this->backend) {
             $this->matches = $this->backend->check($this->content);
         }
