@@ -70,6 +70,20 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
             '|^<\?xml version="1.0" encoding="UTF-8"\?><spellresult charschecked="3"><c o="0" l="3">([a-zA-Z\t]+)</c></spellresult>$|',
             $object->get_xml()
         );
+
+        // Test that links are ignored (#8527)
+        $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'
+            . '<p><a href="http://www.redacted.com">www.redacted.com</a></div></body></html>';
+
+        $this->assertTrue($object->check($html, true));
+
+        $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'
+            . '<p><a href="http://www.redacted.com">http://www.redacted.com</a></div></body></html>';
+
+        $this->assertTrue($object->check($html, true));
+
+        $this->assertTrue($object->check('one http://www.redacted.com'));
+        $this->assertTrue($object->check('one www.redacted.com'));
     }
 
     /**
