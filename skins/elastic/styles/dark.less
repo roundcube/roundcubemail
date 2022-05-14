@@ -12,41 +12,15 @@
 @import (reference) "variables";
 
 html.dark-mode {
-    & when not (@scrollbar-dark-width = unset) {
-        scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
-        scrollbar-width: @scrollbar-dark-width;
+    scrollbar-color: @color-dark-scrollbar-thumb @color-dark-scrollbar-track;
 
-        textarea,
-        select,
-        .popover-body,
-        .popupmenu,
-        .ui-dialog-content,
-        .frame-content,
-        .formcontent,
-        .table-responsive,
-        .table-responsive-sm,
-        .scroller {
-            // Firefox does not inherit scrollbar size from the html element
-            scrollbar-width: @scrollbar-dark-width;
+    &:not(.touch) {
+        ::-webkit-scrollbar-track {
+            background-color: @color-dark-scrollbar-track;
         }
 
-        &:not(.touch) {
-            ::-webkit-scrollbar when (@scrollbar-dark-width = auto) {
-                // Note: If we do not set the width a default scrollbar is used in Chrome.
-                // And the custom colors set below do not work
-                width: 12px;
-            }
-            ::-webkit-scrollbar when (@scrollbar-dark-width = thin) {
-                width: 6px;
-            }
-
-            ::-webkit-scrollbar-track {
-                background-color: @color-dark-scrollbar-track;
-            }
-
-            ::-webkit-scrollbar-thumb {
-                background-color: @color-dark-scrollbar-thumb;
-            }
+        ::-webkit-scrollbar-thumb {
+            background-color: @color-dark-scrollbar-thumb;
         }
     }
 
@@ -781,15 +755,9 @@ html.dark-mode {
         }
 
         .tox-menu {
-            scrollbar-width: @scrollbar-dark-width;
             background-color: @color-dark-popover-background;
             border-color: @color-dark-popover-border;
             box-shadow: none;
-        }
-
-        .tox-dialog__body-nav,
-        .tox-collection__group {
-            scrollbar-width: @scrollbar-dark-width;
         }
 
         .tox-collection__item-caret svg {
@@ -985,7 +953,6 @@ html.dark-mode {
     }
 
     .ui-menu {
-        scrollbar-width: @scrollbar-dark-width;
         background-color: @color-dark-popover-background;
         border-color: @color-dark-popover-border;
         box-shadow: none;
