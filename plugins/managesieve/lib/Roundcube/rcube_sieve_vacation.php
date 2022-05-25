@@ -188,7 +188,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $from          = rcube_utils::get_input_string('vacation_from', rcube_utils::INPUT_POST, true);
         $subject       = rcube_utils::get_input_string('vacation_subject', rcube_utils::INPUT_POST, true);
         $reason        = rcube_utils::get_input_string('vacation_reason', rcube_utils::INPUT_POST, true);
-        $addresses     = rcube_utils::get_input_string('vacation_addresses', rcube_utils::INPUT_POST, true);
+        $addresses     = rcube_utils::get_input_value('vacation_addresses', rcube_utils::INPUT_POST, true);
         $interval      = rcube_utils::get_input_string('vacation_interval', rcube_utils::INPUT_POST);
         $interval_type = rcube_utils::get_input_string('vacation_interval_type', rcube_utils::INPUT_POST);
         $date_from     = rcube_utils::get_input_string('vacation_datefrom', rcube_utils::INPUT_POST);
