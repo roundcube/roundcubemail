@@ -286,24 +286,6 @@ class rcube_utils
     }
 
     /**
-     * Read input value and make sure it is an array.
-     *
-     * @param string $fname      Field name to read
-     * @param int    $source     Source to get value from (see self::INPUT_*)
-     * @param bool   $allow_html Allow HTML tags in field value
-     * @param string $charset    Charset to convert into
-     *
-     * @return array Request parameter value
-     * @see self::get_input_value()
-     */
-    public static function get_input_array($fname, $source, $allow_html = false, $charset = null)
-    {
-        $value = self::get_input_value($fname, $source, $allow_html, $charset);
-
-        return is_array($value) ? $value : '';
-    }
-
-    /**
      * Read request parameter value and convert it for internal use
      * Performs stripslashes() and charset conversion if necessary
      *
