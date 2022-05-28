@@ -19,6 +19,7 @@
 - Fix broken encoding of HTML content encapsulated in a RTF attachment (#8444)
 - Fix problem with aria-hidden=true on toolbar menus in the Elastic skin (#8517)
 - Fix so links (e.g. www.some.page or http://some.page) are not considered mispellings (#8527)
+- Fix bug where title tag content was displayed in the body if it contained HTML tags (#8540)
 
 ## Release 1.6-beta
 
