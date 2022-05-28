@@ -16,6 +16,7 @@
 - Fix bug where DSN flag state wasn't stored with a draft (#8371)
 - Fix broken encoding of HTML content encapsulated in a RTF attachment (#8444)
 - Fix problem with aria-hidden=true on toolbar menus in the Elastic skin (#8517)
+- Fix bug where title tag content was displayed in the body if it contained HTML tags (#8540)
 
 ## Release 1.5.2
 

@@ -294,6 +294,24 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test handling of title tag
+     */
+    function test_title()
+    {
+        $washer = new rcube_washtml;
+
+        $html = "<html><head><title>title1</title></head><body><p>test</p></body>";
+        $washed = $washer->wash($html);
+
+        $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
+
+        $html = "<html><head><title>title1<img />title2</title></head><body><p>test</p></body>";
+        $washed = $washer->wash($html);
+
+        $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
+    }
+
+    /**
      * Test SVG cleanup
      */
     function test_wash_svg()
