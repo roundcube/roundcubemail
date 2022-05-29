@@ -456,8 +456,10 @@ function rcube_check_email(input, inline, count, strict)
       rx_flag = count ? 'ig' : 'i',
       rx = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', rx_flag) : new RegExp('^'+addr_spec+'$', 'i');
 
-  if (count)
-    return input.match(rx).length;
+  if (count) {
+    var re = input.match(rx);
+    return re ? re.length : 0;
+  }
 
   return rx.test(input);
 };
