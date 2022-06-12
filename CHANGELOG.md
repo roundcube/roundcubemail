@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.6-rc
 
 - Update to jQuery-UI 1.13.1 (#8455)
 - Added possibility to make the logo image a link via the 'skin_logo' option (#8501)
