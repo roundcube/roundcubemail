@@ -300,6 +300,14 @@ class rcube_message
         if (!$mode && $body && $formatted) {
             $body = self::format_part_body($body, $part, $charset);
         }
+     
+        // allow plugins to modify body after formating
+        $plugin = $this->app->plugins->exec_hook('message_part_body_after',
+            ['object' => $this, 'part' => $part, 'body' => $body]);
+
+        if (isset($plugin['body']) && $body !== $plugin['body']) {
+           $body = $plugin['body'];
+        }
 
         return $body;
     }
