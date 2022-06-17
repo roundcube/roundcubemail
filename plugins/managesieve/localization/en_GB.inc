@@ -201,6 +201,7 @@ $labels['vacation.reply'] = 'Reply message';
 $labels['vacation.advanced'] = 'Advanced settings';
 $labels['vacation.from'] = 'Reply sender address';
 $labels['vacation.subject'] = 'Subject';
+$labels['vacation.subjectappendoriginal'] = 'Append original subject to the reply';
 $labels['vacation.body'] = 'Body';
 $labels['vacation.start'] = 'Start time';
 $labels['vacation.end'] = 'End time';

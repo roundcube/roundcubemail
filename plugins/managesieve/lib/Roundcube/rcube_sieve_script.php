@@ -53,6 +53,9 @@ class rcube_sieve_script
         // @TODO: virustest, mailbox
     ];
 
+    private $vacation_subject_var = 'subject';
+    private $vacation_subject_suffix = '${subject}';
+
     /**
      * Object constructor
      *
@@ -209,6 +212,12 @@ class rcube_sieve_script
         $exts   = [];
         $idx    = 0;
 
+        $add_vacation_subject_rule = $this->should_generate_vacation_subject_rule();
+        if ($add_vacation_subject_rule) {
+            $this->set_var($this->vacation_subject_var, '');
+        }
+
+
         if (!empty($this->vars)) {
             if (in_array('variables', (array)$this->supported)) {
                 $has_vars = true;
@@ -231,6 +240,12 @@ class rcube_sieve_script
 
         $imapflags = in_array('imap4flags', $this->supported) ? 'imap4flags' : 'imapflags';
         $notify    = in_array('enotify', $this->supported) ? 'enotify' : 'notify';
+
+        if ($add_vacation_subject_rule) {
+            $output .= 'if header :matches "subject" "*" {' . "\r\n" .
+                       "\t" . 'set "' . $this->vacation_subject_var . '" "${1}";' . "\r\n" .
+                       "}\r\n";
+        }
 
         // rules
         foreach ($this->content as $rule) {
@@ -567,7 +582,11 @@ class rcube_sieve_script
                             $action_script .= " :addresses " . self::escape_string($action['addresses']);
                         }
                         if (!empty($action['subject'])) {
-                            $action_script .= " :subject " . self::escape_string($action['subject']);
+                            $subject = trim($action['subject']);
+                            if ($action['subject_append_original'] == 1) {
+                                $subject .= $this->ends_with($subject, ':') ? ' ' : ': ' . $this->vacation_subject_suffix;
+                            }
+                            $action_script .= " :subject " . self::escape_string($subject);
                         }
                         if (!empty($action['handle'])) {
                             $action_script .= " :handle " . self::escape_string($action['handle']);
@@ -705,6 +724,13 @@ class rcube_sieve_script
                     else {
                         $rule = ['actions' => $rule];
                     }
+                }
+            }
+
+            // Skip the rule if it is a internal vacation rule (see more at is_vacation_subject_rule function) 
+            if (!empty($rule)) {
+                if ($this->is_vacation_subject_rule($rule)) {
+                    unset($rule);
                 }
             }
 
@@ -973,6 +999,12 @@ class rcube_sieve_script
                 $args    = ['mime'];
                 $vargs   = ['seconds', 'days', 'addresses', 'subject', 'handle', 'from'];
                 $action += $this->action_arguments($tokens, $args, $vargs);
+
+                $subject = isset($action['subject']) ? $action['subject'] : '';
+                if (!empty($subject) && $this->ends_with($subject, ': ' . $this->vacation_subject_suffix)) {
+                    $action['subject_append_original'] = 1;
+                    $action['subject'] = trim(substr($subject, 0, -(strlen($this->vacation_subject_suffix) + 2)));
+                }
 
                 $result[] = $action;
                 break;
@@ -1477,5 +1509,57 @@ class rcube_sieve_script
         }
 
         return $position;
+    }
+
+    /**
+     * Checks if the following unnamed rule is found:
+     *
+     * if header :matches "subject" "*" {
+     *    set "subject" "${1}";
+     * }
+     *
+     * This is used by Sieverules and a commonly recommended solution to append the original subject to the vacation's subject
+     * This rule is usually preceeded by setting a global variable to empty, like this:
+     *
+     * set "subject" "";
+     * if header :matches "subject" "*" { ...
+     */
+    private function is_vacation_subject_rule($rule) {
+        $name = isset($rule['name']) ? $rule['name'] : '';
+        $type = isset($rule['type']) ? $rule['type'] : '';
+        if (!empty($name) || $type != "if" || count($rule['tests']) != 1 || count($rule['actions']) != 1) {
+            return false;
+        }
+
+        $test = $rule['tests'][0];
+        $action = $rule['actions'][0];
+
+        return $test['test'] == 'header' && $test['type'] == 'matches' && $test['arg1'] == 'subject' && $test['arg2'] == '*'
+                && $action['type'] == 'set' && $action['name'] == 'subject' && $action['value'] == '${1}';
+    }
+
+    /**
+     * Checks if there is any vacation rule that wants to append original subject to the vacation's subject
+     */
+    private function should_generate_vacation_subject_rule() {
+        foreach ($this->content as $rule) {
+            foreach ($rule['actions'] as $action) {
+                if ($action['type'] == 'vacation' && isset($action['subject_append_original']) && $action['subject_append_original'] == 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function ends_with($haystack, $needle) {
+        if ('' === $needle) {
+            return true;
+        }
+        if ('' === $haystack && '' !== $needle) {
+            return false;
+        }
+        $length = strlen($needle);
+        return strlen($haystack) >= $length && 0 === substr_compare($haystack, $needle, -$length, $length);
     }
 }

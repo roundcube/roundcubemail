@@ -1,0 +1,10 @@
+require ["vacation","variables"];
+set "subject" "";
+if header :matches "subject" "*" {
+	set "subject" "${1}";
+}
+# rule:[Out of Office]
+if true
+{
+	vacation :days 3 :subject "Out of office: ${subject}" "Went for holiday";
+}

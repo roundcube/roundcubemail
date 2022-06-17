@@ -187,6 +187,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $status        = rcube_utils::get_input_string('vacation_status', rcube_utils::INPUT_POST);
         $from          = rcube_utils::get_input_string('vacation_from', rcube_utils::INPUT_POST, true);
         $subject       = rcube_utils::get_input_string('vacation_subject', rcube_utils::INPUT_POST, true);
+        $subject_append_original = rcube_utils::get_input_value('vacation_subject_append_original', rcube_utils::INPUT_POST);
         $reason        = rcube_utils::get_input_string('vacation_reason', rcube_utils::INPUT_POST, true);
         $addresses     = rcube_utils::get_input_value('vacation_addresses', rcube_utils::INPUT_POST, true);
         $interval      = rcube_utils::get_input_string('vacation_interval', rcube_utils::INPUT_POST);
@@ -204,6 +205,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $vacation_action['type']         = 'vacation';
         $vacation_action['reason']       = $this->strip_value(str_replace("\r\n", "\n", $reason), true);
         $vacation_action['subject']      = trim($subject);
+        $vacation_action['subject_append_original'] = $subject_append_original == 1 ? 1 : NULL;
         $vacation_action['from']         = trim($from);
         $vacation_action['addresses']    = $addresses;
         $vacation_action[$interval_type] = $interval;
@@ -393,6 +395,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         // form elements
         $from      = new html_inputfield(['name' => 'vacation_from', 'id' => 'vacation_from', 'size' => 50, 'class' => 'form-control']);
         $subject   = new html_inputfield(['name' => 'vacation_subject', 'id' => 'vacation_subject', 'size' => 50, 'class' => 'form-control']);
+        $subject_append_original = new html_inputfield(['name' => 'vacation_subject_append_original', 'id' => 'vacation_subject_append_original', 'type' => 'checkbox', 'class' => 'form-control']);
         $reason    = new html_textarea(['name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8]);
         $interval  = new html_inputfield(['name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5, 'class' => 'form-control']);
         $addresses = '<textarea name="vacation_addresses" id="vacation_addresses" data-type="list" data-size="30" style="display: none">'
@@ -524,6 +527,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         $table->add('title', html::label('vacation_subject', $this->plugin->gettext('vacation.subject')));
         $table->add(null, $subject->show(!empty($this->vacation['subject']) ? $this->vacation['subject'] : null));
+        $table->add('title', '');
+        $table->add(null, $subject_append_original->show('1', ['checked' => isset($this->vacation['subject_append_original']) && $this->vacation['subject_append_original'] == 1 ? 'checked' : ''])
+            . html::label('vacation_subject_append_original', $this->plugin->gettext('vacation.subjectappendoriginal')));
         $table->add('title', html::label('vacation_reason', $this->plugin->gettext('vacation.body')));
         $table->add(null, $reason->show(!empty($this->vacation['reason']) ? $this->vacation['reason'] : null));
 
