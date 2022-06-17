@@ -155,10 +155,15 @@ class rcube_smtp
             $this->conn->setTimeout($timeout);
         }
 
-        if (!$this->_process_xclient()) {
+        // XCLIENT extension
+        $result = $this->_process_xclient($use_tls, $helo_host);
+
+        if (is_a($result, 'PEAR_Error')) {
             list($code,) = $this->conn->getResponse();
-            $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => $code]];
-            $this->conn  = null;
+            $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
+                . ' (' . $code . ')']];
+
+            $this->disconnect();
 
             return false;
         }
@@ -557,7 +562,7 @@ class rcube_smtp
     /**
      * Send XCLIENT command if configured and supported
      */
-    private function _process_xclient()
+    private function _process_xclient($use_tls, $helo_host)
     {
         $rcube = rcube::get_instance();
 
@@ -595,7 +600,15 @@ class rcube_smtp
         }
 
         if ($cmd) {
-            $this->conn->command("XCLIENT" . $cmd, [220]);
+            $result = $this->conn->command("XCLIENT" . $cmd, [220]);
+
+            if ($result !== true) {
+                return $result;
+            }
+
+            if (!$use_tls) {
+                return $this->conn->helo($helo_host);
+            }
         }
 
         return true;
