@@ -71,4 +71,24 @@ class Framework_DBPgsql extends PHPUnit\Framework\TestCase
             $this->assertSame($output[$idx], $res, "Test case $idx");
         }
     }
+
+    /**
+     * Test converting config DSN string into PDO connection string
+     */
+    function test_dsn_string()
+    {
+        $db = new rcube_db_pgsql('test');
+
+        $dsn = $db->parse_dsn("pgsql://USERNAME:PASSWORD@HOST:5432/DATABASE");
+        $result = invokeMethod($db, 'dsn_string', [$dsn]);
+        $this->assertSame("pgsql:host=HOST;port=5432;dbname=DATABASE", $result);
+
+        $dsn = $db->parse_dsn("pgsql:///DATABASE");
+        $result = invokeMethod($db, 'dsn_string', [$dsn]);
+        $this->assertSame("pgsql:dbname=DATABASE", $result);
+
+        $dsn = $db->parse_dsn("pgsql://user@unix(/var/run/postgresql)/roundcubemail?sslmode=verify-full");
+        $result = invokeMethod($db, 'dsn_string', [$dsn]);
+        $this->assertSame("pgsql:host=/var/run/postgresql;dbname=roundcubemail;sslmode=verify-full", $result);
+    }
 }

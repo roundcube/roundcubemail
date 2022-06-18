@@ -1303,7 +1303,7 @@ class rcube_db
         if (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
         }
-        if ($parsed['protocol'] == 'tcp') {
+        if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
         }
         else if ($parsed['protocol'] == 'unix') {

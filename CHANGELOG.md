@@ -17,6 +17,7 @@
 - Fix broken encoding of HTML content encapsulated in a RTF attachment (#8444)
 - Fix problem with aria-hidden=true on toolbar menus in the Elastic skin (#8517)
 - Fix bug where title tag content was displayed in the body if it contained HTML tags (#8540)
+- Fix support for DSN specification without host e.g. pgsql:///dbname (#8558)
 
 ## Release 1.5.2
 

@@ -180,12 +180,23 @@ class Framework_DB extends PHPUnit\Framework\TestCase
 
         $result = rcube_db::parse_dsn($dsn);
 
-        $this->assertSame('mysql', $result['phptype'], "DSN parser: phptype");
-        $this->assertSame('USERNAME', $result['username'], "DSN parser: username");
-        $this->assertSame('PASSWORD', $result['password'], "DSN parser: password");
-        $this->assertSame('3306', $result['port'], "DSN parser: port");
-        $this->assertSame('HOST', $result['hostspec'], "DSN parser: hostspec");
-        $this->assertSame('DATABASE', $result['database'], "DSN parser: database");
+        $this->assertSame('mysql', $result['phptype']);
+        $this->assertSame('USERNAME', $result['username']);
+        $this->assertSame('PASSWORD', $result['password']);
+        $this->assertSame('3306', $result['port']);
+        $this->assertSame('HOST', $result['hostspec']);
+        $this->assertSame('DATABASE', $result['database']);
+
+        $dsn = "pgsql:///DATABASE";
+
+        $result = rcube_db::parse_dsn($dsn);
+
+        $this->assertSame('pgsql', $result['phptype']);
+        $this->assertTrue(!array_key_exists('username', $result));
+        $this->assertTrue(!array_key_exists('password', $result));
+        $this->assertTrue(!array_key_exists('port', $result));
+        $this->assertTrue(!array_key_exists('hostspec', $result));
+        $this->assertSame('DATABASE', $result['database']);
     }
 
     /**
