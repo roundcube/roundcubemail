@@ -60,7 +60,7 @@ function rcube_text_editor(config, id)
       remove_script_host: false,
       convert_urls: false, // #1486944
       image_description: false,
-      paste_webkit_style: "color font-size font-family",
+      paste_webkit_styles: "color font-size font-family font-weight background-color",
       automatic_uploads: false, // allows to paste images
       paste_data_images: true,
       // Note: We disable contextmenu options specifically for browser_spellcheck:true.
