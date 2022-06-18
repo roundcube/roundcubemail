@@ -46,9 +46,9 @@ sign:
 	gpg -u $(GPGKEY) -a --detach-sig roundcube-framework-$(VERSION).tar.gz
 
 verify:
-	gpg -v --verify roundcubemail-$(VERSION).tar.gz{.asc,}
-	gpg -v --verify roundcubemail-$(VERSION)-complete.tar.gz{.asc,}
-	gpg -v --verify roundcube-framework-$(VERSION).tar.gz{.asc,}
+	gpg -v --verify roundcubemail-$(VERSION).tar.gz.asc roundcubemail-$(VERSION).tar.gz
+	gpg -v --verify roundcubemail-$(VERSION)-complete.tar.gz.asc roundcubemail-$(VERSION)-complete.tar.gz
+	gpg -v --verify roundcube-framework-$(VERSION).tar.gz.asc roundcube-framework-$(VERSION).tar.gz
 
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
