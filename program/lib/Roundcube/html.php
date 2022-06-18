@@ -543,9 +543,7 @@ class html_checkbox extends html_inputfield
         }
 
         // set 'checked' attribute
-        if (!isset($this->attrib['checked'])) {
-            $this->attrib['checked'] = isset($this->attrib['value']) && ((string)$value == (string)$this->attrib['value']);
-        }
+        $this->attrib['checked'] = (string) $value === (string) $this->attrib['value'];
 
         return parent::show();
     }
