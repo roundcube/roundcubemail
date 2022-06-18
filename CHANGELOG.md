@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Release 1.6-rc
+## Unreleased
 
 - Fix SMTP XCLIENT extension when not using STARTTLS (#8581)
 
