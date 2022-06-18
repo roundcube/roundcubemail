@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test class to test rcube_html class
+ * Test class to test html class
  *
  * @package Tests
  */
