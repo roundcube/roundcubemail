@@ -139,12 +139,8 @@ class rcube_smtp
         $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
         if (is_a($result, 'PEAR_Error')) {
-            $this->response[] = "Connection failed: " . $result->getMessage();
-
-            list($code,) = $this->conn->getResponse();
-            $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => $code]];
-            $this->conn  = null;
-
+            $this->_conn_error('smtpconnerror', "Connection failed", [], $result);
+            $this->conn = null;
             return false;
         }
 
@@ -159,12 +155,8 @@ class rcube_smtp
         $result = $this->_process_xclient($use_tls, $helo_host);
 
         if (is_a($result, 'PEAR_Error')) {
-            list($code,) = $this->conn->getResponse();
-            $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
-                . ' (' . $code . ')']];
-
+            $this->_conn_error('smtpconnerror', "XCLIENT failed", [], $result);
             $this->disconnect();
-
             return false;
         }
 
@@ -172,12 +164,8 @@ class rcube_smtp
             $result = $this->conn->starttls();
 
             if (is_a($result, 'PEAR_Error')) {
-                list($code,) = $this->conn->getResponse();
-                $this->error = ['label' => 'smtperror', 'vars' => ['msg' => $result->getMessage()
-                    . ' (' . $code . ')']];
-
+                $this->_conn_error('smtpconnerror', "STARTTLS failed", [], $result);
                 $this->disconnect();
-
                 return false;
             }
         }
@@ -213,13 +201,8 @@ class rcube_smtp
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, false, $smtp_authz);
 
             if (is_a($result, 'PEAR_Error')) {
-                list($code,) = $this->conn->getResponse();
-                $this->error = ['label' => 'smtpautherror', 'vars' => ['code' => $code]];
-                $this->response[] = 'Authentication failure: ' . $result->getMessage()
-                    . ' (Code: ' . $result->getCode() . ')';
-
+                $this->_conn_error('smtpautherror', "Authentication failure", [], $result);
                 $this->disconnect();
-
                 return false;
             }
         }
@@ -299,8 +282,7 @@ class rcube_smtp
                 $from_params = ltrim($from_params . ' SMTPUTF8');
             }
             else {
-                $this->error = ['label' => 'smtputf8error'];
-                $this->response[] = "SMTP server does not support unicode in email addresses";
+                $this->_conn_error('smtputf8error', "SMTP server does not support unicode in email addresses");
                 $this->reset();
                 return false;
             }
@@ -317,10 +299,7 @@ class rcube_smtp
         // set From: address
         $result = $this->conn->mailFrom($from, $from_params);
         if (is_a($result, 'PEAR_Error')) {
-            $err  = $this->conn->getResponse();
-            $vars = ['from' => $from, 'code' => $err[0], 'msg' => $err[1]];
-            $this->error = ['label' => 'smtpfromerror', 'vars' => $vars];
-            $this->response[] = "Failed to set sender '$from'. " . $err[1] . ' (Code: ' . $err[0] . ')';
+            $this->_conn_error('smtpfromerror', "Failed to set sender '$from'", ['from' => $from]);
             $this->reset();
             return false;
         }
@@ -329,10 +308,7 @@ class rcube_smtp
         foreach ($recipients as $recipient) {
             $result = $this->conn->rcptTo($recipient, $recipient_params);
             if (is_a($result, 'PEAR_Error')) {
-                $err  = $this->conn->getResponse();
-                $vars = ['to' => $recipient, 'code' => $err[0], 'msg' => $err[1]];
-                $this->error = ['label' => 'smtptoerror', 'vars' => $vars];
-                $this->response[] = "Failed to add recipient '$recipient'. " . $err[1] . ' (Code: ' . $err[0] . ')';
+                $this->_conn_error('smtptoerror', "Failed to add recipient '$recipient'", ['to' => $recipient]);
                 $this->reset();
                 return false;
             }
@@ -612,5 +588,19 @@ class rcube_smtp
         }
 
         return true;
+    }
+
+    /**
+     * Handle connection error
+     */
+    private function _conn_error($label, $message, $vars = [], $result = null)
+    {
+        $err = $this->conn->getResponse();
+
+        $vars['code'] = $result ? $result->getCode() : $err[0];
+        $vars['msg']  = $result ? $result->getMessage() : $err[1];
+
+        $this->error = ['label' => $label, 'vars' => $vars];
+        $this->response[] = "{$message}: {$err[1]} (Code: {$err[0]})";
     }
 }
