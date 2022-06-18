@@ -305,7 +305,7 @@ class rcube_ldap extends rcube_addressbook
 
             $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
 
-            $this->ldap->option_set('use_tls', $scheme === 'tls');
+            $this->ldap->config_set('use_tls', $scheme === 'tls');
 
             // skip host if connection failed
             if (!$this->ldap->connect($host)) {
