@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Fix SMTP XCLIENT extension when not using STARTTLS (#8581)
+- Fix call to undefined method rcube_ldap_generic::option_set() (#8564)
+- Fix PHP Fatal error on incompatible method declaration of rcmail_output_json::command() and rcmail_output::command() (#8579)
 
 ## Release 1.6-rc
 
