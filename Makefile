@@ -2,7 +2,7 @@
 # This file is used by developers to build release packages
 #
 
-GITREMOTE=git://github.com/roundcube/roundcubemail.git
+GITREMOTE=https://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
 VERSION=1.6-git
