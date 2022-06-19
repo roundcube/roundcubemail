@@ -959,23 +959,50 @@ html.ms .propform {
         .style-input-focus();
     }
 
-    .recipient {
-        display: flex;
-        position: relative;
-        max-width: ~"calc(50% - 3px)";
-        border: 1px solid @color-recipient-input-border;
-        background-color: @color-recipient-input-background;
-        border-radius: .25em;
-        padding: 0 .25em;
-        margin-top: @recipient-input-margin-fix;
-        margin-right: .2em;
-        white-space: nowrap;
-        cursor: default;
+    li {
+        max-width: 100%;
 
-        @media screen and (max-width: 450px) {
-            width: 100%;
-            max-width: 100%;
+        &:not(.recipient) {
+            user-select: text;
         }
+
+        &.input {
+            flex: 1;
+            min-width: 100px;
+        }
+    }
+
+    input {
+        width: 100%;
+        background: transparent !important;
+        border: 0 !important;
+        margin-top: @recipient-input-margin-fix;
+        outline: 0;
+        line-height: 1.5;
+
+        &::-ms-clear {
+            display: none; // removes clear icon in IE11
+        }
+    }
+}
+
+.recipient-input li.recipient,
+body > li.recipient.ui-sortable-helper {
+    display: flex;
+    position: relative;
+    max-width: ~"calc(50% - 3px)";
+    border: 1px solid @color-recipient-input-border;
+    background-color: @color-recipient-input-background;
+    border-radius: .25rem;
+    padding: 0 .25rem;
+    margin-top: @recipient-input-margin-fix;
+    margin-right: .2em;
+    white-space: nowrap;
+    cursor: default;
+
+    @media screen and (max-width: 450px) {
+        width: 100%;
+        max-width: 100%;
     }
 
     .name {
@@ -1011,30 +1038,9 @@ html.ms .propform {
         }
     }
 
-    li {
-        max-width: 100%;
-
-        &:not(.recipient) {
-            user-select: text;
-        }
-
-        &.input {
-            flex: 1;
-            min-width: 100px;
-        }
-    }
-
-    input {
-        width: 100%;
-        background: transparent !important;
-        border: 0 !important;
-        margin-top: @recipient-input-margin-fix;
-        outline: 0;
-        line-height: 1.5;
-
-        &::-ms-clear {
-            display: none; // removes clear icon in IE11
-        }
+    &.ui-sortable-helper {
+        // fix element width while dragging
+        padding: 0 0 0 .25rem !important;
     }
 }
 
