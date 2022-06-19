@@ -8,6 +8,7 @@
 - Fix support for DSN specification without host e.g. pgsql:///dbname (#8558)
 - Fix TinyMCE configuration for handling styles of pasted content in webkit browsers (#8555)
 - Fix bug where some checkboxes could be selected unintentinally (#8565)
+- Fix css styles of the email recipient element while dragging (#8580)
 
 ## Release 1.6-rc
 
