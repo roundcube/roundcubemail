@@ -180,16 +180,22 @@ class rcube_ldap extends rcube_addressbook
         // support for composite address
         if (!empty($this->coltypes['street']) && !empty($this->coltypes['locality'])) {
             $this->coltypes['address'] = [
-               'limit'    => max(1, $this->coltypes['locality']['limit'] + $this->coltypes['address']['limit']),
-               'subtypes' => array_merge((array)$this->coltypes['address']['subtypes'], (array)$this->coltypes['locality']['subtypes']),
-               'childs'   => [],
-               'attributes' => [],
-               ] + (array)$this->coltypes['address'];
+                'childs'     => [],
+                'attributes' => [],
+                'limit'      => max(1, ($this->coltypes['locality']['limit'] ?? 0) + ($this->coltypes['address']['limit'] ?? 0)),
+                'subtypes'   => array_merge(
+                    (array) ($this->coltypes['address']['subtypes'] ?? null),
+                    (array) ($this->coltypes['locality']['subtypes'] ?? null)
+                ),
+            ] + (array) $this->coltypes['address'];
 
             foreach (['street','locality','zipcode','region','country'] as $childcol) {
-                if ($this->coltypes[$childcol]) {
+                if (!empty($this->coltypes[$childcol])) {
                     $this->coltypes['address']['childs'][$childcol] = ['type' => 'text'];
-                    $this->coltypes['address']['attributes'] = array_merge($this->coltypes['address']['attributes'], $this->coltypes[$childcol]['attributes']);
+                    $this->coltypes['address']['attributes'] = array_merge(
+                        $this->coltypes['address']['attributes'],
+                        (array) ($this->coltypes[$childcol]['attributes'] ?? null)
+                    );
                     unset($this->coltypes[$childcol]);  // remove address child col from global coltypes list
                 }
             }
@@ -321,13 +327,15 @@ class rcube_ldap extends rcube_addressbook
             $rcube = rcube::get_instance();
             $conf  = $rcube->plugins->exec_hook('ldap_connected', $this->prop + ['host' => $host]);
 
-            $bind_pass   = $conf['bind_pass'];
-            $bind_user   = $conf['bind_user'];
-            $bind_dn     = $conf['bind_dn'];
-            $auth_method = $conf['auth_method'];
+            $bind_pass   = $conf['bind_pass'] ?? null;
+            $bind_user   = $conf['bind_user'] ?? null;
+            $bind_dn     = $conf['bind_dn'] ?? null;
+            $auth_method = $conf['auth_method'] ?? null;
 
-            $this->base_dn        = $conf['base_dn'];
-            $this->groups_base_dn = $conf['groups']['base_dn'] ?: $this->base_dn;
+            $this->base_dn = $this->groups_base_dn = $conf['base_dn'] ?? null;
+            if (!empty($conf['groups']['base_dn'])) {
+                $this->groups_base_dn = $conf['groups']['base_dn'];
+            }
 
             // User specific access, generate the proper values to use.
             if (!empty($conf['user_specific'])) {
@@ -648,7 +656,7 @@ class rcube_ldap extends rcube_addressbook
         $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
 
         // filter entries for this page
-        for ($i = $start_row; $i < min($entries['count'], $last_row); $i++) {
+        for ($i = $start_row; $i < min($entries['count'] ?? 0, $last_row); $i++) {
             if (!empty($entries[$i])) {
                 $this->result->add($this->_ldap2result($entries[$i]));
             }
@@ -1625,8 +1633,13 @@ class rcube_ldap extends rcube_addressbook
         }
 
         foreach ($fieldmap as $rf => $lf) {
-            // we might be dealing with normalized and non-normalized data
+            if (!isset($rec[$lf])) {
+                continue;
+            }
+
             $entry = $rec[$lf];
+
+            // we might be dealing with normalized and non-normalized data
             if (!is_array($entry) || !isset($entry['count'])) {
                 $entry = (array) $entry;
                 $entry['count'] = count($entry);
@@ -1659,7 +1672,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // Make sure name fields aren't arrays (#1488108)
-            if (is_array($out[$rf]) && in_array($rf, ['name', 'surname', 'firstname', 'middlename', 'nickname'])) {
+            if (!empty($out[$rf]) && is_array($out[$rf]) && in_array($rf, ['name', 'surname', 'firstname', 'middlename', 'nickname'])) {
                 $out[$rf] = $out['_raw_attrib'][$lf] = $out[$rf][0];
             }
         }
