@@ -412,6 +412,12 @@
  stored in the file to be using.
 
 
+ 2.1.28 Mailcow
+ ---------------------------
+ Driver to change the password on Mailcow servers.
+ See config.inc.php.dist file for configuration description.
+
+
  2.2. Password Strength Drivers
  ------------------------------
 
