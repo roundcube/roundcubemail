@@ -9,6 +9,7 @@
 - Fix TinyMCE configuration for handling styles of pasted content in webkit browsers (#8555)
 - Fix bug where some checkboxes could be selected unintentinally (#8565)
 - Fix css styles of the email recipient element while dragging (#8580)
+- Fix PHP 8.1 warnings in the LDAP backend code (#8572)
 
 ## Release 1.6-rc
 
