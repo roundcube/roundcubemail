@@ -1,7 +1,7 @@
 GITREMOTE=git://github.com/roundcube/roundcubemail.git
 GITBRANCH=release-1.5
 GPGKEY=devs@roundcube.net
-VERSION=1.5.2
+VERSION=1.5.3
  
 all: clean complete dependent framework
  

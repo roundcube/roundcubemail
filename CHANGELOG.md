@@ -1,6 +1,6 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.5.3
 
 - Enigma: Fix initial synchronization of private keys
 - Enigma: Fix double quoted-printable encoding of pgp-signed messages with no attachments (#8413)
