@@ -10,6 +10,7 @@
 - Fix bug where some checkboxes could be selected unintentinally (#8565)
 - Fix css styles of the email recipient element while dragging (#8580)
 - Fix PHP 8.1 warnings in the LDAP backend code (#8572)
+- Fix various PHP 8.1 warnings (#8584)
 
 ## Release 1.6-rc
 
