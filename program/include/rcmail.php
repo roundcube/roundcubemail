@@ -1348,7 +1348,7 @@ class rcmail extends rcube
      * @param rcube_addressbook $source  The addressbook object
      * @param string            $error   Filled with an error message/label on error
      *
-     * @return int|bool Contact ID on success, False otherwise
+     * @return int|string|bool Contact ID on success, False otherwise
      */
     public function contact_create($contact, $source, &$error = null)
     {
