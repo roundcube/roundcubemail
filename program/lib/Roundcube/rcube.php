@@ -605,7 +605,11 @@ class rcube
         // replace vars in text
         if (!empty($attrib['vars']) && is_array($attrib['vars'])) {
             foreach ($attrib['vars'] as $var_key => $var_value) {
-                $text = str_replace($var_key[0] != '$' ? '$'.$var_key : $var_key, $var_value, $text);
+                if ($var_key[0] != '$') {
+                    $var_key = '$' . $var_key;
+                }
+
+                $text = str_replace($var_key, $var_value ?? '', $text);
             }
         }
 
