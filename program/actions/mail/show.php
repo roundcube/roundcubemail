@@ -763,7 +763,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         else {
             // Check if we have enough memory to handle the message in it
             // #1487424: we need up to 10x more memory than the body
-            if (!rcube_utils::mem_check(strlen(self::$MESSAGE->body) * 10)) {
+            if (isset(self::$MESSAGE->body) && !rcube_utils::mem_check(strlen(self::$MESSAGE->body) * 10)) {
                 $out .= self::part_too_big_message(self::$MESSAGE, 0);
             }
             else {

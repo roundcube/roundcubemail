@@ -221,6 +221,10 @@ class rcube_string_replacer
      */
     public function replace($str)
     {
+        if (!is_string($str)) {
+            return '';
+        }
+
         // search for patterns like links and e-mail addresses
         $str = preg_replace_callback($this->link_pattern, [$this, 'link_callback'], $str);
         $str = preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $str);
