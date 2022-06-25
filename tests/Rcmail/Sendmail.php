@@ -126,6 +126,11 @@ class Rcmail_RcmailSendmail extends ActionTestCase
                 'UTF-8'
             ],
             [
+                'test@domain.tld.', // #7899
+                'test@domain.tld',
+                'UTF-8'
+            ],
+            [
                 'ö <t@test.com>',
                 'ö <t@test.com>',
                 null
@@ -134,6 +139,11 @@ class Rcmail_RcmailSendmail extends ActionTestCase
                 base64_decode('GyRCLWo7M3l1OSk2SBsoQg==') . ' <t@domain.jp>',
                 '=?ISO-2022-JP?B?GyRCLWo7M3l1OSk2SBsoQg==?= <t@domain.jp>',
                 'ISO-2022-JP'
+            ],
+            [
+                'test@тест.рф.', // #8493
+                'test@xn--e1aybc.xn--p1ai',
+                'UTF-8',
             ],
         ];
     }

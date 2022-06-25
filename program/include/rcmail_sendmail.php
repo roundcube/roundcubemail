@@ -769,7 +769,7 @@ class rcmail_sendmail
             // address without brackets and without name (add brackets)
             else if (preg_match('/^'.$email_regexp.'$/', $item)) {
                 // Remove trailing non-letter characters (#7899)
-                $item     = preg_replace('/[^a-zA-Z]$/', '', $item);
+                $item     = preg_replace('/[^[:alnum:]]+$/u', '', $item);
                 $item     = rcube_utils::idn_to_ascii($item);
                 $result[] = $item;
             }
