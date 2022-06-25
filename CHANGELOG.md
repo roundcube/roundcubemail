@@ -12,6 +12,7 @@
 - Fix PHP 8.1 warnings in the LDAP backend code (#8572)
 - Fix various PHP 8.1 warnings (#8584)
 - Fix bug where a recipient address containing UTF-8 characters was ignored when sending an email (#8493, #8546)
+- Fix so rcmail::contact_exists() works with IDNA addresses (#8545)
 
 ## Release 1.6-rc
 
