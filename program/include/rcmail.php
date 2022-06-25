@@ -1401,6 +1401,8 @@ class rcmail extends rcube
             return false;
         }
 
+        $email = rcube_utils::idn_to_utf8($email);
+
         // TODO: Support TYPE_READONLY filter
         $sources = [];
 
