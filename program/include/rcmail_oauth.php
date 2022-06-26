@@ -447,13 +447,14 @@ class rcmail_oauth
      * ... and attempt to refresh if possible.
      *
      * @param array $token
-     * @return void
+     * @return boolean
      */
     protected function check_token_validity($token)
     {
         if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
-            $this->refresh_access_token($token);
+            return $this->refresh_access_token($token) !== false;
         }
+        return false;
     }
 
     /**
@@ -466,7 +467,9 @@ class rcmail_oauth
     {
         if (isset($_SESSION['oauth_token']) && $options['driver'] === 'imap') {
             // check token validity
-            $this->check_token_validity($_SESSION['oauth_token']);
+            if ($this->check_token_validity($_SESSION['oauth_token'])) {
+                $options['password'] = $this->rcmail->decrypt($_SESSION['password']);
+            }
 
             // enforce XOAUTH2 authorization type
             $options['auth_type'] = 'XOAUTH2';
