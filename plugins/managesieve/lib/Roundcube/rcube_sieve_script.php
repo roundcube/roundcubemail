@@ -1514,8 +1514,10 @@ class rcube_sieve_script
             foreach ($rule["tests"] as &$test) {
                 $test["test"] = $test["type"];
 
-                $test["type"] = $test["operator"];
-                unset($test["operator"]);
+                if (isset($test["operator"])) {
+                    $test["type"] = $test["operator"];
+                    unset($test["operator"]);
+                }
 
                 if (isset($test["header"])) {
                     $test["arg1"] = $test["header"];
