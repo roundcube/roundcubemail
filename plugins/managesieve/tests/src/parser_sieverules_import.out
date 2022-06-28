@@ -12,7 +12,7 @@ if false # header :contains "Subject" "****SPAM****"
 	fileinto "Junk";
 }
 # rule:[Stop]
-if false # header :contains "subject" "contains this text"
+if false # header :contains "Subject" "contains this text"
 {
 	stop;
 }
