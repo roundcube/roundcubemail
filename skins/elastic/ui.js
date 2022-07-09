@@ -2428,28 +2428,30 @@ function rcube_elastic_ui()
                 if (popup_id && menus[popup_id] && popup.is(':visible')) {
                     menus[popup_id].transitioning = true;
                 }
-            })
-            .on('hidden.bs.popover', function() {
-                if (/-clone$/.test(popup.attr('id'))) {
-                    popup.remove();
-                }
-                else {
-                    popup.attr('aria-hidden', true)
-                        // Some menus aren't being hidden, force that
-                        .addClass('hidden')
-                        // Bootstrap will detach the popup element from
-                        // the DOM (https://github.com/twbs/bootstrap/issues/20219)
-                        // making our menus to not update buttons state.
-                        // Work around this by attaching it back to the DOM tree.
-                        .appendTo(popup.data('popup-parent') || document.body);
-                }
 
-                // close orphaned popovers, for some reason there are sometimes such dummy elements left
-                $('.popover-body:empty').each(function() { $(this).parent().remove(); });
+                // Note: We do not use hidden.bs.popover event because it is not always executed (#8602)
+                setTimeout(function () {
+                    if (/-clone$/.test(popup.attr('id'))) {
+                        popup.remove();
+                    }
+                    else {
+                        popup.attr('aria-hidden', true)
+                            // Some menus aren't being hidden, force that
+                            .addClass('hidden')
+                            // Bootstrap will detach the popup element from
+                            // the DOM (https://github.com/twbs/bootstrap/issues/20219)
+                            // making our menus to not update buttons state.
+                            // Work around this by attaching it back to the DOM tree.
+                            .appendTo(popup.data('popup-parent') || document.body);
+                    }
 
-                if (popup_id && menus[popup_id]) {
-                    delete menus[popup_id];
-                }
+                    // close orphaned popovers, for some reason there are sometimes such dummy elements left
+                    $('.popover-body:empty').each(function() { $(this).parent().remove(); });
+
+                    if (popup_id && menus[popup_id]) {
+                        delete menus[popup_id];
+                    }
+                }, 250);
             })
             // Because Bootstrap does not provide originalEvent in show/shown events
             // we have to handle that by our own using click and keydown handlers
