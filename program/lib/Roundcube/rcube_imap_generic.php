@@ -206,7 +206,7 @@ class rcube_imap_generic
 
         do {
             if ($this->eof()) {
-                return $line ?: null;
+                return $line;
             }
 
             $buffer = fgets($this->fp, $size);
