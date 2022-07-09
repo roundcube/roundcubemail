@@ -371,6 +371,7 @@ class vcard_attachments extends rcube_plugin
 
                 foreach ($contact as $key => $values) {
                     list($field, $section) = rcube_utils::explode(':', $key);
+                    $section = strtoupper($section ?? '');
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())
                     if (is_object($values) && is_a($values, 'DateTime')) {
@@ -379,7 +380,7 @@ class vcard_attachments extends rcube_plugin
 
                     foreach ((array) $values as $value) {
                         if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
-                            $vcard->set($field, $value, strtoupper($section));
+                            $vcard->set($field, $value, $section);
                         }
                     }
                 }
