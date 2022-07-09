@@ -522,7 +522,7 @@ class rcmail_action_mail_index extends rcmail_action
                 $col_name = $col == 'fromto' ? $smart_col : $col;
 
                 if (in_array($col_name, ['from', 'to', 'cc', 'replyto'])) {
-                    $cont = self::address_string($header->$col_name, 3, false, null, $header->charset);
+                    $cont = self::address_string($header->$col_name, 3, false, null, $header->charset, null, false);
                     if (empty($cont)) {
                         $cont = '&nbsp;'; // for widescreen mode
                     }
@@ -1361,7 +1361,8 @@ class rcmail_action_mail_index extends rcmail_action
     /**
      * Decode address string and re-format it as HTML links
      */
-    public static function address_string($input, $max = null, $linked = false, $addicon = null, $default_charset = null, $title = null)
+    public static function address_string($input, $max = null, $linked = false, $addicon = null,
+        $default_charset = null, $title = null, $spoofcheck = true)
     {
         $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
 
@@ -1404,7 +1405,7 @@ class rcmail_action_mail_index extends rcmail_action
             $mailto = rcube_utils::idn_to_utf8($mailto);
 
             // Homograph attack detection (#6891)
-            if (!self::$SUSPICIOUS_EMAIL) {
+            if ($spoofcheck && !self::$SUSPICIOUS_EMAIL) {
                 self::$SUSPICIOUS_EMAIL = rcube_spoofchecker::check($mailto);
             }
 
