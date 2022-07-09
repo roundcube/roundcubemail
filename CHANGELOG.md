@@ -14,6 +14,7 @@
 - Fix bug where a recipient address containing UTF-8 characters was ignored when sending an email (#8493, #8546)
 - Fix so rcmail::contact_exists() works with IDNA addresses (#8545)
 - Fix password option in `storage_init` hook after refreshing oauth access token (#8436)
+- Fix attachment Options popover menu after attachment delete (#8602)
 
 ## Release 1.6-rc
 
