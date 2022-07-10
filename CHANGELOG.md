@@ -15,6 +15,7 @@
 - Fix so rcmail::contact_exists() works with IDNA addresses (#8545)
 - Fix password option in `storage_init` hook after refreshing oauth access token (#8436)
 - Fix attachment Options popover menu after attachment delete (#8602)
+- Fix so "Found unconstructed Spoofchecker" error is not fatal (#8537)
 
 ## Release 1.6-rc
 

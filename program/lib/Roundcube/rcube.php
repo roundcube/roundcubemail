@@ -1382,21 +1382,21 @@ class rcube
     }
 
     /**
-     * Throw system error (and show error page).
+     * Throw system error, with optional logging and script termination.
      *
-     * @param array $arg Named parameters
-     *      - code:    Error code (required)
-     *      - type:    Error type [php|db|imap|javascript]
-     *      - message: Error message
-     *      - file:    File where error occurred
-     *      - line:    Line where error occurred
+     * @param array|Throwable|string|PEAR_Error $arg Error object, string or named parameters array:
+     *                                               - code:    Error code (required)
+     *                                               - type:    Error type: php, db, imap, etc.
+     *                                               - message: Error message
+     *                                               - file:    File where error occurred
+     *                                               - line:    Line where error occurred
      * @param bool $log       True to log the error
      * @param bool $terminate Terminate script execution
      */
-    public static function raise_error($arg = [], $log = false, $terminate = false)
+    public static function raise_error($arg, $log = false, $terminate = false)
     {
-        // handle PHP exceptions
-        if ($arg instanceof Exception) {
+        // handle PHP exceptions and errors
+        if ($arg instanceof Throwable) {
             $arg = [
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
