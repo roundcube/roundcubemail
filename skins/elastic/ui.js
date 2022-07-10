@@ -2451,7 +2451,7 @@ function rcube_elastic_ui()
                     if (popup_id && menus[popup_id]) {
                         delete menus[popup_id];
                     }
-                }, 250);
+                }, 200);
             })
             // Because Bootstrap does not provide originalEvent in show/shown events
             // we have to handle that by our own using click and keydown handlers
