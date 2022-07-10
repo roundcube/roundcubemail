@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'צרפ/י קובץ חתימה (vCard)';
 $labels['vcardattached'] = 'צורף קובץ vCard';
 $labels['vcard'] = 'קובץ חתימה (vCard)';
 $labels['forwardvcard'] = 'העברה של כרטיס ביקור';
+$labels['contactsattached'] = 'להודעה זו קשורים num$ אנשי קשר';
+$labels['importedsuccessfully'] = 'אנשי קשר יובאו בהצלחה לפנקס הכתובות';
