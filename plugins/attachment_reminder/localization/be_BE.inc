@@ -13,6 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
+$messages['missingattachment'] = "Няма далучанага файла?";
 $messages['forgotattachment'] = "Забыліся далучыць файл?";
-$messages['reminderoption'] = "Напамінаць пра забытыя далучэнні";
-$messages['keywords'] = "далучэнне,файл,далучыць,далучаны,далучаецца,укладзены,CV,cover letter";
+$messages['reminderoption'] = "Нагадваць пра файлы, якія забыліся далучыць";
+$messages['keywords'] = "далучаны файл,файл,далучыць,далучаны,далучаецца,укладзены,CV,cover letter";

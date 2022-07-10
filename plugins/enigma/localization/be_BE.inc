@@ -14,9 +14,14 @@
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 
+$labels['encryption'] = 'Шыфраванне';
 $labels['keyname'] = 'Назва';
+$labels['keyid'] = 'ID ключа';
+$labels['typeencrypt'] = 'Зашыфраваць';
 $labels['subkeycreated'] = 'Створаны';
 $labels['expiresnever'] = 'ніколі';
 $labels['unknown'] = 'невядома';
+$labels['createkeys'] = 'Стварыць новую пару ключоў';
 $labels['keychpass'] = 'Змяніць пароль';
 $labels['newkeypass'] = 'Пароль';
+$labels['keyimportlabel'] = 'Імпартаваць з файла';
