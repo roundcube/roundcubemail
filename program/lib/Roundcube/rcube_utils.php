@@ -1702,7 +1702,7 @@ class rcube_utils
                 $proxy_protocol_options = null;
             }
 
-            $proxy_protocol_remote_addr = (array_key_exists('remote_addr', $proxy_protocol_options) ? $proxy_protocol_options['remote_addr'] : $_SERVER['REMOTE_ADDR'] );
+            $proxy_protocol_remote_addr = (array_key_exists('remote_addr', $proxy_protocol_options) ? $proxy_protocol_options['remote_addr'] : self::remote_addr() );
             $proxy_protocol_remote_port = (array_key_exists('remote_port', $proxy_protocol_options) ? $proxy_protocol_options['remote_port'] : $_SERVER['REMOTE_PORT'] );
             $proxy_protocol_local_addr = (array_key_exists('local_addr' ,$proxy_protocol_options) ? $proxy_protocol_options['local_addr'] : $_SERVER['SERVER_ADDR'] );
             $proxy_protocol_local_port = (array_key_exists('local_port', $proxy_protocol_options) ? $proxy_protocol_options['local_port'] : $_SERVER['SERVER_PORT'] );
