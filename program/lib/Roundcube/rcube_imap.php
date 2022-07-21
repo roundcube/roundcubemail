@@ -157,7 +157,7 @@ class rcube_imap extends rcube_storage
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
 
             if ($attempt > 1 && !$data['retry']) {
-                $break;
+                break;
             }
 
             if (!empty($data['pass'])) {
