@@ -1511,8 +1511,8 @@ class enigma_engine
             }
 
             foreach ($records as $record) {
-                if (strpos($record['TXT'], 'v=woat1,') === 0) {
-                    $entry = explode('public-key=', $record['TXT']);
+                if (strpos($record['txt'], 'v=woat1,') === 0) {
+                    $entry = explode('public_key=', $record['txt']);
                     if (count($entry) == 2) {
                         $import[] = $entry[1];
                         // For now we support only one key
