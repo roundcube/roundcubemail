@@ -158,6 +158,8 @@ $config['imap_auth_type'] = null;
 //
 // proxy_protocol is used to inject HAproxy style headers in the TCP stream
 // See http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
+// WARNING: Please note this is currently incompatible with implicit ssl,
+// since the proxy protocol preamble is expected before the ssl handshake.
 //$config['imap_conn_options'] = [
 //  'ssl'         => [
 //     'verify_peer'  => true,
