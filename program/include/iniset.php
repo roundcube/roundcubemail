@@ -24,7 +24,7 @@ if (PHP_VERSION_ID < 70300) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '1.6-rc');
+define('RCMAIL_VERSION', '1.6.0');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {

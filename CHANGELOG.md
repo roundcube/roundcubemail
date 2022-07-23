@@ -1,11 +1,11 @@
 # Changelog Roundcube Webmail
 
-## Unreleased
+## Release 1.6.0
 
 - Fix SMTP XCLIENT extension when not using STARTTLS (#8581)
 - Fix call to undefined method rcube_ldap_generic::option_set() (#8564)
 - Fix PHP Fatal error on incompatible method declaration of rcmail_output_json::command() and rcmail_output::command() (#8579)
-- Fix support for DSN specification without host e.g. pgsql:///dbname (#8558)
+- Fix support for DSN specification without host e.g. `pgsql:///dbname` (#8558)
 - Fix TinyMCE configuration for handling styles of pasted content in webkit browsers (#8555)
 - Fix bug where some checkboxes could be selected unintentinally (#8565)
 - Fix css styles of the email recipient element while dragging (#8580)
