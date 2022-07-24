@@ -216,8 +216,9 @@ class rcmail_install
         $config = [];
 
         foreach ($this->config as $prop => $default) {
-            $is_default = !isset($_POST["_$prop"]) || empty($this->supported_config[$prop]);
-            $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
+            $post_value = $_POST["_$prop"] ?? null;
+            $is_default = $post_value === null || empty($this->supported_config[$prop]);
+            $value      = !$is_default || !empty($this->bool_config_props[$prop]) ? $post_value : $default;
 
             // always disable installer
             if ($prop == 'enable_installer') {
@@ -290,7 +291,7 @@ class rcmail_install
 
         foreach ($config as $prop => $value) {
             // copy option descriptions from existing config or defaults.inc.php
-            $out .= $this->comments[$prop];
+            $out .= $this->comments[$prop] ?? '';
             $out .= "\$config['$prop'] = " . self::_dump_var($value, $prop) . ";\n\n";
         }
 
