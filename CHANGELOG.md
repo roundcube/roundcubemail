@@ -1,5 +1,9 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- Fix various PHP 8.1 warnings (#8628)
+
 ## Release 1.6.0
 
 - Fix SMTP XCLIENT extension when not using STARTTLS (#8581)
