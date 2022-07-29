@@ -2506,9 +2506,7 @@ class rcube_imap_generic
                 $result[$id]->messageID = 'mid:' . $id;
 
                 $headers = null;
-                $lines   = [];
                 $line    = substr($line, strlen($m[0]) + 2);
-                $ln      = 0;
 
                 // Tokenize response and assign to object properties
                 while (($tokens = $this->tokenizeResponse($line, 2)) && count($tokens) == 2) {
@@ -2572,9 +2570,12 @@ class rcube_imap_generic
                 // create array with header field:data
                 if (!empty($headers)) {
                     $headers = explode("\n", trim($headers));
+                    $lines   = [];
+                    $ln      = 0;
+
                     foreach ($headers as $resln) {
-                        if (ord($resln[0]) <= 32) {
-                            $lines[$ln] .= (empty($lines[$ln]) ? '' : "\n") . trim($resln);
+                        if (!isset($resln[0]) || ord($resln[0]) <= 32) {
+                            $lines[$ln] = ($lines[$ln] ?? '') . (empty($lines[$ln]) ? '' : "\n") . trim($resln);
                         }
                         else {
                             $lines[++$ln] = trim($resln);
@@ -2582,6 +2583,10 @@ class rcube_imap_generic
                     }
 
                     foreach ($lines as $str) {
+                        if (strpos($str, ':') === false) {
+                            continue;
+                        }
+
                         list($field, $string) = explode(':', $str, 2);
 
                         $field  = strtolower($field);
