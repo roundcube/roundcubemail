@@ -359,7 +359,9 @@ class rcube_washtml
                         $out = $value;
                     }
                 }
-                else if ($this->_css_prefix !== null && in_array($key, ['id', 'class', 'for'])) {
+                else if ($this->_css_prefix !== null
+                    && (in_array($key, ['id', 'class', 'for']) || ($key == 'name' && $node->nodeName == 'a'))
+                ) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
                 else if ($key) {
@@ -367,7 +369,8 @@ class rcube_washtml
                 }
 
                 if ($out !== null && $out !== '') {
-                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']) . '"';
+                    $v = htmlspecialchars($out, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
+                    $result .= " {$attr->nodeName}=\"{$v}\"";
                 }
                 else if ($value) {
                     $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);

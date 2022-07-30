@@ -664,6 +664,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString('for="testmy-other-id"', $washed);
         $this->assertStringContainsString('href="#testmy-id"', $washed);
         $this->assertStringContainsString('class="testmy-class1 testmy-class2"', $washed);
+
+        // Make sure the anchor name is prefixed too
+        $html = '<p><a href="#a">test link</a></p><a name="a">test anchor</a>';
+        $washed = $washer->wash($html);
+
+        $this->assertStringContainsString('href="#testa"', $washed);
+        $this->assertStringContainsString('name="testa"', $washed);
     }
 
     /**
