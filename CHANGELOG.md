@@ -4,6 +4,7 @@
 
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Fix various PHP 8.1 warnings (#8628)
+- Password: Remove references to %c variable that has been removed before (#8633)
 
 ## Release 1.6.0
 

@@ -100,7 +100,7 @@
     END;
     $$ LANGUAGE plpgsql SECURITY DEFINER;
 
- - This is for use with a SELECT update_passwd(%o,%c,%u) query
+ - This is for use with a SELECT update_passwd(%o,%P,%u) query
    Updates the password only when the old password matches the MD5 password
    in the database
 
@@ -122,7 +122,7 @@
     UPDATE users SET password=%p WHERE username=%u AND password=%o AND domain=%h LIMIT 1
 
  - Crypt text passwords:
-    UPDATE users SET password=%c WHERE username=%u LIMIT 1
+    UPDATE users SET password=%P WHERE username=%u LIMIT 1
 
  - Use a MYSQL crypt function (*nix only) with random 8 character salt
     UPDATE users SET password=ENCRYPT(%p,concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')) WHERE username=%u LIMIT 1
