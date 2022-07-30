@@ -38,7 +38,7 @@ class rcube_sql_password
         $rcmail = rcmail::get_instance();
 
         if (!($sql = $rcmail->config->get('password_query'))) {
-            $sql = 'SELECT update_passwd(%c, %u)';
+            $sql = 'SELECT update_passwd(%P, %u)';
         }
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {

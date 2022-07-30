@@ -129,8 +129,8 @@ $config['password_db_dsn'] = '';
 //      %d is replaced with the domain part of the username
 //         (in case the username is an email address)
 // Escaping of macros is handled by this module.
-// Default: "SELECT update_passwd(%c, %u)"
-$config['password_query'] = 'SELECT update_passwd(%c, %u)';
+// Default: "SELECT update_passwd(%P, %u)"
+$config['password_query'] = 'SELECT update_passwd(%P, %u)';
 
 // By default domains in variables are using unicode.
 // Enable this option to use punycoded names
