@@ -28,6 +28,22 @@ class Rcmail_RcmailInstall extends ActionTestCase
         $config = $install->create_config();
 
         $this->assertSame("<?php\n\n/* Local configuration for Roundcube Webmail */\n\n", $config);
+
+        $install->config = ['test' => 'test'];
+        $config = $install->create_config();
+
+        $this->assertStringContainsString("\$config['test'] = 'test';", $config);
+
+        $_POST['_test'] = 'new';
+        $config = $install->create_config();
+
+        $this->assertStringContainsString("\$config['test'] = 'test';", $config);
+
+        $_POST['_product_name'] = 'RC';
+        $install->config = ['product_name' => 'Roundcube'];
+        $config = $install->create_config();
+
+        $this->assertStringContainsString("\$config['product_name'] = 'RC';", $config);
     }
 
     /**

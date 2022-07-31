@@ -71,8 +71,8 @@ if (isset($_GET['_getconfig'])) {
 
 if (
     $RCI->configured
-    && ($RCI->getprop('enable_installer') || !empty($_SESSION['allowinstaller'])) &&
-    !empty($_GET['_mergeconfig'])
+    && !empty($_GET['_mergeconfig'])
+    && ($RCI->getprop('enable_installer') || !empty($_SESSION['allowinstaller']))
 ) {
     $filename = 'config.inc.php';
 

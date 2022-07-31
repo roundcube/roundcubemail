@@ -5,6 +5,7 @@
 - Fix various PHP 8.1 warnings (#8628)
 - Password: Remove references to %c variable that has been removed before (#8633)
 - Fix anchor links in HTML mail (#8632)
+- Fix bug where config creation in Installer did ignore options in the form (#8634)
 
 ## Release 1.6.0
 
