@@ -42,6 +42,10 @@ jobs:
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
 
+      - name: Fix PHPUnit for PHP 8.2
+        run: composer config platform.php 8.1
+        if: matrix.php >= 8.2
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
