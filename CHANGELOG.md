@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
+- Enigma: Kolab WOAT Support (#8626)
 
 ## Release 1.6.16
 

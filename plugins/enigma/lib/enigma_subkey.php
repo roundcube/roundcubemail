@@ -93,12 +93,18 @@ class enigma_subkey
     /**
      * Returns subkey creation date-time string
      *
-     * @return string|null
+     * @param bool $asInt Return the date as an integer
+     *
+     * @return string|null|int
      */
-    function get_creation_date()
+    function get_creation_date($asInt = false)
     {
         if (empty($this->created)) {
-            return null;
+            return $asInt ? 0 : null;
+        }
+
+        if ($asInt) {
+            return (int) $this->created->format('U');
         }
 
         $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
