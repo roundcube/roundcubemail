@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
+- Support for HAproxy protocol header in IMAP connections (#8625)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Fix various PHP 8.1 warnings (#8628)
 - Password: Remove references to %c variable that has been removed before (#8633)

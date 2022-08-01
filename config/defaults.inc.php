@@ -161,19 +161,19 @@ $config['imap_auth_type'] = null;
 // WARNING: Please note this is currently incompatible with implicit ssl,
 // since the proxy protocol preamble is expected before the ssl handshake.
 //$config['imap_conn_options'] = [
-//  'ssl'         => [
-//     'verify_peer'  => true,
-//     'verify_depth' => 3,
-//     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ],
-//  'proxy_protocol' => 1 | 2 | [ // required (either version number (1|2) or array with 'version' key)
-//       'version'       => 1 | 2, // required, if array
-//       'remote_addr'   => $_SERVER['REMOTE_ADDR'],
-//       'remote_port'   => $_SERVER['REMOTE_PORT'],
-//       'local_addr'    => $_SERVER['SERVER_ADDR'],
-//       'local_port'    => $_SERVER['SERVER_PORT'],
-//   ],
-// ];
+//    'ssl' => [
+//        'verify_peer'  => true,
+//        'verify_depth' => 3,
+//        'cafile'       => '/etc/openssl/certs/ca.crt',
+//    ],
+//    'proxy_protocol' => 1 | 2 | [ // required (either version number (1|2) or array with 'version' key)
+//        'version'       => 1 | 2, // required, if array
+//        'remote_addr'   => $_SERVER['REMOTE_ADDR'], // optional
+//        'remote_port'   => $_SERVER['REMOTE_PORT'], // optional
+//        'local_addr'    => $_SERVER['SERVER_ADDR'], // optional
+//        'local_port'    => $_SERVER['SERVER_PORT'], // optional
+//    ],
+//];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
 
