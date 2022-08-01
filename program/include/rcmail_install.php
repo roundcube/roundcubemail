@@ -110,6 +110,10 @@ class rcmail_install
      */
     public function load_config()
     {
+        if ($this->configured) {
+            return;
+        }
+
         // defaults
         if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
             $this->config   = (array) $config;
@@ -431,6 +435,7 @@ class rcmail_install
             }
 
             unset($current[$prop]);
+            unset($current[$replacement]);
         }
 
         foreach ($this->obsolete_config as $prop) {

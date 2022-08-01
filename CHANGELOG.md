@@ -6,6 +6,7 @@
 - Password: Remove references to %c variable that has been removed before (#8633)
 - Fix anchor links in HTML mail (#8632)
 - Fix bug where config creation in Installer did ignore options in the form (#8634)
+- Fix bug where renamed options were removed from the config on installto.sh (update.sh) run (#8643)
 
 ## Release 1.6.0
 
