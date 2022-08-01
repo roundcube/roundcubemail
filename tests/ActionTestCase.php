@@ -180,8 +180,8 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         foreach ($sql as $query) {
             $result = $db->query($query);
-            if ($db->is_error($result)) {
-                rcube::raise_error($db->is_error(), false, true);
+            if ($error = $db->is_error($result)) {
+                rcube::raise_error($error, false, true);
             }
         }
     }
