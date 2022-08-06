@@ -272,7 +272,7 @@ class squirrelmail_usercopy extends rcube_plugin
     private function convert_charset($str, $charset = null)
     {
         if (!$charset) {
-            return utf8_encode($str);
+            return rcube_charset::clean($str);
         }
 
         return rcube_charset::convert($str, $charset, RCUBE_CHARSET);
