@@ -3,7 +3,7 @@
 <IfModule mod_rewrite.c>
 Options +SymLinksIfOwnerMatch
 RewriteEngine On
-RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
+RewriteRule ^favicon\.ico$ skins/elastic/images/favicon.ico
 
 # security rules:
 # - deny access to files not containing a dot or starting with a dot
