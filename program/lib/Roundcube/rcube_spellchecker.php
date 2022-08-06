@@ -60,8 +60,7 @@ class rcube_spellchecker
         $class = 'rcube_spellchecker_' . $this->engine;
 
         if (class_exists($class)) {
-            $this->backend = new $class($this, $this->lang);
-            $this->backend->options = $this->options;
+            $this->backend = new $class($this, $this->lang, $this->options);
         }
         else {
             $this->error = "Unknown spellcheck engine '$this->engine'";
