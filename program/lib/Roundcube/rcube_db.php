@@ -1089,7 +1089,8 @@ class rcube_db
     }
 
     /**
-     * Encodes non-UTF-8 characters in string/array/object (recursive)
+     * Makes sure the input can be stored in database.
+     * With $serialize=false non-UTF-8 characters will be removed.
      *
      * @param mixed $input      Data to fix
      * @param bool  $serialized Enable serialization
@@ -1111,19 +1112,12 @@ class rcube_db
 
             return $input;
         }
-        else if (is_array($input)) {
-            foreach ($input as $idx => $value) {
-                $input[$idx] = self::encode($value);
-            }
 
-            return $input;
-        }
-
-        return utf8_encode($input);
+        return rcube_charset::clean($input);
     }
 
     /**
-     * Decodes encoded UTF-8 string/object/array (recursive)
+     * Decodes the data encoded using self::encode().
      *
      * @param mixed $input      Input data
      * @param bool  $serialized Enable serialization
@@ -1143,22 +1137,7 @@ class rcube_db
             return @unserialize(base64_decode($input));
         }
 
-        if (is_object($input)) {
-            foreach (get_object_vars($input) as $idx => $value) {
-                $input->$idx = self::decode($value);
-            }
-
-            return $input;
-        }
-        else if (is_array($input)) {
-            foreach ($input as $idx => $value) {
-                $input[$idx] = self::decode($value);
-            }
-
-            return $input;
-        }
-
-        return utf8_decode($input);
+        return $input;
     }
 
     /**

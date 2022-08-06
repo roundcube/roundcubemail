@@ -588,7 +588,7 @@ class rcube_charset
             return $input;
         }
 
-        if (!is_string($input) || $input == '') {
+        if (!is_string($input) || $input === '') {
             return $input;
         }
 
