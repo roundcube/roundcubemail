@@ -188,6 +188,48 @@ class rcube_message_header
     public $flags = [];
 
     /**
+     * Message structure
+     *
+     * @var rcube_message_part
+     */
+    public $structure;
+
+    /**
+     * Message thread depth
+     *
+     * @var int
+     */
+    public $depth;
+
+    /**
+     * Whether the message has references in the thread
+     *
+     * @var bool
+     */
+    public $has_children;
+
+    /**
+     * Number of flagged children (in a thread)
+     *
+     * @var int
+     */
+    public $flagged_children;
+
+    /**
+     * Number of unread children (in a thread)
+     *
+     * @var int
+     */
+    public $unread_children;
+
+    /**
+     * UID of the message parent (in a thread)
+     *
+     * @var int
+     */
+    public $parent_uid;
+
+    /**
      * Header name to rcube_message_header object property map
      *
      * @var array

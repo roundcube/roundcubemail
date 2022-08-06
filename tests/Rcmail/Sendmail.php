@@ -307,7 +307,6 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->to = '';
         $message->headers->from = '';
         $message->headers->cc = '';
-        $message->headers->other = [];
 
         $result = rcmail_sendmail::identity_select($message, []);
         $this->assertSame(null, $result);

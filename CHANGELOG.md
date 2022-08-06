@@ -8,6 +8,7 @@
 - Fix bug where config creation in Installer did ignore options in the form (#8634)
 - Fix bug where renamed options were removed from the config on installto.sh (update.sh) run (#8643)
 - Fix favicon rewrite rule in .htaccess (#8654)
+- Fix various PHP 8.2 warnings
 
 ## Release 1.6.0
 

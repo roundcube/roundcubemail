@@ -1042,7 +1042,7 @@ class rcube_imap extends rcube_storage
         list($msg_depth, $msg_children) = $threads->get_thread_data();
 
         foreach ($headers as $uid => $header) {
-            $depth = $msg_depth[$uid];
+            $depth = $msg_depth[$uid] ?? 0;
             $parents = array_slice($parents, 0, $depth);
 
             if (!empty($parents)) {
@@ -1058,7 +1058,7 @@ class rcube_imap extends rcube_storage
             array_push($parents, $uid);
 
             $headers[$uid]->depth            = $depth;
-            $headers[$uid]->has_children     = $msg_children[$uid];
+            $headers[$uid]->has_children     = !empty($msg_children[$uid]);
             $headers[$uid]->unread_children  = 0;
             $headers[$uid]->flagged_children = 0;
         }
