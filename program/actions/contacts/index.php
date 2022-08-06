@@ -870,8 +870,9 @@ class rcmail_action_contacts_index extends rcmail_action
                     'rel'          => $section,
                     'data-compact' => $compact ? "true" : null
             ]);
-            $select_add->_count = 0;
+
             $select_add->add($rcmail->gettext('addfield'), '');
+            $select_add_count = 0;
 
             // render head section with name fields (not a regular list of rows)
             if ($section == 'head') {
@@ -1193,7 +1194,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     // add option to the add-field menu
                     if (empty($colprop['limit']) || empty($coltypes[$field]['count']) || $coltypes[$field]['count'] < $colprop['limit']) {
                         $select_add->add($colprop['label'], $col);
-                        $select_add->_count++;
+                        $select_add_count++;
                     }
 
                     // wrap rows in fieldgroup container
@@ -1210,13 +1211,13 @@ class rcmail_action_contacts_index extends rcmail_action
                     }
                 }
 
-                if (!$content && (!$edit_mode || !$select_add->_count)) {
+                if (!$content && (!$edit_mode || !$select_add_count)) {
                     continue;
                 }
 
                 // also render add-field selector
                 if ($edit_mode) {
-                    $content .= html::p('addfield', $select_add->show(null, ['style' => $select_add->_count ? null : 'display:none']));
+                    $content .= html::p('addfield', $select_add->show(null, ['style' => $select_add_count ? null : 'display:none']));
                 }
 
                 $content = html::div(['id' => 'contactsection' . $section], $content);

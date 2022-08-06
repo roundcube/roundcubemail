@@ -325,9 +325,6 @@ class rcube
         // Initialize storage object
         $this->storage = new $driver_class;
 
-        // for backward compat. (deprecated, will be removed)
-        $this->imap = $this->storage;
-
         // set class options
         $options = [
             'auth_type'      => $this->config->get("{$driver}_auth_type", 'check'),

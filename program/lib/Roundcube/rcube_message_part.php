@@ -49,11 +49,18 @@ class rcube_message_part
     public $ctype_secondary = 'plain';
 
     /**
-     * Complete content type
+     * Full content type
      *
      * @var string
      */
     public $mimetype = 'text/plain';
+
+    /**
+     * Real content type of a message/rfc822 part
+     *
+     * @var string
+     */
+    public $real_mimetype = '';
 
     /**
      * Part size in bytes

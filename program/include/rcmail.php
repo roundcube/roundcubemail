@@ -48,11 +48,18 @@ class rcmail extends rcube
      * @var string
      */
     public $action    = '';
+
     public $comm_path = './';
     public $filename  = '';
     public $default_skin;
     public $login_error;
     public $oauth;
+
+    /** @var ?string Temporary user email (set on user creation only) */
+    public $user_email;
+
+    /** @var ?string Temporary user password (set on user creation only) */
+    public $password;
 
     private $address_books = [];
     private $action_map    = [];
