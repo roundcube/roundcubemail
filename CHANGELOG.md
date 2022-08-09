@@ -6,7 +6,7 @@
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
-- Fix various PHP 8.1 warnings (#8628, #8644, #8667)
+- Fix various PHP 8.1 warnings (#8628, #8644, #8667, #8656)
 - Password: Remove references to %c variable that has been removed before (#8633)
 - Fix anchor links in HTML mail (#8632)
 - Fix bug where config creation in Installer did ignore options in the form (#8634)
