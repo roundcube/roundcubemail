@@ -358,6 +358,9 @@ $config['oauth_token_uri'] = null;
 // Optional: Endpoint to query user identity if not provided in auth response
 $config['oauth_identity_uri'] = null;
 
+// Optional: timeout for HTTP requests to OAuth server
+$config['oauth_timeout'] = 10;
+
 // Optional: disable SSL certificate check on HTTP requests to OAuth server
 // See http://docs.guzzlephp.org/en/stable/request-options.html#verify for possible values
 $config['oauth_verify_peer'] = true;
