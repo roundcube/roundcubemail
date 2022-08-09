@@ -69,7 +69,7 @@ class rcube_session_php extends rcube_session
         parent::start();
 
         $this->key     = session_id();
-        $this->ip      = $_SESSION['__IP'];
-        $this->changed = $_SESSION['__MTIME'];
+        $this->ip      = $_SESSION['__IP'] ?? null;
+        $this->changed = $_SESSION['__MTIME'] ?? null;
     }
 }
