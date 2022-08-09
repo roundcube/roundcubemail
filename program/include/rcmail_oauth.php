@@ -17,7 +17,6 @@
  +-----------------------------------------------------------------------+
 */
 
-use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Exception\RequestException;
 
@@ -219,8 +218,7 @@ class rcmail_oauth
                 }
 
                 // send token request to get a real access token for the given auth code
-                $client = new Client([
-                    'timeout' => 10.0,
+                $client = rcube::get_instance()->get_http_client([
                     'verify' => $this->options['verify_peer'],
                 ]);
 
@@ -366,8 +364,7 @@ class rcmail_oauth
 
         // send token request to get a real access token for the given auth code
         try {
-            $client = new Client([
-                'timeout' => 10.0,
+            $client = rcube::get_instance()->get_http_client([
                 'verify' => $this->options['verify_peer'],
             ]);
             $response = $client->post($oauth_token_uri, [
