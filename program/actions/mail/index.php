@@ -549,8 +549,11 @@ class rcmail_action_mail_index extends rcmail_action
 
                     $cont = rcube::SQ($last_folder_name);
                 }
-                else {
+                else if (isset($header->$col)) {
                     $cont = rcube::SQ($header->$col);
+                }
+                else {
+                    $cont = '';
                 }
 
                 $a_msg_cols[$col] = $cont;
