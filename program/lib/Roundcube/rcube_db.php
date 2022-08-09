@@ -1113,14 +1113,26 @@ class rcube_db
             return $input;
         }
 
-        return rcube_charset::clean($input);
+        if (is_array($input)) {
+            foreach ($input as $idx => $value) {
+                $input[$idx] = self::encode($value);
+            }
+
+            return $input;
+        }
+
+        // Note: We used to use utf8_encode() which was deprecated in PHP 8.2
+        //       The mb_convert_encoding() works the same, but we really should
+        //       find a better way.
+
+        return mb_convert_encoding((string) $input, 'UTF-8', 'ISO-8859-1');
     }
 
     /**
      * Decodes the data encoded using self::encode().
      *
-     * @param mixed $input      Input data
-     * @param bool  $serialized Enable serialization
+     * @param string $input      Input data
+     * @param bool   $serialized Enable serialization
      *
      * @return mixed Decoded data
      */
@@ -1137,7 +1149,7 @@ class rcube_db
             return @unserialize(base64_decode($input));
         }
 
-        return $input;
+        return mb_convert_encoding((string) $input, 'ISO-8859-1', 'UTF-8');
     }
 
     /**
