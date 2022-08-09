@@ -75,6 +75,7 @@ class rcmail_oauth
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'scope'           => $this->rcmail->config->get('oauth_scope'),
+            'timeout'     => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
             'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
@@ -219,6 +220,7 @@ class rcmail_oauth
 
                 // send token request to get a real access token for the given auth code
                 $client = rcube::get_instance()->get_http_client([
+                    'timeout' => $this->options['timeout'],
                     'verify' => $this->options['verify_peer'],
                 ]);
 
@@ -365,6 +367,7 @@ class rcmail_oauth
         // send token request to get a real access token for the given auth code
         try {
             $client = rcube::get_instance()->get_http_client([
+                'timeout' => $this->options['timeout'],
                 'verify' => $this->options['verify_peer'],
             ]);
             $response = $client->post($oauth_token_uri, [
