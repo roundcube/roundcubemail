@@ -8,7 +8,8 @@
 // For example %n = mail.domain.tld, %d = domain.tld
 // If port is omitted it will be determined automatically using getservbyname()
 // function, with 4190 as a fallback.
-// Note: Add tls:// prefix to enable TLS
+// Note: Add tls:// prefix to enable explicit STARTTLS
+// or add ssl:// prefix to enable implicit SSL.
 $config['managesieve_host'] = 'localhost';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
