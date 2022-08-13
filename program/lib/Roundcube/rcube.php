@@ -1855,6 +1855,10 @@ class rcube_dummy_plugin_api
      */
     public function exec_hook($hook, $args = [])
     {
-        return $args;
+        if (!is_array($args)) {
+            $args = ['arg' => $args];
+        }
+
+        return $args += ['abort' => false];
     }
 }
