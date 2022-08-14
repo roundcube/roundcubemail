@@ -139,6 +139,20 @@ class rcube_message_header
     public $bodystructure;
 
     /**
+     * IMAP body (RFC822.TEXT)
+     *
+     * @var string
+     */
+    public $body;
+
+    /**
+     * IMAP part bodies
+     *
+     * @var array
+     */
+    public $bodypart = [];
+
+    /**
      * IMAP internal date
      *
      * @var string
@@ -228,6 +242,20 @@ class rcube_message_header
      * @var int
      */
     public $parent_uid;
+
+    /**
+     * IMAP MODSEQ value
+     *
+     * @var int
+     */
+    public $modseq;
+
+    /**
+     * IMAP ENVELOPE
+     *
+     * @var string
+     */
+    public $envelope;
 
     /**
      * Header name to rcube_message_header object property map
