@@ -552,7 +552,7 @@ class rcmail_sendmail
                     $msg     = $this->temp_files[$msg_id];
                     $headers = $message->txtHeaders();
                 }
-                else {
+                else if (empty($msg)) {
                     $msg     = $message->getMessage();
                     $headers = '';
                 }
