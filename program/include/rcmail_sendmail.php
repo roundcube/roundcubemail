@@ -33,6 +33,7 @@ class rcmail_sendmail
     protected $parse_data = [];
     protected $message_form;
     protected $rcmail;
+    protected $temp_files = [];
 
     // define constants for message compose mode
     const MODE_NONE    = 'none';
@@ -72,6 +73,16 @@ class rcmail_sendmail
 
         if (!empty($this->options['message'])) {
             $this->compose_init($this->options['message']);
+        }
+    }
+
+    /**
+     * Object destructor to cleanup temporary files
+     */
+    public function __destruct()
+    {
+        foreach ($this->temp_files as $file) {
+            @unlink($file);
         }
     }
 
@@ -448,7 +459,9 @@ class rcmail_sendmail
             return false;
         }
 
-        $message->mailbody_file = $mailbody_file;
+        if ($mailbody_file) {
+            $this->temp_files[$message->headers()['Message-ID']] = $mailbody_file;
+        }
 
         // save message sent time
         if ($this->options['sendmail_delay']) {
@@ -524,21 +537,20 @@ class rcmail_sendmail
             // append message to sent box
             if ($store_folder) {
                 // message body in file
-                if (!empty($message->mailbody_file) || $message->getParam('delay_file_io')) {
+                $msg_id = $message->headers()['Message-ID'];
+
+                if ($message->getParam('delay_file_io') && empty($this->temp_files[$msg_id])) {
+                    $msg_file = rcube_utils::temp_filename('msg');
+                    $msg = $message->saveMessageBody($msg_file);
+
+                    if (!is_a($msg, 'PEAR_Error')) {
+                        $this->temp_files[$msg_id] = $msg_file;
+                    }
+                }
+
+                if (!empty($this->temp_files[$msg_id])) {
+                    $msg     = $this->temp_files[$msg_id];
                     $headers = $message->txtHeaders();
-
-                    // file already created
-                    if (!empty($message->mailbody_file)) {
-                        $msg = $message->mailbody_file;
-                    }
-                    else {
-                        $message->mailbody_file = rcube_utils::temp_filename('msg');
-                        $msg = $message->saveMessageBody($message->mailbody_file);
-
-                        if (!is_a($msg, 'PEAR_Error')) {
-                            $msg = $message->mailbody_file;
-                        }
-                    }
                 }
                 else {
                     $msg     = $message->getMessage();
@@ -552,7 +564,7 @@ class rcmail_sendmail
                         true, false);
                 }
                 else {
-                    $is_file = !empty($message->mailbody_file);
+                    $is_file = !empty($this->temp_files[$msg_id]);
                     $saved   = $storage->save_message($store_target, $msg, $headers, $is_file, ['SEEN']);
                 }
             }
@@ -563,11 +575,6 @@ class rcmail_sendmail
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Could not save message in $store_target"], true, false);
             }
-        }
-
-        if (!empty($message->mailbody_file)) {
-            unlink($message->mailbody_file);
-            unset($message->mailbody_file);
         }
 
         $this->options['store_target'] = $store_target;
