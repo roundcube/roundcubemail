@@ -470,48 +470,32 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             $ishtml       = false;
             $header_title = $rcmail->gettext(preg_replace('/(^mail-|-)/', '', $hkey));
+            $header_value = null;
 
             if ($hkey == 'date') {
                 $header_value = $rcmail->format_date($value,
                     self::$PRINT_MODE ? $rcmail->config->get('date_long', 'x') : null);
             }
             else if ($hkey == 'priority') {
-                if ($value) {
-                    $header_value = html::span('prio' . $value, rcube::Q(self::localized_priority($value)));
-                    $ishtml       = true;
-                }
-                else {
-                    continue;
-                }
+                $header_value = html::span('prio' . $value, rcube::Q(self::localized_priority($value)));
+                $ishtml       = true;
             }
             else if ($hkey == 'replyto') {
-                if ($headers['replyto'] != $headers['from']) {
+                if ($value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
-                }
-                else {
-                    continue;
                 }
             }
             else if ($hkey == 'mail-reply-to') {
-                if ($value
-                    && (!isset($headers['mail-replyto']) || $headers['mail-replyto'] != $headers['replyto'])
-                    && $headers['replyto'] != $headers['from']
-                ) {
+                if ((!isset($headers['replyto']) || $value != $headers['replyto']) && $value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
-                }
-                else {
-                    continue;
                 }
             }
             else if ($hkey == 'sender') {
-                if ($value && (!isset($headers['sender']) || $headers['sender'] != $headers['from'])) {
+                if ($value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
-                }
-                else {
-                    continue;
                 }
             }
             else if ($hkey == 'mail-followup-to') {
