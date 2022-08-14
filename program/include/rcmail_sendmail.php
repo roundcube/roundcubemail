@@ -973,7 +973,7 @@ class rcmail_sendmail
             }
         }
 
-        if (!empty($this->options['message']->identities)) {
+        if (!empty($this->data['identities'])) {
             $a_signatures = [];
             $identities   = [];
             $top_posting  = intval($this->rcmail->config->get('reply_mode')) > 0
@@ -987,7 +987,7 @@ class rcmail_sendmail
             $select_from = new html_select($field_attrib);
 
             // create SELECT element
-            foreach ($this->options['message']->identities as $sql_arr) {
+            foreach ($this->data['identities'] as $sql_arr) {
                 $identity_id = $sql_arr['identity_id'];
                 $select_from->add(format_email_recipient($sql_arr['email'], $sql_arr['name']), $identity_id);
 
@@ -1024,7 +1024,7 @@ class rcmail_sendmail
                 $identities[$identity_id]['email'] = $sql_arr['email'];
             }
 
-            $out = $select_from->show($this->options['message']->compose['from']);
+            $out = $select_from->show($this->data['from'] ?? null);
 
             // add signatures to client
             $this->rcmail->output->set_env('signatures', $a_signatures);
@@ -1032,10 +1032,9 @@ class rcmail_sendmail
         }
         // no identities, display text input field
         else {
-            $from = $this->options['message']->compose['from'] ?? null;
             $field_attrib['class'] = 'from_address';
             $input_from = new html_inputfield($field_attrib);
-            $out = $input_from->show($from);
+            $out = $input_from->show($this->data['from'] ?? null);
         }
 
         return $out;
@@ -1107,11 +1106,11 @@ class rcmail_sendmail
 
                 // Reply to message sent by yourself (#1487074, #1489230, #1490439)
                 // Reply-To address need to be unset (#1490233)
-                if (!empty($message->compose['ident']) && empty($replyto)) {
+                if (!empty($this->data['ident']) && empty($replyto)) {
                     foreach ([$fvalue, $message->get_header('from')] as $sender) {
                         $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
 
-                        if (in_array($message->compose['ident']['email_ascii'], $senders)) {
+                        if (in_array($this->data['ident']['email_ascii'], $senders)) {
                             $fvalue = $message->headers->to;
                             break;
                         }
@@ -1167,9 +1166,10 @@ class rcmail_sendmail
 
         // split recipients and put them back together in a unique way
         if (!empty($fvalue) && in_array($header, ['to', 'cc', 'bcc'])) {
-            $from_email   = @mb_strtolower($message->compose['ident']['email']);
+            $from_email   = !empty($this->data['ident']['email']) ? mb_strtolower($this->data['ident']['email']) : '';
             $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $charset);
             $fvalue       = [];
+            $recipients   = [];
 
             foreach ($to_addresses as $addr_part) {
                 if (empty($addr_part['mailto'])) {
@@ -1183,14 +1183,14 @@ class rcmail_sendmail
 
                 if (
                     ($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
-                    && (empty($message->recipients) || !in_array($mailto_lc, (array) $message->recipients))
+                    && !in_array($mailto_lc, $recipients)
                 ) {
                     if ($addr_part['name'] && $mailto != $addr_part['name']) {
                         $mailto = format_email_recipient($mailto, $addr_part['name']);
                     }
 
-                    $fvalue[]              = $mailto;
-                    $message->recipients[] = $mailto_lc;
+                    $fvalue[]     = $mailto;
+                    $recipients[] = $mailto_lc;
                 }
             }
 
@@ -1529,23 +1529,21 @@ class rcmail_sendmail
      */
     protected function compose_init($message)
     {
-        $message->compose = [];
-
         // get user's identities
-        $message->identities = $this->rcmail->user->list_identities(null, true);
+        $this->data['identities'] = $this->rcmail->user->list_identities(null, true);
 
         // Set From field value
         if (!empty($_POST['_from'])) {
-            $message->compose['from'] = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
+            $this->data['from'] = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
         }
         else if (!empty($this->data['param']['from'])) {
-            $message->compose['from'] = $this->data['param']['from'];
+            $this->data['from'] = $this->data['param']['from'];
         }
-        else if (!empty($message->identities)) {
-            $ident = self::identity_select($message, $message->identities, $this->data['mode']);
+        else if (!empty($this->data['identities'])) {
+            $ident = self::identity_select($message, $this->data['identities'], $this->data['mode']);
 
-            $message->compose['from']  = $ident['identity_id'];
-            $message->compose['ident'] = $ident;
+            $this->data['from']  = $ident['identity_id'];
+            $this->data['ident'] = $ident;
         }
 
         $this->rcmail->output->add_handlers([
