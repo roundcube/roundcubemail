@@ -90,6 +90,20 @@ class rcube_message_part
      */
     public $parts = [];
 
+    /**
+     * Part Content-Id
+     *
+     * @var string|null
+     */
+    public $content_id;
+
+    /**
+     * Part Content-Location
+     *
+     * @var string|null
+     */
+    public $content_location;
+
     public $type;
     public $replaces     = [];
     public $disposition  = '';
