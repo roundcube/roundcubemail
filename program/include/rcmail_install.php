@@ -37,14 +37,7 @@ class rcmail_install
     public $legacy_config     = false;
     public $email_pattern     = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
 
-    public $bool_config_props = [
-        'ip_check'          => 1,
-        'enable_spellcheck' => 1,
-        'auto_create_user'  => 1,
-        'smtp_log'          => 1,
-        'prefer_html'       => 1,
-    ];
-
+    public $bool_config_props = ['ip_check', 'enable_spellcheck', 'auto_create_user', 'smtp_log', 'prefer_html'];
     public $local_config    = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
     public $obsolete_config = ['db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check'];
     public $replaced_config = [
@@ -117,6 +110,10 @@ class rcmail_install
      */
     public function load_config()
     {
+        if ($this->configured) {
+            return;
+        }
+
         // defaults
         if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
             $this->config   = (array) $config;
@@ -216,8 +213,9 @@ class rcmail_install
         $config = [];
 
         foreach ($this->config as $prop => $default) {
-            $is_default = !isset($_POST["_$prop"]) || empty($this->supported_config[$prop]);
-            $value      = !$is_default || $this->bool_config_props[$prop] ? $_POST["_$prop"] : $default;
+            $post_value = $_POST["_$prop"] ?? null;
+            $is_default = $post_value === null || !in_array($prop, $this->supported_config);
+            $value      = !$is_default || in_array($prop, $this->bool_config_props) ? $post_value : $default;
 
             // always disable installer
             if ($prop == 'enable_installer') {
@@ -271,7 +269,7 @@ class rcmail_install
             }
 
             // skip this property
-            if ($value == $this->defaults[$prop]
+            if ($value == ($this->defaults[$prop] ?? null)
                 && (!in_array($prop, $this->local_config)
                     || in_array($prop, array_merge($this->obsolete_config, array_keys($this->replaced_config)))
                     || preg_match('/^db_(table|sequence)_/', $prop)
@@ -290,7 +288,7 @@ class rcmail_install
 
         foreach ($config as $prop => $value) {
             // copy option descriptions from existing config or defaults.inc.php
-            $out .= $this->comments[$prop];
+            $out .= $this->comments[$prop] ?? '';
             $out .= "\$config['$prop'] = " . self::_dump_var($value, $prop) . ";\n\n";
         }
 
@@ -437,6 +435,7 @@ class rcmail_install
             }
 
             unset($current[$prop]);
+            unset($current[$replacement]);
         }
 
         foreach ($this->obsolete_config as $prop) {

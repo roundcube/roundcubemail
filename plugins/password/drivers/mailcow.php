@@ -50,7 +50,11 @@ class rcube_mailcow_password
                 'items' => [ $username ]
             ];
 
-            $response = $client->post("https://{$host}/api/v1/edit/mailbox", [
+            if (!strpos($host, '://')) {
+                $host = "https://{$host}";
+            }
+
+            $response = $client->post("{$host}/api/v1/edit/mailbox", [
                 'headers' => $headers,
                 'json'    => $cowdata
             ]);

@@ -52,6 +52,7 @@
  2.1.26. HTTP-API (httpapi)
  2.1.27. dovecot_passwdfile
  2.1.28. Mailcow
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -100,7 +101,7 @@
     END;
     $$ LANGUAGE plpgsql SECURITY DEFINER;
 
- - This is for use with a SELECT update_passwd(%o,%c,%u) query
+ - This is for use with a SELECT update_passwd(%o,%P,%u) query
    Updates the password only when the old password matches the MD5 password
    in the database
 
@@ -122,7 +123,7 @@
     UPDATE users SET password=%p WHERE username=%u AND password=%o AND domain=%h LIMIT 1
 
  - Crypt text passwords:
-    UPDATE users SET password=%c WHERE username=%u LIMIT 1
+    UPDATE users SET password=%P WHERE username=%u LIMIT 1
 
  - Use a MYSQL crypt function (*nix only) with random 8 character salt
     UPDATE users SET password=ENCRYPT(%p,concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')) WHERE username=%u LIMIT 1
@@ -410,6 +411,20 @@
  Set 'password_dovecot_passwdfile_path' to your dovecot passwd-file location and
  'password_algorithm' (and related options) to the algorithm you want the passwords
  stored in the file to be using.
+
+
+ 2.1.28 Mailcow
+ ---------------------------
+
+ Driver to change the password on Mailcow servers.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
+ ---------------------------------------------------
+
+ Password change via LDAP unicodePwd attribute supported by Active Directory.
+ Uses configuration for other LDAP drivers.
 
 
  2.2. Password Strength Drivers

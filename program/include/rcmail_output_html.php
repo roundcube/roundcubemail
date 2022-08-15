@@ -1533,11 +1533,11 @@ EOF;
                 else if ($object == 'version') {
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
-                        if (preg_match('/Revision:\s(\d+)/', @shell_exec('svn info'), $regs))
+                        if (preg_match('/Revision:\s(\d+)/', (string) @shell_exec('svn info'), $regs))
                           $ver .= ' [SVN r'.$regs[1].']';
                     }
                     else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
-                        if (preg_match('/Date:\s+([^\n]+)/', @shell_exec('git log -1'), $regs)) {
+                        if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                             if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
                                 $ver .= ' [GIT '.$date.']';
                             }
@@ -2182,7 +2182,7 @@ EOF;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
+        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'javascript:false;';
 
         // register as 'contentframe' object
         if ($is_contentframe || !empty($attrib['contentframe'])) {

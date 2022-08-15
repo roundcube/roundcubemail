@@ -2,10 +2,10 @@
 # This file is used by developers to build release packages
 #
 
-GITREMOTE=git://github.com/roundcube/roundcubemail.git
+GITREMOTE=https://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
-VERSION=1.6-git
+VERSION=1.7-git
 SEDI=sed -i
 WHICH=which
 
@@ -46,9 +46,9 @@ sign:
 	gpg -u $(GPGKEY) -a --detach-sig roundcube-framework-$(VERSION).tar.gz
 
 verify:
-	gpg -v --verify roundcubemail-$(VERSION).tar.gz{.asc,}
-	gpg -v --verify roundcubemail-$(VERSION)-complete.tar.gz{.asc,}
-	gpg -v --verify roundcube-framework-$(VERSION).tar.gz{.asc,}
+	gpg -v --verify roundcubemail-$(VERSION).tar.gz.asc roundcubemail-$(VERSION).tar.gz
+	gpg -v --verify roundcubemail-$(VERSION)-complete.tar.gz.asc roundcubemail-$(VERSION)-complete.tar.gz
+	gpg -v --verify roundcube-framework-$(VERSION).tar.gz.asc roundcube-framework-$(VERSION).tar.gz
 
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
@@ -64,7 +64,7 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
 	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile)
-	(cd roundcubemail-git; $(SEDI) 's/1.6-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
+	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar

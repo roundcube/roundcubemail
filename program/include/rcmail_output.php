@@ -83,7 +83,7 @@ abstract class rcmail_output extends rcube_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Method arguments
      */
-    abstract function command($cmd, ... $args);
+    abstract function command($cmd, ...$args);
 
     /**
      * Add a localized label(s) to the client environment

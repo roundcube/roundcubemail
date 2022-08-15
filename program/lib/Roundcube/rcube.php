@@ -325,9 +325,6 @@ class rcube
         // Initialize storage object
         $this->storage = new $driver_class;
 
-        // for backward compat. (deprecated, will be removed)
-        $this->imap = $this->storage;
-
         // set class options
         $options = [
             'auth_type'      => $this->config->get("{$driver}_auth_type", 'check'),
@@ -605,7 +602,11 @@ class rcube
         // replace vars in text
         if (!empty($attrib['vars']) && is_array($attrib['vars'])) {
             foreach ($attrib['vars'] as $var_key => $var_value) {
-                $text = str_replace($var_key[0] != '$' ? '$'.$var_key : $var_key, $var_value, $text);
+                if ($var_key[0] != '$') {
+                    $var_key = '$' . $var_key;
+                }
+
+                $text = str_replace($var_key, $var_value ?? '', $text);
             }
         }
 
@@ -1378,21 +1379,21 @@ class rcube
     }
 
     /**
-     * Throw system error (and show error page).
+     * Throw system error, with optional logging and script termination.
      *
-     * @param array $arg Named parameters
-     *      - code:    Error code (required)
-     *      - type:    Error type [php|db|imap|javascript]
-     *      - message: Error message
-     *      - file:    File where error occurred
-     *      - line:    Line where error occurred
+     * @param array|Throwable|string|PEAR_Error $arg Error object, string or named parameters array:
+     *                                               - code:    Error code (required)
+     *                                               - type:    Error type: php, db, imap, etc.
+     *                                               - message: Error message
+     *                                               - file:    File where error occurred
+     *                                               - line:    Line where error occurred
      * @param bool $log       True to log the error
      * @param bool $terminate Terminate script execution
      */
-    public static function raise_error($arg = [], $log = false, $terminate = false)
+    public static function raise_error($arg, $log = false, $terminate = false)
     {
-        // handle PHP exceptions
-        if ($arg instanceof Exception) {
+        // handle PHP exceptions and errors
+        if ($arg instanceof Throwable) {
             $arg = [
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
@@ -1854,6 +1855,10 @@ class rcube_dummy_plugin_api
      */
     public function exec_hook($hook, $args = [])
     {
-        return $args;
+        if (!is_array($args)) {
+            $args = ['arg' => $args];
+        }
+
+        return $args += ['abort' => false];
     }
 }

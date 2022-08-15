@@ -100,7 +100,7 @@ class Toolbarmenu extends Component
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
                 $browser->script("window.UI.menu_hide('toolbar-menu')");
-                $browser->waitUntilMissing($this->selector());
+                $browser->waitUntilMissing($this->selector())->pause(150);
                 // FIXME: For some reason sometimes .popover-overlay does not close,
                 //        we have to remove it manually
                 $browser->script(

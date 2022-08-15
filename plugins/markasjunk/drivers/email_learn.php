@@ -145,7 +145,6 @@ class markasjunk_email_learn
             }
 
             $SENDMAIL->deliver_message($MAIL_MIME, $i == count($uids) - 1);
-            $message_file = $message_file ?: $MAIL_MIME->mailbody_file;
 
             // clean up
             if ($message_file) {

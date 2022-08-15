@@ -206,7 +206,7 @@ class rcube_imap_generic
 
         do {
             if ($this->eof()) {
-                return $line ?: null;
+                return $line;
             }
 
             $buffer = fgets($this->fp, $size);
@@ -1070,6 +1070,14 @@ class rcube_imap_generic
             return false;
         }
 
+        // insert proxy protocol header, if enabled
+        if (!empty($this->prefs['socket_options'])) {
+            $proxy_protocol_header = rcube_utils::proxy_protocol_header($this->prefs['socket_options'], $this->fp);
+            if (strlen($proxy_protocol_header) > 0) {
+                fwrite($this->fp, $proxy_protocol_header);
+            }
+        }
+        
         if ($this->prefs['timeout'] > 0) {
             stream_set_timeout($this->fp, $this->prefs['timeout']);
         }
@@ -2506,9 +2514,7 @@ class rcube_imap_generic
                 $result[$id]->messageID = 'mid:' . $id;
 
                 $headers = null;
-                $lines   = [];
                 $line    = substr($line, strlen($m[0]) + 2);
-                $ln      = 0;
 
                 // Tokenize response and assign to object properties
                 while (($tokens = $this->tokenizeResponse($line, 2)) && count($tokens) == 2) {
@@ -2572,9 +2578,12 @@ class rcube_imap_generic
                 // create array with header field:data
                 if (!empty($headers)) {
                     $headers = explode("\n", trim($headers));
+                    $lines   = [];
+                    $ln      = 0;
+
                     foreach ($headers as $resln) {
-                        if (ord($resln[0]) <= 32) {
-                            $lines[$ln] .= (empty($lines[$ln]) ? '' : "\n") . trim($resln);
+                        if (!isset($resln[0]) || ord($resln[0]) <= 32) {
+                            $lines[$ln] = ($lines[$ln] ?? '') . (empty($lines[$ln]) ? '' : "\n") . trim($resln);
                         }
                         else {
                             $lines[++$ln] = trim($resln);
@@ -2582,6 +2591,10 @@ class rcube_imap_generic
                     }
 
                     foreach ($lines as $str) {
+                        if (strpos($str, ':') === false) {
+                            continue;
+                        }
+
                         list($field, $string) = explode(':', $str, 2);
 
                         $field  = strtolower($field);

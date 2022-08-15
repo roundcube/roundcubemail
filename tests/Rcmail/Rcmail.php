@@ -192,19 +192,34 @@ class Rcmail_Rcmail extends ActionTestCase
     }
 
     /**
-     * Test rcmail::contact_create()
+     * Test rcmail::contact_create() and rcmail::contact_exists()
      */
-    function test_contact_create()
+    function test_contact_create_and_contact_exists()
     {
-        $this->markTestIncomplete();
-    }
+        self::initDB('contacts');
 
-    /**
-     * Test rcmail::contact_exists()
-     */
-    function test_contact_exists()
-    {
-        $this->markTestIncomplete();
+        $rcmail = rcmail::get_instance();
+        $db     = $rcmail->get_dbh();
+        $source = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+
+        $contact_id = $rcmail->contact_create(['email' => 'test@xn--e1aybc.xn--p1ai'], $source, $error);
+
+        $this->assertNull($error);
+        $this->assertTrue($contact_id != false);
+
+        $sql_result = $db->query("SELECT * FROM `contacts` WHERE `contact_id` = $contact_id");
+        $contact = $db->fetch_assoc($sql_result);
+
+        $this->assertSame('test@тест.рф', $contact['email']);
+        $this->assertSame('Test', $contact['name']);
+
+        $result = $rcmail->contact_exists('test@xn--e1aybc.xn--p1ai', rcube_addressbook::TYPE_DEFAULT);
+
+        $this->assertTrue($result);
+
+        $result = $rcmail->contact_exists('test@тест.рф', rcube_addressbook::TYPE_DEFAULT);
+
+        $this->assertTrue($result);
     }
 
     /**

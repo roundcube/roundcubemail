@@ -1089,7 +1089,8 @@ class rcube_db
     }
 
     /**
-     * Encodes non-UTF-8 characters in string/array/object (recursive)
+     * Makes sure the input can be stored in database.
+     * With $serialize=false non-UTF-8 characters will be removed.
      *
      * @param mixed $input      Data to fix
      * @param bool  $serialized Enable serialization
@@ -1111,7 +1112,8 @@ class rcube_db
 
             return $input;
         }
-        else if (is_array($input)) {
+
+        if (is_array($input)) {
             foreach ($input as $idx => $value) {
                 $input[$idx] = self::encode($value);
             }
@@ -1119,14 +1121,18 @@ class rcube_db
             return $input;
         }
 
-        return utf8_encode($input);
+        // Note: We used to use utf8_encode() which was deprecated in PHP 8.2
+        //       The mb_convert_encoding() works the same, but we really should
+        //       find a better way.
+
+        return mb_convert_encoding((string) $input, 'UTF-8', 'ISO-8859-1');
     }
 
     /**
-     * Decodes encoded UTF-8 string/object/array (recursive)
+     * Decodes the data encoded using self::encode().
      *
-     * @param mixed $input      Input data
-     * @param bool  $serialized Enable serialization
+     * @param string $input      Input data
+     * @param bool   $serialized Enable serialization
      *
      * @return mixed Decoded data
      */
@@ -1143,22 +1149,7 @@ class rcube_db
             return @unserialize(base64_decode($input));
         }
 
-        if (is_object($input)) {
-            foreach (get_object_vars($input) as $idx => $value) {
-                $input->$idx = self::decode($value);
-            }
-
-            return $input;
-        }
-        else if (is_array($input)) {
-            foreach ($input as $idx => $value) {
-                $input[$idx] = self::decode($value);
-            }
-
-            return $input;
-        }
-
-        return utf8_decode($input);
+        return mb_convert_encoding((string) $input, 'ISO-8859-1', 'UTF-8');
     }
 
     /**
@@ -1300,7 +1291,7 @@ class rcube_db
         if (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
         }
-        if ($parsed['protocol'] == 'tcp') {
+        if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
         }
         else if ($parsed['protocol'] == 'unix') {

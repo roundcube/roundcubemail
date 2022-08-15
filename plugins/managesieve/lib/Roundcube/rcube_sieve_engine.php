@@ -184,7 +184,13 @@ class rcube_sieve_engine
 
         list($host, $scheme, $port) = rcube_utils::parse_host_uri($plugin['host']);
 
+        // Support explicit STARTTLS by establishing an unencrypted TCP connection, then instructing Net_Sieve to send the `STARTTLS` command.
         $tls = $scheme === 'tls';
+
+        // Support implicit SSL by passing the URI scheme through to Net_Sieve -> Net_Socket -> stream_socket_client().
+        if ($scheme === 'ssl') {
+            $host = 'ssl://' . $host;
+        }
 
         if (empty($port)) {
             $port = getservbyname('sieve', 'tcp') ?: self::PORT;

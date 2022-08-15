@@ -48,11 +48,18 @@ class rcmail extends rcube
      * @var string
      */
     public $action    = '';
+
     public $comm_path = './';
     public $filename  = '';
     public $default_skin;
     public $login_error;
     public $oauth;
+
+    /** @var ?string Temporary user email (set on user creation only) */
+    public $user_email;
+
+    /** @var ?string Temporary user password (set on user creation only) */
+    public $password;
 
     private $address_books = [];
     private $action_map    = [];
@@ -1348,7 +1355,7 @@ class rcmail extends rcube
      * @param rcube_addressbook $source  The addressbook object
      * @param string            $error   Filled with an error message/label on error
      *
-     * @return int|bool Contact ID on success, False otherwise
+     * @return int|string|bool Contact ID on success, False otherwise
      */
     public function contact_create($contact, $source, &$error = null)
     {
@@ -1400,6 +1407,8 @@ class rcmail extends rcube
         if (empty($email) || !is_string($email) || !strpos($email, '@')) {
             return false;
         }
+
+        $email = rcube_utils::idn_to_utf8($email);
 
         // TODO: Support TYPE_READONLY filter
         $sources = [];

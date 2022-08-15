@@ -260,4 +260,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2021100300');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2022081200');

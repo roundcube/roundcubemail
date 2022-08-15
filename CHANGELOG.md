@@ -2,6 +2,42 @@
 
 ## Unreleased
 
+- Advanced mail search syntax with more possibilities (without UI) (#8502)
+- Support for HAproxy protocol header in IMAP connections (#8625)
+- Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
+- Password: Add ldap_samba_ad driver (#8525)
+- Managesieve: Support Sieverules disabled rule format (#8571)
+- Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
+- Fix various PHP 8.1 warnings (#8628, #8644, #8667, #8656, #8647)
+- Password: Remove references to %c variable that has been removed before (#8633)
+- Fix anchor links in HTML mail (#8632)
+- Fix bug where config creation in Installer did ignore options in the form (#8634)
+- Fix bug where renamed options were removed from the config on installto.sh (update.sh) run (#8643)
+- Fix favicon rewrite rule in .htaccess (#8654)
+- Fix various PHP 8.2 warnings
+- Fix bug where it wasn't possible to create more than one response record on SQLite and Postgres (#8664)
+- Fix support for ManageSieve over implicit SSL (#8670)
+- Fix bug where "about:blank" page could trigger "load error" (#8554)
+
+## Release 1.6.0
+
+- Fix SMTP XCLIENT extension when not using STARTTLS (#8581)
+- Fix call to undefined method rcube_ldap_generic::option_set() (#8564)
+- Fix PHP Fatal error on incompatible method declaration of rcmail_output_json::command() and rcmail_output::command() (#8579)
+- Fix support for DSN specification without host e.g. pgsql:///dbname (#8558)
+- Fix TinyMCE configuration for handling styles of pasted content in webkit browsers (#8555)
+- Fix bug where some checkboxes could be selected unintentinally (#8565)
+- Fix css styles of the email recipient element while dragging (#8580)
+- Fix PHP 8.1 warnings in the LDAP backend code (#8572)
+- Fix various PHP 8.1 warnings (#8584)
+- Fix bug where a recipient address containing UTF-8 characters was ignored when sending an email (#8493, #8546)
+- Fix so rcmail::contact_exists() works with IDNA addresses (#8545)
+- Fix password option in `storage_init` hook after refreshing oauth access token (#8436)
+- Fix attachment Options popover menu after attachment delete (#8602)
+- Fix so "Found unconstructed Spoofchecker" error is not fatal (#8537)
+
+## Release 1.6-rc
+
 - Update to jQuery-UI 1.13.1 (#8455)
 - Added possibility to make the logo image a link via the 'skin_logo' option (#8501)
 - Use navigator.pdfViewerEnabled for PDF viewer detection

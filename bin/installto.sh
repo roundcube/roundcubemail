@@ -58,7 +58,7 @@ if (strtolower($input) == 'y') {
     echo "Copying files to target location...";
 
     $adds = [];
-    $dirs = ['bin','SQL','plugins','skins','program'];
+    $dirs = ['bin','SQL','plugins','skins','program','public_html'];
 
     if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
         $dirs[] = 'vendor';

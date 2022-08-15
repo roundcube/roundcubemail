@@ -15,13 +15,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["7.3", "7.4", "8.0", "8.1"]
+        php: ["7.3", "7.4", "8.0", "8.1", "8.2"]
 
     name: PHP ${{ matrix.php }}/Linux
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -42,9 +42,9 @@ jobs:
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
 
-      - name: Fix PHPUnit for PHP 8.1
-        run: composer config platform.php 8.0
-        if: matrix.php >= 8.1
+      - name: Fix PHPUnit for PHP 8.2
+        run: composer config platform.php 8.1
+        if: matrix.php >= 8.2
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress

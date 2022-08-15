@@ -159,7 +159,7 @@ class plesk_rpc
         $get     = $site->addChild("get");
         $filter  = $get->addChild("filter");
 
-        $filter->addChild("name", utf8_encode($domain));
+        $filter->addChild("name", $domain);
         $dataset = $get->addChild("dataset");
 
         $dataset->addChild("hosting");
