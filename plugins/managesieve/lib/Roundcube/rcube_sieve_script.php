@@ -583,8 +583,8 @@ class rcube_sieve_script
                         }
                         if (!empty($action['subject'])) {
                             $subject = trim($action['subject']);
-                            if ($action['subject_append_original'] == 1) {
-                                $subject .= $this->ends_with($subject, ':') ? ' ' : ': ' . $this->vacation_subject_suffix;
+                            if (isset($action['subject_append_original']) && $action['subject_append_original'] == 1) {
+                                $subject .= ($this->ends_with($subject, ':') ? ' ' : ': ') . $this->vacation_subject_suffix;
                             }
                             $action_script .= " :subject " . self::escape_string($subject);
                         }
