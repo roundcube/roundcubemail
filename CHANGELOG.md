@@ -10,6 +10,7 @@
 - Fix favicon rewrite rule in .htaccess (#8654)
 - Fix various PHP 8.2 warnings
 - Fix bug where it wasn't possible to create more than one response record on SQLite and Postgres (#8664)
+- Fix support for ManageSieve over implicit SSL (#8670)
 
 ## Release 1.6.0
 
