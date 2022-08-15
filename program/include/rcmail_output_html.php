@@ -2182,7 +2182,7 @@ EOF;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
+        $attrib['src']  = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'javascript:false;';
 
         // register as 'contentframe' object
         if ($is_contentframe || !empty($attrib['contentframe'])) {

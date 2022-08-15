@@ -217,7 +217,7 @@ function rcube_webmail()
     this.task = this.env.task;
 
     if (!this.env.blankpage)
-      this.env.blankpage = 'about:blank';
+      this.env.blankpage = 'javascript:false;';
 
     // find all registered gui containers
     for (n in this.gui_containers)
@@ -5121,7 +5121,7 @@ function rcube_webmail()
   this.get_save_target = function(unlock)
   {
     // Removing the frame on load/error to workaround issues with window history
-    this.dummy_iframe('savetarget', 'about:blank')
+    this.dummy_iframe('savetarget', 'javascript:false;')
       .on('load error', function() {
         // catch invalid/error response from server and unlock the UI (#7494, #7488, #7522)
         if (unlock && $(this).contents().find('meta[name="generator"][content="Roundcube"]').length == 0) {
