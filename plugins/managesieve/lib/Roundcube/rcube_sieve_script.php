@@ -1510,32 +1510,33 @@ class rcube_sieve_script
             return;
         }
 
-        if (!empty($rule["tests"])) {
-            foreach ($rule["tests"] as &$test) {
-                $test["test"] = $test["type"];
+        if (!empty($rule['tests'])) {
+            foreach ($rule['tests'] as &$test) {
+                $test['test'] = $test['type'];
 
-                if (isset($test["operator"])) {
-                    $test["type"] = $test["operator"];
-                    unset($test["operator"]);
+                if (isset($test['operator'])) {
+                    $test['type'] = $test['operator'];
+                    unset($test['operator']);
                 }
 
-                if (isset($test["header"])) {
-                    $test["arg1"] = $test["header"];
-                    unset($test["header"]);
-                    $test["arg2"] = $test["target"];
-                    unset($test["target"]);
+                if (isset($test['header'])) {
+                    $test['arg1'] = $test['header'];
+                    unset($test['header']);
+                    $test['arg2'] = $test['target'];
+                    unset($test['target']);
+                }
+            }
+        }
+
+        if (!empty($rule['actions'])) {
+            foreach ($rule['actions'] as &$action) {
+                if ($action['type'] == 'vacation') {
+                    $action['reason'] = $action['msg'];
+                    unset($action['msg']);
                 }
             }
         }
 
-        if (!empty($rule["actions"])) {
-            foreach ($rule["actions"] as &$action) {
-                if ($action["type"] == "vacation") {
-                    $action["reason"] = $action["msg"];
-                    unset($action["msg"]);
-                }
-            }
-        }
         $this->content[] = $rule;
     }
 }
