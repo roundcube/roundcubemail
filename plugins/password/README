@@ -52,6 +52,7 @@
  2.1.26. HTTP-API (httpapi)
  2.1.27. dovecot_passwdfile
  2.1.28. Mailcow
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -414,8 +415,16 @@
 
  2.1.28 Mailcow
  ---------------------------
+
  Driver to change the password on Mailcow servers.
  See config.inc.php.dist file for configuration description.
+
+
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
+ ---------------------------------------------------
+
+ Password change via LDAP unicodePwd attribute supported by Active Directory.
+ Uses configuration for other LDAP drivers.
 
 
  2.2. Password Strength Drivers
