@@ -64,14 +64,14 @@ class rcube_gandi_password
 
         // log error and return if config is invalid
         if (strcmp($passformat, '%u') !== 0 || is_int($minpasslength) === false || $minpasslength < self::GANDI_MIN_PASS_LENGTH
-         || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0 || empty($apikey)) {
+         || $minpasslength > (self::GANDI_MAX_PASS_LENGTH - self::GANDI_MIN_PASS_LENGTH) || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0 || empty($apikey)) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Password plugin: Invalid configuration option for 'password_username_format', 'password_minimum_length', 'password_algorithm' or 'password_gandi_apikeys'. Refer to the README for more information.",
                 ],
                 true, false
             );
-            return array('code' => PASSWORD_ERROR, 'message' => 'Invalid configuration');
+            return array('code' => PASSWORD_ERROR, 'message' => 'Invalid configuration.');
         }
 
         // try to get the api-key and log error & return on failure
@@ -108,7 +108,7 @@ class rcube_gandi_password
         if ($result['code'] !== PASSWORD_SUCCESS) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Failed to get the mailbox id of '".$username."': ".$result['msg'],
+                    'message' => "Password plugin: Failed to get mailbox id of '".$username."': ".$result['msg'],
                 ],
                 true, false
             );
@@ -134,7 +134,7 @@ class rcube_gandi_password
         curl_close($curl);
 
         // return result
-        return array('code' => $result['code'], $result['msg']);
+        return array('code' => $result['code'], message => $result['msg']);
     }
 
     /**
@@ -157,17 +157,18 @@ class rcube_gandi_password
         if (is_numeric($passminscore) === false || $passminscore !== 2) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Invalid configuration option for 'password_minimum_score'. Refer to the README for more inform>                ],
+                    'message' => "Password plugin: Invalid configuration option for 'password_minimum_score'. Refer to the README for more information.",
+                ],
                 true, false
             );
-            return [1, 'Invalid configuration'];
+            return [1, 'Invalid configuration.'];
         }
 
         // get password properties
         $uppercase = preg_match('@[A-Z]@', $newpass);
         $numbers = preg_match_all('@[0-9]@', $newpass);
         $specialChars = preg_match('@[^\w]@', $newpass);
-		
+
         // return if password is not strong enough
         if($passlenght < self::GANDI_MIN_PASS_LENGTH || $passlenght > self::GANDI_MAX_PASS_LENGTH
         || !$uppercase || $numbers < self::GANDI_MIN_PASS_NUMS || !$specialChars) {
@@ -207,13 +208,13 @@ class rcube_gandi_password
             // read file and return on failure
             $json = file_get_contents($apikey);
             if ($json === false) {
-                return array('result' => false, 'msg' => "Failed to open file '".$apikey."'");
+                return array('result' => false, 'msg' => "Failed to open JSON file.");
             }
 
             // parse json and return on failure
             $json = json_decode($json, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return array('result' => false, 'msg' => "Failed to parse json");
+                return array('result' => false, 'msg' => "Failed to parse JSON file.");
             }
 
             // assign api-key
@@ -247,7 +248,7 @@ class rcube_gandi_password
     {
         // add curl options
         curl_setopt_array($curl, array(
-            CURLOPT_URL => sprintf("%s/email/mailboxes/%s", self::GANDI_API_URL, $domain),
+            CURLOPT_URL => sprintf('%s/email/mailboxes/%s', self::GANDI_API_URL, $domain),
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => "login=".$username,
@@ -258,18 +259,18 @@ class rcube_gandi_password
 
         // read and parse response
         $response = curl_exec($curl);
+		$err = curl_error($curl);
         $json = json_decode(trim($response, '[]'), true);
-        $err = curl_error($curl);
 
         // return if failed
         if ($err) {
             return array('code' => PASSWORD_CONNECT_ERROR, 'msg' => $err);
         }
         else if (json_last_error() !== JSON_ERROR_NONE) {
-            return array('code' => PASSWORD_ERROR, 'msg' => (empty($response) ? 'Failed to parse json' : $response));
+            return array('code' => PASSWORD_ERROR, 'msg' => 'Failed to parse JSON.');
         }
         else if (empty($json['id'])) {
-            return array('code' => PASSWORD_ERROR, 'msg' => (empty($json['message']) ? 'unknown' : $json['message']));
+            return array('code' => PASSWORD_ERROR, 'msg' => (empty($json['message']) ? 'unknown.' : $json['message']));
         }
 
         // return result
@@ -291,29 +292,29 @@ class rcube_gandi_password
     {
         // overrride curl options
         curl_setopt_array($curl, array(
-            CURLOPT_URL => sprintf("%s/email/mailboxes/%s/%s", self::GANDI_API_URL, $domain, $mailboxid),
+            CURLOPT_URL => sprintf('%s/email/mailboxes/%s/%s', self::GANDI_API_URL, $domain, $mailboxid),
             CURLOPT_CUSTOMREQUEST => 'PATCH',
             CURLOPT_POSTFIELDS => "{\"password\":\"".$newpass."\"}",
             CURLOPT_HTTPHEADER => array(
                 "authorization: Apikey ".$apikey,
-                "content-type: application/json"
+                'content-type: application/json'
             ),
         ));
 
         // read and parse response
         $response = curl_exec($curl);
+		$err = curl_error($curl);
         $json = json_decode(trim($response, '[]'), true);
-        $err = curl_error($curl);
 
         // return if failed
         if ($err) {
             return array('code' => PASSWORD_CONNECT_ERROR, 'msg' => $err);
         }
         else if (json_last_error() !== JSON_ERROR_NONE) {
-            return array('code' => PASSWORD_ERROR, 'msg' => (empty($response) ? 'Failed to parse json' : $response));
+            return array('code' => PASSWORD_ERROR, 'msg' => 'Failed to parse JSON.');
         }
         else if (empty($json['message']) || stripos($json['message'], self::GANDI_API_SUCCESS_MSG) === false) {
-            return array('code' => PASSWORD_ERROR, 'msg' => (empty($json['message']) ? 'unknown' : $json['message']));
+            return array('code' => PASSWORD_ERROR, 'msg' => (empty($json['message']) ? 'unknown.' : $json['message']));
         }
 
         // success
