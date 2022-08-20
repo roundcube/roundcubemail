@@ -514,7 +514,7 @@ $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 $config['password_mailcow_api_host'] = 'localhost';
 $config['password_mailcow_api_token'] = '';
 
-<?php
+
 // GANDI-API Driver options
 // ------------------------
 // In order to work, the following configuration options must be set appropriately:
@@ -525,15 +525,14 @@ $config['password_mailcow_api_token'] = '';
 // Password strength driver:
 //   - password_minimum_score = 2
 //
-//
 // The domain-to-API key configuration required for authentication.
-// Can be either the absolute path to a JSON file, or an array which
-// contains the key-value mapping.
+// Can be either the absolute path to a JSON file, or an array
+// containing the key-value mapping.
 //
-// Examples: 
+// Examples:
 // (1) $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
 // (2) $config['password_gandi_apikeys'] = array(
 //         'example.com' => 'first-api-key',
 //         'foo.com' => 'second-api-key',
-//     );
+// Note: For security reasons, it is recommended to use the first option.
 $config['password_gandi_apikeys'] = null;
