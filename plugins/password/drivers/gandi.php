@@ -259,7 +259,7 @@ class rcube_gandi_password
 
         // read and parse response
         $response = curl_exec($curl);
-		$err = curl_error($curl);
+        $err = curl_error($curl);
         $json = json_decode(trim($response, '[]'), true);
 
         // return if failed
@@ -303,7 +303,7 @@ class rcube_gandi_password
 
         // read and parse response
         $response = curl_exec($curl);
-		$err = curl_error($curl);
+        $err = curl_error($curl);
         $json = json_decode(trim($response, '[]'), true);
 
         // return if failed
