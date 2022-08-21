@@ -53,7 +53,7 @@
  2.1.27. dovecot_passwdfile
  2.1.28. Mailcow
  2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
- 2.1.30  gandi (gandi.net mail-API)
+ 2.1.30. gandi (gandi.net mail-API)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
