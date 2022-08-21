@@ -53,6 +53,7 @@
  2.1.27. dovecot_passwdfile
  2.1.28. Mailcow
  2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
+ 2.1.30  gandi (gandi.net mail-API)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
  2.2.2.  Have I been pwned? (pwned)
@@ -425,6 +426,21 @@
 
  Password change via LDAP unicodePwd attribute supported by Active Directory.
  Uses configuration for other LDAP drivers.
+
+
+ 2.1.30 gandi
+ ---------------------------
+ 
+ Driver to change the user's password via gandi.net mail-API. A password driver is also
+ included that checks the password strength according to the official gandi.net documentation.
+ See https://api.gandi.net/docs/email/ for more information.
+
+ In order to work, the following configuration options must be set appropriately:
+ Password driver:
+    * password_username_format = %u
+    * password_algorithm = sha512-crypt
+ Password strength driver:
+    * password_minimum_score = 2
 
 
  2.2. Password Strength Drivers
