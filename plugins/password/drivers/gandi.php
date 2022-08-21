@@ -180,7 +180,7 @@ class rcube_gandi_password
     /**
      * Password strength rules.
      *
-     * @return string The strenght rules
+     * @return string The strength rules
      */
     public function strength_rules()
     {
