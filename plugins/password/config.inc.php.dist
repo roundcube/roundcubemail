@@ -520,7 +520,6 @@ $config['password_mailcow_api_token'] = '';
 // In order to work, the following configuration options must be set appropriately:
 // Password driver:
 //   - password_username_format = %u
-//   - password_minimum_length >= 8
 //   - password_algorithm = sha512-crypt
 // Password strength driver:
 //   - password_minimum_score = 2
