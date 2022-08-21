@@ -428,7 +428,7 @@
  Uses configuration for other LDAP drivers.
 
 
- 2.1.30 gandi
+ 2.1.30. gandi
  ---------------------------
  
  Driver to change the user's password via gandi.net mail-API. A password driver is also
