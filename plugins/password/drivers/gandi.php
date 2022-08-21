@@ -57,17 +57,15 @@ class rcube_gandi_password
     {
         // get configuration
         $passformat = rcmail::get_instance()->config->get('password_username_format');
-        $minpasslength = rcmail::get_instance()->config->get('password_minimum_length');
         $passalgo = rcmail::get_instance()->config->get('password_algorithm');
         $apikey = rcmail::get_instance()->config->get('password_gandi_apikeys');
         $userdom = explode('@', $username);
 
         // log error and return if config is invalid
-        if (strcmp($passformat, '%u') !== 0 || is_int($minpasslength) === false || $minpasslength < self::GANDI_MIN_PASS_LENGTH
-         || $minpasslength > (self::GANDI_MAX_PASS_LENGTH - self::GANDI_MIN_PASS_LENGTH) || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0 || empty($apikey)) {
+        if (strcmp($passformat, '%u') !== 0 || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0 || empty($apikey)) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Invalid configuration option for 'password_username_format', 'password_minimum_length', 'password_algorithm' or 'password_gandi_apikeys'. Refer to the README for more information.",
+                    'message' => "Password plugin: Invalid configuration option for 'password_username_format', 'password_algorithm' or 'password_gandi_apikeys'. Refer to the README for more information.",
                 ],
                 true, false
             );
@@ -257,16 +255,20 @@ class rcube_gandi_password
             ),
         ));
 
-        // read and parse response
+        // read response
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        $json = json_decode(trim($response, '[]'), true);
 
         // return if failed
         if ($err) {
             return array('code' => PASSWORD_CONNECT_ERROR, 'msg' => $err);
         }
-        else if (json_last_error() !== JSON_ERROR_NONE) {
+
+        // try to parse JSON
+        $json = json_decode(trim($response, '[]'), true);
+
+        // return if failed
+        if (json_last_error() !== JSON_ERROR_NONE) {
             return array('code' => PASSWORD_ERROR, 'msg' => 'Failed to parse JSON.');
         }
         else if (empty($json['id'])) {
@@ -301,16 +303,20 @@ class rcube_gandi_password
             ),
         ));
 
-        // read and parse response
+        // read response
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        $json = json_decode(trim($response, '[]'), true);
 
         // return if failed
         if ($err) {
             return array('code' => PASSWORD_CONNECT_ERROR, 'msg' => $err);
         }
-        else if (json_last_error() !== JSON_ERROR_NONE) {
+
+        // try to parse JSON
+        $json = json_decode(trim($response, '[]'), true);
+
+        // return if failed
+        if (json_last_error() !== JSON_ERROR_NONE) {
             return array('code' => PASSWORD_ERROR, 'msg' => 'Failed to parse JSON.');
         }
         else if (empty($json['message']) || stripos($json['message'], self::GANDI_API_SUCCESS_MSG) === false) {
