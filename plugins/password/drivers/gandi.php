@@ -132,7 +132,7 @@ class rcube_gandi_password
         curl_close($curl);
 
         // return result
-        return array('code' => $result['code'], message => $result['msg']);
+        return array('code' => $result['code'], 'message' => $result['msg']);
     }
 
     /**
