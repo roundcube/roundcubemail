@@ -258,7 +258,7 @@ class rcube_gandi_password
      * @return array [
      *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      *                'msg'  => (int|string) Mailbox id or error message if 'code' is not equal to 'PASSWORD_SUCCESS'.
-     *                 ]
+     *               ]
      */
     private function reqMailboxId($curl, $username, $domain, $apikey)
     {
@@ -309,7 +309,7 @@ class rcube_gandi_password
      * @return array [
      *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      *                'msg'  => (string) Optional error message.
-     *                 ]
+     *               ]
      */
     private function tellPassword($curl, $domain, $newpass, $mailboxid, $apikey)
     {
