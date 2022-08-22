@@ -3,7 +3,8 @@
 /**
  * Roundcube password driver for gandi mail.
  *
- * This driver changes the e-mail password via the gandi mail API.
+ * This driver changes the user's password via gandi.net mail- API and
+ * verifies the password strength according to official documentation.
  *
  * @author Aaron Hermann
  *
@@ -35,12 +36,14 @@
 class rcube_gandi_password
 {
     // constants
-    private const GANDI_MIN_PASS_LENGTH = 8;
-    private const GANDI_MAX_PASS_LENGTH = 200;
-    private const GANDI_MIN_PASS_NUMS = 3;
+    private const PASSWORD_ALGO = 'sha512-crypt';
     private const GANDI_API_URL = 'https://api.gandi.net/v5';
     private const GANDI_API_SUCCESS_MSG = 'The email mailbox is being updated.';
-    private const PASSWORD_ALGO = 'sha512-crypt';
+    private const GANDI_PASS_MIN_LENGTH = 8;
+    private const GANDI_PASS_MAX_LENGTH = 200;
+    private const GANDI_PASS_AMOUNT_UCASE = 1;
+    private const GANDI_PASS_AMOUNT_NUMS = 3;
+    private const GANDI_PASS_AMOUNT_SCHARS = 1;
 
     /**
      * This method is called from roundcube to change the password
@@ -55,10 +58,11 @@ class rcube_gandi_password
      */
     public function save($curpass, $newpass, $username)
     {
-        // get configuration
-        $passformat = rcmail::get_instance()->config->get('password_username_format');
-        $passalgo = rcmail::get_instance()->config->get('password_algorithm');
-        $apikey = rcmail::get_instance()->config->get('password_gandi_apikeys');
+        // get roundcube instance and configuration
+        $rcmail = rcmail::get_instance();
+        $passformat = $rcmail->config->get('password_username_format');
+        $passalgo = $rcmail->config->get('password_algorithm');
+        $apikey = $rcmail->config->get('password_gandi_apikeys');
         $userdom = explode('@', $username);
 
         // log error and return if config is invalid
@@ -69,7 +73,7 @@ class rcube_gandi_password
                 ],
                 true, false
             );
-            return array('code' => PASSWORD_ERROR, 'message' => 'Invalid configuration.');
+            return PASSWORD_ERROR;
         }
 
         // try to get the api-key and log error & return on failure
@@ -83,7 +87,7 @@ class rcube_gandi_password
                     true, false
                 );
             }
-            return array('code' => PASSWORD_ERROR, 'message' => $result['msg']);
+            return PASSWORD_ERROR;
         }
 
         // assign api-key and initialize curl
@@ -132,23 +136,24 @@ class rcube_gandi_password
         curl_close($curl);
 
         // return result
-        return array('code' => $result['code'], 'message' => $result['msg']);
+        return $result['code'];
     }
 
     /**
      * Password strength check.
      * Return values:
-     *     1 - if password is to weak.
+     *     1 - f password is to weak.
      *     2 - if password is strong enough.
      *
      * @param string $passwd Password
      *
-     * @return array password score (1 to 2) and (optional) reason message
+     * @return array Password score (1 to 2) and (optional) reason message
      */
     public function check_strength($newpass)
     {
         // variables
-        $passminscore = rcmail::get_instance()->config->get('password_minimum_score');
+        $rcmail = rcmail::get_instance();
+        $passminscore = $rcmail->config->get('password_minimum_score');
         $passlenght = strlen($newpass);
 
         // log and return if config invalid
@@ -159,22 +164,22 @@ class rcube_gandi_password
                 ],
                 true, false
             );
-            return [1, 'Invalid configuration.'];
+            return array(1, $rcmail->gettext('errortitle'));
         }
 
         // get password properties
-        $uppercase = preg_match('@[A-Z]@', $newpass);
+        $uppercase = preg_match_all('@[A-Z]@', $newpass);
         $numbers = preg_match_all('@[0-9]@', $newpass);
-        $specialChars = preg_match('@[^\w]@', $newpass);
+        $specialchars = preg_match_all('@[^\w]@', $newpass);
 
         // return if password is not strong enough
-        if($passlenght < self::GANDI_MIN_PASS_LENGTH || $passlenght > self::GANDI_MAX_PASS_LENGTH
-        || !$uppercase || $numbers < self::GANDI_MIN_PASS_NUMS || !$specialChars) {
-            return [1, $this->strength_rules()];
+        if($passlenght < self::GANDI_PASS_MIN_LENGTH || $passlenght > self::GANDI_PASS_MAX_LENGTH || $uppercase < self::GANDI_PASS_AMOUNT_UCASE
+        || $numbers < self::GANDI_PASS_AMOUNT_NUMS || $specialchars < self::GANDI_PASS_AMOUNT_SCHARS) {
+            return array(1, $this->strength_rules());
         }
 
         // success
-        return [2, ''];
+        return array(2, '');
     }
 
     /**
@@ -184,19 +189,29 @@ class rcube_gandi_password
      */
     public function strength_rules()
     {
-        // return message
-        return sprintf("Password must contain between %s and %s characters and contain at least 1 upper-case letter, %d numbers,
-                        and a special character.", self::GANDI_MIN_PASS_LENGTH, self::GANDI_MAX_PASS_LENGTH, self::GANDI_MIN_PASS_NUMS);
+        // return strength rules
+        return rcmail::get_instance()->gettext(['name' => 'password.gandi_strengthrules',
+                                                'vars' => ['minlen' => self::GANDI_PASS_MIN_LENGTH,
+                                                           'maxlen' => self::GANDI_PASS_MAX_LENGTH,
+                                                           'uppercase' => self::GANDI_PASS_AMOUNT_UCASE,
+                                                           'nums' => self::GANDI_PASS_AMOUNT_NUMS,
+                                                           'specialchars' => self::GANDI_PASS_AMOUNT_SCHARS,
+                                                          ],
+                                               ],
+                                       ); 
     }
 
 
     /**
      * Get the users api-key
      *
-     * @param string $apikey The API-key field of the config
+     * @param string $apikey The API-key field from the config
      * @param string $domain The domain name
      *
-     * @return array ['result' => true/false, 'msg' => 'api_key_or_error_message']
+     * @return array [
+     *                'result' => (boolean) Result of the operation.
+     *                'msg'    => (string) API-key or error message if 'result' is equal to false.
+     *               ]
      */
     private function getApiKey($apikey, $domain)
     {
@@ -240,7 +255,10 @@ class rcube_gandi_password
      * @param string $domain   The domain name
      * @param string $apikey   The api-key
      *
-     * @return array ['code' => 'result_code', 'msg' => 'id_or_error_message']
+     * @return array [
+     *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
+     *                'msg'  => (int|string) Mailbox id or error message if 'code' is not equal to 'PASSWORD_SUCCESS'.
+     *                 ]
      */
     private function reqMailboxId($curl, $username, $domain, $apikey)
     {
@@ -288,7 +306,10 @@ class rcube_gandi_password
      * @param string $mailboxid The mailbox id of the users mailbox
      * @param string $apikey    The api-key
      *
-     * @return array ['code' => 'result_code', 'msg' => 'error_message']
+     * @return array [
+     *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
+     *                'msg'  => (string) Optional error message.
+     *                 ]
      */
     private function tellPassword($curl, $domain, $newpass, $mailboxid, $apikey)
     {
