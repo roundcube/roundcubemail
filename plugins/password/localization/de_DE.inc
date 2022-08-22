@@ -40,4 +40,4 @@ $messages['passwdexpired'] = 'Ihr Passwort ist abgelaufen, ändern Sie es jetzt!
 $messages['passwdconstraintviolation'] = 'Passwortbeschränkungsverletzung. Passwort wahrscheinlich zu schwach.';
 $messages['pwned_isdisclosed'] = 'Dieses Passwort ist allgemein bekannt.';
 $messages['pwned_fetcherror'] = 'Die Überprüfung der Passwortstärke ist fehlgeschlagen.';
-$messages['gandi_strengthrules'] = 'Das Passwort muss zwischen $minlen und $maxlen Zeichen und mindestens $uppercase Großbuchstaben, $nums Zahl(en) und $specialchars Sonderzeichen enthalten.'
+$messages['gandi_strengthrules'] = 'Das Passwort muss zwischen $minlen und $maxlen Zeichen und mindestens $uppercase Großbuchstaben, $nums Zahl(en) und $specialchars Sonderzeichen enthalten.';
