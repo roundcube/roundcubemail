@@ -27,3 +27,4 @@ $messages['internalerror'] = 'Yeni şifrənin saxlanılması mümkün olmadı.';
 $messages['passwordshort'] = 'Yeni şifrə $length simvoldan uzun olmalıdır.';
 $messages['passwordweak'] = 'Şifrədə heç olmasa minimum bir rəqəm və simvol olmalıdır.';
 $messages['passwordforbidden'] = 'Şifrədə icazə verilməyən simvollar vardır.';
+$messages['gandi_strengthrules'] = 'Parolda $minlen və $maxlen simvolları olmalıdır və ən azı $uppercase böyük hərf(lər), $nums nömrə(lər) və $specialchars xüsusi simvol(lar)dan ibarət olmalıdır.';
