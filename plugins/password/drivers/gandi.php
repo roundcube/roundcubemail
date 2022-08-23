@@ -142,7 +142,7 @@ class rcube_gandi_password
     /**
      * Password strength check.
      * Return values:
-     *     1 - f password is to weak.
+     *     1 - if password is to weak.
      *     2 - if password is strong enough.
      *
      * @param string $passwd Password
