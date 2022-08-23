@@ -198,7 +198,7 @@ class rcube_gandi_password
                                                            'specialchars' => self::GANDI_PASS_AMOUNT_SCHARS,
                                                           ],
                                                ],
-                                       ); 
+                                       );
     }
 
 
@@ -229,7 +229,7 @@ class rcube_gandi_password
 
             // try to parse json
             $json = json_decode($file, true);
-            
+
             // try to assign the api-key appropriately and return on failure
             if (json_last_error() === JSON_ERROR_NONE && is_array($json)) {
                 $apikey = $json[$domain];
