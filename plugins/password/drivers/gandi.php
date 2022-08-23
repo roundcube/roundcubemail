@@ -221,24 +221,30 @@ class rcube_gandi_password
         }
         // check if api-keys are stored in file
         else if (strpos($apikey, '/') !== false) {
-            // read file and return on failure
+            // try to read file
             $file = @file_get_contents($apikey);
+
+            // return if the file could not be opened or is empty
             if ($file === false) {
-                return array('result' => false, 'msg' => 'The API key file could not be opened.');
+                return array('result' => false, 'msg' => 'The API-key file could not be opened.');
+            }
+            else if (empty($file)) {
+                return array('result' => false, 'msg' => "No mapping was found for '".$domain."'.");
             }
 
-            // try to parse json
+            // remove all newlines and try to parse json
+            $file = str_replace("\n", '', $file);
             $json = json_decode($file, true);
 
             // try to assign the api-key appropriately and return on failure
             if (json_last_error() === JSON_ERROR_NONE && is_array($json)) {
                 $apikey = $json[$domain];
             }
-            else if (strpos($apikey, '\n') === false) {
+            else if (preg_match('@"|\\\\|[[:cntrl:]]@', $file) === 0) {
                 $apikey = $file;
             }
             else {
-                return array('result' => false, 'msg' => 'The API key file could not be interpreted.');
+                return array('result' => false, 'msg' => 'The API-key file could not be interpreted.');
             }
         }
 
