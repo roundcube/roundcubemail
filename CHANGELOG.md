@@ -12,6 +12,7 @@
 - Fix bug where it wasn't possible to create more than one response record on SQLite and Postgres (#8664)
 - Fix support for ManageSieve over implicit SSL (#8670)
 - Fix bug where "about:blank" page could trigger "load error" (#8554)
+- Fix bug where setting 'Clear Trash on Logout' to 'all messages' didn't work (#8687)
 
 ## Release 1.6.0
 

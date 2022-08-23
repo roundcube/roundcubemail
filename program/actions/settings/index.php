@@ -1429,14 +1429,14 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext(['name' => 'olderxdays', 'vars' => ['x' => $days]]), (string) $days);
                     }
 
-                    $purge = (string) $config['logout_purge'];
+                    $purge = $config['logout_purge'];
                     if (!is_numeric($purge)) {
                         $purge = empty($purge) ? 'never' : 'all';
                     }
 
                     $blocks['maintenance']['options']['logout_purge'] = [
                         'title'   => html::label($field_id, rcube::Q($rcmail->gettext('logoutclear'))),
-                        'content' => $select->show($purge),
+                        'content' => $select->show((string) $purge),
                     ];
                 }
 
