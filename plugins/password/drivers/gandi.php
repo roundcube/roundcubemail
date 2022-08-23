@@ -10,13 +10,15 @@
  *
  * Copyright (C) The Roundcube Dev Team
  *
- * Configuration can either be the absolute path to a JSON file,
- * or an array which contains the key-value mapping:
- * $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
- * $config['password_gandi_apikeys'] = array(
- *     'example.com' => 'first-api-key',
- *     'foo.com' => 'second-api-key',
- * );
+ * The configuration can take various forms depending on your needs.
+ *     (1) The raw API-key or an array containing the key-value mapping.
+ *         $config['password_gandi_apikeys'] = 'your-api-key';
+ *         $config['password_gandi_apikeys'] = array(
+ *             'example.com' => 'first-api-key',
+ *             'foo.com' => 'second-api-key',
+ *         );
+ *     (2) The absolute path to a file containing either the raw API-key or a key-value mapping in JSON format.
+ *         $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,10 +68,10 @@ class rcube_gandi_password
         $userdom = explode('@', $username);
 
         // log error and return if config is invalid
-        if (strcmp($passformat, '%u') !== 0 || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0 || empty($apikey)) {
+        if (strcmp($passformat, '%u') !== 0 || strcasecmp($passalgo, self::PASSWORD_ALGO) !== 0) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Invalid configuration option for 'password_username_format', 'password_algorithm' or 'password_gandi_apikeys'. Refer to the README for more information.",
+                    'message' => "Password plugin: Invalid configuration option for 'password_username_format' or 'password_algorithm'. Refer to the README for more information.",
                 ],
                 true, false
             );
@@ -79,14 +81,12 @@ class rcube_gandi_password
         // try to get the api-key and log error & return on failure
         $result = $this->getApiKey($apikey, $userdom[1]);
         if ($result['result'] === false) {
-            if (empty($result['msg']) === false) {
-                rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Password plugin: Problem with configuration option 'password_gandi_apikeys': ".$result['msg'],
-                    ],
-                    true, false
-                );
-            }
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Invalid configuration option for 'password_gandi_apikeys': ".$result['msg'],
+                ],
+                true, false
+            );
             return PASSWORD_ERROR;
         }
 
@@ -205,42 +205,46 @@ class rcube_gandi_password
     /**
      * Get the users api-key
      *
-     * @param string $apikey The API-key field from the config
+     * @param string $apikey The api-key field from the config
      * @param string $domain The domain name
      *
      * @return array [
      *                'result' => (boolean) Result of the operation.
-     *                'msg'    => (string) API-key or error message if 'result' is equal to false.
+     *                'msg'    => (string) api-key or error message if 'result' is equal to false.
      *               ]
      */
     private function getApiKey($apikey, $domain)
     {
-        // check if API-keys are stored in file
-        if (is_array($apikey) === false)
-        {
-            // read file and return on failure
-            $json = file_get_contents($apikey);
-            if ($json === false) {
-                return array('result' => false, 'msg' => "Failed to open JSON file.");
-            }
-
-            // parse json and return on failure
-            $json = json_decode($json, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                return array('result' => false, 'msg' => "Failed to parse JSON file.");
-            }
-
-            // assign api-key
-            $apikey = $json[$domain];
-        }
-        // API-keys are stored in an array => assign api-key directly
-        else {
+        // assign api-keys directly if they are stored in an array
+        if (is_array($apikey)) {
             $apikey = $apikey[$domain];
+        }
+        // check if api-keys are stored in file
+        else if (strpos($apikey, '/') !== false) {
+            // read file and return on failure
+            $file = @file_get_contents($apikey);
+            if ($file === false) {
+                return array('result' => false, 'msg' => 'The API key file could not be opened.');
+            }
+
+            // try to parse json
+            $json = json_decode($file, true);
+            
+            // try to assign the api-key appropriately and return on failure
+            if (json_last_error() === JSON_ERROR_NONE && is_array($json)) {
+                $apikey = $json[$domain];
+            }
+            else if (strpos($apikey, '\n') === false) {
+                $apikey = $file;
+            }
+            else {
+                return array('result' => false, 'msg' => 'The API key file could not be interpreted.');
+            }
         }
 
         // return if api-key invalid
         if (empty($apikey)) {
-            return array('result' => false, 'msg' => '');
+            return array('result' => false, 'msg' => "No mapping was found for '".$domain."'.");
         }
 
         // return result
