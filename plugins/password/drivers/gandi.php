@@ -274,10 +274,10 @@ class rcube_gandi_password
     {
         // add curl options
         curl_setopt_array($curl, array(
-            CURLOPT_URL => sprintf('%s/email/mailboxes/%s', self::GANDI_API_URL, $domain),
+            CURLOPT_URL => sprintf('%s/email/mailboxes/%s?login=%s', self::GANDI_API_URL, $domain, $username),
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => "login=".$username,
+            CURLOPT_POSTFIELDS => "",
             CURLOPT_HTTPHEADER => array(
                 "authorization: Apikey ".$apikey,
             ),
