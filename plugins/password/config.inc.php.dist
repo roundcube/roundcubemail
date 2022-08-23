@@ -518,14 +518,15 @@ $config['password_mailcow_api_token'] = '';
 // GANDI-API Driver options
 // ------------------------
 // The domain-to-API key configuration required for authentication.
-// Can be either the absolute path to a JSON file, or an array
-// containing the key-value mapping.
+// This can take various forms depending on your needs.
+//     (1) The raw API-key or an array containing the key-value mapping.
+//         $config['password_gandi_apikeys'] = 'your-api-key';
+//         $config['password_gandi_apikeys'] = array(
+//             'example.com' => 'first-api-key',
+//             'foo.com' => 'second-api-key',
+//         );
+//     (2) The absolute path to a file containing either the raw API-key or a key-value mapping in JSON format.
+//         $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
 //
-// Examples:
-// (1) $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
-// (2) $config['password_gandi_apikeys'] = array(
-//         'example.com' => 'first-api-key',
-//         'foo.com' => 'second-api-key',
-//
-// Note: For security reasons, it is recommended to use the first option.
+// Note: For security reasons, it is recommended to use the second option.
 $config['password_gandi_apikeys'] = null;
