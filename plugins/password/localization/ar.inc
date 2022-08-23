@@ -34,4 +34,4 @@ $messages['samepasswd'] = 'يجب أن تكون كلمة السر الجديدة
 $messages['passwdexpirewarning'] = 'تنبيه ! إنّ مدة صلاحية كلمتك السرية سوف تنقضي قريبا، يُرجى تغييرها قبل $expirationdatetime.';
 $messages['passwdexpired'] = 'لقد إنتهت مدة صلاحية كلمتك السرية، يجب عليك تغييرها الآن !';
 $messages['passwdconstraintviolation'] = 'تحتوي كلمة المرور على خروقات. ربما كلمة المرور ضعيفة جدا.';
-$messages['gandi_strengthrules'] = 'يجب أن تحتوي كلمة المرور بين $minlen و $maxlen أحرف وأن تحتوي على الأقل $uppercase على حرف (أحرف) كبيرة ، $nums رقم (أرقام) ، و $specialchars حرف (أحرف) خاص.'
+$messages['gandi_strengthrules'] = 'يجب أن تحتوي كلمة المرور بين $minlen و $maxlen أحرف وأن تحتوي على الأقل $uppercase على حرف (أحرف) كبيرة ، $nums رقم (أرقام) ، و $specialchars حرف (أحرف) خاص.';
