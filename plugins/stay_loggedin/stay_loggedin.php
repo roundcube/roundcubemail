@@ -31,7 +31,7 @@ class stay_loggedin extends rcube_plugin {
 		$sessCookieName = $this->rc->config->get('session_name');
 		$authCookieName = $this->rc->config->get('session_auth_name');
 		$sessCookieValue = session_id();
-		$authCookieValue = (isset($_COOKIE[$authCookieName])) ? $_COOKIE[$authCookieName] : '';
+		$authCookieValue = (isset($_COOKIE[$authCookieName])) ? $_COOKIE[$authCookieName] : 'Error: Auth Cookie Missing';
 		$exp = time() + ($this->days * 24 * 60 * 60);
 		rcube_utils::setcookie($sessCookieName, $sessCookieValue, $exp);
 		rcube_utils::setcookie($authCookieName, $authCookieValue, $exp);
