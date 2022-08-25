@@ -413,18 +413,18 @@ class rcube_result_index
      * Returns response parameters, e.g. ESEARCH's MIN/MAX/COUNT/ALL/MODSEQ
      * or internal data e.g. MAILBOX, ORDER
      *
-     * @param string $param Parameter name
+     * @param ?string $param Parameter name
      *
      * @return array|string Response parameters or parameter value
      */
-    public function get_parameters($param=null)
+    public function get_parameters($param = null)
     {
         $params = $this->params;
         $params['MAILBOX'] = $this->mailbox;
         $params['ORDER']   = $this->order;
 
         if ($param !== null) {
-            return $params[$param];
+            return $params[$param] ?? null;
         }
 
         return $params;
