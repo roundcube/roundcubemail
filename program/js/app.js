@@ -1098,7 +1098,7 @@ function rcube_webmail()
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
           // Note: We disable _framed for proper X-Frame-Options:deny support (#6688)
           if (this.open_window(this.url('get', $.extend({_frame: 1, _framed: 0}, params))))
-            break;
+            return true;
         }
 
         params._download = 1;
@@ -1108,7 +1108,7 @@ function rcube_webmail()
         this.goto_url('get', params, false, true);
         this.compose_skip_unsavedcheck = 0;
 
-        break;
+        return true;
 
       case 'select-all':
         this.select_all_mode = props ? false : true;
