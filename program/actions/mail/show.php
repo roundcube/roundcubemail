@@ -226,7 +226,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             if (!self::$PRINT_MODE) {
                 $link_attrs = [
                     'href'        => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
-                    'onclick'     => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
+                    'onclick'     => sprintf('%s.command(\'load-attachment\',\'%s\',this); return false',
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
                     'title'       => $title,
@@ -779,7 +779,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $show_link_attr = [
                             'href'    => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
                             'onclick' => sprintf(
-                                'return %s.command(\'load-attachment\',\'%s\',this)',
+                                '%s.command(\'load-attachment\',\'%s\',this); return false',
                                 rcmail_output::JS_OBJECT_NAME,
                                 $attach_prop->mime_id
                             )
