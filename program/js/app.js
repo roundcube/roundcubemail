@@ -8231,6 +8231,9 @@ function rcube_webmail()
 
     popup.dialog(options);
 
+    // Remember the jQuery instance (window), useful when closing the dialog
+    popup[0].jqref = $;
+
     if (options.width)
       popup.width(options.width);
     if (options.height)
@@ -8283,7 +8286,12 @@ function rcube_webmail()
       cancel_label = options.cancel_button || 'cancel',
       cancel_class = options.cancel_class || cancel_label.replace(/^[^\.]+\./i, ''),
       close_func = function(e, ui, dialog) {
-        (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
+        if (!dialog)
+          dialog = this;
+
+        // The dialog might got open in the current window, but also any of its parents (#8627)
+        // We have to use the jQuery object that did invoke the dialog, set in show_popup_dialog()
+        dialog.jqref(dialog).dialog('close');
         if (options.cancel_func) options.cancel_func(e, ref);
       },
       buttons = [{
