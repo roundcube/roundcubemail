@@ -114,7 +114,7 @@ rcube_webmail.prototype.enigma_key_import = function()
             win.rcmail.enigma_import();
         };
 
-    this.enigma_import_dialog = this.simple_dialog(dialog, this.gettext('enigma.importkeys'), import_func, {
+    this.enigma_import_dialog = this.simple_dialog(dialog, 'enigma.importkeys', import_func, {
         button: 'import',
         width: 500,
         height: 180
@@ -130,7 +130,7 @@ rcube_webmail.prototype.enigma_key_import_search = function()
             win.rcmail.enigma_import_search();
         };
 
-    this.enigma_import_dialog = this.simple_dialog(dialog, this.gettext('enigma.keyimportsearchlabel'), search_func, {
+    this.enigma_import_dialog = this.simple_dialog(dialog, 'enigma.keyimportsearchlabel', search_func, {
         button: 'search',
         width: 500,
         height: 150
