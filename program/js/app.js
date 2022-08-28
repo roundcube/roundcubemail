@@ -1432,7 +1432,7 @@ function rcube_webmail()
           };
 
         this.import_state = null;
-        this.import_dialog = this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
+        this.import_dialog = this.simple_dialog(dialog, 'importcontacts', import_func, {
           close: close_func,
           button: 'import',
           width: 500,
@@ -4196,7 +4196,7 @@ function rcube_webmail()
       $('<div>')
         .append($('<p>').html(ref.get_label('encryptpubkeysfound')))
         .append(ul),
-      ref.get_label('importpubkeys'),
+      'importpubkeys',
       null,
       {cancel_label: 'close', cancel_button: 'close'}
     );
@@ -4480,7 +4480,7 @@ function rcube_webmail()
         content = $('<ul class="proplist">').append(nodes);
         $('input:not([disabled])', content).first().attr('checked', true);
 
-        this.simple_dialog(content, this.get_label('markallread'),
+        this.simple_dialog(content, 'markallread',
           function() {
             ref.mark_all_read(folder, $('input:checked', content).val());
             return true;
@@ -4569,7 +4569,7 @@ function rcube_webmail()
 
     this.hide_menu('forwardmenu', event);
 
-    dialog = this.simple_dialog(dialog, this.gettext('bouncemsg'), submit_func, {
+    dialog = this.simple_dialog(dialog, 'bouncemsg', submit_func, {
       button: 'bounce',
       width: 400,
       height: 300
@@ -7105,7 +7105,7 @@ function rcube_webmail()
         }
       };
 
-    this.simple_dialog(dialog, this.gettext('advsearch'), search_func, {
+    this.simple_dialog(dialog, 'advsearch', search_func, {
       button: 'search',
       width: 600,
       height: 500
@@ -7203,13 +7203,16 @@ function rcube_webmail()
   // display a dialog with QR code image
   this.qrcode = function()
   {
-    var title = this.get_label('qrcode'),
-      options = {button: false, cancel_button: 'close', width: 300, height: 300},
-      img = new Image(300, 300);
+    var img = new Image(300, 300);
 
     img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.get_single_cid()});
 
-    return this.simple_dialog(img, title, null, options);
+    return this.simple_dialog(img, 'qrcode', null, {
+        button: false,
+        cancel_button: 'close',
+        width: 300,
+        height: 300
+    });
   };
 
 
