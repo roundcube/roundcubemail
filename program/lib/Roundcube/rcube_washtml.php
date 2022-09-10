@@ -427,7 +427,7 @@ class rcube_washtml
                 return $this->config['blocked_src'];
             }
         }
-        else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/i', $uri, $matches)) { // RFC2397
+        else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/is', $uri, $matches)) { // RFC2397
             // svg images can be insecure, we'll sanitize them
             if (stripos($matches[1], 'svg') !== false) {
                 $svg = $matches[2];
