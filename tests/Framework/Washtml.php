@@ -50,6 +50,19 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test data:image with newlines (#8613)
+     */
+    function test_data_image_with_newline()
+    {
+        $html = "<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
+    }
+
+    /**
      * Test XSS in area's href (#5240)
      */
     function test_href_area()
