@@ -80,11 +80,7 @@ class rcube_db
         $driver     = strtolower(substr($db_dsnw, 0, strpos($db_dsnw, ':')));
         $driver_map = [
             'sqlite2' => 'sqlite',
-            'sybase'  => 'mssql',
-            'dblib'   => 'mssql',
             'mysqli'  => 'mysql',
-            'oci'     => 'oracle',
-            'oci8'    => 'oracle',
         ];
 
         $driver = $driver_map[$driver] ?? $driver;
@@ -1418,10 +1414,7 @@ class rcube_db
                 continue;
             }
 
-            if ($trimmed == 'GO') {
-                $exec = $buff;
-            }
-            else if ($trimmed[strlen($trimmed)-1] == ';') {
+            if ($trimmed[strlen($trimmed)-1] == ';') {
                 $exec = $buff . substr(rtrim($line), 0, -1);
             }
 

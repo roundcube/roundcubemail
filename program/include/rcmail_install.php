@@ -70,10 +70,6 @@ class rcmail_install
         'MySQL'               => 'pdo_mysql',
         'PostgreSQL'          => 'pdo_pgsql',
         'SQLite'              => 'pdo_sqlite',
-        'SQLite (v2)'         => 'pdo_sqlite2',
-        'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
-        'SQL Server (DBLIB)'  => 'pdo_dblib',
-        'Oracle'              => 'oci8',
     ];
 
     /** @var array List of config options with default value change per-release */
