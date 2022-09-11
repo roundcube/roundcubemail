@@ -80,7 +80,6 @@ $source_urls = [
     'Iconv'     => 'https://www.php.net/manual/en/book.iconv.php',
     'Intl'      => 'https://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'https://www.php.net/manual/en/book.exif.php',
-    'oci8'      => 'https://www.php.net/manual/en/book.oci8.php',
     'PDO'       => 'https://www.php.net/manual/en/book.pdo.php',
     'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
     'GD'        => 'https://www.php.net/manual/en/book.image.php',
@@ -93,9 +92,6 @@ $source_urls = [
     'pdo_mysql'   => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
     'pdo_pgsql'   => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
     'pdo_sqlite'  => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'pdo_sqlite2' => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'pdo_sqlsrv'  => 'https://www.php.net/manual/en/ref.pdo-sqlsrv.php',
-    'pdo_dblib'   => 'https://www.php.net/manual/en/ref.pdo-dblib.php',
     'PEAR'      => 'https://pear.php.net',
     'Net_SMTP'  => 'https://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'https://pear.php.net/package/Mail_mime',
@@ -143,7 +139,7 @@ foreach ($required_php_exts as $name => $ext) {
 
 ?>
 
-<p class="hint">The next couple of extensions are <em>optional</em> and recommended to get the best performance:</p>
+<p class="hint">The next couple of extensions are <em>optional</em> and recommended to get the best performance or extra features:</p>
 <?php
 
 foreach ($optional_php_exts as $name => $ext) {

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Removed support for MS SQL Server and Oracle (#7854)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)

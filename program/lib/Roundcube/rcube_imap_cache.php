@@ -544,8 +544,6 @@ class rcube_imap_cache
             }
         }
 
-        $binary_check = $this->db->db_provider == 'oracle' ? "BITAND(`flags`, %d)" : "(`flags` & %d)";
-
         $this->db->query(
             "UPDATE {$this->messages_table}"
             ." SET `expires` = ". ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
@@ -553,7 +551,7 @@ class rcube_imap_cache
             ." WHERE `user_id` = ?"
                 ." AND `mailbox` = ?"
                 .(!empty($uids) ? " AND `uid` IN (".$this->db->array2list($uids, 'integer').")" : "")
-                ." AND " . sprintf($binary_check, $idx) . ($enabled ? " = 0" : " = $idx"),
+                ." AND (`flags` & $idx) = " . ($enabled ? '0' : $idx),
             $this->userid, $mailbox
         );
     }

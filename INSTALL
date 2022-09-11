@@ -27,8 +27,7 @@ REQUIREMENTS
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
    - pcre.backtrack_limit >= 100000
-* A MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
-  or SQLite v3 support in PHP - with permission to create tables
+* A MySQL, PostgreSQL, or SQLite v3 support in PHP - with permission to create tables
 * Composer installed either locally or globally (https://getcomposer.org)
 
 
@@ -141,12 +140,6 @@ createuser and createdb commands.
 
 Now you can run the Installer or configure the database access options in
 'config/config.inc.php' and run: `bin/initdb.sh --dir=SQL`.
-
-
-* Microsoft SQL Server
-----------------------
-Language/locale of the database must be set to us_english (1033). More info
-on this at https://github.com/roundcube/roundcubemail/issues/4078.
 
 
 Database cleaning
