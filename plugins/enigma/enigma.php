@@ -440,7 +440,12 @@ class enigma extends rcube_plugin
             if (!empty($p['record']['email'])) {
                 $listing = [];
                 $engine  = $this->load_engine();
-                $keys    = (array) $engine->list_keys($p['record']['email']);
+                $keys    = $engine->list_keys($p['record']['email']);
+
+                // On error do nothing, plugin/gnupg misconfigured?
+                if ($keys instanceof enigma_error) {
+                    return $p;
+                }
 
                 foreach ($keys as $key) {
                     if ($key->get_type() === enigma_key::TYPE_KEYPAIR) {
