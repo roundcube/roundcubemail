@@ -16,6 +16,7 @@
 - Fix bug where the attachment menu wouldn't disappear after an action is selected (#8691)
 - Fix bug where some dialogs in an eml attachment preview would not close on mobile (#8627)
 - Fix bug where multiline data:image URI's in emails were stripped from the message on display (#8613)
+- Fix fatal error on identity page if Enigma plugin is misconfigured (#8719)
 
 ## Release 1.6.0
 
