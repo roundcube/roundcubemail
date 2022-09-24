@@ -501,6 +501,10 @@ class rcube_charset
         case 'tr_TR':
             $prio = ['UTF-8', 'ISO-8859-9', 'WINDOWS-1254'];
             break;
+          
+        case 'sl_SI':
+            $prio = ['UTF-8', 'ISO-8859-2', 'WINDOWS-1251'];
+            break;
         }
 
         // mb_detect_encoding() is not reliable for some charsets (#1490135)
