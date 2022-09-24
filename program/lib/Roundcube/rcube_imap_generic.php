@@ -3264,6 +3264,28 @@ class rcube_imap_generic
     }
 
     /**
+     * Send the SETQUOTA command (RFC9208)
+     *
+     * @param string $root  Quota root
+     * @param array  $quota Quota limits e.g. ['storage' => 1024000']
+     *
+     * @return bool True on success, False on failure
+     */
+    public function setQuota($root, $quota)
+    {
+        $fn = function ($key, $value) {
+            return strtoupper($key) . ' ' . $value;
+        };
+
+        $quota = implode(' ', array_map($fn, array_keys($quota), $quota));
+
+        $result = $this->execute('SETQUOTA', [$this->escape($root), "({$quota})"],
+            self::COMMAND_NORESPONSE);
+
+        return ($result == self::ERROR_OK);
+    }
+
+    /**
      * Send the SETACL command (RFC4314)
      *
      * @param string $mailbox Mailbox name
