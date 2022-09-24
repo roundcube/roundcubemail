@@ -996,7 +996,9 @@ class rcube
                 $_SESSION['secure_token'] = $plugin['value'];
             }
 
-            return $_SESSION['secure_token'];
+            if (!empty($_SESSION['secure_token'])) {
+                return $_SESSION['secure_token'];
+            }
         }
 
         return false;
