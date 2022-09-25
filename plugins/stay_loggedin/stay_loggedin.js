@@ -3,7 +3,7 @@ $(document).ready(function () {
 		rcmail.addEventListener('init', function () {
 
 			let days = rcmail.env.stay_loggedin_days;
-			let txt = rcmail.gettext('Stay logged in', 'stay_loggedin');
+			let txt = rcmail.gettext('toggle', 'stay_loggedin');
 			txt = txt.replace("#", days);
 
 			let html = '';
