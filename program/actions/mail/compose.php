@@ -269,12 +269,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                             $options['dsn_enabled'] = true;
                         }
 
-                        self::$COMPOSE['mailbox'] = $info['folder'];
+                        self::$COMPOSE['mailbox'] = $info['folder'] ?? null;
 
                         // Save the sent message in the same folder of the message being replied to
                         if (
                             $rcmail->config->get('reply_same_folder')
-                            && ($sent_folder = $info['folder'])
+                            && ($sent_folder = self::$COMPOSE['mailbox'])
                             && rcmail_sendmail::check_sent_folder($sent_folder, false)
                         ) {
                             self::$COMPOSE['param']['sent_mbox'] = $sent_folder;
