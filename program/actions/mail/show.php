@@ -473,8 +473,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $header_value = null;
 
             if ($hkey == 'date') {
-                $header_value = $rcmail->format_date($value,
-                    self::$PRINT_MODE ? $rcmail->config->get('date_long', 'x') : null);
+                $header_value = html::time(
+                    ['datetime' => $rcmail->format_date($value, DATE_ATOM)],
+                    $rcmail->format_date($value, self::$PRINT_MODE ? $rcmail->config->get('date_long', 'x') : null)
+                );
+                $ishtml       = true;
             }
             else if ($hkey == 'priority') {
                 $header_value = html::span('prio' . $value, rcube::Q(self::localized_priority($value)));

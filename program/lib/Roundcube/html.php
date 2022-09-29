@@ -207,6 +207,24 @@ class html
     }
 
     /**
+     * Derived method for inline time tags
+     *
+     * @param string|array $attr Hash array with tag attributes or string with class name
+     * @param string       $cont Tag content
+     *
+     * @return string HTML code
+     * @see html::tag()
+     */
+    public static function time($attr, $cont)
+    {
+        if (is_string($attr)) {
+            $attr = ['class' => $attr];
+        }
+
+        return self::tag('time', $attr, $cont, ['datetime', 'title']);
+    }
+
+    /**
      * Derived method for form element labels
      *
      * @param string|array $attr Hash array with tag attributes or string with 'for' attrib
