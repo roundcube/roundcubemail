@@ -377,12 +377,13 @@ abstract class rcmail_action
             return;
         }
 
-        $lang_codes = [$_SESSION['language']];
+        $language   = $_SESSION['language'] ?? 'en_US';
+        $lang_codes = [$language];
         $assets_dir = $rcmail->config->get('assets_dir') ?: INSTALL_PATH;
         $skin_path  = $rcmail->output->get_skin_path();
 
-        if ($pos = strpos($_SESSION['language'], '_')) {
-            $lang_codes[] = substr($_SESSION['language'], 0, $pos);
+        if ($pos = strpos($language, '_')) {
+            $lang_codes[] = substr($language, 0, $pos);
         }
 
         foreach ($lang_codes as $code) {
@@ -636,67 +637,8 @@ abstract class rcmail_action
      */
     public static function display_uploaded_file($file)
     {
-        if (empty($file)) {
-            return;
-        }
-
-        $rcmail = rcmail::get_instance();
-
-        $file = $rcmail->plugins->exec_hook('attachment_display', $file);
-
-        if (!empty($file['status'])) {
-            if (empty($file['size'])) {
-                $file['size'] = !empty($file['data']) ? strlen($file['data']) : @filesize($file['path']);
-            }
-
-            // generate image thumbnail for file browser in HTML editor
-            if (!empty($_GET['_thumbnail'])) {
-                $thumbnail_size = 80;
-                $mimetype       = $file['mimetype'];
-                $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
-                $thumb_name     = 'thumb' . md5($file_ident . ':' . $rcmail->user->ID . ':' . $thumbnail_size);
-                $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
-
-                // render thumbnail image if not done yet
-                if (!is_file($cache_file)) {
-                    if (!$file['path']) {
-                        $orig_name = $filename = $cache_file . '.tmp';
-                        file_put_contents($orig_name, $file['data']);
-                    }
-                    else {
-                        $filename = $file['path'];
-                    }
-
-                    $image = new rcube_image($filename);
-                    if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
-                        $mimetype = 'image/' . $imgtype;
-
-                        if (!empty($orig_name)) {
-                            unlink($orig_name);
-                        }
-                    }
-                }
-
-                if (is_file($cache_file)) {
-                    // cache for 1h
-                    $rcmail->output->future_expire_header(3600);
-                    header('Content-Type: ' . $mimetype);
-                    header('Content-Length: ' . filesize($cache_file));
-
-                    readfile($cache_file);
-                    exit;
-                }
-            }
-
-            header('Content-Type: ' . $file['mimetype']);
-            header('Content-Length: ' . $file['size']);
-
-            if (isset($file['data']) && is_string($file['data'])) {
-                echo $file['data'];
-            }
-            else if (!empty($file['path'])) {
-                readfile($file['path']);
-            }
+        if (!empty($file)) {
+            rcmail::get_instance()->display_uploaded_file($file, !empty($_GET['_thumbnail']));
         }
     }
 

@@ -11,8 +11,8 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   This class represents a system user linked and provides access      |
- |   to the related database records.                                    |
+ |   This class represents a user and provides access to the related     |
+ |   database records.                                                   |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
@@ -20,7 +20,7 @@
 */
 
 /**
- * Class representing a system user
+ * Class representing a user
  *
  * @package    Framework
  * @subpackage Core
@@ -212,7 +212,7 @@ class rcube_user
 
         $save_prefs = serialize($save_prefs);
         if (!$no_session) {
-            $this->language = $_SESSION['language'];
+            $this->language = $_SESSION['language'] ?? 'en_US';
         }
 
         $this->db->query(

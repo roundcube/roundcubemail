@@ -63,10 +63,6 @@ class rcmail_action_mail_send extends rcmail_action
                 'keepformatting' => !empty($_POST['_keepformatting']),
         ]);
 
-        if (!isset($COMPOSE['attachments'])) {
-            $COMPOSE['attachments'] = [];
-        }
-
         // Collect input for message headers
         $headers = $SENDMAIL->headers_input();
 
@@ -84,13 +80,7 @@ class rcmail_action_mail_send extends rcmail_action
             $message_body = '';
 
             // clear unencrypted attachments
-            if (!empty($COMPOSE['attachments'])) {
-                foreach ((array) $COMPOSE['attachments'] as $attach) {
-                    $rcmail->plugins->exec_hook('attachment_delete', $attach);
-                }
-            }
-
-            $COMPOSE['attachments'] = [];
+            $rcmail->delete_uploaded_files(self::$COMPOSE_ID);
         }
 
         if ($isHtml) {
@@ -194,29 +184,17 @@ class rcmail_action_mail_send extends rcmail_action
             $message_body .= "\r\n</body></html>\r\n";
         }
 
-        // sort attachments to make sure the order is the same as in the UI (#1488423)
-        if ($files = rcube_utils::get_input_string('_attachments', rcube_utils::INPUT_POST)) {
-            $files = explode(',', $files);
-            $files = array_flip($files);
-            foreach ($files as $idx => $val) {
-                if (!empty($COMPOSE['attachments'][$idx])) {
-                    $files[$idx] = $COMPOSE['attachments'][$idx];
-                    unset($COMPOSE['attachments'][$idx]);
-                }
-            }
-
-            $COMPOSE['attachments'] = array_merge(array_filter($files), (array) $COMPOSE['attachments']);
-        }
+        $attachments = $rcmail->list_uploaded_files($COMPOSE_ID);
 
         // Since we can handle big messages with disk usage, we need more time to work
         @set_time_limit(360);
 
         // create PEAR::Mail_mime instance, set headers, body and params
-        $MAIL_MIME = $SENDMAIL->create_message($headers, $message_body, $isHtml, $COMPOSE['attachments']);
+        $MAIL_MIME = $SENDMAIL->create_message($headers, $message_body, $isHtml, $attachments);
 
         // add stored attachments, if any
-        if (is_array($COMPOSE['attachments'])) {
-            self::add_attachments($SENDMAIL, $MAIL_MIME, $COMPOSE['attachments'], $isHtml);
+        if (!empty($attachments)) {
+            self::add_attachments($SENDMAIL, $MAIL_MIME, $attachments, $isHtml);
         }
 
         // compose PGP/Mime message
@@ -332,7 +310,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $save_error = true;
             }
             else {
-                $rcmail->plugins->exec_hook('attachments_cleanup', ['group' => $COMPOSE_ID]);
+                $rcmail->delete_uploaded_files($COMPOSE_ID);
                 $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
                 $_SESSION['last_compose_session'] = $COMPOSE_ID;
 
@@ -353,13 +331,16 @@ class rcmail_action_mail_send extends rcmail_action
 
     public static function add_attachments($SENDMAIL, $message, $attachments, $isHtml)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail  = rcmail::get_instance();
+        $folding = (int) $rcmail->config->get('mime_param_folding');
 
         foreach ($attachments as $id => $attachment) {
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = $rcmail->plugins->exec_hook('attachment_get', $attachment);
             $is_inline  = false;
             $dispurl    = null;
+            $is_file    = !empty($attachment['path']);
+            $file       = !empty($attachment['path']) ? $attachment['path'] : ($attachment['data'] ?? '');
 
             if ($isHtml) {
                 $dispurl      = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
@@ -395,21 +376,13 @@ class rcmail_action_mail_send extends rcmail_action
                     $message->setHTMLBody($message_body);
                 }
 
-                if (!empty($attachment['data'])) {
-                    $message->addHTMLImage($attachment['data'], $ctype, $attachment['name'], false, $cid);
-                }
-                else {
-                    $message->addHTMLImage($attachment['path'], $ctype, $attachment['name'], true, $cid);
-                }
+                $message->addHTMLImage($file, $ctype, $attachment['name'], $is_file, $cid);
             }
             else {
-                $file    = !empty($attachment['data']) ? $attachment['data'] : $attachment['path'];
-                $folding = (int) $rcmail->config->get('mime_param_folding');
-
                 $message->addAttachment($file,
                     $ctype,
                     $attachment['name'],
-                    empty($attachment['data']),
+                    $is_file,
                     $ctype == 'message/rfc822' ? '8bit' : 'base64',
                     'attachment',
                     $attachment['charset'] ?? null,

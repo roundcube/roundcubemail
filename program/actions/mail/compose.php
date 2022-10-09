@@ -435,12 +435,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     (!empty($attachment['data']) && !empty($attachment['name']))
                     || (!empty($attachment['path']) && file_exists($attachment['path']))
                 ) {
-                    $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
-                }
-
-                if (!empty($attachment['status']) && empty($attachment['abort'])) {
-                    unset($attachment['data'], $attachment['status'], $attachment['abort']);
-                    $COMPOSE['attachments'][$attachment['id']] = $attachment;
+                    $rcmail->insert_uploaded_file($attachment, 'attachment_save');
                 }
             }
         }
@@ -683,7 +678,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $content = self::get_resource_content('blocked.gif');
 
             if ($content && ($attachment = self::save_image('blocked.gif', 'image/gif', $content))) {
-                self::$COMPOSE['attachments'][$attachment['id']] = $attachment;
                 $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                     $rcmail->comm_path, self::$COMPOSE['id'], $attachment['id']);
                 $body = preg_replace($regexp, ' src="' . $url . '"', $body);
@@ -1047,17 +1041,14 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             return;
         }
 
-        $messages           = [];
-        $loaded_attachments = [];
-
-        if (!empty(self::$COMPOSE['attachments'])) {
-            foreach ((array) self::$COMPOSE['attachments'] as $attachment) {
-                $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
-            }
-        }
-
         $rcmail   = rcmail::get_instance();
         $has_html = $message->has_html_part();
+        $messages = [];
+        $loaded   = [];
+
+        foreach ($rcmail->list_uploaded_files(self::$COMPOSE_ID) as $attachment) {
+            $loaded[$attachment['name'] . $attachment['mimetype']] = $attachment;
+        }
 
         foreach ((array) $message->mime_parts() as $pid => $part) {
             if ($part->mimetype == 'message/rfc822') {
@@ -1118,8 +1109,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                 $key = self::attachment_name($part) . $part->mimetype;
 
-                if (!empty($loaded_attachments[$key])) {
-                    $attachment = $loaded_attachments[$key];
+                if (!empty($loaded[$key])) {
+                    $attachment = $loaded[$key];
                 }
                 else {
                     $attachment = self::save_attachment($message, $pid, self::$COMPOSE['id']);
@@ -1183,19 +1174,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         $rcmail      = rcmail::get_instance();
         $storage     = $rcmail->get_storage();
-        $names       = [];
-        $refs        = [];
         $size_errors = 0;
         $size_limit  = parse_bytes($rcmail->config->get('max_message_size'));
         $total_size  = 10 * 1024; // size of message body, to start with
+        $names       = [];
+        $refs        = [];
+        $loaded      = [];
 
-        $loaded_attachments = [];
-
-        if (!empty(self::$COMPOSE['attachments'])) {
-            foreach ((array) self::$COMPOSE['attachments'] as $attachment) {
-                $loaded_attachments[$attachment['name'] . $attachment['mimetype']] = $attachment;
-                $total_size += $attachment['size'];
-            }
+        foreach ($rcmail->list_uploaded_files(self::$COMPOSE_ID) as $attachment) {
+            $loaded[$attachment['name'] . $attachment['mimetype']] = $attachment;
+            $total_size += $attachment['size'];
         }
 
         if (self::$COMPOSE['forward_uid'] == '*') {
@@ -1237,7 +1225,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $names[$name] = 1;
             $name .= '.eml';
 
-            if (!empty($loaded_attachments[$name . 'message/rfc822'])) {
+            if (!empty($loaded[$name . 'message/rfc822'])) {
                 continue;
             }
 
@@ -1280,6 +1268,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function save_image($path, $mimetype = '', $data = null)
     {
+        $rcmail  = rcmail::get_instance();
         $is_file = false;
 
         // handle attachments in memory
@@ -1307,10 +1296,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'size'     => strlen($data),
         ];
 
-        $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
-
-        if ($attachment['status']) {
-            unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
+        if ($rcmail->insert_uploaded_file($attachment, 'attachment_save')) {
             return $attachment;
         }
 
@@ -1380,9 +1366,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['icon_pos']) && $attrib['icon_pos'] == 'left') {
             self::$COMPOSE['icon_pos'] = 'left';
         }
+
         $icon_pos = self::$COMPOSE['icon_pos'] ?? null;
 
-        if (!empty(self::$COMPOSE['attachments'])) {
+        $attachments = $rcmail->list_uploaded_files(self::$COMPOSE_ID);
+
+        if (!empty($attachments)) {
             if (!empty($attrib['deleteicon'])) {
                 $button = html::img([
                         'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
@@ -1393,7 +1382,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $button = rcube::Q($rcmail->gettext('delete'));
             }
 
-            foreach (self::$COMPOSE['attachments'] as $id => $a_prop) {
+            foreach ($attachments as $id => $a_prop) {
                 if (empty($a_prop)) {
                     continue;
                 }
@@ -1440,10 +1429,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     $icon_pos == 'left' ? $delete_link.$content_link : $content_link.$delete_link
                 );
 
-                $jslist['rcmfile'.$id] = [
+                $jslist['rcmfile' . $id] = [
                     'name'     => $a_prop['name'],
+                    'mimetype' => $a_prop['mimetype'],
                     'complete' => true,
-                    'mimetype' => $a_prop['mimetype']
                 ];
             }
         }
@@ -1716,25 +1705,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'charset'    => !empty($part) ? $part->charset : ($params['charset'] ?? null),
         ];
 
-        $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
-
-        if ($attachment['status']) {
-            unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-
-            // rcube_session::append() replaces current session data with the old values
-            // (in rcube_session::reload()). This is a problem in 'compose' action, because before
-            // the first append() use we set some important data in the session.
-            // It also overwrites attachments list. Fixing reload() is not so simple if possible
-            // as we don't really know what has been added and what removed in meantime.
-            // So, for now we'll do not use append() on 'compose' action (#1490608).
-
-            if ($rcmail->action == 'compose') {
-                self::$COMPOSE['attachments'][$attachment['id']] = $attachment;
-            }
-            else {
-                $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
-            }
-
+        if ($rcmail->insert_uploaded_file($attachment, 'attachment_save')) {
             return $attachment;
         }
         else if (!empty($path)) {

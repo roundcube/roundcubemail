@@ -178,7 +178,8 @@ class help extends rcube_plugin
         // resolve language placeholder
         $rcmail  = rcmail::get_instance();
         $langmap = $rcmail->config->get('help_language_map', ['*' => 'en_US']);
-        $lang    = !empty($langmap[$_SESSION['language']]) ? $langmap[$_SESSION['language']] : $langmap['*'];
+        $lang    = $_SESSION['language'] ?? 'en_US';
+        $lang    = !empty($langmap[$lang]) ? $langmap[$lang] : $langmap['*'];
 
         return str_replace('%l', $lang, $path);
     }

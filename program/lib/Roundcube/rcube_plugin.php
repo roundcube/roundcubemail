@@ -222,7 +222,7 @@ abstract class rcube_plugin
                 $add[$domain.'.'.$key] = $value;
             }
 
-            $rcube->load_language($_SESSION['language'], $add);
+            $rcube->load_language($_SESSION['language'] ?? null, $add);
 
             // add labels to client
             if ($add2client && method_exists($rcube->output, 'add_label')) {

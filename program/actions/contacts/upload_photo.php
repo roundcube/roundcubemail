@@ -45,11 +45,12 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
             // check file type and resize image
             $image     = new rcube_image($_FILES['_photo']['tmp_name']);
             $imageprop = $image->props();
+            $inserted  = false;
 
             if (
                 in_array(strtolower($imageprop['type']), self::$IMAGE_TYPES)
-                && $imageprop['width']
-                && $imageprop['height']
+                && !empty($imageprop['width'])
+                && !empty($imageprop['height'])
             ) {
                 $maxsize   = intval($rcmail->config->get('contact_photo_size', 160));
                 $tmpfname  = rcube_utils::temp_filename('imgconvert');
@@ -62,22 +63,22 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
                 }
 
                 // save uploaded file in storage backend
-                $attachment = $rcmail->plugins->exec_hook($save_hook, [
-                        'path'     => $filepath,
-                        'size'     => $_FILES['_photo']['size'],
-                        'name'     => $_FILES['_photo']['name'],
-                        'mimetype' => 'image/' . $imageprop['type'],
-                        'group'    => 'contact',
-                ]);
+                $attachment = [
+                    'path'     => $filepath,
+                    'size'     => $_FILES['_photo']['size'],
+                    'name'     => $_FILES['_photo']['name'],
+                    'mimetype' => 'image/' . $imageprop['type'],
+                    'group'    => 'contact',
+                ];
+
+                $inserted = $rcmail->insert_uploaded_file($attachment, $save_hook);
             }
             else {
                 $attachment = ['error' => $rcmail->gettext('invalidimageformat')];
             }
 
-            if (!empty($attachment['status']) && empty($attachment['abort'])) {
-                $file_id = $attachment['id'];
-                $_SESSION['contacts']['files'][$file_id] = $attachment;
-                $rcmail->output->command('replace_contact_photo', $file_id);
+            if ($inserted) {
+                $rcmail->output->command('replace_contact_photo', $attachment['id']);
             }
             else {
                 // upload failed

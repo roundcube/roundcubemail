@@ -94,13 +94,14 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         }
 
         // handle file(s) upload
-        if (is_array($_FILES['_attachments']['tmp_name'])) {
-            $multiple = count($_FILES['_attachments']['tmp_name']) > 1;
-            $errors   = [];
+        if (isset($_FILES['_attachments']['tmp_name']) && is_array($_FILES['_attachments']['tmp_name'])) {
+            $errors = [];
 
             foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
                 // Process uploaded attachment if there is no error
                 $err = $_FILES['_attachments']['error'][$i];
+                $inserted = false;
+                $attachment = null;
 
                 if (!$err) {
                     $filename = $_FILES['_attachments']['name'][$i];
@@ -117,20 +118,18 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                         continue;
                     }
 
-                    $attachment = $rcmail->plugins->exec_hook('attachment_upload', [
-                            'path'     => $filepath,
-                            'name'     => $filename,
-                            'size'     => $filesize,
-                            'mimetype' => $filetype,
-                            'group'    => self::$COMPOSE_ID,
-                    ]);
+                    $attachment = [
+                        'path'     => $filepath,
+                        'name'     => $filename,
+                        'size'     => $filesize,
+                        'mimetype' => $filetype,
+                        'group'    => self::$COMPOSE_ID,
+                    ];
+
+                    $inserted = $rcmail->insert_uploaded_file($attachment);
                 }
 
-                if (!$err && !empty($attachment['status']) && empty($attachment['abort'])) {
-                    // store new attachment in session
-                    unset($attachment['status'], $attachment['abort']);
-                    $rcmail->session->append(self::$SESSION_KEY . '.attachments', $attachment['id'], $attachment);
-
+                if (!$err && $inserted) {
                     self::attachment_success($attachment, $uploadid);
                 }
                 else {  // upload failed
@@ -180,11 +179,6 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
         self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);
         self::$file_id = preg_replace('/^rcmfile/', '', self::$file_id) ?: 'unknown';
-    }
-
-    public static function get_attachment()
-    {
-        return self::$COMPOSE['attachments'][self::$file_id];
     }
 
     public static function attachment_success($attachment, $uploadid)
@@ -270,12 +264,10 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         }
 
         // add size of already attached files
-        if (!empty(self::$COMPOSE['attachments'])) {
-            foreach ((array) self::$COMPOSE['attachments'] as $att) {
-                // All attachments are base64-encoded except message/rfc822 (see sendmail.inc)
-                $multip = $att['mimetype'] == 'message/rfc822' ? 1 : 1.33;
-                $size  += $att['size'] * $multip;
-            }
+        foreach ($rcmail->list_uploaded_files(self::$COMPOSE_ID) as $att) {
+            // All attachments are base64-encoded except message/rfc822
+            $multip = $att['mimetype'] == 'message/rfc822' ? 1 : 1.33;
+            $size  += $att['size'] * $multip;
         }
 
         // add size of the new attachment

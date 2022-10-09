@@ -63,20 +63,15 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
             }
-            else if (!empty($_SESSION['contacts']['files'][$a_record['photo']])) {
-                $tempfile = $_SESSION['contacts']['files'][$a_record['photo']];
+            else if (is_numeric($a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
-                if ($tempfile['status']) {
-                    $a_record['photo'] = $tempfile['data'] ?: @file_get_contents($tempfile['path']);
+                if (empty($tempfile['abort'])) {
+                    $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
                 }
             }
             else {
                 unset($a_record['photo']);
             }
-
-            // cleanup session data
-            $rcmail->plugins->exec_hook('attachments_cleanup', ['group' => 'contact']);
-            $rcmail->session->remove('contacts');
         }
 
         // update an existing contact
