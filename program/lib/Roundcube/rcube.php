@@ -472,7 +472,7 @@ class rcube
         }
         // set session garbage collecting time according to session_lifetime
         if ($lifetime) {
-            ini_set('session.gc_maxlifetime', $lifetime * 2);
+            ini_set('session.gc_maxlifetime', $lifetime);
         }
 
         // set session cookie lifetime so it never expires (#5961)
