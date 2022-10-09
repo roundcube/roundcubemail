@@ -30,35 +30,22 @@ class Actions_Contacts_Upload_Photo extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);
 
         // Upload a file
-        $content = base64_decode(rcmail_output::BLANK_GIF);
-        $file    = $this->createTempFile($content);
-        $_SESSION['contacts'] = null;
-        $_FILES['_photo']     = [
-            'name'     => 'test.gif',
-            'type'     => 'image/gif',
-            'tmp_name' => $file,
-            'error'    => 0,
-            'size'     => strlen($content),
-        ];
-
-        // Attachments handling plugins use move_uploaded_file() which does not work
-        // here. We'll add a fake hook handler for our purposes.
-        $rcmail = rcmail::get_instance();
-        $rcmail->plugins->register_hook('attachment_upload', function($att) {
-            $att['status'] = true;
-            $att['id']     = 'fake';
-            return $att;
-        });
+        $file = $this->fakeUpload('_photo', false);
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
+
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('upload-photo', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.replace_contact_photo("fake");') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.replace_contact_photo("' . $file['id'] . '");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);
 
-        $this->assertSame('test.gif', $_SESSION['contacts']['files']['fake']['name']);
+        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $this->assertSame($file['name'], $upload['name']);
+        $this->assertSame($file['type'], $upload['mimetype']);
+        $this->assertSame($file['size'], $upload['size']);
+        $this->assertSame('contact', $upload['group']);
 
         // TODO: Test invalid image format, upload errors handling
     }

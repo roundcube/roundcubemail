@@ -506,8 +506,8 @@ class rcube
     }
 
     /**
-     * Garbage collector function for temp files.
-     * Removes temporary files older than temp_dir_ttl.
+     * Garbage collector function for temporary files.
+     * Removes temporary files and upload information older than temp_dir_ttl.
      */
     public function gc_temp()
     {
@@ -519,6 +519,11 @@ class rcube
         if ($temp_dir_ttl < 6*3600) {
             $temp_dir_ttl = 6*3600;   // 6 hours sensible lower bound.
         }
+
+        // Uploaded files metadata
+        $db = $this->get_dbh();
+        $db->query("DELETE FROM " . $db->table_name('uploads', true)
+            . " WHERE `created` < " . $db->now($temp_dir_ttl * -1));
 
         $expire = time() - $temp_dir_ttl;
 
@@ -727,8 +732,8 @@ class rcube
      */
     public function read_localization($dir, $lang = null)
     {
-        if ($lang == null) {
-            $lang = $_SESSION['language'];
+        if (empty($lang)) {
+            $lang = $_SESSION['language'] ?? 'en_US';
         }
         $langs  = array_unique(['en_US', $lang]);
         $locdir = slashify($dir);
@@ -1561,6 +1566,16 @@ class rcube
         }
 
         self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
+    }
+
+    /**
+     * Getter for session identifier.
+     *
+     * @return string Session ID
+     */
+    public function get_session_id()
+    {
+        return defined('ROUNDCUBE_TEST_SESSION') ? ROUNDCUBE_TEST_SESSION : session_id();
     }
 
     /**

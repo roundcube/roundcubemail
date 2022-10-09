@@ -1336,7 +1336,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 if (self::$contact['photo'] == '-del-') {
                     $record['photo'] = '';
                 }
-                else if (!empty($_SESSION['contacts']['files'][self::$contact['photo']])) {
+                else if (is_numeric(self::$contact['photo']) && $rcmail->get_uploaded_file(self::$contact['photo'])) {
                     $record['photo'] = $file_id = self::$contact['photo'];
                 }
             }

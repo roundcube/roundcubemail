@@ -28,6 +28,8 @@
  */
 class rcmail extends rcube
 {
+    use rcube_uploads;
+
     /**
      * Main tasks.
      *
@@ -1867,18 +1869,6 @@ class rcmail extends rcube
     public function upload_form($attrib, $name, $action, $input_attr = [], $max_size = null)
     {
         return rcmail_action::upload_form($attrib, $name, $action, $input_attr, $max_size);
-    }
-
-    /**
-     * Outputs uploaded file content (with image thumbnails support
-     *
-     * @param array $file Upload file data
-     *
-     * @deprecated since 1.5-beta, use rcmail_action::display_uploaded_file()
-     */
-    public function display_uploaded_file($file)
-    {
-        rcmail_action::display_uploaded_file($file);
     }
 
     /**

@@ -38,8 +38,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         $file_id = rcube_utils::get_input_string('_photo', rcube_utils::INPUT_GPC);
 
         // read the referenced file
-        if ($file_id && !empty($_SESSION['contacts']['files'][$file_id])) {
-            $tempfile = $_SESSION['contacts']['files'][$file_id];
+        if ($file_id && ($tempfile = $rcmail->get_uploaded_file($file_id))) {
             $tempfile = $rcmail->plugins->exec_hook('attachment_display', $tempfile);
 
             if (!empty($tempfile['status'])) {

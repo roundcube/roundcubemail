@@ -1673,7 +1673,7 @@ class rcmail_action_settings_index extends rcmail_action
 
         if ($labels === null) {
             $labels = [];
-            $lang   = $_SESSION['language'];
+            $lang   = $_SESSION['language'] ?? 'en_US';
             if ($lang && $lang != 'en_US') {
                 if (file_exists(RCUBE_LOCALIZATION_DIR . "$lang/timezones.inc")) {
                     include RCUBE_LOCALIZATION_DIR . "$lang/timezones.inc";
@@ -1741,8 +1741,7 @@ class rcmail_action_settings_index extends rcmail_action
             $file_id  = $matches[2];
             $data_uri = ' ';
 
-            if ($file_id && !empty($_SESSION[$mode]['files'][$file_id])) {
-                $file = $_SESSION[$mode]['files'][$file_id];
+            if ($file_id && ($file = $rcmail->get_uploaded_file($file_id))) {
                 $file = $rcmail->plugins->exec_hook('attachment_get', $file);
 
                 $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';

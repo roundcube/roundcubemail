@@ -77,14 +77,11 @@ class filesystem_attachments extends rcube_plugin
         // use common temp dir for file uploads
         $tmpfname = rcube_utils::temp_filename('attmnt');
 
-        if (move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
+        if (!empty($args['path']) && move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
             $args['id']     = $this->file_id();
             $args['path']   = $tmpfname;
             $args['status'] = true;
             @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
-
-            // Note the file for later cleanup
-            $_SESSION['plugins']['filesystem_attachments'][$group][$args['id']] = $tmpfname;
         }
 
         return $args;
@@ -114,9 +111,6 @@ class filesystem_attachments extends rcube_plugin
         $args['id']     = $this->file_id();
         $args['status'] = true;
 
-        // Note the file for later cleanup
-        $_SESSION['plugins']['filesystem_attachments'][$group][$args['id']] = $args['path'];
-
         return $args;
     }
 
@@ -143,7 +137,7 @@ class filesystem_attachments extends rcube_plugin
 
     /**
      * This attachment plugin doesn't require any steps to put the file
-     * on disk for use.  This stub function is kept here to make this 
+     * on disk for use. This stub function is kept here to make this
      * class handy as a parent class for other plugins which may need it.
      */
     function get($args)
@@ -156,26 +150,16 @@ class filesystem_attachments extends rcube_plugin
     }
 
     /**
-     * Delete all temp files associated with this user
+     * Delete all temp files associated with this user session
      */
     function cleanup($args)
     {
-        // $_SESSION['compose']['attachments'] is not a complete record of
-        // temporary files because loading a draft or starting a forward copies
-        // the file to disk, but does not make an entry in that array
-        if (!empty($_SESSION['plugins']['filesystem_attachments'])) {
-            foreach ($_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
-                if (!empty($args['group']) && $args['group'] != $group) {
-                    continue;
-                }
+        $rcube = rcube::get_instance();
+        $group = $args['group'] ?? null;
 
-                foreach ((array) $files as $filename) {
-                    if (file_exists($filename)) {
-                        unlink($filename);
-                    }
-                }
-
-                unset($_SESSION['plugins']['filesystem_attachments'][$group]);
+        foreach ($rcube->list_uploaded_files($group) as $file) {
+            if ($file['path'] && $this->verify_path($file['path']) && file_exists($file['path'])) {
+                unlink($file['path']);
             }
         }
 
@@ -184,29 +168,18 @@ class filesystem_attachments extends rcube_plugin
 
     protected static function file_id()
     {
-        $userid = rcube::get_instance()->user->ID;
+        $rcube = rcube::get_instance();
         list($usec, $sec) = explode(' ', microtime());
-        $id = preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
+        $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)
-        while (self::find_file_by_id($id)) {
+        while ($rcube->get_uploaded_file($id)) {
             // increment last four characters
             $x  = substr($id, -4) + 1;
             $id = substr($id, 0, -4) . sprintf('%04d', ($x > 9999 ? $x - 9999 : $x));
         }
 
         return $id;
-    }
-
-    private static function find_file_by_id($id)
-    {
-        if (!empty($_SESSION['plugins']['filesystem_attachments'])) {
-            foreach ((array) $_SESSION['plugins']['filesystem_attachments'] as $files) {
-                if (isset($files[$id])) {
-                    return true;
-                }
-            }
-        }
     }
 
     /**

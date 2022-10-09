@@ -252,6 +252,20 @@ CREATE TABLE filestore (
 CREATE UNIQUE INDEX ix_filestore_user_id ON filestore(user_id, context, filename);
 
 --
+-- Table structure for table uploads
+--
+
+CREATE TABLE uploads (
+    upload_id varchar(64) NOT NULL PRIMARY KEY,
+    session_id varchar(128) NOT NULL,
+    "group" varchar(128) NOT NULL,
+    metadata text NOT NULL,
+    created datetime NOT NULL default '0000-00-00 00:00:00'
+);
+
+CREATE INDEX ix_uploads_session_id ON uploads (session_id, "group", created);
+
+--
 -- Table structure for table system
 --
 
@@ -260,4 +274,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2022081200');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2022100100');

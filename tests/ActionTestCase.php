@@ -169,6 +169,81 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Prepare fake file upload handling
+     */
+    protected function fakeUpload($name = '_file', $is_array = true, $error = 0)
+    {
+        $content = base64_decode(rcmail_output::BLANK_GIF);
+        $file = [
+            'name'     => 'test.gif',
+            'type'     => 'image/gif',
+            'tmp_name' => $this->createTempFile($content),
+            'error'    => $error,
+            'size'     => strlen($content),
+            'id'       => 'i' . microtime(true),
+        ];
+
+        // Attachments handling plugins use move_uploaded_file() which does not work
+        // here. We'll add a fake hook handler for our purposes.
+        $rcmail = rcmail::get_instance();
+        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+            $att['status'] = true;
+            $att['id']     = $file['id'];
+            return $att;
+        });
+
+        $_FILES = [];
+
+        if ($is_array) {
+            $_FILES[$name] = [
+                'name'     => [$file['name']],
+                'type'     => [$file['type']],
+                'tmp_name' => [$file['tmp_name']],
+                'error'    => [$file['error']],
+                'size'     => [$file['size']],
+                'id'       => [$file['id']],
+            ];
+        }
+        else {
+            $_FILES[$name] = $file;
+        }
+
+        return $file;
+    }
+
+    /**
+     * Create file upload record
+     */
+    protected function fileUpload($group)
+    {
+        $content = base64_decode(rcmail_output::BLANK_GIF);
+        $file = [
+            'name'     => 'test.gif',
+            'type'     => 'image/gif',
+            'size'     => strlen($content),
+            'group'    => $group,
+            'id'       => 'i' . microtime(true),
+        ];
+
+        // Attachments handling plugins use move_uploaded_file() which does not work
+        // here. We'll add a fake hook handler for our purposes.
+        $rcmail = rcmail::get_instance();
+        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+            $att['status'] = true;
+            $att['id']     = $file['id'];
+            return $att;
+        });
+
+        $rcmail->insert_uploaded_file($file);
+
+        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+
+        $this->assertTrue(is_array($upload));
+
+        return $upload;
+    }
+
+    /**
      * Load an execute specified SQL script
      */
     protected static function loadSQLScript($db, $name)

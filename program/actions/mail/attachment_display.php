@@ -29,7 +29,11 @@ class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachmen
     public function run($args = [])
     {
         self::init();
-        self::display_uploaded_file(self::get_attachment());
+
+        $rcmail = rcmail::get_instance();
+        $file = $rcmail->get_uploaded_file(self::$file_id);
+
+        self::display_uploaded_file($file);
         exit;
     }
 }
