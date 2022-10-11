@@ -424,7 +424,12 @@ class rcube_result_index
         $params['ORDER']   = $this->order;
 
         if ($param !== null) {
-            return $params[$param] ?? null;
+            if (array_key_exists($param, $params)) {
+                return $params[$param] ?? null;
+            }
+            else {
+                return null;
+            }
         }
 
         return $params;
