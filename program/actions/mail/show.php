@@ -392,6 +392,25 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
         }
 
+        // Check BIMI if is present, and submit in place of error src, otherwise default placeholder.
+        $domain = explode("@",self::$MESSAGE->sender['mailto']);
+        if(sizeof($domain) >= 2){
+            $domain = $domain[sizeof($domain)-1];
+            $result = dns_get_record("default._bimi.".$domain, DNS_TXT);
+            if(sizeof($result) >= 1){
+                $txt = explode(" ",$result[0]['txt']);
+                if(sizeof($txt) >= 2){
+                    $svgdata = explode("=",$txt[1]);
+                    if (sizeof($svgdata) >= 2){
+                        $svg = preg_replace("/;/","",$svgdata[1]);
+                        if (filter_var($svg, FILTER_VALIDATE_URL)) {
+                            $attrib['onerror'] = "this.onerror = null; this.src = '$svg';";
+                        }
+                    }
+                }
+            }
+        }
+     
         if (self::$MESSAGE->sender) {
             $photo_img = $rcmail->url([
                     '_task'   => 'addressbook',
