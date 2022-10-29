@@ -456,7 +456,7 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if (1 || $token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
+        if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             return $this->refresh_access_token($token) !== false;
         }
         return false;
