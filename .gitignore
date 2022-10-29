@@ -25,3 +25,7 @@ program/js/tinymce/
 # skin customization files
 skins/elastic/styles/_styles.less
 skins/elastic/styles/_variables.less
+
+# ignore IDE files
+.vscode
+.DS_Store
