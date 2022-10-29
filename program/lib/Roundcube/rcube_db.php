@@ -1260,19 +1260,7 @@ class rcube_db
             if (strpos($dsn, '+') !== false) {
                 list($proto, $dsn) = explode('+', $dsn, 2);
             }
-            if (   strpos($dsn, '//') === 0
-                && strpos($dsn, '/', 2) !== false
-                && $parsed['phptype'] == 'oci8'
-            ) {
-                // Oracle's "Easy Connect" syntax:
-                // "username/password@[//]host[:port][/service_name]"
-                // e.g. "scott/tiger@//mymachine:1521/oracle"
-                $proto_opts = $dsn;
-                $pos = strrpos($proto_opts, '/');
-                $dsn = substr($proto_opts, $pos + 1);
-                $proto_opts = substr($proto_opts, 0, $pos);
-            }
-            else if (strpos($dsn, '/') !== false) {
+            if (strpos($dsn, '/') !== false) {
                 list($proto_opts, $dsn) = explode('/', $dsn, 2);
             }
             else {
