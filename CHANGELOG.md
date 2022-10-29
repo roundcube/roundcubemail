@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Kill session if refreshing oauth token fails (#8734)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
