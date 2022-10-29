@@ -409,6 +409,11 @@ class rcmail_oauth
                 ], true, false
             );
 
+            // refrehsing token failed, mark session as expired
+            if ($e->getCode() >= 400 && $e->getCode() < 500) {
+                $this->rcmail->kill_session();
+            }
+
             return false;
         }
         catch (Exception $e) {
@@ -451,7 +456,7 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
+        if (1 || $token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             return $this->refresh_access_token($token) !== false;
         }
         return false;
