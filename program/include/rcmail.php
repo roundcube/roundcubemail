@@ -1154,8 +1154,9 @@ class rcmail extends rcube
             $prefix = rtrim($prefix, '/') . '/';
         }
         else {
-            if (isset($_SERVER['REQUEST_URI'])) {
-                $prefix = preg_replace('/[?&].*$/', '', $_SERVER['REQUEST_URI']) ?: './';
+            $server_var = $this->config->get('request_uri_field');
+            if (isset($server_var) &&!empty($_SERVER[$server_var])) {
+                $prefix = preg_replace('/[?&].*$/', '', $_SERVER[$server_var]) ?: './';
             }
             else {
                 $prefix = './';
