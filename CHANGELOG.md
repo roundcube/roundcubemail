@@ -18,6 +18,7 @@
 - Fix bug where some dialogs in an eml attachment preview would not close on mobile (#8627)
 - Fix bug where multiline data:image URI's in emails were stripped from the message on display (#8613)
 - Fix fatal error on identity page if Enigma plugin is misconfigured (#8719)
+- Fix so N property always exists in a vCard export (#8771)
 
 ## Release 1.6.0
 
