@@ -1,5 +1,9 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- Fix so N property always exists in a vCard export (#8771)
+
 ## Release 1.5.3
 
 - Enigma: Fix initial synchronization of private keys
