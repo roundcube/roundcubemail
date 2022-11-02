@@ -836,17 +836,22 @@ class rcube_vcard
     {
         $vcard = '';
 
+        // Make sure FN is not empty (required by RFC2426)
+        if (empty($data['FN'])) {
+            $data['FN'] = !empty($data['EMAIL'][0][0]) ? $data['EMAIL'][0][0] : '';
+        }
+
+        // Make sure N is not empty (required by RFC2426)
+        if (empty($data['N'])) {
+            $data['N'] = [['', '', '', '', '']];
+        }
+
+        // Valid N has 5 properties
+        while (isset($data['N'][0]) && is_array($data['N'][0]) && count($data['N'][0]) < 5) {
+            $data['N'][0][] = '';
+        }
+
         foreach ((array)$data as $type => $entries) {
-            // valid N has 5 properties
-            while ($type == "N" && is_array($entries[0]) && count($entries[0]) < 5) {
-                $entries[0][] = "";
-            }
-
-            // make sure FN is not empty (required by RFC2426)
-            if ($type == "FN" && empty($entries) && !empty($data['EMAIL'][0][0])) {
-                $entries[0] = $data['EMAIL'][0][0];
-            }
-
             foreach ((array)$entries as $entry) {
                 $attr = '';
                 if (is_array($entry)) {
@@ -881,8 +886,8 @@ class rcube_vcard
                     $value = $entry;
                 }
 
-                // skip empty entries
-                if (self::is_empty($value)) {
+                // Skip empty entries that aren't required by vCard v3 format
+                if (!in_array($type, ['N', 'FN']) && self::is_empty($value)) {
                     continue;
                 }
 

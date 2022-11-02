@@ -191,4 +191,15 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
 
         $this->assertEquals("1980-02-02", $vcard['birthday'][0]);
     }
+
+    /**
+     * Test required fields in output (#8771)
+     */
+    function test_required_fields()
+    {
+        $vcard = new rcube_vcard();
+        $result = $vcard->export();
+
+        $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
+    }
 }
