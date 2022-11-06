@@ -14,6 +14,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $_SERVER['SERVER_PORT'] = '443';
         $_SERVER['SCRIPT_NAME'] = '/sub/index.php';
         $_SERVER['HTTPS'] = true;
+        $_SERVER['X_FORWARDED_PATH'] = '/proxied/';
 
         rcmail::get_instance()->filename = '';
     }
@@ -126,26 +127,31 @@ class Rcmail_Rcmail extends ActionTestCase
         $rcmail = rcmail::get_instance();
 
         $this->assertEquals(
-            './?_task=cli&_action=test',
+            '/sub/?_task=cli&_action=test',
             $rcmail->url('test'),
             "Action only"
         );
 
         $this->assertEquals(
-            './?_task=cli&_action=test&_a=AA',
+            '/sub/?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
             "Unprefixed parameters"
         );
 
         $this->assertEquals(
-            './?_task=cli&_action=test&_b=BB',
+            '/sub/?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             "Prefixed parameters (skip empty)"
         );
 
-        $this->assertEquals('./?_task=cli', $rcmail->url([]), "Empty input");
+        $this->assertEquals('/sub/?_task=cli', $rcmail->url([]), "Empty input");
+
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
         $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+
+        $rcmail->config->set('request_uri_field', 'X_FORWARDED_PATH');
+        $this->assertEquals('/proxied/?_task=cli', $rcmail->url([]), "Consider request_uri_field config");
+        $rcmail->config->set('request_uri_field', 'UNDEFINED');
 
         $this->assertEquals(
             '/sub/?_task=cli&_action=test&_mode=ABS',
