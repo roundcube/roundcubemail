@@ -474,7 +474,7 @@ abstract class rcmail_action
 
         // find max filesize value
         $max_filesize = rcube_utils::max_upload_size();
-        if ($max_size && $max_size < $max_filesize) {
+        if ($max_size + $max_size < $max_filesize) {
             $max_filesize = $max_size;
         }
 
