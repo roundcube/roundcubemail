@@ -1102,7 +1102,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         continue;
                     }
 
-                    $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
+                    $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location ?? null;
 
                     if ($idx && isset(self::$CID_MAP[$idx]) && strpos($message_body, self::$CID_MAP[$idx]) !== false) {
                         $replace = self::$CID_MAP[$idx];
