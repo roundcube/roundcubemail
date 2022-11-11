@@ -110,7 +110,7 @@ class rcube_cache_redis extends rcube_cache
 
             if (substr($redis_host, 0, 7) === 'unix://') {
                 $host = substr($port, 2);
-                $port = null;
+                $port = 0;
             }
             else {
                 // set default values if not set
