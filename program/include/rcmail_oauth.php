@@ -234,7 +234,7 @@ class rcmail_oauth
                         ],
                 ]);
 
-                $data = \GuzzleHttp\json_decode($response->getBody(), true);
+                $data = json_decode($response->getBody(), true);
 
                 // auth success
                 if (!empty($data['access_token'])) {
@@ -272,7 +272,7 @@ class rcmail_oauth
                                 ],
                         ]);
 
-                        $identity = \GuzzleHttp\json_decode($identity_response->getBody(), true);
+                        $identity = json_decode($identity_response->getBody(), true);
 
                         foreach ($this->options['identity_fields'] as $field) {
                             if (isset($identity[$field])) {
@@ -378,7 +378,7 @@ class rcmail_oauth
                         'grant_type'    => 'refresh_token',
                     ],
             ]);
-            $data = \GuzzleHttp\json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody(), true);
 
             // auth success
             if (!empty($data['access_token'])) {
