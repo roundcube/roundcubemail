@@ -46,10 +46,9 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         $flag         = self::imap_flag($flag);
         $old_count    = 0;
 
-        if ($flag == 'DELETED' && $skip_deleted && $_POST['_from'] != 'show') {
+        if ($flag == 'DELETED' && $skip_deleted && (!isset($_POST['_from']) || $_POST['_from'] != 'show')) {
             // count messages before changing anything
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
-            $old_pages = ceil($old_count / $rcmail->storage->get_pagesize());
         }
 
         if ($folders == 'all') {
