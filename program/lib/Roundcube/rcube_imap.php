@@ -2064,7 +2064,7 @@ class rcube_imap extends rcube_storage
                     $struct->ctype_secondary = strtolower($part[$i]);
 
                     // read content type parameters
-                    if (is_array($part[$i+1])) {
+                    if (isset($part[$i+1]) && is_array($part[$i+1])) {
                         $struct->ctype_parameters = [];
                         for ($j=0; $j<count($part[$i+1]); $j+=2) {
                             $param = strtolower($part[$i+1][$j]);
