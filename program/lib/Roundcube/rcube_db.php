@@ -294,9 +294,11 @@ class rcube_db
                 }
                 else if ($mode == 'r') {
                     // connected to db with the same or "higher" mode for this table
-                    $db_mode = $this->table_connections[$table];
-                    if ($db_mode == 'w' && empty($this->options['dsnw_noread'])) {
-                        $mode = $db_mode;
+                    if (isset($this->table_connections[$table])) {
+                        $db_mode = $this->table_connections[$table];
+                        if ($db_mode == 'w' && empty($this->options['dsnw_noread'])) {
+                            $mode = $db_mode;
+                        }
                     }
                 }
             }
