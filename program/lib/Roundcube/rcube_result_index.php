@@ -419,7 +419,7 @@ class rcube_result_index
      */
     public function get_parameters($param = null)
     {
-        $params = $this->params;
+        $params            = $this->params;
         $params['MAILBOX'] = $this->mailbox;
         $params['ORDER']   = $this->order;
 
