@@ -826,7 +826,7 @@ class rcube_imap_generic
             return $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
         }
 
-        list($code, $response) = $this->execute('LOGIN', [$this->escape($user), $this->escape($password)],
+        list($code, $response) = $this->execute('LOGIN', [$this->escape($user, true), $this->escape($password, true)],
             self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
 
         // re-set capabilities list if untagged CAPABILITY response provided
