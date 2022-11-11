@@ -19,6 +19,7 @@
 - Fix bug where multiline data:image URI's in emails were stripped from the message on display (#8613)
 - Fix fatal error on identity page if Enigma plugin is misconfigured (#8719)
 - Fix so N property always exists in a vCard export (#8771)
+- Fix authenticating to Courier IMAP with passwords containing a '~' character (#8772)
 
 ## Release 1.6.0
 
