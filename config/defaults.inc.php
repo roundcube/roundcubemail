@@ -97,7 +97,7 @@ $config['syslog_facility'] = LOG_USER;
 $config['per_user_logging'] = false;
 
 // Log sent messages to <log_dir>/sendmail.log or to syslog
-$config['smtp_log'] = true;
+$config['smtp_log'] = false;
 
 // Log successful/failed logins to <log_dir>/userlogins.log or to syslog
 $config['log_logins'] = false;

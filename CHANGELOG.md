@@ -7,6 +7,7 @@
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Support for HAproxy protocol header in IMAP connections (#8625)
+- Change 'smtp_log' option default value to False
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Password: Add ldap_samba_ad driver (#8525)
 - Managesieve: Support Sieverules disabled rule format (#8571)
