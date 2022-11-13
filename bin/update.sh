@@ -101,7 +101,7 @@ if ($RCI->configured) {
                 if (!$error) {
                     $RCI->merge_config();
                     echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
-                    $written = $RCI->save_configfile($RCI->create_config());
+                    $written = $RCI->save_configfile($RCI->create_config(false));
                 }
 
                 // Success!
