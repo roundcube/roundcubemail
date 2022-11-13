@@ -438,6 +438,20 @@ class rcmail_install
             unset($current[$replacement]);
         }
 
+        // Merge old *_port options into the new *_host options, where possible
+        foreach (['default' => 'imap', 'smtp' => 'smtp'] as $prop => $type) {
+            $old_prop = "{$prop}_port";
+            $new_prop = "{$type}_host";
+            if (!empty($current[$old_prop]) && !empty($this->config[$new_prop])
+                && is_string($this->config[$new_prop])
+                && !preg_match('/:[0-9]+$/', $this->config[$new_prop])
+            ) {
+                $this->config[$new_prop] .= ':' . $current[$old_prop];
+            }
+
+            unset($current[$old_prop]);
+        }
+
         foreach ($this->obsolete_config as $prop) {
             unset($current[$prop]);
         }
