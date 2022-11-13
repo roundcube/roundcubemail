@@ -206,16 +206,23 @@ class rcmail_install
      * Create configuration file that contains parameters
      * that differ from default values.
      *
+     * @param bool $use_post Use POSTed configuration values (of supported options)
+     *
      * @return string The complete config file content
      */
-    public function create_config()
+    public function create_config($use_post = true)
     {
         $config = [];
 
         foreach ($this->config as $prop => $default) {
             $post_value = $_POST["_$prop"] ?? null;
-            $is_default = $post_value === null || !in_array($prop, $this->supported_config);
-            $value      = !$is_default || in_array($prop, $this->bool_config_props) ? $post_value : $default;
+            $value      = $default;
+
+            if ($use_post && in_array($prop, $this->supported_config)
+                && ($post_value !== null || in_array($prop, $this->bool_config_props))
+            ) {
+                $value = $post_value;
+            }
 
             // always disable installer
             if ($prop == 'enable_installer') {
