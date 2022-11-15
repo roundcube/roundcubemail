@@ -1305,7 +1305,7 @@ class rcube_utils
             $value = true;
             $key   = null;
 
-            if ($arg[0] == '-') {
+            if (strlen($arg) && $arg[0] == '-') {
                 $key = preg_replace('/^-+/', '', $arg);
                 $sp  = strpos($arg, '=');
 
