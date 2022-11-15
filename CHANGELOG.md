@@ -21,6 +21,7 @@
 - Fix so N property always exists in a vCard export (#8771)
 - Fix authenticating to Courier IMAP with passwords containing a '~' character (#8772)
 - Fix handling of smtp/imap port options on configuration file update (#8756)
+- Fix bug array values could not be saved in utils/save_pref action (#8781)
 
 ## Release 1.6.0
 
