@@ -673,7 +673,7 @@ class rcube_utils
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
-            && in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []))
+            && self::check_proxy_whitelist_ip()
         ) {
             return true;
         }
@@ -687,6 +687,13 @@ class rcube_utils
         }
 
         return false;
+    }
+
+    /**
+     * Check if the reported REMOTE_ADDR is in the 'proxy_whitelist' config option
+     */
+    public static function check_proxy_whitelist_ip() {
+        return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
     /**
