@@ -1117,7 +1117,11 @@ class rcmail extends rcube
         }
 
         $base_path = '';
-        if (!empty($_SERVER['REDIRECT_SCRIPT_URL'])) {
+        $server_var = $this->get_request_uri_field();
+        if ($server_var && !empty($_SERVER[$server_var])) {
+            $base_path = preg_replace('/[?&].*$/', '', $_SERVER[$server_var]);
+        }
+        else if (!empty($_SERVER['REDIRECT_SCRIPT_URL'])) {
             $base_path = $_SERVER['REDIRECT_SCRIPT_URL'];
         }
         else if (!empty($_SERVER['SCRIPT_NAME'])) {
@@ -1152,15 +1156,23 @@ class rcmail extends rcube
             $prefix = rtrim($prefix, '/') . '/';
         }
         else {
-            if (isset($_SERVER['REQUEST_URI'])) {
-                $prefix = preg_replace('/[?&].*$/', '', $_SERVER['REQUEST_URI']) ?: './';
-            }
-            else {
-                $prefix = './';
-            }
+            $prefix = $base_path ?: './';
         }
 
         return $prefix . $url;
+    }
+
+    /**
+     * Get the 'request_uri_field' config option
+     * with an additional check against the 'proxy_whitelist' config
+     */
+    protected function get_request_uri_field()
+    {
+        $server_var = $this->config->get('request_uri_field');
+        if (!empty($server_var) && (strpos($server_var, 'HTTP_') !== 0 || rcube_utils::check_proxy_whitelist_ip())) {
+            return $server_var;
+        }
+        return null;
     }
 
     /**

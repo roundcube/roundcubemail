@@ -381,7 +381,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
 
-        $this->assertSame('<form action="./phpunit?_task=cli" method="get">test</form>', $output->form_tag([], 'test'));
+        $this->assertSame('<form action="vendor/bin/phpunit?_task=cli" method="get">test</form>', $output->form_tag([], 'test'));
     }
 
     /**
@@ -404,7 +404,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $output = new rcmail_output_html();
 
         $expected = '<form name="rcmqsearchform" onsubmit="rcmail.command(\'search\'); return false"'
-            . ' action="./phpunit?_task=cli" method="get"><label for="rcmqsearchbox" class="voice">Search terms</label>'
+            . ' action="vendor/bin/phpunit?_task=cli" method="get"><label for="rcmqsearchbox" class="voice">Search terms</label>'
             . '<input name="_q" class="no-bs" id="rcmqsearchbox" placeholder="Search..." type="text"></form>';
 
         $this->assertSame($expected, $output->search_form([]));
