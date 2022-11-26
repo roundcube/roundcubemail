@@ -805,7 +805,7 @@ class rcube_sieve_engine
                         $datepart    = $this->strip_value($dateparts[$idx]);
                         $dateheader  = $this->strip_value($dateheaders[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
-                        $indexlast   = $this->strip_value($lastindexes[$idx]);
+                        $indexlast   = $this->strip_value(isset($lastindexes[$idx]) ? $lastindexes[$idx] : null);
                         $mod         = $this->strip_value($mods[$idx]);
 
                         $type = preg_replace('/^not/', '', $operator);
@@ -1067,8 +1067,8 @@ class rcube_sieve_engine
 
                 case 'redirect':
                 case 'redirect_copy':
-                    $target = $this->strip_value($act_targets[$idx]);
-                    $domain = $this->strip_value($domain_targets[$idx]);
+                    $target = $this->strip_value(isset($act_targets[$idx]) ? $act_targets[$idx] : null);
+                    $domain = $this->strip_value(isset($domain_targets[$idx]) ? $domain_targets[$idx] : null);
 
                     // force one of the configured domains
                     $domains = (array) $this->rc->config->get('managesieve_domains');
