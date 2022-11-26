@@ -32,6 +32,9 @@ if (@is_dir(TESTS_DIR . 'config')) {
     define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
 }
 
+// Some tests depend on the way phpunit is executed
+$_SERVER['SCRIPT_NAME'] = 'vendor/bin/phpunit';
+
 require_once(INSTALL_PATH . 'program/include/iniset.php');
 
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);

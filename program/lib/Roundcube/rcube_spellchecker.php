@@ -97,11 +97,15 @@ class rcube_spellchecker
         foreach ($langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
             $alias = !empty($rcube_language_aliases[$langc]) ? $rcube_language_aliases[$langc] : null;
+
             if (!$alias) {
                 $alias = $langc.'_'.strtoupper($langc);
             }
             if (!empty($rcube_languages[$lang])) {
                 $languages[$lang] = $rcube_languages[$lang];
+            }
+            else if (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
+                $languages[$lang] = sprintf('English (%s)', strtoupper($m[1]));
             }
             else if (!empty($rcube_languages[$alias])) {
                 $languages[$lang] = $rcube_languages[$alias];
