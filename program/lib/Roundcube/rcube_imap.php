@@ -2867,7 +2867,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($result && $clear_cache) {
-            $this->clear_message_cache($folder, !empty($all_mode) ? null : explode(',', $uids));
+            $this->clear_message_cache($folder, (!empty($all_mode) || empty($uids)) ? null : explode(',', $uids));
             $this->clear_messagecount($folder);
         }
 
