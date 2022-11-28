@@ -1033,13 +1033,12 @@ class rcube_imap_generic
         $this->error    = '';
         $this->errornum = self::ERROR_OK;
 
-        if (empty($this->prefs['port'])) {
-            $this->prefs['port'] = 143;
-        }
+        $port     = empty($this->prefs['port']) ? 143 : $this->prefs['port'];
+        $ssl_mode = $this->prefs['ssl_mode'] ?? null;
 
         // check for SSL
-        if (!empty($this->prefs['ssl_mode']) && $this->prefs['ssl_mode'] != 'tls') {
-            $host = $this->prefs['ssl_mode'] . '://' . $host;
+        if (!empty($ssl_mode) && $ssl_mode != 'tls') {
+            $host = $ssl_mode . '://' . $host;
         }
 
         if (empty($this->prefs['timeout']) || $this->prefs['timeout'] < 0) {
@@ -1050,22 +1049,22 @@ class rcube_imap_generic
             // set connection identifier for debug output
             $this->resourceid = strtoupper(substr(md5(microtime() . $host . $this->user), 0, 4));
 
-            $_host = ($this->prefs['ssl_mode'] == 'tls' ? 'tls://' : '') . $host . ':' . $this->prefs['port'];
+            $_host = ($ssl_mode == 'tls' ? 'tls://' : '') . $host . ':' . $port;
             $this->debug("Connecting to $_host...");
         }
 
         if (!empty($this->prefs['socket_options'])) {
             $context  = stream_context_create($this->prefs['socket_options']);
-            $this->fp = stream_socket_client($host . ':' . $this->prefs['port'], $errno, $errstr,
+            $this->fp = stream_socket_client($host . ':' . $port, $errno, $errstr,
                 $this->prefs['timeout'], STREAM_CLIENT_CONNECT, $context);
         }
         else {
-            $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
+            $this->fp = @fsockopen($host, $port, $errno, $errstr, $this->prefs['timeout']);
         }
 
         if (!$this->fp) {
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
-                $host, $this->prefs['port'], $errstr ?: "Unknown reason"));
+                $host, $port, $errstr ?: "Unknown reason"));
 
             return false;
         }
@@ -1082,10 +1081,12 @@ class rcube_imap_generic
 
         // Connected to wrong port or connection error?
         if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
-            if ($line)
-                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
-            else
-                $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
+            if ($line) {
+                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $port, $line);
+            }
+            else {
+                $error = sprintf("Empty startup greeting (%s:%d)", $host, $port);
+            }
 
             $this->setError(self::ERROR_BAD, $error);
             $this->closeConnection();
@@ -1100,7 +1101,7 @@ class rcube_imap_generic
         }
 
         // TLS connection
-        if (isset($this->prefs['ssl_mode']) && $this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
+        if ($ssl_mode == 'tls' && $this->getCapability('STARTTLS')) {
             $res = $this->execute('STARTTLS');
 
             if (empty($res) || $res[0] != self::ERROR_OK) {
