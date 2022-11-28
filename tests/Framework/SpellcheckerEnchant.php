@@ -99,8 +99,8 @@ class Framework_SpellcheckerEnchant extends PHPUnit\Framework\TestCase
 
         $object = new rcube_spellchecker('en_US');
 
-        $expected = ['Sony', 'Tony', 'bony', 'cony', 'on', 'one', 'only', 'pony', 'tony', 'yon'];
-        $result   = $object->get_suggestions('ony');
+        $expected = ['online', 'only', 'onyx'];
+        $result   = $object->get_suggestions('onlx');
 
         sort($expected);
         sort($result);
