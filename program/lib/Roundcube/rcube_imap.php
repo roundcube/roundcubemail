@@ -2134,16 +2134,19 @@ class rcube_imap extends rcube_storage
             x. location (optional)
         */
 
+        // Sometimes it might be: 0. subtype, 1. parameters, ...
+        $params_idx = is_array($part[1]) ? 1 : 2;
+
         // regular part
-        $struct->ctype_primary   = strtolower($part[0]);
-        $struct->ctype_secondary = strtolower($part[1]);
+        $struct->ctype_primary   = is_array($part[1]) ? 'multipart' : strtolower($part[0]);
+        $struct->ctype_secondary = is_array($part[1]) ? strtolower($part[0]) : strtolower($part[1]);
         $struct->mimetype        = $struct->ctype_primary.'/'.$struct->ctype_secondary;
 
         // read content type parameters
-        if (is_array($part[2])) {
+        if (is_array($part[$params_idx])) {
             $struct->ctype_parameters = [];
-            for ($i=0; $i<count($part[2]); $i+=2) {
-                $struct->ctype_parameters[strtolower($part[2][$i])] = $part[2][$i+1];
+            for ($i=0; $i<count($part[$params_idx]); $i+=2) {
+                $struct->ctype_parameters[strtolower($part[$params_idx][$i])] = $part[$params_idx][$i+1];
             }
 
             if (isset($struct->ctype_parameters['charset'])) {
@@ -2249,7 +2252,7 @@ class rcube_imap extends rcube_storage
             // get real content-type of message/rfc822
             if ($struct->mimetype == 'message/rfc822') {
                 // single-part
-                if (!is_array($part[8][0])) {
+                if (!is_array($part[8][0]) && !is_array($part[8][1])) {
                     $struct->real_mimetype = strtolower($part[8][0] . '/' . $part[8][1]);
                 }
                 // multi-part
