@@ -99,13 +99,10 @@ class Framework_SpellcheckerEnchant extends PHPUnit\Framework\TestCase
 
         $object = new rcube_spellchecker('en_US');
 
-        $expected = ['online', 'only', 'onyx'];
-        $result   = $object->get_suggestions('onlx');
+        $result = $object->get_suggestions('onlx');
 
-        sort($expected);
-        sort($result);
-
-        $this->assertSame($expected, $result);
+        $this->assertContains('only', $result);
+        $this->assertContains('onyx', $result);
     }
 
     /**
