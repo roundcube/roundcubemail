@@ -307,25 +307,26 @@ class rcmail extends rcube
      *                          - rcube_addressbook::TYPE_CONTACT (or 'sql') for the SQL addressbook
      *                          - rcube_addressbook::TYPE_DEFAULT for the default addressbook
      * @param bool   $writeable True if the address book needs to be writeable
+     * @param bool   $fallback  Fallback to the first existing source, if the configured default wasn't found
      *
      * @return rcube_contacts|null Address book object
      */
-    public function get_address_book($id, $writeable = false)
+    public function get_address_book($id, $writeable = false, $fallback = true)
     {
         $contacts    = null;
         $ldap_config = (array) $this->config->get('ldap_public');
         $default     = false;
 
+        $id = (string) $id;
+
         // 'sql' is the alias for '0' used by autocomplete
         if ($id == 'sql') {
-            $id = rcube_addressbook::TYPE_CONTACT;
+            $id = (string) rcube_addressbook::TYPE_CONTACT;
         }
-        else if ($id == rcube_addressbook::TYPE_DEFAULT || $id == -1) { // -1 for BC
+        else if ($id === strval(rcube_addressbook::TYPE_DEFAULT) || $id === '-1') { // -1 for BC
             $id = $this->config->get('default_addressbook');
             $default = true;
         }
-
-        $id = (string) $id;
 
         // use existing instance
         if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
@@ -359,12 +360,13 @@ class rcmail extends rcube
 
         // Get first addressbook from the list if configured default doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)
-        if (!$contacts && (!$id || $default)) {
+        if ($fallback && !$contacts && (!$id || $default)) {
             $source = $this->get_address_sources($writeable, !$default);
             $source = reset($source);
 
             if (!empty($source)) {
-                $contacts = $this->get_address_book($source['id']);
+                // Note: No fallback here to prevent from an infinite loop
+                $contacts = $this->get_address_book($source['id'], false, false);
                 if ($contacts) {
                     $id = $source['id'];
                 }
