@@ -367,7 +367,6 @@
  Password is changed using ldap_exop_passwd operation.
  PHP >= 7.2 required.
 
-<<<<<<< HEAD
 
  2.1.24 TinyCP
  -------------
