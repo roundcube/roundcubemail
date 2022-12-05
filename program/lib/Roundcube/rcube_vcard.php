@@ -135,12 +135,12 @@ class rcube_vcard
         }
 
         // find well-known address fields
-        $this->displayname  = $this->raw['FN'][0][0] ?? null;
-        $this->surname      = $this->raw['N'][0][0] ?? null;
-        $this->firstname    = $this->raw['N'][0][1] ?? null;
-        $this->middlename   = $this->raw['N'][0][2] ?? null;
-        $this->nickname     = $this->raw['NICKNAME'][0][0] ?? null;
-        $this->organization = $this->raw['ORG'][0][0] ?? null;
+        $this->displayname  = $this->raw['FN'][0][0] ?? '';
+        $this->surname      = $this->raw['N'][0][0] ?? '';
+        $this->firstname    = $this->raw['N'][0][1] ?? '';
+        $this->middlename   = $this->raw['N'][0][2] ?? '';
+        $this->nickname     = $this->raw['NICKNAME'][0][0] ?? '';
+        $this->organization = $this->raw['ORG'][0][0] ?? '';
         $this->business     = (isset($this->raw['X-ABSHOWAS'][0][0]) && $this->raw['X-ABSHOWAS'][0][0] == 'COMPANY')
             || (!empty($this->organization) && isset($this->raw['N'][0]) && @implode('', (array) $this->raw['N'][0]) === '');
 
