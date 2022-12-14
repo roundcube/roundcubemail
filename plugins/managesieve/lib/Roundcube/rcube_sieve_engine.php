@@ -2509,10 +2509,18 @@ class rcube_sieve_engine
                 . rcube::Q($this->plugin->gettext('flag'.$fidx))) . '<br>';
         }
 
-        $flout .= $this->list_input($id, 'action_flags', $custom_flags, null, false, [
+        $custom_input = $this->list_input($id, 'action_flags', $custom_flags, null, false, [
                 'class' => $this->error_class($id, 'action', 'flag', 'action_flags_flag'),
                 'id'    => "action_flags_flag{$id}"
         ]);
+
+        $plugin = $this->rc->plugins->exec_hook('managesieve_custom_flags', [
+                'custom_input'   => $custom_input,
+                'id'             => $id,
+                'custom_flags'   => $custom_flags,
+        ]);
+
+        $flout .= $plugin['custom_input'];
 
         $out .= html::div([
                 'id'    => 'action_flags' . $id,
