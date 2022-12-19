@@ -821,7 +821,7 @@ $config['use_secure_urls'] = false;
 // This might be changed when Roundcube runs behind a reverse proxy using a subpath.
 // The reverse proxy config can specify a custom header (e.g. X-Forwarded-Path) containing
 // the path under which Roundcube is exposed to the outside world (e.g. /rcube/).
-// This header vaue is then availbale in PHP with $_SERVER['HTTP_X_FORWARDED_PATH'].
+// This header value is then available in PHP with $_SERVER['HTTP_X_FORWARDED_PATH'].
 $config['request_uri_field'] = 'REQUEST_URI';
 
 // Allows to define separate server/path for image/js/css files
