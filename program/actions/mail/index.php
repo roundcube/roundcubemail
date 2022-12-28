@@ -1069,7 +1069,7 @@ class rcmail_action_mail_index extends rcmail_action
     {
         $options = [
             'flowed'   => $flowed,
-            'replacer' => 'rcmail_string_replacer',
+            'replacer' => 'rcube_string_replacer',
             'delsp'    => $delsp
         ];
 
