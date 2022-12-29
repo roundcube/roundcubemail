@@ -1596,7 +1596,7 @@ class rcmail extends rcube
      * Convert the given date to a human readable form
      * This uses the date formatting properties from config
      *
-     * @param mixed  $date    Date representation (string, timestamp or DateTime object)
+     * @param mixed  $date    Date representation (string, timestamp or DateTimeInterface)
      * @param string $format  Date format to use
      * @param bool   $convert Enables date conversion according to user timezone
      *
@@ -1604,7 +1604,7 @@ class rcmail extends rcube
      */
     public function format_date($date, $format = null, $convert = true)
     {
-        if (is_object($date) && is_a($date, 'DateTime')) {
+        if ($date instanceof DateTimeInterface) {
             $timestamp = $date->format('U');
         }
         else {
