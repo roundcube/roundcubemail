@@ -67,8 +67,6 @@ if (strtolower($input) == 'y') {
         $dirs[] = 'installer';
     }
 
-    var_dump($dirs); exit;
-
     foreach ($dirs as $dir) {
         // @FIXME: should we use --delete for all directories?
         $delete  = in_array($dir, ['program', 'vendor', 'installer']) ? '--delete ' : '';
