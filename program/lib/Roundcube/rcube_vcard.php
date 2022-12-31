@@ -130,7 +130,7 @@ class rcube_vcard
                 $charset = self::detect_encoding(self::vcard_encode($this->raw));
             }
             if ($charset != RCUBE_CHARSET) {
-                $this->raw = self::charset_convert($this->raw, $detected_charset);
+                $this->raw = self::charset_convert($this->raw, $charset);
             }
         }
 
