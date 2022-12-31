@@ -181,11 +181,13 @@ class rcmail_action_settings_prefs_save extends rcmail_action
             }
 
             // switch skin (if valid, otherwise unset the pref and fall back to default)
-            if (!$rcmail->output->check_skin($a_user_prefs['skin'])) {
-                unset($a_user_prefs['skin']);
-            }
-            else if ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
-                $rcmail->output->command('reload', 500);
+            if (!empty($a_user_prefs['skin'])) {
+                if (!$rcmail->output->check_skin($a_user_prefs['skin'])) {
+                    unset($a_user_prefs['skin']);
+                }
+                else if ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
+                    $rcmail->output->command('reload', 500);
+                }
             }
 
             $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
