@@ -140,7 +140,7 @@ $config['redis_debug'] = false;
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
-// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %d - domain (http hostname, $_SERVER['HTTP_HOST'] without the first part)
 // %s - domain name after the '@' from e-mail address provided at login screen
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
@@ -275,7 +275,7 @@ $config['messages_cache_threshold'] = 50;
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
-// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %d - domain (http hostname, $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
 // To specify different SMTP servers for different IMAP hosts provide an array
@@ -671,7 +671,7 @@ $config['cipher_method'] = 'DES-EDE3-CBC';
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
-// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %d - domain (http hostname, $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['username_domain'] = '';
@@ -685,7 +685,8 @@ $config['username_domain_forced'] = false;
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
-// %d - domain (http hostname without the first part)
+// %t - hostname without the first part
+// %d - domain (http hostname, $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['mail_domain'] = '';
@@ -1053,7 +1054,7 @@ $config['ldap_public']['Verisign'] = [
   // %h - user's IMAP hostname
   // %n - hostname ($_SERVER['SERVER_NAME'])
   // %t - hostname without the first part
-  // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+  // %d - domain (http hostname, $_SERVER['HTTP_HOST'] without the first part)
   // %z - IMAP domain (IMAP hostname without the first part)
   // For example %n = mail.domain.tld, %t = domain.tld
   // Note: Host can also be a full URI e.g. ldaps://hostname.local:636 (for SSL)
