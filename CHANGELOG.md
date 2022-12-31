@@ -23,6 +23,7 @@
 - Fix handling of smtp/imap port options on configuration file update (#8756)
 - Fix bug where array values could not be saved in utils/save_pref action (#8781)
 - Add workaround for using Roundcube behind a reverse proxy with a subpath: 'request_uri_field' option (#8738, #8770)
+- Fix bug where "Invalid skin name" error was logged on preferences save if there's only one skin (#8825)
 
 ## Release 1.6.0
 
