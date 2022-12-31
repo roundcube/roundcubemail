@@ -868,7 +868,7 @@ abstract class rcube_addressbook
 
         // composite field, e.g. address
         foreach ((array) $value as $val) {
-            $val = mb_strtolower($val);
+            $val = mb_strtolower(is_array($val) ? implode(' ', $val) : $val);
 
             if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
