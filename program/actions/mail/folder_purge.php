@@ -33,20 +33,21 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
         $storage      = $rcmail->get_storage();
         $delimiter    = $storage->get_hierarchy_delimiter();
         $mbox         = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $trash_mbox   = $rcmail->config->get('trash_mbox');
-        $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
-        $junk_mbox    = $rcmail->config->get('junk_mbox');
-        $junk_regexp  = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
+        $trash_mbox   = (string) $rcmail->config->get('trash_mbox');
+        $junk_mbox    = (string) $rcmail->config->get('junk_mbox');
         $delete_junk  = $rcmail->config->get('delete_junk');
+        $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
+        $junk_regexp  = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
 
-        // purge directly if there is no trash, or we are operating on trash (or subfolders)
-        if (!strlen($trash_mbox) || $mbox === $trash_mbox || preg_match($trash_regexp, $mbox)) {
+        // purge directly if there is no Trash, or we are operating on Trash (or subfolders),
+        // also purge directly if delete_junk is on, and folder is Junk (or subfolders)
+        if (!strlen($trash_mbox)
+            || $mbox === $trash_mbox
+            || preg_match($trash_regexp, $mbox)
+            || ($delete_junk && ($mbox === $junk_mbox || preg_match($junk_regexp, $mbox)))
+        ) {
             $success = $storage->delete_message('*', $mbox);
             $delete  = true;
-        } // also purge directly if delete_junk is on, and folder is junk (or subfolders)
-        else if ($delete_junk === true && ($mbox === $junk_mbox || preg_match($junk_regexp, $mbox))) {
-           $success = $storage->delete_message('*', $mbox);
-           $delete = true;
         }
         // otherwise move to Trash
         else {
