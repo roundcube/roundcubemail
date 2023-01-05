@@ -267,7 +267,18 @@ if ($RCI->configured) {
             echo "\n    }\n\n";
         }
 
-        echo "NOTICE: Update dependencies by running `php composer.phar update --no-dev`\n";
+        if (!rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
+            $exit_code = 1;
+            if ($composer_bin = find_composer()) {
+                echo "Executing " . $composer_bin . " to update dependencies...\n";
+                echo system("$composer_bin update -d " . escapeshellarg(INSTALL_PATH) . " --no-dev", $exit_code);
+            }
+            if ($exit_code != 0) {
+                echo "-----------------------------------------------------------------------------\n";
+                echo "ATTENTION: Update dependencies by running `php composer.phar update --no-dev`\n";
+                echo "-----------------------------------------------------------------------------\n";
+            }
+        }
     }
 
     // index contacts for fulltext searching
@@ -298,4 +309,20 @@ function repo_key($repo)
     }
 
     return $key;
+}
+
+function find_composer()
+{
+    if (is_file(INSTALL_PATH . 'composer.phar')) {
+        return 'php composer.phar';
+    }
+
+    foreach (['composer', 'composer.phar'] as $check_file) {
+        $which = trim(system("which $check_file"));
+        if (!empty($which)) {
+            return $which;
+        }
+    }
+
+    return null;
 }
