@@ -1180,7 +1180,7 @@ class rcmail extends rcube
             return rtrim($path, '/') . '/';
         }
 
-        $path = preg_replace('/[?&].*$/', '', $path);
+        $path = preg_replace('/[?&].*$/', '', (string) $path);
         $path = preg_replace('![^/]+$!', '', $path);
 
         return rtrim($path, '/') . '/';
