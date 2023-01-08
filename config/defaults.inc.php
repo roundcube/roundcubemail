@@ -802,12 +802,15 @@ $config['no_save_sent_messages'] = false;
 // Note: Use assets_path to not prevent the browser from caching assets
 $config['use_secure_urls'] = false;
 
-// Specify the $_SERVER field that contains the full path of the original HTTP request.
-// This might be changed when Roundcube runs behind a reverse proxy using a subpath.
+// Specifies the full path of the original HTTP request, either as a real path or
+// $_SERVER field name. This might be useful when Roundcube runs behind a reverse
+// proxy using a subpath. This is a path part of the URL, not the full URL!
 // The reverse proxy config can specify a custom header (e.g. X-Forwarded-Path) containing
 // the path under which Roundcube is exposed to the outside world (e.g. /rcube/).
-// This header vaue is then availbale in PHP with $_SERVER['HTTP_X_FORWARDED_PATH'].
-$config['request_uri_field'] = 'REQUEST_URI';
+// This header value is then available in PHP with $_SERVER['HTTP_X_FORWARDED_PATH'].
+// By default the path comes from 'REQUEST_URI', 'REDIRECT_SCRIPT_URL' or 'SRIPT_NAME',
+// whichever is set (in this order).
+$config['request_path'] = null;
 
 // Allows to define separate server/path for image/js/css files
 // Warning: If the domain is different cross-domain access to some

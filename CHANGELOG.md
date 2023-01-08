@@ -22,7 +22,7 @@
 - Fix authenticating to Courier IMAP with passwords containing a '~' character (#8772)
 - Fix handling of smtp/imap port options on configuration file update (#8756)
 - Fix bug where array values could not be saved in utils/save_pref action (#8781)
-- Add workaround for using Roundcube behind a reverse proxy with a subpath: 'request_uri_field' option (#8738, #8770)
+- Add workaround for using Roundcube behind a reverse proxy with a subpath: 'request_path' option (#8738, #8770)
 - Fix bug where "Invalid skin name" error was logged on preferences save if there's only one skin (#8825)
 - Fix SIGBUS raised in ImageMagick when more than one process tried to generate a thumbnail of the same image attachment (#8511)
 - Fix bug where updater does not update the vendor packages (#8642)

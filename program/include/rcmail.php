@@ -1118,18 +1118,7 @@ class rcmail extends rcube
             }
         }
 
-        $base_path = '';
-        $server_var = $this->get_request_uri_field();
-        if ($server_var && !empty($_SERVER[$server_var])) {
-            $base_path = preg_replace('/[?&].*$/', '', $_SERVER[$server_var]);
-        }
-        else if (!empty($_SERVER['REDIRECT_SCRIPT_URL'])) {
-            $base_path = $_SERVER['REDIRECT_SCRIPT_URL'];
-        }
-        else if (!empty($_SERVER['SCRIPT_NAME'])) {
-            $base_path = $_SERVER['SCRIPT_NAME'];
-        }
-        $base_path = preg_replace('![^/]+$!', '', $base_path);
+        $base_path = $this->get_request_path();
 
         if ($secure && ($token = $this->get_secure_url_token(true))) {
             // add token to the url
@@ -1165,16 +1154,36 @@ class rcmail extends rcube
     }
 
     /**
-     * Get the 'request_uri_field' config option
-     * with an additional check against the 'proxy_whitelist' config
+     * Get the the request path
      */
-    protected function get_request_uri_field()
+    protected function get_request_path()
     {
-        $server_var = $this->config->get('request_uri_field');
-        if (!empty($server_var) && (strpos($server_var, 'HTTP_') !== 0 || rcube_utils::check_proxy_whitelist_ip())) {
-            return $server_var;
+        $path = $this->config->get('request_path');
+
+        if ($path && isset($_SERVER[$path])) {
+            // HTTP headers need to come from a trusted proxy host
+            if (strpos($path, 'HTTP_') === 0 && !rcube_utils::check_proxy_whitelist_ip()) {
+                return '/';
+            }
+
+            $path = $_SERVER[$path];
         }
-        return null;
+        else if (empty($path)) {
+            foreach (['REQUEST_URI', 'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME'] as $name) {
+                if (!empty($_SERVER[$name])) {
+                    $path = $_SERVER[$name];
+                    break;
+                }
+            }
+        }
+        else {
+            return rtrim($path, '/') . '/';
+        }
+
+        $path = preg_replace('/[?&].*$/', '', $path);
+        $path = preg_replace('![^/]+$!', '', $path);
+
+        return rtrim($path, '/') . '/';
     }
 
     /**
