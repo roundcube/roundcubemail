@@ -207,6 +207,7 @@ class acl extends rcube_plugin
 
         $this->rc->output->set_env('autocomplete_max', (int) $this->rc->config->get('autocomplete_max', 15));
         $this->rc->output->set_env('autocomplete_min_length', $this->rc->config->get('autocomplete_min_length'));
+        $this->rc->output->set_env('autocomplete_clean_duplicates', (bool) $this->rc->config->get('autocomplete_clean_duplicates', false));
         $this->rc->output->add_label('autocompletechars', 'autocompletemore');
 
         $args['form']['sharing'] = [

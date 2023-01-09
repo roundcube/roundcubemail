@@ -666,6 +666,7 @@ abstract class rcmail_action
 
         $rcmail->output->set_env('autocomplete_max', (int) $rcmail->config->get('autocomplete_max', 15));
         $rcmail->output->set_env('autocomplete_min_length', $rcmail->config->get('autocomplete_min_length'));
+        $rcmail->output->set_env('autocomplete_clean_duplicates', (bool) $rcmail->config->get('autocomplete_clean_duplicates', false));
         $rcmail->output->add_label('autocompletechars', 'autocompletemore');
     }
 
