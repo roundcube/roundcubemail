@@ -3,17 +3,6 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | This file is part of the Roundcube Webmail client                     |
- |                                                                       |
- | Copyright (C) The Roundcube Dev Team                                  |
- |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for skins & plugins.                |
- | See the README file for a full license statement.                     |
- |                                                                       |
- | PURPOSE:                                                              |
- |   User identity updating                                                |
- +-----------------------------------------------------------------------+
  | Author: Vladas K <info@vladasko.com>                                  |
  +-----------------------------------------------------------------------+
 */
@@ -44,10 +33,10 @@ $subcommand_executables = [
     'list' => 'list_identities',
 ];
 
-$programName = @$options[0];
+$program_name = @$options[0];
 
-if (isset($subcommand_executables[$programName])) {
-    $program = $subcommand_executables[$programName];
+if (isset($subcommand_executables[$program_name])) {
+    $program = $subcommand_executables[$program_name];
 
     $program($options);
 } else {
@@ -82,9 +71,9 @@ function get_identity_attr($options) {
         exit;
     }
   
-    $username = getOptionValue($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
-    $identity_id = getOptionValue($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
-    $attribute = getOptionValue($options, 'attribute', '', false, true, "Enter the attribute key e.g. -a name");
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
+    $attribute = get_option_value($options, 'attribute', '', false, true, "Enter the attribute key e.g. -a name");
 
     $host = rcube_utils::get_host($options);
     $user = get_user($username, $host);
@@ -124,7 +113,7 @@ function list_identities($options) {
         exit;
     }
   
-    $username = getOptionValue($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
 
     $host = rcube_utils::get_host($options);
     $user = get_user($username, $host);
@@ -135,7 +124,7 @@ function list_identities($options) {
 
     $identities = $user->list_identities(null, true);
 
-    echoIdentities($identities);
+    echo_identities($identities);
 }
 
 function delete_identity($options) {
@@ -153,8 +142,8 @@ function delete_identity($options) {
         exit;
     }  
 
-    $username = getOptionValue($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
-    $identity_id = getOptionValue($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
 
     $host = rcube_utils::get_host($options);
     $user = get_user($username, $host);
@@ -203,35 +192,35 @@ function add_identity($options) {
         exit;
     }
   
-    $username = getOptionValue($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
 
     $new_identity = [];
     $setAsDefault = false;
 
     if (isset($options['email'])) {
-        validateEmail($options['email'], 'email');
+        validate_email($options['email'], 'email');
     }
     if (isset($options['is_html_signature'])) {
-        validateBoolean($options['is_html_signature'], 'is signature HTML (H)'); 
+        validate_boolean($options['is_html_signature'], 'is signature HTML (H)'); 
     }
     if (isset($options['bcc_email'])) {
-        validateEmail($options['bcc_email'], 'bcc email');
+        validate_email($options['bcc_email'], 'bcc email');
     }
     if (isset($options['reply_to_email'])) {
-        validateEmail($options['reply_to_email'], 'reply-to email');
+        validate_email($options['reply_to_email'], 'reply-to email');
     }
     if (isset($options['is_default'])) {
-        validateBoolean($options['is_default'], 'is default identity (S)');
+        validate_boolean($options['is_default'], 'is default identity (S)');
         $setAsDefault = filter_var($options['is_default'], FILTER_VALIDATE_BOOLEAN);
     } 
 
-    $new_identity['email'] = getOptionValue($options, 'email', '', false, true, "Enter the email e.g. -e somemail@example.com");
-    $new_identity['name'] = getOptionValue($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
-    $new_identity['organization']  = getOptionValue($options, 'organization', '', false, false);
-    $new_identity['signature'] = getOptionValue($options, 'signature', '', false, false);
-    $new_identity['html_signature'] = getOptionValue($options, 'is_html_signature', 0, true, false);
-    $new_identity['bcc'] = getOptionValue($options, 'bcc_email', '', false, false);
-    $new_identity['reply-to'] = getOptionValue($options, 'reply_to_email', '', false, false);
+    $new_identity['email'] = get_option_value($options, 'email', '', false, true, "Enter the email e.g. -e somemail@example.com");
+    $new_identity['name'] = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
+    $new_identity['organization']  = get_option_value($options, 'organization', '', false, false);
+    $new_identity['signature'] = get_option_value($options, 'signature', '', false, false);
+    $new_identity['html_signature'] = get_option_value($options, 'is_html_signature', 0, true, false);
+    $new_identity['bcc'] = get_option_value($options, 'bcc_email', '', false, false);
+    $new_identity['reply-to'] = get_option_value($options, 'reply_to_email', '', false, false);
 
     $host = rcube_utils::get_host($options);
     $user = get_user($username, $host);
@@ -280,38 +269,38 @@ function update_identity($options) {
         exit;
     }
 
-    $username = getOptionValue($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
-    $identity_id = getOptionValue($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
   
     $updated_identity = [];
 
     if (isset($options['email'])) {
-        validateEmail($options['email'], 'email');
+        validate_email($options['email'], 'email');
     } 
     if (isset($options['is_html_signature'])) {
-        validateBoolean($options['is_html_signature'], 'is signature HTML (H)');
+        validate_boolean($options['is_html_signature'], 'is signature HTML (H)');
     }
     if (isset($options['bcc_email'])) {
-        validateEmail($options['bcc_email'], 'bcc email');
+        validate_email($options['bcc_email'], 'bcc email');
     }
     if (isset($options['reply_to_email'])) {
-        validateEmail($options['reply_to_email'], 'reply-to email');
+        validate_email($options['reply_to_email'], 'reply-to email');
     }
 
     $setAsDefault = false;
     if (isset($options['is_default'])) {
-        validateBoolean($options['is_default'], 'is default identity (S)');
+        validate_boolean($options['is_default'], 'is default identity (S)');
 
         $setAsDefault = filter_var($options['is_default'], FILTER_VALIDATE_BOOLEAN);
     }
 
-    $email = getOptionValue($options, 'email', NULL, false, false);
-    $name = getOptionValue($options, 'name', NULL, false, false);
-    $organization = getOptionValue($options, 'organization', NULL, false, false);
-    $signature = getOptionValue($options, 'signature', NULL, false, false);
-    $html_signature = getOptionValue($options, 'is_html_signature', NULL, true, false);
-    $bcc = getOptionValue($options, 'bcc_email', NULL, false, false);
-    $reply_to = getOptionValue($options, 'reply_to_email', NULL, false, false);
+    $email = get_option_value($options, 'email', NULL, false, false);
+    $name = get_option_value($options, 'name', NULL, false, false);
+    $organization = get_option_value($options, 'organization', NULL, false, false);
+    $signature = get_option_value($options, 'signature', NULL, false, false);
+    $html_signature = get_option_value($options, 'is_html_signature', NULL, true, false);
+    $bcc = get_option_value($options, 'bcc_email', NULL, false, false);
+    $reply_to = get_option_value($options, 'reply_to_email', NULL, false, false);
 
     if ($email !== NULL) {
         $updated_identity['email'] = $email;
@@ -365,7 +354,7 @@ function update_identity($options) {
 
 // Helpers
 
-function getOptionValue($options, $key, $fallback, $isBoolean, $isMandatory, $message = '') {
+function get_option_value($options, $key, $fallback, $isBoolean, $isMandatory, $message = '') {
     $isValid = false;
 
     if (isset($options[$key])) {
@@ -387,7 +376,7 @@ function getOptionValue($options, $key, $fallback, $isBoolean, $isMandatory, $me
     return $fallback;
 }
 
-function validateEmail($email, $fieldName) {
+function validate_email($email, $fieldName) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         rcube::raise_error("invalid $fieldName format");
 
@@ -395,7 +384,7 @@ function validateEmail($email, $fieldName) {
     }
 }
 
-function validateBoolean($value, $fieldName) {
+function validate_boolean($value, $fieldName) {
     if (!is_bool($value) && $value !== '0' && $value !== '1') {
         rcube::raise_error("$fieldName can either be set to 1 (true), 0 (false) or without a value (true)");
 
@@ -403,7 +392,7 @@ function validateBoolean($value, $fieldName) {
     }
 }
 
-function echoIdentities($identities) {
+function echo_identities($identities) {
     for ($i = 0; $i < count($identities); $i++) {
         foreach ($identities[$i] as $key => $val) {
             $diff = 17 - strlen($key);
