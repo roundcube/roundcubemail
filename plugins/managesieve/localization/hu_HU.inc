@@ -201,6 +201,7 @@ $labels['vacation.reply'] = 'Válasz az üzenetre';
 $labels['vacation.advanced'] = 'Haladó beállítások';
 $labels['vacation.from'] = 'Válasz küldőjének címe:';
 $labels['vacation.subject'] = 'Tárgy';
+$labels['vacation.subjectappendoriginal'] = 'Eredeti tárgy hozzáfűzése a válaszhoz';
 $labels['vacation.body'] = 'Törzs';
 $labels['vacation.start'] = 'Kezdő időpontja';
 $labels['vacation.end'] = 'Befejezés időpontja';

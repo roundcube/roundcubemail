@@ -668,6 +668,7 @@ class rcube_sieve_engine
             $interval_types = rcube_utils::get_input_value('_action_interval_type', rcube_utils::INPUT_POST);
             $from           = rcube_utils::get_input_value('_action_from', rcube_utils::INPUT_POST, true);
             $subject        = rcube_utils::get_input_value('_action_subject', rcube_utils::INPUT_POST, true);
+            $subject_append_original = rcube_utils::get_input_value('_action_subject_append_original', rcube_utils::INPUT_POST);
             $flags          = rcube_utils::get_input_value('_action_flags', rcube_utils::INPUT_POST);
             $varnames       = rcube_utils::get_input_value('_action_varname', rcube_utils::INPUT_POST);
             $varvalues      = rcube_utils::get_input_value('_action_varvalue', rcube_utils::INPUT_POST);
@@ -1155,6 +1156,7 @@ class rcube_sieve_engine
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
                     $this->form['actions'][$i]['from']      = $from[$idx];
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
+                    $this->form['actions'][$i]['subject_append_original'] = $subject_append_original[$idx];
                     $this->form['actions'][$i]['addresses'] = $addresses[$idx];
                     $this->form['actions'][$i][$interval_type] = $intervals[$idx];
 
@@ -2440,6 +2442,14 @@ class rcube_sieve_engine
                 'size'  => 35,
                 'class' => $this->error_class($id, 'action', 'subject', 'action_subject'),
         ]);
+        $out .= '<br>' . html::label('action_subject_append_original' . $id,
+                    html::tag('input', array(
+                        'type'    => 'checkbox',
+                        'name'    => '_action_subject_append_original[' . $id . ']',
+                        'id'      => 'action_subject_append_original' . $id,
+                        'value'   => 1,
+                        'checked' => isset($action['subject_append_original']) && $action['subject_append_original'] == 1,
+                    )) . ' ' . rcube::Q($this->plugin->gettext('vacation.subjectappendoriginal')));
         $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationfrom')) . '</span><br>';
         $out .= html::tag('input', [
                 'type'  => 'text',

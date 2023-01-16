@@ -201,6 +201,7 @@ $labels['vacation.reply'] = 'Antwort';
 $labels['vacation.advanced'] = 'Erweiterte Einstellungen';
 $labels['vacation.from'] = 'Antwort E-Mail-Adresse:';
 $labels['vacation.subject'] = 'Betreff';
+$labels['vacation.subjectappendoriginal'] = 'Anhängen des ursprünglichen Betreffs an die Antwort';
 $labels['vacation.body'] = 'Nachricht';
 $labels['vacation.start'] = 'Beginn der Abwesenheit';
 $labels['vacation.end'] = 'Ende der Abwesenheit';
