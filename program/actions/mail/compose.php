@@ -1387,6 +1387,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     continue;
                 }
 
+                $id = $a_prop['id'] ?? $id;
+
                 $link_content = sprintf(
                     '<span class="attachment-name" onmouseover="rcube_webmail.long_subject_title_ex(this)">%s</span>'
                         . ' <span class="attachment-size">(%s)</span>',
