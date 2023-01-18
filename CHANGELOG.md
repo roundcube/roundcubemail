@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix so N property always exists in a vCard export (#8771)
+- Fix so rcmail::format_date() works with DateTimeImmutable input (#8867)
 
 ## Release 1.5.3
 
