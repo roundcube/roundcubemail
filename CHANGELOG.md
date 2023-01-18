@@ -26,6 +26,7 @@
 - Fix bug where "Invalid skin name" error was logged on preferences save if there's only one skin (#8825)
 - Fix SIGBUS raised in ImageMagick when more than one process tried to generate a thumbnail of the same image attachment (#8511)
 - Fix bug where updater does not update the vendor packages (#8642)
+- Fix missing mail composing textarea on reply/draft with a long plain text content (#8866)
 
 ## Release 1.6.0
 

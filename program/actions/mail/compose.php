@@ -822,7 +822,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         // We're adding a hidden textarea with the HTML content to workaround browsers' performance
         // issues with rendering/loading long content. It will be copied to the main editor (#8108)
-        if (strlen(self::$MESSAGE_BODY) > 50 * 1024) {
+        if (self::$HTML_MODE && strlen(self::$MESSAGE_BODY) > 50 * 1024) {
             $contentArea = new html_textarea(['style' => 'display:none', 'id' => $attrib['id'] . '-content']);
             $content .= $contentArea->show(self::$MESSAGE_BODY) . "\n" . $textarea->show();
         }
