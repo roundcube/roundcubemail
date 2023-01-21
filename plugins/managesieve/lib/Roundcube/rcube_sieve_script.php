@@ -659,10 +659,6 @@ class rcube_sieve_script
                 if (preg_match('/^# rule:\[(.*)\]/', $line, $matches)) {
                     $rulename = $matches[1];
                 }
-                // "sieverules" compatibility: import disabled rule (sieverules stores as a serialized PHP object)
-                else if (preg_match('/^# disabledRule:\[(.*)\]/', $line, $matches)) {
-                    $this->sieverules_import_disabled_rule($matches[1]);
-                }
                 // KEP:14 variables
                 else if (preg_match('/^# (EDITOR|EDITOR_VERSION) (.+)$/', $line, $matches)) {
                     $this->set_var($matches[1], $matches[2]);
@@ -1481,61 +1477,5 @@ class rcube_sieve_script
         }
 
         return $position;
-    }
-
-    /**
-     * Converts disabled Sieverules serialized rules into Managesieve format
-     *
-     * 1. Test (condition) format:
-     * Sieverules       Managesieve
-     *
-     * type        ->   test (like "header", "subject", etc...)
-     * operator    ->   type (operator like equal, contains, etc...)
-     * header      ->   arg1 (operand 1, optional)
-     * target      ->   arg2 (operand 2, optional)
-     *
-     * 2. Action format (different actions may have different parameters):
-     *
-     * - vacation action
-     * Sieverules       Managesieve
-     * msg         ->   reason
-     */
-    private function sieverules_import_disabled_rule($serialized_rule)
-    {
-        $serialized_rule = str_replace("[!r]", "\r", $serialized_rule);
-        $serialized_rule = str_replace("[!n]", "\n", $serialized_rule);
-
-        $rule = unserialize($serialized_rule);
-        if (empty($rule)) {
-            return;
-        }
-
-        if (!empty($rule["tests"])) {
-            foreach ($rule["tests"] as &$test) {
-                $test["test"] = $test["type"];
-
-                if (isset($test["operator"])) {
-                    $test["type"] = $test["operator"];
-                    unset($test["operator"]);
-                }
-
-                if (isset($test["header"])) {
-                    $test["arg1"] = $test["header"];
-                    unset($test["header"]);
-                    $test["arg2"] = $test["target"];
-                    unset($test["target"]);
-                }
-            }
-        }
-
-        if (!empty($rule["actions"])) {
-            foreach ($rule["actions"] as &$action) {
-                if ($action["type"] == "vacation") {
-                    $action["reason"] = $action["msg"];
-                    unset($action["msg"]);
-                }
-            }
-        }
-        $this->content[] = $rule;
     }
 }
