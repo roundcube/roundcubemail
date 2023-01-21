@@ -11,7 +11,6 @@
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Password: Add ldap_samba_ad driver (#8525)
-- Managesieve: Support Sieverules disabled rule format (#8571)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Fix various PHP 8.1 warnings (#8628, #8644, #8667, #8656, #8647)
 - Password: Remove references to %c variable that has been removed before (#8633)
