@@ -3,6 +3,17 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Identities management                                               |
+ +-----------------------------------------------------------------------+
  | Author: Vladas K <info@vladasko.com>                                  |
  +-----------------------------------------------------------------------+
 */
@@ -128,6 +139,14 @@ function list_identities($options) {
 }
 
 function delete_identity($options) {
+    $identities_level = get_identities_level();
+
+    if ($identities_level > 1) {
+        rcube::raise_error("Identities level doesn't allow this action.");
+
+        exit;
+    }
+
     if (count($options) === 1) {
         echo "delete\n";
         echo "======\n\n";
@@ -164,6 +183,14 @@ function delete_identity($options) {
 }
 
 function add_identity($options) {
+    $identities_level = get_identities_level();
+
+    if ($identities_level > 1) {
+        rcube::raise_error("Identities level doesn't allow this action.");
+    
+        exit;
+    }
+
     if (count($options) === 1) {
         echo "add\n";
         echo "===\n\n";
@@ -232,6 +259,14 @@ function add_identity($options) {
 }
 
 function update_identity($options) {
+    $identities_level = get_identities_level();
+
+    if ($identities_level > 1) {
+        rcube::raise_error("Identities level doesn't allow this action.");
+    
+        exit;
+    }
+    
     if (count($options) === 1) {
         echo "update\n";
         echo "======\n\n";
@@ -290,7 +325,13 @@ function update_identity($options) {
     }
 
     if ($email !== NULL) {
-        $updated_identity['email'] = $email;
+       if ($identities_level > 0) {
+           rcube::raise_error("Identities level doesn't allow setting email.");
+    
+           exit;
+        } else {
+            $updated_identity['email'] = $email;
+        }
     }
     if ($name !== NULL) {
         $updated_identity['name'] = $name;
@@ -417,4 +458,12 @@ function get_user($username, $host)
     }
 
     return $user;
+}
+
+function get_identities_level()
+{
+    $rcmail = rcube::get_instance();
+    $identities_level = intval($rcmail->config->get('identities_level', 0));
+
+    return $identities_level;
 }
