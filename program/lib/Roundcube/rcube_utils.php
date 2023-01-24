@@ -673,7 +673,7 @@ class rcube_utils
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
-            && self::check_proxy_whitelist_ip()
+            && in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []))
         ) {
             return true;
         }
@@ -687,13 +687,6 @@ class rcube_utils
         }
 
         return false;
-    }
-
-    /**
-     * Check if the reported REMOTE_ADDR is in the 'proxy_whitelist' config option
-     */
-    public static function check_proxy_whitelist_ip() {
-        return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
     /**
@@ -738,45 +731,6 @@ class rcube_utils
     }
 
     /**
-     * Parse host specification URI.
-     *
-     * @param string $host       Host URI
-     * @param int    $plain_port Plain port number
-     * @param int    $ssl_port   SSL port number
-     *
-     * @return An array with three elements (hostname, scheme, port)
-     */
-    public static function parse_host_uri($host, $plain_port = null, $ssl_port = null)
-    {
-        if (strpos($host, 'unix://') === 0) {
-            return [$host, 'unix', -1];
-        }
-
-        $url    = parse_url($host);
-        $port   = $plain_port;
-        $scheme = null;
-
-        if (!empty($url['host'])) {
-            $host   = $url['host'];
-            $scheme = $url['scheme'] ?? null;
-
-            if (!empty($url['port'])) {
-                $port = $url['port'];
-            }
-            else if (
-                $scheme
-                && $ssl_port
-                && ($scheme === 'ssl' || ($scheme != 'tls' && $scheme[strlen($scheme) - 1] === 's'))
-            ) {
-                // assign SSL port to ssl://, imaps://, ldaps://, but not tls://
-                $port = $ssl_port;
-            }
-        }
-
-        return [$host, $scheme, $port];
-    }
-
-    /**
      * Returns the server name after checking it against trusted hostname patterns.
      *
      * Returns 'localhost' and logs a warning when the hostname is not trusted.
@@ -792,7 +746,7 @@ class rcube_utils
             $type = 'SERVER_NAME';
         }
 
-        $name     = $_SERVER[$type] ?? '';
+        $name     = isset($_SERVER[$type]) ? $_SERVER[$type] : '';
         $rcube    = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
@@ -801,18 +755,12 @@ class rcube_utils
                 $name = preg_replace('/:\d+$/', '', $name);
             }
 
-            if (empty($patterns)) {
+            if (empty($patterns) || in_array_nocase($name, $patterns)) {
                 return $name;
             }
 
             foreach ($patterns as $pattern) {
-                // the pattern might be a regular expression or just a host/domain name
-                if (preg_match('/[^a-zA-Z0-9.:-]/', $pattern)) {
-                    if (preg_match("/$pattern/", $name)) {
-                        return $name;
-                    }
-                }
-                else if (strtolower($name) === strtolower($pattern)) {
+                if (preg_match("/$pattern/", $name)) {
                     return $name;
                 }
             }
@@ -835,7 +783,7 @@ class rcube_utils
      */
     public static function remote_ip()
     {
-        $address = $_SERVER['REMOTE_ADDR'] ?? '';
+        $address = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
 
         // append the NGINX X-Real-IP header, if set
         if (!empty($_SERVER['HTTP_X_REAL_IP']) && $_SERVER['HTTP_X_REAL_IP'] != $address) {
@@ -908,7 +856,7 @@ class rcube_utils
         if (!empty($headers)) {
             $headers = array_change_key_case($headers, CASE_UPPER);
 
-            return $headers[$key] ?? null;
+            return isset($headers[$key]) ? $headers[$key] : null;
         }
     }
 
@@ -1060,11 +1008,11 @@ class rcube_utils
             $mdy   = $m[2] > 12 && $m[1] <= 12;
             $day   = $mdy ? $m[2] : $m[1];
             $month = $mdy ? $m[1] : $m[2];
-            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?? ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, isset($m[4]) ? $m[4]: ' 00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
         else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
-            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?? ' 00:00:00');
+            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], isset($m[4]) ? $m[4]: ' 00:00:00');
         }
 
         return $date;
@@ -1150,7 +1098,7 @@ class rcube_utils
 
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitly (#6075)
-        $variant = INTL_IDNA_VARIANT_UTS46;
+        $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
         $options = 0;
 
         // Because php-intl extension lowercases domains and return false
@@ -1158,12 +1106,12 @@ class rcube_utils
 
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
-                $options = IDNA_NONTRANSITIONAL_TO_ASCII;
+                $options = defined('IDNA_NONTRANSITIONAL_TO_ASCII') ? IDNA_NONTRANSITIONAL_TO_ASCII : 0;
                 $domain  = idn_to_ascii($domain, $options, $variant);
             }
         }
         else if (preg_match('/(^|\.)xn--/i', $domain)) {
-            $options = IDNA_NONTRANSITIONAL_TO_UNICODE;
+            $options = defined('IDNA_NONTRANSITIONAL_TO_UNICODE') ? IDNA_NONTRANSITIONAL_TO_UNICODE : 0;
             $domain  = idn_to_utf8($domain, $options, $variant);
         }
 
@@ -1312,7 +1260,7 @@ class rcube_utils
             $value = true;
             $key   = null;
 
-            if (strlen($arg) && $arg[0] == '-') {
+            if ($arg[0] == '-') {
                 $key = preg_replace('/^-+/', '', $arg);
                 $sp  = strpos($arg, '=');
 
@@ -1434,8 +1382,8 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $host = $_SERVER['HTTP_HOST'] ?? '';
-            $port = $_SERVER['SERVER_PORT'] ?? 0;
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 0;
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
             if ($port && $port != $default_port && $port != 80) {
@@ -1458,20 +1406,36 @@ class rcube_utils
      */
     public static function random_bytes($length, $raw = false)
     {
-        // Use PHP7 true random generator
-        if ($raw) {
-            return random_bytes($length);
-        }
-
         $hextab  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $tabsize = strlen($hextab);
 
-        $result = '';
-        while ($length-- > 0) {
-            $result .= $hextab[random_int(0, $tabsize - 1)];
+        // Use PHP7 true random generator
+        if ($raw && function_exists('random_bytes')) {
+            return random_bytes($length);
         }
 
-        return $result;
+        if (!$raw && function_exists('random_int')) {
+            $result = '';
+            while ($length-- > 0) {
+                $result .= $hextab[random_int(0, $tabsize - 1)];
+            }
+
+            return $result;
+        }
+
+        $random = openssl_random_pseudo_bytes($length);
+
+        if ($random === false && $length > 0) {
+            throw new Exception("Failed to get random bytes");
+        }
+
+        if (!$raw) {
+            for ($x = 0; $x < $length; $x++) {
+                $random[$x] = $hextab[ord($random[$x]) % $tabsize];
+            }
+        }
+
+        return $random;
     }
 
     /**
@@ -1678,68 +1642,6 @@ class rcube_utils
         while ($count);
 
         return trim($subject);
-    }
-
-    /**
-     * Generates the HAproxy style PROXY protocol header for injection
-     * into the TCP stream, if configured.
-     *
-     * http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
-     * 
-     * PROXY protocol headers must be sent before any other data is sent on the TCP socket.
-     *
-     * @param array $options Preferences array which may contain proxy_protocol (generally {driver}_conn_options)
-     *
-     * @return string Proxy protocol header data, if enabled, otherwise empty string
-     */
-    public static function proxy_protocol_header($options = null)
-    {
-        if (empty($options) || !is_array($options) || !array_key_exists('proxy_protocol', $options)) {
-            return '';
-        }
-
-        if (is_array($options['proxy_protocol'])) {
-            $version = $options['proxy_protocol']['version'];
-            $options = $options['proxy_protocol'];
-        }
-        else {
-            $version = (int) $options['proxy_protocol'];
-            $options = [];
-        }
-
-        $remote_addr = array_key_exists('remote_addr', $options) ? $options['remote_addr'] : self::remote_addr();
-        $remote_port = array_key_exists('remote_port', $options) ? $options['remote_port'] : $_SERVER['REMOTE_PORT'];
-        $local_addr  = array_key_exists('local_addr', $options) ? $options['local_addr'] : $_SERVER['SERVER_ADDR'];
-        $local_port  = array_key_exists('local_port', $options) ? $options['local_port'] : $_SERVER['SERVER_PORT'];
-        $ip_version  = strpos($remote_addr, ':') === false ? 4 : 6;
-
-        // Text based PROXY protocol
-        if ($version == 1) {
-            // PROXY protocol does not support dual IPv6+IPv4 type addresses, e.g. ::127.0.0.1
-            if ($ip_version === 6 && strpos($remote_addr, '.') !== false) {
-                $remote_addr = inet_ntop(inet_pton($remote_addr));
-            }
-            if ($ip_version === 6 && strpos($local_addr, '.') !== false) {
-                $local_addr = inet_ntop(inet_pton($local_addr));
-            }
-
-            return "PROXY TCP{$ip_version} {$remote_addr} {$local_addr} {$remote_port} {$local_port}\r\n";
-        }
-
-        // Binary PROXY protocol
-        if ($version == 2) {
-            $addr = inet_pton($remote_addr) . inet_pton($local_addr) . pack('n', $remote_port) . pack('n', $local_port);
-            $head = implode([
-                    '0D0A0D0A000D0A515549540A',     // protocol header
-                    '21',                           // protocol version and command
-                    $ip_version === 6 ? '2' : '1',  // IP version type
-                    '1'                             // TCP
-            ]);
-
-            return pack('H*', $head) . pack('n', strlen($addr)) . $addr;
-        }
-
-        return '';
     }
 
     public static function get_host($args)
