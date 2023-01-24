@@ -16,10 +16,10 @@ $options = rcube_utils::get_opt([
     'e' => 'email',
     'n' => 'name',
     'o' => 'organization',
-    's' => 'signature',
+    's' => 'plain_text_signature',
     'b' => 'bcc_email',
     'r' => 'reply_to_email',
-    'H' => 'is_html_signature',
+    'h' => 'html_signature',
     'S' => 'is_default',
     'a' => 'attribute',
     'i' => 'identity_id'
@@ -176,19 +176,8 @@ function add_identity($options) {
         echo "    -n\n";
         echo "        the name of the identity - e.g. -n 'John Smith'\n\n\n";
         echo "    Optional arguments:\n\n";
-        echo "    -o\n";
-        echo "        organization - e.g. -o 'Your Organization Name'\n\n";
-        echo "    -r\n";
-        echo "        reply-to email - e.g. -r replytothisemail@example.com\n\n";
-        echo "    -b\n";
-        echo "        bcc email - e.g. -b bcc@example.com\n\n";
-        echo "    -s\n";
-        echo "        signature - e.g. -s 'Sincerely, John Smith'\n\n";
-        echo "    -H\n";
-        echo "        is signature HTML (empty value or 1 for yes, 0 for no) e.g. -H\n\n";
-        echo "    -S\n";
-        echo "        should this be set as a default identity for the user (only 1 available so it disables all other. Empty value or 1 for yes, 0 for no) e.g. -S 1\n\n";;
-  
+        echo_shared_options();
+
         exit;
     }
   
@@ -199,9 +188,6 @@ function add_identity($options) {
 
     if (isset($options['email'])) {
         validate_email($options['email'], 'email');
-    }
-    if (isset($options['is_html_signature'])) {
-        validate_boolean($options['is_html_signature'], 'is signature HTML (H)'); 
     }
     if (isset($options['bcc_email'])) {
         validate_email($options['bcc_email'], 'bcc email');
@@ -217,8 +203,15 @@ function add_identity($options) {
     $new_identity['email'] = get_option_value($options, 'email', '', false, true, "Enter the email e.g. -e somemail@example.com");
     $new_identity['name'] = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
     $new_identity['organization']  = get_option_value($options, 'organization', '', false, false);
-    $new_identity['signature'] = get_option_value($options, 'signature', '', false, false);
-    $new_identity['html_signature'] = get_option_value($options, 'is_html_signature', 0, true, false);
+
+    $new_identity['html_signature'] = 0;
+    $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);   
+
+    if (isset($options['html_signature'])) {
+        $new_identity['html_signature'] = 1;
+        $new_identity['signature'] = get_option_value($options, 'html_signature', '', false, false);
+    }
+
     $new_identity['bcc'] = get_option_value($options, 'bcc_email', '', false, false);
     $new_identity['reply-to'] = get_option_value($options, 'reply_to_email', '', false, false);
 
@@ -235,7 +228,7 @@ function add_identity($options) {
         $user->set_default($id);
     }
 
-    echo "Identity created successfully.\n";
+    echo "Identity created successfully with ID - $id.\n";
 }
 
 function update_identity($options) {
@@ -253,19 +246,8 @@ function update_identity($options) {
         echo "        email - the email of the identity e.g. identityemail@example.com\n\n";
         echo "    -n\n";
         echo "        the name of the identity - e.g. -n 'John Smith'\n\n";
-        echo "    -o\n";
-        echo "        organization - e.g. -o 'Your Organization Name'\n\n";
-        echo "    -r\n";
-        echo "        reply-to email - e.g. -r replytothisemail@example.com\n\n";
-        echo "    -b\n";
-        echo "        bcc email - e.g. -b bcc@example.com\n\n";
-        echo "    -s\n";
-        echo "        signature - e.g. -s 'Sincerely, John Smith'\n\n";
-        echo "    -H\n";
-        echo "        is signature HTML (empty value or 1 for yes, 0 for no) e.g. -H\n\n";
-        echo "    -S\n";
-        echo "        should this be set as a default identity for the user (only 1 available so it disables all other. Empty value or 1 for yes, 0 for no) e.g. -S 1\n\n";;
-  
+        echo_shared_options();
+
         exit;
     }
 
@@ -277,9 +259,6 @@ function update_identity($options) {
     if (isset($options['email'])) {
         validate_email($options['email'], 'email');
     } 
-    if (isset($options['is_html_signature'])) {
-        validate_boolean($options['is_html_signature'], 'is signature HTML (H)');
-    }
     if (isset($options['bcc_email'])) {
         validate_email($options['bcc_email'], 'bcc email');
     }
@@ -297,10 +276,18 @@ function update_identity($options) {
     $email = get_option_value($options, 'email', NULL, false, false);
     $name = get_option_value($options, 'name', NULL, false, false);
     $organization = get_option_value($options, 'organization', NULL, false, false);
-    $signature = get_option_value($options, 'signature', NULL, false, false);
-    $html_signature = get_option_value($options, 'is_html_signature', NULL, true, false);
+    $plain_text_signature = get_option_value($options, 'plain_text_signature', NULL, false, false);
+    $html_signature = get_option_value($options, 'html_signature', NULL, false, false);
     $bcc = get_option_value($options, 'bcc_email', NULL, false, false);
     $reply_to = get_option_value($options, 'reply_to_email', NULL, false, false);
+
+    if ($html_signature !== NULL) {
+        $updated_identity['html_signature'] = 1;
+        $updated_identity['signature'] = $html_signature; 
+    } else if ($plain_text_signature !== NULL) {
+        $updated_identity['html_signature'] = 0;
+        $updated_identity['signature'] = $plain_text_signature;   
+    }
 
     if ($email !== NULL) {
         $updated_identity['email'] = $email;
@@ -310,12 +297,6 @@ function update_identity($options) {
     }
     if ($organization !== NULL) {
         $updated_identity['organization'] = $organization;
-    }
-    if ($signature !== NULL) {
-        $updated_identity['signature'] = $signature;
-    }
-    if ($html_signature !== NULL) {
-        $updated_identity['html_signature'] = $html_signature;
     }
     if ($bcc !== NULL) {
         $updated_identity['bcc'] = $bcc;
@@ -349,7 +330,7 @@ function update_identity($options) {
         $user->set_default($id);
     }
 
-    echo "Identity updated successfully.\n";
+    echo "Identity updated successfully. ID - $identity_id.\n";
 }
 
 // Helpers
@@ -406,6 +387,21 @@ function echo_identities($identities) {
         }
     }
 }
+
+function echo_shared_options() {
+    echo "    -o\n";
+    echo "        organization - e.g. -o 'Your Organization Name'\n\n";
+    echo "    -r\n";
+    echo "        reply-to email - e.g. -r replytothisemail@example.com\n\n";
+    echo "    -b\n";
+    echo "        bcc email - e.g. -b bcc@example.com\n\n";
+    echo "    -s\n";
+    echo "        plain text signature (only works if HTML signature is not set) - e.g. -s 'Sincerely, John Smith'\n\n";
+    echo "    -h\n";
+    echo "        HTML signature - e.g. -h '<h1>Sincerely, John Smith</h1>'\n\n";
+    echo "    -S\n";
+    echo "        should this be set as a default identity for the user (only 1 available so it disables all other. Empty value or 1 for yes, 0 for no) e.g. -S 1\n\n";
+};
 
 function get_user($username, $host)
 {
