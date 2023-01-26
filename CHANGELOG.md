@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
+- Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 
 ## Release 1.6.1
 
