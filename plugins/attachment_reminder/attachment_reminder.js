@@ -17,14 +17,16 @@
 
 function rcmail_get_compose_message()
 {
-  var msg;
+  var msg = rcmail.editor.get_content({ nosig: true });
 
-  if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
-    msg = ed.getContent();
-    msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '');
+  if (rcmail.editor.is_html()) {
+    // Remove quoted content, all HTML tags, and some entities
+    msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '')
+             .replace(/<[^>]+>/gm, ' ')
+             .replace(/&nbsp;/g, ' ');
   }
   else {
-    msg = $('#' + rcmail.env.composebody).val();
+    // Remove quoted content
     msg = msg.replace(/^>.*$/gmi, '');
   }
 

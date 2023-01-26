@@ -12,6 +12,7 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
+- Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 
 ## Release 1.6.1
 
