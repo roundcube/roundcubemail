@@ -145,20 +145,6 @@ class Rcmail_Rcmail extends ActionTestCase
         );
         $this->assertEquals('/sub/?_task=cli', $rcmail->url([]), "Empty input");
 
-        $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
-        $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
-
-        $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
-        $this->assertEquals('/proxied/?_task=cli', $rcmail->url([]), "Consider request_path config (_SERVER)");
-
-        $rcmail->config->set('request_path', '/test');
-        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path)");
-        $rcmail->config->set('request_path', '/test/');
-        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path/)");
-
-        $_SERVER['REQUEST_URI'] = null;
-        $rcmail->config->set('request_path', null);
-
         $this->assertEquals(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
@@ -185,6 +171,20 @@ class Rcmail_Rcmail extends ActionTestCase
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
+
+        $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
+        $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+
+        $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
+        $this->assertEquals('/proxied/?_task=cli', $rcmail->url([]), "Consider request_path config (_SERVER)");
+
+        $rcmail->config->set('request_path', '/test');
+        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path)");
+        $rcmail->config->set('request_path', '/test/');
+        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path/)");
+
+        $_SERVER['REQUEST_URI'] = null;
+        $rcmail->config->set('request_path', null);
 
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '8080';
