@@ -2,7 +2,6 @@
 
 ## Unreleased
 
-- Kill session if refreshing oauth token fails (#8734)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
@@ -12,6 +11,11 @@
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Password: Add ldap_samba_ad driver (#8525)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
+- Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
+
+## Release 1.6.1
+
+- Kill session if refreshing oauth token fails (#8734)
 - Fix various PHP 8.1 warnings (#8628, #8644, #8667, #8656, #8647)
 - Password: Remove references to %c variable that has been removed before (#8633)
 - Fix anchor links in HTML mail (#8632)
