@@ -1169,7 +1169,7 @@ class rcmail extends rcube
             $path = $_SERVER[$path];
         }
         else if (empty($path)) {
-            foreach (['REQUEST_URI', 'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME'] as $name) {
+            foreach (['REDIRECT_SCRIPT_URL', 'SCRIPT_NAME', 'REQUEST_URI'] as $name) {
                 if (!empty($_SERVER[$name])) {
                     $path = $_SERVER[$name];
                     break;
