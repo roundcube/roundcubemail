@@ -4,6 +4,7 @@
 
 - Fix so N property always exists in a vCard export (#8771)
 - Fix so rcmail::format_date() works with DateTimeImmutable input (#8867)
+- Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
 
 ## Release 1.5.3
 
