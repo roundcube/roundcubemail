@@ -142,7 +142,7 @@ class rcmail_oauth
      */
     public function jwt_decode($jwt)
     {
-        list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
+        list($headb64, $bodyb64, $cryptob64) = explode('.', strtr($jwt, '-_', '+/'));
 
         $header = json_decode(base64_decode($headb64), true);
         $body   = json_decode(base64_decode($bodyb64), true);
