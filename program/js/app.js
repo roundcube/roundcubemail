@@ -4242,7 +4242,7 @@ function rcube_webmail()
     var container = $(this.gui_objects.editform).find('.identity-encryption').first();
     var identity_email = $(this.gui_objects.editform).find('.ff_email').val().trim();
 
-    if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
+    if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
       return;
 
     var key_fingerprint;
