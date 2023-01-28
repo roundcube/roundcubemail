@@ -5,6 +5,7 @@
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
 - Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
+- Fix JWT decoding with url safe base64 schema (#8890)
 
 ## Release 1.6.1
 
