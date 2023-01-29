@@ -84,25 +84,13 @@ function newmail_notifier_basic()
 // Sound notification
 function newmail_notifier_sound()
 {
-    var elem, src = rcmail.assets_path('plugins/newmail_notifier/sound'),
-        plugin = navigator.mimeTypes ? navigator.mimeTypes['audio/mp3'] : {};
+    var src = rcmail.assets_path('plugins/newmail_notifier/sound');
 
-    // Internet Explorer does not support wav files,
-    // support in other browsers depends on enabled plugins,
-    // so we use wav as a fallback
-    src += bw.ie || (plugin && plugin.enabledPlugin) ? '.mp3' : '.wav';
-
-    // HTML5
-    try {
-        elem = $('<audio>').attr('src', src);
-        elem.get(0).play();
-    }
-    // old method
-    catch (e) {
-        elem = $('<embed id="sound" src="' + src + '" hidden=true autostart=true loop=false />');
-        elem.appendTo($('body'));
-        setTimeout("$('#sound').remove()", 5000);
-    }
+    (new Audio(src + '.mp3')).play()
+        .catch(function() {
+            // fallback to the wav format
+            (new Audio(src + '.wav')).play();
+        });
 }
 
 // Desktop notification
