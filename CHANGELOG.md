@@ -7,6 +7,7 @@
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
 - Fix JWT decoding with url safe base64 schema (#8890)
 - Fix bug where .wav instead of .mp3 file was used for the new mail notification in Firefox (#8895)
+- Fix PHP8 warning (#8891)
 
 ## Release 1.6.1
 
