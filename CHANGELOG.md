@@ -9,6 +9,7 @@
 - Fix bug where .wav instead of .mp3 file was used for the new mail notification in Firefox (#8895)
 - Fix PHP8 warning (#8891)
 - Fix support for Windows-31J charset (#8869)
+- Fix so LDAP VLV option is disabled by default as documented (#8833)
 
 ## Release 1.6.1
 

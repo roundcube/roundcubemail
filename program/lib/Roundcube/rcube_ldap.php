@@ -84,6 +84,11 @@ class rcube_ldap extends rcube_addressbook
 
         $fetch_attributes = ['objectClass'];
 
+        // Disable VLV by default
+        if (!isset($this->prop['vlv'])) {
+            $this->prop['vlv'] = false;
+        }
+
         // check if groups are configured
         if (!empty($p['groups']) && is_array($p['groups'])) {
             $this->groups = true;
