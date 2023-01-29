@@ -8,6 +8,7 @@
 - Fix JWT decoding with url safe base64 schema (#8890)
 - Fix bug where .wav instead of .mp3 file was used for the new mail notification in Firefox (#8895)
 - Fix PHP8 warning (#8891)
+- Fix support for Windows-31J charset (#8869)
 
 ## Release 1.6.1
 

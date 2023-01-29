@@ -66,6 +66,7 @@ class rcube_charset
         '222'           => 'WINDOWS-874',
         '238'           => 'WINDOWS-1250',
         'MS950'         => 'CP950',
+        'WINDOWS31J'    => 'CP932',
         'WINDOWS949'    => 'UHC',
         'WINDOWS1257'   => 'ISO-8859-13',
         'ISO2022JP'     => 'ISO-2022-JP-MS',
