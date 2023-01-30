@@ -4014,6 +4014,12 @@ class rcube_imap_generic
         $start  = $prev = $messages[0];
 
         foreach ($messages as $id) {
+            if (!is_numeric($id)) {
+                $id = 0;
+            }
+            if (!is_numeric($prev)) {
+                $prev = 0;
+            }
             $incr = $id - $prev;
             if ($incr > 1) { // found a gap
                 if ($start == $prev) {
