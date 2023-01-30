@@ -1253,7 +1253,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         if ($size_errors) {
-            $limit = self::show_bytes($size_limit);
+            if ($rcmail->config->get('show_message_size_by_attachment')) {
+                // Account for base64 encoding
+                $limit = self::show_bytes($limit/1.33);
+            } else {
+                $limit = self::show_bytes($limit);
+            }
             $error = $rcmail->gettext([
                     'name' => 'msgsizeerrorfwd',
                     'vars' => ['num' => $size_errors, 'size' => $limit]

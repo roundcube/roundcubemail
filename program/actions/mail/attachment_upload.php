@@ -275,7 +275,12 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         $size  += $filesize * $multip;
 
         if ($size > $limit) {
-            $limit = self::show_bytes($limit);
+            if ($rcmail->config->get('show_message_size_by_attachment')) {
+                // Account for base64 encoding
+                $limit = self::show_bytes($limit/1.33);
+            } else {
+                $limit = self::show_bytes($limit);
+            }
             return $rcmail->gettext(['name' => 'msgsizeerror', 'vars' => ['size' => $limit]]);
         }
     }
