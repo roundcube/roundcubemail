@@ -1183,6 +1183,20 @@ class rcmail_action_settings_index extends rcmail_action
                     ];
                 }
 
+                if (!isset($no_override['group_expand_all_emails'])) {
+                    if (!$current) {
+                        continue 2;
+                    }
+
+                    $field_id = 'rcmfd_group_expand_all_emails';
+                    $checkbox = new html_checkbox(['name' => '_group_expand_all_emails', 'id' => $field_id, 'value' => 1]);
+
+                    $blocks['main']['options']['group_expand_all_emails'] = [
+                        'title'   => html::label($field_id, rcube::Q($rcmail->gettext('groupexpandallemails'))),
+                        'content' => $checkbox->show($config['group_expand_all_emails']?1:0),
+                    ];
+                }
+
                 if (!isset($no_override['collected_recipients'])) {
                     if (!$current) {
                         continue 2;
