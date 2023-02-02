@@ -548,6 +548,7 @@ $labels['reqdsn'] = 'Übermittlungsbestätigung (DSN) immer anfordern';
 $labels['replysamefolder'] = 'Antworten im selben Ordner wie Original speichern';
 $labels['defaultabook'] = 'Standardadressbuch';
 $labels['autocompletesingle'] = 'Alternative E-Mail-Adressen bei der Auto-Vervollständigung nicht berücksichtigen';
+$labels['groupexpandallemails'] = 'Alle E-Mail-Adressen einfügen, wenn ein Empfänger als Teil einer Gruppe hinzugefügt wird';
 $labels['listnamedisplay'] = 'Kontakte auflisten als';
 $labels['contactformmode'] = 'Kontaktformular-Modus';
 $labels['privatemode'] = 'Privat (Zuhause)';
