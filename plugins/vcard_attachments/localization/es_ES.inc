@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Adjuntar vCard';
 $labels['vcardattached'] = 'Adjunto archivo vCard.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Reenviar vCard';
+$labels['contactsattached'] = 'Existen $num contactos adjuntos a este mensaje.';
+$labels['importedsuccessfully'] = 'Contacto(s) agregados correctamente a la libreta de direcciones.';

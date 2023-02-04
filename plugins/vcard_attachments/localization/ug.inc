@@ -14,11 +14,11 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 
-$labels['addvcardmsg'] = 'Bæta vCard í nafnaskrá';
-$labels['vcardsavefailed'] = 'Tekst ekki að vista vCard';
-$labels['attachvcard'] = 'Hengja við vCard';
-$labels['vcardattached'] = 'vCard-skrá í viðhengi.';
-$labels['vcard'] = 'vCard';
-$labels['forwardvcard'] = 'Áframsenda vCard';
-$labels['contactsattached'] = 'Það eru $num tengiliðir tengdir þessum skilaboðum.';
-$labels['importedsuccessfully'] = 'Tókst að flytja tengiliði inn í nafnaskrána.';
+$labels['addvcardmsg'] = 'ۋكارتىسىنى ئادىرىس دەپتىرىگە قۇشۇش';
+$labels['vcardsavefailed'] = 'ۋكارتىسىنى ساقلىغىلى بولمىدى';
+$labels['attachvcard'] = 'ۋكارتىسى قىستۇرۇش';
+$labels['vcardattached'] = 'ۋكارتىسى ھۆججىتى قىستۇرۇلدى.';
+$labels['vcard'] = 'ۋكارتىسى';
+$labels['forwardvcard'] = 'ۋكارتىسىنى يەتكۈزۈش';
+$labels['contactsattached'] = 'بۇ خەتكە num$ تۇنۇش قىستۇرۇلدى.';
+$labels['importedsuccessfully'] = 'تۇنۇش(لار) ئادىرىس دەپتىرىگە مۇۋاپىقىيەتلىك كىرگۈزۈلدى.';
